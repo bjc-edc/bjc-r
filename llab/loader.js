@@ -160,13 +160,10 @@ llab.initialSetUp = function() {
     function loadScriptsAndLinks(stage_num) {
         var i, tag;
 
-        //console.log("starting script load stage " + stage_num);
-
         // load css files
         while (llab.paths.css_files.length != 0) {
             tag = getTag("link", llab.paths.css_files.shift(), "text/css");
             tag.rel = "stylesheet";
-            tag.media = "screen";
             headElement.appendChild(tag);
         }
 
