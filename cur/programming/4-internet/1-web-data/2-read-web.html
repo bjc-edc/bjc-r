@@ -7,13 +7,10 @@
     </head>
     <body>
         <h2>Reading the Web with Snap<em>!</em></h2>
-        <div class="todo">Merge this with the next page and prene down to only what they need for Bowen's labs.</div>
-        <div class="todo">
-        	Here are the EKs I expect will be covered on this page. Please mark with <em>italics</em> those that have definitely been covered and mark with <strong>bold</strong> those that will definitely not be covered here. Thanks, Mary
-            <ul>
-                <li><em><strong>EK6.1.1A</strong> The Internet connects devices and networks all over the world</em>.</li>
-            </ul>
-        </div>
+        <div class="todo">This page is <em><strong>NOT</strong></em> ready for review. I'm combining what had been 3 pages: <a href="http://bjc.edc.org/bjc-r/cur/programming/4-internet/1-web-data-communication-protocols/1-read-web.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc_2015-2016.html&novideo&noassignment" target="_blank">Reading the Web with Snap!
+</a>, <a href="http://bjc.edc.org/bjc-r/cur/programming/4-internet/1-web-data-communication-protocols/2-scrape-data.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc_2015-2016.html&novideo&noassignment" target="_blank">Scraping Data from Web Pages
+</a>, and <a href="http://localhost/bjc-r/cur/programming/4-internet/4-weather-app/1-read-web-google.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc_2015-2016.html&novideo&noassignment" target="_blank">Reading Data Using URL Tags</a> into one page that previews GPS for "easy" first part and previews Weather app for "unlucky" hard part per Bowen's suggestion. All the "output of the <code>http</code> block" stuff is now covered by the previous page. --MF</div>
+        
         <div class="todo">
           <ul>
               <li>Can we use a page with cleaner HTML than snap.berkeley.edu? Also, what if whatever page we use changes even a little and things no longer match up? Should we use a dummy page of our own designed for this lab? --MF
@@ -89,10 +86,6 @@
         </div>
         
 		<h2>Scraping Data from Web Pages</h2>
-        <div class="todo">
-        	<p>What is the point of this page (from a students' perspective)? It seems arbitary to me. (I can see that it's introducing data scraping.) I'll try to think of some mini-projecty thing to do here, but please feel free to leave an idea... --MF</p>
-            <p>Idea from Bowen: Preview GPS for easy first part (<a href="/bjc-r/cur/programming/4-internet/2-gps-data/GPS-NYC.csv">GPS-NYC.csv</a> <a href="/bjc-r/cur/programming/4-internet/2-gps-data/1-big-burger.html">Unit 4 Lab 4: GPS Forensics</a>) and Weather app for unlucky hard part below (<a href="/bjc-r/cur/programming/4-internet/4-weather-app/2-weather-grab.html">Unit 4 Lab 2: Weather App</a>).</p>
-        </div>
         
         <div class="sidenote">Weather forecast sites change their pages from time to time, so we're going to start with a web site we control. We'll build these blocks in a weather app in Lab 2.</div>
         <p>The Internet is full of information that you can use in your programs.  For example, you will write an <img src="/bjc-r/img/4-internet/umbrella.png" alt="umbrella? predicate" title="umbrella? predicate" /> block that looks up the weather forecast for your location and tells you whether or not to carry an umbrella or a block that reports the current temperature for a certain location:<br /><img class="indent" src="/bjc-r/img/4-internet/current-temp-62.png" alt="current temperature in (New York) reporting 62" title="current temperature in (New York) reporting 62" /></p>
@@ -152,8 +145,49 @@
                 </li>
             </ol>
         </div>         
-        
-        
+               
 
+		<h2>Reading Data Using URL Tags</h2>
+        <div class="sidenote">The term <strong>URL</strong> is short for <em>Uniform Resource Locator</em>, a reference to an Internet resource such as a Web page.</div>
+        <p>Many websites, such as Google, communicate information in the details in their URLs.</p>
+        
+        <div class="forYouToDo" id="first">
+            <ol>
+                <li>Starting from <a href="https://www.google.com" target="_blank">www.google.com</a>, type a one-word web search. What is the URL of your current web page?</li>
+                <li>Change your URL to make Google search for a new topic.</li>
+                <li>Experiment to figure out how Google handles multiple-word web searches in URLs.</li>
+            </ol>
+        </div>
+        
+        <div class="sidenote">When you see <code>https</code> instead of <code>http</code>, it means the information exchanged is secured via encryption.</div>
+        
+        <p>Your URL may add some details, but one of the simplest formats is <a href="https://www.google.com/#q=snap" target="_blank">https://www.google.com/#q=snap</a>.</p>
+          
+        <img src="/bjc-r/img/4-internet/snap-google.png" width="50%" align="middle" alt="SNAP search on Google">
+        
+		<div class="comment">BK: Need to prepare a more specific project base in #4. I have one, I just need to know the "rules" for setting these up and making them load, so for now I'm using the "read-web" project base.</div>
+        
+        <div class="comment">
+          <p>Can we search for something other than "snap"? It's weird to me that it goes to a food bank page... --MF</p>
+          <p>We certainly <em>can</em>. Stuff like that is always a choice we can make (it isn't essential AP, CS, or pedagogy). I don't find it weird, and I  even see it as potential a positive value, but it is also a potential political hot-button that could interfere with our mission to the very same kids that the government SNAP program is designed to serve. I worry some about that, but the fact that a search turns up <em>many</em> things, though, makes this seem safe. And, speaking of weird, did you notice that one is from 55 Chapel Street, Newton?! </p>
+		  <p>I don't have a requirement to use "snap" here, I just thought it was clever. Berkeley Snap shows up on that page, too, but it's not the top hit. -BK</p>
+</div>
+        
+        <div class="forYouToDo">
+            <ol start="4">
+                <div class="sidenote">Use the <img src="/bjc-r/img/4-internet/proxied-http.png" alt="Proxied HTTP block"> block to help.</div>
+                <li>Starting from <a class="run" href="/bjc-r/prog/4-internet/http-block.xml">this project</a>, build a small app that asks for a one-word search query, then displays the URL to use for that Google search, and the HTML of the results from the search. Warning: don't expect the HTML to be easy-to-read!</li>
+            </ol>
+        </div>
+        <div class="todo">Starting with <img src="/bjc-r/cur/programming/4-internet/4-weather-app/temporary-comment-images/U4L2pg1-project.png" alt="blan"> (which may not be the right project?) and <img src="/bjc-r/cur/programming/4-internet/4-weather-app/temporary-comment-images/scrape.png" alt="blah"> which is used in it, I don't see how students will solve problem 4.
+		<p>The intent here is to return the HTML, no scraping involved. It won't return a fully useful result, partially because Google doesn't give you a very good style of return page. -BK</p>
+		</div> 
+         
+        
+        <div class="takeItFurther">
+            <ol type="A">
+            	<li>Edit your work so that it works for multiple-word searches.</li>
+            </ol>
+        </div>
 </body>
 </html>
