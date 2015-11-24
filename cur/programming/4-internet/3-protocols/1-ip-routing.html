@@ -3,7 +3,7 @@
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
 		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
-		<title>Unit 4 Lab 3: Network Protocols, Page 1</title>
+		<title>Unit 4 Lab 3 Page 1: Network Protocols</title>
     </head>
     
     <body>
@@ -73,6 +73,26 @@
                 </div>
             </ol>
         </div>
+        
+        <div class="takeNote">
+            <p><strong>What's with the three decimal points in IP addresses?</strong> They're not really decimal points; the four numbers that they separate are eight-bit <strong>bytes</strong> with values between 0 and 255.  There are four of them in an IP address because at the time the Internet Protocol was designed, most computers had four-byte (32-bit) arithmetic and storage units.  The 32-bit address is divided into bytes because addresses are assigned in hierarchical groups in groups of 2<sup>8</sup>, 2<sup>16</sup>, or 2<sup>24</sup>.  For example, the 2<sup>16</sup> IP addresses 128.32.<em>anything</em>.<em>anything</em> are assigned to the University of California, Berkeley, and are located in the Electrical Engineering and Computer Science Department.  The computer on my desk at Berkeley is 128.32.153.200.  Berkeley also has other address ranges assigned; the server for berkeley.edu is at 169.229.216.200 and the entire address range 169.229.<em>anything</em>.<em>anything</em> belongs to Berkeley.  Groups that made their reservations early have bigger blocks of addresses; for example, all of 18.<em>anything</em>.<em>anything</em>.<em>anything</em> belongs to MIT.</p>
+            <p>A 32-bit IP address is big enough to support 2<sup>32</sup> computers, which is about four billion.  There are more than seven billion people on Earth, so there aren't enough addresses to go around.  (Not everyone has a computer, yet, but some people have more than one, and some computers don't belong to individuals.)  People have invented clever short-term solutions that allow, for example, every computer on a local network to share the same IP address; see the Take It Further at the end of this page.</p>
+            <p>The long-term solution is to increase the size of an IP address. Most computers today use 64-bit numbers, so that would be a natural address size to use, but the Internet designers decided they didn't want their grandchildren to have to redesign IP again, so the new IP addresses are 128 bits wide.  2<sup>128</sup> is about 10<sup>38</sup>. By contrast, there are about 10<sup>50</sup> atoms in the Earth, and an estimated 10<sup>29</sup> stars in the observable universe. So we're probably okay even when the Internet is extended to include space aliens, but another IP revision might be needed when every atom has its own Internet connection!</p>
+            <div class="takeItFurther"> Discuss: Will people ever be able to build a computer inside a single atom?</div>
+            <p>The 32-bit version of IP is called <strong>IP version 4 (IPv4)</strong>, and the 128-bit version is <strong>IPv6</strong>. A great example of the importance of abstraction is that different protocols can be used at each of the four levels of the Internet abstraction hierarchy, and both IPv4 and IPv6 are in use today.  Most traffic still uses IPv4, because in order to make an IPv6 connection, all the routers along the way must recognize IPv6.  Old routers are replaced all the time anyway, because newer ones are faster, so eventually every router on the Internet will use IPv6. The switch from IPv4 to IPv6 is just one example of the fact that protocols in the Internet hierarchy are changing all the time.</p>
+        </div>
+        
+        
+        <div class="takeItFurther">
+            <ul>
+                <li>A more detailed explanation of the Internet protocol hierarchy is in <a href="/bjc-r/cur/programming/4-internet/1-web-data/B2B-Appendix.pdf" target="new">the Appendix</a> to <em>Blown to Bits</em>.</li>
+                <li>We did say this was a simplified picture, so it wasn't exactly a lie when we said a web search would reveal your computer's Internet address. &#x263a; Most likely, the router in your home or school uses <strong>Network Address Translation (NAT)</strong>, a protocol that allows all the computers on a local network to share one IP address, as seen from outside the network. The router that creates the local network gives each computer a <em>local address</em>. For example, although the outside world thinks the computer at which I'm typing this has IP address 108.26.181.226, my computer itself thinks its address is 192.168.1.11. The 192.168 <strong>domain</strong> (a range of IP addresses) is reserved for local networks; no computer on the Internet "really" has an address in that range.  As a result of NAT and other complications added to solve efficiency or security problems, the job of the router is not really as simple as the end-to-end principle ideally suggests.</li>
+            </ul>
+        </div>
+        
+        <hr />
+        <div class="todo">Maybe use up to here. --MF</div>
+        <hr />
         
         <p>What it means for a computer to be "on the Internet" is that it has an IP address that other computers can find.</p>
         
@@ -216,21 +236,7 @@ xe-7-1-2-0.BSTNMA-VFTTP-301.verizon-gni.net (130.81.171.69)  135.155 ms
         </div>
         
         
-        <div class="takeNote">
-            <p><strong>What's with the three decimal points in IP addresses?</strong> They're not really decimal points; the four numbers that they separate are eight-bit <strong>bytes</strong> with values between 0 and 255.  There are four of them in an IP address because at the time the Internet Protocol was designed, most computers had four-byte (32-bit) arithmetic and storage units.  The 32-bit address is divided into bytes because addresses are assigned in hierarchical groups in groups of 2<sup>8</sup>, 2<sup>16</sup>, or 2<sup>24</sup>.  For example, the 2<sup>16</sup> IP addresses 128.32.<em>anything</em>.<em>anything</em> are assigned to the University of California, Berkeley, and are located in the Electrical Engineering and Computer Science Department.  The computer on my desk at Berkeley is 128.32.153.200.  Berkeley also has other address ranges assigned; the server for berkeley.edu is at 169.229.216.200 and the entire address range 169.229.<em>anything</em>.<em>anything</em> belongs to Berkeley.  Groups that made their reservations early have bigger blocks of addresses; for example, all of 18.<em>anything</em>.<em>anything</em>.<em>anything</em> belongs to MIT.</p>
-            <p>A 32-bit IP address is big enough to support 2<sup>32</sup> computers, which is about four billion.  There are more than seven billion people on Earth, so there aren't enough addresses to go around.  (Not everyone has a computer, yet, but some people have more than one, and some computers don't belong to individuals.)  People have invented clever short-term solutions that allow, for example, every computer on a local network to share the same IP address; see the Take It Further at the end of this page.</p>
-            <p>The long-term solution is to increase the size of an IP address. Most computers today use 64-bit numbers, so that would be a natural address size to use, but the Internet designers decided they didn't want their grandchildren to have to redesign IP again, so the new IP addresses are 128 bits wide.  2<sup>128</sup> is about 10<sup>38</sup>. By contrast, there are about 10<sup>50</sup> atoms in the Earth, and an estimated 10<sup>29</sup> stars in the observable universe. So we're probably okay even when the Internet is extended to include space aliens, but another IP revision might be needed when every atom has its own Internet connection!</p>
-            <div class="takeItFurther"> Discuss: Will people ever be able to build a computer inside a single atom?</div>
-            <p>The 32-bit version of IP is called <strong>IP version 4 (IPv4)</strong>, and the 128-bit version is <strong>IPv6</strong>. A great example of the importance of abstraction is that different protocols can be used at each of the four levels of the Internet abstraction hierarchy, and both IPv4 and IPv6 are in use today.  Most traffic still uses IPv4, because in order to make an IPv6 connection, all the routers along the way must recognize IPv6.  Old routers are replaced all the time anyway, because newer ones are faster, so eventually every router on the Internet will use IPv6. The switch from IPv4 to IPv6 is just one example of the fact that protocols in the Internet hierarchy are changing all the time.</p>
-        </div>
         
-        
-        <div class="takeItFurther">
-            <ul>
-                <li>A more detailed explanation of the Internet protocol hierarchy is in <a href="/bjc-r/cur/programming/4-internet/1-web-data/B2B-Appendix.pdf" target="new">the Appendix</a> to <em>Blown to Bits</em>.</li>
-                <li>We did say this was a simplified picture, so it wasn't exactly a lie when we said a web search would reveal your computer's Internet address. &#x263a; Most likely, the router in your home or school uses <strong>Network Address Translation (NAT)</strong>, a protocol that allows all the computers on a local network to share one IP address, as seen from outside the network. The router that creates the local network gives each computer a <em>local address</em>. For example, although the outside world thinks the computer at which I'm typing this has IP address 108.26.181.226, my computer itself thinks its address is 192.168.1.11. The 192.168 <strong>domain</strong> (a range of IP addresses) is reserved for local networks; no computer on the Internet "really" has an address in that range.  As a result of NAT and other complications added to solve efficiency or security problems, the job of the router is not really as simple as the end-to-end principle ideally suggests.</li>
-            </ul>
-        </div>
         
 		        
     </body>
