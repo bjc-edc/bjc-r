@@ -7,11 +7,22 @@
     </head>
     <body>
         <h2>Reliable Transmission on Unreliable Networks: TCP</h2>
-		<div class="todo">
+        <div class="todo">
+            MOVE THESE TO OTHER PAGES IDEA: LO 6.2.1: 
+            <div class="forYouToDo">
+                <ol>
+                    <li>Describe what it means that street addreses are hierarchical.</li>
+                    <li>Describe what it means that domain names are hierarchical.</li>
+                    <li>Describe what it means that IP addresses are hierarchical.</li>
+                    <li>Draw a model that describes internet routing. <!--You model should include at least one client and it's ISP, several routers, , --></li>
+                </ol>
+            </div>
+        </div>
+    <div class="todo">
         	Here are the EKs I expect will be covered on this page. Please mark with <em>italics</em> those that have definitely been covered and mark with <strong>bold</strong> those that will definitely not be covered here. Thanks, Mary
             <ul>
                 <li><strong>EK6.1.1B</strong> An end-to-end architectures facilitates connecting new devices and networks on the Internet.</li> 
-                <li><strong>EK6.2.1A</strong> The Internet and the systems built on it are hierarchical and redundant.</li>
+                <li><em><strong>EK6.2.1A</strong> The Internet and the systems built on it are hierarchical and redundant.</em></li>
                 <li><strong>EK6.2.1D</strong> Routing on the Internet is fault tolerant and redundant.</li>
                 <li><strong>EK6.2.2A</strong> Hierarchy and redundancy help systems scale.</li>
                 <li><strong>EK6.2.2B</strong> The redundancy of routing (i.e., more than one way to route data) between two points on the Internet increases the reliability of the Internet and helps it scale to more devices and more people.</li>
@@ -34,7 +45,13 @@
             </ul>
         </div>
         
+        
+        
 		
+        
+    	<p>Computers, servers, and routers are fairly reliable. But there are often several computers and cables or radio transmissions between you and the recipient of a data packet. So, every once in a while a IP packet will be lost. Devices on the Internet need to tollerate these faults. The <strong>Transmission Control Protocol</strong> (TCP) guarantees <em>reliable</em> transmission.</p>
+        
+        	
         <div class="forYouToDo" id="first">
             <ol>
 				<li>Read <a href="http://www.bitsbook.com/wp-content/uploads/2008/12/B2B_3.pdf#page=324" target="_blank"><em>Blown to Bits</em> pages 306-309</a>.</li>
@@ -43,29 +60,27 @@
                     <iframe width="560" height="315" src="https://www.youtube.com/embed/AYdF7b3nMto" frameborder="0" allowfullscreen class="indent"></iframe>
                 </li>
             </ol>
-        </div>
-	
-    	<p>Computers, servers, and routers are fairly reliable. But there are often several computers and cables or radio transmissions between you and the recipient of a data packet. So, every once in a while a IP packet will be lost. Devices on the Internet need to tollerate these faults. The <strong>Transmission Control Protocol</strong> (TCP) guarantees <em>reliable</em> transmission.</p>
-		<div class="forYouToDo">
-            <ol start="3">
-                <li>
-                    Watch this video from securitycatalyst.com:<br />
-					<iframe width="420" height="315" src="https://www.youtube.com/embed/7_LPdttKXPc?start=47&end=271" frameborder="0" allowfullscreen class="indent"></iframe>
-                </li>
-            </ol>
-        </div>
+		</div>
         
-		<div class="takeNote">
-            The TCP and IP <strong>end-to-end</strong> design of the Internet is an abstraction:
+        
+        <div class="takeNote">
+            The TCP/IP <strong>end-to-end</strong> design of the Internet is an <strong>abstraction</strong>:
             <div class="sidenote">Abstraction is reducing complexity by focusing on core concepts.</div>
             <ul>
-                <li>The computers (or servers) at the endpoints run the <strong>Transmission Control Protocol</strong> (TCP) that guarantees  <em>reliable</em> transmission.</li>
-                <li>And the routers at every connection point  run the Internet Protocol (IP) that transmit the packets from one IP address to another even though sometimes a packet will be lost. </li>
+                <li>The <strong>routers</strong> at every connection point  run the <strong>Internet Protocol</strong> (IP) that transmit the packets from one IP address to another and sometimes a packet will be lost. </li>
+                <li>And the <strong>computers</strong> (including servers) at the endpoints run the <strong>Transmission Control Protocol</strong> (TCP) that guarantees <em>reliable</em> transmission.</li>
             </ul>
+            The routers don't have to know anything about the messages they carry over the net; all they care about is transmitting between the IP addresses at the beginning of the message.  The computers that send and receive the message are the only ones that have to think about what the messages mean.
         </div>
         
-		<div class="forYouToDo">
-    		<ol start="4">
+
+        <div class="forYouToDo">
+            <ol start="3">        
+                <li>
+                    Watch this video from securitycatalyst.com:<br />
+		    	    <div class="sidenote">See also this <a href="http://en.wikipedia.org/wiki/Internet_Protocol_Suite" target="_blank">Wikipedia article on Internet protocol suite (a.k.a. TCP/IP)</a></div>
+					<iframe width="420" height="315" src="https://www.youtube.com/embed/7_LPdttKXPc?start=47&end=271" frameborder="0" allowfullscreen class="indent"></iframe>
+                </li>
                 <li>
                     Load <a class="run" href="/bjc-r/prog/4-internet/TCP.xml#present">this project</a>. It provides a simulation of unreliable data transmission by Internet Protocol. You're going to write (a simplified) TCP to make the data packets arrive reliably.
                     <ul>
@@ -73,18 +88,14 @@
                         <li><strong>Click either sprite</strong> to make it send a message to the other one.</li>
                         <li><strong>Press left arrow or right arrow</strong> to send the alphabet in either direction (helpful for testing).</li>
                 	</ul>
-                    <div class="comment">need new pic</div>
-				  <div class="endnote">In this simulation, the complete message is a string of text that is divided into packets of one letter each. In reality, the packet length is not so strictly limited and messages are usually much longer.</div>
-					<a class="run" href="/bjc-r/prog/4-internet/TCP.xml"><img src="/bjc-r/img/4-internet/TCP.png" alt="picture of TCP project stage"></a>
+					<div class="endnote">In this simulation, the complete message is a string of text that is divided into packets of one letter each. In reality, the packet length is not so strictly limited and messages are usually much longer.</div>
+					<a class="run" href="/bjc-r/prog/4-internet/TCP.xml"><img class="indent" src="/bjc-r/img/4-internet/TCP.png" alt="picture of TCP project stage"></a>
                 </li>
-    
                 <div class="endnote">
                     <img class="imageRight" src="/bjc-r/img/4-internet/sprite-local.png" width="289" height="165" alt="for this sprite only button">
                     On the stage there are two watchers: "Alice incoming transmission" and "Bob incoming transmission."  But in the Variables palette there's only one variable: "incoming transmission."  These are actually two different <em>local variables</em>, one belongs to Alice and one belongs to Bob. (Local means not shared across sprites; global means shared across all sprites like we've been doing most of the course.) To make a local variable, click the "for this sprite only" button when creating a variable.
                 </div>
-
                 <li>Click on one of the characters, and enter a message that it should send to the other.</li>
-                
                 <li>
                     <img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
                     Compare the result with what you sent. What problems do you see?
@@ -97,13 +108,31 @@
 			</ol>
     	</div>
 
-
+		<div class="takeNote">
+            <p>This simulation represents an unreliable communication network. But it omits many details.  Here are some examples:</p>
+            <ul>
+                <li>TCP simulates a <em>persistent</em> connection, as if the two endpoint computers were connected directly with wires, even though the real Internet uses packet switching.</li>
+                <li>In our simulation, a packet either arrives correctly or doesn't arrive at all, but on the real Internet it's possible for a packet to arrive with erroneous data, so the real TCP has to check for that and request retransmission of packets with internal errors.</li>
+            </ul>
+        </div>
+        
+        
+	<div class="ifTime" id="first">
+            <div class="todo">Make sure that they've seen all 3 prior videos (even if we have to tuck one in L1 that will be/is in an earlier unit. --MF</div>
+            <ol start="8">
+                <li>
+                    Watch the end of this video from code.org:<br />
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/kBXQZMmiA4s?start=280" frameborder="0" allowfullscreen class="indent"></iframe>
+                </li>
+            </ol>
+        </div>
+       
+        
 		<div class="takeItFurther">      
             <img class="imageRight" src="/bjc-r/img/icons/tough-stuff.png" alt="Tough Stuff" title="Tough Stuff" />
             <p>
                 Build a simple TCP. Resolve the unreliablity so that messages are received reliably despite the limitations of IP packets. Here's what you'll need to change:
-				<ul>
-                    <div class="comment">need to change pic</div>
+                <ul>
                     <li>The definition of <img src="/bjc-r/img/4-internet/internet-transmit.png" alt="internet transmit (message) to (sprite)" title="internet transmit (message) to (sprite)" /></li>
                     <li>The script for each sprite that starts with <img src="/bjc-r/img/4-internet/when-get-any.png" alt="when I receive (any message)"></li>
                 </ul>
@@ -123,7 +152,7 @@
         
   <p>
         	The last page was about the bottom two levels of the Internet protocol suite:
-            <center>
+  <center>
                 <table border="2" cellpadding="6" summary="hardware, Internet Protocol, Transmission Control Protocol, application protocols.">
                     <caption><center>Internet abstraction hierarchy</center></caption>
                     <tr>
@@ -139,7 +168,7 @@
                         <td>&nbsp;&nbsp;<span class="green">&#x2714;</span> network interface hardware</td>
                     </tr>
                 </table>
-            </center>
+  </center>
 		</p>
         
         <div class="takeNote">
@@ -155,7 +184,11 @@
                 <li>The earliest version of TCP turned out to be prone to network <strong>congestion</strong>, meaning that too many packets went back and forth in a short time for the network links to handle.  Therefore, modern TCP includes <strong>congestion control</strong> features to limit the rate at which packets are sent.</li>
             </ul>
         </div>
+        
+        
 </div>
+
+		
 
     
 </body>
