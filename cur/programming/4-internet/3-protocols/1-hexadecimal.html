@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unit 4 Lab 3: Network Protocols, Page 1</title>
+	</head>
+
+	<body>
+		<h2>Hexadecimal Representation</h2>
+        <div class="todo">From BH: And this is where your explanation of hex belongs -- it should show a binary number with the powers of 2 (as 2^k, not computed) above the bits, and with the ones where the exponent is a multiple of 4 in red or something.  And then you can say that binary numbers are way too long to read, so people abbreviate them by taking advantage of the fact that 2^4=16, so each set of four bits (counting from the right, because the leftmost one might be a partial nybble) is one hex digit.  Sometimes you'll see octal used, too, where each digit represents three bits.</div>
+        <img class="imageRight" src="/bjc-r/img/icons/take-turns-speaking-mini.gif" alt="Take turns speaking" title="Take turns speaking">
+        <p>Because humans have 10 fingers, the number system you learned in school is decimal (or base 10). We use 10 digits together with a ones place (10<sup>0</sup>&nbsp;=&nbsp;1), a tens place (10<sup>1</sup>&nbsp;=&nbsp;10), a hundreds place (10<sup>2</sup>&nbsp;=&nbsp;100), a thousands place (10<sup>3</sup>&nbsp;=&nbsp;1000), and so on. But there are other systems. <a href="http://www.sf.airnet.ne.jp/ts/language/number/tzotzil.html" target="_blank">Tzotzil</a>, a language of the Mayan in Mexico, uses base 20. And the <a href="https://en.wikipedia.org/wiki/Gwandara_language" target="_blank">Nimbia dialect of the Gwandara language</a> in Nigeria uses base 12.</p>
+        <p>As you learned in <a href="/bjc-r/cur/programming/1-introduction/5-block-types-calculations/3-binary.html?topic=nyc_bjc%2F1-intro-loops.topic&course=bjc4nyc_2015-2016.html&novideo&noassignment">Unit 1</a>, computers transmit information in base 2 (ones and zeros together with a ones place, a twos place, a fours place, an eights place, and so on). Because binary numerals have so few digits to choose from, they are often long, so we abbreviate them using base 16, or hexadecimal (a.k.a. hex).</p>
+        <p>Hex is used for representing colors (as you saw in <a href="/bjc-r/cur/programming/4-internet/1-web-data/2-writing-html.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc_2015-2016.html&novideo&noassignment#hex">Lab 1</a>) and in the new form of representing IP addresses (as you will see on <a href="/bjc-r/cur/programming/4-internet/3-protocols/2-ip-routing.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc_2015-2016.html&novideo&noassignment">the next page</a>).</p>
+        
+
+        <h3>Review of Decimal and Binary</h3>
+        <p><strong>Decimal</strong> Representation uses 10 digits (0,1,2,3,4,5,6,7,8, or 9) multiplied by <strong>powers of 10</strong>. For example,</p>
+        <!--<p class="center"><span class="katex">12345 base 10 = 1 \cdot 10^4 + 2 \cdot 10^3 + 3 \cdot 10^2 + 4 \cdot 10^1 + 5 \cdot 10^0</span></p>-->
+        <p class="center"><span class="katex">123 \text{ base } 10</span></p>
+        <p class="center"><span class="katex">= 1 \cdot 10^2 + 2 \cdot 10^1 + 3 \cdot 10^0 \text{ base } 10</span></p>
+        <!--<p class="center"><span class="katex">= 1 \cdot 100 + 2 \cdot 10 + 3 \cdot 1 \text{ base } 10</span></p>-->
+        <p class="center"><span class="katex">= 100 + 20 + 3 \text{ base } 10</span></p>
+        <p class="center"><span class="katex">= 123 \text{ base } 10</span></p>
+
+        <p><strong>Binary</strong> Representation uses 2 digits (0 or 1) multiplied by <strong>powers of 2</strong>. For example,</p>
+        <!--<p class="center"><span class="katex">11000000111001 \text{ base } 2 = 1 \cdot 2^{13} + 1 \cdot 2^{12} + 0 \cdot 2^{11} + 0 \cdot 2^{10} + 0 \cdot 2^9 + 0 \cdot 2^8 + 0 \cdot 2^7 + 0 \cdot 2^6 + 1 \cdot 2^5 + 1 \cdot 2^4 + 1 \cdot 2^3 + 0 \cdot 2^2 + 0 \cdot 2^1 + 1 \cdot 2^0</span> = XXX base 10</p>-->
+        <p class="center"><span class="katex">1111011 \text{ base } 2</span></p>
+        <p class="center"><span class="katex">= 1 \cdot 2^6 + 1 \cdot 2^5 + 1 \cdot 2^4 + 1 \cdot 2^3 + 0 \cdot 2^2 + 1 \cdot 2^1 + 1 \cdot 2^0 \text{ base } 10</span></p>
+        <!--<p class="center"><span class="katex">= 1 \cdot 64 + 1 \cdot 32 + 1 \cdot 16 + 1 \cdot 8 + 0 \cdot 4 + 1 \cdot 2 + 1 \cdot 1 \text{ base } 10</span></p>-->
+        <p class="center"><span class="katex">= 64 + 32 + 16 + 8 + 2 + 1 \text{ base } 10</span></p>
+        <p class="center"><span class="katex">= 123 \text{ base } 10</span></p>
+        
+        <div class="endnote">
+            <p>Since base 10 has more possible digits than base 2, the numerals are shorter. So,</p>
+            <p class="center">1&nbsp;base&nbsp;10&nbsp;=&nbsp;1&nbsp;base&nbsp;2</p>
+            <p class="center">2&nbsp;base&nbsp;10&nbsp;=&nbsp;10&nbsp;base&nbsp;2</p>
+            <p class="center">3&nbsp;base&nbsp;10&nbsp;=&nbsp;11&nbsp;base&nbsp;2</p>
+            <p class="center">4&nbsp;base&nbsp;10&nbsp;=&nbsp;100&nbsp;base&nbsp;2</p>
+            <p class="center">5&nbsp;base&nbsp;10&nbsp;=&nbsp;101&nbsp;base&nbsp;2</p>
+            <p class="center">and so on...</p>
+        </div>
+
+		<div class="forYouToDo" id="first">
+			<ol>
+                <li>Represent these bytes in decimal notation:
+                    <ul>
+                        <li>10110001</li>
+                        <li>00111011</li>
+                        <li>01101111</li>
+                    </ul>
+                </li>
+                <li>Represent these decimal numerals in binary notation:
+                    <ul>
+                        <li>255</li>
+                        <li>170</li>
+                        <li>129</li>
+                    </ul>
+				</li>
+            </ol>
+        </div> 
+        <div class="ifTime" id="first">
+            <ol start="3">
+                <li>
+                    <div class="commentBig">Brian, I promise that I'm not including this Cisco game to bug you. I really think it's worth including. --MF</div>
+                	<img class="inline" src="/bjc-r/img/icons/headphones-mini.png" alt="Set Up Your Headphones or Speakers" title="Set Up Your Headphones or Speakers" />
+                    Practice converting between binary and decimal notation with the <a href="http://forums.cisco.com/CertCom/game/binary_game_page.htm" target="_blank">Cisco Binary Game</a>.
+                </li>
+            </ol>
+        </div> 
+        <div class="takeItFurther"><a name="further" class="anchor">&nbsp;</a>
+            <img class="imageRight" src="/bjc-r/img/icons/tough-stuff.png" alt="Tough Stuff" title="Tough Stuff" />
+            <ol type="A">
+                <li>
+                    Try some binary arithmetic. (Don't convert the numbers to decimal except to check your answer.)
+                    <div class="sidenoteBig">You can add numbers in binary just like you learned to add in elementary school; stack one on top of the other with them lined up on the right, and carry a 1 when you get a double-digit. You can subtract the same way too.</div>
+                    <ol>
+                        <li>10111 + 101100</li>
+                        <li>10000111 + 1001011</li>
+                        <li>10000111 – 1001011</li>
+                    </ol>
+				</li>
+            </ol>
+        </div>
+             
+        <h3>Hexadecimal</h3>
+        <p><strong>Hexadecimal</strong> Representation uses 16 digits (0,1,2,3,4,5,6,7,8,9,A,B,C,D,E, or F) multiplied by <strong>powers of 16</strong>. For example,</p>
+        <p class="center"><span class="katex">7 \text{B base } 16</span></p>
+        <p class="center"><span class="katex">= 7 \cdot 16^1 + 11 \cdot 16^0 \text{ base } 10</span></p>
+        <p class="center"><span class="katex">= 7 \cdot 16 + 11 \cdot 1 \text{ base } 10</span></p>
+        <p class="center"><span class="katex">= 112 + 11 \text{ base } 10</span></p>
+        <p class="center"><span class="katex">= 123 \text{ base } 10</span></p>
+        
+        <div class="endnote">
+            In base 16, the letters, A-F, represent the extra digits. So,
+            <p class="center">8&nbsp;base&nbsp;16&nbsp;=&nbsp;8&nbsp;base&nbsp;10</p>
+            <p class="center">9&nbsp;base&nbsp;16&nbsp;=&nbsp;9&nbsp;base&nbsp;10</p>
+            <p class="center">A&nbsp;base&nbsp;16&nbsp;=&nbsp;10&nbsp;base&nbsp;10</p>
+            <p class="center">B&nbsp;base&nbsp;16&nbsp;=&nbsp;11&nbsp;base&nbsp;10</p>
+            <p class="center">C&nbsp;base&nbsp;16&nbsp;=&nbsp;12&nbsp;base&nbsp;10</p>
+            <p class="center">D&nbsp;base&nbsp;16&nbsp;=&nbsp;13&nbsp;base&nbsp;10</p>
+            <p class="center">E&nbsp;base&nbsp;16&nbsp;=&nbsp;14&nbsp;base&nbsp;10</p>
+            <p class="center">F&nbsp;base&nbsp;16&nbsp;=&nbsp;15&nbsp;base&nbsp;10</p>
+        </div>
+
+        <p>All three systems work the same way just with a different base number that defines the place values:
+	        <div class="sidenote"><span class="katex">1111011 \text{ base } 2</span> <span class="katex">= 7 \text{B base } 16</span><br />But 7B is much shorter to write.</div>
+            <ul>
+                <li><span class="katex">123 \text{ base } 10</span> is equal to 1 hundred, 2 tens, and 3 ones (in base 10).</li>
+                <li><span class="katex">1111011 \text{ base } 2</span> is equal to 1 sixty-four, 1 thirty-two, 1 sixteen, 1 eight, 0 fours, 1 two, and 1 one (in base 10).</li>
+                <li><span class="katex">7 \text{B base } 16</span> is equal to 7 sixteens and 11 ones (in base 10).</li>
+    		</ul>
+    	</p>
+
+        <div class="takeNote">
+            <div class="sidenoteBig">Sometimes you'll see octal (base 8) used too, where each digit (0,1,2,3,4,5,6, or 7) represents three bits.</div>
+            Because hexadecimal representation uses fewer digits than binary, hexadecimal is often used to abbreviate by taking advantage of the fact that that 16 is a power of 2. Then, each set of four bits (like 1011) is one hex digit (like B).
+        </div>
+		<div class="forYouToDo">
+			<ol start="4">
+                <li>Represent these hexadecimal numerals in <strong>decimal</strong> notation:
+                    <div class="sidenoteBig"><span class="katex">\text{FF base } 16</span><br /><span class="katex">= 15 \cdot 16^1 + 15 \cdot 16^0 \text{ base } 10</span><br /><span class="katex">= 15 \cdot 16 + 15 \text{ base } 10</span></div>
+                    <ul>
+                        <li>FF</li>
+                        <li>5D</li>
+                        <li>18</li>
+                    </ul>
+					<div class="endnote">Notice that a hexadecimal can look like a decimal number if it doesn't have any letters in it (for example, 18 here). The same thing can happen with binary. For example, the binary numeral 11 is actually 3 in base 10 (and 3 in base 16 too).</div>
+				</li>			
+                <li>Represent these decimal numerals in <strong>hexadecimal</strong> notation:
+                    <ul>
+	                    <div class="sidenoteBig"><span class="katex">142 \text{ base } 10</span><br /><span class="katex">= 8 \cdot 16^1 + 14 \cdot 16^0 \text{ base } 10</span><br /><span class="katex">= 8 \text{E base } 16</span></div>
+                        <li>143</li>
+                        <li>144</li>
+                        <li>229</li>
+                    </ul>
+				</li>			
+                <li>Represent these binary numerals in <strong>hexadecimal</strong> notation:
+                    <ul>
+                        <li>10110001</li>
+                        <li>00111011</li>
+                        <li>01101111</li>
+                    </ul>
+				</li>			
+                <li>Represent these hexadecimal numerals in <strong>binary</strong> notation:
+                    <ul>
+                        <li>FF</li>
+                        <li>5D</li>
+                        <li>18</li>
+                    </ul>
+				</li>			
+            </ol>
+		</div>
+
+		<div class="endnote">For most purposes, it's inefficient to change number bases by hand. Once you understand the basic principles of these different representations, it's perfectly fine to use a <a href="https://www.mathsisfun.com/binary-decimal-hexadecimal-converter.html" target="_blank">Binary to Decimal to Hexadecimal Converter</a>.</div>
+        
+        <div class="ifTime" id="first">
+            <ol start="8">
+				<img class="imageRight" src="/bjc-r/img/icons/headphones.png" alt="Set Up Your Headphones or Speakers" title="Set Up Your Headphones or Speakers" />
+				<div class="todo">Brian, I promise that I'm not including these silly games to bug you. I really think they are worth including. --MF</div>
+                <li>Practice converting between hexadecimal and decimal notation with <a href="http://flippybitandtheattackofthehexadecimalsfrombase16.com/" target="_blank">Flippy Bit And The Attack Of The Hexadecimals From Base 16</a>.</li>
+                <li>Practice converting between hexadecimal and binary notation with the <a href="http://people.sinclair.edu/nickreeder/flash/binhex.htm" target="_blank">Binary-Hex Challenge</a>.</li>
+            </ol>
+        </div>
+        
+        <div class="takeItFurther"><a name="further" class="anchor">&nbsp;</a>
+            <ol type="A">
+                <li>Try converting binary, decimal, or hexadecimal numbers into a differnt base&mdash;like base 3 or base 12. They follow the same rules as for the other bases</li>
+            </ol>
+        </div>
+		
+        <h3>Hexadecimal Colors</h3>
+		<p>Computers have several ways of representing colors (RGB, CYMK, Lab, etc.). RGB is used in HTML/CSS and is related to hexadecimal notation. RGB colors are defined by three values: Red, Green, and Blue. They can be written in decimal notation by describing one value from 0 to 255 for each of the three base colors. For example, <span style="color:#FF7F00;"> this color is red 255, green 127, and blue 0</span>. Since the number of possible values (from 0-255) is a power of 16 (16<sup>2</sup>&nbsp;=&nbsp;256), we can also encode this color with Hex by listing the red hex value, then the green, then the blue: <span style="color:#FF7F00;">FF7F00</span>.</p>
+		<div class="forYouToDo">
+            <ol start="10">
+                <li>Represent these colors in hexadecimal notation:
+                    <ul>
+                        <li><span style="color:#0095EB;">red 0, green 149, and blue 235</span></li>
+                        <li><span style="color:#805A00;">red 128, green 90, and blue 0</span></li>
+                        <li><span style="color:#A30054;">red 163, green 0, and blue 84</span></li>
+                    </ul>
+				</li>
+                <li><img class="imageRight" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> Guess what this RGB color will look like based on its values: red 145, green 0, blue 226.</li>
+                <li>Guess what this <em>hex</em> RGB color will look like: 04FF61.</li>
+            </ol>
+        </div>
+        <div class="ifTime" id="first">
+            <ol start="13">
+                <li>Play with this <a href="http://www.mathsisfun.com/numbers/color-wheel-interactive.html" target="_blank">Interactive Color Wheel</a></li>
+                <li>Read more about <a href="http://www.mathsisfun.com/hexadecimal-decimal-colors.html" target="_blank">RGB colors and hexadecmial notation</a>.</li>
+                <li>
+                    <div class="sidenote">To import this block, save it to your hard drive, and choose import from the Snap<em>!</em> File menu.</div>
+                    Import this RGB <code>set pen color</code> block into one of your projects to explore RGB color further. (It takes decimal RGB inputs from 0-255, not hex.)<br />
+                    <img class="indent" src="/bjc-r/img/4-internet/set-pen-color-RGB.png" alt="set pen color to r: () g: () b: ()" title="set pen color to r: () g: () b: ()" />
+                </li>
+                <li>Explore this RGB/HEX color converter: <a href="http://hex.colorrrs.com/" target="_blank">http://hex.colorrrs.com/</a></li>
+            </ol>
+        </div>
+
+	</body>
+</html>
