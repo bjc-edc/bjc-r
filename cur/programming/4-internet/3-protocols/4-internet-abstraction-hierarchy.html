@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unit 4 Lab 3: Network Protocols, Page 4</title>
+	</head>
+
+<body>
+		<h2>Open Protocols and Internet Abstraction Hierarchy</h2>
+        <div class="todo">This page is <strong>ready for review</strong> (no one has ever even seen this, and I worry it's problematic...).</div>
+        <div class="todo">I really wish I had a nice activity for this page... Any ideas? The three pages before this were all kinda info-y and not project-y. Could we somehow take what kids develop/work on there and combine them into something interesting and relevant here? --MF</div>
+        
+        <p>
+        	So far, you've learned about three Internet protocols:
+			<ul>
+                <li><strong>HTTP</strong>: HyperText Transfer Protocol&mdash;the protocol that your computer uses when <em>accessing an HTML web site</em></li>
+                <li><strong>IP</strong>: Internet Protocol&mdash;the protocol that <em>manages routing</em> (finding paths to distant computers) </li>
+                <li><strong>TCP</strong>: Transmission Control Protocol&mdash;the protocol that <em>assures reliable transmission</em> of data</li>
+			</ul>
+        </p>
+        <p>
+			There are a <em>lot</em> of protocols! Here's a picture from Wikipedia:<br />
+			<div class="sidenote">You don't have to know about all of these!</div>
+            <img class="indent" src="/bjc-r/img/4-internet/IP-suite.png" alt="The Internet protocol suite"><br />
+			<div class="endnote">
+            	<p>These are all <em>open standards</em>, which means that anyone can look up their details and build them into new hardware and software without getting permission. <!-- (For example, here is <a href="https://tools.ietf.org/html/rfc791" target="_blank">the IPv4 specification</a>, but don't read it now.)--></p>
+                <p>(Before the Internet, there were several different network protocols that were secrets belonging to particular manufacturers. So if you had a particular brand of computer or router, it could talk only to other computers of the same brand.)</p>
+                <p>Open protocols are another reason why the Internet is <em>scalable</em>.</p>
+            </div>
+        </p>
+        <div class="takeNote">
+            <p>
+            	The Internet is probably the largest and most complicated artifact in human history. And it relies on <em>cooperation.</em> Just think: 
+                <ul>
+                    <li>You can send email to someone in a country that's considered an enemy of your country (from the US to Iran, for example).</li>
+                    <li>An engineer at Microsoft can read a web page at Apple even though their companies are competitors.</li>
+                    <li>Your T-Mobile cell phone can talk to your friend's Verizon phone.</li>
+                </ul>
+            </p>
+            <p>Despite some governments' attempts to censor the net, the big picture is one of strong cooperative spirit!</p>
+        </div>
+
+		<h3>Internet Abstraction Hierarchy</h3>
+        <p>There are billions of devices connected to the Internet, and hundreds of different <em>kinds</em> of devices: laptops, tablets, phones, refrigerators, handheld credit card readers that the waiter brings to your table at the restaurant, and so on.</p>
+        <p>How do they all know how to talk to each other?  The Internet was designed with several levels of <em>abstraction</em>.  Here's an only slightly simplified picture:</p>
+		<div class="comment">Brian, I had a lot of trouble understanding this myself, but I kept it and did the best I could because you'd flagged it as something to keep. Please review critically. --MF</div>
+        <table  class="center" border="2" cellpadding="6" summary="hardware, Internet Protocol, Transmission Control Protocol, application protocols.">
+            <caption class="center"><h4>Internet Abstraction Hierarchy</h4></caption>
+            <tr>
+                <td>Application Protocols (like HTTP)</td>
+            </tr>
+            <tr>
+                <td>Transport Protocols (like TCP)</td>
+            </tr>
+            <tr>
+                <td>Internet Protocols (like IPv4 and IPv6)</td>
+            </tr>
+            <tr>
+                <td>Network Interface Hardware (like routers) </td>
+            </tr>
+		</table>
+                                    
+        <p>Read this table from the bottom (least abstract) to the top (most abstract).</p>
+        <div class="takeNote">
+            <ul>
+                <li><strong>Network Interface Hardware</strong>: Your computer connects to the net through some kind of interface.  If it's a big desktop computer, it might have an <em>Ethernet</em> interface attached to a socket on the side or back of the computer, looking like a telephone jack but wider.  A laptop computer might have an Ethernet adaptor, but more likely has a <em>Wifi</em> interface attached to an antenna inside the case, connecting to your network <em>router</em> box by radio.  Your cell phone uses a longer-range <em>cellular</em> connection to your phone carrier. This is the least abstract because the number of devices that must communicate on a local system is very small.</li>
+                <div class="comment">I want to explain why TCP is more abstract than IP, but I don't actually understand this hierarchy... :/ --MF</div>
+                <li><strong>Internet Protocols</strong> manage the pathways that the data packets travel across networks. You've learned about two versions of <a href="/bjc-r/cur/programming/4-internet/3-protocols/2-ip-routing.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc_2015-2016.html&novideo&noassignment">IP</a>.</li>
+                <li><strong>Transport Protocols</strong> manage the data processing at the ends of the communication (the sender and receiver). You've learned about <a href="/bjc-r/cur/programming/4-internet/3-protocols/3-tcp.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc_2015-2016.html&novideo&noassignment">TCP</a>, but not all application-level protocols use TCP. Sometimes speed of delivery is more important than guaranteed correct delivery, and for that there's UDP, which is used in gaming and finance.</li>
+                <li><strong>Application Protocols</strong> are used by the software on your computer to process the information. You've learned about <a href="/bjc-r/cur/programming/4-internet/1-web-data/2-writing-html.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc_2015-2016.html&novideo&noassignment">HTTP</a>, but you may also encounter FTP (File Transfer Protocol), which is used for sending or uploading files or SMTP (Simple Mail Transfer Protocol), which is used for sending email.</li>
+            </ul>
+        </div>
+        
+<!--
+        <p>Your network interface connects you to a small <strong>local network</strong>.  If your connection is by Ethernet (physical cable), the local network is all the machines that are cabled together, typically all in one or two rooms.  If the computers in your lab are permanently installed, the odds are they're on an Ethernet.  If you're on a laptop, your local network consists of all the machines with WiFi connections to the same router, also typically very near each other.</p>
+        <p>Somewhere on your local network is a device that's <em>also</em> connected to <em>another</em> network.  That other network isn't "the Internet"; it's a somewhat larger network, but still pretty small.  Maybe there's one such network for your entire school.  The <strong>routers</strong> are the machines that are connected to two or more networks, your local one and some wider area ones.  It's a "router" because its job is to route incoming messages to the particular local computer to which each message is addressed.  It also knows how to forward outgoing messages to the best available larger network.</p>
+		<p>So, does your message finally get onto a super-huge network called "the Internet"?  No; all of the networks together, even the local net in your house, make up the Internet.  It's called "<strong>Internet</strong>" because it's a <em>network of networks</em>.</p>
+		<p>The network hardware interface attached to your computer only knows how to send messages to other computers on your local network.  When you ask for a web site on the other side of the world, as far as the hardware is concerned, you're just sending your request to your local router.  The router has to forward your message to <em>its</em> router, and so on, until you reach a router that's on <em>several</em> large networks and has to figure out which one is best for the next step in getting your request to its final destination.  The rules by which routers know how to do that are the <strong>Internet Protocol.</strong>  It's the abstraction that lets you imagine you're on a single huge network with all of the other computers in the world.</p>
+-->
+
+	</body>
+</html>
