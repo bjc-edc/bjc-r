@@ -8,7 +8,7 @@
 
 <body>
 		<h2>Open Protocols and Internet Abstraction Hierarchy</h2>
-        <div class="todo">This page is <strong>ready for review</strong> (no one has ever even seen this, and I worry it's problematic...).</div>
+        <div class="todo">This page is <strong>ready for review</strong> (reviewed by bh).</div>
         <div class="todo">I really wish I had a nice activity for this page... Any ideas? The three pages before this were all kinda info-y and not project-y. Could we somehow take what kids develop/work on there and combine them into something interesting and relevant here? --MF</div>
         
         <p>
@@ -24,7 +24,7 @@
 			<div class="sidenote">You don't have to know about all of these!</div>
             <img class="indent" src="/bjc-r/img/4-internet/IP-suite.png" alt="The Internet protocol suite"><br />
 			<div class="endnote">
-            	<p>These are all <em>open standards</em>, which means that anyone can look up their details and build them into new hardware and software without getting permission. <!-- (For example, here is <a href="https://tools.ietf.org/html/rfc791" target="_blank">the IPv4 specification</a>, but don't read it now.)--></p>
+            	<p>These are all <strong>open standards</strong>, which means that anyone can look up their details and build them into new hardware and software without getting permission. (For example, here is <a href="https://tools.ietf.org/html/rfc791" target="_blank">the IPv4 specification</a>, but don't read it now.)</p>
                 <p>(Before the Internet, there were several different network protocols that were secrets belonging to particular manufacturers. So if you had a particular brand of computer or router, it could talk only to other computers of the same brand.)</p>
                 <p>Open protocols are another reason why the Internet is <em>scalable</em>.</p>
             </div>
@@ -44,7 +44,6 @@
 		<h3>Internet Abstraction Hierarchy</h3>
         <p>There are billions of devices connected to the Internet, and hundreds of different <em>kinds</em> of devices: laptops, tablets, phones, refrigerators, handheld credit card readers that the waiter brings to your table at the restaurant, and so on.</p>
         <p>How do they all know how to talk to each other?  The Internet was designed with several levels of <em>abstraction</em>.  Here's an only slightly simplified picture:</p>
-		<div class="comment">Brian, I had a lot of trouble understanding this myself, but I kept it and did the best I could because you'd flagged it as something to keep. Please review critically. --MF</div>
         <table  class="center" border="2" cellpadding="6" summary="hardware, Internet Protocol, Transmission Control Protocol, application protocols.">
             <caption class="center"><h4>Internet Abstraction Hierarchy</h4></caption>
             <tr>
@@ -64,11 +63,10 @@
         <p>Read this table from the bottom (least abstract) to the top (most abstract).</p>
         <div class="takeNote">
             <ul>
-                <li><strong>Network Interface Hardware</strong>: Your computer connects to the net through some kind of interface.  If it's a big desktop computer, it might have an <em>Ethernet</em> interface attached to a socket on the side or back of the computer, looking like a telephone jack but wider.  A laptop computer might have an Ethernet adaptor, but more likely has a <em>Wifi</em> interface attached to an antenna inside the case, connecting to your network <em>router</em> box by radio.  Your cell phone uses a longer-range <em>cellular</em> connection to your phone carrier. This is the least abstract because the number of devices that must communicate on a local system is very small.</li>
-                <div class="comment">I want to explain why TCP is more abstract than IP, but I don't actually understand this hierarchy... :/ --MF</div>
-                <li><strong>Internet Protocols</strong> manage the pathways that the data packets travel across networks. You've learned about two versions of <a href="/bjc-r/cur/programming/4-internet/3-protocols/2-ip-routing.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc_2015-2016.html&novideo&noassignment">IP</a>.</li>
-                <li><strong>Transport Protocols</strong> manage the data processing at the ends of the communication (the sender and receiver). You've learned about <a href="/bjc-r/cur/programming/4-internet/3-protocols/3-tcp.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc_2015-2016.html&novideo&noassignment">TCP</a>, but not all application-level protocols use TCP. Sometimes speed of delivery is more important than guaranteed correct delivery, and for that there's UDP, which is used in gaming and finance.</li>
-                <li><strong>Application Protocols</strong> are used by the software on your computer to process the information. You've learned about <a href="/bjc-r/cur/programming/4-internet/1-web-data/2-writing-html.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc_2015-2016.html&novideo&noassignment">HTTP</a>, but you may also encounter FTP (File Transfer Protocol), which is used for sending or uploading files or SMTP (Simple Mail Transfer Protocol), which is used for sending email.</li>
+                <li><strong>Network Interface Hardware</strong>: Your computer connects to the net through some kind of interface.  If it's a big desktop computer, it might have an <em>Ethernet</em> interface attached to a socket on the side or back of the computer, looking like a telephone jack but wider.  A laptop computer might have an Ethernet adaptor, but more likely has a <em>WiFi</em> interface attached to an antenna inside the case, connecting to your network router box by radio.  Your cell phone uses a longer-range <em>cellular</em> connection to your phone carrier. Each of these kinds of network hardware has a protocol for the messages it understands. These local <strong>link layer</strong> protocols are the least abstract, because they deal directly with your particular hardware connection.</li>
+                <li><strong>Internet Layer protocols</strong> manage the pathways that the data packets travel across networks. You've learned about two versions of <a href="/bjc-r/cur/programming/4-internet/3-protocols/2-ip-routing.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc_2015-2016.html&novideo&noassignment">IP</a>. These protocols implement the abstraction of one single Internet, even though the hardware reality is many tiny subnetworks.</li>
+                <li><strong>Transport Layer protocols</strong> provide the abstraction of sending an arbitrary-sized message directly to the target computer. You've learned about <a href="/bjc-r/cur/programming/4-internet/3-protocols/3-tcp.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc_2015-2016.html&novideo&noassignment">TCP</a>, which simulates a reliable, long-term connection between application programs on the endpoint computers, but not all application-level protocols use TCP. Sometimes speed of delivery is more important than guaranteed correct delivery, and for that there's UDP, which is used in gaming and finance, among other things.</li>
+                <li><strong>Application Layer protocols</strong> are the ones that give a <em>meaning</em> to what is just a sequence of bits to the lower-level protocols. For example, you've learned about <a href="/bjc-r/cur/programming/4-internet/1-web-data/2-writing-html.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc_2015-2016.html&novideo&noassignment">HTTP</a>, which gives a stream of bits the meaning of a request for information from a web server. The client and server computers have to agree about how to interpret such a request. You may also encounter FTP (File Transfer Protocol), which is used for sending or uploading files, or SMTP (Simple Mail Transfer Protocol), which is used for sending email.</li>
             </ul>
         </div>
         
