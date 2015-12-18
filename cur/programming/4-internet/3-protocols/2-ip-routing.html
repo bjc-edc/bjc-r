@@ -14,6 +14,7 @@
         </div>
         <p>The computer you're using is almost certainly part of a wired (Ethernet) or wireless (WiFi) <strong>local network</strong> connecting the computers in your house or your school. The networking hardware in your computer can only talk to other computers on the same local network. How it is that you can use the Internet to connect to any computer in the world?</p>
         <p>One (or maybe more) of the computers on your network is a <strong>router</strong>: a special purpose computer that passes messages from one network to another. If you have a router at home, it probably connects your local network with a larger network belonging to your Internet Service Provider (ISP), generally your telephone company or your cable TV company. The job of a router is to pass messages from one network to another until it reaches the local network of the computer you're trying to reach. Your home router connects only two networks, your local net and your ISP's net. Your ISP has many routers, each of which connects several networks.</p>
+        <p>The <strong>Internet</strong> isn't a network of computers; it's a <em>network of networks.</em></p>
         <p>How do the routers know where to find the computer you want? Every computer on the Internet (including smart phones, routers, Internet-enabled appliances, etc.) has an address (or more than one, if it's a router), like a postal or email address, called its <strong>IP address</strong>. IP stands for <strong>Internet Protocol</strong>. (A protocol is a set of rules for communicating on the net; IP is the protocol that specifies how a router handles a request for another IP address.) You can find out your computer's IP address by asking a search engine:<br />
         	<center><a href="https://duckduckgo.com/?q=my+ip+address" target="_blank">https://duckduckgo.com/?q=my+ip+address</a></center>
         </p>
@@ -60,7 +61,7 @@
         <p><img class="inline" src="/bjc-r/img/icons/take-turns-speaking-mini.gif" alt="Take turns speaking" title="Take turns speaking"> Like domain names, IP addresses are <em>hierarchical</em>.</p>
         <p>For example, consider the IP address for york.cs.berkeley.edu, which is 128.32.156.218. In the picture below, the subnetwork for the 128.32 domain includes two subnet numbers: 189 and 156. Subnet 156 has two hosts: 218 and 226.</p>
         <div class="sidenote">This york.cs.berkeley.edu hierarchy image is a simplified model.</div>
-        <div class="comment">If you redo the picture, don't try to divide the 128.32 into two levels of hierarchy.  There is no 128.*.*.* domain; back at the beginning of time, the Berkekey EECS Department bought a 65,536-address chunk of addresses at 128.32.*.* directly from, I'm guessing, Jon Postel, who was the official czar of the Internet back then.--bh</div>
+        <div class="commentBig">If you redo the picture, don't try to divide the 128.32 into two levels of hierarchy.  There is no 128.*.*.* domain; back at the beginning of time, the Berkekey EECS Department bought a 65,536-address chunk of addresses at 128.32.*.* directly from, I'm guessing, Jon Postel, who was the official czar of the Internet back then.--bh</div>
     <img class="indent" src="/bjc-r/img/4-internet/hierarchical-3.jpg" alt="IP addresses are hierarchical" title="IP addresses are hierarchical" /><br />        
     
     
@@ -68,7 +69,7 @@
         <p>Each of the four numbers in a typical IP address today is an eight-bit <strong>byte</strong> with a value between 0 and 255:</p>
         <img class="indent" src="/bjc-r/img/4-internet/ipv4.png" width="50%" height="50%" alt="IPv4" title="IPv4" /><br />
         <p>A 32-bit IPv4 (the &quot;v&quot; stands for &quot;version&quot;) address is big enough to support 2<sup>32</sup> computers, which is about four billion (4 &middot; 10<sup>6</sup>). There are more than <em>seven</em> billion people on Earth, so there aren't enough IP addresses to go around.</p>
-        <div class="comment">I'm feeling a little unsure on how to use numerals vs. words for numbers here to make this most readable. --MF<br />
+        <div class="commentBig">I'm feeling a little unsure on how to use numerals vs. words for numbers here to make this most readable. --MF<br />
     The general rule is that numbers up to ten are spelled out, but 11 and up are written with digits.  The exception is when the number itself is the object you're talking about (binary digits 0 and 1, for example) rather than a size or count of something else (two bit values, eight bits in a byte).--bh</div>
         <div class="endnote"><strong>Why 2<sup>32</sup>?</strong> There are 32 bits, and each bit can be one of two possible values (0 or 1). So, there are two possibilities for the first bit, four (that's 2<sup>2</sup>) possibilities for the first two bits, eight (that's 2<sup>3</sup>) possibilities for the first three bits, 16 (that's 2<sup>4</sup>) for the first four bits, and so on up to 2<sup>32</sup> possibilities for thirty-two bits.</div>
 	
@@ -120,7 +121,7 @@ OK, except see my comment about end-to-end below. --bh
             Network people have their own vocabulary.  On the AP exam you may see
             <ul>
                     <div class="commentBig">End-to-end addressed in TCP. --MF<br />
-                    But end-to-end isn't just about TCP.  It means that routers don't have to understand HTTP, SMTP, FTP, etc.--bh</div>
+                    <span style="color:red">But end-to-end isn't just about TCP.  It means that routers don't have to understand HTTP, SMTP, FTP, etc.--bh</span></div>
                 <li>                  The <strong>end-to-end principle</strong> is abstraction, in the particular case of the Internet hierarchy.  It says that routers don't have to know anything about the meaning or purpose of the messages you send over the net; all they care about is the IP address at the beginning of the message.  Your computer and the server to which you sent the message are the only ones that have to think about what it means.
                     As a result, when someone invents a new application for the Internet, all the routers in the world don't have to be replaced or reprogrammed &mdash; to them it's all just bits.
                 </li>
