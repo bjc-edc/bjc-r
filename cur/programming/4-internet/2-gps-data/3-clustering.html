@@ -7,7 +7,7 @@
     </head>
     
     <body>
-    	<h2>Placing Restaurants</h2>
+    	<h2>Analyzing GPS Data</h2>
 <p>Big Burgers wants to answer this key question: <em>where should the new restaurant be?</em> By visualizing the 223 data points, they've learned new information about their customers.</p>
 
 <div class=forYouToDo id="first">
@@ -19,74 +19,42 @@
 <li>The <code>average</code> block should now be usable in your current project!</li>
 </ul>
 </li>
-<li>Use the <code>average</code> block to compute the average of all the longitudes and latitudes of the GPS data.</li>
+<li>Use the <code>average</code> block to compute the average latitude and average longitude of the GPS data.</li>
 <li>Plot the average as a new data point using the same scaling as the other points.</li>
 <li>Would this be a good location for the restaurant? Explain.</li>
 </ol>
 </div>
 
+<div class=comment>BK: I wonder if "40.70" would be better than "40.7" in the graphic here. Both are correct.</div>
+
 <p>Here's a visualization of the GPS data, along with some latitude lines for reference. The GPS data breaks into three clear zones:</p>
 
 <img class="indent noshadow" src="/bjc-r/img/4-internet/GPS-map.png" alt="GPS data plus latitude lines">
 
-<p>Based on the visualization, Big Burgers will place their restaurant in the zone with the largest number of customers. But, which one is it?</p>
+<p>Based on the visualization, Big Burgers will place their restaurant in the zone with the largest number of customers. But, which one is it? <div class="sidenote">Taking a large data set and breaking it into smaller groups is called <strong>cluster analysis</strong>. Visualizations of data are especially helpful in identifying and classifying clusters.</div></p>
 
 <div class="forYouToDo">
 <ol start="5">
 <li>Given a specific pair of GPS coordinates, how might you decide which of the three zones it is in?</li>
+<li>Create a <code>zone</code> block. The input is a pair of GPS coordinates, and the output indicates which zone the coordinates are in.</li>
+<li>Use the <code>zone</code> block and the full set of GPS data to determine which of the three zones has the most customers.</li>
 </ol>
 </div>
 
-<p>All <a href="">these coordinates</a> have different values. It's common to want to know if certain points are bunched closer and if there's a pattern. In other words: <strong>Can we group the points into distinct <em>clusters</em>?</strong> If so, how many clusters are best for the data? </p>
-        
-        <div>
-            In order to cluster the data, we need two main processes:
-            <ol style="list-style:upper-roman;">
-                <li>a way to measure how close points are to each other, and</li>
-                <li>a way to determine if a point belongs to a cluster or not.</li>
-            </ol>
-        </div>
-        
-        
-        <h3>Measuring Distance</h3><div class="comment"> PG: I think the invocation of "distance metric," "Euclidean Distance," and the notion of accuracy for flat surfaces (linked, but not to anywhere) is all a distraction. Kids, if they know about this at all, know it as a distance formula. It might well be a favor to them to connect it with what they know about Pythagorean whatever, but the rest just makes it sound new and mysterious. Fine if we were going to follow up. Not fine if we just toss it in. </div>
-        <p>To determine how close points are to each other we use a <em>distance metric</em>, some way of measuring distance.  A common metric is Euclidean Distance <code>d</code>, which is accurate for <a href="" target="_blank">flat surfaces</a> and found by using  the Pythagorean Formula.</p>
-        <div class="sidenoteBig">Disclaimer: GPS coordiates are used on the Earth, which is not a flat surface! But for coordinates all in a small, mostly flat area, Euclidean distance does well enough.</div>
-        <p>Given two points <code>P</code> and <code>Q</code>, each with coordinates <code>P<sub>lat</sub></code> and <code>P<sub>long</sub></code> and <code>Q<sub>lat</sub></code> and <code>Q<sub>long</sub></code>, the distance is calculated by the Pythagorean Formula: <span class="katex-block">distance(P,Q)=\sqrt{(P_{lat}-Q_{lat})^2+(P_{long}-Q_{long})^2}</span><br />
-            <!--<img class="indent noshadow" src="/bjc-r/img/equations/euclidean-distance-gps.png" alt="Forumla for Euclidean Distance">-->
-            <div class="comment">Please replace with a better grid with lat and long marked and these distances marked. Rebuild from something in TTA or use GSP.</div>
-            
-            <div class="comment">Obviously, we need a nicer version of this... -MF</div>
-            <img class="indent" src="/bjc-r/img/3-lists/distance-metric.png" alt="distance metric" title="distance metric" />
-        </p>
-        <div class="forYouToDo" id="first">
-            <ol>
-                <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />This version of the Pythagorean Formula may look different than others you have seen such as <span class="katex">a^2+b^2=c^2</span> or <span class="katex">d=\sqrt{(x_2-x_1)^2+(y_2-y_1)^2}</span>. Review what you know about the Pythagorean Theorem.</li>
-                <li><img class="inline" src="/bjc-r/img/icons/talk-with-another-pair.png" alt="Talk with Another Pair" title="Talk with Another Pair" />Match-up the pieces of the image and the formula(s) you understand best, and discuss to clarify your understanding.</li>
-                <li>
-                    Create a <code>distance from (P) to (Q)</code> reporter block that uses the Pythagorean Formula to calculate distance for any pair of cordinate pairs, like this:
-                    <img class="indent" src="/bjc-r/img/data/distance-1-2-to-4-6.png" alt="'distance from (1,2) to (4,6)' showing 5" />
-                </li>
-            </ol>
-        </div>
-<div class="todo">I had a hard time reading the following section because the crucial piece of information, namely that the clusters are initially determined by eye, comes at the end.  So until then I thought I was seeing an algorithm to find clusters automatically.
+<p>Now that Big Burgers knows the general area to place the restaurant, they still need to determine where <em>within that zone</em> to place it. To do this, they need a new list of the GPS coordinates of those customers within that zone.</p>
 
-Also, if the object is to determine the proper cluster for one new point, that has to be stated before we say "the point in question."--bh</div>        
-        
-        <h3>Determining Clusters</h3>
-        	<p>A cluster is a set of points, and we'll use our distance metric to compare the point in question (lets call it <code>p1<sub>outside?</sub></code>) with the points that are in the cluster. That will give you a list of distances (as many as there are points in the cluster), so you'll need to use that list to figure out if <code>p1<sub>outside?</sub></code> should be considered a member of the cluster.</p>
-			<p>You can do this in various ways; let's choose an easy one: figure out if the minimum distance in your list is less than some predetermined value. What this means, then, is that <code>p1<sub>outside?</sub></code> belongs to a cluster if the distance between it and the closet point in the cluster is "close enough".</p>
-        <p>
-        	In Snap<em>!</em>, you'll make a block for each of these processes.these two blocks should look like this, once you have implemented them:<br />
-        	<img class="indent" src="/bjc-r/img/data/distance-1-2-to-4-6.png" alt="'distance from (1,2) to (4,6)' showing 5" /><br />
-			and<br />
-            <img class="indent" src="/bjc-r/img/data/distance-1-2-to-cluster.png" alt="distance from (1,2) to cluster ((4,6), (40,60)) showing 5" />
-       	</p>
-      
-		<p>Before you use your two new blocks, let's first take a look at the data by extending the previously introduced (<a class="run" href="/bjc-r/prog/data/clustering.xml">visualization code</a>):</p>
-        <img class="indent" src="/bjc-r/img/data/clustering-visualization.png" alt="visualizing clusters">
-        <div class="comment">As of today, script pics should include comments, so the one here should be redone.</div>
-        <p>As the comments already indicate, you need to add the pre-processed coordinates as lists (points) of lists (coordinates). If you followed the recommendation under pre-processing, you have these in a text editor and need to copy and paste them into the CLUSTER DATA list. In the next line, we start by defining three cluster center points that we eye-balled from the data. Then, in the following line, we set our minimum distance for a point belonging to a cluster to 50.</p>
-        <p>Play around with the numbers to see if you can find better clusters. How many clusters do you feel are optimal and what are their parameters?</p>
+<div class="forYouToDo">
+<ol start="8">
+<li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />What blocks might be helpful here?</li>
+<li>Use the <code>average</code> block to compute the average of all the longitudes and latitudes of the GPS data <strong>within the most popular zone</strong>.</li>
+<li>On a map, find the location where the data says the restaurant should be located. What practical limitations might there be to this analysis?</li>
+</ol>
+</div>
 
+<div class="ifTime">
+<ol start="11">
+<li>Big Burgers decides they can open two restaurants in New York. Where should the second restaurant be located?</li>
+</ol>
+</div>
     </body>
 </html>
