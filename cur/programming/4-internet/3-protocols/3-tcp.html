@@ -7,7 +7,7 @@
     </head>
     <body>
         <h2>Reliable Transmission on Unreliable Networks: TCP</h2>
-        <div class="todo">This page is <strong>ready for review</strong> (no one has reviewed).</div>
+        <div class="todo">This page is <strong>ready for review</strong> (bh has reviewed).</div>
 		<div class="todo">
             From BH:
             <ul>
@@ -20,8 +20,8 @@
             </ul>
         </div>
         
-    	<p>Computers, servers, and routers are fairly reliable. But there are often several computers and cables or radio transmissions between you and the recipient of a data packet. So, every once in a while a IP packet will be lost. Devices on the Internet need to tolerate these faults. The <strong>Transmission Control Protocol</strong> (TCP) guarantees <em>reliable</em> transmission by breaking messages into packets.</p>
-        <div class="sidenoteBig">By contrast, land line telephone systems establish a long-term connection from one telephone to another, for as long as the phone call continues.</div>
+    	<p>Computers, servers, and routers are fairly reliable. But there are often several computers and cables or radio transmissions between you and the recipient of a data packet. So, every once in a while a IP packet will be lost. Devices on the Internet need to tolerate these faults. The <strong>Transmission Control Protocol</strong> (TCP) guarantees <em>reliable</em> transmission by breaking messages into packets and keeping track of which packets have been received successfully.</p>
+        <div class="sidenoteBig">By contrast, old land line telephone systems establish a long-term connection from one telephone to another, for as long as the phone call continues.</div>
 		<p>A <strong>packet</strong> is a small message.  Typically, if you want to send a <em>large</em> message, your computer divides it into small chunks that it sends individually.  This is important because if a router that's handling a chunk of your message fails, only that chunk has to be resent, rather than the entire message. The Internet is a <strong>packet switching</strong> network.</p>
 
         <div class="forYouToDo" id="first">
@@ -38,18 +38,18 @@
         <div class="takeNote">
             <p>
                 The TCP/IP <strong>end-to-end</strong> design of the Internet is an <strong>abstraction</strong>:
-                <div class="sidenote">Abstraction is reducing complexity by focusing on core concepts.</div>
                 <ul>
-                    <li>The <strong>routers</strong> at every connection point  run the <strong>Internet Protocol</strong> (IP) that transmit the packets from one IP address to another and sometimes a packet will be lost. </li>
-                    <li>And the <strong>computers</strong> (including servers) at the endpoints run the <strong>Transmission Control Protocol</strong> (TCP) that guarantees <em>reliable</em> transmission.</li>
+                  <li>The <strong>routers</strong> at every connection point  run the <strong>Internet Protocol</strong> (IP) that transmit the packets from one IP address to another, not caring that sometimes a packet will be lost. </li>
+                    <li>And the <strong>computers</strong> (including servers) at the endpoints run the <strong>Transmission Control Protocol</strong> (TCP) that guarantees <em>reliable</em> transmission. (The endpoint computers are also responsible for understanding <em>application protocols</em> such as HTTP.)</li>
                 </ul>
             </p>
-            <p>The routers don't have to know anything about the messages they carry over the net; all they care about is transmitting between the IP addresses at the beginning of the message. The computers that send and receive the message are the only ones that have to think about what the messages mean. As a result, when someone invents a new application for the Internet, all the routers in the world don't have to be replaced or reprogrammed&mdash;to them it's all just bits.</p>
+            <p>The routers don't have to know anything about the messages they carry over the net; all they care about is transmitting between the IP addresses at the beginning of each packet. The computers that send and receive the message are the only ones that have to think about what the messages mean. As a result, when someone invents a new application for the Internet, all the routers in the world don't have to be replaced or reprogrammed&mdash;to them it's all just bits.</p>
         </div>
         
 
         <div class="forYouToDo">
             <ol start="3">        
+<div class="commentBig">Mary, what's the virtue of this video?  Everything it says is wrong, starting with "The Internet is a wire."  Do you think there is some actual information in it?  If so, we should extract that information and add a text paragraph.  The video is awful.--bh</div>
                 <li>
                     Watch this video from securitycatalyst.com:<br />
 					<iframe width="420" height="315" src="https://www.youtube.com/embed/7_LPdttKXPc?start=47&end=271" frameborder="0" allowfullscreen class="indent"></iframe>
@@ -66,7 +66,7 @@
                 </li>
                 <div class="endnote">
                     <img class="imageRight" src="/bjc-r/img/4-internet/sprite-local.png" width="289" height="165" alt="for this sprite only button">
-                    On the stage there are two watchers: "Alice incoming transmission" and "Bob incoming transmission."  But in the Variables palette there's only one variable: "incoming transmission."  These are actually two different <em>local variables</em>, one belongs to Alice and one belongs to Bob. (Local means not shared across sprites; <em>global</em> means shared across all sprites like we've been doing most of the course.) To make a local variable, click the "for this sprite only" button when creating a variable.
+                    On the stage there are two watchers: "Alice incoming transmission" and "Bob incoming transmission."  But in the Variables palette there's only one variable name: "incoming transmission."  These are actually two different <em>local variables</em>; one belongs to Alice and one belongs to Bob. (Local means not shared across sprites; <em>global</em> means shared across all sprites as we've been doing most of the course.) To make a local variable, click the "for this sprite only" button when creating a variable.
                 </div>
                 <li>Click on one of the characters, and enter a message that it should send to the other.</li>
                 <li>
@@ -108,7 +108,7 @@
             <ol type="A">
                 <div class="sidenoteBig">How can you keep track of the order of your data?</div>
                 <li>First, solve the problem of packets arriving out of order.  That is, make it possible for the receiver to rearrange the packets into the intended order.  This will require cooperation by both sender and receiver.</li>
-		        <div class="endnote">A packet can include any kind of data: text, numbers, or lists. <em>You may include extra information in a packet in addition to the one text character.</em></div>
+		        <div class="endnote">A packet can include any kind of data: text, numbers, or lists. <em>You may include extra <strong>header </strong>information in a packet in addition to the one text character.</em></div>
                 <li>Then, solve the problem of packets not arriving at all. That is, make the transmission reliable even though IP is unreliable. This, too, will require changing both sender and receiver.  </li>
                 <div class="endnote">For the sake of the simulation, you can't do this by eliminating the unreliability of <code>send IP packet</code>. <em>The sender will have to send a special end-of-transmission packet so that the receiver knows when to stop worrying about missing packets.</em></div>
             </ol>
