@@ -8,31 +8,13 @@
     
     <body>
         <h2>The Network of Networks: IP</h2>
-        <div class="todo">This page is <strong>ready for review</strong> (BH has reviewed once).</div>
-        <div class="todo">
-            From BH (you don't need to read this unless you are BH):
-            <ul>
-                <li>4.3.1  Keep the remark that the Internet is different from the WWW. (The latter is a particular application that runs on the Internet, but so are email, FTP, various Instant Messaging protocols, etc.)  The Internet is TCP/IP, basically.
-	                <ul>
-                    	<li>I moved it to lab 1 page 1 right after the world map. --MF</li>
-                    </ul>
-                </li>
-                <li>The big yellow and orange boxes near the end of the page specifically address stuff from the CSP framework.  They should be kept in some form, even if the explanations of the words are all replaced by "(See BtB page 87.)"
-                	<ul>
-                    	<li>Brian, see my line-by-line remarks on that section. --MF</li>
-                    </ul>
-                </li>
-                <li>And this is where your explanation of hex belongs -- it should show a binary number with the powers of 2 (as 2^k, not computed) above the bits, and with the ones where the exponent is a multiple of 4 in red or something.  And then you can say that binary numbers are way too long to read, so people abbreviate them by taking advantage of the fact that 2^4=16, so each set of four bits (counting from the right, because the leftmost one might be a partial nybble) is one hex digit. Sometimes you'll see octal used, too, where each digit represents three bits.
-                	<ul>
-                    	<li>I added the previous page and used some of this text. --MF</li>
-					</ul>
-                </li>
-            </ul>
+        <div class="todo">This page is <strong>ready for review</strong> (BH has reviewed twice).</div>
+        <div class="sidenoteBig">
+          <p>Routers are networking devices that direct traffic between subnetworks on the internet. The word "router" is pronounced like "doubter."</p>
         </div>
-
-		<div class="sidenoteBig">Routers are networking devices that direct traffic between computers on the internet. The word "router" is pronounced like "doubter."</div>
-        <p>
-        	Every computer on the Internet (including smart phones, routers, Internet-enabled appliances, etc.) has an address (or two, if it's a router), like a postal or email address, called its <strong>IP address</strong>. IP stands for <strong>Internet Protocol</strong>. You can find out your computer's IP address by asking a search engine:<br />
+        <p>The computer you're using is almost certainly part of a wired (Ethernet) or wireless (WiFi) <strong>local network</strong> connecting the computers in your house or your school. The networking hardware in your computer can only talk to other computers on the same local network. How it is that you can use the Internet to connect to any computer in the world?</p>
+        <p>One (or maybe more) of the computers on your network is a <strong>router</strong>: a special purpose computer that passes messages from one network to another. If you have a router at home, it probably connects your local network with a larger network belonging to your Internet Service Provider (ISP), generally your telephone company or your cable TV company. The job of a router is to pass messages from one network to another until it reaches the local network of the computer you're trying to reach. Your home router connects only two networks, your local net and your ISP's net. Your ISP has many routers, each of which connects several networks.</p>
+        <p>How do the routers know where to find the computer you want? Every computer on the Internet (including smart phones, routers, Internet-enabled appliances, etc.) has an address (or more than one, if it's a router), like a postal or email address, called its <strong>IP address</strong>. IP stands for <strong>Internet Protocol</strong>. (A protocol is a set of rules for communicating on the net; IP is the protocol that specifies how a router handles a request for another IP address.) You can find out your computer's IP address by asking a search engine:<br />
         	<center><a href="https://duckduckgo.com/?q=my+ip+address" target="_blank">https://duckduckgo.com/?q=my+ip+address</a></center>
         </p>
         <div class="endnote">
@@ -64,24 +46,31 @@
                 <li>
                     Next year, the text and graphic below should be changed to snap.berkeley.edu at 128.32.189.18. See Dan's PPTX files on Internet (<a href="http://cs10.org/sp15/lecture/L15%20-%20Internet%20I/" target="_blank">one</a> and <a href="http://cs10.org/sp15/lecture/L16%20-%20Internet%20II/" target="_blank">two</a>) to modify. --MF
                     <ul>
-                        <li>I recognize that it's not as simple as "just changing to snap.berkeley.edu" because servers have all these funny rerouting things going on (and york might actually be where snap is, etc.). Brian, we should talk about this. (Or just leave me a comment here or in my inbox about it. Thanks!) --MF</li>
+                        <li>I recognize that it's not as simple as "just changing to snap.berkeley.edu" because servers have all these funny rerouting things going on (and york might actually be where snap is, etc.). Brian, we should talk about this. (Or just leave me a comment here or in my inbox about it. Thanks!) --MF
+                          <ul>
+                            <li>snap.b.e is complicated; it's translated to byob.eecs.b.e which is in turn translated to eecs.b.e/~bh/byob. It'd be a little easier to talk about bjc.b.e, which is called bjc throughout the translation steps. But in the end they both are the same computer as eecs.b.e, namely 128.32.244.183. So you could legitimately ignore all that referral stuff and just say snap.b.e is 128.32.244.183. If you want a nearby computer for comparison, the one on my desk, abbenay.cs.b.e, is 128.32.153.200. Where did 128.32.189.18 come from?--bh</li>
+                          </ul>
+                        </li>
                     </ul>
                 </li>
+                <li>Is "Recall" here true?  Have we talked about hierarchies before?  They haven't taken biology yet, maybe.--bh</li>
             </ul>
         </div>
 		<div class="sidenoteBig">Recall, a <em>hierarchy</em> is an ranking arrangement (like species taxonomy) with the broadest or most powerful rank at the top. It's often depicted as a pyramid.</div>
         <p><img class="inline" src="/bjc-r/img/icons/take-turns-speaking-mini.gif" alt="Take turns speaking" title="Take turns speaking"> Like domain names, IP addresses are <em>hierarchical</em>.</p>
-        <p>For example, consider the IP address for york.cs.berkeley.edu, which is 128.32.156.218. In the picture below, the subnetwork for the 128.32 domain includes two subnet numbers: 189 and 156, and subnet 156 has two hosts: 218 and 226.</p>
+        <p>For example, consider the IP address for york.cs.berkeley.edu, which is 128.32.156.218. In the picture below, the subnetwork for the 128.32 domain includes two subnet numbers: 189 and 156. Subnet 156 has two hosts: 218 and 226.</p>
         <div class="sidenote">This york.cs.berkeley.edu hierarchy image is a simplified model.</div>
-        <img class="indent" src="/bjc-r/img/4-internet/hierarchical-3.jpg" alt="IP addresses are hierarchical" title="IP addresses are hierarchical" /><br />        
+        <div class="comment">If you redo the picture, don't try to divide the 128.32 into two levels of hierarchy.  There is no 128.*.*.* domain; back at the beginning of time, the Berkekey EECS Department bought a 65,536-address chunk of addresses at 128.32.*.* directly from, I'm guessing, Jon Postel, who was the official czar of the Internet back then.--bh</div>
+    <img class="indent" src="/bjc-r/img/4-internet/hierarchical-3.jpg" alt="IP addresses are hierarchical" title="IP addresses are hierarchical" /><br />        
     
     
 	    <h3>IPv4</h3>
-        <p>Each of the four numbers in an IP address is an eight-bit <strong>byte</strong> with a value between 0 and 255:</p>
+        <p>Each of the four numbers in a typical IP address today is an eight-bit <strong>byte</strong> with a value between 0 and 255:</p>
         <img class="indent" src="/bjc-r/img/4-internet/ipv4.png" width="50%" height="50%" alt="IPv4" title="IPv4" /><br />
-        <p>A 32-bit IP address is big enough to support 2<sup>32</sup> computers, which is about four billion (4 &middot; 10<sup>6</sup>). There are more than <em>seven</em> billion people on Earth, so there aren't enough IP addresses to go around.</p>
-        <div class="comment">I'm feeling a little unsure on how to use numerals vs. words for numbers here to make this most readable. --MF</div>
-        <div class="endnote"><strong>Why 2<sup>32</sup>?</strong> There are 32 digits, and each digit can be one of 2 possible digits (0 or 1). So, there are 2 possibilities for the first digit, 4 (that's 2<sup>2</sup>) possibilities for the first two digits, 8 (that's 2<sup>3</sup>) possibilities for the first three digits, 16 (that's 2<sup>4</sup>) for the first four digits, and so on up to 2<sup>32</sup> possibilities for thirty-two digits when there are two possible choices (0 or 1).</div>
+        <p>A 32-bit IPv4 (the &quot;v&quot; stands for &quot;version&quot;) address is big enough to support 2<sup>32</sup> computers, which is about four billion (4 &middot; 10<sup>6</sup>). There are more than <em>seven</em> billion people on Earth, so there aren't enough IP addresses to go around.</p>
+        <div class="comment">I'm feeling a little unsure on how to use numerals vs. words for numbers here to make this most readable. --MF<br />
+    The general rule is that numbers up to ten are spelled out, but 11 and up are written with digits.  The exception is when the number itself is the object you're talking about (binary digits 0 and 1, for example) rather than a size or count of something else (two bit values, eight bits in a byte).--bh</div>
+        <div class="endnote"><strong>Why 2<sup>32</sup>?</strong> There are 32 bits, and each bit can be one of two possible values (0 or 1). So, there are two possibilities for the first bit, four (that's 2<sup>2</sup>) possibilities for the first two bits, eight (that's 2<sup>3</sup>) possibilities for the first three bits, 16 (that's 2<sup>4</sup>) for the first four bits, and so on up to 2<sup>32</sup> possibilities for thirty-two bits.</div>
 	
     
         <h3>IPv6</h3>
@@ -99,7 +88,10 @@
 				<li>Look up your current IP address using a search engine (as described at the top of the page). <img class="inline" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" />Is your address in IPv4 or IPv6?</li>
                 <li>Load your U4L1-HttpBlock project.</li>
                 <li><div class="saveAs"><span class="text">"U4L3-IPaddress"</span><img src="/bjc-r/img/icons/save-this-as.png" alt="Save your work as U4L3-IPaddress" title="Save your work as U4L3-IPaddress" /></div></li>
-                <div class="comment">I think this is cool, but is it something they will use again later? I hesitate to have them do mini-projects that don't relate to anything else later. Thoughts? --MF</div>
+                <div class="comment">
+                  <p>I think this is cool, but is it something they will use again later? I hesitate to have them do mini-projects that don't relate to anything else later. Thoughts? --MF</p>
+                  <p>The original plan was to use this with traceroute, etc., to learn more about how messages traverse the net. What happened to all that? --bh</p>
+                </div>
                 <li>
                     Write a Snap<em>!</em> reporter <img src="/bjc-r/img/4-internet/my-ip-addr.png" alt="my IP address"> in the Sensing palette that scrapes your IP address from <a href="https://duckduckgo.com/?q=my+ip+address" target="_blank">https://duckduckgo.com/?q=my+ip+address</a>. A few tips:
                     <ul>
@@ -119,18 +111,17 @@
             <ol start="7">
                 <li>Look up your current <em>local</em> IP address in your system preferences or settings. It's usually under network or internet settings and may be listed with the computer device supporting that connection (wifi, ethernet, wifi, bluetooth, etc.).</li>
             </ol>
-            <div class="commentBig">The "end-to-end abstraction" here is a forward reference.  Consider moving this blue box down below the yellow box inside the todo at the end.--bh<ul><li>I just cut that text and moved this whole blue box to the bottom.--MF </li></ul></div>
             <div class="endnote">The 192.168 <em>domain</em> (the block of IP addresses that all start with 192.168) is reserved for local networks; no computer on the Internet has an address in that range.  <!--So, the job of the router is not really as simple as the end-to-end abstraction would suggest. (The 10.0 domain is also used for local addresses.)--></div>
         </div>
         
-<div class="todo"> I've gleaned bits from this as marked. Otherwise it's not going to be included. -MF       
+<div class="todo"> I've gleaned bits from this as marked. Otherwise it's not going to be included. -MF<br />
+OK, except see my comment about end-to-end below. --bh       
   <div class="endnote">
             Network people have their own vocabulary.  On the AP exam you may see
             <ul>
-                
-                <li>
-                    <div class="commentBig">End-to-end addressed in TCP. --MF</div>
-                    The <strong>end-to-end principle</strong> is abstraction, in the particular case of the Internet hierarchy.  It says that routers don't have to know anything about the meaning or purpose of the messages you send over the net; all they care about is the IP address at the beginning of the message.  Your computer and the server to which you sent the message are the only ones that have to think about what it means.
+                    <div class="commentBig">End-to-end addressed in TCP. --MF<br />
+                    But end-to-end isn't just about TCP.  It means that routers don't have to understand HTTP, SMTP, FTP, etc.--bh</div>
+                <li>                  The <strong>end-to-end principle</strong> is abstraction, in the particular case of the Internet hierarchy.  It says that routers don't have to know anything about the meaning or purpose of the messages you send over the net; all they care about is the IP address at the beginning of the message.  Your computer and the server to which you sent the message are the only ones that have to think about what it means.
                     As a result, when someone invents a new application for the Internet, all the routers in the world don't have to be replaced or reprogrammed &mdash; to them it's all just bits.
                 </li>
                 <li>
