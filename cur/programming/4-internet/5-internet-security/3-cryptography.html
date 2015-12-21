@@ -6,7 +6,7 @@
 		<title>Unit 4 Lab 5: Internet Security, Page 3</title>
     </head>
     <body>
-        <div class="todo"><strong>THIS CONTENT IS OUTDATED. IT HAS BEEN COPIED TO 2-security.html --MF</strong></div>
+        <div class="todo"><strong>Made into separate page again. --MF</strong></div>
         <h2>Cryptography</h2>
         <div class="todo">
         	Here are the EKs I expect will be covered on this page. Please mark with <em>italics</em> those that have definitely been covered and mark with <strong>bold</strong> those that will definitely not be covered here. Thanks, Mary
@@ -29,23 +29,33 @@
 		
         <div class="forYouToDo" id="first">
             <ol>
-				<li>
-                    Consider re-watching this code.org video:<br />
-                    <iframe width="560" height="315" src="https://www.youtube.com/embed/ZghMPWGXexs" frameborder="0" allowfullscreen class="indent"></iframe>
-                </li>
+				
                 <li>
                     Watch this video:<br />
-                    <iframe width="420" height="315" src="https://www.youtube.com/embed/3QnD2c4Xovk?end=128" frameborder="0" allowfullscreen class="indent" /></iframe>
+                    <iframe width="420" height="315" src="https://www.youtube.com/embed/3QnD2c4Xovk?end=128" frameborder="0" allowfullscreen class="indent"></iframe>
+					<div class="sidenote">This video is very nice and suggests a demo that teachers might want to do in class.  But, the more I think about it, the more I think it complcates the basic idea.  You don't need two separate keys to *send* a secure message.  Also, the modular arithmetic suffesrs from the same problem, and I think it's both too much and too little for the kids.</div>
+					<div class="todo"><p>The message we'd like to get across is that the security of the system lies in the difficulty of inverting a function.  The demos show how two people can share a secret, but it doesn't get at this essential feature, I think.</p>  
+
+<p>The big picture is that Alice has a 1-1 function <span class="katex">f</span> that's next to impossible to invert, and she posts the function for everyone to see.  She (and only she, for the foreseeable future) knows <span class="katex">f^{-1}</span>.  Bob wants to send Alice a message <span class="katex">M</span>, so he posts, for all the world to see, <span class="katex">f(M)</span>.  Alice gets the encrypted message and decodes it by calculating <span class="katex">f^{-1}\left(f(M)\right)</span>.</p>
+
+<p>The original way one constructed the function  <span class="katex">f</span>  was to use something like <span class="katex">x\mapsto x^e \mod  N</span>  Where <span class="katex">N</span> is a product of 2 huge primes <span class="katex">p</span> and <span class="katex">q</span> and <span class="katex">e</span> is relatively prime to <span class="katex">(p-1)(q-1)</span>. The public key is then the pair <span class="katex">(N,e)</span> and the secret key is the number <span class="katex">d</span> so that <span class="katex">ed \equiv 1  (p-1)(q-1)</span>.</p>
+
+<p> The use of both private keys comes in when you want to have an electronic signature to add even more security.   Then Bob first encrypts his message to Alice with his private key, then Alice's public key.  Alice gets the message and decrypts it by applying her private key and then Bob's public key.  All this is a nice application of function composition and how to apply functions in certain sequences. 
+
+</p></div>
                 </li>
             </ol>
         </div>
         
-        <div class="takeItFurther"><a name="further" class="anchor">&nbsp;</a>
+        <div class="ifTime">
             <ol type="A">
-                <li>exercise</li>
-                <li>exercise</li>
-                <li>exercise</li>
-                <li>exercise</li>
+				<li>
+                    Consider re-watching this code.org video:<br />
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/ZghMPWGXexs" frameborder="0" allowfullscreen class="indent"></iframe>
+                </li>
+<div class="sidenote"> This video is also very nice, but it seems a little orthogonal to the flow of the lab.  I worry that what will be taken away is vocabulary.  Also, Mary, you said that you could clip the videos at certain poiungts.  It woiuld be a good idea to curate them like this.</div>		
+				
+				
             </ol>
         </div>
         
