@@ -4,20 +4,25 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
 		<title>Unit 4 Lab 5: Internet Security, Page 3</title>
-    </head>
+    <style type="text/css">
+    #red {
+	color: #F00;
+}
+    </style>
+	</head>
     <body>
         <h2>Cryptography</h2>
-        <div class="todo">This page is ready for review. No one has reviewed it. --MF</div>
+        <div class="todo">This page is ready for review. Reviewed by bh.</div>
         
 <div class="todo">Original notes from Brian (continued):<br />
         <p>
         	<strong>AP CSP framework requirements:</strong><br />
-            Crypyo<br />
-            Crypto uses math<br />
-            Open standards help security<br />
-            symmetric vs public key<br />
-            CAs require trust<br />
-            SSL/TLS
+            ✓ Crypyo<br />
+            ✓ Crypto uses math<br />
+            <span id="red">× Open standards help security</span><br />
+            ✓ symmetric vs public key<br />
+            ✓ CAs require trust<br />
+            <span id="red">× SSL/TLS</span>
         </p>
 </div>
 
@@ -37,12 +42,13 @@
 
         <div class="takeNote">
             <p>
-                <em>Symmetric</em> cryptography, uses the <em>same secret key to encode and decrypt</em> a message. Symmetric cryptography has been around for thousands of years. The trouble with symmetric cryptography is: <em>how can we keep the key secret?</em> 
-                <div class="endnote">Long before computers, a rider on horseback could swallow the key to a message if they were captured. Now, messages are sent over a public Internet; so symmetric cryptography won't work.<div class="todo">Is this all right, Brian? --MF</div></div>
-            </p>
-            <p>
+                <em>Symmetric</em> cryptography, uses the <em>same secret key to encode and decrypt</em> a message. Symmetric cryptography has been around for thousands of years. The trouble with symmetric cryptography is: <em>how can we keep the key secret?</em>            </p> 
+                <div class="endnote">Long before computers,  riders on horseback could swallow the key to a message if they were captured. Now, messages <em>and keys</em> are sent over the  Internet, so symmetric cryptography won't work.
+                  </div>
+
+          <p>
                 <em>Public key (asymmetric)</em> cryptography was created by mathematicians in the 1970s.  It uses <em>two different keys for encryption and decryption</em>, and knowing the encryption key doesn't let you figure out the decryption key.
-                <div class="endnote">For example, bank each have a public key, and when users enter their password on the bank web site, the user's browser encrypts the password with the bank's key before sending it over the Internet. Then, only the bank can decrypt that message.</div>
+                <div class="endnote">For example, banks each have a public key, and when users enter their password on the bank web site, the user's browser encrypts the password with the bank's key before sending it over the Internet. Then, only the bank can decrypt that message.</div>
             </p>
         </div>
 
@@ -60,12 +66,10 @@
 	
         
         <div class="ifTime" id="first">
-        	<p> The use of both private keys comes in when you want to have an electronic signature to add even more security.   Then Bob first encrypts his message to Alice with his private key, then Alice's public key.  Alice gets the message and decrypts it by applying her private key and then Bob's public key.  All this is a nice application of function composition and how to apply functions in certain sequences.</p>
-			<p>It's also possible to use the private key for encryption and the public key for decryption.  That's no good for secret messages (why not?), but it's useful for <em>digital signatures</em>.  I use my private key to encrypt a message; you use my public key to decrypt it.  If you get a meaningful message as the result, that proves that the message was encrypted with my private key.  (If you want both secrecy and digital signing, there's a protocol for that too, involving several layers of re-encrypting already-encrypted messages.)</p>
-		</div>
-                
-    
-		<div class="forYouToDo" id="first">
+        	<p> It's also possible to use the private key for encryption and the public key for decryption.  That's no good for secret messages (why not?), but it's useful for <em>digital signatures</em>.  I use my private key to encrypt a message; you use my public key to decrypt it.  If you get a meaningful message as the result, that proves that the message was encrypted with my private key.  (If I want both secrecy and digital signing, I encrypt the message with my private key to sign it, then encrypt the encrypted result <em>again</em> with your public key to keep it secret. You decrypt it twice, first with your private key and then with my public key.) This is a nice example of <em>composition of functions:</em> the output from the first encryption is the input to the second encryption.</p>
+		</div>    
+<div class="todo">The following set of exercises confuses me somewhat, for two reasons:  (1) It's not specifically about public key, which is what I expect at this point in the narrative; (2) there's nothing about how to decrypt the message!  (By the way, technically it should be "encrypt"; "encode" is what you do when you have a big code book that assigns coded representations to <em>words</em> rather than to letters.)--bh</div>
+	<div class="forYouToDo" id="first">
 			<ol start="2">
 				<!--<li>Load this project: <a class="run" href="/bjc-r/prog/4-internet/U4L5-EncodeDecode.xml">U4L5-EncodeDecode.xml</a></li>-->
                 <li>
@@ -75,13 +79,14 @@
                 	<ol>
                     	<li>Create a <code>convert message () to unicodelist</code> block that converts a text string (the message) into a unicode list so that you can perform the function on the numbers in the list. Using <code>map</code> and <code>split</code>.</li>
                     	<li>Create a <code>convert unicodelist () to message</code> block that converts a unicode list into a text string so that you can convert the output of the function back into encoded text. Use <code>join</code> and <code>map</code></li>
-                        <li>Create the <code>encore () with ()</code> block that translates the input message into a unicode list, performs the inputted function on each unicode number in the list, translates the numbers back into letters, and reports the encoded message. Use <code>convert message () to unicodelist</code>, <code>map</code>, and <code>convert unicodelist () to message</code>.</li>
+                        <li>Create the <code>encode () with ()</code> block that translates the input message into a unicode list, performs the inputted function on each unicode number in the list, translates the numbers back into letters, and reports the encoded message. Use <code>convert message () to unicodelist</code>, <code>map</code>, and <code>convert unicodelist () to message</code>.</li>
                     </ol>
                 </li>
                 <li><div class="saveAs"><span class="text">"U4L5-Encode"</span><img src="/bjc-r/img/icons/save-this-as.png" alt="Save your work as U4L5-Encode" title="Save your work as U4L5-Encode" /></div></li>
             </ol>
         </div>
-        <div class="ifTime" id="first">
+ <div class="todo">Oh, here it is, but only if you have extra time.  This next set of exercises is misleading, because it suggests that the function should be hard for <em>everyone</em> to invert.  That would be useless for crypto; it has to be easy for <em>me</em> to invert using my private key.  I'm not sure how to fix this without giving a specific example function.--bh</div>              
+    <div class="ifTime" id="first">
         	<ol start="4">
             	<li>
                 	Identify the inverse of your function.
@@ -99,19 +104,20 @@
             <p>
                 <strong>Sending a secure message to Alice:</strong>
 				<ol type="A">
-                    <li>If Alice has function (let's call it <span class="katex">f</span>) that is difficult to invert (undo), then she can post the function, <span class="katex">f</span>, online for everyone to see because only she knows the inverse, <span class="katex">f^{-1}</span>, that decodes the encoding by <span class="katex">f</span>.</li>
-                    <li>If anyone (for example, Bob) wants to send Alice a secure message <span class="katex">M</span>, then he can run his message though Alice's one-way function and post the result for all the world to see. In function notation, he posts <span class="katex">f(M)</span>. </li>
-                    <li>Only Alice can decode <span class="katex">f(M)</span> since only she has the inverse function <span class="katex">f^{-1}</span> that undoes <span class="katex">f</span>. She calculates <span class="katex">f^{-1}\left(f(M)\right)</span>. And since <span class="katex">f^{-1}</span> is the inverse of (undoes) <span class="katex">f</span>, the result of her calculations is <span class="katex">M</span>, the message Bob sent.</li>
+                    <li>If Alice has function (let's call it <em>f</em>&thinsp;&thinsp;) that is difficult to invert (undo), then she can post the function, <em>f</em>, online for everyone to see because only she knows the inverse, <em>f</em>&thinsp;<sup>-1</sup>, that decodes the encoding by <em>f</em>.</li>
+                    <li>If anyone (for example, Bob) wants to send Alice a secure message <em>M</em>, then he can run his message though Alice's one-way function and post the result for all the world to see. In function notation, he posts <em>f</em>&thinsp;(<em>M</em>&thinsp;). </li>
+                    <li>Only Alice can decode <em>f</em>&thinsp;(<em>M</em>&thinsp;) since only she has the inverse function <em>f</em>&thinsp;<sup>-1</sup> that undoes <em>f</em>. She calculates <em>f</em>&thinsp;<sup>-1</sup>(<em>f</em>&thinsp;(<em>M</em>&thinsp;)). And since <em>f</em>&thinsp;<sup>-1</sup> is the inverse of (undoes) <em>f</em>, the result of her calculations is <em>M</em>, the message Bob sent.</li>
 				</ol>
             </p>
 		</div>
         <p>To send secure messages back and forth, Bob and Alice will <em>both</em> need to post their public keys and keep their inverse functions (their private keys) to themselves.</p>
-		<p>Public key cryptography doesn't solve all the problems, because someone might publish a fake public key pretending to be Alice. Then someone might accidentally encrypt their message for Alice using the hacker's key, and then the hacker can read the message.  In practice this is partly fixed by relying on trusted third parties, called Certificate Authorities, to issue public keys. But it is possible for a hacker to pretend to be a Certificate Authority!</p>	
+        <h3>Certificate Authorities</h3>
+		<p>Public key cryptography doesn't solve all the problems, because someone might publish a fake public key pretending to be Alice. Then someone might accidentally encrypt their message for Alice using the faker's key, and then the faker can read the message.  In practice this is partly fixed by relying on trusted third parties, called Certificate Authorities, to issue public keys. But it is possible for anyone to set up a Certificate Authority! (In your browser's security options you can see all of the CAs that it trusts. Mine has just over 100  CAs, including governments, companies I've heard of (e.g., Microsoft), and companies I know nothing about (e.g., Thawte). I trust them because Firefox told me to, and I trust the Firefox developers.)</p>	
 
 		<div class="ifTime" id="first">
             <ol start="6">        
                 <li>
-                	Read this comic. <img class="inline" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> What's the joke?<br />
+                	Read this comic by Randall Munroe (<a href="http://xkcd.com" target="new">xkcd.com</a>). <img class="inline" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> What's the joke?<br />
 					<a class="run" href="https://xkcd.com/1553/" target="_blank"><img class="indent" src="http://imgs.xkcd.com/comics/public_key.png" alt="XKCD: Public Key" title="I guess I should be signing stuff, but I&#39;ve never been sure what to sign. Maybe if I post my private key, I can crowdsource my decisions about what to sign." /></a>
                 </li>
             </ol>
