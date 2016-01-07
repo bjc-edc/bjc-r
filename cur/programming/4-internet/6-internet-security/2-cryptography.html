@@ -11,19 +11,8 @@
             <p>Brian raised some concerns with this page that I do not have time to address this year. See below. --MF</p>
         </div>
         
-		<div class="todo">Original notes from Brian (continued):<br />
-            <p>
-                <strong>AP CSP framework requirements:</strong><br />
-                ✓ Crypyo<br />
-                ✓ Crypto uses math<br />
-                <span style="color: #F00;">× Open standards help security</span> <span style="color: #00F;">BH, I don't know what to do with this here. Does it really go on this page? --MF</span><br />
-                ✓ symmetric vs public key<br />
-                ✓ CAs require trust<br />
-                <span style="color: #F00;">× SSL/TLS <span style="color: #00F;">BH, I don't know what to do with this here. Does it really go on this page? --MF</span></span>
-            </p>
-    	</div>
 
-        <p>Cryptography of the process of writing (encryption) and solving (decryption) codes. Just as TCP enables reliable transmission over an unreliable network, cryptography enables verifiable, secure transmission over an insecure network.</p>
+    <p>Cryptography of the process of writing (encryption) and solving (decryption) codes. Just as TCP enables reliable transmission over an unreliable network, cryptography enables verifiable, secure transmission over an insecure network.</p>
 		<div class="endnote">
 	        <p>In <a href="/bjc-r/cur/programming/3-lists/6-encryption/2-secret-keys.html?topic=nyc_bjc%2F3-lists.topic&course=bjc4nyc_2015-2016.html&novideo&noassignment">Unit 3</a>, you saw some methods for coding messages before, and you looked a bit at some ideas about security and public key.  You'll now look at a general method for coding messages that shows how it's possible to let everyone know what your coding process is while still making the decoding process very difficult to figure out.</p>	
         </div>
@@ -42,7 +31,7 @@
 			<div class="endnote">Long before computers,  riders on horseback could swallow the key to a message if they were captured. Now, messages <em>and keys</em> are sent over the  Internet, so symmetric cryptography won't work.</div>
 			<p><em>Public key (asymmetric)</em> cryptography was created by mathematicians in the 1970s.  It uses <em>two different keys for encryption and decryption</em>, and knowing the encryption key doesn't let you figure out the decryption key.</p>
 			<div class="endnote">For example, banks each have a public key, and when users enter their password on the bank web site, the user's browser encrypts the password with the bank's key before sending it over the Internet. Then, only the bank can decrypt that message.</div>
-        </div>
+    <p>When you make a secure HTTP connection (the URL starts "https://" and a lock icon appears in the browser's URL bar), the browser uses a protocol called Transport Layer Security (TLS) or an older version called Secure Sockets Layer (SSL) based on public key cryptography. The site to which you're connecting sends its public key, and your browser uses it to encrypt whatever information you send (such as your password for that site).</div>
 
 				
         <!-- I still like this, but I pulled it for this year. --MF
@@ -105,10 +94,15 @@
             </p>
 		</div>
         <p>To send secure messages back and forth, Bob and Alice will <em>both</em> need to post their public keys and keep their inverse functions (their private keys) to themselves.</p>
+        <h3>Open Standards Help Security</h3>
+        <p>In order to work properly, a cryptographic function has to be easy for the private key holder to invert, but hard for anyone else to invert. How do we know what &quot;hard&quot; means? For example, current cryptographic methods rely on the difficulty of finding prime factors of very large numbers. There's no <em>proof</em> that someone won't come up with a fast way to do that, but people are pretty confident about it because the problem has been well studied by many mathematicians. (On the other hand, when <em>quantum computers</em> become practical, factorization <em>will</em> be easy, and new cryptographic methods will be needed.)</p>
+        <p>What makes it possible for mathematicians to study the difficulty of breaking Internet cryptography is that the method used&mdash;the cryptographic function&mdash;is openly published. This may seem strange; if you want to keep secrets, shouldn't you keep the technique secret, too? But secret algorithms can have weaknesses that go undiscovered until some bad guy exploits them. Open standards allow an algorithm to be studied <em>before</em> it is used in practice.</p>
         <h3>Certificate Authorities</h3>
 		<p>Public key cryptography doesn't solve all the problems, because someone might publish a fake public key pretending to be Alice. Then someone might accidentally encrypt their message for Alice using the faker's key, and then the faker can read the message.  In practice this is partly fixed by relying on trusted third parties, called Certificate Authorities, to issue public keys. But it is possible for anyone to set up a Certificate Authority! (In your browser's security options you can see all of the CAs that it trusts. Mine has just over 100  CAs, including governments, companies I've heard of (e.g., Microsoft), and companies I know nothing about (e.g., Thawte). I trust them because Firefox told me to, and I trust the Firefox developers.)</p>	
 
-		<div class="ifTime" id="first">
+<div class="comment">XKCD is sometimes NSFW.  Not clear we should link to it.--bh</div>
+
+	<div class="ifTime" id="first">
             <ol start="6">        
                 <li>
                 	Read this comic by Randall Munroe (<a href="http://xkcd.com" target="new">xkcd.com</a>). <img class="inline" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> What's the joke?<br />
