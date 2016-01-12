@@ -9,55 +9,50 @@
 	<body>
     	<h2>A Distinct Difference</h2>
         <div class="todo">Seems like this should be a new lab... --MF</div>
-        <p> Consider the following problem: I have a list of numbers and I want to know if the numbers in this list are <em>distinct</em>. In other words, I want to know if there are any repetitions in my list. This kind of question pops up frequently in computer science: for example, when returning search results, Google would like to ensure that all of the search results are different from each other (as far as possible). Here is a first attempt at an algorithm (which is a series of steps) to solve the problem:</p> 
-        <p><strong>Step 1</strong>. I take the first number of the list, and compare it with all of the other numbers in the list (the second number, the third number, and so on). If, at any point, I see the same number again, I stop and tell the user that the numbers are not distinct.</p>
-        <p><span style="font-weight: bold;"><br /><br /></span> <strong>Step 2</strong>. If I complete step 1 without stopping, I take the second number of the list, and compare it with all of the other numbers in the list (the third number, the fourth number, and so on). If, at any point, I see the same number again, I stop and tell the user that the numbers are not distinct.</p>
-        <p><span style="font-weight: bold;"><br /><br /></span> <strong>Step 3</strong>. I repeat the two steps above for all of the numbers in the list, each time taking a number from the list and comparing it with all of the following numbers.</p>
+        <p> Consider the following problem: You have a list of numbers and  want to know if the numbers in the list are <em>distinct</em>. In other words, I want to know if there are any repetitions in my list. This kind of question pops up frequently in computer science: for example, when returning search results, Google would like to make sure that all of the search results are different from each other. Here is a first attempt at an algorithm to solve the problem:</p> 
+        <p><strong>Step 1</strong>. I take the first number of the list, and compare it with each of the other numbers in the list (the second number, the third number, and so on). If, at any point, I see the same number again, I stop and tell the user that the numbers are not distinct.</p>
+        <p><span style="font-weight: bold;"><br /><br /></span> <strong>Step 2</strong>. If I complete step 1 without stopping, I take the second number of the list, and compare it with each of the other numbers in the list (the third number, the fourth number, and so on). If, at any point, I see the same number again, I stop and tell the user that the numbers are not distinct.</p>
+        <p><span style="font-weight: bold;"><br /><br /></span> <strong>Step 3</strong>. I repeat the two steps above for all of the numbers in the list, each time taking a number from the list and comparing it with each of the following numbers.</p>
         <p><strong>Step 4.</strong> If I am done with all of the numbers in the list, I stop and tell the user that the numbers <em>are</em> distinct.</p>
+
+<div class="comment">AC:  I have the predicate built (with a "?" at the end).  I can't get a script pict to show the output, and I can't get the graphic to display, anyway.  Shouldn't they see the recursive version?</div>
+
 
 		<div class="forYouToDo" id="first">
     		<ol>
-	        	<li>Take a moment to understand the algorithm, and ask any questions that you may have.</li>
                 <li>
-                	Using the algorithm above, complete the body of the following block in the "Variables palette:<br />
+                	Build a predicate that implements the above algorithm.<br />
                 	<img class="indent" src="/bjc-r/img/list/are-numbers-distinct-block.png" alt="are the numbers in 'list' distinct?" title="are the numbers in 'list' distinct?" />
                 </li>
             </ol>
         </div>
-
-		<p>Once we are done with the block, we need to figure out the <em>worst-case</em> running time of the algorithm: how long will this algorithm take on the worst possible input? By "worst", we mean an input that will cause the algorithm to work the most, or to run through the most steps.</p>
-        <div class="forYouToDo">
-            <ol start="3">
-                <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> For this algorithm, for example, what is the worst possible input?</li>
-            </ol>
-        </div>
-		<p>Since the algorithm only ever stops partway if the numbers in the list are not distinct, we need a list whose numbers are distinct, so that the algorithm will have to look at all the numbers in the list. We already have one such list: the list of numbers from 1 to <code>max</code>! (This is turning out to be quite a useful list.) Let's use it!</p>
-        <div class="forYouToDo">
-            <ol start="4">
+<div class="dialogue">
+    <div><span>Alphie: </span> Our predicate rtells us if the elements of a list are distinct.  I want more.</div>
+    <div><span>Gamal: </span>  Of course you do.  What would you like?</div>
+    
+    <div><span>Alphie:</span>If there are any duplicates in the list, I'd like to see them.  That way, I could remove them.</div>
+    <div><span>Betsy:</span>Let's write a reporter that produces the list of duplicates in a list. </div>
+</div>
+	
+	
+	<div class="forYouToDo" >
+    		<ol start="2">
                 <li>
-                	Replace the "Gauss" block from the previous section with the <code>are the numbers of list distinct?</code> block that you just made. The list that we are going to test is the <code>numbers</code> list, as we explained above.
-                    <ul>
-                        <li>Also, modify what Alonzo says at the very
-    end of the script to subtract the extra second that he uses to tell us
-    whether the numbers in the list are distinct.</li>
-                    </ul>
+                	Build a reporter that implements Betsy's idea.
                 </li>
-                <li>Run the timing script with <code>max</code> set to 10. Again, run the script a few times to get an idea of the average time the computer takes to determine if the numbers in the <code>numbers</code> list is distinct.</li>
-				<li>
-                	Repeat the experiment with <code>max</code> set to:
-                	<ul>
-                    	<li>20</li>
-                        <li>40</li>
-                        <li>100</li>
-                    </ul>
-                </li>
-                <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> What happens to the running time of the block when the size of the list is doubled? What happens when the size of the list is scaled by a factor of 10?</li>
             </ol>
-        </div>
-        <div class="takeItFurther">
-            <ol type="A">
-                <li>Try and see how long the algorithm takes with <code>max</code> set to 1000.</li>
-            </ol>
-        </div>
+			<div class="takeItFurther">
+    <ol type="1" start="3">
+        <li>Build a reporter that takes a list as input and reports a new list that has the same elements as the input list but has no duplicate elements.</li>
+    </ol>
+</div>
+        </div>	
+	
+	
+	
+	
+	
+	
+	
     </body>
 </html>
