@@ -31,6 +31,14 @@ llab.paths.css_files.push('css/3.3.0/bootstrap-compiled.min.css');
 llab.paths.css_files.push('css/default.css');
 // In /bjc-r/css
 llab.paths.css_files.push('../css/bjc.css');
+// new CSS added for new mainpage only, by Mary 1/26/16
+var url = window.location.pathname;
+if (url == "/bjc-r/" || url == "/") {
+    llab.paths.css_files.push('../css/bjc-mainpage.css');
+}
+
+
+
 
 
 // courses -- path to folder containing courses.
