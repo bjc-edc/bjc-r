@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unit 5 Lab 3: Timing Experiments, Page 4</title>
+	</head>
+
+	<body>
+		<h2>Classifying Reporters</h2>
+        
+        <p> The reporter <code>average time</code> takes two inputs: a reporter (with input) and the number of times you want to repeat the reporter's work. The image below says that the <code>alphie way</code> of adding the integers from 1 to 100 was performed 10 times, and the average of the times it took was 12.8 milleseconds.</p>
+        <div class="sidenote">You may have created <code>average time </code> on the previous page.  If you didn't, try it now or open this script.</div>
+		<p><a class="run" href="/bjc-r/prog/5-algorithms/U5L3avtime.xml"><img class="indent" src="/bjc-r/img/5-algorithms/avtime.png" alt="average alphie" title="average alphie" /></a></p>
+        <div class="forYouToDo" id="first">
+            <ol>
+            	<li>Experiment with <code>average time</code> on some of the reporters you've built like <code>alphie way</code>, <code>betsy way</code>, <code>factorial</code>, <code>find in usorted list</code>, <code>find in sorted list</code>, and any others you have handy. </li>    
+            </ol>
+        </div> 
+        
+        <p>
+            It would be nice to create a data-plot of the average time it takes a reporter to ouput, given a list of inputs. To do this, you'll want to create a list. The reporter <code> make a list of times for a reporter between two inputs </code> creates such a list. Here's how it looks in action:<br />
+            <a class="run" href="/bjc-r/prog/5-algorithms/U5L3avtime.xml"><img class="indent" src="/bjc-r/img/5-algorithms/listtimes.png" alt="average alphie" title="average alphie" /></a>
+        </p>
+        
+        <div class="sidenote">You can create the block for yourself. Try it. Or you can click to load a pre-programmed version.</div>
+        
+        <p>
+            What's happened here is that Alphie's reporter (adding the numbers between 1 and some upper limit) was applied to upper limits between  100 and 10000, and <code>average time</code>'d along the way.  The input 2 specifies what "along the way" means:  these special inputs start with 100 and are multiplied by 2 until you get the largest multiple less than 10000:<br />
+            <table class="bordered center">
+                <tr>
+                    <td>100</td>
+                    <td>200</td>
+                    <td>400</td>
+                    <td>800</td>
+                    <td>1600</td>
+                    <td>3200</td>
+                    <td>6400</td>
+                </tr>     
+            </table>
+        </p>
+            
+        <div class="forYouToDo">
+            <ol start="2">
+            	<li>Experiment with <code>make a list of times for a reporter between two inputs</code>. Try different reporters that you've built as inputs and vary the other inputs  (for example instead of 2, try 1.5, 1.1, and so on). </li>
+            </ol>
+        </div>
+        
+        <div class="takeNote">Because <code>make a list for a reporter between two inputs</code> often takes a long time to compute its output (think about what it's doing) you may want to store   outputs for various reporters in variables so that you can use them later. The reason that the last input multiplies by a factor (rather than making a constant increment) is so that you can get a large range of times without having to compute each one.</div>       
+        
+        <div class="forYouToDo">       
+            <p>One way to analyze algorithms is to  use the <code> graph data points</code> package from U5L2 to plot the run time against the size of the input and to classify the reporters by the shape of the plots.</p>
+            <ol start="3">
+				<img class="imageRight" src="/bjc-r/img/5-algorithms/alphiepict.png" alt="" title="" />
+            	<li>Try it.  Create a data plot of the reporters you timed in problem 1: Pick a reporter and create a list of input-output pairs where the output is the (average) time it takes for the reporter to compute its output, given the specified input. </li>
+            </ol> 
+            <div class="todo">Double-checking because the numbering was off and I fixed it. Do we mean problem 1 or problem 2 (in the problem just above)? I suggest not using a number here AT ALL and just referencing "the problem in which you..." --MF</div>
+        </div>      
+
+
+		<h3>Ways to Think About It</h3>
+        <p>
+            The shape of the plots can be classified mathematically:
+            <ul>
+            	<li>The plot looks close to a horizontal line. This is called <em>constant time</em>.</li>
+            	<li>The plot looks close to a non-horizontal line. This is called <em>linear time</em>.</li>
+            	<li>
+                	The plot is not a line. There are two main ways this can happen:
+                	<ol>
+                    	<div class="sidenote">If the plot looks something like the graph of <span class="katex">y = x^2</span>, the growth is called <em>quadratic time</em>.</div>
+                        <div class="commentBig">
+                            <ul>
+                                <li>TO DO: AC: Brian sug- gests counting subsets as an example of exponential time—I think that’s bril- liant, a preview of coming attractions.</li>
+                                <li>TO DO: AC: Now comes a distillation of the expo- sition that describes these behaviors more precisely.</li>
+                            </ul>
+                        </div>
+                        <li>The plot looks close to the graph of a polynomial function (roughly like the graph of <span class="katex">y = x^n</span> for some positive integer <span class="katex">n &gt; 2</span>). This is called <em>polynomial time</em>.</li>
+                        <li>The plot looks close to the graph of an exponential function, like <span class="katex">x \rightarrow 2^x</span> Guess what this kind of timing behavior is called.</li>
+                    </ol>
+                </li>
+            </ul>
+        </p>
+        
+        <div class="todo">
+            <p>
+                The plan is to use the data-plot routine from L2 to plot the average time it takes a reporter to output against a list of inputs that ranges between low and high, using an increment of ×2 or +1. We have this stash of reporters: [included in original pdf from AC]<br />
+                The reporter <img class="inline" src="/bjc-r/img/5-algorithms/make-list-of-times.png" alt="" title="" /> generates the list of average times. It’s not so easy to build, but we could give it to students.
+            </p>
+            <p>But making data plots of these average times is (for me) unenlightening—the mathematical analysis of the kind of time it <em>should</em> take doesn’t match the time it actually takes—maybe because Snap<em>!</em> is too smart or because I’m not smart enough.</p>
+            <p>Anyway, here it is, as of now. The .xml is attached [to original email].</p>
+        </div>
+
+
+	</body>
+</html>
