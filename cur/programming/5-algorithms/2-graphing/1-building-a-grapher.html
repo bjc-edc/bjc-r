@@ -7,45 +7,61 @@
 	</head>
 
 	<body>
-    	<h2>Building a Graphing App</h2>
-        
-        <p>Plotting a single point, given its two coordinates, should feel this simple.</p>
-        <p><img class="indent" src="/bjc-r/img/5-algorithms/PlotPoint-simple.png" alt="PlotPoint block using go to x y, pendown, move 1, penup"></p>
+		<h2>Building a Graphing App</h2>
+        <p>
+            Plotting a single point, given its two coordinates, should feel this simple:<br />
+            <img class="indent" src="/bjc-r/img/5-algorithms/PlotPoint-simple.png" alt="PlotPoint block using go to x y, pendown, move 1, penup">
+		</p>
         <p>Then you could graph a whole list of data points by inventing a block like <img src="/bjc-r/img/5-algorithms/GraphDatapoints.png" alt="Graph datapoints (pointlist)"> that uses <code>for each</code> to apply <code>PlotPoint</code> to each point in the list. Depending on the kind of graph you want, you could even connect the dots.</p>
-   	<p>That seems like all you should need. But what if you want to plot the popularity of a baby name over time, like this?</p>
-        <p><img class="indent"  src="/bjc-r/img/5-algorithms/PercentageOfDerekByYear.png"  alt="percentage of births named Derek by year"></p>
-    <p>The <em>x</em>-values can't be plotted because they are completely off of Snap<em>!</em>'s stage. And the <em>y</em>-values 0, 0.1, 0.2, 0.3, etc., are so close to each other that they would all look the same. We wouldn't see the huge increase in popularity between 1960 and 1980. </p>
-        <div class="takeNote">
-        A good grapher needs to let the user set the <strong>scale</strong> of the screen, to specify where to focus attention, where to zoom in. </div>
+		<p>
+        	That seems like all you should need. But what if the <em>scale</em> of your data does not fit on the Snap<em>!</em> stage (between -240 and 240 in the <em>x</em> direction and between -180 and 180 in the <em>y</em> direction)? For example, what if you want to plot the popularity of a baby name over time, like this?<br />
+        	<img class="indent" src="/bjc-r/img/5-algorithms/PercentageOfDerekByYear.png" alt="percentage of births named Derek by year" title="percentage of births named Derek by year" />
+        </p>
+		<p>The <em>x</em>-values can't be plotted because they are completely off of Snap<em>!</em>'s stage. And the <em>y</em>-values 0, 0.1, 0.2, 0.3, etc., are so close to each other that they would all look the same. We wouldn't see the huge increase in popularity between 1960 and 1980 at all. </p>
+        <div class="takeNote">A good grapher needs to let the user set the <strong>scale</strong> of the screen, to specify where to focus attention&mdash;where to zoom in. </div>
         
-
-<div class="forYouToDo" id="first">
-    <ol>
-           	  <li>Load <a class="run" href="/bjc-r/prog/5-algorithms/U5L2-GrapherStarter.xml">this Snap<em>!</em> project.</a> It contains several blocks already built for your convenience.
-                <ol>
-                    <li>Click  the <code>set window scale</code> block with the inputs it already has (-2, 4, 30, 300) to see what it does. In addition to drawing on the screen, it sets several variables that your other blocks will need so that they know the intended screen dimensions. </li>
-                    <li>Experiment with inputs to these two blocks to get them to report 0. <img src="/bjc-r/img/5-algorithms/stage-coord-for-x(1)-with-result.png" ><img src="/bjc-r/img/5-algorithms/stage-coord-for-y(165)-with-result.png" alt="" > How do your input numbers relate to the window scale?</li>
-                    <li>Use <img src="/bjc-r/img/5-algorithms/go-to-x-(stage-coord-for-x)-y-(stage-coord-for-y).png"  alt="go-to-x-(stage-coord-for-x)-y-(stage-coord-for-y)">  with those same input numbers. Where does it put the sprite?</li>
-                    <li>Without changing the sprite's position, click <img src="/bjc-r/img/5-algorithms/x-value-at-stage-coord(x-position) .png" alt="x-value-at-stage-coord(x-position) "> and explain the result you get.</li>
-                    <li><div class="sidenoteBig">For this graph, a sprite at the bottom right corner of the stage should say (4, 30), not (240, -180).</div> Now create a script that tells the sprite to say its correct <em>graph</em> coordinates (not its <em>stage</em> coordinates).  </li>
-                    <li>Use the <img src="/bjc-r/img/blocks/when-I-am-dropped.png" alt="When I am dropped"> block with your new script so that when you move the sprite around, it says its <em>graph</em> coordinates wherever it is dropped.</li>
-                    <li>Now click <img src="/bjc-r/img/5-algorithms/set-window-scale-xmin-(1927)-xmax-(2014)-ymin-(0)-ymax-(0.5).png"  alt="set-window-scale-xmin-(1927)-xmax-(2014)-ymin-(0)-ymax-(0.5)"> to reset the scale of the screen. Check to see if your graph-position script says what you expect when you move your sprite (0,0) on the stage. </li>
-                </ol>
-              
-      </li>
-           	  
-              <li>Experiment with various inputs to see where it puts the axes and how it represents the &quot;substitutes&quot; for the axes, when the axes can't be shown.</li>
-              <li>Build <img src="/bjc-r/img/5-algorithms/go-to-scaled-point-x-y.png" alt="go to scaled point">. <p> On the graph above, the point (1971, 0.25) is roughly in the middle of the screen.  Check to see if <img src="/bjc-r/img/5-algorithms/go-to-scaled-point-x(1971)-y(0.25).png" alt="go-to-scaled-point-x(1971)-y(0.25)"> is working as you expect it to.</p></li>
-      		  <li>Then, build <code>PlotPoint</code> so that it uses  <code>go to scaled point</code> instead of plain <code>go to</code>. Check it to make sure it works as you expect it to.</li>
-      		  <li>Finally, build <img src="/bjc-r/img/5-algorithms/GraphDatapoints.png" alt="Graph datapoints (pointlist)"> to make a dot at every datapoint, but <em>not</em> to connect the points (for now). Apply it to <code>DerekData1927to2015</code>. Your graph won't be connected and won't have labels, and will fill the whole stage, but it should otherwise look like the graph above.</li>
-               
-  </ol>
-  </div>
+        <div class="forYouToDo" id="first">
+            <ol>
+                <li>
+                    Load <a class="run" href="/bjc-r/prog/5-algorithms/U5L2-GrapherStarter.xml">this Snap<em>!</em> project.</a> It contains several blocks already built for your convenience.
+                    <ol>
+                        <li>Click  the <code>set window scale</code> block with the inputs it already has (-2, 4, 30, 300) to see what it does. In addition to drawing on the screen, it sets several variables that your other blocks will need so that they know the intended screen dimensions. </li>
+                        <li>
+                            Experiment with inputs to these two blocks to get them to report 0.<br />
+                            <img class="indent" src="/bjc-r/img/5-algorithms/stage-coord-for-x(1)-with-result.png" alt="stage coord for x= () reporting 0" title="stage coord for x= () reporting 0" />
+                            <img src="/bjc-r/img/5-algorithms/stage-coord-for-y(165)-with-result.png" alt="stage coord for y= () reporting 0" title="stage coord for y= () reporting 0" /><br />
+                            How do your input numbers relate to the window scale?
+                        </li>
+                        <li>Use <img class="inline" src="/bjc-r/img/5-algorithms/go-to-x-(stage-coord-for-x)-y-(stage-coord-for-y).png" alt="go-to-x-(stage-coord-for-x)-y-(stage-coord-for-y)" title="go-to-x-(stage-coord-for-x)-y-(stage-coord-for-y)" />  with those same input numbers. Where does it put the sprite?</li>
+                        <li>Without changing the sprite's position, click <img src="/bjc-r/img/5-algorithms/x-value-at-stage-coord(x-position) .png" alt="x-value-at-stage-coord(x-position) "> and explain the result you get.</li>
+                        <li><div class="sidenoteBig">For this graph, a sprite at the bottom right corner of the stage should say (4, 30), not (240, -180).</div> Now create a script that tells the sprite to say its correct <em>graph</em> coordinates (not its <em>stage</em> coordinates).  </li>
+                        <li>Use the <img src="/bjc-r/img/blocks/when-I-am-dropped.png" alt="When I am dropped"> block with your new script so that when you move the sprite around, it says its <em>graph</em> coordinates wherever it is dropped.</li>
+                        <li>
+                            <div class="todo">I made some changes here including changing "(0,0)" to "around." I wasn't sure what was intended before though. Is this ok? -MF</div>
+                            Now, change the inputs of <code>set window scale</code> to (1927, 2014, 0, 0.5) and click it to reset the scale of the screen. Check to see if your sprite says what you expect when you move it around the stage.<br />
+                            <img class="indent" src="/bjc-r/img/5-algorithms/set-window-scale-xmin-(1927)-xmax-(2014)-ymin-(0)-ymax-(0.5).png"  alt="set-window-scale-xmin-(1927)-xmax-(2014)-ymin-(0)-ymax-(0.5)">
+                        </li>
+                    </ol>
+                </li>
+                <li><div class="commentBig">I made several changes here too&mdash; both for clarity and to set the student up for the next step. Please review as I'm not 100% sure I interpreded your intentions correctly. --MF</div>Experiment with various inputs to <code>set window scale</code> to see where it puts the axes and how it represents the &quot;substitutes&quot; for the axes, when the axes can't be shown. Then, change the inputs of <code>set window scale</code> back to (1927, 2014, 0, 0.5).</li>
+                <li>
+                	Build <img src="/bjc-r/img/5-algorithms/go-to-scaled-point-x-y.png" alt="go to scaled point">. 
+                    <p>On the baby name graph for Derek, the point (1971, 0.25) is roughly in the middle of the screen.  Check to see if <img src="/bjc-r/img/5-algorithms/go-to-scaled-point-x(1971)-y(0.25).png" alt="go-to-scaled-point-x(1971)-y(0.25)"> is working as you expect it to.</p>
+					<img class="indent" src="/bjc-r/img/5-algorithms/PercentageOfDerekByYear.png" alt="percentage of births named Derek by year" title="percentage of births named Derek by year" />
+				</li>
+                <li>Then, build <code>PlotPoint</code> so that it uses  <code>go to scaled point</code> instead of plain <code>go to</code>. Check it to make sure it works as you expect it to.</li>
+                <li>
+                	Finally, build <img src="/bjc-r/img/5-algorithms/GraphDatapoints.png" alt="Graph datapoints (pointlist)"> to make a dot at every datapoint, but <em>not</em> to connect the points (for now). Apply it to <code>DerekData1927to2015</code>. Your graph won't be connected and won't have labels, and it will fill the whole stage, but it should otherwise look like the graph above.<br />
+                	<img class="indent" src="/bjc-r/img/5-algorithms/grapher-result.jpg" alt="graph of DerekData1927to2015" title="graph of DerekData1927to2015" />
+                </li>
+            </ol>
+        </div>
+  
         <div class="takeItFurther">
-    <ol type="A">
-        <li>Invent a way to tell your grapher, for each graph you make, whether to connect the points  or not.</li>
-        
-    </ol>
-</div>
+            <ol type="A">
+                <li>Invent a way to tell your grapher, for each graph you make, whether to connect the points  or not.</li>
+            </ol>
+        </div>
+    
     </body>
 </html>
