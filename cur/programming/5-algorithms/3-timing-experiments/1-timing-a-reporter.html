@@ -6,13 +6,15 @@
 		<title>Unit 5 Lab 3: Timing Experiments, Page 1</title>
 	</head>
 
+<div class=comment>EK: 4.1.1H, 4.1.1I, 4.2.4D</div>
+
 	<body>
-    	<h2>Timing a Reporter</h2>
+    	<h2>Comparing Algorithms</h2>
 		<div class="sidenote">You've built one model of  this summing block in an earlier unit.</div>
-		<p>Different people often create different reporters to do the same job.  For example, you can create a reporter that adds up all the whole numbers between 1 and some limit.</p>
+		<p>People can create different algorithms to solve the same problem.</p>
         
         <div class="dialogue">
-            <div><span>Alphie: </span> I want to create a function that takes an input <span class="katex">n</span> and adds up all the whole numbers between 1 and <span class="katex">n</span>.  First I'll create a reporter that creates the list of these numbers, then I'll just use <code>combine</code>.</div>
+            <div><span>Alphie: </span> I want a block that takes a number <em>n</em> and adds up all the integers from 1 to <em>n</em>.  First I'll create a reporter that makes a list of these numbers, then I'll use <code>combine</code>.</div>
             <div class="stagedir">
                 Alphie shows his work:<br />
 				<img src="/bjc-r/img/5-algorithms/list-from(1)through(13)-withResults.png" alt="list-from(1)through(13)-with Results" title="list-from(1)through(13)-with Results" /><br />
@@ -20,7 +22,7 @@
             </div>	
             <div><span>Betsy: </span> I know another way.</div>
             <div><span>Alphie: </span> Of course you do.  What is it?</div>
-            <div><span>Betsy: </span> I imagine my list of numbers arranged as you do, from, say, 1 to 13.  And then I write the same numbers in reverse order, right under my first list, like this:</div>
+            <div><span>Betsy: </span> I write down the list. Yours was from 1 to 13, right? Then I write the same numbers in reverse order, right under my first list, like this:</div>
 			<div class="stagedir">Betsy writes on the board:</div>
             <table class="additiontable center">
                 <tr>
@@ -105,11 +107,11 @@
                     <td>14</td>
                 </tr>
             </table>
-			<div><span>Betsy: </span> So I have 13 14s and my answer is <span class="katex">13\times 14</span> or 182...</div>
+			<div><span>Betsy: </span> So I have thirteen 14s and my answer is 13 x 14 = 182...</div>
             <div><span>Alphie: </span> But the answer is 91.</div>
-            <div><span>Betsy: </span> Oh, yeah.  I added the numbers twice, so the answer is <span class="katex">\frac {182}2</span>, or 91, as you said.</div>
-			<div><span>Alphie: </span> And if you wanted to add the numbers from 1 to 50, you'd get <span class="katex">50\times 51</span> divided by 2 or 1275.  In general...</div>
-			<div><span>Betsy:</span> ...to add the numbers between 1 and <span class="katex">n</span>, you calculate <span class="katex">n\times(n+1)</span> and divide by 2.</div>
+            <div><span>Betsy: </span> Oh, yeah.  I added the numbers twice, so the answer is <span class="katex">\frac {182}2</span>, good, that's 91, like you said.</div>
+			<div><span>Alphie: </span> And if you wanted to add the numbers from 1 to 50, you'd get 50 x 51 divided by 2, that's 1275.  In general...</div>
+			<div><span>Betsy:</span> ...to add the numbers between 1 and <em>n</em> you calculate <span class="katex">n\times(n+1)</span> and divide by 2.</div>
 			<div class="stagedir">
             	Betsy builds the block and checks it out.<br />
                 <img class="inline" src="/bjc-r/img/5-algorithms/betsy-way-13-reporting-91.png" alt="betsy way (13) reporting 91" title="betsy way (13) reporting 91" />
@@ -120,24 +122,28 @@
         <div class="forYouToDo" id="first">
             <ol>
                 <div class="sidenote">To build <code>alphie way</code>, you’ll need to build a block that that reports the list of whole numbers between two inputs.</div>
-                <li>Build two blocks, one that models Alphie’s method (using <code>combine</code>) and one that uses Betsy’s formula.</li>
+                <li>Build two reporters, one that models Alphie’s method (using <code>combine</code>) and one that uses Betsy’s formula.</li>
             </ol>
         </div>
         
-        <p>Both methods do the same job—they add all the whole numbers up to some ceiling that you specify. But look a little more closely. As the size of the upper limit grows, you’ll see that Alphie’s method starts to slow down, while Betsy is as fast as ever (so far as you can detect). Try it.</p>
+        <p>These two different algorithms do the same job. But look a little more closely. As the size of the upper limit grows, you’ll see that Alphie’s method starts to slow down, while Betsy's is as fast as ever. Try it.</p>
         
         <div class="forYouToDo">
             <ol start="2">
-                <li>Try out both reporters. When does the Alphie method start to become slower than the Betsy method?</li>
+                <li>Try out both reporters. When does Alphie's way start to become noticeably slower than Betsy's way?</li>
                 <div class="saveAs imageRight"><span class="text">"U5L3-ReporterTimer"</span><img src="/bjc-r/img/icons/save-this-as.png" alt="Save your work as U5L3-ReporterTimer" title="Save your work as U5L3-ReporterTimer" /></div>
                 
             </ol>
         </div>
+
+<div class=todo>		<h3>Ways to Think About It</h3>
+</div>
         
-		<h3>Ways to Think About It</h3>
-        <p>Both methods may be mathematically equal as <em>functions</em> (they do the same thing to all inputs), but they are very different from a computer science perspective. Computer programs are judged not only by what they do; they are also judged by how long it takes them to do it, especially as the size of the inputs grows. In this lab, you’ll investigate a <code>function timer</code> that allows you to investigate how long a reporter takes to compute its output, and you’ll classify reporters by this “efficiency” criterion.</p>
+<div class=takeNote>
+        <p>These two algorithms may be the same as <em>functions</em> (they always give the same answers for the same inputs), but they are different internally. Computer programs are judged not only by what they do; they are also judged by how long it takes them to do it, especially as the size of the inputs grows. Different correct algorithms for the same problem can have different efficiencies, and can provide different insights to the same problem.</p>
+		<p>In this lab, you’ll investigate how long an algorithm takes to compute its output, and classify algorithms by this "efficiency" criterion.</p>
                 
-      
+      </div >
         
         
     </body>

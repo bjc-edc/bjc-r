@@ -6,78 +6,90 @@
 		<title>Unit 5 Lab 3: Timing Experiments, Page 3</title>
 	</head>
 
+<div class="comment">EK: 4.2.4D, 4.2.4F</div>
+
 	<body>
 		<h2>Timing Reporters</h2>
 		<div class="sidenoteBig">
         	
-            The title of this page is a kind of (lame) pun: You are going to build a "timing reporter" that times reporters.
+            The title of this page has two meanings: You will build a "timing reporter" &hellip; that times reporters.
         </div>
         
         <img class="imageRight" src="/bjc-r/img/5-algorithms/reset-timer-timer.jpg" alt="'reset timer' and 'timer' blocks in palette" title="'reset timer' and 'timer' blocks in palette" />
         
-        <p>Snap<em>!</em> allows us to report how long a program takes to finish. In the "Sensing" palette, you will see a command called <code>reset timer</code> and a reporter called <code>timer</code>.</p>
+        <p>Snap<em>!</em> allows us to report how long a program takes to finish. In the "Sensing" palette, look for the <code>reset timer</code> command and a reporter called <code>timer</code>.</p>
+		<div class="todo">BK: Is this a reporter, or a variable? It feels like a variable. I guess a variable block is technically a reporter.</div>
         <div class="forYouToDo" id="first">
 			<ol>
 				<div class="sidenote">Click <code>reset timer</code> and see what happens.</div>
-                <li>Activate the <code>timer</code> (click the checkbox), and you should see a timer ticking away in the top left corner of the stage. It’s been ticking ever since you opened Snap!, and it counts in tenths of a second:<br /><img class="indent" src="/bjc-r/img/5-algorithms/timer-watcher.jpg" alt="timer watcher showing 310.2" title="timer watcher showing 310.2" /></li>				   
+                <li>Activate the <code>timer</code> (click the checkbox), and you'll see a timer ticking away in the top left corner of the stage. It’s been ticking ever since you opened Snap<em>!</em>:<br /><img class="indent" src="/bjc-r/img/5-algorithms/timer-watcher.jpg" alt="timer watcher showing 310.2" title="timer watcher showing 310.2" /></li>				   
 			</ol>
-		</div>
+		</div >
+
+<div class="todo">        <h3>Ways to Think About It</h3>
+</div>
         
-        <h3>Ways to Think About It</h3>
         <p>
             <img class="imageRight" src="/bjc-r/img/5-algorithms/current-time.png" alt="current (time in milliseconds) reporting 1454091401280" title="current (time in milliseconds) reporting 1454091401280" />
-            <code>Timer</code> just keeps chugging along, but the <code>current</code> reporter is another useful feature of Snap<em>!</em>. If you set it’s input to "time in milliseconds," it reports the current time (in milliseconds) and stops. So, it can be used to time how long a reporter takes to output. Here’s an outline for the algorithm:
-            <ol type="a">
-                <li>create a script variable, say, <var>time</var> and set it to <code>current (time in milliseconds)</code>.</li>
-                <li>call the reporter with some input</li>
-                <li>report <code>current (time in milliseconds)</code> − <var>time</var>.</li>
-            </ol>
-            <div class="sidenoteBig">The implementation of this algorithm allows you to input your own reporter— this may be a new idea. Open up <code>time function</code> to see how it works. <a class="run" href="/bjc-r/prog/5-algorithms/U5L3functiontimer.xml"></a> </div>
-            The block <code>time function</code> implements this algorithm.
+            The <code>timer</code> keeps chugging along, but the <code>current</code> reporter is another useful feature of Snap<em>!</em>. If you set its input to <code>time in milliseconds</code>, it reports the current time and stops. This can be used to time how long a reporter takes to output. Here’s an algorithm:
+			<div class="comment">BK: The variable here should be "start time", not "time". Did not change since it might affect the XML pages.</div>
+            <ul>
+                <li><strong>Step 1.</strong> Create a variable <var>time</var> and set it to the current time.</li>
+                <li><strong>Step 2.</strong> Call the reporter.</li>
+                <li><strong>Step 3.</strong> When the reporter finishes, get the current time and subtract it from <var>time</var>.</li>
+            </ul>
+            <div class="sidenoteBig">You can replace the <code>list between</code> block for any reporter&mdash;this may be a new idea. Open <code>time function</code> to see how it works. <a class="run" href="/bjc-r/prog/5-algorithms/U5L3functiontimer.xml"></a> </div>
+            The answer will be in milliseconds. The block <code>time function</code> implements this algorithm.
             <img class="indent" src="/bjc-r/img/5-algorithms/time-function-list-between-1-1000-reporting.png" alt="time function (list between (1) (1000)) reporting 27" title="time function (list between (1) (1000)) reporting 27" />
         </p>
-        <div class="sidenote">Pretty good, eh?</div>
-        <p>This says that it took 27 milliseconds to compute the list of whole numbers from 1 to 1000.</p>
+        <p>For this run, it took 27 milliseconds to compute the list of integers from 1 to 1000.</p>
         
         <div class="forYouToDo">
             <ol start="2">
                 <li>
-                    Use <code>time function</code> to compare the Alphie and Betsy ways of adding up the whole numbers between 1 and some large number. Try it with several different large numbers to see just how different the algorithms are in terms of the time it takes to compute their outputs.<br />
-	                <div class="sidenoteBig">Once again, Alphie’s and Betsy’s algorithms are the "same" from a mathematical point of view, but they are quite different in terms of their efficiency.</div>
+                    Use <code>time function</code> to compare Alphie and Betsy's ways of adding the integers from 1 to <em>n</em>. Try it with several different large numbers to see just how different the algorithms are in terms of the time it takes to compute their outputs.<br />
+	                <div class="sidenoteBig">Alphie and Betsy’s algorithms solve the same problem but are quite different in efficiency. Imagine the difference when adding the integers from 1 to 1,000,000&hellip;</div>
                     <img class="indent" src="/bjc-r/img/5-algorithms/time-function-betsy-way-2000-reporting.png" alt="time function (betsy way (2000)) reporting 1" title="time function (betsy way (2000)) reporting 1" /><br />
                     <img class="indent" src="/bjc-r/img/5-algorithms/time-function-alphie-way-2000-reporting.png" alt="time function (alphie way (2000)) reporting 305" title="time function (alphie way (2000)) reporting 305" />
                 </li>
+				</div>
+				<div class="takeNote">
+				The efficiency of an algorithm can make a huge difference. Sometimes, an efficient algorithm is necessary to solve larger instances of a problem.
+				</div>
+				<div class="forYouToDo">
+				<ol start="3">
                 <li>
-                    As another example, in Lab 1 you built two reporters that output the position of an element in a list. The reporter <code>find</code> works on any list, just by chugging through element-by-element until it finds the desired input (or gets to the end and reports NIL). The reporter <code>position of number</code> works on sorted lists, and it uses a binary search algorithm. 
-					<div class="sidenoteBig">The set of ordered lists is the "common domain" for <code>position of number</code> and <code>find</code>. Can you fool <code>position of number</code> by giving it an unsorted list?</div>
-                    So, both <code>find</code> and <code>position of number</code> work on sorted lists. Compare them for some long sorted lists and make a table of your findings. You can probably guess which one is faster.
+                    In <a href="/bjc-r/cur/programming/5-algorithms/1-searching-lists/2-improving-search.html">Lab 1</a> you built two reporters that output the position of an element in a list. The reporter <code>find</code> works for any list as a <em>linear search</em>, checking element-by-element until it finds a match (or gets to the end and reports NIL). The reporter <code>position of number</code> works on sorted lists as a <em>binary search</em> algorithm. 
+
+                    So, both <code>find</code> and <code>position of number</code> work on sorted lists. Compare them for some long sorted lists and make a table of your findings.	<div class="sidenote">Is the other algorithm ever faster?</div> Which algorithm is faster?
                 </li>
                 <li>
-                    <strong>Write about it.</strong> By now, you’ve built a stash of reporters that compute various useful things. It’s time to time them. Pick some of your favorites, maybe:
+				                <img class="imageRight" src="/bjc-r/img/icons/write-out-thoughts.png" alt="Write Out Your Thoughts" title="Write Out Your Thoughts" />
+                    Throughout this course, you’ve programmed many algorithms. Try timing them! Test your favorite algorithms, such as:
                     <ul>
-                        <li>Create a list of numbers</li>
-                        <li>Test a list to see if the elements are distinct</li>
-                        <li>Add 1 to a number</li>
-                        <li>Compute the factorial of a number</li>
-                        <li>Remove duplicates from a list</li>
-                        <li>The guessing game (you have two versions)</li>
+                        <li>Creating a list of numbers</li>
+                        <li>Testing a list to see if the elements are distinct</li>
+                        <li>Adding 1 to a number</li>
+                        <li>Computing the factorial of a number</li>
+                        <li>Number guessing games</li>
                     </ul>
-                    Time each of them for varying size inputs and describe the different behaviors you see.
+					<p>
+                    Time your algorithms for varying size inputs and describe the different behaviors you see.</p>
                 </li>
-            </ol>
-        </div>
+            </ol >
+        </div  >
         
         <div class="takeItFurther"><a name="further" class="anchor">&nbsp;</a>
             <ol type="A">
                 <li>
-                    Notice that if you time the same function several times (with the same input), you often get different results.
+                    If you time the same function with the same input, you often get a different result.
                     <ol>
                         <li>Why might that happen?</li>
                         <li>
-                            To get a more accurate read, build a block <code>average time</code> that allows you to input a reporter and a number of trials. It outputs the average of the time it takes the reporter to compute its output for the the specified number of trials. Here’s a picture of how it works for Alphie’s summing reporter, adding the numbers from 1 to 500, performed 10 times:<br />
+                            Build a block <code>average time</code> that allows you to input a reporter and a number of trials. Its output is the average of the time it takes the reporter to compute its output for the the specified number of trials. Here’s a picture of how it works for Alphie’s summing reporter, adding the numbers from 1 to 500, performed 10 times:<br />
                             <img class="indent" src="/bjc-r/img/5-algorithms/average-time-alphie-way-500-10-reporting.png" alt="average time (alphie way (500)) (10) reporting 74.1" title="average time (alphie way (500)) (10) reporting 74.1" />
                         </li>
-                        <li>Even <code>average time</code> reports different times on different calls. How could you make it more stable?</li>
+                        <li>Even <code>average time</code> reports different times on different calls. What could make it more consistent?</li>
                     </ol>
                 </li>
             </ol>
