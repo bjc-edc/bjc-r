@@ -10,8 +10,7 @@
 		<h2>Analyzing and Improving Searches</h2>
         <div class="todo">
         	<ul>
-            	<li>MF: Clean up image tags for alt and title attributes and orgsrc. ( I know what I mean, and I will do this. --MF) ;)</li>
-                <li> GH Feeback 9/22/15: It would be really helpful if the graphic included the indices of the items in the list. A lot of people fail to make the distinction between between the position and the value.</li>
+                <li> GH Feedback 9/22/15: It would be really helpful if the graphic included the indices of the items in the list. A lot of people fail to make the distinction between between the position and the value.</li>
             </ul>
         </div>
 		
@@ -26,15 +25,13 @@
 		
     	
         <h3>Searching Unsorted Data</h3>
-        <div class="sidenote"> This approach can become incredibly slow if we're dealing with a lot of data, but is fairly quick when working with short lists.</div>	
 	
         <div class="forYouToDo" id="first">
+	        <div class="sidenote"> This approach can become incredibly slow if we're dealing with a lot of data, but is fairly quick when working with short lists.</div>	
             <ol>
                 <li> 	       
-                    Build a <code>find in unsorted list</code> block  that reports the earliest location
-                    <img class="imageRight" src="/bjc-r/img/5-algorithms/needlestack.png" alt="Find Number In Unsorted List" title="Find Number In Unsorted List" /><br /> 
-                    of a number in an unsorted list, or reports &quot;Not In List&quot; (or NIL, if you like) if the number is not in the list.
-                    <div class="todo">BK: I changed this to "unsorted" from "unordered". Thoughts? PG: fine.</div>
+                    Build a <code>position of number in unsorted list</code> block  that reports the earliest location of a number in an unsorted list or reports "Not In List" (or NIL, if you like) if the number is not in the list.<br />
+                    <img class="indent" src="/bjc-r/img/5-algorithms/position-of-number-12-in-unsorted-list-reporting-2.png" alt="Find Number In Unsorted List" title="Find Number In Unsorted List" />
                 </li>
             </ol>
         </div>
@@ -47,26 +44,31 @@
         <div class="dialogue">
             <div><span>Alphie: </span> If the list is sorted, we could look at the  middle element of the list and see if our number is in the first or last half of the list. That would save time.</div>
             <div><span>Betsy: </span> This feels a lot like the guessing game we built&mdash;I pick a number and the computer tries to guess it by splitting the list in half with each guess.</div>
-            <div class="todo">For TG: Teacher can, optionally, connect this with mean, median, midrange. In this list, 50 is the midrange, exactly midway between 1 and 99, but is a poor place to start the search because it doesn't split the list in half. The mean is approximately 35, which is no better. What we are looking for is the median, the number <em>in the middle of the sorted list</em>. Some students may want to define blocks that find the mean <img src="/bjc-r/img/5-algorithms/mean(awful-list)-withResult.png" alt="mean(awful-list)-withResult"> and median <img src="/bjc-r/img/5-algorithms/median(awful-list)-withResult.png" alt="median(awful-list)-withResult"> of lists of numbers.</div>
-      <div><span>Alphie: </span> But in that one, the computer guessed a number that we picked.  Now we want it to find a number that it knows (because we tell it) and report its position.  It should work like this:</div>
-            <img class="image" width="50%" src="/bjc-r/img/5-algorithms/awfullist1.png" alt="Find Number In Sorted List" title="Find Number In Sorted List" /><br />
-            <div class="comment">Al's note: this should look more like a "kid sketch" and not usable code. BK to MF or anyone else: How do I center an image?? BK to AC: these two images should use the same list; use 9 and not 9.3. BK tech glitch: in building this, when I try to place the sidenote inside the dialog, it cuts out the remaining "span" name callouts. For now the sidenote is outside the dialog box.</div>
+			<div>
+                <span>Alphie: </span> But in that one, the computer guessed a number that we picked.  Now we want it to find a number <!--that it knows (because we tell it)--> and report its position.  It should work like this:<br />
+                <img class="indent" src="/bjc-r/img/5-algorithms/awful-list-definition.png" alt="awful list: report {1, 7, 8, 9, 11, 20, 21, 22, 23, 24, 73, 83, 93, 99}" title="awful list: report {1, 7, 8, 9, 11, 20, 21, 22, 23, 24, 73, 83, 93, 99}" /><br />
+                <img class="indent" src="/bjc-r/img/5-algorithms/position-of-number-11-in-sorted-list-awful-list.png" alt="position of number (11) in sorted list (awful list)" title="position of number (11) in sorted list (awful list)" />
+            </div>
+            <div class="todo">Al's note: this should look more like a "kid sketch" and not usable code. BK to MF or anyone else: How do I center an image?? BK to AC: these two images should use the same list; use 9 and not 9.3. BK tech glitch: in building this, when I try to place the sidenote inside the dialog, it cuts out the remaining "span" name callouts. For now the sidenote is outside the dialog box.</div>
+			<div class="sidenote">Betsy is saying this finder and the number guesser should have the same overall <em>structure</em>.</div>
             <div><span>Betsy: </span> Yes, but it still <em>feels</em> the same. It should have the same guts as the guessing game.</div>
-            <div><span>Alphie: </span> OK. Let's modify our guessing game project so that when it gets the number, it tells us how many guesses it took and, instead of saying "Yay" when it finds it, it tells us where the number is in the list.</div>
-            <img class="image" width="75%" src="/bjc-r/img/5-algorithms/alphieidea.png" alt="Modifying the guessing game" title="Modifying the guessing game" />
+            <div>
+                <span>Alphie: </span> OK. Let's modify our guessing game project so that when it gets the number, it tells us how many guesses it took and, instead of saying "Yay" when it finds it, it tells us where the number is in the list.<br />
+                <img class="image" width="75%" src="/bjc-r/img/5-algorithms/alphieidea.png" alt="Modifying the guessing game" title="Modifying the guessing game" />
+            </div>
         </div>
     
-		<div class="sidenote">Betsy is saying this finder and the number guesser should have the same overall <em>structure</em>.</div>
 
         <div class="forYouToDo">
             <ol start="2">
-                <li>Implement Alphie's idea:  Write a block that says the position of a number in an ordered list, and the number of guesses it takes to find it, using the strategy of the guessing game you built in the Getting Started. </li>
-                <li>Automate your block so that it doesn't have to ask you for feedback. Now, the block should just find the number and say its position.</li>
-                <img class="image" width="75%" src="/bjc-r/img/5-algorithms/sayposition.png" alt="Automating the search" title="Automating the search" /><br />
+                <li>Implement Alphie's idea:  Write a block that says the position of a number in an ordered list and the number of guesses it takes to find it, using the strategy of the guessing game you built on the previous page. </li>
+                <li>
+                    Automate your block so that it doesn't have to ask you for feedback. Now, the block should just find the number and say its position:<br />
+                    <img class="indent" width="75%" src="/bjc-r/img/5-algorithms/sayposition.png" alt="Automating the search" title="Automating the search" />
+                </li>
                 <li> 	       
-                    Build a <code>position of number in sorted list</code> block that returns the earliest location
-                    <img class="imageRight" src="/bjc-r/img/5-algorithms/orderedfinder.png" alt="Find Number In Sorted List" title="Find Number In Sorted List" /><br /> 
-                    of a number in a list sorted from lowest to highest, or zero if the number is not in the list.
+                    Build a <code>position of number in sorted list</code> block that returns the earliest location of a number in a list sorted from lowest to highest, or zero if the number is not in the list.<br />
+                	<img class="indent" src="/bjc-r/img/5-algorithms/position-of-number-11-in-sorted-list-awful-list.png" alt="position of number (11) in sorted list (awful list)" title="position of number (11) in sorted list (awful list)" />
                 </li>
             </ol>
         </div>
@@ -77,33 +79,34 @@
         	<ol start="5">
         		<li>
                     Make a table that tracks the number of guesses it takes to find the last number in a list as a function of the length of the list:
-                    <div class="todo">BK: This table is ugly. How to center?? (CENTERED --MF) Also, changed from AC's version to 2^n-1, because with 2^n there is no guarantee to find the number in n guesses, if student rounds "down" instead of "up" when picking a middle number.</div>
-                    <table id="tableBlue" class="center">
-                        <tr>
-                            <td>Length</td>
-                            <td># Of Guesses</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>7</td>
-                            <td>3</td>
-                        </tr>
-                        <tr>
-                            <td>15</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>63</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>127</td>
-                            <td></td>
-                        </tr>
-                    </table>
+                    <div class="indent">
+                        <table id="tableBlue" class="center">
+                            <tr>
+                                <td>Length</td>
+                                <td># Of Guesses</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>7</td>
+                                <td>3</td>
+                            </tr>
+                            <tr>
+                                <td>15</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>63</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>127</td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </div>
                 </li>
                 <li> This type of<a name="bsearch" class="anchor">&nbsp;</a>search is called a <strong>binary search</strong>. Can you think of some connections to the use of <em>binary</em> in Unit 4?</li>
             </ol>
