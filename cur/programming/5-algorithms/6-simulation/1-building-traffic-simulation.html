@@ -37,7 +37,16 @@
         	</div>
             <ol>
                 	<li><strong>Each car is a sprite.</strong> All sprites have essentially the same scripts. The only difference would be where the car starts in line, and which car it is following. So, this is what car 5's script might look like. You will have to invent <code>startpos</code> and <code>drive but avoid hitting sprite</code>.
-                      <p> <img src="/bjc-r/img/5-algorithms/Script-for-sprite-5.png" alt="Script for sprite 5---when green flag clicked, move to starting position. When space key pressed, drive but avoid hitting sprite 6"></p></li>
+                      <p> <img src="/bjc-r/img/5-algorithms/Script-for-sprite-5.png" alt="Script for sprite 5---when green flag clicked, move to starting position. When space key pressed, drive but avoid hitting sprite 6"></p>
+                      <p>Because our version of <code>startpos</code> is the same for all sprites, it put all the sprites in the same place, so we needed each sprite to <code>move () steps</code> to space out the cars. Your program might be different.</p>
+                      <p><code>drive</code> will repeat a set of actions that might be like this:</p>
+                      	<ul>
+                        	<li>If too close to next car, change speed to lower speed, else change to higher speed.</li>
+                            <li>If over the speed limit change to lower speed.</li>
+                            <li>If I'm at the end of the stage, go back to the beginning.</li>
+                            <li>Move at my own current speed.</li>
+                        </ul>
+                    </li>
                 	<li><strong>Analyze the <em>state</em> of one vehicle. What variables will it need? </strong>You <em>might</em> want to make  variables for the rate of acceleration and the rate of braking so that you can experiment with them. You <em>must</em> have a variable for the cars' speeds: <em>Each</em> car has its <em>own</em> speed, so that variable will be a <em>list</em> of speeds, one for each car. You must set a speed limit, and might want to be able to experiment with it. Are there other variables you need to keep track of? (Maybe. Maybe not. Keep your  model  simple. You can always add features later on.)</li>
                     <li><strong>Analyze the <em>behavior</em> of one vehicle: </strong> If you see a car in front of you, slow to the speed of that car. Otherwise, speed up. Distance to the car in front should probably matter. </li>
                     <li><strong>Design an algorithm for the behavior: </strong> Exactly <em>how</em> will the car's speed change? When it is close enough to the car in front of it, will it just <em>become</em> the speed of that car? Or will it slow down more gradually? It <em>must not crash or pass</em>. Here is one possibility. Notice how it uses <code> replace item</code> to replace the old speed with the new speed. This version just replaces it with a speed slightly (and randomly) less than the car in front of it. 
@@ -49,7 +58,10 @@
                     <img src="/bjc-r/img/5-algorithms/SpriteNumber-in-front-of-me-(MyNumber).png" alt="SpriteNumber-in-front-of-me-(MyNumber): report (1 plus (MyNumber mod 12)"></li>
                     <li><strong>Clone your sprite</strong> to create enough cars for your simulation. </li>
                     <li><strong>Make sure the last car knows to follow the first car.</strong> Depending on how you've programmed, that one behavior might be slightly different from every other car's behavior.</li>
-                    <li><strong>Initialize: </strong> Set your cars out in some starting position, and give each car whatever other information it needs to start off.</li>
+                    <li><strong>Initialize: </strong> Set your cars out in some starting position, and give each car whatever other information it needs to start off.
+                      <p>One sprite will also need to set the variables that all sprites use. In our model, the script looked like this.</p>
+                      <p><img src="/bjc-r/img/5-algorithms/When-green-flag-clicked-initializer.png"  alt="When-green-flag-clicked-initializer: startpos, set speed-limit to 10, set spriteSpeeds to (empty list) set danger-distance to 20, set pen color to bright red"></p>
+                    </li>
                     <li><strong>Test and refine your model:</strong> Do the cars keep moving? Do they avoid crashes as they should? Does traffic flow smoothly? Do you see changes in speed? Adjust your model, if necessary, so that it works.</li>
             </ol>
         </div>
