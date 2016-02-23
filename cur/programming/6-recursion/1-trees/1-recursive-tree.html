@@ -11,7 +11,7 @@
         <p>
             Our goal is to draw a tree with <strong>fractal</strong> structure. Notice that the final picture contains smaller versions of itself...<br />
             <div class="sidenoteBig">A <strong>fractal</strong> is a repeating pattern made up of copies (or slight variations) of the same shape.</div>
-            <img class="indent noshadow" src="/bjc-r/img/6-recursion/recursive-tree.gif" alt="simple tree fractal" title="simple tree fractal" /><br />
+            <img class="indent noshadow" src="/bjc-r/img/6-recursion/recursive-tree.gif" alt="fractal tree" title="fractal tree" /><br />
             You will build your fractal tree using <em>blocks within blocks</em> to create the branches that are each smaller copies of the same tree.
         </p>
 
@@ -74,7 +74,7 @@
 		
         <p><img class="inline" src="/bjc-r/img/icons/take-turns-speaking-mini.gif" alt="Take turns speaking" title="Take turns speaking"> These blocks look very similar, and we can actually write a <code>tree</code> block that uses <code>tree</code> itself in its own script.</p>
         <div class="takeNote center">Using a block inside of itself is a special kind of abstraction called <strong>recursion</strong>.</div>
-        <p>In addition to the <var>size</var> of the tree, the <em>recursive</em> <code>tree</code> block will need to know the <var>level</var> of the tree you want to draw. For example, given a <var>level</var> input of 5, <code>tree</code> will call two trees of <var>level</var> 4; those two trees will each call two more trees of <var>level</var> 3, and so on.</p>
+        <p>In addition to the <var>size</var> of the tree, the <em>recursive</em> <code>tree</code> block will need to know the <var>level</var> of the tree you want to draw. For example, given a <var>level</var> input of 5, <code>tree</code> will call two trees of <var>level</var> 4; those two trees will each call two more trees of <var>level</var> 3, and so on. (This is just like how <code>tree5</code> called <code>tree4</code>, and <code>tree4</code> called <code>tree3</code>, and so on.)</p>
 
 
 		<div class="forYouToDo">
@@ -97,37 +97,76 @@
 			<img class="indent" src="/bjc-r/img/6-recursion/tree-level1.png" alt="tree level 1 result" title="tree level 1 result" />
         </p>
         <div class="sidenote">Recall, <em>recursive</em> means a script that calls itself.</div>
-        <p>So our recursive <code>tree</code> block has to do something different when the <var>level</var> is 1. This different version for the lowest level of a recursive script is called the <strong>base case</strong>.</p>
+        <p>So our recursive <code>tree</code> block has to do something different when the <var>level</var> is 1.</p>
+        <div class="takeNote"><p class="center">This different version for the lowest level of a recursive script is called the <strong>base case</strong>.</p></div>
         
         <div class="forYouToDo">
             <ol start="9">
                 <li>
-                    Correct your recursive <code>tree</code> block:<br />
+                    Correct your recursive <code>tree</code> block so that it includes a base case to stop the script from calling itself forever:<br />
         			<img class="indent" src="/bjc-r/img/6-recursion/tree.png" alt="correct tree block definition" title="correct tree block definition" />
                 </li>
                 <li>
                 	Point the sprite up, put the pen down, and run <code>tree level: 9 size: 50</code>. Now it  should work, and you should get a result like this:<br />
 					<img class="indent" src="/bjc-r/img/6-recursion/tree9.png" alt="picture of tree on stage" />
                 </li>
+                <li>The amount of time required to draw the tree goes up very quickly with the number of levels, so we don't recommend trying 20 levels. Try running level 8 through level 12 at various sizes.</li>
 			</ol>
         </div>
         
         <div class="takeNote">
         	<img class="imageRight" src="/bjc-r/img/icons/take-turns-speaking-mini.gif" alt="Take turns speaking" title="Take turns speaking">
             <p><em>Recursive</em> scripts call themselves, but they can't keep doing it forever; they have to stop and go back at some point. That point is the <strong>base case</strong>, the simpler version of the script that <em>doesn't call the block itself</em>. This is typical in recursion.</p>
-            <p>There is usually a <em>conditional statement</em> (like <code>if-else</code>) with two cases: the <em>base case</em> for the lowest level that stops the recursion from going on forever and a <em>recursive case</em> that calls itself.</p>
+            <p>There is usually a <em>conditional statement</em> (like <code>if-else</code>) with two cases: a <em>base case</em> for the lowest level that stops the recursion from going on forever and a <strong>recursive case</strong> that calls itself again and again.</p>
+            <p>When a script <em>does</em> keep recursively calling itself forever (like when the sprite was just spinning around in one place), that's a bug, and we say it is stuck in an <strong>infinite loop</strong>.</p>
         </div>
         
         <div class="forYouToDo">
-            <ol start="10">
-                <li>Look at your corrected recursive <code>tree</code> script. Identify the <em>base case</em> and the <em>recursive case</em> and discuss how recursion works in this script. </li>
+            <ol start="11">
+                <li>Look at your corrected recursive <code>tree</code> script. Identify the <em>base case</em> and the <em>recursive case</em>, and discuss how recursion works in this script. </li>
             </ol>
         </div>
         
         <div class="takeItFurther"><a name="further" class="anchor">&nbsp;</a>
             <ol type="A">
-                <div class="commentBig">Are we hoping that they'll use their timing block from U5 or an approach less formal? --MF</div>
-                <li>The amount of time required to draw the tree goes up very quickly with the number of levels, so we don't recommend trying 20 levels. Try using a <var>count</var> variable to record the number of times that the <code>tree</code> block is called when running level 8 through level 12.</li>
+                <li>
+                    Try using a <var>count</var> variable to record the number of times that the <code>tree</code> block is called when running different levels. Make a table. Do you see a pattern?
+                    <table class="center bordered">
+                        <tr>
+                            <td><var>level</var></td>
+                            <td><var>count</var></td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>3</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>7</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>?</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>etc.</td>
+                            <td>etc.</td>
+                        </tr>
+                    </table>
+                    This is an example of exponential growth. This kind of growth for an algorithm is considered to take <a href="/bjc-r/cur/programming/5-algorithms/3-timing-experiments/4-classifying-reporters.html?topic=nyc_bjc%2F5-algorithms.topic&course=bjc4nyc_2015-2016.html&novideo&noassignment"><em>unreasonable time</em></a>. This is why we suggested against trying 20 levels. It will take way too long. 
+                </li>
             </ol>
         </div>
         

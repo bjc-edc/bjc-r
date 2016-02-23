@@ -9,30 +9,33 @@
 	<body>
 		<h2>Programming Lab 1: Trees in a Forest</h2>
         <p>Recursion is the use of a procedure within itself. That definition is simple enough, but <em>using recursion</em> takes some practice and learning it well requires care in the order in which ideas are presented.</p>
-        <p><img class="imageRight noshadow" src="/bjc-r/img/6-recursion/full-recursive-tree-BYOB.jpg" alt="picture of tree" title="picture of tree" />Unit 5 introduces recursion in the context fractal graphics, i.e., pictures that include smaller versions of themselves.  The canonical example is the fractal tree, in which each branch is a smaller sub-tree with branches of its own.</p>
-		<p>Most of this lab walks the students through a simple fractal tree using the <em>combining method</em> of explaining recursion.  This appraoch helps students overcome the feeling that a recursive call is "cheating" because it's calling a block that hasn't been fully written yet. To avoid this confusion, we start with a sequence of simpler (non-recursive) tree blocks, each of which calls the one before it (e.g., <code>tree2</code> calls <code>tree1</code>; <code>tree3</code> calls <code>tree2</code>; and so on.) </p>
+        <p><img class="imageRight noshadow" src="/bjc-r/img/6-recursion/recursive-tree.gif" alt="fractal tree" title="fractal tree" />Unit 5 introduces recursion in the context fractal graphics, i.e., pictures that include smaller versions of themselves.  The canonical example is the fractal tree, in which each branch is a smaller sub-tree with branches of its own.</p>
+		<p>Most of this lab walks the students through a simple fractal tree using the <em>combining method</em> of explaining recursion.  This approach helps students overcome the feeling that a recursive call is "cheating" because it's calling a block that hasn't been fully written yet. To avoid this confusion, we start with a sequence of simpler (non-recursive) tree blocks, each of which calls the one before it (e.g., <code>tree2</code> calls <code>tree1</code>; <code>tree3</code> calls <code>tree2</code>; and so on.) </p>
 		<p>
             A more traditional approach to teaching recursion would start with <em>tail recursion,</em> in which the sole recursive call comes at the tail end, like this:<br />
-            <img class="indent" src="/bjc-r/img/6-recursion/recursive-square.png" width="258" height="213" alt="tail recursive square block">
+            <img class="indent" src="/bjc-r/img/6-recursion/tail-recursion.png" alt="tail recursive factorial block" title="tail recursive factorial block" />
         </p>
-        <p>However, students often misunderstand this code, thinking that the recursive call to <code>square</code> at the end means "go back to the beginning." This wrong mental model will work for tail recursive blocks, but when students confront a recursive call that can't be at the end of the definition, they'll be lost. The combining method, where students build up successive calls to similar procedures and then just call the procedure itself, provides a better introduction.</p>
-        <p>Note that while most of the labs in other units provide links to projects with the blocks partly or completely pre-written, this lab does not because students need the tactile experience of building almost the same script repeatedly in order to see the virtue of combining them into a single script using recursion.</p> 
+        <p>However, students often misunderstand this code, thinking that the recursive call at the end means "go back to the beginning." This wrong mental model will work for tail recursive blocks, but when students confront a recursive call that can't be at the end of the definition, they'll be lost. The <em>combining method</em>, where students build up successive calls to similar procedures and then just call the procedure itself, provides a better introduction.</p>
+        <p>(Note that while most of the labs in other units provide links to projects with the blocks partly or completely pre-written, this lab does not because students benefit from the tactile experience of building almost the same script repeatedly in order to see the virtue of combining them into a single script using recursion.)</p> 
 
 		<h3>Pacing:</h3>
 		<div>
-			The X lab pages could be split across X or X days (X-X minutes). Expected times to complete follow:
+			The 4 lab pages could be split across X or X days (X-X minutes). Expected times to complete follow:
 			<ul>
-				<li></li>
+				<li>40-70 minutes (1-2 days) on <a href="/bjc-r/cur/programming/6-recursion/1-trees/1-recursive-tree.html?topic=nyc_bjc%2F6-recursion-trees-fractals.topic&course=bjc4nyc_2015-2016.html&novideo&noassignment">Recursive Tree</a></li>
+                <li>X-X minutes (X-X days) on <a href="/bjc-r/cur/programming/6-recursion/1-trees/2-tree-input-self-check.html?topic=nyc_bjc%2F6-recursion-trees-fractals.topic&course=bjc4nyc_2015-2016.html&novideo&noassignment"><code>Tree</code> Input Self Check</a></li>
+                <li>X-X minutes (X-X days) on <a href="/bjc-r/cur/programming/6-recursion/1-trees/3-tree-variations-self-check.html?topic=nyc_bjc%2F6-recursion-trees-fractals.topic&course=bjc4nyc_2015-2016.html&novideo&noassignment"><code>Tree</code> Variations Self Check</a></li>
+                <li>X-X minutes (X-X days) on <a href="/bjc-r/cur/programming/6-recursion/1-trees/4-vary-your-tree.html?topic=nyc_bjc%2F6-recursion-trees-fractals.topic&course=bjc4nyc_2015-2016.html&novideo&noassignment">Vary Your Tree</a></li>
 			</ul>
 		</div>
 
 
-		<h3>Prepare:</h3>
+		<!--<h3>Prepare:</h3>
 		<div>
 			<ul>
 				<li></li>
 			</ul>
-		</div>
+		</div>-->
 
 
 		<h3>Students will:</h3>
@@ -44,7 +47,10 @@
 		</div>
 		<div>
 			<ul>
-				<li>...</li>
+				<li>Revisit the idea of state transparency and its importance when calling scripts within scripts.</li>
+                <li>Develop a recursive program by first creating the program with several non-recursive blocks and then using one recursive block to perform the same function.</li>
+                <li>Learn the basic ideas and terms of recursion including: base case, recursive case, and infitinite loop.</li>
+                <li>Explore and develop variations of the fractal tree.</li>
 			</ul>
 		</div> 
 			  
@@ -65,15 +71,62 @@
                     <p>Note that the <em>list of blocks</em> in the corner of the stage (shown right)	 is something the students won't have seen before, but resist the temptation to talk about it. Students will come to understand it by themselves because they've seen lists before and they've seen blocks before.</p>
                 </li>
                 <li>
-                    Discussion Questions:
+                    <strong>Page 1: Recursive Tree.</strong>
                     <ul>
-                    	<li>What is state transparency? Why is it important? Have you run in to issues with state transparency before? What happened and how did you resolve it?</li>
-                        <li>These questions encourage students to attend very closely to the details of what how the trees are drawn?
-                        	<ul>
-                            	<li>Why are we multiplying size by 0.65 and 0.85? Why are we multiplying size by -1?</li>
-                        		<li>Why are we turning 25&deg; CCW and then 60 &deg; CW and then 35 &deg; CCW?</li>
+                        <li>
+                             Discussion Questions:
+                                <ul>
+                                    <li>What is <strong>state transparency</strong>? Why is it important? Have you run in to issues with state transparency before? What happened and how did you resolve it?</li>
+                                    <li>
+                                        These questions encourage students to attend very closely to the details how the trees are drawn:
+                                        <ul>
+                                            <li>Why are we multiplying size by 0.65 and 0.85? Why are we multiplying size by -1?</li>
+                                            <li>Why are we turning 25&deg; CCW and then 60 &deg; CW and then 35 &deg; CCW?</li>
+                                            <li>Why do we subtract 1 from the level?</li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                    To wrap up:
+                                    <ul>
+                                        <li>You may want to have students describe <strong>recursion</strong> in their own words.</li>
+                                        <li>You may also want to have students share their work on the last "For You To Do" problem and identify the <strong>base case</strong> and <strong>recursive case</strong> in the final <code>tree</code> script and describe how recursion works in this script.</li>
+                                    </ul>
+                                </li>
                             </ul>
-                       </li>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Page 2: <code>Tree</code> Input Self Check.</strong>
+                    <ul>
+                        <li>
+                            Discussion: <em>After students work through the lab page</em>, discuss this question as a group: 
+                            <ul>
+                            	<li></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Page 3: <code>Tree</code> Variations Self Check.</strong>
+                    <ul>
+                        <li>
+                            Discussion: <em>After students work through the lab page</em>, discuss this question as a group: 
+                            <ul>
+                            	<li></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Page 4: Vary Your Tree.</strong>
+                    <ul>
+                        <li>
+                            Discussion: <em>After students work through the lab page</em>, discuss this question as a group: 
+                            <ul>
+                            	<li></li>
+                            </ul>
+                        </li>
                     </ul>
                 </li>
                 
@@ -100,8 +153,8 @@
         </div>
 
 			
-		<h3>Tips:</h3>
-		<div><ul><li>...</li></ul></div>
+		<!--<h3>Tips:</h3>
+		<div><ul><li>...</li></ul></div>-->
 
 			
 		<!--<h3>Solutions</h3>
@@ -116,15 +169,20 @@
 			</ul>-->
 			<h4>Essential Understandings:</h4>
 			<ul>
-				<li>Coming soon...</li>
+				<li><strong>EU 2.2</strong> Multiple levels of abstraction are used to write programs or create other computational artifacts</li>
+                <li><strong>EU 5.3</strong> Programming is facilitated by appropriate abstractions.</li>
 			</ul>
 			<h4>Learning Objectives:</h4>
 			<ul>
-				<li>Coming soon...</li>
+				<li><strong>LO 2.2.2</strong> Use multiple levels of abstraction to write programs. [P3]</li>
+				<li><strong>LO 4.2.1</strong> Explain the difference between algorithms that run in a reasonable time and those that do not run in a reasonable time. [P1]</li>
+                <li><strong>LO 5.3.1</strong> Use abstraction to manage complexity in programs. [P3]</li>
 			</ul>
 			<h4>Essential Knowledge:</h4>
 			<ul>
-				<li>Coming soon...</li>
+				<li><strong>EK 2.2.2B</strong> Being aware of and using multiple levels of abstraction in developing programs helps to more effectively apply available resources and tools to solve problems.</li>
+                <li><strong>EK 5.3.1A</strong> Procedures are reusable programming abstractions.</li>
+                <li><strong>EK 5.3.1L</strong> Using lists and procedures as abstractions in programming can result in programs that are easier to develop and maintain.</li>
 			</ul>
 		</div>			
 
