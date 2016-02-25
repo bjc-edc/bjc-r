@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unit 6 Lab 1: Trees in a Forest, Page 2</title>
+	</head>
+
+	<body>
+		<h2>The Importance of the Base Case</h2>	
+        <p>
+        	<div class="sidenote">Recall, <em>recursive</em> means a script that calls itself.</div>
+        	We first tried to build the recursive tree by using the same script as for <code>tree2</code>, <code>tree3</code>, etc. and replacing the call to a lower-level tree with a call to <code>tree</code> itself but with a lower level input, like this:<br />
+            <img class="indent" src="/bjc-r/img/6-recursion/tree-recursive-call.png" alt="tree level: (level - 1) size: (size × 0.65)" title="tree level: (level - 1) size: (size × 0.65)" />
+        </p>
+        <p>
+        	It did not work:<br />
+			<img class="indent" src="/bjc-r/img/6-recursion/tree-nobase.png" alt="buggy tree block definition" title="buggy tree block definition" />
+			<img class="indent" src="/bjc-r/img/6-recursion/treebug.gif" alt="picture of failing tree" title="picture of failing tree" />
+        </p>
+        <p>
+            <strong>What's going wrong?</strong> Because of the recursive call to <code>tree</code>, the sprite draws smaller and smaller left branches (until it ends up looking like it's just spinning around in one place) without ever drawing a right branch and finishing the tree. The problem is that the original numbered <code>tree1</code>, <code>tree2</code>, etc. blocks <em>aren't </em>all the same. The first one, <code>tree1</code>, is different; it just draws a line <em>without any branches</em> and puts the sprite back.<br />
+            <img class="indent" src="/bjc-r/img/6-recursion/tree1.png" alt="tree1 script" />
+			<img class="indent" src="/bjc-r/img/6-recursion/tree-level1.png" alt="tree level 1 result" title="tree level 1 result" />
+        </p>
+        <p><strong>So our recursive <code>tree</code> block has to do something different when the <var>level</var> is 1.</strong> It has to draw just a line without adding another branch.</p>
+        <div class="takeNote"><p class="center">This different version for the lowest level of a recursive script is called the <strong>base case</strong>.</p></div>
+        
+        <div class="dialogue">
+            <div>
+                <span>Betsy:</span> Let's think through a simple tree to figure out how this "base case" needs to work. Let's look at <code>tree3</code> with size 40.<br />
+                <img class="indent" src="/bjc-r/img/6-recursion/tree3.png" alt="tree3 block definition" title="tree3 block definition" />
+                <img class="indent" src="/bjc-r/img/6-recursion/tree3-call.png" alt="clear, point in direction (0), pen down, tree3 size: (40)" title="clear, point in direction (0), pen down, tree3 size: (40)" />
+            </div>
+            <div><span>Alphie:</span> Ok, after clearing the stage, pointing up, and putting the pen down, the sprite will move 40 steps and then turn 25&deg; left. And then it will call <code>tree2</code> with a smaller size.</div>
+            <div><span>Betsy:</span> Right. And then from the <code>tree2</code> code, which is almost the same, it will move that smaller number steps, turn 25&deg; left, and then call <code>tree1</code>, which just draws a line and goes back. Then, it will turn 60&deg; to the right and draw another little <code>tree1</code> branch and go back. <em>And then</em> it will turn 35&deg; back to the left and move the sprite back to the beginning of that Y-shaped, <code>tree2</code> branch. So, it will look like this:</div>
+            <div class="stagedir"><img class="inline" src="/bjc-r/img/6-recursion/tree3-drawing-partial.jpg" alt="drawing of tree3 after the first tree2 is called" title="drawing of tree3 after the first tree2 is called" /></div>
+            <div><span>Alphie:</span> Yup. And then it will finish the <code>tree3</code> script by turning 60&deg; to the right and going through the whole <code>tree2</code> script again to create the other side, and then it will turn back 35&deg; and move backwards to the very beginning.</div>
+            <div class="stagedir"><img class="inline" src="/bjc-r/img/6-recursion/tree3-drawing-complete.jpg" alt="drawing of tree3 after the first tree2 is called" title="drawing of tree3 after the first tree2 is called" /></div>
+            <div><span>Betsy:</span> Great. That finishes the <code>tree3</code> script. Now, about that "base case" thing for the recursive <code>tree</code> script... The base case is the lowest level of the recursion, so that's like the <code>tree1</code>. </div>
+            <div><span>Alphie:</span> Yeah, and the <code>tree1</code> script stops the branches from branching off forever because it just draws a line and doesn't make another tree.</div>
+            <div><span>Betsy:</span> So, we need our <em>recursive</em> <code>tree</code> block to draw a little line at level 1 instead of making more little trees forever.</div>
+        </div>
+
+		<div class="forYouToDo" id="first">
+            <ol>
+                <li>
+                    Correct your recursive <code>tree</code> block so it includes a base case to stop the script from calling itself forever:<br />
+        			<img class="indent" src="/bjc-r/img/6-recursion/tree.png" alt="correct tree block definition" title="correct tree block definition" />
+                </li>
+                <li>
+                	Point the sprite up, put the pen down, and run <code>tree level: 9 size: 50</code>. Now it  should work, and you should get a result like this:<br />
+					<img class="indent" src="/bjc-r/img/6-recursion/tree9.png" alt="picture of tree on stage" />
+                </li>
+                <li>The amount of time required to draw the tree goes up very quickly with the number of levels, so we don't recommend trying 20 levels. But try running level 8 through level 12 at various sizes.</li>
+			</ol>
+        </div>
+        
+        <div class="takeNote">
+        	<img class="imageRight" src="/bjc-r/img/icons/take-turns-speaking-mini.gif" alt="Take turns speaking" title="Take turns speaking">
+            <p><em>Recursive</em> scripts call themselves, but they can't keep doing it forever; they have to stop and go back at some point. That point is the <strong>base case</strong>, the simpler version of the script that <em>doesn't call the block itself</em>. This is typical in recursion.</p>
+            <p>There is usually a <em>conditional statement</em> (like <code>if-else</code>) with two cases: a <em>base case</em> for the lowest level that stops the recursion from going on forever and a <strong>recursive case</strong> that calls the script itself again and again at lower levels until it reaches the base case.</p>
+            <p>When a script <em>does</em> keep recursively calling itself forever (like when the sprite was just spinning around in one place), that's a bug, and we say it is stuck in an <strong>infinite loop</strong>.</p>
+        </div>
+        
+        <div class="forYouToDo">
+            <ol start="4">
+                <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />Look at your corrected recursive <code>tree</code> script. Identify the <em>base case</em> and the <em>recursive case</em>, and discuss how recursion works in this script. </li>
+                <li>
+                    Try using a <var>count</var> variable inside the base case to record the number of times that the <code>tree</code> block is called when running different levels. Make a table. Do you see a pattern?
+                    <table class="center bordered">
+                        <tr>
+                            <td><var>level</var></td>
+                            <td><var>count</var></td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>3</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>7</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>?</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>etc.</td>
+                            <td>etc.</td>
+                        </tr>
+                    </table>
+                </li>
+                <div class="endnote">This is an example of exponential growth. This kind of growth for an algorithm is considered to take <a href="/bjc-r/cur/programming/5-algorithms/3-timing-experiments/4-classifying-reporters.html?topic=nyc_bjc%2F5-algorithms.topic&course=bjc4nyc_2015-2016.html&novideo&noassignment"><em>unreasonable time</em></a>. This is why we suggested <em>against</em> trying 20 levels. That would take way too long!</div>
+            </ol>
+        </div>
+        
+
+	</body>
+</html>
