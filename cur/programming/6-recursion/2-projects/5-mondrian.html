@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unit 6 Lab 2: Recursion Projects, Page 5</title>
+	</head>
+
+	<body>
+		<h2>Recursive Mondrian</h2>
+        <p>Recursion is not just for fractals...</p>
+        
+        <div class="forYouToDo" id="first">
+            <ol>
+                <li>Do a quick <a href="https://duckduckgo.com/?q=mondrian&ia=images" target="_blank">search for the Dutch painter Mondrian</a>.</li>
+            </ol>
+        </div>
+        <p>
+            Mondrian's paintings were not created recursively, but we can use recursion to create similar images:<br />
+          <img class="indent noshadow" src="/bjc-r/img/6-recursion/mondrian.jpg" alt="Mondrian picture created recursively" title="Mondrian picture created recursively" />
+    </p>
+        
+        <div class="forYouToDo">
+            <ol start="2">
+                <li>
+                	<img class="imageRight" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
+                	Load <a class="run" href="/bjc-r/prog/6-recursion/U6L2-Mondrian.xml" target="_blank">this project</a>. It has several blocks already created and the script that calls <code>Mondrian</code> already set up.</li>
+                <li>
+					Begin by programming the code for your base case, the <code>rectangle</code> block. It will need to draw a rectangle with a black border and use a very thick line of color to paint the inside. Be sure to preserve state transparency (put the sprite back where it started).
+                	<div class="endnote">The <code>rectangle</code> block already contains two custom blocks, <code>set pen to black line</code>, for the borders, and <code>set pen to paint</code>, which runs a random <code>set pen color</code> block from the <var>colors</var> list variable according to the <var>thickness</var> you determine. You can look inside these two custom blocks to see how they work.<br />
+                        <img class="indent" src="/bjc-r/img/6-recursion/set-colors.png" alt="set (color) to {(set pen color to red), (set pen color to yellow), (set pen color to blue), (set pen color to white), (set pen color to black)}" title="set (color) to {(set pen color to red), (set pen color to yellow), (set pen color to blue), (set pen color to white), (set pen color to black)}" />
+                    </div>
+                </li>
+                <li>
+                    Click "r" a few times to be sure you have <code>rectangle</code> set up correctly. Each time, you should get a big rectangle with a black border and one of the five colors inside, like this:
+                    <img class="indent" src="/bjc-r/img/6-recursion/mondrian-base-case-animation.gif" alt="Mondrian base case pictures" title="Mondrian base case pictures" />
+                </li>
+				<li>
+                    <p>
+						<img class="imageRight" src="/bjc-r/img/icons/take-turns-speaking-mini.gif" alt="Take turns speaking" title="Take turns speaking">
+						Then, program the code for the recursive case. The <code>Mondrian</code> block already contains some structure. Your job is to fill in all the blanks. Before you get started, think carefully about how the script is going to work. 
+                        <ul>
+							<li>You've already seen level 1. For level 2, <code>Mondrian</code> will randomly divide the rectangle into two pieces and draw a rectangle on each side. For level 3, <code>Mondrian</code> will randomly divide the rectangle into two pieces, randomly divide each of <em>those</em> two pieces into two pieces each, and then draw a rectangle in each of those four places. Level 4 will create eight rectangles, level 5 will create 16, and so on.</li>
+                            <li>The <var>percent</var> variable gives a random percentage for how to divide up the rectangle each time. You'll have to determine how to calculate the length of the rectangles on each side. (For example, if we are dividing a width of 200 with a percentage of 40%, we'll have a rectangle of width 80 and one of 120 and their height will be the same).</li>
+                            <li>The algorithm will be slightly different based on whether a rectangle is being divide up along the width or along the length. Notice that the <code>if-else</code> determines whether <var>width</var> or <var>height</var> is greater. Divide each rectangle along the longer side.</li>
+                        </ul>
+                    </p>
+                    <img class="indent" src="/bjc-r/img/6-recursion/mondrian-block-definition-with-blanks.png" alt="Mondrian block definition with blanks" title="Mondrian block definition with blanks" />
+                </li>
+                <li>
+                    Click "space" a few times. When you have <code>Mondrian</code> working, it should look something like this:<br />
+                    <img class="indent" src="/bjc-r/img/6-recursion/mondrian-animation.gif" alt="Mondrian pictures" title="Mondrian pictures" />
+                </li>
+            </ol>
+        </div>
+        
+
+	</body>
+</html>
