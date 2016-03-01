@@ -7,7 +7,7 @@
 	</head>
 
 	<body>
-		<h2>Triangle Fractal</h2>
+		<h2>Sierpinski Gasket</h2>
         
         <p>
         	Now, we'll build another fractal structure by using triangles:<br />
@@ -55,38 +55,53 @@ Write the code for <code>triangle fractal</code>.</li>
                 </div>
             </ol>
         </div>
-        
-        <div class="todo">Done until here. Waiting for feedback from BH... --MF</div>
+                
         <div class="takeItFurther"><a name="further" class="anchor">&nbsp;</a>
             <ol type="A">
                 <li>
+                    Try this different kind of triangle recursion (you could call it <code>triangle fractal v.2</code> for "version 2").
                     <p>
-                        Your finished product should have produced a shape sort of like this:<br />
-                        <img class="indent" src="/bjc-r/img/6-recursion/fourtri.png" width="300" height="297" alt="four triangles">
-                    </p>
-                    <p>but with lots of small line segments instead of the grey parts. This should suggest an alternate way to make the shape: Level 1 is a triangle, level 2 is three level-1 versions arrayed around an empty triangle, etc. Write the code for that and compare the two results.</p>
-                </li>
-            </ol>
-        </div>
-        
-        
-        <h2>Triangle Fractal #2</h2>
-        <div class="takeItFurther">
-            <ol>
-                <li>
-                    <p>
-                        Okay, no hints this time. Level 1 is an equilateral triangle. Here are levels 2 and 3:<br />
+                        Level 1 is an equilateral triangle. Here are levels 2 and 3:<br />
                         <img class="indent" src="/bjc-r/img/6-recursion/tri-frac-2-level-2.png" width="332" height="278" alt="fractal level 2"><img src="/bjc-r/img/6-recursion/tri-frac-2-level-3.png" width="332" height="278" alt="fractal level 3">
+                        <div class="comment">Why <span class="katex">\frac{size}{\sqrt{3}}</span> and not just <span class="katex">\frac{size}{2}</span>, which is simpler and looks very similar? Any good reason (like something in U7)? --MF</div>
+                        <div class="endnote">If you compare this level 2 picture with the one for the first <code>triangle fractal</code> block above, you'll see that the basic idea is the same: stick little triangles at the corners of big ones. But they're stuck together differently, and this time, you'll need to use <span class="katex">\frac{size}{\sqrt{3}}</span> as the <var>size</var> in the recursive call.</div>
                     </p>
-                    <p>
-                        And here's level 8:<br />
-                        <img class="indent" src="/bjc-r/img/6-recursion/tri-frac-2-level-8.png" width="332" height="278" alt="fractal level 8">
-                    </p>
-                    <p>If you compare the level 2 picture with the one from the previous page, you'll see that the basic idea is the same: Stick little triangles at the corners of big ones. But they're stuck together slightly differently.</p>
                 </li>
-                <li>This time, instead of balancing the smaller triangles symmetrically on the corners of the bigger triangle, turn 30 degrees left after drawing each side and before the recursive call, and use <span class="katex">\frac{size}{\sqrt{3}}</span> as the size in the recursive call. Then make a level-10 fractal inside a <code>warp</code> block.  (Find it in the Control palette.)</li>
+                <li>Make a level-8 version of this new triangle fractal inside a <code>warp</code> block.<br />
+                    <img class="indent" src="/bjc-r/img/6-recursion/tri-frac-2-level-8.png" width="332" height="278" alt="fractal level 8">
+                    <img class="indent" src="/bjc-r/img/6-recursion/triangle-fractal-v2.png" alt="triangle fractal version 2 calling script" title="triangle fractal version 2 calling script" />
+                </li>
             </ol>
         </div>
+                
+        <!--<div class="todo">
+            <div class="takeItFurther"><a name="further" class="anchor">&nbsp;</a>
+                <ol type="A">
+                    <div class="todo">I want to drop this first one. I don't think it's particularly valuable or clear. The image doesn't look like that. If we want to keep it, I'd rather be direct and ask them to draw what we want them to draw. --MF</div>
+                    <li>
+                        <p>
+                            Your finished product should have produced a shape sort of like this:<br />
+                            <img class="indent" src="/bjc-r/img/6-recursion/fourtri.png" width="300" height="297" alt="four triangles">
+                        </p>
+                        <p>but with lots of small line segments instead of the grey parts. This should suggest an alternate way to make the shape: Level 1 is a triangle, level 2 is three level-1 versions arrayed around an empty triangle, etc. Write the code for that and compare the two results.</p>
+                    </li>
+                    <div class="todo">I couldn't get the fractal in this second problem right without help from Brian, and it turned out to be that I was being too logical. In the problems above, the smaller triangles were half-size. I assumed that to be the case here (though perhaps I should have assumed third-size)&mdash;especially because the very next problem specifies <span class="katex">\frac{size}{\sqrt{3}}</span>, so obviously that's not what would we want here (but it turns out that's the only factor that gives the level 8 image below.) --MF</div>
+                    <li>
+                        <p>
+                            Okay, no hints this time. Level 1 is an equilateral triangle. Here are levels 2 and 3:<br />
+                            <img class="indent" src="/bjc-r/img/6-recursion/tri-frac-2-level-2.png" width="332" height="278" alt="fractal level 2"><img src="/bjc-r/img/6-recursion/tri-frac-2-level-3.png" width="332" height="278" alt="fractal level 3">
+                        </p>
+                        <p>
+                            And here's level 8:<br />
+                            <img class="indent" src="/bjc-r/img/6-recursion/tri-frac-2-level-8.png" width="332" height="278" alt="fractal level 8">
+                        </p>
+                        <p>If you compare the level 2 picture with the one from the previous page, you'll see that the basic idea is the same: Stick little triangles at the corners of big ones. But they're stuck together slightly differently.</p>
+                    </li>
+                    <div class="todo">After Brian corrected me on the <span class="katex">\frac{size}{\sqrt{3}}</span> thing on the problem above and my misinterpretation of the instruction "turn 30 degrees left after drawing each side and before the recursive call" on the problem below to mean that the <code>turn left</code> block should have an input of 30, I now have two identical scripts for these two seemingly separate problems. --MF</div>
+                    <li>This time, instead of balancing the smaller triangles symmetrically on the corners of the bigger triangle, turn 30 degrees left after drawing each side and before the recursive call, and use <span class="katex">\frac{size}{\sqrt{3}}</span> as the size in the recursive call. Then make a level-10 fractal inside a <code>warp</code> block.  (Find it in the Control palette.)</li>
+                </ol>
+            </div>
+        </div>-->
         
 
 	</body>
