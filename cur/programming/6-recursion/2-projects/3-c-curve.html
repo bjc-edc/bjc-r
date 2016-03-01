@@ -8,37 +8,73 @@
 
 	<body>
 		<h2>Lévy C-Curve Fractal</h2>
-        <div class="todo">Make this an "if there is time." --MF</div>
         <div class="todo">
             <ul>
                 <li>GH Feedback 8/4/15: I like this program. I needed Brian Harvey's help to understand the fractal and thus be able to write this program. I know it sounds silly, but the colors threw me off! The base level was red and the next level is a red and blue corner. The next level should be the red and blue corner and then ANOTHER red and blue corner. The coloring messed with my noggin.</li>
+                <li>I still need to rebuild these images, but I want to discuss how first. What I want to do on the previous page is more like what we have here and that teacher didn't like. I wonder if having it on the previous page would help here... --MF</li>
             </ul>
         </div>
         <p>
-            Another beautiful recursive shape is the C-curve. As in the snowflake algorithm, the base case is that the sprite draws a single line segment. The sprite starts facing right and faces right at the end. In this algorithm, the sprite does not return to the starting place after each recursive call. The base case has the sprite start on the left and go to the right. (Hint: The direction that the sprite points at the end is important! It should point in the same direction it did at the beginning of the recursive call.)<br />
-            <img class="indent" src="/bjc-r/img/6-recursion/c-curve-level0.gif" alt="" title="" />
+            Another well-known recursive shape is the Lévy C-curve. As in the snowflake algorithm, the base case is that the sprite draws a single line segment, starting on the left, going to the right, and pointing in the same direction in the beginning and at the end (to the right).<br />
+            <img class="indent noshadow" src="/bjc-r/img/6-recursion/c-curve-level0.gif" alt="Lévy C-Curve Level 1" title="Lévy C-Curve Level 1" />
         </p>
         <p>
-        	In the next level, start facing right and end facing right but repeat the previous level twice (red and blue below).  You'll have to think about how much smaller than the <code>size</code> input the size of the recursive calls should be.<br />
-			<img class="indent" src="/bjc-r/img/6-recursion/c-curve-level1.gif" alt="" title="" />
+        	In the second level, the sprite repeats the previous level twice&mdash;first turning 45&deg; left, then doing the previous level, then turning 90&deg; right, then doing the previous level again, and finally turning 45&deg; left to face the same direction again. You'll have to think about how much smaller the <var>size</var> input should be in the recursive calls.<br />
+			<img class="indent noshadow" src="/bjc-r/img/6-recursion/c-curve-level1.gif" alt="Lévy C-Curve Level 2" title="Lévy C-Curve Level 2" />
         </p>
+        <div class="forYouToDo" id="first">
+            <ol>
+                <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
+ If the size of one level of the program is held by the variable <var>size</var>, what is the size passed through the recursive call to the next-lowest level? Use the Pythagorean formula: <span class="katex">a^2 + b^2 = c^2</span>.</li>
+            </ol>
+        </div>
         <p>
-        	In the next level, start facing right and end facing right but repeat the previous level twice (red and blue below).<br />
-            <img class="indent" src="/bjc-r/img/6-recursion/c-curve-level2.gif" alt="" title="" />
+        	In the third level, the sprite repeats the previous level twice, drawing 4 smaller lines. Notice that the 2nd and 3rd lines are in the same direction (they are <em>collinear</em>) so they appear to be one connected longer line.<br />
+            <img class="indent noshadow" src="/bjc-r/img/6-recursion/c-curve-level2.gif" alt="Lévy C-Curve Level 3" title="Lévy C-Curve Level 3" />
         </p>
-        <p>In the next level, start facing right and end facing right but repeat the previous level twice (red and blue below). And so on, for any number of levels.</p>
-		<p>
-        	If it's helpful to you, use the same technique we showed in writing the tree program: Start with a <code>flake1</code> block that handles the base case, then write a <code>flake2</code> block, then <code>flake3</code>, and so on until you understand the pattern.<br />
-        	<img class="indent" src="/bjc-r/img/6-recursion/c-curve-level3.gif" alt="" title="" /><br />
-            <img class="indent" src="/bjc-r/img/6-recursion/c-curve-level4.gif" alt="" title="" /><br />
-            <img class="indent" src="/bjc-r/img/6-recursion/c-curve-level5.gif" alt="" title="" /><br />
-            <img class="indent" src="/bjc-r/img/6-recursion/c-curve-level6.gif" alt="" title="" /><br />
-            <img class="indent" src="/bjc-r/img/6-recursion/c-curve-level7.gif" alt="" title="" /><br />
-            <img class="indent" src="/bjc-r/img/6-recursion/c-curve-level8.gif" alt="" title="" /><br />
-            <img class="indent" src="/bjc-r/img/6-recursion/c-curve-level9.gif" alt="" title="" /><br />
-            <img class="indent" src="/bjc-r/img/6-recursion/c-curve-level10.gif" alt="" title="" /><br />
-            <img class="indent" src="/bjc-r/img/6-recursion/c-curve-level11.gif" alt="" title="" />
+        <div class="forYouToDo">
+            <ol start="2">
+                <li>
+                    What in the algorithm makes these two lines end up drawn at the same angle?
+                    <div class="endnote">
+                        <div class="sideHOM"><img class="imageRight" src="/bjc-r/img/icons/write-out-thoughts-mini.png" alt="Write Out Your Thoughts" title="Write Out Your Thoughts" />You may find it helpful to expand this list of commands by writing out the steps within each of the two recursive calls.</div>
+                        Recall, the algorithm for each recursive level is: 
+                        <ul>
+                        	<li>turn 45&deg; left</li>
+                            <li>recursively call the previous level at the smaller size</li>
+                            <li>turn 90&deg; right</li>
+                            <li>recursively call the previous level at the smaller size</li>
+                            <li>turn 45&deg; left</li>
+                        </ul>
+                    </div>
+                </li>
+            </ol>
+        </div>
+		<p>This simple algorithm build up a complicated design at higher levels:<br />
+        	<img class="indent noshadow" src="/bjc-r/img/6-recursion/c-curve-level3.gif" alt="Lévy C-Curve Level 4" title="Lévy C-Curve Level 4" /><br />
+            <img class="indent noshadow" src="/bjc-r/img/6-recursion/c-curve-level4.gif" alt="Lévy C-Curve Level 5" title="Lévy C-Curve Level 5" /><br />
+            <img class="indent noshadow" src="/bjc-r/img/6-recursion/c-curve-level5.gif" alt="Lévy C-Curve Level 6" title="Lévy C-Curve Level 6" /><br />
+            <img class="indent noshadow" src="/bjc-r/img/6-recursion/c-curve-level6.gif" alt="Lévy C-Curve Level 7" title="Lévy C-Curve Level 7" /><br />
+            <img class="indent noshadow" src="/bjc-r/img/6-recursion/c-curve-level7.gif" alt="Lévy C-Curve Level 8" title="Lévy C-Curve Level 8" /><br />
+            <img class="indent noshadow" src="/bjc-r/img/6-recursion/c-curve-level8.gif" alt="Lévy C-Curve Level 9" title="Lévy C-Curve Level 9" /><br />
+            <img class="indent noshadow" src="/bjc-r/img/6-recursion/c-curve-level9.gif" alt="Lévy C-Curve Level 10" title="Lévy C-Curve Level 10" /><br />
+            <img class="indent noshadow" src="/bjc-r/img/6-recursion/c-curve-level10.gif" alt="Lévy C-Curve Level 11" title="Lévy C-Curve Level 11" /><br />
+            <img class="indent noshadow" src="/bjc-r/img/6-recursion/c-curve-level11.gif" alt="Lévy C-Curve Level 12" title="Lévy C-Curve Level 12" />
         </p>
+        <div class="forYouToDo">
+            <ol start="3">
+                <li>Develop a program that draws a Lévy C-Curve. </li>
+            </ol>	
+        </div>
+        <div class="ifTime">
+            <ol start="4">
+                <li>Create some variations on the Lévy C-Curve, like these:<br />
+                <img class="indent noshadow" src="/bjc-r/img/6-recursion/c-curve-variation1.jpg" alt="Lévy C-Curve-like drawing" title="Lévy C-Curve-like drawing" /><br />
+                <img class="indent noshadow" src="/bjc-r/img/6-recursion/c-curve-variation2.jpg" alt="Lévy C-Curve-like drawing" title="Lévy C-Curve-like drawing" /><br />
+                <img class="indent noshadow" src="/bjc-r/img/6-recursion/c-curve-variation3.jpg" alt="Lévy C-Curve-like drawing" title="Lévy C-Curve-like drawing" />
+                </li>
+            </ol>
+        </div>
         
         
 	</body>
