@@ -8,19 +8,18 @@
 
 	<body>
 		<h2>Recursive Tree</h2>	
-        <p>
-            Our goal is to draw a tree with <strong>fractal</strong> structure. Notice that the final picture contains smaller versions of itself...<br />
+        <p>The branching pattern on many plants has what is called <strong>fractal</strong> structure: the smaller parts are like miniature copies of the whole. <br />
             <div class="sidenoteBig">A <strong>fractal</strong> is an infinite repeating pattern made up of copies (or slight variations) of the same shape.</div>
             <img class="indent noshadow" src="/bjc-r/img/6-recursion/recursive-tree.gif" alt="fractal tree" title="fractal tree" /><br />
-            You will build your tree using <em>blocks within blocks</em> to create the branches that are each smaller copies of the same tree.
+            In this lab, you will build a tree using <em>blocks within blocks</em> to create the branches. Each branch will be a smaller copy of essentially the same tree.
         </p>
 
         <div class="forYouToDo" id="first">
             <ol>	
                 <div class="newProject">	<span class="text">"U6L1-Tree"</span><img src="/bjc-r/img/icons/new-project-called.png" alt="Start a New Project called U6L1-Tree" title="Start a New Project called U6L1-Tree" /></div>
                 <li>
-                    Build the first level.
-                    <ol>
+                    Building the first level:
+                      <ol>
                         <li>
                             Build this <code>tree1</code> block: <br />
                             <img class="indent" src="/bjc-r/img/6-recursion/tree1.png" alt="tree1 block definition" title="tree1 block definition" />
@@ -33,22 +32,22 @@
                     </ol>
                 </li>
                 <li> 
-                    Now, build the second level.
-                    <ol>
+                    Building the second level:
+<ol>
                     	<li>
-                        	Build <code>tree2</code>, which uses <code>tree1</code> to create the branches:<br />
+                        	Build <code>tree2</code>, using <code>tree1</code> as the branches:<br />
                     		<div class="sidenote">Using <code>tree1</code> to draw the branches in <code>tree2</code> is using <em>abstraction</em>.</div>
                             <img class="indent" src="/bjc-r/img/6-recursion/tree2.png" alt="tree2 block definition" title="tree2 block definition" />
                         </li>
                         <li>
-                        	With the sprite pointing up and the pen down, run <code>tree2 size: 50</code>. You should get a result like this:<br />
+                        	Run <code>tree2 size: 50</code>. You should get a result like this:<br />
                         	<img class="indent" src="/bjc-r/img/6-recursion/tree-level2.jpg" alt="tree2 result" title="tree2 result" />
                         </li>
                         <li>
                         	<img class="imageRight" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
                             Trace through the code carefully. Describe the role of each block in producing the drawing.
                         </li>
-						<li>Why is where the sprite stops for <code>tree1</code> important to <code>tree2</code>?</li>
+						<li>Describe <em>exactly</em> the position of the sprite when  <code>tree<strong><em>1</em></strong></code> stops running. Why is that essential for <code>tree2</code> to work?</li>
                     </ol>
                 </li>
             </ol>
@@ -58,12 +57,14 @@
         
         <div class="forYouToDo">
             <ol start="3">
+                
+                <li>Make a <code>tree3</code> block that uses the <code>tree2</code> block.</li>
+                
+              <li>Make a <code>tree4</code> block that uses the <code>tree3</code> block.</li>
                 <div class="endnote">
                 	Right-click (or control-click on a mac) a block to "duplicate" or "relabel" blocks to make these tasks much faster.<br />
                     <p class="center"><img src="/bjc-r/img/6-recursion/dup-and-relabel.gif" alt="duplicate and relabel menu options" title="duplicate and relabel menu options" /></p>
                 </div>
-                <li>Make a <code>tree3</code> block that uses the <code>tree2</code> block.</li>
-                <li>Make a <code>tree4</code> block that uses the <code>tree3</code> block.</li>
                 <li>
                     Make a <code>tree5</code> block that uses the <code>tree4</code> block. Running <code>tree5 size: 50</code> should produce a result like this:<br />
                     <img class="indent" src="/bjc-r/img/6-recursion/tree5.jpg" alt="tree5 size: 50" title="tree5 size: 50" /> 
@@ -72,19 +73,19 @@
     	</div>
         
 		
-        <p><img class="inline" src="/bjc-r/img/icons/take-turns-speaking-mini.gif" alt="Take turns speaking" title="Take turns speaking"> These blocks look very similar, and we can actually write a <code>tree</code> block that uses <code>tree</code> itself in its own script.</p>
-        <div class="takeNote center">Using a block inside of itself is a special kind of abstraction called <strong>recursion</strong>.</div>
-        <p>In addition to the <var>size</var> of the tree, the <em>recursive</em> <code>tree</code> block will need to know the <var>level</var> of the tree you want to draw. For example, given a <var>level</var> input of 5, <code>tree</code> will call two trees of <var>level</var> 4; those two trees will each call two more trees of <var>level</var> 3, and so on. (This is just like how <code>tree5</code> called <code>tree4</code>, and <code>tree4</code> called <code>tree3</code>, and so on.)</p>
+        <p><img class="inline" src="/bjc-r/img/icons/take-turns-speaking-mini.gif" alt="Take turns speaking" title="Take turns speaking"> These blocks are very similar. <code>tree5</code> uses <code>tree4</code> exactly the same way that <code>tree4</code> uses <code>tree3</code>, and so on, down to <code>tree1</code>. We can use that fact to write a <code>tree</code> block that uses <code>tree</code> itself in its own script.</p>
+        <div class="takeNote center">Using a block inside of itself is called <strong>recursion</strong>.</div>
+        <p>The <em>recursive</em> <code>tree</code> block needs to know which <var>level</var> tree it is drawing, so, it needs a second variable <var>level</var>. When <code>tree</code> is called with <var>level</var> 5, it will call two trees of <var>level</var> 4; each of them will call two trees of <var>level</var> 3, and so on, until <var>level</var> 1. (This is just like how <code>tree5</code> called <code>tree4</code>, and <code>tree4</code> called <code>tree3</code>, and so on.)</p>
 
 
 		<div class="forYouToDo">
             <ol start="6">
                 <li>
-                    Build the <em>recursive</em> version of the <code>tree</code> block:<br />
+                    This is the general idea for the <em>recursive</em> version of <code>tree</code>.  Build it:<br />
             		<img class="indent" src="/bjc-r/img/6-recursion/tree-nobase.png" alt="buggy tree block definition" title="buggy tree block definition" />
                 </li>
                 <li>
-                	Point the sprite up, put the pen down, and run <code>tree level: 9 size: 50</code>. It will <em>not</em> work, like this: <br />
+                	Now run <code>tree level: 9 size: 50</code>. It doesn't work yet. All you see is: <br />
 					<img class="indent" src="/bjc-r/img/6-recursion/treebug.jpg" alt="picture of failing tree" title="picture of failing tree" />
                 </li>
                 <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> Try to debug the script. What's going wrong?</li>
