@@ -9,14 +9,15 @@
 	<body>
 		<h2>Programming Lab 1: Trees in a Forest</h2>
         <p>Recursion is the use of a procedure within itself. That definition is simple enough, but <em>using recursion</em> takes some practice and learning it well requires care in the order in which ideas are presented.</p>
-        <p><img class="imageRight noshadow" src="/bjc-r/img/6-recursion/recursive-tree.gif" alt="fractal tree" title="fractal tree" />Unit 5 introduces recursion in the context fractal graphics, i.e., pictures that include smaller versions of themselves.  The canonical example is the fractal tree, in which each branch is a smaller sub-tree with branches of its own.</p>
+        <p><img class="imageRight noshadow" src="/bjc-r/img/6-recursion/recursive-tree.gif" alt="fractal tree" title="fractal tree" />Unit 5 introduces recursion in the context of fractal graphics, i.e., pictures that include smaller versions of themselves.  The canonical example is the fractal tree, in which each branch is a smaller sub-tree with branches of its own.</p>
+        <p>(A note on terminology: Technically, the pictures students create in this unit aren't fractals; they're <em>approximations to</em> fractals. To be a true fractal, a picture would have to have infinitely many levels. This is true about every alleged picture of a fractal, though, not just the ones in this course. You might want to say this once, but don't harp on it.)</p>
 		<p>Most of this lab walks the students through a simple fractal tree using the <em>combining method</em> of explaining recursion.  This approach helps students overcome the feeling that a recursive call is "cheating" because it's calling a block that hasn't been fully written yet. To avoid this confusion, we start with a sequence of simpler (non-recursive) tree blocks, each of which calls the one before it (e.g., <code>tree2</code> calls <code>tree1</code>; <code>tree3</code> calls <code>tree2</code>; and so on.) </p>
 		<p>
-            A more traditional approach to teaching recursion would start with <em>tail recursion,</em> in which the sole recursive call comes at the tail end, like this:<br />
-            <img class="indent" src="/bjc-r/img/6-recursion/factorial-reporter-definition.png" alt="tail recursive factorial block" title="tail recursive factorial block" />
-        </p>
-        <p>However, students often misunderstand this code, thinking that the recursive call at the end means "go back to the beginning." This wrong mental model will work for tail recursive blocks, but when students confront a recursive call that can't be at the end of the definition, they'll be lost. The <em>combining method</em>, where students build up successive calls to similar procedures and then just call the procedure itself, provides a better introduction.</p>
-        <p>(Note that while most of the labs in other units provide links to projects with the blocks partly or completely pre-written, this lab does not because students benefit from the tactile experience of building almost the same script repeatedly in order to see the virtue of combining them into a single script using recursion.)</p> 
+        A more traditional approach to teaching recursion would start with <em>tail recursion,</em> in which the sole recursive call comes at the tail end, like this:</p>
+		<p><img src="/bjc-r/img/6-recursion/tail-countdown.png" alt="to countdown(num): if num=0 say &quot;Blastoff!&quot; else say num for 1 secs, countdown(num-1)">&nbsp;&nbsp;<img src="/bjc-r/img/6-recursion/tail-square.png" alt="to square(num): move num steps, turn right 90, if direction=90 stop this block, square(size)"><br />
+    </p>
+        <p>However, students often misunderstand this code, thinking that the recursive call at the end means "go back to the beginning." This wrong mental model will work for tail recursive blocks, but when students confront a recursive call that can't be at the end of the definition, they'll be lost. Embedded recursion, in which the recursive call <em>isn't</em> the last thing in the script, provides a better introduction.</p>
+        <p>(Note that while most of the labs in other units provide links to projects with the blocks partly or completely pre-written, this lab does not because students benefit from the tactile experience of building almost the same script repeatedly in order to see the virtue of combining them into a single script using recursion. Resist the temptation to teach them to start the next script by duplicating the previous one.)</p> 
 
 		<h3>Pacing:</h3>
 		<div>
@@ -49,9 +50,9 @@
 		<div>
 			<ul>
 				<li>Get a collective introduction to recursion through the "Vee" project, which selects blocks to draw from a list of shape blocks that includes the <code>vee</code> block itself.</li> 
-                <li>Revisit the idea of state transparency and its importance when calling scripts within scripts.</li>
-                <li>Develop a recursive program by first creating the program with several non-recursive blocks and then using one recursive block to perform the same function.</li>
-                <li>Learn the basic ideas and terms of recursion including: base case, recursive case, and infinite loop.</li>
+                <li>Revisit the idea of state transparency.</li>
+                <li>Develop a recursive program by first creating the program with several non-recursive blocks and then combining them into one recursive block to perform the same function.</li>
+                <li>Learn the basic ideas and terms of recursion including base case, recursive case, and infinite loop.</li>
                 <li>Explore and develop variations of the fractal tree.</li>
 			</ul>
 		</div> 
@@ -65,11 +66,11 @@
                     <strong>Before starting the lab pages:</strong>
                 	<p>This unit begins with a teacher demonstration because the collective "gasp!" when the first complex picture appears is unforgettable. VEE is a great introduction to recursion because its use of randomness lets you ignore completely the annoying detail of base cases in recursive code. Students who've seen the demo, therefore, aren't ready to write their own recursive programs, but they're motivated to work through the first lab.</p>
                     <ul>
-                    	<li>Before students get started, project Snap<em>!</em>, choose "Open..." from the File menu, and select "Vee" from the list of example projects.</li>
-                        <li>Click the green flag several times and ask students to <strong>describe what the <code>vee</code> procedure does</strong>. You may even choose to show the block definition and discuss how the steps of the procedure generate the images that appear.</li>
-                        <li>Then ask students, "<strong>What will happen if we add <code>vee</code> to the list of shapes to make <code>vee</code> call itself?</strong>" You will likely hear answers such as "We'll  sometimes get another v-shape on one of the ends."</li>
+                    	<li>Before students get started, project Snap<em>!</em>, choose "Open..." from the File menu, and select "Vee" from the list of example projects. At this point, the list of shapes does <em>not</em> include Vee itself.</li>
+                        <li>Click the green flag several times and ask students to <strong>describe what the <code>vee</code> procedure does</strong>. Type the space key to show the block definition and discuss how the steps of the procedure generate the images that appear. <em>Do not</em> call students' attention to the fact that <code>shapes</code> is a list of blocks; if a student asks about it, say &quot;see me later.&quot;</li>
+                        <li>Then ask students, "<strong>What will happen if we add <code>vee</code> to the list of shapes?</strong>" Type the uparrow key to do this. You will likely hear answers such as "We'll  sometimes get another v-shape on one of the ends."</li>
                     	<img class="imageRight noshadow" src="/bjc-r/img/6-recursion/list-of-shape-blocks.jpg" alt="list of shape blocks" title="list of shape blocks" />
-                        <li>Then press the up arrow to add two instances of <code>vee</code> to the list, expand the list watcher so students can see the content, and click the green flag a few more times, stopping after the first significantly complex image appears. Ask students, "<strong>What happened when the <code>vee</code> block called itself?</strong>" Don't worry about getting to a precise answer here; the idea is just to instill a sense of the power behind the simple process of calling a procedure from within itself.</li>
+                        <li>Then  click the green flag a few more times, stopping after the first significantly complex image appears. Ask students, "<strong>What happened when the <code>vee</code> block called itself?</strong>" Don't worry about getting to a precise answer here; the idea is just to instill a sense of the power behind the simple process of calling a procedure from within itself.</li>
                     </ul>
                     <p>Note that the <em>list of blocks</em> in the corner of the stage (shown right)	 is something the students won't have seen before, but resist the temptation to talk about it. Students will come to understand it by themselves because they've seen lists before and they've seen blocks before.</p>
                 </li>
@@ -79,8 +80,7 @@
                         <li>
                         	Discussion Questions:
                             <ul>
-                                <li>What is <strong>state transparency</strong>? Why is it important? Have you run in to issues with state transparency before? What happened and how did you resolve it? Students may remember <a href="/bjc-r/cur/programming/1-introduction/4-building-and-debugging/5-debugging-blocks-within-blocks.html?topic=nyc_bjc%2F1-intro-loops.topic&course=bjc4nyc_2015-2016.html&novideo&noassignment">Debugging Blocks within Blocks in Unit 1</a>, where a script intended to draw five blocks in a row by using a <code>draw square</code> block five times fails because the <code>draw square</code> block leaves the sprite in a different orientation than it started.</li>
-                                <img class="imageRight" src="/bjc-r/img/6-recursion/tree.png" alt="correct tree block definition" title="correct tree block definition" />
+                                <li>What is <strong>state transparency</strong>? Why is it important? Have you run into issues with state transparency before? What happened and how did you resolve it? Students may remember <a href="/bjc-r/cur/programming/1-introduction/4-building-and-debugging/5-debugging-blocks-within-blocks.html?topic=nyc_bjc%2F1-intro-loops.topic&course=bjc4nyc_2015-2016.html&novideo&noassignment">Debugging Blocks within Blocks in Unit 1</a>, where a script intended to draw five blocks in a row by using a <code>draw square</code> block five times fails because the <code>draw square</code> block leaves the sprite in a different orientation than it started.</li>
                                 <li>Project the <code>tree2</code> block definition together with an image of the result and ask students to describe the role of each block on the resulting drawing. Do the same for <code>tree3</code>.</li>
                                 <li>
                                     These questions encourage students to attend very closely to the details of how the trees are drawn and which aspects are essential to the structure and which are simply aesthetic choices:
@@ -101,6 +101,7 @@
                         <li>
                         	Discussion Questions:
                             <ul>
+                                <img class="imageRight" src="/bjc-r/img/6-recursion/tree.png" alt="correct tree block definition" title="correct tree block definition" />
                                 <li>Have students describe <strong>recursion</strong> in their own words.</li>
                                 <li>Have students share their work on the last "For You To Do" problem, identifying the <strong>base case</strong> and <strong>recursive case</strong> in the final (corrected) <code>tree</code> script and describing how recursion works in this script.</li>
                             </ul>
