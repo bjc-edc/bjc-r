@@ -9,13 +9,18 @@
 	<body>
 		<h2>The Base Case</h2>	
         <p>
-        	<div class="sidenote">Recall, <em>recursive</em> means a script that calls itself.</div>
-        	We first tried to build the recursive tree by using the same script as for <code>tree2</code>, <code>tree3</code>, etc. and replacing the call to a lower-level tree with a call to <code>tree</code> itself but with a lower level input, like this:<br />
+        	<div class="sidenote">Recall, a <em>recursive</em> script is a script that calls itself.</div>
+        	<p>Last time, we tried to replace all the numbered tree scripts with a single script following this pattern:</p>
+        	<p>&nbsp;</p>
+        	<p>&nbsp;</p>
+        	<p><img src="/bjc-r/img/6-recursion/tree2.png" height="267" alt="tree2 script">&nbsp;&nbsp; <img src="/bjc-r/img/6-recursion/tree3.png" height="267" alt="tree3 script">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <img src="/bjc-r/img/6-recursion/tree-nobase.png" height="267" alt="tree, no base case"></p>
+       <!-- 	<p>We first tried to build the recursive tree by using the same script as for <code>tree2</code>, <code>tree3</code>, etc. and replacing the call to a lower-level tree with a call to <code>tree</code> itself but with a lower level input, like this:<br />
             <img class="indent" src="/bjc-r/img/6-recursion/tree-recursive-call.png" alt="tree level: (level - 1) size: (size × 0.65)" title="tree level: (level - 1) size: (size × 0.65)" />
-        </p>
-        <p>
-        	It did not work:<br />
-			<img class="indent" src="/bjc-r/img/6-recursion/tree-nobase.png" alt="buggy tree block definition" title="buggy tree block definition" />
+    </p>
+            </p>    -->
+       	<p>
+        	It didn't work:<br />
+	<!--		<img class="indent" src="/bjc-r/img/6-recursion/tree-nobase.png" alt="buggy tree block definition" title="buggy tree block definition" />  -->
 			<img class="indent" src="/bjc-r/img/6-recursion/treebug.gif" alt="picture of failing tree" title="picture of failing tree" />
         </p>
         <p>
@@ -52,22 +57,22 @@
                 	Point the sprite up, put the pen down, and run <code>tree level: 9 size: 50</code>. Now it  should work, and you should get a result like this:<br />
 					<img class="indent" src="/bjc-r/img/6-recursion/tree-level9.jpg" alt="picture of tree on stage" />
                 </li>
-                <li>The amount of time required to draw the tree goes up very quickly with the number of levels, so we don't recommend trying 20 levels. But try running level 8 through level 12 at various sizes.</li>
+                <li>The amount of time required to draw the tree goes up very quickly with the number of levels, so we don't recommend trying 20 levels. But try timing level 8 through level 12.</li>
 			</ol>
         </div>
         
         <div class="takeNote">
         	<img class="imageRight" src="/bjc-r/img/icons/take-turns-speaking-mini.gif" alt="Take turns speaking" title="Take turns speaking">
             <p><em>Recursive</em> scripts call themselves, but they can't keep doing it forever; they have to stop and go back at some point. That point is the <strong>base case</strong>, the simpler version of the script that <em>doesn't call the block itself</em>. This is typical in recursion.</p>
-            <p>There is usually a <em>conditional statement</em> (like <code>if-else</code>) with two cases: a <em>base case</em> for the lowest level that stops the recursion from going on forever and a <strong>recursive case</strong> that calls the script itself again and again at lower levels until it reaches the base case.</p>
-            <p>When a script <em>does</em> keep recursively calling itself forever (like when the sprite was just spinning around in one place), that's a bug, and we say it is stuck in an <strong>infinite loop</strong>.</p>
+            <p>There is usually a <em>conditional</em> (like <code>if-else</code>) with two cases: a <em>base case</em> for the lowest level that stops the recursion from going on forever and a <strong>recursive case</strong> that calls the script itself again and again at lower levels until it reaches the base case.</p>
+            <p>When a script <em>does</em> keep recursively calling itself forever (like when the sprite was just spinning around in one place), that's a bug, and we say the program is stuck in an <strong>infinite loop</strong>.</p>
         </div>
         
         <div class="forYouToDo">
             <ol start="4">
-                <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />Look at your corrected recursive <code>tree</code> script. Identify the <em>base case</em> and the <em>recursive case</em>, and discuss how recursion works in this script. </li>
+      <!--          <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />Look at your corrected recursive <code>tree</code> script. Identify the <em>base case</em> and the <em>recursive case</em>, and discuss how recursion works in this script. </li>    -->
                 <li>
-                    Try using a <var>count</var> variable inside the base case to record the number of times that the <code>tree</code> block is called when running different levels. Make a table. Do you see a pattern?
+                    Try using a global <var>count</var> variable, incremented first thing in the <code>tree</code> block, to record the number of times that  <code>tree</code>  is called when running different levels. Make a table. Do you see a pattern?
                     <table class="center bordered">
                         <tr>
                             <td><var>level</var></td>
