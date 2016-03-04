@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+        <title>Unit 7 Lab 1: Recursive Reporters</title>
+    </head>
+
+    <body>
+        <h2>Writing Recursive Reporters</h2>
+		
+<p>To write a <strong>recursive reporter</strong>, it helps to describe how the result is related to a simpler version of the same problem.</p>
+		
+<div class="forYouToDo" id="first">
+
+<p>The <code>factorial</code> function, <em>n</em>!, is defined to be the product of the integers from 1 to <em>n</em>.</p>
+
+<ol>
+
+<li><div class="sidenote">Say 9! as "nine factorial", not <em>NINE!</em></div>The value of 9! is 362,880. Find the value of 10!.</li>
+<li>Describe the relationship between 37! and 36!.</li>
+<li>Use these ideas to build a <code>factorial</code> block using a <strong>recursive reporter</strong>. Don't forget Betty's advice: <em>base cases are important!</em></li>
+
+</ol>
+
+</div>
+
+        <p>Recursive reporters can be more difficult to write than recursive <em>commands</em>, such as <code>tree</code> and <code>triangle fractal</code>. Recursive commands often look like this:</p>
+		<div class="sidenote">Recursive commands can have multiple recursive calls interspersed with other commands.</div>
+        <p><img src="/bjc-r/img/7-recursive-reporters/rec-command.png" alt="recursive command pattern" /></p>
+        <p>Recursive reporters are different, since you only get to report <em>one </em>value. This isn't possible:</p>
+		<div class="sidenote">You can't even build this, because you won't be allowed to connect a block below a <code>report</code> block.</div>
+        
+        <p><img src="/bjc-r/img/7-recursive-reporters/bad-rec-reporter.png" alt="bad (multi-report) recursive reporter pattern" /></p>
+        <p>Since <code>report</code> sends an answer, you'll need to build the answer before or inside that call. Higher-order functions, mathematics operations, and other ways to combine information are used.</p>
+<!--        <p>Instead, most of the time a recursive reporter call will be inside a <em>combiner</em> that attaches the result of the recursive call to some other value:</p>
+        <p><img src="/bjc-r/img/7-recursive-reporters/rec-reporter.png" alt="correct recursive reporter pattern with combiner" /></p>
+        <p>The combiner can be an arithmetic operator such as <code>+</code> or <code>&times;</code>:</p>
+        <p><img src="/bjc-r/img/7-recursive-reporters/factorial.png" alt="factorial" /></p> -->
+        <div class="forYouToDo">
+		<p>Word processing programs count the number of words and letters in documents. One way to count the number of letters in a phrase uses a recursive reporter.</p>
+				<ol start="4">
+				<li>The phrase <strong>"in the course of human events"</strong> has 24 letters. How many letters are there in the phrase <strong>"When in the course of human events"</strong>?</li>
+				<li>How does the number of letters in a 37-word sentence compare to the number of letters in its last 36 words?</li>
+				<li>Recursion needs a base case. What sort of base case might there be for this situation?</li>
+            	<li>Create a <code>letter count</code> block that takes a list of words as input and reports the total number of letters in the words. The <code>all but first of</code> block may be useful, but there is more than one way to do this.</li>
+				
+				<img src="/bjc-r/img/7-recursive-reporters/lettercount.png" alt="letter count block" />
+				
+				<li><div class="sidenote">You'll need a block that takes strings and makes larger strings...</div>Create your own version of the <code>join words</code> block. This block inputs a list and outputs a string sentence, with spaces:</li>
+				
+				<img src="/bjc-r/img/7-recursive-reporters/myjoinwords.png" alt="my join words block" />
+				
+<p>				Then, compare your work to the real <code>join words</code> block.</p>
+            </ol>
+        </div >
+        <p>List operations like <code>all but first of</code> and <code>in front of</code> are frequently used in recursive reporters.</p>
+		<div class="forYouToDo>
+		<ol start="9">
+		<li>Build this <code>plurals</code> block, then describe in your own words how it works.</li>
+        <p><img src="/bjc-r/img/7-recursive-reporters/plurals.png" alt="plurals" /></p>
+		</ol>
+		</div>
+        
+	</body>
+</html>
