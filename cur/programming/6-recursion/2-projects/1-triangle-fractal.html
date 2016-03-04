@@ -10,14 +10,14 @@
 		<h2>Triangle Fractal</h2>
         <div class="sidenote">This shape is called a "<a href="https://duckduckgo.com/?q=Sierpinski+gasket&iax=1&ia=images" target="_blank">Sierpinski gasket</a>." Sierpinski is pronounced sher-PIN-ski.</div>
         <p>
-        	Now, we'll build another fractal structure by using triangles:<br />
+        	Now, you'll build another fractal structure by using triangles:<br />
         	<img class="indent noshadow" src="/bjc-r/img/6-recursion/triangle-fractal.gif" alt="triangle fractal level 6 drawing" title="triangle fractal level 6 drawing" />
         </p>
         <div class="forYouToDo" id="first">
             <ol>
 				<div class="newProject"><span class="text">"U6L2-TriangleFractal"</span><img src="/bjc-r/img/icons/new-project-called.png" alt="Create a new project called U6L2-TriangleFractal" title="Create a new project called U6L2-TriangleFractal" /></div>
                 <li>
-                    First, write a block that takes a <var>size</var> as input and draws a triangle.<br />
+                    First, write a block that takes a <var>size</var> as input and draws an equilateral triangle.<br />
                     <img class="indent" src="/bjc-r/img/6-recursion/triangle-size-40.png" alt="triangle size: (40)" title="triangle size: (40)" />
                     <img class="indent" src="/bjc-r/img/6-recursion/triangle-size-40-drawing.jpg" alt="triangle size: (40) drawing" title="triangle size: (40) drawing" />
                 </li>
@@ -25,7 +25,7 @@
             </ol>
         </div>
         
-        <h3>Triangle Fractal</h3>
+        <h3>Growing the Triangle into the Fractal</h3>
         <p>
         	We'll use that <code>triangle</code> block as the base case for a new block with <var>level</var> and <var>size</var> inputs just like <code>tree</code>:<br />
         	<img class="indent" src="/bjc-r/img/6-recursion/tri-frac-1-head.png" alt="triangle fractal v.1 level: (level #) size: (size #)" title="triangle fractal v.1 level: (level #) size: (size #)" />
@@ -34,6 +34,7 @@
         	At level 1, the result of should be an equilateral triangle:<br />
         	<img class="indent noshadow" src="/bjc-r/img/6-recursion/tri-frac-1-level-1.png" alt="triangle fractal level 1 drawing" title="triangle fractal level 1 drawing" />
         </p>
+<div class="comment">Paul, do you not like my click-for-comment on principle? --bh</div>
         <p>
             At level 2, each side of the triangle should be extended with a half-size triangle:<br />
             <img class="indent noshadow" src="/bjc-r/img/6-recursion/tri-frac-1-level-2.png" alt="triangle fractal level 2 drawing" title="triangle fractal level 2 drawing" />
@@ -50,14 +51,14 @@
 Write the code for <code>triangle fractal</code>.</li>
                 <li>Then try a big level number, like 9 or 10, inside a <code>warp</code> block.</li>
                 <div class="endnote">
-                    The <code>warp</code> block (in the yellow Control palette) makes the scripts inside it run faster by skipping any intermediate steps and not letting any other scripts run until it's finished.<br />
+                    The <code>warp</code> block (in the yellow Control palette) makes the scripts inside it run faster by not letting any other scripts run or updating the display until it's finished.<br />
                     <img class="indent" src="/bjc-r/img/6-recursion/tri-frac-1-in-warp.png" alt="triangle fractal in warp block in a script" title="triangle fractal in warp block in a script" />
                 </div>
             </ol>
         </div>
         
 		<div class="ifTime">
-            <p>In order to draw a triangle, the sprite needs to be turning a total of 120&deg;, but you can experiment with <em>where</em> you put that 120&deg;.</p>
+            <p>In order to draw the central triangle of each level, the sprite must turn 120&deg; between sides.  For the fractal above, that turning happens <em>after</em> drawing the smaller fractal, but you could turn before the recursive call, or split the turn, with part before and part after the recursive call.</p>
             <ol start="4">
                 <li>
                     Try some modifications like these:<br />
@@ -69,8 +70,8 @@ Write the code for <code>triangle fractal</code>.</li>
         </div>        
 		<div class="takeItFurther"><a name="further" class="anchor">&nbsp;</a>
             <ol type="A">
-                <li>Use <code>for</code> to make an animation that cycles through different turning angle arrangements (like, 0&deg; and 120&deg;, then 1&deg; and 119&deg;, then 2&deg; and 118&deg;, etc.).</li>
-                <li>Experiment with the input <var>size</var> of the recursive calls. For instance, what if it's not half-size but something very close (like <span class="katex">\frac{size}{\sqrt{3}}</span>)?</li>
+                <li>Use <code>for</code> to make an animation that cycles through different turning angle arrangements (that is, 0&deg; and 120&deg;, then 1&deg; and 119&deg;, then 2&deg; and 118&deg;, etc.).</li>
+                <li>Experiment with the scale factor for the <var>size</var> of the recursive calls.  A couple of interesting values are 1/3 and <span class="katex">\frac{<var>size</var>}{\sqrt{3}}</span>.</li>
             </ol>
         </div>
 
