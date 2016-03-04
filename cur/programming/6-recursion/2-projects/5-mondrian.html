@@ -17,6 +17,7 @@
         </div>
         <p>
             Mondrian's paintings were not created recursively, but we can use recursion to create similar images:<br />
+<div class="sidenoteBig">If you look closely at this picture, you'll see that the corners of the outside border are missing.  This happens when you use a wide pen and choose "Flat line ends," as we did for this project.  Don't worry about it.</div>
           <img class="indent noshadow" src="/bjc-r/img/6-recursion/mondrian.jpg" alt="Mondrian picture created recursively" title="Mondrian picture created recursively" />
     </p>
         
@@ -27,8 +28,8 @@
                 	Load <a class="run" href="/bjc-r/prog/6-recursion/U6L2-Mondrian.xml" target="_blank">this project</a>. It has several blocks already created and the script that calls <code>Mondrian</code> already set up.</li>
                 <li>
 					Begin by programming the code for your base case, the <code>rectangle</code> block. It will need to draw a rectangle with a black border and use a very thick line of color to paint the inside. Be sure to preserve state transparency (put the sprite back where it started).
-                	<div class="endnote">The <code>rectangle</code> block already contains two custom blocks, <code>set pen to black line</code>, for the borders, and <code>set pen to paint</code>, which runs a random <code>set pen color</code> block from the <var>colors</var> list variable according to the <var>thickness</var> you determine. You can look inside these two custom blocks to see how they work.<br />
-                        <img class="indent" src="/bjc-r/img/6-recursion/set-colors.png" alt="set (color) to {(set pen color to red), (set pen color to yellow), (set pen color to blue), (set pen color to white), (set pen color to black)}" title="set (color) to {(set pen color to red), (set pen color to yellow), (set pen color to blue), (set pen color to white), (set pen color to black)}" />
+                	<div class="endnote">The <code>rectangle</code> block already contains two custom blocks, <code>set pen to black line</code>, for the borders, and <code>set pen to paint</code>, which runs a random <code>set pen color</code> block from the <var>colors</var> list and sets the pen width according to the <var>thickness</var> you determine. You can look inside these two custom blocks to see how they work. <var>Colors</var> is set up before the outer call to <code>Mondrian</code>, like this:<br />
+                        <img src="/bjc-r/img/6-recursion/set-colors.png" alt="set (color) to {(set pen color to red), (set pen color to yellow), (set pen color to blue), (set pen color to white), (set pen color to black)}" title="set (color) to {(set pen color to red), (set pen color to yellow), (set pen color to blue), (set pen color to white), (set pen color to black)}" />
                     </div>
                 </li>
                 <li>
@@ -40,9 +41,9 @@
 						<img class="imageRight" src="/bjc-r/img/icons/take-turns-speaking-mini.gif" alt="Take turns speaking" title="Take turns speaking">
 						Then, program the code for the recursive case. The <code>Mondrian</code> block already contains some structure. Your job is to fill in all the blanks. Before you get started, think carefully about how the script is going to work. 
                         <ul>
-							<li>You've already seen level 1. For level 2, <code>Mondrian</code> will randomly divide the rectangle into two pieces and draw a rectangle on each side. For level 3, <code>Mondrian</code> will randomly divide the rectangle into two pieces, randomly divide each of <em>those</em> two pieces into two pieces each, and then draw a rectangle in each of those four places. Level 4 will create eight rectangles, level 5 will create sixteen, and so on.</li>
-                            <li>The <var>percent</var> variable gives a random percentage for how to divide up the rectangle each time. You'll have to determine how to calculate the lengths of the rectangles. (For example, if we are dividing a width of 200 with a percentage of 40%, we'll have a rectangle of width 80 and one of 120, and their heights will be the same).</li>
-                            <li>The algorithm will be slightly different based on whether a rectangle is being divided up along the width or along the height. Notice that the <code>if-else</code> determines whether <var>width</var> or <var>height</var> is greater. Divide each rectangle along the longer side.</li>
+							<li>You've already seen level 1, a filled-in rectangle.  For level 2, <code>Mondrian</code> will randomly divide the area specified by its <var>width</var> and <var>height</var> inputs in two pieces, and draw a <code>rectangle</code> in each piece.  For level 3, <code>Mondrian</code> will randomly divide the area in two pieces, and draw a level-2 <code>Mondrian</code> in each piece (for a total of four filled-in rectangles).  Level 4 will create eight rectangles; level 5 will create 16; and so on.</li>
+                            <li>The <var>fraction</var> variable will contain a random fraction between 1/5 and 4/5, specifying how to divide up the area at this level.  You'll have to use that fraction to find the scaling factors for the sizes of the two pieces.</li>
+                            <li>The algorithm will be slightly different based on whether an area is being divided up along the width or along the height. Notice that the <code>if-else</code> determines whether <var>width</var> or <var>height</var> is greater. Divide each area along the longer side.</li>
                         </ul>
                     </p>
                     <img class="indent" src="/bjc-r/img/6-recursion/mondrian-block-definition-with-blanks.png" alt="Mondrian block definition with blanks" title="Mondrian block definition with blanks" />
@@ -53,7 +54,7 @@
                 </li>
             </ol>
         </div>
-		<div class="ifTime">
+		<div class="takeItFurther">
             <ol start="7">
             	<li>
                 	Recursion is not just for <em>commands</em> either. You'll learn about recursive <em>reporters</em> in Unit 7. For example, this block reports the factorial of a number. Can you see how it works?<br />
