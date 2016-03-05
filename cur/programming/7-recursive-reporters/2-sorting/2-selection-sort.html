@@ -9,45 +9,68 @@
     <body>
         <h2>Selection Sort</h2>
 
-Describe the sort
-Have class act it out
-Code it up
+<p>One of the most commonly used sorts is called a <strong>selection sort</strong>. Here's how it works:</p>
 
-        <p>Suppose we have a list of names like this:</p>
-        <p><img src="/bjc-r/img/7-recursive-reporters/unsortednames.png" width="10%" alt="Eight names" /></p>
-        <p>What we want is a list of the same names, in alphabetical (ascending) order:</p><div class="sidenote">These could be numbers instead of names, or anything with a comparison. Numbers and words often need to be sorted.</div>
-        <p><img src="/bjc-r/img/7-recursive-reporters/sortednames.png" width="10%" alt="Eight names, sorted" /></p>
-        <div class="forYouToDo" id="first">
-            <ol>
-                <li>Invent an algorithm for sorting the names. Try to describe the algorithm in enough detail so that someone else could read your description and build it in Snap<em>!</em>.</li>
-                <li>Now build your algorithm: a <code>sort</code> block that inputs a list and outputs a new list in alphabetical order.</li>
-            </ol>
-        </div>
-<div class="takeNote">Comparing numbers and strings can be done using the same blocks, so your sorting algorithm should work equally well for numbers and names.
-<img src="/bjc-r/img/7-recursive-reporters/abigailava.png" alt="Abigail and Ava" />
-</div>		
+<ul>
+<li><div class="sidenote">The earliest item might be the first name in alphabetical order, or the smallest number in a list.</div><strong>Step 1.</strong> In an unsorted list, select the item that should come earliest in the sort.</li>
+<li><strong>Step 2.</strong> Pull the item out of the list and place it first.</li>
+<li><strong>Step 3.</strong> With the remaining items, select the item that should come next in the sort.</li>
+<li><strong>Step 4.</strong> Pull the item out of the list and place it.</li>
+<li><strong>Step 5.</strong> Repeat Steps 3 and 4 until there is only one item left.</li>
+</ul>
 
-<div class="forYouToDo">
-<ol start="3">
-<li>Share your sorting algorithms. Describe some similarities and differences between different sorting algorithms.</li>
+<div class="forYouToDo" id="first">
+
+<ol>
+<li>With your class, stand up and form a line. Then, follow the selection sort process to put the class in sorted, alphabetical order by first name.</li>
+<li>In what way is a selection sort an example of recursion? What is the base case?</li>
 </ol>
 </div>
 
-<p>There are many different algorithms to sort a list. Sorting algorithms give the same result, but the code can vary greatly from one algorithm to another. The next two pages highlight two frequently used sorting algorithms.</p>
+One way to see the recursion is to change the description of Steps 3-5 to this:
 
-<!--
+<ul>
+<li><strong>Steps 3-5.</strong> <em>With the remaining items, put them in order using a selection sort.</em></li>
+</ul>
+
+To solve the problem in Snap<em>!</em>, you'll need code for a base case, and code that follows the steps of the selection sort.
+
+<div class="forYouToDo">
+
+<ol start="3">
+
+<li>Write the <code>earliest in</code> block. For names, this returns the first name alphabetically in a list:</li>
+
+        <p><img src="/bjc-r/img/7-recursive-reporters/unsortednames.png" width="10%" alt="Eight names" /><img src="/bjc-r/img/7-recursive-reporters/earliestin.png" alt="Earliest name for alphabetical order" /></p>
+
+<li>Write code that uses the result of the <code>earliest in</code> block to create a new list with that item deleted. There is more than one way to do this, but you may find some of your work in <a href="/bjc-r/cur/programming/5-algorithms/1-searching-lists/2-improving-search">Unit 5</a> helpful.</li>
+
+<li>Build the recursive reporter <code>selection sort</code>.</li>
+
+<img src="/bjc-r/img/7-recursive-reporters/selectionresult.png" alt="Result of a selection sort on eight names" />
+
+<li>How many times does <code>selection sort</code> call itself?</li>
+
+</ol>
+
+</div>
+
+<div class="takeNote">Like recursive commands, the results of recursive reporters can feel like magic, because part of the code tells the recursive reporter to call itself. Recursive reporters work because each time, the new call is a simpler output of the same reporter, eventually working back to the base case.</div>
+
+<div class="takeItFurther">
+
+<ol start="A">
+
+<li><a href="/bjc-r/cur/programming/5-algorithms/5-data-processing/yob2014.txt">This file</a> contains a large list of baby names from 2014. Import the data, then build an algorithm that returns an alphabetical list of all names starting with a given letter:
+
+<img src="/bjc-r/img/7-recursive-reporters/biglistnames.png" width="30%" alt="Alphabetical list of names starting with Z" />
 
 
-        <p>There are many different sorting algorithms. But the best one for recursively generated lists, and probably the most elegant, is called <em>mergesort. </em>Here's the idea in a nutshell: Divide the list in half; recursively sort each half; then merge the two sorted sublists. The base case is that an empty list or a one-item list is already sorted.</p>
-        <p>The easiest way to divide a list in half turns out to be putting the odd-numbered items in one half and the even-numbered items in the other. You do this with a recursion that skips over an item each time:</p>
-        <p><img src="/bjc-r/img/7-recursive-reporters/odds.png" alt="odd items" /></p>
-        <p><img src="/bjc-r/img/7-recursive-reporters/evenitems.png" alt="even items" /></p>
-        <p>All the work here, basically, is done by the <img src="/bjc-r/img/7-recursive-reporters/bfbf.png" alt="all but first of all but first of" /> in <code>odd numbered items</code>. This skips the second item and makes the recursive call on items 3 through the end of the list. Note that <code>even numbered items</code> is not <em>directly </em>recursive; it calls <code>odd numbered items</code>, not itself.</p>
-        <div class="forYouToDo">
-            <ol start="4"><li>Why does <code>odd numbered items</code> need two base cases?</li>
-                <li>Write a version of <code>even numbered items</code> that calls itself recursively instead of using <code>odd numbered items</code>.</li>
-                <li>Can you write a version of <code>odd numbered items</code> that uses (the original) <code>even numbered items</code> instead of calling itself recursively? That program structure (A calls B, B calls A) is called <em><strong>mutual recursion</strong>.</em></li>
-            </ol>
-        </div> -->
+ </li>
+
+</ol>
+
+</div>
+
     </body>
 </html>
