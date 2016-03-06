@@ -1,72 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
-	<title>Sorting</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+    <title>Unit 7 Lab 2: Sorting</title>
     </head>
-
+    
     <body>
-	<h2>Sorting a List: Merge</h2>
-	<p>Now that we've solved the split-in-half problem, the remaining challenge is to merge two sorted lists into a single in-order list:</p>
-	<p><img src="/bjc-r/img/7-recursive-reporters/merge.png" alt="merge" /></p>
-<div class="forYouToDo" id="first"><ol><li>Finish this definition by filling the <code>else</code> slot.</li>
-<li>Do you have to check for the two first items being equal? Why or why not?</li>
-</ol></div>
-	<p>And here's the <code>sort</code> block that uses these pieces:</p>
-	<p><img src="/bjc-r/img/7-recursive-reporters/sort.png" alt="sort script" /></p>
-	<p><img src="/bjc-r/img/7-recursive-reporters/sort-ex.png" alt="sort example" /></p>
+        <h2>Partition Sort</h2>
 
+<p>Another commonly used sort is called a <strong>partition sort</strong>. Here's how it works:</p>
 
-	<!-- Question -->
-        <div class="assessment-data" type="multiplechoice" identifier="mc1"
-             hasinlinefeedback="true" maxchoices="1"
-             responseIdentifier="resp1" shuffle="false">
-            
-            <div class="prompt">
-                <p>
-                    The block that actually does the work of putting the items in the correct order is
-                </p>
-                <p>
-                    Choose one:
-                </p>
-            </div>
-            
-            <div class="choice" identifier="c0">
-                <div class="text">
-                    <b>sort</b>
-                </div>
-                <div class="feedback">
-                    Not quite. How does sort use merge and odd/even numbered items?
-                </div>
-            </div>
-            
-            <div class="choice" identifier="c1">
-                <div class="text">
-                    <b>merge</b>
-                </div>
-                <div class="feedback">
-                    You got it! Merge is where two elements are compared, with the smaller element coming first in the reported list.
-                </div>
-            </div>
-            
-            <div class="choice" identifier="c3">
-                <div class="text">
-                    <b>odd/even numbered items</b>
-                </div>
-                <div class="feedback">
-                    Not quite. What is the purpose of this block?
-                </div>
-            </div>
-            
-            <div class="responseDeclaration" identifier="resp1">
-                <div class="correctResponse" identifier="c1"></div>
-            </div>
-        </div>
-<div class="takeItFurther">
-<p>Make a 500-item list of random numbers, and then sort the list using the sort algorithm you designed earlier in this lab, and again using merge sort, keeping track of the timings: </p>
-<p><img src="/bjc-r/img/7-recursive-reporters/compare-times.png" alt="script to compare timings"></p>
-<p>In that script we've renamed <code>sort</code> to <code>merge&nbsp;sort</code>, and used the name <code>your&nbsp;sort</code> for the one you wrote earlier.  <code>Biglist</code>, <code>your-time</code>, and <code>merge-time</code> are global variables.</p>
-<p>Most likely, mergesort will take less than four seconds, while the one you wrote earlier will take more than 15 seconds. That's because we're betting your earlier one positions one number at a time in the sorted list, whereas mergesort cuts the list into two half-size lists and sorts them separately, which is inherently more efficient. If you make the input list ten times as long, a one-at-a-time sort will take 100 times as long to compute the result, whereas mergesort will only take about 30 times as long.</p></div>
+<ul>
+<li><strong>Step 1.</strong> In an unsorted list, select the first item in the list (<em>which probably won't be the item that should appear first after sorting</em>). This item is called a <strong>pivot</strong>.</li>
+<li><div class="sidenote">An item is "with the pivot" only if it has the same value as the pivot.</div><strong>Step 2.</strong> For each item in the list, decide if it should come before the pivot, with the pivot, or after the pivot.</li>
+<li><strong>Step 3.</strong> Order the data in three categories: items before the pivot, with the pivot, after the pivot. The lists before and after the pivot are unsorted.</li>
+<li><strong>Step 4.</strong> If there are items before the pivot, use a partition sort to put them in order. If there are items after the pivot, use a partition sort to put them in order.</li>
+</ul>
+
+<div class="takeNote">Names aren't sorted while placing them before or after a pivot.
+
+<p>For <img src="/bjc-r/img/7-recursive-reporters/eightnames.png" alt="Eight names" />, the <strong>pivot</strong> is Emma, the list before the pivot is Ava and Abigail, and the list after the pivot is Olivia, Sophia, Isabella, Mia, and Emily.</p>
+
+The sorting process then continues on these two smaller lists.</div>
+
+<div class="forYouToDo" id="first">
+
+<ol>
+<li>With your class, stand up and form a line. Then, follow the partition sort process to put everyone in sorted order, low to high, by the number of their home address.</li>
+<li>How is a partition sort an example of recursion? What is the base case?</li>
+</ol>
+</div >
+
+<p><div class="sidenote">The name <strong>quicksort</strong> can refer to many different algorithms, all with the same goal: sort, quick! This page describes a standard partition sort.</div>A video of one version of partition sort can be found <a href="http://www.youtube.com/watch?v=aQiWF4E8flQ">here.</a> There are minor differences: the video uses the last item as pivot, and calls the algorithm "quicksort".</p>
+
+<p>To write a <code>partition sort</code> block in Snap<em>!</em>, you'll need code for a base case, and code that follows the steps of the partition sort.</p>
+
+<div class="forYouToDo">
+
+<ol start="3">
+
+<li>Open this new project containing the <code>append</code> block. <a class="run" href="/bjc-r/prog/7-recursive-reporters/appendblock.xml"></a></li>
+
+        <p><img src="/bjc-r/img/7-recursive-reporters/appendblock.png" alt="Append block" /></p>
+		
+<li>Describe what the <code>append</code> block does.</li>
+
+<li><div class="sidenote">You'll need to figure out how to place the items into the three categories, and how to create one final list to output.</div>Build the recursive reporter <code>partition sort</code>. Its output, for any list, should be the same as the output for <code>selection sort</code>.</li>
+</ol>
+
+</div>
+
+Why are there different sorting algorithms? Computer programs are judged not only by what they do; they are also judged by how long it takes them to do it, especially as the size of the inputs grows. Different sorting algorithms can have different efficiencies.</p>
+
+<div class="ifTime">
+
+<ol start="6">
+
+<li><div class="sidenote">You could also use a long list of names here.</div>Make a 500-item list of random numbers, and then sort the list using the three sorting algorithms you designed in this lab. Keep track of the timings:</li>
+<p><img src="/bjc-r/img/7-recursive-reporters/compare-time.png" alt="script to compare timings"></p>
+<li>Which algorithm was fastest? Why might this type of algorithm run faster?</li>
+<!--<p>In that script we've renamed <code>sort</code> to <code>merge&nbsp;sort</code>, and used the name <code>your&nbsp;sort</code> for the one you wrote earlier.  <code>Biglist</code>, <code>your-time</code>, and <code>merge-time</code> are global variables.</p>
+<p>Most likely, mergesort will take less than four seconds, while the one you wrote earlier will take more than 15 seconds. That's because we're betting your earlier one positions one number at a time in the sorted list, whereas mergesort cuts the list into two half-size lists and sorts them separately, which is inherently more efficient. If you make the input list ten times as long, a one-at-a-time sort will take 100 times as long to compute the result, whereas mergesort will only take about 30 times as long.</p> -->
+
+</ol>
+
+</div>
+
     </body>
 </html>
