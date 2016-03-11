@@ -9,8 +9,8 @@
 	<body>
 		<h2>The Base Case</h2>	
         <p>
-        	<div class="sidenote">Recall, a script that calls itself is called <em>recursive</em> .</div>
-        	<p>It seemed to make sense to replace all the look-alike numbered tree scripts with a single script following this pattern:</p>
+        	<div class="sidenote">A script that calls itself is  <em>recursive</em> .</div>
+        	<p>It seemed to make sense to replace all the look-alike numbered tree scripts with a single recursive script with the same structure:</p>
         	<p>&nbsp;</p>
         	<p>&nbsp;</p>
         	<p><img src="/bjc-r/img/6-recursion/tree-2-script.png" height="267" alt="tree 2 script\">&nbsp; <img src="/bjc-r/img/6-recursion/tree-3-script.png" height="267" alt="tree 3 script">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ... &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="/bjc-r/img/6-recursion/recursiveTree-wo-base.png" height="267"  alt="recursive tree without base case"></p>
@@ -23,29 +23,54 @@
 	<!--		<img class="indent" src="/bjc-r/img/6-recursion/tree-nobase.png" alt="buggy tree block definition" title="buggy tree block definition" />  -->
 			<img class="indent" src="/bjc-r/img/6-recursion/treebug.gif" alt="picture of failing tree" title="picture of failing tree" />
         </p>
-        <p>
-        <strong>What's going wrong?</strong> In each recursive call to <code>tree</code>, the sprite draws smaller and smaller left branches (until it ends up looking like it's just spinning around in one place) <em>without ever drawing a right branch</em> and finishing the tree. The problem is that the original numbered <code>tree 1</code>, <code>tree 2</code>, etc. blocks <em>aren't </em>all the same. The first one, <code>tree 1</code>, is different; it just draws a line <em>without any branches</em> and puts the sprite back where it started.<br />
-            <img class="indent" src="/bjc-r/img/6-recursion/tree1.png" alt="tree1 script" />
-			<img class="indent" src="/bjc-r/img/6-recursion/tree-level1.png" alt="tree level 1 result" title="tree level 1 result" />
-        </p>
-        <p><strong>So our recursive <code>tree</code> block has to do something different when the <var>level</var> is 1.</strong> It has to draw just a line without adding another branch.</p>
-        <div class="takeNote"><p class="center">This different version for the lowest level of a recursive script is called the <strong>base case</strong>.</p></div>
-        
         <div class="dialogue">
-            <div>
-                <span>Betsy:</span> Let's think through a simple tree to figure out how this "base case" needs to work. Let's look at <code>tree3</code> with size 40.<br />
-                <img src="/bjc-r/img/6-recursion/tree-3-script.png" alt="tree 3 script">
-                <img class="indent" src="/bjc-r/img/6-recursion/tree3-call.png" alt="clear, point in direction (0), pen down, tree3 size: (40)" title="clear, point in direction (0), pen down, tree3 size: (40)" />
+        	<div>
+                <span>Betsy:</span>  <strong>Aaarghhh!  What's going wrong?!!</strong> 
             </div>
-            <div><span>Alphie:</span> Ok, after clearing the stage, pointing up, and putting the pen down, the sprite will move 40 steps and then turn 25&deg; left. And then it will call <code>tree2</code> with a smaller size.</div>
-            <div><span>Betsy:</span> Right. And then from the <code>tree2</code> code, which is almost the same, it will move that smaller number steps, turn 25&deg; left, and then call <code>tree1</code>, which just draws a line and goes back. Then, it will turn 60&deg; to the right and draw another little <code>tree1</code> branch and go back. <em>And then</em> it will turn 35&deg; back to the left and move the sprite back to the beginning of that Y-shaped, <code>tree2</code> branch. So, it will look like this:</div>
-            <div class="stagedir"><img class="inline" src="/bjc-r/img/6-recursion/tree3-drawing-partial.jpg" alt="drawing of tree3 after the first tree2 is called" title="drawing of tree3 after the first tree2 is called" /></div>
-            <div><span>Alphie:</span> Yup. And then it will finish the <code>tree3</code> script by turning 60&deg; to the right and going through the whole <code>tree2</code> script again to create the other side, and then it will turn back 35&deg; and move backwards to the very beginning.</div>
-            <div class="stagedir"><img class="inline" src="/bjc-r/img/6-recursion/tree3-drawing-complete.jpg" alt="drawing of tree3 after the first tree2 is called" title="drawing of tree3 after the first tree2 is called" /></div>
-            <div><span>Betsy:</span> Great. That finishes the <code>tree3</code> script. Now, about that "base case" thing for the recursive <code>tree</code> script... The base case is the lowest level of the recursion, so that's like the <code>tree1</code>. </div>
-            <div><span>Alphie:</span> Yeah, and the <code>tree1</code> script stops the branches from branching off forever because it just draws a line and doesn't make another tree.</div>
+        	<div>
+                <span>Alphie:</span> It never stops! 
+            </div>
+        	<div>
+                <span>Gamal:</span> After it turns to the left, it should make a smaller tree, but then it's <em>supposed</em> to finish and turn to the right and do a tree, there, too. 
+            </div>
+        	<div>
+                <span>Betsy:</span> Oh, <em>right</em>, Gamal! It's not going <em>right</em>!
+            </div>
+        	<div>
+                <span>Gamal:</span> Yeah, in each recursive call to <code>tree</code>, the sprite draws smaller and smaller left branches until it seems to be just spinning around in one place. It never draws a right branch to finish the tree it's working on.
+            </div>
+        	<div>
+                <span>Alphie:</span> I get it. The original numbered <code>tree 1</code>, <code>tree 2</code>, etc. blocks <em>aren't</em> all the same. The first one, <code>tree 1</code>, is different; it just draws a line, <em>no branches</em>, and puts the sprite back where it started.
+                <p> <em>Alphie points to the <code>tree 1</code> code and to the figure it draws.</em> </p>
+                <p>             <img class="indent" src="/bjc-r/img/6-recursion/tree1.png" alt="tree1 script" />   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<img class="indent" src="/bjc-r/img/6-recursion/tree-level1.png" alt="tree level 1 result" title="tree level 1 result" /></p>
+            </div>
+        	<div>
+                <span>Betsy:</span> <strong>So our recursive <code>tree</code> block has to do something <em>different</em> when the <var>level = 1</var>!</strong>
+            </div>
+        	<div>
+                <span>Gamal:</span> Yup! It has to draw just a line without adding another branch.
+            </div>
+
+        <div class="takeNote"><p class="center">This different version for the lowest level of a recursive script is called the <strong>base case</strong>.</p></div>
+
+
+            <div>
+                <span>Betsy:</span> Let's think through a simple tree to figure out how this "base case" needs to work. Let's look at <code>tree 3</code> with size 40.<br />
+                <img src="/bjc-r/img/6-recursion/tree-3-script.png" alt="tree 3 script">
+                <img class="indent" src="/bjc-r/img/6-recursion/tree3-call.png" alt="clear, point in direction (0), pen down, tree 3 size: (40)" title="clear, point in direction (0), pen down, tree 3 size: (40)" />
+            </div>
+            <div><span>Alphie:</span> Ok, after clearing the stage, pointing up, and putting the pen down, the sprite will move 40 steps and then turn 25&deg; left. And then it will call <code>tree 2</code> with a smaller size.</div>
+            <div><span>Betsy:</span> Right. And <code>tree 2</code>, which is almost the same,  will move, turn, and then call <code>tree 1</code>, which <em>just draws a line and goes back</em>. Then, it will turn 60&deg; to the right and draw another little <code>tree 1</code> and.... 
+            </div>
+            <div> <span>Gamal:</span> And, because <code>tree 1</code> finishes, <em>that lets <code>tree 2</code> finish!</em> So, it will look like this, when <code>tree 2</code> finishes:</div>
+            <div class="stagedir"><img class="inline" src="/bjc-r/img/6-recursion/tree3-drawing-partial.jpg" alt="drawing of tree 3 after the first tree 2 is called" title="drawing of tree 3 after the first tree 2 is called" /></div>
+            <div><span>Alphie:</span> Yup. And then the <code>tree 3</code> script can  turn 60&deg; to the right, go through the whole <code>tree 2</code> script again to create the other side. And then it will turn back 35&deg; and move backwards to the very beginning.</div>
+            <div class="stagedir"><img class="inline" src="/bjc-r/img/6-recursion/tree3-drawing-complete.jpg" alt="drawing of tree3 after the first tree 2 is called" title="drawing of tree 3 after the first tree 2 is called" /></div>
+            <div><span>Betsy:</span> Great. That finishes the <code>tree 3</code> script. Now, about that "base case" thing for the recursive <code>tree</code> script... The base case is the lowest level of the recursion, so that's like the <code>tree 1</code>. </div>
+            <div><span>Alphie:</span> Yeah, and the <code>tree 1</code> script stops the branches from branching off forever because it just draws a line and doesn't make another tree.</div>
             <div><span>Betsy:</span> So, we need our <em>recursive</em> <code>tree</code> block to draw a little line at level 1 instead of making more little trees forever.</div>
-        </div>
+    </div>
 
 		<div class="forYouToDo" id="first">
             <ol>
