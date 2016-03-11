@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+    <title>Introduction to Internet APIs</title>
+    </head>
+
+    <body>
+        <h2>Introduction to Internet APIs</h2> 
+        <div class="todo">From <a href="https://courses.edx.org/courses/BerkeleyX/BJC.3x/1T2016/courseware/80e7df3b6f1d4a458b565a214c5b0145/c068342421a94f70bf77f8f6f3a32edd/" target="_blank">edX</a> (link may not be reliable. --MF</div>
+        
+        <div class="sidenote">An <strong>API</strong> (is an Application Programming Interface), and it's not specific to the web; it's the idea we explored in week 1 about Abstraction. It is the <i>interface</i> (or specifictaion) between some service or program or block (i.e., procedure or function) that tells another programmer how to use it. One can build extremely cool and powerful applications simply by "glueing" web APIs together.</div> 
+        
+        <p>Last week, you probably wondered if there were a better way to grab data from a web service (e.g., one that gives the weather for a particular zip code). Luckily, there is, but pedagogically we decided to teach you how to slog through the mud (in the rare case that there was no other way) before teaching you to fly over it. </p> 
+        <p>
+            Just as you can call a block from a library loaded in Snap<i>!</i> that you didn't write yourself (like <code>map</code> or <code>substring</code>), the idea here is that there is a way to pass arguments into a program that lives on the web, and have it either:
+            <ul> 
+                <li>do something, i.e., have a side-effect (like a command block)</li> 
+                <li>return a value (like a reporter block)</li> 
+                <li>...or both (say, like a reporter block that has a side effect. This is common if you want to know if your side effect worked or not, by having your reporter try to do the thing it's supposed to do, and then report back whether it was successful or not. It's like talking to your robot butler in the future: You: "Jeeves, can you turn on the TV?" Robot: "Sorry, sir, I can't find the remote".)</li> 
+            </ul>
+        </p> 
+        
+        <p>We'll start easy, with Internet APIs that return simple, human-readable values. We'll start with the API you explored last week.</p> 
+        
+        <div class="forYouToDo" id="first"> 
+            <ol> 
+                <li>Bring up a new tab and copy/paste the following URL into it. (or just click on the link) <a href="http://ipv4bot.whatismyipaddress.com/" target="_blank"><code>http://ipv4bot.whatismyipaddress.com/</code></a>. It should have "returned" your IP address. We used this in last week's lab. </li> 
+                <li>Most of the time APIs take input from the user. Here's one that returns the postal zip code given an IP address: <a href="http://ipinfo.io/207.192.252.171/postal" target="_blank"><code>http://ipinfo.io/207.192.252.171/postal</code></a>.</li> 
+                <li>Try another one. Want a random English word? Try this one: <a href="http://randomword.setgetgo.com/get.php" target="_blank"><code>http://randomword.setgetgo.com/get.php</code></a>.</li> 
+                <li>Start a new Snap<i>!</i> project, pick a nice costume for your sprite, and have it start (when the green flag is clicked) by saying "click me to say a random word!". Then, when it is clicked, say the word that results from the http call to the API above as well as an offer to give them another if they click again.</li> 
+            </ol> 
+        </div> 
+        
+        <div class="takeItFurther"> 
+            <ol type="A"> 
+                <li>Think about how you might try to "hammer" on that API to find out how many words it has in its database.</li> 
+                <li>While you're at it, why not go back to your "Guess a Word" homework in BJC.2x and use the random word API to generate the word the user should guess, rather than have it come from the stored words in the list.</li> 
+            </ol> 
+        </div>
+        
+        <h3 class="hd hd-2 problem-header"> Lab Quiz </h3> 
+        <div class="problem-progress"></div> 
+        <div class="problem"> 
+            <div aria-live="polite"> 
+                <div> 
+                    <p>If the Random Word API had 100 words in its database, and you could request a new random word at a rate of one per second, how long would it take until you could guarantee you had extracted every word from it?</p> 
+                    <span>
+                    <form class="choicegroup capa_inputtype" id="inputtype_i4x-BerkeleyX-BJC_3x-problem-807470ff30074fa08f5255cf12a31a16_2_1"> 
+                        <fieldset role="radiogroup" aria-label="If the Random Word API had 100 words in its database, and you could request a new random word at a rate of one per second, how long would it take until you could guarantee you had extracted every word from it?"> 
+                            <label for="input_i4x-BerkeleyX-BJC_3x-problem-807470ff30074fa08f5255cf12a31a16_2_1_choice_0"> <input type="radio" name="input_i4x-BerkeleyX-BJC_3x-problem-807470ff30074fa08f5255cf12a31a16_2_1" id="input_i4x-BerkeleyX-BJC_3x-problem-807470ff30074fa08f5255cf12a31a16_2_1_choice_0" aria-role="radio" aria-describedby="answer_i4x-BerkeleyX-BJC_3x-problem-807470ff30074fa08f5255cf12a31a16_2_1" value="choice_0"/> 99 seconds </label> 
+                            <label for="input_i4x-BerkeleyX-BJC_3x-problem-807470ff30074fa08f5255cf12a31a16_2_1_choice_1"> <input type="radio" name="input_i4x-BerkeleyX-BJC_3x-problem-807470ff30074fa08f5255cf12a31a16_2_1" id="input_i4x-BerkeleyX-BJC_3x-problem-807470ff30074fa08f5255cf12a31a16_2_1_choice_1" aria-role="radio" aria-describedby="answer_i4x-BerkeleyX-BJC_3x-problem-807470ff30074fa08f5255cf12a31a16_2_1" value="choice_1"/> 100 seconds </label> 
+                            <label for="input_i4x-BerkeleyX-BJC_3x-problem-807470ff30074fa08f5255cf12a31a16_2_1_choice_2"> <input type="radio" name="input_i4x-BerkeleyX-BJC_3x-problem-807470ff30074fa08f5255cf12a31a16_2_1" id="input_i4x-BerkeleyX-BJC_3x-problem-807470ff30074fa08f5255cf12a31a16_2_1_choice_2" aria-role="radio" aria-describedby="answer_i4x-BerkeleyX-BJC_3x-problem-807470ff30074fa08f5255cf12a31a16_2_1" value="choice_2"/> 101 seconds </label> 
+                            <label for="input_i4x-BerkeleyX-BJC_3x-problem-807470ff30074fa08f5255cf12a31a16_2_1_choice_3"> <input type="radio" name="input_i4x-BerkeleyX-BJC_3x-problem-807470ff30074fa08f5255cf12a31a16_2_1" id="input_i4x-BerkeleyX-BJC_3x-problem-807470ff30074fa08f5255cf12a31a16_2_1_choice_3" aria-role="radio" aria-describedby="answer_i4x-BerkeleyX-BJC_3x-problem-807470ff30074fa08f5255cf12a31a16_2_1" value="choice_3"/> You can never guarantee an upper bound! </label> 
+                            <span id="answer_i4x-BerkeleyX-BJC_3x-problem-807470ff30074fa08f5255cf12a31a16_2_1"></span> 
+                        </fieldset> 
+                        <div class="indicator-container"> 
+                            <span class="status unanswered" id="status_i4x-BerkeleyX-BJC_3x-problem-807470ff30074fa08f5255cf12a31a16_2_1" aria-describedby="inputtype_i4x-BerkeleyX-BJC_3x-problem-807470ff30074fa08f5255cf12a31a16_2_1" data-tooltip="This answer is unanswered."> <span class="sr"> - This answer is unanswered. </span> </span> 
+                        </div> 
+                    </form>
+                    </span> 
+                </div> 
+            </div> 
+        </div>
+
+
+		<h2>What is this JSON thing anyway?</h2> 
+        <div class="sidenote"><strong>JSON</strong> (JavaScript Object Notation) is becoming the choice format for Internet APIs to return <i>structured</i> data, i.e., more than just one simple thing. It's optimized for computers to be able to understand, not for humans to read.</div> 
+        <p>You feel like hearing a joke, and you heard there was an internet API that could serve one up. Let's try it.</p> 
+        <div class="forYouToDo" id="first"> 
+            <ol> 
+                <li>Go to <a href="http://tambal.azurewebsites.net/joke/random" target="_blank"><code>http://tambal.azurewebsites.net/joke/random</code></a>. Note that the joke is surrounded by strange characters. </li> 
+                <blockquote><code>{"joke":"Two guys walk into a bar. You'd think the second one would have noticed."}</code></blockquote> 
+                <li>Refresh the window a few times; notice how the jokes change but the format of strange characters doesn't (that's a good thing).</li> 
+            </ol> 
+        </div> 
+        <p>We could either user our scraping technique from the last lab to extract the joke, or we could learn how to extract it correctly. Rather than teach you the format of JSON, which you are <a href="https://en.wikipedia.org/wiki/JSON" target="_blank">welcome to read about on Wikipedia</a>, we'll teach you how to work with it.</p> 
+        <p>
+            The basic idea is that JSON data is either one of three things:
+            <ol> 
+                <li>A number, boolean, null, or string (just like in Snap<i>!</i>). If you're looking at JSON, the strings are surrounded by quotes, the booleans are <code>true</code> and <code>false</code>, and null is <code>null</code> (an empty value in Snap<i>!</i>).</li> 
+                <li>A list (just like in Snap<i>!</i>). If you're looking at JSON, it's square brackets surrounding comma-separated elements, like this: <code>[3, 2, 1, "Hike", true, false, null]</code> </li> 
+                <li>An undordered collection (in Snap<i>!</i> it becomes a list) of <a href="https://en.wikipedia.org/wiki/Attribute%E2%80%93value_pair" target="_blank">key-value pair</a>s (which in Snap<i>!</i> is a two-element list, with the first item as the <i>key</i> (a string), and the second item as the <i>value</i>. If you're looking at JSON, it's curly brackets surrounding comma-separated key-value pairs (whose keys and values are separated by a colon). In the back of your head, you can think of the colon as an equal sign. So in the following example: <code>{"Course":"BJC", "Quarter":3, "Instructor":"Dan Garcia"}</code>, it means that the course is BJC, it's the 3rd quarter class (i.e., BJC.3x), and Dan is the instructor.</li> 
+            </ol> 
+        </p>
+        <p>
+            Note that the elements of lists <i>and</i> the value of a key-value pair can <i>also</i> be one of those three things. So you can see how it can quickly become a very complicated mess of commas, colons, quotes, square and curly brackets:
+            <blockquote> <code>{"coord":{"lon":-122.08,"lat":37.39}, "weather":[{"id":803, "main":"Clouds", "description":"broken clouds", "icon":"04n"}], "base":"cmc stations", "main":{"temp":282.47, "pressure":1022, "humidity":87, "temp_min":279.45, "temp_max":285.15}, "wind":{"speed":1.5, "deg":180}, "clouds":{"all":75}, "dt":1453619275, "sys":{"type":1, "id":471, "message":0.0036, "country":"US", "sunrise":1453648644, "sunset":1453685029}, "id":5375480, "name":"Mountain View", "cod":200}</code> </blockquote> 
+        </p>
+        <p>
+        	Our philosophy in BJC is to shield you from JSON (say it with me, everyone: <b>abstraction</b>) by immediately converting it into Snap<i>!</i> lists. Then you have to figure out how to work with that, using either list operators or something to query value from the collection of key-value pairs. p.s. If you ever come face-to-face with JSON, and don't have Snap<i>!</i> handy, there are a few very good <a href="http://jsonviewer.stack.hu/" target="_blank">online JSON viewers</a> that let you copy in JSON and <a href="http://codebeautify.org/jsonviewer" target="_blank">view it in a tree format</a>. Let's take a look at the blocks we provide you with to help, <code>listify</code> (that takes JSON and Snap<i>!</i>-ifies it), and <code>query</code> (that can return the <i>value</i> from a list of <i>key-value</i> pairs):
+            <img src="/bjc-r/img/4-internet/img_data_Internet_API_Lab_Listify_Sample.png" width="100%" align="middle" alt="Listify example"> 
+            <img src="/bjc-r/img/4-internet/img_data_Inernet_API_Lab_Query_Sample.png" width="100%" align="middle" alt="Query example">
+        </p>
+         
+        <div class="sidenote">One of the best practices we've seen with Internet APIs is to save the value returned from <code>http</code> into a global variable, we like to call <code>JSON</code>, then you never have to worry about your Internet connection or long delays to receive the same request over and over as you're debugging your query blocks "down river". </div> 
+        <div class="forYouToDo"> 
+            <ol start="3"> 
+                <li><a class="run" href="/bjc-r/prog/4-internet/prog_lab6_Internet_APIs_starter.xml" target="_blank">Load this starter JSON-parsing project</a>; we've already loaded "tools", "proxied http", "listify", and "query" to help you parse the listified (aka Snap<i>!</i>-ified) JSON. </li> 
+                <li>Build an app that tells a random joke when it starts, using the joke API, <code>listify</code> and <code>query</code>.</li> 
+                <img src="/bjc-r/img/4-internet/img_data_Inernet_API_Lab_Query_Temp.png" width="100%" align="middle" alt="Query temperature from hard-coded Mountain View JSON"> 
+                <li>Copy and paste the weather JSON example above into a call to your <code>listify</code> block and create a program that (using appropriate calls to <code>Query</code>, we've shown an example above to extract the temperature), on Green flag startup, says: <blockquote>In Mountain View, the weather is Clouds with the temperature of 282.47 Kelvin.</blockquote> <div class="sidenote">Another idea is to save the Snap!-ification of <code>JSON</code> into another variable called <code>LoL</code> (for lists-of-lists), make sure the <code>LoL</code> watcher checkbox is checked, go to full-screen mode and expand the list by clicking the "grow" region in the bottom-right corner to see what's in it.</div> </li> 
+            </ol> 
+        </div> 
+        
+        <div class="takeItFurther"> 
+            <ol type="A"> 
+                <li>Read the documentations of <a href="http://openweathermap.org/current" target="_blank">OpenWeatherMap</a> and figure out how to call it with your hard-coded location, and take that JSON and use it instead of the Mountain View one above so your program says <i>your</i> weather. Note that the API uses an <code>appid</code> key (similar to a cookie) to know you're you. We've found the best results when we clicked on the link below <b>By ZIP code</b>, generated JSON for Mountain View (notice the URL added an <code>appid</code> number?) Now just change the five numbers in the zip code to another one, and voil&aacute;! Then copy that URL and put it in your Snap<i>!</i> <code>proxied http</code> call (without the <code>http://</code>, remember), <code>appid</code> and all.</li> 
+                <li>Remove the hard-coding of your location and use the tools from the last problem on the last lab to get your location automatically, so your app will alwyas work and say the correct weather whereever you are.</li> 
+            </ol> 
+        </div> 
+
+
+        <h3 class="hd hd-2 problem-header "> Lab Quiz </h3> 
+        <div class="problem-progress"></div> 
+        <div class="problem"> 
+            <div aria-live="polite"> 
+                <div> 
+                    <p>Instead of using <code>Query</code>, you find that you could also explicitly walk down the Snap<i>!</i>-ified JSON list-of-lists by using the <code>item( )of( )</code> block. What do you think of this idea?</p> 
+                    <span>
+                        <form id="inputtype_i4x-BerkeleyX-BJC_3x-problem-1f7f105de22e48f4a1c7e492272444f8_2_1" class="choicegroup capa_inputtype"> 
+                            <fieldset aria-label="Instead of using &lt;code&gt;Query&lt;/code&gt;, you find that you could also explicitly walk down the Snap&lt;i&gt;!&lt;/i&gt;-ified JSON list-of-lists by using the &lt;code&gt;item( )of( )&lt;/code&gt; block. What do you think of this idea?" role="radiogroup"> 
+                                <label for="input_i4x-BerkeleyX-BJC_3x-problem-1f7f105de22e48f4a1c7e492272444f8_2_1_choice_0"> 
+                                    <input name="input_i4x-BerkeleyX-BJC_3x-problem-1f7f105de22e48f4a1c7e492272444f8_2_1" aria-describedby="answer_i4x-BerkeleyX-BJC_3x-problem-1f7f105de22e48f4a1c7e492272444f8_2_1" aria-role="radio" type="radio" id="input_i4x-BerkeleyX-BJC_3x-problem-1f7f105de22e48f4a1c7e492272444f8_2_1_choice_0" value="choice_0"/> 
+                                    Brilliant, since you already know how to use <code>item</code>, it's one less thing to learn. 
+                                </label> 
+                                <label for="input_i4x-BerkeleyX-BJC_3x-problem-1f7f105de22e48f4a1c7e492272444f8_2_1_choice_1"> 
+                                    <input name="input_i4x-BerkeleyX-BJC_3x-problem-1f7f105de22e48f4a1c7e492272444f8_2_1" aria-describedby="answer_i4x-BerkeleyX-BJC_3x-problem-1f7f105de22e48f4a1c7e492272444f8_2_1" aria-role="radio" type="radio" id="input_i4x-BerkeleyX-BJC_3x-problem-1f7f105de22e48f4a1c7e492272444f8_2_1_choice_1" value="choice_1"/> 
+                                    Awesome, since <code>item</code> gets loaded with vanilla Snap<i>!</i> so you don't have to find <code>query</code>. 
+                                </label> 
+                                <label for="input_i4x-BerkeleyX-BJC_3x-problem-1f7f105de22e48f4a1c7e492272444f8_2_1_choice_2"> 
+                                    <input name="input_i4x-BerkeleyX-BJC_3x-problem-1f7f105de22e48f4a1c7e492272444f8_2_1" aria-describedby="answer_i4x-BerkeleyX-BJC_3x-problem-1f7f105de22e48f4a1c7e492272444f8_2_1" aria-role="radio" type="radio" id="input_i4x-BerkeleyX-BJC_3x-problem-1f7f105de22e48f4a1c7e492272444f8_2_1_choice_2" value="choice_2"/> 
+                                    Terrible, since it doesn't always work. 
+                                </label> 
+                                <label for="input_i4x-BerkeleyX-BJC_3x-problem-1f7f105de22e48f4a1c7e492272444f8_2_1_choice_3"> 
+                                    <input name="input_i4x-BerkeleyX-BJC_3x-problem-1f7f105de22e48f4a1c7e492272444f8_2_1" aria-describedby="answer_i4x-BerkeleyX-BJC_3x-problem-1f7f105de22e48f4a1c7e492272444f8_2_1" aria-role="radio" type="radio" id="input_i4x-BerkeleyX-BJC_3x-problem-1f7f105de22e48f4a1c7e492272444f8_2_1_choice_3" value="choice_3"/> 
+                                    Great, since it's actually about ten times faster than <code>query</code>. 
+                                </label> 
+                                <span id="answer_i4x-BerkeleyX-BJC_3x-problem-1f7f105de22e48f4a1c7e492272444f8_2_1"></span>
+                            </fieldset> 
+                            <div class="indicator-container"> 
+                                <span data-tooltip="This answer is unanswered." class="status unanswered" aria-describedby="inputtype_i4x-BerkeleyX-BJC_3x-problem-1f7f105de22e48f4a1c7e492272444f8_2_1" id="status_i4x-BerkeleyX-BJC_3x-problem-1f7f105de22e48f4a1c7e492272444f8_2_1"> 
+                                    <span class="sr"> - This answer is unanswered. </span> 
+                                </span> 
+                            </div> 
+                        </form> 
+                    </span> 
+                </div>
+            </div>
+        </div>
+
+        <h2>Breaking out on your own</h2> 
+        <div class="sidenote">Even though it's not the point of the exercise, it's really fun to add some graphics and sounds to Internet API projects <i>after</i> you get it working, to make it look more polished.</div> 
+        <p>Now let's see you whip up some quick, fun programs.</p> 
+        <div class="forYouToDo" id="first"> 
+            <ol> 
+                <li>There's a service that will tell you what gender it thinks your name is at <a href="https://genderize.io/" target="_blank"><code>genderize.io</code></a>; create an app that (over an over) asks for a name and then says "I believe the chance that (name) is a (gender) is (probability)", with the values in parenthesis coming from the API call. E.g., the call <code>https://api.genderize.io/?name=dan</code> returned <code>{"name":"dan", "gender":"male", "probability":"0.98", "count":3240}</code>, which you would translate to: </li> <blockquote>I believe the chance Dan is a male is 98%</blockquote> 
+                <li>Questions from the television show <i>Jeopardy</i> are available at <a href="http://jservice.io/api/random" target="_blank"><code>jservice.io/api/random</code></a>, create an app that (over and over) shows the title and question from a random Jeopardy question, then when space bar is hit, shows the answer (but read as "what is (answer)?"). Note that sometimes there's HTML included in the results; we don't expect you to have to worry about that, but think about how you might clean that up if you're so inclined.</li> 
+            </ol> 
+        </div> 
+        <div class="takeItFurther"> 
+            <ol type="A"> 
+            	<li>Take a look at <a href="http://www.programmableweb.com/apis/directory">this directory of Internet APIs</a> (change "by Protocols/Formats" to "JSON") and take a look at some of the amazing things you can do with this power! Build an app that uses one of the APIs not listed here.</li> 
+            </ol> 
+        </div> 
+
+
+	</body>
+</html>
