@@ -17,21 +17,21 @@
             </ul>
         </div>
         <p>
-            Another well-known recursive shape is the Lévy C-curve. As in the snowflake algorithm, the base case is that the sprite draws a single line segment, starting on the left, going to the right, and pointing in the same direction in the beginning and at the end (to the right).<br />
+        Another well-known recursive shape is the Lévy C-curve. As in the snowflake algorithm, the base case is  a single line segment.<br />
             <img class="indent noshadow" src="/bjc-r/img/6-recursion/c-curve-level01.jpg" alt="Lévy C-Curve Level 1" title="Lévy C-Curve Level 1" />
         </p>
         <p>
-        	In the second level, the sprite repeats the previous level twice&mdash;first turning 45&deg; left, then doing the previous level, then turning 90&deg; right, then doing the previous level again, and finally turning 45&deg; left to face the same direction again. You'll have to think about how much smaller the <var>size</var> input should be in the recursive calls.<br />
+At each level, the algorithm replaces a straight line with a bent line, following this rule:  turn 45&deg; left, do the previous level at a reduced size,  turn 90&deg; right, do the previous level again, and finally turn 45&deg; left to return to the starting direction. You'll have to figure out how much smaller the <var>size</var> input should be in the recursive calls to make the new level exactly fit the level before.<br />
 			<img class="indent noshadow" src="/bjc-r/img/6-recursion/c-curve-level02.jpg" alt="Lévy C-Curve Level 2" title="Lévy C-Curve Level 2" />
-        </p>
+</p>
         <div class="forYouToDo" id="first">
             <ol>
                 <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
- If the size of one level of the program is held by the variable <var>size</var>, what is the size passed through the recursive call to the next-lowest level? Use the Pythagorean formula: <span class="katex">a^2 + b^2 = c^2</span>.</li>
+ The original line is replaced by two other lines; together the three would form a right triangle, with the original line being the hypotenuse. If the original line's length is held by the variable <var>size</var>, what length must be passed to the recursive call? That is, what are the lengths of the legs? You can use the Pythagorean formula: <span class="katex">a^2 + b^2 = c^2</span>.</li>
             </ol>
         </div>
         <p>
-        	In the third level, the sprite repeats the previous level twice, drawing 4 smaller lines. Notice that the 2nd and 3rd lines are in the same direction, so when they're the same color, as they will be in your picture, they seem to be one longer line.<br />
+   	    In the third level, the sprite again replaces straight lines with bent lines, drawing 4 smaller lines. Notice that the 2nd and 3rd lines are in the same direction, so when they're the same color, as they will be in your picture, they seem to be one long line.<br />
             <img class="indent noshadow" src="/bjc-r/img/6-recursion/c-curve-level03.jpg" alt="Lévy C-Curve Level 3" title="Lévy C-Curve Level 3" />
         </p>
         <div class="forYouToDo">
@@ -53,15 +53,15 @@
             </ol>
         </div>
 		<p>This simple algorithm builds up a complicated design at higher levels:<br />
-        	<img class="indent noshadow" src="/bjc-r/img/6-recursion/c-curve-level04.jpg" alt="Lévy C-Curve Level 4" title="Lévy C-Curve Level 4" /><br />
-            <img class="indent noshadow" src="/bjc-r/img/6-recursion/c-curve-level05.jpg" alt="Lévy C-Curve Level 5" title="Lévy C-Curve Level 5" /><br />
-            <img class="indent noshadow" src="/bjc-r/img/6-recursion/c-curve-level06.jpg" alt="Lévy C-Curve Level 6" title="Lévy C-Curve Level 6" /><br />
+        	<img class="indent noshadow" src="/bjc-r/img/6-recursion/c-curve-level04.jpg" alt="Lévy C-Curve Level 4" title="Lévy C-Curve Level 4" /><br /> <div class="comment">PG: Putting all the pictures here steals the fun of discovery. We need just enough to give the idea, but no more.</div>
+            <img class="indent noshadow" src="/bjc-r/img/6-recursion/c-curve-level05.jpg" alt="Lévy C-Curve Level 5" title="Lévy C-Curve Level 5" /><br />  
+           <!-- <img class="indent noshadow" src="/bjc-r/img/6-recursion/c-curve-level06.jpg" alt="Lévy C-Curve Level 6" title="Lévy C-Curve Level 6" /><br />
             <img class="indent noshadow" src="/bjc-r/img/6-recursion/c-curve-level07.jpg" alt="Lévy C-Curve Level 7" title="Lévy C-Curve Level 7" /><br />
             <img class="indent noshadow" src="/bjc-r/img/6-recursion/c-curve-level08.jpg" alt="Lévy C-Curve Level 8" title="Lévy C-Curve Level 8" /><br />
             <img class="indent noshadow" src="/bjc-r/img/6-recursion/c-curve-level09.jpg" alt="Lévy C-Curve Level 9" title="Lévy C-Curve Level 9" /><br />
             <img class="indent noshadow" src="/bjc-r/img/6-recursion/c-curve-level10.jpg" alt="Lévy C-Curve Level 10" title="Lévy C-Curve Level 10" /><br />
             <img class="indent noshadow" src="/bjc-r/img/6-recursion/c-curve-level11.jpg" alt="Lévy C-Curve Level 11" title="Lévy C-Curve Level 11" /><br />
-            <img class="indent noshadow" src="/bjc-r/img/6-recursion/c-curve-level12.jpg" alt="Lévy C-Curve Level 12" title="Lévy C-Curve Level 12" />
+            <img class="indent noshadow" src="/bjc-r/img/6-recursion/c-curve-level12.jpg" alt="Lévy C-Curve Level 12" title="Lévy C-Curve Level 12" />  -->
         </p>
         <div class="forYouToDo">
             <ol start="3">
@@ -70,10 +70,10 @@
         </div>
         <div class="ifTime">
             <ol start="4">
-                <li>Create some variations on the Lévy C-Curve, like these:<br />
+                <li>Changing the angles lets you create interesting variations on the Lévy C-Curve. Try some ideas of your own.<br />
                 <img class="indent noshadow" src="/bjc-r/img/6-recursion/c-curve-variation1.jpg" alt="Lévy C-Curve-like drawing" title="Lévy C-Curve-like drawing" />
-                <img class="indent noshadow" src="/bjc-r/img/6-recursion/c-curve-variation2.jpg" alt="Lévy C-Curve-like drawing" title="Lévy C-Curve-like drawing" />
-                <img class="indent noshadow" src="/bjc-r/img/6-recursion/c-curve-variation3.jpg" alt="Lévy C-Curve-like drawing" title="Lévy C-Curve-like drawing" />
+               <!-- <img class="indent noshadow" src="/bjc-r/img/6-recursion/c-curve-variation2.jpg" alt="Lévy C-Curve-like drawing" title="Lévy C-Curve-like drawing" />
+                <img class="indent noshadow" src="/bjc-r/img/6-recursion/c-curve-variation3.jpg" alt="Lévy C-Curve-like drawing" title="Lévy C-Curve-like drawing" />  -->
                 </li>
             </ol>
         </div>
