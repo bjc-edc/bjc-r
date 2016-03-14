@@ -10,12 +10,9 @@
     <body>
         <h2>Working with Recursive Reporters</h2>
         <p>Here's Betty's code for the <code>segments in tree</code> function:</p>
-        <div class="comment">
-          <p>I moved the sidenote because it was only upon my second read that I actually even noticed it. --MF</p>
-          <p>Note for next year: Originally yellow meant &quot;you may skip this&quot; but we've drifted toward using it equivalently to orange. We should get the style uniform. --bh</p>
-        </div>
+
         <img class="indent" src="/bjc-r/img/7-recursive-reporters/bettycode.png" alt="Betty's code"  title="Betty's code" />
-        <div class="endnote">Notice that the <code>report</code> block only connects to the blocks <em>above</em> it. That's because <code>report</code> returns the result of what is in its input slot as the report of the <code>segments in tree</code> reporter block. If there were blocks after <code>report</code>, they would not be run.</div>
+        <div class="takeNote">The <code>report</code> block only connects to the blocks <em>above</em> it. That's because <code>report</code> returns the result of its input slot, immediately, as the output of the <code>segments in tree</code> reporter block. Like the <code>stop</code> block used in commands, no further code is executed in a reporter after a <code>report</code> block.</div>
         
         <div class="forYouToDo" id="first">
             <ol>
@@ -80,21 +77,18 @@
                     	<ul>
 							<li>I have a big-picture concern with this approach to teaching recursion, and I have outlined it in a 3/7/16 email to the team. --MF</li>
                             <li>Any reason that we are making them construct lists to run through these blocks rather than just giving them a list? Seems like there is no benefit to that use of their time. --MF</li>
+							<li>Leaving as-is for this pass, but valid concerns. -BK</li>
                         </ul>
                     </div>
                     <a class="run" href="/bjc-r/prog/7-recursive-reporters/sayeach.xml">
                         <img class="indent" src="/bjc-r/img/7-recursive-reporters/sayeach.png" alt="say each item of list (command)" title="say each item of list (command)" /><br />
                         <img class="indent" src="/bjc-r/img/7-recursive-reporters/stringtogether.png" alt="string items together from (reporter)" title="string items together from (reporter)" />
                     </a>
-                </li>
-				<div class="todo">
-                	Has the <code>report</code> block been adequately explained? The blank in the <code>report</code> block in the script above also raises another issue (e.g. what does the blank mean <em>here</em>?). How about <code>stop</code>? Do they know it well enough for it to not need any explanation here? --MF<br />
-					From the Snap<em>!</em> manual (page 20-21) in case some snippet of it is helpful: "Note the use of the report block. When a reporter block uses this block, the reporter finishes its work and reports the value given; any further blocks in the script are not evaluated. Thus, the if else block in the script above could have been just an if, with the second report block below it instead of inside it, and the result would be the same, because when the first report is seen in the base case, that finishes the block invocation, and the  21 second report is ignored. There is also a stop block block that has a similar purpose, ending the block invocation early, for command blocks. (By contrast, the stop script block stops not only the current block invocation, but also the entire toplevel script that called it."
-                </div>
+                </li >
                 <img class="imageRight" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
-				<li>What's the biggest difference between the two blocks?</li>
+				<li>Describe the major differences between the two blocks above.</li>
 				<div class="todo">It sounds like we are asking for <em>one right answer</em> here ("the biggest difference"). If so, we should word it differently. I'm not sure what the right answer is: "one is a command and the other a reporter" or "one uses <code>stop</code> and the other uses <code>report</code>" or "one has a terminating block only in the base case, but the other has it in either case"? My question to us is: what are we trying to highlight and how can we get them to focus on that? --MF (+1 --bh)</div>
-                <li>What are some similarities between them?</li>
+                <li>What are some similarities between the two blocks?</li>
                 <li>What does <code>all but first of</code> do?</li>
                 <li>
                     Fill in the empty parts of the following recursive reporter so that the block reports a sentence containing all the whole numbers from <code>a</code> to <code>b</code>.  <strong>Note that this question does <em>not</em> involve a list.</strong> The inputs are <em>numbers</em>; the reported value is a <em>text string</em> (a sentence). What should the block report in the base case? Where does the recursive call go?<br />
