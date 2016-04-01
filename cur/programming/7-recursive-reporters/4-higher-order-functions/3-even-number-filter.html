@@ -10,9 +10,7 @@
 	<h2>Even Numbers and Filtering</h2>
 	<p>We want a block that takes a list of numbers as input, and reports a list of just the <strong>even</strong> numbers from the input. </p>
 	<p>
-	    You already know how to write this block using the <code>
-		keep</code>
-	    higher-order function, but we're going to forget about higher-order functions for the moment and write it recursively:
+	    You already know how to write this block using the <code>keep</code> higher-order function, but let's see what it looks like using recursion:
 	</p>
 	<p><img src="/bjc-r/img/7-recursive-reporters/evens.png" alt="evens" />
 	</p>
@@ -24,10 +22,17 @@
 		in front of</code>
 	    the recursive call on the rest of the numbers. If the first number isn't even, then we <em>don't </em>want to include it in the result, so we simply report the value reported by the recursive call.
 	</p>
+	
+<div class="takeNote">
+
+            Like <code>plurals</code>, the <code>evens</code> code is an example of a <strong>pattern</strong> of code. There's nothing special about even numbers here. The same pattern could be used to make a list of odd numbers, or numbers that end in 7, or names that start with a Z.
+			</div>
+
+	
 <div class="forYouToDo" id="first">
 	<p>
     <strong>Do the following exercises using recursion, not higher order functions. </strong></p>
-	<ol><li>Write a block <code>
+	<ol><div class="sidenote">Try modifying the code from <code>evens</code>.</div><li>Write a block <code>
 		ends-e</code>
 	    that takes a list of words as input, and reports a list of those words from the input whose last letter is e.
 	</li>
@@ -36,13 +41,11 @@
 		numbers</code>
 	    that takes a list of mixed words and numbers as input, and reports a list of just the numbers from the input list.
 	<p><img src="/bjc-r/img/7-recursive-reporters/numbers-ex.png" alt="numbers"></p></li>
-<li><div class="sidenote">Building these blocks, which you've been using since Unit 3, is a major accomplishment!</div>Generalize the pattern to make a <code>
-		keep items such that</code>
-	    block.
+<li><div class="sidenote">Building <code>map</code>, <code>keep</code>, and <code>combine</code> is a major accomplishment! Yet none of these blocks do anything more special than generalize a pattern.</div>Generalize the pattern to make a <code>keep items such that</code> block.
 	</li>
 <li>Write the <code>
 		combine with</code>
-	    block. Note: The base case will be a list with one item, not an empty list.
+	    block. <strong>Note:</strong> The base case will be a list with one item, not an empty list.
 	</li>
 <li>Modify a <code>
 		sort</code> algorithm <a href="/bjc-r/cur/programming/7-recursive-reporters/2-sorting/1-sorting-a-list.html">you wrote earlier</a> to take a comparison predicate as an input, so you can say
