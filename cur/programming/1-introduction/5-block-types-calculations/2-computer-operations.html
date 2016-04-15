@@ -52,6 +52,39 @@
            
             <p>When one number divides another evenly, the remainder is 0: <img src="/bjc-r/img/2-conditionals-abstraction-testing/15-mod-5-reporting-0.png"  style="margin-bottom:1.2em;" alt="15 mod 5 reports 0" title="15 mod 5 reports 0" />.  The Boolean expression <img class="inline" src="/bjc-r/img/1-introduction/n-mod-2=0.png" alt="n mod 2 = 0" title="n mod 2 = 0" /> reports <img class="inline" src="/bjc-r/img/blocks/true.png" alt="true" title="true" /> if <em>n</em> is divisible by 2 (meaning <code><em>n</em></code> is even) and <img class="inline" src="/bjc-r/img/blocks/false.png" alt="false" title="false" /> if <code><em>n</em></code> is odd (not divisible by 2 and so the remainder is not 0).</p>
  </div>
+ 
+ <div class="forYouToDo" >  
+            <ol start="5">
+                
+                <li> Now build some tools you might need for the board game. 
+                	<ol>
+                        <li> Build a predicate <img src="/bjc-r/img/2-conditionals-abstraction-testing/on-the-boardP.png" alt="on the board?"> that uses your <code>between?</code> block to report <code>true</code> if the sprite is on the board, and reports <code>false</code> if the sprite is dragged completely off the board.</li>
+                        <li> 
+                            Build <code>which cell?</code> that tells which cell the sprite has been dragged into. 
+                            Here is one way to do it that uses two other blocks that specialize in reporting <code>which column?</code> and <code>which row?</code> the sprite is in.
+                            <div class="commentBig">I find pseudocode in Snap<em>!</em> blocks to be very disturbing. It disrupts my trust in the blocks to be what I'm learning them to be. I had to stop and read this image over and over again to parse it with a comment masked as a reporter. We see overwhelming reports of similar issues with the "tiny number of" script pic elsewhere in this unit. (I'll post new GH comments after U3 is done, but I've peeked and there are more about that one image.) I think we should have a design principle to <em>not</em> do this kind of Snap<em>!</em> pseudocode. I liked the regular pseudocode we had at some point, but not this. Let's talk about it. :) --MF </div>
+                            <p><img src="/bjc-r/img/2-conditionals-abstraction-testing/which-cell(n) without computation.png" alt="partial script for "which-cell?" reporter"></p>
+                            <p>These blocks will, of course, need to know how many rows and columns there were, so they'll need the input <code>n</code>.</p>
+                            <div class="endnote">There are many ways to write <code>which row?</code> and <code>which column?</code> You can, of course, use lots of <code>if</code> statements, but since the number of rows can change, it's hard to know how many to use. One convenient way is to divide the total size of the game board by the size of each cell. To use that result, you need to round down. <img src="/bjc-r/img/blocks/round-a-number.png" alt="round a number"> can do it, but it rounds to the <em>nearest</em> integer, up <em>or</em> down. The function <img src="/bjc-r/img/blocks/floor of number.png" alt="floor of number"> always rounds <em>down</em>, making it easier to use. The <code>floor</code> function is in the same block as <code>sqrt</code>.</div>
+                        </li>
+                        <li>
+                            Here's a block that you can use to test how well your other blocks work together.<br />
+                            <img src="/bjc-r/img/2-conditionals-abstraction-testing/play-on-n-by-n-board.png" alt="play on n-by-n board">  <img src="/bjc-r/img/2-conditionals-abstraction-testing/play-on-n-by-n-board.gif" alt="animation of play"><br />
+                            Try it out for boards of different sizes.
+                        </li>
+                   </ol>
+               </li>
+			</ol>
+        </div>
+        
+        <div class="takeItFurther">
+            <ol type="A">
+                <li>Create a block <code>move to tile (n)</code> that takes a tile number as input and moves your sprite to the center of that tile. Because the location of tile 9 depends on how many tiles there are, your <code>move to tile </code> block will need to know the size of the board.</li>
+                <li>Create <code>mark tile (n)</code> to move to the specified tile and <img src="/bjc-r/img/blocks/stamp.png" alt="stamp, from the Pen palette"> the sprite's shape on that tile to mark it as "taken."</li>
+                <li>Create a second sprite with a different shape so that people can take turns, with their own sprite, stamping its mark on a tile.</li>
+                <div class="endnote">In Unit 3, you will learn ways to keep track of which tiles have been taken  by which player. Then you can improve your game more. It could become like tic-tac-toe, or connect-four, or....</div>
+            </ol>
+        </div>
 
 <!--       
         <div class="forYouToDo">
