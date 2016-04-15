@@ -8,6 +8,33 @@
     
     <body>
     	<h2>Debugging Blocks within Blocks</h2>
+        
+                <div class="forYouToDo" id="first">  
+            <ol>
+                <li>
+                    Many board games are played on a square array of tiles. The goal now is to build a block that lets you draw boards with various numbers of tiles, fitting neatly on the stage. For example, <img src="/bjc-r/img/2-conditionals-abstraction-testing/draw-n-by-n-board(3).png"  alt="draw-n-by-n-board(3)"> and <img src="/bjc-r/img/2-conditionals-abstraction-testing/draw-n-by-n-board(5).png" alt="draw-n-by-n-board(5)">  should draw these boards:
+                    <p><img src="/bjc-r/img/2-conditionals-abstraction-testing/3x3array-of-squares-on-stage.png" width="260" alt="3x3array-of-squares-on-stage"><img src="/bjc-r/img/2-conditionals-abstraction-testing/5x5array-of-squares-on-stage.png" width="260" alt="5x5array-of-squares-on-stage"></p>
+                    <p>The task is complex, so build specialists that accomplish part of the task and then put them together. For example, you might start by building:</p>
+                    <ol> 
+                        <li><img src="/bjc-r/img/2-conditionals-abstraction-testing/tile(size).png" alt="tile of size (size)">, which  takes a size and draws one square.</li>
+                        <li><img src="/bjc-r/img/2-conditionals-abstraction-testing/row(tiles,size).png" alt="row of">, which uses <img src="/bjc-r/img/2-conditionals-abstraction-testing/tile(size).png" alt="tile of size (size)"> to draw one row of  tiles, like this: <img src="/bjc-r/img/2-conditionals-abstraction-testing/Row-of-5-tiles.png" alt="row of 5 tiles"></li>
+                        <li><img src="/bjc-r/img/2-conditionals-abstraction-testing/nxn-array-of-tiles(tiles-3,size-100).png"  alt="nxn-array-of-tiles(tiles-3,size-100)">, which uses <img src="/bjc-r/img/2-conditionals-abstraction-testing/row(tiles,size).png" alt="row of"> to draw as many rows as needed—the same number of rows as there are tiles in each row.</li>
+                        <li>And, <img src="/bjc-r/img/2-conditionals-abstraction-testing/calculate-tile-size.png" alt="calculate tile size"> which can be used in <img src="/bjc-r/img/2-conditionals-abstraction-testing/nxn-array-of-tiles(tiles-3,size-calculated-to-fit-3-by-3).png" alt="nxn-array-of-tiles(tiles-3,size-calculated-to-fit-3-by-3)"> to make sure the entire board fits. (In the example, <code>3 tiles</code> means three tiles on each row (and three rows), not three tiles altogether.)</li>
+                    </ol>
+                    <p>Test each block by itself before building a block that uses it.</p>
+                    <p>Your top-level board-drawing block, <code>draw n-by-n board</code>, might look something like this.</p>
+                    <p><img src="/bjc-r/img/2-conditionals-abstraction-testing/draw-n-by-n-board(n).png" alt="draw an n-by-n board that fits within a 300 by 300 space centered on the stage">. </p>
+                </li>
+                <div class="takeNote">
+                    <p><strong>Abstraction: </strong> Why building the block <code>clear and go to starting place</code>, when all it contains is a few commands to assure that the sprite starts in the right place, pointed the right way, with its pen down, and that the stages is cleared?</p>
+                    <p>One purpose of hiding the details is to make your code clear, understandable, and easy to debug and update. Instead of seeing the details and wondering what they are for, you know exactly what this piece of code does just by reading the block's name.</p>
+                    <p>
+                    	The same is true of <img src="/bjc-r/img/2-conditionals-abstraction-testing/tile(size).png" alt="tile of size (size)">.  Instead of building that block, you could have used<br />
+                    	<img src="/bjc-r/img/2-conditionals-abstraction-testing/rep4-move-turn.png" width="192" height="115" alt="repeat 4, move, turn">
+                    </p>
+                    Hiding those details does <em>two</em> useful things. It makes your code easier to read. And if, some day, you decide to create the tiles differently—maybe with thicker borders or fills of random colors or by using <img src="/bjc-r/img/blocks/stamp.png" alt="stamp, from the Pen palette">—you can make  those changes in a logical place rather than looking all over your program to find where the change might be needed.
+                </div></ol></div>
+                
         <div class="todo">
             <ul>
                 <li>DEVELOP TO INCLUDE <strong>ROW</strong> AND <strong>ARRAY</strong>. KEEP ASSESSMENT, BUT MAYBE NEXT PAGE?</li>
