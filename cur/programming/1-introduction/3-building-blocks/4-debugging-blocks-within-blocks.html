@@ -9,29 +9,27 @@
     <body>
     	<h2>Building Tic Tac Toe and Other Board Games</h2>
         In this lab, you will begin building a new game app to play Tic Tac Toe and other games. 
-        <p><img class="indent" src="/bjc-r/img/1-introduction/Simpler-TicTacToe-video.gif" width="346" alt="Tic Tac Toe video"><img src="/bjc-r/img/1-introduction/Rani-game.gif" width="350" alt="Rani's game">
-        <div class="forYouToDo" id="first">  
-<ol>
-                <li>The goal is to build a block that lets you draw boards with various numbers of tiles, fitting neatly on the stage. For example, <img src="/bjc-r/img/2-conditionals-abstraction-testing/draw-n-by-n-board(3).png"  alt="draw-n-by-n-board(3)"> and <img src="/bjc-r/img/2-conditionals-abstraction-testing/draw-n-by-n-board(5).png" alt="draw-n-by-n-board(5)">  should draw these boards:
+        <p><img src="/bjc-r/img/1-introduction/Simpler-TicTacToe-video.gif" width="312" alt="Tic Tac Toe video"><img src="/bjc-r/img/1-introduction/Rani-game.gif" width="315" alt="Rani's game"> <img src="/bjc-r/img/1-introduction/SudokuBoard.png" width="306" alt="sudoku board"></p>
+        <p>The game <em>rules</em> vary, but the game <em>boards</em> are alike except for the   number of tiles. It makes sense to write one program for all three boards. For example, it would be nice if  <img src="/bjc-r/img/2-conditionals-abstraction-testing/draw-n-by-n-board(3).png"  alt="draw-n-by-n-board(3)"> and <img src="/bjc-r/img/2-conditionals-abstraction-testing/draw-n-by-n-board(5).png" alt="draw-n-by-n-board(5)">  should draw these boards, fitting neatly on the stage:</p>
                     <p><img src="/bjc-r/img/2-conditionals-abstraction-testing/3x3array-of-squares-on-stage.png" width="260" alt="3x3array-of-squares-on-stage">  &nbsp; &nbsp; <img src="/bjc-r/img/2-conditionals-abstraction-testing/5x5array-of-squares-on-stage.png" width="260" alt="5x5array-of-squares-on-stage"></p>
-                  
-                <p>The task is complex, so build specialists that accomplish part of the task. For example, you might:</p>
+    <div class="forYouToDo" id="first">  
+<ol>
+                <li>Don't yet create <code>draw n-by-n board</code>. The task is complex, so <em>start</em> by build blocks that specialize in each part of the task. For example, you might:
                     <ol> 
+                        <li>Build <img src="/bjc-r/img/2-conditionals-abstraction-testing/tile(size).png" alt="tile of size (size)"> to make a single square tile. You can use your <code>square</code> block inside it, if you like.</li>
                         <li>Build <img src="/bjc-r/img/2-conditionals-abstraction-testing/row(tiles,size).png" alt="row of">, using your <code>draw square</code> to draw one row of  tiles, like this: <img src="/bjc-r/img/2-conditionals-abstraction-testing/Row-of-5-tiles.png" alt="row of 5 tiles"></li>
                         <li>Build <img src="/bjc-r/img/2-conditionals-abstraction-testing/nxn-array-of-tiles(tiles-3,size-100).png"  alt="nxn-array-of-tiles(tiles-3,size-100)">, using <img src="/bjc-r/img/2-conditionals-abstraction-testing/row(tiles,size).png" alt="row of"> to draw as many rows as needed—the same number of rows as there are tiles in each row.</li>
-                        
+                        <li>Test each block by itself before building a block that uses it.</li>
+                        <li>Experiment to find where you want the sprite to start when you draw the board. Build a block <img src="/bjc-r/img/1-introduction/go-to-starting-place.png" alt="go-to-starting-place"> to set the sprite there.</li>
+                        <li>Run <img src="/bjc-r/img/2-conditionals-abstraction-testing/nxn-array-of-tiles(tiles-3,size-100).png"  alt="nxn-array-of-tiles(tiles-3,size-100)"> and then calculate the right inputs to get a 5-by-5 array of exactly the same size. The combination of the two might look like this. <img src="/bjc-r/img/1-introduction/5-by-5-superimposed-on-3-by-3.png" width="150" alt="5-by-5-superimposed-on-3-by-3">
+                        <li>On the next page, you will learn how to get Snap<em>!</em> to do that calculation automatically, so that all boards are the same size no matter how many tiles they have.                       
                     </ol>
-                    <p>Test each block by itself before building a block that uses it.</p>
                     
-                </li>
+    </li>
                 <div class="takeNote">
-                    <p><strong>Abstraction: </strong> Why should we build the block <code>clear and go to starting place</code>, when all it contains is a few commands to assure that the sprite starts in the right place, pointed the right way, with its pen down, and that the stages is cleared?</p>
-                    <p>One purpose of hiding the details is to make your code clear, understandable, and easy to debug and update. Instead of seeing the details and wondering what they are for, you know exactly what this piece of code does just by reading the block's name.</p>
-                    <p>
-                    	The same is true of <img src="/bjc-r/img/2-conditionals-abstraction-testing/tile(size).png" alt="tile of size (size)">.  Instead of building that block, you could have used<br />
-                    	<img src="/bjc-r/img/2-conditionals-abstraction-testing/rep4-move-turn.png" width="192" height="115" alt="repeat 4, move, turn">
-                    </p>
-                    Hiding those details does <em>two</em> useful things. It makes your code easier to read. And if, some day, you decide to create the tiles differently—maybe with thicker borders or fills of random colors or by using <img src="/bjc-r/img/blocks/stamp.png" alt="stamp, from the Pen palette">—you can make  those changes in a logical place rather than looking all over your program to find where the change might be needed.
+                    <p><strong>Abstraction: </strong> Why should you build the  <img src="/bjc-r/img/2-conditionals-abstraction-testing/tile(size).png" alt="tile of size (size)"> when you could just use your <img src="/bjc-r/img/1-introduction/draw-square-block-with-empty-input.png" alt="draw square"> block? Or just <br />
+                    	<img src="/bjc-r/img/2-conditionals-abstraction-testing/rep4-move-turn.png" width="192" height="115" alt="repeat 4, move, turn">                    </p>
+                    Hiding the details does <em>two</em> useful things. It makes your code easier to read. And if, some day, you decide to create the tiles differently—maybe with thicker borders or fills of random colors or by using <img src="/bjc-r/img/blocks/stamp.png" alt="stamp, from the Pen palette">—you can make  those changes in one logical place rather than looking all over your program to find where the change might be needed.
                 </div></ol></div>
                 
         
