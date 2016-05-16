@@ -27,8 +27,12 @@
 			<ol>      
 				<li> 
                     <strong>Abstraction: </strong> Make a <img src="/bjc-r/img/2-conditionals-abstraction-testing/plural_h.png" alt="plural"> block that "specializes" on just one category, words that end with the letter <strong>h</strong>.
-                    <p> This specialist block should work correctly for words that fit its specialty <img src="/bjc-r/img/2-conditionals-abstraction-testing/plural_h-crutch-with-result.png" alt="plural (for words ending with h) with correct  result for the word crutch"> <img src="/bjc-r/img/2-conditionals-abstraction-testing/plural_h-moth-with-result.png" alt="suffix s (for words ending in h) with result for moth">, <img src="/bjc-r/img/2-conditionals-abstraction-testing/plural_h-bush-with-result.png" alt="plural (for words ending in h) with result">. It can be completely wrong about words that <em>don't</em> fit its specialty <img src="/bjc-r/img/2-conditionals-abstraction-testing/plural_h-mouse-with-(wrong)result.png" alt="plural (for words ending with h) with wrong result for mouse (wrong input) "> because the <code>plural</code> block should never give words to <code>plural-h</code> unless those words end with <strong>h</strong>. </p>
-                    <p>Test <img src="/bjc-r/img/2-conditionals-abstraction-testing/plural_h.png" alt="plural"> with a variety of words to make sure it works the way you want.</p>
+                    <ul>
+                    	<li>Start with a <code>list</code> of the words you want it to work for.</li>
+                        <li>This specialist block should work correctly for words that fit its specialty <img src="/bjc-r/img/2-conditionals-abstraction-testing/plural_h-crutch-with-result.png" alt="plural (for words ending with h) with correct  result for the word crutch"> <img src="/bjc-r/img/2-conditionals-abstraction-testing/plural_h-moth-with-result.png" alt="suffix s (for words ending in h) with result for moth">, <img src="/bjc-r/img/2-conditionals-abstraction-testing/plural_h-bush-with-result.png" alt="plural (for words ending in h) with result">. It can be completely wrong about words that <em>don't</em> fit its specialty <img src="/bjc-r/img/2-conditionals-abstraction-testing/plural_h-mouse-with-(wrong)result.png" alt="plural (for words ending with h) with wrong result for mouse (wrong input) "> because the <code>plural</code> block should never give words to <code>plural-h</code> unless those words end with <strong>h</strong>. </li>
+                        <li>Test <img src="/bjc-r/img/2-conditionals-abstraction-testing/plural_h.png" alt="plural"> with a variety of words to make sure it works the way you want. Then use <code>map</code> to test it on the entire <code>list </code> you made earlier.</li>
+                    </ul>
+                   
                 </li>
                 <div class="takeNote">
                 	<p><strong>Abstraction: </strong> English is complicated and has a lot of special cases. To pluralize some nouns, you add  <em>s</em>; to some  you add  <em>es</em>;  nouns like <em>calf</em> and <em>fly</em> become <em>calves</em> and <em>flies</em>, changing their final letters before adding <em>es</em>. And there are other special cases to handle. For a programming task this complex, it  is (generally) best to break it into parts, handle each part separately with its own procedure (its own block), and then have the "top-level" block—in this case, <code>plural</code>, itself—show only the outline. That is, instead of coding every little detail directly in <code>plural</code>, it is cleaner and clearer to build a block that looks something like this, with each special case handled by block that specializes in that case only.</p>
@@ -37,13 +41,13 @@
                     <p><img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/plural-abstract-definition.png" alt="abstract definition of plural: if h = last letter of word, report h-case plural; if y = last letter of word, report y-case plural; if some other case, use a block that specializes in that case; etc.; else report join word s"></p>
                     <p>Showing<a name="abstraction" class="anchor">&nbsp;</a>the <em>structure</em> of the method—just the overall strategy—in the "top-level" block and relegating the details to  separate blocks is one part of an important computer science idea called <strong>abstraction</strong>. This aspect of abstraction is extremely helpful in keeping your code clear and helping you debug it. </p>
 				</div>
-				<li> When you trust your new specialist block, edit your original <code> plural</code> block to use your new specialist. Test your revised <code>plural</code> block to make sure it still works for all the words it used to work for, as well as the new ones.</li>
+				<li> When you trust your new specialist block, edit your original <code> plural</code> block to use your new specialist. Test your revised <code>plural</code> block (you can use <code>map</code>) to make sure it still works for all the words it used to work for, as well as the new ones.</li>
 				<li> Take the next step. Create <code>plural-y</code> to handle words like this. 
 					<img src="/bjc-r/img/2-conditionals-abstraction-testing/plural_y-tray-with-result.png"  alt="plural_y-tray-with-result">
 					<img src="/bjc-r/img/2-conditionals-abstraction-testing/plural_y-sky-with-result.png" alt="plural_y-sky-with-result">
 				</li>
-				<p>As before, this specialist can make mistakes if it is asked to do a job that isn't its  specialty <img src="/bjc-r/img/2-conditionals-abstraction-testing/plural_y-mouse-with-(wrong)result.png" alt="plural_y-mouse-with-(wrong)result">. </p>
-				<p><code>plural</code> will take care to give it only the cases it knows how to handle correctly.</p>
+				<p>As before, this specialist can make mistakes if it is asked to do a job that isn't its  specialty. <img src="/bjc-r/img/2-conditionals-abstraction-testing/plural_y-mouse-with-(wrong)result.png" alt="plural_y-mouse-with-(wrong)result"> </p>
+				<p>Make sure that <code>plural</code> gives it only the cases it knows how to handle correctly.</p>
 			</ol>
 		</div>
     
