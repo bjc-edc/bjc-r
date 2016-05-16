@@ -23,10 +23,16 @@
         </div>
         
         <p>All cell phones have some kind of Contacts list. In this lab, you will build a Contacts app yourself.</p>
+        <div class="todo">Answers to Mary comments below (Mary, please delete if you're happy):
+        <ul><li>We are building toward data abstraction.  In the end, we're going to reserve green Operator blocks for the constructors and selectors that implement an ADT, and use grey Other blocks for application code above the abstraction barrier.</li>
+        <li>They've seen <code>keep</code> before, and that's doubly true now that I've moved the "More Lists of Lists" stuff to a page in Lab 1.</li>
+        <li>I don't understand why <code>name from number</code> is any easier than <code>phone number of</code>.  They are exactly the same code except that one tests item 1 and reports item 2, and the other vice versa.  <code>Phone number of</code> belongs first because it's the more usual thing to do with a contact list.</li>
+        <li>The name order stuff isn't TIF because we need it later, in the ADT lesson.</li>
+        <li>I tried to address the confusion of the "contact here" pictures by changing the variable-looking slot to a list-looking slot; I'm not sure if that'll help, but I'm not sure that saying <code>(list (list Abraham Lincoln) 555-2368)</code> would be any better.  Anyway, I think this half-finished-picture idea is too good to give up, and we should <em>teach</em> it explicitly in U1.</li></ul></div>
         <div class="forYouToDo" id="first">
             <ol>
                 <li>Load <a class="run" href="/bjc-r/prog/3-lists/U3L2-ContactList.xml">this starter version</a> of the app.</li>
-                <li>Press  "Add Contact"  and read the script to understand how it works. Each new contact is  a list, so the list of contacts is a <em>list of lists.</em></li>
+                <li>Press  "Add Contact"  and read the script to understand how it works. Each new contact is  a list, so the list of contacts is a <em>list of lists.</em> In each contact, item 1 is a name and item 2 is (supposed to be) a phone number.</li>
                 <li>Fix the <img src="/bjc-r/img/3-lists/get-phone.png" alt="get phone"> block so that it works similarly to <img src="/bjc-r/img/3-lists/get-name.png" alt="get name">.</li>
 				<li>Clear your contact list and add a few made-up people to make sure everything works.</li>
                 <li>
@@ -61,76 +67,6 @@
 					</ol>
 				</li>
 			</ol>
-			You will soon make more improvements to this app, but first time out for some quick practice with lists of lists.
-		</div>
-        
-                
-        <h3> More lists of lists</h3>
-        <div class="todo">Is this still needed? It's kinda weird to have it on the "Contact List App" page since it has nothing to do with "Contact List App." Also, I think this should come first. There is absolutely no introduction to the concept of lists of lists above. --MF</div>
-        <p>
-			Here are three lists of lists: one is a list of world capitals and their countries; one is a list of showtimes on the four screens of a movie theater; and one is a to-do list with categories:<br />
-            <!--       <div class="sidenote">Lists of lists (i.e. arrays of arrays) are very powerful. If each inner list has the same number of items, you can think of a list of lists like a table of data (or a matrix).</div>  -->
-            <a class="run" href="/bjc-r/prog/3-lists/U3Lab1ListsOfLists.xml">
-                <img src="/bjc-r/img/3-lists/list_list_world_capitals.png" alt="list ((Quito, Ecuador), (Copenhagen, Denmark), etc.)" title="list ((Quito, Ecuador), (Copenhagen, Denmark), etc.)" /><br />
-                <img src="/bjc-r/img/3-lists/list_list_movies.png" alt="list ((6:15, 9:15), (4:45, 7:30, 10:15), etc.)" title="list ((6:15, 9:15), (4:45, 7:30, 10:15), etc.)"/><br />
-                <img  src="/bjc-r/img/3-lists/list_list_todo.png" alt="list (trash, (eggs, cucumbers, juice, bread), practice, plants, etc.)" title="list (trash, (eggs, cucumbers, juice, bread), practice, plants, etc.)"/>
-			</a>
-		</p>
-          
-          
-        <div class="forYouToDo">
-            <ol start="8">
-                <li>Load the project above by clicking on the picture.</li>
-                <li>Experiment with list operations like <code>length of</code> and <code>item () of {}</code> to learn how they treat lists of lists.</li>
-                <img class="imageRight" src="/bjc-r/img/icons/predict.png" alt="Predict What Will Happen" title="Predict What Will Happen" />
-                <li>
-                    Does this expression report <var>8</var> or <var>16</var>? Make a guess and then build it to check.<br />
-                    <img src="/bjc-r/img/3-lists/list_list_world_length.png" alt="length of list ((Quito, Ecuador), (Copenhagen, Denmark), etc.)" title="length of list ((Quito, Ecuador), (Copenhagen, Denmark), etc.)" />
-                </li>
-                <li>
-                    What will this expression report? Why? <img class="inline" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> Build and run it in Snap<em>!</em><br />
-                    <img src="/bjc-r/img/3-lists/list_list_movie_item2.png" alt="item 2 of list ((6:15, 9:15), (4:45, 7:30, 10:15), etc.)" title="item 2 of list ((6:15, 9:15), (4:45, 7:30, 10:15), etc.)" />
-                </li> 
-                <li>
-                    
-                    Does this expression <img src="/bjc-r/img/3-lists/list_list_movie_allbutfirst.png" alt="allbutfirst of item 1 of list ((6:15, 9:15), (4:45, 7:30, 10:15), etc.)" title="allbutfirst of item 1 of list ((6:15, 9:15), (4:45, 7:30, 10:15), etc.)" /> report <var>9:15</var>, the list <var>{9:15}</var>, or <var>{4:45, 7:30, 10:15}</var>?<br />
-                    <div class="endnote"> <var>{4:45, 7:30, 10:15}</var> is how we represent <img class="noshadow" src="/bjc-r/img/3-lists/output445-730-1015.png" height="80" alt="picture of gray rounded rectangle with 4:45, 7:30, and 10:15 in smaller red rounded rectanges" title="picture of gray rounded rectangle with 4:45, 7:30, and 10:15 in smaller red rounded rectanges" /> with text.</div>
-                </li>
-                <li>
-                    What will this expression report? Why? Build and run it in Snap<em>!</em><br />
-                    <img class="imageRight" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> 
-                    <img  src="/bjc-r/img/3-lists/gs5how_many.png" alt="item 3 of list in list" title="list in a list">
-                </li>
-            </ol>
-  </div>
-          
-          
-          <!--I CUT THIS BECUASE I didn't think it was a good way to introduce "for each" after the edit suggested by Brian, and we have the "draw shape" page next anyway. --MF
-        
-        
-        <div class="dialogue">
-        	<div class="stagedir">
-            	Alphie and Betty are making a list of coordinates for a sprite to make this drawing:<br /><img src="/bjc-r/img/3-lists/draw_list_coordinates.gif" alt="sprite drawing by going to each set of coordinates" title="sprite drawing by going to each set of coordinates">
-            </div>
-            <div><span>Betty:</span> We could use a list of lists with x- and y-coordinates for each the position of the sprite like this:</div>
-                <div class="stagedir">Betty makes: <img src="/bjc-r/img/3-lists/coordinates.png" alt="coordinates list ((50,120), (-20,40), etc)" title="coordinates list ((50,120), (-20,40), etc)"></div>
-            <div><span>Alphie:</span> So then, we want to make the sprite go to (item 1, item 2) for each of the lists in the list. Let me try to build a script to do that.</div>
-<div class="comment">Get rid of FOR loop and index variable.  Use FOR EACH right away.</div>
-				<div class="stagedir">Alphie makes <img src="/bjc-r/img/3-lists/coordinates_for1.png" alt="script with for loop" title="script with for loop"></div>
-            <div class="sidenote">Why does the sprite go to (200,-20)?</div>            
-            <div><span>Betty:</span> First, the sprite goes to (200,-20). So when <code>i</code> is 1, the sprite glides to (item 1 of item 1, item 2 of item 1). Then when <code>i</code> is 2, the sprite glides to (item 1 of item 2, item 2 of item 2. And then it goes to the third and fouth points too.</div>
-            <div><span>Alphie:</span> Since these are lists, I wonder if there's a way to use <code>for each</code> instead of <code>for</code>...</div>
-        </div>
-		
-        
-        <div class="forYouToDo">
-        	<img class="imageRight" src="/bjc-r/img/icons/import-tools.png" alt="Import Tools" title="Import Tools" />
-            <ol  start="7">
-            	<li>Modify Alphie's script to use <code>for each</code>.</li>
-            </ol>
-        </div>   --> 
-          
-          
-          
-   </body>
+			You will soon make more improvements to this app, after two pages introducing the idea of <em>abstract data types,</em> which you'll need when we return to the contact app.</div>
+    </body>
 </html>
