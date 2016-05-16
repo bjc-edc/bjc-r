@@ -10,18 +10,16 @@
 		<h2>Shopping List App</h2>
         <div class="todo">
         	<ul>
-                <li>GH Feedback 10/22/15: Much improved page! My concern now is that, in "For You To Do" problem #4, reasonable programmers would prefer INSERT [item] AT 1 OF [list]. The place for [item] IN FRONT OF [list] is when the programmer is doing functional programming, not when using assignment.</li>
-                <li>GH Feedback 1/4/16: Item 4 on this page ["Write a script for the "Add Item" button..."] is very unclear. Why make it so complicated for the kids? Why not simply use insert at item () of list ()?</li>
+                <li>Lots of comments on "Add Item" vs. "Insert () at item () of ()" below. I need support to resolve. --MF</li>
                 <li>
                     GH Feedback 1/5/16: 
                     <ul>
-                        <li>Students needed to know that the box with the vertical lines requires a list. This is stated on the next page but should be included here.</li>
-                        <li>Students need to be reminded (or shown) the "when clicked" hat block to get this going. I'm not sure if it was ever formally introduced in earlier labs.</li>
-                        <li>Lastly, you may want to begin this unit by exploring the blocks before asking them to write a program. Something more rudimentary like creating lists and using the index.</li>
+                        <li>Students needed to know that the box with the vertical lines requires a list. This is stated on the next page but should be included here.<ul><li>I included a new yellow box below. --MF</li></ul></li>
+                        <li>Students need to be reminded (or shown) the "when clicked" hat block to get this going. I'm not sure if it was ever formally introduced in earlier labs.<ul><li>I don't think this is the right thing here. --MF</li></ul></li>
+                        <li>Lastly, you may want to begin this unit by exploring the blocks before asking them to write a program. Something more rudimentary like creating lists and using the index.<ul><li>This is now addressed in <a href="/bjc-r/cur/programming/2-conditionals-abstraction-testing/1-conditionals/3-first-list-experience.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc_2015-2016.html&novideo&noassignment">U2L1p3</a>.</li></ul></li>
                     </ul>
                 </li>
                 <li>GH Feedback 1/21/16: show us more examples</li>
-                <li>GH Feedback 2/22/16: #4 under For You To Do ["Write a script for the "Add Item" button"] still seems misguided to me. INSERT thing AT 1 OF shopping list still seems much more sensible. CONS makes lots of sense in a functional Scheme, but CONS with assignment when there is INSERT already? I don't follow and neither have my students.</li>
             </ul>
         </div>
         
@@ -33,17 +31,40 @@
         <div class="comment">Next round, make gif match project --MF</div>
         <p>Many computer apps—contact lists, playlists, calendars of events, locations on a map, reminders—involve manipulating <em>lists</em> of information with tools that search, sort, or change the items on the list. In this first activity, you'll create a  Shopping List app.</p>
         <img class="indent" src="/bjc-r/img/3-lists/shopping-list-project-v3.gif" alt="animation of shopping list app">
-<div class="endnote">
-   	    Some programming languages use the name <strong>array</strong> for their <em>sequence</em> data type. A list (or array) is a set of items, in sequence, so you can specify which one you want:<br />
-            <img class="inline" src="/bjc-r/img/3-lists/item-2-of-list-reporting.png" alt="item (2) of (list () (cantaloupe) (banana)) reporting 'cantaloupe'" title="item (2) of (list () (cantaloupe) (banana)) reporting 'cantaloupe'" />
+		<div class="endnote">
+   	    	<!--Some programming languages use the name <strong>array</strong> for their <em>sequence</em> data type.--> A <strong>list</strong> (or <strong>array</strong>) is a set of items, in sequence, so you can specify which one you want:<br />
+            <img class="indent" src="/bjc-r/img/3-lists/item-2-of-list-reporting.png" alt="item (2) of (list () (cantaloupe) (banana)) reporting 'cantaloupe'" title="item (2) of (list () (cantaloupe) (banana)) reporting 'cantaloupe'" />
             <!--<img src="/bjc-r/img/3-lists/item-5-of-shoppinglist-reporting-bananas.png" alt="item (5) of (list {apples, bread, yogurt, spinach, bananas, eggs, cucumber, tomatoes, olive oil, almonds}" title="list {apples, bread, yogurt, spinach, bananas, eggs, cucumber, tomatoes, olive oil, almonds}) reporting 'bananas'" />--><br />
-        The position number of an item in a sequence is called its <strong>index</strong>. </div>
-	  <div class="forYouToDo" id="first">
+        The position number of an item in a sequence is called its <strong>index</strong>. 
+		</div>
+		<div class="forYouToDo" id="first">
 			<ol>
 				<li><a class="run" href="/bjc-r/prog/3-lists/U3L1-ShoppingList.xml" target="_blank">Load this project</a>.</li>
                 <li><img class="inline" src="/bjc-r/img/3-lists/Make-a-variable.png" alt="Make a variable" title="Make a variable"> called <var>shopping list</var> to store the information.</li>
                 <div class="sidenote">Setting the starting value of a variable is known as <strong>initializing</strong><a name="initialize" class="anchor">&nbsp;</a>the variable. </div>
                 <li>Use <img class="inline" src="/bjc-r/img/blocks/set-()-to-(0).png" alt="set block" title="set block"> to set the starting value of <var>shopping list</var> to be an empty list. You will need the list block <img class="inline" src="/bjc-r/img/blocks/list.png" alt="list block" title="list block">. Use its arrows to get rid of its input slot so that it looks like this: <img src="/bjc-r/img/3-lists/empty-list-block.png"  alt="empty list block">. </li>
+            </ol>
+        </div>
+        <div class="endnote">
+        	Some block input slots only accept lists. You can tell because the input slot looks like a list of items:<br />
+            <ul>
+            	<li><img class="inline" src="/bjc-r/img/blocks/all-but-first.png" alt="all but first" title="all but first" />  reports the whole list without the first item.</li>
+                <li><img class="inline" src="/bjc-r/img/blocks/contains.png" alt="contains" title="contains" /> reports <var>true</var> if the list contains the item in the second input slot (for example here, "thing") and reports <var>false</var> otherwise.</li>
+                <li><img class="inline" src="/bjc-r/img/blocks/in-front-of.png" alt="in front of" title="in front of" />reports the whole list with the item in the first input slot added to the front of the list.</li>
+                <li><img class="inline" src="/bjc-r/img/blocks/item.png" alt="item of" title="item of" />reports the item in the list at the position given by the first input slot (for example here, "1", the first item).</li>
+                <li><img class="inline" src="/bjc-r/img/blocks/length-list.png" alt="length of list" title="length of list" /> reports the number of items in the list.</li>
+            </ul>
+        </div>
+        <div class="forYouToDo">
+    		<ol start="4">
+                <div class="todo">
+                    <ul>
+                    	<li>GH Feedback 10/22/15: Much improved page! My concern now is that, in "For You To Do" problem #4, reasonable programmers would prefer INSERT [item] AT 1 OF [list]. The place for [item] IN FRONT OF [list] is when the programmer is doing functional programming, not when using assignment.</li>
+                        <li>GH Feedback 1/4/16: Item 4 on this page ["Write a script for the "Add Item" button..."] is very unclear. Why make it so complicated for the kids? Why not simply use insert at item () of list ()?</li>
+                        <li>GH Feedback 2/22/16: #4 under For You To Do ["Write a script for the "Add Item" button"] still seems misguided to me. INSERT thing AT 1 OF shopping list still seems much more sensible. CONS makes lots of sense in a functional Scheme, but CONS with assignment when there is INSERT already? I don't follow and neither have my students.</li>
+                
+                    </ul>
+                </div>
                 <div class="sidenoteBig">You first saw the <code>ask</code> and <code>answer</code> blocks in Unit 2: <a href="http://localhost/bjc-r/cur/programming/2-conditionals-abstraction-testing/1-conditionals/4-multiple-ifs.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc_2015-2016.html&novideo&noassignment">Using Multiple <code>If</code> Statements</a> and <a href="http://localhost/bjc-r/cur/programming/2-conditionals-abstraction-testing/3-building-more-complex-blocks/1-abstraction-developing-a-number-guessing-game.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc_2015-2016.html&novideo&noassignment">Developing a Number Guessing Game</a>.</div>
                 <li>Write a script for the "Add Item" button so that when that sprite is clicked, it will <code>ask</code> the user for a new item, and then use <code>in front of</code> to make a shopping list extended with the new item, and <code>set</code> to set the variable to the extended list. Make sure it works.</li>
                 <li>Write a script for the "Clear List" button that asks for confirmation and then sets the variable back to an empty list.</li>
