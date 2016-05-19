@@ -10,63 +10,49 @@
         <h2>Contact<a name="contactlist" class="anchor">&nbsp;</a>List App</h2>
 		<div class="todo">
         	<ul>
-            	<li>
-                	GH Feedback 11/20/15: Item 12's rollover shows lists represented with parens but in yellow below it you explicitly talk about { } being used to represent lists.
-                	<ul>
-                    	<li>List syntax needs to be addressed throughout. --MF</li>
-                    </ul>
-                </li>
-                <li>GH feedback 12/8/15: Make it more like a game so more people will enjoy the site</li>
+            	<li>GH feedback 12/8/15: Make it more like a game so more people will enjoy the site</li>
                 <li>GH Feedback 1/15/16: it's unclear what the contact input for the "name (display form)" and "name (sorting form)" blocks should be</li>
                 <li>GH Feedback 1/15/16: lab causes a lot of confusion on how to reference items in nested lists, could use some sort of analogy/explanation or graphic or video or something to scaffold this</li>
             </ul>
         </div>
         
         <p>All cell phones have some kind of Contacts list. In this lab, you will build a Contacts app yourself.</p>
-        <div class="todo">Answers to Mary comments below (Mary, please delete if you're happy):
-        <ul><li>We are building toward data abstraction.  In the end, we're going to reserve green Operator blocks for the constructors and selectors that implement an ADT, and use grey Other blocks for application code above the abstraction barrier.</li>
-        <li>They've seen <code>keep</code> before, and that's doubly true now that I've moved the "More Lists of Lists" stuff to a page in Lab 1.</li>
-        <li>I don't understand why <code>name from number</code> is any easier than <code>phone number of</code>.  They are exactly the same code except that one tests item 1 and reports item 2, and the other vice versa.  <code>Phone number of</code> belongs first because it's the more usual thing to do with a contact list.</li>
-        <li>The name order stuff isn't TIF because we need it later, in the ADT lesson.</li>
-        <li>I tried to address the confusion of the "contact here" pictures by changing the variable-looking slot to a list-looking slot; I'm not sure if that'll help, but I'm not sure that saying <code>(list (list Abraham Lincoln) 555-2368)</code> would be any better.  Anyway, I think this half-finished-picture idea is too good to give up, and we should <em>teach</em> it explicitly in U1.</li></ul></div>
         <div class="forYouToDo" id="first">
             <ol>
                 <li>Load <a class="run" href="/bjc-r/prog/3-lists/U3L2-ContactList.xml">this starter version</a> of the app.</li>
-                <li>Press  "Add Contact"  and read the script to understand how it works. Each new contact is  a list, so the list of contacts is a <em>list of lists.</em> In each contact, item 1 is a name and item 2 is (supposed to be) a phone number.</li>
+                <li>Press  "Add Contact"  and read the script to understand how it works. Each new contact is a list (item 1 is a name and item 2 should be a phone number), so the list of contacts is a <em>list of lists</em>.</li>
                 <li>Fix the <img src="/bjc-r/img/3-lists/get-phone.png" alt="get phone"> block so that it works similarly to <img src="/bjc-r/img/3-lists/get-name.png" alt="get name">.</li>
 				<li>Clear your contact list and add a few made-up people to make sure everything works.</li>
                 <li>
-                	<div class="commentBig">Why are we using grey blocks? Aren't these list blocks? Can't we just say "Write a reporter <code>phone number of</code> that takes..."? --MF</div>
                     Write a reporter <img src="/bjc-r/img/3-lists/phone-number-of.png" alt="phone number of ()"> that takes any part of a person's name as input, and  reports that person's phone number, or "not found" if the name is not in the contact list. You will need:
-                    <div class="comment">I'm not in support of using keep like this before they have any clue what it is. I like EBF like what's on the Exploring List Processing page, but not this. This seems like it's going to throw a lot of students off. :( --MF</div>
                     <ol type="a">
-                        <li>A new block, <img src="/bjc-r/img/3-lists/string-contains.png" alt="&lt;string () contains ()&gt;">, which lets you find out whether one string (a contact's name) contains another (the name or part of a name that the user gave as input).</li>
-                        <li>Also <img src="/bjc-r/img/blocks/keep.png" alt="keep items such that &lt;  &gt; from (list)">.</li>
+                        <li><img class="inline" src="/bjc-r/img/3-lists/string-contains.png" alt="&lt;string () contains ()&gt;">, which lets you find out whether one string (a contact's name in the list) contains another string (a name or part of a name).</li>
+                        <li><img class="inline" src="/bjc-r/img/blocks/keep.png" alt="keep items such that &lt;  &gt; from (list)">, which filters the list for only the items that make the function true.</li>
+                        <li><img class="inline" src="/bjc-r/img/blocks/empty.png" alt="empty {} ? predicate function" title="empty {} ? predicate function" />, which returns <code>true</code> if the list is empty and <code>false</code> otherwise.</li>
                     </ol>
                 </li>
                 <li>When someone calls you, the phone company sends only the calling number to your phone, not the person's name. But if the number is in your contact list, your phone  figures out the name. So you'll also want a block<img src="/bjc-r/img/3-lists/name-from-number.png" alt="name from number ()"> that searches for a phone number and reports the contact's name.</li>
-                <div class="todo"><code>name from number</code> seems much eaiser than <code>phone number of</code>. Why not switch the order? --MF</div>
 			</ol>
 		</div>
 
         <img class="imageRight" src="/bjc-r/img/icons/save-now.png" alt="Now Is a Good Time to Save" title="Now Is a Good Time to Save" /> Make sure everything works the way you want it to before going on.  Then save!
                 
 		<div class="forYouToDo">
-			<div class="todo">I think this should be TIF. --MF</div>
             <ol start="7">                       
 				<li>
 					<div class="sidenote">In some cultures, the family name—the one you  use for alphabetizing—is written first. For example, in "Sun Yat-Sen" the family name is "Sun." So instead of asking for "first and middle name(s)" and for "last name" you might want to say "given name(s)" and "family name."</div> 
-					Our starter version of the app uses a single text string to hold a person's entire name. This is fine for displaying the name on the screen but makes it hard to  display a list of all  contacts <em>sorted by family name.</em> So we really want to keep the family name separate from the given name(s).
+					Our starter version of the app uses a single text string to hold a person's entire name. This is fine for displaying the name on the screen but makes it hard to display a list of all contacts <em>sorted by family name.</em> So we really want to keep the family name separate from the given name(s).
 					<ol type="a">
-						<li>Modify the <img src="/bjc-r/img/3-lists/get-name.png" alt="get name"> block so that it asks separately for given names and for family name, and reports a list of the two answers. Check to make sure that adding a new contact does what you expect.</li>
-						<div class="commentBig">Ack! I think this is confusing and that we should avoid doing things like this (or any other kind of pseudo Snap<em>!</em> code):<img src="/bjc-r/img/3-lists/name-display-result.png" alt="name (display form) --&gt; Abraham Lincoln"><br /><img src="/bjc-r/img/3-lists/name-sorting-result.png" alt="name (sorting form) --&gt; Lincoln, Abraham"><br />I actually don't know what this is intended to mean (or else I would change it myself). Why not put a contact in there and make this an example expression? The kids I met this week would probably be just as confused (or more) than I am. --MF</div>
-                        <li>Write two reporters that take a contact as input and report the name as a text string, in two different orders:<br /><img src="/bjc-r/img/3-lists/name-display-result.png" alt="name (display form) --&gt; Abraham Lincoln"><br /><img src="/bjc-r/img/3-lists/name-sorting-result.png" alt="name (sorting form) --&gt; Lincoln, Abraham"><br />
+						<li>Modify the <img src="/bjc-r/img/3-lists/get-name.png" alt="get name"> block so that it asks separately for given names and for family name and then reports a list of the two answers. Check to make sure that adding a new contact does what you expect.</li>
+                        <li>Write two reporters that take a contact as input and report the name as a text string, in two different orders:<br />
+                        <img class="indent" src="/bjc-r/img/3-lists/name-display-result.png" alt="name (display form) --&gt; Abraham Lincoln" title="name (display form) --&gt; Abraham Lincoln"><br />
+                        <img class="indent" src="/bjc-r/img/3-lists/name-sorting-result.png" alt="name (sorting form) --&gt; Lincoln, Abraham" title="name (sorting form) --&gt; Lincoln, Abraham"><br />
                         (Don't worry, yet, about how to handle family-name-first names. We'll get to that soon.)</li>
                         <img class="imageRight" src="/bjc-r/img/icons/save-mini.png" alt="Save Your Work" title="Save Your Work" />
                         <li>Make sure your <img src="/bjc-r/img/3-lists/phone-number-of.png" alt="phone number of ()"> and <img src="/bjc-r/img/3-lists/name-from-number.png" alt="name from number ()"> blocks still work.</li>
 					</ol>
 				</li>
 			</ol>
-			You will soon make more improvements to this app, after two pages introducing the idea of <em>abstract data types,</em> which you'll need when we return to the contact app.</div>
+			You will soon make more improvements to this app, after addressing the idea of <em>abstract data types,</em> which you'll need when we return to the contact app.</div>
     </body>
 </html>
