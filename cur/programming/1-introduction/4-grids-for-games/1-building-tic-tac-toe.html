@@ -4,14 +4,21 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
         <title>Unit 1 Lab 4: Building Grids for Games, Page 1</title>
+		<script type="text/javascript" src="/bjc-r/utilities/gifffer.min.js"></script>
+        <script type="text/javascript">window.onload = function() {Gifffer();}</script>
     </head>
     
     <body>
     	<h2>Building Tic Tac Toe and Other Board Games</h2>
         <img class="inline" src="/bjc-r/img/icons/work-with-a-partner.png" alt="Work with a Partner" title="Work with a Partner" />
-    	<p>In this lab, you will begin building a new game app to play Tic Tac Toe and other games. </p>
-		<p><img src="/bjc-r/img/1-introduction/Simpler-TicTacToe-video.gif" width="312" alt="Tic Tac Toe video"><img src="/bjc-r/img/1-introduction/Rani-game.gif" width="315" alt="Rani's game"> <img src="/bjc-r/img/1-introduction/SudokuBoard.png" width="306" alt="sudoku board"></p>
-        <p>The game <em>rules</em> vary, but the game <em>boards</em> are alike except for the   number of tiles. It makes sense to write one program for all three boards. For example, it would be nice if  <img src="/bjc-r/img/1-introduction/draw-n-by-n-board(3).png"  alt="draw-n-by-n-board(3)"> and <img src="/bjc-r/img/1-introduction/draw-n-by-n-board(5).png" alt="draw-n-by-n-board(5)">  should draw these boards, fitting neatly on the stage:</p>
+    	<p>
+            <div class="comment">I didn't put these animations in the data-gifffer because the fact that they start with a white frame makes them look very weird in the data-gifffer. GIFs will need to be edited. --MF</div>
+            In this lab, you will begin building a new game app to play Tic Tac Toe and other games.<br />
+            <img src="/bjc-r/img/1-introduction/Simpler-TicTacToe-video.gif" width="312" alt="Tic Tac Toe video">
+            <img src="/bjc-r/img/1-introduction/Rani-game.gif" width="315" alt="Rani's game"> 
+            <img src="/bjc-r/img/1-introduction/SudokuBoard.png" width="306" alt="sudoku board">
+        </p>
+        <p>The game <em>rules</em> vary, but the game <em>boards</em> are alike except for the number of tiles. So, it makes sense to write one program for all three boards. For example, it would be nice if  <img src="/bjc-r/img/1-introduction/draw-gameboard-with-3-tiles.png" alt="draw gameboard with (3) tiles" title="draw gameboard with (3) tiles" /> and <img src="/bjc-r/img/1-introduction/draw-gameboard-with-5-tiles.png" alt="draw gameboard with (5) tiles" title="draw gameboard with (5) tiles" /> would draw these boards, fitting neatly on the stage:</p>
 		<p><img src="/bjc-r/img/1-introduction/3x3array-of-squares-on-stage.png" width="260" alt="3x3array-of-squares-on-stage">  &nbsp; &nbsp; <img src="/bjc-r/img/1-introduction/5x5array-of-squares-on-stage.png" width="260" alt="5x5array-of-squares-on-stage"></p>
 		<div class="forYouToDo" id="first">  
 			<ol>
@@ -19,35 +26,51 @@
         			First, <a href="/bjc-r/prog/1-introduction/U1-TicTacToe.xml" class="run">load this file</a>. It has two costumes and one brief script.   
                     <ul>
                         <li>Experiment by dragging the sprite around the stage to see what the script does.</li>
-                        <li>While you do the other work on this project, feel free to disable this script and choose the plain "turtle" (arrow-head) costume if you like. You won't need this script until later.</li>
-                        <li><code>Clear</code> the stage.</li>
+                        <!--I editted out this aspect of the page because I found it confusing and I needed a solution to that. --MF
+                        <li>While you do the other work on this project, feel free to disable this script and choose the plain "turtle" (arrow-head) costume if you like. You won't need this script until later.</li>-->
+                        <li>Then <code>clear</code> the stage and <strong>create a new sprite</strong> that will draw the gameboard.</li>
                     </ul>
                 </li>
-                <li>You won't yet create <code>draw n-by-n board</code> block. The task is complex, so <em>start</em> by build blocks that specialize in each part of the task. For example, you might:
+                <li>You won't create the <code>draw n-by-n board</code> block yet. The task is complex, so <em>start</em> by build blocks that specialize in each part of the task. One approach is described below. <strong>Be sure to test each block by itself before building a block that uses it</strong>.
                     <ol> 
                         <li>
-                            Build <img src="/bjc-r/img/1-introduction/tile(size).png" alt="tile of size (size)"> to make a single square tile. You can use your <code>square</code> block inside it, if you like.
+                            Build <img src="/bjc-r/img/1-introduction/tile(size).png" alt="tile of size (size)"> to make a single square tile. You can use the same code from your <code>draw square</code> block.
                             <div class="takeNote">
-                                <strong>Why abstraction? </strong> Why should you build the  <img src="/bjc-r/img/1-introduction/tile(size).png" alt="tile of size (size)"> block when you could just use <img src="/bjc-r/img/1-introduction/draw-square-block-with-empty-input.png" alt="draw square"> or just the script inside it? Hiding the details does <em>two</em> useful things:
+                                <strong>Why abstraction?</strong> Why should you build the  <img src="/bjc-r/img/1-introduction/tile(size).png" alt="tile of size (size)"> block when you could just use <img src="/bjc-r/img/1-introduction/draw-square-block-with-empty-input.png" alt="draw square"> or just the script inside it? Hiding the details does <em>two</em> useful things:
                                 <ol>
                                     <li>It makes your code easier to read. </li>
-                                    <li>And if, some day, you decide to create the tiles differently (maybe with thicker borders or fills of random colors or by using <code>stamp</code>), <!--<img src="/bjc-r/img/blocks/stamp.png" alt="stamp, from the Pen palette">-->—you can make those changes in one logical place rather than looking all over your program.</li>
-                                </ol>
-                            </div>
+                                    <li>If, some day, you decide to create the tiles differently (maybe with thicker borders, fills of random colors, or by using <code>stamp</code>), <!--<img src="/bjc-r/img/blocks/stamp.png" alt="stamp, from the Pen palette">-->you can make those changes in the <code>draw tile</code> block to change just the tiles rather than changing <code>draw square</code> which would change <em>all</em> the squares.</li>
+                              </ol>
+                          </div>
+					  </li>
+                        <li>
+                            Build <img src="/bjc-r/img/1-introduction/row(tiles-size).png" alt="row of">, using your <code>draw tile</code> block to draw one row of  tiles, like this:<br />
+                            <img class="indent" src="/bjc-r/img/1-introduction/row-of-5tiles.png" alt="row of 5 tiles">
                         </li>
-                        <li>Build <img src="/bjc-r/img/1-introduction/row(tiles-size).png" alt="row of">, using your <code>draw square</code> to draw one row of  tiles, like this: <img src="/bjc-r/img/1-introduction/row-of-5tiles.png" alt="row of 5 tiles"></li>
-                        <li>Build <img src="/bjc-r/img/1-introduction/nxn-array-of-tiles(tiles-3-size-100).png"  alt="nxn-array-of-tiles(tiles-3,size-100)">, using <img src="/bjc-r/img/1-introduction/row(tiles-size).png" alt="row of"> to draw as many rows as needed—the same number of rows as there are tiles in each row.</li>
-                        <li>Test each block by itself before building a block that uses it.</li>
-                        <li>Experiment to find where you want the sprite to start when you draw the board. Build a block <img src="/bjc-r/img/1-introduction/go-to-starting-place.png" alt="go-to-starting-place"> to set the sprite there.</li>
-                        <li>Run <img src="/bjc-r/img/1-introduction/nxn-array-of-tiles(tiles-3-size-100).png"  alt="nxn-array-of-tiles(tiles-3,size-100)"> and then calculate the right inputs to get a 5-by-5 array of exactly the same size. The combination of the two might look like this. <img src="/bjc-r/img/1-introduction/5-by-5-superimposed-on-3-by-3.png" width="150" alt="5-by-5-superimposed-on-3-by-3"></li>
-                        <li>On the next page, you will learn how to get Snap<em>!</em> to do that calculation automatically, so that all boards are the same size no matter how many tiles they have.</li>                    </ol>
-				</li>
-                <li>Clear the screen and draw a good 3-by-3 array again. You can now use the script you started with to play a game of Tic Tac Toe.</li>
-                <li>If you care, you can use your same block to create a "1-by-1 array" (just a large square) of the right size to "erase" the outside border of the 3-by-3 board to make something that looks more like a Tic-Tac-Toe board. To "erase," use  a white pencolor and a thicker pensize. </li>
+                        <li>Build <img src="/bjc-r/img/1-introduction/draw-square-board.png"  alt="draw square board of () tiles	per side and size ()" title="draw square board of () tiles	per side and size ()" />, using <code>draw row</code> <!--<img src="/bjc-r/img/1-introduction/row(tiles-size).png" alt="row of">--> to draw as many rows as needed—the same number of rows as there are tiles in each row.</li>
+                    </ol>
+                </li>
+            </ol>
+        </div>
+		<img class="inline" src="/bjc-r/img/icons/pair-programming-swap.png" alt="Pair Programming Swap" title="Pair Programming Swap" /> 
+        <hr><div class="todo"><big><strong>stop reviewing here. :)</strong></big></div><hr>
+        <div class="forYouToDo">
+            <ol>
+				<li>Experiment with different inputs to find where you want the sprite to start when you draw the board. Build a block <img src="/bjc-r/img/1-introduction/go-to-starting-place.png" alt="go to starting place for board with () tiles of size ()" title="go to starting place for board with () tiles of size ()" /> to set the sprite in the right place regardless of the inputs given. Add this block to your <code>draw square board</code> block definition.</li>
+				<li>
+                	Run <img src="/bjc-r/img/1-introduction/nxn-array-of-tiles(tiles-3-size-100).png"  alt="nxn-array-of-tiles(tiles-3,size-100)"> and then calculate the right inputs to get a 5-by-5 array of exactly the same size. The combination of the two might look like this:<br />
+					<img class="indent" src="/bjc-r/img/1-introduction/5-by-5-superimposed-on-3-by-3.png" width="150" alt="5-by-5-superimposed-on-3-by-3">
+                    <div class="sidenoteBig">On the next page, you will learn how to get Snap<em>!</em> to do that calculation automatically, so that all boards are the same size no matter how many tiles they have.</div>
+                </li>
+                <li>
+                	Clear the screen and draw a 3-by-3 array again. You can now use the script you started with to play a game of Tic Tac Toe.
+                	<div class="endnote">If you care, you can use your same block to create a "1-by-1 array" (just a large square) of the right size to "erase" the outside border of the 3-by-3 board to make something that looks more like a Tic-Tac-Toe board. To "erase," use  a white pencolor and a thicker pensize.</div>
+                </li>
                 <li>Build a block that sets up the game for two people to play.  SAVE YOUR WORK!</li>
 			</ol>
-			<div class="endnote">In the next few pages, you will improve this. In Unit 3, you will teach the computer to check for wins and illegal moves; and, still later, you will teach the computer how to be an intelligent player!</div>
-		</div>      
+		</div>
+        <p>In Unit 3, you will teach the computer to check for wins and illegal moves; and, still later, you will teach the computer how to be an intelligent player!</p> 
+        <img class="inline" src="/bjc-r/img/icons/save-now.png" alt="Now Is a Good Time to Save" title="Now Is a Good Time to Save" />     
         
 
 	</body>
