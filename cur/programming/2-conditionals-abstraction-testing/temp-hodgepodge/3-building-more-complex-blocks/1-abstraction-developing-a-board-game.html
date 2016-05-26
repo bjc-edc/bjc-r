@@ -32,42 +32,23 @@
                     </ul>
                 </li>
             </ul>
-</div>
-        
-        <div class="forYouToDo" id="first">  
+    </div>
+ <p>In Unit 1 you made a start toward a tic-tac-toe game by writing the code to draw the game board. Now you'll take another step by sensing which cell a player wants to move into.<div class="forYouToDo" id="first">  
             <ol>
-                <li>
-                    Many board games are played on a square array of tiles. The goal now is to build a block that lets you draw boards with various numbers of tiles, fitting neatly on the stage. For example, <img src="/bjc-r/img/1-introduction/draw-n-by-n-board(3).png"  alt="draw-n-by-n-board(3)"> and <img src="/bjc-r/img/1-introduction/draw-n-by-n-board(5).png" alt="draw-n-by-n-board(5)">  should draw these boards:
-                    <p><img src="/bjc-r/img/1-introduction/3x3array-of-squares-on-stage.png" width="260" alt="3x3array-of-squares-on-stage"><img src="/bjc-r/img/1-introduction/5x5array-of-squares-on-stage.png" width="260" alt="5x5array-of-squares-on-stage"></p>
-                    <p>The task is complex, so build specialists that accomplish part of the task and then put them together. For example, you might start by building:</p>
-                    <ol> 
-                        <li><img src="/bjc-r/img/1-introduction/tile(size).png" alt="tile of size (size)">, which  takes a size and draws one square.</li>
-                        <li><img src="/bjc-r/img/1-introduction/row(tiles-size).png" alt="row of">, which uses <img src="/bjc-r/img/1-introduction/tile(size).png" alt="tile of size (size)"> to draw one row of  tiles, like this: <img src="/bjc-r/img/1-introduction/row-of-5tiles.png" alt="row of 5 tiles"></li>
-                        <li><img src="/bjc-r/img/1-introduction/nxn-array-of-tiles(tiles-3-size-100).png"  alt="nxn-array-of-tiles(tiles-3,size-100)">, which uses <img src="/bjc-r/img/1-introduction/row(tiles-size).png" alt="row of"> to draw as many rows as needed—the same number of rows as there are tiles in each row.</li>
-                        <li>And, <img src="/bjc-r/img/1-introduction/calculate-tile-size.png" alt="calculate tile size"> which can be used in <img src="/bjc-r/img/1-introduction/nxn-array-of-tiles(tiles-3-size-calculated-to-fit-3-by-3).png" alt="nxn-array-of-tiles(tiles-3,size-calculated-to-fit-3-by-3)"> to make sure the entire board fits. (In the example, <code>3 tiles</code> means three tiles on each row (and three rows), not three tiles altogether.)</li>
-                    </ol>
-                    <p>Test each block by itself before building a block that uses it.</p>
-                    <p>Your top-level board-drawing block, <code>draw n-by-n board</code>, might look something like this.</p>
-                    <p><img src="/bjc-r/img/1-introduction/draw-n-by-n-board(n).png" alt="draw an n-by-n board that fits within a 300 by 300 space centered on the stage">. </p>
-                </li>
-                <div class="takeNote">
-                    <p><strong>Abstraction: </strong> Why building the block <code>clear and go to starting place</code>, when all it contains is a few commands to assure that the sprite starts in the right place, pointed the right way, with its pen down, and that the stages is cleared?</p>
-                    <p>One purpose of hiding the details is to make your code clear, understandable, and easy to debug and update. Instead of seeing the details and wondering what they are for, you know exactly what this piece of code does just by reading the block's name.</p>
-                    <p>
-                    	The same is true of <img src="/bjc-r/img/1-introduction/tile(size).png" alt="tile of size (size)">.  Instead of building that block, you could have used<br />
-                    	<img src="/bjc-r/img/1-introduction/rep4-move-turn.png" width="192" height="115" alt="repeat 4, move, turn">
-                    </p>
-                    Hiding those details does <em>two</em> useful things. It makes your code easier to read. And if, some day, you decide to create the tiles differently—maybe with thicker borders or fills of random colors or by using <img src="/bjc-r/img/blocks/stamp.png" alt="stamp, from the Pen palette">—you can make  those changes in a logical place rather than looking all over your program to find where the change might be needed.
-                </div>
-                <li> Now build some tools you might need for a game. 
-                	<ol>
-                        <li> Build a predicate <img src="/bjc-r/img/2-conditionals-abstraction-testing/on-the-board-p.png" alt="on the board?"> that uses your <code>between?</code> block to report <code>true</code> if the sprite is on the board, and reports <code>false</code> if the sprite is dragged completely off the board.</li>
+            <li>Load your project <strong>U1L4-TicTacToe</strong>.
+              <li>Build a predicate               <img src="/bjc-r/img/2-conditionals-abstraction-testing/between.png" alt="Is () between () and () ?"> that           
+              tests whether its first input is bigger than the second input and less than the third. You'll use this to test where the sprite is, first just whether it's inside the board at all, then which cell it's in.
+              <br />
+              <img src="/bjc-r/img/2-conditionals-abstraction-testing/between-true.png" alt="is 27 between 12 and 40? -&gt; true"><br />
+              <img src="/bjc-r/img/2-conditionals-abstraction-testing/between-false.png" alt="is 27 between 12 and 20? -&gt; false">
+              </li>
+              <li>  Build a predicate <img src="/bjc-r/img/2-conditionals-abstraction-testing/on-the-board-p.png" alt="on the board?"> that uses your <code>between?</code> block to report <code>true</code> if the sprite is on the board, and reports <code>false</code> if the sprite is dragged completely off the board.</li>
                         <li> 
-                            Build <code>which cell?</code> that tells which cell the sprite has been dragged into. 
-                            Here is one way to do it that uses two other blocks that specialize in reporting <code>which column?</code> and <code>which row?</code> the sprite is in.
-                            <div class="commentBig">I find pseudocode in Snap<em>!</em> blocks to be very disturbing. It disrupts my trust in the blocks to be what I'm learning them to be. I had to stop and read this image over and over again to parse it with a comment masked as a reporter. We see overwhelming reports of similar issues with the "tiny number of" script pic elsewhere in this unit. (I'll post new GH comments after U3 is done, but I've peeked and there are more about that one image.) I think we should have a design principle to <em>not</em> do this kind of Snap<em>!</em> pseudocode. I liked the regular pseudocode we had at some point, but not this. Let's talk about it. :) --MF </div>
+                            Build a reporter <code>which cell?</code> that tells which cell the sprite has been dragged into. 
+                            Here is one way to do it that uses two other blocks you'll write that report <code>which column?</code> and <code>which row?</code> the sprite is in.
+                            <div class="commentBig">Redraw as discussed in meeting.</div>
                             <p><img src="/bjc-r/img/2-conditionals-abstraction-testing/which-cell(n)-without-computation.png" alt="partial script for "which-cell?" reporter"></p>
-                            <p>These blocks will, of course, need to know how many rows and columns there were, so they'll need the input <code>n</code>.</p>
+                            <p>Don't forget that your board game project isn't <em>only</em> for tic-tac-toe. You can draw nine-by-nine Sudoku boards, seven-by-seven Connect Four boards, and so on. Therefore, these blocks wil need to know how many rows and columns there are, so they'll need the input <code>n</code>.</p>
                             <div class="endnote">There are many ways to write <code>which row?</code> and <code>which column?</code> You can, of course, use lots of <code>if</code> statements, but since the number of rows can change, it's hard to know how many to use. One convenient way is to divide the total size of the game board by the size of each cell. To use that result, you need to round down. <img src="/bjc-r/img/blocks/round-a-number.png" alt="round a number"> can do it, but it rounds to the <em>nearest</em> integer, up <em>or</em> down. The function <img src="/bjc-r/img/blocks/floor of number.png" alt="floor of number"> always rounds <em>down</em>, making it easier to use. The <code>floor</code> function is in the same block as <code>sqrt</code>.</div>
                         </li>
                         <li>
