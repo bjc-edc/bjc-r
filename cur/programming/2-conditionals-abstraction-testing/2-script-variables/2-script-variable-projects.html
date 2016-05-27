@@ -37,21 +37,21 @@
                     <p>Mondrian wasn't at all random in his choice of colors and locations, but even some random choices can be interesting. A <span class="snap">snap</span> script can produce designs like these. </p>
                     <p><img src="/bjc-r/img/2-conditionals-abstraction-testing/snap-pietmondrian.png" width="260"  alt="Mondrian-like art drawn with Snap"> <img src="/bjc-r/img/2-conditionals-abstraction-testing/snap-pietmondrian2.png" width="260"  alt="another Mondrian-like design drawn with Snap"></p>
 					<ol>            
-						<li>Click on this image to load a script that is the outline of the algorithm that produced those designs. It is an &quot;outline&quot; because most of the blocks have no scripts in them. You will have to edit them to tell them how to do their job. </li>
-                        <div class="sidenoteBig">This list describes what each block should do. Think about when you want the pen up and when you want it down.
+						<li>Click on this image to load a script that is the outline of the algorithm that produced those designs. <div class="sidenoteBig">This list says what each block should do. Think about when you want  pen up and pen down.
                             <ul>
-                                <li><code>draw outer frame</code> uses a thick pen size to draw a black rectangle of the size you want for your work of art.</li>
-                                <li><code>fill with random color</code> sets the sprite inside that rectangle, sets the pen to a random color, and uses Snap's <code>fill</code> block to fill the rectangle with that pen color.</li>
-                                <li>Choose a number (yourself) to say how many times to repeat (how many colorful rectangles in your art). </li>
+                            <li><code>draw outer frame</code> uses a thick pen size to draw a black rectangle of the size you want for your work of art.</li>
+                                <li><code>fill with random color</code> sets  sprite inside that rectangle, sets  a random color, and uses Snap<em>!</em>'s <code>fill</code> block to color the rectangle.</li>
+                                <li>Choose <code>repeat</code>'s number (yourself) to say how many colorful rectangles. </li>
                                 <li><code>go to random location</code> could use <code>go to x: y:</code>.</li>
-                                <li>When you <code>set height</code> and <code>set width</code>, you will again use <code>pick random</code>, but with limits based on the location of the sprite, so that your colorful rectangles stay within the frame. </li>
+                                <li><code>set height</code> and <code>set width</code> should use <code>pick random</code>, but with limits based on Sprite's location, so the colorful rectangles fit in the frame. </li>
                                 <li>Draw a rectangle of the height and width you calculated.</li>
                             </ul>
-                        </div>
+                        </div> It is an &quot;outline&quot; because most of the blocks have no scripts in them. You will have to edit them to tell them how to do their job. </li>
+                        
 						<a class="run" href="/bjc-r/prog/2-conditionals-abstraction-testing/U2L2-Mondrian.xml"><img src="/bjc-r/img/2-conditionals-abstraction-testing/mondrian-script.png" alt="Draw outer frame; Fill with random color; Repeat the following steps some number of times; go to random location, set height to (unspecified number) that, at that location, won't extend beyond the frame; set width to (unspecified number)  that, at that location, won't extend beyond the frame; Draw rectangle of that height and width; Fill with random color" title="Draw outer frame; Fill with random color; Repeat the following steps some number of times; go to random location, set height to (unspecified number) that, at that location, won't extend beyond the frame; set width to (unspecified number)  that, at that location, won't extend beyond the frame; Draw rectangle of that height and width; Fill with random color" /></a>
                         <div class="endnote">
                             To get bright colors, use <code>set pen shade to 100</code>. You can get a good collection of colors with 
-                            <img src="/bjc-r/img/2-conditionals-abstraction-testing/set-pen-color-to(2-times-pick-random-0-to-50).png"  alt="set-pen-color-to(2-times-pick-random-0-to-50)">  
+                            <img src="/bjc-r/img/2-conditionals-abstraction-testing/set-pen-color-to(2-times-pick-random-0-to-50).png" width="400" alt="set-pen-color-to(2-times-pick-random-0-to-50)">  
                         </div>
                       
                         <li><em>Take screen shots of the artworks your program generates and <strong>save the ones that you like</strong> best.</em></li>
@@ -61,9 +61,8 @@
                 </li>
                 <li> 
                     <strong>Another art idea:</strong> The code <img src="/bjc-r/img/2-conditionals-abstraction-testing/set-pensize-50-move-100-steps.png"  alt="Set-pen-size-50-move-100-steps"> does not do what you might expect, because the "ends of the lines" are rounded. Try it.  Now <code>clear</code> the stage and try <img src="/bjc-r/img/2-conditionals-abstraction-testing/set-pensize-50-move-0.1-steps.png"  alt="Set-pen-size-50-move-0.1-steps">.<br />
-                    Why does <em>that</em> happen? <img class="imageRight" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /><br />
+                    Why does <em>that</em> happen? <img class="imageRight" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /><br />Experiment with the possibilities.<br />
                     <img src="/bjc-r/img/2-conditionals-abstraction-testing/colored-circles.png" width="260" alt="colored circles randomly placed">  <img src="/bjc-r/img/2-conditionals-abstraction-testing/colored_ovals.png" width="260" alt="colored ovals"><br />
-                    Experiment with the possibilities.<br />
                     <div class="endnote">
                         You can choose between flat and round ends in the settings menu.<br />
                         <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/flat-line-ends.png"  alt="settings menu, flat line ends"><br />
@@ -71,16 +70,18 @@
                     </div>  
                 </li>
                 <li>
-                    <strong>Writing<a name="secretcode" class="anchor">&nbsp;</a>secret code:</strong> Create a block that takes a word as input, changes each letter into the <em>next</em> letter in the alphabet—for example, A becomes B, Y becomes Z...—and reports the result, like this: <img src="/bjc-r/img/2-conditionals-abstraction-testing/encode-decode(handy)-withresult(iboez).png" alt="encode-decode(HANDY)-with-result(IBOEZ)">.
-                    <div class="sidenote">Unicode is a computing standard that includes characters from  all human languages&mdash;including mathematics, Elvish, and Klingon.</div>
-                    <p>In order to do this, you will need to be able to change a letter into a number, add 1 to that number, and then change the new number back to a letter. The Snap<em>!</em> blocks <img src="/bjc-r/img/2-conditionals-abstraction-testing/unicode-of-y.png" alt="unicode-of(Y)"> and <img src="/bjc-r/img/2-conditionals-abstraction-testing/unicode(89)as-letter.png"  alt="unicode(89)as-letter"> will help you do that. Experiment with them to see how they work.</p>
+                    <strong>Writing<a name="secretcode" class="anchor">&nbsp;</a>secret code:</strong> You will create an encoder/decoder with <code>for</code>, <code>length of</code>, <code>letter of</code>, <code>join</code>, the <code>unicode</code> blocks.
                     <ol>
-                        <li>This block encodes by adding 1 to the unicode for each letter. You could, instead, always add 2 or 5 or whatever. Give your block a second variable that allows you to specify what to add to the unicode.</li>
-                        <li>When you give your <code>encode</code> block the input <code>z</code>, what does it report? If that's not what you would <em>like</em> it to report, change it. </li>
-                        <li>Make a <code>decode</code> block.</li>
-                    </ol>
+          <li>In order to do this, you will need to be able to change a letter into a number, add 1 to that number, and then change the new number back to a letter. The Snap<em>!</em> blocks <img src="/bjc-r/img/2-conditionals-abstraction-testing/unicode-of-y.png" alt="unicode-of(Y)"> and <img src="/bjc-r/img/2-conditionals-abstraction-testing/unicode(89)as-letter.png"  alt="unicode(89)as-letter"> will help you do that. Experiment with them to see how they work.</li>
+          <li>Create a block <code>encode</code> that takes a word as input, changes each letter into the <em>next</em> letter in the alphabet—for example, A becomes B, Y becomes Z...—and reports the result, like this: <img src="/bjc-r/img/2-conditionals-abstraction-testing/encode-decode(handy)-withresult(iboez).png" alt="encode-decode(HANDY)-with-result(IBOEZ)">.
+            <div class="sidenote">Unicode is a computing standard that includes characters from  all human languages&mdash;including mathematics, Elvish, and Klingon.</div>
+       </li>
+          <li><code>encode</code> adds  1 to the unicode for each letter. You could, instead,  add 2 or 5 or.... Give <code>encode</code> a second variable that lets you specify what to add to the unicode.</li>
+          <li>When you give  <code>encode</code>  the input <code>z</code>, what does it report? If that's not what you would <em>like</em> it to report, change it. </li>
+          <li>Make a <code>decode</code> block.</li>
+        </ol>
                 </li>
-                <li><strong>Linguistic research:</strong> Build a block that can take a piece of text as input and which letter,  <strong>t</strong> or <strong>s</strong>, is used more often in that bit of text. Later, you will be able to generalize this and take a large block of text and figure out the frequency of each letter. <em>Letter frequency differs from language to language. That information has been used as one clue in decoding encrypted messages.</em></li>
+                <li><strong>Linguistic research:</strong> Build a block that takes text as input and says which letter,  <strong>t</strong> or <strong>s</strong>, is used more often in that  text. Later, you'll be able to generalize to take a chunk of text and figure out the frequency of each letter. <em>Letter frequency differs from language to language. That information has been used as one clue in decoding encrypted messages.</em></li>
                 <li>
                 	<strong>A mathematical function: </strong>Create<a name="factorial" class="anchor">&nbsp;</a>a <code>factorial</code> block <img src="/bjc-r/img/2-conditionals-abstraction-testing/n-factorial.png" alt="n factorial"> (or <img src="/bjc-r/img/2-conditionals-abstraction-testing/n-factorial-symbol.png"  alt="n!">) that takes a positive integer <em>n</em> and reports the product of all whole numbers from 1 through <em>n</em>, in other words 1 &times; 2 &times; 3 &times; ... &times; (<em>n</em> - 1) &times; <em>n</em>. When the  input is 4, the output should be 24 (because 1 × 2 × 3 × 4 = 24). 
                     <ol>
@@ -102,7 +103,7 @@
 					<strong>Counting divisors: </strong>Create a block that takes a whole number as input and checks  numbers from 1 through that input and counts the ones that evenly divide the input. So, for example, <img src="/bjc-r/img/2-conditionals-abstraction-testing/number-of-divisors-of-8-with-result(4).png" alt="number of divisors of 8, with result = 4"> because, from 1 through 8, only the numbers 1, 2, 4, and 8 evenly divide 8.  <code>number-of-divisors 10</code> should also report 4 because, of the numbers from 1 through 10, only 1, 2, 5, and 10 are divisors of 10. <strong>Experiment</strong> to find several numbers that have an odd number of divisors.
                 </li>
             </ol>
-		</div>
+</div>
 
       
         <div class="takeItFurther"><a name="further" class="anchor">&nbsp;</a>
