@@ -8,7 +8,7 @@
     
     <body>
     	<h2>Building Tic Tac Toe and Other Board Games</h2>
-        <img class="inline buffer" src="/bjc-r/img/icons/work-with-a-partner.png" alt="Work with a Partner" title="Work with a Partner" />
+        <img class="inline" src="/bjc-r/img/icons/work-with-a-partner.png" alt="Work with a Partner" title="Work with a Partner" />
     	<p>
             In this lab, you'll code a general draw gameboard for Tic Tac Toe and other games, and build a simple Tic Tac Toe game.<br />
             <img src="/bjc-r/img/1-introduction/Simpler-TicTacToe-video.gif" width="312" alt="Tic Tac Toe video">
@@ -20,6 +20,7 @@
 		<div class="forYouToDo" id="first">  
 			<ol>
                 <li>
+					<img class="imageRight" src="/bjc-r/img/icons/take-turns-speaking-mini.gif" alt="Take turns speaking" title="Take turns speaking">
         			First, <a href="/bjc-r/prog/1-introduction/U1L4-TicTacToe.xml" class="run">load this file</a>. It has two costumes and one brief script.   
                     <ul>
                         <li>Experiment by dragging the sprite around the stage to see what the script does.</li>
@@ -33,19 +34,20 @@
                         <li>
                             Build <img src="/bjc-r/img/1-introduction/tile(size).png" alt="tile of size (size)"> to make a single square tile. You can use the same code from your <code>draw square</code> block.
                             <div class="takeNote">
-                                <strong>Why abstraction?</strong> Why build  <img src="/bjc-r/img/1-introduction/tile(size).png" alt="tile of size (size)">  when you could  use <img src="/bjc-r/img/1-introduction/draw-square-block-with-empty-input.png" alt="draw square"> or just the script inside it? Making a specific block to hide the details does <em>two</em> useful things:
+                                <strong>Why abstraction?</strong> Why build <code>draw tile</code><!--<img src="/bjc-r/img/1-introduction/tile(size).png" alt="tile of size (size)">--> when you could use <code>draw square</code><!--<img src="/bjc-r/img/1-introduction/draw-square-block-with-empty-input.png" alt="draw square">--> or just the script inside it? Making a specific block to hide the details does <em>two</em> useful things:
                                 <ol>
                                     <li>Less code  (if written well) makes the code easier to read and debug. </li>
                                     <li>If you later decide to create the tiles differently (maybe with thicker borders, filled with random colors, or by using <code>stamp</code>), <!--<img src="/bjc-r/img/blocks/stamp.png" alt="stamp, from the Pen palette">-->it makes sense to edit <code>draw tile</code> (changing <code>draw square</code>  would change <em>all</em> the squares).</li>
                               </ol>
                           </div>
                         </li>
-                        <li>
-                            Build <img src="/bjc-r/img/1-introduction/row(tiles-size).png" alt="row of">, using your <code>draw tile</code> block to draw one row of  tiles, like this:<br />
-                            <img class="indent buffer" src="/bjc-r/img/1-introduction/row-of-5tiles.png" alt="row of 5 tiles">
+						<li>
+                            Build <img src="/bjc-r/img/1-introduction/row(tiles-size).png" alt="row of"> using your <code>draw tile</code> block to draw one row of  tiles, like this:<br />
+                            <img class="indent" src="/bjc-r/img/1-introduction/row-of-5tiles.png" alt="row of 5 tiles">
                         </li>
-                        <img class="inline buffer" src="/bjc-r/img/icons/pair-programming-swap.png" alt="Pair Programming Swap" title="Pair Programming Swap" /> 
-                        <li>Build <img src="/bjc-r/img/1-introduction/draw-square-board.png"  alt="draw square board with () rows of tiles of size ()" title="draw square board with () rows of tiles of size ()" />, using <code>draw row</code> <!--<img src="/bjc-r/img/1-introduction/row(tiles-size).png" alt="row of">-->
+						<img class="imageRight" src="/bjc-r/img/icons/save-mini.png" alt="Save Your Work" title="Save Your Work" />
+                        <img class="inline" src="/bjc-r/img/icons/pair-programming-swap.png" alt="Pair Programming Swap" title="Pair Programming Swap" /> 
+                        <li>Build <img src="/bjc-r/img/1-introduction/draw-square-board.png"  alt="draw square board with () rows of tiles of size ()" title="draw square board with () rows of tiles of size ()" /> using <code>draw row</code> <!--<img src="/bjc-r/img/1-introduction/row(tiles-size).png" alt="row of">-->
                          to draw as many rows as needed, with the same number of  tiles in each row.</li>
 						
                     </ol>
@@ -57,17 +59,26 @@
                     <div class="sidenoteBig">On the next page, you will learn how to get Snap<em>!</em> to do that calculation automatically, so that all boards are the same size no matter how many tiles they have.</div>
                 </li>-->
                 <li>
-                	Clear the screen and draw a 3-by-3 gameboard. You can now drag and drop the first spite (the one with the "X" and "O" costumes) to play a game of Tic Tac Toe.
-                	<div class="endnote">If you care, you can use your <code>draw square board</code> block to create a "1-by-1 array" (just one large square) of the right size to "erase" the outside border of the 3-by-3 board to make something that looks more like a Tic-Tac-Toe board. (To "erase," use  a white pencolor and a thicker pensize.)</div>
+                	Clear the screen and draw a 3-by-3 gameboard. You can now drag and drop the first spite (the one with the "X" and "O" costumes) to play a game of Tic Tac Toe. Play a few games, and discuss some changes you could make to improve the game.
                 </li>
-                <li>Return to the script for the second sprite. Experiment (or calculate) to find a good starting place that centers <code>draw square board with (3) rows of tiles of size (100) </code> on the stage. Then, build <img src="/bjc-r/img/1-introduction/go-to-starting-place.png" alt="go to starting place for board" title="go to starting place for board" /> (using <img src="/bjc-r/img/blocks/go-to-x-y.png" alt="go to x y">) to make it easy to move the sprite to that starting place.</li>
-                <li>Add <code>go to starting place</code> to your <code>draw square board</code> block definition.</li>
-                
+                <li>
+                	<!-- This didn't make sense to me --MF: Return to the script for the second sprite. --> Experiment (or calculate) to find a good starting place that draws a <strong>size 100, 3-by-3 game board <em>centered</em></strong> on the stage<!--centers <code>draw square board with (3) rows of tiles of size (100) </code> on the stage-->.
+                    <ul>
+                    	<li>Then, build <img src="/bjc-r/img/1-introduction/go-to-starting-place.png" alt="go to starting place for board" title="go to starting place for board" /> (using <code>go to x y</code>) to make it easy to move the sprite to that starting place.</li>
+                		<li>Add <code>go to starting place</code> to your <code>draw square board</code> block definition.</li>
+                    </ul>
+                </li>
 			</ol>
 		</div>
-        <p>You will improve this project on the next page. In Unit 3, you will teach the computer to check for wins and illegal moves; and, still later, you will teach the computer how to be an intelligent player!</p> 
-        <img class="inline buffer" src="/bjc-r/img/icons/save-now.png" alt="Now Is a Good Time to Save" title="Now Is a Good Time to Save" />     
-        
+        <p>
+            You will improve this project on the next page. In Unit 3, you will teach the computer to check for wins and illegal moves; and, still later, you will teach the computer how to be an intelligent player!
+            <img class="imageRight" src="/bjc-r/img/icons/save-now.png" alt="Now Is a Good Time to Save" title="Now Is a Good Time to Save" />     
+        </p>
+        <div class="ifTime">
+            <ol start="5">
+                <li>You can use your <code>draw square board</code> block to create a "1-by-1 array" (just one large square) of the right size to "erase" the outside border of the 3-by-3 board to make something that looks more like a Tic-Tac-Toe board. (To "erase," use  a white pencolor and a thicker pensize.)</li>
+            </ol>
+        </div>
 
 	</body>
 </html>
