@@ -11,12 +11,7 @@
     
     <body>
 		<h2>Developing a Board Game</h2>
-        <div class="todo">
-            <ul>
-                <li>REVISION NOTES: Include <strong>average </strong>and<strong> move to cell</strong>. (why average? --bh)</li>
-            </ul>
-		</div>
-		<p>In Unit 1, you started building a tic-tac-toe game by writing the code to draw the game board. Now you'll take another step by sensing which cell a player wants to move into and centering the "X" or "O" in that cell.</p>
+        <p>In Unit 1, you started building a tic-tac-toe game by writing the code to draw the game board. Now you'll take another step by sensing which cell a player wants to move into and centering the "X" or "O" in that cell.</p>
         <div class="forYouToDo" id="first">  
             <ol>
                 <li>Load your project <strong>U1L4-TicTacToe</strong>. Save it as <strong>U2L4-TicTacToe</strong> (be sure to choose "Save as..." from the File menu, not just "Save").</li>
@@ -29,22 +24,19 @@
 				<li>Build a predicate <img src="/bjc-r/img/2-conditionals-abstraction-testing/on-the-board-p.png" alt="on the board?"> that uses your <code>between?</code> block to report <code>true</code> if the sprite is on the board and report <code>false</code> if the sprite is dragged completely off the board.</li>
 				<li> 
 					Build a reporter <code>which cell?</code> that tells which cell the sprite has been dragged into. One way to do that is to build  blocks that reports <code>which column?</code> and <code>which row?</code> the sprite is in and then figure out how to use them to report the exact cell.<br />
-					<div class="todo">Redraw as discussed in meeting.</div>
                     <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/which-cell(n)-without-computation.png" alt="partial script for 'which-cell?' reporter"><br />
                     <p>Remember: Your board  isn't <em>only</em> for tic-tac-toe. You can draw nine-by-nine Sudoku boards, seven-by-seven Connect Four boards, and so on. So, these blocks will need the input <code>n</code> to specify how many rows and columns are in the grid.</p>
 					<div class="endnote">There are many ways to write <code>which row?</code> and <code>which column?</code> You might think of using lots of <code>if</code> statements, but since the number of rows can change, you don't know how many to use. One convenient way is to divide the total size of the game board by the size of each cell. To use that result, you need to round down. The <img src="/bjc-r/img/blocks/round-a-number.png" alt="round a number"> block can do it, but it rounds to the <em>nearest</em> integer, up <em>or</em> down. The function <img src="/bjc-r/img/blocks/floor of number.png" alt="floor of number"> always rounds <em>down</em>, making it easier to use. The <code>floor</code> function is in the same block as <code>sqrt</code>.</div>
 				</li>
                 <li>
-                    Here's an expression that you can use to test how well your other blocks work together: <img class="inline" src="/bjc-r/img/2-conditionals-abstraction-testing/say-which-cell.png" alt="say (which cell? (3)) for (1) secs" title="say (which cell? (3)) for (1) secs"><br />
-                    Add it to the <code>when I am (dropped)</code> script for the first sprite:<br />
-                    <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/ttt-drop-sprite-script.png" alt="when I am (dropped): stamp, say (which cell? (3)) for (1) secs, glide (.5) secs to x: (-220) y: (160), next costume" title="when I am (dropped): stamp, say (which cell? (3)) for (1) secs, glide (.5) secs to x: (-220) y: (160), next costume"><br /><br />
+                    Here's a script that you can use to test how well your block works. Use it with the second sprite, which draws the board. Try it out for boards of different sizes.<br />
+                    <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/show-forever-say-which-cell.png" alt="" title="" /><br />
                     <img class="indent" data-gifffer="/bjc-r/img/2-conditionals-abstraction-testing/ttt-drop-sprite-animation.gif" alt="animation of play"><br />
 				</li>
-                <li>Next, you'll create a <code>move to tile (n)</code> block that takes a tile number as input and moves your sprite to <em>the center </em>of that tile. But first, you'll find it useful to be able to find the average of two values. Build an <code>average of () and ()</code> block.</li>
-                <li>Now, create the <code>move to tile (n)</code> block. Because the location of the tile (for example, tile 9) depends on how many tiles there are in a row, this block will need an input so it knows how many tiles are in each row of the board.</li>
-
-              <li>Modify the <code>when I am dropped</code> script so that when the sprite is dropped, it is moved to the center of the tile it's in and stamped there.</li>
-                <div class="endnote">Save your work. <img class="imageRight" src="/bjc-r/img/icons/save-mini.png" alt="Save Your Work" title="Save Your Work" /> In Unit 3, you will continue with this project, to keep track of which tiles have been taken  by which player.</div>
+				<div class="sidenoteBig">You will need the <code>mod</code> block to create <code>move to tile</code>. You learned about <code>mod</code> in <a href="/bjc-r/cur/programming/1-introduction/4-grids-for-games/2-computer-operations.html?topic=nyc_bjc%2F1-intro-loops.topic&course=bjc4nyc_2015-2016.html&novideo&noassignment">Unit 1 Lesson 4, Expressions and Operations</a>.</div>
+                <li>Create a <img class="inline" src="/bjc-r/img/2-conditionals-abstraction-testing/move-to-tile.png" alt="move to tile () on borad with () tiles per row" title="move to tile () on borad with () tiles per row" /> block that takes a tile number as input and moves your sprite to <em>the center </em>of that tile. Because the location of the tile (for example, tile 7) depends on how many tiles there are in a row, this block will also need an input that says how many tiles are in each row of the board.</li>
+				<li>Modify the <code>when I am dropped</code> script for the XO sprite so that when the sprite is dropped, it is moved to the center of the tile it's in and stamped there.</li>
+                <div class="endnote"><img class="inline" src="/bjc-r/img/icons/save-mini.png" alt="Save Your Work" title="Save Your Work" /> Save your work. In Unit 3, you will continue with this project and write code to keep track of which tiles have been taken  by which player.</div>
             </ol>
         </div>
         
