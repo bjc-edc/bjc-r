@@ -15,27 +15,26 @@
 
 		<div class="forYouToDo">
 			<ol>
-                <li>Open your project <strong>U2L4-TicTacToe</strong> from Unit 2. Save it as <strong>U3L4-TicTacToe</strong> so that you'll still have the old version after you modify the project here.</li>
-      <!--          <li>If you have not already built the <code>move to tile (n)</code> and <code>mark tile (n)</code> blocks (in the Take It Further section), build them now.</li>
-                <li>Download <a href="/bjc-r/img/3-lists/TTT-x.png" target="new"><img src="/bjc-r/img/3-lists/TTT-x.png" alt="X"></a> and <a href="/bjc-r/img/3-lists/TTT-o.png" target="new"><img src="/bjc-r/img/3-lists/TTT-o.png" alt="O"></a> costumes from this page (click on these pictures). </li>   -->
-                <li>Edit the project to make sure that each time the sprite is moved onto the board, it positions itself in the center of the tile it's in, stamps its costume there, and then moves back to the outside and changes costume, as the animation above shows.</li>
+                <li>Open your project <strong>U2L4-TicTacToe</strong> from Unit 2. Save it as <strong>U3L4-TicTacToe</strong> so that you'll still have the old version after you modify the project here. Play the game again, checking to make sure the sprite  <em>centers</em> itself in each tile before stamping itself, as the animation  shows.</li>
                 <li>
                 	The players can see which which cells on the board have been taken, but the program isn't keeping track of those cells, so a player can move the sprite into a space that has already been taken.
                     <ol type="a">
-                        <li>To keep track, you will need a variable <code>current game</code> in which to list each move of the game. At the start of the game, this list must be empty (set to the empty list).</li>
-                        <li>Build a constructor <code>current move</code> that takes two inputs, the player (<strong>x</strong> or <strong>o</strong>) and the cell the player moved to (1 through 9), and reports the list of those two. It will be useful to have a reporter <img src="/bjc-r/img/3-lists/justplayer.png" alt="player ()"> that translates a costume number (1 or 2) into a player's symbol (<strong>x</strong> or <strong>o</strong>). You'll call it this way: <img src="/bjc-r/img/3-lists/player(costumeNumber).png"  alt="player (costume Number)">.</li>
-                        <li>When a player tries to move the sprite into a space, your program must check the list <code>current game</code> to see if that is a legal move. One way to do that is to create a block <img src="/bjc-r/img/3-lists/legal-move().png"  alt="legal move?"> to see if the cell number is still free (not already used in <code>current game</code>). If it is still free, the player's move—the list of (<strong>x</strong> or <strong>o</strong>) and cell that <code>current move</code> reports—must be added to <code>current game</code>. Otherwise, the program must say something like "that space is already used." For this, it will be useful to have a selector <img src="/bjc-r/img/3-lists/cell-number-from-move.png" alt="cell-number-from-move"> that takes a move (a list like <code>{x 5}</code>) as input and reports only the cell number (e.g., 5). To test every move in <code>current game</code> and see if it contains the cell number into which the player is trying to move, <code>legal move?</code> will use <img src="/bjc-r/img/3-lists/map-cell-number-from-move()-over-current-game-contains-current-move.png" alt="map-cell-number-from-move()-over-current-game-contains-current-move"></li>
+                        <li>To keep track, you will need a variable <code>current game</code> in which to list each move of the game. Use <img src="/bjc-r/img/3-lists/Make-a-variable.png"  alt="make a variable (in the variables palette)"> to make that variable. At the start of the game, this list must be empty (set to the empty list). </li>
+                        <li>Build a constructor <code>current move</code> that takes two inputs, the player (<strong>x</strong> or <strong>o</strong>) and the cell the player moved to (1 through 9), and reports the list of those two. It will be useful to have a reporter <img src="/bjc-r/img/3-lists/justplayer.png" alt="player ()"> that translates a costume number (1 or 2) into a player's symbol (<strong>x</strong> or <strong>o</strong>). You'll use <img src="/bjc-r/img/3-lists/player(costumeNumber).png"  alt="player (costume Number)">.</li>
+                        <li>When a player tries to move the sprite into a space, your program must check the list <code>current game</code> to see if that is a legal move. 
+                        <ul> <li>One way  is to create  <img src="/bjc-r/img/3-lists/legal-move().png"  alt="legal move?"> to see if the cell number is still free (not already used in <code>current game</code>). </li> <li> If it is, let the player move there and add the player's move—the list of <strong>x</strong> or <strong>o</strong> and the cell number that <code>current move</code> reports—to <code>current game</code>. </li>
+                        <li>It is useful to have a selector <img src="/bjc-r/img/3-lists/cell-number-from-move.png" alt="cell-number-from-move"> that takes a move (a list like <code>{x 5}</code>) as input and reports only the cell number (e.g., 5). Then <code>legal move?</code> will test every move in <code>current game</code> with <img src="/bjc-r/img/3-lists/map-cell-number-from-move()-over-current-game-contains-current-move.png" alt="map-cell-number-from-move()-over-current-game-contains-current-move"></li></ul> </li>
 					</ol>
                 </li>
-				<li>Check to make sure this all works. Save your result.</li>
+				<li>Check to make sure your game works the way you want. Save your result.</li>
 			</ol>
-		</div>
+</div>
         
 		<p>Your next step is to create a way to tell if a player's move has resulted in a win. You will need to experiment to find a way to do that.  Here are some suggestions.</p>
         
         
 		<div class="forYouToDo">
-			<ol start="5">
+			<ol start="4">
                 <li> 
                     Each winning combination is a list of three cells. 
                     <ol>
@@ -76,7 +75,8 @@
 				</li>
 				<li>
                 	Create a predicate block <img src="/bjc-r/img/3-lists/do-(player-x-locations)-satisfy-(item-1-of-TicTacToe-wins).png" alt="do-(player-x-locations)-satisfy-(item-1-of-TicTacToe-wins)">that takes a player's locations and one winning combination and tells whether those locations contain all three elements of the winning combination. Its definition could start this way: 
-                	<img class="indent" src="/bjc-r/img/3-lists/predicate-block-titled(do-positions-satisfy-winningCombination).png"  alt="predicate-block-titled(do-positions-satisfy-winningCombination); report ((positions) contains (item 1 of (winningCombination)) AND ...">
+                	<img src="/bjc-r/img/3-lists/predicate-block-titled(do-positions-satisfy-winningCombination).png"  alt="predicate-block-titled(do-positions-satisfy-winningCombination); report ((positions) contains (item 1 of (winningCombination)) AND ..."> <br />
+                    You will need to finish this block.
                 </li>
                 <li>Test it for item 1 of <code>TicTacToe wins</code>, as shown in problem 4, and for at least two other item numbers.</li>
                 <li>What  does <img src="/bjc-r/img/3-lists/map-(do(player-x-locations)satisfy())-over(TicTacToe-wins).png"  alt="map-(do(player-x-locations)satisfy())-over(TicTacToe-wins)"> report?</li>
