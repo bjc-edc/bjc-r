@@ -24,38 +24,45 @@
             <ol>
                 <li>Load your contact list app from before; it should be saved as "U3L2-ContactList"</li>
                 <li>Real contact apps have a lot more information than just a name and a phone number.  Modify <img src="/bjc-r/img/3-lists/get-new-contact.png" alt="get new contact"> so that each contact includes a name, <em>an address,</em> and a phone number, in that order.</li>
-                <li>Try your <img src="/bjc-r/img/3-lists/phone-number-of.png" alt="phone number of ()"> block again. Does it still work?</li>
+                <li><strong>Clear your contact list</strong> and add a few entries in the new format.</li>
+				<li>Try your <img src="/bjc-r/img/3-lists/phone-number-of.png" alt="phone number of ()"> block again. <img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> Does it still work? Why not? You could fix the problem, but...</li>
 			</ol>
 		</div>
 	
     
-    	<p>You could fix the problem, but as we add more complexity to contacts&mdash;birthday, spouse, work address, and so on&mdash;the location of the phone number within a contact might keep changing. <em>This is where an abstract data type helps! </em>Instead of fixing every block that uses the phone number whenever you move the phone number in the contact, you can define <em>one</em> selector block that knows where in the list the phone number is, and use that in all other blocks that need to know.<!--  That way, a very small number of procedures will know the details of where things are, and only those will need editing when things change. Other parts of your program will use those special procedures and will keep working when the representation changes. --></p>
+    	<p>As we add more complexity to contacts&mdash;birthday, spouse, work address, and so on&mdash;the location of the phone number within a contact might keep changing. <em>This is where an abstract data type helps!</em> Instead of fixing every block that uses the phone number each time you move the phone number in the contact, you can define one <em>selector</em> block that knows where in the list the phone number is and use that in all other blocks that need to know.<!--  That way, a very small number of procedures will know the details of where things are, and only those will need editing when things change. Other parts of your program will use those special procedures and will keep working when the representation changes. --></p>
         
         
 		<div class="forYouToDo">
-			<ol start="4">
+        	<h4>Create the Abstract Data Type</h4>
+			<ol start="5">
 				<li>
-                	<div class="comment">Our style elsewhere in the materials has been to use colons, i.e. <code>contact name: () addr: () phone: ()</code> instead of <code>contact name= () addr= () phone= ()</code>. Fix for next time in images and XML. --MF</div>
                     To start, write a <em>constructor</em> block for the contact type that looks like this:<br />
 					<img class="indent" src="/bjc-r/img/3-lists/contact-constructor.png" alt="contact name= () addr= () phone= ()"><br />
-					It should report a contact (still a list of three items). Note that it takes the three items as inputs; it doesn't ask the user to enter the information. This block will be used in <img src="/bjc-r/img/3-lists/get-new-contact.png" alt="get new contact">, but it doesn't do the entire job of  <img src="/bjc-r/img/3-lists/get-new-contact.png" alt="get new contact">.
-                </li>
-                <li>Rewrite  <img src="/bjc-r/img/3-lists/get-new-contact.png" alt="get new contact"> to use this constructor.</li>
+					It should report a contact (still a list of three items). 
+              </li>
+                <div class="endnote">Note that it takes the three items as inputs; it doesn't ask the user to enter the information. This block will be used in <img src="/bjc-r/img/3-lists/get-new-contact.png" alt="get new contact">, but it doesn't do the entire job of <img src="/bjc-r/img/3-lists/get-new-contact.png" alt="get new contact">.</div>
+              <li>Rewrite  <img src="/bjc-r/img/3-lists/get-new-contact.png" alt="get new contact"> to use this constructor.</li>
                 <li>
-                	Now write two new <em>selector</em> blocks:<br />
+                	Now write two new <em>selector</em> blocks. Each of them should take a contact as input and report the right piece of that contact.<br />
                     <img class="indent" src="/bjc-r/img/3-lists/address-selector.png" alt="contact address ( )"><br />
                     <img class="indent" src="/bjc-r/img/3-lists/phone-selector.png" alt="contact phone ( )"><br />
-                	Each of them should take a contact as input and report the right piece of that contact. Also, check the selectors you've already written:<br /> 
+                	
+                </li>
+                <li>Also, check the selectors you've already written still work, and fix them if needed.<br /> 
                     <img class="indent" src="/bjc-r/img/3-lists/name-display.png" alt="name (display form) ()"><br />
                     <img class="indent" src="/bjc-r/img/3-lists/name-sorting.png" alt="name (sorting form) ()"><br />
-                    Together, the constructor and selectors  define an <strong>abstract data type</strong>, in this case, the "contact" data type.
-				</li></ol></div>
-                <div class="forYouToDo">
-			<ol start="7">
+                    Together, the constructor and selectors define an <strong>abstract data type</strong>, in this case, the "contact" data type.
+				</li>
+          </ol>
+    </div>
+        
+		<div class="forYouToDo">
+			<h4>Rewrite the Lookup Blocks</h4>
+            <ol start="9">
                 <li>
-                	Now you can rewrite the <code>phone number of</code> block this way:<br />
-                    <img class="indent" src="/bjc-r/img/3-lists/phone-number-script.png" alt="report contact phone (contact info for (name))"><br />
-               		You'll write the red <code>contact info</code> block. It will have the same definition as your old <code>phone number</code> block, except that instead of extracting the phone number, it reports the entire contact (a list).
+                	Now you can rewrite the <code>phone number</code> block as shown below. You'll write the red <code>contact info</code> block using the definition from your old <code>phone number</code> block, except that instead of extracting the phone number, it should report the entire contact (a list).<br />
+                    <img class="indent" src="/bjc-r/img/3-lists/phone-number-script.png" alt="report contact phone (contact info for (name))">
                 </li>
                 <li>Do the same thing for the <img src="/bjc-r/img/3-lists/name-from-number.png" alt="name from number ()"> block. You'll need a red <code>contact info from number</code> block. Make sure this all works. </li>
 			</ol>
