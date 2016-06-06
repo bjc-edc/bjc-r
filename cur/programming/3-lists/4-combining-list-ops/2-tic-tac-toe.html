@@ -15,15 +15,46 @@
 
 		<div class="forYouToDo">
 			<ol>
-                <li>Open your project <strong>U2L4-TicTacToe</strong> from Unit 2. Save it as <strong>U3L4-TicTacToe</strong> so that you'll still have the old version after you modify the project here. Play the game again, checking to make sure the sprite  <em>centers</em> itself in each tile before stamping itself, as the animation  shows.</li>
+                <li>Open your project <strong>U2L4-TicTacToe</strong> from Unit 2. Save it as <strong>U3L4-TicTacToe</strong> so that you'll still have the old version after you modify the project here. Play the game again, checking to make sure the sprite <em>centers</em> itself in each cell (tile) before stamping itself, as the animation  shows.</li>
                 <li>
-                	The players can see which which cells on the board have been taken, but the program isn't keeping track of those cells, so a player can move the sprite into a space that has already been taken.
+                    Build an abstract data-type called "move" to manage the player and the location of each move.
+                    <ol>
+                        <li>Build a constructor <img class="inline" src="/bjc-r/img/3-lists/current-move-constructor.png" alt="current move, player: () cell number: () reporter" title="current move, player: () cell number: () reporter" /> that takes two inputs, the player (<strong>x</strong> or <strong>o</strong>) and the number of the cell the player moved to (1 through 9), and it reports the list of those two.</li>
+                        <li>
+                            Build two selectors:
+                            <ul>
+                                <li><img class="inline" src="/bjc-r/img/3-lists/player-from-move-selector.png" alt="player from move {} selector" title="player from move {} selector" /> that takes a move (a list like <code>{x, 5}</code>) as input and reports only the player (e.g., x).</li>
+                                <li><img class="inline" src="/bjc-r/img/3-lists/cell-number-from-move.png" alt="cell number from move {} selector" title="cell number from move {} selector" /> that takes a move as input and reports only the cell number (e.g., 5).</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </li>
+                <li>
+                    How are going to call the constructor when the player makes a move by dropping the sprite? That is, what will the inputs be?
+                    <ul>
+                        <li>
+                            We can determine which player is moving from the costume number. Make a reporter <img src="/bjc-r/img/3-lists/justplayer.png" alt="player ()" title="player ()" /> that translates a costume number (1 or 2) into a player's symbol (<strong>x</strong> or <strong>o</strong>), so you can like this:<br />
+                            <img class="indent" src="/bjc-r/img/3-lists/player(costumeNumber).png"  alt="player (costume Number)">
+                        </li>
+                        <li>We can use <code>which cell? </code> to find how which cell number the player is trying to move into.</li>
+                    </ul>
+                </li>
+                
+                <li>
+                	The players can see which cells on the board have been taken, but the program isn't keeping track of those cells, so a player can move the sprite into a space that has already been taken.
                     <ol type="a">
-                        <li>To keep track, you will need a variable <code>current game</code> in which to list each move of the game. Use <img src="/bjc-r/img/3-lists/Make-a-variable.png"  alt="make a variable (in the variables palette)"> to make that variable. At the start of the game, this list must be empty (set to the empty list). </li>
-                        <li>Build a constructor <code>current move</code> that takes two inputs, the player (<strong>x</strong> or <strong>o</strong>) and the cell the player moved to (1 through 9), and reports the list of those two. It will be useful to have a reporter <img src="/bjc-r/img/3-lists/justplayer.png" alt="player ()"> that translates a costume number (1 or 2) into a player's symbol (<strong>x</strong> or <strong>o</strong>). You'll use <img src="/bjc-r/img/3-lists/player(costumeNumber).png"  alt="player (costume Number)">.</li>
-                        <li>When a player tries to move the sprite into a space, your program must check the list <code>current game</code> to see if that is a legal move. 
-                        <ul> <li>One way  is to create  <img src="/bjc-r/img/3-lists/legal-move().png"  alt="legal move?"> to see if the cell number is still free (not already used in <code>current game</code>). </li> <li> If it is, let the player move there and add the player's move—the list of <strong>x</strong> or <strong>o</strong> and the cell number that <code>current move</code> reports—to <code>current game</code>. </li>
-                        <li>It is useful to have a selector <img src="/bjc-r/img/3-lists/cell-number-from-move.png" alt="cell-number-from-move"> that takes a move (a list like <code>{x 5}</code>) as input and reports only the cell number (e.g., 5). Then <code>legal move?</code> will test every move in <code>current game</code> with <img src="/bjc-r/img/3-lists/map-cell-number-from-move()-over-current-game-contains-current-move.png" alt="map-cell-number-from-move()-over-current-game-contains-current-move"></li></ul> </li>
+                        <li>To keep track, you will need a variable <img class="inline" src="/bjc-r/img/3-lists/current-game-variable.png" alt="current game variable" title="current game variable" /> which will contain a list of moves created by the <code>move</code> constructor over the course of the game. Use <img src="/bjc-r/img/3-lists/Make-a-variable.png"  alt="make a variable (in the variables palette)"> to make that variable. At the start of the game, this list must be empty (set to the empty list). </li>
+                        <li>
+                            When a player tries to move the sprite into a space, your program must check the list <code>current game</code> to see if that is a legal move. One way  is to create a <img src="/bjc-r/img/3-lists/legal-move().png"  alt="legal move?"> predicate to test whether that cell is still free (not already used in <code>current game</code>). 
+                            <ul>
+                            	<li>
+                                	The <code>legal move?</code> block can test against every move in <code>current game</code> with the expression below. (Note that <code>move</code> is the two-item list inputed into <code>legal move?</code>.)<br />
+                            		<img class="indent" src="/bjc-r/img/3-lists/map-cell-number-from-move()-over-current-game-contains-current-move.png" alt="map-cell-number-from-move()-over-current-game-contains-current-move">
+                            	</li>
+                            	<div class="commentBig">This used to say "the cell number that <code>current move</code> reports", but <code>current move</code> is a constructor; it's not going to report the current move, right? --MF</div>
+                            	<li>If the intended move is a legal move, let the player move there and add the player's move—the list of either <strong>x</strong> or <strong>o</strong> and the cell number that <code>which cell?</code> reports—to <code>current game</code>.</li>
+                            </ul>
+                        </li>
 					</ol>
                 </li>
 				<li>Check to make sure your game works the way you want. Save your result.</li>
@@ -38,21 +69,16 @@
                 <li> 
                     Each winning combination is a list of three cells. 
                     <ol>
-                        <li>What triples <em>are</em> winning combinations?</li>
+                        <li>What triples are winning combinations?</li>
                         <li> How many winning combinations are there? </li>
-                        <li>Create a reporter that outputs a list of all possible winning combinations of cells. It will look something like this:
-                        <div class="commentBig">
-                        	<ul>
-                            	<li>GH Feedback 10/23/15: 1c image is incomplete</li>
-                                <li>I worried about this before I saw the comment. I think it's weird to cut an image off. --MF</li>
-                            </ul>
-                        </div>
-                        <p><img class="indent" src="/bjc-r/img/3-lists/TicTacToe wins.png" alt="TicTacToe wins"></p>
+                        <li>
+                            Create a reporter that outputs a list of all possible winning combinations of cells. It will look something like this:<br />
+                            <img class="indent" src="/bjc-r/img/3-lists/TicTacToe-wins.png" alt="TicTacToe wins">
                         </li>
                     </ol>
                 </li>
-                <li>Now reset your tic-tac-toe board so that the board is clear and the <code>Current game</code> list is empty, and play <em>one</em> game, <em>deliberately letting</em> <strong>x</strong> <em> win the game</em>. </li>
-                <img class="inline" src="/bjc-r/img/icons/pair-programming-swap.png" alt="Pair Programming Swap" title="Pair Programming Swap" /> 
+                <img class="imageRight" src="/bjc-r/img/icons/pair-programming-swap.png" alt="Pair Programming Swap" title="Pair Programming Swap" /> 
+                <li>Now reset your tic-tac-toe board so that the board is clear and the <code>current game</code> list is empty, and play <em>one</em> game, <em>deliberately letting</em> <strong>x</strong> <em> win the game</em>. </li>
 				<li>
                 	In order to invent a script that checks your board for wins, first experiment with these scripts. In each case, figure out <em>what</em> those results tell you about the game you just played, and figure out <em>how</em> that script  generated those results.
 					<ol>
@@ -62,7 +88,7 @@
                         <li><img src="/bjc-r/img/3-lists/item-1-of-TicTacToe-wins.png" alt="item-1-of-TicTacToe-wins"></li>
                         <li><img src="/bjc-r/img/3-lists/Keep-items-such-that(list(1-2-3))-contains(item-2-of())-from-Current-game.png" alt="Keep-items-such-that(list(1-2-3))-contains(item-2-of())-from-Current-game"></li>
                         <li><img src="/bjc-r/img/3-lists/Keep-items-such-that(item-1-of-TicTacToe-wins)-contains(item-2-of())-from-Current.png" alt="Keep-items-such-that(item-1-of-TicTacToe-wins)-contains(item-2-of())-from-Current-game"></li>
-                        <li><img src="/bjc-r/img/3-lists/Keep-items-such-that(item-1-of-TicTacToe-wins)-contains(item-2-of())-from-etc.png" width="663" height="111" alt="Keep-items-such-that(item-1-of-TicTacToe-wins)-contains(item-2-of())-from-(Keep-items-such-that(item-1-of-()-equals-x)-from-Current-game)"></li>
+                        <li><img src="/bjc-r/img/3-lists/Keep-items-such-that(item-1-of-TicTacToe-wins)-contains(item-2-of())-from-etc.png" alt="Keep-items-such-that(item-1-of-TicTacToe-wins)-contains(item-2-of())-from-(Keep-items-such-that(item-1-of-()-equals-x)-from-Current-game)"></li>
                         <li>Build a line of code, similar to one of the above, that lists all of the moves that player <strong>o</strong> made.</li>
                         <li>Build a line of code, similar to one of the above, that lists all of the moves (player and position) in the left-hand column.</li>
                         <li>Build a line of code, similar to one of the above, that lists all of the moves that player <strong>o</strong> made <em>in the left-hand column</em>.</li>
