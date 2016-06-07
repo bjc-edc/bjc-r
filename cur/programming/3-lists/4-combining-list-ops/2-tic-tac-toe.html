@@ -23,11 +23,11 @@
 				<li>
                     A <strong>move</strong> lists  the player (<strong>x</strong> or <strong>o</strong>) and the  cell (1 through 9) that the player moved to.
                     <ol>
-                        <li>Build a constructor <img class="inline" src="/bjc-r/img/3-lists/current-move-constructor.png" alt="current move, player: () cell number: () reporter" title="current move, player: () cell number: () reporter" /> that takes the two inputs and reports the list of those two. 
+                        <li>Build a constructor <img class="inline" src="/bjc-r/img/3-lists/current-move-constructor.png" alt="the move by player: () to cell number: () reporter" title="the move by player: () to cell number: () reporter" /> that takes the two inputs and reports the list of those two. 
                             <ul>
                                 <li>
-                                    You can determine the player from the costume number. Make a reporter <img src="/bjc-r/img/3-lists/justplayer.png" alt="player ()" title="player ()" /> that translates a costume number (1 or 2) into a player's symbol (<strong>x</strong> or <strong>o</strong>). You can use it like this:<br />
-                                    <img class="indent" src="/bjc-r/img/3-lists/player(costumeNumber).png"  alt="player (costume Number)">
+                                    You can determine the player from the costume number. Make a reporter <img src="/bjc-r/img/3-lists/justplayer.png" alt="player () reporter" title="player () reporter" /> that translates a costume number (1 or 2) into a player's symbol (<strong>x</strong> or <strong>o</strong>). You can use it like this:<br />
+                                    <img class="indent" src="/bjc-r/img/3-lists/player(costumeNumber).png" alt="player (costume #) reporting x" title="player (costume #) reporting x" />
                                 </li>
                                 <li>You can use <code>which cell? </code> to find the cell number.</li>
                             </ul>
@@ -43,7 +43,7 @@
                 </li>
                 <li>Modify the <code>when I am dropped</code> script so that it adds each move to <code>current game</code>. Start a new game and make three or four moves to make sure that it works.</li>
                 <li>When a player tries to move  into a cell, your program must check the list <code>current game</code> to see if that is a free cell. 
-               	<ul> <li>Create a <img src="/bjc-r/img/3-lists/legal-move().png"  alt="free cell?"> predicate that takes a cell number as input and  tests it against <em>every move</em> in <code>current game</code>. The <code>free cell?</code> block should use a higher order function to extract just the cell numbers from <code>current game</code> as a list and find out if that list contains the cell number that was given as input.</li><li> Test <code>free cell?</code> with the numbers of both free and occupied cells.</li></ul></li>
+               	<ul> <li>Create a <img src="/bjc-r/img/3-lists/legal-move().png" alt="free cell?" title="free cell?" /> predicate that takes a cell number as input and  tests it against <em>every move</em> in <code>current game</code>. The <code>free cell?</code> block should use a higher order function to extract just the cell numbers from <code>current game</code> as a list and find out if that list contains the cell number that was given as input.</li><li> Test <code>free cell?</code> with the numbers of both free and occupied cells.</li></ul></li>
 				<li>Now modify the <code>when I am dropped</code> script again so that  a move is allowed only if it's to a free cell.</li>
 				<li>Check to make sure your game works the way you want. Save your result.</li>
                 
@@ -61,41 +61,41 @@
                         <li>How many winning combinations are there? </li>
                         <li>
                             Create a reporter that outputs a list of all possible winning combinations of cells. It will look something like this:<br />
-                            <img class="indent" src="/bjc-r/img/3-lists/TicTacToe-wins.png" alt="TicTacToe wins">
+                            <img class="indent" src="/bjc-r/img/3-lists/TicTacToe-wins.png" alt="TicTacToe wins partial block definition" title="TicTacToe wins partial block definition" />
                         </li>
                     </ol>
                 </li>
                 <!--<img class="imageRight" src="/bjc-r/img/icons/pair-programming-swap.png" alt="Pair Programming Swap" title="Pair Programming Swap" /> -->
-                <li>Click  <img src="/bjc-r/img/1-introduction/green-flag_button.png" alt="green flag button" title="green flag button"/> to clear your tic-tac-toe board   and initialize (empty out) <code>current game</code>. Play <em>one</em> game, <em>deliberately letting</em> <strong>x</strong> <em> win</em>. </li>
+                <li>Click  <img src="/bjc-r/img/1-introduction/green-flag_button.png" alt="green flag button" title="green flag button" /> to clear your tic-tac-toe board   and initialize (empty out) <code>current game</code>. Play <em>one</em> game, <em>deliberately letting</em> <strong>x</strong> <em> win</em>. </li>
 				<li>To  check  for wins, your script will  need to know where the players have moved. Experiment with the following scripts, which report information about the game you just played. In each case, figure out <em>what</em> those results tell you about that game, and figure out <em>how</em> the script generated those results.
 <ol>
                         <li>
                         	<img class="imageRight" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
-                        	<img src="/bjc-r/img/3-lists/item-1-of-current-game.png"  alt="item-1-of-current-game">
+                        	<img src="/bjc-r/img/3-lists/item-1-of-current-game.png" alt="item (1) of (current game)" title="item (1) of (current game)" />
                         </li>
-                        <li><img src="/bjc-r/img/3-lists/Keep-items-such-that(item-1-of-()-equals-x)-from-Current-game.png" alt="Keep-items-such-that(item-1-of-()-equals-x)-from-Current-game"></li>
-                        <li><img src="/bjc-r/img/3-lists/map(item-2-of-())-over-Keep-items-such-that(item-1-of-()-equals-x)-from-Current-game.png"  alt="map(item-2-of-())-over-Keep-items-such-that(item-1-of-()-equals-x)-from-Current-game"></li>
+                        <li><img src="/bjc-r/img/3-lists/Keep-items-such-that(item-1-of-()-equals-x)-from-Current-game.png" alt="keep items such that ((player from move {}) = (x)) from (current game)" title="keep items such that ((player from move {}) = (x)) from (current game)" /></li>
+                        <li><img src="/bjc-r/img/3-lists/map(item-2-of-())-over-Keep-items-such-that(item-1-of-()-equals-x)-from-Current-game.png" alt="map (cell number from move {}) over (kep items such that ((player from move {}) = (x)) from (current game))" title="map (cell number from move {}) over (kep items such that ((player from move {}) = (x)) from (current game))" /></li>
                         <li>
                         	Build reporter blocks <code>player x cells</code> and <code>player o cells</code> that report a list of cells that the players occupy.<br />
-                        	<img class="indent" src="/bjc-r/img/3-lists/player-x-locations(reporting-result(6-3-9-4)).png"  alt="player-x-locations(reporting-result(6-3-9-4))">
-                            <img class="indent" src="/bjc-r/img/3-lists/player-o-locations(reporting-result(2-7-5)).png"  alt="player-o-locations(reporting-result(2-7-5))"> 
+                        	<img class="indent" src="/bjc-r/img/3-lists/player-x-locations(reporting-result(6-3-9-4)).png" alt="player x cells reporting {1, 5, 9}" title="player x cells reporting {1, 5, 9}" />
+                            <img class="indent" src="/bjc-r/img/3-lists/player-o-locations(reporting-result(2-7-5)).png" alt="player o cells reporting {2, 6}" title="player o cells reporting {2, 6}" /> 
                         </li>
                     </ol>
                 </li>
                 <li>
                 	Now that you can determine what cells each player is in, you can figure out whether some subset of those cells is a win.
                       <ol>
-                        <li><img src="/bjc-r/img/3-lists/item-1-of-TicTacToe-wins.png" alt="item-1-of-TicTacToe-wins"></li>
-                        <li><img src="/bjc-r/img/3-lists/Keep-items-such-that(list(1-2-3))-contains(item-2-of())-from-Current-game.png" alt="Keep-items-such-that(list(1-2-3))-contains(item-2-of())-from-Current-game"></li>
-                        <li><img src="/bjc-r/img/3-lists/Keep-items-such-that(item-1-of-TicTacToe-wins)-contains(item-2-of())-from-Current.png" alt="Keep-items-such-that(item-1-of-TicTacToe-wins)-contains(item-2-of())-from-Current-game"></li>
+                        <li><img src="/bjc-r/img/3-lists/item-1-of-TicTacToe-wins.png" alt="item (1) of (TicTacToe wins)" title="item (1) of (TicTacToe wins)" /></li>
+                        <li><img src="/bjc-r/img/3-lists/Keep-items-such-that(list(1-2-3))-contains(item-2-of())-from-Current-game.png" alt="keep items such that ((list {1, 2, 3}) contains()) from (player x cells)" title="keep items such that ((list {1, 2, 3}) contains()) from (player x cells)" /></li>
+                        <li><img src="/bjc-r/img/3-lists/Keep-items-such-that(item-1-of-TicTacToe-wins)-contains(item-2-of())-from-Current.png" alt="keep items such that ((item (1) of (TicTacToe wins)) contains ()) from (player x cells)" title="keep items such that ((item (1) of (TicTacToe wins)) contains ()) from (player x cells)" /></li>
 					</ol>
 				</li>
 				<li>
-                	Create a predicate block <img src="/bjc-r/img/3-lists/do-(player-x-locations)-satisfy-(item-1-of-TicTacToe-wins).png" alt="do-(player-x-locations)-satisfy-(item-1-of-TicTacToe-wins)">that  takes a list of a player's cells and <em>one</em> winning combination and reports whether those cells contain all three elements of the winning combination. <strong>One way</strong> to do it could start like this: 
-                	<img src="/bjc-r/img/3-lists/predicate-block-titled(do-positions-satisfy-winningCombination).png"  alt="predicate-block-titled(do-positions-satisfy-winningCombination); report ((positions) contains (item 1 of (winningCombination)) AND ...">
+                	Create a predicate block <img src="/bjc-r/img/3-lists/do-(player-x-locations)-satisfy-(item-1-of-TicTacToe-wins).png" alt="do {} satisfy {} ?" title="do {} satisfy {} ?" />that  takes a list of a player's cells and <em>one</em> winning combination and reports whether those cells contain all three elements of the winning combination. <strong>One way</strong> to do it could start like this: 
+                	<img src="/bjc-r/img/3-lists/predicate-block-titled(do-positions-satisfy-winningCombination).png" alt="do {cells} satisfy {winning combination}? : (report ((cells) contains (item (1) of (winning combintion))) and ...)" title="do {cells} satisfy {winning combination}? : (report ((cells) contains (item (1) of (winning combintion))) and ...)" />
           </li>
                 <li>Test it for three different winning combinations.</li>
-                <li>What  does <img src="/bjc-r/img/3-lists/map-(do(player-x-locations)satisfy())-over(TicTacToe-wins).png"  alt="map-(do(player-x-locations)satisfy())-over(TicTacToe-wins)"> report?</li>
+                <li>What  does <img src="/bjc-r/img/3-lists/map-(do(player-x-locations)satisfy())-over(TicTacToe-wins).png" alt="map (do (player x cells) satisfy {} ?) over (TicTacToe wins)" title="map (do (player x cells) satisfy {} ?) over (TicTacToe wins)" /> report?</li>
                 <li>Build a block, <code>win?</code> that takes a player (<strong>x</strong> or <strong>o</strong>) as input and checks to see if that player wins.</li>
                 <li>Modify your <code>when I am dropped</code> script so that when a player wins the game, the program <em>notifies</em> the players.</li>
 			</ol>
