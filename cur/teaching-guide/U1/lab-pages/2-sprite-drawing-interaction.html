@@ -52,7 +52,50 @@
         </div> 
 
 
-		<h3>As a Class:</h3>
+		<h3>Learning Objectives:</h3>
+		<div>
+			<ul>
+				<li>
+					<strong>Page 1: Drawing and Motion.</strong>
+					<ul>
+						<li>To use the <code>repeat</code> block to carry out the same action several times.</li>
+                        <li>To control the relative sprite movement with the <code>move</code> block.</li>
+                        <li>To control the relative sprite direction with the <code>turn</code> block.</li>
+                        <li>To set the absolute sprite direction with the <code>point in direction</code> block.</li>
+                        <li>To set the pen size and color with the appropriate blocks in the pen palette.</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Page 2: Programming a Sprite to Follow a Motion.</strong>
+					<ul>
+						<li>To create a second sprite.</li>
+						<li>To set up multiple threads with two different sprites.</li>
+						<li>To use the <code>mouse x</code> and <code>mouse y</code> position blocks from the sensing palette.</li>
+						<li>To control the relative sprite direction with the <code>point towards</code> block.</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Page 3: Sprite Interaction.</strong>
+					<ul>
+						<li>To use the <code>repeat until</code> block, avoiding the possibility of an unintended infinite loop.</li>
+						<li>To use the boolean <code>touching?</code> block to sense if a one sprite is touching another.</li>
+						<li>To use the <code>say</code> block.</li>
+						<li>To pass messages between sprites with <code>tell</code> block.</li>
+						<li>To change the stage background.</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Page 4: Nesting Repeats.</strong>
+					<ul>
+						<li>To understand the result of nested <code>repeat</code> blocks.</li>
+						<li>To read a program and predict the result of running it.</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+        
+        
+       <h3>As a Class:</h3>
 		<div>
 			<ul>
 				<li>
@@ -65,33 +108,6 @@
             </ul>
         </div>
         
-         <h3>Lesson Objectives:</h3>
-        
-        <div>
-            <ul>
-            
-           		<li>
-                How to make the computer respond to a user click (a "<em>click event"</em>). 
-               </li>
-               
-               <li>(*) How to add a costume to a sprite.
-               
-               </li>
-               
-               <li>(*) What is a sprite? <strong>AC:  I'm not sure how to answer this.</strong>
-               
-              
-               
-               </li>
-            
-            </ul>
-        
-        </div>
-        
-        
-        
-        
-        
         <h3>Tips:</h3>
         <div>
             <ul>
@@ -102,12 +118,38 @@
 					<ul>
 						<li>The first page of this lab gives students a simple script to draw a square and asks them to experiment with it, changing various numbers in the script and observing the results. Students who are accustomed to being told exactly what to do may flounder. Tell them that Creativity is one of the Big Ideas of Computer Science Principles and that in this sort of exploratory lesson there are <em>no wrong answers</em>.</li>
 		                <li>Take note of any interesting approaches or creative ideas that would be good to share with the class.</li>
+                        <li>
+                        	<strong>Mathematics Note: Direction.</strong> Snap! reports the direction that a sprite is facing using a system similar to that used by a magnetic compass:
+                        	<ul>
+                            	<li>0 is straight up, facing the top of the screen</li>
+                                <li>90 faces the right-hand side of the screen</li>
+                                <li>180 points "due south"</li>
+                                <li>270 faces the left-hand side of the screen</li>
+                            </ul>
+                            The inputs to the <code>point in direction</code> block can be any number, and this gives an opportunity to talk about different inputs to <code>point in direction</code> that produce the same effect. Try, for example, turning on the <var>direction</var> reporter in the Motion palette (it reports the direction of the sprite), but try using <code>point in direction</code> with an input of -20 and then again with an input of 340. The sprite points the same way&mdash;nothing changes&mdash;but direction reports -20 and then 340. Clearly, -20 &ne; 340, but they differ by 360:
+							<span class="katex-block">340 = -20 + 360</span>
+                            Sprite direction is determined only up to multiples of 360, because a complete turn is 360&deg; and that brings you back to where you started. So, using inputs to <code>point in direction</code> that are multiples of 360:
+                            <span class="katex-block">0,360,720,1080,...</span>
+                            will all bring you back to pointing straight up, and similarly, inputs that are, say, 75 more than these:
+							<span class="katex-block">75,75+360,75+720,75+1080,...</span>
+                            <img class="imageRight" src="/bjc-r/img/1-introduction/75-equals-435-mod-360-reporting.png" alt="(75) = ((435) mod (360)) reporting true" title="(75) = ((435) mod (360)) reporting true" />
+							will all do the same thing as <code>point in direction</code> with an input of 75. The mathematical shorthand for this is to say something like "75 is the same as 435 <em>modulo</em> 360, which can be expressed in Snap<em>!</em> as shown at right. (The word modulo was introduced by Gauss as a way to say "except for multiples of." These days, the meaning is often used in other ways, like "The game will take place today, modulo rain.")
+                        </li>
+                        <li>
+                            <strong>Mathematics Note: Circles.</strong> You sometimes hear people say "a circle is a polygon with an infinite number of sides." This isn't true in any precise sense, but it is true that a circle can be <em>approximated</em> by a polygon with many sides, each very short in length. This is similar to what children do when the walk around a circle&mdash;they take many small steps. And this is how Snap<em>!</em> models circles&mdash;it creates a polygon with many small turns and steps. For example:<br />
+                            <img class="indent" src="/bjc-r/img/1-introduction/circle-script.png" alt="repeat (360) [move (1) steps, turn right (1) degrees]" title="repeat (360) [move (1) steps, turn right (1) degrees]" />
+                            <img class="indent noshadow" src="/bjc-r/img/1-introduction/circle.png" alt="sprite drawing a circle" title="sprite drawing a circle" /><br />
+                            This looks very much like a circle, but it's really a polygon with 360 sides, all of length 1 step.<br />In particular, you can apply facts about circles to these Snap<em>!</em> approximations, and they work quite well. For example, in the Take it Further challenge, the diameter of the red circle is 100. The circumference (perimeter) of a circle is &pi; times its diameter. If your students know this fact, then they can reason that the circumference of the red circle is 100&pi;. Using the approximation 3.14 for &pi;, the circumference is approximately 314. So, if we want to cover this distance in 360 steps, the step size should be <span class="katex">\frac{314}{360}</span>. Snap<em>!</em> can do the calculation for us.<br />
+                            <img class="indent" src="/bjc-r/img/1-introduction/circle-squared-script.png" alt="set pen color to (blue), repeat (4) [move (100) steps, turn right (90) degrees], move (50) steps, set pen color to (red), repeat (360) [move ((314) / (360)) steps, turn right (1) degrees]" title="" />
+                            <img class="indent noshadow" src="/bjc-r/img/1-introduction/circle-squared.png" alt="sprite drawing a square and then a circle" title="sprite drawing a square and then a circle" />
+                        </li>
 					</ul>
 				</li>
                 <li>
 					<strong>Page 2: Programming a Sprite to Follow a Motion.</strong>
 					<ul>
 						<li>There is a subtle difference between the green flag and the stop button. These two buttons are not exact opposites; don't think "green starts the project and red stops it." The stop button <em>forcibly</em> stops all currently running scripts. The green flag doesn't forcibly start all scripts; it merely provides a signal that students <em>can</em> use, if they want, as a starting condition for a script. Some projects ignore the green flag entirely, and start in some other way, e.g., by clicking a button-shaped sprite on the stage. You don't have to explain all this to students, but a student might ask why clicking the flag doesn't start all scripts. (Another related possibly confusing point is that the stop button doesn't prevent scripts from starting after it's clicked. Scripts can start in response to clicking a sprite, hitting a keyboard letter, and so on.)</li>
+                        <li><strong>Mathematics Note: Coordinates again.</strong> Experimenting with the <var>mouse x</var> and <var>mouse y</var> sensors can help students get used to the underlying coordinate grid.</li>
 					</ul>
 				</li>
                 <li>
@@ -118,6 +160,27 @@
                     </ul>
                 </li>
                 <!--<li>The  <a href="/bjc-r/cur/programming/1-introduction/temp-hodgepodge/2-drawing-communication/5-more-drawing-interaction.html?topic=nyc_bjc%2F1-intro-loops.topic&course=bjc4nyc_2015-2016.html&novideo&noassignment">More Sprite Drawing and Interaction</a> page shows Snap<em>!</em> code with comments attached. Some students may <em>want</em> to comment some of their code, for their own information, but please don't <em>require</em> students to do so. This isn't a software engineering course preparing students for the workforce. Keep the focus in this first course on the beauty and joy.</li>-->
+                <li>
+					<strong>Page 4: Nesting Repeats.</strong>
+					<ul>
+						<li>
+                            <strong>Mathematics Note: Angles in polygons.</strong> The script that draws a triangle:<br />
+                            <img class="indent" src="/bjc-r/img/1-introduction/triangle-script.png" alt="repeat (5) [move (50) steps, turn right (120) degrees]" title="repeat (5) [move (50) steps, turn right (120) degrees]" /><br />
+                            has three turns of 120&deg;. To see why, imagine walking around an equilateral triangle, keeping track of how much you turn in total. When you get back to where you started, you'll have turned 360&deg;. But you made 3 equal turns, so each turn is <span class="katex">\frac{1}{3}</span> of 360&deg; or 120&deg;.
+                        </li>
+						<li>
+                            <strong>Mathematics Note: Preview of recursion.</strong> The figure in problem 6 might seem quite complicated. But it can be generated by a programming style that previews a technique that will be developed in more depth in Unit 6. To get a feel for what's going on, start with a script that draws a triangle:<br />
+                            <img class="indent" src="/bjc-r/img/1-introduction/triangle-script.png" alt="repeat (3) [move (50) steps, turn right (120) degrees]" title="repeat (5) [move (50) steps, turn right (120) degrees]" />
+                            <img class="indent noshadow" src="/bjc-r/img/1-introduction/triangle.png" alt="sprite drawing a triangle" title="sprite drawing a triangle" /><br />
+                            Now make it take a break at each vertex and do something simple, like play a note:<br />
+                            <img class="indent" src="/bjc-r/img/1-introduction/triangle-sound-script.png" alt="repeat (3) [move (100) steps, play note (60) for (0.5) beats, turn right (120) degrees]" title="repeat (3) [move (100) steps, play note (60) for (0.5) beats, turn right (120) degrees]" /><br />
+                            Instead of making it play a note, have it draw a smaller triangle:<br />
+                            <img class="indent" src="/bjc-r/img/1-introduction/triangle-nested-script.png" alt="repeat (3) [move (100) steps, repeat (3) [move (50) steps, turn right (120) degrees], turn right (120) degrees]" title="repeat (3) [move (100) steps, repeat (3) [move (50) steps, turn right (120) degrees], turn right (120) degrees]" />
+                            <img class="indent noshadow" src="/bjc-r/img/1-introduction/triangle-nested.png" alt="sprite drawing a red triangle with a smaller nested triangle at each vertex" title="sprite drawing a red triangle with a smaller nested triangle at each vertex" /><br />
+                            Now you can get as intricate as you want by inserting ever-smaller triangles between each <code>move</code> and <code>turn</code>.
+                        </li>
+					</ul>
+				</li>
             </ul>
 		</div>          
         <h3>Solutions</h3>
