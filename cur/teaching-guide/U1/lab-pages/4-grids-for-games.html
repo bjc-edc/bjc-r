@@ -173,20 +173,45 @@
 						</li>
                         <li><strong>Mathematics Note: Rounding.</strong> The round block reports the closest integer to its input. If there's a tie (like with 3.5), it rounds up, so that <code>round (3.5)</code> reports 4.</li>
                         <li>
-                        	<strong>Mathematics Note: <code>Mod</code>.</strong> The <code>mod</code> block returns the remainder when the first input is divided by the second. For positive whole numbers, this is the same as the notion of remainder that students learn in elementary school when they learn to divide one whole number by another. So <code>mod (7,5)</code> is 2, because when 7 is divided by 5, the remainder is 2 (and the quotient is 1).<br />
-                        	The behavior of the <code>mod</code> block may seem mysterious when one or both of the inputs are negative integers. For example:
-                            <span class="katex-block">mod (7, 5) = 2</span>
-                            <span class="katex-block">mod (-7, 5) = 3</span>
-                            <span class="katex-block">mod (-7, -5) = -2</span>
-                            <span class="katex-block">mod (7, -5) = -3</span>
-							What's going on here? Well, one thing that seems to hold is that the sign of the output of <code>mod</code> agrees with the sign of its second input. But why?<br />
-                            There is a rationale that explains this behavior. Go back to positive whole numbers. The fact that <code>mod (7, 5)</code> comes from
-							<div class="todo">[[[put a picture of the long division of 7 divided by 5 here]]] Maybe just an image, a scan of a hand drawn calculation.</div>
-							What this means is that <span class="katex">7 = 5 \times 1 + 2</span>. As in elementary school, 1 is the <em>quotient</em> and 2 is the <em>remainder</em>. The quotient is the key to the mystery. In Snap<em>!</em>, you can get the quotient by dividing 7 by 5 to get 1.4 and then <em>rounding down</em>.<br />
-							This operation of rounding down is called <code>floor</code>, and it's built into Snap<em>!</em> (you can write it using <code>round</code> too). And it makes sense for any real number—you locate the number on a number line and take the closest integer to the left (hence the name "floor").<br />
-							So, given any two integers <em>a</em> and <em>b</em> (or real numbers, really) you can calculate the quotient <span class="katex">\frac{b}{a}</span> and then the floor of their quotient <code>floor(<span class="katex">\frac{b}{a}</span>)</code>. Call this number <em>q</em>. Then <em>b</em> will equal <em>aq</em> plus a little "left over." What's left over is what Snap<em>!</em> and most programming languages use for <code>mod(b, a)</code>.<br />
-                            Examples probably help more than the symbols:
-							<p class="center"><span class="katex">7 = 1.4</span>, so <span class="katex">floor(\frac{7}{5})= 1</span></p><br />
+                        	<p><strong>Mathematics Note: <code>Mod</code>.</strong> The <code>mod</code> block returns the remainder when the first input is divided by the second.</p>
+                            <p>
+                                For positive whole numbers, this is the same as the notion of remainder that students learn in elementary school when they learn to divide one whole number by another. So:<br />
+                                <img class="indent" src="/bjc-r/img/1-introduction/7mod5reporting2.png" alt="7 mod 5 reporting 2" title="7 mod 5 reporting 2" /><br />
+                                because when 7 is divided by 5, the remainder is 2 (and the quotient is 1).
+                            </p>
+                        	<p>
+                            	The behavior of the <code>mod</code> block may seem mysterious when one or both of the inputs are negative integers. For example:<br />
+                                <!--<span class="katex-block">mod (7, 5) = 2</span>
+                                <span class="katex-block">mod (-7, 5) = 3</span>
+                                <span class="katex-block">mod (-7, -5) = -2</span>
+                                <span class="katex-block">mod (7, -5) = -3</span>-->
+                                <img class="indent" src="/bjc-r/img/1-introduction/-7mod5reporting3.png" alt="-7 mod 5 reporting 3" title="-7 mod 5 reporting 3" />
+                                <img class="indent" src="/bjc-r/img/1-introduction/-7mod-5reporting-2.png" alt="-7 mod -5 reporting -2" title="-7 mod -5 reporting -2" />
+                                <img class="indent" src="/bjc-r/img/1-introduction/7mod-5reporting-3.png" alt="7 mod -5 reporting -3" title="7 mod -5 reporting -3" /><br />
+								The sign of the output of <code>mod</code> agrees with the sign of its second input. But why?
+                            </p>
+                            <p>Let's go back to positive whole numbers for a moment. The fact that <code>mod (7, 5) = 2</code> comes from <span class="katex">7 \div 5 = 1 \text{ remainder } 2</span>, which comes from <span class="katex">7 = 5 \times 1 + 2</span> where 1 is the <em>quotient</em> and 2 is the <em>remainder</em>. The quotient is the key to the mystery.</p>
+                            <p>
+                            	In Snap<em>!</em>, you can get the quotient by dividing 7 by 5 to get 1.4 and then <em>rounding down</em>. This operation of rounding down is called <code>floor</code>, and it's built into Snap<em>!</em> (you can find it as a drop-down option in the <code>sqrt</code> block in the Operators pallete). For any real number, <code>floor</code> takes the closest integer to the left on the number line (hence the name "floor").<br />
+                            	<img class="indent" src="/bjc-r/img/1-introduction/floor7div5reporting1.png" alt="floor (7 ÷ 5) reporting 1" title="floor (7 ÷ 5) reporting 1" />
+                            </p>
+							<p>So, given any two integers <span class="katex">a</span> and <span class="katex">b</span> (or real numbers, really) you can calculate the quotient <span class="katex">\frac{b}{a}</span> and then the floor of their quotient <span class="katex">\text{floor}(\frac{b}{a})</span>. Let's call this quotient <span class="katex">q</span>. Then, <span class="katex">b</span> will equal <span class="katex">aq</span> plus the little left over that we lost by using floor (the remainder, which we'll call <span class="katex">r</span>). So now, <span class="katex">b = aq + r</span> much like <span class="katex">7 = 5 \times 1 + 2</span>.</p>
+                            <p>That remainder is what Snap<em>!</em> and most programming languages report for <code>mod(b, a)</code> and this explains the signs of the outputs when one or both inputs are negative.</p>
+							<p class="center">
+                            	For example: 
+                                <img class="inline" src="/bjc-r/img/1-introduction/-7div5reporting-1.4.png" alt="-7 ÷ 5 reporting -1.4" title="-7 ÷ 5 reporting -1.4" />, so 
+                                <img class="inline" src="/bjc-r/img/1-introduction/floor(-7div5)reporting2.png" alt="floor (-7 ÷ 5) reporting 2" title="floor (-7 ÷ 5) reporting 2" /><br />
+                                and <span class="katex">-7=5\times(-2)+3</span>, so 
+                                <img class="inline" src="/bjc-r/img/1-introduction/-7mod5reporting3.png" alt="-7 mod 5 reporting 3" title="-7 mod 5 reporting 3" />.
+							</p>
+							<p class="center">
+                            	Another example: 
+                                <img class="inline" src="/bjc-r/img/1-introduction/-7div-5reporting1.4.png" alt="-7 ÷ -5 reporting 1.4" title="-7 ÷ -5 reporting 1.4" />, so 
+                                <img class="inline" src="/bjc-r/img/1-introduction/floor(-7div-5)reporting1.png" alt="floor (-7 ÷ -5) reporting 1" title="floor (-7 ÷ -5) reporting 1" /><br />
+                                and <span class="katex">-7=-5\times(1)+-2</span>, so 
+                                <img class="inline" src="/bjc-r/img/1-introduction/-7mod-5reporting-2.png" alt="-7 mod -5 reporting -2" title="-7 mod -5 reporting -2" />.
+							</p>                            <!--Examples probably help more than the symbols:
+							<p class="center"><span class="katex">\frac{7}{5} = 1.4</span>, so <span class="katex">floor(\frac{7}{5})= 1</span></p><br />
 							<p class="center"><span class="katex">7=5 \times 1+2</span>, so <span class="katex">mod(7,5)=2</span></p>
                             No surprise. But this extends:
                             <p class="center"><span class="katex">\frac{-7}{5} = -1.4</span>, so <span class="katex">floor(\frac{-7}{5}) = -2</span></p><br />
@@ -196,7 +221,7 @@
                             <p class="center"><span class="katex">7=-5\times(-2)-3</span>, so <span class="katex">mod(7,-5)=-3</span></p>
                             And finally,
                             <p class="center"><span class="katex">\frac{-7}{-5} = 1.4</span>, so <span class="katex">floor(\frac{-7}{-5})= 1</span></p><br />
-                            <p class="center"><span class="katex">-7=-5\times1-2</span>, so <span class="katex">mod(-7,-5)=-2</span></p>
+                            <p class="center"><span class="katex">-7=-5\times1-2</span>, so <span class="katex">mod(-7,-5)=-2</span></p>-->
                         </li>
                     </ul>
                 </li>
