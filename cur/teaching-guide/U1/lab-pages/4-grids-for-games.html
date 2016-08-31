@@ -8,7 +8,7 @@
     
     <body>
         <h2>Programming Lab 4: Building Grids for Games</h2>
-		<p>Students begin a project—building a Tic Tac Toe game and other games that are played by placing marks (X or O, or a number) on a square array of tiles. This project will develop over the course of a few units. In this lab, students get as far as creating the grid, getting it automatically to fit the screen regardless of the number of tiles, and placing marks on the grid (but not yet with the computer checking to see if the moves are legal or if a player has won). In doing this, students continue to use ideas (and new levels) of abstraction, and learn also how to use a variety of math reporters—four basic operations (<code>+</code>, <code>−</code>, <code>×</code>, <code>÷</code>), and <code>mod</code>&mdash;to create new reporter blocks, <em>functions</em> to perform specialized calculations for them.</p>
+		<p>Students begin a project—building a Tic Tac Toe game and other games that are played by placing marks (X or O, or a number) on a square array of tiles. This project will develop over the course of a few units. In this lab, students get as far as creating the grid, getting it automatically to fit the screen regardless of the number of tiles, and placing marks on the grid (but not yet with the computer checking to see if the moves are legal or if a player has won). In doing this, students continue to use ideas (and new levels) of abstraction, and learn also how to use a variety of math reporters—four basic operations (<code>+</code>, <code>-</code>, <code>×</code>, <code>÷</code>), and <code>mod</code>&mdash;to create new reporter blocks, <em>functions</em> to perform specialized calculations for them.</p>
 
         <h3>Pacing</h3>
         <p>
@@ -143,6 +143,7 @@
                             </ul>
 						</li>
 						<li>To avoid overloading the text, the orange box about abstraction doesn't mention that even building the board out of boxes is an abstraction-based design decision. That's not how you draw a tic-tac-toe board by hand; you draw long intersecting lines. We could have done that here, too, but wanted a <code>draw tile</code> block that could be modified later.</li>
+                        <li><strong>Mathematics Note: State invariance.</strong> Drawing a row of tiles requires that students build in instructions to move the sprite to "the next" position. That's because the typical routine for drawing a square, "<code>repeat (4) [move (100), turn (90)]</code>" puts the sprite back in its original position&mdash;the script is <em>state invariant</em>. Building state invariance into scripts and blocks is a good idea, because it makes "ending where you stated" makes it easier to problematically move the sprite to the next state.</li>
 					</ul>
 				</li>
                 <li>
@@ -162,6 +163,40 @@
                                 <li>A <em>Boolean value</em> is <img src="/bjc-r/img/blocks/true.png" alt="true"> or <img src="/bjc-r/img/blocks/false.png" alt="false">. (Not the text strings "true" and "false"; not 0 and 1.)</li>
                             </ul>
                             So a reporter or a predicate is a function; an expression is a function applied to arguments.
+                        </li>
+                        <li>
+							<strong>Mathematics Note: Order of Operations.</strong> There's no need to teach "order of operations." Nesting the operations does the work for you&mdash;it's like automatic parenthesization. For example:
+                            <span class="katex-block">\frac{4}{7+(3\times2)}</span>
+                            <p class="center">is <img class="inline" src="/bjc-r/img/1-introduction/4÷(7+(3x2)).png" alt="4 / (7 + (3 x 2))" title="4 / (7 + (3 x 2))" />and</p>
+                            <span class="katex-block">\frac{4}{7} + (3 \times 2)</span>
+                            <p class="center">is <img class="inline" src="/bjc-r/img/1-introduction/(4÷7)+(3x2).png" alt="(4 / 7) + (3 x 2)" title="(4 / 7) + (3 x 2)" /></p>
+						</li>
+                        <li><strong>Mathematics Note: Rounding.</strong> The round block reports the closest integer to its input. If there's a tie (like with 3.5), it rounds up, so that <code>round (3.5)</code> reports 4.</li>
+                        <li>
+                        	<strong>Mathematics Note: <code>Mod</code>.</strong> The <code>mod</code> block returns the remainder when the first input is divided by the second. For positive whole numbers, this is the same as the notion of remainder that students learn in elementary school when they learn to divide one whole number by another. So <code>mod (7,5)</code> is 2, because when 7 is divided by 5, the remainder is 2 (and the quotient is 1).<br />
+                        	The behavior of the <code>mod</code> block may seem mysterious when one or both of the inputs are negative integers. For example:
+                            <span class="katex-block">mod (7, 5) = 2</span>
+                            <span class="katex-block">mod (-7, 5) = 3</span>
+                            <span class="katex-block">mod (-7, -5) = -2</span>
+                            <span class="katex-block">mod (7, -5) = -3</span>
+							What's going on here? Well, one thing that seems to hold is that the sign of the output of <code>mod</code> agrees with the sign of its second input. But why?<br />
+                            There is a rationale that explains this behavior. Go back to positive whole numbers. The fact that <code>mod (7, 5)</code> comes from
+							<div class="todo">[[[put a picture of the long division of 7 divided by 5 here]]] Maybe just an image, a scan of a hand drawn calculation.</div>
+							What this means is that <span class="katex">7 = 5 \times 1 + 2</span>. As in elementary school, 1 is the <em>quotient</em> and 2 is the <em>remainder</em>. The quotient is the key to the mystery. In Snap<em>!</em>, you can get the quotient by dividing 7 by 5 to get 1.4 and then <em>rounding down</em>.<br />
+							This operation of rounding down is called <code>floor</code>, and it's built into Snap<em>!</em> (you can write it using <code>round</code> too). And it makes sense for any real number—you locate the number on a number line and take the closest integer to the left (hence the name "floor").<br />
+							So, given any two integers <em>a</em> and <em>b</em> (or real numbers, really) you can calculate the quotient <span class="katex">\frac{b}{a}</span> and then the floor of their quotient <code>floor(<span class="katex">\frac{b}{a}</span>)</code>. Call this number <em>q</em>. Then <em>b</em> will equal <em>aq</em> plus a little "left over." What's left over is what Snap<em>!</em> and most programming languages use for <code>mod(b, a)</code>.<br />
+                            Examples probably help more than the symbols:
+							<p class="center"><span class="katex">7 = 1.4</span>, so <span class="katex">floor(\frac{7}{5})= 1</span></p><br />
+							<p class="center"><span class="katex">7=5 \times 1+2</span>, so <span class="katex">mod(7,5)=2</span></p>
+                            No surprise. But this extends:
+                            <p class="center"><span class="katex">\frac{-7}{5} = -1.4</span>, so <span class="katex">floor(\frac{-7}{5}) = -2</span></p><br />
+                            <p class="center"><span class="katex">-7=5\times(-2)+3</span>, so <span class="katex">mod(-7,5)=3</span></p>
+                            Another example:
+                            <p class="center"><span class="katex">\frac{7}{-5} =-1.4</span>, so <span class="katex">floor(\frac{7}{-5})=-2</span></p><br />
+                            <p class="center"><span class="katex">7=-5\times(-2)-3</span>, so <span class="katex">mod(7,-5)=-3</span></p>
+                            And finally,
+                            <p class="center"><span class="katex">\frac{-7}{-5} = 1.4</span>, so <span class="katex">floor(\frac{-7}{-5})= 1</span></p><br />
+                            <p class="center"><span class="katex">-7=-5\times1-2</span>, so <span class="katex">mod(-7,-5)=-2</span></p>
                         </li>
                     </ul>
                 </li>
