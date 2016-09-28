@@ -79,6 +79,34 @@
 					<ul>
 						<li><div class="sidenoteBig">A <strong>global</strong> variable holds information that every script for every sprite can use. A <strong>local</strong> variable exists only within the block or script in which it was created.</div> 
 						The BJC curriculum deliberately introduces variables starting with variables with limited scope (the variable in the <code>for</code> block, custom block inputs, and now script variables) giving students plenty of experience  with them <em>before</em> introducing global variables. The goal is to get students in the strong habit of using local variables  before global variables are introduced. At this point, you don't need to (and shouldn't) talk about scope issues or global vs. local variables at all.</li>
+						<li>
+                        	<strong>Mathematics Note: Alternatives to Script Variables.</strong> Script variables are useful when you want to use the same value more than once inside a block. There’s another method that uses inputs to blocks to accomplish the same thing.
+                            <ul>
+                            	<li>
+                                	For example, in Problem 2, the script variable is useful because you want to use a random number between 3 and 10 twice in the script. Another way to do it is to use the standard polygon block:<br />
+                                    <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/polygon-definition.png" alt="polygon %sides: {repeat (sides) {move (50) steps, turn left ((360) / (sides)) degrees} }" title="polygon %sides: {repeat (sides) {move (50) steps, turn left ((360) / (sides)) degrees} }" /><br />
+                                    This raises the focus to the geometry. If you want to get a random polygon, just call it with an input that generates the random integer:<br />
+                                    <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/polygon(random-3-to-10).png" alt="polygon (pick random (3) to (10))" title="polygon (pick random (3) to (10))" /><br />
+                                    Inputting <code>pick random 3 to 10</code> into the polygon block fixes the value of <var>sides</var> for the entire call. Compare this with Problem 4 on the same page. Using inputs in this way makes the value "sit still" inside the block that was given the value as input&mdash;just like a script variable holds the value until it is changed.
+                                </li>
+                                <li>
+                                	Here’s another approach to Problem 7: Suppose someone tells you that
+                                    <span class="katex-block">3^{13} = 1594323</span>
+                                    You could use this fact to figure out 3<sup>14</sup> by multiplying 1594323 by 3. In general, the value of 3 raised to any power is 3 times "3 raised to one less" power. This allows you to imagine a computation that eventually gets you to 3<sup>1</sup>:
+                                    <span class="katex-block">3^5 = 3 \times 3^4 \text{ and}</span>
+                                    <span class="katex-block">3^4 = 3 \times 3^3 \text{ and}</span>
+                                    <span class="katex-block">3^3 = 3 \times 3^2 \text{ and}</span>
+                                    <span class="katex-block">3^2 = 3 \times 3^1 \text{ and}</span>
+                                    <span class="katex-block">3^1 = 3</span>
+                                    Now start at the bottom and "unstack" the calculation to find the value of 3<sup>5</sup>. A Snap<em>!</em> model for this algorithm closely follows its verbal description:<br />
+                                    If <span class="katex">n=1</span>, <span class="katex">a^n</span> is <span class="katex">a</span>. Otherwise, <span class="katex">a^n</span> is <span class="katex">a \times a^n - 1</span>. Or,
+                                    <span class="katex-block">a^n = \begin{cases} a & \text{if} n = 1 \\ a \times a^{n-1} & \text{otherwise} \end{cases}</span>
+                                    In Snap<em>!</em>, it looks like this:<br />
+                                    <div class="sidenote">What are the allowable values for <var>n</var> in this reporter?</div>
+                                    <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/raise-to-the-power-recursive-definition.png" alt="raise (a) to the power (n): { if (n = 1) { report (a) } else { report ( (a) × (raise (a) to the power (n - 1) ) ) } }" title="raise (a) to the power (n): { if (n = 1) { report (a) } else { report ( (a) × (raise (a) to the power (n - 1) ) ) } }" /><br />
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
 				</li>
                 <li>
@@ -90,11 +118,63 @@
 						<li>Students sometimes <em>type</em> the words "true" and "false" into <code>report</code> blocks instead of using the Boolean constant blocks. That bug can take hours to find and isn't intellectually interesting. If you notice it, just tell them how to fix it so that they have time to get to the more interesting logic bugs. </li>
                         <li>In the orange box at the end of the Script Variable Projects page is a teaser for the functional programming style coming in Unit 3. As always when we foreshadow later parts of the curriculum, let it remain just a taste at this point, without calling special attention to it.</li>
 						<!--<li>In the <a href="/bjc-r/cur/programming/2-conditionals-abstraction-testing/temp-hodgepodge/2-script-variables/3-predicates.html">Building a useful collection of predicates</a> page, many students find the first problem (<code>&gt;=</code>) difficult. Encourage them not to give up. This taks seems to lead to a big improvement in students' understanding both of logic and of composition of functions. Later in this unit there is <a href="/bjc-r/cur/programming/2-conditionals-abstraction-testing/4-tools-techniques/4-analyzing-definitions-of-ge.html">a student page</a> entirely about this exercise, comparing different solutions. Don't have the students jump ahead, but read it yourself to get a sense for different kinds of solutions to look for. If you get different ones, have students explain their work to the class.</li>-->
+                        <li>
+                        	<strong>Mathematics Note: Factorial.</strong> Problem 5 hints at an algorithm inspired by "5 factorial is really just 5 times 4 factorial." A Snap<em>!</em> model is:<br />
+                            <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/factorial-definition.png" alt="factorial (n): {if (n = 1) {report (1) } else {report ( (n) × (factorial (n - 1) ) ) } }" title="factorial (n): {if (n = 1) {report (1) } else {report ( (n) × (factorial (n - 1) ) ) } }" /><br />
+                            The factorial function has many uses in mathematics, most of them involving counting problems. For example, suppose you have a list of four letters: <span class="katex">a</span>, <span class="katex">b</span>, <span class="katex">c</span>, and <span class="katex">d</span>. You may have noticed that the <em>order</em> of the elements in a list matters:<br />
+                            <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/list-abcd-equals-list-badc-reporting-false.png" alt="(list{a, b, c, d, }) = (list {b, a, d, c}) reporting false" title="(list{a, b, c, d, }) = (list {b, a, d, c}) reporting false" /><br />
+                            How many different lists, then, can you make out of the four letters, using each only once? Well, there are four choices for the first element of the list. Once you have picked one, there are 3 choices for the second element. So there are are 4 &times; 3 ways to arrange the first two elements. For each of these 12 arrangements, there are two letters left for the third element of your list and only one letter left to go in the last slot. Hence, there are
+                            <span class="katex-block">4 \times 3 \times 2 \times 1</span>
+                            or 4! possible lists from the four letters. (You might ask your students to generate them all with a Snap<em>!</em> block.) And there are 5! lists that can be made from 5 distinct letters. This is typical of how factorial is used&mdash;counting the number of lists that can be made from a collection of distinct elements.
+                        </li>
+                        <li>
+                        	<strong>Mathematics Note: Triangular numbers.</strong> Why is the sum of the first <span class="katex">n</span> positive whole numbers called a triangular number? One reason is that sum from 1 to <span class="katex">n</span> counts the number of dots in a triangular arrays of dots:<br />
+                            <img class="indent noshadow" src="/bjc-r/img/2-conditionals-abstraction-testing/triangular-numbers.png" alt="" title="" /><br />
+                            The number of dots in each successive frame is:<br />
+                            <span class="katex-block">1</span>
+                            <span class="katex-block">1+2=3</span>
+                            <span class="katex-block">1+2+3=6</span>
+                            <span class="katex-block">1+2+3+4=10</span>
+                            <span class="katex-block">1+2+3+4+5=15</span>
+                            This scheme suggests a Snap<em>!</em> model for a reporter that returns the <span class="katex">n</span><sup>th</sup> triangular number:<br />
+                            <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/triangular-definition.png" alt="triangular (n): {if (n = 1) {report (1) } else {report ( (n) + (triangular (n - 1) ) ) } }" title="triangular (n): {if (n = 1) {report (1) } else {report ( (n) + (triangular (n - 1) ) ) } }" /><br />
+                            Note the structural similarity between the Snap<em>!</em> models for <code>factorial</code> and <code>triangular</code>. The <code>factorial</code> block combines the first <span class="katex">n</span> integers with multiplication, while <code>triangular</code> combines them with addition. This similarity can be made explicit in Snap<em>!</em>: look at how this model of factorial (also shown at the bottom of the student page) uses <code>combine</code>:<br />
+                            <div class="sidenote">How could you change it to get a model for triangular?</div>
+                            <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/better-factorial.png" alt="(n) factorial: {report (combine with ( () × () ) items of (values from (1) to (n)) )}" title="(n) factorial: {report (combine with ( () × () ) items of (values from (1) to (n)) )}" /> 
+                        </li>
+                        <li>
+                        	<img class="imageRight" src="/bjc-r/img/2-conditionals-abstraction-testing/number-of-divisors-of-8-with-result(4).png" alt="" title="" />
+                            <strong>Mathematics Note: Counting Divisors.</strong> The function that counts the number of divisors, <code>number-of-divisors</code>, is part of a family of functions that share some wonderful properties. One such property: if two integers <span class="katex">m</span> and <span class="katex">n</span> have no common factor other than 1, then the number of divisors of <span class="katex">mn</span> is the product of the number of divisors of <span class="katex">n</span> and the number of divisors of <span class="katex">m</span>. For example, the number of divisors of 6 is 4 (its divisors are 1, 2, 3, and 6), and the number of divisors if 5 is 2 (1 and 5). The number of divisors of 30 (6 &times; 5) is 8 (4 &times; 2). Once again, it’s a counting issue: each divisor of 30 comes from a divisor of 6 multiplied by a divisor of 5.<br />
+                        	<img class="indent noshadow" src="/bjc-r/img/2-conditionals-abstraction-testing/divisors-of-30-table.png" alt="multiplication table with 1 and 5 along the top and 1, 2, 3, and 6 along the side" title="multiplication table with 1 and 5 along the top and 1, 2, 3, and 6 along the side" />
+                        </li>
+                        <li>
+                        	<strong>Mathematics Note: Divisibility by 3 or 9.</strong> These divisibility tests can be explained by looking at the way numbers are made up in base 10. For example:
+                            <span class="katex-block">372 = 3 \times 100 + 7 \times 10 + 2</span>
+                            Take sum of the digits <span class="katex">(3 + 7 + 2)</span> and subtract it from 372, but do it in a way that "delays the evaluation" so that you can see the structure:<br />
+                            <img class="indent noshadow" src="/bjc-r/img/2-conditionals-abstraction-testing/structure-of-372-minus-sum-of-digits.png" alt="(3 × 100 + 7 × 10 + 2) − (3 + 7 + 2) = (3 × 100 − 3) + (7 × 10 − 7) + (2 − 2) = 3(100 − 1) + 7(10 − 1) = 3 × 99 + 7 × 9 = 9(3 × 11 + 7) = 9 × (something)" title="(3 × 100 + 7 × 10 + 2) − (3 + 7 + 2) = (3 × 100 − 3) + (7 × 10 − 7) + (2 − 2) = 3(100 − 1) + 7(10 − 1) = 3 × 99 + 7 × 9 = 9(3 × 11 + 7) = 9 × (something)" /><br />
+                            This will work for any integer (try it). So, any integer minus the sum of its digits is divisible by 9. This means that an integer is divisible by 9 if and only if the sum of its digits is divisible by 9.<br />
+                            <div class="sidenote">Why does this imply the divisibility test for 3?</div>
+                            And the reasoning says something even stronger than this: not only is a number divisible by 9 if and only if the sum of its digits is, these two numbers are the <em>same</em> mod 9. That is, an integer and the sum of its digits differ by a multiple of 9.<br />
+                            <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/372-mod-9-reporting-3.png" alt="(372) mod (9) reporting 3" title="(372) mod (9) reporting 3" />
+                            <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/3+7+2-mod-9-reporting-3.png" alt="(3 + (7 + 2) ) mod (9) reporting 3" title="(3 + (7 + 2) ) mod (9) reporting 3" />
+                        </li>
+                        <!--<li>
+                        	<strong>Mathematics Note: Divisibility by 7.</strong> The divisibility test for 7 works differently. In the chain
+                            <span class="katex-block">50197 \rightarrow 50113 \rightarrow 5005 \rightarrow 490 \rightarrow 44 \rightarrow -7</span>
+                            each number number is divisible by 7. But if you apply the test to a number that’s not divisible by 7, say 2012, you get a chain:
+							<span class="katex-block">2012 \rightarrow 197 \rightarrow 5005 \rightarrow 5</span>
+                            and each number does not leave the same remainder when divided by 7. The result (5) shows that none of them are divisible by 7, and that’s all it shows. The reason this works is a little complicated, but there have been two papers in the <em>Mathematics Teacher</em> that delve into the reasons (one by a BJC author):
+                            <ul>
+                                <li>"How does one know if a number is divisible by 17?" by Paul Goldenberg (<em>Mathematics Teacher</em>, March 2006), and</li>
+                                <li>"Divisibility Tests" by Allen Olsen (<em>Mathematics Teacher</em>, August 2006)</li>
+                            </ul>
+                        </li>-->
 					</ul>
 				</li>
         	<!--<li>In the <a href="/bjc-r/cur/programming/2-conditionals-abstraction-testing/temp-hodgepodge/2-script-variables/4-analyzing-debugging-simplifying.html">Analyzing, debugging, and simplifying code</a> page, take note of the last question, 4c. The point it's making is important: When computing a function, write a reporter, not a command block that <code>say</code>s the value. The latter can't participate in composition of functions. In the case of <code>max</code>, we're later going to compose it with itself to find the maximum of <em>three</em> numbers. People who've programmed in non-interactive languages aren't accustomed to being able to click on a reporter to see what it reports, and tend to write scripts with lots of <code>ask and wait</code> blocks at the beginning and lots of <code>say</code> blocks at the end. Instead, write a reporter with inputs.</li>-->
+
         	
-        </ul>
+			</ul>
         </div>
         
 <!--<h3>Solutions</h3>
