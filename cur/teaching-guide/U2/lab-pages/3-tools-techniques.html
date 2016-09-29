@@ -8,7 +8,7 @@
     
     <body>
         <h2>Programming Lab 3: Tools and Techniques</h2>
-        <p>The lab contains four short activities&mdash;essentially how-to's&mdash;showing techniques that are useful in more complex programming tasks. Students get a bit more experience with Boolean expressions, essential for the AP CSP test. They learn how to indicate the intended <em>type</em> of an input to a block&mdash;whether the intended input is to be a number, a string, a list, or something else. They get a bit more practice creating reporter blocks that take multiple inputs, and they use a composition of functions on those inputs. And they compare multiple <em>correct</em> ways of solving a problem, thinking about the esthetics of programming.</p>
+        <p>The lab contains four short activities&mdash;essentially how-to's&mdash;showing techniques that are useful in more complex programming tasks. Students get a bit more experience with Boolean expressions, essential for the AP CSP test. They learn how to indicate the intended <em>type</em> of an input to a block&mdash;whether the intended input is to be a number, a string, a list, or something else. They get a bit more practice creating reporter blocks that take multiple inputs, and they use a composition of functions on those inputs. And they compare multiple <em>correct</em> ways of solving a problem, thinking about the aesthetics of programming.</p>
         
         
         <h3>Pacing:</h3>
@@ -62,13 +62,47 @@
                                 <li>A <em>Boolean expression</em> is a predicate block along with its inputs or input expressions.</li>
                                 <li>A <em>Boolean value</em> is <img src="/bjc-r/img/blocks/true.png" alt="true"> or <img src="/bjc-r/img/blocks/false.png" alt="false">. (Not the text strings "true" and "false"; not 0 and 1.)</li>
                             </ul>
-                            So a reporter or a predicate is a function; an expression is a function applied to input values (often called &quot;arguments&quot;).</li>
+                            So a reporter or a predicate is a function; an expression is a function applied to input values (often called "arguments").
+                        </li>
+                        <li><strong>Mathematics Note: Predicates.</strong> In addition to predicting the output in problems 1 and 2, think about asking students to explain what the computer is doing when it calculates the output for each. Look for general principles like "<code>and</code> reports <code>true</code> if <em>both</em> of its inputs report <code>true</code>" and "<code>or</code> reports <code>true</code> if <em>at least one</em> of its inputs report <code>true</code>". Also look for precise statements about when <code>and</code> and <code>or</code> report <code>false</code>. Jumping to formalities like "truth tables" won't be as effective as if students develop the rules for themselves.</li>
+                        <li>
+                            <strong>Mathematics Note: <code>Round</code>, <code>Floor</code>, and <code>Ceiling</code>.</strong> There are three related reporters that take any real number as input and return an integer related to the input:
+                            <ul>
+                                <li><code>Round</code> returns the integer closest to its input; if there's a tie (like at 6.5), it "rounds up" (and returns 7).</li>
+                                <li><code>Floor</code> returns the <em>greatest</em> integer less than or equal to its input.</li>
+                                <li><code>Ceiling</code> returns the <em>smallest</em> integer greater than or equal to its input.</li>
+                            </ul>
+                            These statements can be confusing. One way to think about it is to imagine a number <span class="katex">p</span> caught between two integers on a number line:<br />
+                            <img class="indent noshadow" src="/bjc-r/img/2-conditionals-abstraction-testing/numberline.png" alt="number line from 6 to 10 with p marked between 8 and 9" title="number line from 6 to 10 with p marked between 8 and 9" /><br />
+                            Here, <span class="katex">p</span> is between 8 and 9, closer to 8. So <code>round (</code><var>p</var><code>)</code> will return 8, and so will <code>floor(</code><var>p</var><code>)</code>. But <code>ceiling(</code><var>p</var><code>)</code> will return 9.<br />
+                            Another way to look at these reporters is to use Snap<em>!</em> to list the values reported by each function as you move from one integer (say, 6) to the next (7) in increments of 0.1:<br />
+                            <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/map-round-over-list.png" alt="map (round ()) over (list {...}) reporting" title="map (round ()) over (list {...}) reporting" />
+                            <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/map-floor-over-list.png" alt="map (floor ()) over (list {...}) reporting" title="map (floor ()) over (list {...}) reporting" />
+                            <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/map-ceiling-over-list.png" alt="map (ceiling ()) over (list {...}) reporting" title="map (ceiling ()) over (list {...}) reporting" /><br />
+                            <!--In summary:<br />
+                            <img class="indent noshadow" src="/bjc-r/img/2-conditionals-abstraction-testing/round-floor-ceiling-table.png" alt="table of reports from round, ceiling, and floor for intervals of 0.1 from 6 to 7" title="table of reports from round, ceiling, and floor for intervals of 0.1 from 6 to 7" /><br />
+                            You might try making a similar table where the numbers go from −7 to −6 in increments of 0.1.-->
+                        </li>
+                        <li>
+                        	<strong>Mathematics Note: Vocabulary.</strong>
+                        	<ul>
+                                <li>The <em>integers</em> are the counting numbers together with their negatives and zero: <span class="katex">..., -3, -2, -1, 0, 1, 2, 3, ...</span> The number 17 is an integer. So is −17. But 17.3 is not an integer. Neither is &pi;. An integer is a number for which <code>round</code> returns the number itself.</li>
+                            </ul>
+						</li>
 					</ul>
 				</li>
                 <li>
 					<strong>Page 2: Composition of Functions (Teacher's Choice).</strong>
 					<ul>
-						<li>This extremely short page is very useful practice both in problem solving and in programming. It also foreshadows the way associative operators can be composed by the <code>combine</code> function in Unit 3.</li>
+						<li>This extremely short page is very useful practice both in problem solving and in programming. </li>
+                        <li>
+                        	<strong>Mathematics Note: Composition of Operators.</strong> The "home made" operators on this page all have the property that the order of their inputs doesn't matter.<br />
+                            <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/x+y+z-definition.png" alt="() + () + () : { () + ( () + () ) }" title="() + () + () : { () + ( () + () ) }" /><br />
+                            This isn't always the case when one reporter is embedded in ("composed with") another. For example, adding three to a number and then multiplying by 2 produces different results than first multiplying by 2 and then adding 3.<br />
+                            <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/f-of-2-7-3-reporting.png" alt="f(2, 7, 3) reporting 20" title="f(2, 7, 3) reporting 20" />
+                            <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/f-of-3-7-2-reporting.png" alt="f(3, 7, 2) reporting 27" title="f(3, 7, 2) reporting 27" />
+                            <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/f-of-x-y-z-definition.png" alt="f(x, y, z) : { (x) × (y + z) }" title="f(x, y, z) : { (x) × (y + z) }" />
+                        </li>
 					</ul>
 				</li>
                 <li>
@@ -81,7 +115,11 @@
                 <li>
 					<strong>Page 4: Analyzing Various Definitions of <code>&gt;=</code> (Teacher's Choice).</strong>
 					<ul>
-						<li>The main point  is for students to see that there are multiple correct ways of programming and that there are different standards for elegance and clarity. This page also helps clarify the Boolean operators. The third and fourth definition resemble the way we might explain the <code>&gt;=</code> function in English. By contrast, the versions using <code>if</code> are not much like the way we'd think  in a non-programming context. Because this page requires no programming&mdash;it is entirely discussion&mdash;you may want to do this right after showing <strong>Input types</strong>, while the whole class is working together.</li>
+						<li>The main point is for students to see that there are multiple correct ways of programming and that there are different standards for elegance and clarity. This page also helps clarify the Boolean operators. The third and fourth definition resemble the way we might explain the <code>&gt;=</code> function in English. By contrast, the versions using <code>if</code> are not much like the way we'd think  in a non-programming context. Because this page requires no programming&mdash;it is entirely discussion&mdash;you may want to do this right after showing <strong>Input types</strong>, while the whole class is working together.</li>
+                        <li>
+                        	<strong>Mathematics Note: Analyzing Various Definitions.</strong> There is another Snap<em>!</em> model for <code>sum from </code><var>a</var><code> to </code><var>b</var> that you can add to the mix:<br />
+                        	<img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/sum-recursive-definition.png" alt="sum from (a) to (b): {if (a > b) {report (0) } else {report ( (a) + (sum from (a + 1) to (b)) ) } }" title="sum from (a) to (b): {if (a > b) {report (0) } else {report ( (a) + (sum from (a + 1) to (b)) ) } }" />
+                        </li>
 					</ul>
 				</li>
             </ul>
