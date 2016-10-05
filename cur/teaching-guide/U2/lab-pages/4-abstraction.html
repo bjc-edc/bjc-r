@@ -4,6 +4,9 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
 		<title>Unit 2 Lab 4 Teacher Guide</title>
+		<script type="text/javascript" src="/bjc-r/utilities/gifffer.min.js"></script>
+        <script type="text/javascript">window.onload = function() {Gifffer();}</script>
+        <link rel="stylesheet" type="text/css" href="/bjc-r/css/bjc-gifffer.css">
     </head>
     
     <body>
@@ -11,6 +14,7 @@
         <p>Students begin with a drawing project, "Brick Wall,"  then build a complex number-guessing game (which they will extend and improve significantly in a later unit), and finally take another step toward completing Tic Tac Toe (and other  games played on arrays). In each case, they  focus  on ideas of <strong>abstraction</strong> to serve the goals or writing clear, debuggable, improvable code—essential for developing complex programs. This is not the first time they used abstraction—they encountered it when they first built the game board for Tic Tac Toe (and other games) and when they built "specialist blocks" for making plurals. But this <em>is</em> where they begin to analyze the various uses of abstraction, for example, a case in which it is useful to build a  block that seems only to be a new name for a block they already have.</p>
 		<p>Students are given very specific goals for Brick Wall, guidance on <em>structuring</em> it, and rationale for that structure. For the number-guessing-game, they are again given suggestions for features to add, one at a time, but are on their own to think about how to structure these extensions and modifications so that the code works and remains clear.</p>
         <p>There is no new Snap<em>!</em> code in Lab 4. Even the idea of abstraction—analyzing a task to find its chunks or component parts or special cases and then build blocks that <em>specialize</em> in each of them—is not new. But making a <em>habit</em> of analyzing and chunking tasks takes time and experience.</p>
+        
         
         <h3>Pacing:</h3>
         <div>
@@ -34,6 +38,7 @@
             </ul>
         </div>
 
+
     	<h3>Students will:</h3>
         <!--<div class="sidenoteBig">
         	<strong>Looking Ahead</strong>
@@ -49,6 +54,23 @@
                 <li>Make significant further progress on the Tic Tac Toe game.</li>
             </ul>
 		</div>
+        
+        
+        <h3>Goals for the Lab</h3>
+        <div>
+            <ul>
+                <li>
+					<strong>Page 1: Brick Wall (Teacher's Choice).</strong>
+                </li>
+                <li>
+					<strong>Page 2: Developing a Number Guessing Game.</strong>
+                </li>
+                <li>
+					<strong>Page 3: Developing a Board Game.</strong>
+                </li>
+            </ul>
+        </div>
+        
         
         <h3>Tips:</h3>
         <div>
@@ -70,7 +92,154 @@
 					<strong>Page 3: Developing a Board Game.</strong>
 					<ul>
 						<li><em>Do this page yourself before class.</em></li>
-                        <li>The <code>move to tile</code> block may be the greatest challenge. Students  may need your help  puzzling through the logic and mathematics of this problem. Discuss how to use <code>mod</code>  (introduced in <a href="/bjc-r/cur/programming/1-introduction/4-grids-for-games/2-computer-operations.html?topic=nyc_bjc%2F1-intro-loops.topic&course=bjc4nyc_2015-2016.html&novideo&noassignment">Unit 1 Lesson 4, Expressions and Operations</a>) to determine the column from the tile number. <code>(tile number) mod (number of tiles)</code><em>almost</em> does the right thing. Encourage students to <em>experiment</em> to see what case(s) it gets wrong and what adjustment to make.
+                        <li>The <code>move to tile</code> block may be the greatest challenge. Students  may need your help  puzzling through the logic and mathematics of this problem. Discuss how to use <code>mod</code>  (introduced in <a href="/bjc-r/cur/programming/1-introduction/4-grids-for-games/2-computer-operations.html?topic=nyc_bjc%2F1-intro-loops.topic&course=bjc4nyc_2015-2016.html&novideo&noassignment">Unit 1 Lesson 4, Expressions and Operations</a>) to determine the column from the tile number. <code>(tile number) mod (number of tiles)</code><em>almost</em> does the right thing. Encourage students to <em>experiment</em> to see what case(s) it gets wrong and what adjustment to make.</li>
+                        <li>
+                            <strong>Mathematics Note: Locating the Cell.</strong>
+                            Problem 4 requires converting the sprite position on the coordinate grid to the cell number on a game board. One way to develop the conversion is to start small, with a (3 by 3) tic-tac-toe board, and to try various positions for the sprite, looking for a way to calculate the cell number from the screen position.  In fact, as the student page suggests, it might help to start even smaller and to figure out the row number and column number from the screen position, worrying about how to turn this pair of numbers into a cell number later. Here's a tic-tac-toe board with a sprite on a cell:<br />
+                            <img class="indent noshadow" src="/bjc-r/img/2-conditionals-abstraction-testing/ttt-blank-board.jpg" alt="blank tic tac toe board" title="blank tic tac toe board" /><br />
+                            Starting on the upper left cell, number the columns 1, 2, 3 across, and number the rows 1, 2, 3 down.  So, this sprite is in the row 2 and column 3. Snap<em>!</em> reports that its <em>x</em>-position is 130 and its <em>y</em>-position is 26.  So, we want to convert the screen position (130, 26) into “row 2, column 3”.<br />
+                            Concentrate on the column first.  Imagine the sprite travelling from the left edge of the board to the right edge.  The first thing to realize is that the column that contains the sprite is only affected by the <em>x</em>-position of the sprite (the <em>y</em>-position tells you up  or down, but <em>x</em> tells you how far across). And the <em>x</em>-position goes from -150 to 150&mdash;a total width of 300 steps (this is how the board was built in Unit 1). When it's not clear what to do, look at some numerical data and try to abstract off some generality. Here's just one example, with the <em>x</em>-positions chosen at random.  But gather enough data to get an idea about what's happening.<br />
+                            <img class="imageRight noshadow" data-gifffer="/bjc-r/img/2-conditionals-abstraction-testing/ttt-column-number-animation.gif" alt="animation of column number watcher while sprite moves horizontally" title="animation of column number watcher while sprite moves horizontally" />
+                            <table class="bordered centered">
+                                <tr>
+                                    <th>x-position<br />"x"</th>
+                                    <th>column number<br />"c"</th>
+                                </tr>
+                                <tr>
+                                    <td>-140</td>
+                                    <td>1</td>
+                                </tr>
+                                <tr>
+                                    <td>-70</td>
+                                    <td>1</td>
+                                </tr>
+                                <tr>
+                                    <td>-50</td>
+                                    <td>1</td>
+                                </tr>
+                                <tr>
+                                    <td>-40</td>
+                                    <td>2</td>
+                                </tr>
+                                <tr>
+                                    <td>10</td>
+                                    <td>2</td>
+                                </tr>
+                                <tr>
+                                    <td>50</td>
+                                    <td>2</td>
+                                </tr>
+                                <tr>
+                                    <td>70</td>
+                                    <td>3</td>
+                                </tr>
+                                <tr>
+                                    <td>100</td>
+                                    <td>3</td>
+                                </tr>
+                                <tr>
+                                    <td>130</td>
+                                    <td>3</td>
+                                </tr>
+                                <tr>
+                                    <td>150</td>
+                                    <td>3</td>
+                                </tr>
+                            </table><br clear="all"/>
+                            A little more experimenting shows that if the <em>x</em>-position is between -150 and -50, the sprite is in column 1;  if its <em>x</em>-position is between -5 and 50, it's in column 2, and if it's <em>x</em>-position is between 50 and 150, it's in column 3.  Now, you <em>could</em> get the column number from the <em>x</em>-position with the <img class="inline" src="/bjc-r/img/2-conditionals-abstraction-testing/between.png" alt="is _ between _ and _ ?" title="is _ between _ and _ ?" /> predicate, but this would become cumbersome if board gets large.  Here's another way to think about it...<br />
+                            On a tic-tac-toe board, each column has width 300 / 3 = 100. So  each column contributes at most 100 steps to the <em>x</em>-position.  For example,  if you are in column 2, you've moved at most 200 steps  (and more  than 100) from an <em>x</em>-position of -150.  If you are in column 3, you have moved at most 300 steps from an <em>x</em>-position of -150. That is,  if you are in column <em>c</em>, you have moved at most <em>c</em> × 100 steps from an <em>x</em>-position of -150.   So, the <em>x</em>-position of the sprite as it moves across should be about -150 + <em>c</em> × 100.  If this were an exact relation, you'd have an equation:<br />
+                            <span class="katex-block">-150 + c \times 100 = x</span>
+                            If you solve this for <em>c</em>, you get:<br />
+                            <span class="katex-block">c = \frac{x+150}{100}</span>
+                            Now, this isn't exact, but it can be salvaged by reasoning a little about why it's not exact and looking at some numerical data.  Using the table from above, compare the actual column number to the approximate:<br />
+                            <img class="imageRight" src="/bjc-r/img/2-conditionals-abstraction-testing/xposition+150thendiv100.png" alt="(xposition + 150) / (100)" title="(xposition + 150) / (100)" />
+                            <table class="bordered centered">
+                                <tr>
+                                    <th>x-position<br />"x"</th>
+                                    <th>column number<br />"c"</th>
+                                    <th><span class="katex">\mathbf{\frac{x+150}{100}}</th>
+                                </tr>
+                                <tr>
+                                    <td>-140</td>
+                                    <td>1</td>
+                                    <td>1.000</td>
+                                </tr>
+                                <tr>
+                                    <td>-70</td>
+                                    <td>1</td>
+                                    <td>.8</td>
+                                </tr>
+                                <tr>
+                                    <td>-50</td>
+                                    <td>1</td>
+                                    <td>.999...</td>
+                                </tr>
+                                <tr>
+                                    <td>-40</td>
+                                    <td>2</td>
+                                    <td>1.1</td>
+                                </tr>
+                                <tr>
+                                    <td>10</td>
+                                    <td>2</td>
+                                    <td>1.6</td>
+                                </tr>
+                                <tr>
+                                    <td>50</td>
+                                    <td>2</td>
+                                    <td>1.999...</td>
+                                </tr>
+                                <tr>
+                                    <td>70</td>
+                                    <td>3</td>
+                                    <td>2.2</td>
+                                </tr>
+                                <tr>
+                                    <td>100</td>
+                                    <td>3</td>
+                                    <td>2.5</td>
+                                </tr>
+                                <tr>
+                                    <td>130</td>
+                                    <td>3</td>
+                                    <td>2.8</td>
+                                </tr>
+                                <tr>
+                                    <td>150</td>
+                                    <td>3</td>
+                                    <td>3</td>
+                                </tr>
+                            </table>
+							In each case, the formula gives a number which, when rounded <em>up</em>, gives the column number.  A little reasoning shows that this will always be the case.  And there is a <a href="/bjc-r/cur/teaching-guide/U2/lab-pages/3-tools-techniques.html?topic=nyc_bjc%2F2-teaching-guide.topic&course=bjc4nyc_teacher.html&novideo&noassignment#round">"round up" operator</a>: it's called <strong>ceiling</strong> (it's under the sqrt operator).  Hence, you can get the column number from the <em>x</em>-position:
+<br />
+                            <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/ceilingapprox.png" alt="ceiling of ((x position + 150) / (100))" title="ceiling of ((x position + 150) / (100))" /><br />
+                            And it's the same structure for an 5 by 5 board or an <em>n</em> by <em>n</em> board.  The only change is that the width of the column (the chunk moved over each time) changes from 100 to 300/<em>n</em>, so that you can make a general <strong>column</strong> block that takes an input <em>n</em> the size of the game board and returns the number of the column where the sprite happens to reside. 
+<br />
+                            <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/coln.png" alt="col (n): {ceiling of ((x position + 150) / (300 / n))}" title="col (n): {ceiling of ((x position + 150) / (300 / n))}" /><br />
+                            Finding the row number involves similar reasoning:  Try some numerical experiments, make tables, and abstract off what you see and what you are doing.  The finished product might look like this:<br />
+                            <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/row-with-floor.png" alt="row (n): {report (n - floor of ((y position + 150) / (300 / n)))}" title="row (n): {report (n - floor of ((y position + 150) / (300 / n)))}" /><br />
+                            or maybe this:<br />
+                            <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/row-with-ceiling.png" alt="row (n): {report (ceiling of (n - ((y position + 150) / (300 / n))))}" title="row (n): {report (ceiling of (n - ((y position + 150) / (300 / n))))}" /><br />
+                            <div class="endnote">The adjustment "<em>n</em> minus" in front of <span class="katex">\frac{y+150}{300/n}</span> is due to the fact that you are starting the column numbering on the top left rather than at the bottom left (bottom left is where it would  start on a coordinate grid).</div>
+                            This is (one way) to calculate the row and column number from the screen position of the sprite.  The rest of the task is outlined in the solutions, but the blocks all follow the same reasoning and also yield to this method of "try it with numbers" until you get the rhythm of the algorithm. <br />
+                            To summarize the results (and not the derivations), there are three more relations that will be useful:
+                            <ul>
+                                <li>
+                                    Given (<em>row</em>, <em>col</em>) on an <em>n</em> by <em>n</em> board, the cell number can be found by
+                                    <span class="katex-block">cell = (row-1) \times n + col</span>
+                                </li>
+                                <li>
+                                    Given a <em>cell</em> number on an <em>n</em> by <em>n</em> board, the (<em>row</em>, <em>col</em>) pair can be found by:
+                                    <span class="katex-block">row = ceiling (\frac{cell}{n})</span>
+                                    <span class="katex-block">col = cell - (row - 1) \times n</span>
+                                </li>
+                                <li>
+                                    Given (<em>row</em>, <em>col</em>) for a cell on an <em>n</em> by <em>n</em> board, the center of the cell (<em>xCenter</em>, <em>yCenter</em>) is given by:
+                                    <span class="katex-block">xCenter = (-150+\frac{300/n}{2}) +  (\frac{300}{n})(row-1)</span>
+									<span class="katex-block">yCenter =(150-\frac{300/n}{2}) - (\frac{300}{n})(row-1)</span>                                    
+                                </li>
+                            </ul>
+							Someone looking at these with no context may wonder where they came from and who could possibly come up with them. The purpose of the first part of this note is to show how they can emerge from careful experiments and abstraction.
                         </li>
 					</ul>
                 </li>
