@@ -172,7 +172,7 @@
                             A little more experimenting shows that if the <em>x</em>-position is between -150 and -50, the sprite is in column 1;  if its <em>x</em>-position is between -5 and 50, it's in column 2, and if it's <em>x</em>-position is between 50 and 150, it's in column 3.  Now, you <em>could</em> get the column number from the <em>x</em>-position with the <img class="inline" src="/bjc-r/img/2-conditionals-abstraction-testing/between.png" alt="is _ between _ and _ ?" title="is _ between _ and _ ?" /> predicate, but this would become cumbersome if board gets large.  Here's another way to think about it...<br />
                             On a tic-tac-toe board, each column has width 300 / 3 = 100. So  each column contributes at most 100 steps to the <em>x</em>-position.  For example,  if you are in column 2, you've moved at most 200 steps  (and more  than 100) from an <em>x</em>-position of -150.  If you are in column 3, you have moved at most 300 steps from an <em>x</em>-position of -150. That is,  if you are in column <em>c</em>, you have moved at most <em>c</em> × 100 steps from an <em>x</em>-position of -150.   So, the <em>x</em>-position of the sprite as it moves across should be about -150 + <em>c</em> × 100.  If this were an exact relation, you'd have an equation:<br />
                             <span class="katex-block">-150 + c \times 100 = x</span>
-                            If you solve this for <em>c</em>, you get:<br />
+                            If you solve this for <em>c</em>, you get an equation for the column number based on the <em>x</em>-position:<br />
                             <span class="katex-block">c = \frac{x+150}{100}</span>
                             Now, this isn't exact, but it can be salvaged by reasoning a little about why it's not exact and looking at some numerical data.  Using the table from above, compare the actual column number to the approximate:<br />
                             <img class="imageRight" src="/bjc-r/img/2-conditionals-abstraction-testing/xposition+150thendiv100.png" alt="(xposition + 150) / (100)" title="(xposition + 150) / (100)" />
@@ -185,17 +185,17 @@
                                 <tr>
                                     <td>-140</td>
                                     <td>1</td>
-                                    <td>1.000</td>
+                                    <td>0.1</td>
                                 </tr>
                                 <tr>
                                     <td>-70</td>
                                     <td>1</td>
-                                    <td>.8</td>
+                                    <td>0.8</td>
                                 </tr>
                                 <tr>
                                     <td>-50</td>
                                     <td>1</td>
-                                    <td>.999...</td>
+                                    <td>1</td>
                                 </tr>
                                 <tr>
                                     <td>-40</td>
@@ -210,7 +210,7 @@
                                 <tr>
                                     <td>50</td>
                                     <td>2</td>
-                                    <td>1.999...</td>
+                                    <td>2</td>
                                 </tr>
                                 <tr>
                                     <td>70</td>
@@ -244,16 +244,16 @@
                             or maybe this:<br />
                             <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/row-with-ceiling.png" alt="row (n): {report (ceiling of (n - ((y position + 150) / (300 / n))))}" title="row (n): {report (ceiling of (n - ((y position + 150) / (300 / n))))}" /><br />
                             <div class="endnote">The adjustment "<em>n</em> minus" in front of <span class="katex">\frac{y+150}{300/n}</span> is due to the fact that you are starting the column numbering on the top left rather than at the bottom left (bottom left is where it would  start on a coordinate grid).</div>
-                            This is (one way) to calculate the row and column number from the screen position of the sprite.  The rest of the task is outlined in the solutions, but the blocks all follow the same reasoning and also yield to this method of "try it with numbers" until you get the rhythm of the algorithm. <br />
+                            This is one way to calculate the row and column number from the screen position of the sprite.  The rest of the task is outlined in the solutions, but the blocks all follow the same reasoning and also yield to this method of "try it with numbers" until you get the rhythm of the algorithm. <br />
                             To summarize the results (and not the derivations), there are three more relations that will be useful:
                             <ul>
                                 <li>
-                                    Given (<em>row</em>, <em>col</em>) on an <em>n</em> by <em>n</em> board, the cell number can be found by
+                                    Given (<em>row</em>, <em>col</em>) on an <em>n</em> by <em>n</em> board, the cell number can be found by:
                                     <span class="katex-block">cell = (row-1) \times n + col</span>
                                 </li>
                                 <li>
                                     Given a <em>cell</em> number on an <em>n</em> by <em>n</em> board, the (<em>row</em>, <em>col</em>) pair can be found by:
-                                    <span class="katex-block">row = ceiling (\frac{cell}{n})</span>
+                                    <span class="katex-block">row = \text{ceiling} (\frac{cell}{n})</span>
                                     <span class="katex-block">col = cell - (row - 1) \times n</span>
                                 </li>
                                 <li>
