@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <script type="text/javascript" src="/bjc-r-2017-18/llab/loader.js"></script>
+    <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
     <title>Unit 7 Lab 2: Sorting, Page 1</title>
     </head>
     
@@ -13,9 +13,9 @@
         <p>
         	Suppose we have a list names that we want to <strong>sort</strong> in alphabetical (ascending) order:<br />
 	        <div class="sidenoteBig">These could be numbers instead of names or anything that can be compared and ordered. Numbers and words often need to be sorted in the same list.</div>
-        	<img class="indent" src="/bjc-r-2017-18/img/7-recursive-reporters/unsortednames.png" alt="Eight names" title="Eight names" />
+        	<img class="indent" src="/bjc-r/img/7-recursive-reporters/unsortednames.png" alt="Eight names" title="Eight names" />
             <span class="big">&rarr;</span>
-            <img src="/bjc-r-2017-18/img/7-recursive-reporters/sortednames.png" alt="Eight names, sorted" title="Eight names, sorted" />
+            <img src="/bjc-r/img/7-recursive-reporters/sortednames.png" alt="Eight names, sorted" title="Eight names, sorted" />
 		</p>
 <div class="todo">Kill the sentence about numbers and words; numbers don't sort numerically if you do a lexicographic sort, so mixing the two is tricky. --bh</div>
         <div class="forYouToDo" id="first">
@@ -31,8 +31,8 @@
                 <li>Now <strong>build</strong> your algorithm: a <code>sort</code> reporter takes a list as input and outputs a new list of the same elements in alphabetical order. Test your algorithm using both names and numbers.</li>
                 <div class="endnote">
                     Comparing numbers and strings can be done using the same blocks, so your sorting algorithm should work equally well for names and numbers.<br />
-                    <img class="indent" src="/bjc-r-2017-18/img/7-recursive-reporters/abigailava.png" alt="Abigail and Ava"  title="Abigail and Ava"  />
-                    <img class="indent" src="/bjc-r-2017-18/img/7-recursive-reporters/num-lessthan.png" alt="7 &lt; 3 outputs False"  title="7 &lt; 3 outputs False" />
+                    <img class="indent" src="/bjc-r/img/7-recursive-reporters/abigailava.png" alt="Abigail and Ava"  title="Abigail and Ava"  />
+                    <img class="indent" src="/bjc-r/img/7-recursive-reporters/num-lessthan.png" alt="7 &lt; 3 outputs False"  title="7 &lt; 3 outputs False" />
                 </div>		
 				<li>Share your sorting algorithms. Describe some similarities and differences between different sorting algorithms.</li>
             </ol>
@@ -45,9 +45,9 @@
 
         <p>There are many different sorting algorithms. But the best one for recursively generated lists, and probably the most elegant, is called <em>mergesort. </em>Here's the idea in a nutshell: Divide the list in half; recursively sort each half; then merge the two sorted sublists. The base case is that an empty list or a one-item list is already sorted.</p>
         <p>The easiest way to divide a list in half turns out to be putting the odd-numbered items in one half and the even-numbered items in the other. You do this with a recursion that skips over an item each time:</p>
-        <p><img src="/bjc-r-2017-18/img/7-recursive-reporters/odds.png" alt="odd items" /></p>
-        <p><img src="/bjc-r-2017-18/img/7-recursive-reporters/evenitems.png" alt="even items" /></p>
-        <p>All the work here, basically, is done by the <img src="/bjc-r-2017-18/img/7-recursive-reporters/bfbf.png" alt="all but first of all but first of" /> in <code>odd numbered items</code>. This skips the second item and makes the recursive call on items 3 through the end of the list. Note that <code>even numbered items</code> is not <em>directly </em>recursive; it calls <code>odd numbered items</code>, not itself.</p>
+        <p><img src="/bjc-r/img/7-recursive-reporters/odds.png" alt="odd items" /></p>
+        <p><img src="/bjc-r/img/7-recursive-reporters/evenitems.png" alt="even items" /></p>
+        <p>All the work here, basically, is done by the <img src="/bjc-r/img/7-recursive-reporters/bfbf.png" alt="all but first of all but first of" /> in <code>odd numbered items</code>. This skips the second item and makes the recursive call on items 3 through the end of the list. Note that <code>even numbered items</code> is not <em>directly </em>recursive; it calls <code>odd numbered items</code>, not itself.</p>
         <div class="forYouToDo">
             <ol start="4"><li>Why does <code>odd numbered items</code> need two base cases?</li>
                 <li>Write a version of <code>even numbered items</code> that calls itself recursively instead of using <code>odd numbered items</code>.</li>
