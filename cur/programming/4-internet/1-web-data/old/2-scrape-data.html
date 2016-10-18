@@ -2,32 +2,32 @@
 <html lang="en">
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<script type="text/javascript" src="/bjc-r-2017-18/llab/loader.js"></script>
 		<title>Unit 4 Lab 1: Web Data and Communication Protocols</title>
     </head>
     <body>
         <h2>Scraping Data from Web Pages</h2>
         <div class="todo">
         	<p>What is the point of this page (from a students' perspective)? It seems arbitary to me. (I can see that it's introducing data scraping.) I'll try to think of some mini-projecty thing to do here, but please feel free to leave an idea... --MF</p>
-            <p>Idea from Bowen: Preview GPS for easy first part (<a href="/bjc-r/cur/programming/4-internet/2-gps-data/GPS-NYC.csv">GPS-NYC.csv</a> <a href="/bjc-r/cur/programming/4-internet/2-gps-data/1-big-burger.html">Unit 4 Lab 4: GPS Forensics</a>) and Weather app for unlucky hard part below (<a href="/bjc-r/cur/programming/4-internet/5-weather-app/2-weather-grab.html">Unit 4 Lab 2: Weather App</a>).</p>
+            <p>Idea from Bowen: Preview GPS for easy first part (<a href="/bjc-r-2017-18/cur/programming/4-internet/2-gps-data/GPS-NYC.csv">GPS-NYC.csv</a> <a href="/bjc-r-2017-18/cur/programming/4-internet/2-gps-data/1-big-burger.html">Unit 4 Lab 4: GPS Forensics</a>) and Weather app for unlucky hard part below (<a href="/bjc-r-2017-18/cur/programming/4-internet/5-weather-app/2-weather-grab.html">Unit 4 Lab 2: Weather App</a>).</p>
         </div>
         
         <div class="sidenote">Weather forecast sites change their pages from time to time, so we're going to start with a web site we control. We'll build these blocks in a weather app in Lab 2.</div>
-        <p>The Internet is full of information that you can use in your programs.  For example, you will write an <img src="/bjc-r/img/4-internet/umbrella.png" alt="umbrella? predicate" title="umbrella? predicate" /> block that looks up the weather forecast for your location and tells you whether or not to carry an umbrella or a block that reports the current temperature for a certain location:<br /><img class="indent" src="/bjc-r/img/4-internet/current-temp-34.png" alt="current temperature in (New York) reporting 34" title="current temperature in (New York) reporting 34" /></p>
+        <p>The Internet is full of information that you can use in your programs.  For example, you will write an <img src="/bjc-r-2017-18/img/4-internet/umbrella.png" alt="umbrella? predicate" title="umbrella? predicate" /> block that looks up the weather forecast for your location and tells you whether or not to carry an umbrella or a block that reports the current temperature for a certain location:<br /><img class="indent" src="/bjc-r-2017-18/img/4-internet/current-temp-34.png" alt="current temperature in (New York) reporting 34" title="current temperature in (New York) reporting 34" /></p>
         <p> We want a list of all the available libraries of Snap<em>!</em> blocks.</p>
                 
         <div class="takeNote">
             <p><strong>Sometimes you're lucky,</strong> and a URL points directly to a data file:</p>
-            <img src="/bjc-r/img/4-internet/libraries-txt.png" alt="text from URL snap.berkeley.edu/snapsource/libraries/LIBRARIES">
+            <img src="/bjc-r-2017-18/img/4-internet/libraries-txt.png" alt="text from URL snap.berkeley.edu/snapsource/libraries/LIBRARIES">
         </div>
         
         <div class="forYouToDo" id="first">
             <ol>
-	            <li>If you don't already have it open, load your project "U4L1-Web" from the <a href="/bjc-r/cur/programming/4-internet/1-web-data/3-read-web.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc_2015-2016.html&novideo&noassignment">previous page</a>.</li>
+	            <li>If you don't already have it open, load your project "U4L1-Web" from the <a href="/bjc-r-2017-18/cur/programming/4-internet/1-web-data/3-read-web.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc_2015-2016.html&novideo&noassignment">previous page</a>.</li>
                 <li>
                     The reported value above is a multi-line text string.  Just as you did for <em>words</em> and <em>sentences</em> in Unit 3, in this unit you'll often find it more convenient to have a list with one <em>line</em> per item.  In your scripting area you should see this script:<br />
-                    <img src="/bjc-r/img/4-internet/libraries-txt-list.png" alt="split LIBRARIES by line"><br />
-                    <div class="sidenote"><img src="/bjc-r/img/4-internet/drag-out.gif" width="75%" alt="animation of dragging out resize corner"></div>
+                    <img src="/bjc-r-2017-18/img/4-internet/libraries-txt-list.png" alt="split LIBRARIES by line"><br />
+                    <div class="sidenote"><img src="/bjc-r-2017-18/img/4-internet/drag-out.gif" width="75%" alt="animation of dragging out resize corner"></div>
                     Click on it, and pull out the bottom right corner of the stage watcher so that you can see the entire list.<br />
                     
                     <ul>
@@ -48,24 +48,24 @@
                 <li>In a new browser tab, visit the page <a href="http://snap.berkeley.edu/snapsource/libraries" target="_blank">http://snap.berkeley.edu/snapsource/libraries</a>.  How does it compare with the ...libraries/LIBRARIES one?</li>
                 <li>
                     In your Snap<em>!</em> window, click on this script:<br />
-                    <img src="/bjc-r/img/4-internet/libraries-dir-list.png" alt="split libraries by line"><br />
+                    <img src="/bjc-r-2017-18/img/4-internet/libraries-dir-list.png" alt="split libraries by line"><br />
                     You're putting the result in a global variable only because there's a watcher for that variable on the stage, so it's easy to see the result.
                 </li>
                 <li>
                     We'd like to extract the list of files from this web page.  As a first step, use a higher order function to select only the list items that contain file names, rather than header text.  You'll find this block helpful:<br />
-                    <img src="/bjc-r/img/4-internet/contains.png" alt="( ) contains ( ) ?">
+                    <img src="/bjc-r-2017-18/img/4-internet/contains.png" alt="( ) contains ( ) ?">
                 </li>
                 <li>
                     The <code>scrape</code> block in this project is an attempt to scrape just the file names from the <code>libraries</code> web page.  It almost works, but it has a couple of problems.
                     <ul>
                         <li>
                             Read the code of <code>scrape</code> and make sure you understand how it works.  It uses helper blocks<br />
-                            <img src="/bjc-r/img/4-internet/substring-starting.png" alt="substring of ( ) starting ( )"><br />
-                            <img src="/bjc-r/img/4-internet/substring-upto.png" alt="substring of ( ) up to ( )"><br />
+                            <img src="/bjc-r-2017-18/img/4-internet/substring-starting.png" alt="substring of ( ) starting ( )"><br />
+                            <img src="/bjc-r-2017-18/img/4-internet/substring-upto.png" alt="substring of ( ) up to ( )"><br />
                             Notice the narrow input slot in the second of those; it's meant to let you know that only a single character goes there, not a multi-character string.  Experiment with these blocks.
                         </li>
                         <li>Fix the bugs in <code>scrape</code> so that you get a complete list of files and nothing else.</li>
-                        <li>Try your <code>scrape</code> block on <a href="http://snap.berkeley.edu/snapsource/Costumes" target="_blank">snap.berkeley.edu/snapsource/Costumes</a> to make sure it can work on <em>any</em> file directory. ("Directory" is the technical term for what users call a "folder": a collection of files.)<img class="imageRight" src="/bjc-r/img/icons/save-now.png" alt="Now Is a Good Time to Save" title="Now Is a Good Time to Save" /></li>
+                        <li>Try your <code>scrape</code> block on <a href="http://snap.berkeley.edu/snapsource/Costumes" target="_blank">snap.berkeley.edu/snapsource/Costumes</a> to make sure it can work on <em>any</em> file directory. ("Directory" is the technical term for what users call a "folder": a collection of files.)<img class="imageRight" src="/bjc-r-2017-18/img/icons/save-now.png" alt="Now Is a Good Time to Save" title="Now Is a Good Time to Save" /></li>
                     </ul>
                 </li>
             </ol>
