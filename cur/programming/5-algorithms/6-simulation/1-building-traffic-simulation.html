@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<script type="text/javascript" src="/bjc-r-2017-18/llab/loader.js"></script>
 		<title>Unit 5 Lab 6: Traffic Simulation, Page 1</title>
 	</head>
 
@@ -43,8 +43,8 @@
                 	<p>
                         <strong>Consider the overall setup.</strong> Each car is a sprite. All sprites will have essentially the same scripts. The only difference will be where the car starts in line and which car it is following. So, this is what car 5's scripts might look like. (But don't start building them now. Your programming starts in problem 5 below.)<br />
                         <div class="sidenote">You will have to invent <code>startpos</code> and <code>drive but avoid hitting sprite</code>.</div>
-                        <img class="indent" src="/bjc-r/img/5-algorithms/car5flag.png" alt="Script for sprite 5---when green flag clicked, move to starting position.">
-                        <img class="indent" src="/bjc-r/img/5-algorithms/car5space.png" alt="Script for sprite 5---When space key pressed, drive but avoid hitting sprite 6.">
+                        <img class="indent" src="/bjc-r-2017-18/img/5-algorithms/car5flag.png" alt="Script for sprite 5---when green flag clicked, move to starting position.">
+                        <img class="indent" src="/bjc-r-2017-18/img/5-algorithms/car5space.png" alt="Script for sprite 5---When space key pressed, drive but avoid hitting sprite 6.">
                     </p>
                     <div class="endnote">Because our version of <code>startpos</code> is the same for all sprites, it put all the sprites in the same place. So we needed each sprite to <code>move</code> to space out the cars. Your program might be different.</div>
 					<p>
@@ -58,7 +58,7 @@
                     </p>
 				</li>
 				<li>
-                    <strong>Analyze the <em>state</em> of one vehicle. <img class="inline" src="/bjc-r/img/icons/write-out-thoughts.png" alt="Write Out Your Thoughts" title="Write Out Your Thoughts" />
+                    <strong>Analyze the <em>state</em> of one vehicle. <img class="inline" src="/bjc-r-2017-18/img/icons/write-out-thoughts.png" alt="Write Out Your Thoughts" title="Write Out Your Thoughts" />
 What variables will it need? </strong>
                     <ul>
                         <li>You <em>might</em> want to make variables for the rate of acceleration and the rate of braking so that you can experiment with them.</li>
@@ -69,11 +69,11 @@ What variables will it need? </strong>
                 </li>
                 <li><strong>Analyze the <em>behavior</em> of one vehicle.</strong> If it sees a car in front of it, it should slow to the speed of that car. Otherwise, it should speed up. The distance to the car in front should probably matter. </li>
                 <li>
-                    <img class="imageRight" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
+                    <img class="imageRight" src="/bjc-r-2017-18/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
                 	<p><strong>Design an algorithm for the behavior.</strong> Exactly <em>how</em> will the car's speed change? When it is close enough to the car in front of it, will it just <em>become</em> the speed of that car? Or will it slow down more gradually? It <em>must not crash or pass</em>.</p>
                     <p>
                         Below is one possibility. Notice how it uses <code> replace item</code> to replace the old speed with the new speed. This version just replaces it with a speed slightly (and randomly) less than the car in front of it.<br />
-                        <img class="indent" src="/bjc-r/img/5-algorithms/slow-down-(mySpriteNumber).png" alt="script for slow-down-(mySpriteNumber):  Replace item (mySpriteNumber) of (spriteSpeeds) with (item(SpriteNumber in front of me(mySpriteNumber)) of (spriteSpeeds) minus (pick random 0.1 to 0.5)))">
+                        <img class="indent" src="/bjc-r-2017-18/img/5-algorithms/slow-down-(mySpriteNumber).png" alt="script for slow-down-(mySpriteNumber):  Replace item (mySpriteNumber) of (spriteSpeeds) with (item(SpriteNumber in front of me(mySpriteNumber)) of (spriteSpeeds) minus (pick random 0.1 to 0.5)))">
                     </p>
                     <p> When the car has lots of room in front of it, how will it speed up? It <em>must not exceed the limit</em>.</p>
 				</li>
@@ -81,8 +81,8 @@ What variables will it need? </strong>
                 	<p><strong>NOW, program your algorithm in Snap<em>!</em></strong> Give <em>one</em> sprite the ability to detect its distance to the (not-yet-existent) sprite ahead of it, and write the script that uses that to control its forward motion. Make sure that when a car goes off the screen it comes back in the other side.</p>
                     <p>
                         Here are two tools we found useful. You may or may not need them, depending on how you program your model. The 12 in <code>SpriteNumber in front of me</code> was the number of sprites in our model. You may need a different number there. You might also build this tool quite differently.<br />
-                        <img class="indent" src="/bjc-r/img/5-algorithms/NextSpriteName.png" alt="NextSpriteName-(NextSpriteNumber): report (join (Sprite left.paren) (NextSpriteNumber) (right-paren) ) "><br />
-                        <img class="indent" src="/bjc-r/img/5-algorithms/SpriteNumber-in-front-of-me-(MyNumber).png" alt="SpriteNumber-in-front-of-me-(MyNumber): report (1 plus (MyNumber mod 12)">
+                        <img class="indent" src="/bjc-r-2017-18/img/5-algorithms/NextSpriteName.png" alt="NextSpriteName-(NextSpriteNumber): report (join (Sprite left.paren) (NextSpriteNumber) (right-paren) ) "><br />
+                        <img class="indent" src="/bjc-r-2017-18/img/5-algorithms/SpriteNumber-in-front-of-me-(MyNumber).png" alt="SpriteNumber-in-front-of-me-(MyNumber): report (1 plus (MyNumber mod 12)">
                     </p>
                 </li>
                 <li><strong>Clone your sprite</strong> to create enough cars for your simulation. </li>
@@ -91,7 +91,7 @@ What variables will it need? </strong>
                 	<strong>Initialize:</strong> Set your cars out in some starting position, and give each car whatever other information it needs to start off.
                     <p>
                         One sprite will also need to set the variables that all sprites use. In our model, the script looked like this:<br />
-                        <img class="indent" src="/bjc-r/img/5-algorithms/When-green-flag-clicked-initializer.png"  alt="When-green-flag-clicked-initializer: startpos, set speed-limit to 10, set spriteSpeeds to (empty list) set danger-distance to 20, set pen color to bright red">
+                        <img class="indent" src="/bjc-r-2017-18/img/5-algorithms/When-green-flag-clicked-initializer.png"  alt="When-green-flag-clicked-initializer: startpos, set speed-limit to 10, set spriteSpeeds to (empty list) set danger-distance to 20, set pen color to bright red">
                     </p>
 				</li>
 				<li><strong>Test and refine your model:</strong> Do the cars keep moving? Do they avoid crashes as they should? Does traffic flow smoothly? Do you see changes in speed? Adjust your model, if necessary, so that it works.</li>

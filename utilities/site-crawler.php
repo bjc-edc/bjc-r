@@ -5,7 +5,7 @@
 include_once('simple_html_dom.php');
 
 // global definitions 
-$seed_url = "http://localhost/bjc-r/course/bjc4nyc_2015-2016.html";
+$seed_url = "http://localhost/bjc-r-2017-18/course/bjc4nyc_2015-2016.html";
 $found_urls = array($seed_url);
 $crawled_urls = array();
 $unit = "";
@@ -159,7 +159,7 @@ foreach ($all_covered_EUs as $EU) {
 echo "<hr /><h2>Learning Objectives</h2>";
 foreach ($crawled_urls as $crawled_url) {
 	$found_standards = array();
-	if ($crawled_url != "http://".$_SERVER['HTTP_HOST'] . "/bjc-r/cur/teaching-guide/AP/ap-standards.html") {
+	if ($crawled_url != "http://".$_SERVER['HTTP_HOST'] . "/bjc-r-2017-18/cur/teaching-guide/AP/ap-standards.html") {
 		crawl_for_standards(array($crawled_url, "LO"));
 	}
 	
