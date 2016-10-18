@@ -5,7 +5,7 @@
 include_once('simple_html_dom.php');
 
 // global definitions 
-$seed_url = "http://localhost/bjc-r/course/bjc4nyc_2015-2016.html";
+$seed_url = "http://localhost/bjc-r/course/bjc4nyc.html";
 $found_urls = array($seed_url);
 $crawled_urls = array();
 $unit = "";
