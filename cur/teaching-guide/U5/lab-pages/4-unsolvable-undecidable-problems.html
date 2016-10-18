@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-		<script type="text/javascript" src="/bjc-r-2017-18/llab/loader.js"></script>
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
 		<title>Unit 5 Teacher Guide</title>
 	</head>
     
@@ -24,11 +24,11 @@
 		<p><strong>Proving the Halting Theorem</strong></p>
 		<p>As suggested above, we use proof by contradiction to show that a certain question can't be answered <em>in general:</em> Will a certain computer program, given a certain input, report a result in a finite amount of time?</p>
 		<p>The &quot;in general&quot; part is important. Of course we can answer the question for certain particular programs. This one halts for any input:</p>
-		<p><img src="/bjc-r-2017-18/img/5-algorithms/three-fn.png" alt="three(x) reports 3"></p>
+		<p><img src="/bjc-r/img/5-algorithms/three-fn.png" alt="three(x) reports 3"></p>
 		<p>This one never halts for any input:</p>
-		<p><img src="/bjc-r-2017-18/img/5-algorithms/loop-fn.png" width="158" height="137" alt="loop(x): forever [wait 1 secs]"></p>
+		<p><img src="/bjc-r/img/5-algorithms/loop-fn.png" width="158" height="137" alt="loop(x): forever [wait 1 secs]"></p>
 		<p>And this one halts (reports a value) for any input except 87:</p>
-		<p><img src="/bjc-r-2017-18/img/5-algorithms/weird-fn.png" width="158" height="222" alt="weird(x): if (x=87) then forever [wait 1 secs]; report 3"></p>
+		<p><img src="/bjc-r/img/5-algorithms/weird-fn.png" width="158" height="222" alt="weird(x): if (x=87) then forever [wait 1 secs]; report 3"></p>
 		<p>The question is whether we can devise a test that will tell us whether <em>any</em> given function will report a value for <em>any</em> given input. To make a proof by contradiction, we start by supposing that there is such a <code>halts?</code> function. Then we show that there has to be at least one function, and one input to that function, for which <code>halts?</code> fails: If we call <code>halts?</code> with the function <code>tester</code> as both the function to be tested and the input to give that function, any result reported by <code>halts?</code> will be wrong.</p>
 		<p>Showing that the result has to be wrong involves a case analysis like the ones used to solve the logic puzzles on page 1. Suppose <code>halts?</code> reports <code>True</code>, telling us that <code>tester(tester)</code> succeeds at reporting a value. Then <code>tester</code> takes the first branch of the <code>if</code>, and so it loops forever. (We used <code>repeat until</code> to create the infinite loop, but that's not important; it could just be <code>forever</code> as in the pictures above.) Thus <code>halts?</code> gave the wrong answer. Now suppose instead that <code>halts?</code> reports <code>False</code>, thereby claiming that <code>tester(tester)</code> loops forever. But in that case, <code>tester</code> takes the <code>else</code> branch, and reports <code>True</code>. (Don't be confused; it doesn't matter <em>what</em> value <code>tester</code> reports, just that it reports <em>some</em> value. But it <em>does</em> matter what value <code>halts?</code> reports.)</p>
 		<p>The proof is much easier for us than it was for Turing, because we have the advantage of an advanced programming language that allows procedures to be used as input values! What Turing had to work with was a particularly simple-minded machine language, encoded in the ones and zeros some people like so much. He had to work out how to encode a program, and then how to write <em>another</em> program that could examine the first one. Church's proof of the Halting Theorem looked much more like ours than like Turing's, because he had, and bequeathed to us, a notation for functions of functions.</p>
@@ -41,8 +41,8 @@
 		<div>
 			The X lab pages could be split across X or X days (X-X minutes). Expected times to complete follow:
 			<ul>
-				<li>X-X minutes (X class period) on <a href="/bjc-r-2017-18/cur/programming/5-algorithms/4-unsolvable-undecidable/1-logical-inconsistency.html?topic=nyc_bjc%2F5-algorithms.topic&course=bjc4nyc_2015-2016.html&novideo&noassignment">Logical Inconsistency</a></li>
-				<li>X-X minutes (X class period) on <a href="/bjc-r-2017-18/cur/programming/5-algorithms/4-unsolvable-undecidable/2-halting-problem.html?topic=nyc_bjc%2F5-algorithms.topic&course=bjc4nyc_2015-2016.html&novideo&noassignment">An Undecidable Problem</a></li>
+				<li>X-X minutes (X class period) on <a href="/bjc-r/cur/programming/5-algorithms/4-unsolvable-undecidable/1-logical-inconsistency.html?topic=nyc_bjc%2F5-algorithms.topic&course=bjc4nyc_2015-2016.html&novideo&noassignment">Logical Inconsistency</a></li>
+				<li>X-X minutes (X class period) on <a href="/bjc-r/cur/programming/5-algorithms/4-unsolvable-undecidable/2-halting-problem.html?topic=nyc_bjc%2F5-algorithms.topic&course=bjc4nyc_2015-2016.html&novideo&noassignment">An Undecidable Problem</a></li>
 			</ul>
 		</div>        
         

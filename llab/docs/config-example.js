@@ -18,7 +18,7 @@ if (typeof llab === 'undefined') {
 // if the website isn't at the root of the server, add the path here.
 // starting / means this is an absolute link, yo
 //llab.rootURL = "/llab-website-test/";
-llab.rootURL = "/bjc-r-2017-18/";
+llab.rootURL = "/bjc-r/";
 
 
 // change if llab scripts are installed in a different path *within* rootURL.
