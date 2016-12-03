@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unit 4 Lab 4: Network Protocols, Page 3</title>
+	</head>
+
+	<body>
+		<h2>Open Protocols</h2>
+        <div class="todo">This page is <strong>ready for review</strong> (reviewed by bh).
+        	<ul>
+                <li>
+                	I've added the FTYD and editted the "Internet Abstraction Hierarchy
+      "take note" box <strong>since BH's review.</strong> --MF
+                    <ul>
+                        <li>reviewed again by bh. <strong>Where has DNS gone?? This is important to the AP standard.</strong></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        
+		<p>
+        	So far, you've learned about three Internet protocols:
+			<ul>
+                <li><strong>HTTP</strong>: HyperText Transfer Protocol&mdash;the protocol that your computer uses when <em>accessing an HTML web site</em></li>
+                <li><strong>IP</strong>: Internet Protocol&mdash;the protocol that <em>manages routing</em> (finding paths to distant computers) </li>
+                <li><strong>TCP</strong>: Transmission Control Protocol&mdash;the protocol that <em>assures reliable transmission</em> of data</li>
+			</ul>
+        </p>
+        <p>
+			There are a <em>lot</em> of protocols! Here's a picture from Wikipedia:<br />
+			<div class="sidenote">You don't have to know about all of these!</div>
+            <img class="indent" src="/bjc-r/img/4-internet/IP-suite.png" alt="The Internet protocol suite">
+        </p>
+
+        <p>These are all <strong>open standards</strong>, which means that anyone can look up their details and build them into new hardware and software without getting permission. (For example, here is <a href="https://tools.ietf.org/html/rfc791" target="_blank">the IPv4 specification</a>, but don't read it now.)</p>
+        <p>(Before the Internet, there were several different network protocols that were secrets belonging to particular manufacturers. So if you had a particular brand of computer or router, it could talk only to other computers of the same brand.)</p>
+        <p>Open protocols are another reason why the Internet is <em>scalable</em>.</p>
+
+		<div class="takeNote">
+            <p>
+            	The Internet is probably the largest and most complicated artifact in human history. And it relies on <em><strong>cooperation</strong>.</em> Just think: 
+                <ul>
+                    <li>You can send email to someone in a country that's considered an enemy of your country (from the US to Iran, for example).</li>
+                    <li>An engineer at Microsoft can read a web page at Apple even though their companies are competitors.</li>
+                    <li>Your T-Mobile cell phone can talk to your friend's Verizon phone.</li>
+                </ul>
+            </p>
+            <p>Despite some governments' attempts to censor the net, the big picture is one of strong cooperative spirit!</p>
+        </div>
+
+		<div class="todo">The below (through XKCD) moved from cryptography</div>
+        <h3>Open Standards Help Security</h3>
+        <p>In order to work properly, a cryptographic function has to be easy for the private key holder to invert, but hard for anyone else to invert. How do we know what &quot;hard&quot; means? For example, current cryptographic methods rely on the difficulty of finding prime factors of very large numbers. There's no <em>proof</em> that someone won't come up with a fast way to do that, but people are pretty confident about it because the problem has been well studied by many mathematicians. (On the other hand, when <em>quantum computers</em> become practical, factorization <em>will</em> be easy, and new cryptographic methods will be needed.)</p>
+        <p>What makes it possible for mathematicians to study the difficulty of breaking Internet cryptography is that the method used&mdash;the cryptographic function&mdash;is openly published. This may seem strange; if you want to keep secrets, shouldn't you keep the technique secret, too? But secret algorithms can have weaknesses that go undiscovered until some bad guy exploits them. Open standards allow an algorithm to be studied <em>before</em> it is used in practice.</p>
+        <h3>Certificate Authorities</h3>
+		<p>Public key cryptography doesn't solve all the problems, because someone might publish a fake public key pretending to be Alice. Then someone might accidentally encrypt their message for Alice using the faker's key, and then the faker can read the message.  In practice this is partly fixed by relying on trusted third parties, called Certificate Authorities, to issue public keys. But it is possible for anyone to set up a Certificate Authority! (In your browser's security options you can see all of the CAs that it trusts. Mine has just over 100  CAs, including governments, companies I've heard of (e.g., Microsoft), and companies I know nothing about (e.g., Thawte). I trust them because Firefox told me to, and I trust the Firefox developers.)</p>	
+
+<div class="comment">XKCD is sometimes NSFW.  Not clear we should link to it.--bh</div>
+
+	<div class="ifTime">
+            <ol start="6">        
+                <li>
+                	Read this comic by Randall Munroe (<a href="http://xkcd.com" target="_blank">xkcd.com</a>). <img class="inline" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> What's the joke?<br />
+					<a class="run" href="https://xkcd.com/1553/" target="_blank"><img class="indent" src="http://imgs.xkcd.com/comics/public_key.png" alt="XKCD: Public Key" title="I guess I should be signing stuff, but I&#39;ve never been sure what to sign. Maybe if I post my private key, I can crowdsource my decisions about what to sign." /></a>
+                </li>
+            </ol>
+        </div> 
+
+
+	</body>
+</html>
