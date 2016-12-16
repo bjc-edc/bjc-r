@@ -9,46 +9,56 @@
 	<body>
     
      
-	<h2>Binary Clock</h2>
+	<h2>Binary Counter</h2>
     <div class="todo">
         	Correct All the links to latest versions and Snap! in xml
         </div>
-        
+          <img class="indent" src="/bjc-r/img/4-internet/img_BinaryClock/BinaryClock.png" width="25%" alt=""/><br>
+         In this project you will create a timer that reports the number of seconds elapsed in both decimal and binary notations. <br><br>
 		<div class="forYouToDo" id="first">
-        <img class="indent" src="/bjc-r/img/4-internet/img_BinaryClock/BinaryClock.png" width="25%" alt=""/><br>
+       
 			<ol>
-            In this project you will create a timer that reports the number of seconds elapsed in both decimal and binary notations. <br><br>
-				<li>Study the Binary Clock created in Snap<em>!</em> <a href="/bjc-r/cur/programming/4-internet/1-number-representation/1-binary-counter-preview.html" target="_blank">linked here</a> until you gain some instinct how the binary system relates to the decimal system.</li>	
+           
+				<li>Study the Binary Counter created in Snap<em>!</em> <a href="/bjc-r/cur/programming/4-internet/1-number-representation/1-binary-counter-preview.html" target="_blank">linked here</a> until you gain some instinct how the binary system relates to the decimal system.</li>	
             
             
 
-  <li>Study the examples in the <a href="/bjc-r/cur/programming/4-internet/1-number-representation/binaryclock-appendix.html" target="_blank">Appendix</a>, if needed, and discuss as a class how you can convert a number in base 10 to its equivalent in base 2.  Come up with a simple algorithm for this procedure.</li>
+  <li>Review the examples in the <a href="/bjc-r/cur/programming/4-internet/1-number-representation/binarycounter-appendix.html" target="_blank">Appendix</a>, if needed, and discuss as a class how you can convert a number in base 10 to its equivalent in base 2.  Come up with a simple algorithm for this procedure.</li>
 
-<li>Study the student file <a href="http://snap.berkeley.edu/snapsource/snap.html#present:Username=selimtezel&ProjectName=BinaryClock_Student" target="_blank">linked here</a>. Note that 3 sprites representing the decimal digits, 8 sprites representing the binary digits, with all the necessary costumes (0-1 for binary 0-9 for decimal) have been created for you.  Also created is a sprite representing the “Timer”, for which you will need to fill in some code.  Snap<em>!</em>’s own “timer” block (from the “Sensing” menu) will be used as a time keeper.</li>
+<li>Examine the student file <a href="http://snap.berkeley.edu/snapsource/snap.html#present:Username=selimtezel&ProjectName=BinaryClock_Student" target="_blank">linked here</a> with which you will be working. Note that 3 sprites representing the decimal digits, 8 sprites representing the binary digits, with all the necessary costumes (0-1 for binary 0-9 for decimal) and code have been created for you.  Also created is a sprite representing the “Timer”.  This is the only sprite for which you will need to fill in some code.  Snap<em>!</em>’s own “timer” block (from the “Sensing” menu) will be used as a time keeper.</li>
 
-<li>In this project you will generate the binary number representation of decimal numbers 0 through 255.  While it takes 3 digits to represent 255 in base 10, it will require 8 digits in base 2.  Why?  </li>
+</ol>
+</div>
 
-<li>The computed decimal and binary digits are stored in lists and then a broadcast is made to the sprites representing the digits to put on the appropriate costumes (0 and 1 for the binary digits and 0 through 9 for the decimal digits)<br>
+           
+<li>In this project you will generate the binary number representation of decimal numbers 0 through 255.  While it takes 3 digits to represent 255 in base 10, it will require 8 digits in base 2.  (Why?)  </li>
+
+<li>If you look at the Timer sprite code, you will see that the computed decimal and binary digits are stored in lists and then a broadcast is made to the sprites representing the digits to put on the appropriate costumes (0 and 1 for the binary digits and 0 through 9 for the decimal digits)<br>
 
 <img class="indent" src="/bjc-r/img/4-internet/img_BinaryClock/TimerCode.png" width="30%"  alt="Timer Code" title="Timer Code"/>
 </li>
 The “warp” block is needed as all the computation must be finalized prior to a screen refresh.
- 
-<li>The code for extracting the base 10 digits of a given number X. Note that last part of the code is used to pad the front of the number with zeros.  For example, as we are allocating 3 digits to represent the numbers, the number “42” is written as “042”.<br>
-<img class="indent" src="/bjc-r/img/4-internet/img_BinaryClock/DecimalizeCode.png" width="50%"  alt="Decimalize Code" title="Decimalize Code"/>
+ <div class="forYouToDo" id="second">
+       
+			<ol start="4">
+<li>Now write the code for extracting the base 10 digits of a given number. This is done to be a model for the process in base 2. Note that last part of the code is used to pad the front of the number with zeros.  For example, as we are allocating 3 digits to represent the numbers, the number “42” is written as “042”.<br>
+<img class="indent" src="/bjc-r/img/4-internet/img_BinaryClock/getDecimalDigitsCode.png" width="50%"  alt="getDecimalDigits Code" title="getDecimalDigits Code"/>
 
 </li>
- 
-
+ </ol>
+</div>
 
 <li>Code for “dec1”, the sprite representing the first digit (hundreds) in the base 10 representation:<br>
  <img class="indent" src="/bjc-r/img/4-internet/img_BinaryClock/dec1.png" width="50%" alt="Decimal digit 1 code" title="Decimal digit 1 code"/>
  </li>
 Note “join” block ensures that the digit is interpreted as a text so that costume with that name is called. The digit is not used as a number here because Snap! will always have the “Turtle” costume as the first costume by default.<br>
 
+<div class="forYouToDo" id="third">
+       
+			<ol start="5">
 <li>Now review and understand the code for the rest of the sprites representing the decimal digits.  Check that your timer works in the decimal notation.</li>
 
-<li>Now write the code for the “Binarize” custom block and review the code for the sprites representing the 8 binary digits. Check that the timer works in the binary notation.</li>
+<li>Now write the code for the “getBinaryDigits” custom block and review the code for the sprites representing the 8 binary digits. Check that the timer works in the binary notation.</li>
 
 			</ol>
 		</div>
@@ -87,7 +97,7 @@ Input the final base: 3<br>
 29 in base 10 is 1002 in base 3.<br>
 </div>
 </li>
-<li>Rewrite the “Binarize” and “Decimalize” blocks in this project using recursion.</li>
+<li>Rewrite the “getBinaryDigits” and “getDecimalDigits” blocks in this project using recursion.</li>
 </ol>
  </div>
 
