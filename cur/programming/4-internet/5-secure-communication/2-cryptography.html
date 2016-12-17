@@ -7,9 +7,7 @@
     </head>
     <body>
         <h2>Cryptography</h2>
-        
-
-    <p>Cryptography is the process of writing (encryption) and solving (decryption) codes. Just as TCP enables reliable transmission over an unreliable network, cryptography enables verifiable, secure transmission over an insecure network.</p>
+		<p>Cryptography is the process of writing (encryption) and solving (decryption) codes. Just as TCP enables reliable transmission over an unreliable network, cryptography enables verifiable, secure transmission over an insecure network.</p>
 		
 
         <div class="forYouToDo" id="first">
@@ -20,17 +18,36 @@
                 </li>
             </ol>
         </div>
+        
 
         <div class="takeNote">
             <p><em>Symmetric</em> cryptography, uses the <em>same secret key to encode and decrypt</em> a message. Symmetric cryptography has been around for thousands of years. The trouble with symmetric cryptography is: <em>how can we keep the key secret?</em></p> 
 			<div class="endnote">Long before computers,  riders on horseback could swallow the key to a message if they were captured. Now, messages <em>and keys</em> are sent over the  Internet, so symmetric cryptography won't work.</div>
 			<p><em>Public key (asymmetric)</em> cryptography was created by mathematicians in the 1970s.  It uses <em>two different keys for encryption and decryption</em>, and knowing the encryption key doesn't let you figure out the decryption key.</p>
 			<div class="endnote">For example, banks each have a public key, and when users enter their password on the bank web site, the user's browser encrypts the password with the bank's key before sending it over the Internet. Then, only the bank can decrypt that message.</div>
-    <p>When you make a secure HTTP connection (the URL starts "https://" and a lock icon appears in the browser's URL bar), the browser uses a protocol called Transport Layer Security (TLS) or an older version called Secure Sockets Layer (SSL) based on public key cryptography. The site to which you're connecting sends its public key, and your browser uses it to encrypt whatever information you send (such as your password for that site).</div>
+        	<p>When you make a secure HTTP connection (the URL starts "https://" and a lock icon appears in the browser's URL bar), the browser uses a protocol called Transport Layer Security (TLS) or an older version called Secure Sockets Layer (SSL) based on public key cryptography. The site to which you're connecting sends its public key, and your browser uses it to encrypt whatever information you send (such as your password for that site).</p>
+        </div>
         
         
-		</div>    
-		
-		
-</body>
+        <h3>Open Standards Help Security</h3>
+        <p>In order to work properly, a cryptographic function has to be easy for the private key holder to invert, but hard for anyone else to invert. How do we know what &quot;hard&quot; means? For example, current cryptographic methods rely on the difficulty of finding prime factors of very large numbers. There's no <em>proof</em> that someone won't come up with a fast way to do that, but people are pretty confident about it because the problem has been well studied by many mathematicians. (On the other hand, when <em>quantum computers</em> become practical, factorization <em>will</em> be easy, and new cryptographic methods will be needed.)</p>
+        <p>What makes it possible for mathematicians to study the difficulty of breaking Internet cryptography is that the method used&mdash;the cryptographic function&mdash;is openly published. This may seem strange; if you want to keep secrets, shouldn't you keep the technique secret, too? But secret algorithms can have weaknesses that go undiscovered until some bad guy exploits them. Open standards allow an algorithm to be studied <em>before</em> it is used in practice.</p>
+        
+        
+        <h3>Certificate Authorities</h3>
+		<p>Public key cryptography doesn't solve all the problems, because someone might publish a fake public key pretending to be Alice. Then someone might accidentally encrypt their message for Alice using the faker's key, and then the faker can read the message.  In practice this is partly fixed by relying on trusted third parties, called Certificate Authorities, to issue public keys. But it is possible for anyone to set up a Certificate Authority! (In your browser's security options you can see all of the CAs that it trusts. Mine has just over 100  CAs, including governments, companies I've heard of (e.g., Microsoft), and companies I know nothing about (e.g., Thawte). I trust them because Firefox told me to, and I trust the Firefox developers.)</p>	
+        
+
+		<div class="ifTime">
+			<div class="comment">XKCD is sometimes NSFW.  Not clear we should link to it.--bh</div>
+            <ol start="2">        
+                <li>
+                	Read this comic by Randall Munroe (<a href="http://xkcd.com" target="_blank">xkcd.com</a>). <img class="inline" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> What's the joke?<br />
+					<a class="run" href="https://xkcd.com/1553/" target="_blank"><img class="indent" src="http://imgs.xkcd.com/comics/public_key.png" alt="XKCD: Public Key" title="I guess I should be signing stuff, but I&#39;ve never been sure what to sign. Maybe if I post my private key, I can crowdsource my decisions about what to sign." /></a>
+                </li>
+            </ol>
+        </div> 
+        
+        	
+	</body>
 </html>
