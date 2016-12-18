@@ -7,92 +7,56 @@
 	</head>
 
 	<body>
-        <div class="todo">From Observation Notes Analysis: 
-        	<ul>
-                <li>U4L1: "Many students in NYC connect to the Web through a proxy server; perhaps there is opportunity to discuss what this is and why in the context of their own experience."</li>
-                <li>U4L1: "Students did not seem to understand what crossorigin.me was or the purpose of a proxy server, but again, they are using a modified version of our materials."</li>
-                <li>See also: Dan's Tuesday, January 26, 2016 at 4:28 PM email on the <a href="https://courses.edx.org/courses/BerkeleyX/BJC.3x/1T2016/courseware/80e7df3b6f1d4a458b565a214c5b0145/c068342421a94f70bf77f8f6f3a32edd/" target="_blank">edX "Calling Internet APIs" lab</a> (you will need to log in with the EDC edX account; see Mary if you don't have the access, but it should be in your email from me on Thursday, March 10, 2016 at 6:13 PM). Here's a link to load the XML: <a class="run" href="/bjc-r/prog/4-internet/BJCx_Internet_APIs.xml">BJCx_Internet_APIs.xml</a></li> 
-            </ul>
-        </div>
-        
-                <div class="forYouToDo">
-          <ol start="5">
-			  <li>
-               	  Try the <code>http</code> block with a <em>different</em> URL. (Hint: it's probably not going to work. So, just try it and keep reading.)
-<div class="endnote">
-       	  Be sure <em>not</em> to include the "http://" in the input slot. That's already included as part of the <code>http</code> block.<br />
-                    	<img class="indent" src="/bjc-r/img/4-internet/http-http.png" alt="Don't include the 'http://' in the http block input slot." title="Don't include the 'http://' in the http block input slot." />
-                </div>
-              </li>
-      </ol>
-    </div>
-        
-
-        <p>You very likely got an empty result back. This is due to a security feature. One web site (such as the Snap<em>!</em> server) is not allowed to send a request to another site. Fortunately for us, it's not a very solid attempt at security...</p>
-        <div class="forYouToDo">
-            <ol start="7">
-                <li>Try the <img src="/bjc-r/img/4-internet/proxied-http.png" alt="proxied http://"> block with your URL. (Hint: this time, it should work. Be sure <em>not</em> to include the "http://" in the input slot.) </li>
-                <div class="endnote">
-					<p>The <code>proxied http</code> block works by fooling the other web site into sending you data it wouldn't normally send. Most websites receive a request coming from Snap<em>!</em> and say "this isn't a real web browser query, so I'm not answering." The <code>proxied http</code> block uses proxy (a replacement or stand-in) servers (in this case, <a href="http://alloworigin.com/" target="_blank">alloworigin.com</a>) to call the URL you enter. The proxy server performs the request properly (as a browser would), gets the information, and sends it to Snap<em>!</em> as though things went smoothly.</p>
-                	<p>In short, the <code>proxied http</code> block works the way we want the <code>http</code> block to work.</p>
-                </div>
-            </ol>
-        </div>
-               
-               <div class="todo"><hr /><hr /></div>
-		<h2>Scraping Data from Web Pages</h2>
-        <p><strong>Sometimes you're lucky,</strong> and a URL points directly to a file with the data you want<!--(like in that earlier unit)-->.</p>
-		<!-- Should be moved to Lists and Data unit. -MF Nov 2016
-        
-        <p><strong>Sometimes you're lucky,</strong> and a URL points directly to a file with the data you want...</p>
-        
+        <img class="imageRight" src="/bjc-r/img/icons/teachers-choice.png" alt="Teacher's Choice" title="Teacher's Choice" />
+        <h2>Web Scraping Techniques (Teacher's Choice)</h2>
         <div class="forYouToDo" id="first">
-	        <div class="endnote">In Lab 2, you will work with a set of GPS coordinates (coordinates on the surface of the earth). On the next pages, you will learn more about what they are and how to use them. For now, you will learn how to get them into Snap<em>!</em></div>
-            <ol>
-                <li>If you don't already have it open, load your U4L1-HttpBlock project.</li>
-                <li><div class="saveAs"><span class="text">"U4L2-GPSData"</span><img src="/bjc-r/img/icons/save-this-as.png" alt="Save your work as U4L2-GPSData" title="Save your work as U4L2-GPSData" /> You will use what you build here in Lab 2.</div></li>
-                <li>
-                	<div class="sidenote">CSV stands for "comma separated values." A CSV file is a table of information. CSV files usually open in a spreadsheet program.</div>
-                	Try the <img src="/bjc-r/img/4-internet/proxied-http.png" alt="proxied http://"> block with this URL:<br />
-                    <p class="center">bjc.edc.org/bjc-r/cur/programming/4-internet/2-gps-data/GPS-NYC.csv</p>	
-                </li>
-                <div class="takeNote">The URL starts with the protocol selector http://, but the <code>http://</code> and <code>proxied http://</code> blocks supply that part of it, so you just type the rest of the URL.</div>
-                <li>
-                    The value reported is a long text string. You'll find it more convenient to have a list with <em>one line per item</em>. Use the <img class="inline" src="/bjc-r/img/4-internet/split-by-line.png" alt="split () by (line)" title="split () by (line)" /> block to create a list, and assign the list to a variable called <var>coordinates</var>.<br />
-                    <!--<img src="/bjc-r/img/4-internet/set-coordinates-to-split-CSV.png" alt="set (coordinates) to {split (http(http://bjc.edc.org/bjc-r/cur/programming/4-internet/2-gps-data/GPS-NYC.csv)) by (line)}" title="set (coordinates) to {split (http(http://bjc.edc.org/bjc-r/cur/programming/4-internet/2-gps-data/GPS-NYC.csv)) by (line)}" />- ->
-					<div class="takeNote">The <code>split</code> block breaks up a string of text according what you select in the second input slot and puts the  strings into a list as items.</div>
-                    <img class="imageRight" src="/bjc-r/img/4-internet/drag-out.gif" alt="animation of dragging out resize corner" />
-                    <p>Pull out the bottom right corner of the <var>coordinates</var> stage watcher so that you can see the entire list.</p>
-                </li>
-                <li>
-                	Convert this list into a list of lists, where each inside list contains each piece of the coordinate pair, like this:<br />
-					<div class="sidenoteBig">
-                        <p>You will need to use the <code>split</code> block a second time. Experiment with different options for the second input slot. Read the <code>split</code> help screen (right-click a <code>split</code> block and choose "Help") if you need ideas.</p>
-                        <p>Use <code>map</code> to perform a function (in this case, <code>split</code>) to each item in the input list.</p>
-                    </div>
-                    <img class="indent" src="/bjc-r/img/4-internet/coordinates-list-of-lists.png" alt="list of lists of coordinate pairs" title="list of lists of coordinate pairs" />
-                </li>
-	            <li><img class="inline" src="/bjc-r/img/icons/save-mini.png" alt="Save Your Work" title="Save Your Work" />In Lab 2, you will process these coordinates and plot them on a graph.</li>
-            </ol>
-        </div>-->
+			<ol>
+				<li>If you don't have it open, load <a class="run" href="/bjc-r/prog/4-internet/U4L3-HttpBlock.xml"> U4L3-HttpBlock project</a>, and try the <code>http</code> block with a <em>different</em> URL. It likely won't work, but try it, and keep reading.</li>
+			</ol>
+		</div>
+        <p>
+            <img class="imageRight" src="/bjc-r/img/4-internet/empty-result.png" alt="http block reporting ()" title="http block reporting ()" />
+            You likely got an <em>empty</em> result back. For security, websites (such as the Snap<em>!</em> server) don't generally send a request to another site. The <code>http</code> block is a JavaScript hack ...Fortunately for us, it's not a very solid attempt at security...<br />
+        </p>
         
         
-        <p><strong>Sometimes you're <em>not</em> lucky,</strong> and the information you want is buried in a mass of HTML code. Extracting the information from the formatting is called <em>scraping</em> the web page.</p>
-        
+        <h3>Using <code>proxied http</code> to Access Websites</h3>
         <div class="forYouToDo">
-	        <div class="endnote">In Lab 5, you will develop a Weather app. You'll need to send location information to a weather website (<a href="http://www.weatherstreet.com" target="_blank">weatherstreet.com</a>) and scrape the HTML that the site returns for the data you need. For now, you will learn input the HTML into a list in Snap<em>!</em></div>
-            <ol start="7">
-                <li>Open your U4L1-HttpBlock project again.</li>
-                <li><div class="saveAs"><span class="text">"U4L5-WeatherApp"</span><img src="/bjc-r/img/icons/save-this-as.png" alt="Save your work as U4L5-WeatherApp" title="Save your work as U4L5-WeatherApp" /> You will use what you build here in Lab 5.</div></li>                
+            <ol start="2">
+                <li>Try the <img src="/bjc-r/img/4-internet/proxied-http.png" alt="proxied http://"> block with your URL. (Hint: this time, it <em>should</em> work. Be sure <em>not</em> to include the "http://" in the input slot.) </li>
+                <div class="endnote">
+					<p>The <code>proxied http</code> block fools the requested web site into sending data it wouldn't normally send. Most websites receive a request coming from Snap<em>!</em> and say "this isn't a real web browser query, so I'm not answering." The <code>proxied http</code> block uses proxy (replacement or stand-in) servers to call the URL you enter. The proxy server performs the request as a browser would and sends the information to Snap<em>!</em>.</p>
+                </div>
+            </ol>
+        </div>
+        
+        <div class="takeNote">
+        	<h4><strong>What if <code>proxied http</code> doen't work?</strong></h4>
+        	If <code>proxied http</code> doesn't work, you can skip the remaining pages in this lab. You might find them interesting to read, but will not be able to do the projects.
+        </div>
+		
+        <div class="endnote">If your network has certain security settings (like a <a href="https://en.wikipedia.org/wiki/Firewall_(computing)" target="_blank">firewall</a>), then you may not be able to use the <code>proxied http</code> block to access website data, which is required for the remainder of the lab. If you have access to the Internet somewhere that this block works, you use Snap<em>!</em> for webscraping such as building a <a href="http://localhost/bjc-r/cur/programming/4-internet/3-web-data/4-weather-app.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc.html&novideo&noassignment">Weather App</a>.</div>
+        
+        <p>The <code>proxied http</code> block will allow you to program Snap<em>!</em> to access websites as part of your projects. After accessing a site, you'll need to isolate the specific information you want from the HTML. Extracting the information out of the formatting is called <strong>scraping</strong> the web page.</p>
+        
+        
+        <h3>Using String Reporters to Manage Data</h3>
+        <p>Like the <a href="http://localhost/bjc-r/cur/programming/4-internet/3-web-data/2-read-web.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc.html&novideo&noassignment">two custom <code>substring</code> blocks</a>, which you can use to extract specific information from a webpage, you can also use <code>split</code> to manage the complexity of data returned from a web query. Use <code>split</code> to break up a long string of text into a list of smaller strings according to some marker (spaces, tabs, commas, new lines, etc.).</p>
+
+
+        <div class="forYouToDo">
+            <ol start="3">
                 <li>
                 	Try the <img src="/bjc-r/img/4-internet/proxied-http.png" alt="proxied http://"> block with this URL:<br />
                     <p class="center"><a href="http://www.weatherstreet.com/weather-forecast/New-York-NY-10001.htm" target="_blank">www.weatherstreet.com/weather-forecast/New-York-NY-10001.htm</a></p>	
                 </li>
 				<li>
-                	The output is a very wide report of the HTML for that page. Write a script that takes the report from the <code>proxied http</code> block with this URL and reports a list of the lines of HTML starting from "&lt;body". The report of your script should look like this:
-                	<img class="" src="/bjc-r/img/4-internet/weather-list.png" alt="" title="" />
+                	Use <img class="inline" src="/bjc-r/img/4-internet/split-by-line.png" alt="split () by (line)" title="split () by (line)" /> to create a list of the lines of HTML code from that page.
+                    </li>
+                    <li>Write a script that reports a list of the lines of HTML starting from "&lt;body". The report of your script should look like this:<br />
+                	<img class="indent" src="/bjc-r/img/4-internet/weather-list.png" alt="" title="" />
                 </li>
-	            <li>
+                <li>
                 	<img class="inline" src="/bjc-r/img/icons/save-mini.png" alt="Save Your Work" title="Save Your Work" /> In Lab 5, you will search through this list for the line with the data that you need and clean out all the HTML formatting that you don't need so that you can make a weather app:<br />
                 	<img class="indent" src="/bjc-r/img/4-internet/current-temp-34.png" alt="current temperature in (New York) reporting 34" title="current temperature in (New York) reporting 34" />
                 </li>
@@ -101,20 +65,13 @@
             </ol>
         </div>
         
-        
-        <hr />
-        <div class="todo">Old Page Break</div>
-        <hr />
-        
-        
-        <img class="imageRight" src="/bjc-r/img/icons/teachers-choice.png" alt="Teacher's Choice" title="Teacher's Choice" />
-        <h2>Reading Data Using URL Tags (Teacher's Choice)</h2>
+        <h3>Reading Data Using URL Tags</h3>
+        <div class="sidenote">Remember, a <strong>URL</strong> (Uniform Resource Locator) is a reference to an Internet resource such as a Web page.</div>
         <p>Many websites communicate information in the details in their URLs.</p>
         
-        <div class="todo">Hi Bowen, When BH reviewed the pages I've been working on (including L1p2 where I copied this to), he said, "Any reason we're using google.com (boo!) instead of duckduckgo.com (yay!)?" It might not apply here anymore since I'll be covering some of this, but just in case, I'm tucking the comment here too... --MF</div>
-        
-        
-        <div class="ifTime" id="first">
+        <div class="todo">use duckduckgo.com --MF &amp; BH</div>
+       
+        <div class="ifTime">
             <ol>
                 <li>Starting from <a href="https://www.google.com" target="_blank">www.google.com</a>, type a one-word web search. What is the URL of your current web page?</li>
                 <li>Change your URL to make Google search for a new topic.</li>
@@ -128,12 +85,22 @@
           
         <img src="/bjc-r/img/4-internet/snap-google.png" width="50%" align="middle" alt="SNAP search on Google">
                 
+        <div class="comment">
+          <p>Can we search for something other than "snap"? It's weird to me that it goes to a food bank page... --MF</p>
+          <p>We certainly <em>can</em>. Stuff like that is always a choice we can make (it isn't essential AP, CS, or pedagogy). I don't find it weird, and I  even see it as potential a positive value, but it is also a potential political hot-button that could interfere with our mission to the very same kids that the government SNAP program is designed to serve. I worry some about that, but the fact that a search turns up <em>many</em> things, though, makes this seem safe. And, speaking of weird, did you notice that one is from 55 Chapel Street, Newton?! </p>
+		  <p>I don't have a requirement to use "snap" here, I just thought it was clever. Berkeley Snap shows up on that page, too, but it's not the top hit. -BK</p>
+</div>
+        
         <div class="ifTime">
             <ol start="4">
                 <div class="sidenote">Remember that the results of <code>ask</code> are available from a reporter called <em>answer</em>. As before, use the <img src="/bjc-r/img/4-internet/proxied-http.png" alt="Proxied HTTP block"> block.</div>
 								<li><a class="run" href="/bjc-r/prog/4-internet/U4L5-WebSearch.xml" target="_blank">Load this project</a>.
 </li>
                 <li>Build a small app that asks for a one-word search query, then displays the URL to use for that Google search, and the HTML of the results from the search. Warning: don't expect the HTML to be easy to read!</li>
+                <li>Look inside <code>error reporting http</code>. How much of the Javascript (JS) can you read?</li>
+                <div class="endnote">JS uses <code>!</code> for <img class="" src="/bjc-r/img/blocks/not.png" alt="empty not predicate" title="empty not predicate" /> and <code>=</code> for <img class="" src="/bjc-r/img/blocks/set.png" alt="empty set predicate" title="empty set predicate" />, but <code>if else</code> and <code>return</code> work the same as in Snap<em>!</em>.</div>
+                
+                the Javascript within the 
             </ol>
         </div>         
         
@@ -142,5 +109,7 @@
             	<li>Edit your work so that it works for multiple-word searches.</li>
             </ol>
         </div>
+        
+        
     </body>
 </html>
