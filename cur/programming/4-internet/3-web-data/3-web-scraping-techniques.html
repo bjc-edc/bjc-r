@@ -14,53 +14,49 @@
 				<li>If you don't have it open, load <a class="run" href="/bjc-r/prog/4-internet/U4L3-HttpBlock.xml"> U4L3-HttpBlock project</a>, and try the <code>http</code> block with a <em>different</em> URL. It likely won't work, but try it, and keep reading.</li>
 			</ol>
 		</div>
-        <p>
-            <img class="imageRight" src="/bjc-r/img/4-internet/empty-result.png" alt="http block reporting ()" title="http block reporting ()" />
-            You likely got an <em>empty</em> result back. For security, websites (such as the Snap<em>!</em> server) don't generally send a request to another site. The <code>http</code> block is a JavaScript hack ...Fortunately for us, it's not a very solid attempt at security...<br />
-        </p>
+		<img class="indent" src="/bjc-r/img/4-internet/empty-result.png" alt="http block reporting ()" title="http block reporting ()" /><br />
+	<div class="sidenoteBig">Most websites receive a request coming from Snap<em>!</em> and say "this isn't a real web browser query, so I'm not answering." The <code>proxied http</code> block uses proxy (replacement or stand-in) servers to call the URL you enter. The proxy server performs the request as a browser would and sends the information to Snap<em>!</em>.</div>
+        <p>You likely got an <em>empty</em> result back. For security, a website (such as the Snap<em>!</em> server) is not allowed to send a request to another website. Servers expect browsers to send website requests.</p>
+        <p>There is a JavaScript program in this Snap<em>!</em> project called <code>proxied http</code> that uses a proxy (stand-in) server to fool the requested web site into sending data it wouldn't normally send.</p>
         
         
         <h3>Using <code>proxied http</code> to Access Websites</h3>
-        <div class="forYouToDo">
-            <ol start="2">
-                <li>Try the <img src="/bjc-r/img/4-internet/proxied-http.png" alt="proxied http://"> block with your URL. (Hint: this time, it <em>should</em> work. Be sure <em>not</em> to include the "http://" in the input slot.) </li>
-                <div class="endnote">
-					<p>The <code>proxied http</code> block fools the requested web site into sending data it wouldn't normally send. Most websites receive a request coming from Snap<em>!</em> and say "this isn't a real web browser query, so I'm not answering." The <code>proxied http</code> block uses proxy (replacement or stand-in) servers to call the URL you enter. The proxy server performs the request as a browser would and sends the information to Snap<em>!</em>.</p>
-                </div>
+		<p>The <code>proxied http</code> block will allow you to program Snap<em>!</em> to access websites as part of your projects. After accessing a site, you'll need to isolate the specific information you want from the HTML. Extracting the information out of the formatting is called <strong>scraping</strong> the web page.</p>
+    <div class="forYouToDo">
+      <ol start="2">
+                <li>
+                <img class="imageRight" src="/bjc-r/img/4-internet/http-http.png" alt="Don't include the 'http://' in the http block input slot." title="Don't include the 'http://' in the http block input slot." />
+        Try the <img src="/bjc-r/img/4-internet/proxied-http.png" alt="proxied http://"> block with your URL. This time, it <em>should</em> work. Be sure <em>not</em> to include the "http://" in the input slot. </li>
             </ol>
         </div>
-        
+
         <div class="takeNote">
         	<h4><strong>What if <code>proxied http</code> doen't work?</strong></h4>
-        	If <code>proxied http</code> doesn't work, you can skip the remaining pages in this lab. You might find them interesting to read, but will not be able to do the projects.
+        	If <code>proxied http</code> doesn't work, you can skip the remaining pages in this lab. You might find them interesting to read, but will not be able to do the projects. If you have access to the Internet somewhere that this block works, you can use Snap<em>!</em> to code webscraping projects such as a <a href="http://localhost/bjc-r/cur/programming/4-internet/3-web-data/4-weather-app.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc.html&novideo&noassignment">Weather App</a>.
+			<div class="endnote"><strong>What's going on?</strong> You may not be able to use the <code>proxied http</code> block if your network has certain security settings (like a <a href="https://en.wikipedia.org/wiki/Firewall_(computing)" target="_blank">firewall</a>) that prohibit using proxy servers to access blocked content.</div> 
         </div>
-		
-        <div class="endnote">If your network has certain security settings (like a <a href="https://en.wikipedia.org/wiki/Firewall_(computing)" target="_blank">firewall</a>), then you may not be able to use the <code>proxied http</code> block to access website data, which is required for the remainder of the lab. If you have access to the Internet somewhere that this block works, you use Snap<em>!</em> for webscraping such as building a <a href="http://localhost/bjc-r/cur/programming/4-internet/3-web-data/4-weather-app.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc.html&novideo&noassignment">Weather App</a>.</div>
-        
-        <p>The <code>proxied http</code> block will allow you to program Snap<em>!</em> to access websites as part of your projects. After accessing a site, you'll need to isolate the specific information you want from the HTML. Extracting the information out of the formatting is called <strong>scraping</strong> the web page.</p>
         
         
-        <h3>Using String Reporters to Manage Data</h3>
-        <p>Like the <a href="http://localhost/bjc-r/cur/programming/4-internet/3-web-data/2-read-web.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc.html&novideo&noassignment">two custom <code>substring</code> blocks</a>, which you can use to extract specific information from a webpage, you can also use <code>split</code> to manage the complexity of data returned from a web query. Use <code>split</code> to break up a long string of text into a list of smaller strings according to some marker (spaces, tabs, commas, new lines, etc.).</p>
+        
+    <h3>Using String Reporters to Manage Data</h3>
+        <p>Like the <a href="http://localhost/bjc-r/cur/programming/4-internet/3-web-data/2-read-web.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc.html&novideo&noassignment">two custom <code>substring</code> blocks</a>, which you can use to extract specific information from a webpage, you can also use <code>split</code> to manage the complex data returned from an HTTP query. Use <code>split</code> to break up a long string of text into a list of smaller strings according to some marker (spaces, tabs, commas, new lines, etc.).</p>
 
 
         <div class="forYouToDo">
             <ol start="3">
                 <li>
-                	Try the <img src="/bjc-r/img/4-internet/proxied-http.png" alt="proxied http://"> block with this URL:<br />
+                	Try the <img src="/bjc-r/img/4-internet/proxied-http.png" alt="proxied http://"> block with the following URL, and use <img class="inline" src="/bjc-r/img/4-internet/split-by-line.png" alt="split () by (line)" title="split () by (line)" /> to create a list of the lines of HTML code from that page.<br />
                     <p class="center"><a href="http://www.weatherstreet.com/weather-forecast/New-York-NY-10001.htm" target="_blank">www.weatherstreet.com/weather-forecast/New-York-NY-10001.htm</a></p>	
                 </li>
-				<li>
-                	Use <img class="inline" src="/bjc-r/img/4-internet/split-by-line.png" alt="split () by (line)" title="split () by (line)" /> to create a list of the lines of HTML code from that page.
-                    </li>
-                    <li>Write a script that reports a list of the lines of HTML starting from "&lt;body". The report of your script should look like this:<br />
+                <li>Use a <code>substring</code> block to write a script that reports a list of the lines of HTML starting from "&lt;!-- START OF CURRENT CONDITIONS" and store that list as a variable (such as <var>weatherdata</var>). The report of your script should look like this:<br />
                 	<img class="indent" src="/bjc-r/img/4-internet/weather-list.png" alt="" title="" />
                 </li>
                 <li>
-                	<img class="inline" src="/bjc-r/img/icons/save-mini.png" alt="Save Your Work" title="Save Your Work" /> In Lab 5, you will search through this list for the line with the data that you need and clean out all the HTML formatting that you don't need so that you can make a weather app:<br />
+                	<img class="imageRight" src="/bjc-r/img/icons/save-now.png" alt="Now Is a Good Time to Save" title="Now Is a Good Time to Save" />
+                    You can search through this list for the line with the data that you need and clean out all the HTML formatting that you don't need so you can make a weather app:<br />
                 	<img class="indent" src="/bjc-r/img/4-internet/current-temp-34.png" alt="current temperature in (New York) reporting 34" title="current temperature in (New York) reporting 34" />
                 </li>
-                <!--<li>Now, open <a href="http://www.weatherstreet.com/weather-forecast/New-York-NY-10001.htm" target="_blank">http://www.weatherstreet.com/weather-forecast/New-York-NY-10001.htm</a> in a separate browser window or tab, and use your browser to <a href="http://www.computerhope.com/issues/ch000746.htm" target="_blank">view the source</a> (HTML) for that page.</li>
+<!--<li>Now, open <a href="http://www.weatherstreet.com/weather-forecast/New-York-NY-10001.htm" target="_blank">http://www.weatherstreet.com/weather-forecast/New-York-NY-10001.htm</a> in a separate browser window or tab, and use your browser to <a href="http://www.computerhope.com/issues/ch000746.htm" target="_blank">view the source</a> (HTML) for that page.</li>
                 <li>Locate the one line in the HTML that describes the temperature...</li>-->
             </ol>
         </div>
