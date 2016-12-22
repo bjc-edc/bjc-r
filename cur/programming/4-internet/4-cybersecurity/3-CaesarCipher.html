@@ -12,41 +12,45 @@
         <h2>Caesar Cipher Project (Teacher's Choice)</h2>
         
         <img class="imageRight" src="/bjc-r/img/4-internet/img_CaesarCipher/Caesar.JPG" height="232" alt=""/><br>
-        <p>A Caesar cipher (or shift cipher) is a simple and widely known encryption method. It's a substitution cipher. Each letter in the plaintext (un-encrypted text) shifts some fixed number of positions down the alphabet. For example, “ABC123abc” shifted by 4 becomes “EFG567efg”. This technique is named after Gaius Julius Caesar, an influential Roman who ruled 49-44 BC and used encryption in his correspondence.</p>
-        <p>In this project you will develop a simple message encryption program, using a method based on the “Caesar Cipher”.</p>
+        <p>A Caesar cipher (or shift cipher) is a simple encryption method. Each letter in what's called plaintext (the un-encrypted text) shifts some fixed number of positions along the alphabet. After Z, the shifting &quot;wraps around&quot; and goes back to A. For example, “ABCZ123abzc” shifted by 4 would become “EFGD567efgd”. This technique is named after Gaius Julius Caesar, who ruled Rome 49-44 BC and used encryption in his correspondence.</p>
+        <p>In this project you will develop a program that uses a shift cipher that does not wrap around, but instead uses other characters like [ and { to follow Z and z.</p>
         <div class="forYouToDo" id="first">
             <ol> 
-            	<li>Explore <a href="http://snap.berkeley.edu/snapsource/snap.html#present:Username=selimtezel&ProjectName=CaesarCipher_Simplified&hideControls" target="_blank">this example project</a> and consider how you might design your own.</li>
+            	<li>Try out <a href="http://snap.berkeley.edu/snapsource/snap.html#present:Username=selimtezel&ProjectName=CaesarCipher_Simplified&hideControls" target="_blank">this example project</a> and consider how you might design your own.</li>
             </ol>
         </div>
-        <p>Unicode is the computer industry standard for encoding characters.</p>
+        <p>Internally, computers store keyboard characters (capital and small letters, punctuation marks, space, digits, symbols, and so on) and others (like Enter, or Command-Z, or Shift-Ctrl A) as numbers—binary sequences. The computer industry standard numbering is called Unicode. For most purposes, even programmers and web developers don't need to know what number represents what character, but sometimes we <em>do</em> need to specify a character by its number. This table shows the Unicode for some of the keyboard characters.</p>
         <img class="indent" src="/bjc-r/img/4-internet/img_CaesarCipher/Mary_CharacterTable.jpeg" width="550" alt="Unicode Table"/>
         <p>
-            Access to the Unicode values in Snap<em>!</em> will be achieved by the following Operators blocks:<br>
-            <img class="indent" src="/bjc-r/img/4-internet/img_CaesarCipher/SnapUnicode1.png" alt="unicode of (a) reporting '97'" title="unicode of (a) reporting '97'" />
-            <img class="indent" src="/bjc-r/img/4-internet/img_CaesarCipher/SnapUnicode2.png" alt="unicode (65) as letter reporting 'A'" title="unicode (65) as letter reporting 'A'" />
+            The <code>unicode of</code> block reports the number that is used for a particular character:
+            <img src="/bjc-r/img/4-internet/img_CaesarCipher/SnapUnicode1.png" height="52" alt="unicode of (a) reporting '97'" title="unicode of (a) reporting '97'" /><br />
+            The <code>unicode as letter</code> block reports the character that a given Unicode number represents: <img src="/bjc-r/img/4-internet/img_CaesarCipher/SnapUnicode2.png" height="52"  alt="unicode (65) as letter reporting 'A'" title="unicode (65) as letter reporting 'A'" />
         </p>
         
         <div class="endnote">
-        	<p>The Unicode key system employed by Snap<em>!</em> is vast so you can safely assume that any set of text characters to be encrypted will map to a set of printable characters, which may include characters such as : ; &lt; = &gt; ? @ ^ * { } ~.</p>
-            <p>For example: Encrypted in a Caesar Cipher with a shift 4,</p>
-            <p class="indent"><em><strong>Invasion of Normandy is on 6 June 1944</strong></em></p>
-            <p>becomes:</p>
+        	<p>You can safely assume that shifting any set of text characters a reasonable distance will result in a set of printable characters, which may include non-alphnumeric (not letter or digit) characters like = ? @ # ^ * {  ~.</p>
+            <p>For example, if we use a shift of 4 to encrypt </p>
+          <p class="indent"><em><strong>Invasion of Normandy is on 6 June 1944</strong></em></p>
+            <p>it becomes:</p>
             <p class="indent"><em><strong>Mrzewmsr$sj$Rsvqerh}$mw$sr$:$Nyri$5=88</strong></em></p>
+            <ul>
+            <li>Which character in ciphertext (the coded version) represents a space in the plaintext?</li>
+            <li>In this code, 1 becomes 5, and 4 becomes 8, clearly showing the shift of 4. What does 9 become?</li>
+            </ul>
         </div>
         
         <div class="forYouToDo" id="second">
             <ol start="2">
-                <li>Use a Caesar Cipher to encrypt and decrypt a short message on paper to get a feel for how this cipher works.  Use the Unicode table given above as needed.</li> 
-                <li> Develop a simple algorithm for this procedure that works for any input text and any given shift value.</li>
-                <li>Try to code the simplified Caesar Cipher on your own in Snap<em>!</em> using the algorithm you have developed. If you get stuck, look at this <a href="/bjc-r/cur/programming/4-internet/4-cybersecurity/3b-CaesarCipher_Hint.html" target="_blank">page for hints </a>on how to proceed.</li>
+                <li>On paper, use a shift cipher to encrypt and decrypt a short message  to get a feel for how this cipher works.</li> 
+                <li> Develop an algorithm for this procedure that works for any input text and any  shift value.</li>
+                <li>Try to code the  shift cipher on your own in Snap<em>!</em> using the algorithm you have developed. If you get stuck, look at this <a href="/bjc-r/cur/programming/4-internet/4-cybersecurity/3b-CaesarCipher_Hint.html" target="_blank">page for hints </a>on how to proceed.</li>
                 <p>
                 	You can extract the encrypted messages from the Snap<em>!</em> interface by right-clicking on the variable that holds the encrypted message and selecting the “Export” option which will download a text file to your computer which then you can copy/paste.<br />
                 	<img class="indent" src="/bjc-r/img/4-internet/img_CaesarCipher/Export.png" width="489" alt=""/>
                 </p>
                 <li>Now test your work. Agree with your partner on a shift value for the encryption.  Then use your program to encrypt a secret message and e-mail it to your partner.  Then let your partner, decrypt your message by using the program to reverse the shift.</li>
             </ol>
-        </div>
+    </div>
         <div class="takeItFurther">
             <ol>
                 <li>Implement a version of the Caesar Cipher that not only shifts the characters but also wraps them round the alphabet when the end of the alphabet is reached.  You may wish to restrict your alphabet to the set of printable characters given above in the Unicode table.</li>
