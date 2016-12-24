@@ -15,7 +15,7 @@
             2.1.1D Number bases, including binary, decimal, and hexadecimal, are used to represent and investigate digital data.<br />
             2.1.1E At one of the lowest levels of abstraction, digital data is represented in binary (base 2) using only combinations of the digits zero and one.<br />
         </div>
-		<p>While people typically work with numbers using the base 10 numeral system, other systems are relevant in computer science, including binary (base 2) and hexadecimal (base 16). Computers manage data packed as sequences of bits, base 2 (binary) data that are all zeros or ones. People are most familiar with base 10, so we write software that allows people to use base 10 to communicate with the computer.</p>
+		<p>While people typically work with numbers using the base 10 (decimal) numeral system, other systems are relevant in computer science, including binary (base 2) and hexadecimal (base 16). Computers manage data packed as sequences of bits (<strong>bi</strong>nary digi<strong>t</strong>s),  which are all zeros or ones. People are most familiar with base 10, so we write software that allows people to use base 10 to communicate with the computer.</p>
 		
     <div class="forYouToDo" id="first">
 			<ol>
@@ -44,7 +44,7 @@
             <p class="center"> 9827  &nbsp; = &nbsp; 9 &times;  10<sup>3</sup> &nbsp;+&nbsp; 8 &times;  10<sup>2</sup> &nbsp;+&nbsp; 2 &times;  10<sup>1</sup> &nbsp;+&nbsp; 7 &times;  10<sup>0</sup></p>
           <p>
                 <img class="imageRight" src="/bjc-r/img/4-internet/binary-places(18).jpg" alt="place values in binary" title="place values in binary" />
-           	<strong>Base 2</strong> uses the same idea but with <strong>powers of two</strong> instead of powers of ten. Binary place values represent: the units place (2<sup>0</sup> = 1), the twos place (2<sup>1</sup> = 2), the fours place (2<sup>2</sup> = 4), the eights place (2<sup>3</sup> = 8), sixteens place (2<sup>4</sup> = 16), etc. So, for example:
+           	<strong>Base 2</strong> uses the same idea but with <strong>powers of two</strong> instead of powers of ten. Binary place values represent the units place (2<sup>0</sup> = 1), the twos place (2<sup>1</sup> = 2), the fours place (2<sup>2</sup> = 4), the eights place (2<sup>3</sup> = 8), the sixteens place (2<sup>4</sup> = 16), etc. So, for example:
             </p>
           <p align="center">10010<sub>2</sub> &nbsp; = &nbsp; <span class="blue">1 &times; 2<sup>4</sup></span>	 &nbsp;+&nbsp; 0 &times; 2<sup>3</sup> &nbsp;+&nbsp; 0 &times; 2<sup>2</sup> &nbsp;+&nbsp; <span class="blue">1 &times; 2<sup>1</sup></span> &nbsp;+&nbsp; 0 &times; 2<sup>0</sup> &nbsp; = &nbsp; 16 &nbsp;+&nbsp; 2 &nbsp; = &nbsp; 18<sub>10</sub></p>
         </div>
@@ -60,7 +60,7 @@
         
         <div class="takeNote">
           <p>To know what a number, like <span class="katex">101101_2</span>, means in base 10, first, write the number out on paper. Then <strong>write out the binary place values</strong> by <em>doubling left from the units place</em>:</p>
-          <div class="sidenoteBig">101101<sub>2</sub> has only six digits, so we can ignore anything to the left of that.</div>
+          <div class="sidenoteBig">101101<sub>2</sub> has only six digits, so we don't need powers of two to the left of that.</div>
             <table class="byte indent">
                 <tr>
                     <td><strong>1</strong></td>
@@ -84,7 +84,6 @@
                     </td>
                 </tr>
             </table>
-            <div class="sidenoteBig">The little 2 in <span class="katex">101101_2</span> means base 2. The little 10 in <span class="katex">45_{10}</span> means base 10.</div>
           <p>This means this number is 32 + 8 + 4 + 1. So, <span class="katex">101101_2 = 45_{10}</span>.</p>
         </div>
         
@@ -113,7 +112,7 @@
 
 		<h3>Writing Binary</h3>
         <div class="takeNote">
-			<p>To go the other way, say from <span class="katex">89_{10}</span> to base 2, first <strong>write out the binary place values</strong> by <em>doubling left from the units place</em>. Then think, "It's smaller than 128, so places higher than that. But I can take out a 64, so I write a 1 there, and there's 25 left. I have 0 thirty-twos, because I only have 25. But I can take out 16, and there's 9 left. So, 8 and 1 are the last bits.</p>
+			<p>To go the other way, say from <span class="katex">89_{10}</span> to base 2, first <strong>write out the binary place values</strong> by <em>doubling left from the units place</em> until you get to a value larger than your number (89 in this example). Then think, "It's smaller than 128, so I can leave that place blank. But I can take out a 64, so I write a 1 there, and there's 25 left (89-64). I have 0 thirty-twos, because I only have 25. But I can take out 16, and there's 9 left. So, 8 and 1 are the last nonzero bits.</p>
             <table class="byte indent">
                 <tr>
                   <td class="noborder" colspan="6">
@@ -131,7 +130,7 @@
                     <td><strong>1</strong></td>
                 </tr>
                 <tr>
-                    <td>0</td>
+                    <td>&nbsp;</td>
                     <td><strong>1</strong></td>
                     <td>0</td>
                     <td><strong>1</strong></td>
@@ -152,7 +151,7 @@
         <div class="takeNote">
         	Here's an <em>algorithm</em> you can follow to find the base 2 representation of any base 10 integer:
             <ol type="a">
-                <div class="sidenote">You'll learn about how other real numbers are stored soon).</div>
+                <div class="sidenote">You'll learn about how other real numbers are stored soon.</div>
                 <li>First, find the largest power of two that fits inside the number.</li>
                 <li>Then, subtract that power of 2 from the number, keep the new number, and record a 1 in the place for that power of 2.</li>
                 <div class="sidenote">You could <a href="/bjc-r/cur/programming/4-internet/1-number-representation/4-binary-counter.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc.html&novideo&noassignment">create a program</a> based on an algorithm like this.</div>
