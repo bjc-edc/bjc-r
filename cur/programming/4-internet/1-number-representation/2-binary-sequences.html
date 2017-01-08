@@ -9,11 +9,10 @@
 	<body>
 		<h2>Binary Sequences</h2>
         <div class="todo">
-            2.1 A variety of abstractions built upon binary sequences can be used to represent all digital data.<br />
-            2.1.2 Explain how binary sequences are used to represent digital data. [P5]<br />
+            <strong>2.1</strong> A variety of abstractions built upon binary sequences can be used to represent all digital data.<br />
+            <strong>2.1.2</strong> Explain how binary sequences are used to represent digital data. [P5]<br />
             2.1.2A A finite representation is used to model the infinite mathematical concept of a number. <br />
-            2.1.2B In many programming languages, the fixed number of bits used to represent characters or integers limits the range of integer values and mathematical operations; this limitation can result in overflow or other errors.<br />
-            Exclusion Statement (2.1.2B): Range limitations of any one language, compiler, or architecture are beyond the scope of this course and the AP Exam.<br />
+            2.1.2B In many programming languages, the fixed number of bits used to represent characters or integers limits the range of integer values and mathematical operations; this limitation can result in overflow or other errors. <em>Exclusion Statement (2.1.2B): Range limitations of any one language, compiler, or architecture are beyond the scope of this course and the AP Exam.</em><br />
             2.1.2C In many programming languages, the fixed number of bits used to represent real numbers (as floating point numbers) limits the range of floating point values and mathematical operations; this limitation can result in round off errors.<br />
             2.1.2D The interpretation of a binary sequence depends on how it is used.<br />
             2.1.2E A sequence of bits may represent instructions or data.<br />
@@ -28,16 +27,19 @@
         
         <div class="sidenote">If your connection blocks YouTube, <a href="http://scratch.mit.edu/discuss/youtube/ZhEf7e4kopM" target="_blank">watch the video here</a>.</div>
 		<img class="imageRight" src="/bjc-r/img/icons/headphones-mini.png" alt="Set Up Your Headphones or Speakers" title="Set Up Your Headphones or Speakers" />
-	<div class="sideHOM">
-        	<p><strong>bit</strong> &ndash; a single unit of data that can only have one of two values (such as a 1 or 0)</p>
-        	<p><strong>bit rate</strong> &ndash; the amount of data (measured in bits) that can be sent in a specific amount of time</p>
-            <p><strong>bandwidth</strong> &ndash; the transmission capacity of a system (measured by bit rate)</p>
-            <p><strong>latency</strong> &ndash; time between the transmission and the receipt of a message</p>
-        </div>
         <iframe width="560" height="315" src="https://www.youtube.com/embed/ZhEf7e4kopM?rel=0" frameborder="0" allowfullscreen class="indent"></iframe>
+		<div class="takeNote">
+            <ul>
+                <li><strong>bit</strong> &ndash; a single unit of data that can only have one of two values (such as a 1 or 0)</li>
+                <li><strong>bit rate</strong> &ndash; the amount of data (measured in bits) that can be sent in a specific amount of time</li>
+                <li><strong>bandwidth</strong> &ndash; the transmission capacity of a system (measured by bit rate)</li>
+                <li><strong>latency</strong> &ndash; time between the transmission and the receipt of a message</li>
+            </ul>
+        </div>
         
 		<div class="endnote">
-          <p>As computers become more powerful, they are capable of handling more information. We used to measure computer memory in <em>kilobytes</em>; one kilobyte is 2<sup>10</sup> (1,024) bytes. These days, your computer memory is likely to be measured in <em>megabytes</em>. One megabyte is 2<sup>20</sup> (about 1 million) bytes. Your hard drive space is likely to be measured in gigabytes, terabytes, or even petabytes. One <em>gigabyte</em> is 2<sup>30</sup> (about 1 billion) bytes, one <em>terabyte</em> is 2<sup>40</sup> (about 1 trillion) bytes, and one <em>petabyte</em> is 2<sup>50</sup> (about 1 quadrillion) bytes.</p>
+          <p>As computers become more powerful, they are capable of handling more information. We used to measure computer memory in <em>kilobytes</em>; one kilobyte is 2<sup>10</sup> (1,024) bytes, which is about 10<sup>3</sup>, so we call it a "kilo". These days, your computer memory is likely to be measured in <em>megabytes</em>. One megabyte is 2<sup>20</sup> (about 1 million) bytes.</p>
+          <p>Your hard drive space is likely to be measured in gigabytes, terabytes, or even petabytes. One <em>gigabyte</em> is 2<sup>30</sup> (about 1 billion) bytes, one <em>terabyte</em> is 2<sup>40</sup> (about 1 trillion) bytes, and one <em>petabyte</em> is 2<sup>50</sup> (about 1 quadrillion) bytes.</p>
             <table class="byte indent">
                 <tr>
                     <td><strong>measure</strong></td>
@@ -83,39 +85,46 @@
         </div>
         
 		<h3>Storing Integers</h3>
-        <div class="sidenote">You'll learn more about Unicode if you do the <a href="/bjc-r/cur/programming/4-internet/4-cybersecurity/3-caesarcipher.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc.html&novideo&noassignment">Caesar Cipher Project</a> in the Cybersecurity lab, where you'll create a program to encrypt a message.</div>
-        <p>It's common for programming languages to use a <em>specific</em> number of bits to represent Unicode characters or integers. Unicode is a system that allows computers to store letters as integers. For example, capital A is Unicode number 65, which is 01000001<sub>2</sub>.</p>
-    <p>Depending on the programming language used, an integer might be stored with 2 or perhaps 4 bytes of data allowing for a range of about -32,768 to 32,767 (with 2 bytes) or -2,147,483,648 to 2,147,483,647 (with 4 bytes) with one bit being used to record the sign of the number.</p>
-    <div class="takeNote"><strong>What about bigger numbers?</strong> Whatever the specific size is for storing integers (2 bytes, 4 bytes, etc.), it will limit the range of the integer values that can be stored and the mathematical operations that can be performed. Values that exceed this limitation may result in errors such as <em>overflow</em> errors because big values overflow the amount of space allocated to store one number.</div>
-    <div class="forYouToDo" id="first">
+        <p>Depending on the programming language used, an integer might be stored with two or perhaps four bytes of data allowing for a range of about -32,768 to 32,767 (with two bytes) or -2,147,483,648 to 2,147,483,647 (with four bytes).</p>
+        <div class="endnote">
+        	<h4><strong>Why are these the ranges for integers?</strong></h4>
+            <p>Two bytes is 16 bits, so two bytes can represent 2<sup>16</sup> = 65,536 different values. We use about half of these to represent negative numbers, about half for postive numbers, and one to represent zero.</p>
+            <p>Four bytes is 32 bits, so four bytes can represent 2<sup>32</sup> = 4,294,967,296 different values. Again, we use about half for negative numbers, half for postives, and one for zero.</p>
+        </div>
+        <div class="takeNote"><strong>What about bigger numbers?</strong> Whatever the specific size is for storing integers (two bytes, four bytes, etc.), it will limit the range of the integer values that can be stored and the mathematical operations that can be performed. Values that exceed this limitation may result in errors such as <em>overflow</em> errors because big values overflow the amount of space allocated to store one number.</div>
+        <div class="forYouToDo" id="first">
 			<ol>
 				<li>
                     <div class="sidenote">You do not need to learn the factorial function for this class (we are just using it to discuss big numbers), but you will probably see it again in a math class.</div>
                     The <em>factorial</em> of a positive integer <em>n </em>(written "<span class="katex">n!</span>") is the product of all the integers from 1 to <em>n</em>. For example:<br /> 
                     <span class="katex-block">5! = 1 \times 2 \times 3 \times 4 \times 5 = 120</span>
                     Load <a class="run" href="/bjc-r/prog/4-internet/U4L1-BigNumbers.xml">this project</a>, and try out these inputs:<br />
+					<div class="sidenote">You might see different results based on your computer processor.</div>
 					<ol>
                         <li><img src="/bjc-r/img/4-internet/bang5.png" alt="( (5) !) reporting 120"></li>
                         <li><img src="/bjc-r/img/4-internet/bang10.png" alt="(10) ! reporting 3628800"  title="(10) ! reporting 3628800" /></li>
-					  <div class="sidenote">You might see different results based on your computer processor.</div>
                         <li><img src="/bjc-r/img/4-internet/bang20.png" alt="(20) ! reporting 2432902008176640000" title="(20) ! reporting 2432902008176640000" /></li>
 					</ol>
-			  </li>
+				</li>
                 <li>
                     Then, try <span class="katex">200!</span>.<br />
                   <img class="indent" src="/bjc-r/img/4-internet/200bang-fixnum.png" alt="((200) !) -&gt; infinity">
                 </li>
-	  </ol>
-	</div>
-        <p><strong>What's going on?</strong> Although <span class="katex">200!</span> is very large, it's not infinite. This report is the result of the size limitation. If the result of a computation is bigger than than the range of numbers that can be stored, then the computer returns an overflow error such as this "infinity" message.</p>
+			</ol>
+        </div>
+        <p><strong>What's going on?</strong> Although <span class="katex">200!</span> is very large, it's not infinite. This report is the result of the size limitation. If the result of a computation is bigger than than the range of numbers that can be stored, then the computer returns a special code or an overflow error.</p>
         <div class="endnote">
-            There are special codes for infinity, &ndash;infinity (smaller than any finite value), and "Not a Number," which is the error message used for illegal computations such as <span class="katex">\frac00</span>.<br />
+            In Snap<em>!</em>, there are special codes for infinity, &ndash;infinity (smaller than any finite value), and "Not a Number," which is the notification used for illegal computations such as <span class="katex">\frac00</span>.<br />
           <img class="indent" src="/bjc-r/img/4-internet/zero-div-zero-reporting-NaN.png" alt="(0) / (0) reporting NaN" title="(0) / (0) reporting NaN" />
         </div>
         
+        <h4><strong>Storing Text</strong></h4>
+		<div class="sidenoteBig">You'll learn more about Unicode if you do the <a href="/bjc-r/cur/programming/4-internet/4-cybersecurity/3-caesarcipher.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc.html&novideo&noassignment">Caesar Cipher Project</a> in the Cybersecurity lab, where you'll create a program to encrypt a message.</div>
+        <p>It's common for programming languages to use a <em>specific</em> number of bits to represent Unicode characters or integers. Unicode is a system that allows computers to store letters as integers. For example, capital A is Unicode number 65, which is 01000001<sub>2</sub>.</p>
+
         
         <h3>Floating Point</h3>
-        <div class="sidenote">A floating point value begins with a single <strong>sign bit</strong> (0 for positive or 1 for negative), then it has a specific number of bits for the <strong>exponent</strong>, and it ends with a specific number of bits for the <strong>significand</strong>, which everything after the decimal point. (In binary, the only digit that can be before the decimal in scientific notation is a 1.)</div>
+        <!--<div class="sidenoteBig">A floating point value begins with a single <strong>sign bit</strong> (0 for positive or 1 for negative), then it has a specific number of bits for the <strong>exponent</strong>, and it ends with a specific number of bits for the <strong>significand</strong>, which everything after the decimal point. (In binary, the only digit that can be before the decimal in scientific notation is a 1.)</div>-->
         <p>Many languages have another data type used to represent real numbers (including decimals and numbers too big to be stored as integers) called <strong>floating point</strong>, which is essentially a binary version of scientific notation. It's called floating point because the decimal point "floats" to just after the first digit.</p>
         <div class="forYouToDo">
             <ol start="3">
@@ -152,13 +161,6 @@
                 <li>A text string is a sequence of Unicode character codes, each of which is stored as a separate integer.</li>
                 <li>Lists and blocks are binary sequences too.</li>
             </ul>
-		</div>
-        <div class="ifTime">
-          <ol start="6">
-                <li>What numbers can be represented in a single bit?</li>
-                <li>What numbers can be represented in a single byte?</li>
-                <li>What numbers can be represented in a pair of 2 bytes?</li>
-            </ol>
 		</div>
 		<div class="takeItFurther"><a name="further" class="anchor">&nbsp;</a>
             <ol type="A">
