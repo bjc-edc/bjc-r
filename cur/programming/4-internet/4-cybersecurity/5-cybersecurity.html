@@ -8,7 +8,6 @@
     <body>
         <h2>Cybersecurity</h2>
         <div class="todo">
-            6.3.1A The trust model of the Internet involves tradeoffs.<br />
             6.3.1B The domain name system (DNS) was not designed to be completely secure.<br />
             6.3.1C Implementing cybersecurity has software, hardware, and human components.<br />
             6.3.1D Cyber warfare and cyber crime have widespread and potentially devastating effects.<br />
@@ -17,8 +16,6 @@
             6.3.1G Antivirus software and firewalls can help prevent unauthorized access to private data.<br />
         </div>
         
-        <div class="todo">From Michael: I think we should maybe re-work the security section -- this makes it sound like you can't trust what websites you visit -- but practically speaking it's not very easy to just run your own DNS server because no one will connect to it. Also, DNS settings are on the easier end of complex network configurations you can actually set yourself.</div>
-
 		<p>There are many cybersecurity risks on the Internet. The various kinds of cyber warfare and cyber crime can have widespread and potentially devastating effects. Accessing risks and implementing protective measures for cybersecurity issues has software, hardware, and human components.</p>
 
 		<img class="imageRight" src="/bjc-r/img/icons/headphones.png" alt="Set Up Your Headphones or Speakers" title="Set Up Your Headphones or Speakers" />
@@ -27,58 +24,57 @@
         
         
         <h3>The Lack of DNS Security</h3>
-
-		<div class="sidenote">Review the topic of<a href="/bjc-r/cur/programming/4-internet/2-reliable-communication/3-address-hierarchy.html" target="_blank"> DNS </a>covered in an earlier Lab.</div>
-        <p>Remember that domain names are hierarchical so that computers (even DNS servers) don't need enormous lists with every host name in the world. Instead, every computer has to know where to find a <em>root domain</em> server, the one that knows where to find the top-level domains such as org and edu. Your computer looks up the address of a server for the particular top-level domain you want, let's say &quot;edu,&quot; and then asks <em>that</em> server where to find &quot;berkeley.edu,&quot; and so on.</p>
-        <p>But it can't really work in that clean, simple way for efficiency reasons. Worldwide, there are millions of DNS requests every second. If all of those requests had to start at the same few root domain servers, they'd be overwhelmed. Instead, DNS servers remember (&quot;<em>cache</em>&quot;) the results of host name queries. The next time a request for the same host goes through the same server, it supplies what's called a <em>non-authoritative</em> answer. Computers rely on these answers even though they don't come directly from the official nameserver for the domain.</p>
-        <p>But anyone can operate a DNS server! If you operate a domain, your DNS server will be authoritative only for your own domain, but the odds are it'll also know the address of google.com, because people connect to it all the time, from everywhere. Now suppose you're a bad guy. You program your DNS server so that it tells people google.com is at <em>your</em> IP address, instead of Google's. (Actually the bad guys are more likely to &quot;spoof&quot; bank sites, not search sites.) You make a web site that looks exactly like Google's (or the bank's), but it behaves differently.</p>
-        <p>So, we all rely on every nameserver being honest, and sometimes they aren't. The trust model of the internet involves tradeoffs.</p>
-		<div class="endnote">Examples: Governments use dishonest routing information to suppress certain sites inside their country.  Anyone can use dishonest routing information to sabotage a domain or to steal passwords by sending you to fake sites.</div>
-        <p>The net protocols were designed back when hardly anyone was connected to the Internet and everyone trusted everyone else. Today, achieving both security and efficiency at the same time would require a major redesign of the entire protocol system.</p>
-        <p>A secure Internet could easily end up preventing anonymous publishing.  To prevent fraud, it's important to be able to verify the source of a message. But if the source of a message can be verified, the message can't be anonymous.  That's problematic both for privacy and for freedom of speech.</p>
+        <p>The hierarchy of the DNS makes the system more efficient; when you visit <a href="http://snap.berkeley.edu" target="_blank">snap.berkeley.edu</a>, your computer only has to know where to find an <em>edu</em> name server. That server only has to know where to find the <em>berkeley.edu</em> server. And that server directs your computer to <em>snap.berkeley.edu</em>.</p>
+        <p>There are millions of such DNS requests every second, and if all of those requests had to begin at the same few root domain servers, those servers would be flooded with too many requests. Instead, DNS servers remember (cache) the results of host name queries made to root domain servers, and they provide these <em>non-authoritative</em> answers for most requests. However, if the IP address of the site you are requesting <em>changes</em> before before the non-authoritative answer is updated, you may be sent to the wrong site. DNS was never intended to be perfectly secure. </p>
+        <p>A perfectly secure Internet could easily end up preventing anonymous publishing.  To prevent fraud, it's important to be able to verify the source of a message. But if the source of a message can be verified, the message can't be anonymous.  That's problematic both for privacy and for freedom of speech.</p>
 
 
-		<h3>Common Security Attacks on Users</h3>
-        <p>Software has bugs (even finished software written by professionals).  And people can use those bugs for bad purposes (such as crashing your computer or implanting spy software to collect everything you type, including passwords).  Software developers try to prevent security bugs and fix them when they turn up, but not every software developer distributes fixes promptly.</p>
+		<h3>Common Security Issues for Users</h3>
+        <p>Software has <em>bugs</em> (even finished software written by professionals).  And people can use those bugs for bad purposes (such as crashing your computer or implanting spy software to collect everything you type, including passwords).  Software developers try to prevent security bugs and fix them when they turn up, but not every software developer distributes fixes promptly. (And not every computer user keeps up with software updates perfectly!)</p>
 		<div class="endnote">This is especially a problem on smartphones. If you have an Android phone and a security bug is found, Google fixes it, but they don't send the fix directly to your phone. Google sends new system releases to the phone manufacturers, who may take some time to install local modifications available only on their phones. Only after that do the phone manufacturers send the modified Android code to carriers, who also may take some time to install carrier-specific modifications. Security fixes can come more quickly on iOS phones, because Apple can send updates to you directly, no matter which carrier you use.</div>
 		<p>The general name for programs that try to affect your computer badly is <em>malware</em>. One kind of malware is called a <em>virus</em>.  Computer viruses make copies of themselves (just as biological viruses do) and try to spread themselves over the network to other computers. People use <em>antivirus software</em> to help prevent these attacks. People also use <em>firewalls</em> to limit the kinds of connections (HTTP requests, incoming mail, etc.) outsiders can make to your computer. (Both your computer and your router probably run firewall software.)</p>
         <p>Another common attack strategy is called <em>phishing</em>: an attacker sends you an email that appears to be from some official organization (such as your bank) and tricks you into giving information to the attackers (such as your bank password).</p>
         
         
         <h3>Distributed Denial of Service (DDoS) Attack</h3>
-        <p>One of the easiest ways to make trouble on the net is called a <em>Denial of Service</em> (DoS) attack. This consists of sending a lot of requests (for instance, requests for a web page or some data) to a server at the same time. This can overload the server's network bandwidth. A DoS attack doesn't destroy data or collect passwords; it just causes a temporary inability to reach the targeted server. So, other users of that server are denied service.</p>
-        <p>A variant is the <em>Distributed Denial of Service</em> (DDoS) attack, in which the attacker first uses viruses (or similar self-spreading software) to take control of many (sometimes tens of thousands of) computers around the world and then launches a DoS attack from all of them at the same time. Besides increasing the number of simultaneous server requests, DDoS makes it harder to determine who is at fault, since the attack seems to come from many innocent people.</p>
+        <p>A <em>Denial of Service</em> (DoS) attack consists of sending a lot of requests to a server at the same time (for instance, requests for a web page or some data). This can overload the server's network bandwidth. A DoS attack doesn't destroy data or collect passwords; it just causes a temporary inability to reach the targeted server so other users of that server are denied service.</p>
+        <p>A variant is the <em>Distributed Denial of Service</em> (DDoS) attack, in which the attacker first uses viruses (or similar self-spreading software) to take control of many (sometimes tens of thousands of) computers around the world. This network of infected computers is called a <em>botnet</em>. The attacker then launches a DoS attack from all of the victim's computers (called <em>zombie computers</em>) at the same time. Besides increasing the number of simultaneous server requests, DDoS makes it harder to determine who is at fault, since the attack seems to come from many innocent people.</p>
         
-        <!--I added this question from the edX version: https://courses.edx.org/courses/BerkeleyX/BJC.3x/1T2016/courseware/617886fc39ea449887a2c3b11f8283f3/6564744921ab4839bec2ae0c01e174ae/ --MF 12/17/16 -->
-        <!-- Question 1 -->
-        <div class="assessment-data" type="multiplechoice" identifier="What is the value of x?"
-            hasinlinefeedback="true" maxchoices="1" responseIdentifier="ri1" shuffle="false">
-            <div class="prompt">
-                Which of the following are existing vulnerabilities of the Internet, according to experts?
-            </div>
-            <div class="choice" identifier="c1">
-                <div class="text">A physical attack that involves cutting fiber-optic cables.</div>
-                <div class="feedback">Yes, but there may be more!</div>
-            </div>
-            <div class="choice" identifier="c2">
-                <div class="text">Attacking electrical systems that control the energy grid.</div>
-                <div class="feedback">Yes, but there may be more!</div>
-            </div>
-            <div class="choice" identifier="c3">
-                <div class="text">Eroding the trust and confidence that the general public has in their online privacy and secure online transactions.</div>
-                <div class="feedback">Yes, but there may be more!</div>
-            </div>
-            <div class="choice" identifier="c4">
-                <div class="text">All of the above</div>
-                <div class="feedback">Correct!</div>
-            </div>
-            <!-- Response ID
-                 Make sure each ID is unique, again!
-                 Keep these classes the same for multiple choice problems
-             -->
-            <div class="responseDeclaration" identifier="ri1">
-                <div class="correctResponse" identifier="c4"></div>
-            </div>
+        <div class="forYouToDo" id="first">
+            <ol>
+                <li>Consider the following question.</li>
+                <!--I added this question from the edX version: https://courses.edx.org/courses/BerkeleyX/BJC.3x/1T2016/courseware/617886fc39ea449887a2c3b11f8283f3/6564744921ab4839bec2ae0c01e174ae/ --MF 12/17/16 -->
+                <!-- Question 1 -->
+                <div class="assessment-data" type="multiplechoice" identifier="What is the value of x?"
+                    hasinlinefeedback="true" maxchoices="1" responseIdentifier="ri1" shuffle="false">
+                    <div class="prompt">
+                        Which of the following are existing vulnerabilities of the Internet, according to experts?
+                    </div>
+                    <div class="choice" identifier="c1">
+                        <div class="text">A physical attack that involves cutting fiber-optic cables.</div>
+                        <div class="feedback">Yes, but there may be more!</div>
+                    </div>
+                    <div class="choice" identifier="c2">
+                        <div class="text">Attacking electrical systems that control the energy grid.</div>
+                        <div class="feedback">Yes, but there may be more!</div>
+                    </div>
+                    <div class="choice" identifier="c3">
+                        <div class="text">Eroding the trust and confidence that the general public has in their online privacy and secure online transactions.</div>
+                        <div class="feedback">Yes, but there may be more!</div>
+                    </div>
+                    <div class="choice" identifier="c4">
+                        <div class="text">All of the above</div>
+                        <div class="feedback">Correct!</div>
+                    </div>
+                    <!-- Response ID
+                         Make sure each ID is unique, again!
+                         Keep these classes the same for multiple choice problems
+                     -->
+                    <div class="responseDeclaration" identifier="ri1">
+                        <div class="correctResponse" identifier="c4"></div>
+                    </div>
+            	</div>
+            </ol>
         </div>
        
     
