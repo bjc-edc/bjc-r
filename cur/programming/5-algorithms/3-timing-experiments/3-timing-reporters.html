@@ -14,49 +14,39 @@
         	
             The title of this page has two meanings: You will build a "timing reporter" &hellip; that times reporters.
         </div>
-        
-        <img class="imageRight" src="/bjc-r/img/5-algorithms/reset-timer-timer.jpg" alt="'reset timer' and 'timer' blocks in palette" title="'reset timer' and 'timer' blocks in palette" />
-        
-        <p>Snap<em>!</em> allows us to report how long a program takes to finish. In the "Sensing" palette, look for the <code>reset timer</code> command and a reporter called <code>timer</code>.</p>
-		<div class="todo">
-		  <p>BK: Is this a reporter, or a variable? It feels like a variable. I guess a variable block is technically a reporter.</p>
-		  <p>bh: A reporter. Variables don't change value unless you tell them to.</p>
-		</div>
-        <div class="forYouToDo" id="first">
+		<p>Snap<em>!</em> allows us to report how long a program takes to finish.         <div class="forYouToDo" id="first">
 			<ol>
-                <li>Show the <code>timer</code> on the stage (click the checkbox), and you'll see a timer ticking away in the top left corner of the stage. It’s been ticking ever since you opened Snap<em>!</em>:<br /><img class="indent" src="/bjc-r/img/5-algorithms/timer-watcher.jpg" alt="timer watcher showing 310.2" title="timer watcher showing 310.2" /></li>				   <li>Click <code>reset timer</code> and see what happens.</li>
+                <li>In the "Sensing" palette, look for the <code>current date</code> reporter. Drag it into the scripting area.  From its input menu, select <code>time in milliseconds</code>.
+              </li>
+            <img class="imageRight" src="/bjc-r/img/5-algorithms/current-time.png" alt="current (time in milliseconds) reporting 1454091401280" title="current (time in milliseconds) reporting 1454091401280" />              <li>Click the block several times.  Note the results.
+</li>
 			</ol>
 		</div >
 
-<div class="todo">        <h3>Ways to Think About It</h3>
-</div>
-       
-	   <div class="todo">BH: I don't understand why TIMER is introduced and then dropped in favor of
-CURRENT.  Students won't understand either.  If there's a reason (e.g. we'll
-come back to TIMER later) then explain explicitly.</div>
-		
+
         <p>
-            <img class="imageRight" src="/bjc-r/img/5-algorithms/current-time.png" alt="current (time in milliseconds) reporting 1454091401280" title="current (time in milliseconds) reporting 1454091401280" />
-            The <code>timer</code> keeps chugging along, but the <code>current</code> reporter is another useful feature of Snap<em>!</em>. If you set its input to <code>time in milliseconds</code>, it reports the current time. This can be used to time how long a reporter takes to output. Here’s an algorithm:
-			<div class="comment">BK: The variable here should be "start time", not "time". Did not change since it might affect the XML pages.</div>
-            <ul>
-                <li><strong>Step 1.</strong> Create a variable <var>time</var> and set it to the current time.</li>
-                <li><strong>Step 2.</strong> Call the reporter that you're trying to time.</li>
-                <li><strong>Step 3.</strong> When the reporter finishes, get the current time and subtract <var>time</var> from it.</li>
+            This block can be used to time how long a reporter takes to output. Here’s an algorithm:
+    <ul>
+                <li><strong>Step 1.</strong> Create a variable <var>start time</var> and set it to the current time.</li>
+                <li><strong>Step 2.</strong> Call the reporter that you're trying to time.  Ignore the result.</li>
+                <li><strong>Step 3.</strong> When the reporter finishes, get the current time and subtract <var>start time</var> from it.</li>
             </ul>
-            <div class="sidenoteBig">You can replace the <code>list from</code> block with any reporter&mdash;this may be a new idea. Open <code>time function</code> to see how it works. <a class="run" href="/bjc-r/prog/5-algorithms/U5L3functiontimer.xml"></a> </div>
-            The answer will be in milliseconds. The block <code>time function</code> implements this algorithm.
-            <img class="indent" src="/bjc-r/img/5-algorithms/timereport.png" alt="time function (list between (1) (1000)) reporting 27" title="time function (list between (1) (1000)) reporting 27" />
+     <div class="forYouToDo">
+            <ol start="3">
+    <li>Download <a target="_blank" href="/bjc-r/prog/5-algorithms/U5L3functiontimer.xml">this library</a> and save it on your desktop. It provides a block called <code>time function</code> that takes any reporter (with its inputs filled in), computes the result, but reports <em>how long it took</em> to do the computation.  The answer will be in milliseconds.</li>
+            <li>Open the project <tt>U5L3-ReporterTimer</tt> that you saved on page 1 of this lab. Drag in the <tt>U5L3functiontimer</tt> library that you just downloaded.</li></ol></div>
+              <div class="sidenoteBig">You can replace the <code>list from</code> block with any reporter. You can edit <code>time function</code> to see how it works.</div>
+            <img src="/bjc-r/img/5-algorithms/timereport.png" alt="time function (list between (1) (1000)) reporting 27" title="time function (list between (1) (1000)) reporting 27" />
         </p>
         <p>In this example, it took 27 milliseconds to compute the list of integers from 1 to 1000. (The actual number will depend on how fast your computer is.)</p>
         
-        <div class="forYouToDo">
-            <ol start="3">
+    <div class="forYouToDo">
+      <ol start="5">
                 <li>
                     Use <code>time function</code> to compare Alphie and Betsy's ways of adding the integers from 1 to <em>n</em>. Try it with several different large numbers to see just how different the algorithms are in terms of the time it takes to compute their outputs.<br />
 	                <div class="sidenoteBig">Alphie and Betsy’s algorithms solve the same problem but are quite different in efficiency. Imagine the difference when adding the integers from 1 to 1,000,000&hellip;</div>
                     <img class="indent" src="/bjc-r/img/5-algorithms/time-function-betsy-way-2000-reporting.png" alt="time function (betsy way (2000)) reporting 1" title="time function (betsy way (2000)) reporting 1" /><br />
-                    <img class="indent" src="/bjc-r/img/5-algorithms/time-function-alphie-way-2000-reporting.png" alt="time function (alphie way (2000)) reporting 305" title="time function (alphie way (2000)) reporting 305" />
+                    <img class="indent" src="/bjc-r/img/5-algorithms/time-function-alphie-way-2000-reporting.png" alt="time function (alphie way (2000)) reporting 187" title="time function (alphie way (2000)) reporting 187" />
                 </li>
 
 				<div class="takeNote">
@@ -64,9 +54,9 @@ come back to TIMER later) then explain explicitly.</div>
 				</div>
 
                 <li>
-                    In <a href="/bjc-r/cur/programming/5-algorithms/1-searching-lists/2-improving-search.html">Lab 1</a> you built two reporters that output the position of an element in a list. The reporter <code>position of __ in unsorted list</code> works for any list as a <em>linear search</em>, checking element-by-element until it finds a match (or gets to the end and reports NIL). The reporter <code>position of __ in sorted list</code> works on sorted lists as a <em>binary search</em> algorithm. 
+                    In <a href="/bjc-r/cur/programming/5-algorithms/1-searching-lists/2-improving-search.html">Lab 1</a> you built two reporters that output the position of an element in a list. The reporter <code>position of __ in unsorted list</code> works for any list as a <em>linear search</em>, checking element-by-element until it finds a match (or gets to the end and reports &quot;Not In List&quot;). The reporter <code>position of __ in sorted list</code> works on sorted lists as a <em>binary search</em> algorithm. 
 
-                    So, both will work on sorted lists. Compare them for some long sorted lists and make a table of your findings.	
+                    So, both will work on sorted lists. Compare them for some long sorted lists and make a table of your findings.	 You may have to use very large lists, say 1000 or 2000 items, to get meaningful results.
                     <div class="sidenote">Is the other algorithm ever faster?</div> Which algorithm is faster?
                 </li>
                 <li>
@@ -80,27 +70,11 @@ come back to TIMER later) then explain explicitly.</div>
                         <li>Number guessing games</li>
                     </ul>
 					<p>
-                    Time your algorithms for varying size inputs and describe the different behaviors you see.</p>
-                </li>
-            </ol >
-        </div  >
-        
-        <div class="takeItFurther"><a name="further" class="anchor">&nbsp;</a>
-            <ol type="A">
-                <li>
-                    If you time the same function with the same input, you often get a different result.
-                    <ol>
-                        <li>Why might that happen?</li>
-                        <li>
-                            Build a block <code>average time</code> that allows you to input a reporter and a number of trials. Its output is the average of the time it takes the reporter to compute its output for the the specified number of trials. Here’s a picture of how it works for Alphie’s summing reporter, adding the numbers from 1 to 500, performed 10 times:<br />
-                            <img class="indent" src="/bjc-r/img/5-algorithms/average-time-alphie-way-500-10-reporting.png" alt="average time (alphie way (500)) (10) reporting 74.1" title="average time (alphie way (500)) (10) reporting 74.1" />
-                        </li>
-                        <li>Even <code>average time</code> reports different times on different calls. What could make it more consistent?</li>
-                    </ol>
+                    Time your algorithms for varying size inputs and describe the different behaviors you see. Again, use large inputs for meaningful results.</p>
                 </li>
             </ol>
         </div>
-
+        <div class="saveAs"><span class="text">"U5L3-timer"</span><img src="/bjc-r/img/icons/save-this-as.png" alt="save your work as U5L3-timer" title="save your work as U5L3-timer" /></div>
 
 	</body>
 </html>
