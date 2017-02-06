@@ -8,12 +8,7 @@
 
 	<body>
 		<h2>Analyzing and Improving Searches</h2>
-        <div class="todo">
-        	<ul>
-                <li> GH Feedback 9/22/15: It would be really helpful if the graphic included the indices of the items in the list. A lot of people fail to make the distinction between between the position and the value.</li>
-            </ul>
-        </div>
-		
+        <!--I cut this because: 1) it isn't buyable as a motivation for coding because it reads like it's about a standard contact list app that comes with any phone, 2) it's confusing because the last line is about writing an app to do what Alphie's already said they need to do by sight, and 3) it's irrelevant because they write a program to search a 1-dim list not 2-plus-dim list. --MF 1/6/17
         <div class="dialogue">
             <div><span>Alphie: </span> I've got 45 numbers in my recent call list. I'm looking for Gamal's number. I can't remember it, but I'd recognize it if I saw it.</div>
             <div><span>Betsy: </span> Just start at the top and work down.</div>
@@ -21,13 +16,13 @@
             <div><span>Betsy: </span> Did you assign Gamal as a contact? If you did, then just look through your contacts. That's a lot easier, because it's in order.</div>
             <div><span>Alphie: </span> Well, no, it's not in order. I added new people to my contact list when I learned their number. I'll have to sort it some day and change my <strong>new contact</strong> program to put new numbers where they belong, alphabetically.</div>
             <div><span>Betsy: </span> Oh. Well, then I think the best you can do for now is to write a program that starts at the beginning and looks for Gamal. </div>
-        </div>
+        </div>-->
 		
     	
-        <h3>Searching Unsorted Data</h3>
+        <p>Searching for an item in <em>unsorted</em> data is less efficient because you have to check every item, but it is easier to code.</p>
 	
+        <img class="imageRight" src="/bjc-r/img/5-algorithms/unsorted-list.png" alt="unsorted list {1:20, 2:12, 3:3, 4:100, 5:50, 6:12}" title="unsorted list {1:20, 2:12, 3:3, 4:100, 5:50, 6:12}" />
         <div class="forYouToDo" id="first">
-	        <div class="sidenote"> This approach can become incredibly slow if we're dealing with a lot of data, but is fairly quick when working with short lists.</div>	
             <ol>
                 <li> 	       
                     Build a <code>position of number in unsorted list</code> block  that reports the earliest location of a number in an unsorted list or reports "Not In List" (or NIL, if you like) if the number is not in the list.<br />
@@ -35,55 +30,66 @@
                 </li>
             </ol>
         </div>
+	    <div class="endnote">Searching unsorted data can become incredibly slow if we're dealing with an awful lot of data, but it is fairly quick when working with short lists.</div>	
         
         
-        <h3>Searching Sorted Data</h3>
-			<div class="sidenote">Typically, sorted lists are from lowest to highest. You'll create a block that sorts a list of numbers in Unit 7.</div>
-			<p>If you are searching for a number in a <em>sorted</em> list, you have more information. Suppose you have a sorted list and you want to locate the position of a number.</p>
-
+        <h3>Searching in Sorted Data</h3>
+        <p>If you are searching for a number in a <em>sorted</em> list, you have more information. Suppose you have a sorted list and you want to locate the position of a number.</p>
+        <div class="endnote">Typically, sorted lists are from lowest to highest. You'll create a <a href="/bjc-r/cur/programming/7-recursive-reporters/2-sorting/1-sorting-a-list.html?topic=nyc_bjc%2F7-recursive-reporters.topic&course=bjc4nyc.html&novideo&noassignment">block that sorts a list of numbers in Unit 7</a>.</div>
+    
         <div class="dialogue">
             <div><span>Alphie: </span> If the list is sorted, we could look at the  middle element of the list and see if our number is in the first or last half of the list. That would save time.</div>
             <div><span>Betsy: </span> This feels a lot like the guessing game we built&mdash;I pick a number and the computer tries to guess it by splitting the list in half with each guess.</div>
+            <img class="imageRight" src="/bjc-r/img/5-algorithms/awful-list-indexed.png" alt="awful-list {1:1, 1:7, 3:8, 4:9, 5:11, 6:11, 7:21, 8:22, 9:23, 10:24, 11:73, 12:73, 13:96, 14:99}" title="awful-list {1:1, 1:7, 3:8, 4:9, 5:11, 6:11, 7:21, 8:22, 9:23, 10:24, 11:73, 12:73, 13:96, 14:99}" />
 			<div>
-                <span>Alphie: </span> But in that one, the computer guessed a number that we picked.  Now we want it to find a number <!--that it knows (because we tell it)--> and report its position.  It should work like this:<br />
-                <img class="indent" src="/bjc-r/img/5-algorithms/awful-list-definition.png" alt="awful list: report {1, 7, 8, 9, 11, 20, 21, 22, 23, 24, 73, 83, 93, 99}" title="awful list: report {1, 7, 8, 9, 11, 20, 21, 22, 23, 24, 73, 83, 93, 99}" /><br />
+                <span>Alphie: </span> But in that one, the computer guessed a number that we picked.  Now we want it to find a number in a list <!--that it knows (because we tell it)--> and report its position.  It should work like this:<br />
+                <!--Covered by side image --MF, 2/6/17
+                <img class="indent" src="/bjc-r/img/5-algorithms/awful-list-definition.png" alt="awful list: report {1, 7, 8, 9, 11, 20, 21, 22, 23, 24, 73, 83, 93, 99}" title="awful list: report {1, 7, 8, 9, 11, 20, 21, 22, 23, 24, 73, 83, 93, 99}" /><br />-->
                 <img class="indent" src="/bjc-r/img/5-algorithms/position-of-number-11-in-sorted-list-awful-list.png" alt="position of number (11) in sorted list (awful list)" title="position of number (11) in sorted list (awful list)" />
             </div>
             <div class="todo">Al's note: this should look more like a "kid sketch" and not usable code. BK to MF or anyone else: How do I center an image?? BK to AC: these two images should use the same list; use 9 and not 9.3. BK tech glitch: in building this, when I try to place the sidenote inside the dialog, it cuts out the remaining "span" name callouts. For now the sidenote is outside the dialog box.</div>
-			<div class="sidenote">Betsy is saying this finder and the number guesser should have the same overall <em>structure</em>.</div>
             <div><span>Betsy: </span> Yes, but it still <em>feels</em> the same. It should have the same guts as the guessing game.</div>
+            <!--I found this unecessary and clarified FYTD #2 instead. --MF, 2/6/17
             <div>
                 <span>Alphie: </span> OK. Let's modify our guessing game project so that when it gets the number, it tells us how many guesses it took and, instead of saying "Yay" when it finds it, it tells us where the number is in the list.<br />
                 <img class="image" width="75%" src="/bjc-r/img/5-algorithms/alphieidea.png" alt="Modifying the guessing game" title="Modifying the guessing game" />
-            </div>
+            </div>-->
         </div>
-    
+		
+        <div class="takeNote">Betsy's last remark is a version of <strong>abstraction</strong>. Betsy noticed that <code>position in sorted list</code> and the <a href="/bjc-r/cur/programming/5-algorithms/1-searching-lists/1-sorted-lists.html?topic=nyc_bjc%2F5-algorithms.topic&course=bjc4nyc.html&novideo&noassignment">number guesser algorithm</a> should have the same overall <em>structure</em>.</div>
+		<div class="endnote">Both <code>position in sorted list</code> and the number guesser algorithm can be built with the same <em>binary search</em> algorithm that compares items two at a time. How does this connect to the use of the word <em>binary</em> in Unit 4?</div>
 
         <div class="forYouToDo">
             <ol start="2">
-                <li>Implement Alphie's idea:  Write a block that says the position of a number in an ordered list and the number of guesses it takes to find it, using the strategy of the guessing game you built on the previous page. </li>
-                <li>
+            	<!--I found this unecessary and clarified FYTD #2 instead. --MF, 2/6/17
+				<li>
                     Automate your block so that it doesn't have to ask you for feedback. Now, the block should just find the number and say its position:<br />
                     <img class="indent" width="75%" src="/bjc-r/img/5-algorithms/sayposition.png" alt="Automating the search" title="Automating the search" />
+                </li>-->
+                <li>Using the strategy of your guessing game project from the previous page, write a block that says:
+					<ul>
+                        <li>the <em>position</em> of an item in an ordered list</li>
+                        <li>the <em>number of guesses</em> it takes to find the number</li>
+                    </ul>
                 </li>
                 <li> 	       
-                    Build a <code>position of number in sorted list</code> block that returns the earliest location of a number in a list sorted from lowest to highest, or zero if the number is not in the list.<br />
-                	<img class="indent" src="/bjc-r/img/5-algorithms/position-of-number-11-in-sorted-list-awful-list.png" alt="position of number (11) in sorted list (awful list)" title="position of number (11) in sorted list (awful list)" />
+                    Then, build a <code>position of number in sorted list</code> block that returns the earliest position of a number in a list sorted from lowest to highest, or zero if the number is not in the list.<br />
+                    <img class="indent" src="/bjc-r/img/5-algorithms/position-of-number-11-in-sorted-list-awful-list.png" alt="position of number (11) in sorted list (awful list)" title="position of number (11) in sorted list (awful list)" /><br />
+                    <img class="indent" src="/bjc-r/img/5-algorithms/position-of-number-2-in-sorted-list-awful-list.png" alt="position of number (2) in sorted list (awful list)" title="position of number (2) in sorted list (awful list)" /><br />
                 </li>
             </ol>
         </div>
 
-		<div class="takeNote">Betsy's "it still <em>feels</em> the same" remark is a version of <strong>abstraction</strong>.  She noticed that both the guessing game and the number locator could be built with the same <strong>binary search</strong>.</div>
 
         <div class="ifTime">
         	<ol start="5">
         		<li>
-                    Make a table that tracks the number of guesses it takes to find the last number in a list as a function of the length of the list:
+                    Make a table that tracks the number of guesses it takes to find the last number in a sorted list depending on the length of the list:
                     <div class="indent">
                         <table id="tableBlue" class="center">
                             <tr>
-                                <td>Length</td>
-                                <td># Of Guesses</td>
+                                <td>Length of List</td>
+                                <td>Number of Guesses</td>
                             </tr>
                             <tr>
                                 <td>3</td>
@@ -108,7 +114,8 @@
                         </table>
                     </div>
                 </li>
-                <li> This type of<a name="bsearch" class="anchor">&nbsp;</a>search is called a <strong>binary search</strong>. Can you think of some connections to the use of <em>binary</em> in Unit 4?</li>
+                <!--Included in note above. --MF, 2/6/17
+                <li> This type of<a name="bsearch" class="anchor">&nbsp;</a>search is called a <strong>binary search</strong>. Can you think of some connections to the use of <em>binary</em> in Unit 4?</li>-->
             </ol>
 		</div>
     
