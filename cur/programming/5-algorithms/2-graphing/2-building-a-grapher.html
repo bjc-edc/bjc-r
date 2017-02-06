@@ -9,10 +9,37 @@
 	<body>
 		<img class="imageRight" src="/bjc-r/img/icons/teachers-choice.png" alt="Teacher's Choice" title="Teacher's Choice" />
         <h2>Building a Graphing App (Teacher's Choice)</h2>
+        <div class="todo">
+        	Blue Button feedback:
+            <ul>
+                <li>1b,c, and d really confused my students, but when they got to 3 they were able to do it pretty easily. I think the naming of the reporter blocks was confusing, and the exploration had unclear goals. If I were to do it again, I would have some exposition about different coordinate systems, introduce the green reporters as translators, and then jump straight to #3.</li>
+                <li>I think the PlotPoint at the top of the page is supposed to use go to, not go to scaled point. Otherwise step 4 becomes redundant.</li>
+                <li>In #3, where did all the gridlines come from?</li>
+                <li>Students get confused in #3 when the variable has a &quot;#&quot; after it, and the variable below it in the block does not</li>
+            </ul>
+        </div>
         <p>
             Plotting a single point, given its two coordinates, should feel this simple:<br />
-<div class="comment">It's <em>not</em> state transparent!  That would be if it remembered the point where the sprite was before running this block.  It just leaves the sprite someplace predictable.</div>
-            <div class="sidenoteBig">Notice that the last block returns the sprite to its original location. This keeps the block <em>state transparent</em>&mdash;leaving things where they are when you started. You want each procedure to do its thing and otherwise leave things the same so you don't have any surprises. <!--(You saw an example of a bug from a program that was <em>not state transparent</em> in <a href="/bjc-r/cur/programming/1-introduction/4-grids-for-games/1-building-tic-tac-toe.html?topic=nyc_bjc%2F1-intro-loops.topic&course=bjc4nyc_2015-2016.html&novideo&noassignment">Unit 1</a>.)--></div>
+            <!--
+            <div class="comment">FROM BH:
+            5.2.1 error (I think) in yellow side comment.
+            It claims that this procedure is state invariant: "Notice that the last block
+returns the sprite to its original location. This keeps the block state
+transparent—leaving things where they are when you started." But that's not true:
+
+to PlotPoint x: (x) y: (y)
+go to scaled point x: (x) y: (y)
+pendown
+move (1) steps
+penup
+move (-1) steps
+
+It totally doesn't go back to the sprite's original location! There may be a
+good reason to leave the sprite at the desired point rather than one step away,
+but state transparency isn't the reason.
+</div>
+            <div class="comment">It's <em>not</em> state transparent!  That would be if it remembered the point where the sprite was before running this block.  It just leaves the sprite someplace predictable.</div>
+            <div class="sidenoteBig">Notice that the last block returns the sprite to its original location. This keeps the block <em>state transparent</em>&mdash;leaving things where they are when you started. You want each procedure to do its thing and otherwise leave things the same so you don't have any surprises. <!--(You saw an example of a bug from a program that was <em>not state transparent</em> in <a href="/bjc-r/cur/programming/1-introduction/4-grids-for-games/1-building-tic-tac-toe.html?topic=nyc_bjc%2F1-intro-loops.topic&course=bjc4nyc_2015-2016.html&novideo&noassignment">Unit 1</a>.)- -></div>-->
             <img class="indent" src="/bjc-r/img/5-algorithms/PlotPoint-simple.png" alt="PlotPoint block using go to x y, pendown, move 1, penup">
 		</p>
         <p>Then you could graph a whole list of data points by inventing a block like <img src="/bjc-r/img/5-algorithms/GraphDatapoints.png" alt="Graph datapoints (pointlist)"> that uses <code>for each</code> to apply <code>PlotPoint</code> to each point in the list. Depending on the kind of graph you want, you could even connect the dots.</p>
@@ -64,7 +91,7 @@
   
         <div class="takeItFurther">
             <ol type="A">
-                <li>Invent a way to tell your grapher, for each graph you make, whether to connect the points  or not.</li>
+                <li>Invent a way to tell your graphing app, for each graph you make, whether to connect the points  or not.</li>
             </ol>
         </div>
     
