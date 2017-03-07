@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unit 5 Lab 6:  Simulation, Page 1</title>
+	</head>
+
+	<body>
+		<h2>What is a Simulation?</h2>
+        
+        <p> If one person in your school gets a flu, it may spread to two or three students who will stay home from school, and then it will die out.  But if half of the students in the school gets the flu, it's pretty sure that the whole school will come down with it.  Suppose you want to know how many students it takes before the flu spreads to everyone. This is not an experiment you can do with people, but you can create a computer simulation. You can</p> 
+       <ol> 
+       <li><em>represent</em>  the population of students,  with, say,  small circles that move around the screen at random, marking infected students with a distinct color,
+       </li> 
+       <li><em>model</em> infection by changing the color of a circle if an infected one collides with it,
+		</li>
+        <li>vary the <em>parameters</em>, such as the number of infected students at the start of the simulation,
+        </li>
+       <li><em>experiment</em> to see how many initial infections it takes to infect the whole population, 
+       </li>
+       <li><em>add features</em> to the simulation, like the effect of giving some students flu shots.
+       </li> 
+       </ol>
+        
+   <p>These are the features of a simulation:  represent the situation with simplifying assumptions, model the situation by running the simulation several times, vary the parameters to come to some conjectures, and add features to make the simulation more realistic. In this lab, you'll build several simulations so that you get the feel of how this all works.</p>     
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%      
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <p>Have you ever been on a highway going really slowly in heavy traffic and all of a sudden the traffic begins to speed up for no apparent reason at all?  Nobody got off. You didn't pass an accident. Nothing seems to have changed except that now the cars are going faster.  What happened?</p>
+        <p>In this lab, you will develop a model of what might affect traffic speed, and build a simulation in Snap<em>!</em> to explore that model.</p>
+
+		<div class="forYouToDo" id="first">
+        <p>The first four steps on this page ask you to 
+			<em>think about the algorithm</em> you'll use to build this program.  You shouldn't be doing anything in Snap<em>!</em> during those steps.
+<div class="takeNote">
+                To keep the model from being too complicated to program, here are some simplifying assumptions:
+                <ul>
+                   <li>There is a single lane of traffic, and cars can't pass each other.</li>
+                   <li>The highway is straight with no stoplights, speed-change signs, or obstacles.</li>
+                   <li>Drivers change speed to fit the traffic.</li>
+                  		<ul> 
+                        	<li>If a car is too close to the car ahead of it, it slows down.</li>
+                            <li>Drivers speed up whenever they can, up to the speed limit.</li> 
+                        </ul>
+                   <li>All cars behave the same. They speed up and slow down equally well. (Their engines and brakes are equally good.)</li>
+                   <li>Since the stage is not as wide as Arizona and since it is a nuisance to create 100,000 cars (sprites), you should recycle cars as they leave the stage, starting the same car again on the other side of the stage.</li>
+                   <li> You can decide...
+                   		<ul> 
+                        	<li>...how close is "too close" to the car in front;</li>
+                            <li>...how a car speeds up and slows down;</li>
+                            <li>...the speed limit;</li>
+                            <li>...how many cars to put on the road;</li>
+                       		
+                		</ul>
+                   </li>
+				</ul>
+			</div>
+            <p>Each of these steps asks you to think about one part of the program. You'll definitely want to talk to your partner. You may even want to write some things down.</p>
+            <ol>
+				<li>
+                	<p>
+                        <strong>Consider the overall setup.</strong> Each car is a sprite. All sprites will have essentially the same scripts. The only difference will be where the car starts in line and which car it is following. So, this is what car 5's scripts might look like. (But don't start building them now. Your programming starts in problem 5 below.)<br />
+                        <div class="sidenote">You will have to invent <code>startpos</code> and <code>drive but avoid hitting sprite</code>.</div>
+                        <img class="indent" src="/bjc-r/img/5-algorithms/car5flag.png" alt="Script for sprite 5---when green flag clicked, move to starting position.">
+                        <img class="indent" src="/bjc-r/img/5-algorithms/car5space.png" alt="Script for sprite 5---When space key pressed, drive but avoid hitting sprite 6.">
+                    </p>
+                    <div class="endnote">Because our version of <code>startpos</code> is the same for all sprites, it put all the sprites in the same place. So we needed each sprite to <code>move</code> to space out the cars. Your program might be different.</div>
+					<p>
+                    	The <code>drive but avoid hitting sprite</code> block will repeat a set of actions that might be like this:<br />
+                      	<ul>
+                        	<li>If too close to next car, change speed to lower speed; otherwise, change to higher speed.</li>
+                            <li>If over the speed limit, change to lower speed.</li>
+                            <li>If at the end of the stage, go back to the beginning.</li>
+                            <li>Move at my own current speed.</li>
+                        </ul>
+                    </p>
+				</li>
+				<li>
+                    <strong>Analyze the <em>state</em> of one vehicle. <img class="inline" src="/bjc-r/img/icons/write-out-thoughts.png" alt="Write Out Your Thoughts" title="Write Out Your Thoughts" />
+What variables will it need? </strong>
+                    <ul>
+                        <li>You <em>might</em> want to make variables for the rate of acceleration and the rate of braking so that you can experiment with them.</li>
+                        <li>You <em>must</em> have a variable for the cars' speeds: <em>Each</em> car has its <em>own</em> speed, so that variable will be a <em>list</em> of speeds, one for each car.</li>
+                        <li>You must set a speed limit, and you might want to be able to experiment with it.</li>
+                        <li>Are there other variables you need to keep track of? (Maybe. Maybe not. Keep your  model  simple. You can always add features later on.)</li>
+                    </ul>
+                </li>
+                <li><strong>Analyze the <em>behavior</em> of one vehicle.</strong> If it sees a car in front of it, it should slow to the speed of that car. Otherwise, it should speed up. The distance to the car in front should probably matter. </li>
+                <li>
+                    <img class="imageRight" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
+                	<p><strong>Design an algorithm for the behavior.</strong> Exactly <em>how</em> will the car's speed change? When it is close enough to the car in front of it, will it just <em>become</em> the speed of that car? Or will it slow down more gradually? It <em>must not crash or pass</em>.</p>
+                    <p>
+                        Below is one possibility. Notice how it uses <code> replace item</code> to replace the old speed with the new speed. This version just replaces it with a speed slightly (and randomly) less than the car in front of it.<br />
+                        <img class="indent" src="/bjc-r/img/5-algorithms/slow-down-(mySpriteNumber).png" alt="script for slow-down-(mySpriteNumber):  Replace item (mySpriteNumber) of (spriteSpeeds) with (item(SpriteNumber in front of me(mySpriteNumber)) of (spriteSpeeds) minus (pick random 0.1 to 0.5)))">
+                    </p>
+                    <p> When the car has lots of room in front of it, how will it speed up? It <em>must not exceed the limit</em>.</p>
+				</li>
+				<li>
+                	<p><strong>NOW, program your algorithm in Snap<em>!</em></strong> Give <em>one</em> sprite the ability to detect its distance to the (not-yet-existent) sprite ahead of it, and write the script that uses that to control its forward motion. Make sure that when a car goes off the screen it comes back in the other side.</p>
+                    <p>
+                        Here are two tools we found useful. You may or may not need them, depending on how you program your model. The 12 in <code>SpriteNumber in front of me</code> was the number of sprites in our model. You may need a different number there. You might also build this tool quite differently.<br />
+                        <img class="indent" src="/bjc-r/img/5-algorithms/NextSpriteName.png" alt="NextSpriteName-(NextSpriteNumber): report (join (Sprite left.paren) (NextSpriteNumber) (right-paren) ) "><br />
+                        <img class="indent" src="/bjc-r/img/5-algorithms/SpriteNumber-in-front-of-me-(MyNumber).png" alt="SpriteNumber-in-front-of-me-(MyNumber): report (1 plus (MyNumber mod 12)">
+                    </p>
+                </li>
+                <li><strong>Clone your sprite</strong> to create enough cars for your simulation. </li>
+                <li><strong>Make sure the highest-numbered car knows to follow the lowest-numbered car.</strong> Depending on how you've programmed, that one behavior might be slightly different from every other car's behavior.</li>
+                <li>
+                	<strong>Initialize:</strong> Set your cars out in some starting position, and give each car whatever other information it needs to start off.
+                    <p>
+                        One sprite will also need to set the variables that all sprites use. In our model, the script looked like this:<br />
+                        <img class="indent" src="/bjc-r/img/5-algorithms/When-green-flag-clicked-initializer.png"  alt="When-green-flag-clicked-initializer: startpos, set speed-limit to 10, set spriteSpeeds to (empty list) set danger-distance to 20, set pen color to bright red">
+                    </p>
+				</li>
+				<li><strong>Test and refine your model:</strong> Do the cars keep moving? Do they avoid crashes as they should? Does traffic flow smoothly? Do you see changes in speed? Adjust your model, if necessary, so that it works.</li>
+			</ol>
+		</div>
+            
+    </body>
+</html>
