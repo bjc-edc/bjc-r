@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unit 5 Lab 6 Teacher Guide</title>
+	</head>
+    
+    <body>
+        <h2>Programming Lab 6: Traffic Simulation</h2>
+		<p>Students build a simulation to model and explore highway traffic. Students adjust various constraints (acceleration and deceleration rates, intended speed, number of cars on the road) and formulate, refine, and test hypotheses about the resulting traffic patterns. </p> 
+        
+	
+		<h3>Pacing:</h3>
+		<div>
+			The 2 lab pages are likely to take 3 days, possibly 4 (<strong>150-200 minutes</strong>). 
+			  <ul>
+				<li>100-125 minutes (2 to 2 1/2 class periods) on <a href="/bjc-r/cur/programming/5-algorithms/6-simulation/1-building-traffic-simulation.html?topic=nyc_bjc%2F5-algorithms.topic&course=bjc4nyc_2015-2016.html&novideo&noassignment">Building a Traffic Simulation</a></li>
+				<li>50-75 minutes (1 to 1 1/2 class periods) on <a href="/bjc-r/cur/programming/5-algorithms/6-simulation/2-exploring-traffic-simulation.html?topic=nyc_bjc%2F5-algorithms.topic&course=bjc4nyc_2015-2016.html&novideo&noassignment">Exploring Your Traffic Simulation</a></li>
+			</ul>
+		</div> 
+        <div class="time">
+            <ul>
+            	<li>This entire lab. However, this content is important for students planning to take the AP exam in 2017.</li>
+            </ul>
+        </div>      
+         
+        
+        <!--
+		<h3>Prepare:</h3>
+		<div>
+			<ul>
+				<li></li>
+			</ul>
+		</div>
+-->
+
+		<h3>Students will:</h3>
+		<!-- <div class="sidenoteBig">
+			<strong>Looking Ahead</strong>
+			<ul>
+				<li></li>
+			</ul>
+		</div> -->
+		<div>
+			<ul>
+				<li>Analyze a real-world situation (traffic flow on a single-lane highway) and figure out a simple model of it.</li>
+                <li>Design an algorithm for the behavior of the agents in this model (cars).</li>
+                <li>Implement the model in Snap<em>!</em></li>
+                <li>Test and refine the model.</li>
+                <li>Observe the resulting behavior (including some unexpected "emerging" phenomena).</li>
+                <li>Develop hypotheses about the emerging phenomena and what variables might affect it.</li>
+				<li>Test the hypotheses.</li>
+			</ul>
+		</div> 
+			  
+		
+		<h3>As a Class:</h3>
+        <div>
+            <img class="imageRight" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
+            <p>The program is not the most <em>complex</em> that students have written, but this task may be the most challenging, partly because students have many decisions to make, and  less has been done for them at the start. Pair work is important—the challenge and decisions need at least two brains—and pairs may well want to confer with each other. </p>
+            <p><strong>Tip: </strong> If students have difficulties figuring out how to create or debug a script, a very effective technique is  simply to ask &quot;What do you <em>want</em> it to do?&quot; or &quot;How does that script/block work?&quot; and have them explain. Often, in the process of articulating what they <em>want</em> or how  their block is <em>supposed</em> to work, they figure out what they need to do.</p>
+            <p>At this stage in the course, you are not too likely to get overly simplistic answers like &quot;It's supposed to drive the car&quot; but, if you do, ask questions about the details: How will it know its current speed? How will it decide whether to go faster or slower? Have you <em>stored</em> the change in its speed so that it knows, next time it's moved, what speed to go? </p>
+            <p><strong>Tip: </strong>If students ask explicitly <em>how</em> to do a particular thing, try to distinguish questions about Snap<em>!</em> from questions about programming. &quot;How do you tell the distance between one sprite and another&quot; is a Snap<em>!</em> question, because Snap<em>! </em>provides a block for that. &quot;How do you slow down the car&quot; is a question about programming because there are many ways to do that and many decisions to make. One effective way to respond is with another question: &quot;How are you keeping track of the car's speed?&quot; &quot;What speed would you like to change that to?&quot; Questions like these focus students' attention on the actions the program will have to take without telling how to implement those actions.</p>
+            <p>Your job, then, will consist largely of being available for questions, and milling about looking at work and asking questions of your own.</p>
+            <ul>
+				<li>
+                    <strong>Page 1: Building a Traffic Simulation.</strong>
+                    <ul>
+                        <li> Have a discussion or get straight to work? Depending on your class, you <em>may</em> want to start with a brainstorming session with the entire class using questions like the ones above. If so, keep it brief enough to leave more problems  left to solve during the programming. Try to get students to contribute with little to no talk from you—perhaps just pointing and nodding as if to say &quot;you next&quot;—so that they are doing essentially what they would be doing if you had not led a discussion. Don't even confirm or disconfirm—that is for them to figure out. Also try to ask for at least two alternative ways of solving each problem so that there isn't just a single solution that all students use. </li>
+                        <li>Even with a discussion, there will be  details students need to work out as they program. </li>
+                    </ul>
+				</li>
+                <li>
+                    <strong>Page 2: Exploring Your Traffic Simulation.</strong>
+                    <ul>
+                        <li>
+                            <img class="imageRight" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
+                            Discussion: This session does benefit greatly from some starting discussion. 
+                            <ul>
+                                <li>What behaviors did you see?</li>
+                                <li>Did everyone's simulation have the same behavior?</li>
+                                <li>What might explain the particular phenomena you see?</li>
+                                <li>Were there behaviors you didn't expect?</li>
+                            </ul>
+                        </li>
+                        <li> Not all the simulations will work the same way. Not all will even conform to the constraints. Some may, for example, fail to obey the speed limit, or may allow cars to pass each other.  Some may have so few cars that not much happens.  But some, especially if there are enough cars (12 is generally enough, depending on other variables), will show cars clumping together and gradually spreading out and then clumping together again. 
+                        </li>
+                        <li> After some discussion, have students work on the new lab page.  This is a very open-ended lab with no <em>specific</em> task except exploration of the model.  But it can be a great place for students to make and test hypotheses by playing with variables or even altering the model slightly. In slowing a car down, students might, for example, simply <em>copy</em> the speed of the car ahead or they might have the car slow down more gradually. Does it matter?
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+
+		<!-- <h3>Assignments:</h3>
+		<div><ul><li>...</li></ul></div> -->
+
+			
+		<!--<h3>Look For:</h3>
+		<div><ul><li>...</li></ul></div>
+
+			
+		<h3>Related Resources:</h3>
+		<div><ul><li>...</li></ul></div>-->
+
+			
+		<!-- <h3>Tips:</h3>
+        <div>
+            <ul>
+                <li>
+                    <strong>Page 1: Building a Traffic Simulation.</strong>
+                    <ul>
+                        <li></li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Page 2: Exploring Your Traffic Simulation.</strong>
+                    <ul>
+                        <li></li>
+                    </ul>
+                </li>
+            </ul>
+        </div> -->
+			
+		<!--<h3>Solutions</h3>
+		<div><ul><li>...</li></ul></div>-->
+			
+			
+		<h3>Correlation with AP CS Principles Framework:<a name="AP" class="anchor">&nbsp;</a></h3>
+		<div class="apStandards">
+			<!--<h4>Computational Thinking Practices:</h4>
+			<ul>
+				<li><strong>P1 Connecting Computing</strong> Identify impacts of computing.</li>
+                <li><strong>P1 Connecting Computing</strong> Describe connections between people and computing.</li>
+                <li><strong>P2 Creating Computational Artifacts</strong> Create an artifact with a practical, personal, or societal intent.</li>
+                <li><strong>P2 Creating Computational Artifacts</strong> Select appropriate techniques to develop a computational artifact.</li>
+                <li><strong>P3 Abstracting</strong> Explain how abstractions are used in computation or modeling.</li>
+                <li><strong>P3 Abstracting</strong> Describe modeling in a computational context.</li>
+                <li><strong>P3 Abstracting</strong> Identify abstractions.</li>
+                <li><strong>P4 Analyzing Problems and Artifacts</strong> Evaluate a proposed solution to a problem.</li>
+                <li><strong>P4 Analyzing Problems and Artifacts</strong> Locate and correct errors.</li>
+                <li><strong>P4 Analyzing Problems and Artifacts</strong> Explain how an artifact functions.</li>
+                <li><strong>P4 Analyzing Problems and Artifacts</strong> Justify appropriateness and correctness of a solution, model, or artifact.</li>
+                <li><strong>P5 Communicating</strong> Summarize the purpose of a computational artifact.</li>
+                <li><strong>P6 Collaborating</strong> Collaborate with another student in solving a computational problem.</li>
+                <li><strong>P6 Collaborating</strong> Collaborate with another student in producing an artifact.</li>
+                <li><strong>P6 Collaborating</strong> Share the workload by providing individual contributions to an overall collaborative effort.</li>
+                <li><strong>P6 Collaborating</strong> Foster a constructive, collaborative climate by resolving conflicts and facilitating the contributions of a partner or team member.</li>
+                <li><strong>P6 Collaborating</strong> Exchange knowledge and feedback with a partner or team member.</li>
+                <li><strong>P6 Collaborating</strong> Review and revise their work as needed to create a high-quality artifact.</li>
+			</ul>-->
+			<h4>Essential Understandings:</h4>
+			<ul>
+				<li><strong>EU 2.3</strong> Models and simulations use abstraction to generate new understanding and knowledge.</li>
+			</ul>
+			<h4>Learning Objectives:</h4>
+			<ul>
+				<li><strong>LO 2.3.1</strong> Use models and simulations to represent phenomena. [P3]</li>
+                <li><strong>LO 2.3.2</strong> Use models and simulations to formulate, refine, and test hypotheses. [P3]</li>
+			</ul>
+			<h4>Essential Knowledge:</h4>
+			<ul>
+				<li><strong>EK 2.3.1A</strong> Models and simulations are simplified representations of more complex objects or phenomena.</li>
+                <li><strong>EK 2.3.1B</strong> Models may use different abstractions or levels of abstraction depending on the objects or phenomena being posed.</li>
+                <li><strong>EK 2.3.1C</strong> Models often omit unnecessary features of the objects or phenomena that are being modeled.</li>
+                <li><strong>EK 2.3.1D</strong> Simulations mimic real-world events without the cost or danger of building and testing the phenomena in the real world.</li>
+                <li><strong>EK 2.3.2A</strong> Models and simulations facilitate the formulation and refinement of hypotheses related to the objects or phenomena under considerations.</li>
+                <li><strong>EK 2.3.2B</strong> Hypotheses are formulated to explain the objects or phenomena being modeled.</li>
+                <li><strong>EK 2.3.2C</strong> Hypotheses are refined by examining the insights that models and simulations provide in the objects or phenomena.</li>
+                <li><strong>EK 2.3.2D</strong> The results of simulations may generate new knowledge and new hypotheses related to the phenomena being modeled.</li>
+                <li><strong>EK 2.3.2E</strong> Simulations allow hypotheses to be tested without the constraints of the real world.</li>
+                <li><strong>EK 2.3.2F</strong> Simulations can facilitate extensive and rapid testing of models.</li>
+                <li><strong>EK 2.3.2G</strong> The time required for simulations is impacted by the level of detail and quality of the models and the software and hardware used for the simulation.</li>
+                <li><strong>EK 2.3.2H</strong> Rapid and extensive testing allows models to be changed to accurately reflect the objects or phenomena being modeled.</li>
+			</ul>
+		</div>			
+
+
+	</body>
+</html>
