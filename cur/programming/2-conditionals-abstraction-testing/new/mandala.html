@@ -24,10 +24,10 @@ In this project you are going to create a geometric pattern called the “Mandal
 <li> Trace a regular polygon (dodecagon, a 12-sided polygon is pictured in this case)</li>
 <li>Store the locations of the vertices of the polygon</li>
 <li>Draw segments from each vertex of the polygon to all the other vertices of the polygon.</li>
-<img src="/bjc-r/img/2-conditionals-abstraction-testing/Mandala_img/Stage1.png"  height="200" alt=""/>
-<img src="/bjc-r/img/2-conditionals-abstraction-testing/Mandala_img/Stage2.png"  height="200" alt=""/>
-<img src="/bjc-r/img/2-conditionals-abstraction-testing/Mandala_img/Stage3.png"  height="200" alt=""/>
-<img src="/bjc-r/img/2-conditionals-abstraction-testing/Mandala_img/Stage4.png"  height="200" alt=""/>
+<img src="/bjc-r/img/2-conditionals-abstraction-testing/Mandala_img/Stage1.png"  height="200" alt="Stage 1 of Mandala" title="Stage 1 of Mandala"/>
+<img src="/bjc-r/img/2-conditionals-abstraction-testing/Mandala_img/Stage2.png"  height="200" alt="Stage 2 of Mandala" title="Stage 2 of Mandala"/>
+<img src="/bjc-r/img/2-conditionals-abstraction-testing/Mandala_img/Stage3.png"  height="200" alt="Stage 3 of Mandala" title="Stage 3 of Mandala"/>
+<img src="/bjc-r/img/2-conditionals-abstraction-testing/Mandala_img/Stage4.png"  height="200" alt="Stage 4 of Mandala" title="Stage 4 of Mandala"/>
 </ol>
     
 
@@ -36,24 +36,24 @@ In this project you are going to create a geometric pattern called the “Mandal
 <ol start="2">
  
 <li>Start by creating some custom blocks that will help keep track of important information.  The design is based on a set of evenly spaced points (the vertices of the polygon), so there needs to be a way to store the locations of these points.  First, create a reporter block that will store the given x and y coordinates of a point in a list.<br />
- <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/Mandala_img/point.png" height="100" alt=""/></li>
+ <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/Mandala_img/point.png" height="100" alt="Block point (x) (y)" title="Block point (x) (y)"/></li>
 
 <li>Then create the reporter blocks that will give access to the x and y coordinates of a given point.<br />
  
-<img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/Mandala_img/xPoint.png" height="100" alt=""/><img src="/bjc-r/img/2-conditionals-abstraction-testing/Mandala_img/yPoint.png"  height="100" alt=""/></li>
+<img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/Mandala_img/xPoint.png" height="100" alt="x coordinate of point (point)" title="x coordinate of point (point)"/><img src="/bjc-r/img/2-conditionals-abstraction-testing/Mandala_img/yPoint.png"  height="100" alt="y coordinate of point (point)" title="y coordinate of point (point)"/></li>
  
 
 <li>A lot of segments will be drawn, so, create a custom block that will draw a segment between any two given points.  The following blocks may help.<br />
-<img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/Mandala_img/HintsForDrawSegment.png" height="250" alt=""/></li>
+<img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/Mandala_img/HintsForDrawSegment.png" height="250" alt="Hint blocks for drawing a segment" title="Hint blocks for drawing a segment"/></li>
 
  
 <li>Now everything needed is ready to create the custom block to draw the Mandala.  This block will have two inputs: number of sides of the polygon and the side length of the polygon used in the Mandala.<br />
- <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/Mandala_img/MandalaHeader.png"  height="85" alt=""/><br />
+ <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/Mandala_img/MandalaHeader.png"  height="85" alt="Mandala, sides:(number of sides) side length:(length)" title="Mandala, sides:(number of sides) side length:(length)"/><br />
 
 
 Create a script variable <var>pointList</var> to keep track of the vertex points, initialize it to an empty list and store these points as they are visited during the traversing of the vertices of the regular polygon.  The following blocks may help.<br />
- <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/Mandala_img/scriptVarInitialize.png"  height="85" alt=""/>
-<img  src="/bjc-r/img/2-conditionals-abstraction-testing/Mandala_img/HintsForStoringPoints.png" height="140" alt=""/><br />
+ <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/Mandala_img/scriptVarInitialize.png"  height="85" alt="Initialize script variable pointList" title="Initialize script variable pointList"/>
+<img  src="/bjc-r/img/2-conditionals-abstraction-testing/Mandala_img/HintsForStoringPoints.png" height="140" alt="Hint blocks for storing points" title="Hint blocks for storing points"/><br />
  </li>
 <!--<div class="endnote">In case you have forgotten, the following picture may help you remember why a turn of 360/<var>number of sides</var> degrees is needed each time while traversing a regular polygon.<br />
 <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/Mandala_img/exteriorangles.png"  height="120" alt=""/>
@@ -61,10 +61,10 @@ Create a script variable <var>pointList</var> to keep track of the vertex points
 
 
 <li>Now, thanks to all the previous steps, the rest of the code will be straightforward.  A segment must be drawn from every vertex of the polygon to every vertex of the polygon. The following blocks may help.<br />
- <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/Mandala_img/HintsForEach.png"  height="135" alt=""/><br /></li>
+ <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/Mandala_img/HintsForEach.png"  height="135" alt="Hints for each" title="Hints for each"/><br /></li>
 
 <div class="endnote">Note that <code>for each</code> block, which allows you to loop through each item of a list, is not available by default.  To make this block available you must “Import Tools” from the Snap<em>!</em> file menu and then look for it under the list related blocks.<br />
- <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/Mandala_img/import tools.png"  height="200" alt=""/>
+ <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/Mandala_img/import tools.png"  height="200" alt="Import tools" title="Import tools"/>
 </div>
 </ol></div>
 
@@ -74,18 +74,18 @@ Create a script variable <var>pointList</var> to keep track of the vertex points
 <img src="/bjc-r/img/2-conditionals-abstraction-testing/Mandala_img/Mandala4.png"  height="200" alt=""/>
 </li> -->
 <li>Below are some variations on the Mandala created in this project.  Create your own variations like these.<br />
-<img src="/bjc-r/img/2-conditionals-abstraction-testing/Mandala_img/Mandala4.png"  height="200" alt=""/>
-<img src="/bjc-r/img/2-conditionals-abstraction-testing/Mandala_img/Mandala2.png"  height="200" alt=""/><img  src="/bjc-r/img/2-conditionals-abstraction-testing/Mandala_img/Mandala3.png" height="200" alt=""/>
+<img src="/bjc-r/img/2-conditionals-abstraction-testing/Mandala_img/Mandala4.png"  height="200" alt="Denser Mandala" title="Denser Mandala"/>
+<img src="/bjc-r/img/2-conditionals-abstraction-testing/Mandala_img/Mandala2.png"  height="200" alt="Four Mandalas" title="Four Mandalas"/><img  src="/bjc-r/img/2-conditionals-abstraction-testing/Mandala_img/Mandala3.png" height="200" alt="Mandala Ring" title="Mandala RIng"/>
 </li>
   <li>Explore some variations of the Mandala based on color such as these below.<br />
-  <img src="/bjc-r/img/2-conditionals-abstraction-testing/Mandala_img/ColorMandala3.png"  height="200" alt=""/>
-    <img src="/bjc-r/img/2-conditionals-abstraction-testing/Mandala_img/ColorMandala2.png"  height="200" alt=""/>
-    <img src="/bjc-r/img/2-conditionals-abstraction-testing/Mandala_img/ColorMandala1.png"  height="200" alt=""/>
+  <img src="/bjc-r/img/2-conditionals-abstraction-testing/Mandala_img/ColorMandala3.png"  height="200" alt="Colored Mandala Ring" title="Colored Mandala Ring"/>
+    <img src="/bjc-r/img/2-conditionals-abstraction-testing/Mandala_img/ColorMandala2.png"  height="200" alt="Colored Four Mandalas" title="Colored Four Mandalas"/>
+    <img src="/bjc-r/img/2-conditionals-abstraction-testing/Mandala_img/ColorMandala1.png"  height="200" alt="Colored Denser Mandala" title="Colored Denser Mandala" />
     
 </li>
 <li>In many cultures, Mandala and its variations are celebrated as symbols of “interconnectedness” and “harmony”.  Do some research on Mandalas as created and viewed by different cultures and present your finding to your classmates.  Can you create any of these with Snap<em>!</em> ?<br />
  
- <img src="/bjc-r/img/2-conditionals-abstraction-testing/Mandala_img/WorldMandalas1.png"  height="125" alt=""/>
+ <img src="/bjc-r/img/2-conditionals-abstraction-testing/Mandala_img/WorldMandalas1.png"  height="125" alt="Mandalas from the World" title="Mandalas from the World"/>
 </li>
 
 
