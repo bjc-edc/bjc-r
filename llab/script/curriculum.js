@@ -349,7 +349,7 @@ llab.setupTitle = function() {
      }
 
      // Set the header title to the page title.
-     titleText = document.title;
+     titleText = "DRAFT ".concat(document.title);
      if (titleText) {
           // FIXME this needs to be a selector
           $('.navbar-title').html(titleText);
