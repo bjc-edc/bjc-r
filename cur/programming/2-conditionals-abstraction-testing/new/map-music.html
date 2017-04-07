@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unit 3 Lab 3: Three Key List Operations, Page 2</title>
+    </head>
+    
+    <body>
+		
+        <h2>The <code>Map</code> Block & Music</h2> 
+        
+        <p>
+        	The <img class="inline" src="/bjc-r/img/blocks/map.png" alt="map" title="map" /> block takes two inputs: a function (with a blank input slot) and a list, and it reports a new list, in which each item is the result of running an item of the input list through the function. For example:<br/>
+            <img class="indent" src="/bjc-r/img/3-lists/map-example-1.png" alt="map (( )-(1)) over (list (96) (-100) (4.7)) reporting" title="map (( )-(1)) over (list (96) (-100) (4.7)) reporting" /><br />
+            <img class="indent" src="/bjc-r/img/3-lists/map-example-2.png" alt="map (join ( ) (s)) over (list (cat) (dog) (bird)) reporting" title="map (join ( ) (s)) over (list (cat) (dog) (bird)) reporting" /><br />
+            <img class="indent" src="/bjc-r/img/3-lists/map-example-3.png" alt="map (round ( )) over (list (3.14159) (87) (5.4)) reporting" title="map (round ( )) over (list (3.14159) (87) (5.4)) reporting" /><br />
+        </p>
+		
+		<p>You write the function that describes the change, and <code>map</code> applies that function to each item in the input list and reports the list of  values reported by the function.</p>
+
+
+    	<div class="takeNote">
+            <p>The gray ring in <img class="inline" src="/bjc-r/img/blocks/map.png" alt="map" title="map" /> means that the input should be a <i>function</i>. The function can be numeric as in algebra, for example: <img class="inline" src="/bjc-r/img/3-lists/3x+7.png" alt="(3 * ()) + 7" title="(3 * ()) + 7" /> (as we'll explore later) or <img class="inline" src="/bjc-r/img/3-lists/x-1.png" alt="() - 1" title="() - 1	" /> (as shown above), but you can also use other operators like <img class="inline" src="/bjc-r/img/3-lists/join()s.png" alt="join () (s)" title="join () (s)" />: the <code>map</code> function above <code>join</code>s each word with the letter 's'. The blank input slot in the function is filled with each list item to make the new list. In algebraic functions, that's the variable, for instance: that's the <i>x</i> in the function <em>f</em> defined by <em>f</em>(<em>x</em>) =3<em>x</em>&nbsp;+&nbsp;7.</p>
+        </div>
+        
+        
+	<h3>Transposing Music</h3>
+        
+        <div class="forYouToDo" id="first">
+            <ol>
+                <img class="imageRight" src="/bjc-r/img/icons/headphones.png" alt="Set Up Your Headphones or Speakers" title="Set Up Your Headphones or Speakers" />
+        		<li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
+Discuss what <code>map</code> does in this script: <img class="inline" src="/bjc-r/img/3-lists/compare-play-note-3.png" alt="for each (note) of (map (_ + 5) over (list (60) (64) (67) (72) (60))) (play note (note) for (1) beats)" title="for each (note) of (map (_ + 5) over (list (60) (64) (67) (72) (60))) (play note (note) for (1) beats)"></li>
+                <li><a class="run" href="/bjc-r/prog/3-lists/U3L2-PlayNotes.xml">Open this project</a>. It contains two musical scales (a major scale and an Egyptian scale) and a song (Twinkle Twinkle Little Star). Each is just a sound reporter that reports a list of notes.</li>
+                
+                <li>
+                    Create a block that takes a list of note pitches and a shift number as input and plays each note on the list mapped up or down as many pitches as the input indicates. For example, this script will play the notes <var>{65, 69, 72, 77, 65}</var>: <br />
+					<div class="sidenote">You may wish to set the tempo to something like <var>240</var>.</div>
+                    <img class="indent" src="/bjc-r/img/3-lists/transpose-by-and-play-example.png" alt="" title="" />
+                </li>
+                <li>Try your <code>transpose by</code> block with several different shift numbers so that you can <em>hear</em> the impact of <code>map</code>.</li>
+                <li>
+                	Use your <code>transpose by</code> block to hear the impact of <code>map</code> on each of the two scales and the song. For example, try: <br />
+                	<img class="indent" src="/bjc-r/img/3-lists/transpose-by-and-play-twinkle-example.png" alt="transpose(twinkle twinkle little star) by (-2) and play" title="transpose(twinkle twinkle little star) by (-2) and play" />
+                </li>
+			</ol>
+		</div>
+        
+        <div class="takeItFurther">
+        <ol start="A">
+        <li>Can you tell what this block of code does?  Build it and listen to the inverted version of the song "Twinkle Twinkle Little Star".<br />
+        <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/Map-Music_img/invertCode.png" height="175" alt=""/><br />
+        </li>
+        <li>Wikipedia defines a <em><strong>round</strong></em> (also called a perpetual canon) as " a musical composition, in which a minimum of three voices sing exactly the same melody at the unison (and may continue repeating it indefinitely), but with each voice beginning at different times so that different parts of the melody coincide in the different voices, but nevertheless fit harmoniously together".  Study the following block of code and identify what each part of the code does.  Then build this block and try it on the song "Twinkle Twinkle Little Star" with an appropriate delay value.<br />
+        
+        <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/Map-Music_img/roundCode.png" height="250" alt=""/>
+       <br />
+       <li>A song like "Row Row Row Your Boat" might be more suitable for a <strong><em>round</em></strong>.  Open <a class="run" href="/bjc-r/prog/2-conditionals-abstraction-testing/Music Row Row Row.xml">this file</a>, study it and create a version of the <code>round</code> block that will accomodate the <var>pitch</var> and <var>length</var> parameters of each note of the song.</li>
+       </li>
+        </ol>
+        </div>
+</body>
+</html>
