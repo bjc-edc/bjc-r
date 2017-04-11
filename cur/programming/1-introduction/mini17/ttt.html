@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Unit 2 Lab x: Games</title>
+        <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+</head>
+
+<body>
+<h3>Tic-Tac-Toe: Look for Wins</h3>
+<p>In earlier labs, you worked out how to display moves on a tic-tac-toe board and keep track of them in a variable <var>board</var> whose value is a list of nine values, one per square of the board, each of which can be X or O or empty if that square is unoccupied:<br />
+<img src="/bjc-r/img/1-introduction/ttt-board-and-list.png" alt="tic-tac-toe board and BOARD list" /><br /> 
+Now we'd like the computer to be a player in the game, and to do that, it has to be able to detect patterns in the board position that mean, for example, &quot;I can win on the next move.&quot;</p>
+<div class="forYouToDo" id="first"><ol><li>How many ways are there to win at tic-tac-toe?  That is, which sets of three squares count as a win?  Work with your partner to make a list on paper.</li>
+<li>Load <a class="run" href="/bjc-r/prog/1-introduction/mini-ttt.xml">this project</a>.  We've provided a <code>wins</code> block that reports a list of all the winning triples:<br />
+  <img src="/bjc-r/img/1-introduction/wins.png" width="368" height="253" alt="wins" /><br />
+  </li>
+                <img class="imageRight" src="/bjc-r/img/icons/import-tools.png" alt="Import Tools" title="Import Tools" />
+  <li>Try these:
+              <img class="indent" src="/bjc-r/img/3-lists/map-example-1.png" alt="map (( )-(1)) over (list (96) (-100) (4.7)) reporting" title="map (( )-(1)) over (list (96) (-100) (4.7)) reporting" /><br />
+            <img class="indent" src="/bjc-r/img/3-lists/map-example-2.png" alt="map (join ( ) (s)) over (list (cat) (dog) (bird)) reporting" title="map (join ( ) (s)) over (list (cat) (dog) (bird)) reporting" /><br />
+            <img class="indent" src="/bjc-r/img/3-lists/map-example-3.png" alt="map (round ( )) over (list (3.14159) (87) (5.4)) reporting" title="map (round ( )) over (list (3.14159) (87) (5.4)) reporting" /><br />
+Note that each example has an empty input slot in a function (the green blocks, in these examples).</li>  
+</ol>
+</div> 
+Read this block definition:<br />
+<img src="/bjc-r/img/1-introduction/is-triple-a-win.png" alt="is triple (triple) a win for player (player) ?" />
+<img src="/bjc-r/img/1-introduction/triple-win-false.png" alt="is triple {4,5,6} a win for player X?  --&gt;  false" /><br />
+
+<img src="/bjc-r/img/1-introduction/triple-win-true.png" alt="is triple {3,5,7} a win for player X?  --&gt;  true" />
+<div class="forYouToDo">
+                <img class="imageLeft" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
+<ol start="4">
+<li>If <var>triple</var> is <code>{4,5,6}</code> and <var>board</var> is as shown above, what will the value of <var>occupied</var> be after the <code>set</code> block is run?</li>
+<li>The <code>report</code> block says to report<br />
+<img src="/bjc-r/img/1-introduction/2-and-0.png" alt="(something = 2) and (something = 0)" /><br />
+Say in words what would make sense as the <code>something</code>s; two of what, and zero of what, are required for a winning triple?</li>
+<li>Looking at the actual code, figure out what the <code>keep</code> block does.  Here's a simpler example to consider:<br />
+<img src="/bjc-r/img/1-introduction/keep-starts-e.png" alt="keep items such that (letter 1 of ( )) = e from {elephant, aardvark, ...}" /></li>
+<li>Write a block 
+  <img src="/bjc-r/img/1-introduction/find-winning-triples.png" alt="find winning triples for player ( )" />
+that reports a list of <em>all</em> winning triples for that player, using the list reported by <code>wins</code></li></ol></div>
+<div class="ifTime">
+<ol start=8>
+<li>If the computer can win on this move, it should.  Otherwise, if the opponent can win on this move, the computer should block that.  But if neither of those is true, at least the computer should find a place to move in a triple where it already appears once, and the opponent doesn't appear, such as <code>{4,5,6}</code> for X on this board.  Write <img src="/bjc-r/img/1-introduction/okay-move.png" alt="is triple ( ) an okay move for player ( ) ?" /></li></ol></div>
+<div class="takeItFurther">
+<ol type="a">
+<li>Actually, on this board, it's not X's turn; it's O's turn.  There is no winning move for O according to the block you wrote in problem 7, but there is one <em>great</em> square for O to choose.  Which is it?</li>
+<li>Write a procedure to find such a move.</li></ol></div>
+</body>
+</html>
