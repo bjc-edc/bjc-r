@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>April PD HOF Page</title>
+	</head>
+
+	<body>
+		<h2>Processing Student Grades</h2>
+		<div class="learn">
+        	<p><strong>On this page,</strong> you will use <em>higher order functions</em> to perform various operations on student grades: averaging, scaling, and selecting students within certain grade ranges.</p>
+        </div>
+        
+        <div class="forYouToDo" id="first">
+            <div class="sidenoteBig">
+                <h4><strong>Making a Variable</strong></h4>
+              <ol type="a">
+                    <li><strong>Choose <img class="" src="/bjc-r/img/1-introduction/make-a-variable.png" alt="make a variable button" title="make a variable button" />from the Variables palette.</strong></li>
+                    <li><strong>Type the title</strong> for your variable: <var>score</var>.</li>
+                </ol>
+            </div>
+
+			<ol>
+                <li>
+                    First, create a new variable called <var>student grades</var> and <code>set</code> its value to a <code>list</code> of various student grades.<br />
+                    <img class="indent" src="/bjc-r/img/aprilpd/set-student-grades.png" alt="set (student grades) to (list {84, 73, 95, 82, 76, 89, 83, 79, 96, 62, 86, 69, 94})" title="set (student grades) to (list {84, 73, 95, 82, 76, 89, 83, 79, 96, 62, 86, 69, 94})" />
+                </li>
+            </ol>
+        </div>
+	
+    	
+        <h3>Selecting within a Range with <code>Keep</code></h3>
+	<div class="endnote">
+			<!--<p><em>Reporter</em> blocks can report different kinds of values. For example, the <img class="inline" src="/bjc-r/img/blocks/plus.png" alt="plus block" title="plus block" /> block reports a number, the <img class="inline" src="/bjc-r/img/blocks/join()().png" alt="join block" title="join block" /> block reports a string of smaller strings appended together, and the <img class="inline" src="/bjc-r/img/blocks/list.png" alt="list block" title="list block" /> block reports a list.</p>-->
+            <p><strong>Predicates</strong> are reporters that <strong>always report a <em>Boolean value</em></strong> (they always report either <img class="inline" src="/bjc-r/img/blocks/true.png" alt="true" title="true" /> or <img class="inline" src="/bjc-r/img/blocks/false.png" alt="false" title="false" />). Predicates are the <em>condition</em> used by <em>conditionals</em> (such as <img class="inline" src="/bjc-r/img/blocks/if.png" alt="if block" title="if block" /> or <img class="inline" src="/bjc-r/img/blocks/repeat-until.png" alt="repeat until" title="repeat until" />) to decide <em>when</em> to do something. In <span class="snap">snap</span>, predicates are hexagonal in shape, not oval like other reporters.</p>
+            <!--<p>A few examples are: <img src="/bjc-r/img/blocks/touching.png" alt="touching?" title="touching?" /> or <img src="/bjc-r/img/blocks/less-than.png" alt="less than" title="less than" /> and <img src="/bjc-r/img/blocks/true.png" alt="true">or <img src="/bjc-r/img/blocks/false.png" alt="false"> .</p>-->
+            <!--<p>When you create a predicate, choose the hexagonal predicate shape when you first define the block.</p>
+            <img class="imageRight" src="/bjc-r/img/2-conditionals-abstraction-testing/make-a-predicate-block.png"  alt="make a predicate block by choosing the correct shape">-->
+        </div> 
+        
+        <p>
+            The <img class="inline" src="/bjc-r/img/blocks/keep.png" alt="keep" title="keep" /> block takes a predicate (with a blank input slot) and a list as input, and it creates a new list keeping only those items from the input list that match the condition defined by the predicate. <!--match the criterion, such as "begins with a vowel," "is less than five characters long," "is even," or "is a vegetable." -->For example:<br />
+            <img class="indent" src="/bjc-r/img/3-lists/keep-example-1.png" alt="keep items such that (is () a (number)?) from {5, :), six, 7, elephant, 3} reporting {5,7,3}" title="keep items such that (is () a (number)?) from {5, :), six, 7, elephant, 3} reporting {5,7,3}" /><br />
+            <!--<img class="indent" src="/bjc-r/img/3-lists/keep-example-2.png" alt="keep items such that (((letter (1) of ()) = (a)) or ((letter (1) of ()) = (o))) from {Ann, Olivia, Jamal, Karl, A.J., Tara} reporting {Ann, Olivia, A.J.}" title="keep items such that (((letter (1) of ()) = (a)) or ((letter (1) of ()) = (o))) from {Ann, Olivia, Jamal, Karl, A.J., Tara} reporting {Ann, Olivia, A.J.}" /><br />
+            <img class="indent" src="/bjc-r/img/3-lists/keep-example-3.png" alt="keep items such that (() > (5)) from {8, 54, 12.7, .73, -1, 55} reporting {8, 54, 12.7, 55}" title="keep items such that (() > (5)) from {8, 54, 12.7, .73, -1, 55} reporting {8, 54, 12.7, 55}" />-->
+          <img class="indent" src="/bjc-r/img/aprilpd/keep-example-4.png" alt="keep items such that ((letter (1) of ()) = (a)) from {Ann, Olivia, Jamal, Karl, A.J., Tara} reporting {Ann, A.J.}" title="keep items such that ((letter (1) of ()) = (a)) from {Ann, Olivia, Jamal, Karl, A.J., Tara} reporting {Ann, A.J.}" />
+        </p>
+
+		<div class="takeNote"><p>You write the predicate that does the checking, and <code>keep</code> applies that predicate to each item in the input list and reports the list of elements that make your predicate true.</p></div>
+        
+        <div class="forYouToDo">
+            <ol start="2">
+                <li>Imagine that you want to know how many students scored above 85. Use <code>keep</code> to report only the <var>student grades</var> that are over 85.</li>
+              <li>
+                    Create a <code>scores above</code> reporter block that accepts a number and a list of scores as input and reports the scores that are over the inputed number. <br />
+                <img class="indent" src="/bjc-r/img/aprilpd/scores-above-reporting.png" alt="scores above (85) in (student grades) reporting {95, 89, 96, 86, 94}" title="scores above (85) in (student grades) reporting {95, 89, 96, 86, 94}" />
+              </li>
+            </ol>
+        </div>
+        
+        <div class="ifTime">
+          <ol start="4">
+                <li>Find the outliers. Use the <code>or</code> block together with <code>keep</code> to report the <var>student grades</var> that are <em>either</em> over 90 or under 70.</li>
+            </ol>
+        </div>
+
+
+		<h3>Scaling with <code>Map</code></h3>
+        <p>
+        	The <img class="inline" src="/bjc-r/img/blocks/map.png" alt="map" title="map" /> block takes two inputs: a function (a reporter with a blank input slot) and a list, and it reports a new list. In this new list, each item is the result of running an item from the original input list through the function. For example:<br />
+            <!--<img class="indent" src="/bjc-r/img/3-lists/map-example-1.png" alt="map (( )-(1)) over (list (96) (-100) (4.7)) reporting" title="map (( )-(1)) over (list (96) (-100) (4.7)) reporting" /><br />-->
+            <img class="indent" src="/bjc-r/img/3-lists/map-example-2.png" alt="map (join ( ) (s)) over (list (cat) (dog) (bird)) reporting" title="map (join ( ) (s)) over (list (cat) (dog) (bird)) reporting" /><br />
+            <img class="indent" src="/bjc-r/img/3-lists/map-example-3.png" alt="map (round ( )) over (list (3.14159) (87) (5.4)) reporting" title="map (round ( )) over (list (3.14159) (87) (5.4)) reporting" />
+    </p>
+		
+		<div class="takeNote"><p>You write the function that describes the change, and <code>map</code> applies that function to each item in the input list and then reports the list of values changed by the function.</p></div>
+
+		<div class="forYouToDo">
+          <ol start="5">
+                <li>Imagine that you realize that your test was too hard and you want to add 4 points to every student's grade. Use the <code>map</code> block to find the list of adjusted grades.</li>
+                <li>
+                    Create a <code>scale by</code> reporter block that adds the input number to every item in a list.<br />
+                  <img class="indent" src="/bjc-r/img/aprilpd/scale-by-reporting.png" alt="scale by (4) in (student grades) reporting {88,77,99,86,80,93,87,83,100,66,90,73,98}" title="scale by (4) in (student grades) reporting {88,77,99,86,80,93,87,83,100,66,90,73,98}" />
+            </li>
+            </ol>
+        </div>
+        
+        
+        <h3>Averaging with <code>Combine</code></h3>
+        <p>
+            The <img class="inline" src="/bjc-r/img/blocks/combine.png" alt="combine" title="combine" /> block takes an operation (with <em>two</em> blank input slots) and a list as input, and it reports a single result (not a list): the combination of the elements in the list when using the given operation. For example:<br />
+            <img class="indent" src="/bjc-r/img/3-lists/combine-example-1.png" alt="combine with (()+()) items of (list {5,6,2,3}) reporting 16" title="combine with (()+()) items of (list {5,6,2,3}) reporting 16" /><br />
+            <img class="indent" src="/bjc-r/img/3-lists/combine-example-2.png" alt="combine with (join words () ()) items of (list {apples, bananas, oranges, grapes}) reporting 'apples bananas oranges grapes'" title="combine with (join words () ()) items of (list {apples, bananas, oranges, grapes}) reporting 'apples bananas oranges grapes'" />
+		</p>
+		
+		<div class="takeNote"><p>You choose the operation (with two input slots), and <code>combine</code> performs that operation combining all the items in the input list and reports the result.</p></div>
+
+		<div class="forYouToDo">
+		  <ol start="7">
+                <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> How could you use the <code>combine</code> block to help you build a block that will find the average of the student scores? What other blocks will you need?</li>
+				<div class="sidenoteBig">You will need the <em>red</em> <code>length of</code> list block which can be found in the Variables pallete (<em>not</em> the green <code>length of</code> operator block).</div>
+                <li>
+                    Create an <code>average</code> block in Snap<em>!</em> that will accept a list as input and output the average of the items in the list. Try it out with your <var>student grades</var> list.<br />
+                    <img class="indent" src="/bjc-r/img/aprilpd/average-student-grades-reporting.png" alt="average (student grades) reporting 82.15..." title="average (student grades) reporting 82.15..." />
+                </li>  
+			</ol>
+		</div>
+        
+		<div class="takeItFurther"><a name="further" class="anchor">&nbsp;</a>
+			<ol type="A">
+                <li>Find students who are closest to the class average. Use the <code>and</code> block together with <code>average</code> and <code>keep</code> to report the <var>student grades</var> that are within 5 points of the class average.</li>
+            </ol>
+        </div>
+
+
+</body>
+</html>
