@@ -36,21 +36,20 @@
                         <h4><strong>Importing Blocks</strong></h4>
 						<ol type="a">
                             <li><strong>Choose "Import..."</strong> from the Snap<em>!</em> file menu (<img class="inline" src="/bjc-r/img/1-introduction/file_button.png" alt="File menu button"/>).</li>
-                            <li><strong>Locate the XML file your exported</strong> (perhaps in your downloads folder).</li>
+                            <li><strong>Locate the XML file you exported</strong> (perhaps in your downloads folder).</li>
                             <li><strong>Locate the imported block</strong> in the matching palette on the left. (Custom blocks appear at the <em>end</em> of the palette.)</li>
                             <li><strong>Click the imported bock to run it.</strong> (You'll likely see an error message once you enter a name.)</li>
                             <img class="indent" src="/bjc-r/img/1-introduction/greet-player-error.png" alt="greet player reporting an error message: 'Inside: Error. a variable of name 'player list' does not exist in this context'" title="greet player reporting an error message: 'Inside: Error. a variable of name 'player list' does not exist in this context'" />
                         </ol>
                     </div>
                 </li>
-                <li>Try using <code>greet player</code> to add names to the <var>player list</var>. You should see the error message shown above.</li>
                 <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> Look at the code for <code>greet player</code>. What's wrong?</li>	
             </ol>
         </div>
         
         <div class="takeNote">
             <h4><strong>Dependencies</strong></h4>
-            <p>Sometimes when you take a script out of the program where you built it and try to use it somewhere else, something breaks. It could be that the script depends on a custom block that isn't defined in the new program, or it could be (like it is here) that the script depends on a <em>global variable</em> that isn't defined in the new program. </p>
+            <p>Sometimes when you take a script out of the program where you built it and try to use it somewhere else, something breaks. It could be that the script depends on a custom block that isn't defined in the new program, or it could be (as in this case) that the script depends on a <em>global variable</em> that isn't defined in the new program. </p>
         </div>
         
         <div class="forYouToDo">
@@ -78,13 +77,14 @@
         <div class="takeNote">
         	<h4><strong>Script Variables vs. Global Variables</strong></h4>
 			<img class="imageRight" src="/bjc-r/img/icons/take-turns-speaking-mini.gif" alt="Take turns speaking" title="Take turns speaking">
-            <div class="comment">I cut this back a lot, but it still feels too long. Any suggestions? --MF</div>
+            <div class="comment">I cut this back a lot, but it still feels too long. Any suggestions? --MF<br />
+            Someone other than me should read this to see if it's necessary at all.  Maybe the little yellow box near the top of the previous page is enough? --bh</div>
             <p>
-            	Whenever possible, you should use script variables (a.k.a. local variables). Here's why:
+            	Whenever possible, you should use script variables. Here's why:
                 <ul>
-                    <li>If you import a block that requires global variables into another project, you'll get errors if you don't have those variables defined.</li>
+                    <li>If you import a block that requires global variables into another project, you'll get errors if you don't have those variables defined. This isn't a problem with script variables, which are created by the block itself.</li>
                     <li>It's easier to make sense of the program if only a few global variables are listed at the top of the Variables palette.</li>
-                    <li>If you use global variables throughout a large program, you might pick the same name for two variables in different scripts, and one script will change the variable out from under the other script.</li>
+                    <li>If you use global variables throughout a large program, you might pick the same name for what should be two variables in different scripts, and one script will change the global variable out from under the other script. If the two scripts use script variables, it's okay for the names to be the same.</li>
                 </ul>
             </p>
             <p>
@@ -94,9 +94,9 @@
                     <div class="manualBig">
 						<img class="imageRight" src="/bjc-r/img/icons/tough-stuff-mini.png" alt="Tough Stuff" title="Tough Stuff" />
                     	There are, in fact, two different ways in Snap<em>!</em> to avoid using a global variable for revisiting a value with the same script; look up "block variables" and "object oriented programming with lambda" in the <a href="http://snap.berkeley.edu/snapsource/help/SnapManual.pdf" target="_blank">Snap<em>!</em> Reference Manual</a> if you want to know more.(But both of those techniques are a little too complicated for this introductory course.)
-	                    <div class="todo">Move to TG? --MF</div>
+	                    <div class="todo">Move to TG? --MF  Yes--bh</div>
                     </div>
-                    <li><em>The variable will be used by the same script more than once and will need to remember the value between uses.</em> A counter is the classic example; each time you call a block, you want it to change a value by one—not reset it.</li>
+                    <li><em>The variable will be used by the same script more than once, and will need to remember its value between uses.</em> Keeping a count is the classic example; each time you call a block, you want it to change a variable's value by one, not initialize a new variable.</li>
                 </ol>
             </p>
             <p><strong>Get in the habit of using script variables most of the time and using a global variable only when a script variable won't work.</strong></p>
@@ -106,6 +106,7 @@
         <p>Next, you'll give your Number Guessing game a more personal touch by addressing the player by name.</p>
         
         <div class="forYouToDo">
+        <div class="commentBig">I'm not too happy about this set of exercises.  The right way to handle this is to make <code>greet player</code> a reporter, and have <code>Number guessing game</code> use it to set a script variable! --bh</div>
     		<ol start="8">
                 <li>Create a new variable, <var>current player</var>, to store the name of the current player. <img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> Should this be a global variable or a script variable?</li>
                 <li>
