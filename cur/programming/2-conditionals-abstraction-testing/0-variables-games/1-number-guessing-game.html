@@ -12,11 +12,11 @@
             <p>
                 <strong>In this lab,</strong> you will use two kinds of variables to manage data in your games:
                 <ul>
-                    <li><em>Script variables</em> that are temporary and end when the script ends, and</li>
+                    <li><em>Script variables</em> (also known as <em>local</em> variables) that are for use in a single script, and</li>
                     <li><em>Global variables</em> that can be accessed anywhere in the app.</li>
                 </ul>
             </p>
-            <p><strong>On this page,</strong> you will develop a number guessing game that uses script variables to keep track of a secret number.</p>
+            <p><strong>On this page,</strong> you will develop a number guessing game that uses a script variable to keep track of a secret number.</p>
         </div>
         
         <h3>Using a Script Variable</h3>
@@ -28,11 +28,11 @@
             You have also used variables that the <code>for</code> block gave you:<br />
             <img class="indent" src="/bjc-r/img/looping/squirral-script.png" alt="squiral script" title="squiral script" />
 		</p>
-        <p> 
-			<div class="sidenoteBig"> A script variable exists only while the script is running.</div>  
-            Sometimes you will need <em>extra</em> variables to store information temporarily while your script is running. The <code>script variables</code><!--<img src="/bjc-r/img/prog/scriptvar.png" alt="script variables" title="script variables" />--> block lets you do that.
+        <p>Both input variables and <code>for</code> variables belong to the script in which they're created; you can't drag one into a different script (or rather, you can, but it won't work). They are kinds of <strong>script variables</strong>.	</p>
+    <div class="sidenoteBig"> A script variable usually exists only while the script is running.</div>  
+            Sometimes you will need <em>additional</em> script variables to hold information temporarily, while your script is running. The <code>script variables</code><!--<img src="/bjc-r/img/prog/scriptvar.png" alt="script variables" title="script variables" />--> block lets you do that.
         </p>
-		<p>For example, imagine a number-guessing game in which the player tries to guess the computer's secret number. The computer needs to remember the secret number so that is can compare the player's guesses to it, but once the game is over, the secret number does not need to be remembered.</p>
+		<p>For example, imagine a number-guessing game in which the player tries to guess the computer's secret number. The computer needs to remember the secret number so that it can compare the player's guesses to it, but once the game is over, the secret number does not need to be remembered. If you play the game again, you want to get a new secret number.</p>
         
 
         <div class="forYouToDo" id="first">
@@ -54,10 +54,12 @@
                     </div>
                     
                 </li>
-                <li>
+                <div class="commentBig">We have "down arrow" and "down-arrow" each several times throughout the curriculum.  We should pick one and clean these up.  Personally I like "downarrow" as one word! On the other hand, technically these are arrowheads, not arrows, so maybe "down arrowhead" or (need an ESL ruling) something like "downward-facing triangle"?  --bh</div>
+              <li>
                     Set the initial value of the variable using <code>set</code>. The down-arrow lets you select the variable you want. Set <var>secret number</var> to a random number between 1 and 10.<br /> 
                     <img class="indent" src="/bjc-r/img/blocks/set-empty.png" alt="set" title="set" />
               </li>
+              <div class="takeNote">The variable <var>secret number</var> will be available in the <code>set</code> block only when you snap it into the same script that has the <code>script variables</code> block.</div>
                 <div class="vocabFullWidth">
                     <p>Setting the initial value of a variable is known as <strong>initializing</strong> the variable.</p>
                 </div>
@@ -69,7 +71,8 @@
 		<p>The computer should ask the player to guess the secret number again and again until the player gets it right. You will use the <code>repeat until</code> block, which is a <a href="/bjc-r/cur/programming/1-introduction/3-drawing/6-the-for-block.html?topic=nyc_bjc%2F1-intro-loops.topic&course=bjc4nyc.html&novideo&noassignment">loop</a> (just like <code>repeat</code>, <code>forever</code>, and <code>for</code>), but it only repeats until a certain <strong>condition</strong> is met. In this case, it should repeat until the player's answer is the secret number.</p>
         
 		<div class="takeNote">
-        	<p><code>Repeat until</code> is a conditional block just like <code>if</code>. Conditionals control the code based on a <em>condition</em> called a <strong>predicate</strong>. Predicates are hexagonal-shaped reporters that always report a <strong>Boolean value</strong> (that is, they can only report either <img class="inline" src="/bjc-r/img/blocks/true.png" alt="true" title="true" /> or <img class="inline" src="/bjc-r/img/blocks/false.png" alt="false" title="false" />). Predicates help conditionals (such as <img class="inline" src="/bjc-r/img/blocks/if.png" alt="if block" title="if block" /> or <img class="inline" src="/bjc-r/img/blocks/repeat-until.png" alt="repeat until" title="repeat until" />) <em>decide when to do something</em>.</p>
+        	<div class="vocab"><strong>: Boolean.</strong><br />It's capitalized because it's named after a person, George Boole, who invented the branch of mathematics dealing with Boolean operations.</div>
+        	<p><code>Repeat until</code> is a conditional block, like <code>if</code>, as well as being a loop block. Conditionals make choices in a program based on a true-or-false <em>condition</em> called a<strong> Boolean value.</strong> There are only two Boolean values,<img class="inline" src="/bjc-r/img/blocks/true.png" alt="true" title="true" /> and <img class="inline" src="/bjc-r/img/blocks/false.png" alt="false" title="false" />. But you don't generally use these values directly in your code; you don't say <img src="/bjc-r/img/2-conditionals-abstraction-testing/iftrue.png" height="50" alt="if (true) ...">. Instead, you use a block to ask a yes-or-no question, such as <img src="/bjc-r/img/2-conditionals-abstraction-testing/a-gt-7.png" alt="a &gt; 7">. Blocks that report Boolean values are called <strong>predicates</strong>. They are a special shape (hexagonal) so that they fit into the hexagonal input slots of conditional blocks. Predicates help conditionals (such as <img class="inline" src="/bjc-r/img/blocks/if.png" alt="if block" title="if block" /> or <img class="inline" src="/bjc-r/img/blocks/repeat-until.png" alt="repeat until" title="repeat until" />) <em>decide when to do something</em>.</p>
         </div>
         
 		<img class="inline" src="/bjc-r/img/icons/pair-programming-swap.png" alt="Pair Programming Swap" title="Pair Programming Swap" /> <br />

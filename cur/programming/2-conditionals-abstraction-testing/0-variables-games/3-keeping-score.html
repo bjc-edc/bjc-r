@@ -12,9 +12,9 @@
             <p><strong>On this page,</strong> you will use a <em>global variable</em> to keep score in your Click Alonzo game.</p>
         </div>
         
-        <div class="comment">Brian, I expect you'll have edits here. (Your text is on the next page.) --MF</div>
-        <p>On the last page, you used <em>script variables</em> to keep track of temporary information (the value of <var>secret number</var>) that was only needed inside one script. To keep score, you need to be able to access the current score from anywhere in your app, and so you'll use a <em>global variable</em>.</p>
-        <div class="endnote">It's good programming practice to always use script variables (also known as local variables) <em>unless</em> you need the variable to be accessible to the whole program, in which case you'll use a global variable.</div>
+        <div class="comment">Are we using &quot;app&quot; for all projects? Click Alonzo is an app, but most of our projects aren't, really. --bh</div>
+        <p>On the previous page, you used <em>script variables</em> to keep track of  information (the value of <var>secret number</var>) that was needed only inside one script. To keep score, you need to be able to access the current score from anywhere in your app, and so you'll use a <em>global variable</em>.</p>
+        <div class="endnote">Use script variables <em>unless</em> you need the variable to be accessible to the whole program, in which case you'll use a global variable.</div>
         
         
         <div class="forYouToDo" id="first">
@@ -25,7 +25,7 @@
                 <div class="endnote">
                     <h4><strong>Making a Global Variable</strong></h4>
                     <ol type="a">
-                        <li><strong>Choose <img class="inline" src="/bjc-r/img/1-introduction/make-a-variable.png" alt="make a variable button" title="make a variable button" />from the Variables palette.</strong></li>
+                        <li><strong>Click the <img class="inline" src="/bjc-r/img/1-introduction/make-a-variable.png" alt="make a variable button" title="make a variable button" /> button in the Variables palette.</strong>  (It's not a block; you can't drag it into the scripting area.)</li>
                         <li><strong>Type the title</strong> for your variable: <var>score</var>, and click OK.</li>
                     </ol>
                 </div>
@@ -44,26 +44,13 @@
         <img class="inline" src="/bjc-r/img/icons/pair-programming-swap.png" alt="Pair Programming Swap" title="Pair Programming Swap" />
         
         <div class="endnote">
-	        <div class="comment">Brian, I'm curious about your thoughts here too. --MF</div>
-            <p>
-                Variables look like reporters, and both do report values, but they are different:
-                <ul>
-                    <li>
-                        Variables always give the <em>same value until the value is changed</em> by the user or programmer.<br />
-                        <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/score-variable-reporting-7.png" alt="score variable reporting 7" title="score variable reporting 7" />
-                        <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/change-score-by-1.png" alt="change (score) by (1)" title="change (score) by (1)" />
-                        <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/score-variable-reporting-8.png" alt="score variable reporting 8" title="score variable reporting 8" />
-                    </li>
-                    <li>
-                        Reporters may report different output but always by <em>same process until the process is changed</em> by the programmer.<br />
-                        <!--<img class="indent" src="/bjc-r/img/1-introduction/gossip2-reporting.png" alt="gossip2 reporting 'Guess what. Gabrielle helped Señora'" title="gossip2 reporting 'Guess what. Gabrielle helped Señora'" />-->
-                        <img class="indent" src="/bjc-r/img/1-introduction/who-block-definition.png" alt="who block definition" title="who block definition" /><br />
-                        <img class="indent" src="/bjc-r/img/1-introduction/who-reporting.png" alt="who reporting Hannah" title="who reporting Hannah" />
-                        <img class="indent" src="/bjc-r/img/1-introduction/who-reporting-senora.png" alt="who reporting Señora" title="who reporting Señora" />
-                    </li>
-                </ul>
-            </p>
-            <div class="takeNote"><p>Reporters always have the same behavior as was coded in at the beginning. They can't be changed by the user of the app; they can only be changed by a programmer changing the code. Variables, on the other hand, can change while the program is running.</p></div>
+	        <div class="comment">Brian, I'm curious about your thoughts here too. --MF<br />I'm not sure we need this box at all, but if we want it, here's what it should say. --bh</div>
+            <p>The orange oval blocks that name variables are reporters, like other oval blocks.  But <em>most</em> reporters implement <em>functions,</em> which means that when you call the same block with the same inputs, you always get the same value. <code>2+3</code> is always 5. The <code>random</code> block, and reporters you write using <code>random</code>, are different; calling them twice with the same inputs may report different answers.</p>
+            <p>Variable blocks are one step further away from functions; a program can choose to change the value that a variable block will report by using <code>set</code> or <code>change</code> to give the variable a new value.</p>
+            <img src="/bjc-r/img/2-conditionals-abstraction-testing/score-variable-reporting-7.png" alt="score reporting 7"><br />
+            <img src="/bjc-r/img/2-conditionals-abstraction-testing/change-score-by-1.png" alt="change score by 1"><br />
+      <img src="/bjc-r/img/2-conditionals-abstraction-testing/score-variable-reporting-8.png" alt="score reporting 8">      
+            <p> It turns out that any program that changes the values of variables can be rewritten in a way that doesn't <code>set</code> or otherwise change the values of variables. There are advantages to this <em>functional programming</em> style, which avoids certain kinds of otherwise-common bugs, but some kinds of programs are hard to write functionally. You aren't really ready to think about this yet, but we'll come back to functional programming later in the year.</p>
         </div>
             
         <div class="forYouToDo">
@@ -72,10 +59,10 @@
                 <li>
                 	Use a conditional to determine when the player reaches that score, and when they do:
                     <ol>
+                        <li><code>Stop all but this script</code> so Alonzo stops jumping around.</li>
                     	<li>Make Alonzo appear again. (You'll have to reset the ghost effect.)</li>
                         <li>Congratulate the player for a few seconds.</li>
-                        <li><code>Stop all</code> scripts from running to end the game.</li>
-                    </ol>
+                        <li>If necessary, use another <code>stop</code> block to stop the running script.  (Whether this is needed will depend on your program structure.)</ol>
                 </li>
                 <img class="imageRight" src="/bjc-r/img/icons/save-now.png" alt="Now Is a Good Time to Save" title="Now Is a Good Time to Save" />
                 <li><strong>Test and debug.</strong> Take turns playing the game, and fix any bugs.</li>
