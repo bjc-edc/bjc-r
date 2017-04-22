@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-		<script type="text/javascript" src="/mini17/bjc-r/llab/loader.js"></script>
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
         <title>Unit 2 Lab x: Games</title>
 </head>
 
@@ -10,7 +10,7 @@
 <h3>Tic-Tac-Toe: Look for Wins</h3>
 <p>In earlier labs, you worked out how to display moves on a tic-tac-toe board and keep track of them in a variable <var>board</var> whose value is a list of nine values, one per square of the board, each of which can be X or O or empty if that square is unoccupied:<br />
 <img src="/bjc-r/img/1-introduction/ttt-board-and-list.png" alt="tic-tac-toe board and BOARD list" /><br /> 
-Now we'd like the computer to detect whether a player has won the game, and to do that, it has to be able to detect patterns in the board position that mean, for example, &quot;I have three cells in a row.&quot;</p>
+Now we'd like the computer to detect whether a player has won the game, and to do that, it has to be able to detect patterns in the board position that mean, for example, &quot;I have three cells in a row.&quot; Your goal is to write a <img src="/bjc-r/img/1-introduction/has-player-won.png" alt="has player ( ) won?"> block. The input will be X or O.</p>
 <div class="forYouToDo" id="first"><ol><li>How many ways are there to win at tic-tac-toe?  That is, which sets of three squares count as a win?  Work with your partner to make a list on paper.</li>
 <li>Load <a class="run" href="/bjc-r/prog/1-introduction/mini-ttt.xml">this project</a>.  We've provided a <code>wins</code> block that reports a list of all the winning triples:<br />
   <img src="/bjc-r/img/1-introduction/wins.png" width="80%" height="253" alt="wins" /><br />
@@ -18,11 +18,12 @@ Now we'd like the computer to detect whether a player has won the game, and to d
   <li>Try these:<br />
               
       <img class="indent" src="/bjc-r/img/3-lists/map-example-2.png" alt="map (join ( ) (s)) over (list (cat) (dog) (bird)) reporting" title="map (join ( ) (s)) over (list (cat) (dog) (bird)) reporting" /><br />
-            <img class="indent" src="/bjc-r/img/3-lists/map-example-3.png" alt="map (round ( )) over (list (3.14159) (87) (5.4)) reporting" title="map (round ( )) over (list (3.14159) (87) (5.4)) reporting" /><br />
-Note that each example has an empty input slot in a function (the green blocks, in these examples).</li>  
+    <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/map-plus2-over-list-reporting.png" alt="map (( )+2) over (list 1 4 6 0) reporting {3,6,8,2}">        <br />
+Note that each example has an empty input slot in a function (the green blocks, in these examples, are the functions).</li>  
 </ol>
 </div>
 <p><code>Map</code> calls a given function (its first input) on each item of a list (its second input). It reports a list of the reported values.</p>
+<p>&nbsp;</p>
 <p>Let's say player X has just moved. We want to know whether X won the game — whether there are three Xs along any of the eight winning triples. So, given a winning triple such as <code>{4,5,6}</code>, we want to convert those three numbers into the three corresponding items of <var>board</var>, in this case <code>{_,X,_}</code>. (Each <code>_</code> shown here represents an empty item in the actual list.)</p>
 <p>Saying that another way, we want a list of three items, namely
 <br /><code>item 4 of board</code>
@@ -31,25 +32,28 @@ Note that each example has an empty input slot in a function (the green blocks, 
 <br />We'll call a list like <code>{_,X,_}</code> a <em>filled triple.</em>  (We just made up that name to have a name; it's not a computer science technical term.)</p>
 
 <div class="forYouToDo">
-                <img class="imageLeft" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
+                <img class="imageRight" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
 <ol start="4">
 <li>What list value instead of <code>{_,X,_}</code> would mean that X has won?</li>
-<li>Fill in an empty input in <br /><img src="/bjc-r/img/1-introduction/map-over-456.png" alt="map [item ( ) of ( )] over (list 4 5 6)">
+<li>Fill in one of the two empty input slots in <br /><img src="/bjc-r/img/1-introduction/map-over-456.png" alt="map [item ( ) of ( )] over (list 4 5 6)">
 so that it reports
-<code>{_,X,_}</code>.
+<code>{_,X,_}</code>.</li>
 <li>Write a reporter<br />
 <img src="/bjc-r/img/1-introduction/filled-triple-empty.png" alt="filled triple of triple: ( ) in board: ( )"><br />
 that works like this:<br />
-<img src="/bjc-r/img/1-introduction/filled-triple-example.png" alt="filled triple of triple: (list 4 5 6) in board: (board) ">
+<img src="/bjc-r/img/1-introduction/filled-triple-example.png" alt="filled triple of triple: (list 4 5 6) in board: (board) "></li>
 <li>Fill in some blanks in the expression below so that it gives the result shown:<br />
-<img src="/bjc-r/img/1-introduction/filled-wins.png" alt="map [filled triple of triple: ( ) in board: ( )] over ( )"></ol>
-</div>
-<div class="ifTime">
-<ol start=8>
-<li>If the computer can win on this move, it should.  Otherwise, if the opponent can win on this move, the computer should block that.  But if neither of those is true, at least the computer should find a place to move in a triple where it already appears once, and the opponent doesn't appear, such as <code>{4,5,6}</code> for X on this board.  Write <img src="/bjc-r/img/1-introduction/okay-move.png" alt="is triple ( ) an okay move for player ( ) ?" /></li></ol></div>
-<div class="takeItFurther">
-<ol type="a">
-<li>Actually, on this board, it's not X's turn; it's O's turn.  There is no winning move for O according to the block you wrote in problem 7, but there is one <em>great</em> square for O to choose.  Which is it?</li>
-<li>Write a procedure to find such a move.</li></ol></div>
+<img src="/bjc-r/img/1-introduction/filled-wins.png" alt="map [filled triple of triple: ( ) in board: ( )] over ( )"><br />
+Use the resulting expression to write a <code>filled wins in board:</code> block.</li>
+<li>Try these examples:<br />
+<img src="/bjc-r/img/3-lists/keep-example-1.png" alt="keep items such that [is ( ) a number ?] from (list 5 ☺ six 7 elephant 3) reporting {5,7,3}"><br />
+<img src="/bjc-r/img/1-introduction/keep-starts-e.png" width="687" height="132" alt="keep items such that [(letter 1 of ( )) = e] from (list aardvark elephant camel giraffe emu kangaroo orangutan) reporting {elephant,emu}"></li>
+<li>Use your <code>filled wins</code> block to complete this expression to select all the winning triples that X has actually won:<br />
+<img src="/bjc-r/img/1-introduction/keep-xxx.png"  alt="keep items such that [( ) = (list X X X))] from ( )"><br />
+What will this expression report if X has in fact won?  What will it report if X hasn't won?</li>
+<li>Write a block <code>has player ___ won?</code>.</li>
+
+</ol></div>
+
 </body>
 </html>
