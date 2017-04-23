@@ -12,10 +12,25 @@
 <img src="/bjc-r/img/1-introduction/ttt-board-and-list.png" alt="tic-tac-toe board and BOARD list" /><br /> 
 Now we'd like the computer to check,  after a player has moved, whether that player has won the game. To do that, it must be able to detect patterns in the board position that mean the player has three cells in some row or column or diagonal. Your goal is to write a <img src="/bjc-r/img/1-introduction/has-player-won.png" alt="has player ( ) won?"> block. The input will be X or O, representing the player that just moved.</p>
 <div class="forYouToDo" id="first"><ol>
-<li>How many ways are there to win at tic-tac-toe? With your partner, figure out which sets of three squares count as a win and list them all on paper. (For example, {4, 5, 6} is the list of cells in the second row. If one player fills all three  cells in that list, that player wins. Another win is {3, 5, 7}, one of the diagonals.)</li>
+<li>How many ways are there to win at tic-tac-toe? With your partner, figure out which sets of three squares count as a win and list them all on paper. (For example, {4, 5, 6} is the list of cells in the second row. If one player fills all three  cells in that list, “that player wins. Another win is {3, 5, 7}, one of the diagonals.)</li“‘>
 <li>Load <a class="run" href="/bjc-r/prog/1-introduction/mini-ttt.xml">this project</a>.  The <code>wins</code> block already contains the two wins listed above. Fill in the remaining winning triples you've found.<br />
   <img src="/bjc-r/img/1-introduction/wins.png" width="50%" alt="wins" /><br />
-  </li>
+  </li></ol></div>
+<p>Let's say player X has just moved. We want to know whether X won the game — whether there are three Xs along any of the eight winning triples. We're going to attack this problem in two pieces. First, we'll find out whether X has won along <em>some particular</em> triple. After that, we'll see how to ask that question for all the triples at once.</p>
+<p>So, given a winning triple such as <code>{4,5,6}</code>, we want to convert those three numbers into the three corresponding items of <var>board</var>, in this case <code>{_,X,_}</code>. (Each <code>_</code> shown here represents an empty item in the list, not an actual underscore character.)</p>
+<p>Saying that another way, we want a list of three items, namely
+<br /><code>item 4 of board</code>
+<br /><code>item 5 of board</code>
+<br /><code>item 6 of board</code>
+<br />We'll call a list like <code>{_,X,_}</code> a <em>filled triple.</em>  (We just made up that name to have a name; it's not a computer science technical term.)</p>
+<p>You could write an expression like this:<br /><img src="/bjc-r/img/2-conditionals-abstraction-testing/list-456.png" alt="list (item 4 of board) (item 5 of board) (item 6 of board)"><br />
+... but it would be painful to do that for every possible winning triple.  You'd really like to be able to ask for <img src="/bjc-r/img/2-conditionals-abstraction-testing/item-qmqmqm.png" alt="item ??? of board"> with each item of <code>{4,5,6}</code> as the first input to <code>item</code>.</p>
+
+Computing some function of each item of a list is a very common thing to want, and Snap<em>!</em> has a tool for it.
+
+<div class="takeNote">
+<h4>Map</h4>
+<div class="forYouToDo"><ol start="3">
   <li>Try these:<br />
               
       <img class="indent" src="/bjc-r/img/3-lists/map-example-2.png" alt="map (join ( ) (s)) over (list (cat) (dog) (bird)) reporting" title="map (join ( ) (s)) over (list (cat) (dog) (bird)) reporting" /><br />
@@ -24,13 +39,7 @@ Note that each example has an empty input slot in a function (the green blocks, 
 </ol>
 </div>
 <p><code>Map</code> calls a given function (its first input) on each item of a list (its second input). It reports a list of the reported values.</p>
-<p>&nbsp;</p>
-<p>Let's say player X has just moved. We want to know whether X won the game — whether there are three Xs along any of the eight winning triples. So, given a winning triple such as <code>{4,5,6}</code>, we want to convert those three numbers into the three corresponding items of <var>board</var>, in this case <code>{_,X,_}</code>. (Each <code>_</code> shown here represents an empty item in the actual list.)</p>
-<p>Saying that another way, we want a list of three items, namely
-<br /><code>item 4 of board</code>
-<br /><code>item 5 of board</code>
-<br /><code>item 6 of board</code>
-<br />We'll call a list like <code>{_,X,_}</code> a <em>filled triple.</em>  (We just made up that name to have a name; it's not a computer science technical term.)</p>
+</div>
 
 <div class="forYouToDo">
                 <img class="imageRight" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
@@ -39,22 +48,31 @@ Note that each example has an empty input slot in a function (the green blocks, 
 <li>Fill in one of the two empty input slots in <br /><img src="/bjc-r/img/1-introduction/map-over-456.png" alt="map [item ( ) of ( )] over (list 4 5 6)">
 so that it reports
 <code>{_,X,_}</code>.</li>
-<li>Write a reporter<br />
-<img src="/bjc-r/img/1-introduction/filled-triple-empty.png" alt="filled triple of triple: ( ) in board: ( )"><br />
+<li>Write a reporter
+<img src="/bjc-r/img/1-introduction/filled-triple-empty.png" alt="filled triple of ( )">
 that works like this:<br />
-<img src="/bjc-r/img/1-introduction/filled-triple-example.png" alt="filled triple of triple: (list 4 5 6) in board: (board) "></li>
+<img src="/bjc-r/img/1-introduction/filled-triple-example.png" alt="filled triple (list 4 5 6)"></li>
+<li>Fill in the blank in the expression below so that it reports <code>true</code> if X has won in this triple:<br /><img src="/bjc-r/img/1-introduction/filled-triple-equals-what.png" alt="(filled triple (list 4 5 6)) = ( )">
+</ol></div>
+<div class="takeItFurther"><ol type="A">
 <li>Fill in some blanks in the expression below so that it gives the result shown:<br />
 <img src="/bjc-r/img/1-introduction/filled-wins.png" alt="map [filled triple of triple: ( ) in board: ( )] over ( )"><br />
-Use the resulting expression to write a <code>filled wins in board:</code> block.</li>
-<li>Try these examples:<br />
+Use the resulting expression to write a <code>filled wins</code> block.</li></ol></div>
+<p>Okay, now you have the tools you need to ask whether X has won <em>along some particular</em> triple.  To solve the entire problem &mdash; to find out whether X has won <em>along any</em> triple &mdash; you'd like to ask the question "are there any triples along which X has won?"  Snap<em>!</em> doesn't exactly have a tool for that, but it has something more generally useful: a way to select <em>those items from a list for which some predicate function reports true.</em>
+<div class="takeNote">
+<h4>Keep</h4>
+<div class="forYouToDo">
+<ol start="8"><li>Try these examples:<br />
 <img src="/bjc-r/img/3-lists/keep-example-1.png" alt="keep items such that [is ( ) a number ?] from (list 5 ☺ six 7 elephant 3) reporting {5,7,3}"><br />
 <img src="/bjc-r/img/1-introduction/keep-starts-e.png" width="687" height="132" alt="keep items such that [(letter 1 of ( )) = e] from (list aardvark elephant camel giraffe emu kangaroo orangutan) reporting {elephant,emu}"></li>
-<li>Use your <code>filled wins</code> block to complete this expression to select all the winning triples that X has actually won:<br />
+</ol></div></div>
+<div class="forYouToDo">
+<ol start="9">
+<li>Use the result of problem 7 to complete this expression to select all the winning triples that X has actually won:<br />
 <img src="/bjc-r/img/1-introduction/keep-xxx.png"  alt="keep items such that [( ) = (list X X X))] from ( )"><br />
 What will this expression report if X has in fact won?  What will it report if X hasn't won?</li>
 <li>Write a block <code>has player ___ won?</code>.</li>
 
-</ol></div>
 
 </body>
 </html>
