@@ -6,12 +6,14 @@
 		<script type="text/javascript" src="/bjc-r/utilities/gifffer.min.js"></script>
         <script type="text/javascript">window.onload = function() {Gifffer();}</script>
         <link rel="stylesheet" type="text/css" href="/bjc-r/css/bjc-gifffer.css">
-        <title>Unit 2: Nesting Repeats</title>
+        <title>Unit 2 Lab 4: Nesting, Composition, Layers of Abstraction Page X</title>
     </head>
     
     <body>
-        <img class="imageRight" src="/bjc-r/img/icons/teachers-choice.png" alt="Teacher's Choice" title="Teacher's Choice" />
-        <h2>Nesting Repeats</h2>        
+    <h2>Nesting Repeats</h2>
+    <div class="learn">In this project you will learn how to nest <code>repeat</code> blocks to generate complex structures.</div>
+        
+                
 		<div class="todo">
         	<ul>
                 <li>GH Feedback 8/30/15: More of a question - Should the triangles exercise be something they turn in? Seems like it's somewhat involved, and a good example of abstraction.</li>
@@ -23,15 +25,7 @@
         </p>
         <div class="forYouToDo" id="first">
             <ol>
-            	<!-- Paul suggested removing this problem
-                <li>
-           	    <strong>Predict</strong> what this script will do without building it.<br />
-                    <img class="indent" src="/bjc-r/img/prog/hip32.png" alt="when greenflag clicked, repeat (3) [repeat (2) [say (Hip) for (2) secs], say (Hooray!) for (2) secs]" title="when greenflag clicked, repeat (3) [repeat (2) [say (Hip) for (2) secs], say (Hooray!) for (2) secs]" />
-                    <ol type="a">
-                        <li>How many times in total will the script say "Hip"?</li>
-                        <li>How many times in total will the script say "Hooray"?</li>
-                    </ol>
-                </li>-->
+            	
 	            <li>
                 	Build a script that draws a red triangle, duplicate it twice, and make the two new scripts draw a smaller blue triangle and an even smaller green one. 
                     <ul>
@@ -66,18 +60,31 @@
         
         <div class="forYouToDo">
             <ol start="8">
-            <li>Does all this copying and pasting of code feel awkward to you?  It should, and you know a better way: abstraction.  In Unit 1 you used a <code>pinwheel</code> block to implement <code>asterisk</code> and <code>polygon</code>, rather than copying its code.
+            <li>Does all this copying and pasting of code feel awkward to you?  It should, and you know a better way: <em>abstraction</em>.  In Unit 1 you used a <code>pinwheel</code> block to implement <code>asterisk</code> and <code>polygon</code>, rather than copying its code.<br />
             <ol type="a">
-            	<li>Make a <code>triangle</code> block with two inputs, <var>size</var> and <var>color</var>.  Use your first unnamed triangle script from problem 1 as a model.  In order to be able to have an input for the color, you'll have to use the numeric 
+            	<li>Make a <code>repeatedTriangle</code> block with two inputs, <var>size</var> and <var>color</var>.  <br />
+                <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/U2ImageVideoAddendum_img/repeatedTriangleHeader.png"  height="60" alt=""/><br />
+                
+                Use your first unnamed triangle script from problem 1 as a model.  In order to be able to have an input for the color, you'll have to use the numeric 
             
-                  <img src="/bjc-r/img/1-introduction/setpc-num.png" alt="set pen color to number">
+                  <img src="/bjc-r/img/1-introduction/setpc-num.png" height="25" alt="set pen color to number">
        	    block instead of the <em>color-picker</em> block
-           	  <img src="/bjc-r/img/1-introduction/setpc-pick.png" alt="set pen color to (coiored square)">.</li>
+           	  <img src="/bjc-r/img/1-introduction/setpc-pick.png" height="25" alt="set pen color to (coiored square)">.</li>
               <li>Click the Apply button in the Block Editor.</li>
-              <li>Now, where you would have dragged in another copy of the script, drag in <em>a</em> <code>triangle</code> block.  The <var>size</var> input should be half the current value of <var>size</var>; the <var>color</var> input should be ten more than its current value.</li>
-              <li>The trouble with this definition is that, as it stands, you'll keep getting smaller and smaller triangles forever.  To prevent that, put the entire definition of <code>triangle</code> inside
+              <li>Now, where you would have dragged in another copy of the script, drag in <em>a</em> <code>repeatedTriangle</code> block.  The <var>size</var> input should be half the current value of <var>size</var>; the <var>color</var> input should be ten more than its current value.<br />
+              
+              <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/U2ImageVideoAddendum_img/repeatedTriangleRecursive.png" height="35" alt=""/><br />
+              
+              <div class="endnote">Notice that you used <code>repeatedTriangle</code> block in its very own definition.  When a block refers to itself in its own definition, this definition is said to be <em>recursive</em>.  Recursion is one of the most powerful techniques in computer science and you will learn more about it later in this lab and in much more detail at a later unit this year.</div>
+              </li>
+              <li>The trouble with this definition is that, as it stands, you'll keep getting smaller and smaller triangles forever.  To prevent that, put the entire definition of <code>repeatedTriangle</code> inside
+              <div class="sidenote">If the color variations are not showing in your drawings, click on the block <img src="/bjc-r/img/2-conditionals-abstraction-testing/U2ImageVideoAddendum_img/setColorRed.png"  height="30" alt=""/> to establish a color baseline.</div>
               <img src="/bjc-r/img/1-introduction/end-test.png" alt="if (size &gt; 2)"></li>
-              <li>now try <code>triangle</code> with a size of 100 and a color number of 0.</li>
+              
+              <li>Now try <code>repeatedTriangle</code> with a size of 100 and a color number of 0.<br />
+              
+              <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/U2ImageVideoAddendum_img/repeatedTriangleApplied.png"  height="35" alt=""/>
+              </li>
               </ol></li></ol></div>
             <div class="ifTime">
             <ol start="9">
@@ -98,10 +105,12 @@
 	
         <div class="takeItFurther" id="first">
     <ol type="A">
+    <li>Some objects in nature exhibit the property of <em>self-similarity</em>, which means that parts of the whole are small replicas of the whole (for example trees, brocolli, caulifower etc.) Do some research on self-similar geometric objects called <em>Fractals</em>. </li>
     <li>Can you figure out how these animations were done?<br />
     <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/U2ImageVideoAddendum_img/RecursiveTriangleAnimation.gif"  height="250" alt=""/>&nbsp&nbsp&nbsp<img src="/bjc-r/img/2-conditionals-abstraction-testing/U2ImageVideoAddendum_img/RecursiveSquareAnimation.gif"  height="250" alt=""/>
     
     </li>
+    
     </ol>
     
    </div>
