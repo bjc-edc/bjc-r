@@ -3,61 +3,94 @@
     <head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
-		<title>Unit 3 Lab 2: Nesting Lists, Page 2</title>
+		<title>Unit 2 Lab 2: Drawings That Use Lists of Points, Page 1</title>
     </head> 
 
     <body>
         <h2>The <code>For Each</code> Block</h2>
+        
         <div class="todo">
-            <ul>
-	            <li>GH Feedback 1/15/16: the picture and the script for the lab have two different starting points (misunderstanding? --MF)</li>
-            </ul>
-        </div>
-        <div class="todo">From Observation Notes Analysis: U3L4: "Should we think about not teaching FOR EACH, or at least not teaching it until way after the HOFs?"</div>
+          <p><strong>What students do:</strong> They build a block that takes a list of points as input and connects the dots. Useful for drawing and, later, for plotting data points. <br />
+            <strong>What students learn:</strong> They think about problem decomposition in the form of tool-building, and creating and debugging an algorithm. First they build a block that goes to <em>one</em> point, using <code>item of</code> to decompose a pair of coordinates into the x and y components. Then they build a script that uses <code>for each</code> to go to all points, then a block that is defined by that script. In each case, they focus on the nature and use of the input.</p>
+          <p><strong>Follow-up:</strong> I think that after this, students should <em>use</em> the thinking that they've done in problem 5. They should have the experience of clicking on some data points on an imported line graph (perhaps from a news article), reading the coordinates, making a list of them, and having Snap plot that line graph.</p>
+</div>
         
         
         <div class="dialogue"> <a name="seta" class="anchor">&nbsp;</a>
             	<div class="stagedir">
-                	Alphie and Betsy make a list of the coordinates for each vertex in a drawing of the letter A. <br /> The first coordinate (bottom left) is (-50, 20), the second is (-10, 120), and so on. <br /> 
-                    <img src="/bjc-r/img/3-lists/coordinate-list-for-A.png" alt="coordinate-list-for-A"><br /> 
-                  Now they want to create a script that will use that list and make the drawing, like this:<br />
-            		<img border="2" class="inline" src="/bjc-r/img/3-lists/drawA.gif" alt="sprite drawing letter A by going to each set of coordinates" title="sprite drawing letter A by going to each set of coordinates" /> <br />
-                    
+               	  <p>Alphie and Betsy want to build a program that will take a list of coordinates as input and connect the dots. They figure this will be useful both for drawing pictures, and for drawing graphs of data. To make a set of starting data, they sketch the letter A on graph paper. </p>
+               	  <p><img src="/img/2-conditionals-abstraction-testing/sketch-of-letter-A.png" height="100" alt="sketch-of-letter-A"></p>
+               	  <p><br /> 
+               	   Then they make a list of the coordinates for each vertex.<br /> The first coordinate (bottom left) is (-50, 20), the second is (-10, 120), and so on. <br /> 
+               	    <img src="/bjc-r/img/3-lists/coordinate-list-for-A.png" alt="coordinate-list-for-A"><br /> 
+               	    Now they need  a script that will use that list and make the drawing, like this:<br />
+               	    <img border="2" class="inline" src="/bjc-r/img/3-lists/drawA.gif" alt="sprite drawing letter A by going to each set of coordinates" title="sprite drawing letter A by going to each set of coordinates" /> <br />
+           	      </p>
           </div>
-            <div><span>Betsy:</span> Let's name our list of coordinates A.</div>
-				<div class="stagedir">Betsy clicks "Make a variable," names it "A,"  builds <img  src="/bjc-r/img/3-lists/A.png" alt="set A to {{-50,20}, {-10,120}, {10,120}, {50,20}, {30,20}, {20,50}, {-20,50}, {-30,20}}" title="set A to {{-50,20}, {-10,120}, {10,120}, {50,20}, {30,20}, {20,50}, {-20,50}, {-30,20}}" /> and clicks <code>set</code>.</div>
+            <div><span>Betsy:</span> This list  of coordinates outlines an A, so let's name it A.</div>
+				<div class="stagedir">
+				  <p>Betsy clicks <code>Make a variable</code>, names it <code>A</code>,  and builds <img  src="/bjc-r/img/3-lists/A.png" alt="set A to {{-50,20}, {-10,120}, {10,120}, {50,20}, {30,20}, {20,50}, {-20,50}, {-30,20}}" title="set A to {{-50,20}, {-10,120}, {10,120}, {50,20}, {30,20}, {20,50}, {-20,50}, {-30,20}}" />. </p>
+				  <p>Then she clicks <code>set</code>.</p>
+	        </div>
             <div>
-            	<span>Alphie:</span> So, for each of the eight lists, we want to make the sprite go to (item 1, item 2). Here's how I would start it....
-                <div class="stagedir">Alphie makes <img  src="/bjc-r/img/3-lists/A_foreach.png" alt="script with for each (item) of (A) {glide 1 secs to x:(blank) y:(blank)} then glide to (0, 0)" title="script with for each (item) of (A) {glide 1 secs to x:(blank) y:(blank)} then glide to (0, 0)" /></div>
+            	<span>Alphie:</span> So, for each of those eight points, we want  the sprite to go to it. I guess the first thing to do is build a  <img src="/img/2-conditionals-abstraction-testing/go-to-point().png" width="183" height="44" alt="go-to-point()"> block that will take <em>one</em> point like <img src="/img/2-conditionals-abstraction-testing/list(-50)(20).png" width="173" height="36" alt="list(-50)(20)">
+as input like this        	    <img src="/img/2-conditionals-abstraction-testing/go-to-point(list(-50)(20)).png" width="332" height="56" alt="go-to-point(list(-50)(20))">, and will go to that point.
+<div class="stagedir">Alphie makes <img src="/img/2-conditionals-abstraction-testing/go-to-point(coordinates).png" width="405" height="99" alt="go-to-point(coordinates)"> and knows that either<img src="/img/2-conditionals-abstraction-testing/go-to-x()-y().png" width="227" height="48" alt="go-to-x()-y()"> or <img src="/img/2-conditionals-abstraction-testing/glide(.5)secs-to-x()-y().png" width="369" height="48" alt="glide(.5)secs-to-x()-y()"> will be the perfect thing inside.</div>
             	But what goes in the blanks after <em>x</em> and <em>y</em>?
+                <!-- <img  src="/bjc-r/img/3-lists/A_foreach.png" alt="script with for each (item) of (A) {glide 1 secs to x:(blank) y:(blank)} then glide to (0, 0)" title="script with for each (item) of (A) {glide 1 secs to x:(blank) y:(blank)} then glide to (0, 0)" /> -->
             </div>
                 
-            <div><span>Betsy:</span> Hmm... Good question. Also, this script isn't quite right. We don't want the pen down as it goes from wherever the sprite starts to the first point on the letter. And it won't connect the first and last points together. </div>
+            <div><span>Betsy:</span> Hmm... Oh! I bet we can use <img src="/img/2-conditionals-abstraction-testing/item()of(list).png" width="190" height="36" alt="item()of(list)">.</div>
         </div>
         
         <div class="forYouToDo" id="first">
         	<ol>
             	<!--<img class="imageRight" src="/bjc-r/img/icons/pair-programming-swap.png" alt="Pair Programming Swap" title="Pair Programming Swap" /> -->
-				<li>Load and finish building <a class="run" href="/bjc-r/prog/3-lists/U3L2-DrawShape.xml">Alphie's script</a>.</li>
-                <li>Then, fix the two bugs Betsy noticed.</li>
-                <div class="endnote">
-                	Your script should:
-                    <ul>
-                        <li>Have the correct inputs to the <code>glide</code> blocks so the sprite glides to each item on the list</li>
-                        <li>Only have the <code>pen down</code> when connecting two points</li>
-                        <li>Connect the first and last points</li>
-                    </ul>
-                </div>
-        		<img class="imageRight" src="/bjc-r/img/icons/save-now.png" alt="Now Is a Good Time to Save" title="Now Is a Good Time to Save" />
+				<li>Load and finish building <a class="run" href="/bjc-r/prog/3-lists/U3L2-DrawShape.xml">their <code>go to point</code> block</a>.</li>
+                
             </ol>
         </div>
+        
+    <div class="dialogue"> <a name="seta" class="anchor">&nbsp;</a>
+           <div>
+           	<span> Alphie:</span> OK, so we're now ready to do this <em>for each</em> of the points in our list.
+           </div>
+           <div><span>Betsy:</span> When I was looking for  <img src="/img/2-conditionals-abstraction-testing/item()of(list).png" width="190" height="36" alt="item()of(list)">, I saw <img src="/img/2-conditionals-abstraction-testing/for-each-(item)-of().png" width="271" height="93" alt="for-each-(item)-of()">. </div>
+            <div class="stagedir">
+           	  <p>Alphie and Betsy design this new script. </p>
+               	  <p><img src="/img/2-conditionals-abstraction-testing/new-for-each-point-script.png" width="305" height="271" alt="new-for-each-point-script"> </p>
+            </div>
+            <div>
+           	<span> Alphie:</span> Close! But it isn't quite right. We don't want the pen down while the sprite is going to the first point. And we <em>do</em> want it to connect the first and last points together.
+           </div>
+           
+    </div>
+     <div class="forYouToDo">
+        	<ol start="2">
+            	<!--<img class="imageRight" src="/bjc-r/img/icons/pair-programming-swap.png" alt="Pair Programming Swap" title="Pair Programming Swap" /> -->
+				<li>Build and test out the script they used.</li>
+                <li>Fix the two bugs Alphie noticed.</li>
+                <li>Make a new <code>connect-the-dots</code> block that takes a list of points as input and uses this script to connect them all.</li>
+                <li><strong>Think and write: </strong> 
+                    <ul> 
+                    <li> For what purposes might you <em>not</em> want to connect the first and last points?</li> 
+                    <li> For what purposes might you want to have the pen down <em>only</em> when the sprite marks each point, but never when the sprite moves from one point to another?</li>
+                    <li> For what purposes might you prefer <code>go to</code> over <code>glide</code>?</li>
+                    </ul>
+                
+        		<img class="imageRight" src="/bjc-r/img/icons/save-now.png" alt="Now Is a Good Time to Save" title="Now Is a Good Time to Save" />
+            </ol>
+    </div>
      
 		<div class="takeItFurther"><a name="further" class="anchor">&nbsp;</a>
             <ol type="A">
-				<li>Update the script so that it completes a drawing of the letter A. (Choose the additional coordinates yourself.)</li>
+				<li>Create three new points and a script that draws the complete letter A. <br /> 
+			    <img src="/img/2-conditionals-abstraction-testing/complete-drawing-of-letter-a.png" width="91" height="90" alt="complete-drawing-of-letter-a"><br /> (Choose the additional coordinates yourself.)</li>
+                <li>The legs of the A aren't quite the same thickness all the way up. Find a way to fix the coordinates so that all the bars of the A are the same thickness throughout.</li>
             </ol>
         </div>
+		
      
 
-   </body>
+</body>
 </html>
