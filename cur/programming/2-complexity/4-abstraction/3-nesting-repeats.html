@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<script type="text/javascript" src="/bjc-r/utilities/gifffer.min.js"></script>
+        <script type="text/javascript">window.onload = function() {Gifffer();}</script>
+        <link rel="stylesheet" type="text/css" href="/bjc-r/css/bjc-gifffer.css">
+        <title>Unit 2 Lab 4: Nesting, Composition, Layers of Abstraction Page 3</title>
+    </head>
+    
+    <body>
+        <h2>Nesting Repeats</h2>
+        <div class="learn">
+            <strong>In this project,</strong> you will learn how to nest <code>repeat</code> blocks to generate complex structures.<br />
+            <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/U2ImageVideoAddendum_img/RecursiveTriangleSteps.gif"  height="250" alt=""/>&nbsp<img src="/bjc-r/img/2-conditionals-abstraction-testing/U2ImageVideoAddendum_img/RecursiveSquareSteps.gif"  height="250" alt=""/>
+        </div>
+        
+        <p> 
+        	It is possible to <em>nest</em> one <code>repeat</code> block inside another. Since <span class="snap">snap</span> processes scripts from top to bottom, the first <code>repeat</code> will begin first, and the second <code>repeat</code> will have to complete all its repetitions before the first <code>repeat</code> continues.<br />
+            <img class="indent" src="/bjc-r/img/1-introduction/two-color-sierpinski-code.png" alt="repeat (3) (set pen color to (red), move (100) steps, repeat (3) (set pen color to (blue), move (100) steps, turn right (120) degrees), turn right (120) degrees)" title="repeat (3) (set pen color to (red), move (100) steps, repeat (3) (set pen color to (blue), move (100) steps, turn right (120) degrees), turn right (120) degrees)" />
+        </p>
+
+        <div class="forYouToDo" id="first">
+            <ol>
+	            <li>
+                	Build a script that draws a red triangle, duplicate it twice, and make the two new scripts draw a smaller blue triangle and an even smaller green one. 
+                    <ul>
+                    	<li>To duplicate a script, right-click (or control-click) on the first block of the script (in this case, the <code>repeat</code> block) and choose "duplicate".</li>
+                        <li>
+                            Then, change the inputs as the video shows:<br />
+                            <img class="indent" data-gifffer="/bjc-r/img/1-introduction/duplicating-a-script.gif" alt="duplicating a script">
+                        </li>
+                    </ul>
+                </li>
+                <li>Try each script by itself to be certain what it does. Then clear the stage.</li>
+                <li>
+                    Now, insert the entire script for the blue triangle between the <code>move</code> and <code>turn</code> blocks of the red triangle, like this. <br />
+                    <img class="indent" data-gifffer="/bjc-r/img/1-introduction/embedding-one-script-in-another.gif" alt="embedding the blue triangle in the red triangle">
+                    <img class="imageRight" src="/bjc-r/img/icons/pair-programming-swap.png" alt="Pair Programming Swap" title="Pair Programming Swap" /> 
+                </li>
+                <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
+ Predict what will happen when you run this script.</li>
+                <li>Then, try this script to see what it does.</li>
+                <li>
+                    Using the scripts you have, find a way to make this picture.<br />
+                    <img class="indent" src="/bjc-r/img/1-introduction/three-color-sierpinski.png" alt="Red triangle with blue children and green grandchildren" title="Red triangle with blue children and green grandchildren" />
+                </li>
+            </ol>
+        </div>
+        
+        <div class="ifTime">
+        	<ol start="7">
+            	<li>If you like, embed one more triangle, half the size of the last one, in the same way.</li>
+            </ol>
+        </div>
+        
+        <div class="forYouToDo">
+            <ol start="8">
+				<li>
+					Does all this copying and pasting of code feel awkward to you?  It should, and you know a better way: <em>abstraction</em>.  In Unit 1 you used a <code>pinwheel</code> block to implement <code>asterisk</code> and <code>polygon</code>, rather than copying its code.<br />
+                    <ol type="a">
+                        <li>
+                            Make a <code>repeatedTriangle</code> block with two inputs, <var>size</var> and <var>color</var>.  <br />
+                            <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/U2ImageVideoAddendum_img/repeatedTriangleHeader.png"  height="60" alt=""/><br />
+                            Use your first unnamed triangle script from problem 1 as a model.  In order to be able to have an input for the color, you'll have to use the numeric <img src="/bjc-r/img/1-introduction/setpc-num.png" height="25" alt="set pen color to number"> block instead of the <em>color-picker</em> block
+                            <img src="/bjc-r/img/1-introduction/setpc-pick.png" height="25" alt="set pen color to (coiored square)">.
+                        </li>
+                        <li>Click the Apply button in the Block Editor.</li>
+                        <li>
+                            Now, where you would have dragged in another copy of the script, drag in <em>a</em> <code>repeatedTriangle</code> block.  The <var>size</var> input should be half the current value of <var>size</var>; the <var>color</var> input should be ten more than its current value.<br />
+                            <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/U2ImageVideoAddendum_img/repeatedTriangleRecursive.png" height="35" alt=""/><br />
+                            <div class="endnote">Notice that you used <code>repeatedTriangle</code> block in its very own definition.  When a block refers to itself in its own definition, this definition is said to be <em>recursive</em>.  Recursion is one of the most powerful techniques in computer science and you will learn more about it later in this lab and in much more detail at a later unit this year.</div>
+                        </li>
+                        <li>
+                            The trouble with this definition is that, as it stands, you'll keep getting smaller and smaller triangles forever.  To prevent that, put the entire definition of <code>repeatedTriangle</code> inside <img src="/bjc-r/img/1-introduction/end-test.png" alt="if (size &gt; 2)">. 
+                            <div class="endnote">Experiment with  values other than 2 (such as 40, 20, 10, 5) to see how this value determines how far down in the iteration chain to go in the drawing of repeated triangles.</div> 
+                        </li>
+                        <div class="sidenote">If the color variations are not showing in your drawings, click on the block <img src="/bjc-r/img/2-conditionals-abstraction-testing/U2ImageVideoAddendum_img/setColorRed.png"  height="30" alt=""/> to establish a color baseline.</div>
+                        <li>
+                            Now try <code>repeatedTriangle</code> with a size of 100 and a color number of 0.<br />
+                            <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/U2ImageVideoAddendum_img/repeatedTriangleApplied.png"  height="35" alt=""/>
+                        </li>
+                        <li>Save your work as U2L4-RepeatedTriangle. <img src="/bjc-r/img/icons/save-now.png" alt="Now Is a Good Time to Save" title="Now Is a Good Time to Save"></li>
+					</ol>
+				</li>
+			</ol>
+		</div>
+              
+		<div class="ifTime">
+			<ol start="9">
+            	<li>
+                    This animation shows another example of embedding one script inside a similar script. (You'll make predictions first, so don't build it yet.)<br />
+                    <img class="indent" data-gifffer="/bjc-r/img/1-introduction/embedding-scripts-for-squares.gif" alt="embedding scripts for squares" title="embedding scripts for squares" />                    <ol type="a">
+                        <li>Before building this script, sketch what each of the two <em>individual</em> scripts will draw before they are combined. </li> 
+                        <li>Predict the number of blue shapes that the combined script will draw.</li>
+                        <li>Sketch the shape that the combined script will draw.</li>
+                        <li>Now, build the combined script and try it out.</li>
+                        <li><strong>Experiment: </strong> Embed <em>another</em> square, half the size of the last, in the same way. How many of these smallest squares does the script draw? How could you have <em>predicted </em> that number before trying it?</li>
+                        <li><strong>Predict then experiment: </strong> Next, embed <em>one more</em> square, half the size of the last, in exactly the same way. But first, try to <em>predict</em> the number of tiny squares it will draw before trying it.</li>
+                        <li>Use problem #8 as a model to recursively define a <code>repeatedSquare</code> block.</li>
+                    </ol>
+                </li>
+            </ol>
+		</div>
+	
+        <div class="takeItFurther">
+            <ol type="A">
+                <li>Some objects in nature exhibit the property of <em>self-similarity</em>, which means that parts of the whole are small replicas of the whole (for example trees, brocolli, caulifower etc.) Do some research on self-similar geometric objects called <em>fractals</em>. Recreate some some of these using Snap<em>!</em>.</li>
+                <li>
+                    Can you figure out how these animations were created?<br />
+                    <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/U2ImageVideoAddendum_img/RecursiveTriangleAnimation.gif"  height="250" alt=""/>&nbsp&nbsp&nbsp<img src="/bjc-r/img/2-conditionals-abstraction-testing/U2ImageVideoAddendum_img/RecursiveSquareAnimation.gif"  height="250" alt=""/>
+                </li>
+            </ol>
+        </div>
+
+
+    </body>
+</html>
