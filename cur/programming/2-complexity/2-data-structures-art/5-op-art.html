@@ -3,94 +3,106 @@
     <head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
-		<title>Unit 2 Lab X: Op Art Page X</title>
-        
         <script type="text/javascript" src="/bjc-r/utilities/gifffer.min.js"></script>
-<link rel="stylesheet" type="text/css" href="/bjc-r/css/bjc-gifffer.css">
-<script type="text/javascript">window.onload = function() {Gifffer();}</script>
+        <script type="text/javascript">window.onload = function() {Gifffer();}</script>
+        <link rel="stylesheet" type="text/css" href="/bjc-r/css/bjc-gifffer.css">
+		<title>Unit 2 Lab 2: Using Variables and Data Structures to Make Art, Page 5</title>
     </head>
 
-<body>
-       
- <div class="learn">
- 	<h2>Op Art</h2>
-    In this project, you will write code to create tools to explore an art form called Op Art.<br />
-    <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/OpArt_img/OpArt_phase1.png"  height="250" alt=""/><img src="/bjc-r/img/2-conditionals-abstraction-testing/OpArt_img/OpArt_phase2.png"  height="250" alt=""/>
-    </div>
+    <body>
+        <h2>Op Art</h2>
+        <div class="learn">
+            In this project, you will write code to create tools to explore an art form called Op Art.<br />
+            <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/OpArt_img/OpArt_phase1.png"  height="250" alt="" title="" />
+            <img src="/bjc-r/img/2-conditionals-abstraction-testing/OpArt_img/OpArt_phase2.png"  height="250" alt="" title="" />
+        </div>
+        
         <div class="forYouToDo" id="first">
-<ol>
-<li>Watch this animation to get a feel for how you will use your program to generate Op Art.<br />
-<img class="indent" data-gifffer="/bjc-r/img/2-conditionals-abstraction-testing/OpArt_img/OpArtAnimation.gif"  height="300" alt=""/></li>
-
-<li>
-Play with the program <a href="/bjc-r/cur/programming/2-complexity/new/op-art-interactive.html" target="_blank">linked here</a> to get a feel for the type of tools you will be developing.  Initially the click-drag-release of the mouse is used to draw rectangles.  When you press the space bar, then the drawing phase ends and the mouse click becomes a paint bucket that fills bounded regions with paint.  Below you can see examples of phase 1 (drawing rectangles) and phase 2 (filling regions with color) of the program. <br />
-<img  src="/bjc-r/img/2-conditionals-abstraction-testing/OpArt_img/OpArt2Phase1.png"  height="175" alt=""/><img src="/bjc-r/img/2-conditionals-abstraction-testing/OpArt_img/OpArt2Phase2.png" height="175" alt=""/>&nbsp&nbsp&nbsp&nbsp&nbsp
-<img src="/bjc-r/img/2-conditionals-abstraction-testing/OpArt_img/OpArt3Phase1.png"  height="175" alt=""/><img src="/bjc-r/img/2-conditionals-abstraction-testing/OpArt_img/OpArt3Phase2.png"  height="175" alt=""/>
-</li>
-</ol>
-</div>
-       <p>The coding in this project is subtle and is all about correct sequencing that match the set of events that take place in the creation of the Op Art.  You will first build all the helper blocks that will help make your coding easier.
-</p>
-<div class="forYouToDo" id="second">
-<ol start="3">
-<li>
-In phase 1, the drawing phase of the project, you will be drawing many rectangles from corner to diagonally opposite corner defined by the mouse click- drag-release.<br />
-<img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/OpArt_img/corner12.png" height="150" alt=""/><br />
-So first, create a reporter block that will define a <code>corner</code> by storing the x and y coordinates of the corner in a list.<br />
-<img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/OpArt_img/cornerxy.png"  height="100" alt=""/>
-</li>
-<li>
-Create also the helper reporter blocks that allow you to retrieve the stored x and y values for a given corner.<br />
-<img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/OpArt_img/xofcorner.png"  height="100" alt=""/><img src="/bjc-r/img/2-conditionals-abstraction-testing/OpArt_img/yofcorner.png"  height="100" alt=""/>
-</li>
-<li>
-Now create a reporter block that will define a rectangle by storing its two diagonally opposite corners in a list.<br />
-<img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/OpArt_img/rectanglecorner12.png" height="100" alt=""/>
-</li>
-<li>Now create a block that will draw a rectangle given its two defining corners.  The following blocks may help.<br />
-<img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/OpArt_img/drawrectanglecorner12Hint.png"  height="200" alt=""/>
-</li>
-<li>Now create some variables that will help you store and keep track of important information.<br />
-<img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/OpArt_img/variables.png"  height="180" alt=""/><br />
-<var>drawingDone</var>: is a Boolean variable that takes values <code>true</code>/<code>false</code> and is used to keep track of which stage of the program (drawing or paintbucket) is on.  It is initially <code>false</code> but when the space bar is pressed –which concludes the drawing phase- it is set to <code>true</code>.<br />
-<var>rectangleList</var>: is a list that will store all the rectangles created so they can be redrawn after each screen refresh.<br />
-<var>corner1</var>: variable to store the mouse x and mouse y values when mouse first clicked<br />
-<var>corner2</var>: variable to store and update mouse x and mouse y values as the mouse is dragged until released.
-
-  </li>
-  <div class="sidenote">Try your best, but if you get stuck you can look at <a href="/bjc-r/cur/programming/2-complexity/new/op-art-hints.html" target="_blank">this page</a> for some more information.</div>
-  <li>Now you have all the helper tools you need to create the Op Art program.  It is recommended that you first write down the pseudocode detailing the sequence of events in the program and what should happen at each case before you build the actual code.</li>
-  <li>Use your Op Art tool to generate exciting works of art and take screenshots of your creations.  Share with your class and post them on your class website if you have one.<br />
-  <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/OpArt_img/OpArt4.png"  height="200" alt=""/>
-  <img src="/bjc-r/img/2-conditionals-abstraction-testing/OpArt_img/OpArt5.png"  height="200" alt=""/>
-  <img src="/bjc-r/img/2-conditionals-abstraction-testing/OpArt_img/OpArt6.png"  height="200" alt=""/>
-  </li>
-  
-</ol>
-</div>
-
-<div class="takeItFurther" >
-<ol type="A">
-
-<li>Create a version of your Op Art program that uses polygons.<br />
-<img  src="/bjc-r/img/2-conditionals-abstraction-testing/OpArt_img/PolyOpArt1.png"  height="200" alt=""/>
-<img src="/bjc-r/img/2-conditionals-abstraction-testing/OpArt_img/PolyOpArt2.png"  height="200" alt=""/>
-<img src="/bjc-r/img/2-conditionals-abstraction-testing/OpArt_img/PolyOpArt3.png"  height="200" alt=""/>
-</li>
-<li>  
-Create a version of your Op Art program that uses circles.<br />
-<img  src="/bjc-r/img/2-conditionals-abstraction-testing/OpArt_img/CircleOpArt2.png"  height="200" alt=""/><img src="/bjc-r/img/2-conditionals-abstraction-testing/OpArt_img/CircleOpArt.png" height="200" alt=""/><img src="/bjc-r/img/2-conditionals-abstraction-testing/OpArt_img/CircleOpArt3.png"  height="200" alt=""/>
-</li>
-<li>Study the works of legendary Op Artists such as Victor Vasarely and Bridget Riley to get a feel for what is possible in this art form.<br />
-<img src="/bjc-r/img/2-conditionals-abstraction-testing/OpArt_img/Vasarely1.png"  height="150" alt=""/>
-<img src="/bjc-r/img/2-conditionals-abstraction-testing/OpArt_img/Vasarely2.png"  height="150" alt=""/>
-<img src="/bjc-r/img/2-conditionals-abstraction-testing/OpArt_img/Riley1.jpeg"  height="150" alt=""/><img src="/bjc-r/img/2-conditionals-abstraction-testing/OpArt_img/Riley2.png"  height="150" alt=""/><img src="/bjc-r/img/2-conditionals-abstraction-testing/OpArt_img/Riley3.jpg"  height="150" alt=""/>
-
-</li>
-
-
-</ol>
-</div>
-
-</body>
+            <ol>
+                <li>Watch this animation to get a feel for how you will use your program to generate Op Art.<br />
+                <img class="indent" data-gifffer="/bjc-r/img/2-conditionals-abstraction-testing/OpArt_img/OpArtAnimation.gif"  height="300" alt="" title="" /></li>
+                <li>
+                    Play with the program <a href="/bjc-r/cur/programming/2-complexity/2-data-structures-art/5b-op-art-interactive.html">linked here</a> to get a feel for the type of tools you will be developing.  Initially the click-drag-release of the mouse is used to draw rectangles.  When you press the space bar, then the drawing phase ends and the mouse click becomes a paint bucket that fills bounded regions with paint.  Below you can see examples of phase 1 (drawing rectangles) and phase 2 (filling regions with color) of the program. <br />
+                    <p>
+                        <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/OpArt_img/OpArt2Phase1.png" height="175" alt="" title="" />
+                        <img src="/bjc-r/img/2-conditionals-abstraction-testing/OpArt_img/OpArt2Phase2.png" height="175" alt="" title="" />
+                    </p>
+                    <p>
+                        <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/OpArt_img/OpArt3Phase1.png" height="175" alt="" title="" />
+                        <img src="/bjc-r/img/2-conditionals-abstraction-testing/OpArt_img/OpArt3Phase2.png"  height="175" alt="" title="" />
+                    </p>
+                </li>
+            </ol>
+        </div>
+        
+        <p>The coding in this project is subtle and is all about correct sequencing that match the set of events that take place in the creation of the Op Art.  You will first build all the helper blocks that will help make your coding easier.
+        </p>
+        
+        <div class="forYouToDo" id="second">
+            <ol start="3">
+                <li>
+                    In phase 1, the drawing phase of the project, you will be drawing many rectangles from corner to diagonally opposite corner defined by the mouse click- drag-release.<br />
+                    <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/OpArt_img/corner12.png" height="150" alt="" title="" /><br />
+                    So first, create a reporter block that will define a <code>corner</code> by storing the x and y coordinates of the corner in a list.<br />
+                    <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/OpArt_img/cornerxy.png"  height="100" alt="" title="" />
+                </li>
+                <li>
+                    Create also the helper reporter blocks that allow you to retrieve the stored x and y values for a given corner.<br />
+                    <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/OpArt_img/xofcorner.png"  height="100" alt="" title="" />
+                    <img src="/bjc-r/img/2-conditionals-abstraction-testing/OpArt_img/yofcorner.png"  height="100" alt="" title="" />
+                </li>
+                <li>
+                    Now create a reporter block that will define a rectangle by storing its two diagonally opposite corners in a list.<br />
+                    <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/OpArt_img/rectanglecorner12.png" height="100" alt="" title="" />
+                </li>
+                <li>
+                    Now create a block that will draw a rectangle given its two defining corners.  The following blocks may help.<br />
+                    <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/OpArt_img/drawrectanglecorner12Hint.png"  height="200" alt="" title="" />
+                </li>
+                <li>
+                    Now create some variables that will help you store and keep track of important information.<br />
+                    <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/OpArt_img/variables.png"  height="180" alt="" title="" /><br />
+                    <var>drawingDone</var>: is a Boolean variable that takes values <code>true</code>/<code>false</code> and is used to keep track of which stage of the program (drawing or paintbucket) is on. It is initially <code>false</code> but when the space bar is pressed&mdash;which concludes the drawing phase&mdash;it is set to <code>true</code>.<br />
+                    <var>rectangleList</var>: is a list that will store all the rectangles created so they can be redrawn after each screen refresh.<br />
+                    <var>corner1</var>: variable to store the mouse x and mouse y values when mouse first clicked<br />
+                    <var>corner2</var>: variable to store and update mouse x and mouse y values as the mouse is dragged until released.
+                </li>
+                <div class="sidenote">Try your best, but if you get stuck you can look at <a href="/bjc-r/cur/programming/2-complexity/2-data-structures-art/5c-op-art-hints.html">this page</a> for some more information.</div>
+                <li>Now you have all the helper tools you need to create the Op Art program.  It is recommended that you first write down the pseudocode detailing the sequence of events in the program and what should happen at each case before you build the actual code.</li>
+                <li>
+                    Use your Op Art tool to generate exciting works of art and take screenshots of your creations.  Share with your class and post them on your class website if you have one.<br />
+                    <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/OpArt_img/OpArt4.png"  height="200" alt="" title="" />
+                    <img src="/bjc-r/img/2-conditionals-abstraction-testing/OpArt_img/OpArt5.png"  height="200" alt="" title="" />
+                    <img src="/bjc-r/img/2-conditionals-abstraction-testing/OpArt_img/OpArt6.png"  height="200" alt="" title="" />
+                </li>
+            </ol>
+        </div>
+        
+        <div class="takeItFurther"><a name="further" class="anchor">&nbsp;</a>
+            <ol type="A">
+                <li>
+                    Create a version of your Op Art program that uses polygons.<br />
+                    <img src="/bjc-r/img/2-conditionals-abstraction-testing/OpArt_img/PolyOpArt1.png"  height="200" alt="" title="" />
+                    <img src="/bjc-r/img/2-conditionals-abstraction-testing/OpArt_img/PolyOpArt2.png"  height="200" alt="" title="" />
+                    <img src="/bjc-r/img/2-conditionals-abstraction-testing/OpArt_img/PolyOpArt3.png"  height="200" alt="" title="" />
+                </li>
+                <li>  
+                    Create a version of your Op Art program that uses circles.<br />
+                    <img src="/bjc-r/img/2-conditionals-abstraction-testing/OpArt_img/CircleOpArt2.png"  height="200" alt="" title="" />
+                    <img src="/bjc-r/img/2-conditionals-abstraction-testing/OpArt_img/CircleOpArt.png" height="200" alt="" title="" />
+                    <img src="/bjc-r/img/2-conditionals-abstraction-testing/OpArt_img/CircleOpArt3.png" height="200" alt="" title="" />
+                </li>
+                <li>
+                    Study the works of legendary Op Artists such as Victor Vasarely and Bridget Riley to get a feel for what is possible in this art form.<br />
+                    <img src="/bjc-r/img/2-conditionals-abstraction-testing/OpArt_img/Vasarely1.png"  height="150" alt="" title="" />
+                    <img src="/bjc-r/img/2-conditionals-abstraction-testing/OpArt_img/Vasarely2.png"  height="150" alt="" title="" />
+                    <img src="/bjc-r/img/2-conditionals-abstraction-testing/OpArt_img/Riley1.jpeg"  height="150" alt="" title="" />
+                    <img src="/bjc-r/img/2-conditionals-abstraction-testing/OpArt_img/Riley2.png"  height="150" alt="" title="" />
+                    <img src="/bjc-r/img/2-conditionals-abstraction-testing/OpArt_img/Riley3.jpg"  height="150" alt="" title="" />
+                </li>
+            </ol>
+        </div>
+        
+    
+    </body>
 </html>
