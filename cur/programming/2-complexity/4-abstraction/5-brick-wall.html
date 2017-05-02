@@ -8,7 +8,7 @@
 
     <body>
         <h2>Brick Wall</h2>
-        <div class="learn"><strong>In this project,</strong> you will learn about layers of abstraction by writing code to build a "Brick Wall".</div>
+        <div class="learn"><strong>In this project,</strong> you will use abstraction to build a brick wall, row by row.</div>
         
     	<p>Designing a program to draw this picture—a brick wall that you might later use as a stage background in some program you write—is good practice in analyzing structure.</p>
         <div class="sidenote"><img src="/bjc-r/img/2-conditionals-abstraction-testing/humpty-dumpty-tenniel.png" alt="Humpty Dumpty on brick wall" title="Humpty Dumpty on brick wall"></div>
@@ -17,23 +17,19 @@
         <div class="takeNote">
             <h4><strong>Abstraction</strong></h4>
             <p>While any good programming language might have many tools for drawing and moving, it wouldn't make sense to have special tools for drawing bricks because most programs don't involve bricks. That is the sort of tool you make yourself when you need it.  </p>
-            <p>When you need to draw bricks, having a special <img src="/bjc-r/img/2-conditionals-abstraction-testing/U2ImageVideoAddendum_img/drawBrick.png"  height="40" alt="drawBrick length:() width:() block" title="drawBrick length:() width:() block"/> block lets your code use terms directly related to the problem you are trying to solve, rather than the more general-purpose terms that the computer uses for all kinds of tasks. The process of moving from what the programming language gives you to a natural language (one that humans speak to communicate) is a key part of  good abstraction.</p>
-            <p>In this problem, you will build an abstraction for drawing a brick wall, first by creating <img src="/bjc-r/img/2-conditionals-abstraction-testing/U2ImageVideoAddendum_img/drawBrick.png"  height="40" alt="draw brick length:() width:() block" title="draw brick length:() width:() block"/> , then blocks for drawing rows, and ultimately the goal: <img src="/bjc-r/img/abstraction/new-brickwall/draw-brick-wall-7.png" alt="draw a Brick Wall with (7) Rows block" title="draw a Brick Wall with (7) Rows block" />.</p>
+            <p>When you need to draw bricks, having a special <img src="/bjc-r/img/2-conditionals-abstraction-testing/U2ImageVideoAddendum_img/drawBrick.png"  height="40" alt="drawBrick length:() width:() block" title="drawBrick length:() width:() block"/> block lets you use terms directly related to the problem you are trying to solve ("brick"), rather than the more general-purpose terms that the computer uses for all kinds of tasks ("move"). The process of moving from what the programming language gives you to a natural language (one that humans speak to communicate) is a key part of  good abstraction.</p>
+            <p>In this project, you will build an abstraction for drawing a brick wall, starting with <img src="/bjc-r/img/2-conditionals-abstraction-testing/U2ImageVideoAddendum_img/drawBrick.png"  height="40" alt="draw brick length:() width:() block" title="draw brick length:() width:() block"/> , then writing blocks for drawing rows, and ultimately the goal: <img src="/bjc-r/img/abstraction/new-brickwall/draw-brick-wall-7.png" alt="draw a Brick Wall with (7) Rows block" title="draw a Brick Wall with (7) Rows block" />.</p>
 		</div>
         
 		<h3>Drawing One Brick</h3>
         <div class="forYouToDo">
-        	<p>A picture of  a brick is rectangle, filled in with "brick red" color (darker than the primary-color red).  There's no <code>draw rectangle</code> block in <span class="snap">snap</span>. One way to fake it is by thinking of a rectangle as a very thick line.</p>
-        	<img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/U2ImageVideoAddendum_img/drawBrickCode.png"  height="200" alt="draw brick length:() width:() block code" title="draw brick length:() width:() block code"/>
+        	<p>A picture of  a brick is rectangle, filled in with "brick red" color (darker than the primary-color red).  There's no <code>draw rectangle</code> block in <span class="snap">snap</span>. One way to fake it is by thinking of a rectangle as a very thick line. Here's the idea:</p>
+        	<img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/U2ImageVideoAddendum_img/simpleBrickCode.png"  alt="draw brick length:() width:() block code" title="draw brick length:() width:() block code"/>
 			<ol>
-				<li>
-                	Try out this block.  
-					<div class="endnote">
-                    <div class="sidenote"><img class="right" src="/bjc-r/img/2-conditionals-abstraction-testing/U2ImageVideoAddendum_img/FlatLineEnds.png"  alt="Flat line ends setting" title="Flat line ends setting"/></div>
-                    	If your "brick" has rounded ends, you can change how lines are drawn by clicking the settings button (<img src="/bjc-r/img/sys/settings.png" alt="settings button" />) in the toolbar, and turning on  "Flat line ends." Rounded ends stick out beyond the length you specified.  Here is, for comparison, a picture of a rounded end brick and a flat end brick with the same specified length.
-                        <img src="/bjc-r/img/2-conditionals-abstraction-testing/U2ImageVideoAddendum_img/RoundVsFlat.png"  height="50" alt=""/>
-				        <p>Rounded ends are better for most line drawings, but not for drawing bricks.</p> 
-					</div> 
+				<li>Load <a class="run" href="/bjc-r/prog/2-conditionals-abstraction-testing/U2L4-brickwall.xml">this starter project</a>.  It includes the complete <code>draw brick</code> block:
+        <div class="sidenoteBig"> The <img src="/bjc-r/img/2-conditionals-abstraction-testing/U2ImageVideoAddendum_img/setFlat.png"  alt="set flat line ends to &lt; &gt;"> block isn't built into Snap<em>!</em>; we built it for this project.  Ordinarily, Snap<em>!</em> draws thick lines with rounded ends: <img src="/bjc-r/img/2-conditionals-abstraction-testing/U2ImageVideoAddendum_img/round-ends.png" alt="line with round ends">.  That's often the best choice.  (To see why, try drawing a thick square with flat line ends true and then with it false.)  But for bricks, we need flat ends: <img src="/bjc-r/img/2-conditionals-abstraction-testing/U2ImageVideoAddendum_img/flat-ends.png" alt="flat line ends">.
+        </div>
+       <img  src="/bjc-r/img/2-conditionals-abstraction-testing/U2ImageVideoAddendum_img/drawBrickCode.png"  alt="draw brick length:() width:() block code" title="draw brick length:() width:() block code"/> <br /> Try out this block.  
 				</li>
             </ol>
         </div>
@@ -41,7 +37,7 @@
         <h3>Using Problem Decomposition to Write an Abstraction</h3>
 		<p> You'd like the "top level" block to be something like this:</p>
 		<img class="indent" src="/bjc-r/img/abstraction/new-brickwall/draw-brick-wall-7.png" alt="draw-brick-wall-7" />
-		<p> A human brick-layer  would  understand exactly how to build such a wall. A computer doesn't know, so you must fill in the details. This means going from the abstract (draw a brick wall) to the concrete (pardon the pun). This involves <strong>problem decomposition</strong>.</p>
+		<p> A human brick-layer  would  understand exactly how to build such a wall. A computer doesn't know, so you must fill in the details. This means going from the abstract (draw a brick wall) to the concrete (pardon the pun). This involves <strong>problem decomposition</strong>: breaking the problem into smaller pieces.</p>
 		<p>There are two kinds of rows, so we make blocks that specialize in each:</p>
 		<ul>
 			<li><strong>Row A</strong>: <img border="0" title="Row A" alt="Row A" src="/bjc-r/img/abstraction/new-brickwall/row-a.png" /></li>
@@ -58,17 +54,14 @@
           <p>Why? You might later decide that 4 steps is the wrong thickness for mortar, and you'd rather have 5. Or you might want the mortar to be  cement-colored, slightly gray. And your complete project might have <img src="/bjc-r/img/abstraction/new-brickwall/move4.png" alt="Move 4 Steps"> blocks that <em>aren't</em> about mortar. With many <code>move</code> blocks scattered through your program, you would have to find and change each one, and keep putting in <code>set pen color</code> blocks. With a <code>draw mortar</code> block, you can just change its definition, and all the mortar in your picture will be changed.</p>
         </div>-->
             	<li>
+                    <div class="sidenote">Mortar is a kind of cement that bricklayers use to hold the bricks together.</div>
                 	<p>The two kinds of rows should be exactly the same length.  Your first try at drawing  Row B may be a little too long. If so, think through what causes that bug.</p>
-					<p>How are you going to fix it? Should  Row B have different-size bricks, different-size mortar gaps, or different-size small-bricks? If you're not sure, try all the possibilities and see which looks right in the finished wall. Or think "What would <em>make most sense</em> in a <em>real</em> brick wall?"</p>
+					<p>How are you going to fix it? Should  Row B have different-size regular bricks, different-size mortar gaps, or different-size end bricks? If you're not sure, try all the possibilities and see which looks right in the finished wall. Or think "What would <em>make most sense</em> in a <em>real</em> brick wall?"</p>
                 </li>
+                <div class="sidenote">You wrote the <code>even?</code> block <a href="/bjc-r/cur/programming/2-complexity/3-predicates/2-creating-predicates.html">in Lab 3</a>.</div>
                 
                 <li>Once you have  rows A and B the same length, you can write the <img src="/bjc-r/img/abstraction/new-brickwall/draw-brick-wall-7.png" alt="draw-brick-wall-7" /> block.  Make sure that it works properly by distinguishing between the even and odd numbered rows.<br />
-                <div class="endnote"> The <code>mod</code> operator can help determine if an input is odd or even:<br />
-                <img class="indent" src="/bjc-r/img/2-conditionals-abstraction-testing/U2ImageVideoAddendum_img/OddorEven.png"  height="100" alt=""/>
-                </div>
-                <div class="takeNote">The <code>mod</code> function gives the remainder when the first input is divided by the second.  For example, 
-
-<img src="/bjc-r/img/2-conditionals-abstraction-testing/TTT1_img/6mod2.png"  height="35" alt="(6) mod (2) block" title="(6) mod (2) block"/> reports 0, as 6 divided by 2 leaves a remainder of 0. Also, <img src="/bjc-r/img/2-conditionals-abstraction-testing/TTT1_img/7mod2.png" height="35" alt="(7) mod (2) block" title="(7) mod (2) block"/> reports 1, as 7 divided by 2 leaves a remainder of 1. Thus, you can use a number mod 2 to determine if the number is odd or even. </div>
+                
                 </li> 
 			</ol>
             <img class="imageRight" src="/bjc-r/img/icons/save-now.png" alt="Now Would be a Good Time to Save" title="Now Would be a Good Time to Save" />
@@ -77,7 +70,6 @@
         <div class="takeItFurther"><a name="further" class="anchor">&nbsp;</a>
             <ol type="A">
                 <li>
-                <img src="/bjc-r/img/2-conditionals-abstraction-testing/U2ImageVideoAddendum_img/drawBrickWallwithManyInputs.png"  height="60" alt=""/>
                 	<p>After you've drawn the picture at the top of this page, add more
         inputs to the <code>draw a Brick Wall</code> block:</p>
         			<ol style="list-style:lower-roman;">
@@ -85,7 +77,8 @@
 				        <li>Length and width of a brick</li>
 				        <li>Mortar thickness (the cement between bricks, shown  as white space)</li>
                     </ol>
-                    <p> Add these one at a time, not all at once!  When you modify the length of a brick, that should also change the length of a smaller-brick. When you modify the mortar thickness, that should also change the distance between rows (since that's mortar too). </p>
+                <img src="/bjc-r/img/2-conditionals-abstraction-testing/U2ImageVideoAddendum_img/drawBrickWallwithManyInputs.png"  height="60" alt=""/>
+                    <p> Add these one at a time, not all at once!  When you modify the length of a brick, that should also change the length of a row B end brick. When you modify the mortar thickness, that should also change the distance between rows (since that's mortar too). </p>
                   
                 </li>
                 
