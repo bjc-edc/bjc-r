@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unit 5 Lab 3: Timing Experiments, Page 3</title>
+	</head>
+
+
+	<body>
+		<h2>Classifying Algorithms</h2>
+		<div class="comment">EK: 4.2.1A, 4.2.1B, 4.2.1C, 4.2.1D</div>
+        <div class="todo">
+        	Blue button feedback:
+            <ul>
+                <li>For question #3, could you offer suggestions as to which algorithms might be good to revisit?</li>
+            </ul>
+        </div>
+		
+        <div class="forYouToDo" id="first">
+            <ol>
+            	<li>If it isn't already open, load the project U5L3-timer from the previous page, and experiment with <code>time function</code> on algorithms you've built (such as <code>alphie way</code>, <code>betsy way</code>, <code>factorial</code>, <code>find in unsorted list</code>, <code>find in sorted list</code>, and any others you have handy). What happens to the running time if you double the size of the input?</li>
+            </ol>
+        </div> 
+        
+<!--		
+        <p>
+            It would be nice to create a data-plot of the average time it takes a reporter to ouput, given a list of inputs. To do this, you'll want to create a list. The reporter <code> make a list of times for a reporter between two inputs </code> creates such a list. Here's how it looks in action:<br />
+            <a class="run" href="/bjc-r/prog/5-algorithms/U5L3avtime.xml"><img class="indent" src="/bjc-r/img/5-algorithms/listtimes.png" alt="average alphie" title="average alphie" /></a>
+        </p>
+        
+        <div class="sidenote">You can create the block for yourself. Try it. Or you can click to load a pre-programmed version.</div>
+        
+        <p>
+            What's happened here is that Alphie's reporter (adding the numbers between 1 and some upper limit) was applied to upper limits between  100 and 10000, and <code>average time</code>'d along the way.  The input 2 specifies what "along the way" means:  these special inputs start with 100 and are multiplied by 2 until you get the largest multiple less than 10000:<br />
+            <table class="bordered center">
+                <tr>
+                    <td>100</td>
+                    <td>200</td>
+                    <td>400</td>
+                    <td>800</td>
+                    <td>1600</td>
+                    <td>3200</td>
+                    <td>6400</td>
+                </tr>     
+            </table>
+        </p>
+            
+        <div class="forYouToDo">
+            <ol start="2">
+            	<li>Experiment with <code>make a list of times for a reporter between two inputs</code>. Try different reporters that you've built as inputs and vary the other inputs  (for example instead of 2, try 1.5, 1.1, and so on). </li>
+            </ol>
+        </div>
+        
+        <div class="takeNote">Because <code>make a list for a reporter between two inputs</code> often takes a long time to compute its output (think about what it's doing) you may want to store   outputs for various reporters in variables so that you can use them later. The reason that the last input multiplies by a factor (rather than making a constant increment) is so that you can get a large range of inputs without having to time the reporter on too many of them.</div>       
+        
+        <div class="forYouToDo">       
+            <p>One way to analyze algorithms is to  use the <code> graph data points</code> package from U5L2 to plot the run time against the size of the input and to classify the reporters by the shape of the plots.</p>
+            <ol start="3">
+				<img class="imageRight" src="/bjc-r/img/5-algorithms/alphiepict.png" alt="" title="" />
+            	<li>Try it.  Create a data plot of the reporters you timed in the problem above: Pick a reporter and make a data-plot for the output of <code>make a list for a reporter between two inputs</code>.</li>
+            </ol> 
+        </div>
+		-->
+
+        <div class="takeNote">You can classify algorithms by the amount of time they take to run. At a basic level, many problems can be solved in a reasonable time, while others cannot, even for small input sizes.</div>
+        <div class="forYouToDo">
+            <ol start="2">
+                <li>
+                    Open <a class="run" href="/bjc-r/prog/5-algorithms/U5L3-listfrom.xml" target="_blank">this project</a>, and use the <img src="/bjc-r/img/5-algorithms/listfrom.png" alt="list from A to B" title="list from A to B" /> block to build the following two blocks in Snap<em>!</em>. Then, determine which block's algorithm can be executed in a reasonable time, and which cannot.
+                    <div class="sidenote">The list of 2-digit numbers goes from 10 to 99. There's a math operations block that can give you powers of 10.</div>
+                    <ol>
+                        <li><img src="/bjc-r/img/5-algorithms/1000numbers.png" alt="list of 1000 numbers" title="list of 1000 numbers" /></li>
+                        <li><img src="/bjc-r/img/5-algorithms/digitnumbers.png" alt="all N digit numbers" title="all N digit numbers" /></li>
+                    </ol>
+                </li>
+            </ol>
+        </div>	
+
+
+        <p>
+            To classify an algorithm, look at the number of steps it takes to complete the algorithm, compared to the size of the input.
+            <ul>
+                <li>
+					<div class="sidenoteBig">These categories say that an algorithm takes <em>at most</em> so much time.  So, for example, a constant-time algorithm is also a linear-time algorithm, and also a polynomial-time algorithm, and also an exponential-time algorithm.  But <em>usually</em> if someone says an algorithm &quot;takes linear time,&quot; they mean that it takes <em>more than </em>constant time but <em>not more than</em> linear time.</div>
+                    <strong>Reasonable Time:</strong>
+                    <ul>
+                        <li>Some algorithms always take the same number of steps, even as the input grows. These algorithms take <em>constant time</em>.</li>
+                        <li>Some algorithms take a number of steps proportional to the input size. (If you double the size of the input, the number of steps doubles also.) These algorithms take <em>linear time</em>.</li>
+                        <div class="sidenoteBig"><em>Polynomial time</em> can be further broken down, depending on the polynomial. Algorithms whose runtime is about <em>n</em><sup>2</sup> run in <em>quadratic time.</em> (If you double the size of the input, that <em>quadruples</em> the number of steps.) It's rare in practice to find polynomial time algorithms that take more than cubic (<em>n</em><sup>3</sup>) time.</div>
+                        <li>If the number of steps is less than or equal to a polynomial function of the size of the input (including constant, linear, and quadratic functions, etc.), then the algorithm takes <em>polynomial time</em> and is reasonable.</li>
+                    </ul>
+                </li>
+				<li>
+                    <strong>Unreasonable Time:</strong>
+                    <ul>
+                    	<li>If the number of steps is an <em>exponential</em> function of the size of the input (or another function larger than any polynomial), we say that the algorithm takes an <em>unreasonable</em> amount of time. For an algorithm that takes 2<sup><em>n</em></sup> time, just <em>adding 1</em> to the input size (<em>n</em>) <em>doubles</em> the number of steps!</li>
+                    </ul>
+                </li>
+                
+            </ul>
+        </p>
+        
+        <div class="takeNote">It's important to recognize that an unreasonable algorithm <strong>still solves a problem correctly</strong>! It just takes an unreasonably long time. Unreasonable algorithms can sometimes be replaced by <em>heuristics</em>, simpler algorithms that may not succeed in solving the problem exactly but give a reasonable approximation.</div>
+        
+        <div class="forYouToDo">
+            <ol start="3">
+            	<li>Look at some algorithms you've built. Determine whether each algorithm runs in constant time, linear time, polynomial time, or unreasonable time.</li>
+            </ol>
+        </div>
+        
+        <div class="ifTime">
+            <ol start="4">
+                <li>For Alphie's way of adding integers, create a graph with the number of integers on the horizontal and the runtime on the vertical. Generate data for the graph by running <code>time function</code> with large inputs to <code>Alphie's way</code> (say, multiples of 100). Then use the techniques from Lab 2 to plot the graph.</li>
+                <li>What information does this graph tell you about Alphie's algorithm? Is it constant time, linear time, other polynomial time, or is it unreasonable time?</li>
+            </ol>
+        </div>
+
+<!--
+            	<li>
+                	The plot is not a line. There are several ways this can happen:
+                	<ol>
+                    	                       
+                        <li>The plot looks close to the graph of a polynomial function (roughly like the graph of <span class="katex">y = x^n</span> for some positive integer <span class="katex">n</span>). This is called <em>polynomial time</em>.</li>
+                        <li>The plot looks close to the graph of an exponential function, like <span class="katex">x \rightarrow 2^x</span> Guess what this kind of timing behavior is called. 
+                        </li>
+                        <li>There's  another kind of run-time that comes up often&#8212;you saw it when you looked at binary searches (like the guessing game). You'll analyze this type of reporter later in this lab. <div class="comment">Put a link here to page U5L1P2</div></li>
+                    </ol>
+                </li>
+            </ul>
+        </p>
+        -->
+        
+
+	</body>
+</html>
