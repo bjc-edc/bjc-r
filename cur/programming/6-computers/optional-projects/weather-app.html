@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unit 6 Lab 6: Website Data, Page 3</title>
+    </head>
+    <body>
+    	<img class="imageRight" src="/bjc-r/img/icons/teachers-choice.png" alt="Teacher's Choice" title="Teacher's Choice" />
+        <h2>Weather App Project (Teacher's Choice)</h2>
+        <p>There are several different mini-projects on this page. You can build them all, or your teacher may only ask you to work on one or two.</p>
+        <p>
+            For each activity, you will scrape a weather website for data to build an algorithm for a weather app.<br />
+            <img class="indent" src="/bjc-r/img/4-internet/current-temp-34.png" alt="34 degrees in New York">
+            <img class="indent" src="/bjc-r/img/4-internet/umbrellatrue.png" alt="UMBRELLA? block returning true">
+            <img class="indent" src="/bjc-r/img/4-internet/sunsettime2.png" alt="SUNSET TIME block with output" /> 
+        </p>       
+        <h3>Building <code>Current Temperature</code> and <code>Current Weather</code> Reporters</h3>
+        <p>Many websites provide current weather and forecast data. Some, such as <a href="http://wunderground.com" target="_blank">Weather Underground</a>, give location-specific information through the use of <a href="/bjc-r/cur/programming/4-internet/old/6-web-data/2-web-scraping-techniques.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc.html&novideo&noassignment">URL tags</a>. Weather Underground can accept locations and ZIP codes.</p>
+        <div class="ifTime">
+            <ol>
+				<div class="sidenoteBig">Note that there is no space between city and state: <strong>Boston,MA</strong>. For cities with multiple words, add a plus: <strong>New+York,NY</strong>. These requirements are particular to this website, not general to the entire Web.</div>
+                <li>
+                	First read and then click these URLs:
+                    <ul>
+                        <li><a href="https://www.wunderground.com/cgi-bin/findweather/getForecast?query=Boston,MA" target="_blank">https://www.wunderground.com/cgi-bin/findweather/getForecast?query=Boston,MA</a></li>
+                        <li><a href="https://www.wunderground.com/cgi-bin/findweather/getForecast?query=10002" target="_blank">https://www.wunderground.com/cgi-bin/findweather/getForecast?query=10002</a></li>
+                    </ul>
+                </li>
+                <li>Follow the same pattern to create a URL that links to the weather for a different city.</li>
+				<div class="sidenoteBig">Note that the degrees symbol (&#176;) is written with an HTML character code: <code>&amp;#176;</code>.</div>
+                <li>Use your browser to <a href="/bjc-r/cur/programming/6-computers/optional-projects/writing-html.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc.html&novideo&noassignment">view the source</a> (HTML) for the resulting page. Where in the HTML is the current temperature shown? How could you most easily locate this specific line?</li>
+                <li>
+					<div class="sidenoteBig">
+                    	Remember not to include the "http://" in the <code>http</code> block input slot.
+                        <img class="inline noshadow" src="/bjc-r/img/4-internet/http-http.png" alt="Don't include the 'http://' in the http block input slot." title="Don't include the 'http://' in the http block input slot." />
+                    </div>
+                	Starting from the <a class="run" href="/bjc-r/prog/4-internet/U4L6-HttpBlock.xml"> U4L3-HttpBlock project</a>, design a <img src="/bjc-r/img/4-internet/current-temp.png" alt="Current Temperature In block"> block that accepts a ZIP code or a city and state as input and reports  the current temperature in degrees Fahrenheit:<br />
+                	<img class="indent" src="/bjc-r/img/4-internet/current-temp-34.png" alt="34 degrees in New York">
+                    <div class="saveAs"><span class="text">"U4L3-WeatherApp"</span><img src="/bjc-r/img/icons/save-this-as.png" alt="save your work as U4L3-WeatherApp" title="save your work as U4L3-WeatherApp" /></div>
+                </li>
+                <li>
+                    Build a similar block to give the current weather conditions for the location you specified.
+                    <img class="indent" src="/bjc-r/img/4-internet/current-weather-reporting.png" alt="" title="" />
+                </li>
+            </ol>
+        </div>
+        
+        
+        <h3>Building A Multi-City Weather Report App</h3>
+        <p>You can query <a href="http://www.wunderground.com" target="_blank">wunderground.com</a> for current temperature and weather conditions in a list of cities like this...<br />
+			<div class="sidenote">As part of this work you can choose to create "cleaner" entry of city names. To do this, you'll need to convert names like <strong>New York, NY</strong> to <strong>New+York,NY</strong>. Snap<em>!</em> blocks that convert words to lists, and lists to words, can make this possible.<br />
+            It's ok if yours doesn't look like this.
+			</div>
+            <img class="indent noshadow" src="/bjc-r/img/4-internet/citieslist.png" alt="List of cities" title="List of cities" />
+        </p>
+        
+        <p>
+            ...to produce a report like this:<br />
+            <img class="indent noshadow" src="/bjc-r/img/4-internet/citiesreport.png" alt="Weather report for cities" title="Weather report for cities" />
+        </p>
+        
+		<div class="ifTime">
+            <ol start="6">
+                <li>Use the methods you used in the <a href="/bjc-r/cur/programming/3-lists/1-introduction-to-lists/1-shopping-list-app.html">shopping list app</a> to build an <code>Add Location</code> command  that lets the user populate the list of locations.</li>
+                <li>Then use your <code>current temperature</code> and <code>current weather</code> reporters to build a weather report table (a list of lists) for multiple cities.
+                	<ol>
+                        <img class="imageRight" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
+                        <li>
+                            First plan the design; if there were only one city in the list, how would you produce this list as the report?<br />
+                            <img class="indent" src="/bjc-r/img/4-internet/weather-report-1-city.png" alt="weather-report watcher: {New York, NY, 60, Fair}" title="weather-report watcher: {New York, NY, 60, Fair}" />
+                        </li>
+                        <li>Use list operations to produce the weather report table for all cities entered.</li>
+                        <li>Then test it by adding more cities and requesting the report again.</li>
+                    </ol>
+                </li>
+            </ol>
+        </div>
+        
+        <div class="ifTime ifTimeHide">
+			<ol start="8">
+				<li>
+                    You could a weather reporter sprite:<br />  
+                    <img class="indent" src="/bjc-r/img/4-internet/boston62.png" width="20%" align="middle" alt="Spoken weather report">
+                </li>
+            </ol>
+        </div>
+        <div class="takeItFurther">
+            <ol type="A">
+                <li>Modify the weather report so that it will also include the <em>forecasted</em> temperature and conditions for tomorrow.</li>
+            </ol>
+        </div>
+        
+        
+        <h3>Building an <code>Umbrella?</code> Predicate</h3>
+        <p>You can build an algorithm to tells you if you'll need an umbrella today.</p>
+        
+        <div class="ifTime">
+            <ol start="9	">
+                <li>Build an <code>umbrella?</code> predicate that takes a location as input. You'll need to figure out what information should make the block report <img class="" src="/bjc-r/img/blocks/true.png" alt="" title="" />.</li>
+                <li>To make <img src="/bjc-r/img/4-internet/umbrella.png" alt="UMBRELLA? block"> know the user's location automatically, use <a href="/bjc-r/cur/programming/4-internet/old/6-web-data/2-web-scraping-techniques.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc.html&novideo&noassignment">an <code>IP address</code> reporter</a>. </li>
+            </ol>
+        </div>
+
+		<div class="takeItFurther">
+            <ol type="A" start="2">
+                <li>Change the <img src="/bjc-r/img/4-internet/umbrella.png" alt="UMBRELLA? block"> to a reporter that can return a wider variety of information, including outputs such as <em>tonight</em>, <em>tomorrow</em>, <em>it's complicated</em>, and <em>wear boots instead</em>.</li> 
+                <div class="sidenote"><img src="/bjc-r/img/4-internet/sunsettime2.png" alt="SUNSET TIME block with output" /></div>
+                <li>Build a <img src="/bjc-r/img/4-internet/sunsettime1.png" alt="SUNSET TIME block"> reporter that returns the sunset time at a given location; if no location is provided, use the current location.</li>
+            </ol>
+        </div> 
+        
+           
+    </body>
+</html>

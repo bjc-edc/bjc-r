@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+    <head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unit 4 Lab 1: Reliable Communication, Page 3</title>
+    </head>
+    
+	<body>
+        <h2>Address Hierarchy</h2>
+        <div class="todo">
+            <strong>6.1</strong> The Internet is a network of autonomous systems.<br />
+            <strong>6.1.1</strong> Explain the abstractions in the Internet and how the Internet functions. [P3] Exclusion Statement (LO 6.1.1): Specific devices used to implement the abstractions in the Internet are beyond the scope of this course and the AP Exam.<br />
+            6.1.1C Devices and networks that make up the Internet are connected and communicate using addresses and protocols.<br />
+            6.1.1G The domain name system (DNS) translates names to IP addresses.<br />
+            <strong>6.2</strong> Characteristics of the Internet influence the systems built on it.<br />
+            <strong>6.2.1</strong> Explain characteristics of the Internet and the systems built on it. [P5]<br />
+            6.2.1A The Internet and the systems built on it are hierarchical and redundant.<br />
+            6.2.1B The domain name syntax is hierarchical.<br />
+            6.2.1C IP addresses are hierarchical.<br />
+            <strong>6.2.2</strong> Explain how the characteristics of the Internet influence the systems built on it. [P4]<br />
+            6.2.2A Hierarchy and redundancy help systems scale.<br />
+            6.2.2C Hierarchy in the DNS helps system scale.<br />
+		</div>
+		<p>There are two <strong>hierarchical</strong> addressing systems on the Internet: domain names and IP addresses. People use <strong>domain names</strong> (like <em>snap.berkeley.edu</em>) to visit websites. Computers translate those domain names to <strong>IP addresses</strong> (like <em>128.32.189.18</em>) to locate and send data behind the scenes.</p>
+		<p>A <em>hierarchy</em> is an arrangement of things with the broadest or highest category at the top and things ranked into subcategories below. A hierarchy is often depicted as a pyramid.</p>
+        <div class="endnote">For example, organizations often use a hierarchical personnel structure with the most powerful people at the top managing people who manage people below them, who manage people below them, and so on. In biology, we use a <a href="https://en.wikipedia.org/wiki/Taxonomic_rank" target="_blank">taxonomic hierarchy</a>: kingdom, phylum, class, order, family, genus, species. And on computers, we store files in a hierarchy of folders within folders.</div>
+        <p>Before the Internet, there were only small networks of computers (like the Arpanet which peaked at around 200 computers), and every computer knew the name of all the other computers on the network. That worked for small networks, but it's not realistic for the 3 billion computers on the Internet now. So now, a hierarchy allows the system to distribute requests for IP addresses to domain name servers across the growing network.</p>
+        
+        
+        <h3>Domain Name Hierarchy</h3>
+		<p>
+			Recall the structure of a <a href="/bjc-r/cur/programming/4-internet/1-reliable-communication/1-what-is-internet.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc.html&novideo&noassignment">URL</a>:<br />
+            <img class="indent noshadow" src="/bjc-r/img/4-internet/URL-structure.jpg" alt="parts of a URL" title="parts of a URL" /><br />
+        	Just as the <span class="blue">path</span> in a URL locates a specific file in a hierarchy of folders on the server, <span class="darkgreen">domain names</span>  locate a specific website within a hierarchical <strong>domain name system</strong> (DNS). The hierarchy of the domain name system simplifies the process of finding the computer with the desired domain name because the DNS servers that help locate domains don't need enormous lists with every host name in the world. Instead, any user's computer only has to know where to find a <strong>root domain</strong> server (the one that knows where to find the top-level domains such as <em>.org</em> and <em>.edu</em>), and <em>that</em> server knows where to find the domain (like berkeley.edu), and that server knows where its subdomains are (like snap.berkeley.edu), and so on.</p>
+
+        <!--<div class="endnote">For example, when you visit <a href="http://snap.berkeley.edu" target="_blank">snap.berkeley.edu</a>, your computer only has to know where to find an <em>edu</em> name server. That server only has to know where to find the <em>berkeley.edu</em> server. And that server directs your computer to <em>snap.berkeley.edu</em>.</div>-->
+
+        <p>
+        	The root domain may be a country code (such as <em>.mx</em> for Mexico) or a category code (like <em>.gov</em> for government). The last two segments of a domain name (like <em>berkeley.edu</em>) make up the <strong>primary domain</strong>, the main address for a site. <strong>Subdomains</strong> are subsections of primary domains or of other subdomains. For example:
+        	<ul>
+            	<li><a href="http://snap.berkeley.edu" target="_blank"><strong>snap</strong>.berkeley.edu</a> is a subdomain of <a href="http://berkeley.edu" target="_blank">berkeley.edu</a></li>
+                <li><a href="http://store.parks.ca.gov" target="_blank"><strong>store.parks</strong>.ca.gov</a> is a subdomain of <a href="http://ca.gov" target="_blank">ca.gov</a></li>
+            </ul>
+			<div class="sidenote">This  image at is a simplified model of domain name hierarchy.</div>
+            <img class="indent" src="/bjc-r/img/4-internet/hierarchy.jpg" alt="domain name hierarchy" title="domain name hierarchy" height="300"/>
+        </p>
+        
+        <div class="assessment-data" type="multiplechoice" identifier="Which is a subdomain?"
+            hasinlinefeedback="true" maxchoices="1" responseIdentifier="ri1" shuffle="true">
+            <div class="prompt">
+                Which of the following could be a subdomain of the domain <em>bicycles.com</em>?
+            </div>
+            <div class="choice" identifier="c1">
+                <div class="text"><em>about.bicycles.com</em></div>
+                <div class="feedback">
+                    Correct! <em>about.bicycles.com</em> could be a subdomain on the <em>bicycles.com</em> domain.
+                </div>
+            </div>
+            <div class="choice" identifier="c2">
+                <div class="text"><em>bicycles.co.uk</em></div>
+                <div class="feedback">
+                    <em>bicycles.co.uk</em> would be used for a commercial site in the United Kingdom.
+                </div>
+            </div>
+            <div class="choice" identifier="c3">
+                <div class="text"><em>bicycles.com.org</em></div>
+                <div class="feedback">
+                    <em>bicycles.com.org</em> is not a typical address format because it has both the <em>.com</em> and <em>.org</em> category codes.
+                </div>
+            </div>
+            <div class="choice" identifier="c4">
+                <div class="text"><em>bicycles.org</em></div>
+                <div class="feedback">
+                    <em>bicycles.org</em> is a completely different domain name that would be on a <em>.org</em> (not <em>.com</em>) name server.
+                </div>
+            </div>
+            <div class="responseDeclaration" identifier="ri1">
+                <div class="correctResponse" identifier="c1"></div>
+            </div>
+        </div>
+        
+        
+        <h3>IP Address Hierarchy</h3>
+		<div class="sidenote">
+        	The image at right is a simplified model of IP address hierarchy.<br />
+            <img class="inline" src="/bjc-r/img/4-internet/hierarchical-3.jpg" alt="IP addresses are hierarchical" title="IP addresses are hierarchical" />
+        </div>
+        <p>When we type in a domain name, the browser queries the domain name system to find the <strong>Internet Protocol (IP) address</strong> of the server we want to visit. IP addresses are unique numerical addresses assigned to every device on the Internet. Both the domain name syntax and IP addresses are hierarchical; however unlike domain names, IP addresses are hierarchical from right to left (see right).</p>
+	
+    	<img class="imageRight" src="/bjc-r/img/icons/headphones-mini.png" alt="Set Up Your Headphones or Speakers" title="Set Up Your Headphones or Speakers" />
+        <div class="sidenote">If your connection blocks YouTube, <a href="http://scratch.mit.edu/discuss/youtube/5o8CwafCxnU" target="_blank">watch the video here</a>.</div>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/5o8CwafCxnU?rel=0" frameborder="0" allowfullscreen class="indent"></iframe>
+        <div class="endnote"><strong>What's an <em>undecillion</em>?</strong> One undecillion is <span class="katex">10^{36}</span>, a <a href="https://www.wolframalpha.com/input/?i=billion+billion+billion+billion" target="_blank">billion billion billion billion</a>, a 1 with 36 zeros after it, <span class="katex">10^9 \cdot 10^9 \cdot 10^9 \cdot 10^9</span>.</div>
+
+        <div class="forYouToDo" id="first">
+            <ol>
+                <li>Write an explanation of the DNS and IP address hierarchy.</li>
+            </ol>
+        </div>
+        <!--<div class="ifTime">
+            <ol start="2">
+                <li>Consider the IP address for <em>york.cs.berkeley.edu</em>, which is <em>128.32.156.218</em>. (Neither address is accessible by HTTP.) In the picture, the 128.32 domain has a subnetwork with two subnet numbers: 156 and 189. Subnet 156 has two hosts: 218 and 226.</li>
+            </ol>
+        </div>-->
+        
+                
+	</body>
+</html>
