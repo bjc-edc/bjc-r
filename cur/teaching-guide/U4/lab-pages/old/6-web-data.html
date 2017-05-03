@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unit 4 Lab 6 Teacher Guide</title>
+	</head>
+
+	<body>
+		<h2>Lab 6: Programming with Web Data</h2>
+		<img class="imageRight" src="/bjc-r/img/4-internet/current-temp-34.png" alt="current temperature in (New York) reporting 34" title="current temperature in (New York) reporting 34" />
+		<div class="todo">I've only moved stuff in, <em>not</em> revised. --MF 2016-12-20</div>
+		<p>Later in Unit 4, students will work with the <code>http</code> block as they scrape and process data from web pages. The last three pages of this lab prepare students for those projects by introducing the basics of HTML, the Snap<em>!</em> <code>http</code> block, and the process of importing web data into Snap<em>!</em> (either from a data file or by scraping  a web page). The goal is for students to gain very basic familiarity with HTML in order to support web page scraping.</p>
+        <p>In this lab, students build a weather app, starting from their work <a href="/bjc-r/cur/programming/4-internet/3-web-data/3a-scraping.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc.html&novideo&noassignment">scraping data from web pages in Lab 1</a>. They will scrape a weather website for information, importing HTML to Snap<em>!</em>. They will produce a multi-city weather report, and use IP address information to determine information about current local conditions.</p> 
+                
+
+		<h3>Pacing:</h3>
+		<div class="todo">I've only moved stuff in, <em>not</em> integrated. --MF 2016-12-20</div>
+		<div>
+			If used, the 4 lab pages could be split across 4 or 5 days (<strong>185-225 minutes</strong>). Expected times to complete follow:
+			<ul>
+				<li>30-40 minutes (&lt;1 class period) on <a href="/bjc-r/cur/programming/4-internet/old/6-web-data/1-read-web.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc.html&novideo&noassignment">Reading the Web with Snap<em>!</em></a></li>
+				<li>40-60 minutes (1-2 class periods) on <a href="/bjc-r/cur/programming/4-internet/3-web-data/3a-scraping.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc.html&novideo&noassignment">Scraping Data from Web Pages</a></li>
+				<li>35-45 minutes (1 class period) on <a href="/bjc-r/cur/programming/4-internet/3-web-data/3b-read-web-google.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc.html&novideo&noassignment">Reading Data Using URL Tags (Teacher's Choice)</a></li>
+				<li>70-80 minutes (1-2 class periods) on <a href="/bjc-r/cur/programming/4-internet/3-web-data/4a-weather-grab.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc.html&novideo&noassignment">Pulling Weather Data (Teacher's Choice)</a></li>
+				<li>35-45 minutes (1 class period) on <a href="/bjc-r/cur/programming/4-internet/3-web-data/4b-weather-report.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc.html&novideo&noassignment">Building A Weather Report (Teacher's Choice)</a></li>
+				<li>45-55 minutes (1 class period) on <a href="/bjc-r/cur/programming/4-internet/3-web-data/4c-umbrella.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc.html&novideo&noassignment">Need An Umbrella? (Teacher's Choice)</a></li>
+			</ul>
+		</div>
+        <div class="time">
+        	<ul>
+            	<li>This lab or any remaining pages after starting the first few pages of the lab.</li>
+            </ul>
+        </div>
+        
+
+		<h3>Students will:</h3>
+		<div class="todo">I've only moved stuff in, <em>not</em> integrated. --MF 2016-12-20</div>
+		<div class="sidenoteBig">
+			<strong>Looking Ahead</strong>
+			<ul>
+				<li>In Unit 5, students will use data sets like the multi-city weather data to search for matches and sort by values.</li>
+			</ul>
+		</div>
+		<div>
+			<ul>
+				<li>Watch a brief video on HTTP and HTML.</li>
+                <li>Experiment with HTML and CCS code.</li>
+                <li>Scrape websites for specific data using <code>http</code> in combination with other Snap<em>!</em> blocks.</li>
+                <li>Use the <code>split</code> block with data.</li>
+                <li>Use two new custom blocks provided in the starter project: <code>substring starting with</code> and <code>substring up to</code>.</li>
+                <li>Learn how search engines and other websites use URL tags to target information.</li>
+				<li>Write an app to create a targeted search.</li>
+				<li>Extract useful data from a Web page by scraping, then report the results.</li>
+				<li>Build a multi-city weather report.</li>
+				<li>Use an IP address to extract information about its location.</li>
+			</ul>
+		</div> 
+			  
+		
+		<h3>Goals for the Lab:</h3>
+		<div class="todo">I've only moved stuff in, <em>not</em> integrated. --MF 2016-12-20</div>
+        <div>
+        	<ul>
+                <li>
+                	<strong>Page 3: Reading the Web with Snap<em>!</em></strong>
+                	<ul>
+						<li>Understand that a displayed web page is the result of a request-response protocol called HTTP and a display programming language called HTML.</li>
+						<li>Understand that a proxy is an intermediary in internet communication, specifically in HTTP.</li>
+						<li>Learn how to process a text string with <code>substring starting with</code> and <code>substring up to</code>.</li>
+                    </ul>
+            	</li>
+                <li>
+                	<strong>Page 4: Scraping Data from Web Pages.</strong>
+                    <ul>
+						<li>See how URLs provide access to remote files through HTTP.</li>
+						<li>Learn how to transfer the data from a string into a list using <code>split by</code> <var>line</var>. </li>
+						<li>Use <code>substring</code> and <code>split</code> together to process strings.</li>
+                    </ul>
+            	</li>
+            	<li>
+                	<strong>Page 1: Reading Data Using URL Tags (Teacher's Choice).</strong>
+                    <ul>
+                        <li>Build a request based on URL tags. </li>
+                        <!--<li>(+) Scrape the results of an HTML response page.</li>-->
+                    </ul>
+            	</li>
+        		<li>
+                	<strong>Page 2: Pulling Weather Data (Teacher's Choice).</strong>
+                    <ul>
+                        <li>Increase fluency in building a request based on URL tags. </li>
+                        <li>Scrape the results of an HTML response page.</li>
+                    </ul>
+                </li>
+        		<li>
+                	<strong>Page 3: Building A Weather Report (Teacher's Choice).</strong>
+                    <ul>
+                        <li>Use URL tags and screen scraping to build a basic web app.</li>
+                    </ul>
+                </li>
+        		<li>
+                	<strong>Page 4: Need An Umbrella? (Teacher's Choice)</strong>
+                    <ul>
+                        <li>Increase fluency in using URL tags and screen scraping to build a basic web app.</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        
+        
+		<h3>As a Class:</h3>
+		<div class="todo">I've only moved stuff in, <em>not</em> integrated. --MF 2016-12-20</div>
+		<div>
+        	<ul>
+        		<li>
+                	<strong>Page 4: Scraping Data from Web Pages.</strong>
+                    <ul>
+						<li>Discussion: These questions are designed to inspire students to think about what the world would be like without the Internet:
+                        	<ul>
+                                <li>In the last 3 years, what was the longest time stretch you have ever been without Internet? Responses may range from several hours to several weeks or more.</li>
+                                <li>What other times have you not had Internet access when you needed it?</li>
+                                <li>What was the impact of not having the Internet? How did you work around the issue?</li>
+                                <li>What if there were no Internet at all? Identify a task you use the Internet for and suggest how people might accomplish the same thing without Internet access?</li>
+                            </ul>
+						</li>
+                    </ul>
+            	</li>
+                <li>
+                	<strong>Page 1: Reading Data Using URL Tags (Teacher's Choice).</strong>
+                    <ul>
+                        <li>
+                        	Discussion: What is a URL tag and when is it useful?
+                            <ul>
+                            	<li>How do search engines and other websites use URL tags?</li>
+								<li>What happens when you manually change a URL tag?</li>
+								<li>In Snap<em>!</em>, how can you build a complete URL that includes a custom tag?</li>
+                            </ul>
+                        </li>
+                    </ul>
+            	</li>
+        		<li>
+                	<strong>Page 2: Pulling Weather Data (Teacher's Choice).</strong>
+                    <ul>
+                        <li>
+                        	Discussion: How do I precisely extract useful information from a Web page?
+                            <ul>
+                            	<li>How do I use Snap<em>!</em> to convert HTML to a list of lines?</li>
+								<li>How do I extract useful information from HTML source code?</li>
+								<li>In Snap<em>!</em>, how do I extract a small part of a string?</li>
+                            </ul>
+                        </li>
+                    </ul>
+              </li>
+        		<li>
+                	<strong>Page 3: Building A Weather Report (Teacher's Choice).</strong>
+                    <ul>
+                        <li>
+                        	Discussion: How do I store and communicate weather data for multiple cities?
+                            <ul>
+                            	<li>What sorts of structures are useful here?</li>
+								<li>What list operations can be used to build and communicate the information?</li>
+                            </ul>
+                        </li>
+                    </ul>
+              </li>
+        		<li>
+                	<strong>Page 4: Need An Umbrella? (Teacher's Choice)</strong>
+                    <ul>
+                        <li>
+                        	Discussion: How can I use an IP address to get current local weather data?
+                            <ul>
+                            	<li>What information is available from knowing an IP address?</li>
+								<li>What information is needed to get current local weather data?</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+
+		<h3>Assignments:</h3>
+		<div class="todo">I've only moved stuff in, <em>not</em> integrated. --MF 2016-12-20</div>
+		<div>
+            <ul>
+                <li>On Page 4: Scraping Data from Web Pages, students develop two Snap<em>!</em> project files (U4L2-GPSData and U4L5-WeatherApp) for use in later Unit 4 Labs.</li>
+                <li>
+                    Assessment Idea: 
+                    <ol>
+                    	<li>Find a resource on the web (that we have not already worked with) that provides text output that is interesting to you. Describe the communication involved in getting the information to your computer screen. </li>
+                    	<li>Write a program that outputs a piece of information from the resource.</li>
+                    	<div class="takeItFurther"><a name="further" class="anchor">&nbsp;</a>
+                            <ol type="i">
+                            <li>Improve your program to facilitate communication with the user, to vary the response based on user input, and to clean up the output from the web resource.</li>
+                            </ol>
+                        </div>
+                    </ol>
+                </li>
+                <li>
+                    Assessment Idea:
+                    <ul>
+                        <li>Find a website that provides information that can be accessed with URL tags.</li>
+                        <li>Access the information based on user inputs.</li>
+                        <li>Scrape the results page.</li>
+                        <li>Display the info to the user.</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+			
+		<!--<h3>Look For:</h3>
+		<div><ul><li>...</li></ul></div>
+
+			
+		<h3>Related Resources:</h3>
+		<div><ul><li>...</li></ul></div>-->
+
+			
+		<h3>Tips:</h3>
+		<div class="todo">I've only moved stuff in, <em>not</em> integrated. --MF 2016-12-20</div>
+		<div>
+        	<ul>
+        		
+            	<li>
+                	<strong>Page 2: Writing for the Web with HTML.</strong>
+                    <ul>
+                        <li>Keep in mind that this page is designed as a very basic introduction to HTML and only to support use of the <code>http</code> block. You may suggest deeper inquiry with HTML (on students' own time) to the more engaged and advanced students, but please note that HTML is not included in the AP CSP Frameworks and no mastery is required. The purpose of introducing it is so that students will recognize it when they see it and have a very basic understanding of its syntax and structure.</li>
+                        <li>There's a lot of history behind the current Web standards. The original theory was that web servers provide information, and it's the job of the <em>browser</em> to decide how to format that information for presentation to the user. In principle this is still true; for example, there is an HTML tag &lt;i&gt; for Italics, but you're not supposed to use it; you're supposed to say &lt;em&gt; for emphasis, and in principle a browser might choose to use boldface, or red letters, or speaking in a louder voice, to convey the emphasis to the user. But since the early days, the profession of &quot;Web designer&quot; has arisen as a blight upon the land, and now servers generally attempt to control the formatting and presentation as well as providing information. This is especially a problem for visually impaired users, who configure their browsers to try to optimize the presentation for their needs. If students show interest in understanding Web design, consider assigning as homework that for this week they should set their browser's minimum font size to 20, a common accommodation for the farsighted, and keep a log of which of the web sites they visit still work and which are broken because they make assumptions about the screen size of a block of text.
+                          <ul>
+                            <li>CSS (Cascading Style Sheets) was introduced in part to try to tame server-side formatting by allowing CSS code in a browser to override CSS elements in served Web pages. Originally everything done by CSS was done directly in HTML. (CSS serves other purposes, too; in effect it introduced abstraction to HTML by supporting named subprocedures, much as Snap<em>!</em> introduced subprocedures into Scratch scripts.)</li>
+                          </ul>
+                        </li>
+                    </ul>
+            	</li>
+            	<li>
+                	<strong>Page 3: Reading the Web with Snap<em>!</em></strong>
+                	<ul>
+						<li>The HTML students will encounter on this page and in later labs where they acquire data from websites directly through Snap<em>!</em> is complicated-looking and would take an experienced HTML developer significant time to decode. While it can be valuable for students to skim the code that they see for elements that they recognize, watch that students don't get too caught up in the HTML. The goal here is accessing specific data within the code.</li>
+                    </ul>
+            	</li>			
+            	<li>
+                	<strong>Page 4: Scraping Data from Web Pages.</strong>
+                	<ul>
+						<li>Students will use the two project files that they develop in this lab (U4L2-GPSData and U4L5-WeatherApp) again later in this unit. Take care to ensure that each pair programming team completes and saves the two files on this page to ensure that students are well-prepared for Labs 2 and 5.</li>
+                        <li>Students may need support with the <code>split</code> block or with lists of lists. There are several ways to develop the code for the list of lists, but using <code>map</code> is recommended.</li>
+                    </ul>
+            	</li>		
+                <li>
+                	<strong>Page 1: Reading Data Using URL Tags (Teacher's Choice).</strong>
+                    <ul>
+                        <li>There is more than one correct way to complete the URL tag for Google. Many students will find <code>http://www.google.com/search?q=snap</code> instead of the version listed on the page. Both are acceptable and either can be used to complete the task here.</li>
+						<li>Be sure to discuss the use of pluses in multi-word searches such as <strong>new+york</strong>. This will be useful throughout the lab. It may also be useful to point out that this notation isn't universal, and that the use and notation for URL tags may change for other sites.</li>
+						<li>Students shouldn't have much trouble finding the Snap<em>!</em> blocks to build the URL for this task. They may need a reminder about what directories to look in, and may need a reminder about the proper use of the <code>proxied http</code> block.</li>
+                    </ul>
+            	</li>
+        		<li>
+                	<strong>Page 2: Pulling Weather Data (Teacher's Choice).</strong>
+                    <ul>
+							<li>Up front, check to see that the <code>substring</code> blocks are available in students' working projects. If they continue from the project started on the previous page, these blocks will already be loaded. The <code>substring</code> blocks are necessary for the work of extracting the current temperature and conditions from longer lines of text. Students may need some help and reminders about how these blocks behave, notably that there are two different blocks for the beginning and end of strings.</li>
+                        <li>Watch for students making errors in building the URL tags for Weatherstreet. Specifically, state names must be listed, and without a space: <strong>Boston,MA</strong> and not <strong>Boston, MA</strong> or <strong>Boston</strong>. Multi-word city names must use a plus, not a space, between names: <strong>New+York,NY</strong> not <strong>New York,NY</strong>. In general, if this remains a difficult issue, you can ask students to enter ZIP codes instead of city names. This simplification applies throughout the rest of this lab.</li>
+						<li>Students may have a difficult time figuring out how to extract the useful lines from Weatherstreet. Let them know that the relevant lines have unique identifiers in the HTML source. If students still have trouble, show them the lines: the current temperature line has the identifier <code>currenttemp</code>, and the current condition has the identifier <code>currentwx2</code>.</li>
+						<li>There is more than one way, but in order to uniquely find these lines within the HTML source, consider having students return only the body of HTML and ignore the head; this was done previously in Lab 1. Alternately, they can choose the specific useful line after a <code>keep</code> operation.</li>
+                    </ul>
+            	</li>
+        		<li>
+                	<strong>Page 3: Building A Weather Report (Teacher's Choice).</strong>
+                    <ul>
+                        <li>If students choose to allow "cleaner" city entries like <strong>Los Angeles, CA</strong> they will need to process this using either <code>substring</code> or the blocks that convert between words and lists. This step may prove to be very difficult for some. If time is tight, consider dropping this option and have students use formatted entries like <strong>Los+Angeles,CA</strong> or ZIP codes.</li>
+						<li>Watch for students avoiding list operations in both the gathering and communicating of information. A single <code>map</code> operation can be used to do each. In particular, students often forget they can include the original information as part of the result of <code>map</code>, then have trouble linking their data to the original.</li>
+						<li>Students working on the Take It Further will need to find ways in the HTML source to extract the additional information. If doing so, encourage them to create blocks, so they can continue this work during the follow-up activity.</li>
+                    </ul>
+            	</li>
+        		<li>
+                	<strong>Page 4: Need An Umbrella? (Teacher's Choice)</strong>
+                    <ul>
+                        <li>Students should already have familiarity building the <code>my IP address</code> block from Lab 4. They may need to import this block to their weather app project. If that block was not built in Lab 4, they can use <code>ipinfo.io</code> to determine their IP.</li>
+						<li>It may be unclear to students how to quickly get the city and state from the IP address. While it is possible to use the HTML source from the main page of <code>ipinfo.io</code>, it is much more efficient to use the direct page links to city and state.</li>
+						<li>Students may have difficulty here compiling the city and state information into the formatted text required by Weatherstreet, particularly for multi-word city names. Give students an opportunity to try it, but if it proves too difficult, have them use the <code>ipinfo.io/xx.xx.xx.xx/postal</code> option to retrieve the ZIP code for their current location, then use the ZIP code as the URL tag for Weatherstreet.</li>
+						<li>Remind students there are multiple possible weather conditions that might cause the <code>umbrella</code> block to report true, including <strong>drizzle</strong> and <strong>heavy rain</strong>. This is a spot for some creativity, especially if students want to build a reporter instead of a predicate.</li>
+                    </ul>
+            	</li>
+        	</ul>
+        </div>
+
+			
+		<!--<h3>Solutions</h3>
+		<div><ul><li>...</li></ul></div>-->
+			
+			
+		<h3>Correlation with AP CS Principles Framework:</h3>
+		<div class="apStandards">
+			<div class="todo">Here are the new standards. I did not copy the EUs and LOs that were already addressed again here. --MF, 12/15/16</div>
+			<h4>Enduring Understandings:</h4>
+            <ul>
+            	<li></li>
+            </ul>
+            <h4>Learning Objectives:</h4>
+            <ul>
+            	<li></li>
+            </ul>
+            <h4>Essential Knowledge:</h4>
+			<ul>
+            	<li>6.2.2H Standards for sharing information and communicating between browsers and servers on the Web include HTTP and secure sockets layer/transport layer security (SSL/TLS). <!--<em>Exclusion Statement (6.2.2H): Understanding the technical aspects of how SSL/TLS works is beyond the scope of this course and the AP Exam.</em>--></li>
+            </ul>
+            
+            <div class="todo">Below is the Y2 version.</div>
+            <!--<h4>Computational Thinking Practices:</h4>
+			<ul>
+				<li>Coming soon...</li>
+			</ul>-->
+            <h4>Enduring Understandings:</h4>
+			<ul>
+                <li><strong>EU 1.2</strong> Computing enables people to use creative development processes to create computational artifacts for creative expression or to solve a problem.</li>
+                <li><strong>EU 3.1</strong> People use computer programs to process information to gain insight and knowledge.</li>
+            </ul>
+			<h4>Learning Objectives:</h4>
+			<ul>
+                <li><strong>LO 1.2.2</strong> Create a computational artifact using computing tools and techniques to solve a problem. [P2]</li>
+				<li><strong>LO 1.2.3</strong> Create a new computational artifact by combining or modifying existing artifacts. [P2]</li>
+				<li><strong>LO 3.1.2</strong> Collaborate when processing information to gain insight and knowledge. [P6]</li>
+				<li><strong>LO 3.1.3</strong> Explain the insight and knowledge gained from digitally processed data by using appropriate visualizations, notations, and precise language. [P5]</li>
+            </ul>
+			<h4>Essential Knowledge:</h4>
+			<ul>
+				<li><strong>EK 3.1.3A</strong> Visualization tools and software can communicate information about data.</li>
+				<li><strong>EK 3.1.3C</strong> Summaries of data analyzed computationally can be effective in communicating insight and knowledge gained from digitally represented information.</li>
+				<li><strong>EK 3.1.3D</strong> Transforming information can be effective in communicating knowledge gained from data.</li>
+				<li><strong>EK 3.1.3E</strong> Interactivity with data is an aspect of communicating.</li>
+                <li><strong>EK 3.2.1A</strong> Large data sets provide opportunities and challenges for extracting information and knowledge.</li>
+                <li><strong>EK 3.2.1B</strong> Large data sets provide opportunities for identifying trends, making connections in data, and solving problems.</li>
+                <li><strong>EK 3.2.1C</strong> Computing tools facilitate the discovery of connections in information within large data sets.</li>
+			</ul>
+		</div>			
+		
+
+	</body>
+</html>
