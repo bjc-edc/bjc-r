@@ -3,21 +3,26 @@
     <head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<script type="text/javascript" src="/bjc-r/utilities/gifffer.min.js"></script>
+        <script type="text/javascript">window.onload = function() {Gifffer();}</script>
+        <link rel="stylesheet" type="text/css" href="/bjc-r/css/bjc-gifffer.css">
 		<title>Unit 2 Lab 4: Programming in Layers Page 3</title>
     </head>
 
     <body>
         <h2>Brick Wall</h2>
         <div class="learn">
-        	<div class="sidenote">Designing a program to draw a brick wall (which you might later use as a stage background) is good practice in <em>analyzing structure</em>.<img src="/bjc-r/img/2-complexity/humpty-dumpty-tenniel.png" alt="Humpty Dumpty on brick wall" title="Humpty Dumpty on brick wall"></div>
-            <p><strong>In this project,</strong> you will use abstraction to draw a brick wall by first building  <img src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/drawBrick.png" alt="draw brick length:() width:() block" title="draw brick length:() width:() block"/>, then using it to write blocks for drawing different rows, and ultimately creating <img src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/draw-brick-wall-7.png" alt="draw a Brick Wall with (7) Rows block" title="draw a Brick Wall with (7) Rows block" />.</p>
+        	<!--<div class="sidenote">Designing a program to draw a brick wall (which you might later use as a stage background) is good practice in <em>analyzing structure</em>.</div>-->
+            <img class="imageRight" src="/bjc-r/img/2-complexity/humpty-dumpty-tenniel.png" alt="Humpty Dumpty on brick wall" title="Humpty Dumpty on brick wall">
+            <p><strong>In this project,</strong> you will use abstraction to draw a brick wall<!-- by first building  <img src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/drawBrick.png" alt="draw brick length:() width:() block" title="draw brick length:() width:() block"/>, then using it to write blocks for drawing different rows, and ultimately creating <img src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/draw-brick-wall-7.png" alt="draw a Brick Wall with (7) Rows block" title="draw a Brick Wall with (7) Rows block" />-->.</p>
 			<img border="0" class="indent" title="Sample image of brick wall" alt="Sample image of brick wall" src="/bjc-r/img/abstraction/new-brickwall/wall.png" />
         </div>
         
     	
         <div class="takeNote">
             <h4><strong>Abstraction</strong></h4>
-            <p>Having a special <img src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/drawBrick.png" alt="drawBrick length:() width:() block" title="drawBrick length:() width:() block"/> block lets you use procedure names related to the problem you are solving (like <code>draw brick</code>), rather than the general-purpose procedures  (like <code>move</code>) that the computer uses for all kinds of tasks. The process of moving from what the programming language gives you to a natural language (one that humans speak) is a key part of good abstraction.</p>
+            <p>While any good programming language might have many tools for drawing and moving, it wouldn't make sense to have special tools for drawing bricks because most programs don't involve bricks. That is the sort of tool you make yourself when you need it.</p>
+            <p>Having a special <img class="nopad" src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/drawBrick.png" alt="drawBrick length:() width:() block" title="drawBrick length:() width:() block"/> block lets you use procedure names related to the problem you are solving (like <code>draw brick</code>), rather than the general-purpose procedures  (like <code>move</code>) that the computer uses for all kinds of tasks. <!--The process of moving from what the programming language gives you to a natural language (one that humans speak) is a key part of good abstraction.--></p>
 		</div>
         
 		<h3>Drawing One Brick</h3>
@@ -25,32 +30,33 @@
             A picture of a brick is just a rectangle with a brick red color. However, there's no <code>draw rectangle</code> block in <span class="snap">snap</span>. One way to draw one is by thinking of a rectangle as a very thick line. Here's the idea:<br />
             <img class="indent" src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/simpleBrickCode.png" alt="draw rectangle, length:() width:() block definition" title="draw rectangle, length:() width:() block definition"/>
         </p>
-        <div class="forYouToDo">
-			<ol>
-				<li>
-                	<img class="imageRight" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
+        <div class="forYouToDo" id="first">
+        	<ol>
+				<div class="sidenoteBig"> 
+                    <p>The <img src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/setFlat.png"  alt="set flat line ends to &lt; &gt;"> block isn't built into Snap<em>!</em>. In projects without it, you can set the "Flat line ends" in the <img src="/bjc-r/img/sys/settings.png" alt="Settings" title="Settings" /> menu.</p>
+                    <p>Ordinarily, Snap<em>!</em> draws thick lines with rounded ends: <img class="nopad" src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/round-ends.png" alt="line with round ends">.  That's often the best choice, and you can see why below. But for bricks, we want flat line ends: <img class="nopad" src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/flat-ends.png" alt="flat line ends">.</p>
+                    <p class="center"><img src="/bjc-r/img/2-complexity/flat-line-ends-why.jpg" alt="" title="" /><br /><strong>flat</strong> vs. <strong>rounded</strong> line ends</p>
+                </div>
+                <li>
                     Load <a class="run" href="/bjc-r/prog/2-complexity/U2L4-brickwall.xml">this starter project</a>.  It includes the complete <code>draw brick</code> block shown below. Read the code; then try it out.<br />
-                    <div class="sidenoteBig"> 
-                        <p>The <img src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/setFlat.png"  alt="set flat line ends to &lt; &gt;"> block isn't built into Snap<em>!</em>. In projects without it, you can set the "Flat line ends" in the <img src="/bjc-r/img/sys/settings.png" alt="Settings" title="Settings" /> menu.</p>
-                        <p>Ordinarily, Snap<em>!</em> draws thick lines with rounded ends: <img class="nopad" src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/round-ends.png" alt="line with round ends">.  That's often the best choice, and you can see why below. But for bricks, we want flat line ends: <img class="nopad" src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/flat-ends.png" alt="flat line ends">.</p>
-                    	<p class="center"><img src="/bjc-r/img/2-complexity/flat-line-ends-why.jpg" alt="" title="" /><br /><strong>flat</strong> vs. <strong>rounded</strong> line ends</p>
-                    </div>
                     <img class="indent" src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/drawBrickCode.png"  alt="draw brick, length:() width:() block definition" title="draw brick, length:() width:() block definition"/> 
 				</li>
             </ol>
         </div>
         
-        <h3>Using Problem Decomposition to Write an Abstraction</h3>
+        <h3>Using Problem Decomposition</h3>
 		<p>
         	You'd like the "top level" block to be something like this:<br />
 			<img class="indent" src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/draw-brick-wall-7.png" alt="draw-brick-wall-7" /><br />
             Getting there involves <strong>problem decomposition</strong>: breaking the problem into smaller pieces.
         </p>
-		<p>There are two kinds of rows, so we make blocks that specialize in each:</p>
-		<ul>
-			<li><strong>Row A</strong>: <img class="noshadow" border="0" title="Row A" alt="Row A" src="/bjc-r/img/abstraction/new-brickwall/row-a.png" /></li>
-			<li><strong>Row B</strong>: <img class="noshadow" border="0" title="Row B" alt="Row B" src="/bjc-r/img/abstraction/new-brickwall/row-b.png" /></li>
-		</ul>
+		<p>
+        	There are two kinds of rows, so we make blocks that specialize in each:
+            <ul>
+                <li><strong>Row A</strong>: <img class="noshadow" border="0" title="Row A" alt="Row A" src="/bjc-r/img/abstraction/new-brickwall/row-a.png" /></li>
+                <li><strong>Row B</strong>: <img class="noshadow" border="0" title="Row B" alt="Row B" src="/bjc-r/img/abstraction/new-brickwall/row-b.png" /></li>
+            </ul>
+        </p>
         <div class="forYouToDo" id="second">
         	<ol start="2">
             	<li>Use <code>draw brick</code> to make blocks <img src="/bjc-r/img/abstraction/new-brickwall/rowa-block.png" alt="Row A" /> and <img src="/bjc-r/img/abstraction/new-brickwall/rowb-block.png" alt="Row B" />.</li>
@@ -70,29 +76,58 @@
                         <li>Or think "What would <em>make the most sense</em> in a <em>real</em> brick wall?"</li>
                     </ul>
                 </li>
-                
-                <!--<div class="sidenote"><div class="todo">ST-Atention here as this link refers to a Year 2 page</div>
-                You wrote the <code>even?</code> block <a href="/bjc-r/cur/programming/2-complexity/3-predicates/2-creating-predicates.html">in Lab 3</a>.</div>-->
-                
-                <li>Once you have  rows A and B the same length, write the <img src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/draw-brick-wall-7.png" alt="draw-brick-wall-7" /> block. Make sure that it works sensibly for both even and odd numbers of rows.
-                <div class="endnote">
-                <p>
-                	To build an <img src="/bjc-r/img/2-complexity/even-predicate.png" alt="even?" title="even?"/> block, you might:
-                    <ul>
-                        <li>Check whether half of <var>row number</var> is an integer. (Consider building an <code>integer?</code> predicate first.)</li>
-                        <li>Use <var>row number</var> <code>mod</code> <var>2</var> with <code>=</code>.</li>
-                        <li>Find another way...</li>
-                    </ul>
-                </p>
-			</ol>
+            </ol>
             <img class="imageRight" src="/bjc-r/img/icons/save-now.png" alt="Now Would be a Good Time to Save" title="Now Would be a Good Time to Save" />
+        </div>
+		
+        
+        <h3>Building an <code>Even?</code> Predicate</h3>
+        <p>Once you have rows A and B the same length, you are ready to write the <img class="nopad" src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/draw-brick-wall-7.png" alt="draw-brick-wall-7" /> block. To make it work for both even and odd numbers of rows, you can build an <code>even?</code> predicate.</p>
+        
+        <div class="forYouToDo">
+			<ol start="4">
+                <li>
+                	Experiment with the <img src="/bjc-r/img/blocks/mod.png" alt="mod"><a name="mod" class="anchor">&nbsp;</a>block.
+					<ol>
+                        <li>
+                        	<strong>Try various inputs</strong>, like these:<br />
+                        	<img class="indent" src="/bjc-r/img/1-introduction/mod-2-experiments.png"  alt="experiments with various numbers mod 2">
+                    	</li>
+                    	<li><strong>Predict</strong> (without using <span class="snap">snap</span>) what <code>(</code><var>23</var><code>) mod (</code><var>2</var><code>)</code> will report.</li>
+                        <li><strong>Draw conclusions.</strong> For what numbers does <code>(</code><var>number</var><code>) mod (</code><var>2</var><code>)</code> report 0 and when does it report 1? </li>
+                    </ol>
+                </li>
+                <div class="takeNote">
+                    <p>The <img class="inline" src="/bjc-r/img/blocks/mod.png" alt="() mod ()"/> block <strong>reports the remainder</strong> when the first input is divided by the second. For example, <img src="/bjc-r/img/1-introduction/17-mod-5.png" alt="17 mod 5" title="17 mod 5" /> reports 2 because when 17 is divided by 5, the remainder is 2. When one number divides another evenly, the remainder is 0. So, <img src="/bjc-r/img/1-introduction/15-mod-5.png" alt="15 mod 5" title="15 mod 5" /> reports 0.</p>
+                </div>
+                <li>
+                    The video below shows <em>almost</em> all you need to do to define <img src="/bjc-r/img/2-complexity/even-predicate.png" alt="the even predicate">, but an important step is missing. <br />
+                    <ul> 
+                        <li>You must choose the hexagonal shape to define your block as a <em>predicate</em> rather than a command. </li> 
+                        <div class="vocab">
+                        	<p>Many languages use <code>return</code> instead of <code>report</code> as the name of the command to give a value back to the caller of the function.</p>
+                        </div>
+                        
+                        <li>You must use  the <img src="/bjc-r/img/blocks/report.png" alt="report"> block to report the result.</li>
+                        <li><strong>What else must be done before clicking OK?</strong></li>
+                        <div class="sidenote">The video also shows a different (optional) way to create an input name. You can, if you like, type the title text and input name at the same time, and <em>then</em> change the part that you want to use as an input name  by clicking on it and choosing "input name." Use whatever way you like best.</div>
+                    </ul>
+                    <p><img class="indent" data-gifffer="/bjc-r/img/2-complexity/defining-even-predicate.gif" alt="defining a predicate block"></p>
+                </li>
+                <div class="takeNote">The Boolean expression <img class="inline" src="/bjc-r/img/1-introduction/n-mod-2=0.png" alt="n mod 2 = 0" title="n mod 2 = 0" /> reports <img class="inline" src="/bjc-r/img/blocks/true.png" alt="true" title="true" /> if <var>n</var> is divisible by 2 (meaning <var>n</var> is even) and <img class="inline" src="/bjc-r/img/blocks/false.png" alt="false" title="false" /> if <var>n</var> is odd (not divisible by 2 and so the remainder is not 0).</div>
+				<li><strong>Test</strong> your new block to make sure it works properly.</li>
+    		</ol>
 		</div>
+        
+		<div class="endnote">The definition of <code>even?</code> needs <em>only one</em> <code>if</code> statement, because all integers are either even or odd. If the boolean expression (<code>n</code> <code>mod 2 = 0</code>) evaluates to <code>false</code>,  the number is not even, so it must be odd. </div>
+		
+        
+       
         
         
         <div class="ifTime">
-          <ol start="7">
+			<ol start="5">
                 <li>Use your brick wall in another project by <a href="/bjc-r/cur/programming/2-complexity/1-variables-games/3-importing-exporting.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment">exporting and importing</a> your brick wall blocks.</li>
-            <li>Design a brick wall that has 3 or more different rows.</li>
           </ol>
         </div>
 		
@@ -109,8 +144,6 @@
 					<img class="indent" src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/drawBrickWallwithManyInputs.png"  height="60" alt="" title=""/><br />
                     Add these one at a time, not all at once!  When you modify the length of a brick, that should also change the length of a row B end brick. When you modify the mortar thickness, that should also change the distance between the rows.
                 </li>
-                
-                
             </ol>
         </div>
     
