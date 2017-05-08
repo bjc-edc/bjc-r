@@ -12,18 +12,20 @@
     <body>
         <h2>Fractal Art</h2>
         <div class="learn">
-            <strong>In this project,</strong> you will learn how to nest <code>repeat</code> blocks to generate complex structures.<br />
-            <img class="indent" src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/RecursiveTriangleSteps.gif"  height="250" alt=""/>&nbsp<img src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/RecursiveSquareSteps.gif"  height="250" alt=""/>
+            <strong>In this project,</strong> you will learn how to nest <code>repeat</code> blocks inside <code>repeat</code> blocks to generate complex structures.<br />
+            <img class="indent" src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/RecursiveTriangleSteps.gif"  height="250" alt="Recursive triangle in steps" title="Recursive triangle in steps"/>&nbsp;<img src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/RecursiveSquareSteps.gif" height="250" alt="Recursive square in steps" title="Recursive square in steps"/>
         </div>
         
         <p> 
         	It is possible to <em>nest</em> one <code>repeat</code> block inside another. Since <span class="snap">snap</span> processes scripts from top to bottom, the first <code>repeat</code> will begin first, and the second <code>repeat</code> will have to complete all its repetitions before the first <code>repeat</code> continues.<br />
+        	<div class="sidenote"><em>Nesting</em> means organizing information in layers or embedding objects inside other similar objects.</div>
             <img class="indent" src="/bjc-r/img/1-introduction/two-color-sierpinski-code.png" alt="repeat (3) (set pen color to (red), move (100) steps, repeat (3) (set pen color to (blue), move (100) steps, turn right (120) degrees), turn right (120) degrees)" title="repeat (3) (set pen color to (red), move (100) steps, repeat (3) (set pen color to (blue), move (100) steps, turn right (120) degrees), turn right (120) degrees)" />
         </p>
 
         <div class="forYouToDo" id="first">
             <ol>
-	            <li>
+	            <li><div class="newProject"><span class="text">"U2L4-FractalArt"</span><img src="/bjc-r/img/icons/new-project-called.png" alt="Create a new project called U2L4-FractalArt" title="Create a new project called U2L4-FractalArt" /></div></li>
+                <li>
                 	Build a script that draws a red triangle, duplicate it twice, and make the two new scripts draw a smaller blue triangle and an even smaller green one. 
                     <ul>
                     	<li>To duplicate a script, right-click (or control-click) on the first block of the script (in this case, the <code>repeat</code> block) and choose "duplicate".</li>
@@ -46,59 +48,75 @@
                     Using the scripts you have, find a way to make this picture.<br />
                     <img class="indent" src="/bjc-r/img/1-introduction/three-color-sierpinski.png" alt="Red triangle with blue children and green grandchildren" title="Red triangle with blue children and green grandchildren" />
                 </li>
+                <div class="todo">Is anyone else not getting this image? The sprite starts pointing right, so I don't see how this can be the outcome of the code above. Are we expecting students to catch that and change the starting direction to 120&deg;? --MF</div>
+		
             </ol>
         </div>
         
         <div class="ifTime">
-        	<ol start="7">
+        	<ol start="8">
             	<li>If you like, embed one more triangle, half the size of the last one, in the same way.</li>
             </ol>
         </div>
         
+		<h3>Using Abstraction to Nest Triangles</h3>
+        <p>Does all this copying and pasting of code feel awkward to you? You know a better way: <em>abstraction</em>.  In Unit 1 you used a <code>pinwheel</code> block to implement <code>asterisk</code> and <code>polygon</code>, rather than copying the code. Here, you can use a block to manage the abstraction too, but in this case, we want very similar code (a smaller triangle) repeated inside, so we will actually <em>use the same block inside itself</em>.</p>
         <div class="forYouToDo">
-            <ol start="8">
-				<li>
-					Does all this copying and pasting of code feel awkward to you?  It should, and you know a better way: <em>abstraction</em>.  In Unit 1 you used a <code>pinwheel</code> block to implement <code>asterisk</code> and <code>polygon</code>, rather than copying its code.<br />
+			<ol start="9">
+				<li>	Create a <code>repeatedTriangle</code> block.
                     <ol type="a">
                         <li>
-                            Make a <code>repeatedTriangle</code> block with two inputs, <var>size</var> and <var>color</var>.  <br />
-                            <img class="indent" src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/repeatedTriangleHeader.png"  height="75" alt=""/><br />
-                            Use your first unnamed triangle script from problem 1 as a model.  In order to be able to have an input for the color, you'll have to use the numeric <img src="/bjc-r/img/1-introduction/setpc-num.png"  alt="set pen color to number"> block instead of the <em>color-picker</em> block
-                            <img src="/bjc-r/img/1-introduction/setpc-pick.png"  alt="set pen color to (coiored square)">.
-                        </li>
-                        <li>Click the Apply button in the Block Editor.</li>
-                        <li>
-                            Now, where you would have dragged in another copy of the script, drag in <em>a</em> <code>repeatedTriangle</code> block.  The <var>size</var> input should be half the current value of <var>size</var>; the <var>color</var> input should be ten more than its current value.<br />
-                            <img class="indent" src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/repeatedTriangleRecursive.png" height="50" alt=""/><br />
-                            <div class="endnote">Notice that you used <code>repeatedTriangle</code> block in its very own definition.  When a block refers to itself in its own definition, this definition is said to be <em>recursive</em>.  Recursion is one of the most powerful techniques in computer science and you will learn more about it later in this lab and in much more detail at a later unit this year.</div>
+                        	Design the block with two inputs, <var>size</var> and <var>color</var>.<br />
+                            <img class="indent" src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/repeatedTriangleHeader.png"  alt="repeatedTriangle, size: (size) color: (color) hat block" title="repeatedTriangle, size: (size) color: (color) hat block" /><br />
                         </li>
                         <li>
-                            The trouble with this definition is that, as it stands, you'll keep getting smaller and smaller triangles forever.  To prevent that, put the entire definition of <code>repeatedTriangle</code> inside <img src="/bjc-r/img/1-introduction/end-test.png" alt="if (size &gt; 2)">. 
-                            <div class="endnote">Experiment with  values other than 2 (such as 40, 20, 10, 5) to see how this value determines how far down in the iteration chain to go in the drawing of repeated triangles.</div> 
+                             Use your first unnamed triangle script from problem 1 as a model. To have an input for the color, you'll have to use the numeric <img class="nopadtb" src="/bjc-r/img/blocks/set-pen-color-to-numeric.png" alt="set pen color to (0)" title="set pen color to (0)" /> block instead of the <em>color-picker</em> block <img class="nopadtb" src="/bjc-r/img/blocks/set-pen-color-to-picker.png" alt="set pen color to (blue colored square)" title="set pen color to (blue colored square)" />.<br />
+                             <img class="indent" src="/bjc-r/img/2-complexity/first-triangle-script.png" alt="repeat (3) {set pen color to (0), move (100) steps, turn right (120) degrees}" title="repeat (3) {set pen color to (0), move (100) steps, turn right (120) degrees}" />
                         </li>
-                        <div class="sidenote">If the color variations are not showing in your drawings, click on the block <img src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/setColorRed.png"  height="30" alt=""/> to establish a color baseline.</div>
+                        <li>Click the "Apply" button in the Block Editor so that the block appears in the palette on the left.</li>
                         <li>
-                            Now try <code>repeatedTriangle</code> with a size of 100 and a color number of 0.<br />
-                            <img class="indent" src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/repeatedTriangleApplied.png"  height="45" alt=""/>
+                            Where you would have dragged in another copy of the script (between the <code>move</code> and <code>turn</code> blocks), drag in a <code>repeatedTriangle</code> block.  The <var>size</var> input should be half the current value of <var>size</var>; the <var>color</var> input should be ten more than its current value.<br />
+                            <img class="indent" src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/repeatedTriangleRecursive.png" alt="repeatedTriangle, size (size/2) color: (color+10)" title="repeatedTriangle, size (size/2) color: (color+10)" /><br />
+                            <div class="endnote">You are using <code>repeatedTriangle</code> in its own definition.  When a block refers to itself, the block is said to be <em>recursive</em>.  Recursion is one of the most powerful techniques in computer science and you will learn more about it in later projects.</div>
                         </li>
-                        <li>Save your work as U2L4-RepeatedTriangle. <img src="/bjc-r/img/icons/save-now.png" alt="Now Is a Good Time to Save" title="Now Is a Good Time to Save"></li>
-					</ol>
-				</li>
+                	</ol>
+                </li>
+                <li>
+                    Try <code>repeatedTriangle</code> with a size of <var>100</var> and a color number of <var>0</var>. It won't work as expected. Think through the steps in the code. Can you determine what is happening?<br />
+                    <img class="indent" src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/repeatedTriangleApplied.png" alt="repeatedTriangle, size: (100) color: (0)" title="repeatedTriangle, size: (100) color: (0)"/>
+                </li>
+                
+                <li>
+                    The trouble with this definition is that, as it stands, you'll keep getting smaller and smaller triangles forever.  To prevent that, put the entire definition of <code>repeatedTriangle</code> inside a conditional to stop the triangles from nesting forever:<br />
+                    <img class="indent" src="/bjc-r/img/1-introduction/end-test.png" alt="if (size &gt; 2)" title="if (size &gt; 2)" />
+                    <div class="endnote">Experiment with values other than 2 (such as 40, 20, 10, 5) to see how this condition determines how small the smallest repeated triangles will be.</div> 
+                </li>
+                <div class="sidenote">If the color variations are not showing in your drawings, click on the block <img src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/setColorRed.png"  height="30" alt=""/> to establish a color baseline.</div>
+                <li>
+                    Now, try <img class="inline nopadtb" src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/repeatedTriangleApplied.png" alt="repeatedTriangle, size: (100) color: (0)" title="repeatedTriangle, size: (100) color: (0)"/> again.
+                </li>
+                <li>Save your work as U2L4-RepeatedTriangle. <img src="/bjc-r/img/icons/save-mini.png" alt="Save your work" title="Save your work"></li>
 			</ol>
 		</div>
               
 		<div class="ifTime">
-			<ol start="9">
+			<ol start="14">
             	<li>
                     This animation shows another example of embedding one script inside a similar script. (You'll make predictions first, so don't build it yet.)<br />
-                    <img class="indent" data-gifffer="/bjc-r/img/1-introduction/embedding-scripts-for-squares.gif" alt="embedding scripts for squares" title="embedding scripts for squares" />                    <ol type="a">
-                        <li>Before building this script, sketch what each of the two <em>individual</em> scripts will draw before they are combined. </li> 
-                        <li>Predict the number of blue shapes that the combined script will draw.</li>
-                        <li>Sketch the shape that the combined script will draw.</li>
+                    <img class="indent" data-gifffer="/bjc-r/img/2-complexity/embedding-scripts-for-squares.gif" alt="embedding scripts for squares" title="embedding scripts for squares" />
+                    <ol type="a">
+                        <li>
+                            Before building this script: 
+                            <ol style="list-style-type:lower-roman;">
+                                <li>Sketch what each of the two <em>individual</em> scripts will draw before they are combined. </li> 
+                                <li>Predict the number of blue shapes that the combined script will draw.</li>
+                                <li>Sketch the shape that the combined script will draw.</li>
+                            </ol>
+                        </li>
                         <li>Now, build the combined script and try it out.</li>
                         <li><strong>Experiment: </strong> Embed <em>another</em> square, half the size of the last, in the same way. How many of these smallest squares does the script draw? How could you have <em>predicted </em> that number before trying it?</li>
                         <li><strong>Predict then experiment: </strong> Next, embed <em>one more</em> square, half the size of the last, in exactly the same way. But first, try to <em>predict</em> the number of tiny squares it will draw before trying it.</li>
-                        <li>Use problem #8 as a model to recursively define a <code>repeatedSquare</code> block.</li>
+                        <li>Use <code>repeatedTriangle</code> as a model to recursively define a <code>repeatedSquare</code> block.</li>
                     </ol>
                 </li>
             </ol>
@@ -106,11 +124,19 @@
 	
         <div class="takeItFurther">
             <ol type="A">
-                <li>Some objects in nature exhibit the property of <em>self-similarity</em>, which means that parts of the whole are small replicas of the whole (for example trees, brocolli, caulifower etc.) Do some research on self-similar geometric objects called <em>fractals</em>. Recreate some some of these using Snap<em>!</em>.</li>
+                <!-- This feels a little too complex and open-ended here, and here is a whole lab page devoted to this in U7: see /bjc-r/cur/programming/7-recursion/2-projects/4-fractals-in-nature.html --MF
+                
+                <li>Some objects in nature exhibit the property of <em>self-similarity</em>, which means that parts of the whole are small replicas of the whole (for example trees, broccoli, cauliflower etc.) Do some research on self-similar geometric objects called <em>fractals</em>. Recreate some of these using Snap<em>!</em>.</li>-->
                 <li>
                     Can you figure out how these animations were created?<br />
-                    <img class="indent" src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/RecursiveTriangleAnimation.gif"  height="250" alt=""/>&nbsp&nbsp&nbsp<img src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/RecursiveSquareAnimation.gif"  height="250" alt=""/>
+                    
+                    <img  src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/RecursiveTriangleAnimation.gif"  height="300" alt="Recursive Triangle Animation" title="Recursive Triangle Animation"/><img src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/RecursiveSquareAnimation.gif"  height="300" alt="Recursive Square Animation" title="Recursive Square Animation"/>
+                    
+                    
+                    
+                  
                 </li>
+                
             </ol>
         </div>
 
