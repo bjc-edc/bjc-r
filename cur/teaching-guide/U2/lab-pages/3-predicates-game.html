@@ -8,15 +8,23 @@
     
     <body>
         <h2>Lab 3: Solving Puzzles by Using Predicates</h2>
-        <p>The lab contains four short activities&mdash;essentially how-to's&mdash;showing techniques that are useful in more complex programming tasks. Students get a bit more experience with Boolean expressions, essential for the AP CSP test. They learn how to indicate the intended <em>type</em> of an input to a block&mdash;whether the intended input is to be a number, a string, a list, or something else. They get a bit more practice creating reporter blocks that take multiple inputs, and they use a composition of functions on those inputs. And they compare multiple <em>correct</em> ways of solving a problem, thinking about the aesthetics of programming.</p>
+        <p>
+            Students build various predicates (reporters that only report Boolean values&mdash;<code>true</code> or <code>false</code>) and use them to solve word puzzles. First, they review their understanding of predicates, which they have used with conditinonals such as <code>if</code> and <code>repeat until</code>, and they learn to use predicates with the higher order function <code>keep</code> to report only the items from a list that match certain criteria. Then, the build several predicates to use in solving word puzzles (examples below) and use them with <code>keep</code> to perform various queries on a list of words. Finally, they create predicate expressions using Boolean operators (<code>and</code>, <code>or</code>, and <code>not</code>) to select list items that match multiple criteria.<br />
+            <img class="indent" src="/bjc-r/img/2-complexity/does-orange-6-letters-true.png" alt="does (orange) have (6) letters? reporting true" title="does (orange) have (6) letters? reporting true" />
+            <img class="indent" src="/bjc-r/img/2-complexity/is-letter-4-of-carrot-o-reporting-false.png" alt="is letter (4) of (carrot) the letter (o)? reporting false" title="is letter (4) of (carrot) the letter (o)? reporting false" />
+        </p>
+        <p>
+            Along the way, students learn about Booleans and Boolean operators, essential for the AP CSP test; learn how to indicate the intended <em>type</em> of an input variable (whether the intended input is to be a number, a string, a list, etc.); and they are introduced to the <code>mod</code> block which reports the remainder when two numbers are divided.<br />
+            <img class="indent" src="/bjc-r/img/2-complexity/17-mod-5-reporting-2.png" alt="(17) mod (5) reporting 2" title="(17) mod (5) reporting 2" />
+        </p>
         
         
         <h3>Pacing</h3>
 		<div>
 			The 3 lab pages could be split across X or X days (X-X minutes). Expected times to complete follow:
 			<ul>
-				<li>X-X minutes (X-X class periods) on <a href="/bjc-r/cur/programming/2-complexity/3-predicates/1-using-predicates-keep.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment">Using Predicates with <code>Keep</code></a></li>
-				<li>X-X minutes (X-X class periods) on <a href="/bjc-r/cur/programming/2-complexity/3-predicates/2-building-predicates.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment">Building Predicates for Your Word Puzzle Solver
+				<li>30-60 minutes (about 1 class period) on <a href="/bjc-r/cur/programming/2-complexity/3-predicates/1-using-predicates-keep.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment">Using Predicates with <code>Keep</code></a></li>
+				<li>25-50 minutes (about 1 class period) on <a href="/bjc-r/cur/programming/2-complexity/3-predicates/2-building-predicates.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment">Building Predicates for Your Word Puzzle Solver
 </a></li>
 				<li>X-X minutes (X-X class periods) on <a href="/bjc-r/cur/programming/2-complexity/3-predicates/3-composing-predicates.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment">Composing Predicates to Solve a Word Puzzle</a></li>
 			</ul>
@@ -40,15 +48,66 @@
 						<li>
 							<strong>Goals:</strong>
 							<ul>
-								<li>Review and codify understanding of predicates.</li>
+								<li>Review and codify understanding of <strong>predicates</strong>.</li>
+                                <li>Broaden and refine understanding of the <strong>mathematics</strong> of computer science by using <code>round</code>,  <code>mod</code>, and Boolean operators (<code>and</code>, <code>or</code>, and <code>not</code>).</li>
+                                <li>Develop several versitile numerical predicates: <code>integer?</code>, <code>between?</code>, and <code>even?</code>.</li>
 								<li>Learn how the <code>keep</code> block uses predicates to select items from a list.</li>
-							</ul>
+                            </ul>
 						</li>
 						<li>
 							<strong>Tips:</strong>
 							<ul>
-								<li>There is a lot of reading on this page, and it will be hard for students to complete the work and understand the ideas if students to not read it thoroughly. Consider how you will approach the "For You to Do" problems on this page. You may choose to discuss them together as a class after students have completed the page. At a minimum, read and discuss the orange box at the bottom together after students have read it in their pairs.</li>
-								<li></li>
+								<li>It will be hard for students to continue this lab if they do not understand the two core ideas on this page: the concept of a predicate (a hexagonal reporter that reports either <code>true</code> or <code>false</code>) and the <em>basic</em> idea of <code>keep</code> (a reporter that reports only the items from an input list that meet the criteria specified by a predicate with a blank for the list items to cycle through). Consider reading and discussing the orange box at the bottom together after students have read it in pairs.</li>
+								<li>
+                                    Some <strong>vocabulary</strong> (for <em>you</em> to use in context,  not to require of students):
+                                    <ul>
+                                        <li>A <em>command</em> is a single Lego-brick-shaped block, without its inputs. It tells the computer to do something.</li>
+                                        <li>A <em>reporter</em> is a single oval-shaped block, without its inputs. It reports data.</li>
+                                        <li>A <em>predicate</em> is a single hexagonal block, without its inputs. It's a reporter that only reports Boolean values.</li>
+                                        <li>A <em>Boolean value</em> is <img src="/bjc-r/img/blocks/true.png" alt="true"> or <img src="/bjc-r/img/blocks/false.png" alt="false">. (Not the text strings "true" and "false"; not 0 and 1.)</li>
+                                        <li>An <em>instruction</em> is a command block along with its inputs or input expressions.</li>
+                                        <li>An <em>expression</em> is a reporter block along with its inputs or input expressions.</li>
+                                        <li>A <em>Boolean expression</em> is a predicate block along with its inputs or input expressions.</li>
+                                    </ul>
+                                    So a reporter or a predicate is a function, and an expression is a function applied to input values (often called "arguments").
+                                </li>
+                                <li><strong>Mathematics Note.</strong> The <em>integers</em> are the counting numbers together with their negatives and zero: <span class="katex">..., -3, -2, -1, 0, 1, 2, 3, ...</span> The number 17 is an integer. So is −17. But 17.3 is <em>not</em> an integer. Neither is &pi; (pi). An integer is a number for which <code>round</code> returns the number itself. Students will use this fact to develop their <code>integer?</code> predicate.</li>
+                                <li>
+                                    <p><strong>Mathematics Note: <code>Mod</code>.</strong><a name="mod" class="anchor">&nbsp;</a>The <code>mod</code> block returns the remainder when the first input is divided by the second.</p>
+                                    <p>
+                                        For positive whole numbers, this is the same as the notion of remainder that students learn in elementary school when they learn to divide one whole number by another. So:<br />
+                                        <img class="indent" src="/bjc-r/img/1-introduction/7mod5reporting2.png" alt="7 mod 5 reporting 2" title="7 mod 5 reporting 2" /><br />
+                                        because when 7 is divided by 5, the remainder is 2 (and the quotient is 1).
+                                    </p>
+                                    <p>
+                                        The behavior of the <code>mod</code> block may seem mysterious when one or both of the inputs are negative integers. For example:<br />
+                                        <img class="indent" src="/bjc-r/img/1-introduction/-7mod5reporting3.png" alt="-7 mod 5 reporting 3" title="-7 mod 5 reporting 3" />
+                                        <img class="indent" src="/bjc-r/img/1-introduction/-7mod-5reporting-2.png" alt="-7 mod -5 reporting -2" title="-7 mod -5 reporting -2" />
+                                        <img class="indent" src="/bjc-r/img/1-introduction/7mod-5reporting-3.png" alt="7 mod -5 reporting -3" title="7 mod -5 reporting -3" /><br />
+                                        The sign of the output of <code>mod</code> agrees with the sign of its second input. But why?
+                                    </p>
+                                    <p>Let's go back to positive whole numbers for a moment. The fact that <code>mod (7, 5) = 2</code> comes from <span class="katex">7 \div 5 = 1 \text{ remainder } 2</span>, which comes from <span class="katex">7 = 5 \times 1 + 2</span> where 1 is the <em>quotient</em> and 2 is the <em>remainder</em>. The quotient is the key to the mystery.</p>
+                                    <p>
+                                        In Snap<em>!</em>, you can get the quotient by dividing 7 by 5 to get 1.4 and then <em>rounding down</em>. This operation of rounding down is called <code>floor</code>, and it's built into Snap<em>!</em> (you can find it as a drop-down option in the <code>sqrt</code> block in the Operators pallete). For any real number, <code>floor</code> takes the closest integer to the left on the number line (hence the name "floor").<br />
+                                        <img class="indent" src="/bjc-r/img/1-introduction/floor7div5reporting1.png" alt="floor (7 ÷ 5) reporting 1" title="floor (7 ÷ 5) reporting 1" />
+                                    </p>
+                                    <p>So, given any two integers <span class="katex">a</span> and <span class="katex">b</span> (or real numbers, really) you can calculate the quotient <span class="katex">\frac{b}{a}</span> and then the floor of their quotient <span class="katex">\text{floor}(\frac{b}{a})</span>. Let's call this quotient <span class="katex">q</span>. Then, <span class="katex">b</span> will equal <span class="katex">aq</span> plus the little left over that we lost by using floor (the remainder, which we'll call <span class="katex">r</span>). So now, <span class="katex">b = aq + r</span> much like <span class="katex">7 = 5 \times 1 + 2</span>.</p>
+                                    <p>That remainder is what Snap<em>!</em> and most programming languages report for <code>mod(b, a)</code> and this explains the signs of the outputs when one or both inputs are negative.</p>
+                                    <p class="center">
+                                        For example: 
+                                        <img class="inline" src="/bjc-r/img/1-introduction/-7div5reporting-1.4.png" alt="-7 ÷ 5 reporting -1.4" title="-7 ÷ 5 reporting -1.4" />, so 
+                                        <img class="inline" src="/bjc-r/img/1-introduction/floor(-7div5)reporting2.png" alt="floor (-7 ÷ 5) reporting 2" title="floor (-7 ÷ 5) reporting 2" /><br />
+                                        and <span class="katex">-7=5\times(-2)+3</span>, so 
+                                        <img class="inline" src="/bjc-r/img/1-introduction/-7mod5reporting3.png" alt="-7 mod 5 reporting 3" title="-7 mod 5 reporting 3" />.
+                                    </p>
+                                    <p class="center">
+                                        Another example: 
+                                        <img class="inline" src="/bjc-r/img/1-introduction/-7div-5reporting1.4.png" alt="-7 ÷ -5 reporting 1.4" title="-7 ÷ -5 reporting 1.4" />, so 
+                                        <img class="inline" src="/bjc-r/img/1-introduction/floor(-7div-5)reporting1.png" alt="floor (-7 ÷ -5) reporting 1" title="floor (-7 ÷ -5) reporting 1" /><br />
+                                        and <span class="katex">-7=-5\times(1)+-2</span>, so 
+                                        <img class="inline" src="/bjc-r/img/1-introduction/-7mod-5reporting-2.png" alt="-7 mod -5 reporting -2" title="-7 mod -5 reporting -2" />.
+                                    </p>
+                                </li>
 							</ul>
 						</li>
 					</ul>
@@ -59,21 +118,23 @@
 						<li>
 							<strong>Goals:</strong>
 							<ul>
-								<li>Building several predicates blocks by constructing several predicate expressions for specific cases first and then generalizing.</li>
-								<li>Learning how to change a variable's input type.</li>
+								<li>Build several predicates blocks by constructing predicate expressions for specific cases first and then generalizing.</li>
+                                <li>Learn how to specify the type of input that a block is expecting to receive.</li>
 							</ul>
 						</li>
 						<li>
 							<strong>Tips:</strong>
 							<ul>
-								<li>
+								<li>The information on this page about how to constrain a block's inputs to expect only numbersis useful but not essential. Consider <em>demonstrating</em> the method yourself, and having students watch you and follow along. They may find learning from you faster and better than  working through the page.</li>
+                                <li>Input types in Snap<em>!</em> are <em>program documentation,</em> not constraints on the programmer. You can drop any reporter into any input slot. The input slot shapes are just hints about what the block expects. Don't emphasize type checking. It's really important for a programmer to understand the domain and range of each function, but the domain (e.g., "an even positive integer" or "a word of no more than eight letters" or "a list whose items are either Booleans or lists") is often different from the language's types.</li>
+                                <li>
                                 	If students attempt the "If There Is Time" problem, they will likely need some time to consider how to access the last letter of a word. Use probing questions to support their problem-solving:
                                     <ul>
                                         <li>How can you find the place number of the last letter?</li>
                                         <li>Look back at the last problem about the 9<sup>th</sup> letter, how is that related?</li>
                                     </ul>
                                 </li>
-							</ul>
+                        	</ul>
 						</li>
 					</ul>
 				</li>
@@ -90,7 +151,7 @@
 						<li>
 							<strong>Tips:</strong>
 							<ul>
-								<li></li>
+                                <li><strong>Mathematics Note: Predicates.</strong> In addition to predicting the output in problems 1 and 2, think about asking students to explain what the computer is doing when it calculates the output for each. Look for general principles like "<code>and</code> reports <code>true</code> if <em>both</em> of its inputs report <code>true</code>" and "<code>or</code> reports <code>true</code> if <em>at least one</em> of its inputs report <code>true</code>". Also look for precise statements about when <code>and</code> and <code>or</code> report <code>false</code>. Jumping to formalities like "truth tables" won't be as effective as if students develop the rules for themselves.</li>
 								<li></li>
 							</ul>
 						</li>
@@ -100,115 +161,9 @@
 		</div>
 
 
-		<h3>Assignments</h3>
+		<h3>Assignments:</h3>
+        <div class="todo">This is from last year, and feels too contrived to me. --MF</div>
 		<div>
-			<ul>
-				<li>...</li>
-			</ul>
-		</div>
-
-			
-		<h3>Solutions</h3>
-		<div>
-			<ul>
-				<li>...</li>
-			</ul>
-		</div>
-			
-			
-		<h3>Correlation with AP CS Principles Framework<a name="AP" class="anchor">&nbsp;</a></h3>
-		<div class="apStandards">
-			<!--<h4>Computational Thinking Practices:</h4>
-			<ul>
-				<li>Coming soon...</li>
-			</ul-->
-			<h4>Essential Understandings:</h4>
-			<p></p>
-			<ul>
-				<li>Coming soon...</li>
-			</ul>
-			<h4>Learning Objectives:</h4>
-			<p></p>
-			<ul>
-				<li>Coming soon...</li>
-			</ul>
-			<h4>Essential Knowledge:</h4>
-			<ul>
-				<li>Coming soon...</li>
-			</ul>
-		</div>			
-
-
-
-        
-        <!--<h3>Pacing:</h3>
-        <div>
-			The 1 required lab page may take about 20-40 minutes (<strong>1 class period or less</strong>). Expected times to complete follow:
-			<ul>
-				<li>20-40 minutes (1 class period or less) on <a href="/bjc-r/cur/programming/2-complexity/old-tools-techniques/1-predicates-logic.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment">Predicates and Logic</a></li>
-				<li>If used, 20-40 minutes (1 class period or less) on <a href="/bjc-r/cur/programming/2-complexity/old-tools-techniques/2-composition-of-functions.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment">Composition of Functions (Teacher's Choice)</a></li>
-				<li>If used, 20-40 minutes (1 class period or less) on <a href="/bjc-r/cur/programming/2-complexity/old-tools-techniques/3-input-types.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment">Input Types (Teacher's Choice)</a></li>
-				<li>If used, 20-40 minutes (1 class period or less) on <a href="/bjc-r/cur/programming/2-complexity/old-tools-techniques/4-analyzing-definitions-of-ge.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment">Analyzing Various Definitions of <code>&gt;=</code> (Teacher's Choice)</a></li>
-			</ul>
-		</div>
-        <div class="time">
-        	<ul>
-                <li>Lab 3 Page 2: Composition of Functions, though Page 3: Input Types expects that students have built the <code>max</code> block from this page</li>
-                <li>Lab 3 Page 3: Input Types</li>
-                <li>Lab 3 Page 4: Analyzing Various Definitions of &gt;=</li>
-            </ul>
-        </div>-->
-
-    	<h3>Students will:</h3>
-        <!--<div class="sidenoteBig">
-        	<strong>Looking Ahead</strong>
-        	<ul>
-            	<!-- Used in U1 
-                <li>The tools developed in this unit anticipate a variety of games that students will be able to develop: tic-tac-toe, magic-square games, and others. More powerful programming techniques&mdash;particularly <strong>lists</strong> which are the major new programming idea in Unit 3&mdash;are useful in completing these games.</li>- ->
-            </ul>
-        </div>-->
-        <div>
-            <ul>
-                <li>Broaden and refine their understanding of the mathematics of computer science including basic arithmetic operations, the <code>round</code> block, the <code>mod</code> block, the <code>random</code> block, and logical operators.</li>
-                <li>Learn how to specify the type of input that a block is expecting to receive.</li>
-                <li>Get practice composing functions.</li>
-            </ul>
-		</div>
-        
-        
-        <h3>Goals for the Lab:</h3>
-        <div>
-            <ul>
-                <li>
-					<strong>Page 1: Predicates and Logic.</strong>
-                    <ul>
-	                    <li>To review and get comfortable with predicates--reporter blocks that report Boolean values.</li>
-                    </ul>
-                </li>
-                <li>
-					<strong>Page 2: Composition of Functions (Teacher's Choice).</strong>
-                    <ul>
-	                    <li>To practice composing reporter blocks with other reporter blocks.</li>
-                    </ul>
-                </li>
-                <li>
-					<strong>Page 3: Input Types (Teacher's Choice).</strong>
-                    <ul>
-	                    <li>To introduce variable types.</li>
-                    </ul>
-                </li>
-                <li>
-					<strong>Page 4: Analyzing Various Definitions of <code>&gt;=</code> (Teacher's Choice).</strong>
-                    <ul>
-	                    <li>To compare algorithms for clarity, readability, and code complexity, analyzing different implementations of predicate <code>&gt;=</code>.</li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-        
-        
-        <h3>Assignments:</h3>
-        <div>
         	<ul>
             	<li>Submit (in whatever way your class uses) a URL for a program containing two predicate blocks named horse1, and horse2, that each take three inputs of specified types: string, number, Boolean. They should implement the following logic in two different ways:
                 	<ul>
@@ -220,101 +175,14 @@
         </div>
         
         
-        <h3>Tips:</h3>
-        <div>
-        	<ul>
-            	<li>
-					<strong>Page 1: Predicates and Logic.</strong>
-					<ul>
-						<li>
-                        	Some <strong>vocabulary</strong> (for <em>you</em> to use in context,  not to require of students):
-                            <ul>
-                                <li>A <em>command</em> is a single Lego-brick-shaped block, without its inputs.</li>
-                                <li>A <em>reporter</em> is a single oval-shaped block, without its inputs.</li>
-                                <li>A <em>predicate</em> is a single hexagonal block, without its inputs.</li>
-                                <li>An <em>instruction</em> is a command block along with its inputs or input expressions.</li>
-                                <li>An <em>expression</em> is a reporter block along with its inputs or input expressions.</li>
-                                <li>A <em>Boolean expression</em> is a predicate block along with its inputs or input expressions.</li>
-                                <li>A <em>Boolean value</em> is <img src="/bjc-r/img/blocks/true.png" alt="true"> or <img src="/bjc-r/img/blocks/false.png" alt="false">. (Not the text strings "true" and "false"; not 0 and 1.)</li>
-                            </ul>
-                            So a reporter or a predicate is a function; an expression is a function applied to input values (often called "arguments").
-                        </li>
-                        <li><strong>Mathematics Note: Predicates.</strong> In addition to predicting the output in problems 1 and 2, think about asking students to explain what the computer is doing when it calculates the output for each. Look for general principles like "<code>and</code> reports <code>true</code> if <em>both</em> of its inputs report <code>true</code>" and "<code>or</code> reports <code>true</code> if <em>at least one</em> of its inputs report <code>true</code>". Also look for precise statements about when <code>and</code> and <code>or</code> report <code>false</code>. Jumping to formalities like "truth tables" won't be as effective as if students develop the rules for themselves.</li>
-                        <li>
-                            <strong>Mathematics Note: <code>Round</code>, <code>Floor</code>, and <code>Ceiling</code>.</strong><a name="round" class="anchor">&nbsp;</a>There are three related reporters that take any real number as input and return an integer related to the input:
-                            <ul>
-                                <li><code>Round</code> returns the integer closest to its input; if there's a tie (like at 6.5), it "rounds up" (and returns 7).</li>
-                                <li><code>Floor</code> returns the <em>greatest</em> integer less than or equal to its input.</li>
-                                <li><code>Ceiling</code> returns the <em>smallest</em> integer greater than or equal to its input.</li>
-                            </ul>
-                            These statements can be confusing. One way to think about it is to imagine a number <span class="katex">p</span> caught between two integers on a number line:<br />
-                            <img class="indent noshadow" src="/bjc-r/img/2-complexity/numberline.png" alt="number line from 6 to 10 with p marked between 8 and 9" title="number line from 6 to 10 with p marked between 8 and 9" /><br />
-                            Here, <span class="katex">p</span> is between 8 and 9, closer to 8. So <code>round (</code><var>p</var><code>)</code> will return 8, and so will <code>floor(</code><var>p</var><code>)</code>. But <code>ceiling(</code><var>p</var><code>)</code> will return 9.<br />
-                            Another way to look at these reporters is to use Snap<em>!</em> to list the values reported by each function as you move from one integer (say, 6) to the next (7) in increments of 0.1:<br />
-                            <img class="indent" src="/bjc-r/img/2-complexity/map-round-over-list.png" alt="map (round ()) over (list {...}) reporting" title="map (round ()) over (list {...}) reporting" />
-                            <img class="indent" src="/bjc-r/img/2-complexity/map-floor-over-list.png" alt="map (floor ()) over (list {...}) reporting" title="map (floor ()) over (list {...}) reporting" />
-                            <img class="indent" src="/bjc-r/img/2-complexity/map-ceiling-over-list.png" alt="map (ceiling ()) over (list {...}) reporting" title="map (ceiling ()) over (list {...}) reporting" /><br />
-                            <!--In summary:<br />
-                            <img class="indent noshadow" src="/bjc-r/img/2-conditionals-abstraction-testing/round-floor-ceiling-table.png" alt="table of reports from round, ceiling, and floor for intervals of 0.1 from 6 to 7" title="table of reports from round, ceiling, and floor for intervals of 0.1 from 6 to 7" /><br />
-                            You might try making a similar table where the numbers go from −7 to −6 in increments of 0.1.-->
-                        </li>
-                        <li>
-                        	<strong>Mathematics Note: Vocabulary.</strong>
-                        	<ul>
-                                <li>The <em>integers</em> are the counting numbers together with their negatives and zero: <span class="katex">..., -3, -2, -1, 0, 1, 2, 3, ...</span> The number 17 is an integer. So is −17. But 17.3 is not an integer. Neither is &pi;. An integer is a number for which <code>round</code> returns the number itself.</li>
-                            </ul>
-						</li>
-					</ul>
-				</li>
-                <li>
-					<strong>Page 2: Composition of Functions (Teacher's Choice).</strong>
-					<ul>
-						<li>This extremely short page is very useful practice both in problem solving and in programming. </li>
-                        <li>
-                        	<strong>Mathematics Note: Composition of Operators.</strong> The "home made" operators on this page all have the property that the order of their inputs doesn't matter.<br />
-                            <img class="indent" src="/bjc-r/img/2-complexity/x+y+z-definition.png" alt="() + () + () : { () + ( () + () ) }" title="() + () + () : { () + ( () + () ) }" /><br />
-                            This isn't always the case when one reporter is embedded in ("composed with") another. For example, adding three to a number and then multiplying by 2 produces different results than first multiplying by 2 and then adding 3.<br />
-                            <img class="indent" src="/bjc-r/img/2-complexity/f-of-2-7-3-reporting.png" alt="f(2, 7, 3) reporting 20" title="f(2, 7, 3) reporting 20" />
-                            <img class="indent" src="/bjc-r/img/2-complexity/f-of-3-7-2-reporting.png" alt="f(3, 7, 2) reporting 27" title="f(3, 7, 2) reporting 27" />
-                            <img class="indent" src="/bjc-r/img/2-complexity/f-of-x-y-z-definition.png" alt="f(x, y, z) : { (x) × (y + z) }" title="f(x, y, z) : { (x) × (y + z) }" />
-                        </li>
-					</ul>
-				</li>
-                <li>
-					<strong>Page 3: Input Types (Teacher's Choice).</strong>
-					<ul>
-						<li>The information on this page&mdash;how to constrain a block's inputs  to expect only numbers&mdash;is useful but not essential. Consider <em>demonstrating</em> the method yourself, and having students watch you and follow along. They may find learning from you faster and better than  working through the page.</li>
-						<li>Input types in Snap<em>!</em> are <em>program documentation,</em> not constraints on the programmer. You can drop any reporter into any input slot. The input slot shapes are just hints about what the block expects. Don't emphasize type checking. It's really important for a programmer to understand the domain and range of each function, but the domain (e.g., "an even positive integer" or "a word of no more than eight letters" or "a list whose items are either Booleans or lists") is often different from the language's types.</li>
-					</ul>
-				</li>
-                <li>
-					<strong>Page 4: Analyzing Various Definitions of <code>&gt;=</code> (Teacher's Choice).</strong>
-					<ul>
-						<li>The main point is for students to see that there are multiple correct ways of programming and that there are different standards for elegance and clarity. This page also helps clarify the Boolean operators. The third and fourth definition resemble the way we might explain the <code>&gt;=</code> function in English. By contrast, the versions using <code>if</code> are not much like the way we'd think  in a non-programming context. Because this page requires no programming&mdash;it is entirely discussion&mdash;you may want to do this right after showing <strong>Input types</strong>, while the whole class is working together.</li>
-					</ul>
-				</li>
-                <div class="takeItFurther"><a name="further" class="anchor">&nbsp;</a>
-                    <ul>
-                        <li>
-                        	<strong>Mathematics Note: Analyzing Various Definitions.</strong> There is another Snap<em>!</em> model for <code>sum from </code><var>a</var><code> to </code><var>b</var> that you can add to the mix:<br />
-                        	<img class="indent" src="/bjc-r/img/2-complexity/sum-recursive-definition.png" alt="sum from (a) to (b): {if (a > b) {report (0) } else {report ( (a) + (sum from (a + 1) to (b)) ) } }" title="sum from (a) to (b): {if (a > b) {report (0) } else {report ( (a) + (sum from (a + 1) to (b)) ) } }" />
-                        </li>
-                    </ul>
-                </div>
-            </ul>
+        <h3>Solutions</h3>
+		<div>
+			<ul>
+				<li>...</li>
+			</ul>
 		</div>
-
-            
-   		<h3>Solutions:</h3>
-        <div>
-            <ul>
-                <li><a href="http://snap.berkeley.edu/snapsource/snap.html#present:Username=BJCsolutions&ProjectName=U2L1p3%20Predicates%20(answer%20file)" target="_blank">Page 1: Predicates and Logic</a><!--&mdash;subproblems: <code>vowel?</code>, testing <code>join "a" or "an"</code>--></li>	
-                <li><a href="http://snap.berkeley.edu/snapsource/snap.html#present:Username=BJCsolutions&ProjectName=U2L3p2%20Composition%20of%20Functions%20(answer%20file)" target="_blank">Page 2: Composition of Functions (Teacher's Choice)</a><!--&mdash;subproblems: <var>a</var><code> + </code><var>b</var><code> + </code><var>c</var>, <code>max of </code><var>a</var><code>, </code><var>b</var><code>, </code><var>c</var>, <code>sum of two smallest</code>, <code>Are any equal?</code>, <code>Can a triangle use lengths?</code>--></li>
-                <li><a href="http://snap.berkeley.edu/snapsource/snap.html#present:Username=bjcsolutions&ProjectName=U2L3p3%20Input%20Types%20(answer%20file)" target="_blank">Page 3: Input Types (Teacher's Choice)</a><!--&mdash;subproblems: <code>max</code>, <code>&gt;=</code>, <code>!</code>, <code>integer?</code>--></li>
-            </ul>
-        </div>
-            
-            
+			
+			
 		<h3>Correlation with AP CS Principles Framework:<a name="AP" class="anchor">&nbsp;</a></h3>
         <div class="apStandards">
             <!--<h4>AP CS Principles Computational Thinking Practices:</h4>
