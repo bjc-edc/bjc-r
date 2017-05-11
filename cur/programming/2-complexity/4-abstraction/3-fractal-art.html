@@ -11,8 +11,9 @@
     
     <body>
         <h2>Fractal Art</h2>
-        <div class="learn"><div class="sidenote"><em>Nesting</em> means organizing information in layers or embedding objects inside other similar objects.</div>
-            <strong>In this project,</strong> you will learn how nesting <code>repeat</code> blocks inside <code>repeat</code> blocks can generate complex structures.<br />
+        <div class="learn">
+        <!-- <div class="comment">I think this attempt at definition, with two unrelated meanings, does more harm than good. --bh<div class="sidenote"><em>Nesting</em> means organizing information in layers or embedding objects inside other similar objects.</div></div>  -->
+            <strong>In this project,</strong> you will nest <code>repeat</code> blocks inside <code>repeat</code> blocks to generate complex pictures.<br />
             <img class="indent" src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/RecursiveTriangleSteps.gif"  height="250" alt="Recursive triangle in steps" title="Recursive triangle in steps"/>&nbsp;<img src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/RecursiveSquareSteps.gif" height="250" alt="Recursive square in steps" title="Recursive square in steps"/>
         </div>
         
@@ -60,14 +61,14 @@
         </div>
         
 		<h3>Using Abstraction to Nest Triangles</h3>
-        <p>Does all this copying and pasting of code feel awkward to you? You know a better way: <em>abstraction</em>.  In Unit 1 you used a <code>pinwheel</code> block to implement <code>asterisk</code> and <code>polygon</code>, rather than copying the code. Here, you can use a block to manage the abstraction too, but in this case, we want very similar code (a smaller triangle) repeated inside, so we will actually <em>use the same block inside itself</em>.</p>
+        <p>Does all this copying and pasting of code feel awkward to you? You know a better way: <em>abstraction</em>.  In Unit 1 you used a <code>pinwheel</code> block to implement <code>asterisk</code> and <code>polygon</code>, rather than copying the code. Here, you can use a block to manage the abstraction too, but in this case, we want very similar code (a smaller triangle) nested inside, so we will actually <em>use the same block inside itself</em>.</p>
         <div class="forYouToDo">
 			<ol start="9">
-				<li>	Create a <code>repeatedTriangle</code> block.
+				<li>	Create a <code>nested triangle</code> block.
                     <ol type="a">
                         <li>
                         	Design the block with two inputs, <var>size</var> and <var>color</var>.<br />
-                            <img class="indent" src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/repeatedTriangleHeader.png"  alt="repeatedTriangle, size: (size) color: (color) hat block" title="repeatedTriangle, size: (size) color: (color) hat block" /><br />
+                        	<img src="/bjc-r/img/2-complexity/nestedTriangleHeader.png" alt="nested triangle, size: (size) color: (color)"><br />
                         </li>
                         <li>
                              Use your first unnamed triangle script from problem 1 as a model. To have an input for the color, you'll have to use the numeric <img class="nopadtb" src="/bjc-r/img/blocks/set-pen-color-to-numeric.png" alt="set pen color to (0)" title="set pen color to (0)" /> block instead of the <em>color-picker</em> block <img class="nopadtb" src="/bjc-r/img/blocks/set-pen-color-to-picker.png" alt="set pen color to (blue colored square)" title="set pen color to (blue colored square)" />.<br />
@@ -75,27 +76,22 @@
                         </li>
                         <li>Click the "Apply" button in the Block Editor so that the block appears in the palette on the left.</li>
                         <li>
-                            Where you would have dragged in another copy of the script (between the <code>move</code> and <code>turn</code> blocks), drag in a <code>repeatedTriangle</code> block.  The <var>size</var> input should be half the current value of <var>size</var>; the <var>color</var> input should be ten more than its current value.<br />
-                            <img class="indent" src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/repeatedTriangleRecursive.png" alt="repeatedTriangle, size (size/2) color: (color+10)" title="repeatedTriangle, size (size/2) color: (color+10)" /><br />
-                            <div class="endnote">You are using <code>repeatedTriangle</code> in its own definition.  When a block refers to itself, the block is said to be <em>recursive</em>.  Recursion is one of the most powerful techniques in computer science and you will learn more about it in later projects.</div>
+                            Where you would have dragged in another copy of the script (between the <code>move</code> and <code>turn</code> blocks), drag in a <code>nested triangle</code> block.  The <var>size</var> input should be half the current value of <var>size</var>; the <var>color</var> input should be ten more than its current value.<br />
+                            <img src="/bjc-r/img/2-complexity/nestedTriangleRecursive.png" alt="nested triangle, size: (size/2) color: (color+10)"><br />
+                            <div class="endnote">You are using <code>nested triangle</code> in its own definition.  When a block refers to itself, the block is said to be <em>recursive</em>.  Recursion is one of the most powerful techniques in computer science and you will learn more about it in later projects.</div>
                         </li>
-                	</ol>
-                </li>
-                <li>
-                    Try <code>repeatedTriangle</code> with a size of <var>100</var> and a color number of <var>0</var>. It won't work as expected. Think through the steps in the code. Can you determine what is happening?<br />
-                    <img class="indent" src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/repeatedTriangleApplied.png" alt="repeatedTriangle, size: (100) color: (0)" title="repeatedTriangle, size: (100) color: (0)"/>
-                </li>
+                    </ol>
+				</li>
                 
                 <li>
-                    The trouble with this definition is that, as it stands, you'll keep getting smaller and smaller triangles forever.  To prevent that, put the entire definition of <code>repeatedTriangle</code> inside a conditional to stop the triangles from nesting forever:<br />
-                    <img class="indent" src="/bjc-r/img/1-introduction/end-test.png" alt="if (size &gt; 2)" title="if (size &gt; 2)" />
-                    <div class="endnote">Experiment with values other than 2 (such as 40, 20, 10, 5) to see how this condition determines how small the smallest repeated triangles will be.</div> 
-                </li>
+                    The trouble with this definition is that, as it stands, you'll keep getting smaller and smaller triangles forever.  To prevent that, set a minimum size for the triangles by putting the entire definition of <code>nested triangle</code> inside a conditional to stop the triangles from nesting forever:<br />
+                <img class="indent" src="/bjc-r/img/1-introduction/end-test.png" alt="if (size &gt; 2)" title="if (size &gt; 2)" /></li>
                 <div class="sidenote">If the color variations are not showing in your drawings, click on the block <img src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/setColorRed.png"  height="30" alt=""/> to establish a color baseline.</div>
                 <li>
-                    Now, try <img class="inline nopadtb" src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/repeatedTriangleApplied.png" alt="repeatedTriangle, size: (100) color: (0)" title="repeatedTriangle, size: (100) color: (0)"/> again.
+                Now, try <img src="/bjc-r/img/2-complexity/nestedTriangleApplied.png" alt="nested triangle, size: 100 color: 0">. 
+                  <div class="endnote">Experiment with values other than 2 (such as 40, 20, 10, 5) to see how this condition determines how small the smallest nested triangles will be.</div> 
                 </li>
-                <li>Save your work as U2L4-RepeatedTriangle. <img src="/bjc-r/img/icons/save-mini.png" alt="Save your work" title="Save your work"></li>
+                <li>Save your work as U2L4-FractalArt. <img src="/bjc-r/img/icons/save-mini.png" alt="Save your work" title="Save your work"></li>
 			</ol>
 		</div>
               
@@ -116,7 +112,7 @@
                         <li>Now, build the combined script and try it out.</li>
                         <li><strong>Experiment: </strong> Embed <em>another</em> square, half the size of the last, in the same way. How many of these smallest squares does the script draw? How could you have <em>predicted </em> that number before trying it?</li>
                         <li><strong>Predict then experiment: </strong> Next, embed <em>one more</em> square, half the size of the last, in exactly the same way. But first, try to <em>predict</em> the number of tiny squares it will draw before trying it.</li>
-                        <li>Use <code>repeatedTriangle</code> as a model to recursively define a <code>repeatedSquare</code> block.</li>
+                        <li>Use <code>nested triangle</code> as a model to  define a recursive <code>nested square</code> block.</li>
                     </ol>
                 </li>
             </ol>
