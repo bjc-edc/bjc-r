@@ -67,36 +67,34 @@
 				<li>	Create a <code>nested triangle</code> block.
                     <ol type="a">
                         <li>
-                        	Design the block with two inputs, <var>size</var> and <var>color</var>.<br />
-                        	<img src="/bjc-r/img/2-complexity/nestedTriangleHeader.png" alt="nested triangle, size: (size) color: (color)"><br />
+                        	Design the block with one input, <var>size</var>. For now, leave out the part about changing colors.<br />
+                        	<img src="/bjc-r/img/2-complexity/nested-tri-no-color-proto.png" alt="nested triangle, size: (size)"><br />
                         </li>
                         <li>
-                             Use your first unnamed triangle script from problem 1 as a model. To have an input for the color, you'll have to use the numeric <img class="nopadtb" src="/bjc-r/img/blocks/set-pen-color-to-numeric.png" alt="set pen color to (0)" title="set pen color to (0)" /> block instead of the <em>color-picker</em> block <img class="nopadtb" src="/bjc-r/img/blocks/set-pen-color-to-picker.png" alt="set pen color to (blue colored square)" title="set pen color to (blue colored square)" />.<br />
-                             <img class="indent" src="/bjc-r/img/2-complexity/first-triangle-script.png" alt="repeat (3) {set pen color to (0), move (100) steps, turn right (120) degrees}" title="repeat (3) {set pen color to (0), move (100) steps, turn right (120) degrees}" />
-                        </li>
+                             Use your first unnamed triangle script from problem 1 as a model. But since we're going to be nesting this script inside itself, we're going to be making smaller and smaller triangles, until finally they're too small to see. To avoid that, we'll make the triangle only if it's big enough:<br />
+  <img src="/bjc-r/img/2-complexity/triangle.png" alt="repeat 3; move 100 steps; right 120 degrees">
+<br />
+Also, put the <var>size</var> input where it belongs in this script to control the size of the triangle.</li>
                         <li>Click the "Apply" button in the Block Editor so that the block appears in the palette on the left.</li>
                         <li>
-                            Where you would have dragged in another copy of the script (between the <code>move</code> and <code>turn</code> blocks), drag in a <code>nested triangle</code> block.  The <var>size</var> input should be half the current value of <var>size</var>; the <var>color</var> input should be ten more than its current value.<br />
-                            <img src="/bjc-r/img/2-complexity/nestedTriangleRecursive.png" alt="nested triangle, size: (size/2) color: (color+10)"><br />
+                            Where you would have dragged in another copy of the script (between the <code>move</code> and <code>turn</code> blocks), drag in a <code>nested triangle</code> block.  The <var>size</var> input should be half the current value of <var>size</var>.<br />
+  <img src="/bjc-r/img/2-complexity/nested-tri-recur-no-color.png" alt="nested triangle, size: (size/2)">                          <br />
                             <div class="endnote">You are using <code>nested triangle</code> in its own definition.  When a block refers to itself, the block is said to be <em>recursive</em>.  Recursion is one of the most powerful techniques in computer science and you will learn more about it in later projects.</div>
                         </li>
                     </ol>
 				</li>
                 
                 <li>
-                    The trouble with this definition is that, as it stands, you'll keep getting smaller and smaller triangles forever.  To prevent that, set a minimum size for the triangles by putting the entire definition of <code>nested triangle</code> inside a conditional to stop the triangles from nesting forever:<br />
-                <img class="indent" src="/bjc-r/img/1-introduction/end-test.png" alt="if (size &gt; 2)" title="if (size &gt; 2)" /></li>
-                <div class="sidenote">If the color variations are not showing in your drawings, click on the block <img src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/setColorRed.png"  height="30" alt=""/> to establish a color baseline.</div>
-                <li>
-                Now, try <img src="/bjc-r/img/2-complexity/nestedTriangleApplied.png" alt="nested triangle, size: 100 color: 0">. 
-                  <div class="endnote">Experiment with values other than 2 (such as 40, 20, 10, 5) to see how this condition determines how small the smallest nested triangles will be.</div> 
+              Now, try <img src="/bjc-r/img/2-complexity/nested-tri-call-no-color.png" alt="nested triangle, size: 100">.
+<div class="endnote">Experiment with small-size limits other than 4 (such as 40, 20, 10, 5, 2) to see how this condition determines how small the smallest nested triangles will be.</div> 
                 </li>
                 <li>Save your work as U2L4-FractalArt. <img src="/bjc-r/img/icons/save-mini.png" alt="Save your work" title="Save your work"></li>
 			</ol>
 		</div>
               
 		<div class="ifTime">
-			<ol start="14">
+			<ol start="12">
+            	<li>Try adding a <var>color</var> input and adding 10 to it in the recursive call. First pick a colorful color, not nearly white or nearly black. Then you can use any color number in the initial call.</li>
             	<li>
                     This animation shows another example of embedding one script inside a similar script. (You'll make predictions first, so don't build it yet.)<br />
                     <img class="indent" data-gifffer="/bjc-r/img/2-complexity/embedding-scripts-for-squares.gif" alt="embedding scripts for squares" title="embedding scripts for squares" />
