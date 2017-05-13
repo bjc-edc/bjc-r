@@ -8,35 +8,63 @@
 
     <body>
     <!--<div class="todo">ST-Fix the student access issue due to hideControls</div>-->
-                <h2>Mastermind</h2>
-
-        <div class="learn">
-        	<strong>In this project,</strong> you will build the framework for the game of Mastermind&#8482;. In this game, one player makes up a secret sequence of four colors and the other player tries to guess it. (In a real game, both players make up secret sequences and take turns trying to guess. We are simplifying the game by implementing only one side; when the game is finished, you can extend it to have both directions play at once.)<br />
+		<h2>Mastermind</h2>
+		<div class="todo">If I'm not misunderstanding these instructions, I think it's confusing to have the students play with two sequences at once (which I've never seen before) and then build the project with only one sequence at a time (except for the TIF?). I think it should be one at a time in the "on paper" example too. --MF</div>
+		<div class="learn">
+        	<strong>In this project,</strong> you will begin to build the game  Mastermind&#8482;. In this game, one player selects a sequence of four secret colors, and the other player tries to guess it.<br />
 	        <img class="indent" src="/bjc-r/img/1-introduction/mm-snapshot.png" width="250"  alt=""/>
         </div>
         
         <div class="forYouToDo" id="first">
             <ol>
-                <li>Load <a class="run" href="/bjc-r/prog/1-introduction/mastermind-starter.xml">this starter project</a>. We have given you six sprites, two to show the colors of a guess and two to show the feedback to the guesser: How many colors are in the correct positions, and how many correct colors are in incorrect positions. The first sprite has two short scripts, one to be used at the beginning of the game, and the other to be used when a guess is made.</li>
-                <li>
-                    Play a game of Mastermind with your partner, not on the computer but on paper. Here are the rules:
+                <li>Load <a class="run" href="/bjc-r/prog/1-introduction/mastermind-starter.xml">this starter project</a> and look at the scripts. There six sprites, four for the player's guess and two for the feedback to the guesser.</li>
+                <div class="endnote">
+                	<p><strong>Feedback to the guesser</strong> is two numbers (as shown in each row of the game in the image above):
+                    	<ul>
+                            <li>How many colors are in the <em>correct</em> positions? (The goal is to have all 4 correct.)</li>
+                            <li>How many correct colors are in <em>incorrect</em> positions?</li>
+                        </ul>
+                    </p>
+                    <!--This is not included in the code. --MF
+                    The first, "correct position," sprite has two short scripts: one to be used at the beginning of the game, and the other to be used when a guess is made.-->
+                </div>
+                <li>Play a game of Mastermind with your partner <em>on paper</em>.</li>
+                <div class="endnote">
+                	<h4><strong>Mastermind Rules</strong></h4>
                     <ul>
-                        <li>Each player should write down a sequence of four colors without letting your partner see it.  For convenience you can use the first letter of each color name to represent that color: <strong>r</strong>ed, <strong>o</strong>range, <strong>y</strong>ellow, <strong>g</strong>reen, <strong>b</strong>lue, <strong>v</strong>iolet. Don't use the same color more than once.</li>
-                        <li>Take turns guessing your partner's colors. When your partner makes a guess about your colors, you give two numbers as feedback: How many colors are in the correct position, and how many colors are correct, but in incorrect positions. For example, if your secret colors are <strong>royg</strong> and your partner guesses<strong> goby</strong> you reply "one and two," because orange is in the correct position, and yellow and green are in the guess but not in the correct position. Blue isn't in your secret colors at all.</li>
-                        <li>Try to make good guesses based on the information you already have from earlier guesses. For example, after <strong>goby</strong> in the example above, you might think "one of my colors is in the correct position, and two other colors are correct. I'm going to guess that green is in the correct position, and orange and blue are in the list someplace. So my next guess should be <strong>grob</strong> because that has green in the same place as before, and orange and blue moved over." Your partner will reply "zero and three," which sounds like negative progress, but it isn't, because now you know for sure that green isn't the correct-position color, so on your next guess you'll try orange in the second position, and so on.</li>
+                        <li>
+                            <strong>Each player should write down a sequence of four colors</strong> without letting your partner see it.
+                            <ul>
+                            	<li>For convenience, you can use the first letter of each color name to represent that color: <strong>r</strong>ed, <strong>o</strong>range, <strong>y</strong>ellow, <strong>g</strong>reen, <strong>b</strong>lue, <strong>v</strong>iolet. (For now, don't use the same color more than once, though people also play that way.)</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Take turns guessing your partner's colors</strong>. When your partner makes a guess, give two numbers as feedback as described above.
+                            <ul>
+                            	<li>For example, if your secret colors are <strong>royg</strong> and your partner guesses<strong> goby</strong> you reply "one and two," because one color (orange) is in the correct position, and two colors (yellow and green) are in the secret sequence but not in the correct positions. </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Use the information you have from earlier guesses</strong> to make the best guesses you can.
+                            <ul>
+                            	<li>For example, after <strong>goby</strong> in the example above, you might think, "One of my colors is in the correct position, and two other colors are correct. I'm going to guess that green is in the correct position, and orange and blue are somewhere in the list. So a good next guess would be <strong>grob</strong> because that has green in the same place as before, and orange and blue moved over." Your partner will reply "zero and three," which sounds like negative progress because now none are in the correct place, but it isn't because now you know for sure that green wasn't the correct-position color, so on your next guess you might try orange in the second position, and so on.</li>
+                            </ul>
+                        </li>
                     </ul>
-                </li>
+                </div>
                 <li>
-                    You're going to build the Mastermind program in stages, over the course of the year. Right now your only goal is to support two human players by using the computer as a notepad for guesses and feedback:
+                    You'll build the Mastermind program in stages over the course of the year. Now your goal is to support two human players using the computer as a notepad to record guesses and feedback:
                     <ul>
                         <li>Find out the two players' names so you can use them to keep track of whose turn it is.</li>
                         <li>Ask one player to make a guess (using four letters like <strong>goby</strong> above), and display that guess on the screen.</li>
                         <li>Ask the other player for feedback, as two numbers.</li>
                         <li>Keep doing that until the guesser gets the correct answer.</li>
                     </ul>
+                    <div class="commentBig">Aren't we using separate pages with iframes for these examples rather than hidecontrols? --MF<br />
+                    Also, shouldn't we have a comment here explaining that they'll need to import tools to use TELL in other projects? --MF</div>
                     <a href="http://snap.berkeley.edu/snapsource/snap.html#present:Username=BJCSolutions&ProjectName=mastermind-stage1&hideControls" target="_blank">This project</a> will show you what we mean.
                     <div class="endnote">
-                        Note: You'll find it useful for a script to be able to tell a particular sprite what to do.  There's a tool to do that:
+                        You'll find it useful for a script to be able to tell a particular sprite what to do.  There's a tool to do that: the <code>tell</code> block
                         <img src="/bjc-r/img/1-introduction/tell.png" alt="tell (sprite) to (action)"><br />
                         For example:<img src="/bjc-r/img/1-introduction/tell-alonzo.png" width="236" height="82" alt="tell (Alonzo) to (say ...)"><img src="/bjc-r/img/1-introduction/tell-correct.png" width="231" height="83" alt="tell (correct position) to (show value (# correct))">
                     </div>
@@ -44,7 +72,6 @@
                 <li><div class="saveAs"><span class="text">"U1L6-Mastermind"</span><img src="/bjc-r/img/icons/save-this-as.png" alt="save your work as U1L6-Mastermind" title="save your work as U1L6-Mastermind" /></div></li>
             </ol>
         </div>
-        
         
         <div class="takeItFurther">
             <ol type="A">
