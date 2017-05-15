@@ -23,7 +23,7 @@
 		<div>
 			The 3 lab pages could be split across X or X days (X-X minutes). Expected times to complete follow:
 			<ul>
-				<li>30-60 minutes (about 1 class period) on <a href="/bjc-r/cur/programming/2-complexity/3-predicates/2-keeping-list-items.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment">Adding Questions to Number Guessing Game</a></li>
+				<li>30-60 minutes (about 1 class period) on <a href="/bjc-r/cur/programming/2-complexity/3-predicates/2-keeping-list-items.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment">Predicates Asking Questions</a></li>
 				<li>25-50 minutes (about 1 class period) on <a href="/bjc-r/cur/programming/2-complexity/3-predicates/3-solving-word-puzzle.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment"><code>Keep</code>ing Items from a List</a></li>
 				<li>X-X minutes (X-X class periods) on <a href="/bjc-r/cur/programming/2-complexity/3-predicates/X-composing-predicates.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment">Solving a Word Puzzle</a></li>
 			</ul>
@@ -42,21 +42,19 @@
 		<div>
 			<ul>
 				<li>
-					<strong>Page 1: Using Predicates with <code>Keep</code>.</strong>
+					<strong>Page 1: Predicates Asking Questions.</strong>
 					<ul>
 						<li>
 							<strong>Goals:</strong>
 							<ul>
 								<li>Review and codify understanding of <strong>predicates</strong>.</li>
-                                <li>Broaden and refine understanding of the <strong>mathematics</strong> of computer science by using <code>round</code>,  <code>mod</code>, and Boolean operators (<code>and</code>, <code>or</code>, and <code>not</code>).</li>
-                                <li>Develop several versitile numerical predicates: <code>integer?</code>, <code>between?</code>, and <code>even?</code>.</li>
-								<li>Learn how the <code>keep</code> block uses predicates to select items from a list.</li>
+                                <li>Broaden and refine understanding of the <strong>mathematics</strong> of computer science by using <code>mod</code>, and Boolean operators (<code>and</code>, <code>or</code>, and <code>not</code>).</li>
+                                <li>Develop several versitile numerical predicates: <code>between?</code>, <code>divisible?</code>, and <code>even?</code>.</li>
                             </ul>
 						</li>
 						<li>
 							<strong>Tips:</strong>
 							<ul>
-								<li>It will be hard for students to continue this lab if they do not understand the two core ideas on this page: the concept of a predicate (a hexagonal reporter that reports either <code>true</code> or <code>false</code>) and the <em>basic</em> idea of <code>keep</code> (a reporter that reports only the items from an input list that meet the criteria specified by a predicate with a blank for the list items to cycle through). Consider reading and discussing the orange box at the bottom together after students have read it in pairs.</li>
 								<li>
                                     Some <strong>vocabulary</strong> (for <em>you</em> to use in context,  not to require of students):
                                     <ul>
@@ -70,62 +68,78 @@
                                     </ul>
                                     So a reporter or a predicate is a function, and an expression is a function applied to input values (often called "arguments").
                                 </li>
-                                <li><strong>Mathematics Note.</strong> The <em>integers</em> are the counting numbers together with their negatives and zero: <span class="katex">..., -3, -2, -1, 0, 1, 2, 3, ...</span> The number 17 is an integer. So is −17. But 17.3 is <em>not</em> an integer. Neither is &pi; (pi). An integer is a number for which <code>round</code> returns the number itself. Students will use this fact to develop their <code>integer?</code> predicate.</li>
                                 <li>
-                                    <p><strong>Mathematics Note: <code>Mod</code>.</strong><a name="mod" class="anchor">&nbsp;</a>The <code>mod</code> block returns the remainder when the first input is divided by the second.</p>
-                                    <p>
-                                        For positive whole numbers, this is the same as the notion of remainder that students learn in elementary school when they learn to divide one whole number by another. So:<br />
-                                        <img class="indent" src="/bjc-r/img/1-introduction/7mod5reporting2.png" alt="7 mod 5 reporting 2" title="7 mod 5 reporting 2" /><br />
-                                        because when 7 is divided by 5, the remainder is 2 (and the quotient is 1).
-                                    </p>
-                                    <p>
-                                        The behavior of the <code>mod</code> block may seem mysterious when one or both of the inputs are negative integers. For example:<br />
-                                        <img class="indent" src="/bjc-r/img/1-introduction/-7mod5reporting3.png" alt="-7 mod 5 reporting 3" title="-7 mod 5 reporting 3" />
-                                        <img class="indent" src="/bjc-r/img/1-introduction/-7mod-5reporting-2.png" alt="-7 mod -5 reporting -2" title="-7 mod -5 reporting -2" />
-                                        <img class="indent" src="/bjc-r/img/1-introduction/7mod-5reporting-3.png" alt="7 mod -5 reporting -3" title="7 mod -5 reporting -3" /><br />
-                                        The sign of the output of <code>mod</code> agrees with the sign of its second input. But why?
-                                    </p>
-                                    <p>Let's go back to positive whole numbers for a moment. The fact that <code>mod (7, 5) = 2</code> comes from <span class="katex">7 \div 5 = 1 \text{ remainder } 2</span>, which comes from <span class="katex">7 = 5 \times 1 + 2</span> where 1 is the <em>quotient</em> and 2 is the <em>remainder</em>. The quotient is the key to the mystery.</p>
-                                    <p>
-                                        In Snap<em>!</em>, you can get the quotient by dividing 7 by 5 to get 1.4 and then <em>rounding down</em>. This operation of rounding down is called <code>floor</code>, and it's built into Snap<em>!</em> (you can find it as a drop-down option in the <code>sqrt</code> block in the Operators pallete). For any real number, <code>floor</code> takes the closest integer to the left on the number line (hence the name "floor").<br />
-                                        <img class="indent" src="/bjc-r/img/1-introduction/floor7div5reporting1.png" alt="floor (7 ÷ 5) reporting 1" title="floor (7 ÷ 5) reporting 1" />
-                                    </p>
-                                    <p>So, given any two integers <span class="katex">a</span> and <span class="katex">b</span> (or real numbers, really) you can calculate the quotient <span class="katex">\frac{b}{a}</span> and then the floor of their quotient <span class="katex">\text{floor}(\frac{b}{a})</span>. Let's call this quotient <span class="katex">q</span>. Then, <span class="katex">b</span> will equal <span class="katex">aq</span> plus the little left over that we lost by using floor (the remainder, which we'll call <span class="katex">r</span>). So now, <span class="katex">b = aq + r</span> much like <span class="katex">7 = 5 \times 1 + 2</span>.</p>
-                                    <p>That remainder is what Snap<em>!</em> and most programming languages report for <code>mod(b, a)</code> and this explains the signs of the outputs when one or both inputs are negative.</p>
-                                    <p class="center">
-                                        For example: 
-                                        <img class="inline" src="/bjc-r/img/1-introduction/-7div5reporting-1.4.png" alt="-7 ÷ 5 reporting -1.4" title="-7 ÷ 5 reporting -1.4" />, so 
-                                        <img class="inline" src="/bjc-r/img/1-introduction/floor(-7div5)reporting2.png" alt="floor (-7 ÷ 5) reporting 2" title="floor (-7 ÷ 5) reporting 2" /><br />
-                                        and <span class="katex">-7=5\times(-2)+3</span>, so 
-                                        <img class="inline" src="/bjc-r/img/1-introduction/-7mod5reporting3.png" alt="-7 mod 5 reporting 3" title="-7 mod 5 reporting 3" />.
-                                    </p>
-                                    <p class="center">
-                                        Another example: 
-                                        <img class="inline" src="/bjc-r/img/1-introduction/-7div-5reporting1.4.png" alt="-7 ÷ -5 reporting 1.4" title="-7 ÷ -5 reporting 1.4" />, so 
-                                        <img class="inline" src="/bjc-r/img/1-introduction/floor(-7div-5)reporting1.png" alt="floor (-7 ÷ -5) reporting 1" title="floor (-7 ÷ -5) reporting 1" /><br />
-                                        and <span class="katex">-7=-5\times(1)+-2</span>, so 
-                                        <img class="inline" src="/bjc-r/img/1-introduction/-7mod-5reporting-2.png" alt="-7 mod -5 reporting -2" title="-7 mod -5 reporting -2" />.
-                                    </p>
+                                	<strong>Mathematics Note: <code>Mod</code>.</strong><a name="mod" class="anchor">&nbsp;</a>The <code>mod</code> block returns the remainder when the first input is divided by the second.
+                                    <div class="endnote">
+                                        <p>
+                                            For positive whole numbers, this is the same as the notion of remainder that students learn in elementary school when they learn to divide one whole number by another. So:<br />
+                                            <img class="indent" src="/bjc-r/img/1-introduction/7mod5reporting2.png" alt="7 mod 5 reporting 2" title="7 mod 5 reporting 2" /><br />
+                                            because when 7 is divided by 5, the remainder is 2 (and the quotient is 1).
+                                        </p>
+                                        <p>
+                                            The behavior of the <code>mod</code> block may seem mysterious when one or both of the inputs are negative integers. For example:<br />
+                                            <img class="indent" src="/bjc-r/img/1-introduction/-7mod5reporting3.png" alt="-7 mod 5 reporting 3" title="-7 mod 5 reporting 3" />
+                                            <img class="indent" src="/bjc-r/img/1-introduction/-7mod-5reporting-2.png" alt="-7 mod -5 reporting -2" title="-7 mod -5 reporting -2" />
+                                            <img class="indent" src="/bjc-r/img/1-introduction/7mod-5reporting-3.png" alt="7 mod -5 reporting -3" title="7 mod -5 reporting -3" /><br />
+                                            The sign of the output of <code>mod</code> agrees with the sign of its second input. But why?
+                                        </p>
+                                        <p>Let's go back to positive whole numbers for a moment. The fact that <code>mod (7, 5) = 2</code> comes from <span class="katex">7 \div 5 = 1 \text{ remainder } 2</span>, which comes from <span class="katex">7 = 5 \times 1 + 2</span> where 1 is the <em>quotient</em> and 2 is the <em>remainder</em>. The quotient is the key to the mystery.</p>
+                                        <p>
+                                            In Snap<em>!</em>, you can get the quotient by dividing 7 by 5 to get 1.4 and then <em>rounding down</em>. This operation of rounding down is called <code>floor</code>, and it's built into Snap<em>!</em> (you can find it as a drop-down option in the <code>sqrt</code> block in the Operators pallete). For any real number, <code>floor</code> takes the closest integer to the left on the number line (hence the name "floor").<br />
+                                            <img class="indent" src="/bjc-r/img/1-introduction/floor7div5reporting1.png" alt="floor (7 ÷ 5) reporting 1" title="floor (7 ÷ 5) reporting 1" />
+                                        </p>
+                                        <p>So, given any two integers <span class="katex">a</span> and <span class="katex">b</span> (or real numbers, really) you can calculate the quotient <span class="katex">\frac{b}{a}</span> and then the floor of their quotient <span class="katex">\text{floor}(\frac{b}{a})</span>. Let's call this quotient <span class="katex">q</span>. Then, <span class="katex">b</span> will equal <span class="katex">aq</span> plus the little left over that we lost by using floor (the remainder, which we'll call <span class="katex">r</span>). So now, <span class="katex">b = aq + r</span> much like <span class="katex">7 = 5 \times 1 + 2</span>.</p>
+                                        <p>That remainder is what Snap<em>!</em> and most programming languages report for <code>mod(b, a)</code> and this explains the signs of the outputs when one or both inputs are negative.</p>
+                                        <p class="center">
+                                            For example: 
+                                            <img class="inline" src="/bjc-r/img/1-introduction/-7div5reporting-1.4.png" alt="-7 ÷ 5 reporting -1.4" title="-7 ÷ 5 reporting -1.4" />, so 
+                                            <img class="inline" src="/bjc-r/img/1-introduction/floor(-7div5)reporting2.png" alt="floor (-7 ÷ 5) reporting 2" title="floor (-7 ÷ 5) reporting 2" /><br />
+                                            and <span class="katex">-7=5\times(-2)+3</span>, so 
+                                            <img class="inline" src="/bjc-r/img/1-introduction/-7mod5reporting3.png" alt="-7 mod 5 reporting 3" title="-7 mod 5 reporting 3" />.
+                                        </p>
+                                        <p class="center">
+                                            Another example: 
+                                            <img class="inline" src="/bjc-r/img/1-introduction/-7div-5reporting1.4.png" alt="-7 ÷ -5 reporting 1.4" title="-7 ÷ -5 reporting 1.4" />, so 
+                                            <img class="inline" src="/bjc-r/img/1-introduction/floor(-7div-5)reporting1.png" alt="floor (-7 ÷ -5) reporting 1" title="floor (-7 ÷ -5) reporting 1" /><br />
+                                            and <span class="katex">-7=-5\times(1)+-2</span>, so 
+                                            <img class="inline" src="/bjc-r/img/1-introduction/-7mod-5reporting-2.png" alt="-7 mod -5 reporting -2" title="-7 mod -5 reporting -2" />.
+                                        </p>
+									</div>
                                 </li>
+                                <li><strong>Mathematics Note.</strong> The <em>integers</em> are the counting numbers together with their negatives and zero: <span class="katex">..., -3, -2, -1, 0, 1, 2, 3, ...</span> The number 17 is an integer. So is −17. But 17.3 is <em>not</em> an integer. Neither is &pi; (pi). An integer is a number for which <code>round</code> returns the number itself. Students will use this fact to develop their <code>integer?</code> predicate.</li>
 							</ul>
 						</li>
 					</ul>
 				</li>
 				<li>
+                	<strong>Page 2: <code>Keep</code>ing Items from a List.</strong>
+                    <ul>
+						<li>
+							<strong>Goals:</strong>
+							<ul>
+								<li>Learn how the <code>keep</code> block uses predicates to select items from a list.</li>
+							</ul>
+						</li>
+						<li>
+							<strong>Tips:</strong>
+							<ul>
+								<li>Ask students to articulate the <em>basic</em> idea of the <code>keep</code> block. It's a reporter that reports only the items from an input list which meet the criteria specified by a predicate; the predicate itself must have a blank for the list items to cycle through. </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>
 					<strong>Page 3: Solving a Word Puzzle.</strong>
 					<ul>
 						<li>
 							<strong>Goals:</strong>
 							<ul>
 								<li>Build several predicates blocks by constructing predicate expressions for specific cases first and then generalizing.</li>
-                                <li>Learn how to specify the type of input that a block is expecting to receive.</li>
 							</ul>
 						</li>
 						<li>
 							<strong>Tips:</strong>
 							<ul>
-								<li>The information on this page about how to constrain a block's inputs to expect only numbersis useful but not essential. Consider <em>demonstrating</em> the method yourself, and having students watch you and follow along. They may find learning from you faster and better than  working through the page.</li>
-                                <li>Input types in Snap<em>!</em> are <em>program documentation,</em> not constraints on the programmer. You can drop any reporter into any input slot. The input slot shapes are just hints about what the block expects. Don't emphasize type checking. It's really important for a programmer to understand the domain and range of each function, but the domain (e.g., "an even positive integer" or "a word of no more than eight letters" or "a list whose items are either Booleans or lists") is often different from the language's types.</li>
                                 <li>
                                 	If students attempt the "If There Is Time" problem, they will likely need some time to consider how to access the last letter of a word. Use probing questions to support their problem-solving:
                                     <ul>
@@ -133,8 +147,7 @@
                                         <li>Look back at the last problem about the 9<sup>th</sup> letter, how is that related?</li>
                                     </ul>
                                 </li>
-                                <div class="todo">Edit this one...</div>
-								<li><strong>Mathematics Note: Predicates.</strong> In addition to predicting the output in problems 1 and 2, think about asking students to explain what the computer is doing when it calculates the output for each. Look for general principles like "<code>and</code> reports <code>true</code> if <em>both</em> of its inputs report <code>true</code>" and "<code>or</code> reports <code>true</code> if <em>at least one</em> of its inputs report <code>true</code>". Also look for precise statements about when <code>and</code> and <code>or</code> report <code>false</code>. Jumping to formalities like "truth tables" won't be as effective as if students develop the rules for themselves.</li>
+								<!--<li><strong>Mathematics Note: Predicates.</strong> In addition to predicting the output in problems 1 and 2, think about asking students to explain what the computer is doing when it calculates the output for each. Look for general principles like "<code>and</code> reports <code>true</code> if <em>both</em> of its inputs report <code>true</code>" and "<code>or</code> reports <code>true</code> if <em>at least one</em> of its inputs report <code>true</code>". Also look for precise statements about when <code>and</code> and <code>or</code> report <code>false</code>. Jumping to formalities like "truth tables" won't be as effective as if students develop the rules for themselves.</li>-->
 							</ul>
 						</li>
 					</ul>
@@ -160,7 +173,7 @@
         <h3>Solutions</h3>
 		<div>
 			<ul>
-				<li>...</li>
+				<li><a href="http://snap.berkeley.edu/snapsource/snap.html#present:Username=bjcsolutions&ProjectName=U2L3-Predicates%20(answer%20file)" target="_blank">Page 1: Predicates Asking Questions</a></li>
 			</ul>
 		</div>
 			
@@ -194,38 +207,21 @@
             </ul>
             <h4>Essential Knowledge:</h4>
             <ul>
-                <!--overwhelming number; I hid most but those from EU 5.5
-                <li><strong>E K 2.2.1A</strong> The process of developing an abstraction involves removing detail and generalizing functionality.</li>
-                <li><strong>E K 2.2.1B</strong> An abstraction extracts common features from specific examples in order to generalize concepts.</li>
-                <li><strong>E K 2.2.1C</strong> An abstraction generalizes functionality with input parameters that allow software reuse.</li>
-                <li><strong>E K 2.2.2A</strong> Software is developed using multiple levels of abstractions, such as constants, expressions, statements, procedures, and libraries.</li>
-                -->
                 <li><strong>EK 4.1.1C</strong> Selection uses a Boolean condition to determine which of two parts of an algorithm is used.</li>
-                <li><strong>EK 4.1.1D</strong> Iteration is the repetition of part of an algorithm until a condition is met or for a specified number of times.</li>
+                <!--<li><strong>E K 4.1.1D</strong> Iteration is the repetition of part of an algorithm until a condition is met or for a specified number of times.</li>-->
                 <!--overwhelming number; I hid most but those from EU 5.5
-                <li><strong>E K 4.1.1E</strong> Algorithms can be combined to make new algorithms.</li>
-                <li><strong>E K 4.1.1F</strong> Using existing correct algorithms as building blocks for constructing a new algorithm helps ensure the new algorithm is correct.</li>
-                <li><strong>E K 4.1.1H</strong> Different algorithms can be developed to solve the same problem.</li>
-                <li><strong>E K 5.1.2A</strong> An iterative process of program development helps in developing a correct program to solve problems.</li>
-                <li><strong>E K 5.1.2B</strong> Developing correct program components and then combining them helps in creating correct programs.</li>
-                <li><strong>E K 5.1.2C</strong> Incrementally adding tested program segments to correct working programs helps create large correct programs.</li>
-                <li><strong>E K 5.1.3A</strong> Collaboration can decrease the size and complexity of tasks required of individual programmers.</li>
-                <li><strong>E K 5.1.3B</strong> Collaboration facilitates multiple perspectives in developing ideas for solving problems by programming.</li>
-                <li><strong>E K 5.1.3D</strong> Collaboration can make it easier to find and correct errors when developing programs.</li>
-                <li><strong>E K 5.1.3E</strong> Collaboration facilitates developing program components independently.</li>
-                <li><strong>E K 5.3.1A</strong> Procedures are reusable programming abstractions.</li>
+                <li><strong>E K 4.1.1E</strong> Algorithms can be combined to make new algorithms.</li>-->
+                <li><strong>EK 4.1.1F</strong> Using existing correct algorithms as building blocks for constructing a new algorithm helps ensure the new algorithm is correct.</li>
+                <!--<li><strong>E K 4.1.1H</strong> Different algorithms can be developed to solve the same problem.</li>
+                <li><strong>E K 5.1.2A</strong> An iterative process of program development helps in developing a correct program to solve problems.</li>-->
+                <li><strong>EK 5.1.2B</strong> Developing correct program components and then combining them helps in creating correct programs.</li>
+                <li><strong>EK 5.1.2C</strong> Incrementally adding tested program segments to correct working programs helps create large correct programs.</li>
+                <!--<li><strong>E K 5.3.1A</strong> Procedures are reusable programming abstractions.</li>
                 <li><strong>E K 5.3.1B</strong> A procedure is a named grouping of programming instructions.</li>
-                <li><strong>E K 5.3.1C</strong> Procedures reduce the complexity of writing and maintaining programs.</li>
-                <li><strong>E K 5.3.1D</strong> Procedures have names and may have parameters and return values.</li>
-                <li><strong>E K 5.3.1E</strong> Parameterization can generalize a specific solution.</li>
-                <li><strong>E K 5.3.1F</strong> Parameters generalize a solution by allowing a procedure to be used instead of duplicated code.</li>
-                <li><strong>E K 5.3.1G</strong> Parameters provide different values as input to procedures when they are called in a program.</li>
-                <li><strong>E K 5.4.1B</strong> Duplicated code can make it harder to reason about a program.</li>
-                <li><strong>E K 5.4.1C</strong> Meaningful names for variables and procedures help people better understand programs.</li>
-                <li><strong>E K 5.4.1D</strong> Longer code blocks are harder to reason about than shorter code blocks in a program.</li>
-                <li><strong>E K 5.4.1E</strong> Locating and correcting errors in a program is called debugging the program.</li>
-                <li><strong>E K 5.4.1F</strong> Knowledge of what a program is supposed to do is required in order to find most program errors.</li>
-                -->
+                <li><strong>E K 5.3.1C</strong> Procedures reduce the complexity of writing and maintaining programs.</li>-->
+                <li><strong>EK 5.3.1D</strong> Procedures have names and may have parameters and return values.</li>
+                <li><strong>EK 5.3.1E</strong> Parameterization can generalize a specific solution.</li>
+                <li><strong>EK 5.3.1F</strong> Parameters generalize a solution by allowing a procedure to be used instead of duplicated code.</li>
                 <li><strong>EK 5.5.1A</strong> Numbers and numerical concepts are fundamental to programming.</li>
                 <li><strong>EK 5.5.1D</strong> Mathematical expressions using arithmetic operators are part of most programming languages.</li>
                 <li><strong>EK 5.5.1E</strong> Logical concepts and Boolean algebra are fundamental to programming.</li>
