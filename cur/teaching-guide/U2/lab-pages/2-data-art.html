@@ -19,7 +19,7 @@
 <img src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/go-to-point-item-3-of-A.png" height="50" alt="go-to-point-item-3-of-A" title="go-to-point-item-3-of-A"> to move the sprite to that point. They will then <em>automate</em> this process, using the <code>for each</code> block to make the sprite visit each of these points. The point (10, 120) will be the third that it visits.  </p>
 <p>A key idea in this lab is the use of abstraction to make code easier to read and understand. For example, they will replace  <img src="/bjc-r/img/3-lists/coordinate-list-for-A.png" height="54" alt="coordinate-list-for-A"> with <img src="/bjc-r/img/3-lists/point-list-for-A.png" height="82" alt="point-list-for-A">. The change seems trivial—everything works the same way and, in fact,  <code>point</code> does exactly and only what <code>list</code> does. The computer doesn't care which code is used, but the second version makes it easier for <em>humans</em> to see what the code is intended to mean. </p>
 <p>They will also create <span class="endnote"><img class="inline" src="/bjc-r/img/3-lists/x-coordinate.png" alt="x coordinate of {}" title="x coordinate of {}" /> and <img class="inline" src="/bjc-r/img/3-lists/y-coordinate.png" alt="y coordinate of {}" title="y coordinate of {}" /></span> to replace <code>item</code>, again in order to clarify the <em>purpose</em> of the code, and distinguish it from the details (selecting either the first or second item in a coordinate pair). This process is called constructing an <strong>abstract data type</strong>—using <code>point</code> as a &quot;constructor&quot; to produce the (<em>x</em>, <em>y</em>) coordinate pair (a list) from two individual coordinates, and &quot;selectors&quot; <code>X coordinate of ()</code> and <code>Y coordinate of ()</code> to make code more readable. </p>
-<p>Later in the lab, students will learn how to collect and store information—in this case, points as (<em>x</em>, <em>y</em>) pairs—in lists. First they will click on points on the stage directly to indicate which points they want the coordinates of; then they will let a script they like automate that process for collecting the vertices of a polygon in order to make a beautiful design.</p><div class="sidenote">Many of the <span class="snap">snap</span> projects linked from the student pages already have the tools imported.</div>Students need to <img class="inline" src="/bjc-r/img/icons/import-tools.png" alt="Import Tools" title="Import Tools" /> each time they open a new <span class="snap">snap</span> window. (Links to projects in the curriculum already contain the tools.)</p>
+<p>Later in the lab, students will learn how to collect and store information—in this case, points as (<em>x</em>, <em>y</em>) pairs—in lists. First they will click on points on the stage directly to indicate which points they want the coordinates of; then they will let a script they like automate that process for collecting the vertices of a polygon in order to make a beautiful design.</p><div class="sidenote">Many of the <span class="snap">snap</span> projects linked from the student pages already have the tools imported.</div>Students need to <img class="inline" src="/bjc-r/img/icons/import-tools.png" alt="Import Tools" title="Import Tools" /> each time they open a new <span class="snap">snap</span> window.
         
         <h3>Pacing:</h3>
         <div>
@@ -73,9 +73,9 @@
 							<strong>Goals:</strong>
 							<ul>
 				                <li>Create abstract data types to organize and manage data.</li>
-								<li>Use lists of lists together with data types to organize and access data.</li>
+								<li>Reconceptualize lists of lists as lists of abstract data, to simplify their use and prevent bugs.</li>
                                 <li>Understand what a data type is.</li>
-		                    	<li>Understand how data types help manage program complexity and increase clarity, especially for testing, debugging and maintenance.</li>
+		                    	<li>Understand how abstract data types help manage program complexity and increase clarity, especially for testing, debugging and maintenance.</li>
 							</ul>
 						</li>
 						<li>
@@ -88,7 +88,11 @@
                                         <li>What are some benefits of creating an abstract data type?</li>
                                         <li>In what other situations might abstract data types be helpful?</li>
                                         <li>What is a <em>primitive</em> data type? What are some examples?</li>
-                                        <li>What is an <em>abstract</em> data type? What are some examples?</li>
+                                        <li>What is an <em>abstract</em> data type? What are some examples?
+                                          <ul>
+                                            <li>In particular, what data in Unit 1 projects could be treated as abstract data types?</li>
+                                          </ul>
+                                        </li>
                                         <li>What is the difference between a primitive data type and an abstract data type?</li>
                                         <li>How are abstract data types an example of abstraction?</li>
                                     </ul>
@@ -98,6 +102,38 @@
 							</ul>
 						</li>
 					</ul>
+<table align="center" frame="box" rules="all">
+<tr><th>Ordinary language</th><th>&nbsp;</th><th>Computer science</th></tr>
+<tr><td>&nbsp;most abstract</td><td>&nbsp;application software</td><td>&nbsp;most abstract</td></tr>
+<tr><td style="background-color:#000000">&nbsp;</td>
+<td>&nbsp;high level language (Snap<em>!</em>)</td>
+<td style="background-color:#000000">&nbsp;</td></tr>
+<tr><td style="background-color:#404040">&nbsp;</td>
+<td>&nbsp;low level language (C)</td>
+<td style="background-color:#202020">&nbsp;</td></tr>
+<tr><td style="background-color:#808080">&nbsp;</td>
+<td>&nbsp;machine language</td>
+<td style="background-color:#404040">&nbsp;</td></tr>
+<tr><td style="background-color:#c0c0c0">&nbsp;</td>
+<td>&nbsp;computer architecture</td>
+<td style="background-color:#606060">&nbsp;</td></tr>
+<tr><td>&nbsp;least abstract</td>
+<td>&nbsp;physical computer (chips, wires)&nbsp;</td>
+<td style="background-color:#808080">&nbsp;</td></tr>
+<tr><td style="background-color:#c0c0c0">&nbsp;</td>
+<td>&nbsp;transistors</td>
+<td style="background-color:#a0a0a0">&nbsp;</td></tr>
+<tr><td style="background-color:#707070">&nbsp;</td>
+<td>&nbsp;atoms</td>
+<td style="background-color:#c0c0c0">&nbsp;</td></tr>
+<tr><td style="background-color:#000000">&nbsp;</td>
+<td>&nbsp;protons, neutrons, electrons</td>
+<td style="background-color:#e0e0e0">&nbsp;</td></tr>
+<tr><td>&nbsp;most abstract</td>
+<td>&nbsp;quarks</td>
+<td>&nbsp;least abstract</td></tr>
+</table>
+
 				</li>
                 <li>
                 	<strong>Page 3: Click to Draw.</strong>
