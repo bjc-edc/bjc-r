@@ -12,95 +12,92 @@
     <body>
         <h2>Abstract Data Types</h2>
 		<div class="todo">
-			<p>There is an intimidating amount of text at the start of this page. --MF</p>
-			<p>Feel free to remove the vocab box, which really has nothing to do with this page at all, but instead belongs in the to-be-written hardware unit. --bh</p>
+			<p>There is lot of reading on this page. I made some cuts; can we make more? --MF, 5/17/17</p>
+            <p>Why this? I'm concerened about A requiring two lists.  Do we have a solid rationale and support plan? I'm concerned that it either leaves the first effort to draw a shape unfinished or it leaves the students sorting out the 2-lists issue with little support. --MF, 5/17/17</p>
 		</div>
-		
-        <!--I think this whole section, through "...data types to help clarify our code.</p>" (line 28), can be cut. --MF
-        <div class="todo">
-            <ul>
-                <li>Paul or Brian, please review the following preface on data types. --MF
-                	<ul>
-                    	<li>Variables do not have types. <em>Data</em> have types. Any variable can hold any datum, regardless of type. Also, Snap<em>!</em> is not Scratch -- lists are not comparable to variables; they're comparable to numbers or procedures. --BH</li>
-						<li>Brian, Please make changes here and in the TG regarding constructors and selectors vs. datatypes. --MF</li>
-                    </ul>
-                </li>
-                <li>GH Feedback 11/12/15: everything (Not super informative, but I think the message is clear... --MF)</li>
-            </ul>
+		<!--<p>A <strong>data type</strong> is a label that specifies what type of data a variable can hold. In some programming languages, there are different data types for numbers than for words&mdash;or even for different kinds of numbers (for instance, integers vs. decimals). In Snap<em>!</em>, there are variables (which each hold one piece of data that can be either a number or text) and lists (which hold multiple pieces of data&mdash;numbers or text). We can also create our own data types to help clarify our code.</p>  -->
+		<div class="learn">
+			<strong>On this page,</strong> you will create an abstract data type <code>point</code> to make your U2L2-DrawShape code easier to read, debug, and use:<br />
+			<img class="indent" src="/bjc-r/img/3-lists/point-list-for-A.png" height="80" alt="point-list-for-A" title="point-list-for-A" />  
+            <div class="todo">I'd rather see a <code>draw shape</code> (or <code>go to each point</code>, as I prefer) block here with this as input. If agreed, perhaps Selim could do it? --MF, 5/17/17</div>
         </div>
         
-<!--        <p>A <strong>data type</strong> is a label that specifies what type of data a variable can hold. In some programming languages, there are different data types for numbers than for words&mdash;or even for different kinds of numbers (for instance, integers vs. decimals). In Snap<em>!</em>, there are variables (which each hold one piece of data that can be either a number or text) and lists (which hold multiple pieces of data&mdash;numbers or text). We can also create our own data types to help clarify our code.</p>  -->
-		<div class="learn">
-			<strong>On this page</strong> you will create a new data type, <code>point</code>, to make your U2L2-DrawShape code easier to read, debug, and use.  
-		</div>
-		<div class="sidenoteBig">
-			This block's pull-down menu shows all of Snap<em>!</em>'s primitive types.<br />
-			<img class="inline" src="/bjc-r/img/3-lists/isa-menu.png" alt="primitive types" title="primitive types"/>
-		</div>
-		<div class="vocabBig"><strong>: Binary Sequence</strong>
-			<p><em>Every</em> kind of information in the computer—whether it is a number, text, list, or an instruction to perform—is stored as a sequence of 0s and 1s (a <strong>binary sequence</strong>). So, for a program to work, the computer needs to be told how to interpret any such sequence of 0s and 1s.</p>
-		</div>
-        <p>Just as the name suggests, a <strong>data type</strong> is  what <em>kind</em> of data something is. 
-    Each programming language provides some <strong>primitive</strong> (meaning "built in") <strong>data types</strong>. In Snap<em>!</em> the primitive types are <em>number</em>, <em>text string</em>, <em>list</em>, and some other types you haven't yet used as data.</p>
-    <div class="takeNote">An <strong>abstract data type</strong> (or <strong>ADT</strong>) is a kind of data that's meaningful in your program, but not built into the language. You implement it as part of your program. <!-- Examples might be &quot;sentence&quot; in <a href="/bjc-r/cur/programming/1-introduction/2-gossip-and-greet/1-gossip.html">Unit 1 Lab 2</a> or &quot;angle&quot; in <a href="/bjc-r/cur/programming/1-introduction/3-drawing/1-exploring-motion.html">Unit 1 Lab 3</a>. --> In <em>this</em> lab, the <em>point</em> is a useful ADT.</div>
-        <p>
-        The word "abstract" is often used casually as if it means something <em>harder</em> to understand, but in computer science, its meaning is almost the opposite. ADTs are things that you, the programmer, create to make your program <em>easier</em> for people to read, debug, and improve.</p>
+		<p>
+            Just as the name suggests, a <strong>data type</strong> is  what type of data something is (number, text string, list, etc.). Each programming language provides some <strong>primitive</strong> (built in) <strong>data types</strong>. In Snap<em>!</em> provides some you haven't yet used as data:<br />
+            <div class="sidenote">This block's pull-down menu shows all of Snap<em>!</em>'s primitive types.</div>
+            <img class="indent" src="/bjc-r/img/3-lists/isa-menu.png" alt="primitive types" title="primitive types"/>
+        </p>
+        
+        <div class="vocabFullWidth">
+            <p>An <strong>abstract data type</strong> (or <strong>ADT</strong>) is a kind of data that's meaningful to your program but not built into the language. You develop it as you program. <!-- Examples might be &quot;sentence&quot; in <a href="/bjc-r/cur/programming/1-introduction/2-gossip-and-greet/1-gossip.html">Unit 1 Lab 2</a> or &quot;angle&quot; in <a href="/bjc-r/cur/programming/1-introduction/3-drawing/1-exploring-motion.html">Unit 1 Lab 3</a>. --> </p>
+            <p>For example in this lab, you'll create <img class="inline" src="/bjc-r/img/3-lists/point()().png" alt="point () ()" title="point () ()"> to <em>construct</em> the ADT and create both <img class="inline" src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/xcoordinateof.png" height="35" alt="x-coordinate-of-()" title="x-coordinate-of-()"> and <img class="inline" src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/ycoordinateof.png" height="35" alt="y-coordinate-of-()" title="y-coordinate-of-()"> to <em>select</em> either coordinate of a point stored as this ADT. </p>
+        </div>
+        
+        <div class="endnote">
+            <p>The word "abstract" is often used casually as if it means something <em>harder</em> to understand or more complex, but in computer science, its meaning is almost the opposite. ADTs are things that you, the programmer, create to make your program <em>easier</em> for you and others to read, debug, and improve.</p>
+        </div>
 
         <div class="dialogue"> <a name="point" class="anchor">&nbsp;</a>
-        	<div class="stagedir">Gamal joins Betsy and Alphie's <a href="/bjc-r/cur/programming/2-complexity/2-data-structures-art/1-the-for-each-block.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment"> discussion about using a list of coordinates to make a drawing of a letter</a>.</div>
-        	<div><span>Gamal:</span> I was looking at our <img src="/bjc-r/img/2-complexity/go-to-point().png" height="40" alt="go-to-point()"> block and thought of a way to make it much easier to read.</div>
-            <div><span>Betsy:</span> Yeah, expressions like <img src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/item2ofpoint.png" height="40" alt="item(2)of-point" title="item(2)of-point">  are not very clear! Even after I wrote it to mean &quot;the <em>y</em> coordinate of the point,&quot; I had to think twice to make sure that the input was <em>one point</em>, instead of the whole list of coordinates of the letter A.</div>
-<div class="sidenote">Gamal's idea is called <strong>data abstraction</strong>: creating a new ADT to bury the details. Users of points don't have to know that they're represented as lists.</div> 
-			<div><span>Gamal:</span> That's the point! (Sorry about the pun.)		<code>item 2 of</code> something gives us a number—the <em>y</em>-coordinate—if  its input is a point, but gives us a <em>point</em>—a list of two numbers—if its input is a list of points. Let's make it clearer. We can define a <em>y</em>-coordinate block so that we can use code like <img src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/ycoordinateofpoint.png" height="40" alt="y-coordinate-of-(point)" title="y-coordinate-of-(point)"> instead of <img src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/item2ofpoint.png" height="40" alt="item(2)-of-(point)" title="item(2)-of-(point)">.</div>
-          <div><span>Betsy:</span> That block is trivial; it isn't going to make the rest of the program any shorter. <code>Y coordinate</code> does the same thing as <code>item 2</code>!</div>
-            <div><span>Gamal:</span> Yes, but it'll  make the program easier to read and <em>easier to think about</em>. We can use <em>them</em> instead of <code> item </code> as inputs to the  <img src="/bjc-r/img/blocks/go-to-x-y.png" alt="go to x: y:"> block.</div>
+            <div class="todo"> I replaced several inline block pics with CODE text as I felt it will ease reading aloud. --MF, 5/17/17</div>
+        	<div class="stagedir">Gamal joins Betsy and Alphie's <a href="/bjc-r/cur/programming/2-complexity/2-data-structures-art/1-the-for-each-block.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment">ongoing discussion</a> about using a list of coordinates to draw a letter.</div>
+        	<div><span>Gamal:</span> I was looking at our <img class="inline" src="/bjc-r/img/2-complexity/go-to-point().png" alt="go-to-point()"> block and thought of a way to make it much easier to read.</div>
+            <div><span>Betsy:</span> Yeah, expressions like <img class="inline" src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/item2ofpoint.png" height="40" alt="item(2)of-point" title="item(2)of-point" />  are hard to read. Even after I wrote it to find the <em>y</em> coordinate, I had to think twice to understand it.</div>
+            <div class="sidenote">Gamal is suggesting <strong>data abstraction</strong>: creating a new ADT to hide the details. When using the <code>point</code> ADT, you won't have to think about how points are represented as lists.</div> 
+            <div><span>Gamal:</span> That's what I mean. <!--The <code>item</code> <var>2</var> <code>of</code> block gives us a number—the <em>y</em>-coordinate—if  its input is a point, but gives us a <em>point</em>—a list of two numbers—if its input is a list of points.--> Let's make it clearer. We can define a <code>y coordinate</code> <!--<img class="inline" src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/ycoordinateofpoint.png" alt="y coordinate block" title="y coordinate block">--> block to use instead of <code>item 2 of</code> <!--<img class="inline" src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/item2ofpoint.png" alt="item(2)-of-(point)" title="item(2)-of-(point)">-->.</div>
+            <div><span>Betsy:</span> But that block wouldn't do anything. It isn't going to make the program any shorter if it does the same thing as <code>item 2 of</code>.</div>
+            <div><span>Gamal:</span> Yes, but it'll make the program easier to read and <em>easier to think about</em>. We can use <code>x coordinate</code> and <code>y coordinate</code> instead of <code>item of</code> as inputs to the <code>go to</code><!-- <img class="inline" src="/bjc-r/img/blocks/go-to-x-y.png" alt="go to x: y:">--> block.</div>
             <div class="stagedir">
-                They build two  blocks <img src="/bjc-r/img/2-complexity/xcor.png" alt="x coordinate of (point); report item 1 of (point)"> 
+                They build two blocks: <img src="/bjc-r/img/2-complexity/xcor.png" alt="x coordinate of (point); report item 1 of (point)"> and 
                 <img src="/bjc-r/img/2-complexity/ycor.png" alt="y coordinate of (point); report item 2 of (point)"><br />
-          </div>
-          <div> <span>Betsy:</span> Hmmm... So we could also make a <img class="inline" src="/bjc-r/img/3-lists/point()().png" alt="point () ()" title="point () ()" /> block  so that we can use <img src="/bjc-r/img/3-lists/point-list-for-A.png" height="80" alt="point-list-for-A"> instead of <img src="/bjc-r/img/3-lists/coordinate-list-for-A.png"  alt="coordinate-list-for-A">, which will make clearer what this list really is. 
-          <div class="sidenoteBig">Note that the # symbols in the <code>point</code> block are not something you type but appear automatically when the Number input type is selected, as shown below.<br />  <img src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/input-type-number.png"  height="80" alt=""/></div>
-          
-      <div class="stagedir">
-      			
+            </div>
+            <div> <span>Betsy:</span> Hmmm... If we make a <img class="inline" src="/bjc-r/img/3-lists/point()().png" alt="point () ()" title="point () ()" /> block, then we can write <img src="/bjc-r/img/3-lists/point-list-for-A.png" height="80" alt="point-list-for-A"> instead of <img height="56" src="/bjc-r/img/3-lists/coordinate-list-for-A.png"  alt="coordinate-list-for-A">. That would make it clearer what this list really is. 
+            <div class="sidenoteBig">Do not type the # symbols in the <code>point</code> block. They appear automatically when the Number input type is selected:<br />  <img src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/input-type-number.png"  height="80" alt="selecting the Number input type" title="selecting the Number input type"/> are like the three</div>
+            <div class="stagedir">
                 Betsy builds this block: <br />
                 <img src="/bjc-r/img/3-lists/point.png" alt="point = list" title="point = list"/>
-    </div>
-      </div>
-			<br /><br /><br />
-    <div class="takeNote">The <img class="inline" src="/bjc-r/img/3-lists/point()().png" alt="point () ()" title="point () ()" /> block is called the <strong>constructor</strong> of this new abstract data type. The   <img class="inline" src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/xcoordinateof.png" height="35" alt="x-coordinate-of-()" title="x-coordinate-of-()"/> and  <img class="inline" src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/ycoordinateof.png" height="35" alt="y-coordinate-of-()" title="y-coordinate-of-()"/> blocks are called the <strong>selectors</strong> for the <code>point</code>   ADT because they each <em>select</em> one component of a point. </div> 
-            </div> 
+            </div>
+            </div>
+            <div class="takeNote">The <img class="inline" src="/bjc-r/img/3-lists/point()().png" alt="point () ()" title="point () ()" /> block is called the <strong>constructor</strong> of this new abstract data type. The   <img class="inline" src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/xcoordinateof.png" height="35" alt="x-coordinate-of-()" title="x-coordinate-of-()"/> and  <img class="inline" src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/ycoordinateof.png" height="35" alt="y-coordinate-of-()" title="y-coordinate-of-()"/> blocks are called the <strong>selectors</strong> for the <code>point</code>   ADT because they each <em>select</em> one component of a point. </div>
+        </div> 
     
 			
-        
-        
-<div class="forYouToDo" id="first">
+        <div class="forYouToDo" id="first">
             <ol>
-				<li>If your U2L2-DrawShape project is not already open, open it now.</li>
-                <li>Improve your "U2L2-DrawShape" script from <a href="/bjc-r/cur/programming/2-complexity/2-data-structures-art/1-the-for-each-block.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment">the previous page</a> using Betsy's and Gamal's ideas about constructor and selectors.</li>
-				<!--<img class="inline" src="/bjc-r/img/icons/pair-programming-swap.png" alt="Pair Programming Swap" title="Pair Programming Swap" /> -->
+                <li>If your U2L2-DrawShape project is not already open, open it now.</li>
+                <li>Improve your "U2L2-DrawShape" script from <a href="/bjc-r/cur/programming/2-complexity/2-data-structures-art/1-the-for-each-block.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment">the previous page</a> using constructor and selectors as Betsy and Gamal described above.</li>
+                <!--<img class="inline" src="/bjc-r/img/icons/pair-programming-swap.png" alt="Pair Programming Swap" title="Pair Programming Swap" /> -->
                 <li>
-					<img class="imageRight" src="/bjc-r/img/icons/save-mini.png" alt="Save Your Work" title="Save Your Work" />
-                	<p>Convert that script into a general <img class="inline" src="/bjc-r/img/3-lists/draw_shape_block.png" alt="draw shape ()" title="draw shape ()" /> block that takes a list of coordinates as input and draws that shape.</p>
+                    <img class="imageRight" src="/bjc-r/img/icons/save-mini.png" alt="Save Your Work" title="Save Your Work" />
+                    Convert that script into a general <img class="inline" height="36" src="/bjc-r/img/3-lists/draw_shape_block.png" alt="draw shape ()" title="draw shape ()" /> block that takes as input a list of data stored as the ADT <code>point</code> and draws that shape.
                 </li>
-                
             </ol>
-</div>
+            <div class="todo">
+                <p>I see no reason not to have them build the block (and I'd call it <code>go to each point</code>) on the previous page. --MF, 5/17/17</p>
+            </div>
+        </div>
         
         <div class="ifTime"><a name="further" class="anchor">&nbsp;</a>
             <ol start="4">
             	<li>Make a new list of points to draw a different letter or shape. Check to see that your <code>draw shape ()</code> block works with this new list.</li>
                 <li>
                 	If you made other letters, write a <code>draw message ()</code> block that takes a <em>list of letters</em> as input and uses <code>draw shape ()</code> several times to draw a message.<br />
-	                <div class="sidenoteBig">Notice the use of abstraction. Representing the message "HI" as <img src="/bjc-r/img/3-lists/list-h-i.png" alt="list {A, B, C}" title="list {A, B, C}" /> hides all the complexity of the lists of coordinates used to draw the shapes.</div>
+                    <div class="sidenoteBig"><div class="todo">What does this look like for {HA} given that A requires 2 lists? --MF, 5/17/17</div>Notice the use of abstraction. Representing the message "HI" as <img src="/bjc-r/img/3-lists/list-h-i.png" alt="list {A, B, C}" title="list {A, B, C}" /> hides all the complexity of the lists of coordinates used to draw the shapes.</div>
                 	<img class="indent" data-gifffer="/bjc-r/img/3-lists/hi.gif" alt="animation that shows drawing H then drawing I" title="animation that shows drawing H then drawing I" />
                 </li>
+                <div class="todo">Can we make this image start with the last frame too? Selim? --MF, 5/17/17</div>
         	</ol>
         </div>
-                <img class="imageRight" src="/bjc-r/img/icons/save-now.png" alt="Now Is a Good Time to Save" title="Now Is a Good Time to Save" />
-<div class="takeItFurther">
-  <ol type="A"><li>Change your project so that <code>draw message</code> draws the letters next to each other instead of one replacing another:<br />
-     <img src="/bjc-r/img/2-complexity/HI.png" alt="HI">
+        
+        <img class="imageRight" src="/bjc-r/img/icons/save-now.png" alt="Now Is a Good Time to Save" title="Now Is a Good Time to Save" />
+
+        <div class="takeItFurther">
+            <ol type="A">
+                <li>
+                    Change your project so that <code>draw message</code> draws the letters next to each other instead of one replacing another:<br />
+                    <img class="indent" src="/bjc-r/img/2-complexity/HI.png" alt="HI" title="HI" />
+                </li>
+            </ol>
+        </div>
 
    </body>
 </html>
