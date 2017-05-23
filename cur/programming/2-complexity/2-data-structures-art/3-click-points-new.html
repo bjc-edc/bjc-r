@@ -47,76 +47,39 @@ On the previous page, you drew a shape based on a list of points we gave you.  <
         <div class="dialogue">
 <!--              <p> We'll have to write a block that keeps waiting for a mouse click, and then adds those mouse coordinates to a list.  When all the points have been entered, the block should report the list of points.<br />
                 <img class="indent" src="/bjc-r/img/2-complexity/e-from-points.png" alt="set (E) to (list of points)" title="set (E) to (list of points)" /> -->
-                <p><span>Betsy:</span> 
+              <div>  <p><span>Betsy:</span> I can think of three things our program has to do:</p></div>
+              <ol><li>Initialize the <code>point list</code> variable to an empty list.</li>
+                <li>Have the sprite follow the mouse.</li>
+                <li>Every time the mouse is clicked, add its position to the point list, and give the user some visible feedback that the click has been processed.</li></ol></p>
+             <div>   <p><span>Alphie:</span> We did the second of those in <a href="/bjc-r/cur/programming/1-introduction/5-follow-the-leader/1-following-sprites.html">Unit 1</a>.</p>
+                <p><span>Betsy:</span> Yes, and we did the other two in <a href="/bjc-r/cur/programming/1-introduction/2-gossip-and-greet/4-learning-names.html">that "greet player" project</a>, also in Unit 1.
                 </p>
+                <p><span>Alphie:</span> ... except for the part about "visual feedback."  What did you mean by that?</p>
+                <p><span>Betsy:</span> Well, the user is going to be following the outline of a shape, and clicking at turning points.  That may take a while, and users get nervous if the computer doesn't seem to be paying attention.  So I thought we should draw something at each of the points where the user clicks, a little circle or something.</p>
+                <p><span>Alphie:</span> I have an idea!  There's a <img src="/bjc-r/img/2-complexity/stamp.png" alt="stamp block (in Pen)"> block that paints a picture of the sprite itself on the stage.  That arrowhead thingy will point right at the point where the user clicked.</p>
           </div>
             <div class="stagedir">
                 Alphie and Betsy develop code to implement their idea.<br />
-                <img class="center" data-gifffer="/bjc-r/img/2-complexity/E_new.gif" alt="Entering points for E" title="Entering points for E" /><br />
-                (At the end of the movie, you can see that they used a click outside the stage to indicate the end of the shape.)
+                <img class="center" data-gifffer="/bjc-r/img/2-complexity/click.gif" alt="Entering points for E" title="Entering points for E" /><br />
             </div>
         </div>
         
-        <div id="first" class="forYouToDo">
-            <ol>
-                <div class="todo">
-                    <p>ST- It will be confusing for many kids that "list of points" block, which does many things like the coordinate collection and the drawing, is not a command block but a reporter.  This is a subtle but big step up as they have never seen a reporter block doing things that a command block does.  They will wonder why it needs to report anything at all as the intended letter is fully drawn on the stage. </p>
-                    <p>Is this better? --bh</p>
-                    <p>ST-As far as I can tell the only change is the question you posed to the kids about the reporter in #2.  I believe they need more of an explanation 1) that reporters can do more than reporting, 2)why the list of points need to be reported at all.  These are completely non-trivial in my humble view.</p>
-                    <p>For (1), I think the code picture makes it clear that reporters can do stuff! And for (2), I don't want to give that point away without an opportunity for kids to discuss it. They've already experienced, on the previous page, wanting to draw a letter more than once, so they /should/ already be able to answer this. --bh</p>
-                </div>
-                <div class="todo">
-                    <p><strong>Why not let them <em>try</em> to finish it as #1?</strong> Then #2 will be more accessible because they've at least dug into the code and comments a bit more actively. I think this project is accessible enough for that, and I think that's what was troubling me before. I want to dig in right away and read the helpful comments as I go, not before. EBF, no? --MF, 5/19/17</p>
-                    <p>Also, I edited the starter project to clarify the comments. --MF, 5/19/17</p>
-                </div>
-                <li>
-                    Load <a class="run" href="/bjc-r/prog/2-complexity/U2L2-click-points.xml">this starter project</a>, and do as much as you can to complete the unfinished block definition for <code>list of points</code>:<br />
-                    <!--<div class="comment">I find this image and the file overwhelming. There are so many comments and there are blocks out on the stage that it says we need to use, though some have already been used in the program, so it's not clear to me that I (as student) actually need to use them in my program still. It's also really hard to read and meaningfully analyze half-written code like this because I have to keep bouncing back and forth between the code and the comments. --MF, 5/18/17</div>-->
-                    <div class="sidenote">The starter project contains some helper blocks you've already defined (<code>go to point</code>, <code>x coordinate of</code>, etc.) and some others you'll need (<code>wait for click</code>, <code>draw from point to point</code>, and <code>click on stage?</code>). </div>
-                    <div class="sidenote">The sprite's costume is a  dot.</div>
-                    <a class="run" href="/bjc-r/prog/2-complexity/U2L2-click-points.xml"><img src="/bjc-r/img/2-complexity/list-points-starter.png" alt="starter for LIST OF POINTS" title="starter for LIST OF POINTS" /></a>
-                    
-                    <div class="narrower">
-                        <ul>
-                            <li>Replace each <img src="/bjc-r/img/2-complexity/stuff-here.png" alt="you write stuff in here"> block with code needed there to implement the algorithm.</li>
-                            <li>To collect data, you need to start with an empty list. You will add a point for each mouse click.</li>
-                            <li>Also supply all missing input values (such as in <code>go to point</code> and <code>draw from point to point</code>).</li>
-                            <li>The <code>stamp</code> block is built into Snap<em>!</em>. It puts a picture of the sprite's costume on the stage at the sprite's location.</li>
-                        </ul>
-                        
-                    </div>
-                    
-                </li>
-                <li>
-                    <img class="imageRight" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
-                    <strong>Think and write: </strong>Start by <em>reading</em> the code inside the <code>list of points</code> reporter, and try to understand its structure.  For example:
-                    <ul>
-                        <li>Why is it a reporter? Since it draws the shape as you click on its corners, isn't the job done? Why should it report a value?</li>
-                        <li>It uses a <code>forever</code> block.  When, and how, does it report a value?</li>
-                        <li>What is the <code>if else</code> block testing, and why?</li>
-                        <li>Can you use a script variable for the list inside <code>list of points</code>, or does it have to be global?</li>
-                    </ul>
-                    <div class="todo">
-                        <p>I think the these questions (the first and fourth especially) will work better after trying to build the code. --MF, 5/19/17</p>
-                        <!--<p>I agree that the "Why is it a reporter?" question is subtle, and when I first read this, I wasn't yet even sure how to answer it. I wrote: I assume it's so that we can input the list of points somewhere else, but we aren't doing that on this page, and it hasn't been mentioned on this page&mdash;in fact, this page doesn't appear (without reflection) to be connected to the rest of the lab at all. Perhaps we should say something about how this will connect to other pages in the pink box at the top? --MF, 5/18/17 &amp; 5/19 </p>
-                        <p>The second and third questions seem answerable, though they might be tough to answer looking at this half-written code. --MF, 5/18/17 </p>-->
-                        <p>The fourth question, like the first, feels less trivial, and I'm wanting more support on the student page&mdash;perhaps a link back to a L1 page and/or a takenote box following this problem?--MF, 5/18/17 </p>
-                    </div>
-                </li>
-                <li>
-                    Finish writing <code>list of points</code> so that it collects points from mouse clicks and reports the list when it is finished.
-                    <ol>
-                        <li>Test your block several times and debug any problems.</li>
-                        <li>Try saving the output of <code>list of points</code> and using your <code>draw points</code> to recreate the shape you drew. Debug any problems.</li>
-                    </ol>
-                </li>
-                <div class="takeNote">
-                    <p><strong>Abstraction:</strong> Notice how convenient it is to have <code>point</code>, <code>y coordinate of</code>, <code>go to point</code>, <code>draw from point to point</code>, etc., already built to use the <strong>point</strong> abstract data type. Once you've created a point from the mouse coordinates, you never have to think about coordinates again in this activity.</p>
-                </div>
-                <li><strong>Think and write:</strong> Imagine how complicated your code would be if you didn't have these abstractions. What would this code look like without the abstract data type <strong>point</strong> and the blocks like <code>go to point</code> that use it?</li>
+        <div class="forYouToDo">
+            <ol start=4>
+                <li>In the project file you loaded, the sprite has three scripts, one for each task in Betsy's list.  Each of these scripts is incomplete.
+                <ul><li>In the first script, variable <var>point list</var> should be given an appropriate initial value.</li>
+                <li>In the second script, you need a way to tell the sprite to stop following the mouse.  Replace the <code>forever</code> block with one that will stop looping when the user presses the space key.</li>
+                <li>In the third script, the <code>stamp</code> block is already in place, but you have to write the code that will add the mouse's position to the list of points.  Respect the data abstraction for points.</li></ul></li>
             </ol>
         </div>
+                        <img class="imageRight" src="/bjc-r/img/icons/save-now.png" alt="Now Is a Good Time to Save" title="Now Is a Good Time to Save" />
 
+<div class="takeItFurther">
+<ol type="A">
+<li>This is a good quick-and-dirty solution to the problem of entering a bunch of points into a list interactively.  But it has a couple of weaknesses:
+<ul><li>Even after you tell the sprite to stop following the mouse, the "when I am clicked" script is still ready to run, and so every mouse click thereafter will add points to the list that the user didn't want.</li>
+<li>The list of points is always kept in the same global variable.  So it's messy to create lists for several different letters.</li></ul>
+For an alternative approach to this problem, with more complicated code but without those weaknesses, <a href="/bjc-r/cur/programming/2-complexity/optional-projects/5-click-points.html">click here</a>.</li></ol></div>
     
     </body>
 </html>
