@@ -15,7 +15,11 @@
         <div class="learn">
         	On the previous page, you drew a shape based on a list of points you were given.  <strong>On this page,</strong> you will automate the process of getting coordinates by clicking on the desired points on the screen.
         </div>
-        
+        <div class="todo">
+          <p>Is this an example of how we want these "learn" boxes to look? I thought there was supposed to be more about <em>learning</em>. --MF, 5/23/17</p>
+          <p>It <em>is</em> about learning! It just doesn't use the <em>word</em> &quot;learning.&quot;--bh</p>
+        </div>
+         
         <div class="dialogue">
             <!--<div class="todo">
             <p>ST-Suggested replacement:".....Why can't we just draw a letter on the screen by clicking on the corner points that define the letter?"</p>
@@ -32,9 +36,14 @@
         </div>
         
         <div id="first" class="forYouToDo">
-            <ol>
+        <p>You will have to combine parts of two projects: your work from the <strong>U2L2-DrawShape</strong> project you saved on the previous page, and a starter project for this page.</p>
+        <em>Export <strong>U2L2-DrawShape</strong> blocks</em>
+        <ol><li>Load your <strong>U2L2-DrawShape</strong> project.</li>
+        <li>Choose "Export blocks" from the File menu to save the blocks on your computer.  (It's fine to save all the blocks.)</li></ol>
+        <br /><em>Set the stage background</em>
+            <ol start="3">
                 <li> 
-Load  <a class="run" href="/bjc-r/prog/2-complexity/U2L2-Click.xml">this starter project</a>.  Below the actual stage are a  "Stage" button and a &quot;Sprite&quot; button. Click the stage button.<br />
+Load  <a class="run" href="/bjc-r/prog/2-complexity/U2L2-Click.xml">this starter project</a>.  Below the actual stage are a "Stage" button and a &quot;Sprite&quot; button. Click the stage button.<br />
                     <img class="indent" src="/bjc-r/img/2-complexity/stage-button.png" alt="stage button in sprite corral">
                 </li>
                 <li>
@@ -42,19 +51,28 @@ Load  <a class="run" href="/bjc-r/prog/2-complexity/U2L2-Click.xml">this starter
                     <img class="indent" src="/bjc-r/img/2-complexity/backgrounds.png" alt="backgrounds tab">  <br />
                     You will find two non-empty backgrounds:
                    <ul>
-                        <li>A data graph of median U.S. household income by year (source: Federal Reserve Bank of St. Louis) </li>
+                        <li>A  graph of median U.S. household income by year (source: Federal Reserve Bank of St. Louis) </li>
                         <li>A capital "E" (font: Century Gothic Bold).</li>
                     </ul>
                     The graph is typical of data processing, which is one topic of Unit 3.  The E continues the activity from the previous page.  Choose either background by clicking on it.
-                </li>
+                (Later, you can also drag some other picture of a graph or letter into the project with the stage selected to get a different background.)</li>
                 <li>Now go back to the Scripts tab, and choose the "Sprite" button under the stage to get back to the sprite's scripts.</li>
             </ol>
+            <br /><em>Import your blocks</em>
+            <ol start="6">
+            <li>Now choose "Import" from the File menu, and import the file <strong>U2L2-DrawShape.xml</strong> to add your blocks to the starter project.</li></ol>
+                 <img class="imageRight" src="/bjc-r/img/icons/save-now.png" alt="Now Is a Good Time to Save" title="Now Is a Good Time to Save" />
 </div>         
-        
+       
         <div class="dialogue">
             <!--              <p> We'll have to write a block that keeps waiting for a mouse click, and then adds those mouse coordinates to a list.  When all the points have been entered, the block should report the list of points.<br />
             <img class="indent" src="/bjc-r/img/2-complexity/e-from-points.png" alt="set (E) to (list of points)" title="set (E) to (list of points)" /> -->
-            <div><span>Betsy:</span> I can think of a way. Suppose the sprite follows the mouse, and every time we click on that sprite, we add its position to the point list. We'd have to initialize the <code>point list</code> variable to an empty list first, of course.</div>
+            <div><span>Betsy:</span> I can think of a way to collect clicks.</div> 
+<div class="narrower" style="background-color:#BCDCE7">
+           <ol>
+            <li>Initialize the <code>point list</code> variable to an empty list.</li>
+            <li>Make the sprite follow the mouse.</li>
+            <li>Every time we click on that sprite, we add its position to the point list.</li></ol></div>
             <div><span>Alphie:</span> We did the mouse-following thing in <a href="/bjc-r/cur/programming/1-introduction/5-follow-the-leader/1-following-sprites.html">Unit 1</a>.</div>
             <div><span>Betsy:</span> Yes, and we added new items to a list in <a href="/bjc-r/cur/programming/1-introduction/2-gossip-and-greet/4-learning-names.html">that "greet player" project</a>, also in Unit 1.</div>
             <div><span>Gamal:</span> When we click, we should probably also give the user some visible feedback that the click has been processed.</div>
@@ -62,7 +80,7 @@ Load  <a class="run" href="/bjc-r/prog/2-complexity/U2L2-Click.xml">this starter
             <div><span>Gamal:</span> Well, the user is going to be following the outline of a shape, and clicking at turning points.  That may take a while, and users get nervous if the computer doesn't seem to be paying attention.  So I thought we should mark each  point  the user clicks, a little circle or something.</div>
             <div><span>Alphie:</span> I have an idea!  There's a <img src="/bjc-r/img/2-complexity/stamp.png" alt="stamp block (in Pen)"> block that paints a picture of the sprite itself on the stage. That arrowhead thingy will point right at the point where the user clicked.</div>
             <div class="stagedir">
-                Alphie and Betsy develop code to implement their idea.<br />
+                Alphie and Betsy develop code to implement their ideas.<br />
                 <img class="center" data-gifffer="/bjc-r/img/2-complexity/click.gif" alt="Entering points for E" title="Entering points for E" />
             </div>
         </div>
@@ -70,8 +88,8 @@ Load  <a class="run" href="/bjc-r/prog/2-complexity/U2L2-Click.xml">this starter
         <div class="forYouToDo">
             <ol start="4">
                 <li>
-                    The project file you loaded contains three unfinished scripts, one for each task.
-                    <ul>
+                    The project file you loaded contains three unfinished scripts, one for each of Betsy's steps.
+                      <ul>
                         <li>In the first script, variable <var>point list</var> should be given an appropriate initial value.</li>
                         <li>In the second script, you need a way to tell the sprite to stop following the mouse.  Replace the <code>forever</code> block with one that will loop only until the user presses the space key.</li>
                         <li>In the third script, the <code>stamp</code> block is already in place, but you have to write the code that will add the mouse's position to the list of points. Use the data abstraction for points.</li>
@@ -80,7 +98,7 @@ Load  <a class="run" href="/bjc-r/prog/2-complexity/U2L2-Click.xml">this starter
                 </li>
             </ol>
         </div>
-
+<br />  <!-- sorry Mary -->
 
         <div class="takeItFurther">
             <ol type="A">
