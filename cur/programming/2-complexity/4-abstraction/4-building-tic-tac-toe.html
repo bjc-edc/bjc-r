@@ -64,25 +64,30 @@
                     <br />
                     I disagree. I think even the boldface is making too much of this Miss Mannersish scold. In fact I would argue for removing the sentence altogether. I certainly don't program that way! I write the program, then I debug it. That's how every programmer I know works. 
                     <br />This is an attempt to teach kids to be Software Engineers, but it's misguided.  Real software engineers (I mean, people who believe in the Miss Manners school of software development) program top-down, not bottom-up.--bh</div>
-                  <ol> 
-                    <li>
-                      <div class="sidenoteBig">If you use squares of size 100, the entire board will fit nicely on the stage. </div>
-                      Build <img src="/bjc-r/img/2-complexity/draw-a-tile.png" alt="draw a tile"> to make a single square tile. You can import and call any <code>draw square</code> or <code>draw polygon</code> block that you've created earlier, or use primitive blocks directly.  (Don't use any Pen blocks; just move the sprite around a square.)
-                      <div class="takeNote">
-                        <div class="comment">I made some improvements to this text, but I have a bit of a hard time with "do it this way because of this theoretical scenario that we ask you to imagine" arguments. --MF, 5/23/17</div>
-                        <strong>Why abstraction?</strong> 
-                        Why build <code>draw a tile</code><!--<img src="/bjc-r/img/1-introduction/tile(size).png" alt="tile of size (size)">--> when you could use <code>draw square</code><!--<img src="/bjc-r/img/1-introduction/draw-square-block-with-empty-input.png" alt="draw square">--> or just the script inside it? Suppose you use squares for several purposes in a large project; maybe you have a Sudoku (9x9 board) player in addition to Tic-Tac-Toe. In case you later decide to create the tiles differently (maybe with thicker borders, filled with random colors, or by using <code>stamp</code>), <!--<img src="/bjc-r/img/blocks/stamp.png" alt="stamp, from the Pen palette">-->it makes sense to edit just <code>draw a tile</code> (because changing <code>draw square</code>  would change <em>all</em> the squares).
+					<ol> 
+						<li>
+                            <div class="sidenoteBig">If you use squares of size 100, the entire board will fit nicely on the stage. </div>
+                            Build <img src="/bjc-r/img/2-complexity/draw-a-tile.png" alt="draw a tile"> to make a single square tile. You can import and call any <code>draw square</code> or <code>draw polygon</code> block that you've created earlier, or use primitive blocks directly.  (Don't use any Pen blocks; just move the sprite around a square.)
+                            <div class="todo">I find this message confusing: "(Don't use any Pen blocks; just move the sprite around a square.)" Why is it called <code>draw a tile</code> if the sprite isn't supposed to draw? I think we need to be much clearer about this. --MF, 5/25/17</div>
+                            <div class="takeNote">
+                                <div class="comment">I made some improvements to this text, but I have a bit of a hard time with "do it this way because of this theoretical scenario that we ask you to imagine" arguments. --MF, 5/23/17</div>
+                                <strong>Why abstraction?</strong> 
+                                Why build <code>draw a tile</code><!--<img src="/bjc-r/img/1-introduction/tile(size).png" alt="tile of size (size)">--> when you could use <code>draw square</code><!--<img src="/bjc-r/img/1-introduction/draw-square-block-with-empty-input.png" alt="draw square">--> or just the script inside it? Suppose you use squares for several purposes in a large project; maybe you have a Sudoku (9x9 board) player in addition to Tic-Tac-Toe. In case you later decide to create the tiles differently (maybe with thicker borders, filled with random colors, or by using <code>stamp</code>), <!--<img src="/bjc-r/img/blocks/stamp.png" alt="stamp, from the Pen palette">-->it makes sense to edit just <code>draw a tile</code> (because changing <code>draw square</code>  would change <em>all</em> the squares).
+                            </div>
+                        </li>
+                        <li>
+                            Build <img src="/bjc-r/img/2-complexity/draw-a-row.png" alt="draw a row"> using your <code>draw a tile</code> block to draw one row of  tiles, like this:<br />
+                            <img class="indent" height="121" src="/bjc-r/img/2-complexity/three-tiles.png" alt="(three tiles in a row)" title="(three tiles in a row)" /><br />
+                            (Again, you won't need any Pen blocks here.)<br />
+                            <div class="todo">Again, I find this confusing. Why say that they don't need Pen blocks, when they clearly do? We need to be more specific about what we mean. --MF, 5/25/17</div>
+							<img class="imageRight" src="/bjc-r/img/icons/save-now.png" alt="Now Is a Good Time to Save" title="Now Is a Good Time to Save" />
+                            <img class="inline" src="/bjc-r/img/icons/pair-programming-swap.png" alt="Pair Programming Swap" title="Pair Programming Swap" /> 
+                        </li>
+						<li>Build <img src="/bjc-r/img/2-complexity/draw-the-board.png" alt="draw the board"> using <code>draw a row of tiles</code> <!--<img src="/bjc-r/img/1-introduction/row(tiles-size).png" alt="row of">-->to draw three rows. Pay attention to where <code>draw a row</code> left the sprite. (Here's where you'll use <code>pen up</code> and <code>pen down</code>.)</li>
+                        <div class="todo">
+                        	<p>Also, what about <code>clear</code>? And while I'm driving you nuts here, Brian, what about putting <code>pen up</code> and <code>pen down</code> inside <code>draw a tile</code>? That works too. Maybe we shouldn't be saying anything about Pen blocks at all? --MF, 5/25/17</p>
+                            <p>And why are we not using this opportunity to discuss state transparency? They need it here! --MF, 5/25/17</p>
                         </div>
-                      </li>
-                    <li>
-                      Build <img src="/bjc-r/img/2-complexity/draw-a-row.png" alt="draw a row"> using your <code>draw a tile</code> block to draw one row of  tiles, like this:<br />
-                      <img class="indent" height="121" src="/bjc-r/img/2-complexity/three-tiles.png" alt="(three tiles in a row)" title="(three tiles in a row)" /><br />
-                      (Again, you won't need any Pen blocks here.)
-                      <img class="imageRight" src="/bjc-r/img/icons/save-mini.png" alt="Save Your Work" title="Save Your Work" />
-                      <img class="inline" src="/bjc-r/img/icons/pair-programming-swap.png" alt="Pair Programming Swap" title="Pair Programming Swap" /> 
-                      </li>
-                    <li>Build  <img src="/bjc-r/img/2-complexity/draw-the-board.png" alt="draw the board"> using <code>draw a row of tiles</code> <!--<img src="/bjc-r/img/1-introduction/row(tiles-size).png" alt="row of">-->
-                      to draw three rows. Pay attention to where <code>draw a row</code> left the sprite. (Here's where you'll use <code>pen up</code> and <code>pen down</code>.</li>
                         <li>
                             Set the sprite to start drawing in the right place.
                             <ul>
@@ -92,7 +97,8 @@
                                 <li>Add <code>go to starting place</code> to your <code>draw the board</code> block definition.</li>
                             </ul>
                         </li>
-                        <li>Similarly, after drawing the board <code>draw the board</code> should move the sprite to somewhere <em>outside</em> the board as in the movie at the top of this page.</li>
+                        <li>Similarly, after drawing the board, <code>draw the board</code> should move the sprite to somewhere <em>outside</em> the board as in the movie at the top of this page.</li>
+                        <div class="todo">Why? Is this in reference to my prior comment about the sprite being left at the corner? If so, we should be more specific and say something like, "move the sprite back to it's startting position at (-200, 160)." --MF, 5/25/17</div>
 					</ol>
                 </li>
                 <!-- This didn't flow for me, and the reference to the next page is incorrect. --MF
@@ -101,14 +107,11 @@
                 <img class="indent" src="/bjc-r/img/1-introduction/5-by-5-superimposed-on-3-by-3.png" width="150" alt="5-by-5-superimposed-on-3-by-3">
                 <div class="sidenoteBig">On the next page, you will learn how to get Snap<em>!</em> to do that calculation automatically, so that all boards are the same size no matter how many tiles they have.</div>
                 </li>-->
-                <li>Clear the screen and draw a 3-by-3 gameboard. Click <img src="/bjc-r/img/2-complexity/switch-X.png" alt="switch to costume [tic-tac-toe-X]">. You can now drag and drop the spite to play a game of Tic-Tac-Toe. Play a few games, and discuss some changes you could make to improve the game. </li>
+                <li>Clear the screen and draw a 3-by-3 gameboard. Click <img src="/bjc-r/img/2-complexity/switch-X.png" alt="switch to costume [tic-tac-toe-X]"> to change the costume back to an X. You can now drag and drop the spite to play a game of Tic-Tac-Toe. Play a few games, and discuss some changes you could make to improve the game. </li>
+                <div class="todo">I added "to change the costume back to an X" so this didn't feel so pointless, but then I wondered, why are we having them change the costume at all?? It seems like a pointless step, adn I think we should cut it from 1 and 2e. --MF, 5/25/17</div>
                 <li>
-                    <!-- This didn't make sense to me --MF: Return to the script for the second sprite. --> Later, you're going to need to know <em>which square</em> the player dropped the sprite in. Import your the <code>between?</code> predicate from your "U2L3-Predicates" project, and use it to write a <code>which tile</code> reporter. (It'll require more than one <code>if</code> test.)<!--(It'll require nine <code>if</code> tests.)--> Test it by having the sprite <code>say</code> which square it's in for a second when dropped.<br >
+                    <!-- This didn't make sense to me --MF: Return to the script for the second sprite. --> Later, you're going to need to know <em>which square</em> the player dropped the sprite in. Import your <code>between?</code> predicate from your "U2L3-Predicates" project, and use it to write a <code>which tile</code> reporter. (It'll require more than one <code>if</code> block.)<!--(It'll require nine <code>if</code> tests.)--> Test it by having the sprite <code>say</code> which square it's in for a second when dropped.<br >
                     <div class="sidenoteBig"><a id="hintbutton" onClick="document.getElementById('hintbutton').innerHTML='Is the second input to <code>between?</code> bigger than the third input?';">Stuck on debugging <code>which tile</code>?  Click here for one common bug.</a></div>
-                    <div class="commentBig">
-                    	<p>If we don't need this until later, why not build it later when we need it?? I think we risk losing student buy-in and become more school-ish (in a bad way) when we say "do this because we're telling you that you'll need it later." --MF, 5/23/17</p>
-                    	<p>I'm open to discussion on this, but didn't we include <code>between?</code> in L3 because we'd need it here? I don't think students will find it unreasonable to want to know which cell was chosen. --bh</p>
-                    </div>
                     <img class="indent" src="/bjc-r/img/2-complexity/say-which.png" height="324" alt="(sprite says which square (1-9) it's in)">
                 </li>
 				<img class="imageRight" src="/bjc-r/img/icons/save-now.png" alt="Now Is a Good Time to Save" title="Now Is a Good Time to Save" />     
