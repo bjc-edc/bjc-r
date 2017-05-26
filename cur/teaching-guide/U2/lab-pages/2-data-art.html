@@ -9,26 +9,23 @@
     <body>
         <h2>Lab 2: Making Art by Using Data Structures</h2>
         <p>The <code>list</code> block is the basic building block of many  complex structures. Lists can contain anything: numbers, strings, other lists, even blocks. The objects <em>in</em> a list can be all of the same kind, but they do not have to be. A list can, for example, contain an apartment number and a list of people at that address. The tabular data we are familiar with in spreadsheets can be represented as a list of same-length lists, the smaller lists representing each row in the table, and the enclosing list representing the entire spreadsheet.</p>
-          <!--A table of data, is a list of rows of data, each row being a list of data.-->
-		<p> The "ordered pair" of algebra, the (<em>x</em>, <em>y</em>) coordinates of a point on a plane, can be represented as a list of two numbers. <!--In this lab, students will treat such a two-element list as a <em>point</em>, and they will encounter a list of points: a list of two-element lists. <!--(In this way, vectors and matrices can also be represented as lists of lists, but this unit will not extend into that mathematics.)- -> The <code>list</code> block is the basic building block of many  complex structures. --> Students will use a list of ordered pairs to draw a shape.</p>
+          <p> The "ordered pair" of algebra, the (<em>x</em>, <em>y</em>) coordinates of a point on a plane, can be represented as a list of two numbers. Students will use a list of ordered pairs to draw a shape or plot a graph.</p>
 		<p><img class="indent" src="/bjc-r/img/3-lists/A.png" alt="set A to {{-50,20}, {-10,120}, {10,120}, {50,20}, {30,20}, {20,50}, {-20,50}, {-30,20}}" title="set A to {{-50,20}, {-10,120}, {10,120}, {50,20}, {30,20}, {20,50}, {-20,50}, {-30,20}}" />
 		<img class="imageRight" src="/bjc-r/img/3-lists/drawA.gif" alt="sprite drawing letter A by going to each set of coordinates" title="sprite drawing letter A by going to each set of coordinates" />  </p>
-		<p>
-            <!--In this lab, students will start first with a list of points already created for them, like the list shown above.-->
-            On the first page, students are given a list of points, and they create a <code>go to point</code> block that moves the sprite to any <em>one point</em> given as input. <!--To select information in the dataset, we only need to know where it appears.--> Students can, for example, use <code>item (3) of </code> to access the third point, <var> {10, 120}</var>, and  use the code 
-            <img src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/go-to-point-item-3-of-A.png" height="50" alt="go-to-point-item-3-of-A" title="go-to-point-item-3-of-A"> 
-            to move the sprite to that point. Students then <em>automate</em> this process, using the <code>for each</code> block to travel to each point to draw the shape.
-        </p>
-		<div class="todo">Add the word <em>automate</em> to the student page, in the dialogue and in a gray vocab box.</div> 
-        <!--<p>The point (10, 120) will be the third that it visits.</p>-->
+		<p>In this lab, students also practice one kind of problem-decomposition, in the form of building a <em>simple</em> tool that solves a repetitive <em>part</em> of the problem, and then using it to solve the whole problem. </p>
+		<p>On the first page of this lab, students are given a list of points, and they create a <code>go to point</code> block that moves the sprite to any <em>one point</em> given as input. <!--To select information in the dataset, we only need to know where it appears.--> Students can, for example, use <code>item (3) of </code> to access the third point, <var> {10, 120}</var>, and  use the code 
+            <img class = "inline" src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/go-to-point-item-3-of-A.png" height="45" alt="go-to-point-item-3-of-A" title="go-to-point-item-3-of-A"> 
+        to move the sprite to that point. Having built a tool for getting to <em>one</em> point, students then use that tool and <em>automate</em> the process of getting to all the points, using  <code>for each</code>.        </p>
+		
         
-        <p>
-            On the second page, students develop a <img class="inline" src="/bjc-r/img/3-lists/point()().png" alt="point () ()" title="point () ()" /> block and use it to replace <!--<img src="/bjc-r/img/3-lists/coordinate-list-for-A.png" height="54" alt="coordinate-list-for-A">-->the list for the letter A shown above with the list shown below.<br />
+<p>
+<img class="inline" src="/bjc-r/img/3-lists/point()().png" alt="point () ()" title="point () ()" />block and use it to replace <!--<img src="/bjc-r/img/3-lists/coordinate-list-for-A.png" height="54" alt="coordinate-list-for-A">-->the list for the letter A shown above with the list shown below.<br />
             <img class="indent" src="/bjc-r/img/3-lists/point-list-for-A.png" height="82" alt="point-list-for-A">.
         </p>
-		<p> The change seems trivial; everything works the same way (in fact,  <code>point</code> does exactly what <code>list</code> does, so the computer doesn't care which code is used). But the second version makes it easier for <em>humans</em> to write, read, and understand the code. Similarly, students also create <img class="inline" src="/bjc-r/img/3-lists/x-coordinate.png" alt="x coordinate of {}" title="x coordinate of {}" /> and <img class="inline" src="/bjc-r/img/3-lists/y-coordinate.png" alt="y coordinate of {}" title="y coordinate of {}" /> blocks to replace <code>item</code>, using abstraction again to clarify the <em>purpose</em> of the code and to distinguish it from the details. This process is called constructing an <strong>abstract data type</strong>—using <code>point</code> as a "constructor" to produce the (<em>x</em>, <em>y</em>) coordinate pair (a list) from two individual coordinates, and "selectors" <code>x coordinate of</code> and <code>y coordinate of</code> to make code more readable. </p>
-		<p>On the third page, students analyze and complete partially written code to let the programmer collect and store points in a list by clicking on the stage to indicate which points they want. On the last page, students automate that process to collect the vertices of a polygon in order to make a mandala design.</p>
-        <div class="sidenoteBig">Many of the <span class="snap">snap</span> projects linked from the student pages already have the tools imported.</div>
+		<p> The change seems trivial; everything works the same way (in fact,  <code>point</code> does exactly what <code>list</code> does, so the computer doesn't care which code is used). But the second version makes it easier for <em>humans</em> to write, read, and understand the code. Similarly, students also create <img class="inline" src="/bjc-r/img/3-lists/x-coordinate.png" alt="x coordinate of {}" title="x coordinate of {}" /> and <img class="inline" src="/bjc-r/img/3-lists/y-coordinate.png" alt="y coordinate of {}" title="y coordinate of {}" /> blocks to replace <code>item</code>, using abstraction again to clarify the <em>purpose</em> of the code and to distinguish it from the details. This process is called constructing an <strong>abstract data type</strong>—using <code>point</code> as a "constructor" to produce the (<em>x</em>, <em>y</em>) coordinate pair (a list) from two individual coordinates, and "selectors" <code>x coordinate of</code> and <code>y coordinate of</code>. </p>
+		<p>On the third page, students analyze and complete partially written code to let the programmer collect and store points in a list by clicking on the stage to indicate which points they want. </p>
+		<p>On the last page, students automate that process to collect the vertices of a polygon in order to make a mandala design.</p>
+    <div class="sidenoteBig">Many of the <span class="snap">snap</span> projects linked from the student pages already have the tools imported.</div>
         <p>Students need to <img class="inline" src="/bjc-r/img/icons/import-tools.png" alt="Import Tools" title="Import Tools" /> each time they open a new <span class="snap">snap</span> window.</p>
         
         <h3>Pacing</h3>
@@ -53,24 +50,26 @@
 						<li>
 							<strong>Learning Goals:</strong>
 							<ul>
-				                <li>Use the <code>for each</code> block to do something with each item in a list.</li>
-                            	<li>Learn how to specify the type of input that a block is expecting to receive.</li>
-                            	<li>Debug programs by attending to data types.</li>
+				                <li><strong>Problem decomposition: </strong>Solving a problem by building a useful part, and then using that.</li>
+                                <li>Use the <code>for each</code> block to do something with each item in a list.</li>
+                            	<li>(Minor) Learn how to specify the type of input that a block is expecting to receive.</li>
+                            	
 							</ul>
 						</li>
 						<li>
 							<strong>Tips:</strong>
 							<ul>
-                        		<li>The dialogue has some complicated ideas. Arrange so that students get a chance to read it through more than once: individually, in small groups, in front of the class, etc. </li>
+                        		<li><strong>The dialogue</strong> has some complicated ideas. Arrange so that students  can read it through more than once (perhaps, individually, in small groups, as a &quot;dramatic reading&quot;....) For out loud reading, students are often more comfortable if they've had a chance to prepare first, so you might invite three students, as they enter class, to prepare to be Alphie, Betsy, or Gamal for today.</li>
                                 <!--<img class="imageRight" src="/bjc-r/img/2-complexity/new-for-each-point-script.png" alt="script with for each (item) of (A) {go to point (item)}" title="script with for each (item) of (A) {go to point (item)}" />-->
                                 <img class="imageRight" src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/gotopoint_fillinTheBlanks.png" height="100" alt="go to point fill in the blanks" title="go to point fill in the blanks"/>
-                                <li>Encourage students to  complete the two blanks in the script (shown at right) first, and only after most of the letter is drawing	 correctly to begin addressing the two bugs at the beginning and end of the drawing process.</li>
-                                <li>For the Take It Further problem, students may need to review the concept of <em>slope</em> from algebra to identify the remaining points in the letter exactly. But remember that the point of the problem is for them to write a block capable of dealing with a representation of letters with disconnected parts, e.g. two separate lists in a list-of-lists-of-points, or a special pseudo-point that means &quot;pick the pen up before going to the next point.&quot;</li>
-                             <!--   <li>Debugging: As students fix the bugs in Alphie and Betty's script, they must seek the cause(s) of the unwanted and missing lines in the drawing and identify the appropriate solution.</li> -->
+                                <li><strong>Debugging: </strong>Have students first think about what goes in the two blanks inside the <code>go to point</code> script. Only after the letter is mostly being drawn correctly should they tackle the two bugs, one at the beginning and one at the end of the drawing process.</li>
+                                
                                 <li>Students who have programmed before in Scratch will be surprised about the use of lists (points) as inputs to a block, because Scratch doesn't allow that. You don't have to bring this up with the whole class, but if you get questions about it, you can just say that this is one of the ways that Snap<em>!</em> has extended Scratch.</li>
-                                <li><strong>Mathematics Note: Coordinates Again.</strong>  The list <strong>A</strong> contains the coordinates of the  points (<em>vertices</em>) that define the picture of the letter <em>A</em> in <em>that position</em> on the stage.  You can transform these coordinates to draw an exact replica of <em>A</em> in another spot on the stage. This would be useful, for example, if you want to set two letters next to each other on the screen, or make a "shadow" of <em>A</em> or to draw an offset image to create a three-dimensional effect. Try creating a list <em>AA</em> from <em>A</em> by adding, say, 50 to each of the coordinates of each of the points and plotting the resulting points, with <code>for each</code>.</li>
-								<li>The information on this page about how to declare a block's inputs to expect only numbers is useful, but it's not essential that they learn it from the lab. Consider <em>demonstrating</em> the method yourself, and having students watch you and follow along. They may find learning from you faster and better than  working through the page.</li>
+                                
+								<li><strong>Specifying an input type</strong>: The information about is useful, but  not essential. Students may also find it faster and better to learn from you than by working through the page. Consider <em>demonstrating</em> with students  following along. </li>
 								<li>Input types in Snap<em>!</em> are <em>program documentation,</em> not constraints on the programmer. You can drop any reporter into any input slot. The input slot shapes are just hints about what the block expects. Don't emphasize type checking. It's really important for a programmer to understand the domain and range of each function, but the domain (e.g., "an even positive integer" or "a word of no more than eight letters" or "a list whose items are either Booleans or lists") is often different from the language's types.</li>
+                                <li><strong>Take It Further</strong>: Let students eyeball the three new points rather than worrying about precision. The goal here is to find a way to draw shapes that have disconnected parts, like the  A that has an inside triangle. Students might bundle the two separate parts (both lists of points) in a list-of-lists-of-points, or a might use a special pseudo-point that means &quot;pick the pen up before going to the next point.&quot; Some students might care to apply what they know about <em>slope</em> from algebra to identify the remaining points in the letter exactly and, for that matter, to correct the original list, which doesn't get it quite right!</li>
+                                <li><strong>Mathematical Take-it-Further for interested students: Transforming Coordinates.</strong>  The list <strong>A</strong> contains the coordinates of the  points (<em>vertices</em>) that define the picture of the letter <em>A</em> in <em>that position</em> on the stage.  You can transform these coordinates to draw an exact replica of <em>A</em> in another spot on the stage. This can let you set two letters next to each other on the screen, or make a "shadow" of <em>A</em> or to draw an offset image to create a three-dimensional effect. Try creating a list <em>AA</em> from <em>A</em> by adding, say, 50 to each of the coordinates of each of the points and plotting the resulting points, with <code>for each</code>.</li>
 							</ul>
 						</li>
 					</ul>
@@ -81,38 +80,35 @@
 						<li>
 							<strong>Learning Goals:</strong>
 							<ul>
-				                <li>Understand what a data type is.</li>
-                                <li>Understand how abstract data types help  increase clarity.</li>
-                                <li>Create abstract data types to organize and manage data.</li>
-								<li>Reconceptualize lists of lists as lists of abstract data, to simplify their use and prevent bugs.</li>
+				                <li>Understand what a data type is (e.g., number, text, list) and what an abstract data type is.</li>
+                                <li>Understand how abstract data types (ADT) make code more readable  and help organize and manage data; be able to <em>create</em> ADTs.</li>
 							</ul>
 						</li>
 						<li>
 							<strong>Tips:</strong>
 							<ul>
-                            	<li>Again, consider having students read the dialogue more than once.</li>
+                            	<li>Again, consider having students think through the dialogue more than once.</li>
 		                        <li>
-                                	Discussion: After all students have worked through the dialogue (and perhaps also added the abstract data type to their U3L2-DrawShape project), you might review with questions like these:
+                                	Discussion: After  students have worked through the dialogue (and perhaps also added the abstract data type to their U3L2-DrawShape project), you might review with questions like these:
                                     <ul>
                                         <li>What are some benefits of creating an abstract data type?</li>
-                                        <li>In what other situations might abstract data types be helpful?</li>
-                                        <li>What is a <em>primitive</em> data type? What are some examples?</li>
-                                        <li>What is an <em>abstract</em> data type? What are some examples?
+                                        <li>What's a <em>primitive</em> data type? What are some examples?</li>
+                                        <li>What's an <em>abstract</em> data type? What are some examples?
                                           <ul>
                                             <li>In particular, what data in Unit 1 projects could be treated as abstract data types?</li>
                                           </ul>
                                         </li>
                                         <li>What is the difference between a primitive data type and an abstract data type?</li>
-                                        <li>How are abstract data types an example of abstraction?</li>
                                     </ul>
                         		</li>
-                                <li>"Abstract data type" (or ADT) sounds like a complicated thing, but programmers actually use them to simplify <em>and clarify</em> the logical structure of their code. It is a thing to help <em>people</em>, not <em>machines</em>. An abstract data type is like a "template" for data&mdash;for example, a registration form on which individuals write their name, address, email, etc., in a particular place helps us know where to look for each part of the data. </li>
+                                <li>"Abstract data type" (or ADT) sounds like a complicated thing, but programmers actually use them to simplify <em>and clarify</em> the logical structure of their code. It is a thing to help <em>people</em>, not <em>machines</em>. An abstract data type is like a "template" for data. For example, a registration form on which individuals write their name, address, and email in a particular place helps us know where to look for each part of the data. </li>
 							</ul>
 						</li>
 					</ul>
                     <div class="narrower">
-                    	<p>The table below shows, not data abstraction specifically, but the major levels of abstraction in computer science generally.  In ordinary language, the actual physical computer is the "least abstract" thing, because you can hold it in your hand, push its buttons, maybe take it apart, etc.  As you get further away from the computer itself, you get to "more abstract" ideas, things with no visible, tangible existence.  For many people, the physical thing is easiest to think about.</p>
-                    	<p>By contrast, the sense in which computer scientists use "abstract" means something more like "this is defined in terms of that": application software is written in a high level language, which is itself implemented in a low level language, etc.  At the bottom of the table, atoms are made out of protons etc., and those are made out of quarks.  From that perspective, things get harder as you move down the table.  It's easy to write a program in Snap<em>!</em>, harder to write one in C, because you have to think about more details of memory management.  It's easier to understand the design of a computer architecture (the Intel Core design, for example) than to understand the physical circuits that implement it.</p>
+                    	<p>The table below compares the &quot;ordinary language&quot; use of <em>abstract</em> with the CS use. (It's not about data abstraction specifically, but the major levels of abstraction in computer science generally.) </p>
+                        <p> In ordinary language, the actual physical computer is the "least abstract" thing, because you can hold it in your hand, push its buttons, maybe take it apart.  In ordinary language, programming seems to deal with "more abstract" ideas, things with no visible, tangible existence. In some ways, the physical thing might seem easiest to think about, and the programming at the top of the table harder.</p>
+                    	<p>Computer scientists use "abstract" to mean something more like "this is defined in terms of that": application software is written in a high level language, which is itself implemented in a low level language.  It's <em>easier</em> to understand a language than to deal with all the details—how the language is built from lower level languages, and how they work with the computer architecture, and how that's built of transistors, which depend on the behavior of electrons, and so on. From that perspective, things get harder as you move down the table.  It's easy to write a program in Snap<em>!</em>, harder to write one in C, because you have to think about more details of memory management.  It's easier to understand the design of a computer architecture (the Intel Core design, for example) than to understand the physical circuits that implement it.</p>
                         <table align="center" frame="box" rules="all">
                             <tr><th>Ordinary language</th><th>Levels of abstraction</th><th>Computer science</th></tr>
                             <tr>
@@ -173,16 +169,16 @@
 						<li>
 							<strong>Learning Goals:</strong>
 							<ul>
-								<li>This page prepares for page 4, in which a list of points is generated automatically within a program. This page introduces a program-generated list in an easier context: The user clicks on a point, and the program adds <em>that point</em> to the list.</li>
-								<li>This page also introduces the primitive <code>stamp</code> to draw a picture of the sprite at its current location on the stage.</li>
+								<li>Knowing how to get a program to add a point to a list. On this page, the user clicks on a point, and the program adds <em>that point</em> to the list. This  prepares students for page 4, a program generates a list of points  automatically.  </li>
 								<li>The page also reinforces the idea of data abstraction. On page 2, students created an ADT and used it to rewrite a program they'd already written. It's hard to make that convincing, but here they are writing entirely new code that's much easier because of the <code>point</code> abstraction.</li>
+								<li>(Minor) This page also introduces the primitive <code>stamp</code> to draw a picture of the sprite at its current location on the stage.</li>
 							</ul>
 						</li>
 						<li>
 							<strong>Tips:</strong>
 							<ul>
-                                <li>Students should focus mainly on learning how to write code that collects points into a list. Fancy touches, such as visual details, are optional but not important now.</li>
-								<li>Note that, when using <code>stamp</code>, you can't see any change until the sprite moves away, because the picture looks exactly like the sprite and is in exactly the same place. Students may think that it "didn't work."</li>
+                                <li>Focus mainly on learning how to write code that collects points into a list. Fancy touches, such as visual details, are optional but not important.</li>
+								<li>Students may initially think that <code>stamp</code> "didn't work"; you can't see the effect until the sprite moves away  because the picture looks exactly like the sprite and is in exactly the same place. </li>
 								<li>The following hints apply, not to the version in the main curriculum, but to the alternate version suggested in the Take It Further section:
 								  <ul style="color:#404040">
 								    <li><strong>The following is a problem only in spring 2017 during some teacher workshops; it will be fixed before students see this page. </strong>There is a Snap<em>!</em> bug that prevents saving to the cloud a project with a name made of non-ASCII characters, such as the script letters in the <img src="/bjc-r/img/2-complexity/stuff-here.png" alt="stuff here"> block. There are two workarounds: (1) replace the script words with plain letters; (2) use "export project" instead This will be an issue only until the page has been finished, at which point the <code>you write</code> block should no longer be used anywhere and can be deleted.</li>
@@ -214,7 +210,7 @@
 					</ul>
 				</li>
 			</ul>
-		</div>
+</div>
 
 
         <h3>Solutions</h3>
