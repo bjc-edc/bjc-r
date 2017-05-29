@@ -59,55 +59,37 @@
                     </ul>
                 </li>
                 <li>
-                    A Tic-Tac-Toe board is three rows of three squares each. You'll start by drawing a single square, then use that to draw a row of squares, and then use that to draw the entire board. <strong>Be sure to test each block by itself before building a block that uses it.</strong>
-                    <div class="todo">I would move this text ("Be sure to test each block by itself before building a block that uses it.") down below into a endnote or even a take note to make it more prominent. --MF, 5/23/17
-                    <br />
-                    I disagree. I think even the boldface is making too much of this Miss Mannersish scold. In fact I would argue for removing the sentence altogether. I certainly don't program that way! I write the program, then I debug it. That's how every programmer I know works. 
-                    <br />This is an attempt to teach kids to be Software Engineers, but it's misguided.  Real software engineers (I mean, people who believe in the Miss Manners school of software development) program top-down, not bottom-up.--bh</div>
-					<ol> 
-						<li>
+                    Tic-Tac-Toe can be played on a board that is three rows of three squares each. You'll start by drawing a single square, then use that to draw a row of squares, and then use that to draw the entire board.
+                      <ol> 
+			        <li>
                             <div class="sidenoteBig">If you use squares of size 100, the entire board will fit nicely on the stage. </div>
-                            Build <img src="/bjc-r/img/2-complexity/draw-a-tile.png" alt="draw a tile"> to make a single square tile. You can import and call any <code>draw square</code> or <code>draw polygon</code> block that you've created earlier, or use primitive blocks directly.  (Don't use any Pen blocks; just move the sprite around a square.)
-                            <div class="todo">I find this message confusing: "(Don't use any Pen blocks; just move the sprite around a square.)" Why is it called <code>draw a tile</code> if the sprite isn't supposed to draw? I think we need to be much clearer about this. --MF, 5/25/17</div>
+                            Build <img src="/bjc-r/img/2-complexity/draw-a-tile.png" alt="draw a tile"> to make a single square tile. You can import and use any <code>draw square</code> or <code>draw polygon</code> block that you've created earlier, or use primitive blocks directly.  Leave all control of the pen (such as <code>pen down</code>) outside of this block. 
+                            
                             <div class="takeNote">
-                                <div class="comment">I made some improvements to this text, but I have a bit of a hard time with "do it this way because of this theoretical scenario that we ask you to imagine" arguments. --MF, 5/23/17</div>
                                 <strong>Why abstraction?</strong> 
-                                Why build <code>draw a tile</code><!--<img src="/bjc-r/img/1-introduction/tile(size).png" alt="tile of size (size)">--> when you could use <code>draw square</code><!--<img src="/bjc-r/img/1-introduction/draw-square-block-with-empty-input.png" alt="draw square">--> or just the script inside it? Suppose you use squares for several purposes in a large project; maybe you have a Sudoku (9x9 board) player in addition to Tic-Tac-Toe. In case you later decide to create the tiles differently (maybe with thicker borders, filled with random colors, or by using <code>stamp</code>), <!--<img src="/bjc-r/img/blocks/stamp.png" alt="stamp, from the Pen palette">-->it makes sense to edit just <code>draw a tile</code> (because changing <code>draw square</code>  would change <em>all</em> the squares).
-                            </div>
+                                Why build <code>draw a tile</code><!--<img src="/bjc-r/img/1-introduction/tile(size).png" alt="tile of size (size)">--> when you could use <code>draw square</code><!--<img src="/bjc-r/img/1-introduction/draw-square-block-with-empty-input.png" alt="draw square">--> or just the script inside it? Some projects, like building a 9x9 Sudoku board, can need more than one size of square with different thicknesses of borders. If you later decide to create a tile differently (maybe changing border or fill color), <!--<img src="/bjc-r/img/blocks/stamp.png" alt="stamp, from the Pen palette">--> it makes sense to edit just <code>draw a tile</code>; changing <code>draw square</code> would change <em>all</em> the squares. 
+                        </div>
                         </li>
                         <li>
                             Build <img src="/bjc-r/img/2-complexity/draw-a-row.png" alt="draw a row"> using your <code>draw a tile</code> block to draw one row of  tiles, like this:<br />
-                            <img class="indent" height="121" src="/bjc-r/img/2-complexity/three-tiles.png" alt="(three tiles in a row)" title="(three tiles in a row)" /><br />
-                            (Again, you won't need any Pen blocks here.)<br />
-                            <div class="todo">Again, I find this confusing. Why say that they don't need Pen blocks, when they clearly do? We need to be more specific about what we mean. --MF, 5/25/17</div>
-							<img class="imageRight" src="/bjc-r/img/icons/save-now.png" alt="Now Is a Good Time to Save" title="Now Is a Good Time to Save" />
+                            <img class="indent" height="121" src="/bjc-r/img/2-complexity/three-tiles.png" alt="(three tiles in a row)" title="(three tiles in a row)" />
+							<img class="imageRight" src="/bjc-r/img/icons/save-now.png" alt="Now Is a Good Time to Save" title="Now Is a Good Time to Save" /><br />
                             <img class="inline" src="/bjc-r/img/icons/pair-programming-swap.png" alt="Pair Programming Swap" title="Pair Programming Swap" /> 
                         </li>
-						<li>Build <img src="/bjc-r/img/2-complexity/draw-the-board.png" alt="draw the board"> using <code>draw a row of tiles</code> <!--<img src="/bjc-r/img/1-introduction/row(tiles-size).png" alt="row of">-->to draw three rows. Pay attention to where <code>draw a row</code> left the sprite. (Here's where you'll use <code>pen up</code> and <code>pen down</code>.)</li>
-                        <div class="todo">
-                        	<p>Also, what about <code>clear</code>? And while I'm driving you nuts here, Brian, what about putting <code>pen up</code> and <code>pen down</code> inside <code>draw a tile</code>? That works too. Maybe we shouldn't be saying anything about Pen blocks at all? --MF, 5/25/17</p>
-                            <p>And why are we not using this opportunity to discuss state transparency? They need it here! --MF, 5/25/17</p>
-                            <p>It's tricky. <code>Draw a tile</code> is probably state-invariant, but <code>draw a row</code> is probably not, and <code>draw the board</code> is certainly not. --bh</p>
-                        </div>
-                        <li>
-                            Set the sprite to start drawing in the right place.
+						<li>Build <img src="/bjc-r/img/2-complexity/draw-the-board.png" alt="draw the board"> using <code>draw a row of tiles</code>. It will help to pay attention to where <code>draw a row</code> leaves the sprite.  If <code>draw the board</code> doesn't draw what you want, debug by testing each block by itself.</li>
+						
+					</ol>
+                </li>
+                
+                <li>Set the sprite to start drawing in the right place.
                             <ul>
-                                <div class="sidenote">Hint: If the middle square is centered, and its total width is 100, where is its left edge?</div>
-                                <li>Experiment (or calculate) to find a good starting place that draws a <strong>square size 100, 3-by-3 game board <em>centered</em></strong> on the stage<!--centers <code>draw square board with (3) rows of tiles of size (100) </code> on the stage-->.</li>
-                                <li>Then, build <img src="/bjc-r/img/1-introduction/go-to-starting-place.png" alt="go to starting place for board" title="go to starting place for board" /> (using <code>go to x y</code>) to make it easy to move the sprite to that starting place.</li>
+                              <li>Experiment (or calculate) to find a good starting place that centers the board on the stage with tiles of size 100.</li>
+                                <li>Then, build <img src="/bjc-r/img/1-introduction/go-to-starting-place.png" alt="go to starting place for board" title="go to starting place for board" /> using <code>go to x y</code> to make it easy to move the sprite to that starting place.</li>
                                 <li>Add <code>go to starting place</code> to your <code>draw the board</code> block definition.</li>
                             </ul>
                         </li>
                         <li>Similarly, after drawing the board, <code>draw the board</code> should move the sprite to somewhere <em>outside</em> the board as in the movie at the top of this page.</li>
                         <div class="todo">Why? Is this in reference to my prior comment about the sprite being left at the corner? If so, we should be more specific and say something like, "move the sprite back to it's startting position at (-200, 160)." --MF, 5/25/17</div>
-					</ol>
-                </li>
-                <!-- This didn't flow for me, and the reference to the next page is incorrect. --MF
-                <li>
-                Run <img src="/bjc-r/img/1-introduction/nxn-array-of-tiles(tiles-3-size-100).png"  alt="nxn-array-of-tiles(tiles-3,size-100)"> and then calculate the right inputs to get a 5-by-5 array of exactly the same size. The combination of the two might look like this:<br />
-                <img class="indent" src="/bjc-r/img/1-introduction/5-by-5-superimposed-on-3-by-3.png" width="150" alt="5-by-5-superimposed-on-3-by-3">
-                <div class="sidenoteBig">On the next page, you will learn how to get Snap<em>!</em> to do that calculation automatically, so that all boards are the same size no matter how many tiles they have.</div>
-                </li>-->
                 <li>Clear the screen and draw a 3-by-3 gameboard. Click <img src="/bjc-r/img/2-complexity/switch-X.png" alt="switch to costume [tic-tac-toe-X]"> to change the costume back to an X. You can now drag and drop the spite to play a game of Tic-Tac-Toe. Play a few games, debug any problems, and discuss some changes you could make to improve the game. </li>
                 <div class="todo">
                   <p>I added "to change the costume back to an X" so this didn't feel so pointless, but then I wondered, why are we having them change the costume at all?? It seems like a pointless step, adn I think we should cut it from 1 and 2e. --MF, 5/25/17</p>
@@ -120,7 +102,7 @@
                 </li>
 				<img class="imageRight" src="/bjc-r/img/icons/save-now.png" alt="Now Is a Good Time to Save" title="Now Is a Good Time to Save" />     
             </ol>
-        </div>
+    </div>
         
         <p>
             In Unit 3, you will teach the computer to check for wins and illegal moves; and, still later, you will teach the computer how to be an intelligent player!
