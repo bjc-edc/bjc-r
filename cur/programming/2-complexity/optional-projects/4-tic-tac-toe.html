@@ -13,47 +13,58 @@
             <p><strong>In this <em>yearlong</em> project,</strong> you will begin developing a program that plays Tic-Tac-Toe as well as you do.</p>
             <p><strong>On this first page,</strong> you display a Tic-Tac-Toe board and let two human players enter moves.</p>
         </div>
-        
+        <p>In <a href="/bjc-r/cur/programming/2-complexity/4-abstraction/4-building-tic-tac-toe.html">the Tic-Tac-Toe page in U2L4</a>, you wrote a one-sprite program that figured out which square you're moving into by carrying out a computation based on the sprite's position when dropped on the board.</p>
+        <p>A different approach to this problem uses <em>parallelism</em> and <em>multiple sprites</em> to make an &quot;active&quot; Tic-Tac-Toe board, in which each square is actually a separate sprite. Each sprite knows which square it's in, because once the board is set up, the sprites never move. You click in a square, and the sprite that you clicked on changes its costume to display the move.  It doesn't have to compute exactly where you clicked.</p>
         <div class="forYouToDo" id="first">
             <ol>
           <!--      <li>Play with <a href="/bjc-r/cur/programming/2-complexity/new/6b-newTTT-phase1-interactive.html" target="_blank">this example</a> to get a feel for the Phase 1 version of Tic Tac Toe. </li>   -->
                 <li>
-                    Open this <a class="run" href="/bjc-r/prog/2-complexity/U2-TTT-starter.xml" target="_blank">starter project</a>.  A sprite  has already been created for you with three costumes: Empty, X, and O.<div class="comment">AC:  Clicking on the starter project does't show the three costumes.  Will they know where to look?</div><br />
-                    <img class="indent" src="/bjc-r/img/2-complexity/TTT1_img/Costumes.png"  height="100" alt="Costumes of a square: Empty, X and O" title="Costumes of a square: Empty, X and O"/>
-                </li>
+                    Open this <a class="run" href="/bjc-r/prog/2-complexity/U2-TTT-starter.xml" target="_blank">starter project</a>.  A sprite  has already been created for you with three costumes: Empty, X, and O.<br />
+                    <img class="indent" src="/bjc-r/img/2-complexity/TTT1_img/Costumes.png"  height="100" alt="Costumes of a square: Empty, X and O" title="Costumes of a square: Empty, X and O"/><br />
+                    Click on the <code>next costume</code> block at the top of the scripting area a few times to see all of them.
+              </li>
                 <li>
-                	You will be using the <strong>clone</strong> feature in Snap<em>!</em> to create the 3&times;3 Tic-Tac-Toe board. A clone is just a copy of an existing sprite <div class="comment">It knows what the sprite knows?</div>. In the starter project is this demonstration <div class="comment">If the demo script is not used in the project, put it below the others.</div>script:<br />
+               	You will be using the <strong>clone</strong> feature in Snap<em>!</em> to create the 3&times;3 Tic-Tac-Toe board. A clone is just a copy of an existing sprite, made under control of your program.<br />
+                <div class="endnote">Why "under control of your program"?  It's possible to make a copy of a sprite by hand; right-click on the sprite's icon in the sprite corral and choose "Duplicate."  That's useful if you only want one copy, but in this project you're going to need <em>nine</em> copies, one for each square of the Tic-Tac-Toe board. So you'd like to say something along the lines of<br /><img class="indent" src="/bjc-r/img/2-complexity/9-copies.png" alt="repeat 9 [create a clone of myself]"><br />
+                The actual code in the project is slightly more than this, but this is the central idea.</div>
+                A clone is a complete copy of the sprite you say to copy.  It has the same position, costumes, scripts, and so on.  But...<ul><li>The clone doesn't appear in the sprite corral.</li>
+                <li>Once you've made the clone, any changes you make <em>later</em>  to the original sprite (such as adding or modifying a script) is <em>not</em> copied to the clone.</li>
+                <li>Clones are <em>temporary.</em>  Clicking the stop button will delete all clones in the project.</li></ul>So the idea is that you write your program completely, then make whatever clones you need.
+                </li>
+                <li> In the starter project is this demonstration 
+                	script:<br />
                 	<img class="indent" src="/bjc-r/img/2-complexity/TTT1_img/WhenIamClicked.png" height="200" alt="when I am clicked, create a clone of myself, glide (1) secs to x: (random...) y: (random...)" title="when I am clicked, create a clone of myself, glide (1) secs to x: (random...) y: (random...)"><br />
-                    Click on the sprite  on the stage and watch what happens.
-	<div class="narrower">				
+                    You're going to use this script <em>right now</em> to learn more about clones, but it isn't going to be part of <em>the finished project.</em>  <em><strong>Read</strong></em> the script together with your partner and talk over what you think will happen when you click on the sprite. Then click on the sprite  on the stage and compare what happens with what you expected.
+	                <div class="narrower">				
                     	<ul>
-                        	<li>Note that it is the original  sprite that moves to a new random position after cloning itself.</li>
-                    		<li>Note that both copies are <em>active</em> sprites.  Both are clickable (try it) and draggable (try that too).<div class="comment">	"Note That'' implies that you are reminding me of somethning I noticed.  But I didn't notice it---I thought that the clone moved.  How can students tell? And the third bullet: When I click on the down arrow of create a clone it looks as if I can clone <em>two</em> things.  I very much feel that you are rushing through the basic ideas about cloning so you can showkids what clones can do.</div></li>
+                        	<li>Notice that it is the original  sprite that moves to a new random position after cloning itself. (You can tell because it's the one that says &quot;You clicked me.&quot;)
+                            <div class="todo"> The text says "original" above.  I think that makes things clearest, even though technically it's not necessarily true, since you can also click on a clone once you have some.  The script used to <code>say</code> "I'm the original" but Mary objected because of that technical point.  But in light of Al's complaint that he wasn't sure which was the original, I'm inclined to go back to "I'm the original" in the script.  Thoughts?  --bh</div></li>
+                    		<li>Note that both copies are <em>active</em> sprites.  Both are clickable (try it) and draggable (try that too).</li>
                             <!--<li>The <code>next costume</code> block chooses each of the three costumes in turn: empty, X, O, empty, ...</li>-->
-                            <li>The <code>create a clone</code> block takes an input because it can copy <em>any</em> sprite, but in this project there's only one sprite so you should use <code>myself</code> as the input.</li>
-                        </ul>
+                            <li>The <code>create a clone</code> block takes an input because it can copy <em>any</em> sprite, but in this project there's only one sprite so you can use <code>myself</code> or <code>Square</code> as the input.</li>
+                      </ul>
          </div>           
                 </li>
             </ol>
         </div>
-        
-        <div class="takeNote">Don't go <div class="comment">I don't understand cloning.  If my partner doesn't, we're stuck.  Where do we look?  Again, I very much feel that you are rushing through the basic ideas about cloning so that you can show the kids what you want to show.</div> on until you're sure you understand cloning.  Discuss it with others as needed.</div>
-        
         <p>
-            The other script in the starter project is this:<br />
+            The next script in the starter project is this:<br />
             <img class="indent" src="/bjc-r/img/2-complexity/TTT1_img/delete-clone.png" alt="when flag clicked, delete this clone"><br />
             The block is called <code>delete this clone</code> rather than <code>delete this sprite</code> because it works only for clones.  So when you click the green flag, the original sprite and all its clones will run the script, but only the clones will be deleted.  There will then be one sprite left on the stage.
-        </p>
+        (Clicking the stop sign automatically deletes clones, but this script is insurance in case you run the program and then run it again without clicking stop first.)</p>
         
         <div class="forYouToDo">
-    		<ol start="3">
+    		<ol start="4">
               <li>
-                	Delete the <code>when I am clicked</code> script.  You'll make your own different one soon.  <div class="comment">But I don't need to delete a script to create  another one soon.  And why would I <em>want</em> to create another one soon?</div>Also, at the bottom of the scripting area, there's an additional <code>when flag clicked</code> block above but separate from the script just below it.  Click them together.  <div class="comment">Sorry, everyone.  This just reads like a set of instructions to carry out with no overall blueprint of what's going to happen.</div> 
-					<div class="narrower">                
+                	Delete the <code>when I am clicked</code> script from problem 3.  It was just for demonstration, and shouldn't be in the actual project. (You'll make your own different one soon.)  
+                	Also, at the bottom of the scripting area, there's an additional <code>when flag clicked</code> block near, but separate from, the script just below it. They're separated because this script isn't part of the demonstration in problem 2, but it <em>is</em> part of the Tic-Tac-Toe game, so click the two pieces together now. 
+					<div class="narrower">  Read that script and notice:             
                         <ul>
                             <li>The <code>wait</code> block is needed to ensure that the <em>other</em> <code>when flag clicked</code> script has time to delete old clones before we make new ones.</li>
                             <li><code>makeBoard</code> is an empty script.  You're going to write it in the next problem.</li>
-                            <li>The variable <var>X's turn?</var> will be <code>true</code> when it's X's turn to play, or <code>false</code> when it's O's turn.  When alternating between two values, it's convenient to use <code>true</code> and <code>false</code> because you can use <img src="/bjc-r/img/2-complexity/TTT1_img/setXsturn.png" height="50" alt="set X's turn? to (not X's turn?)" title="set X's turn? to (not X's turn?)"> to switch between them.</li>
+                            <li>The variable <var>X's turn?</var> will be <code>true</code> when it's X's turn to play, or <code>false</code> when it's O's turn.  When alternating between two values, it's convenient to use <code>true</code> and <code>false</code> because you can use <img src="/bjc-r/img/2-complexity/TTT1_img/setXsturn.png" height="50" alt="set X's turn? to (not X's turn?)" title="set X's turn? to (not X's turn?)"> to switch between them, and just<br />
+                            <img src="/bjc-r/img/2-complexity/if-x-turn.png"  alt="if (x's turn?) ..."><br />                            
+                          to test the variable.</li>
                        </ul>
 					</div>             
 				</li>
@@ -63,12 +74,12 @@
                     <img src="/bjc-r/img/2-complexity/TTT1_img/Row2.png"  height="100" alt="Two rows of squares" title="Two rows of squares"/>
                     <img src="/bjc-r/img/2-complexity/TTT1_img/Row3.png"  height="100" alt="Three rows of squares" title="Three rows of squares"/><br />
                     <div class="narrower">
-                        <strong>Hint:</strong><br />
+                        <ul>                        <li>Hint:<br />
                         <img class="indent" src="/bjc-r/img/2-complexity/TTT1_img/for-row-column.png" alt="for row = 1 to 3, for column = 1 to 3"><br />
-                        <ul>
+
                             <li>The costumes are all 50 steps tall and wide.</li>
                             <li>Make sure the clones start out with the empty square costume.</li>
-                            <li>After cloning nine times to create the board, <code>hide</code> the original sprite so it does not interfere with the game as a tenth square.  Be sure to <code>show</code> the original sprite before cloning it, so that the clones will be visible.</li>
+                            <li>Be sure to <code>show</code> the original sprite before cloning it, so that the clones will be visible.  After cloning nine times to create the board, <code>hide</code> the original sprite so it does not interfere with the game as a tenth square.  </li>
                         </ul>
                     </div>
                 </li>
