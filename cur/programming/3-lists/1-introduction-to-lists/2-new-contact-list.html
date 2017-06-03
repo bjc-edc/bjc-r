@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unit 3 Lab 1: Contacts List, Page 2</title>
+    </head> 
+    
+    <body>
+        <h2>Contact<a name="contactlist" class="anchor">&nbsp;</a>List App</h2>
+		<div class="todo">
+            <p><strong>Do/Learn:</strong> The idea is to give students a programatic experience of data.</p>
+        </div>
+        <div class="learn">
+        	<p><strong>On this page,</strong> you will develop a Contacts List project that uses abstract data types to store and access data.</p>
+        </div>
+        
+        <div class="todo">Brian's Notes from late July 2016:
+        	<ul>
+            	<li>I'm sad to say that everyone had trouble with my data abstraction stuff in the contact list app (3.2.4).  It's not that they couldn't do the individual steps, really; they just didn't understand how the steps were a story line.  The details that threw people are not understanding the difference between (GET PHONE) and (CONTACT PHONE) -- the first interacts with the user and the second is just a selector for contacts -- partly because the selector doesn't seem to do anything interesting enough to bother making a custom block for.  I think for 2016-17 we just flush that page, although then we have to decide whether what's left (in 3.2.1) is interestingly different from the grocery list app.  For 2017-18 one of you folks, who know how to write curriculum, should fix it.</li>
+            </ul>
+        </div>
+        
+        <div class="todo">
+        	<h4><strong>Feedback:</strong></h4>
+        	<ul>
+				<p><strong>First page</strong></p>
+                <li>GH feedback 12/8/15: Make it more like a game so more people will enjoy the site</li>
+                <li>GH Feedback 1/15/16: it's unclear what the contact input for the "name (display form)" and "name (sorting form)" blocks should be</li>
+                <li>GH Feedback 1/15/16: lab causes a lot of confusion on how to reference items in nested lists, could use some sort of analogy/explanation or graphic or video or something to scaffold this</li>
+                <p><strong>Second page</strong></p>
+                <li>GH Feedback 10/27/15: I do not understand the instructions on this page at all. This is the first lab all year where I am completely baffled by the instructions.</li>
+                <li>Piazza Feedback 10/28/15: I cannot picture what the end product is supposed to look like after completed the part called "Improving Your Contact List App" Does anyone have a final product they could share with me so that I can see what we are shooting for? This is the first lesson I have encountered where I do not understand the instructions. Any help would be appreciated.</li>
+                <li>There is too much text on this page. It needs to be cut down. --MF </li>
+                <li>GH Feedback 11/30/15: The functionality of contact info is unclear. Does it report all the matching names, first and last, or only an exact match of the first or last name. etc.</li>
+                <li>GH Feedback 1/5/16: maybe provide a interactive example.</li>
+                <li>GH Feedback 1/31/16: I don't feel that this page explains the need for constructor and selector blocks very well. I had to read through this several times before I could articulate why this method was not redundancy. If you add complexity to the contact, the constructor block WOULD have to be changed. So would the selector blocks so that they pull the right item from a contact. The only benefit to creating these blocks is if other programs were to use them. Instead of having to change the item number when selecting.... But I don't think you get that from this page....</li>
+			</ul>
+        </div>
+        
+        <div class="todo">
+        	<h4><strong>Standards (very rough but recent)</strong></h4>
+            <p>3.2.2D Maintaining privacy of large data sets containing personal information can be challenging.</p>
+            <p>3.3.1F Security and privacy concerns arise with data containing personal information.</p>
+            <p>5.3.1H Data abstraction provides a means of separating behavior from implementation.</p>
+            <p>5.5.1I Lists and other collections can be treated as abstract data types (ADTs) in developing programs.</p>
+            <p>if we do something with efficiency/storage of contact list data, do EU/LO:</p>
+            <p>3.3 There are trade offs when representing information as digital data.</p>
+            <p>3.3.1 Analyze how data representation, storage, security, and transmission of data involve computational manipulation of information. [P4]</p>
+            <p>
+                3.2.1F Software tools, including spreadsheets and databases, help to efficiently organize and find trends in information.
+                <ul><li>Exclusion Statement (3.2.1F): Students are not expected to know specific formulas or options available in spreadsheet or database software packages.</li></ul>
+            </p>
+            <p>7.2.1E Open and curated scientific databases have benefited scientific researchers.</p>
+            <p>7.5.1A Online databases and libraries catalog and house secondary and some primary resources</p>
+        </div>
+        
+
+        <h3>Creating a <code>Contact</code> Abstract Data Type</h3>
+        <div class="dialogue">
+            <div><span>Gamal:</span> All cell phones have some kind of Contacts List, right?</div>
+            <div><span>Betsy:</span> Yeah, I think so... and computers and tablets too.</div>
+            <div><span>Gamal:</span> How do you think they're built?</div>
+            <div><span>Betsy:</span> Well, it's a <em>list</em> of contacts, and I guess each contact is also a list with that person's name, phone number, and address.</div>
+            <div><span>Gamal:</span> So, it's a lists of lists. I think we can build one in Snap<em>!</em>.</div>
+            <div><span>Betsy:</span> Ok, let's try. We'll need a variable to store the list. It should be <em>global</em> right? We want the data to be saved when we save the project.</div>
+            <div><span>Gamal:</span> Yeah, and also we'll probably have multiple scripts using that variable, so it shouldn't be attached to just one script like a script variable.</div>
+            <div><span>Betsy:</span> Ok. So we'll start with a global variable containing an empty list, and we need a way to add a contact to our <var>contact list</var>.</div>
+            <div><span>Gamal:</span> <a href="/bjc-r/cur/programming/2-complexity/2-data-structures-art/2-data-types.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment">In Unit 2, we made a <code>point</code> abstract data type</a> to store the coordinates of each point in a list of points. Can we make a <code>contact</code> abstract data type to store the data for each contact in our list of contacts?</div>
+            <!--<div><span>Betsy:</span> Yes! We can create a <code>contact</code> ADT and use it to add each item to the <var>contact list</var>.</div>-->
+            <div class="todo">TG: The <code>point</code> constructor and <code>coordinate</code> selectors from <a href="/bjc-r/cur/programming/2-complexity/2-data-structures-art/2-data-types.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment">Unit 2</a> are shown in the Thinking Out Loud dialog to stimiulate thinking about the <code>contact</code> ADT. For students who struggle to develop the <code>contact</code> constructor and selectors, suggest they look at these images, and ask them some questions like these:
+            <ul>
+                <li>What's the structure of the <code>point</code> constructor? How's it used? What will the <code>contact</code> constructor look like? What does it need to report?</li>
+                <li>What do the <code>coordinate</code> selectors do? What will the selectors look like in Contact List?</li>
+            </ul>
+             --MF</div>
+            <div><span>Betsy:</span> Yes! <em>(Betsy opens their old project, but you don't need to.)</em> Before, we used <code>point</code> to construct a list of coordinates.</div>
+            <div class="stagedir">
+            	Betsy points to the code for the <code>point</code> constructor:<br />     
+                <img class="indent" src="/bjc-r/img/3-lists/point.png" alt="point = list" title="point = list"/>
+            </div>
+            <div><span>Gamal:</span> Then we used two selectors to access either the <em>x</em> or <em>y</em> coordinate.</div>
+            <div class="stagedir">
+            	Gamal points to the code for the <code>coordinate</code> selectors:<br />     
+                <img class="indent" src="/bjc-r/img/2-complexity/xcor.png" alt="x coordinate of (point); report item 1 of (point)"> and 
+                <img src="/bjc-r/img/2-complexity/ycor.png" alt="y coordinate of (point); report item 2 of (point)">
+			</div>
+            <div>
+            	<span>Betsy:</span> In this project, we'll need a <code>contact</code> constructor and also <code>contact address</code> and <code>contact phone</code> selectors to get either the address or phone number for any given contact. We probably don't need a <code>contact name</code> selector though, because we'll know who we are looking up.
+            </div>
+		</div>
+        
+        
+        <!--has a their own dataset of dataon that list is also a list conta has a list of their contact data.
+        Gamal: So, we need a list of lists!
+        Betsy: Yeah, it will be like a table where every row is a person and the columns are things like their
+        
+        
+        Ok... How would we organize the data?
+        Betsy: Well, we -->
+                
+        
+        <div class="forYouToDo" id="first">
+            <ol>
+                <div class="todo">Mary needs to put in a new XML file here with <strong>much</strong> less given to them (e.g., maybe only the costumes). Reviewers, please do the page without opening the starter file at all (until this comment is gone).</div>
+                <li>
+					<img class="imageRight" src="/bjc-r/img/icons/save-mini.png" alt="Save Your Work" title="Save Your Work" />
+                    Load <a class="run" href="/bjc-r/prog/3-lists/U3L2-ContactList.xml">this project</a>, and save it to your Snap<em>!</em> account.
+                </li>
+                <li>Create a global <var>contact list</var> variable, and initialize it as an empty list.</li>
+                <li>
+                    Create an abstract data type to manage three data for each contact: name, phone number, and address.
+                    <ol>
+                        <li>
+                            First, create a <code>contact</code> constructor that accepts those three data as input... <br />
+                            <img class="indent" src="/bjc-r/img/3-lists/contact-constructor-untyped.png" alt="contact name: () address: () phone: ()" title="contact name: () address: () phone: ()" /><br />
+                            It should report one whole contact (a list of the three items):<br />
+                            <img class="indent" src="/bjc-r/img/3-lists/contact-constructor-reporting.png" alt="contact name: () address: () phone: ()" title="contact name: () address: () phone: ()" /><br />
+                        </li>
+                        <li>
+                            Then, write two <em>selector</em> blocks to retrieve the <code>contact address</code> or <code>contact phone</code> from the contact in the input slot... <br />
+                            <img class="indent" src="/bjc-r/img/3-lists/address-selector-untyped.png" alt="contact address ()" title="contact address ()" />
+                            <img class="indent" src="/bjc-r/img/3-lists/phone-selector-untyped.png" alt="contact phone ()" title="contact phone ()" /><br />
+                            Each should take a whole contact as input and report the correct piece of that contact:<br />
+                            <img class="indent" src="/bjc-r/img/3-lists/contact-constructor-in-address-selector.png" alt="contact address (contact with name () address: () and phone: ()) reporting " title="contact address (contact with name () address: () and phone: ()) reporting "><br />
+                            <img class="indent" src="/bjc-r/img/3-lists/contact-constructor-in-phone-selector.png" alt="contact phone (contact with name () address: () and phone: ()) reporting " title="contact phone (contact with name () address: () and phone: ()) reporting ">
+                        </li>
+                        <li>
+                            Test your blocks together (as shown just above), and debug any problems.
+                        </li>
+                    </ol>
+                </li>
+            </ol>
+        </div>
+        
+        <div class="ifTime">
+            <ol start="4">
+                <li>
+                    Give the selectors expected input types to make it obvious that they each expect a list as input, as shown here:<br />
+                    <img class="indent" src="/bjc-r/img/3-lists/address-selector.png" alt="contact address ()" title="contact address ()" />
+                    <img class="indent" src="/bjc-r/img/3-lists/phone-selector.png" alt="contact phone ()" title="contact phone ()" />
+                    <div class="endnote"> You learned about <a href="/bjc-r/cur/programming/2-complexity/2-data-structures-art/1-the-for-each-block.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment">Specifying an Input Type in Unit 2</a>.</div>
+                </li>
+            </ol>
+        </div>
+
+        
+        <h3>Adding Contacts to the List</h3>
+        <div class="forYouToDo">
+			<ol start="5">
+				<li>
+                    Develop an "Add Contact" button on the stage for the user.
+                    <ol>
+                        <li>Give the sprite an approriate costume; several are included in the project.</li>
+                        <li>
+                            Make the sprite collect information for a new contact from the user and then add it to the <var>contact list</var> using <code>contact</code>.
+                        </li>
+                    </ol>
+                    <div class="narrower">
+                        <h4><strong>Collecting Data from the User</strong></h4>
+                        <p>
+                            You'll want to ask the user for each piece of data (contact name, address, and phone number) separately.
+                            <ul>
+                                <li>
+                                	<strong>You could use <code>ask</code> and <code>answer</code> together with script variables</strong> to request and then store each piece of user input until you are ready to report them all together using <code>contact</code>.<br />
+                                    <img class="indent" src="/bjc-r/img/3-lists/contact-constructor-with-variables.png" alt="contact with name: (name) address: (address) phone: (phone)" title="contact with name: (name) address: (address) phone: (phone)" />
+                                </li>
+                                <li>
+                                    <strong>Another way is to use abstraction: create helper blocks</strong> (such as <img src="/bjc-r/img/3-lists/get-name.png" alt="get name" title="get name" /> and <img src="/bjc-r/img/3-lists/get-phone.png" alt="get phone" title="get phone" />) that each ask the user for one piece of data and report their answer to the <code>contact</code> constructor:<br />
+                                    <img class="indent" src="/bjc-r/img/3-lists/contact-constructor-with-helpers.png" alt="contact with name: (get name) address: (get address) phone: (get phone)" title="contact with name: (get name) address: (get address) phone: (get phone)" />
+                                </li>
+                            </ul>
+                            <div class="endnote">
+                                <p>You might even first build a more general <img class="" src="/bjc-r/img/3-lists/answer-to-question.png" alt="answer to question ()" title="answer to question ()" /> helper block to use inside each of the three other helper blocks instead of rewriting the script with <code>ask</code> and <code>answer</code> multiple times.</p>
+                            </div>
+                        </p>
+                    </div>
+                    
+                    <div class="todo">
+                        <p>I dropped <img src="/bjc-r/img/3-lists/get-new-contact.png" alt="get new contact"> because I think it complicates the situation with unnecessary abstraction. If students want to built that, they can, but I don't think it valuable to distract them with it deliberately. --MF, 6/3/17</p>
+                    </div>
+                    
+                    <div class="narrower">
+                    	<div class="commentBig">Brian (especially, but anyone), I'm doing this because I <em>think</em> we want it, but I can't make the case. Can you? Functional programming? Please help here. --MF, 6/3/17</div>
+                        <h4><strong>Adding Items to a List</strong></h4>
+                        <ul>
+                            <li>One way to add an item to a list is with <code>add</code>.</li>
+                            <li>Another clever way is to use <code>set</code> together with <img src="/bjc-r/img/blocks/in-front-of.png">.</li>
+                        </ul>
+                    </div>
+                </li>
+                <li>Add a few made-up people to your <var>contact list</var> to make sure everything works.</li>
+            </ol>
+        </div>
+        
+        <hr />
+        <h3>Development stop point</h3>
+        <hr />
+        
+        <div class="ifTime">
+        	<div class="todo">Need to rewrite. Do #1 here and have them build name and address constructors. Not sure where to put the display and sorting form stuff yet. Maybe in a TIF right after this? MAybe at the very end so it doesn't distract? --MF, 6/3/17</div>
+            <ol>
+                <li>
+                    Make the <var>name</var> and <var>address</var> input slots expect list items, and make <var>phone</var> expect a text string, as shown here:<br />
+                    <img class="indent" src="/bjc-r/img/3-lists/contact-constructor.png" alt="contact name: () address: () phone: ()" title="contact name: () address: () phone: ()" />
+                </li>
+                <li>Also, check that the selectors you've already written still work, and fix them if needed.<br /> 
+                    <img class="indent" src="/bjc-r/img/3-lists/name-display.png" alt="name (display form) ()"><br />
+                    <img class="indent" src="/bjc-r/img/3-lists/name-sorting.png" alt="name (sorting form) ()"><br />
+                    Together, the constructor and selectors define an <strong>abstract data type</strong>, in this case, the "contact" data type.
+				</li>
+			</ol>
+		</div>
+        
+        
+        
+        
+        <p>Each new contact is a list (item 1 is a name and item 2 should be a phone number), so the list of contacts is a <em>list of lists</em>.</p>
+        
+        
+        <h3>Looking Up Data</h3>                
+		<div class="forYouToDo">
+            <ol start="7">                       
+				<li>
+					Write a reporter <img src="/bjc-r/img/3-lists/phone-number-of.png" alt="phone number of ()"> that takes any part of a person's name as input, and reports that person's phone number, or "not found" if the name is not in the contact list. You will need:
+                    <ol type="a">
+                        <li><img class="inline" src="/bjc-r/img/3-lists/string-contains.png" alt="&lt;string () contains ()&gt;">, which lets you find out whether one string (a contact's name in the list) contains another string (a name or part of a name).</li>
+                        <li><img class="inline" src="/bjc-r/img/blocks/keep.png" alt="keep items such that &lt;  &gt; from (list)">, which filters the list for only the items that make the function true.</li>
+						<li><img class="inline" src="/bjc-r/img/blocks/empty.png" alt="empty {} ? predicate function" title="empty {} ? predicate function" />, which returns <code>true</code> if the list is empty and <code>false</code> otherwise.</li>
+                    </ol>
+                </li>
+                <li>When someone calls you, the phone company sends only the calling number to your phone, not the person's name. But if the number is in your contact list, your phone  figures out the name. So you'll also want a block<img src="/bjc-r/img/3-lists/name-from-number.png" alt="name from number ()"> that searches for a phone number and reports the contact's name.</li>
+                
+               <img class="imageRight" src="/bjc-r/img/icons/save-now.png" alt="Now Is a Good Time to Save" title="Now Is a Good Time to Save" /> Make sure everything works the way you want it to before going on.  Then save!
+         
+				<li>
+					<!--<div class="sidenote">In some cultures, the family name—the one you  use for alphabetizing—is written first. For example, in "Sun Yat-Sen" the family name is "Sun." So instead of asking for "first and middle name(s)" and for "last name" you might want to say "given name(s)" and "family name."</div> -->
+					Our starter version of the app uses a single text string to hold a person's entire name. This is fine for displaying the name on the screen but makes it hard to display a list of all contacts <em>sorted by last <!--family--> name.</em> So we really want to keep the last <!--family--> name separate from the first <!--given--> name(s).
+					<ol type="a">
+						<li>Modify the <img src="/bjc-r/img/3-lists/get-name.png" alt="get name"> block so that it asks separately for first <!--given--> names and for last <!--family--> name and then reports a list of the two answers. Check to make sure that adding a new contact does what you expect. </li>
+						<li><strong>Clear your contact list</strong> and add a few entries in the new format.</li>
+                        <li>Write two reporters that take a contact as input and report the name as a text string, in two different orders:<br />
+                        <img class="indent" src="/bjc-r/img/3-lists/name-display-result.png" alt="name (display form) --&gt; Abraham Lincoln" title="name (display form) --&gt; Abraham Lincoln"><br />
+                        <img class="indent" src="/bjc-r/img/3-lists/name-sorting-result.png" alt="name (sorting form) --&gt; Lincoln, Abraham" title="name (sorting form) --&gt; Lincoln, Abraham"><br />
+                        <!--(Don't worry, yet, about how to handle family-name-first names. We'll get to that soon.)--></li>
+                        <img class="imageRight" src="/bjc-r/img/icons/save-mini.png" alt="Save Your Work" title="Save Your Work" />
+                        <li>Check whether your <img src="/bjc-r/img/3-lists/phone-number-of.png" alt="phone number of ()"> and <img src="/bjc-r/img/3-lists/name-from-number.png" alt="name from number ()"> blocks still work. Use your <code>name (display form)</code> selector to fix any problems.</li>
+					</ol>
+				</li>
+			</ol>
+			You will soon make more improvements to this app, after addressing the idea of <em>abstract data types,</em> which you'll need when we return to the contact app.
+        </div>
+        
+        
+        <div class="forYouToDo">
+            <ol start="3">
+				<li>Clear your contact list and add a few made-up people to make sure everything works.</li>
+				<div class="todo">
+                	Dan had some thoughts on this next section that we implemented but then reverted. Here are the edits that were made and removed:
+                    	<ul>
+                            <li>Write a reporter <img src="/bjc-r/img/3-lists/phone-number-of.png" alt="phone number of ()"> that takes any part of a person's name as input, and reports a list of all the phone numbers of the people whose names match. You will need:</li>
+                            <li>(instead of <code>empty</code>) c. <img class="inline" src="/bjc-r/img/blocks/map.png" alt="map () over ()">, which performs a function over each item of the list.</li>
+                        </ul>
+                    The problem with these unimplemented edits was that they required more complicated programming than is appropriate for this point in the curriculum. It would, of course, be nice if the program handled the case of multiple search results better than just returning the first one, and that should be addressed at a later point. --Aug 2016
+                </div>
+                
+			</ol>
+		</div>
+
+		
+        
+        <div class="ifTime">
+			<h4>Rewrite the Lookup Blocks</h4>
+            <ol start="9">
+                <li>
+                	Now you can rewrite the <code>phone number</code> block as shown below. You'll write the red <code>contact info</code> block using the definition from your old <code>phone number</code> block, except that instead of extracting the phone number, it should report the entire contact (a list).<br />
+                    <img class="indent" src="/bjc-r/img/3-lists/phone-number-script.png" alt="report contact phone (contact info for (name))">
+                </li>
+                <li>Do the same thing for the <img src="/bjc-r/img/3-lists/name-from-number.png" alt="name from number ()"> block. You'll need a red <code>contact info from number</code> block. Make sure this all works. </li>
+			</ol>
+		</div>
+                                
+		<img class="inline" src="/bjc-r/img/icons/save-now.png" alt="Now Is a Good Time to Save" title="Now Is a Good Time to Save" />
+        
+        
+        
+        <div class="takeNote">
+        <p>As we add more complexity to contacts&mdash;birthday, spouse, work address, and so on&mdash;the location of the phone number within a contact might keep changing. <em>This is where an abstract data type helps!</em> Instead of fixing every block that uses the phone number each time you move the phone number in the contact, you can define one <em>selector</em> block that knows where in the list the phone number is and use that in all other blocks that need to know.<!--  That way, a very small number of procedures will know the details of where things are, and only those will need editing when things change. Other parts of your program will use those special procedures and will keep working when the representation changes. --></p>
+        </div>
+        
+        
+		
+        
+		 
+        <!--<p>Later in this unit, you'll improve the contact app still further, to handle family-name-first names correctly.</p>-->
+    </body>
+</html>
