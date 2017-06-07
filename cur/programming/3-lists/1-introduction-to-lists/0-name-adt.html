@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unit 3 Lab 1: Contact List, Page 0</title>
+    </head> 
+    
+<body>
+        <h2>Contact List Data: Names</h2>
+<div class="learn">
+<strong>In this lab</strong> you will build a contact list application like the one on your phone.<br />
+        <strong>On this page</strong>, you will focus on the perhaps-surprising complexity of handling a contact's name.
+    </div>
+        <p>Unlike, for example, a video game or an art project, a contact list app is all about <strong>data</strong>. In this lab as a whole, you'll create a <code>contact</code> abstract data type, with components such as <code>name</code>, <code>address</code>, <code>phone</code>, <code>birthday</code>, and so on, much as in <a href="/bjc-r/cur/programming/2-complexity/2-data-structures-art/2-data-types.html">Unit 2</a> you created a <code>point</code> ADT. But in this case, each component of a <code>contact</code> will itself be an ADT. On this page you'll start with names.</p>
+<div class="dialogue">
+            <div><span>Alphie:</span> Hmm, that paragraph above says that <code>name</code> has to be an ADT, but I don't see why.  Isn't a name just a text string?  &quot;Alphie North.&quot;  &quot;Betsy 
+            Davies.&quot; &quot;Sir James Paul McCartney.&quot;</div>
+            <div><span>Betsy:</span> Let's look at the list on your phone.<br />
+            <img src="/bjc-r/img/3-lists/contacts.png" height="150" alt="list of names"><br />
+            Ah, they're sorted by last name, even though it's not the beginning of the name text.</div>
+             <div><span>Alphie:</span> So are you saying we should have a <code>name</code> data type made out of a 
+                 <code>first name</code> and a <code>last name</code>? Then it'd look just like what we did for <code>point</code>:<br />
+                <img src="/bjc-r/img/3-lists/point.png" alt="point = list" title="point = list"/>&nbsp;&nbsp;&nbsp;&nbsp;<img src="/bjc-r/img/3-lists/simple-name.png" alt="name, first: (first) last: (last):  report (list first last)">
+             </div>
+             <div class="stagedir">Some other students start looking over their shoulders.</div>
+<div><span>Mei:</span> Do you want your app to work in China?  People there put their family name first, so Sun Yìxiān is in the Sun family, and would be in the S part of your name list, not the Y part.</div>
+             <div><span>Alphie:</span> So, you're saying we need two different 
+<code>name</code> types, with different constructors and selectors?</div>
+<div><span>Gamal:</span> At least two.  After you finish your program, I'll tell you about names in Iceland (given name first, but sorted on given name, not family name) and Myanmar (no family name at all)!</div>
+<div class="stagedir">Alphie puts his head in his hands and groans.</div>
+<div><span>Betsy:</span> Nah, it doesn't have to be that bad.  We'll just have one 
+<code>name</code> type, but it'll have <em>variants,</em> and we'll include a <em>type tag</em> in with the given and family parts to indicate <strong>given-first</strong> (as in the US) or <strong>family-first</strong> (as in China). Gamal can add more types later if he wants.</div></div>
+<div class="forYouToDo" id="first">
+<ol><li>Make this block:<br />
+<img src="/bjc-r/img/3-lists/typed-name.png" alt="name, type: ( ) given: ( ) family: ( ):  report (list type given family)"></li>
+<li>There are only two allowable values for the <var>type</var> input, and you won't want users of your program to have to remember them and type them in without spelling errors.  Instead, you want a <em>menu</em> input, like this:<br />
+<img src="/bjc-r/img/3-lists/dropdown-block.png" alt="name block with menu input slot for type"><br />
+Here's how to do that:
+<ol type="a">
+<li>Edit the <code>name</code> block and click on the orange <var>type</var> variable in its header.</li>
+<li>Click on the arrowhead to open the type selector, then right-click on it:<br />
+<img src="/bjc-r/img/3-lists/option-context-menu.png" height="460" alt="option context menu in input dialog"><br />
+Then click "options..."</li>
+<li>Enter the type tags in the box, one per line:<br />
+<img src="/bjc-r/img/3-lists/option-dialog.png" height="460" alt="menu options &quot;given-first&quot; and &quot;family-first&quot;"></li>
+<li>Click OK, then right-click the type selector again and choose "read-only."
+<div class="narrower">There are two kinds of menu input slots:<br />
+<img src="/bjc-r/img/3-lists/dropdown-item.png" alt="item (...) non-read-only menu input slot"><br />
+<img src="/bjc-r/img/3-lists/dropdown-touching.png" alt="touching (...) ?  read-only input slot"><br />
+In this case, we don't want users to enter values other than the ones in the menu.</div>
+<li>CLick OK on the <var>type</var> input box and then on the Block Editor.</li>
+</ol></li>
+</ol></div>
+</body>
+</html>
