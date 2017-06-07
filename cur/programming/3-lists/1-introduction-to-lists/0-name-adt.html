@@ -52,5 +52,37 @@ For this block, we don't want users to enter values other than the ones in the m
 <li>CLick OK on the <var>type</var> input box and then on the Block Editor.</li>
 </ol></li>
 </ol></div>
+<div class="dialogue">
+            <div><span>Alphie:</span> Okay, now I guess we have to make selectors, right?</div>
+           <img src="/bjc-r/img/3-lists/name-type.png" alt="name type (name): report item 1 of (name)"> <img src="/bjc-r/img/3-lists/given-name.png" alt="given name (name): report item 2 of (name)"> <img src="/bjc-r/img/3-lists/family-name.png" alt="family name (name):  report item 3 (name)">
+           <div><span>Gamal:</span> Don't call the first one <code>name type</code>.  We're going to need the same type selector for other ADTs also, so call it <code>type tag</code>.</div>
+           <div><span>Alphie:</span> How do you know?</div>
+           <div><span>Gamal:</span> I read ahead in the curriculum!</div>
+           <div class="stagedir">Alphie and Betsy groan.</div></div>
+           <div class="forYouToDo">
+           <ol start="3">
+           <li>Make the three selectors, using Gamal's suggested name for the first one.</li>
+           </ol>
+           </div>
+           <div class="dialogue">
+<div><span>Betsy:</span> But I'm not sure how this variant idea is going to help.  Mostly, the rest of the program isn't going to want the family name alone.  It's going to want the <em>entire</em> name, either in display order or in sorting order, so aren't we going to need blocks like <img src="/bjc-r/img/3-lists/given-first-name-sorted-order.png" alt="given first name in sorted form (name)"> and so on?</div>
+           <div><span>Alphie:</span> Oh, hang on, you're thinking of it as a selector just for one variant (given-first names), but we can simplify a bit by thinking of it as a selector for <em>all</em> names, <img src="/bjc-r/img/3-lists/name-sorted-block.png" alt="name (sorted form) ( )">.  The definition is a little more complicated, but the rest of the program will be able to use it without caring what kind of variant it has.</div></div>
+           <div class="forYouToDo">
+           <ol start="4">
+           <li>Finish this definition:<br />
+          <img src="/bjc-r/img/3-lists/name-sorted-defn.png" alt="name (sorted form) (name):  if ((type tag (name)) = [given-first]) report (join (family name (name)) [, ] (given name (name)))"><br >
+          Note that for a given-first name we put a comma and space between the names, "Davies, Betsy"; there won't be a comma for family-first names ("Sun Yìxiān").</li>
+          <li>Similarly, define <img src="/bjc-r/img/3-lists/name-display.png" alt="name (display form) ( )">.</li>
+          </ol></div>
+          <div class="dialogue">
+          <div><span>Betsy:</span> Oh, I see!  Now in the rest of the program we can just say things like<br />
+          <img src="/bjc-r/img/3-lists/foreach-say-name.png" alt="for each (contact) of (contact list)  say (name (display form) (contact name (contact))) for 2 secs"></div>
+          <div><span>Alphie:</span> It's even better than that!  This is where the magic comes in.  When we make the Contact ADT, we give it a type tag too:<br />
+          <img src="/bjc-r/img/3-lists/contact-with-tag.png" alt="contact, name: (name) address: (address) phone: (phone):   report (list [contact] (name) (address) (phone))"><br />
+          Then, since contacts have type tags, we can make <em>the same selector blocks</em> work for them, too:<br />
+          <img src="/bjc-r/img/3-lists/display-name-object.png" width="729" height="421" alt="name (display form) (object):  if ... if ((type tag (object)) = contact) report (name (display form) (contact name (object))) ..."><br />
+          Ta da!  Now your code is just<br />
+      <img src="/bjc-r/img/3-lists/foreach-display-contact.png" alt="for each (contact) of (contact list)  say (name (display form) (contact)) for 2 secs">    </div></div>
+          
 </body>
 </html>
