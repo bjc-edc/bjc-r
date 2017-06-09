@@ -47,7 +47,7 @@
         </div>
         
         <div class="forYouToDo" id="first">
-            <ol>
+          <ol>
                 <li>
                     <img class="imageRight" src="/bjc-r/img/icons/take-turns-speaking-mini.gif" alt="Take turns speaking" title="Take turns speaking">
                     First, <a href="/bjc-r/prog/2-complexity/U2L4-TicTacToe.xml" class="run">load this file</a>. It has two costumes and one brief script.   
@@ -67,7 +67,7 @@
                             
                             <div class="takeNote">
                                 <strong>Why abstraction?</strong> 
-                                Why build <code>draw a tile</code><!--<img src="/bjc-r/img/1-introduction/tile(size).png" alt="tile of size (size)">--> when you could use <code>draw square</code><!--<img src="/bjc-r/img/1-introduction/draw-square-block-with-empty-input.png" alt="draw square">--> or just the script inside it? Some projects, like building a 9x9 Sudoku board, can need more than one size of square with different thicknesses of borders. If you later decide to create a tile differently (maybe changing border or fill color), <!--<img src="/bjc-r/img/blocks/stamp.png" alt="stamp, from the Pen palette">--> it makes sense to edit just <code>draw a tile</code>; changing <code>draw square</code> would change <em>all</em> the squares. 
+                                Why build <code>draw a tile</code><!--<img src="/bjc-r/img/1-introduction/tile(size).png" alt="tile of size (size)">--> when you could use <code>draw square</code><!--<img src="/bjc-r/img/1-introduction/draw-square-block-with-empty-input.png" alt="draw square">--> or just the script inside it? Some projects, like building a 9x9 Sudoku board, can need more than one size of square with different thicknesses of borders. If you later decide to create a tile differently (maybe changing border or fill color), <!--<img src="/bjc-r/img/blocks/stamp.png" alt="stamp, from the Pen palette">--> it makes sense to edit just <code>draw a tile</code>; changing <code>draw square</code> would change <em>all</em>  squares in your project, not just board tiles. 
                         </div>
                         </li>
                         <li>
@@ -85,29 +85,42 @@
                             <ul>
                               <li>Experiment (or calculate) to find a good starting place that centers the board on the stage with tiles of size 100, and build <img src="/bjc-r/img/1-introduction/go-to-starting-place.png" alt="go to starting place for board" title="go to starting place for board" /> set the sprite there.</li>
                                 <li>Add that block to your <code>draw the board</code> block definition.</li>
-                                <li>After <code>draw the board</code> finishes drawing, have it move the sprite back to it's starting position at (-200, 160)..</li>
+                                <li>After <code>draw the board</code> finishes drawing, have it move the sprite back to its starting position at (-200, 160).</li>
                             </ul>
-                        </li>
+    </li>
 <img class="imageRight" src="/bjc-r/img/icons/save-now.png" alt="Now Is a Good Time to Save" title="Now Is a Good Time to Save" />  
                         
-                <li>Figure out what else you may need to do to try your program. Debug any problems, and discuss  changes you could make to improve the game. </li>
+    <!--            <li>Figure out what else you may need to do to try your program. Debug any problems, and discuss  changes you could make to improve the game. </li>  -->
                 
                 <li>
                     <!-- This didn't make sense to me --MF: Return to the script for the second sprite. -->
-                    Later, to keep track of legal moves and wins, you'll need to know where each player moved. Import your <code>between?</code> predicate from your "U2L3-Predicates" project, and use it to write a <code>which tile</code> reporter. (It'll require more than one <code>if</code> block.)<!--(It'll require nine <code>if</code> tests.)--> Test it by having the sprite <code>say</code> which square it's in for a second when dropped.<br >
+                    To keep track of legal moves and wins, you'll need to know where each player moved. Import your <code>between?</code> predicate from your "U2L3-Predicates" project, and use it to write a <code>which tile</code> reporter. (It'll require more than one <code>if</code> block.)<!--(It'll require nine <code>if</code> tests.)--> Test it by having the sprite <code>say</code> which square it's in for a second when dropped.<br >
                     <div class="sidenoteBig"><a id="hintbutton" onClick="document.getElementById('hintbutton').innerHTML='Is the second input to <code>between?</code> bigger than the third input?';">Stuck on debugging <code>which tile</code>?  Click here for one common bug.</a></div>
                     <img class="indent" src="/bjc-r/img/2-complexity/say-which.png" height="324" alt="(sprite says which square (1-9) it's in)">
                 </li>
-				<img class="imageRight" src="/bjc-r/img/icons/save-now.png" alt="Now Is a Good Time to Save" title="Now Is a Good Time to Save" />     
-            </ol>
+                <li>Once you have <code>which tile</code> debugged, instead of <code>say</code>ing the tile number, move the sprite to the center of the tile before stamping:
+                <ol type="a">
+                <li>Make a global variable named <var>centers</var>.</li>
+                <li>In the same script that draws the board to start a game, set <var>centers</var> to a list of nine points (using the abstract data type from <a href="/bjc-r/cur/programming/2-complexity/2-data-structures-art/2-data-types.html">Lab 2</a>), each of which is the center of the corresponding tile.</li>
+                <li>In the <code>when I am dropped</code> script, if the sprite was dropped in a tile, move to its center before <code>stamp</code>ing it. (If it <em>wasn't</em> dropped inside a tile, don't stamp it and don't change costumes.)</li></ol>
+				<img class="imageRight" src="/bjc-r/img/icons/save-now.png" alt="Now Is a Good Time to Save" title="Now Is a Good Time to Save" />
+                <li><strong>Check for illegal moves.</strong> You're already checking for dropping the sprite outside the board, but it's also illegal to drop the sprite inside a tile that's already occupied. To check for this, you'll have to keep track of the moves:
+                  <ol type="a">
+                <li>Make a global variable <var>board</var>.</li>
+<div class="sidenoteBig">It would actually work just to initialize <var>board</var> to an empty list, but doing it this way makes the program more <em>self-documenting</em>.</div>
+                <li>In the initialization script, set it to a list of nine empty items.</li>
+                <li>When testing that the sprite is dropped in a tile, also test whether the corresponding item of <var>board</var> is empty. If not, don't accept the move.</li>
+                <li>If the move is legal, set the corresponding item of <var>board</var> to either X or O. You can check the  <img src="/bjc-r/img/2-complexity/costume-number.png" alt="costume #"> to decide which.</li>
+                </ol>
+              </li></ol>
 </div>
         
         <p>
-            In Unit 3, you will teach the computer to check for wins and illegal moves; and, still later, you will teach the computer how to be an intelligent player!
+            In Unit 3, you will teach the computer to check for wins and ties; and, still later, you will teach the computer how to be an intelligent player.
         </p>
         
         <div class="ifTime">
-            <ol start="5">
+            <ol start="7">
                 <li>
                     <div class="sidenoteBig">Use a white pencolor and a thicker pensize to "erase."</div>
                     To make this look more like a Tic-Tac-Toe board, draw one large square to "erase" the outside border of the 3-by-3 board.
