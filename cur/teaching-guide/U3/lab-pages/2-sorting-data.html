@@ -8,7 +8,7 @@
 
 	<body>
 		<h2>Lab 2: Sorting Data</h2>
-		<p>PURPOSE STATEMENT</p> 
+		<p>In this lab, students develop their own sorting algorithm, then investigate two common sorting algorithms, selection sort and partition sort, built on recursion. A discussion at the end, along with a Take It Further, address the concept that one sort can be significantly faster than another on large data sets.</p> 
 		
 
 		<h3>Pacing</h3>
@@ -39,15 +39,29 @@
 						<li>
 							<strong>Goals:</strong>
 							<ul>
-								<li></li>
-								<li></li>
+								<li>Work with recursive reporters.</li>
+                                <li>Practice combining higher order functions to perform more complicated list manipulations such as encoding/decoding messages and generating acronyms.</li>
 							</ul>
 						</li>
 						<li>
 							<strong>Tips:</strong>
 							<ul>
-								<li></li>
-								<li></li>
+								<li>
+                                    Discussion: What makes a sorting algorithm work?
+                                    <ul>
+                                        <li>What useful operations could a computer perform in a sorting algorithm?</li>
+                                        <li>How is sorting using a computer program different from sorting "by hand"?
+                                          <ul>
+                                            <li>For that matter, how people sort manually depends on what they're sorting. If you are putting cards you've been dealt into your hand, you generally use insertion sort. If you're filling a bookcase after moving, you probably use a kind of bucket sort in which you guess what range of authors' names goes on which shelf.</li>
+                                          </ul>
+                                        </li>
+                                        <li>How could you tell if a list is completely sorted?</li>
+                                    </ul>
+                                </li>
+                                <li>Some students may have trouble translating their algorithms to computer code; this typically means the student does not have a clear picture of their own algorithm. Ask them to write the algorithm in sentences or pseudocode, or even just describe it verbally to another student.</li>
+                                <li>Don't worry if some students write a non-recursive sort. The next two pages will focus on recursive sorting algorithms. If there is time, look for an opportunity to find, present, and compare two very similar algorithms, one recursive and one not.</li>
+                                <li>If students are having trouble dealing with strings, allow them to use lists of numbers in their work. They should find that their algorithm automatically works with strings.</li>
+                                <li>Sometimes, a student will build an algorithm that sorts in reverse order. This is a good opportunity for discussion, if it occurs, about how to edit an algorithm for another purpose. In Lab 4, students will have an opportunity to redesign <code>sort</code> to take any comparison function as an input, which allows it to support sorting in either order.</li>
 							</ul>
 						</li>
 					</ul>
@@ -58,15 +72,24 @@
 						<li>
 							<strong>Goals:</strong>
 							<ul>
-								<li></li>
-								<li></li>
+								<li>Build their own sorting algorithm, then implement it in Snap<em>!</em>.</li>
 							</ul>
 						</li>
 						<li>
 							<strong>Tips:</strong>
 							<ul>
-								<li></li>
-								<li></li>
+								<li>
+                                    Discussion: How does recursion work in a selection sort?
+                                    <ul>
+                                        <li>What is the base case, and why is it necessary?</li>
+                                        <li>How can you be sure a selection sort will always get to a base case?</li>
+                                    </ul>
+                                </li>
+                                <li>When students are doing the "live" sort, don't let them cheat by having several students moving around at once! Make them follow the algorithm precisely, so they can understand how it works. One option is to use an item, and only the student holding the item can move. You might also want to stand in a sliding position, separating the sorted portion of the list from the remaining unsorted portion.</li>
+                                <li>If students have trouble with the <code>earliest in</code> block, work with numbers: students should notice this is the same algorithm as finding the <strong>minimum</strong> of the list.</li>
+                                <li>The comment in parentheses in problem 4, finding the index of an item in the list, is there because the <em>best</em> way to solve problem 5 is simply to use a higher order function:<br />&nbsp;<img src="/bjc-r/img/7-recursive-reporters/keep-not-smallest.png" alt="keep (not equal smallest) from unsorted list"><br />(To handle the case in which the first word appears more than once, you have to use another <code>keep</code> and combine the results with <code>append</code>.)  This is a great solution for two reasons: (1) the <code>sort</code> block will report a sorted result, but will not modify its input, which you might want to use for other purposes; (2) the programming is easier precisely because you don't have to worry about indices of list items.</li>
+                                <li>If you do want to <code>remove</code> the earliest item from the list, there's more than algorithm for finding it, but the simplest is to just run across the list until you find the first match. Some students will build their own block for this, but it isn't necessary.</li>
+                                <li>Stress the importance of the base case. The question of how many times the algorithm calls itself is tricky, because the base case as described is an empty list, not a single-item list. Some students may program the base case to be a single-item list instead, but the empty list is a better option and will be necessary for the partition sort.</li>
 							</ul>
 						</li>
 					</ul>

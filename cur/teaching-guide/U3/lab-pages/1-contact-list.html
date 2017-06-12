@@ -8,9 +8,36 @@
 
 	<body>
 		<h2>Lab 1: Contact List</h2>
-		<p>PURPOSE STATEMENT</p> 
-		
-
+        <div class="todo">There is still more in Y2 to review and pull forward</div>
+		<div class="todo">From Y2U3L1</div>
+		<p>Computers manipulate data and return processed information to the user. Numbers, strings of characters (letters, numbers, symbols, etc.), and Boolean values (true, false) are some of the basic pieces of information. Often, these small pieces are arranged in more complex structures: <em>lists</em>, ordered sets of data.</p> 
+		<p>A <code>list</code> is not just a collection (set) but also a collection <em>in a particular order</em> (this order is tracked by an <em>index number</em> for each item on the list). If it has any elements at all, it has a first element, a last element, and so on. A list can also be totally empty, with no elements; often that is the way we want to set up (<em>initialize</em>) a list before we add elements to it. The <code>length of</code> an empty list is 0.</p>
+		<p>
+			Lists are powerful. Databases are lists of lists of lists. Many operations can be performed on data in a list:
+			<ul>
+				<li>Functional programming:
+                    <ul>
+                        <li>Searching a list to see if it <code>contains</code> some element.</li>
+                        <li>Creating new lists that <code>keep</code> only certain items from a list you started with.</li>
+                        <li>You can create new lists with more or fewer elements than the list you have.</li>
+                        <li>You can pick an <code>item</code> of a list by position or characteristic or just randomly. </li></ul></li>
+                        <li>Imperative programming:<ul>
+                        <li>Modifying lists to <code>add</code>, <code>delete</code>, or <code>replace</code> items, or to <code>insert</code> an item in a specific spot.</li>
+                        <li>You can do something with each item of the list: you can process it in some way, or <code>for each</code> element of the list, you can display it in some way.</li>
+                    </ul>
+                </li>
+            </ul>
+        </p>		
+        <div class="todo">From Y2U3L2</div>
+        <p>Lists can contain anything: numbers, strings, other lists, even blocks. The objects <em>in</em> a list can be all of the same kind (all numbers, for example, or all lists that contain a name and a phone number) but they do not have to be. A list can, for example, contain an apartment number and a list of people at that address. The tabular data we are familiar with in spreadsheets can be represented as a list of same-length lists, the smaller lists representing each row in the table, and the enclosing list representing the entire spreadsheet.</p>
+        <p> The "ordered pairs" of algebra, the (<em>x</em>, <em>y</em>) coordinates of a point, can be represented as lists. So can vectors and matrices. The <code>list</code> block is the basic building block of these  complex structures. To select information in the dataset, we only need to know where it appears. </p>
+        <p>Blocks can locate items in the nested lists. For example, <code>item (3) of </code> the list of points below gives <var> {10, 120}</var>. As the sprite visits each of these points (in a <code>for each</code> block) the point (10, 120) is the third that it visits.  </p>
+		<img class="indent" src="/bjc-r/img/3-lists/A.png" alt="set A to {{-50,20}, {-10,120}, {10,120}, {50,20}, {30,20}, {20,50}, {-20,50}, {-30,20}}" title="set A to {{-50,20}, {-10,120}, {10,120}, {50,20}, {30,20}, {20,50}, {-20,50}, {-30,20}}" />
+        <img class="imageRight" src="/bjc-r/img/3-lists/drawA.gif" alt="sprite drawing letter A by going to each set of coordinates" title="sprite drawing letter A by going to each set of coordinates" />
+        <p>Students start by constructing a very simple contact list app. The list's elements are themselves lists. This requires not only collecting and storing information, but being able to retrieve it in useful ways. Students use <code>keep</code> to be able to collect only the information they need from a list, and learn to use <code>for each</code> to process lists of points on the plane&mdash;points which are themselves lists of coordinates. Data Types, a later page in this lab, returns to the idea of using abstraction to make the (<em>x</em>, <em>y</em>) coordinate lists more recognizable and usable by creating the <strong>abstract data type</strong> <code>point</code> and constructing and identifying these coordinate lists that way. After some embellishment of the contact app, practicing and extending the ideas of abstraction, and a Lists Review and Self Check, students extend their use of <code>for each</code> and data types to a musical context.</p>
+		<p>Thus in Labs 1 and 2, students have encountered lists of strings/words, numbers, and lists. They also use <em>abstraction</em> to clarify and simplify code, and see how it makes code more flexible and maintainable. </p> 
+        
+        
 		<h3>Pacing</h3>
 		<div>
 			The X lab pages could be split across X or X days (X-X minutes). Expected times to complete follow:
@@ -40,15 +67,25 @@
 						<li>
 							<strong>Goals:</strong>
 							<ul>
-								<li></li>
-								<li></li>
+                                <li>Use nested list data structures to create abstract data types, which let a user deal with data without having to know the details of how the data are stored and accessed.</li>
+                                <li>Use the <code>keep</code> function to filter lists according to particular constraints.</li>
 							</ul>
 						</li>
 						<li>
 							<strong>Tips:</strong>
 							<ul>
-								<li></li>
-								<li></li>
+								<li>Discussion: You might ask these questions:
+                                    <ul>
+                                        <li>What kinds of things can you do with a list of lists?</li>
+                                        <li>Do the lists inside a list <em>need to</em> be the same size?</li>
+                                        <li>In what other situations might a list of lists be helpful?</li>
+                                    </ul>
+                                </li>
+                                <li>The <code>name from number</code> and especially <code>phone number of</code> blocks require students to think carefully about accessing items within lists of lists, offering opportunity for them to practice working in these structures and motivating the use of abstract data types.</li>
+								<li>After most students have completed the "Create the Abstract Data Type" section, you may wish to pause to review what an <em>abstract data type</em> is and the role of both <em>constructor</em> and <em>selector</em>.</li>
+                        <li>The Contact List project is ambitious but carefully scaffolded. It's helpful for you to remember its ultimate goal, which is to introduce the idea of <strong>data abstraction</strong>, in which an abstract data type is defined by writing <em>constructor</em> and <em>selector</em> blocks that are the sole program interface to the underlying list structure. We start without data abstraction, so you see lots of <code>item 2 of</code> when a phone number is wanted. By the end of the project, there should be no more <code>item</code> calls in the user interface blocks.  Students will be inclined to resist data abstraction, because it makes the program longer. But the project uses a change in the underlying representation to convince them that it's much easier to maintain a large program if such changes affect only the constructor and selectors.</li>
+                                
+
 							</ul>
 						</li>
 					</ul>
@@ -60,7 +97,28 @@
 		<h3>Assignments</h3>
 		<div>
 			<ul>
-				<li>...</li>
+				<li>Assessment Idea: Write a program that keeps track of each student's grade in one class.
+                    <ol>
+                        <li>Create abstract data type to hold each student record:
+                        	<ul>
+                                <li>
+                                    Create a <code>student record</code> <em>constructor</em>&mdash;a reporter block that, given a name (a text string) and grade (a number) as input, reports a student record (a list of that name and grade).<br />
+                                    <img class="indent" src="/bjc-r/img/3-lists/student-record-constructor.png" alt="student record with name: (Alphie) grade: (87) reporting '{Alphie, 87}'" title="student record with name: (Alphie) grade: (87) reporting '{Alphie, 87}'" />
+                                </li>
+                                <li>
+                                Create two <em>selectors</em> <code>name</code> and <code>grade</code> that, given a student record as input, report the name or grade for that student record.<br />
+                                <img class="indent" src="/bjc-r/img/3-lists/name-selector-reporting.png" alt="name of (student record with name: (Alphie) grade: (87)) reporting 'Alphie'" title="name of (student record with name: (Alphie) grade: (87)) reporting 'Alphie'" />
+                                <img class="indent" src="/bjc-r/img/3-lists/grade-selector-reporting.png" alt="grade of (student record with name: (Alphie) grade: (87)) reporting '87'" title="grade of (student record with name: (Alphie) grade: (87)) reporting '87'" />
+                                </li>
+                            </ul>
+                        </li>
+                        <li>Make a variable <var>class</var> that, when the green flag is clicked, is set to an empty list that will store student records.</li>
+                        <li>Add a button (sprite) that uses your constructor to allow the user to create a student record by entering the student’s name and grade. </li>
+                        <img class="imageRight" src="/bjc-r/img/icons/import-tools.png" alt="Import Tools" title="Import Tools" />
+                        <li>Add a button that generates a grade report. Use the <code>for each</code> block to go through each record in <var>class</var> and have the sprite say the student’s name and grade for a second. Format the output so that it makes sense to the user.</li>
+                        <li>Submit your code in whatever way your class submits work.</li>
+					</ol>
+				</li>
 			</ul>
 		</div>
 
@@ -82,16 +140,38 @@
 			<h4>Essential Understandings:</h4>
 			<p></p>
 			<ul>
-				<li>Coming soon...</li>
+                <li><strong>EU 2.2</strong> Multiple levels of abstraction are used to write programs or create other computational artifacts.</li>
+                <li><strong>EU 5.1</strong> Programs can be developed for creative expression, to satisfy personal curiosity, to create new knowledge, or to solve problems (to help people, organizations, or society).</li>
+                <li><strong>EU 5.2</strong> People write programs to execute algorithms.</li>
 			</ul>
 			<h4>Learning Objectives:</h4>
 			<p></p>
 			<ul>
-				<li>Coming soon...</li>
+                <li><strong>LO 1.2.2</strong> Create a computational artifact using computing tools and techniques to solve a problem. [P2]</li>
+                <li><strong>LO 2.2.1</strong> Develop an abstraction when writing a program or creating other computational artifacts. [P2]</li>
+                <li><strong>LO 2.2.2</strong> Use multiple levels of abstraction to write programs. [P3]</li>
+                <li><strong>LO 2.2.3</strong> Identify multiple levels of abstractions that are used when writing programs. [P3]</li>
+                <li><strong>LO 5.1.3</strong> Collaborate to develop a program. [P6]</li>
 			</ul>
 			<h4>Essential Knowledge:</h4>
 			<ul>
-				<li>Coming soon...</li>
+                <li><strong>EK 2.1.1A</strong> Digital data is represented by abstractions at different levels.</li>
+                <li><strong>EK 2.2.1A</strong> The process of developing an abstraction involves removing detail and generalizing functionality.</li>
+                <li><strong>EK 2.2.1B</strong> An abstraction extracts common features from specific examples in order to generalize concepts.</li>
+                <li><strong>EK 2.2.1C</strong> An abstraction generalizes functionality with input parameters that allow software reuse.</li>
+                <li><strong>EK 2.2.2A</strong> Software is developed using multiple levels of abstractions, such as constants, expressions, statements, procedures, and libraries.</li>
+                <li><strong>EK 2.2.2B</strong> Being aware of and using multiple levels of abstraction in developing programs helps to more effectively apply available resources and tools to solve problems.</li>
+                <li><strong>EK 2.2.3D</strong> In an abstraction hierarchy, higher levels of abstraction (the most general concepts) would be placed toward the top and lower level abstractions (the more specific concepts) toward the bottom.</li>
+                <li><strong>EK 5.1.2G</strong> Program development includes identifying programmer and user concerns that affect the solution to problems.</li>
+                <li><strong>EK 5.1.2J</strong> A programmer designs, implements, tests, debugs, and maintains programs when solving problems.</li>
+                <li><strong>EK 5.1.3B</strong> Collaboration facilitates multiple perspectives in developing ideas for solving problems by programming.</li>
+                <li><strong>EK 5.1.3F</strong> Effective communication between participants is required for successful collaboration when developing programs.</li>
+                <li><strong>EK 5.2.1C</strong> Program instructions may involve variables that are initialized and updated, read, and written.</li>
+                <li><strong>EK 5.3.1I</strong> Strings and string operations, including concatenation and some form of substring, are common in many programs.</li>
+                <li><strong>EK 5.3.1K</strong> Lists and list operations, such as add, remove, and search, are common in many programs.</li> 
+                <li><strong>EK 5.3.1L</strong> Using lists and procedures as abstractions in programming can result in programs that are easier to develop and maintain.</li>
+                <li><strong>EK 5.5.1H</strong> Computational methods may use lists and collections to solve problems.</li>
+                <li><strong>EK 5.5.1J</strong> Basic operations on collections include adding elements, removing elements, iterating over all elements, and determining whether an element is in a collection.</li>
 			</ul>
 		</div>			
 

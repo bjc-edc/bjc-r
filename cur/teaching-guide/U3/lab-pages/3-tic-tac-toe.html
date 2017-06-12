@@ -8,8 +8,24 @@
 
 	<body>
 		<h2>Lab 3: Tic-Tac-Toe</h2>
-		<p>PURPOSE STATEMENT</p> 
-		
+		<div class="todo">
+        	<ul>
+                <li>Need a good motivation for the list tools.</li>
+                <li>In a case like <code>lookup</code>, where you aren't sure what to use, think about the size of the output. Consider, "how do you know it's a map?" </li>
+                <li>Using index values that are non-monotonic might be clearer.</li>
+                <li>Distinguishing the purpose of <code>keep</code> vs. <code>lookup</code>.</li>
+            </ul>
+        </div>
+        <div class="todo">
+            <strong>Former purpose ramblings</strong>
+            <p>This lab does not introduce new ideas, but gives students practice applying MAP, KEEP, and COMBINE in several contexts, in order to master the use of these powerful tools and to learn to think in terms of what they can do.</p> 
+            <p>Lists of same-size lists can function as tables or matrices. Tic Tac Toe... Magic Squares gives students a game context in which to practice further their use of lists and list processing functions.</p> 
+        </div>
+        
+		<p>Anything that can be handled by creating and manipulating a list can also be done without lists, just by working with the individual elements and keeping track of that process. But list processing—especially list processing with  the higher order functions <code>map</code>, <code>keep</code>, and <code>combine</code> (and, later in this course, recursion)—is powerful. It lets the programmer focus on the purpose and meaning of the program—what the program is intended to do—and not on tiny local details of how to do it, details that essentially reinvent  a clumsy equivalent of lists and ways to work sequentially through them.</p>
+        <p>Becoming facile with list processing takes practice, and initially requires contexts in which the meaning of the lists and the purpose and meaning of the functions that process them are clear.  One subtlety of working with lists is that it requires thinking simultaneously about the list as a <em>single object</em> and, at the same time, recognizing that much of what one wants to do with the list involves processing some or all of the <em>elements</em> of the list. That is also part of the subtlety of the higher-order functions, which take an entire list as a single object and handle the individual elements of the list in various ways, as determined by the programmer. <em>Composing</em> higher order functions is yet more powerful, but also more challenging, because each one does so much that the programmer needs to picture large effects and the interactions of these large effects.</p>
+        <p>This lab gives students practice applying <code>map</code>, <code>keep</code>, and <code>combine</code>  in several contexts to build their facility with these powerful tools and to learn to think in terms of what they can do. It does not introduce new ideas, but focuses on mastery and application.</p>
+
 
 		<h3>Pacing</h3>
 		<div>
@@ -38,14 +54,14 @@
 						<li>
 							<strong>Goals:</strong>
 							<ul>
-								<li></li>
-								<li></li>
+                    			<li>Create blocks to use with higher order list functions to perform complicated data lookups and modifies.</li>
+                                <li>Refine the Tic-Tac-Toe game to keep track of the players' moves and detect tie games.</li>
 							</ul>
 						</li>
 						<li>
 							<strong>Tips:</strong>
 							<ul>
-								<li></li>
+								<li>Refining this game builds on students' understanding of lists and list operations including higher order functions. This is likely to feel very satisfying to students, a major accomplishment. It is! You may wish to review some list blocks by asking students to describe the expected behavior of a few short scripts or expressions.</li>
 								<li></li>
 							</ul>
 						</li>
@@ -57,8 +73,7 @@
 						<li>
 							<strong>Goals:</strong>
 							<ul>
-								<li></li>
-								<li></li>
+                                <li>Refine the Tic-Tac-Toe game to declare a winner.</li>
 							</ul>
 						</li>
 						<li>
@@ -74,13 +89,29 @@
 		</div>
 
 
-		<h3>Assignments</h3>
+		<h3>Assignments:</h3>
 		<div>
-			<ul>
-				<li>...</li>
-			</ul>
-		</div>
-
+        	<ul>
+                <li>
+                    Assessment Idea: Write a program that allows a user to enter words and definitions.
+                      <ol>
+                        <li>
+                            Create an abstract data type to hold each word definition:
+                            <ul>
+                                <li>Create a <code>word definition</code> <em>constructor</em> that accepts two inputs: the word and the definition (both as text strings).</li>
+                                <li>Create two <em>selectors</em> <code>word</code> and <code>definition</code>.</li>
+                            </ul>
+                        </li>
+                        <li>Create a variable called <var>vocab list</var> that is a list of words and their definitions and that initializes when the green flag is clicked.</li>
+                        <li>Make a way for a user to enter a word and its definition. Use <code>keep</code> to determine whether a new word is already in the list of words and provide an error message to the user if it is.</li>
+                        <li>Make a way for the user to read all the words included in the dictionary. Use <code>map</code> to make the sprite say all the words separated by commas.</li>
+                        <li>Make a way for the user to look up the definition of a word in the vocab list.</li>
+                        <li>Submit your code in whatever way your class submits work.</li>
+                    </ol>
+                </li>
+        	</ul>
+        </div>
+        
 			
 		<h3>Solutions</h3>
 		<div>
@@ -97,18 +128,33 @@
 				<li>Coming soon...</li>
 			</ul-->
 			<h4>Essential Understandings:</h4>
-			<p></p>
+			<p>Students think simultaneously about lists as a <em>single object</em> and, at the same time, as a set of <em>elements</em> to be processed (<strong>EU 2.1</strong>) as they build encoding/decoding functions and a tic-tac-toe game.</p>
+            <p>This lab builds toward this EU with a mini-project in which students are required to use lists to represent text to be encyphered or decyphered and the moves in a tic-tac-toe game. Students must also use procedural abstraction; for example, a procedure to test whether player X has won in tic-tac-toe is built out of a procedure that reports a list of cells in which X has moved, a procedure that reports all of the eight winning combinations of squares, and a function that tests whether a list of cells matches a particular winning combination.</p>
 			<ul>
-				<li>Coming soon...</li>
+                <li><strong>EU 2.1</strong> A variety of abstractions built on binary sequences can be used to represent all digital data.</li>
 			</ul>
 			<h4>Learning Objectives:</h4>
-			<p></p>
+			<p>Students compose higher order functions to develop a tic-tac-toe script that checks the board for wins (<strong>LO 2.2.2</strong>).</p>
 			<ul>
-				<li>Coming soon...</li>
+                <li><strong>LO 2.2.2</strong> Use multiple levels of abstraction to write programs. [P3]</li>
 			</ul>
 			<h4>Essential Knowledge:</h4>
 			<ul>
-				<li>Coming soon...</li>
+				<li><strong>EK 2.1.1A</strong> Digital data is represented by abstractions at different levels.</li>
+                <li><strong>EK 3.1.3E</strong> Interactivity with data is an aspect of communicating.</li>
+                <li><strong>EK 3.2.1F</strong> Software tools, including spreadsheets and databases, help to efficiently organize and find trends in information.</li>
+                <li><strong>EK 3.2.2H</strong> Analytical techniques to store, manage, transmit, and process data sets change as the size of data sets scale.</li>
+                <li><strong>EK 4.1.1B</strong> Sequencing is the application of each step of an algorithm in the order in which the statements are given.</li>
+                <li><strong>EK 5.1.3B</strong> Collaboration facilitates multiple perspectives in developing ideas for solving problems by programming.</li>
+                <li><strong>EK 5.1.3F</strong> Effective communication between participants is required for successful collaboration when developing programs.</li>
+                <li><strong>EK 5.2.1B</strong> Program instructions are executed sequentially.</li>
+                <li><strong>EK 5.2.1C</strong> Program instructions may involve variables that are initialized and updated, read, and written.</li>
+                <li><strong>EK 5.3.1I</strong> Strings and string operations, including concatenation and some form of substring, are common in many programs.</li>
+                <li><strong>EK 5.3.1K</strong> Lists and list operations, such as add, remove, and search, are common in many programs.</li> 
+                <li><strong>EK 5.3.1L</strong> Using lists and procedures as abstractions in programming can result in programs that are easier to develop and maintain.</li>
+                <li><strong>EK 5.5.1H</strong> Computational methods may use lists and collections to solve problems.</li>
+                <li><strong>EK 5.5.1I</strong> Lists and other collections can be treated as abstract data types (ADTs) in developing programs.</li>
+                <li><strong>EK 7.3.1K</strong> People can have instant access to vast amounts of information online; accessing this information can enable the collection of both individual and aggregate data that can be used and collected.</li>
 			</ul>
 		</div>			
 
