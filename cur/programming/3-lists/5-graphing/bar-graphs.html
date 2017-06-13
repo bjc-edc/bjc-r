@@ -14,7 +14,7 @@
         <div class="learn">  
         	<p>
             	<strong>In this project,</strong> you will create a data visualization tool general enough to generate bar graphs for a multitude of data sets.  You will deepen your understanding of abstraction and gain practice with Higher Order Functions such as <code>map</code>.<br />
-        		<img class="indent" src="/bjc-r/img/3-lists/BarGraph_img/codeCO2EmissionData.png"  height="250" alt=""/><img  src="/bjc-r/img/3-lists/BarGraph_img/BarGraphAnimation.gif" height="300" alt="bar graph of 2011 Top CO2 Emissions" title="bar graph of 2011 Top CO2 Emissions" />
+        	<img class="indent" src="/bjc-r/img/3-lists/BarGraph_img/CO2Table.png" height="300" alt=""/><img  src="/bjc-r/img/3-lists/BarGraph_img/BarGraphAnimation.gif" height="300" alt="bar graph of 2011 Top CO2 Emissions" title="bar graph of 2011 Top CO2 Emissions" />
             </p>
         </div>
         
@@ -51,58 +51,62 @@
   
 <img class="indent" src="/bjc-r/img/3-lists/BarGraph_img/putlabelChina.png"  height="150" alt=""/>&nbsp&nbsp&nbsp&nbsp<img src="/bjc-r/img/3-lists/BarGraph_img/ChinaLabels.png"  height="200" alt=""/>
 
+<div class="sidenote">Be sure that you have “Flat line ends” selected from the Settings menu to draw rectangular bars.  You can see the difference in two types of lines drawn.<br />
+<img src="/bjc-r/img/3-lists/BarGraph_img/FlatLineEnds.png" height="200" alt=""/>
+<img class="indent" src="/bjc-r/img/3-lists/BarGraph_img/FlatLineBar.png"  height="100" alt=""/>
+<img src="/bjc-r/img/3-lists/BarGraph_img/RoundedBar.png"  height="120" alt=""/>
 
- 
-</li>
-
-
-
-<li>Now create a block that will draw a vertical bar at the given x, y location of desired width and height with the given label underneath the bar.
-
- 
-This should produce:
- 
-Be sure that you have “Flat Line Ends” selected form the Settings menu to draw rectangular bars.  You can see the difference in two types of lines drawn.
-                        
-</li>
-
-<li>Now create a block that will create a series of bars starting from a xMin and yMin location with a desired bar width and maximum bar height for a given data input.
- 
-
-This block with the given inputs should produce something like:
-
-</li>
- <div class="endnote">
-Note that given a maximum bar height, the heights of all the bars can be computed as a fraction of this maximum bar height.  For example, if maximum bar height=240 and we want to find how tall the bar for USA should be, we first find the largest value in the data set which is 8715 (from China) and do the following computation
-USA bar height=240 ∙(USA Value)/(Maximum Value)=240 ∙5491/8715≈151
-
-While finding the maximum of the data values, first we get a list of values and then apply the max of list function.  The following block which uses the selector “get value” will produce a list of values from the given data list.
- </div>
-
-<li>Now create a block that labels the y-axis based on desired x, y locations and data input.
-
- 
-It should create labels like this:
-          
-For simplicity, you can assume that the y-axis will always be partitioned into 10 equal parts for labeling purposes.
-
-</li>
-<li>Now you are ready to put everything together and create a “Bar Graph” drawing block for a given data input.  Fill in the blanks.
- 
-When everything is done, the following code,
-
- 
-should produce a bar graph as shown below:
- 
-Your coding should be general enough to accommodate a new set of data input such as:
- 
-</li>
-<div class="sidenote">
-Note: “per capita” means “per person”.  So, for example for China, you take the total CO2 emissions and divide by the population:
-8715*106 metric tons/1.337 109persons=6.52 metric ton/person
 </div>
  
-<li>Compare the two bar graphs.  What insights does each graph provide about CO2 emissions? Is one better than the other?</li>
+</li>
+
+
+
+<li>Now create a block that will draw a vertical bar at the given x, y location of desired width and height with the given label placed underneath the bar.<br />
+	<img class="indent" src="/bjc-r/img/3-lists/BarGraph_img/drawbar.png" height="45" alt=""/>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<img src="/bjc-r/img/3-lists/BarGraph_img/barGermany.png" height="200" alt=""/>
+                   
+</li>
+
+<li>Now create a block that will create a series of bars starting from a xMin and yMin location with a desired bar width and maximum bar height for a given data input.  This block with the given inputs should produce something like:<br />
+<img src="/bjc-r/img/3-lists/BarGraph_img/drawthebars.png"  height="60" alt=""/>
+<img src="/bjc-r/img/3-lists/BarGraph_img/bars.png"  height="250" alt=""/>
+</li>
+ <div class="endnote">
+Note that given a maximum bar height, the heights of all the bars can be computed as a fraction of this maximum bar height.  For example, if maximum bar height=240 and we want to find how tall the bar for USA should be, we first find the largest value in the data set which is 8715 (from China) and do the following computation<br />
+<img class="indent" src="/bjc-r/img/3-lists/BarGraph_img/BarHeightComputation.png"  height="70" alt=""/><br />
+
+While finding the maximum of the data values, first we get a list of values and then apply the max of list function.  The following block which uses the selector <code>get value</code> will extract a list of values from the given data list.<br />
+<img class="indent" src="/bjc-r/img/3-lists/BarGraph_img/mapgetvalue.png"  height="45" alt=""/>
+ </div>
+
+<li>Now create a block that labels the y-axis based on desired x, y locations and data input.  For simplicity, you can assume that the y-axis will always be partitioned into 10 equal parts for labeling purposes.  It should create labels like this:<br />
+
+ <img class="indent" src="/bjc-r/img/3-lists/BarGraph_img/labelyaxis.png"  height="45" alt=""/>
+
+ <img src="/bjc-r/img/3-lists/BarGraph_img/yaxislabels.png"  height="250" alt=""/>
+
+
+</li>
+<li>Now you are ready to put everything together and create a “Bar Graph” drawing block for a given data input.  Fill in the blanks.<br />
+
+ <img class="indent" src="/bjc-r/img/3-lists/BarGraph_img/BarGraphdata.png"  height="200" alt=""/>< br/>
+When everything is done, the following code should produce a bar graph as shown below:<br />
+<img class="indent" src="/bjc-r/img/3-lists/BarGraph_img/codeCO2EmissionData.png"  height="250" alt=""/><img src="/bjc-r/img/3-lists/BarGraph_img/CO2bargraph.png"  height="300" alt=""/>
+ 
+ </li>
+<li>Your coding should be general enough to accommodate a new set of data input such as:<br />
+<img class="indent" src="/bjc-r/img/3-lists/BarGraph_img/codeCO2EmissionsPerCapita.png"  height="250" alt=""/>
+<img src="/bjc-r/img/3-lists/BarGraph_img/CO2EmissionsPerCapita.png"  height="300" alt=""/>
+
+</li>
+ 
+<div class="endnote">
+Note: “per capita” means “per person”.  So, for example for China, you take the total CO<sub>2</sub> emissions and divide by the population:<br />
+<img class="indent" src="/bjc-r/img/3-lists/BarGraph_img/percapitacomputation.png" height="70" alt=""/>
+</div>
+
+ 
+<li>Compare the two bar graphs.  What insights does each graph provide about CO<sub>2</sub> emissions? Is one better than the other?</li>
 
 
 <li>Now collect some data in your class or from the internet on a topic you care about that would lend itself to visualization with a bar graph.  Use your Snap! program to visualize your data.</li>
@@ -111,9 +115,12 @@ Note: “per capita” means “per person”.  So, for example for China, you t
         </div>
         
         <div class="takeItFurther">
-Sometimes it is more convenient to present your bar graph with horizontal bars instead of vertical ones.  Modify your code so that it takes an input indicating which type of bar graph (horizontal or vertical) is to be generated.
-Histograms of frequency tables for continuous data.
-
+        <ol start="A">
+			<li>Sometimes it is more convenient to present your bar graph with horizontal bars instead of vertical ones.  Modify your code so that it takes an input indicating which type of bar graph (horizontal or vertical) is to be generated.<br />
+            <img class="indent" src="/bjc-r/img/3-lists/BarGraph_img/HorizontalBarGraph.png" height="300" alt=""/>
+</li>
+		<li>Histograms are bar graphs that displays the frequency distribution of continuous numerical data.  Learn about histograms and create a data visualization tool in Snap<em>!</em> for displaying histograms.</li>
+</ol>
         </div>
     </body>
 </html>
