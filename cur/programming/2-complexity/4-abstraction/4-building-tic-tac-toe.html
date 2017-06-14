@@ -5,134 +5,141 @@
         <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
         <title>Unit 2 Lab 4: Dealing with Complexity, Page 4</title>
     </head>
-    
+
     <body>
-    	<h2>Building a Tic-Tac-Toe Board</h2>
-<!--        <div class="todo">
-        	From Al, 6/21/16:
-            <ul>
-            	<li>
-                	The ``In this lab'' at the top:  Maybe a sidenote saying what the three illustrated games are.  And the animation is very distracting.  Can it run once and stop?
-                    <ul>
-                    	<li>We (Paul and I) agree, but the videos will need to be remade. I tried making them work that way, and it looked weird because they start white; so, you just see a play button (or rather, 3 of them). They should be rebuilt with an appealing first frame. --MF</li>
-                    </ul>
-                </li>
-                <li>
-                	Problem 2: 
-                	<ul>
-                    	<li>Is it necessary (from the student perspective) to specify the type of input to draw tile?</li>
-                		<li>Has anything been discussed about state invariance?</li>
-                    </ul>
-                </li>
-                <li>Problem 3:  should they play the game with their partner?</li>
-                <li>Problem 4:  Why not ask them to make a ``go to starting place for board with---rows of tiles of size ----?</li>
-            </ul>
-            From Mary, 10.20.16:
-            <ul>
-            	<li>#3: "You can now drag and drop the first spite (the one with the "X" and "O" costumes) to play a game of Tic Tac Toe. " but only if they pick a good starting size, which we haven't given them. I happened to be building mine with size 22 until problem 4, and that made problem 3 a little weird.</li>
-                <li>#4: I find the use of one block (<code>go to starting place</code>) to hide just one block (<code>go to x y</code>) a little non-intuitive. If we are going to use that block again somewhere else in the script, we should say that, and if we aren't (and I think we aren't), I don't think it makes sense to create it.</li>
-                <li>#4: Adding <code>go to starting place</code> to my <code>draw square board</code> block definition might not be the right thing; I have the <code>pen down</code> block <em>outside</em> of <code>draw square board</code>, so it's going to make drag marks. If it needs to be inside, we should specify that.</li>
-                <li>#4: Also, we aren't saying anything about the <code>point in direction</code> block, which is needed as much as <code>go to x y</code>. Perhaps it should also be in the <code>go to starting place</code> block, and maybe we could even call it <code>initialize</code> (or just <code>set up sprite to draw grid</code>).</li>
-                <li>#5: This won't work if students put <code>clear</code> inside their <code>draw square board</code> block, which they will likely be inclined to do since we asked them to put <code>go to starting place</code> inside it; if the sprite isn't already at the starting place, they'll get drag marks if they don't either have the pen up or clear after moving to the starting place. It would be better to suggest using <code>draw tile</code> (and why draw a 1-1 array with a more complicated block when you can use a much simpler block?).</li>
-            </ul>
-            
-        </div>
-        <img class="inline" src="/bjc-r/img/icons/work-with-a-partner.png" alt="Work with a Partner" title="Work with a Partner" />   -->
+    <div class="todo">
+<strong>Why do this?</strong> Mainly because it introduces an extended project; having such a project is worthwhile to show kids that it's not all about trivial exercises.  But cloning is apparently popular with teachers, too.
+    <p><strong>Why here?</strong> Multithreading is an important technique for dealing with complexity.</p></div>
+    <h2>Building a Tic-Tac-Toe Board</h2>
         <div class="learn">
-            <strong>On this page</strong>, you'll  build an interactive display for a simple Tic-Tac-Toe game between two human players.<br />
-            <img class="indent" src="/bjc-r/img/1-introduction/Simpler-TicTacToe-video.gif" width="312" alt="Tic Tac Toe video"><br />
-            <!--         <img src="/bjc-r/img/1-introduction/Rani-game.gif" width="315" alt="Rani's game"> 
-            <img src="/bjc-r/img/1-introduction/SudokuBoard.png" width="306" alt="sudoku board">  -->
-            In later units, you'll use this as the starting point for an ongoing project working toward playing against the computer.
+            <img class="indent" src="/bjc-r/img/2-complexity/TTT1_img/Three States of TTT.png" width="600"  alt="Three states of Tic Tac Toe: in progress, win, tie" title="Three states of Tic Tac Toe: in progress, win, tie"/><br />
+            <p><strong>In this <em>yearlong</em> project,</strong> you will  develop a program that plays Tic-Tac-Toe as well as you do.</p>
+            <p><strong>On this first page,</strong> you display a Tic-Tac-Toe board and let two human players enter moves.</p>
         </div>
-        
+        <p>One approach to this problem uses<em> multiple sprites</em> to make an &quot;active&quot; Tic-Tac-Toe board, in which each square is actually a separate sprite. Each sprite knows which square it's in, because once the board is set up, the sprites never move. You click in a square, and the sprite that you clicked on changes its costume to display the move.  It doesn't have to compute the square number based on the mouse coordinates.</p>
         <div class="forYouToDo" id="first">
-          <ol>
+            <ol>
+          <!--      <li>Play with <a href="/bjc-r/cur/programming/2-complexity/new/6b-newTTT-phase1-interactive.html" target="_blank">this example</a> to get a feel for the Phase 1 version of Tic Tac Toe. </li>   -->
                 <li>
-                    <img class="imageRight" src="/bjc-r/img/icons/take-turns-speaking-mini.gif" alt="Take turns speaking" title="Take turns speaking">
-                    First, <a href="/bjc-r/prog/2-complexity/U2L4-TicTacToe.xml" class="run">load this file</a>. It has two costumes and one brief script.   
-                    <ul>
-                        <li>Read the code, and experiment by dragging the sprite around the stage to see what the script does.</li>
-                        <!--I editted out this aspect of the page because I found it confusing and I needed a solution to that. --MF
-                        <li>While you do the other work on this project, feel free to disable this script and choose the plain "turtle" (arrow-head) costume if you like. You won't need this script until later.</li>-->
-                        <li>Then <code>clear</code> the stage and click <img src="/bjc-r/img/2-complexity/switch-turtle.png" alt="switch to costume Turtle">.</li>
-                    </ul>
-                </li>
+                    Open this <a class="run" href="/bjc-r/prog/2-complexity/U2L4-Tic-Tac-Toe.xml" target="_blank">starter project</a>.  A sprite  has already been created for you with three costumes: Empty, X, and O.<br />
+                    <img class="indent" src="/bjc-r/img/2-complexity/TTT1_img/Costumes.png"  height="100" alt="Costumes of a square: Empty, X and O" title="Costumes of a square: Empty, X and O"/><br />
+                    Click on the <code>next costume</code> block at the top of the scripting area a few times to see all of them.
+              </li>
                 <li>
-                    Tic-Tac-Toe can be played on a board that is three rows of three squares each. You'll start by drawing a single square, then use that to draw a row of squares, and then use that to draw the entire board.
-                      <ol> 
-			        <li>
-                            <div class="sidenoteBig">If you use squares of size 100, the entire board will fit nicely on the stage. </div>
-                            Build <img src="/bjc-r/img/2-complexity/draw-a-tile.png" alt="draw a tile"> to make a single square tile. You can import and use any <code>draw square</code> or <code>draw polygon</code> block that you've created earlier, or use primitive blocks directly.  Leave all control of the pen (such as <code>pen down</code>) outside of this block. 
-                            
-                            <div class="takeNote">
-                                <strong>Why abstraction?</strong> 
-                                Why build <code>draw a tile</code><!--<img src="/bjc-r/img/1-introduction/tile(size).png" alt="tile of size (size)">--> when you could use <code>draw square</code><!--<img src="/bjc-r/img/1-introduction/draw-square-block-with-empty-input.png" alt="draw square">--> or just the script inside it? Some projects, like building a 9x9 Sudoku board, can need more than one size of square with different thicknesses of borders. If you later decide to create a tile differently (maybe changing border or fill color), <!--<img src="/bjc-r/img/blocks/stamp.png" alt="stamp, from the Pen palette">--> it makes sense to edit just <code>draw a tile</code>; changing <code>draw square</code> would change <em>all</em>  squares in your project, not just board tiles. 
-                        </div>
-                        </li>
-                        <li>
-                            Build <img src="/bjc-r/img/2-complexity/draw-a-row.png" alt="draw a row"> using your <code>draw a tile</code> block to draw one row of  tiles, like this:<br />
-                            <img class="indent" height="121" src="/bjc-r/img/2-complexity/three-tiles.png" alt="(three tiles in a row)" title="(three tiles in a row)" />
-							<img class="imageRight" src="/bjc-r/img/icons/save-now.png" alt="Now Is a Good Time to Save" title="Now Is a Good Time to Save" /><br />
-                            <img class="inline" src="/bjc-r/img/icons/pair-programming-swap.png" alt="Pair Programming Swap" title="Pair Programming Swap" /> 
-                        </li>
-						<li>Build <img src="/bjc-r/img/2-complexity/draw-the-board.png" alt="draw the board"> using <code>draw a row of tiles</code>. It will help to pay attention to where <code>draw a row</code> leaves the sprite.  If <code>draw the board</code> doesn't draw what you want, debug by testing each block by itself.</li>
-						
-					</ol>
+               	You will be using the <strong>clone</strong> feature in Snap<em>!</em> to create the 3&times;3 Tic-Tac-Toe board. A clone is just a copy of an existing sprite, made under control of your program.<br />
+                <div class="endnote">Why "under control of your program"?  It's possible to make a copy of a sprite by hand; right-click on the sprite's icon in the sprite corral and choose "Duplicate."  That's useful if you only want one copy, but in this project you're going to need <em>nine</em> copies, one for each square of the Tic-Tac-Toe board. So you'd like to say something along the lines of<br /><img class="indent" src="/bjc-r/img/2-complexity/9-copies.png" alt="repeat 9 [create a clone of myself]"><br />
+                The actual code in the project will be slightly more than this, but this is the central idea.</div>
+                A clone is a complete copy of the sprite you say to copy.  It has the same position, costumes, scripts, and so on.  But...<ul><li>The clone doesn't appear in the sprite corral.</li>
+                <li>Once you've made the clone, any changes you make <em>later</em>  to the original sprite (such as adding or modifying a script) is <em>not</em> copied to the clone.</li>
+                <li>Clones are <em>temporary.</em>  Clicking the stop button will delete all clones in the project.</li></ul>So the idea is that you write your program completely, then make whatever clones you need.
                 </li>
-                
-                <li>Set the sprite to start drawing in the right place.
-                            <ul>
-                              <li>Experiment (or calculate) to find a good starting place that centers the board on the stage with tiles of size 100, and build <img src="/bjc-r/img/1-introduction/go-to-starting-place.png" alt="go to starting place for board" title="go to starting place for board" /> set the sprite there.</li>
-                                <li>Add that block to your <code>draw the board</code> block definition.</li>
-                                <li>After <code>draw the board</code> finishes drawing, have it move the sprite back to its starting position at (-200, 160).</li>
-                            </ul>
-    </li>
-<img class="imageRight" src="/bjc-r/img/icons/save-now.png" alt="Now Is a Good Time to Save" title="Now Is a Good Time to Save" />  
-                        
-    <!--            <li>Figure out what else you may need to do to try your program. Debug any problems, and discuss  changes you could make to improve the game. </li>  -->
-                
-                <li>
-                    <!-- This didn't make sense to me --MF: Return to the script for the second sprite. -->
-                    To keep track of legal moves and wins, you'll need to know where each player moved. Import your <code>between?</code> predicate from your "U2L3-Predicates" project, and use it to write a <code>which tile</code> reporter. (It'll require more than one <code>if</code> block.)<!--(It'll require nine <code>if</code> tests.)--> Test it by having the sprite <code>say</code> which square it's in for a second when dropped.<br >
-                    <div class="sidenoteBig"><a id="hintbutton" onClick="document.getElementById('hintbutton').innerHTML='Is the second input to <code>between?</code> bigger than the third input?';">Stuck on debugging <code>which tile</code>?  Click here for one common bug.</a></div>
-                    <img class="indent" src="/bjc-r/img/2-complexity/say-which.png" height="324" alt="(sprite says which square (1-9) it's in)">
+                <li> In the starter project is this demonstration 
+                	script:<br />
+                	<img class="indent" src="/bjc-r/img/2-complexity/TTT1_img/WhenIamClicked.png" height="200" alt="when I am clicked, create a clone of myself, glide (1) secs to x: (random...) y: (random...)" title="when I am clicked, create a clone of myself, glide (1) secs to x: (random...) y: (random...)"><br />
+                    You're going to use this script <em>right now</em> to learn more about clones, but it isn't going to be part of <em>the finished project.</em>  <em><strong>Read</strong></em> the script together with your partner and talk over what you think will happen when you click on the sprite. Then click on the sprite  on the stage and compare what happens with what you expected.
+	                <div class="narrower">				
+                    	<ul>
+                        	<li>Notice that it is the clicked sprite that moves to a new random position after cloning itself. (You can tell because it's the one that says &quot;You clicked me.&quot;)
+                            <!--<div class="todo"> The text says "original" above.  I think that makes things clearest, even though technically it's not necessarily true, since you can also click on a clone once you have some.  The script used to <code>say</code> "I'm the original" but Mary objected because of that technical point.  But in light of Al's complaint that he wasn't sure which was the original, I'm inclined to go back to "I'm the original" in the script.  Thoughts?  --bh</div>--></li>
+                    		<li>Note that both copies are <em>active</em> sprites.  Both are clickable (try it) and draggable (try that too).</li>
+                            <!--<li>The <code>next costume</code> block chooses each of the three costumes in turn: empty, X, O, empty, ...</li>-->
+                            <li>The <code>create a clone</code> block takes an input because it can copy <em>any</em> sprite, but in this project there's only one &quot;starter&quot; sprite, so you can use <code>myself</code> or <code>Square</code> as the input.</li>
+                      </ul>
+         </div>           
                 </li>
-                <li>Once you have <code>which tile</code> debugged, instead of <code>say</code>ing the tile number, move the sprite to the center of the tile before stamping:
-                <ol type="a">
-                <li>Make a global variable named <var>centers</var>.</li>
-                <li>In the same script that draws the board to start a game, set <var>centers</var> to a list of nine points (using the abstract data type from <a href="/bjc-r/cur/programming/2-complexity/2-data-structures-art/2-data-types.html">Lab 2</a>), each of which is the center of the corresponding tile.</li>
-                <li>In the <code>when I am dropped</code> script, if the sprite was dropped in a tile, move to its center before <code>stamp</code>ing it. (If it <em>wasn't</em> dropped inside a tile, don't stamp it and don't change costumes.)</li></ol>
-				<img class="imageRight" src="/bjc-r/img/icons/save-now.png" alt="Now Is a Good Time to Save" title="Now Is a Good Time to Save" />
-                <li><strong>Check for illegal moves.</strong> You're already checking for dropping the sprite outside the board, but it's also illegal to drop the sprite inside a tile that's already occupied. To check for this, you'll have to keep track of the moves:
-                  <ol type="a">
-                <li>Make a global variable <var>board</var>.</li>
-                <li>In the initialization script, set it to a list of nine items, each of which is the word <code>Empty</code>.</li>
-                <li>When testing that the sprite is dropped in a tile, also test whether the corresponding item of <var>board</var> is <code>Empty</code>. If not, don't accept the move.</li>
-                <li>If the move is legal, set the corresponding item of <var>board</var> to either X or O. You can check the  <img src="/bjc-r/img/2-complexity/costume-number.png" alt="costume #"> to decide which.</li>
-                </ol>
-              </li></ol>
-</div>
-        
+            </ol>
+        </div>
         <p>
-            In Unit 3, you will teach the computer to check for wins and ties; and, still later, you will teach the computer how to be an intelligent player.
-        </p>
+            The next script in the starter project is this:<br />
+            <img class="indent" src="/bjc-r/img/2-complexity/TTT1_img/delete-clone.png" alt="when flag clicked, delete this clone"><br />
+            The block is called <code>delete this clone</code> rather than <code>delete this sprite</code> because it works only for clones.  So when you click the green flag, the original sprite and all its clones will run the script, but only the clones will be deleted.  There will then be one sprite left on the stage.
+        (Clicking the stop sign automatically deletes clones, but this script is insurance in case you run the program and then run it again without clicking stop first.)</p>
         
-        <div class="ifTime">
-            <ol start="7">
+        <div class="forYouToDo">
+    		<ol start="4">
+              <li>
+                	Delete the <code>when I am clicked</code> script from problem 3.  It was just for demonstration, and shouldn't be in the actual project. (You'll make your own different one soon.)  
+                	Also, at the bottom of the scripting area, there's an additional <code>when</code> <span style="color:green">⚑</span> <code>clicked</code> block near, but separate from, the script just below it. They're separated because this script isn't part of the demonstration in problem 2, but it <em>is</em> part of the Tic-Tac-Toe game, so click the two pieces together now. 
+					<div class="narrower">  Read that script and notice:             
+                        <ul>
+                            <li>The <code>wait</code> block is needed to ensure that the <em>other</em> <code>when</code> <span style="color:green">⚑</span> <code>clicked</code> script has time to delete old clones before we make new ones.</li>
+                            <li><code>makeBoard</code> is an empty script.  You're going to write it in the next problem.</li>
+                            <li>The variable <var>X's turn?</var> will be <code>true</code> when it's X's turn to play, or <code>false</code> when it's O's turn.  When alternating between two values, it's convenient to use <code>true</code> and <code>false</code> because you can use <img src="/bjc-r/img/2-complexity/TTT1_img/setXsturn.png" height="50" alt="set X's turn? to (not X's turn?)" title="set X's turn? to (not X's turn?)"> to switch between them, and just<br />
+                            <img src="/bjc-r/img/2-complexity/if-x-turn.png"  alt="if (x's turn?) ..."><br />                            
+                          to test the variable.</li>
+                       </ul>
+					</div>             
+				</li>
                 <li>
-                    <div class="sidenoteBig">Use a white pencolor and a thicker pensize to "erase."</div>
-                    To make this look more like a Tic-Tac-Toe board, draw one large square to "erase" the outside border of the 3-by-3 board.
+                    Edit the block <code>makeBoard</code> to set up nine clones in three rows of three:<br />
+                    <img class="indent" src="/bjc-r/img/2-complexity/TTT1_img/Row1.png"  height="100" alt="One row of squares" title="One row of squares"/>
+                    <img src="/bjc-r/img/2-complexity/TTT1_img/Row2.png"  height="100" alt="Two rows of squares" title="Two rows of squares"/>
+                    <img src="/bjc-r/img/2-complexity/TTT1_img/Row3.png"  height="100" alt="Three rows of squares" title="Three rows of squares"/><br />
+                    <div class="narrower">
+                        <ul>                        <li>Hint:<br />
+                        <img class="indent" src="/bjc-r/img/2-complexity/TTT1_img/for-row-column.png" alt="for row = 1 to 3, for column = 1 to 3"><br />
+
+                            <li>The costumes are all 50 steps tall and wide.</li>
+                            <li>Make sure the clones start out with the empty square costume.</li>
+                            <li>Be sure to <code>show</code> the original sprite before cloning it, so that the clones will be visible.  After cloning nine times to create the board, <code>hide</code> the original sprite so it does not interfere with the game as a tenth square.  </li>
+                        </ul>
+                    </div>
                 </li>
+                <li>Now write a <code>when I am clicked</code> script that will allow each clone to put on the proper costume when clicked: X or O depending on whose turn it is. Also decide how  a square should behave when it is clicked while already wearing an X or O costume.</li>
             </ol>
-        </div>
+		</div>
+        <div class="takeNote">
+        <p>This project hints at two important modern ideas in computer science.  One is <strong>object oriented programming</strong>: Instead of a single sequence of instructions, the program has several <em>independent</em> objects (also called &quot;agents&quot; or &quot;actors&quot;), each of which has its own behavior.  In this project, you can only click on one sprite at a time, and it then carries out a very quick task (changing costume) before you click another sprite.  But a more complicated program might have one sprite send a <em>message</em> to another sprite, which would respond with its own behavior, while the first sprite continues with its own script.</p>
+        <p>The other idea is <strong>parallelism</strong> or <strong>distributed computing</strong>. Your project is running on a single computer, and the apparent ability of sprites to run simultaneously is an illusion provided by Snap<em>!</em>, which runs one script for a little while, then switches to a different script, and so on, then updates the display, then continues the first script. But you <em>could</em> have nine separate computers, one for each sprite. That would be overkill for this small project, but large web servers such as Google or Twitter have many thousands of computers all cooperating to handle the large amounts of data they require.</p></div>
         
+        <div class="todo">Do we want this? --bh
+        <div class="takeItFurther"><br />
+        For another approach to drawing the Tic-Tac-Toe board that doesn't use multiple sprites, look 
+<a href="/bjc-r/cur/programming/2-complexity/4-abstraction/old/4-building-tic-tac-toe.html">here</a>.</div></div>
+<!--
+        <div class="todo">ST-The text below is added to prepare kids to the unified approach to TTT.</div>
+        <p>In preparation for the next phases of the Tic-Tac-Toe (first computer checking for a win or a tie and then the computer learning to be an intelligent player) you will need to keep track of each move and have access to each Square sprite to be able to tell it to change its costume.  </p>
+
+<div class="forYouToDo" >
+<ol start="7">
+
+	<li>Create a global variable <var>Squares List</var> and initialize it to an empty list.  Each Square sprite clone will be added to this list as it is created.<br />
+ <img class="indent" src="/bjc-r/img/2-complexity/TTT1_img/SquaresListInitialize.png"  height="45" alt=""/></li>
+
+<li>Create a variable <var>id</var> for the Square sprite and select “for this sprite only” option.  This will ensure that every one of the nine clones will get its own unique ID number which it can report when needed.<br />
+<img class="indent" src="/bjc-r/img/2-complexity/TTT1_img/idforthisspriteonly.png" height="150" alt=""/>
+        </li>
+
+<li>Add each clone to the <var>Squares List</var> and assign it an ID number as soon as it is created.  This ID will be handy when in the last phase of Tic-Tac-Toe, the computer will anticipate a winning move and will need to access a particular Square sprite to  tell it to change its costume accordingly.<br />
+<img class="indent" src="/bjc-r/img/2-complexity/TTT1_img/setCloneID.png" height="125" alt=""/>
+</li>
+
+<li>Test that the ID’s are assigned as expected by having each clone say it’s ID for a second when it is clicked.  The ID’s should be in the following order.<br />
+<img class="indent" src="/bjc-r/img/2-complexity/TTT1_img/SquareNumbersonTTT.png" height="150" alt=""/>
+</li>
+<li>Create a global variable <var> board</var> and initialize it as shown below.  <br />
+<img class="indent" src="/bjc-r/img/2-complexity/TTT1_img/BoardInitialize.png"  height="70" alt=""/><br />
+The <var> board</var> will record the current state of the board as the game is being played.  In the last phase of Tic-Tac-Toe, the <var> board</var> will allow the computer to simulate particular moves to see if they lead to a win without altering the actual board. The computer “anticipating” or “imagining” a winning move is what will make it intelligent.<br />
+<img class="indent" src="/bjc-r/img/2-complexity/TTT1_img/Board.png" height="250" alt=""/>
+</li>
+<li>After each legal move, set the corresponding item of the <var> board</var> to either X or O. <br />
+<img class="indent" src="/bjc-r/img/2-complexity/TTT1_img/replaceBoarditemwithX.png" height="45" alt=""/>
+</li>
+
+Now you are ready for the next phases of the Tic-Tac-Toe where you will use the <var> board</var> to test for a win or a tie and eventually use it to anticipate a winning move.
+
+        
+               <div class="saveAs"><span class="text">"U2Opt-TicTacToe"</span><img src="/bjc-r/img/icons/save-this-as.png" alt="save your work as U2Opt-TicTacToe" title="save your work as U2Opt-TicTacToe" /></div>
+
+<!--        
         <div class="takeItFurther">
+            You are now ready to pursue Phase 2 and Phase 3 of Tic Tac Toe.
             <ol type="A">
-            <li>Modify your project so that it can draw boards other than 3x3, such as 9x9 for Sudoku. You will have to make some design decisions about the size of cells and the position of the board, not just write code. Save the result under a different project name.</li>
-            	<li>A <a href="/bjc-r/cur/programming/2-complexity/optional-projects/4-tic-tac-toe.html">completely different approach</a> to creating the Tic-Tac-Toe board puts sprites in each of the nine boxes. Compare these, and think about which way you'd prefer as a basis for actually playing the game.</li>
+                <li><strong>Phase 2</strong>: <em>Human versus Human</em> game where the computer decides on a win or a draw.  In this version, the computer starts gaining awareness of the game and begins to meaningfully contribute to the game. <a href="/bjc-r/cur/programming/2-complexity/new/6c-newTTT-phase2-interactive.html" target="_blank">Tic Tac Toe Phase 2 example</a>.</li>
+                <li><strong>Phase 3</strong>: <em>Human versus Computer</em> game where the computer not only decides on a win or a draw but it also has some AI (Artificial Intelligence) features that allow it to “think” about a proper next move and simulate the moves of an intelligent human opponent. <a href="/bjc-r/cur/programming/2-complexity/new/6d-newTTT-phase3-interactive.html" target="_blank">Tic Tac Toe Phase 3 example</a>.</li>
             </ol>
         </div>
-        
-	</body>
+   -->     
+    
+    </body>
 </html>
