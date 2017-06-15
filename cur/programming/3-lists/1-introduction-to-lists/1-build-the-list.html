@@ -3,42 +3,34 @@
     <head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
-		<title>Unit 3 Lab 1: Contacts List, Page 1</title>
-        <!--<style>.todo, .comment, .commentBig {display:none;}</style>-->
+		<title>Unit 3 Lab 1: Contact List, Page 1</title>
+        <style>.todo, .comment, .commentBig {display:none;}</style>
     </head> 
     
     <body>
-        <h2>Using an ADT to Build the List</h2>
+        <h2>Creating a Contact Abstract Data Type</h2>
 		<div class="todo">
             <p><strong>Do/Learn:</strong> The idea is to give students a programmatic experience of data.</p>
             <p><strong>Reviewers</strong>, I know this pink box looks long, but I'm trying for a clear framing of what they are about to do. </p> 
-          <p>BTW, I renamed the lab "Contacts List" and the variable <code>contacts list</code> (both now plural) because that's what this is. :) MF, 6/5/17</p>
-    </div>
+		</div>
+        
         <div class="learn">
-        	<p><strong>In this lab,</strong> you will develop a Contacts List project that uses abstract data types (ADTs) to store and access data.</p>
+        	<p><strong>In this lab,</strong> you will develop a Contact List application like the one on your phone.</p>
         	<p>
-                <strong>On this page,</strong> you will develop:
+                <strong>On this page,</strong> you will develop an <strong>Abstract Data Type</strong> to store and access data, including:
                 <ul>
                     <li>
-                        <strong>An Abstract Data Type "Contact"</strong> that includes:
-                        <ul>
-                            <li>
-                                A <em>constructor</em> to create new contacts:<br />
-                                <img class="indent" src="/bjc-r/img/3-lists/contact-constructor-untyped.png" alt="contact name: () address: () phone: ()" title="contact name: () address: () phone: ()" />
-						  </li>
-                            <li>
-                                Three <em>selectors</em> to access specific information for a contact: <br />
-                                <img class="indent" src="/bjc-r/img/3-lists/name-selector-untyped.png" alt="contact name ()" title="contact name ()" />
-                                <img class="indent" src="/bjc-r/img/3-lists/address-selector-untyped.png" alt="contact address ()" title="contact address ()" />
-                                <img class="indent" src="/bjc-r/img/3-lists/phone-selector-untyped.png" alt="contact phone ()" title="contact phone ()" />
-                          </li>
-					  </ul>
-				  </li>
-                    <div class="todo"><h4>Page break here? --MF, 6/5/17</h4></div>
-                  <li><strong>An "Add Contact" button</strong> for adding new contacts using the <code>contact</code> constructor</li>
-                    <li><strong>A "Clear List" button</strong> for emptying the <var>contacts list</var></li>
-                </ul>
-            </p>
+                        A <em>constructor</em> to create each new contact:<br />
+                        <img class="indent" src="/bjc-r/img/3-lists/contact-constructor-untyped.png" alt="contact name: () address: () phone: ()" title="contact name: () address: () phone: ()" />
+					</li>
+                    <li>
+                        Three <em>selectors</em> to access specific information for a contact: <br />
+                        <img class="indent" src="/bjc-r/img/3-lists/name-selector-untyped.png" alt="contact name ()" title="contact name ()" />
+                        <img class="indent" src="/bjc-r/img/3-lists/address-selector-untyped.png" alt="contact address ()" title="contact address ()" />
+                        <img class="indent" src="/bjc-r/img/3-lists/phone-selector-untyped.png" alt="contact phone ()" title="contact phone ()" />
+					</li>
+				</ul>
+			</p>
         </div>
         
         <div class="todo">Brian's Notes from late July 2016:
@@ -83,20 +75,20 @@
         
 
         <div class="dialogue">
-            <div><span>Gamal:</span> All cell phones have some kind of Contacts List, right?</div>
+            <div><span>Gamal:</span> All cell phones have some kind of Contact List, right?</div>
             <div><span>Betsy:</span> Yeah, I think so... and computers and tablets too.</div>
             <div><span>Gamal:</span> How do you think they're built?</div>
             <div><span>Betsy:</span> Well, it's a <em>list</em> of contacts, and I guess each contact is also a list with that person's name, phone number, and address.</div>
             <div><span>Gamal:</span> So, it's a lists of lists. I think we can build one in Snap<em>!</em>.</div>
             <div><span>Betsy:</span> Ok, let's try. We'll need a variable to store the list. It should be <em>global</em> right? We want the data to be saved when we save the project.</div>
             <div><span>Gamal:</span> Yeah, and also we'll probably have multiple scripts using that variable, so it shouldn't be attached to just one script like a script variable.</div>
-            <div><span>Betsy:</span> Ok. So we'll start with a global variable containing an empty list, and we need a way to add a contact to our <var>contacts list</var>.</div>
+            <div><span>Betsy:</span> Ok. So we'll start with a global variable containing an empty list, and we need a way to add a contact to our <var>contact list</var>.</div>
             <div><span>Gamal:</span> <a href="/bjc-r/cur/programming/2-complexity/2-data-structures-art/2-data-types.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment">In Unit 2, we made a <code>point</code> abstract data type</a> to store the coordinates of each point in a list of points. Can we make a <code>contact</code> abstract data type to store the data for each contact in our list of contacts?</div>
-            <!--<div><span>Betsy:</span> Yes! We can create a <code>contact</code> ADT and use it to add each item to the <var>contacts list</var>.</div>-->
+            <!--<div><span>Betsy:</span> Yes! We can create a <code>contact</code> ADT and use it to add each item to the <var>contact list</var>.</div>-->
             <div class="todo">TG: The <code>point</code> constructor and <code>coordinate</code> selectors from <a href="/bjc-r/cur/programming/2-complexity/2-data-structures-art/2-data-types.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment">Unit 2</a> are shown in the Thinking Out Loud dialog to stimulate thinking about the <code>contact</code> ADT. For students who struggle to develop the <code>contact</code> constructor and selectors, suggest they look at these images, and ask them some questions like these:
               <ul>
                 <li>What's the structure of the <code>point</code> constructor? How's it used? What will the <code>contact</code> constructor look like? What does it need to report?</li>
-                <li>What do the <code>coordinate</code> selectors do? What will the selectors look like in Contacts List?</li>
+                <li>What do the <code>coordinate</code> selectors do? What will the selectors look like in Contact List?</li>
             </ul>
              --MF</div>
             <div><span>Betsy:</span> Yes! <em>(Betsy opens their old project, but you don't need to.)</em> Before, we used <code>point</code> to construct a list of coordinates.</div>
@@ -123,12 +115,12 @@
         <h3>Creating the Abstract Data Type</h3>
         <div class="forYouToDo" id="first">
             <ol>
-                <div class="todo">Mary needs to put in a new XML file here with <strong>much</strong> less given to them (e.g., maybe only the costumes; <code>string contains?</code> is not needed any more).</div>
+                <div class="todo">Mary needs to put in a new XML file here with <strong>much</strong> less given to them (e.g., maybe only the costumes and <code>string contains?</code>).</div>
                 <li>
 					<img class="imageRight" src="/bjc-r/img/icons/save-mini.png" alt="Save Your Work" title="Save Your Work" />
                     Load <a class="run" href="/bjc-r/prog/3-lists/U3L2-ContactList.xml">this project</a>, and save it to your Snap<em>!</em> account.
                 </li>
-                <li>Create a global <var>contacts list</var> variable, and initialize it as an empty list.</li>
+                <li>Create a global <var>contact list</var> variable, and initialize it as an empty list.</li>
                 <li>
                     Create an abstract data type to manage three data for each contact: name, phone number, and address.
                     <ol>
@@ -158,79 +150,9 @@
         		<img class="imageRight" src="/bjc-r/img/icons/save-now.png" alt="Now Is a Good Time to Save" title="Now Is a Good Time to Save" />
             </ol>
         </div>
-        
-        
-        <div class="todo">
-            <hr /><hr />
-            <h2>Page Break??</h2>
-            <hr /><hr />
-        </div>
-        
-        
-    <h3>Adding a Contact to the List</h3>
-        <div class="forYouToDo">
-			<ol start="4">
-				<li>
-                    Develop an "Add Contact" button for the user.
-                    <ol>
-                      <li>Give the sprite an appropriate costume; several are included in the project.</li>
-                        <li>
-                            Make the sprite collect information for a new contact from the user and then add it to the <var>contacts list</var> using <code>contact</code>.
-                        </li>
-                    </ol>
-                    <div class="comment"><strong>EK 4.1.1H</strong> Different algorithms can be developed to solve the same problem.</div>
-                    <div class="narrower">
-                        <h4><strong>Collecting Data from the User</strong></h4>
-                        <p>
-                            You'll want to ask the user for each piece of data (contact name, address, and phone number) separately.
-                            <ul>
-                                <li>
-                                	<strong>You <em>could</em> use several <code>ask</code> and <code>answer</code> blocks together with script variables</strong> to request and then store each piece of user input until you are ready to report them all together using <code>contact</code>.<br />
-                                    <img class="indent" src="/bjc-r/img/3-lists/contact-constructor-with-variables.png" alt="contact with name: (name) address: (address) phone: (phone)" title="contact with name: (name) address: (address) phone: (phone)" />
-                                </li>
-                                <li>
-                                    <strong><em>Another way</em> is to use <em>abstraction</em>: create helper blocks</strong> (such as <img src="/bjc-r/img/3-lists/get-name.png" alt="get name" title="get name" /> and <img src="/bjc-r/img/3-lists/get-phone.png" alt="get phone" title="get phone" />) that each ask the user for one piece of data and report their answer to the <code>contact</code> constructor.<br />
-                                    <img class="indent" src="/bjc-r/img/3-lists/contact-constructor-with-helpers.png" alt="contact with name: (get name) address: (get address) phone: (get phone)" title="contact with name: (get name) address: (get address) phone: (get phone)" />
-                                </li>
-                            </ul>
-                    		<div class="todo">
-                            I pulled this because it feels too unnecessary; they can do it if they want to, but "abstraction for the sake of abstraction" is not what we are teaching. --MF, 6/5/17
-                            <div class="endnote">
-                                <p>You might choose to first build a more general <img class="" src="/bjc-r/img/3-lists/answer-to-question.png" alt="answer to question ()" title="answer to question ()" /> helper block (yet another abstraction) to use inside the other helper blocks instead of rewriting the <code>ask</code> and <code>answer</code> script  multiple times.</p>
-                            </div>
-                            </div>
-                        </p>
-                    </div>
-                    
-                    <div class="todo">
-                        <p>I dropped <img src="/bjc-r/img/3-lists/get-new-contact.png" alt="get new contact"> because I think it complicates the situation with unnecessary abstraction. If students want to built that, they can, but I don't think it valuable to distract them with it deliberately. --MF, 6/3/17</p>
-                    </div>
-                    
-                    <div class="narrower">
-                    	<div class="commentBig">Brian (especially, but anyone), I'm doing this because I <em>think</em> we want it, but I can't make the case at all. Can you? Functional programming? Please help here. --MF, 6/3/17</div>
-                        <h4><strong>Adding Items to a List</strong></h4>
-                        <ul>
-                            <li>One way to add an item to a list is with <code>add</code>.</li>
-                            <li>Another clever way is to use <code>set</code> together with <img src="/bjc-r/img/blocks/in-front-of.png" alt="() in front of ()" title="() in front of ()" />.</li>
-                        </ul>
-                    </div>
-                </li>
-                <li>Add a few made-up people to your <var>contacts list</var> to make sure everything works.</li>
-                <li>
-                    Write a script for the "Clear List" button to reset <var>contacts list</var> to an empty list. 
-                    <ol>
-                        <li>Give the sprite an appropriate costume.</li>
-                        <li>Make the script ask the user for confirmation (so no one accidentally deletes their lists).</li>
-                        <div class="endnote">For example, clicking, "Clear List" might <code>ask</code> the user, "Enter c to clear the list, or enter anything else to cancel."</div>
-                    </ol>
-                </li>
-				<li>The sprites' questions might be covered up by the <var>contacts list</var> watcher on the stage. Use <code>hide variable</code> and <code>show variable</code> to hide the <var>contacts list</var> watcher until the end of each sprite's script.</li>
-                <img class="imageRight" src="/bjc-r/img/icons/save-now.png" alt="Now Is a Good Time to Save" title="Now Is a Good Time to Save" />
-            </ol>
-        </div>
                 
         <div class="ifTime">
-            <ol start="8">
+            <ol start="4">
                 <li>
                     Give the selectors expected input types to make it obvious that they each expect a list (one whole contact) as input.<br />
                     <img class="indent" src="/bjc-r/img/3-lists/name-selector.png" alt="contact name ()" title="contact name ()" />
@@ -240,7 +162,7 @@
                 </li>
             </ol>
         </div>
-
-
+        
+        
     </body>
 </html>
