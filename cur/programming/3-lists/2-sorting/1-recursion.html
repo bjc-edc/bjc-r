@@ -4,7 +4,9 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
 		<script type="text/javascript" src="/bjc-r/utilities/gifffer.min.js"></script>
-        <script type="text/javascript">window.onload = function() {Gifffer();}</script>
+        <script type="text/javascript">window.onload = function() {Gifffer();};
+		window.hinttext='<img src="/bjc-r/img/3-lists/add-hint.png" alt="(( ) + (add items of ( )))">';
+        </script>
         <link rel="stylesheet" type="text/css" href="/bjc-r/css/bjc-gifffer.css">
         <title>Unit 3 Lab 2: Sorting, Page 1</title>
     </head>
@@ -16,51 +18,91 @@
 <strong>On this page</strong> you will use <em>recursion</em> to examine the items of a list one by one.</div>
 <p>You've already used the<img src="/bjc-r/img/3-lists/item-1-of.png" 
 alt="item (1) of ( )"> block to look at a single item from a list. Here you'll use<img src="/bjc-r/img/3-lists/all-but-first.png" alt="all but first of ( )"> to deal with the <em>rest</em> of the list.</p>
+
 <div class="forYouToDo" id="first"><br />
-<strong>Imagine that there were no <img src="/bjc-r/img/3-lists/length_block.png" alt="length of ( )">
-block in Snap<em>!</em>.</strong>
+<strong>Adding the numbers in a list.</strong>
 <ol>
-  <li>Find <img src="/bjc-r/img/3-lists/length_block.png" alt="length of ( )"> in the palette and right-click on it (without dragging it into the scripting area). Choose <code>hide</code>.<br />
- <img src="/bjc-r/img/3-lists/hide.png" alt="hide option in context menu"><br />
- You can write your own block to count the items in a list.</li>
   <li>Start defining a 
-    <img align="bottom" src="/bjc-r/img/3-lists/count-head.png" alt="count of (list)">
-    block. (Don't call it <img src="/bjc-r/img/3-lists/length_block.png" alt="length of ( )">
-    so there's no confusion with the built in version.)</li>
+    <img align="bottom" src="/bjc-r/img/3-lists/add-head.png" alt="add items of (numbers)">
+    block.</li>
 <li>The basic idea here is that a list consists of its first item and all the rest of the items.  But that doesn't apply to an empty list, so you have to treat that as a special case:<br />
                 <img class="imageRight" src="/bjc-r/img/icons/import-tools-mini.png" alt="Import Tools" title="Import Tools" />
-<img src="/bjc-r/img/3-lists/count-empty-test.png" alt="count of (list): if &lt;empty? (list)&gt; report ( ) else ( )"><br />
-How many items does an empty list have?  Fill in the <code>report</code> block's input.</li>
+<img src="/bjc-r/img/3-lists/add-framework.png" alt="add items of (numbers): if &lt;empty? (numbers)&gt; report ( ) else ( )"><br />
+               <img class="imageRight" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
+What's the sum of all the numbers in an empty list?  (Discuss with others to check your answer.) Fill in the <code>report</code> block's input.</li>
 <div class="vocab"><br /><strong>Recursion</strong> is the use of a block within its own definition.</div>
-<li>Click the "Apply" button at the bottom of the Block Editor.  This is important because you're going to use the <img src="/bjc-r/img/3-lists/count-of.png" alt="count of ( )"> block in the next step.</li>
-<li>Now for non-empty lists.
+<li>Click the "Apply" button at the bottom of the Block Editor.  This is important because you're going to use the <img src="/bjc-r/img/3-lists/add-items-of.png" alt="add items of ( )"> block in the next step.</li>
+<li>Now for non-empty lists.  Imagine you have a really long list of numbers, and you know that the first number is 5, but you don't know the others: 
+<img src="/bjc-r/img/3-lists/list-5-what.png" alt="(list 5 ? ? ? ? ...)">
 <ol type="a">
-<li>Suppose <code>all but first of</code> the input list has 47 items.  How many items does the entire list have?</li>
-<li>Suppose <code>all but first of</code> the input list has 126 items.  How many items does the entire list have?</li>
-<li>Fill in the <code>else</code> part of the <code>if</code> so that it reports the correct number of items in a non-empty list.</li>
+<li>Suppose the sum of <code>all but first of</code> the input list is 47.  What's the sum of the entire list?</li>
+<li>Suppose the sum of <code>all but first of</code> the input list is 126.  What's the sum of the entire list?</li>
+<li>Fill in the <code>else</code> part of the <code>if</code> so that it reports the correct sum for a non-empty list.
+<a id="hintbutton" onClick="document.getElementById('hintbutton').innerHTML=window.hinttext;">(Danger!  Don't click!)</a></li>
 <li>Test your block for various input lists.  Try an empty list and a list of one item, as well as larger lists.</li>
 </ol></li>
-<li>To unhide the <img src="/bjc-r/img/3-lists/length_block.png" alt="length of ( )"> block, right-click on the background of the palette area and choose <code>show primitives</code>.<br />
-<img src="/bjc-r/img/3-lists/show.png" alt="show primitives"></li></ol></div>
+</ol></div>
+
 <img src="/bjc-r/img/3-lists/item-1-of.png" alt="item (1) of ( )"> and <img src="/bjc-r/img/3-lists/all-but-first.png" alt="all but first of ( )"> are the <em>selectors</em> for the List data type.  The corresponding <em>constructor</em> is&nbsp;<img src="/bjc-r/img/3-lists/in-front-of.png" alt="( ) in front of ( )">.
-<div class="forYouToDo">
-Here's the goal: <img src="/bjc-r/img/3-lists/squares-demo.png" alt="squares (list 7 8 1) reporting {49, 64, 1}">
-<ol start="7">
+
+<div class="forYouToDo" id="first">
+<br /><strong>Copying a list.</strong>
+<div class="narrower">
+A common bug is to say<br />
+<img src="/bjc-r/img/3-lists/set-B-to-A.png" alt="set (listB) to (listA)"><br />
+and then <em>mutate</em> <var>list B</var> with an instruction such as<br />
+<img src="/bjc-r/img/3-lists/axolotl.png" alt="replace item 3 of (listB) with (axolotl)"><br />
+and be surprised that the value of 
+
+<var>list A</var> has also changed, because the <code>set</code> instruction makes the two variables have <em>the very same list</em> as their value.  To make this work as desired, you have to <em>copy</em> the list:<br />
+<img src="/bjc-r/img/3-lists/set-B-to-copy.png" alt="set (listB) to (copy of list (listA))"><br /></div>
+You're going to write the 
+<img src="/bjc-r/img/3-lists/copy-of-block.png" alt="copy of list ( )"> block.
+<ol start="5">
 <li>Build this (leaving the input slots empty for now):<br />
-<img src="/bjc-r/img/3-lists/squares-framework.png" alt="squares (numbers): if &lt;empty? (numbers)&gt; report ( ) else report ( )">
+<img src="/bjc-r/img/3-lists/copy-framework.png" alt="copy of list (original list): if &lt;empty? (original list)&gt; report ( ) else report (( ) in front of ( ))">
 <br />Click "Apply."
 </li>
                <img class="imageRight" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
 <li>What <em>type</em> of thing does <code>squares</code> report? (A number? A list? A Boolean?)</li>
 <li>What should it report if its input is an empty list?  Fill in that <code>report</code> block.</li>
-<li>For a nonempty list, what value should it compute for <code>item 1 of</code> its input?  Put an expression to compute that value in the first input slot of the <code>in front of</code> block.</li>
-<li>What value should it report for <code>all but first of</code> the input?  Put the recursive call in the remaining input slot.</li>
+<li>For a nonempty list, what  value should it use for <code>all but first of</code> the input?  Put the recursive call in the remaining input slot.</li>
 <li>Test your block.</li>
-<li>Build this: <img src="/bjc-r/img/3-lists/initials-demo.png" alt="initials (list yakko wakko dot) reports {y, w, d}">
+</ol>
+<div class="takeItFurther">
+                <img class="imageRight" src="/bjc-r/img/icons/tough-stuff-mini.png" alt="Tough Stuff" title="Tough Stuff" />
+<ol type="A"> <li>If the input is a <em>list of lists,</em> the inner lists aren't copied, so changing items inside an inner list will still affect the original list.  Make a <code>deep copy</code> block that copies any inner lists (not just items of the complete list, but items of items, and so on to any depth) also.</li></ol></div>
+
+</div>
+
+
+
+<div class="forYouToDo">
+Here's the goal: <img src="/bjc-r/img/3-lists/squares-demo.png" alt="squares (list 7 8 1) reporting {49, 64, 1}">
+<ol start="10">
+<li>Build this (leaving the input slots empty for now):<br />
+<img src="/bjc-r/img/3-lists/squares-framework.png" alt="squares (numbers): if &lt;empty? (numbers)&gt; report ( ) else report (( ) in front of ( ))">
+<br />Click "Apply."
+</li>
+               <img class="imageRight" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
+<li>What <em>type</em> of thing does <code>copy of list</code> report? (A number? A list? A Boolean?)</li>
+<li>What should it report if its input is an empty list?  Fill in that <code>report</code> block.</li>
+<li>For a nonempty list, what value should it compute for <code>item 1 of</code> its input?  Put an expression to compute that value in the first input slot of the <code>in front of</code> block.</li>
+<li>What value should it use for <code>all but first of</code> the input?  Put the recursive call in the remaining input slot.</li>
+<li>Test your block.</li>
+<li>Here's another way to get the squares of a list of numbers:<br />
+<img src="/bjc-r/img/3-lists/map-squares.png" alt="map (( ) * ( )) over (numbers)"><br />
+Try it.
+<div class="endnote">So why didn't we just suggest using 
+<code>map</code> in the first place? Mostly, we want you to get more experience with recursive functions. But also, not all recursions can be turned into <code>map</code>s. For example, <code>add items</code> can't, and <code>copy of list</code> is a little tricky.</div></li>
 </ol>
 </div>
-<div class="takeItFurther">
-<ol type="A"><li>In the next lab, you'll learn a more concise way to solve these problems using <img src="/bjc-r/img/3-lists/map.png" alt="map (function) over (list)">.  It takes a function as its first input, like <code>keep</code>.  Experiment with it.</li>
-<li>Can you think of a list processing problem that you <em>can</em> solve using recursion, but <em>can't</em> solve using <code>map</code> or <code>keep</code> without recursion?</li></ol></div>
+<div class="forYouToDo">
+<ol start="17">
+<li>Build this: <img src="/bjc-r/img/3-lists/initials-demo.png" alt="initials (list yakko wakko dot) reports {y, w, d}"><br />
+Do it twice, once using recursion and once using <code>map</code>.  Test them both.
+</ol>
+</div>
+
 </body>
 </html>
