@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+    <script type="text/javascript">
+	window.hint2text='\
+	<ol type="a"> \
+	  <li>Write the <code>min</code> block that takes two inputs and reports whichever is smaller.  (You&rsquo;ve done this before, but it&rsquo;s probably quicker to do it again than to find it in some earlier project and import it.) </li> \
+    <li>Try these examples:<br /> \
+  <div class="sideHOM">Unlike <code>keep</code>, <code>combine</code> requires a function with <em>two</em> empty input slots.</div>  \
+ <img src="/bjc-r/img/3-lists/combine-plus.png" alt="combine with (+) items of (list 7 8 1)"><br />    \
+ <img src="/bjc-r/img/3-lists/combine-times.png" alt="combine with (*) items of (list 7 8 1)"><br />    \
+ <img src="/bjc-r/img/3-lists/combine-min.png" alt="combine with (min) items of (list 7 8 1)">  \
+</li> \
+    <li>Write the <code>earliest</code> block using <code>combine</code>.</li> \
+</ol>';
+	window.hinttext='\
+	        <p>To write a <code>sort</code> block in Snap<em>!</em>, you&rsquo;ll need code for a base case, and code that follows the steps of the selection sort.</p>\
+        \
+        <div class="forYouToDo">        \
+            <ol start="4">\
+                <li>\
+                    Write the <code>earliest in</code> block. For names, this returns the first name alphabetically in a list:<br />\
+                    <img class="indent" src="/bjc-r/img/7-recursive-reporters/unsortednames.png" alt="Eight names" />\
+                    <img class="indent" src="/bjc-r/img/7-recursive-reporters/earliestin.png" alt="Earliest name for alphabetical order" /><br />\
+					<a id="button2" \onClick="document.getElementById(' + "'button2'" + ').innerHTML=window.hint2text;">This can be done in several ways.  Click here for one of them.</a> \
+                </li>\
+    <li>The selection sort algorithm says to find the smallest item in a list, <em>pull that item out of the list,</em> recursively sort the remaining items, and stick the smallest item in front of the result. Write a block <img src="/bjc-r/img/3-lists/remove.png" alt="remove ( ) from ( )"></li> that reports a list that&rsquo;s a copy of its second input, but with its first input removed. \
+    <div class="narrower"> \
+    You can do this using <code>keep</code> if you assume that there are no equal items in the list.  That&rsquo;s fine for now, although a correct sorting algorithm will keep all duplicate items in the result.</div> \
+    <div class="takeNote">You might be tempted to use the command <img src="/bjc-r/img/3-lists/replace.png" alt="replace item ( ) of ( ) with ( )"> in this problem, but your <code>sort</code> block should <em>report a new sorted version</em> of the list, without changing the original list.  Sometimes it&rsquo;s okay to modify the original list, but sometimes it isn&rsquo;t, so go for the most generally useful solution.</div></li> \
+                <li>\
+                    Build the recursive reporter <code>sort</code>.<br />\
+                    <img class="indent" src="/bjc-r/img/3-lists/selectionresult.png" alt="Result of a selection sort on eight names" title="Result of a selection sort on eight names" />\
+                </li>\
+                <li>How many times does <code>sort</code> call itself?</li>\
+            </ol>\
+                <img class="imageRight" src="/bjc-r/img/icons/save-mini.png" alt="Save Your Work" title="Save Your Work" /> \
+	</div>        \
+        </div>';
+		</script>
+
+    <title>Unit 3 Lab 2: Sorting, Page 3</title>
+    </head>
+    
+    <body>
+        <h2>Selection Sort</h2>
+
+        <p>One  commonly used sorting algorithm is called <strong>selection sort</strong>. Here's how it works:
+    <ul>
+                <li><div class="sidenote">The earliest item might be the first name in alphabetical order, or the smallest number in a list.</div>
+      <strong>Step 1.</strong> In an unsorted list, find a way to select the item that should come earliest in the sorted result. (If there are no remaining items, you're done.)</li>
+                <li><strong>Step 2.</strong> Pull the selected item out of the list and place it in the first position of a new result list.</li>
+                <li><strong>Step 3.</strong> Use a selection sort to put the remaining items in order as the rest of the result list.</li>
+            </ul>
+        </p>
+        <!--
+        <li><strong>Step 3.</strong> With the remaining items, select the item that should come next in the sort.</li>
+        <li><strong>Step 4.</strong> Pull the item out of the list and place it.</li>
+        <li><strong>Step 5.</strong> Repeat Steps 3 and 4 until there is only one item left.</li> -->
+        
+        <div class="forYouToDo" id="first">
+            <ol>
+                <li> Explore the selection sort before writing any code. With your class, stand up and form a line. Then, follow the selection sort process to put everyone in sorted, alphabetical order by month and day of birth (for example, 10/4).</li>
+                <li>How is a selection sort an example of recursion? What is the base case?</li>
+<li>Open your project "U3L1-ContactList"; save it as "U3L2-ContactList".<br />
+   <strong>We want to sort the contact list by name, but we're going to start with a simpler problem: sorting a list of numbers or words.</strong></li> 
+          </ol>
+        </div>
+<!--        
+        <p>A video of one version of selection sort can be found <a href="http://www.youtube.com/watch?v=f8hXR_Hvybo">here.</a></p> -->
+
+<div id="hintbutton" onClick="document.getElementById('hintbutton').innerHTML=window.hinttext;">
+<div class="takeItFurther"><br />If you'd like to write the <code>sort</code> block with no help at all, do it now.  Otherwise you can click here.</div></div></li>
+		
+        
+        <div class="ifTime">
+            <ol start="8">
+                <li>
+                    <a href="/bjc-r/cur/programming/5-algorithms/old/5-data-processing/yob2014.txt">This file</a> contains a large list of baby names from 2014. Import the data, then build an algorithm that returns an alphabetical list of all names starting with a given letter:<br />
+                    <img class="indent" src="/bjc-r/img/7-recursive-reporters/biglistnames.png" alt="Alphabetical list of names starting with Z" title="Alphabetical list of names starting with Z" />
+                </li>
+            </ol>
+        </div>
+    </body>
+</html>
