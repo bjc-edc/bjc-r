@@ -9,12 +9,13 @@
     
     <body>
         <h2>Adding Contact Data</h2>
+		<div class="todo"><strong>Purpose (do/learn; why this/here):</strong> Develop the user interface for adding list items and clearing (re-initializing) the list, which is helpful for debugging.</div>
 		<div class="learn">
         	<p>
                 <strong>On this page,</strong> you will develop:
                 <ul>
-                    <li><strong>An "Add Contact" button</strong> for adding each new contact using the <code>contact</code> constructor</li>
-                    <li><strong>A "Clear List" button</strong> for emptying the <var>contact list</var></li>
+                    <li>An <strong>"Add Contact" button</strong> for adding each new contact using the <code>contact</code> constructor</li>
+                    <li>A <strong>"Clear List" button</strong> for emptying the <var>contact list</var> while debugging</li>
                 </ul>
             </p>
         </div>
@@ -26,10 +27,8 @@
                     Develop an "Add Contact" button for the user.
                     <ol>
 						<li>Give the sprite an appropriate costume; several are included in the project.</li>
-                        <li>
-                            Make the sprite collect information for a new contact from the user and then add it to the <var>contact list</var> using <code>contact</code>.
-                        </li>
-		                <li>Add a few made-up people to your <var>contact list</var> to make sure everything works.</li>
+                        <li>First, make the clicking "Add Contact" sprite add a blank contact to the <var>contact list</var> using the <code>contact</code> constructor.</li>
+                        <li>Once that's working, fill those blanks with contact data collected from the user.</li>
                     </ol>
                     <div class="comment"><strong>EK 4.1.1H</strong> Different algorithms can be developed to solve the same problem.</div>
                     <div class="narrower">
@@ -42,23 +41,32 @@
                                     <img class="indent" src="/bjc-r/img/3-lists/contact-constructor-with-variables.png" alt="contact with name: (name) address: (address) phone: (phone)" title="contact with name: (name) address: (address) phone: (phone)" />
                                 </li>
                                 <li>
-                                    <strong><em>Another way</em> is to use <em>abstraction</em>: create helper blocks</strong> (such as <img src="/bjc-r/img/3-lists/get-name.png" alt="get name" title="get name" /> and <img src="/bjc-r/img/3-lists/get-phone.png" alt="get phone" title="get phone" />) that each ask the user for one piece of data and report their answer to the <code>contact</code> constructor.<br />
-                                    <img class="indent" src="/bjc-r/img/3-lists/contact-constructor-with-helpers.png" alt="contact with name: (get name) address: (get address) phone: (get phone)" title="contact with name: (get name) address: (get address) phone: (get phone)" />
+                                    <strong><em>Another way</em> that makes for cleaner code is to use <em>abstraction</em>: create helper blocks</strong> (such as <img src="/bjc-r/img/3-lists/ask-name.png" alt="ask name" title="ask name" /> and <img src="/bjc-r/img/3-lists/ask-phone.png" alt="ask phone" title="ask phone" />) that each ask the user for one piece of data and report their answer to the <code>contact</code> constructor.<br />
+                                    <img class="indent" src="/bjc-r/img/3-lists/contact-constructor-with-helpers.png" alt="contact with name: (ask name) address: (ask address) phone: (ask phone)" title="contact with name: (ask name) address: (ask address) phone: (ask phone)" /><br />
+                                    Each of these helper blocks will <code>ask</code> the user a specific question (like, "What is the contact's address?") and then report the user's <code>answer</code>.
                                 </li>
                             </ul>
                             <div class="endnote">
-								<p>You might choose to first build a more general <img class="" src="/bjc-r/img/3-lists/get-answer-to-question.png" alt="get answer to question ()" title="get answer to question ()" /> helper block (yet another abstraction) to use inside the other helper blocks instead of rewriting the <code>ask</code> and <code>answer</code> script  multiple times.</p>
+								<p>You could first build a more general <img class="" src="/bjc-r/img/3-lists/answer-to-prompt.png" alt="answer to prompt ()" title="answer to prompt ()" /> helper block (yet another abstraction) to use in the other helper blocks instead of rewriting the <code>ask</code> and <code>answer</code> script every time.</p>
                             </div>
                         </p>
                     </div>
+                    <ol start="4">
+		                <li>Add a few made-up people to your <var>contact list</var> to make sure everything works.</li>
+                    </ol>
                     
                     <div class="todo">
                         <p>I dropped <img src="/bjc-r/img/3-lists/get-new-contact.png" alt="get new contact"> because I think it complicates the situation with unnecessary abstraction. If students want to built that, they can, but I don't think it valuable to distract them with it deliberately. --MF, 6/3/17</p>
                     </div>
                     
                 </li>
+                <div class="endnote">
+                    For now, the names and addresses will be single text strings (like, "Alphie Preston" or "149 E. 16th Ave. Sunnyvale, MA"). Soon, you can also create abstract data types for names and addresses so that they can be stored as lists inside the contact ADT, like this:<br/>
+                    <img class="indent" src="/bjc-r/img/3-lists/" alt="" title="" />
+                    <img class="indent" src="/bjc-r/img/3-lists/" alt="" title="" />
+                </div>
                 <li>
-                    Write a script for the "Clear List" button to reset <var>contact list</var> to an empty list. 
+                    Develop a "Clear List" button that resets the <var>contact list</var> to an empty list. 
                     <ol>
                         <li>Give the sprite an appropriate costume.</li>
                         <li>Make the script ask the user for confirmation (so the user won't accidentally delete their list).</li>
@@ -75,6 +83,5 @@
 			</ol>
 		</div>
 		
-
     </body>
 </html>
