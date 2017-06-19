@@ -4,7 +4,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
 		<title>Unit 3 Lab 1: Contact List, Page 1</title>
-        <style>.todo, .comment, .commentBig {display:none;}</style>
+        <!--<style>.todo, .comment, .commentBig {display:none;}</style>-->
     </head> 
     
     <body>
@@ -15,16 +15,16 @@
 		</div>
         
         <div class="learn">
-        	<p><strong>In this lab,</strong> you will develop a Contact List application like the one on your phone.</p>
+        	<p><strong>In this lab,</strong> you will develop a Contact List database application like the one on your phone.</p>
         	<p>
                 <strong>On this page,</strong> you will develop an <strong>Abstract Data Type</strong> to store and access data, including:
                 <ul>
                     <li>
-                        A <em>constructor</em> to create each new contact:<br />
+                        A <strong>constructor</strong> to <em>create</em> each new contact:<br />
                         <img class="indent" src="/bjc-r/img/3-lists/contact-constructor-untyped.png" alt="contact name: () address: () phone: ()" title="contact name: () address: () phone: ()" />
 					</li>
                     <li>
-                        Three <em>selectors</em> to access specific information for a contact: <br />
+                        Three <strong>selectors</strong> to <em>access</em> specific information for a contact: <br />
                         <img class="indent" src="/bjc-r/img/3-lists/name-selector-untyped.png" alt="contact name ()" title="contact name ()" />
                         <img class="indent" src="/bjc-r/img/3-lists/address-selector-untyped.png" alt="contact address ()" title="contact address ()" />
                         <img class="indent" src="/bjc-r/img/3-lists/phone-selector-untyped.png" alt="contact phone ()" title="contact phone ()" />
@@ -33,14 +33,13 @@
 			</p>
         </div>
         
-        <div class="todo">Brian's Notes from late July 2016:
+        <div class="todo">
+        	Brian's Notes from late July 2016:
         	<ul>
             	<li>I'm sad to say that everyone had trouble with my data abstraction stuff in the contact list app (3.2.4).  It's not that they couldn't do the individual steps, really; they just didn't understand how the steps were a story line.  The details that threw people are not understanding the difference between (GET PHONE) and (CONTACT PHONE) -- the first interacts with the user and the second is just a selector for contacts -- partly because the selector doesn't seem to do anything interesting enough to bother making a custom block for.  I think for 2016-17 we just flush that page, although then we have to decide whether what's left (in 3.2.1) is interestingly different from the grocery list app.  For 2017-18 one of you folks, who know how to write curriculum, should fix it.</li>
             </ul>
-        </div>
-        
-        <div class="todo">
-        	<h4><strong>Feedback:</strong></h4>
+            <p>There is user feedback here that is commented out.</p>
+            <!--<h4><strong>Feedback:</strong></h4>
         	<ul>
 				<p><strong>First page</strong></p>
                 <li>GH feedback 12/8/15: Make it more like a game so more people will enjoy the site</li>
@@ -53,24 +52,26 @@
                 <li>GH Feedback 11/30/15: The functionality of contact info is unclear. Does it report all the matching names, first and last, or only an exact match of the first or last name. etc.</li>
                 <li>GH Feedback 1/5/16: maybe provide a interactive example.</li>
                 <li>GH Feedback 1/31/16: I don't feel that this page explains the need for constructor and selector blocks very well. I had to read through this several times before I could articulate why this method was not redundancy. If you add complexity to the contact, the constructor block WOULD have to be changed. So would the selector blocks so that they pull the right item from a contact. The only benefit to creating these blocks is if other programs were to use them. Instead of having to change the item number when selecting.... But I don't think you get that from this page....</li>
-			</ul>
+			</ul>-->
+            <p><h3>Here's Mary's June 2017 approach, page-by-page:</h3>
+            <ol>
+            <li>Get a simple ADT set up (already more complex than POINT)</li>
+            <li>Create buttons for user to access contact list (including GET blocks not used in U2 and separated by a page from the ADT development)</li>
+            <li>Create a SEARCH button by building a simple SELECT script</li>
+            <li>Extend the ADT by adding a BIRTHDAY ADT, adapting the CONTACT ADT to accept it, and adding more GET blocks </li>
+            <li>Creating a HOW OLD IS block and using it to MAP over the list.</li>
+            </ol>
+            This goes well above what they do with ADTs in U2 and is my attempt to do everything Brian wants (except typetags, which we agreed to let be optional, and display/sorting form, which I want, but in L2 where it is motivated) and to do it in a way that makes it most accessible both to do and to understand. --MF, 6/19/17
+            </p>
         </div>
         
         <div class="todo">
-        	<h4><strong>Standards (very rough)</strong></h4>
-            <p>3.2.2D Maintaining privacy of large data sets containing personal information can be challenging.</p>
-            <p>3.3.1F Security and privacy concerns arise with data containing personal information.</p>
+        	<h4><strong>for TG: Standards</strong></h4>
             <p>5.3.1H Data abstraction provides a means of separating behavior from implementation.</p>
+            <p>5.3.1K Lists and list operations, such as add, remove, and search, are common in many programs.</p>
+            <p>5.3.1L Using lists and procedures as abstractions in programming can result in programs that are easier to develop and maintain.</p>
+            <p>5.5.1H Computational methods may use lists and collections to solve problems.</p>
             <p>5.5.1I Lists and other collections can be treated as abstract data types (ADTs) in developing programs.</p>
-            <p>if we do something with efficiency/storage of contact list data, do EU/LO:</p>
-            <p>3.3 There are trade offs when representing information as digital data.</p>
-            <p>3.3.1 Analyze how data representation, storage, security, and transmission of data involve computational manipulation of information. [P4]</p>
-            <p>
-                3.2.1F Software tools, including spreadsheets and databases, help to efficiently organize and find trends in information.
-                <ul><li>Exclusion Statement (3.2.1F): Students are not expected to know specific formulas or options available in spreadsheet or database software packages.</li></ul>
-            </p>
-            <p>7.2.1E Open and curated scientific databases have benefited scientific researchers.</p>
-            <p>7.5.1A Online databases and libraries catalog and house secondary and some primary resources</p>
         </div>
         
 
@@ -79,7 +80,7 @@
             <div><span>Betsy:</span> Yeah, I think so... and computers and tablets too.</div>
             <div><span>Gamal:</span> How do you think they're built?</div>
             <div><span>Betsy:</span> Well, it's a <em>list</em> of contacts, and I guess each contact is also a list with that person's name, phone number, and address.</div>
-            <div><span>Gamal:</span> So, it's a lists of lists. I think we can build one in Snap<em>!</em>.</div>
+            <div><span>Gamal:</span> So, it's a lists of lists... a table... I think we can build one in Snap<em>!</em>.</div>
             <div><span>Betsy:</span> Ok, let's try. We'll need a variable to store the list. It should be <em>global</em> right? We want the data to be saved when we save the project.</div>
             <div><span>Gamal:</span> Yeah, and also we'll probably have multiple scripts using that variable, so it shouldn't be attached to just one script like a script variable.</div>
             <div><span>Betsy:</span> Ok. So we'll start with a global variable containing an empty list, and we need a way to add a contact to our <var>contact list</var>.</div>
@@ -130,8 +131,6 @@
                             It should report one whole contact (a list of the three items):<br />
                             <img class="indent" src="/bjc-r/img/3-lists/contact-constructor-reporting.png" alt="contact name: () address: () phone: ()" title="contact name: () address: () phone: ()" /><br />
                         </li>
-						<div class="todo">I've been considering moving <code>contact address</code> and <code>contact phone</code> to the next page with LOOKUP because they are used there and not here, but yet I leave it here because I do think it's nice to build the code ADT all at once--for the sake of understanding the ADT. Comments? --MF, 6/15/17</div>
-
                         <li>
                             Then, write the <em>selector</em> blocks to retrieve the <code>contact name</code>, <code>contact address</code>, or <code>contact phone</code> from the contact in the input slot... <br />
                             <img class="indent" src="/bjc-r/img/3-lists/name-selector-untyped.png" alt="contact name ()" title="contact name ()" />
