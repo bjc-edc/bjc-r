@@ -11,7 +11,7 @@ window.hinttext='<img src="/bjc-r/img/3-lists/contains.png" alt="( ) contains ( 
     </head> 
     
     <body>
-    	<h2>Tic-Tac-Toe: Detect Tie Games</h2>
+    	<h2>Detect a Tie Game</h2>
         <div class="todo">This comment box applies to both pages of the lab.
         <p><strong>Why at all?</strong> This lab
     introduces <code>map</code> and gives practice in using HOFs to do interesting analysis.  It also lays the groundwork for later strategy computation.        
@@ -22,6 +22,7 @@ window.hinttext='<img src="/bjc-r/img/3-lists/contains.png" alt="( ) contains ( 
 
     <div class="learn"><strong>In this lab</strong>, you will continue <a href="/bjc-r/cur/programming/2-complexity/4-abstraction/4-building-tic-tac-toe.html">the tic-tac-toe project</a> from Unit 2 to allow the program to <em>analyze</em> the game board to detect wins and ties.<br />
         <strong>On this page</strong>, you'll start with ties, because they're easier to find.</div>
+        <!--
 <div class="takeNote">In Unit 2, you may have done either or both of two versions of the tic-tac-toe project: the 
 <a href="/bjc-r/cur/programming/2-complexity/4-abstraction/4-building-tic-tac-toe.html">one-sprite version</a> in Lab 4 and the <a href="/bjc-r/cur/programming/2-complexity/optional-projects/4-tic-tac-toe.html">nine-sprite version</a> in the optional projects.  Each version has different virtues:
 <ul>
@@ -29,14 +30,27 @@ window.hinttext='<img src="/bjc-r/img/3-lists/contains.png" alt="( ) contains ( 
 <li>In the nine-sprite version, knowing which square was automatic, because the player moved by clicking a different sprite for each square.  Detecting illegal moves was also easy because each sprite knew the state of one square. But collecting the moves in one place  required sending messages between sprites.</li></ul>
 There's no obvious better choice between the two.
 <p><em><strong>Both versions</strong></em><strong> end up with a global variable <var>board</var> whose value is a nine-item list representing the current state of the game board.</strong> As a result, you can now build on either version in this lab.</p></div>
+    -->
 <div class="forYouToDo" id="first">
 			<ol>
-                <li>Open your project <strong>U2L4-TicTacToe</strong> (Lab 4 version) or <strong>U2Opt-TicTacToe</strong> (optional project version) and save it as <strong>U3L3-TicTacToe</strong>. That preserves the old version while you modify it here.</li>
+                <li>Open your project <strong>U2L4-TicTacToe</strong> and save it as <strong>U3L3-TicTacToe</strong>. That preserves the old version while you modify it here.</li>
+                <li>It was easy to detect illegal moves (a move in a square that's already occupied) because each sprite could test that without knowing anything about the board as a whole. But for the analysis in this lab, you need a <em>global</em> picture of the state of the game. (It's &quot;global&quot; not just in the sense of using a global variable, although that's true too, but rather that you need one single idea of the board, not nine local ideas about one square each.)
+                <ol type="a">
+                <li>Make a global variable <var>board</var> and, when the game starts, set it to a list containing the word &quot;Empty&quot; nine times.</li>
+                <li>Create a <strong>sprite-local variable</strong> <var>square number</var>:<br />
+   <img src="/bjc-r/img/3-lists/square-number-var.png" alt="variable name dialog box with &quot;for this sprite only&quot; selected"><br />
+   A sprite-local variable is like a global variable in that it doesn't belong to a particular <em>script,</em> but it does belong to a particular <em>sprite.</em>  When the initial sprite is cloned nine times, each clone will have its own version of this variable.  That's how a sprite will "know" where it is on the board.</li>
+                <li>As you create the clones, give each the correct <var>square number</var>:<br />
+<img class="indent" src="/bjc-r/img/2-complexity/TTT1_img/SquareNumbersonTTT.png" height="150" alt=""/><br />
+Try doing this without a hint, but if you have trouble, <a id="hintbutton" onClick="document.getElementById('hintbutton').innerHTML='In the loop that makes the clones, increase the main sprite&rsquo;s <var>square number</var> by one before each cloning.';">here's one way</a>.</li>
+                <li>When a square is clicked, replace that square's entry in the <var>board</var> list with X or O as appropriate.</li>
+                </ol>
+                </li>
                 <li>The definition of a tie game is that there are no more empty squares, and neither player has won. You're going to detect wins on the next page, so for now, just declare a tie (switch the sprite's costume to Turtle and have it <code>say</code> &quot;TIE GAME!&quot;) when there are no empty squares after a move.  <a id="hintbutton" onClick="document.getElementById('hintbutton').innerHTML=window.hinttext;">(Don't click unless you really, really need a super big hint.)</a></li>
                 <li>Save your project.</li>
                 
 			</ol>
-		</div>
+	</div>
         
     </body>
 </html>
