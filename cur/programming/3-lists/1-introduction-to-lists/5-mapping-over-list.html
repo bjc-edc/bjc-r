@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unit 3 Lab 1: Contact List, Page 5</title>
+        <!--<style>.todo, .comment, .commentBig {display:none;}</style>-->
+	</head>
+
+	<body>
+        <h2>Using Every List Item</h2>
+		<div class="todo">Creating a HOW OLD IS block and using it to MAP over the list.</div>
+	
+    	<div class="learn">
+        	<p><strong>On this page,</strong> you will create a <code>how old</code> reporter to determine the age of a contact, and you will use it together with the <code>map</code> block to find the age of every contact in your list.</p>
+            <div class="todo">Show <code>map (how old ()) over (contact list)</code> reporting? --MF, 6/19/17</div>
+        </div>
+        
+        <h3>Creating the <code>How Old</code> Reporter</h3>
+        <div class="forYouToDo" id="first">
+			<ol>
+				<li>
+                    Create a reporter that accepts a contact as input and reports the age of that contact.
+                    <ol>
+                        <li>
+                            First, create five script variables:<br />
+                            <img class="indent" src="/bjc-r/img/3-lists/how-old-is-hat-with-script-vars.png" alt="how old is () hat block and 5 script variables: contact birth month-number, onctact birth day, contact birth year, high guess, and low guess" title="how old is () hat block and 5 script variables: contact birth month-number, onctact birth day, contact birth year, high guess, and low guess" />
+                        </li>
+                        <li>Set the first three using the appropriate date selector together with the <code>birthdate from contact</code> selector.</li>
+                        <li>
+                            <div class="comment">TG: Determine the correct values for the <var>high guess</var> and <var>low guess</var> selectors requires some thought and understanding. Some students may do better working through these initializations as a class.</div>
+                            <img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />Set the two guess selectors.
+                            <ol>
+                                <li>One of the two guesses should be <img class="inline" src="/bjc-r/img/3-lists/current-year-minus-contact-birth-year.png" alt="(current year) - (contact birth year)" title="(current year) - (contact birth year)" />. Why?</li>
+                                <li>Should the <var>high guess</var> or the <var>low guess</var> have that value?</li>
+                                <li>What value should the other guess have?</li>
+                            </ol>
+                        </li>
+                        <li>Determine whether the contact's birth month is less than or greater than the <code>current month</code> (found in the Sensing palette) and report the appropriate guess in either case.</li>
+                        <li>
+                        	If the contact's birth month is equal to the current month, then:
+                        	<ol>
+                            	<li>Determine whether <var>contact birth day</var> is less than or greater than <code>current day</code> and report the appropriate guess in either case.</li>
+                                <li>If <var>contact birth day</var> is equal to the <code>current day</code>, then broadcast "birthday" and report the appropriate guess.</li>
+                            </ol>
+                        </li>
+                    </ol>
+                </li>
+                <li>
+                    <div class="commentBig">Image or two should show examples of how students can test: maybe one with a contact constructor in it and another with the search block reporting the contact. --MF, 6/19/17</div>
+                    <strong>Debug.</strong> Test your <code>how old</code> block with several contacts.<br />
+                    <img class="indent" src="/bjc-r/img/3-lists/" alt="" title="" />
+                    <img class="indent" src="/bjc-r/img/3-lists/" alt="" title="" />
+                </li>
+			</ol>
+		</div>
+        <div class="ifTime">
+			<ol start="3">
+				<li>Develop a script that receives the "birthday" message and alerts the user that it's this contact's birthday.</li>
+			</ol>
+		</div>
+				
+
+		<h3>Using <code>Map</code> with <code>How Old</code> to Find the Ages of All Contacts</h3>
+        <div class="todo">See also: <a href="/bjc-r/cur/programming/new-ideas/aprilpd/processing-student-grades.html">Processing Student Grades</a> for more ideas about introducing MAP and <a href="/bjc-r/cur/programming/2-complexity/3-predicates/2-keeping-list-items.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment">Keeping Items from a List</a> to mimic how we introduced KEEP --MF, 6/16/17</div>
+        
+        
+        <p>
+        	The <img class="inline" src="/bjc-r/img/blocks/map.png" alt="map" title="map" /> block takes two inputs: a function (a reporter with a blank input slot) and a list, and it reports a new list. In this new list, each item is the result of running an item from the original input list through the function. For example:<br />
+            <!--<img class="indent" src="/bjc-r/img/3-lists/map-example-1.png" alt="map (( )-(1)) over (list (96) (-100) (4.7)) reporting" title="map (( )-(1)) over (list (96) (-100) (4.7)) reporting" /><br />-->
+            <img class="indent" src="/bjc-r/img/3-lists/map-example-2.png" alt="map (join ( ) (s)) over (list (cat) (dog) (bird)) reporting" title="map (join ( ) (s)) over (list (cat) (dog) (bird)) reporting" /><br />
+            <img class="indent" src="/bjc-r/img/3-lists/map-example-3.png" alt="map (round ( )) over (list (3.14159) (87) (5.4)) reporting" title="map (round ( )) over (list (3.14159) (87) (5.4)) reporting" />
+		</p>
+		
+		<div class="takeNote"><p>You write the function that describes the change, and <code>map</code> applies that function to each item in the input list and then reports the list of values changed by the function.</p></div>
+
+		<div class="forYouToDo">
+			<ol start="4">
+				<li>
+                    Try these:<br />
+                    <img src="/bjc-r/img/3-lists/map-join-s.png" alt="map (join ( ) (s)) over (list block script Boolean)"><br />
+                    <img src="/bjc-r/img/3-lists/map-3x.png" alt="map ((3) * ( )) over (list 7 8 1)"><br />
+                    <img src="/bjc-r/img/3-lists/map-letter-1.png" alt="map (letter 1 of ( )) over (list bounce join clear)">
+                </li>
+                <li>Use the <code>map</code> block together with <code>how old</code> to find the age of every contact in your list.</li>
+                <li>
+                    <!-- question 1 (was #4 on Self Check Page) -->
+                    <div class="assessment-data"
+                    type="multiplechoice" identifier="mapLetterVsItem"
+                    hasinlinefeedback="true" maxchoices="5"
+                    responseIdentifier="resp4" shuffle="true">
+                        <div class="prompt">
+                            <p>
+                                This question refers to these two lists:<br /> 
+                                <img class="indent" src="/bjc-r/img/3-lists/words_numbers.png" alt="set (words and numbers) to {rabbit, 5, benefit, is, 34, kite, 2, 305, the, 61}" title="set (words and numbers) to {rabbit, 5, benefit, is, 34, kite, 2, 305, the, 61}" /><br />
+                                <img class="indent" src="/bjc-r/img/3-lists/check1capitals.png" alt="set (capitals) to {{Augusta, Maine}, {Boise, Idaho}, {Columbia, South Carolina}, {Des Moines, Iowa}}" title="set (capitals) to {{Augusta, Maine}, {Boise, Idaho}, {Columbia, South Carolina}, {Des Moines, Iowa}}" /><br />
+                                Which of these statements are <strong>true</strong>?<br />
+                                Choose <strong>all</strong> that apply.
+                            </p>
+                        </div>
+            
+                        <div class="choice" identifier="c1">
+                            <div class="text">
+                                <img border="0" src="/bjc-r/img/3-lists/check2mapc1.png" alt="map (letter (1) of ()) over (words and numbers)" title="map (letter (1) of ()) over (words and numbers)" /> reports the list <var>{r, 5, b, i, 3, k, 2, 3, t, 6}</var>.
+                            </div>
+                            <div class="feedback">
+                                Correct.
+                            </div>
+                        </div>
+                        <div class="choice" identifier="c2">
+                            <div class="text">
+                                <img border="0" src="/bjc-r/img/3-lists/check2mapc2.png" alt="map (item (1) of ()) over (words and numbers)" title="map (item (1) of ()) over (words and numbers)"> reports the list <var>{rabbit}</var>.
+                            </div>
+                            <div class="feedback">
+                                No. The blank space is expecting a <strong>list</strong> as its input, but <code>map</code> puts a single item from <code>words and numbers</code> into that slot.
+                            </div>
+                        </div>
+                        <div class="choice" identifier="c1">
+                            <div class="text">
+                                <img border="0" src="/bjc-r/img/3-lists/check2mapc3.png" alt="map (item (1) of ()) over (capitals)" title="map (item (1) of ()) over (capitals)"> reports the list <var>{Augusta, Boise, Columbia, Des Moines}</var>.
+                            </div>
+                            <div class="feedback">
+                                Correct. 
+                            </div>
+                        </div>
+                        <div class="choice" identifier="c3">
+                            <div class="text">
+                                <img border="0" src="/bjc-r/img/3-lists/check2mapc4.png" alt="map (letter (1) of ()) over (capitals)" title="map (letter (1) of ()) over (capitals)"> reports the list <var>{A, B, C, D}</var>.
+                            </div>
+                            <div class="feedback">
+                                No. You can find the first letter of a word, but not the first letter of a list.
+                            </div>
+                        </div>
+                        <div class="choice" identifier="c4">
+                            <div class="text">
+                                <img border="0" src="/bjc-r/img/3-lists/check2mapc5.png" alt="map (all but first of () over (capitals)" title="map (all but first of () over (capitals)"> reports the list <var>{Maine, Idaho, South Carolina, Iowa}</var>.
+                            </div>
+                            <div class="feedback">
+                                No. This is kind of a trick question. What gets reported is actually a list of lists. The output is: <var>{{Maine}, {Idaho}, {South Carolina}, {Iowa}}</var>. 
+                            </div>
+                        </div>
+                        
+                        <div class="responseDeclaration" identifier="resp4">
+                            <div class="correctResponse" identifier="c1"></div>
+                        </div>
+                    </div>
+                </li>				   
+			</ol>
+		</div>
+
+
+	</body>
+</html>

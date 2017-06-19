@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unit 3 Lab 1: Contact List, Page 4</title>
+        <!--<style>.todo, .comment, .commentBig {display:none;}</style>-->
+	</head>
+
+	<body>
+		<h2>Modifying the Abstract Data Type</h2>
+        
+        <div class="todo">Extend the ADT by adding a BIRTHDAY ADT, adapting the CONTACT ADT to accept it, and adding more GET blocks</div>
+
+	<div class="learn">
+        	<p>
+                <strong>On this page,</strong> you will develop an abstract data type (ADT) to store and access <em>dates</em>, and you will adapt your contact ADT to use it to store each contact's birthday.<br />
+				<div class="comment">Apparently, this is the date of "The Atlanta Massacre" which kids in Atlanta will know. Can someone suggest a better date to use—something near the age of a high-schooler and not connected to unfortunate news? --MF, 6/19/17</div>
+                <img class="indent" src="/bjc-r/img/3-lists/" alt="contact with name: ... birthday: (date (August) (9) (1999))" title="contact with name: ... birthday: (date (August) (9) (1999))" />
+                <!--including:
+                <ul>
+                    <li>
+                        A <strong>constructor</strong> to <em>create</em> a date:<br />
+                        <img class="indent" src="/bjc-r/img/3-lists/date-constructor-untyped.png" alt="date () () ()" title="date () () ()" />
+					</li>
+                    <li>
+                        Three <strong>selectors</strong> to <em>access</em> specific information for a date: <br />
+                        <img class="indent" src="/bjc-r/img/3-lists/name-selector-untyped.png" alt="contact name ()" title="contact name ()" />
+                        <img class="indent" src="/bjc-r/img/3-lists/address-selector-untyped.png" alt="contact address ()" title="contact address ()" />
+                        <img class="indent" src="/bjc-r/img/3-lists/phone-selector-untyped.png" alt="contact phone ()" title="contact phone ()" />
+					</li>
+				</ul>-->
+            </p>
+        </div>
+        
+        <div class="todo">Have them add MONTH, DAY, and YEAR to the ADT, then have them query for the date, and then do MAP on the next page, then a page for sorting/display forms. --MF, 6/17/17</div>
+		        
+        <div class="takeNote">
+            <p>As we add more complexity to contacts&mdash;birthday, work address, and so on&mdash;the location of each data point (such as the phone number) inside a contact might change. This is where an abstract data type helps. Instead of fixing every block that uses the phone number every time you move the phone number as you refine your contact ADT, you can change just the one <em>selector</em> that chooses the phone number from the list, and all other blocks using that selector will get the data they need.</p>
+        </div>
+        	<!--<p>Later in this unit, you'll improve the contact app still further, to handle family-name-first names correctly.</p>-->
+        <div class="forYouToDo" id="first">
+			<ol>
+				<li>
+                	Create an abstract data type to manage three data for each date: <var>month (as word)</var>, <var>day</var>, and <var>year</var>.
+                    <ol>
+                        <li>
+                            Create a <code>date</code> constructor that accepts those three data as input and reports a date as a list of three items<br />
+                            <img class="indent" src="/bjc-r/img/3-lists/date-constructor-reporting.png" alt="date (August) (9) (2005) reporting {August, 9, 2005}" title="date (August) (9) (2005) reporting {August, 9, 2005}" />
+                            <div class="todo">
+                                Need to adapt this here as a class="narrower" box with video support from Selim:
+                                <ol>
+                                    <li>
+                                        There are only two allowable values for the <var>type</var> input, and you won't want users of your program to have to remember them and type them in without spelling errors.  Instead, you want a <em>menu</em> input, like this:<br />
+                                        <img src="/bjc-r/img/3-lists/dropdown-block.png" alt="name block with menu input slot for type"><br />
+                                        Here's how to do that:
+                                        <ol type="a">
+                                            <li>Edit the <code>name</code> block and click on the orange <var>type</var> variable in its header.</li>
+                                            <li>
+                                                Click on the arrowhead to open the type selector, then right-click on it:<br />
+                                                <img src="/bjc-r/img/3-lists/option-context-menu.png" height="460" alt="option context menu in input dialog"><br />
+                                                Then click "options..."
+                                            </li>
+                                            <li>
+                                                Enter the type tags in the box, one per line:<br />
+                                                <img src="/bjc-r/img/3-lists/option-dialog.png" height="460" alt="menu options 'given-first' and 'family-first'">
+                                            </li>
+                                            <li>
+                                                Click OK, then right-click the type selector again and choose "read-only."
+                                                <div class="narrower">
+                                                    There are two kinds of menu input slots:<br />&nbsp;&nbsp;
+                                                    <img src="/bjc-r/img/3-lists/dropdown-item.png" alt="item (...) non-read-only menu input slot"><br />
+                                                    <img src="/bjc-r/img/3-lists/dropdown-touching.png" alt="touching (...) ?  read-only input slot"><br />
+                                                    For this block, we don't want users to enter values other than the ones in the menu.
+                                                </div>
+                                            </li>
+                                            <li>Click OK on the <var>type</var> input box and then on the Block Editor.</li>
+                                        </ol>
+                                    </li>
+                                </ol>
+                            </div>
+		
+                        </li>
+                        <li>
+                            First, write these two <em>selector</em> blocks to retrieve the <code>day from date</code> or <code>year from date</code> from the inputted date. <br />
+                            <img class="indent" src="/bjc-r/img/3-lists/date-constructor-in-day-selector.png" alt="day from date ()" title="day from date ()" /><br />
+                            <img class="indent" src="/bjc-r/img/3-lists/date-constructor-in-year-selector.png" alt="year from date ()" title="year from date ()" />
+                        </li>
+                    	<li>
+                        	Make sure each works before moving on.<br />
+                            <img class="indent" src="/bjc-r/img/3-lists/" alt="" title="" /><br />
+                            <img class="indent" src="/bjc-r/img/3-lists/" alt="" title="" />
+                        </li>
+                        <li>
+                        	Then, write the third selector: <code>month (as number) from date</code>.<br />
+                            <img class="indent" src="/bjc-r/img/3-lists/date-constructor-in-month-as-number-selector.png" alt="month as number from date ()" title="month as number from date ()" />
+                            <div class="narrower">
+                                <div class="comment"><strong>TG:</strong> Changing months from words to numbers is the most challenging task on this page. The instructions specify one approach, though students may come up with their own or may require additional support in understanding the approach presented. Make sure that all students get the <code>month (as number) from date</code> block working correctly before moving on even if it requires some class discussion.</div>
+                                <h4><strong>Changing Months from Words to Numbers</strong></h4>
+                                <p>The <code>day from date</code> and <code>year from date</code> blocks are straightforward to program, but <code>month (as number) from date</code> requires selecting the month and then also changing it from a word to a number.</p>
+                                <p>
+                                    To build <code>month (as number) from date</code>:
+                                    <ol style="list-style-type:lower-roman;">
+                                        <li>
+                                            Create a <code>month (as number) from date</code> reporter in the Operators palette that accepts a list (that it calls <var>date</var>) as input.<br />
+                                            <img class="indent" src="/bjc-r/img/3-lists/month-as-number-from-date-hat.png" alt="month (as number) from date hat block" title="month (as number) from date hat block" />
+                                        </li>
+                                        <li>
+                                            Initialize (create and set) two script variables: 
+                                            <ul>
+                                                <li><var>month from date</var> that works like <code>day from date</code> and <code>year from date</code> and returns the month <em>as a word</em></li>
+                                                <li><var>list of months</var> that reports a list of the twelve months of the year (correctly spelled and capitalized)</li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                        	Loop through the numbers 1 through 12, checking if <var>month from date</var> is that number item in the <var>list of months</var>.
+                                            <ul>
+                                                <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />If it is, what should the block report?</li>
+                                                <li>If there is no match, make the block report 0.</li>
+                                            </ul>
+                                        </li>
+                                    </ol>
+                                </p>
+                            </div>
+                        </li>
+						<img class="imageRight" src="/bjc-r/img/icons/save-now.png" alt="Now Is a Good Time to Save" title="Now Is a Good Time to Save" />
+                        <li>
+                        	Test your blocks together, and <strong>debug</strong> any problems.<br />
+                    		<div class="todo">Image or two should show examples of how students can test. --MF, 6/19/17</div>
+                            <img class="indent" src="/bjc-r/img/3-lists/" alt="" title="" />
+                            <img class="indent" src="/bjc-r/img/3-lists/" alt="" title="" />
+                        </li>
+                    </ol>
+                </li>
+                <li>
+                	Integrate your <code>date</code> ADT into the <code>contact</code> ADT.
+                    <ul>
+                        <li>
+                            Edit the <code>contact</code> constructor block definition to accept a birthdate. <br />
+                            <img class="indent" src="/bjc-r/img/3-lists/" alt="" title="" />
+                        </li>
+                        <li>Create a <code>date</code> selector to retrieve the contact birthdate from the inputted contact.</li>
+                        <li>
+                            Adapt your "Add Contact" button to input this new type of contact into your list.
+                            <div class="narrower">
+                                <h4><strong>Adding Contacts with Birthdays</strong></h4>
+                                <ul>
+                                    <li>You could use several ask and answer blocks together with script variables.</li>
+                                    <li>
+                                        Another way is to use <em>abstraction</em> and create four more helper reporters in the Sensing palette: <img class="inlinde" src="/bjc-r/img/3-lists/get-date.png" alt="get date" title="get date" />, which uses:
+                                        <img class="indent" src="/bjc-r/img/3-lists/get-month.png" alt="get month" title="get month" />
+                                        <img class="indent" src="/bjc-r/img/3-lists/get-day.png" alt="get day" title="get day" />
+                                        <img class="indent" src="/bjc-r/img/3-lists/get-year.png" alt="get year" title="get year" />
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+                <li><strong>Debug.</strong> Clear your <code>contact list</code>, and add a new few contacts with birthdays. Fix any problems.</li>
+			</ol>
+		</div>    
+		
+        
+	</body>
+</html>
