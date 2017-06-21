@@ -12,97 +12,69 @@
     </head>
 
 <body>
-<h2>Walking Down a List</h2>
+<h2>Recursion Revisited</h2>
     <div class="learn">
 <strong>In this lab</strong> you will sort your contact list alphabetically by name.<br />
-<strong>On this page</strong> you will use <em>recursion</em> to examine the items of a list one by one.</div>
-<p>You've already used the<img src="/bjc-r/img/3-lists/item-1-of.png" 
-alt="item (1) of ( )"> block to look at a single item from a list. Here you'll use<img src="/bjc-r/img/3-lists/all-but-first.png" alt="all but first of ( )"> to deal with the <em>rest</em> of the list.</p>
-
-<div class="forYouToDo" id="first"><br />
-<strong>Adding the numbers in a list.</strong>
-<ol>
-  <li>Start defining a 
-    <img align="bottom" src="/bjc-r/img/3-lists/add-head.png" alt="add items of (numbers)">
-    block.</li>
-<li>The basic idea here is that a list consists of its first item and all the rest of the items.  But that doesn't apply to an empty list, so you have to treat that as a special case:<br />
-                <img class="imageRight" src="/bjc-r/img/icons/import-tools-mini.png" alt="Import Tools" title="Import Tools" />
-<img src="/bjc-r/img/3-lists/add-framework.png" alt="add items of (numbers): if &lt;empty? (numbers)&gt; report ( ) else ( )"><br />
-               <img class="imageRight" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
-What's the sum of all the numbers in an empty list?  (Discuss with others to check your answer.) Fill in the <code>report</code> block's input.</li>
-<div class="vocab"><br /><strong>Recursion</strong> is the use of a block within its own definition.</div>
-<li>Click the "Apply" button at the bottom of the Block Editor.  This is important because you're going to use the <img src="/bjc-r/img/3-lists/add-items-of.png" alt="add items of ( )"> block in the next step.</li>
-<li>Now for non-empty lists.  Imagine you have a really long list of numbers, and you know that the first number is 5, but you don't know the others: 
-<img src="/bjc-r/img/3-lists/list-5-what.png" alt="(list 5 ? ? ? ? ...)">
-<ol type="a">
-<li>Suppose the sum of <code>all but first of</code> the input list is 47.  What's the sum of the entire list?</li>
-<li>Suppose the sum of <code>all but first of</code> the input list is 126.  What's the sum of the entire list?</li>
-<li>Fill in the <code>else</code> part of the <code>if</code> so that it reports the correct sum for a non-empty list.
-<a id="hintbutton" onClick="document.getElementById('hintbutton').innerHTML=window.hinttext;">(Danger!  Don't click!)</a></li>
-<li>Test your block for various input lists.  Try an empty list and a list of one item, as well as larger lists.</li>
-</ol></li>
-</ol></div>
-
-<img src="/bjc-r/img/3-lists/item-1-of.png" alt="item (1) of ( )"> and <img src="/bjc-r/img/3-lists/all-but-first.png" alt="all but first of ( )"> are the <em>selectors</em> for the List data type.  The corresponding <em>constructor</em> is&nbsp;<img src="/bjc-r/img/3-lists/in-front-of.png" alt="( ) in front of ( )">.
-
+<strong>On this page</strong> you will review the technique of <em>recursion</em>.</div>
+<h3>Recursive Graphics</h3>
 <div class="forYouToDo" id="first">
-<br /><strong>Copying a list.</strong>
+<ol>
+<li>In <a href="/bjc-r/cur/programming/2-complexity/4-abstraction/2-fractal-art.html">Unit 2</a> you wrote a recursive program to draw this picture:<br />
+<img src="/bjc-r/img/3-lists/gasket.png"  alt="Sierpinski gasket"><br />
+Open your project <strong>U2L4-FractalArt</strong> and save it as <strong>U3L2-FractalArt</strong>. Then look inside the <code>nested triangle</code> block.
+Your solution may not be exactly this, but it's probably close:<br />
+<img src="/bjc-r/img/3-lists/nested-triangle.png"  alt="nested triangle, size: (size) color: (color):  if (size &gt; 2) [repeat 3 [set pen color to (color); move (size) steps; nested triangle, size: (size / 2) color: (color + 10); turn 120 degrees]]"></li>
+ <div class="vocab"><br />
+A <strong>top-level script</strong> is one that's in the scripting area, not inside the definition of a block.</div>              
+                <img class="imageRight" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
+<li>When you run <code>nested triangle</code> from a top-level script, how many times does it directly run itself?</li>
+<img class="imageRight" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
+<li>Which instruction inside <code>nested triangle</code> draws the three lines shown in black in the picture below?<br />
+<img src="/bjc-r/img/3-lists/color-gasket.png" alt="gasket with smaller copies in color"></li>
+<img class="imageRight" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
+<li>If the sprite starts out pointing to the right, which smaller fractal (red, green, or blue) is drawn first?</li>
+<img class="imageRight" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
+<li>What is the purpose of the <code>if</code> block in this code? (If you're not sure, you might try editing <code>nested triangle</code> to remove it, and see what happens.)</li>
+</ol>
+</div>
+<div class="takeNote">
+<p>A recursive <em>problem</em> is one in which the desired result includes a smaller version of itself, such as the green (or red or blue) fractal inside the bigger fractal.  A recursive <em>procedure</em> is one that calls itself inside its definition. Do you see why a recursive procedure is likely to be a good solution to a recursive problem?</p>
+<p>If a recursive procedure calls itself, and that call also calls itself, and <em>that</em> call also calls itself... the result will be an <em>infinite loop</em>, which means that the program will keep running forever (or until it runs out of memory). To avoid that bug, every recursive procedure must have a <em>base case,</em> a simple input for which the procedure can do its job without calling itself.</p></div>
+                <img class="imageRight" src="/bjc-r/img/icons/save-mini.png" alt="Save Your Work" title="Save Your Work" />
+
+<h3>Recursive Reporters</h3>
+
+<div class="forYouToDo">
+<ol start="6">
+                <img class="imageRight" src="/bjc-r/img/icons/import-tools-mini.png" alt="Import Tools" title="Import Tools" />
+<li>Write this procedure:<br />
+<img src="/bjc-r/img/3-lists/add-nums.png" alt="add numbers of list (numbers): report (combine with (+) items of (numbers)"><br />
+Try some examples to figure out what it does:<br />
+<img src="/bjc-r/img/3-lists/add-ex-1.png" alt="add numbers in list (list 7 8 1)"><br />
+<img src="/bjc-r/img/3-lists/add-ex-2.png" alt="add numbers in list (list 9 8 2 7)"><br />
+<img src="/bjc-r/img/3-lists/add-ex-3.png" alt="add numbers in list (list 5)">
+</li>
+<div class="sidenoteBig">No, you wouldn't make this change in real life; write  programs in the simplest, most elegant way you can.  But we want to start you with simple recursive reporters before we get to the more complicated sorting program.</div>
+<li>Now edit the block and rewrite it to use recursion instead of using the <code>combine</code> function.
+<ol type="a">
+<li>Build this framework (without the comments):<br />
+<img src="/bjc-r/img/3-lists/add-recur-framework.png" alt="if (empty slot for test) [report (empty slot for value)] else [report (empty slot for value)]"></li>
+<li>What should the base case be? What's the smallest possible list of numbers? (Actually there are two plausible answers to that question, and you can write a working procedure either way.) Fill in the hexagonal input slot in the <code>if</code> block.</li>
+<li>What should your procedure report in that smallest case?  <a id="hint" onClick="document.getElementById('hint').innerHTML='The block is supposed to report a number, not a list!';">Super big hint if you can't get it to work.</a></li>
+<li>Now, for the recursive case, you have to find a <em>smaller, similar subproblem</em> just as you did for the triangle fractal. Generally, when writing recursive blocks with lists as input, the general idea is to split the list into <em>its first item</em> <img src="/bjc-r/img/3-lists/item-1-of.png" alt="item 1 of"> and <em>all the other items</em> <img src="/bjc-r/img/3-lists/all-but-first.png" alt="all but first of">.
+<li>What are you going to do with <code>all but first of</code> the list? <a id="hint2" onClick="document.getElementById('hint2').innerHTML='What makes this a <em>recursive</em> procedure?';">You really don't need this hint.</a>
+
+<li>How are you going to combine the first item with the result of part (e) to get the overall result?
+</ol>
+</li>
 <div class="narrower">
-A common bug is to say<br />
-<img src="/bjc-r/img/3-lists/set-B-to-A.png" alt="set (listB) to (listA)"><br />
-and then <em>mutate</em> <var>list B</var> with an instruction such as<br />
-<img src="/bjc-r/img/3-lists/axolotl.png" alt="replace item 3 of (listB) with (axolotl)"><br />
-and be surprised that the value of 
-
-<var>list A</var> has also changed, because the <code>set</code> instruction makes the two variables have <em>the very same list</em> as their value.  To make this work as desired, you have to <em>copy</em> the list:<br />
-<img src="/bjc-r/img/3-lists/set-B-to-copy.png" alt="set (listB) to (copy of list (listA))"><br /></div>
-You're going to write the 
-<img src="/bjc-r/img/3-lists/copy-of-block.png" alt="copy of list ( )"> block.
-<ol start="5">
-<li>Build this (leaving the input slots empty for now):<br />
-<img src="/bjc-r/img/3-lists/copy-framework.png" alt="copy of list (original list): if &lt;empty? (original list)&gt; report ( ) else report (( ) in front of ( ))">
-<br />Click "Apply."
-</li>
-               <img class="imageRight" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
-<li>What <em>type</em> of thing does <code>squares</code> report? (A number? A list? A Boolean?)</li>
-<li>What should it report if its input is an empty list?  Fill in that <code>report</code> block.</li>
-<li>For a nonempty list, what  value should it use for <code>all but first of</code> the input?  Put the recursive call in the remaining input slot.</li>
-<li>Test your block.</li>
-</ol>
-<div class="takeItFurther">
-                <img class="imageRight" src="/bjc-r/img/icons/tough-stuff-mini.png" alt="Tough Stuff" title="Tough Stuff" />
-<ol type="A"> <li>If the input is a <em>list of lists,</em> the inner lists aren't copied, so changing items inside an inner list will still affect the original list.  Make a <code>deep copy</code> block that copies any inner lists (not just items of the complete list, but items of items, and so on to any depth) also.</li></ol></div>
-
-</div>
-
-
-
-<div class="forYouToDo">
-Here's the goal: <img src="/bjc-r/img/3-lists/squares-demo.png" alt="squares (list 7 8 1) reporting {49, 64, 1}">
-<ol start="10">
-<li>Build this (leaving the input slots empty for now):<br />
-<img src="/bjc-r/img/3-lists/squares-framework.png" alt="squares (numbers): if &lt;empty? (numbers)&gt; report ( ) else report (( ) in front of ( ))">
-<br />Click "Apply."
-</li>
-               <img class="imageRight" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
-<li>What <em>type</em> of thing does <code>copy of list</code> report? (A number? A list? A Boolean?)</li>
-<li>What should it report if its input is an empty list?  Fill in that <code>report</code> block.</li>
-<li>For a nonempty list, what value should it compute for <code>item 1 of</code> its input?  Put an expression to compute that value in the first input slot of the <code>in front of</code> block.</li>
-<li>What value should it use for <code>all but first of</code> the input?  Put the recursive call in the remaining input slot.</li>
-<li>Test your block.</li>
-<li>Here's another way to get the squares of a list of numbers:<br />
-<img src="/bjc-r/img/3-lists/map-squares.png" alt="map (( ) * ( )) over (numbers)"><br />
-Try it.
-<div class="endnote">So why didn't we just suggest using 
-<code>map</code> in the first place? Mostly, we want you to get more experience with recursive functions. But also, not all recursions can be turned into <code>map</code>s. For example, <code>add items</code> can't, and <code>copy of list</code> is a little tricky.</div></li>
+<img src="/bjc-r/img/3-lists/item-1-of.png" alt="item 1 of"> and <img src="/bjc-r/img/3-lists/all-but-first.png" alt="all but first of"> are the main <em>selectors</em> for lists. Selectors are all you needed for problem 7 because the reported result wasn't a list. If you want to write a block that reports a list, you also need the <em>constructor</em> <img src="/bjc-r/img/3-lists/in-front-of.png" alt="() in front of ()">, which makes a new list with one new item in front of an existing list.</div>
+<li>Build this block:<br />
+<img src="/bjc-r/img/3-lists/initials-map.png" alt="initials (words): report (map (letter 1 of ( )) over (words))"><br />
+What does it do?</li>
+                <img class="imageRight" src="/bjc-r/img/icons/save-mini.png" alt="Save Your Work" title="Save Your Work" />
+<li>Now rewrite it using recursion instead of <code>map</code>.</li>
 </ol>
 </div>
-<div class="forYouToDo">
-<ol start="17">
-<li>Build this: <img src="/bjc-r/img/3-lists/initials-demo.png" alt="initials (list yakko wakko dot) reports {y, w, d}"><br />
-Do it twice, once using recursion and once using <code>map</code>.  Test them both.
-</ol>
-</div>
-
 </body>
 </html>
