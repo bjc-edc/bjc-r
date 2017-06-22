@@ -35,15 +35,15 @@
                     <img class="indent" src="/bjc-r/img/3-lists/name-constructor-reporting.png" alt="name, first: (Barack) last: (Obama) reporting {Barack, Obama}" title="name, first: (Barack) last: (Obama) reporting {Barack, Obama}" />
                 </li>
                 <li>
-                    <div class="sidenote"><code>display-form from name: %name</code></div>
-                    <div class="sidenote"><code>sorting-form from name: %name</code></div>
+                    <div class="sidenote"><code>display form of name: %name</code></div>
+                    <div class="sidenote"><code>sorting form of name: %name</code></div>
                     Create two new selectors to distinguish between the two orders by using <code>join</code>. Test them with your <code>name</code> constructor.<br />
-					<img class="indent" src="/bjc-r/img/3-lists/name-display-result.png" alt="display-form from name: (name, first (Barack) Last: (Obama)) reporting {Barack Obama}" title="display-form from name: (name, first (Barack) Last: (Obama)) reporting {Barack Obama}"><br />
-                    <img class="indent" src="/bjc-r/img/3-lists/name-sorting-result.png" alt="sorting-form from name: (name, first (Barack) Last: (Obama)) reporting {Obama, Barack}" title="sorting-form from name: (name, first (Barack) Last: (Obama)) reporting {Obama, Barack}"><br />
+					<img src="/bjc-r/img/3-lists/name-display-result.png" alt="display-form from name: (name, first (Barack) Last: (Obama)) reporting {Barack Obama}" title="display-form from name: (name, first (Barack) Last: (Obama)) reporting {Barack Obama}"><br />
+                    <img src="/bjc-r/img/3-lists/name-sorting-result.png" alt="sorting-form from name: (name, first (Barack) Last: (Obama)) reporting {Obama, Barack}" title="sorting-form from name: (name, first (Barack) Last: (Obama)) reporting {Obama, Barack}"><br />
 Give the selectors expected input types to make it obvious that they each expect a list (one whole name) as input.</li>
                 <li>
-                	<strong>Analyze and Debug.</strong> Betsy and Gamal tried to use their <code>display-form from name</code> block together with their <code>contact</code> constructor. They were their code to report "Anderson, Betsy", but it didn't work. <img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> What's going wrong? What should they do instead?<br />
-                    <img class="indent" src="/bjc-r/img/3-lists/name-sorting-contact-result.png" alt="sorting-form from name: (contact name: (Betsy) address: (123 Main St. NY, NY 10001) phone: (212-555-1234)) reporting Betsy Anderson 123 Main St., New York, NY 10001" title="sorting-form from name: (contact name: (Betsy) address: (123 Main St. NY, NY 10001) phone: (212-555-1234)) reporting Betsy Anderson 123 Main St., New York, NY 10001" />
+                	<strong>Analyze and Debug.</strong> Betsy and Gamal tried to use their <code>display form of name</code> block together with their <code>contact</code> constructor. They were expecting their code to report "Anderson, Betsy", but it didn't work. <img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> What's going wrong? What should they do instead?<br />
+<img src="/bjc-r/img/3-lists/name-sorting-contact-result.png" alt="sorting-form from name: (contact name: (Betsy) address: (123 Main St. NY, NY 10001) phone: (212-555-1234)) reporting Betsy Anderson 123 Main St., New York, NY 10001" title="sorting-form from name: (contact name: (Betsy) address: (123 Main St. NY, NY 10001) phone: (212-555-1234)) reporting Betsy Anderson 123 Main St., New York, NY 10001" />
                 </li>
                 <li>
                     Make the <var>name</var> input slot of your <code>contact</code> constructor expect a list item, as shown here:<br />
@@ -84,7 +84,8 @@ Give the selectors expected input types to make it obvious that they each expect
 		</div>	
         
         
-        <div class="takeItFurther"><a name="further" class="anchor">&nbsp;</a>
+        <div class="takeItFurther"><a name="further" class="anchor">&nbsp;</a><img src="/bjc-r/img/icons/tough-stuff-mini.png" alt="Tough Stuff" title="Tough Stuff" /> but worth it!
+
             <div class="dialogue">
                 <div class="stagedir">Mei and Alphie join the conversation about Contact List</div>
                 <div><span>Mei:</span> Do you want your app to work in China?  People there put their family name first, so Sun Yìxiān is in the Sun family, and would be in the S part of your name list, not the Y part.</div>
@@ -133,7 +134,7 @@ Give the selectors expected input types to make it obvious that they each expect
             <div class="dialogue">
                 <div><span>Alphie:</span> Okay, now I guess we have to make selectors, right?</div>
                 <img src="/bjc-r/img/3-lists/name-type.png" alt="name type (name): report item 1 of (name)"> <img src="/bjc-r/img/3-lists/given-name.png" alt="given name (name): report item 2 of (name)"> <img src="/bjc-r/img/3-lists/family-name.png" alt="family name (name):  report item 3 (name)">
-                <div><span>Gamal:</span> Don't call the first one <code>name type</code>.  We're going to need the same type selector for other ADTs also, so call it <code>type tag</code>.</div>
+                <div><span>Gamal:</span> Don't call the first one <code>type from name</code>.  We're going to need the same type selector for other ADTs also, so call it <code>type tag</code>.</div>
                 <div><span>Alphie:</span> How do you know?</div>
                 <div><span>Gamal:</span> I read ahead in the curriculum!</div>
                 <div class="stagedir">Alphie and Betsy groan.</div>
@@ -151,8 +152,8 @@ Give the selectors expected input types to make it obvious that they each expect
             <ol type="A" start="4">
                 <li>
                     Finish this definition:<br />
-                    <div class="sidenote">Note that for a given-first name we put a comma and space between the names, "Davies, Betsy"; there won't be a comma for family-first names ("Sun Yìxiān").</div>
-                    <img src="/bjc-r/img/3-lists/name-sorted-defn.png" alt="name (sorted form) (name):  if ((type tag (name)) = [given-first]) report (join (family name (name)) [, ] (given name (name)))"><br />
+                    <div class="sidenote">Note that for a given-first name we put a comma and space between the names, "Anderson, Betsy"; there won't be a comma for family-first names ("Sun Yìxiān").</div>
+<img src="/bjc-r/img/3-lists/name-sorted-defn.png" alt="name (sorted form) (name):  if ((type tag (name)) = [given-first]) report (join (family name (name)) [, ] (given name (name)))"><br />
                 </li>
                 <li>Similarly, define <img src="/bjc-r/img/3-lists/name-display.png" alt="name (display form) ( )">.</li>
             </ol>
@@ -165,6 +166,8 @@ Give the selectors expected input types to make it obvious that they each expect
                 <div>
                     <span>Alphie:</span> It's even better than that!  This is where the magic comes in.  When we make the Contact ADT, we give it a type tag too:<br />
                     <img src="/bjc-r/img/3-lists/contact-with-tag.png" alt="contact, name: (name) address: (address) phone: (phone):   report (list [contact] (name) (address) (phone))"><br />
+                    (We'll have to change the selectors, too, and recreate the contact list.)<br />
+                    <br />
                     Then, since contacts have type tags, we can make <em>the same selector blocks</em> work for them, too:<br />
                     <img src="/bjc-r/img/3-lists/display-name-object.png" width="729" height="421" alt="name (display form) (object):  if ... if ((type tag (object)) = contact) report (name (display form) (contact name (object))) ..."><br />
                     Ta da!  Now your code is just<br />
