@@ -11,19 +11,9 @@
         <h2>Creating the Contact ADT</h2>
 		<div class="todo">
             <p><strong>Purpose (do/learn, why this/why here):</strong> Give students a programmatic experience of data as they engage in advanced list manipulations including the higher order function <code>map</code>.</p>
-            <p><strong>Reviewers</strong>, I know this pink box looks long, but I'm trying for a clear framing of what they are about to do. </p> 
 		</div>
         
-        <div class="todo">
-            Feedback from BH:<br />
-            I think your pink boxes are way too detailed.<br />
-            1:  On this page you will develop a Contact ADT.<br />
-            2:  On this page you will develop the user interface for new contacts.<br />
-            3:  On this page you will find a particular contact from the list.<br />
-        	etc.
-		</div>
-        
-		<div class="learn">
+        <div class="learn">
         	<p><strong>In this lab,</strong> you will develop a Contact List database application like the one on your phone.</p>
         	<p>
                 <strong>On this page,</strong> you will develop an <strong>Abstract Data Type</strong> to store and access <em>contact data</em> (name, address, phone number, etc.). <!--, including:
@@ -43,10 +33,11 @@
         </div>
         
         <div class="todo">
-        	Brian's Notes from late July 2016:
+        	<p>There are notes from BH here that are commented out.</p>
+            <!--Brian's Notes from late July 2016:
         	<ul>
             	<li>I'm sad to say that everyone had trouble with my data abstraction stuff in the contact list app (3.2.4).  It's not that they couldn't do the individual steps, really; they just didn't understand how the steps were a story line.  The details that threw people are not understanding the difference between (GET PHONE) and (CONTACT PHONE) -- the first interacts with the user and the second is just a selector for contacts -- partly because the selector doesn't seem to do anything interesting enough to bother making a custom block for.  I think for 2016-17 we just flush that page, although then we have to decide whether what's left (in 3.2.1) is interestingly different from the grocery list app.  For 2017-18 one of you folks, who know how to write curriculum, should fix it.</li>
-            </ul>
+            </ul>-->
             <p>There is user feedback here that is commented out.</p>
             <!--<h4><strong>Feedback:</strong></h4>
         	<ul>
@@ -64,16 +55,6 @@
 			</ul>-->
         </div>
         
-        <div class="todo">
-        	<h4><strong>for TG: Standards</strong></h4>
-            <p>5.3.1H Data abstraction provides a means of separating behavior from implementation.</p>
-            <p>5.3.1K Lists and list operations, such as add, remove, and search, are common in many programs.</p>
-            <p>5.3.1L Using lists and procedures as abstractions in programming can result in programs that are easier to develop and maintain.</p>
-            <p>5.5.1H Computational methods may use lists and collections to solve problems.</p>
-            <p>5.5.1I Lists and other collections can be treated as abstract data types (ADTs) in developing programs.</p>
-        </div>
-        
-
         <h3>Setting Up the Contact List</h3>
         <div class="dialogue">
             <div class="stagedir">Betsy and Gamal are planning to build a Contact List in Snap<em>!</em>.</div>
@@ -84,7 +65,6 @@
         
         <div class="forYouToDo" id="first">
             <ol>
-                <div class="todo">Mary needs to redo this XML again to include tools and the new costumes. --MF, 6/19/17</div>
 				<li>
 					<img class="imageRight" src="/bjc-r/img/icons/save-mini.png" alt="Save Your Work" title="Save Your Work" />
                     Load <a class="run" href="/bjc-r/prog/3-lists/U3L1-ContactList.xml">this project</a>, and save it to your Snap<em>!</em> account.
@@ -99,12 +79,6 @@
         <div class="dialogue">
             <div><span>Gamal:</span> Each contact is itself a list that contains a person's name, phone number, and address. We need Contact List to be a list of lists.</div>
             <div><span>Betsy:</span> In Unit 2, we made a <a href="/bjc-r/cur/programming/2-complexity/2-data-structures-art/2-data-types.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment"><code>point</code> abstract data type</a> to store the coordinates of each point in a list of points. Here we can make a <code>contact</code> abstract data type to store the data for each contact in our list of contacts.</div>
-            <div class="todo">TG: The <code>point</code> constructor and <code>coordinate</code> selectors from <a href="/bjc-r/cur/programming/2-complexity/2-data-structures-art/2-data-types.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment">Unit 2</a> are shown in the Thinking Out Loud dialog to stimulate thinking about the <code>contact</code> ADT. For students who struggle to develop the <code>contact</code> constructor and selectors, suggest they look at these images, and ask them some questions like these:
-              <ul>
-                <li>What's the structure of the <code>point</code> constructor? How's it used? What will the <code>contact</code> constructor look like? What does it need to report?</li>
-                <li>What do the <code>coordinate</code> selectors do? What will the selectors look like in Contact List?</li>
-            </ul>
-             --MF</div>
             <div><span>Gamal:</span> Yes! <em>(Gamal opens their old project, but you don't need to.)</em> Before, we used <code>point</code> to construct a list of coordinates.</div>
             <div class="stagedir">
             	Gamal points to the code for the <code>point</code> constructor:<br />     
@@ -127,16 +101,16 @@
                         <code>contact with name: %name address: %address phone: %phone</code>
                     </div>
                     Create a <code>contact</code> <em>constructor</em> that accepts three pieces of data as input: the contact's <var>name</var>, <var>phone number</var>, and <var>address</var>. <br />
-                    <img src="/bjc-r/img/3-lists/contact-constructor-untyped.png" alt="contact name: () address: () phone: ()" title="contact name: () address: () phone: ()" /><br />
+                    <img class="indent" src="/bjc-r/img/3-lists/contact-constructor-untyped.png" alt="contact name: () address: () phone: ()" title="contact name: () address: () phone: ()" /><br />
                     It should report one whole contact (a list of the three items):<br />
-                  <img src="/bjc-r/img/3-lists/contact-constructor-reporting.png" alt="contact name: (Betsy) address: (123 Main St. NY, NY 10001) phone: (212-555-1234) reporting {Betsy Anderson; 123 Main St. NY, NY 10001; 212-555-1234}" title="contact name: (Betsy Anderson) address: (123 Main St. NY, NY 10001) phone: (212-555-1234) reporting {Betsy Anderson; 123 Main St. NY, NY 10001; 212-555-1234}" /><br />
+					<img class="indent" src="/bjc-r/img/3-lists/contact-constructor-reporting.png" alt="contact name: (Betsy) address: (123 Main St. NY, NY 10001) phone: (212-555-1234) reporting {Betsy Anderson; 123 Main St. NY, NY 10001; 212-555-1234}" title="contact name: (Betsy Anderson) address: (123 Main St. NY, NY 10001) phone: (212-555-1234) reporting {Betsy Anderson; 123 Main St. NY, NY 10001; 212-555-1234}" /><br />
                 </li>
                 <li>
                     Write the <em>selector</em> blocks to retrieve the <code>name from contact</code>, <code>address from contact</code>, or <code>phone from contact</code>:	<br />
-                    <img src="/bjc-r/img/3-lists/contact-constructor-in-name-selector.png" alt="contact name (contact block with inputs) reporting " title="contact name (contact block with inputs) reporting "><br />
-                    <img src="/bjc-r/img/3-lists/contact-constructor-in-address-selector.png" alt="contact address (contact block with inputs) reporting " title="contact address (contact block with inputs) reporting "><br />
-                    <img src="/bjc-r/img/3-lists/contact-constructor-in-phone-selector.png" alt="contact phone (contact block with inputs) reporting " title="contact phone (contact block with inputs) reporting "><br />
-                                        Give the selectors expected input types to make it obvious that they each expect a list (one whole contact) as input.<br />
+                    <img class="indent" src="/bjc-r/img/3-lists/contact-constructor-in-name-selector.png" alt="contact name (contact block with inputs) reporting " title="contact name (contact block with inputs) reporting "><br />
+                    <img class="indent" src="/bjc-r/img/3-lists/contact-constructor-in-address-selector.png" alt="contact address (contact block with inputs) reporting " title="contact address (contact block with inputs) reporting "><br />
+                    <img class="indent" src="/bjc-r/img/3-lists/contact-constructor-in-phone-selector.png" alt="contact phone (contact block with inputs) reporting " title="contact phone (contact block with inputs) reporting "><br />
+					Give the selectors expected input types to make it obvious that they each expect a list (one whole contact) as input.<br />
                     <img class="indent" src="/bjc-r/img/3-lists/name-selector.png" alt="name from contact: ()" title="name from contact: ()" />
                     <img src="/bjc-r/img/3-lists/address-selector.png" alt="address from contact: ()" title="address from contact: ()" />
                     <img src="/bjc-r/img/3-lists/phone-selector.png" alt="phone from contact: ()" title="phone from contact: ()" />
