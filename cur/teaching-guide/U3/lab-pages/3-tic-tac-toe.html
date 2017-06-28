@@ -19,13 +19,13 @@
         <div class="todo">
             <strong>Former purpose ramblings</strong>
             <p>This lab does not introduce new ideas, but gives students practice applying MAP, KEEP, and COMBINE in several contexts, in order to master the use of these powerful tools and to learn to think in terms of what they can do.</p> 
-            <p>Lists of same-size lists can function as tables or matrices. Tic Tac Toe... Magic Squares gives students a game context in which to practice further their use of lists and list processing functions.</p> 
+            <p>Lists of same-size lists can function as tables or matrices. Tic-Tac-Toe... Magic Squares gives students a game context in which to practice further their use of lists and list processing functions.</p> 
         </div>
         
 		<p>Anything that can be handled by creating and manipulating a list can also be done without lists, just by working with the individual elements and keeping track of that process. But list processing—especially list processing with  the higher order functions <code>map</code>, <code>keep</code>, and <code>combine</code> (and, later in this course, recursion)—is powerful. It lets the programmer focus on the purpose and meaning of the program—what the program is intended to do—and not on tiny local details of how to do it, details that essentially reinvent  a clumsy equivalent of lists and ways to work sequentially through them.</p>
         <p>Becoming facile with list processing takes practice, and initially requires contexts in which the meaning of the lists and the purpose and meaning of the functions that process them are clear.  One subtlety of working with lists is that it requires thinking simultaneously about the list as a <em>single object</em> and, at the same time, recognizing that much of what one wants to do with the list involves processing some or all of the <em>elements</em> of the list. That is also part of the subtlety of the higher-order functions, which take an entire list as a single object and handle the individual elements of the list in various ways, as determined by the programmer. <em>Composing</em> higher order functions is yet more powerful, but also more challenging, because each one does so much that the programmer needs to picture large effects and the interactions of these large effects.</p>
         <p>This lab gives students practice applying <code>map</code>, <code>keep</code>, and <code>combine</code>  in several contexts to build their facility with these powerful tools and to learn to think in terms of what they can do. It does not introduce new ideas, but focuses on mastery and application.</p>-->
-In this lab students will delve into the next phase of the Tic Tac Toe project where they will teach the computer how to remember the moves made on the board by the users and how to detect a win or a tie.  The capacity to remember moves and the ability to analyze them will lead the way to the last phase of the game where the computer will become an intelligent player.
+In this lab students will delve into the next phase of the Tic-Tac-Toe project where they will teach the computer how to remember the moves made on the board by the users and how to detect a win or a tie.  The capacity to remember moves and the ability to analyze them will lead the way to the last phase of the game where the computer will become an intelligent player.
 
 		<h3>Pacing</h3>
 		<div>
@@ -75,19 +75,33 @@ In this lab students will delve into the next phase of the Tic Tac Toe project w
 						<li>
 							<strong>Learning Goals:</strong>
 							<ul>
-                                <li>Refine the Tic-Tac-Toe game to declare a winner.</li>
+                                <li>Refine the Tic-Tac-Toe game to declare a winner or announce a tie.</li>
+                                <li>Gain experience with the higher order function <code>map</code> and have a taste of it enormous power to simplify code.</li>
+                                <li>Understand how having a global view of the game gives the program the ability to analyze moves.</li>
 							</ul>
 						</li>
 						<li>
 							<strong>Tips:</strong>
 							<ul>
-								<li></li>
-								<li></li>
+                            <li>Some students may try to determine if there has been a win in the game by using eight nested <code>if then</code> conditionals as indicated below.  Encourage them to understand the elegance and simplicity of using <code>map</code> in solving this problem.<br />
+                            <img class="indent" src="/bjc-r/img/3-lists/U3ImageVideoAddendum_img/9conditionalsapproachto TTT.png" height="200" alt=""/>
+                            </li>
+								<li>Once the students have written the <code>status of triples</code> block, it will be beneficial for them to compare the status of each winning triple to the corresponding configuration on the board.  For example the eighth entry is the status of the diagonal with squares 3,5,7 and we see the <code>status of triples</code> block reporting {X, Empty, Empty} agreeing with the board configuration. <br />
+                                <img class="indent" src="/bjc-r/img/3-lists/U3ImageVideoAddendum_img/statusoftriples.png" height="200" alt=""/>
+                                <img src="/bjc-r/img/3-lists/U3ImageVideoAddendum_img/statusoftriplesBoardcrossed.png" height="200" alt=""/>
+                                </li>
+								<li>The elegant solution with <code>map</code> will use the  
+                                <img src="/bjc-r/img/3-lists/U3ImageVideoAddendum_img/contains.png"  height="40" alt=""/> block to rapidly test whether the status of a triple implies a win.
+                                It will not be obvious to most students that this block can have a list of lists as an input as shown below.<br />
+                                <img src="/bjc-r/img/3-lists/U3ImageVideoAddendum_img/containswithlistoflist.png"  height="50" alt=""/>
                                 
-                                <li>Create blocks to use with higher order list functions to perform complicated data lookups and modifies.</li>
-                                <li>Refine the Tic-Tac-Toe game to keep track of the players' moves and detect tie games.</li>
                                 
-                                <li>Refining this game builds on students' understanding of lists and list operations including higher order functions. This is likely to feel very satisfying to students, a major accomplishment. It is! You may wish to review some list blocks by asking students to describe the expected behavior of a few short scripts or expressions.</li>
+                                </li>
+                                
+                               <!-- <li>Create blocks to use with higher order list functions to perform complicated data lookups and modifies.</li>
+                                <li>Refine the Tic-Tac-Toe game to keep track of the players' moves and detect tie games.</li>-->
+                                
+                                <li>Refining this game builds on students' understanding of lists and list operations including higher order functions. This is likely to feel very satisfying to students, a major accomplishment. It is! <!--You may wish to review some list blocks by asking students to describe the expected behavior of a few short scripts or expressions.--></li>
 							</ul>
 						</li>
 					</ul>
@@ -96,7 +110,7 @@ In this lab students will delve into the next phase of the Tic Tac Toe project w
 		</div>
 
 
-		<h3>Assignments:</h3>
+		<!--<h3>Assignments:</h3>
 		<div>
         	<ul>
                 <li>
@@ -117,13 +131,13 @@ In this lab students will delve into the next phase of the Tic Tac Toe project w
                     </ol>
                 </li>
         	</ul>
-        </div>
+        </div>-->
         
 			
 		<h3>Solutions</h3>
 		<div>
 			<ul>
-				<li>...</li>
+				<li>Page 1: Remembering the moves, Page 2: Detecting Wins and Ties</li>
 			</ul>
 		</div>
 			
