@@ -12,10 +12,11 @@
 
         <p>One  commonly used sorting algorithm is called <strong>selection sort</strong>. Here's how it works:
     <ul>
-                <li><div class="sidenote">The earliest item might be the first name in alphabetical order, or the smallest number in a list.</div>
-      <strong>Step 1.</strong> In an unsorted list, find a way to select the item that should come earliest in the sorted result. (If there are no remaining items, you're done.)</li>
-                <li><strong>Step 2.</strong> Pull the selected item out of the list and place it in the first position of a new result list.</li>
-                <li><strong>Step 3.</strong> Use a selection sort to put the remaining items in order as the rest of the result list.</li>
+    <li><strong>Step 1.</strong> If the input list is empty, there's no work to do.
+      <li><div class="sidenote">The earliest item might be the first name in alphabetical order, or the smallest number in a list.</div>
+      <strong>Step 2.</strong> In an unsorted list, select the item that should come earliest in the sorted result. (If there are no remaining items, you're done.)</li>
+                <li><strong>Step 3.</strong> Find the selected item from  the list and place it in the first position of a new result list to be reported.</li>
+                <li><strong>Step 4.</strong> Use a selection sort to put the <em>remaining</em> items in order as the rest of the result list.</li>
             </ul>
         </p>
         <!--
@@ -25,7 +26,7 @@
 
         <div class="forYouToDo" id="first">
             <ol>
-                <li>Explore the selection sort before writing any code. With your class, stand up and form a line. Then, follow the selection sort process to put everyone in sorted, alphabetical order by month and day of birth (for example, 10/4).</li>
+                <li>Explore the selection sort before writing any code. With your class, stand up and form a line. Then, follow the selection sort process to put everyone in sorted order by month and day of birth (for example, 10/4).</li>
                 <li>How is a selection sort an example of recursion? What is the base case?</li>
                 <li>Open your project "U3L1-ContactList"; save it as "U3L2-ContactList".
                   <br />
@@ -35,10 +36,13 @@
              <span style="background-color: #e4cde3;">
                If you'd like to write the <code>sort</code> block with no help at all, do it now.
              </span>
-             Otherwise you can <a href="#hint-1" data-toggle="collapse">click here.</a>
+             Otherwise you can <a href="#hint-1" data-toggle="collapse">click here.</a></li></ol></div>
             <div id="hint-1" class="collapse">
-              <p>To write a <code>sort</code> block in Snap<em>!</em>, you’ll need code for a base case, and code that follows the steps of the selection sort.</p>
+              To write a <code>sort</code> block in Snap<em>!</em>, you’ll need code for a base case, and code that follows the steps of the selection sort.</p>
               <div class="forYouToDo">
+                    <div class="narrower">
+    The <img src="/bjc-r/img/3-lists/lessthan.png" alt="less than"> block will compare words, using alphabetical order, not just numbers.</div>
+
                 <ol start="5">
                   <li>Write the <code>earliest in</code> block. For names, this returns the first name alphabetically in a list:<br>
                     <img class="indent" src="/bjc-r/img/7-recursive-reporters/unsortednames.png" alt="Eight names"> <img class="indent" src="/bjc-r/img/7-recursive-reporters/earliestin.png" alt="Earliest name for alphabetical order"><br>
@@ -46,32 +50,11 @@
                     <div id="hint-2" class="collapse">
                       <ol type="a">
                         <li>Write the <code>min</code> block that takes two inputs and reports whichever is smaller.  (You&rsquo;ve done this before, but it&rsquo;s probably quicker to do it again than to find it in some earlier project and import it.) </li>
-                        <li>Make friends with the <img src="/bjc-r/img/3-lists/combine-block.png" alt="combine with ( ) items of ( )"> block.  Try these examples:<br />
-                          <div class="sideHOM">Unlike <code>keep</code>, <code>combine</code> requires a function with <em>two</em> empty input slots.</div>
-                          <img src="/bjc-r/img/3-lists/combine-plus.png" alt="combine with (+) items of (list 7 8 1)"><br />
-                          <img src="/bjc-r/img/3-lists/combine-times.png" alt="combine with (*) items of (list 7 8 1)"><br />
-                          <img src="/bjc-r/img/3-lists/combine-min.png" alt="combine with (min) items of (list 7 8 1)">
-                        </li>
-                        <li>Write the <code>earliest</code> block using <code>combine</code>.</li>
-                      </ol>
-                      <div class="endnote">
-                        <a data-toggle="collapse" href="#hint-3">Read more about <code>combine</code>.</a>
-                        <div id="hint-3" class="collapse">
-                          Unlike its friends <code>map</code> and <code>keep</code>, <code>combine</code> is mostly used with only a handful of functions in its first input slot:<br />
-                          <img src="/bjc-r/img/3-lists/plus.png" alt="+"> <img src="/bjc-r/img/3-lists/times.png" alt="&times;"><br />
-                          <img src="/bjc-r/img/3-lists/and-block.png" alt="and"> <img src="/bjc-r/img/3-lists/or-block.png" alt="or"><br />
-                          <img src="/bjc-r/img/3-lists/join.png" alt="join"> <img src="/bjc-r/img/3-lists/join-words.png" alt="join words"><br />
-                          Among blocks you write yourself, there are only two likely candidates:<br />
-                          <img src="/bjc-r/img/3-lists/max.png" alt="max"> <img src="/bjc-r/img/3-lists/min.png" alt="min"><br />
-                          Why so few?  The function has to be <em>associative</em>, meaning that it doesn't matter what order you group the items in; (7+8)+1 is the same as 7+(8+1) (work it out yourself), but (7-8)-1 is different from 7-(8-1).
-                        </div>
-                      </div>
-                    </div>
-                  </li>
-                  <li>The selection sort algorithm says to find the smallest item in a list, <em>pull that item out of the list,</em> recursively sort the remaining items, and stick the smallest item in front of the result. Write a block <img src="/bjc-r/img/3-lists/remove.png" alt="remove ( ) from ( )"></li>
-                  <li style="list-style: none">that reports a list that’s a copy of its second input, but with its first input removed.
-                    <div class="narrower">
-                      You can do this using <code>keep</code> if you assume that there are no equal items in the list. That’s fine for now, although a correct sorting algorithm will keep all duplicate items in the result.
+                        <li>Write the <code>earliest</code> block using <code>combine</code>.</li> </ol>                       
+                  <li>The selection sort algorithm says to find the smallest item in a list, recursively sort <em>the remaining items</em>, and stick the smallest item in front of the result. Write a block <img src="/bjc-r/img/3-lists/remove.png" alt="remove ( ) from ( )"> that reports a list that’s <em>a copy of</em> its second input, but with its first input removed.<br />
+                  <img class="indent" src="/bjc-r/img/3-lists/remove-example.png" alt="remove (what) from (list and she told me what to say) -&gt; {and, she, told, me, to, say}">
+<div class="narrower">
+          You can do this using <code>keep</code> if you assume that there are no equal items in the list. That’s fine for now, although a correct sorting algorithm will keep all duplicate items in the result.
                     </div>
                     <div class="takeNote">
                       You might be tempted to use the command <img src="/bjc-r/img/3-lists/replace.png" alt="replace item ( ) of ( ) with ( )"> in this problem, but your <code>sort</code> block should <em>report a new sorted version</em> of the list, without changing the original list. Sometimes it’s okay to modify the original list, but sometimes it isn’t, so go for the most generally useful solution.
