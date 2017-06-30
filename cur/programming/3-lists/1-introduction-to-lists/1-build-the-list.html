@@ -56,13 +56,6 @@
         </div>
         
         <h3>Setting Up the Contact List</h3>
-        <div class="dialogue">
-            <div class="stagedir">Betsy and Gamal are planning to build a Contact List in Snap<em>!</em>.</div>
-            <div><span>Betsy:</span> We need a variable to store the Contact List. It should be <em>global</em> right? Because we want the data to be saved when we save the project.</div>
-            <div><span>Gamal:</span> Yeah, and also we'll probably have multiple scripts using that variable, so it shouldn't be attached to just one script like a script variable.</div>
-            <div><span>Betsy:</span> OK. So we'll start with a global variable containing an empty list, and then we need to build a way to add each contact to our <var>contact list</var>.</div>
-        </div>
-        
         <div class="forYouToDo" id="first">
             <ol>
 				<li>
@@ -73,18 +66,25 @@
                 <li>Initialize <var>contact list</var> as an empty list.</li>
             </ol>
 		</div>
+		<div class="takeNote">
+            <h4><strong>Why global?</strong></h4>
+            <div class="sidenoteBig">Also, in Snap<em>!</em>, only globals save their data when the project is saved.</div>
+            <strong>Multiple scripts</strong> across the project <strong>will use this variable</strong>, so it shouldn't be attached to just one script like a local, script variable.
+        </div>
 
 
         <h3>Creating the ADT</h3>
         <div class="dialogue">
-            <div><span>Gamal:</span> Each contact is itself a list that contains a person's name, phone number, and address. We need Contact List to be a list of lists.</div>
-            <div><span>Betsy:</span> In Unit 2, we made a <a href="/bjc-r/cur/programming/2-complexity/2-data-structures-art/2-data-types.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment"><code>point</code> abstract data type</a> to store the coordinates of each point in a list of points. Here we can make a <code>contact</code> abstract data type to store the data for each contact in our list of contacts.</div>
-            <div><span>Gamal:</span> Yes! <em>(Gamal opens their old project, but you don't need to.)</em> Before, we used <code>point</code> to construct a list of coordinates.</div>
+            <div class="stagedir">Betsy and Gamal are planning to build a Contact List in Snap<em>!</em>.</div>
+            <div><span>Betsy:</span> We need a way to add a contact to our <var>contact list</var>.</div>
+            <div><span>Gamal:</span> Each contact will be a list that with the a person's name, phone number, address, email, or whatever we write.</div>
+            <div><span>Betsy:</span> In Unit 2, we created a <a href="/bjc-r/cur/programming/2-complexity/2-data-structures-art/2-data-types.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment"><code>point</code> abstract data type</a> to store the coordinates of each point in a list of points. Here, we can make a <code>contact</code> abstract data type to store the data for each contact in our list of contacts.</div>
+            <div><span>Gamal:</span> Yes! <em>(Gamal opens their old project, but you don't need to.)</em> Before, we used a <code>point</code> constructor to construct a list of coordinates.</div>
             <div class="stagedir">
             	Gamal points to the code for the <code>point</code> constructor:<br />     
                 <img class="indent" src="/bjc-r/img/3-lists/point.png" alt="point = list" title="point = list"/>
             </div>
-            <div><span>Betsy:</span> Then we used two selectors to access either the <em>x</em> or <em>y</em> coordinate.</div>
+            <div><span>Betsy:</span> Then we used two selectors to select either the <em>x</em> or <em>y</em> coordinate.</div>
             <div class="stagedir">
             	Betsy points to the code for the <code>coordinate</code> selectors:<br />     
                 <img class="indent" src="/bjc-r/img/2-complexity/xcor.png" alt="x coordinate of (point); report item 1 of (point)"> and 
@@ -109,10 +109,12 @@
                     Write the <em>selector</em> blocks to retrieve the <code>name from contact</code>, <code>address from contact</code>, or <code>phone from contact</code>:	<br />
                     <img class="indent" src="/bjc-r/img/3-lists/contact-constructor-in-name-selector.png" alt="contact name (contact block with inputs) reporting " title="contact name (contact block with inputs) reporting "><br />
                     <img class="indent" src="/bjc-r/img/3-lists/contact-constructor-in-address-selector.png" alt="contact address (contact block with inputs) reporting " title="contact address (contact block with inputs) reporting "><br />
-                    <img class="indent" src="/bjc-r/img/3-lists/contact-constructor-in-phone-selector.png" alt="contact phone (contact block with inputs) reporting " title="contact phone (contact block with inputs) reporting "><br />
-					Give the selectors expected input types to make it obvious that they each expect a list (one whole contact) as input.<br />
+                    <img class="indent" src="/bjc-r/img/3-lists/contact-constructor-in-phone-selector.png" alt="contact phone (contact block with inputs) reporting " title="contact phone (contact block with inputs) reporting ">
+                </li>
+                <li>
+                    Declare input types for each selector to make it obvious that they expect a list (one whole contact) as input.<br />
                     <img class="indent" src="/bjc-r/img/3-lists/name-selector.png" alt="name from contact: ()" title="name from contact: ()" />
-                    <img src="/bjc-r/img/3-lists/address-selector.png" alt="address from contact: ()" title="address from contact: ()" />
+                    <img class="indent" src="/bjc-r/img/3-lists/address-selector.png" alt="address from contact: ()" title="address from contact: ()" />
                     <img src="/bjc-r/img/3-lists/phone-selector.png" alt="phone from contact: ()" title="phone from contact: ()" />
                     <div class="endnote"> You learned about <a href="/bjc-r/cur/programming/2-complexity/2-data-structures-art/1-the-for-each-block.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment">Specifying an Input Type</a> in Unit 2.</div>
                     <!--<div class="endnote">
@@ -125,7 +127,7 @@
                     </div>-->
                 </li>
                 <li>
-                    Test your blocks together (as shown just above), and debug any problems.
+                    Test your blocks together (put the constructor with input values inside each selector), and debug any problems.
                 </li>
 
         		<li>
@@ -162,7 +164,7 @@
                         <div class="narrower">
                             Snap<em>!</em> has two different views for lists within lists. You can switch which view you see by right-clicking (or control-clicking) on the <var>contact list</var> watcher on the stage.
                             
-                            <div class="sidenote">
+                            <div class="endnote">
                                 If you don't see the watcher on the stage, make sure the checkbox beside the <var>contact list variable</var> in the Variables palette is checked.
                                 <img class="inlinde" src="/bjc-r/img/3-lists/contact-list-watcher.png" alt="contact list watcher checked" title="contact list watcher checked" />
                             </div>
