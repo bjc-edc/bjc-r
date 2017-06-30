@@ -18,24 +18,24 @@
 		</p>
         <p>Then you could graph a whole list of data points by inventing a block like <img src="/bjc-r/img/3-lists/U3ImageVideoAddendum_img/Graph datapoints.png" height="40" alt=""/> that uses <code>for each</code> to apply <code>plot point</code> to each point in the list. Depending on the kind of graph you want, you could even connect the dots.</p>
 		<p>
-        	That seems like all you should need. But what if the <em>scale</em> of your data does not fit on the Snap<em>!</em> stage (between -240 and 240 in the <em>x</em> direction and between -180 and 180 in the <em>y</em> direction)? <br />
+        	That seems like all you should need. But what if the <em>scale</em> of your data does not fit on the Snap<em>!</em> stage (coordinates from -240 through 240 horizontally and from -180 through 180 vertically)? <br />
             <img class="indent" src="/bjc-r/img/3-lists/U3ImageVideoAddendum_img/SnapStageCoordinates.png"  height="300" alt=""/><br />
             
             For example, what if you want to plot the popularity of a baby name over time, like this?<br />
             
         	<img class="indent" src="/bjc-r/img/5-algorithms/PercentageOfDerekByYear.png" height="300" alt="percentage of births named Derek by year" title="percentage of births named Derek by year" />
         </p>
-		<p>The <em>x</em>-values can't be plotted because they are completely off of Snap<em>!</em>'s stage. And the <em>y</em>-values 0, 0.1, 0.2, 0.3, etc., are so close to each other that they would all look the same. We wouldn't see the huge increase in popularity between 1960 and 1980 at all. <br />
-        We need a way to <em>convert</em> between the default Snap<em>!</em> &nbsp <strong>stage coordinates</strong> and the <strong>graph coordinates</strong> for a given set of data points.
-        </p>
-        <div class="takeNote">A good graphing app needs to let the user set the <strong>scale</strong> of the screen, to specify where to focus attention&mdash;where to zoom in. </div>
+		<p>The years can't be plotted on the horizontal because those values are completely off  Snap<em>!</em>'s stage. And the percent values 0, 0.1, 0.2, 0.3, etc., are so close to each other that they would all look the same. We wouldn't see the increase in popularity between 1960 and 1980 at all. 
+        We need a way to <em>convert</em> between Snap<em>!</em> &nbsp <strong>stage coordinates</strong> and the values—we'll call them the <strong>graph coordinates</strong>—for a given set of data points.
+</p>
+        <div class="takeNote">A graphing tool should let the user set the <strong>scale</strong> of the screen, to specify where to focus attention&mdash;where to zoom in. </div>
         
         <div class="forYouToDo" id="first">
             <ol>
                 <li>
                     Load <a class="run" href="/bjc-r/prog/3-lists/U3L5-GraphingApp_student.xml">this Snap<em>!</em> project.</a> It contains several blocks already built for your convenience.
                     <ol>
-                        <li>Click  the <code>set graph scale</code> block with the inputs it already has (-2, 4, 30, 300) to see what it does. In addition to drawing on the screen, it sets several variables that your other blocks will need so that they know the intended screen dimensions. </li>
+                        <li>Click the <code>set graph scale</code> block with the inputs it already has (-2, 4, 30, 300) to see what it does. In addition to drawing on the screen, it sets several variables that your other blocks will need so that they know the intended screen dimensions. </li>
                         <li>
                             The following two blocks report the Snap<em>!</em> <strong><em>stage</em></strong> coordinates given the <strong><em>graph</em></strong> coordinates of a point.  Experiment with inputs to these two blocks to get them to report 0.<br />
                             <img src="/bjc-r/img/3-lists/U3ImageVideoAddendum_img/xStageforxGraph.png"  height="40" alt=""/>
@@ -44,18 +44,15 @@
                         </li>
                         <li>Use  <img src="/bjc-r/img/3-lists/U3ImageVideoAddendum_img/gotoxStageyStage.png"  height="50" alt=""/> with those same input numbers. Where does it put the sprite?</li>
                         <li>Without changing the sprite's position, click <img src="/bjc-r/img/3-lists/U3ImageVideoAddendum_img/xGraphatxStagexposition.png"  height="40" alt=""/> and explain the result you get.</li>
-                        <li>Now create a script that tells the sprite to say its correct <strong><em>graph</em></strong> coordinates (not its <strong><em>stage</em></strong> coordinates).
+                        <li>Use the <img src="/bjc-r/img/blocks/when-I-am-dropped.png" alt="When I am dropped"> block to create a script that tells the sprite to say its correct <strong><em>graph</em></strong> coordinates (not its <strong><em>stage</em></strong> coordinates) wherever it is dropped. Move the sprite to a few places on the stage to test your script.</li>
+                        <li> <div class="sidenoteBig">For this graph, a sprite at the bottom right corner of the stage should say (4, 30), not (240, -180).                        </div
+                            For this purpose, you probably don't want to see numbers like <img src="/bjc-r/img/3-lists/too-many-decimal-places.png"  alt="xGraph at xStage reporting 1.5673352435530084">. You can use <span class="sidenoteBig"><img class="indent" src="/bjc-r/img/3-lists/U3ImageVideoAddendum_img/roundto2decimal.png"  height="40" alt=""/></span> (built for you and in the Operators palette) to choose the number of decimal places you want to see.</li>
                         
-                        <div class="sidenoteBig">For this graph, a sprite at the bottom right corner of the stage should say (4, 30), not (240, -180).
-                        To see the full display of coordinates use the following block given in the Operators to round the coordinates reported to 2 decimal places .<br />
-                        <img class="indent" src="/bjc-r/img/3-lists/U3ImageVideoAddendum_img/roundto2decimal.png"  height="40" alt=""/></div>  
-                        
-                        
-                        </li>
-                        <li>Use the <img src="/bjc-r/img/blocks/when-I-am-dropped.png" alt="When I am dropped"> block with your new script so that when you move the sprite around, it says its <strong><em>graph</em></strong> coordinates wherever it is dropped.
+                          >  
                         
                         
-                        </li>
+                        
+                       
                         <li>
                             
                             Now, change the inputs of <code>set graph scale</code> to (1927, 2014, 0, 0.5) and click it to reset the scale of the screen. Check to see if your sprite says what you expect when you move it around the stage.<br />
@@ -81,7 +78,7 @@
 					
                 </li>
             </ol>
-        </div>
+</div>
   
         <div class="takeItFurther">
             <ol type="A">
