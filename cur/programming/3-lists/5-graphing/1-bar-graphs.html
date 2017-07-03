@@ -20,13 +20,14 @@
 		
         <div class="learn">  
         	<p>
-            	<strong>In this project,</strong> you will create a <em>general</em> data visualization tool that can generate bar graphs for a variety of data sets.  You will practice using <em>abstraction</em> and the higher order function <code>map</code>.<br />
+            	<strong>In this project,</strong> you will create a <em>general purpose</em> data visualization tool that can generate bar graphs for a variety of data sets.  You will practice using <em>abstraction</em> and the higher order function <code>map</code>.<br />
         	<img class="indent" src="/bjc-r/img/3-lists/BarGraph_img/CO2Table.png" height="300" alt="Table of CO2 Emissions by Country" title="Table of CO2 Emissions by Country"/><img  src="/bjc-r/img/3-lists/BarGraph_img/BarGraphAnimation.gif" height="300" alt="bar graph of 2011 Top CO2 Emissions" title="bar graph of 2011 Top CO2 Emissions" />
             </p>
         </div>
         
         <div class="forYouToDo" id="first">
         <ol>
+        <li>Technology has come at the cost of environmental pollution around the world. Examine the data table given on <a href="http://www.ucsusa.org/global_warming/science_and_impacts/science/each-countrys-share-of-co2.html#.WVqJI9PytE5" target="_blank">this link</a>. What countries have the highest Carbon Dioxide (CO<sub>2</sub>) emissions? What countries have the highest CO<sub>2</sub> emissions per capita (per person)?  Which of these measures do you think is a better indicator of a country's contribution to global environmental pollution?</li>
         <li>Open this <a class="run" href="/bjc-r/prog/3-lists/U3L5-BarGraph.xml">starter project</a>. 
         	<div class="endnote">
             This file contains
@@ -52,16 +53,18 @@
         </li>
  
   
-<li>Develop code for the <code>draw axes</code> block.  It should draw the <em>x</em> and <em>y</em> axes based on the given stage coordinates.  <br />
-<img class="indent" src="/bjc-r/img/3-lists/BarGraph_img/drawAxis.png"  height="45" alt="draw axes block" title="draw axes block"/>
+<li>Develop code for the <code>draw axes</code> block.  It should draw the <em>horizontal</em> and <em>vertical</em> axes based on the given stage coordinates of the origin <var>x0</var>, <var>y0</var> and the given length, height information.  <br />
+<img class="indent" src="/bjc-r/img/3-lists/BarGraph_img/drawAxis.png"  height="60" alt="draw axes block" title="draw axes block"/><br />
 
-<div class="endnote">This diagram may help you understand how the given stage coordinates will  determine the <em>x,y</em> axes.
+<div class="endnote">This diagram may help you understand how the given information will determine the <em>horizontal</em> and <em>vertical</em> axes.
 As you will be graphing only positive values, the axes should meet in the lower left corner as shown in the diagram.  There should not be any labels or tick marks at this point.  The markings in the diagram are shown for clarity. <br />
 
-<img class="indent" src="/bjc-r/img/3-lists/BarGraph_img/axiswithMinMax.png"  height="200" alt="x-y axes" title="x-y axes"/>
+<img class="indent" src="/bjc-r/img/3-lists/BarGraph_img/axeshorizvert.png"  height="200" alt="x-y axes" title="x-y axes"/>
 
 
 </div>
+In the <code>draw axes</code> block also make sure that the coordinates of the origin is stored in global variables <var>x-origin</var>, <var>y-origin</var>.  In the upcoming steps of this project, other blocks will need this information to properly allign the bars and labels .<br />
+<img class="indent" src="/bjc-r/img/3-lists/BarGraph_img/globalx0y0.png"  height="100" alt=""/><img src="/bjc-r/img/3-lists/BarGraph_img/setXYOrigin.png"  height="75" alt=""/>
 <div class="sidenote">You can import the basic <code>label</code> block in your new projects via the "Import tools" option of the File menu:<br />
         <img src="/bjc-r/img/3-lists/BarGraph_img/importTools.png"  height="150" alt="Import tools option" title="Import tools option"/></div>
 
@@ -94,7 +97,7 @@ in JavaScript.</p>
         </div>
 </li>
  
-<li> Develop code for the more elaborate <code>label</code> block that will place a label with the inputted specifications (text, size, direction and <em>x, y</em> stage location.) <br /><br />
+<li> Use the basic <code>label</code> block to develop code for the more elaborate <code>label</code> block that will place a label with the inputted specifications (text, size and direction.) <br /><br />
   
 <img class="indent" src="/bjc-r/img/3-lists/BarGraph_img/labelChina.png"  height="45" alt="label block" title="label block"/><img  src="/bjc-r/img/3-lists/BarGraph_img/China.png"  height="100" alt="China label" title="China label"/><br /><br />
  Note that the orientation directions should follow Snap<em>!</em> ’s convention for directions (0<sup>o</sup> up, 90<sup>o</sup> right, 180<sup>o</sup> down, 270<sup>o</sup> left).  Test your new <code>label</code> with the four directions.<br />
@@ -104,7 +107,7 @@ in JavaScript.</p>
  
 </li>
 
-<li>Develop code for the <code>draw bar</code> block. It should draw a vertical bar (a line with the given width and height) straight up from the given <em>x, y</em> stage location with a label placed underneath the bar.<br />
+<li>Develop code for the <code>draw bar</code> block. It should draw a vertical bar (a line with the given width and height) straight up from the current location with a label placed underneath the bar.<br />
 	<img class="indent" src="/bjc-r/img/3-lists/BarGraph_img/drawbar.png" height="45" alt="draw bar block" title="draw bar block"/>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <img src="/bjc-r/img/3-lists/BarGraph_img/barGermany.png" height="200" alt="Germany bar" title="Germany bar"/>
                   
   <div class="endnote">You may wish to review your earlier <a href="/bjc-r/cur/programming/2-complexity/4-abstraction/3-brick-wall.html">Brick Wall</a> project to remind yourself how to draw bars with a pen of a given width.  Be sure that you have “Flat line ends” selected from the Settings menu to draw rectangular bars.  You can see below the difference in two types of lines drawn.<br />
@@ -113,7 +116,7 @@ in JavaScript.</p>
 <img src="/bjc-r/img/3-lists/BarGraph_img/RoundedBar.png"  height="120" alt="Rounded line bar" title="Rounded line bar"/></div>
 </li>
 
-<li>Develop code for the <code>draw bars</code> block, which should draw a series of labelled bars of the desired width and an appropriate height that start at the specified <em>x, y</em> stage location on the left and continue to the right.  For example:<br />
+<li>Develop code for the <code>draw bars</code> block, which should draw a series of labelled bars of the desired width and an appropriate height that start on the left and continue to the right.  In order to properly level the bars and the labels you may need to refer to the global variables <var>x-origin</var>, <var>y-origin</var>.<br />
 <img class="indent" src="/bjc-r/img/3-lists/BarGraph_img/drawthebars.png"  height="60" alt="draw bars block" title="draw bars block"/>
 <img src="/bjc-r/img/3-lists/BarGraph_img/bars.png"  height="250" alt="Country bars" title="Country bars"/>
 </li>
@@ -133,10 +136,10 @@ While finding the maximum of the data values, first you need to get a list of va
 <img class="indent" src="/bjc-r/img/3-lists/BarGraph_img/mapgetvalue.png"  height="45" alt="map value from data-record() over (data list)" title="map value from data-record() over (data list)"/>
  </div>
 
-<li>Develop code for the <code>label y-axis</code> block so that it labels the y-axis based on specified inputs.  For simplicity, you can assume that the labels will always split the y-axis into 10 equal parts (using 11 tick marks) like this:<br />
+<li>Develop code for the <code>label vertical axis</code> block so that it labels the vertical axis based on the specified inputs.  For simplicity, you can assume that the labels will always split the vertical axis into 10 equal parts (using 11 tick marks) like this:<br />
 
 
- <img class="indent" src="/bjc-r/img/3-lists/BarGraph_img/labelyaxis.png"  height="65" alt="label y-axis block" title="label y-axis block"/>
+ <img class="indent" src="/bjc-r/img/3-lists/BarGraph_img/labelyaxis.png"  height="45" alt="label y-axis block" title="label y-axis block"/>
 
  <img src="/bjc-r/img/3-lists/BarGraph_img/yaxislabels.png"  height="250" alt="y-axis labels" title="y-axis labels"/>
 
@@ -148,8 +151,8 @@ While finding the maximum of the data values, first you need to get a list of va
  <img class="indent" src="/bjc-r/img/3-lists/BarGraph_img/BarGraphdata.png"  height="180" alt="Bar Graph block" title="Bar Graph block"/><br />
  </li>
  
-<li>When everything is done, the following code should produce a bar graph as shown below:<br />
-<img class="indent" src="/bjc-r/img/3-lists/BarGraph_img/codeCO2EmissionData.png" height="150" alt="Code for Bar Graph CO2 Emissions data" title="Code for Bar Graph CO2 Emissions data"/><br />
+<li>When everything is done, the following code, with a few extra labels for the graph title, should produce a bar graph as shown below:<br />
+<img class="indent" src="/bjc-r/img/3-lists/BarGraph_img/codeCO2EmissionsData.png" height="45" alt="Code for Bar Graph CO2 Emissions data" title="Code for Bar Graph CO2 Emissions data"/><br />
 <div class="sidenote">
 
 Please note that the lowest value on the y-axis must be <em><strong>zero</strong></em> for this bar graph to be a legitimate data visualization.  If, for example, you had started the y-axis at 5000, it would look like China is a vastly worse polluter than the USA.  <br /><br />In general, be very skeptical of graphs presented to you that do not start at <em><strong>zero</strong></em>.</div>
@@ -157,7 +160,7 @@ Please note that the lowest value on the y-axis must be <em><strong>zero</strong
  
  </li>
 <li>Your coding should be general enough to accommodate a new set of data (also included in your starter file):<br />
-<img class="indent" src="/bjc-r/img/3-lists/BarGraph_img/codeCO2EmissionsPerCapita.png"  height="121" alt="Code for Bar Graph CO2 Emissions per capita data" title="Code for Bar Graph CO2 Emissions per capita data"/><br />
+<img class="indent" src="/bjc-r/img/3-lists/BarGraph_img/codeCO2EmissionsPerCapita.png"  height="45" alt="Code for Bar Graph CO2 Emissions per capita data" title="Code for Bar Graph CO2 Emissions per capita data"/><br />
 <img class="indent" src="/bjc-r/img/3-lists/BarGraph_img/CO2EmissionsPerCapita.png"  height="300" alt="Bar Graph CO2 Emissions per capita" title="Bar Graph CO2 Emissions per capita"/>
 
 </li>
