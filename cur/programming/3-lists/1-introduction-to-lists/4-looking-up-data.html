@@ -21,7 +21,7 @@
                 <img class="indent" src="/bjc-r/img/3-lists/search-inside-contact-phone-reporting.png" alt="" title="" />
             </p>-->
             <p>
-                <strong>On this page,</strong> you will develop a "Find Contact" button to locate a particular contact in the list<!--develop An "Find Contact" button for accessing specific contacts in your <var>contact list</var>-->.<br /> 
+                <strong>On this page,</strong> you will develop code for a "Find Contact" button to locate contacts in the list<!--develop An "Find Contact" button for accessing specific contacts in your <var>contact list</var>-->.<br /> 
 				<img class="indent" src="/bjc-r/img/3-lists/find-contacts-with-name-Alphie-reporting.png" alt="find contacts with name: (Alphie) reporting" title="find contacts with name: (Alphie) reporting" />
             </p>
         </div>
@@ -33,7 +33,7 @@
             <ol>
 				<li>If it isn't open already, open your U3L1-ContactList project.</li>
                 <li>
-					Write a <img src="/bjc-r/img/3-lists/find-contacts-with-name.png" alt="find contacts with name: ()" title="find contacts with name: ()" /> block that takes a text string as input and reports either a list of the contacts whose name includes that string, or "not found" if no such name is in <var>contact list</var>.
+					Write a <img src="/bjc-r/img/3-lists/find-contacts-with-name.png" alt="find contacts with name: ()" title="find contacts with name: ()" /> block that takes a text string as input and reports either a list of the contacts whose name includes that string or an empty list if no such name is in <var>contact list</var>.
                 	<!--Write a look-up block <img src="/bjc-r/img/3-lists/phone-number-of.png" alt="phone number of ()"> that takes any part of a person's name as input and reports either that person's phone number or "not found" if the name is not in the <var>contact list</var>.-->
                     <div class="narrower">
                         <strong>Use these blocks:</strong>
@@ -57,8 +57,8 @@
                 <li>
                     Develop a "Find Contact" button.
                     <ol>
-                        <li>Give the sprite an appropriate costume.</li>
                         <li>Make the script ask the user whose contact to search for and have the sprite <code>say</code> each of the matching contacts.</li>
+                        <li>If the contact is not in the list, make the sprite say "not found."</li>
 					</ol>
                 </li>
                 <li><strong>Debug.</strong> Make sure everything works the way you want it to before going on.</li>
@@ -67,21 +67,32 @@
 		</div>
        
 		
-        <div class="ifTime">
+        <div class="todo">
+            <p>On page 3, SAYing a Contact (list) isn't a great UI.  It'd be better either to format the entire contact as text or to SAY a 2-D list with name (display form), address, and phone for all matching contacts.</p>
+            <p>And deleting a contact has to have a better specification!  Problem 5 encourages them to delete potentially several contacts at once; problem 6 asks them to fix it, but they shouldn't write something so dangerous to the user in the first place.  I'd say "Deleting a contact will take careful design, because FIND may report more than one contact, and you don't want any possibility of the user deleting all of them."  And then spec out how to make it work.  Maybe ASK a 2-D list as above, but with "Enter the row number of the one you want to delete" as an appended last item.</p>
+        </div>
+        
+		<div class="ifTime">
 			<ol start="5">
 				<li>
                     Develop a "Delete Contact" button. 
                     <ol>
-                        <li>Create a new sprite with an appropriate name and costume.</li>
-                        <li>Make the script ask the user "Which contact do you want to delete?" and then use your <code>find</code> block together with <code>keep</code> to replace the <var>contact list</var> with a list of all contacts whose name does <em>not</em> match the inputted name.</li>
-                        <li>Make the script ask the user for confirmation (so the user won't accidentally delete their contact).</li>
-                        <div class="endnote">For example, after the user enters the contact name they want to delete, the program could report that whole contact back to the user and ask if they are sure they what to delete it.</div>
+                        <li>Move the "Delete Contact" button onto the stage.</li>
+                        <li>Make the script ask the user to "Enter the name of the contact(s) you wish to delete."</li>
+                        <li>Then, use your <code>find contacts</code> block together with <code>keep</code> to find all the matching contacts.</li>
+                        <li>Give the user the list of matching contacts and ask them for confirmation to delete (so the user won't accidentally delete their contact).</li>
+                        <li>If the user confirms that they want to delete these contacts, replace the <var>contact list</var> with a list of all contacts whose name does <em>not</em> match the inputted name.</li>
                     </ol>
                 </li>	
-				<li>Modify your "Delete Contact" script so that it lets the user choose which contact they want to delete when <code>find</code> reports more than one.</li>			   
 			</ol>
 		</div>
-		
+        
+        <div class="takeItFurther"><a name="further" class="anchor">&nbsp;</a>
+			<ol type="A">
+				<li>Do the "If There Is Time" exercise above. Then, modify your "Delete Contact" script so that it lets the user choose which contact they want to delete when <code>find</code> reports more than one.</li>				   
+			</ol>
+		</div>
+				
 		
     </body>
 </html>
