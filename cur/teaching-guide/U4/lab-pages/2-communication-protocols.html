@@ -25,55 +25,24 @@
 		</div>
 
 		
-        <h3>Goals for the Lab:</h3>
-        <div>
-        	<ul>
-            	<li>
-                	<strong>Page 1: Addresses in a Network of Networks: IP.</strong>
-                    <ul>
-                        <li>Understand that the IP Address of a computer is an address that uniquely specifies the computer. </li>
-                        <li>Understand that the IP Address is essential for communication on the Internet. </li>
-                        <li>Understand that IP Addresses are hierarchical and can be read as such. </li>
-                        <li>Understand that the difference between IPv4 and IPv6 is primarily one of the size of the words and therefore the number of unique addresses that can be represented.</li>
-                        <!--<li>(+) Develop an introductory understanding of the concept of IP subnet masking.</li>-->
-                    </ul>
-            	</li>
-            	<li>
-                	<strong>Page 2: Reliable Transmission on Unreliable Networks: TCP.</strong>
-                    <ul>
-                        <li>Understand that TCP provides reliability of communication through counting, labeling, and ordering packets and implementing verification. </li>
-                        <!--<li>(+) Understand that HTTP works on top of TCP.</li>-->
-                    </ul>
-            	</li>
-                <li>
-                    <strong>Page 3: A Hierarchy of Open Protocols.</strong>
-                    <ul>
-                        <li>Have a high level understanding of the Internet protocol layers and how they function together: Application, Transport, Internet, and Network Interface. </li>
-                        <li>Understand that a protocol is an agreed upon set of communication standards.</li>
-                    </ul>
-                </li>
+        <h3>Lab Pages</h3>
+		<div>
+			<ul>
 				<li>
-                	<strong>Page 4: Who's in Charge of the Internet?</strong> 
-                    <ul>
-                    	<li>Understand that cooperation is required for the functioning of the Internet. </li>
-                    	<li>Understand that ICANN is responsible for managing the domain name hierarchy. </li>
-                    	<li>Understand that many of the protocols of the Internet are open standards, owned by no company. </li>
-                    	<li>Understand that ISOC and IETF manage many of the protocols of the Internet in an open manner involving full consensus. </li>
-                    	<!--<li>(+) Understand the history behind US control of many aspects of the internet.</li>-->
-                    </ul>
-            	</li> 
-            </ul>
-        </div>
-        
-        
-		<h3>As a Class:</h3>
-        <div>
-        	<ul>
-            	<li>
-                	<strong>Page 1: Addresses in a Network of Networks: IP.</strong>
-                    <ul>
-                        <li>
-                        	Discussion: Generate a list of key ideas of the Internet&mdash;that is, key features that would need to be there (or questions to be addressed) in any sort of re-design of the internet. Use these prompts to stimulate the discussion:
+					<strong>Page 1: Addresses in a Network of Networks: IP.</strong>
+					<ul>
+						<li>
+							<strong>Learning Goals:</strong>
+							<ul>
+								<li>Understand that the IP Address of a computer is an address that uniquely specifies the computer. </li>
+                                <li>Understand that the IP Address is essential for communication on the Internet. </li>
+                                <li>Understand that IP Addresses are hierarchical and can be read as such. </li>
+                                <li>Understand that the difference between IPv4 and IPv6 is primarily one of the size of the words and therefore the number of unique addresses that can be represented.</li>
+                                <!--<li>(+) Develop an introductory understanding of the concept of IP subnet masking.</li>-->
+							</ul>
+						</li>
+						<li>
+                        	<strong>Discussion:</strong> Generate a list of key ideas of the Internet&mdash;that is, key features that would need to be there (or questions to be addressed) in any sort of re-design of the internet. Use these prompts to stimulate the discussion:
                             <ul>
                             	<li>Where does content on the internet live?</li>
                                 <li>What happens if information gets corrupted as it travels?</li>
@@ -81,52 +50,122 @@
                             	<li>What is a protocol? What does it do for the Internet? What are some examples?</li>
                             </ul>
                         </li>
-					</ul>
-            	</li>
-                <li>
-                	<strong>Page 2: Reliable Transmission on Unreliable Networks: TCP.</strong>
-                    <ul>
-                        <li>Discussion: This lab page includes a simulation of unreliable data transmission by Internet Protocol. After students have had a chance to explore the simulation, ask them to share their ideas for how to change the project to transmit data reliably. TCP sends header data along with each packet so that the receiving computer can reorder the packets and identify if there are any missing. How might this be accomplished in Snap<em>!</em>? Students can try this for themselves in the "Take It Further" section.</li>
                         <li>
-                        	Discussion Questions:
+							<strong>Tips:</strong>
+							<ul>
+								<li>
+                                    This page just skims the surface of IP. An end-user's computer typically has just three cases to consider:
+                                    <ul>
+                                        <li>Is this <em>my own</em> IP address? If so, don't use the network at all; send the message by software to another process on this same computer.</li>
+                                        <li>If not, is this another computer on my local net? If so, use the appropriate link layer protocol to tell my network hardware to send the message directly to that other computer.</li>
+                                        <li>Otherwise, send the message to my router, which is typically computer number 1 on my local net.</li>
+                                    </ul>
+                                    But routers at ISPs have a hugely complicated job.  Because of redundant hardware connections, they can't just look up "the" route to the desired computer.  They have to consider alternate routes, check on how long it's taken to get messages across the net using each route recently, and pick the best one.  Also, it used to be that routers could be pretty confident about heuristics such as "if the address starts with 128 it's in the USA," but the advent of <em>virtual private networks</em> means that my laptop can pretend to be on the Berkeley campus when it's actually physically in Korea. None of this is on the AP syllabus.
+                                </li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+                <li>
+					<strong>Page 2: Reliable Transmission on Unreliable Networks: TCP.</strong>
+					<ul>
+						<li><strong>Learning Goal:</strong> Understand that TCP provides reliability of communication through counting, labeling, and ordering packets and implementing verification. </li>
+                        <!--<li>(+) Understand that HTTP works on top of TCP.</li>-->
+						<li><strong>Discussion:</strong> This lab page includes a simulation of unreliable data transmission by Internet Protocol. After students have had a chance to explore the simulation, ask them to share their ideas for how to change the project to transmit data reliably. TCP sends header data along with each packet so that the receiving computer can reorder the packets and identify if there are any missing. How might this be accomplished in Snap<em>!</em>? Students can try this for themselves in the "Take It Further" section.</li>
+                        <li>
+                        	<strong>Discussion Questions:</strong>
                             <ul>
                                 <li>What is redundancy? How does it make the Internet more reliable?</li>
                             	<li>What is a packet-switched network? What does a packet contain? How does a packet-switched system work? (This is addressed in the code.org video and also on page 302 of <em>Blown to Bits</em>.)</li>
                             </ul>
                         </li>
+                        <li>
+							<strong>Tips:</strong>
+							<ul>
+								<li>The project included in this page simulates unreliable packet transmission using IP for students to consider how they might address the unreliability. More advanced students can attempt to develop their own version of TCP in the Take It Further section at the bottom of the page. That's a challenging programming project, but even students who are not completely successful at it will gain a deeper appreciation of the importance of TCP.</li>
+                                <li>
+                                    In the TCP project, students are asked to solve two problems:
+                                    <ul>
+                                        <li>Packets may arrive out of order. (Solution: serial numbers in the packet headers.)</li>
+                                        <li>Some packets may not arrive at all. (Solution: a protocol by which the sender knows that a packet needs to be resent if not acknowledged.)</li>
+                                    </ul>
+                                    They are <em>not</em> asked to solve other problems that the real TCP confronts:
+                                    <ul>
+                                        <li>Packets may arrive, but with incorrect contents. (Solution: redundant data in the header is computed from the correct contents so that if the data are corrupted, the receiver will recompute the header information and detect a mismatch.)</li>
+                                        <li>A naive implementation of TCP is likely to cause network congestion as packets fly back and forth between the two computers involved. The real TCP includes congestion control algorithms to mitigate this problem.</li>
+                                        <li>IP knows how to send a packet to another computer, but that isn't generally good enough; the remote computer will typically have several programs waiting for communication over the net, and so TCP implements the idea of a <em>socket</em> that belongs to a specific program running on the remote computer.</li>
+                                    </ul>
+                                    Consider discussing those issues with interested students.
+                                </li>
+							</ul>
+						</li>
 					</ul>
 				</li>
                 <li>
-                    <strong>Page 3: A Hierarchy of Open Protocols.</strong>
-                    <ul>
-                        <li>
-                        	Discussion: 
+					<strong>Page 3: A Hierarchy of Open Protocols.</strong>
+					<ul>
+						<li>
+							<strong>Learning Goals:</strong>
+							<ul>
+								<li>Have a high level understanding of the Internet protocol layers and how they function together: Application, Transport, Internet, and Network Interface. </li>
+                        		<li>Understand that a protocol is an agreed upon set of communication standards.</li>
+							</ul>
+						</li>
+						<li>
+                            <strong>Discussion:</strong> 
                             <ul>
-                        		<li>Consider having students describe each of the Internet Abstraction Hierarchy layers: Application, Transport, Internet, and Link (hardware).</li>
+                                <li>Consider having students describe each of the Internet Abstraction Hierarchy layers: Application, Transport, Internet, and Link (hardware).</li>
                                 <li>What is the Internet? How is the Internet built? How does the Internet function? (These are essential questions for Big Idea 6: The Internet in the <a href="https://secure-media.collegeboard.org/digitalServices/pdf/ap/ap-computer-science-principles-curriculum-framework.pdf#page=39" target="_blank">AP CS Frameworks</a>.)</li>
                             </ul>
-						</li>
-                    </ul>
-                </li><li>
-                	<strong>Page 4: Who's In Charge of the Internet?</strong>
-                    <ul>
+                        </li>
                         <li>
-                        	Discussion:
+							<strong>Tips:</strong>
+							<ul>
+								<li>The Internet is a great example of how important <em>abstraction</em> is in permitting such a complicated social artifact to work. Any programmer can write an Internet-based application because that app is supported by the solid framework of the three lower levels. Otherwise the app writer would need expertise in dozens of arcane problems.</li>
+                                <li>The student pages mentions briefly that the Internet is also a great example of the importance of <em>cooperation.</em> In a social era that glorifies competition, the Internet is an amazing counterexample.</li>
+                                <li>
+                                    This student page simplfies the Internet Abstraction Hierarchy:
+                                    <ul>
+                                        <li>The student pages equates the Link Layer with hardware, but that's a simplification. Virtual networks, built entirely out of software, are an example of a non-hardware Link Layer protocol.</li>
+                                        <li>The student pages don't address any protocols at the Internet layer other than IP itself, but there are several more, including experimental proposed IP replacements that run in parallel with IP over the same physical infrastructure.</li>
+                                        <li>Similarly, at the Transport layer we emphasize TCP and its reliability role, mentioning UDP in passing and ignoring such esoterica as the Licklider Transmission Protocol (LTP), designed for efficient transmissions to and from computers in outer space.</li>
+                                        <li>And of course there are many, many specialized Application protocols, some of which are used by routers to learn information about network connectivity, while others are for specific commercial organizations.</li>
+                                    </ul>
+                                </li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+                <li>
+					<strong>Page 4: Who's In Charge of the Internet?</strong>
+					<ul>
+						<li>
+							<strong>Learning Goals:</strong>
+							<ul>
+								<li>Understand that cooperation is required for the functioning of the Internet. </li>
+                                <li>Understand that ICANN is responsible for managing the domain name hierarchy. </li>
+                                <li>Understand that many of the protocols of the Internet are open standards, owned by no company. </li>
+                                <li>Understand that ISOC and IETF manage many of the protocols of the Internet in an open manner involving full consensus. </li>
+                                <!--<li>(+) Understand the history behind US control of many aspects of the internet.</li>-->
+							</ul>
+						</li>
+						<li>
+                        	<strong>Discussion:</strong>
                             <ul>
-                                <li>Who is in charge of the Internet protocols? What's the meaning of &quot;open&quot; when describing open technology (open software, open protocols, etc.)?</li>
+                                <li>Who is in charge of the Internet protocols? What's the meaning of "open" when describing open technology (open software, open protocols, etc.)?</li>
                                 <li>Who is in charge of the DNS hierarchy? What are some of the impacts of this?</li>
                                 <li>Who is the Internet Engineering Task Force? What do they do? How do they operate? (This is addressed on pages 311-312 of <em>Blown to Bits</em> and on the lab page.)</li>
                                 <li>What does it mean for the internet to have end-to-end architecture? (This is addressed on page 313 of <em>Blown to Bits</em> and reviewing Lab 3: TCP.)</li>
                                 <li>What is net neutrality? Why does it matter? What could happen if we did not have net neutrality? (This is addressed on pages 314-315 of <em>Blown to Bits</em>.)</li>
                             </ul>
                         </li>
-                    </ul>
-            	</li>            
-            </ul>
-        </div>
-
-
-		<h3>Assignments:</h3>
+					</ul>
+				</li>
+			</ul>
+		</div>
+        
+    
+    	<h3>Assignments:</h3>
 		<div>
         	<ul>
 				<li>Assessment Idea: Draw a diagram showing some of the process and protocols involved in sending an HTTP request and receiving the response.</li>               
@@ -162,60 +201,6 @@
         </div>
 
 			
-		<h3>Tips:</h3>
-		<div>
-            <ul>
-            	<li><strong>Page 1: Addresses in a Network of Networks: IP.</strong>
-            	  <ul>
-            	    <li>This page just skims the surface of IP. An end-user's computer typically has just three cases to consider:
-            	      <ul>
-            	        <li>Is this <em>my own</em> IP address? If so, don't use the network at all; send the message by software to another process on this same computer.</li>
-            	        <li>If not, is this another computer on my local net? If so, use the appropriate link layer protocol to tell my network hardware to send the message directly to that other computer.</li>
-            	        <li>Otherwise, send the message to my router, which is typically computer number 1 on my local net.</li>
-           	          </ul>
-           	        But routers at ISPs have a hugely complicated job.  Because of redundant hardware connections, they can't just look up &quot;the&quot; route to the desired computer.  They have to consider alternate routes, check on how long it's taken to get messages across the net using each route recently, and pick the best one.  Also, it used to be that routers could be pretty confident about heuristics such as &quot;if the address starts with 128 it's in the USA,&quot; but the advent of <em>virtual private networks</em> means that my laptop can pretend to be on the Berkeley campus when it's actually physically in Korea. None of this is on the AP syllabus.</li>
-           	      </ul>
-            	</li>
-            	<li>
-                	<strong>Page 2: Reliable Transmission on Unreliable Networks: TCP.</strong>
-                    <ul>
-                        <li>The project included in this page simulates unreliable packet transmission using IP for students to consider how they might address the unreliability. More advanced students can attempt to develop their own version of TCP in the Take It Further section at the bottom of the page. That's a challenging programming project, but even students who are not completely successful at it will gain a deeper appreciation of the importance of TCP.</li>
-                        <li>
-                        	In the TCP project, students are asked to solve two problems:
-							<ul>
-								<li>Packets may arrive out of order. (Solution: serial numbers in the packet headers.)</li>
-                                <li>Some packets may not arrive at all. (Solution: a protocol by which the sender knows that a packet needs to be resent if not acknowledged.)</li>
-                            </ul>
-							They are <em>not</em> asked to solve other problems that the real TCP confronts:
-                        	<ul>
-                            	<li>Packets may arrive, but with incorrect contents. (Solution: redundant data in the header is computed from the correct contents so that if the data are corrupted, the receiver will recompute the header information and detect a mismatch.)</li>
-                                <li>A naive implementation of TCP is likely to cause network congestion as packets fly back and forth between the two computers involved. The real TCP includes congestion control algorithms to mitigate this problem.</li>
-                                <li>IP knows how to send a packet to another computer, but that isn't generally good enough; the remote computer will typically have several programs waiting for communication over the net, and so TCP implements the idea of a <em>socket</em> that belongs to a specific program running on the remote computer.</li>
-                            </ul>
-                            Consider discussing those issues with interested students.
-                        </li>
-                    </ul>
-            	</li>
-            	<li>
-                	<strong>Page 3: A Hierarchy of Open Protocols.</strong>
-                	<ul>
-                    	<li>The Internet is a great example of how important <em>abstraction</em> is in permitting such a complicated social artifact to work. Any programmer can write an Internet-based application because that app is supported by the solid framework of the three lower levels. Otherwise the app writer would need expertise in dozens of arcane problems.</li>
-                        <li>The student pages mentions briefly that the Internet is also a great example of the importance of <em>cooperation.</em> In a social era that glorifies competition, the Internet is an amazing counterexample.</li>
-                        <li>
-                        	This student page simplfies the Internet Abstraction Hierarchy:
-                        	<ul>
-								<li>The student pages equates the Link Layer with hardware, but that's a simplification. Virtual networks, built entirely out of software, are an example of a non-hardware Link Layer protocol.</li>
-                                <li>The student pages don't address any protocols at the Internet layer other than IP itself, but there are several more, including experimental proposed IP replacements that run in parallel with IP over the same physical infrastructure.</li>
-                                <li>Similarly, at the Transport layer we emphasize TCP and its reliability role, mentioning UDP in passing and ignoring such esoterica as the Licklider Transmission Protocol (LTP), designed for efficient transmissions to and from computers in outer space.</li>
-                                <li>And of course there are many, many specialized Application protocols, some of which are used by routers to learn information about network connectivity, while others are for specific commercial organizations.</li>
-                            </ul>
-                        </li>
-					</ul>
-            	</li>
-           	</ul>
-        </div>
-
-			
 		<!--<h3>Solutions</h3>
 		<div><ul><li>...</li></ul></div>-->
 			
@@ -223,11 +208,13 @@
 		<h3>Correlation with AP CS Principles Framework:</h3>
 		<div class="apStandards">
 			<h4>Enduring Understandings:</h4>
+			<p></p>
 			<ul>
             	<li><strong>EU 6.1</strong> The Internet is a network of autonomous systems.</li>
                 <li><strong>EU 6.2</strong> Characteristics of the Internet influence the systems built on it.</li>
 			</ul>
 			<h4>Learning Objectives:</h4>
+			<p></p>
 			<ul>
             	<li><strong>LO 6.1.1</strong> Explain the abstractions in the Internet and how the Internet functions. [P3]</li>
                 <li><strong>LO 6.2.1</strong> Explain characteristics of the Internet and the systems built on it. [P5]</li>
