@@ -8,7 +8,7 @@
 
 	<body>
 		<h2>Lab 2: Sorting Data</h2>
-		<p>This lab continues work on the Contact List developed in Lab 1. Here our goal is to sort the list by name; this is the payoff for the &quot;sorting form&quot; vs. &quot;display form&quot; selectors on names.</p>
+		<p>This lab continues work on the Contact List developed in Lab 1. Here our goal is to sort the list by name; this is the payoff for the "sorting form" vs. "display form" selectors on names.</p>
 		<p>Although the lab includes several occasions to use the higher order functions <code>map</code>, <code>keep</code>, and <code>combine</code>, sorting is a problem that cannot be solved entirely with these HOFs, because they deliberately pay no attention to the position of a value within a list, and sorting is very much about positioning. So the major new content introduced here is the writing and use of <strong>recursive reporters</strong>.</p>
 		<p>The first page reviews the recursive triangle-fractal command from U2L4p2 and introduces simple recursive reporters. The second page teaches the selection sort algorithm and implements it as a recursive reporter, but sorting only simple data that can be compared using the <code>&lt;</code>block. The third page adds the remarkably small change that's needed to sort Contacts by name.</p> 
 		
@@ -24,104 +24,113 @@
 		</div>
 
 
-		<h3>Prepare</h3>
+		<!--<h3>Prepare</h3>
 		<div>
 			<ul>
 				<li></li>
 			</ul>
-		</div>
+		</div>-->
 
 
 		<h3>Lab Pages</h3>
-		<div>
-			<ul>
-				<li>
-					<strong>Page 1: Recursion Revisited.</strong>
-					<ul>
-						<li>
-							<strong>Learning Goals:</strong>
-							<ul>
-								<li>Review recursive commands.</li>
-								<li>Introduce recursive reporters.</li>
-							</ul>
-						</li>
-						<li>
-							<strong>Tips:</strong>						
-							<ul>
-							  <li><strong>Domain and range.</strong> Does this block take a list or a single number as input? Does it report a list or a single number? One common bug is to get this right in the recursive case but not in the base case — for <code>sum of</code>, for example, reporting an empty list if the input is an empty list.</li>
-							  <li><strong>Combiners.</strong> Here's a general view of the structure of a recursive command:<br />
-            <img class="indent" src="/bjc-r/img/7-recursive-reporters/rec-command.png" alt="recursive command pattern" /><br />
-            (Students will see this picture and the next in Unit 8.)  Students will be tempted to carry this pattern over to recursive reporters:<br />
-            <img class="indent" src="/bjc-r/img/7-recursive-reporters/bad-rec-reporter.png" alt="bad (multi-report) recursive reporter pattern" /><br />
-            But a block can <code>report</code> only once.  So instead, we need a <em>combiner</em> function:<br />
- <img src="/bjc-r/img/7-recursive-reporters/rec-reporter.png" alt="correct recursive reporter pattern"><br />
- Don't show these pictures to students in a lecture, especially not before they do the lab!  Abstract patterns will make            
-                              much more sense to them <em>after</em> they have some experience at least trying to build recursive reporters. But you'll be better able to help students debug if <em>you</em> understand the reason for combiner functions before students do the lab.</li>
-				          </ul>
-						</li>
-					</ul>
-				</li>
-				<li><strong>Page 2: Selection Sort.</strong>
-			      <ul>
-			        <li><strong>Learning Goals:</strong>
-			          <ul>
-			            <li>Understand the selection sort algorithm.</li>
-			            <li>Implement it as a recursive function.</li>
-		              </ul>
-		            </li>
-			        <li><strong>Tips:</strong>
-			          <ul>
-			            <li>When students are doing the "live" sort, don't let them cheat by having several students moving around at once! Make them follow the algorithm precisely, so they can understand how it works. Try appointing one student as &quot;the computer,&quot; who tells the other students when and where to move. You might also want to stand in a sliding position, separating the sorted portion of the list from the remaining unsorted portion.</li>
-			            <li>
-			              Discussion: How does recursion work in a selection sort?
-			              <ul>
-			                <li>What is the base case, and why is it necessary?</li>
-			                <li>How can you be sure a selection sort will always get to a base case?</li>
-		                  </ul>
-		                </li>
-			            <li>Note that the lab gives students the option to write the <code>sort</code> block entirely on their own, with no scaffolding. That option is in purple to indicate that it's for &quot;Take It Further&quot; students. Most students will probably click the link to expand the remaining problems that walk them through the solution.</li>
-			            <li>If students have trouble with the <code>earliest in</code> block, work with numbers: students should notice this is the same algorithm as finding the <strong>minimum</strong> of the list.</li>
-			            <li>Stress the importance of the base case. The question of how many times the algorithm calls itself is tricky, because the base case as described is an empty list, not a single-item list. </li>
-			            <li>The &quot;If There Is Time&quot; problem involves importing a data set from the web and turning it into a Snap<em>!</em> list. We have to do it that way, instead of providing the list in a starter file, because the list is too big to store in a project. We tell the students exactly what to do in this part of the problem because importing data is <em>not</em> the focus of the problem; they should get through this without much discussion and get to the last step, in which they actually write the <code>names starting with</code> block, the object of the exercise.</li>
-		              </ul>
-			        </li>
-		          </ul>
-			  </li>
-				<li><strong>Page 3: Sorting Contacts by Name.</strong> 
-				  <ul>
-				    <li><strong>Learning Goals:</strong>
-			          <ul>
-			            <li>The immediate learning goal is to see how little in the sorting program depends on the exact nature of the things to be sorted.</li>
-			            <li>Behind that is a more general implicit learning goal, which is to develop the skill of understanding any program they just wrote well enough to be able to modify it with a minimum of fuss.</li>
-		              </ul>
-				    </li>
-			      </ul>
-				</li>
-		  <ul>
-	        <li><strong>Tips:</strong>
-              <ul>
-                <li>Instead of this, why not just extract the names (in sorting form) from the contact list, using <code>map</code>, and then have a list of text strings that the program on page 2 could sort? Two reasons: (1) If you did that, the names would be <em>displayed</em> in sorting form, defeating the whole purpose of having the two selectors. (2) Even more important, why would you want a list of just the names? The whole point of a contact list app is that you can click on a name and see all the details for that name!</li>
-                <li>Problem 1 is asking students to think much more deeply than they have had to do earlier in the course. They have to develop the understanding that
-                  <ul>
-                    <li>sorting is done by asking two items which of them belongs earlier;</li>
-                    <li>for complicated data types, that question requires more than just a <code>&lt;</code> comparison; but</li>
-                    <li>(this is the tricky part) the sorting algorithm <em>doesn't care</em> how that question is asked! The algorithm just says how to use the answers to these ordering questions to rearrange the items of the list. The actual comparison of two items happens in just one place: the <code>min</code> block.</li>
-                  </ul>
+        <div>
+            <ul>
+                <li>
+                    <strong>Page 1: Recursion Revisited.</strong>
+                    <ul>
+                        <li>
+                            <strong>Learning Goals:</strong>
+                            <ul>
+                                <li>Review recursive commands.</li>
+                                <li>Introduce recursive reporters.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Tips:</strong>						
+                            <ul>
+                                <li><strong>Domain and range.</strong> Does this block take a list or a single number as input? Does it report a list or a single number? One common bug is to get this right in the recursive case but not in the base case — for <code>sum of</code>, for example, reporting an empty list if the input is an empty list.</li>
+                                <li>
+                                    <strong>Combiners.</strong> Here's a general view of the structure of a recursive command:<br />
+                                    <img class="indent" src="/bjc-r/img/7-recursive-reporters/rec-command.png" alt="recursive command pattern" /><br />
+                                    (Students will see this picture and the next in Unit 8.)  Students will be tempted to carry this pattern over to recursive reporters:<br />
+                                    <img class="indent" src="/bjc-r/img/7-recursive-reporters/bad-rec-reporter.png" alt="bad (multi-report) recursive reporter pattern" /><br />
+                                    But a block can <code>report</code> only once.  So instead, we need a <em>combiner</em> function:<br />
+                                    <img src="/bjc-r/img/7-recursive-reporters/rec-reporter.png" alt="correct recursive reporter pattern"><br />
+                                    Don't show these pictures to students in a lecture, especially not before they do the lab!  Abstract patterns will make            
+                                    much more sense to them <em>after</em> they have some experience at least trying to build recursive reporters. But you'll be better able to help students debug if <em>you</em> understand the reason for combiner functions before students do the lab.
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
                 </li>
-                <li>The TIF (the four problems are part of one activity) is conceptually difficult; it asks students (although it doesn't say so explicitly) to write their own higher order function. The lower-case subproblems a-c inside problem A are about details of Snap<em>!</em> syntax, so try not to let students get hung up on these details; reach over their shoulders and do it for them if necessary. The real learning comes from the experiments, in problems B-D, that the notational exercise in A enables.</li>
-              </ul>
-	        </li>
+                <li>
+                    <strong>Page 2: Selection Sort.</strong>
+                    <ul>
+                        <li>
+                            <strong>Learning Goals:</strong>
+                            <ul>
+                                <li>Understand the selection sort algorithm.</li>
+                                <li>Implement it as a recursive function.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Tips:</strong>
+                            <ul>
+                                <li>When students are doing the "live" sort, don't let them cheat by having several students moving around at once! Make them follow the algorithm precisely, so they can understand how it works. Try appointing one student as "the computer," who tells the other students when and where to move. You might also want to stand in a sliding position, separating the sorted portion of the list from the remaining unsorted portion.</li>
+                                <li>
+                                    Discussion: How does recursion work in a selection sort?
+                                    <ul>
+                                        <li>What is the base case, and why is it necessary?</li>
+                                        <li>How can you be sure a selection sort will always get to a base case?</li>
+                                    </ul>
+                                </li>
+                                <li>Note that the lab gives students the option to write the <code>sort</code> block entirely on their own, with no scaffolding. That option is in purple to indicate that it's for "Take It Further" students. Most students will probably click the link to expand the remaining problems that walk them through the solution.</li>
+                                <li>If students have trouble with the <code>earliest in</code> block, work with numbers: students should notice this is the same algorithm as finding the <strong>minimum</strong> of the list.</li>
+                                <li>Stress the importance of the base case. The question of how many times the algorithm calls itself is tricky, because the base case as described is an empty list, not a single-item list. </li>
+                                <li>The "If There Is Time" problem involves importing a data set from the web and turning it into a Snap<em>!</em> list. We have to do it that way, instead of providing the list in a starter file, because the list is too big to store in a project. We tell the students exactly what to do in this part of the problem because importing data is <em>not</em> the focus of the problem; they should get through this without much discussion and get to the last step, in which they actually write the <code>names starting with</code> block, the object of the exercise.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Page 3: Sorting Contacts by Name.</strong> 
+                    <ul>
+                        <li>
+                            <strong>Learning Goals:</strong>
+                            <ul>
+                                <li>The immediate learning goal is to see how little in the sorting program depends on the exact nature of the things to be sorted.</li>
+                                <li>Behind that is a more general implicit learning goal, which is to develop the skill of understanding any program they just wrote well enough to be able to modify it with a minimum of fuss.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <ul>
+                    <li>
+                        <strong>Tips:</strong>
+                        <ul>
+                            <li>Instead of this, why not just extract the names (in sorting form) from the contact list, using <code>map</code>, and then have a list of text strings that the program on page 2 could sort? Two reasons: (1) If you did that, the names would be <em>displayed</em> in sorting form, defeating the whole purpose of having the two selectors. (2) Even more important, why would you want a list of just the names? The whole point of a contact list app is that you can click on a name and see all the details for that name!</li>
+                            <li>
+                                Problem 1 is asking students to think much more deeply than they have had to do earlier in the course. They have to develop the understanding that
+                                <ul>
+                                    <li>sorting is done by asking two items which of them belongs earlier;</li>
+                                    <li>for complicated data types, that question requires more than just a <code>&lt;</code> comparison; but</li>
+                                    <li>(this is the tricky part) the sorting algorithm <em>doesn't care</em> how that question is asked! The algorithm just says how to use the answers to these ordering questions to rearrange the items of the list. The actual comparison of two items happens in just one place: the <code>min</code> block.</li>
+                                </ul>
+                            </li>
+                            <li>The TIF (the four problems are part of one activity) is conceptually difficult; it asks students (although it doesn't say so explicitly) to write their own higher order function. The lower-case subproblems a-c inside problem A are about details of Snap<em>!</em> syntax, so try not to let students get hung up on these details; reach over their shoulders and do it for them if necessary. The real learning comes from the experiments, in problems B-D, that the notational exercise in A enables.</li>
+                        </ul>
+                    </li>
+                </ul>
             </ul>
-          </ul>
-		</div>
+        </div>
 
 
-		<h3>Assignments</h3>
+		<!--<h3>Assignments</h3>
 		<div>
 			<ul>
 				<li>...</li>
 			</ul>
-		</div>
+		</div>-->
 
 			
 		<h3>Solutions</h3>
@@ -132,12 +141,12 @@
 		</div>
 			
 			
-		<h3>Correlation with AP CS Principles Framework<a name="AP" class="anchor">&nbsp;</a></h3>
-		<div class="apStandards">
+		<h3>Correlation with AP CS Principles Framework (forthcoming)<a name="AP" class="anchor">&nbsp;</a></h3>
+		<!--<div class="apStandards">
 			<!--<h4>Computational Thinking Practices:</h4>
 			<ul>
 				<li>Coming soon...</li>
-			</ul-->
+			</ul>- ->
 			<h4>Essential Understandings:</h4>
 			<p></p>
 			<ul>
@@ -152,7 +161,7 @@
 			<ul>
 				<li>Coming soon...</li>
 			</ul>
-		</div>			
+		</div>	-->		
 
 
 	</body>
