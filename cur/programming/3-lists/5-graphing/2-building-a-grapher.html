@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unit 3 Lab 5: Building Data Visualization Tools, Page 2</title>
+	</head>
+
+	<body>
+		<h2>Building a Grapher</h2>
+        <div class="learn"><strong>On this page</strong>, you will learn how to scale values so that you can graph any data set on the Snap<em>!</em> stage. Blocks to do the calculations are already written for you but you can, if you like, examine them to see how they work.</div>
+        <p>
+            Plotting a single point, given its two coordinates, should feel this basic:<br />
+            <img class="indent" src="/bjc-r/img/3-lists/U3ImageVideoAddendum_img/plotpointxy.png"  height="225" alt="plot point x: (x) y: (y)" title="plot point x: (x) y: (y)"/>
+		</p>
+        <p>Then you could graph a  list of data points by inventing a block like <img src="/bjc-r/img/3-lists/U3ImageVideoAddendum_img/Graph datapoints.png" height="40" alt="Graph datapoints: ()" title="Graph datapoints: ()"/> just like your work in Unit 2 Lab 2. Depending on the kind of graph you want, you can  connect the dots or not.</p>
+		<p>
+        	That seems like all you should need. But what if the <em>scale</em> of your data does not fit on the Snap<em>!</em> stage (between -240 and 240 in the <em>x</em> direction and between -180 and 180 in the <em>y</em> direction)? For example, what if you want to plot the popularity of a baby name over time, like this?<br />
+            <img class="indent" src="/bjc-r/img/3-lists/U3ImageVideoAddendum_img/SnapStageCoordinates.png"  height="250" alt="Snap Stage Coordinates" title="Snap Stage Coordinates"/>
+            
+            
+        	<img src="/bjc-r/img/5-algorithms/PercentageOfDerekByYear.png" height="250" alt="percentage of births named Derek by year" title="percentage of births named Derek by year" />
+        </p>
+		<p>
+            The years can't be plotted on the horizontal because those values are completely off  Snap<em>!</em>'s stage. And the percent values 0, 0.1, 0.2, 0.3, etc., are so close to each other that they would all look the same. We wouldn't see the increase in popularity between 1960 and 1980 at all. 
+            We need a way to <em>convert</em> between Snap<em>!</em> &nbsp; <strong>stage coordinates</strong> and the values—we'll call them the <strong>graph coordinates</strong>—for a given set of data points.
+		</p>
+        
+        <div class="takeNote">A good grapher needs to let the user set the <strong>scale</strong> of the screen, to specify where to focus attention&mdash;where to zoom in. </div>
+        
+        <div class="forYouToDo" id="first">
+			<ol>
+				<li>
+                    Load <a class="run" href="/bjc-r/prog/3-lists/U3L5-GraphingApp_student.xml">this Snap<em>!</em> project.</a> It contains several blocks already built for your convenience.
+                    <ol>
+                        <li>Click  the <code>set graph scale</code> block with the inputs it already has (-2, 4, 30, 300) to see what it does. In addition to drawing on the screen, it sets several variables that your other blocks will need so that they know the intended screen dimensions. </li>
+                        <li>
+                            The following two blocks report the Snap<em>!</em> <strong><em>stage</em></strong> coordinates given the <strong><em>graph</em></strong> coordinates of a point.  Experiment with inputs to these two blocks to get them to report 0.<br />
+                            <img src="/bjc-r/img/3-lists/U3ImageVideoAddendum_img/xStageforxGraph.png"  height="40" alt="xStage for xGraph: ()" title="xStage for xGraph: ()"/>
+                            <img src="/bjc-r/img/3-lists/U3ImageVideoAddendum_img/yStageforyGraph.png"  height="40" alt="yStage for yGraph: ()" title="yStage for yGraph: ()"/><br />
+                            How do your input numbers relate to the graph scale?
+                        </li>
+                        <li>Use  <img src="/bjc-r/img/3-lists/U3ImageVideoAddendum_img/gotoxStageyStage.png"  height="50" alt="go to x: (xStage for xGraph: ()) y: (yStage for yGraph: ())" title="go to x: (xStage for xGraph: ()) y: (yStage for yGraph: ())"/> with those same input numbers. Where does it put the sprite?</li>
+                        <li>Without changing the sprite's position, click <img src="/bjc-r/img/3-lists/U3ImageVideoAddendum_img/xGraphatxStagexposition.png"  height="40" alt="xGraph at xStage: (x position)" title="xGraph at xStage: (x position)"/> and explain the result you get.</li>
+                        
+                    
+                        <li>Use the <img src="/bjc-r/img/blocks/when-I-am-dropped.png" alt="When I am dropped" title="When I am dropped"> block to create a script that tells the sprite to say its correct <strong><em>graph</em></strong> coordinates (not its <strong><em>stage</em></strong> coordinates) wherever it is dropped. Move the sprite to a few places on the stage to test your script.</li>
+                        
+                        <div class="endnote">
+                            For this graph, a sprite at the bottom right corner of the stage should say (4, 30), not (240, -180).
+                            To see the full display of coordinates use <img  src="/bjc-r/img/3-lists/U3ImageVideoAddendum_img/roundto2decimal.png"  height="30" alt="round () to (2) decimal places" title="round () to (2) decimal places"/> block (in the Operators palette, built for this project) to round the coordinates reported to the decimal places you want to see.
+                            A display of <img src="/bjc-r/img/3-lists/sprite-saying-two-decimal-places.png" height="55" alt="sprite-saying-two-decimal-places" title="sprite-saying-two-decimal-places"> makes more sense than <img src="/bjc-r/img/3-lists/sprite-saying-too-many-decimal-places.png" height="73" alt="sprite-saying-too-many-decimal-places" title="sprite-saying-too-many-decimal-places"> in this context.
+						</div> 
+					</ol>
+				</li>
+                  
+				<li>Experiment with various inputs to <code>set graph scale</code> to see where it puts the axes and how it represents the substitutes for the axes, when the point (0, 0) would not appear on the stage. Drag the sprite a few places to see if the sprite says what you expect. Then change the inputs of <code>set graph scale</code> to fit the range of years and percents in name data and click it to reset the scale of the screen. Again, check to see if your sprite says what you expect when you move it around the stage. <br /><img class="indent" src="/bjc-r/img/3-lists/U3ImageVideoAddendum_img/setgraphscale.png"  height="50" alt="set graph scale xMin:(1927) xMax:(2014) yMin:(0) yMax:(0.5)" title="set graph scale xMin:(1927) xMax:(2014) yMin:(0) yMax:(0.5)"/></li>
+                  
+                <li>
+                	Build the following block which takes the <strong><em>graph</em></strong> coordinates of a data point and have the sprite go to the corresponding <strong><em>stage</em></strong> coordinates.<br />
+                    <img class="indent" src="/bjc-r/img/3-lists/U3ImageVideoAddendum_img/gotoxGraphyGraph.png"  height="120" alt="go to xGraph:(x#) yGraph:(y#)" title="go to xGraph:(x#) yGraph:(y#)"/>. 
+                    <p>On the baby name graph for Derek, the point (1971, 0.25) is roughly in the middle of the screen.  Check to see if <img src="/bjc-r/img/3-lists/U3ImageVideoAddendum_img/gotoxGraph1971.png" height="45" alt="go to xGraph:(1971) yGraph:(0.25)" title="go to xGraph:(1971) yGraph:(0.25)"/> is working as you expect it to.</p>
+					<img class="indent" src="/bjc-r/img/5-algorithms/PercentageOfDerekByYear.png" alt="percentage of births named Derek by year" title="percentage of births named Derek by year" />
+				</li>
+                <li>Then, build <img src="/bjc-r/img/3-lists/U3ImageVideoAddendum_img/plotpointxGraphyGraph.png" height="50" alt="plot point xGraph:() yGraph:()" title="plot point xGraph:() yGraph:()"/> so that it uses  <img src="/bjc-r/img/3-lists/U3ImageVideoAddendum_img/gotoxGraph.png" height="50" alt="go to xGraph:() yGraph:()" title="go to xGraph:() yGraph:()"/> instead of plain <img src="/bjc-r/img/3-lists/U3ImageVideoAddendum_img/gotoxy.png"  height="50" alt="go to x: () y: ()" title="go to x: () y: ()"/>. Check it to make sure it works as you expect it to.</li>
+                <li>
+                	Finally, build <img src="/bjc-r/img/3-lists/U3ImageVideoAddendum_img/Graph datapoints.png" height="50" alt="Graph datapoints: ()" title="Graph datapoints: ()"/> to make a dot at every datapoint. (For this graph, you will want the points connected. For the data on the next page you will want them separate. Make sure you design this block in a way that makes that feature easy to change.) Apply it to <code>DerekData1927to2015</code>. The points of your graph may or may not be connected and the axes won't have labels, but it should otherwise look like the graph above.<br />
+                	<img class="indent" src="/bjc-r/img/3-lists/U3ImageVideoAddendum_img/ScatterPlotDerek.png" height="250" alt="Scatter Plot of Derek Data unconnected" title="Scatter Plot of Derek Data unconnected"/><img src="/bjc-r/img/3-lists/U3ImageVideoAddendum_img/ScatterPlotDerekConnected.png" height="250" alt="Scatter Plot of Derek Data connected" title="Scatter Plot of Derek Data connected"/>
+				</li>
+                <li>Save your work as "U3L5-GraphingApp".</li>
+                <img class="imageRight" src="/bjc-r/img/icons/save-now.png" alt="Now Is a Good Time to Save" title="Now Is a Good Time to Save" />
+            </ol>
+        </div>
+  
+        <div class="ifTime">
+            <ol start="7">
+                <li>
+                    Invent a way to tell your grapher, for each graph you make, whether to connect the points  or not.  You will want to have a Boolean input type for indicating if points are connected.<br />
+                    <img class="indent" src="/bjc-r/img/3-lists/U3ImageVideoAddendum_img/Graphdatapointsconnected.png" height="50" alt="Graph datapoints:(DerekData1927to2015) connected: (true)" title="Graph datapoints:(DerekData1927to2015) connected: (true)" />
+                </li>
+            </ol>
+        </div>
+    
+    </body>
+</html>
