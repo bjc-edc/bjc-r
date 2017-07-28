@@ -18,7 +18,7 @@
         </div>
         
 		<div class="learn">
-            <p><strong>In this project,</strong> you will use the Snap<em>!</em> <code>play note</code> block to review abstract data types and higher order functions as you create music. </p>
+            <p><strong>In this project,</strong> you will use the Snap<em>!</em> <code>play note</code> block to create music while you review abstract data types and higher order functions. </p>
         </div>
         
         <div class="forYouToDo" id="first">
@@ -35,6 +35,7 @@
 			<ol start="4">
 				<li>Build and compare these <code>play</code> scripts. Run each script a few times.
                     <ol>
+                        <div class="sidenote">The inputs values given to the <code>play note</code> block are musical pitches. Higher values create higher notes. You can input any integer from 0 and 127. The number 60 represents middle C.</div>
                         <li><img class="inline" src="/bjc-r/img/3-lists/compare-play-note-1.png" alt="play note (item (any) of (list (60) (64) (67) (72) (60))) for (1) beats" title="play note (item (any) of (list (60) (64) (67) (72) (60))) for (1) beats"></li>
                         <li><img class="inline" src="/bjc-r/img/3-lists/compare-play-note-2.png" alt="for each (note) of (list (60) (64) (67) (72) (60)) (play note (note) for (1) beats)" title="for each (note) of (list (60) (64) (67) (72) (60)) (play note (note) for (1) beats)"></li>
                         <li><img class="inline" src="/bjc-r/img/3-lists/compare-play-note-3.png" alt="for each (note) of (map (_ + 5) over (list (60) (64) (67) (72) (60))) (play note (note) for (1) beats)" title="for each (note) of (map (_ + 5) over (list (60) (64) (67) (72) (60))) (play note (note) for (1) beats)"></li>
@@ -58,9 +59,13 @@
         <div class="forYouToDo">
 		    <ol start="5">
                 <li>
+                    <div class="sidenoteBig">
+                        <p><em>Pitch</em> is the amount of highness or lowness of a musical note; the pitch value goes in the first input slot of the <code>play note</code> block.</p>
+                        <p>The <em>length</em> of a note is the amount of time that the note plays (the number of beats); the length value goes in the second slot of <code>play note</code>.</p>  
+                    </div>
                     Create a <code>note</code> ADT to manage the pitch and length of each note in a song.
                     <ol>
-                        <li>
+                    	<li>
                             Create the constructor:<br />
                             <img class="indent" src="/bjc-r/img/3-lists/note-constructor.png" alt="note, pitch: () length: ()" title="note, pitch: () length: ()" />
                         </li>
@@ -72,8 +77,8 @@
                     </ol>
                 </li>
             </ol>
-            <img class="imageRight" src="/bjc-r/img/icons/save-now.png" alt="Now Is a Good Time to Save" title="Now Is a Good Time to Save" />
         </div>
+		<img class="imageRight" src="/bjc-r/img/icons/save-now.png" alt="Now Is a Good Time to Save" title="Now Is a Good Time to Save" />
         
 		<h3>Creating Blocks to Play Music</h3>        
 		<div class="forYouToDo">
@@ -82,6 +87,10 @@
                 	Use <code>for each</code> together with your selectors to build a <img class="inline nopadtb" src="/bjc-r/img/3-lists/play-song-block.png" alt="play song {}" title="play song {}" /><a name="playsong" class="anchor">&nbsp;</a>block that takes a list of notes as input and plays each <var>pitch</var> for the specified number <var>length</var> of time. <br />
 					<img class="indent" src="/bjc-r/img/3-lists/play-song-data-type.png" alt="Play Song data type definition" title="Play Song data type definition" />
                 </li>
+                <div class="endnote">
+                    <a href="#hint-target" data-toggle="collapse">Click here for a chart for note pitch numbers. </a>
+                    <div id="hint-target" class="collapse"><p class="center"><img src="/bjc-r/img/3-lists/keyboard.jpg" alt="picture of keyboard with keys labeled with letters and numbers; 60 is middle C and the numbers change by 1 with each half step" title="picture of keyboard with keys labeled with letters and numbers; 60 is middle C and the numbers change by 1 with each half step" /></p></div>
+                </div>
                 <li>
                 	Create a reporter to reports the notes for a song of your choosing. Here's an example:<br />
 	                <img class="indent" src="/bjc-r/img/3-lists/row-row-row-reporter.png" alt="row row row your boat reporter block definition" title="row row row your boat reporter block definition" />
@@ -98,7 +107,7 @@
         <div class="ifTime">
             <ol start="9">
                 <div class="sidenote">BPM stands for "beats per minute."</div>
-                <li>	Use the <img class="inline" src="/bjc-r/img/3-lists/set-tempo-to-empty.png" alt="set tempo to () bpm" title="set tempo to () bpm" /> block to change the pace at which the note are played.</li>
+                <li>	Use the <img class="inline" src="/bjc-r/img/3-lists/set-tempo-to-empty.png" alt="set tempo to () bpm" title="set tempo to () bpm" /> block to change the pace at which the notes are played. A higher number will make your song play faster; a lower number will make it play slower.</li>
             </ol>
         </div>
         
@@ -115,8 +124,8 @@
                     Use <code>map</code> together with your ADT blocks to create a reporter that transposes (shifts) a list of notes. It should take a list of notes and a number indicating how much to transpose (shift) the song as input, and it should report the adjusted song. For example:<br />
                     <img class="indent" src="/bjc-r/img/3-lists/play-song-transpose-row-row-row-by-19.png" alt="play song (transpose (row row row your boat) by (19))" title="play song (transpose (row row row your boat) by (19))" />
                     <div class="endnote">
-                        <a href="#hint-target" data-toggle="collapse">Click here if you need a hint.</a>
-                        <div id="hint-target" class="collapse">
+                        <a href="#hint-target-2" data-toggle="collapse">Click here if you need a hint.</a>
+                        <div id="hint-target-2" class="collapse">
                         	<img class="" src="/bjc-r/img/3-lists/transpose-definition.png" alt="transpose block definition hint" title="transpose block definition hint" />
                         </div>
                     </div>
@@ -128,6 +137,7 @@
         <div class="todo">
             Doesn't work in Snap<em>!</em> but would have been a nice way to tie the page together... :/
             <h3>Creating a Round</h3>
+            <div class="comment">If kept, include an explanation of what rounds are like on <a href="/bjc-r/cur/programming/2-complexity/new/map-music.html" target="_blank">this draft page</a>.</div>
             <img class="indent" src="/bjc-r/img/3-lists/musical-round.png" alt="" title="" />
             <a href="https://github.com/jmoenig/Snap--Build-Your-Own-Blocks/issues/1807">GitHub Issue #1807</a>
         </div>
