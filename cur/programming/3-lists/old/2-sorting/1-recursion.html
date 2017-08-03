@@ -55,10 +55,41 @@
         <img class="imageRight" src="/bjc-r/img/icons/save-mini.png" alt="Save Your Work" title="Save Your Work" />
             
         <h3>Recursive Reporters</h3>
+        <p>The general pattern for a recursive <em>command</em> is</p>
+        <p><img src="/bjc-r/img/7-recursive-reporters/rec-command.png" alt="if (base case?) then [do something simple] else [[do something] [recursive call] [do something]]"></p>
+        <p>Compare this with the <code>nested triangle</code> block above. (In that one, the base case is particularly simple: it does nothing at all.) Most recursive commands follow this pattern, except that in certain cases there's more than one recursive call.</p>
+        <p>It's therefore tempting to try to write a recursive <em>reporter</em> this way:</p>
+        <p><img src="/bjc-r/img/7-recursive-reporters/bad-rec-reporter.png" alt="if (base case?) then [report something simple] else [[report something] [report recursive call] [report something]]"></p>
+        <p>But in fact you can't stack <code>report</code> blocks; once your block reports a value, it's finished. (This is why there's no connection tab at the bottom of the <code>report</code> block.) Instead, you have to use a <em>combiner</em> function to put the pieces together into a <em>single thing</em> to report:</p>
+        <p><img src="/bjc-r/img/7-recursive-reporters/rec-reporter.png" alt="if (base case?) then [report something simple] else [report (combiner (stuff) (recursive call) (stuff)]"></p>
+        <p>The combiner can be any function with the correct <em>range</em> (the kind of value it can return). So if your custom reporter is supposed to return a sentence, the combiner might be <code>join</code> or <code>join words</code>; if it's supposed to return a number, you might use <code>+</code> or <code>×</code>.</p>
         <div class="forYouToDo">
             <ol start="6">
-                <img class="imageRight" src="/bjc-r/img/icons/import-tools-mini.png" alt="Import Tools" title="Import Tools" />
-                <li>
+            <li>Write a reporter whose input is a <em>list of numbers</em>, reporting the sum of the numbers.  Follow this template (without the comments):
+           <img class="indent" src="/bjc-r/img/3-lists/sumof-framework.png" alt="if (empty slot for test) [report (empty slot for value)] else [report (empty slot for value)]"><br />
+<span style="background-color: #e4cde3;">
+               If you'd like to write the <code>sum of</code> block with no additional help, do it now.</span>  Otherwise, fill in the three blanks in the definition this way:
+                    <ol type="a">
+                        <li><strong>What should the base case test be?</strong> What's the smallest possible list of numbers? Fill in the hexagonal input slot in the <code>if</code> block.</li>
+                        <li><strong>What should your procedure report in that  case?</strong> <a href="#hint-1" data-toggle="collapse">Super big hint if you can't get it to work.</a>
+<div id="hint-1" class="collapse">The block is supposed to report a number.</div></li>
+                        <li>
+                            <strong>What should your procedure report in the recursive case?</strong> You have to find a <em>smaller, similar subproblem</em> just as you did for the triangle fractal. Generally, when writing recursive blocks with lists as input, the most common idea is to split the list into <em>its first item</em> (<img src="/bjc-r/img/3-lists/item-1-of.png" alt="item 1 of">) and <em>all the other items</em> (<img src="/bjc-r/img/3-lists/all-but-first.png" alt="all but first of">).
+                            <div class="narrower"><img src="/bjc-r/img/3-lists/item-1-of.png" alt="item 1 of"> and <img src="/bjc-r/img/3-lists/all-but-first.png" alt="all but first of"> are the main <em>selectors</em> for lists.</div>
+                            <ol style="list-style-type: lower-roman;">
+                                <li>What are you going to do with <code>all but first of</code> the list? <a href="#hint-2" data-toggle="collapse">You really don't need this hint.</a>
+<div id="hint-2" class="collapse">What makes this a <em>recursive</em> procedure?</div></li>
+                                <li>How are you going to combine the first item with the result of part (i) to get the overall result?</li>
+                            </ol>
+                        </li>
+                    </ol>
+                </li>
+</ol></div>
+
+Combining the items of a list is such a common thing to do that there's a higher order function for it.                         
+<div class="forYouToDo"><ol start="7">
+ <img class="imageRight" src="/bjc-r/img/icons/import-tools-mini.png" alt="Import Tools" title="Import Tools" />
+              <li>
                     Make friends with the <img src="/bjc-r/img/3-lists/combine-block.png" alt="combine with ( ) items of ( )"> block.  Try these examples:<br />
                     <div class="sideHOMbig">Unlike <code>map</code> and <code>keep</code>, <code>combine</code> requires a function with <em>two</em> empty input slots.</div>
                     <img class="indent" src="/bjc-r/img/3-lists/combine-plus.png" alt="combine with (+) items of (list 7 8 1)"><br />
@@ -79,33 +110,9 @@
                     </div>
                 </div>
                 <li>
-                    Write this procedure:<br />
-                    <img class="indent" src="/bjc-r/img/3-lists/sumof-combine.png" width="514" height="117" alt="sum of (numbers) : report (combine with (+) items of (numbers)"> <br />
-                    Try some examples to figure out what it does:<br />
-                    <img class="indent" src="/bjc-r/img/3-lists/sumof-781.png" alt="sum of (list 7 8 1)"><br />
-                    <img class="indent" src="/bjc-r/img/3-lists/sumof-9827.png" alt="sum of (list 9 8 2 7)"><br />
-                    <img class="indent" src="/bjc-r/img/3-lists/sumof-5.png" alt="sum of (list 5)">
-                </li>
-                <li>
-                    Now edit the block and rewrite it to use recursion instead of using the <code>combine</code> function.
-                    <div class="endnote">No, you wouldn't make this change in real life; write  programs in the simplest, most elegant way you can.  But we want to start you with relatively simple recursive reporters before we get to the more complicated sorting program on the next page. The simplest examples of list recursion are the ones that have historically been abstracted into higher order functions.</div>
-                    <ol type="a">
-                        <li>
-                            Build this framework (without the comments):<br />
-                            <img class="indent" src="/bjc-r/img/3-lists/sumof-framework.png" alt="if (empty slot for test) [report (empty slot for value)] else [report (empty slot for value)]">
-                        </li>
-                        <li><strong>What should the base case test be?</strong> What's the smallest possible list of numbers? (Actually there are two plausible answers to that question, and you can write a working procedure either way.) Fill in the hexagonal input slot in the <code>if</code> block.</li>
-                        <li><strong>What should your procedure report in that  case?</strong> <a id="hint" onClick="document.getElementById('hint').innerHTML='The block is supposed to report a number.';">Super big hint if you can't get it to work.</a></li>
-                        <li>
-                            <strong>What should your procedure report in the recursive case?</strong> You have to find a <em>smaller, similar subproblem</em> just as you did for the triangle fractal. Generally, when writing recursive blocks with lists as input, the most common idea is to split the list into <em>its first item</em> (<img src="/bjc-r/img/3-lists/item-1-of.png" alt="item 1 of">) and <em>all the other items</em> (<img src="/bjc-r/img/3-lists/all-but-first.png" alt="all but first of">).
-                            <div class="narrower"><img src="/bjc-r/img/3-lists/item-1-of.png" alt="item 1 of"> and <img src="/bjc-r/img/3-lists/all-but-first.png" alt="all but first of"> are the main <em>selectors</em> for lists.</div>
-                            <ol style="list-style-type: lower-roman;">
-                                <li>What are you going to do with <code>all but first of</code> the list? <a id="hint2" onClick="document.getElementById('hint2').innerHTML='What makes this a <em>recursive</em> procedure?';">You really don't need this hint.</a></li>
-                                <li>How are you going to combine the first item with the result of part (i) to get the overall result?</li>
-                            </ol>
-                        </li>
-                    </ol>
-                </li>
+                    Rewrite <code>sum of</code> using <code>combine</code>.</li>
+                    <div class="endnote"><a href="#hint-4" data-toggle="collapse">So why'd you make us do it the hard way?</a>
+<div id="hint-4" class="collapse">Well, for one thing, some people find recursion more natural than higher order functions.  But also, the kinds of list reporter patterns that happen often enough in programs so that people have abstracted them into higher order functions tend to be the ones that are easiest to write recursively.  On the next page you'll write a recursive operation for which there is no higher order function, but we wanted you to start with easier examples while getting to know how to write recursive reporters.</div></div>
                 <li>
                     Build this block:<br />
                     <img class="indent" src="/bjc-r/img/3-lists/initials-map.png" alt="initials (words): report (map (letter 1 of ( )) over (words))"><br />
@@ -114,6 +121,7 @@
                 <li>
                     Now rewrite it using recursion instead of <code>map</code>.
                     <div class="narrower">Selectors are all you needed for problem 8 because the reported result wasn't a list. If you want to write a recursive block that reports a list, you also need the <em>constructor</em> <img src="/bjc-r/img/3-lists/in-front-of.png" alt="() in front of ()">, which makes a new list with one new item in front of an existing list.</div>
+                    Remember the steps: What's the base case?  What should you report in that case?  What should you do with the first list item?  What will you do with the rest of the input list?  And what combiner do you need to put those together?
                 </li>
                 <img class="imageRight" src="/bjc-r/img/icons/save-now.png" alt="Now Is a Good Time to Save" title="Now Is a Good Time to Save" />
             </ol>
