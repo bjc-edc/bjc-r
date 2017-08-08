@@ -24,6 +24,33 @@
                 Their two different approaches always give the same outputs for the same inputs. Alphie and Betsy are discussing their different approaches.
             </div>
             <div><span>Alphie: </span> I made two new blocks. First, I created a reporter to list of all the integers between and including two integers, and then I used <code>combine</code> to add up the list.</div>
+            <div class="narrower">
+            	<p>
+                    The <img class="inline" src="/bjc-r/img/blocks/combine.png" alt="combine" title="combine" /> block takes an operation (with <em>two</em> blank input slots) and a list as input, and it reports a single result (not a list): the combination of the elements in the list when using the given operation. For example:<br />
+                    <div class="sidenote">Read this out loud as "combine the elements of  the list 5, 6, 2, 3 with addition."</div>
+                    <img class="indent" src="/bjc-r/img/3-lists/combine-example-1.png" alt="combine with (()+()) items of (list {5,6,2,3}) reporting 16" title="combine with (()+()) items of (list {5,6,2,3}) reporting 16" />
+                    <!--<img class="indent" src="/bjc-r/img/3-lists/combine-example-2.png" alt="combine with (join words () ()) items of (list {apples, bananas, oranges, grapes}) reporting 'apples bananas oranges grapes'" title="combine with (join words () ()) items of (list {apples, bananas, oranges, grapes}) reporting 'apples bananas oranges grapes'" />-->
+                </p>
+                <div class="takeNote">
+                <div class="sidenoteBig"><code>Combine</code> is a <em>higher order function</em>. This means that it is a function that takes a function as input. You've seen several higher order functions already: <code>for each</code> (in <a href="/bjc-r/cur/programming/2-complexity/2-data-structures-art/1-the-for-each-block.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment">Unit 2 Lab 2</a>), <code>keep</code> (in <a href="/bjc-r/cur/programming/2-complexity/3-predicates/2-keeping-list-items.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment">Unit 2 Lab 3</a>), and <code>map</code> (in <a href="/bjc-r/cur/programming/3-lists/1-introduction-to-lists/5-mapping-over-list.html?topic=nyc_bjc%2F3-lists.topic&course=bjc4nyc.html&novideo&noassignment">Unit 3 Lab 1</a>).</div>
+                    <p>You choose the operation, and <code>combine</code> performs that operation by <em>combining</em> all the items in the input list and then reports the result.</p>
+                    <p>Notice that the function used to <em>combine</em> the list items always has two blank input slots. Both <code>map</code> and <code>keep</code> only need one blank in their input function, but with <code>combine</code>, two are required.</p>
+                </div>
+                
+                <div class="endnote">
+                    Unlike <code>map</code> and <code>keep</code>, <code>combine</code> is mostly used with one of <em>only these six</em> functions:<br />
+                    <img class="indent" src="/bjc-r/img/3-lists/plus.png" alt="+" title="+" /> <img src="/bjc-r/img/3-lists/times.png" alt="&times;" title="&times;" /><br />
+                    <img class="indent" src="/bjc-r/img/3-lists/and-block.png" alt="and" title="and" /> <img src="/bjc-r/img/3-lists/or-block.png" alt="or" title="or" /><br />
+                    <img class="indent" src="/bjc-r/img/3-lists/join.png" alt="join" title="join" /> <img src="/bjc-r/img/3-lists/join-words.png" alt="join words" title="join words" /><br />
+                    Among blocks you might write yourself, there are only two likely candidates:<br />
+                    <img class="indent" src="/bjc-r/img/3-lists/max.png" alt="max" title="max" /> <img src="/bjc-r/img/3-lists/min.png" alt="min" title="min" /><br />
+                    <a data-toggle="collapse" href="#hint-3">Why so few?</a>
+                    <div id="hint-3" class="collapse">
+                    	The function has to be <em>associative</em>, meaning that it doesn't matter what order you group the items in; (7&thinsp;+&thinsp;8)&thinsp;+&thinsp;1 is the same as 7&thinsp;+&thinsp;(8&thinsp;+&thinsp;1) (work it out yourself), but (7&thinsp;−&thinsp;8)&thinsp;−&thinsp;1 is different from 7&thinsp;−&thinsp;(8&thinsp;−&thinsp;1).
+                    	So <img src="/bjc-r/img/3-lists/combine-minus.png" alt="combine with (-) items of (list 7 8 1)"> would be ambiguous.
+                    </div>
+                </div>            
+            </div>
             <div class="stagedir">
                 Alphie shows his work:<br />
 				<img src="/bjc-r/img/5-algorithms/list-from-1-to-7-reporting.png" alt="" title="" /><br />
@@ -148,7 +175,7 @@
         
         <div class="ifTime">
             <ol start="5">
-                <li>If you built a <a href="/bjc-r/cur/programming/3-lists/5-graphing/2-building-a-grapher.html?topic=nyc_bjc%2F5-algorithms.topic&course=bjc4nyc.html&novideo&noassignment">graphing app</a>, try plotting <span class="katex">y=</span> <code>sum from 1 to(</code> <span class="katex">x</span><code>)</code>.</li>
+                <li>If you built a <a href="/bjc-r/cur/programming/3-lists/4-graphing/2-building-a-grapher.html?topic=nyc_bjc%2F5-algorithms.topic&course=bjc4nyc.html&novideo&noassignment">graphing app</a>, try plotting <span class="katex">y=</span> <code>sum from 1 to(</code> <span class="katex">x</span><code>)</code>.</li>
             </ol>
         </div>
         
