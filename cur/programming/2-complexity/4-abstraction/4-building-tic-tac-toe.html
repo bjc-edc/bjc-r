@@ -8,28 +8,30 @@
 
     <body>
     <div class="todo">
-<strong>Why do this?</strong> Mainly because it introduces an extended project; having such a project is worthwhile to show kids that it's not all about trivial exercises.  But cloning is apparently popular with teachers, too.
-    <p><strong>Why here?</strong> Multithreading is an important technique for dealing with complexity.</p></div>
+        <strong>Why do this?</strong> Mainly because it introduces an extended project; having such a project is worthwhile to show kids that it's not all about trivial exercises.  But cloning is apparently popular with teachers, too.
+        <p><strong>Why here?</strong> Multithreading is an important technique for dealing with complexity.</p>
+    </div>
     <h2>Building a Tic-Tac-Toe Board</h2>
         <div class="learn">
             <img class="indent" src="/bjc-r/img/2-complexity/TTT1_img/Three States of TTT.png" width="600"  alt="Three states of Tic Tac Toe: in progress, win, tie" title="Three states of Tic Tac Toe: in progress, win, tie"/><br />
             <p><strong>In this <em>yearlong</em> project,</strong> you will  develop a program that plays Tic-Tac-Toe as well as you do.</p>
             <p><strong>On this first page,</strong> you display a Tic-Tac-Toe board and let two human players enter moves.</p>
         </div>
-        <p>One approach to this problem uses<em> multiple sprites</em> to make an &quot;active&quot; Tic-Tac-Toe board, in which each square is actually a separate sprite. Each sprite knows which square it's in, because once the board is set up, the sprites never move. You click in a square, and the sprite that you clicked on changes its costume to display the move.  It doesn't have to compute the square number based on the mouse coordinates.</p>
+        <p>One approach to this problem uses<em> multiple sprites</em> to make an "active" Tic-Tac-Toe board, in which each square is actually a separate sprite. Each sprite knows which square it's in, because once the board is set up, the sprites never move. You click in a square, and the sprite that you clicked on changes its costume to display the move.  It doesn't have to compute the square number based on the mouse coordinates.</p>
         <div class="forYouToDo" id="first">
             <ol>
           <!--      <li>Play with <a href="/bjc-r/cur/programming/2-complexity/new/6b-newTTT-phase1-interactive.html" target="_blank">this example</a> to get a feel for the Phase 1 version of Tic Tac Toe. </li>   -->
                 <li>
-                    Open this <a class="run" href="/bjc-r/prog/2-complexity/U2L4-Tic-Tac-Toe.xml" target="_blank">starter project</a>.  A sprite  has already been created for you with three costumes: Empty, X, and O.<br />
-                    <img class="indent" src="/bjc-r/img/2-complexity/TTT1_img/Costumes.png"  height="100" alt="Costumes of a square: Empty, X and O" title="Costumes of a square: Empty, X and O"/><br />
-                    Click on the <code>next costume</code> block at the top of the scripting area a few times to see all of them.
-              </li>
+                    Open this <a class="run" href="/bjc-r/prog/2-complexity/U2L4-Tic-Tac-Toe.xml" target="_blank">starter project</a>.  A sprite has already been created for you with three costumes: Empty, X, and O.<br />
+                    <img class="indent" src="/bjc-r/img/2-complexity/TTT1_img/Costumes.png"  height="100" alt="Costumes of a square: Empty, X and O" title="Costumes of a square: Empty, X and O"/>
+                </li>
+                <li>Click on the <code>next costume</code> block at the top of the scripting area a few times to see all of them.</li>
                 <li>
-               	You will be using the <strong>clone</strong> feature in Snap<em>!</em> to create the 3&times;3 Tic-Tac-Toe board. A clone is just a copy of an existing sprite, made under control of your program.<br />
-                <div class="endnote">Why "under control of your program"?  It's possible to make a copy of a sprite by hand; right-click on the sprite's icon in the sprite corral and choose "Duplicate."  That's useful if you only want one copy, but in this project you're going to need <em>nine</em> copies, one for each square of the Tic-Tac-Toe board. So you'd like to say something along the lines of<br /><img class="indent" src="/bjc-r/img/2-complexity/9-copies.png" alt="repeat 9 [create a clone of myself]"><br />
-                The actual code in the project will be slightly more than this, but this is the central idea.</div>
-                A clone is a complete copy of the sprite you say to copy.  It has the same position, costumes, scripts, and so on.  But...<ul><li>The clone doesn't appear in the sprite corral.</li>
+                    You will be using the <strong>clone</strong> feature in Snap<em>!</em> to create the 3&times;3 Tic-Tac-Toe board. A clone is just a copy of an existing sprite, made under control of your program.<br />
+                    <div class="endnote">Why "under control of your program"?  It's possible to make a copy of a sprite by hand; right-click on the sprite's icon in the sprite corral and choose "Duplicate."  That's useful if you only want one copy, but in this project you're going to need <em>nine</em> copies, one for each square of the Tic-Tac-Toe board. So you'd like to say something along the lines of<br /><img class="indent" src="/bjc-r/img/2-complexity/9-copies.png" alt="repeat 9 [create a clone of myself]"><br />
+                    The actual code in the project will be slightly more than this, but this is the central idea.</div>
+                    A clone is a complete copy of the sprite you say to copy.  It has the same position, costumes, scripts, and so on.  But...<ul><li>The clone doesn't appear in the sprite corral.
+                </li>
                 <li>Once you've made the clone, any changes you make <em>later</em>  to the original sprite (such as adding or modifying a script) is <em>not</em> copied to the clone.</li>
                 <li>Clones are <em>temporary.</em>  Clicking the stop button will delete all clones in the project.</li></ul>So the idea is that you write your program completely, then make whatever clones you need.
                 </li>
@@ -39,24 +41,26 @@
                     You're going to use this script <em>right now</em> to learn more about clones, but it isn't going to be part of <em>the finished project.</em>  <em><strong>Read</strong></em> the script together with your partner and talk over what you think will happen when you click on the sprite. Then click on the sprite  on the stage and compare what happens with what you expected.
 	                <div class="narrower">				
                     	<ul>
-                        	<li>Notice that it is the clicked sprite that moves to a new random position after cloning itself. (You can tell because it's the one that says &quot;You clicked me.&quot;)
+                        	<li>Notice that it is the clicked sprite that moves to a new random position after cloning itself. (You can tell because it's the one that says "You clicked me.")
                             <!--<div class="todo"> The text says "original" above.  I think that makes things clearest, even though technically it's not necessarily true, since you can also click on a clone once you have some.  The script used to <code>say</code> "I'm the original" but Mary objected because of that technical point.  But in light of Al's complaint that he wasn't sure which was the original, I'm inclined to go back to "I'm the original" in the script.  Thoughts?  --bh</div>--></li>
                     		<li>Note that both copies are <em>active</em> sprites.  Both are clickable (try it) and draggable (try that too).</li>
                             <!--<li>The <code>next costume</code> block chooses each of the three costumes in turn: empty, X, O, empty, ...</li>-->
-                            <li>The <code>create a clone</code> block takes an input because it can copy <em>any</em> sprite, but in this project there's only one &quot;starter&quot; sprite, so you can use <code>myself</code> or <code>Square</code> as the input.</li>
-                      </ul>
-         </div>           
+                            <li>The <code>create a clone</code> block takes an input because it can copy <em>any</em> sprite, but in this project there's only one "starter" sprite, so you can use <code>myself</code> or <code>Square</code> as the input.</li>
+						</ul>
+					</div>           
                 </li>
             </ol>
         </div>
+        
         <p>
             The next script in the starter project is this:<br />
             <img class="indent" src="/bjc-r/img/2-complexity/TTT1_img/delete-clone.png" alt="when flag clicked, delete this clone"><br />
             The block is called <code>delete this clone</code> rather than <code>delete this sprite</code> because it works only for clones.  So when you click the green flag, the original sprite and all its clones will run the script, but only the clones will be deleted.  There will then be one sprite left on the stage.
-        (Clicking the stop sign automatically deletes clones, but this script is insurance in case you run the program and then run it again without clicking stop first.)</p>
+            (Clicking the stop sign automatically deletes clones, but this script is insurance in case you run the program and then run it again without clicking stop first.)
+        </p>
         
         <div class="forYouToDo">
-    		<ol start="4">
+    		<ol start="5">
               <li>
                 	Delete the <code>when I am clicked</code> script from problem 3.  It was just for demonstration, and shouldn't be in the actual project. (You'll make your own different one soon.)  
                 	Also, at the bottom of the scripting area, there's an additional <code>when</code> <span style="color:green">⚑</span> <code>clicked</code> block near, but separate from, the script just below it. They're separated because this script isn't part of the demonstration in problem 2, but it <em>is</em> part of the Tic-Tac-Toe game, so click the two pieces together now. 
@@ -76,12 +80,15 @@
                     <img src="/bjc-r/img/2-complexity/TTT1_img/Row2.png"  height="100" alt="Two rows of squares" title="Two rows of squares"/>
                     <img src="/bjc-r/img/2-complexity/TTT1_img/Row3.png"  height="100" alt="Three rows of squares" title="Three rows of squares"/><br />
                     <div class="narrower">
-                        <ul>                        <li>Hint:<br />
-                        <img class="indent" src="/bjc-r/img/2-complexity/TTT1_img/for-row-column.png" alt="for row = 1 to 3, for column = 1 to 3"><br />
+                        <ul>
+                        	<li>
+                                Hint:<br />
+                                <img class="indent" src="/bjc-r/img/2-complexity/TTT1_img/for-row-column.png" alt="for row = 1 to 3, for column = 1 to 3">
+                            </li>
 
                             <li>The costumes are all 50 steps tall and wide.</li>
                             <li>Make sure the clones start out with the empty square costume.</li>
-                            <li>Be sure to <code>show</code> the original sprite before cloning it, so that the clones will be visible.  After cloning nine times to create the board, <code>hide</code> the original sprite so it does not interfere with the game as a tenth square.  </li>
+                            <li>Be sure to <code>show</code> the original sprite before cloning it, so that the clones will be visible.  After cloning nine times to create the board, <code>hide</code> the original sprite so it does not interfere with the game as a tenth square.</li>
                         </ul>
                     </div>
                 </li>
@@ -89,8 +96,9 @@
             </ol>
 		</div>
         <div class="takeNote">
-        <p>This project hints at two important modern ideas in computer science.  One is <strong>object oriented programming</strong>: Instead of a single sequence of instructions, the program has several <em>independent</em> objects (also called &quot;agents&quot; or &quot;actors&quot;), each of which has its own behavior.  In this project, you can only click on one sprite at a time, and it then carries out a very quick task (changing costume) before you click another sprite.  But a more complicated program might have one sprite send a <em>message</em> to another sprite, which would respond with its own behavior, while the first sprite continues with its own script.</p>
-        <p>The other idea is <strong>parallelism</strong> or <strong>distributed computing</strong>. Your project is running on a single computer, and the apparent ability of sprites to run simultaneously is an illusion provided by Snap<em>!</em>, which runs one script for a little while, then switches to a different script, and so on, then updates the display, then continues the first script. But you <em>could</em> have nine separate computers, one for each sprite. That would be overkill for this small project, but large web servers such as Google or Twitter have many thousands of computers all cooperating to handle the large amounts of data they require.</p></div>
+            <p>This project hints at two important modern ideas in computer science.  One is <strong>object oriented programming</strong>: Instead of a single sequence of instructions, the program has several <em>independent</em> objects (also called "agents" or "actors"), each of which has its own behavior.  In this project, you can only click on one sprite at a time, and it then carries out a very quick task (changing costume) before you click another sprite.  But a more complicated program might have one sprite send a <em>message</em> to another sprite, which would respond with its own behavior, while the first sprite continues with its own script.</p>
+            <p>The other idea is <strong>parallelism</strong> or <strong>distributed computing</strong>. Your project is running on a single computer, and the apparent ability of sprites to run simultaneously is an illusion provided by Snap<em>!</em>, which runs one script for a little while, then switches to a different script, and so on, then updates the display, then continues the first script. But you <em>could</em> have nine separate computers, one for each sprite. That would be overkill for this small project, but large web servers such as Google or Twitter have many thousands of computers all cooperating to handle the large amounts of data they require.</p>
+        </div>
         
         <div class="todo">Do we want this? --bh
         <div class="comment">I put a space in this link so that the site-crawler won't fuss; just remove the space between the &lt; and the letter a if you want to reinstate. --MF, 7/10/17</div>
