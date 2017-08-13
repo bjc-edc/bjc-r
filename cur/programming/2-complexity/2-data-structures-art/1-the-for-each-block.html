@@ -25,6 +25,9 @@
                 <p>Alphie and Betsy are building a program that will take a list of points (each of which is a list of <em>x</em> and <em>y</em> coordinates) as input and connect the dots. They figure they can use it to draw pictures or graphs of data:</p>
                 <p> 
                     To make a set of starting data, they sketch the letter A on graph paper.<br />
+                    <div class="todo">ST-Paul would like to put a table of coordinates hand written on graph paper based on Michelle's feedback<br />
+                    ST-Many NYC teachers were confused and thought they are creating the list A themselves whereas we give it to them in the starter file.
+                    </div>
                     <img src="/bjc-r/img/2-complexity/sketch-of-letter-A.png" height="200" alt="sketch-of-letter-A"><br /> 
                     Then they make a list of the coordinates for each vertex. The first coordinate pair is (-50, 20), the second is (-10, 120), and so on. <br /> 
                     <img src="/bjc-r/img/3-lists/coordinate-list-for-A.png" alt="coordinate-list-for-A"><br /> 
@@ -39,16 +42,15 @@
             </div>
             <!--<div class="todo">ST-Any reason why "go to" is grey, seems should be blue.  PG: I agree. Changing the image is fine. A task for cleanup later.</div>-->
             <div>
-                <span>Alphie:</span> So, for each of those eight points, we want the sprite to go to it. I guess the first thing to do is build a  <code>go to point</code> block that will take <em>one</em> point like <img src="/bjc-r/img/2-complexity/list(-50)(20).png" height="37" alt="list(-50)(20)" title="list(-50)(20)" /> as input like this <img src="/bjc-r/img/2-complexity/go-to-point(list(-50)(20)).png" alt="go to point (list (-50) (20))" title="go to point (list (-50) (20))" />, and will go to that point. We can use either <img src="/bjc-r/img/2-complexity/go-to-x()-y().png" height="41" alt="go to x:() y:()" title="go to x:() y:()" /> or <img src="/bjc-r/img/2-complexity/glide(.5)secs-to-x()-y().png" height="41" alt="glide (.5) secs to x:() y:()" title="glide (.5) secs to x:() y:()" /> inside our <code>go to point</code> block.
-                But how can we get the right coordinates in the blanks after <code>x:</code> and <code>y:</code>?
-                <!-- <img  src="/bjc-r/img/3-lists/A_foreach.png" alt="script with for each (item) of (A) {glide 1 secs to x:(blank) y:(blank)} then glide to (0, 0)" title="script with for each (item) of (A) {glide 1 secs to x:(blank) y:(blank)} then glide to (0, 0)" /> -->
-            </div>
-            <div><span>Betsy:</span> Hmm... Oh! I bet we can use <img src="/bjc-r/img/2-complexity/item()of(list).png" height="35" alt="item()of(list)">.</div>
-            <div><span>Gamal:</span> It looks like <img src="/bjc-r/img/2-complexity/item()of(list).png" height="35" alt="item()of(list)"> is expecting a number as its first input, and I bet that the <img class="inline" src="/bjc-r/img/3-lists/list_input_slot.png" alt="rectangle with two smaller orange rectangles inside" title="rectangle with two smaller orange rectangles inside" /> is a way of telling us that it expects a list as its second input.</div>
+                <span>Alphie:</span> So, for each of those eight points, we want the sprite to move to it. Hmmm... <img src="/bjc-r/img/2-complexity/go-to-x()-y().png" height="41" alt="go to x:() y:()" title="go to x:() y:()" />  won't  work, because it needs two separate inputs. We need a block that  takes <em>one</em> input, a point like <img src="/bjc-r/img/2-complexity/list(-50)(20).png" height="37" alt="list(-50)(20)" title="list(-50)(20)" />.
+<!-- <img  src="/bjc-r/img/3-lists/A_foreach.png" alt="script with for each (item) of (A) {glide 1 secs to x:(blank) y:(blank)} then glide to (0, 0)" title="script with for each (item) of (A) {glide 1 secs to x:(blank) y:(blank)} then glide to (0, 0)" /> -->
+</div>
+            <div><span>Betsy:</span> So we'll make a <em>new </em>block. Let's call it <code>go to point</code>. It'll work like this <img src="/bjc-r/img/2-complexity/go-to-point(list(-50)(20)).png" alt="go to point (list (-50) (20))" title="go to point (list (-50) (20))" />. We'll use  <img src="/bjc-r/img/2-complexity/go-to-x()-y().png" height="41" alt="go to x:() y:()" title="go to x:() y:()" /> or <img src="/bjc-r/img/2-complexity/glide(.5)secs-to-x()-y().png" height="41" alt="glide (.5) secs to x:() y:()" title="glide (.5) secs to x:() y:()" /> <em>inside</em> it, but we'll have to process the input, <img src="/bjc-r/img/2-complexity/list(-50)(20).png" height="37" alt="list(-50)(20)" title="list(-50)(20)" />, to supply <code>x:</code> and <code>y:</code> separately. Hmmm... </div>
+            <div><span>Gamal:</span>  Oh! I know how! I bet we can use <img src="/bjc-r/img/2-complexity/item()of(list).png" height="35" alt="item()of(list)">. Give it a number as its first input. I bet that the <img class="inline" src="/bjc-r/img/3-lists/list_input_slot.png" alt="rectangle with two smaller orange rectangles inside" title="rectangle with two smaller orange rectangles inside" /> just says that it expects a list as its second input.</div>
             <div><span>Alphie:</span> I wonder if we can make <em>our</em> <code>go to point</code> block show that it expects a list as input....</div>
         </div>
         
-        <p>Yes, it is possible for <em>you</em> to define your blocks in a way that indicates what type of data they expect as inputs: a number, a list, or some other type. Some languages <em>require</em> the data type to be indicated. In Snap<em>!</em> it's an option. It is not necessary but, like assigning a color to a block, it can be a helpful reminder of what the block does and what type of input it expects. You have already seen input slots of several shapes, indicating different expected data types. </p>
+        <p>Yes, <em>you</em> can make <em>your</em> blocks show what type of data they expect as inputs: a number, a list, or some other type. Some languages <em>require</em> the data type to be indicated. In Snap<em>!</em> it's an option. It's not necessary but, like assigning a color to a block, it can be a helpful reminder of what the block does and what type of input it expects. You've already seen input slots of several shapes, indicating different expected data types. </p>
         
         <div class="forYouToDo" id="first">
             <div class="sidenote">
@@ -74,7 +76,7 @@
                     <!--<img data-gifffer="/bjc-r/img/3-lists/draw_shape_list_input.gif" alt="script with for each (item) of (A) {glide 1 secs to x:(blank) y:(blank)} then glide to (0, 0)" title="script with for each (item) of (A) {glide 1 secs to x:(blank) y:(blank)} then glide to (0, 0)" />-->
                     <!--<div class="todo">ST-This video starts with an empty frame which doesn't look well and is too fast to see what is happenning, especially in the treatment of list input type.<p>I find the empty frame especially problematic. A few frames could hold still for a little longer. Perhaps Selim can fix? --MF, 5/17/17</p></div>-->
                 </div>
-                <li><strong>Test</strong> your block with a few points as input to make sure it does what you want it to.</li>
+                <li>Finish building your <code>go to point</code> block and <strong>test</strong> your block with a few points as input to make sure it does what you want it to.</li>
             </ol>
         </div>
         

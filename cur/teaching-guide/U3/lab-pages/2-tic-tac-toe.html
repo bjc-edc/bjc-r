@@ -25,7 +25,8 @@
 		<p>Anything that can be handled by creating and manipulating a list can also be done without lists, just by working with the individual elements and keeping track of that process. But list processing—especially list processing with  the higher order functions <code>map</code>, <code>keep</code>, and <code>combine</code> (and, later in this course, recursion)—is powerful. It lets the programmer focus on the purpose and meaning of the program—what the program is intended to do—and not on tiny local details of how to do it, details that essentially reinvent  a clumsy equivalent of lists and ways to work sequentially through them.</p>
         <p>Becoming facile with list processing takes practice, and initially requires contexts in which the meaning of the lists and the purpose and meaning of the functions that process them are clear.  One subtlety of working with lists is that it requires thinking simultaneously about the list as a <em>single object</em> and, at the same time, recognizing that much of what one wants to do with the list involves processing some or all of the <em>elements</em> of the list. That is also part of the subtlety of the higher-order functions, which take an entire list as a single object and handle the individual elements of the list in various ways, as determined by the programmer. <em>Composing</em> higher order functions is yet more powerful, but also more challenging, because each one does so much that the programmer needs to picture large effects and the interactions of these large effects.</p>
         <p>This lab gives students practice applying <code>map</code>, <code>keep</code>, and <code>combine</code>  in several contexts to build their facility with these powerful tools and to learn to think in terms of what they can do. It does not introduce new ideas, but focuses on mastery and application.</p>-->
-		<p>In this lab, students will delve into the next phase of the Tic-Tac-Toe project where they will teach the computer how to remember the moves made on the board by the users and how to detect a win or a tie.  The capacity to remember moves and the ability to analyze them will lead the way to the last phase of the game where the computer will become an intelligent player.</p>
+		<p>In this lab, students will continue the Tic-Tac-Toe project by teaching the computer how to detect a win or a tie.  To do this, the program must remember the moves that have been made. (In a sense, the program already <em>does</em> have that memory, but it is spread out among the nine sprite clones representing the individual squares. Here we add a model of the board in one place, so the program can reason about it.)</p>
+		<p>The capacity to remember and analyze moves will later be used to let the program make sensible moves as a player.</p>
 
 		<h3>Pacing</h3>
 		<div>
@@ -37,14 +38,6 @@
 		</div>
         
 
-		<h3>Prepare</h3>
-		<div>
-			<ul>
-				<li>This is a challenging lab, make sure that you have mastered both pages yourself so you can be of help to the students.</li>
-			</ul>
-		</div>
-
-
 		<h3>Lab Pages</h3>
 		<div>
 			<ul>
@@ -54,9 +47,7 @@
 						<li>
 							<strong>Learning Goals:</strong>
 							<ul>
-                    			<li>Learn how to extend an existing project to meet more complex specifications.</li>
-                                <li>Learn how to create sprite-local variables in Snap<em>!</em>.</li>
-                                <li>Understand how to use global variables to shift the focus of a program from a local view to a global view. </li>
+                                <li>Understand how to use global variables to shift the knowledge in a program from a distributed form to a global view. </li>
                                 <li>Gain experience with lists.</li>
 							</ul>
 						</li>
@@ -64,7 +55,7 @@
 							<strong>Tips:</strong>
 							<ul>
 								
-								<li>The purpose of most of the preparatory activities on this page may not be immediately clear to students.  Why do we need to have each square sprite have their own unique <var>square number</var> variable?  Why do we create a global <var>board</var> variable when each sprite already knows if it has been clicked?  The answers to these questions and more should start becoming clear in the next page where students will learn how to make the computer aware of the global state of the game in order to detect wins and ties.</li>
+								<li>The purpose of  the preparatory activities on this page may not be immediately clear to students.  Why do we need to have each square sprite have its own unique <var>square number</var> variable?  Why do we create a global <var>board</var> variable when each sprite already knows if it has been clicked?  The purpose should become clear on the next page, where students will learn how to use the global state of the board in order to detect wins and ties. If students seem to be losing the plot, ask them to think, without writing code, about how a program would know when someone has won the game.</li>
 							</ul>
 						</li>
 					</ul>
@@ -84,17 +75,19 @@
 							<strong>Tips:</strong>
 							<ul>
                                 <li>
-                                	Some students may try to determine if there has been a win in the game by using eight nested <code>if then</code> conditionals as indicated below.  Encourage them instead to understand the elegance and simplicity of using <code>map</code> in solving this problem.<br />
-                                	<img class="indent" src="/bjc-r/img/3-lists/U3ImageVideoAddendum_img/9conditionalsapproachto TTT.png" height="200" alt=""/>
-                                </li>
+                                	Some students may try to determine if there has been a win in the game by using eight nested <code>if then</code> conditionals:<br />
+                                	<img class="indent" src="/bjc-r/img/3-lists/U3ImageVideoAddendum_img/9conditionalsapproachto TTT.png" height="200" alt=""/><br />
+                                	As always, don't tell them that their working solution is wrong; still, encourage them  to understand the elegance and simplicity of using <code>map</code> in solving this problem.
+                                (What if we were playing tic-tac-toe on a chessboard, so there would be many more winning triples? Would you still want to enumerate them in nested conditionals?)</li>
 								<li>
-                                    Once the students have written the <code>status of winning triples</code> block, it will be beneficial for them to compare the status of each winning triple to the corresponding configuration on the board.  For example the eighth entry is the status of the diagonal with squares 3,5,7 and we see the <code>status of winning triples</code> block reporting {X, Empty, Empty} agreeing with the board configuration. <br />
+                                    Once the students have written the <code>status of winning triples</code> block, it will be beneficial for them to compare the status of each winning triple to the corresponding configuration on the board.  For example the eighth row of the list that the <code>status of winning triples</code> block reports is the status of the diagonal with squares {3,5,7}, namely {X, Empty, Empty}, agreeing with the board picture. <br />
                                     <img class="indent" src="/bjc-r/img/3-lists/U3ImageVideoAddendum_img/statusoftriples.png" height="200" alt=""/>
                                     <img src="/bjc-r/img/3-lists/U3ImageVideoAddendum_img/statusoftriplesBoardcrossed.png" height="200" alt=""/>
                                 </li>
 								<li>
-                                    The elegant solution with <code>map</code> will use the <img src="/bjc-r/img/3-lists/U3ImageVideoAddendum_img/contains.png"  height="40" alt=""/> block to rapidly test whether the status of a triple implies a win. It will not be obvious to most students that this block can have a list of lists as an input as shown below.<br />
-                                    <img src="/bjc-r/img/3-lists/U3ImageVideoAddendum_img/containswithlistoflist.png"  height="50" alt=""/>
+                                    The elegant solution with <code>map</code> will use the <img src="/bjc-r/img/3-lists/U3ImageVideoAddendum_img/contains.png"  height="40" alt=""/> block to  test all the possible winning triples at once. It may not be obvious to some students that this block can have a list of lists as an input as shown below.<br />
+                                    <img src="/bjc-r/img/3-lists/U3ImageVideoAddendum_img/containswithlistoflist.png"  height="50" alt=""/><br />
+If this is an issue, encourage them not to think of a list of lists as a special case; lists are values, just as numbers are values, and a list can include any values.
 								</li>
                                 
                                <!-- <li>Create blocks to use with higher order list functions to perform complicated data lookups and modifies.</li>
@@ -136,7 +129,8 @@
 		<h3>Solutions</h3>
 		<div>
 			<ul>
-				<li><a href="http://snap.berkeley.edu/snapsource/snap.html#present:Username=bjcsolutions&ProjectName=U3L2-TicTacToe(answer%20file)" target="_blank">Page 1: Remembering the moves, Page 2: Detecting Wins and Ties</a></li>
+				<li><a href="http://snap.berkeley.edu/snapsource/snap.html#present:Username=bjcsolutions&amp;ProjectName=U3L2%20non-TIF%20TicTacToe(answer%20file)" target="_blank">Tic Tac Toe: For You To Do problems</a></li>
+				<li><a href="http://snap.berkeley.edu/snapsource/snap.html#present:Username=bjcsolutions&amp;ProjectName=U3L2%20ITIT-TIF%20TicTacToe(answer%20file)" target="_blank">Tic Tac Toe: If There Is Time and Take It Further problems</a></li>
 			</ul>
 		</div>
 			
@@ -149,7 +143,7 @@
 			</ul-->
 			<h4>Essential Understandings:</h4>
 			<p>Students think simultaneously about lists as a <em>single object</em> and, at the same time, as a set of <em>elements</em> to be processed (<strong>EU 2.1</strong>) as they build encoding/decoding functions and a tic-tac-toe game.</p>
-            <p>This lab builds toward this EU with a mini-project in which students are required to use lists to represent text to be encyphered or decyphered and the moves in a tic-tac-toe game. Students must also use procedural abstraction; for example, a procedure to test whether player X has won in tic-tac-toe is built out of a procedure that reports a list of cells in which X has moved, a procedure that reports all of the eight winning combinations of squares, and a function that tests whether a list of cells matches a particular winning combination.</p>
+            <p>This lab builds toward this EU with a mini-project in which students are required to use lists to represent  the moves in a tic-tac-toe game. Students must also use procedural abstraction; for example, a procedure to test whether player X has won in tic-tac-toe is built out of, a procedure that reports all of the eight winning combinations of squares and a function that tests whether a list of cells is a  winning combination.</p>
 			<ul>
                 <li><strong>EU 2.1</strong> A variety of abstractions built on binary sequences can be used to represent all digital data.</li>
 			</ul>
@@ -162,19 +156,11 @@
 			<ul>
 				<li><strong>EK 2.1.1A</strong> Digital data is represented by abstractions at different levels.</li>
                 <li><strong>EK 3.1.3E</strong> Interactivity with data is an aspect of communicating.</li>
-                <li><strong>EK 3.2.1F</strong> Software tools, including spreadsheets and databases, help to efficiently organize and find trends in information.</li>
-                <li><strong>EK 3.2.2H</strong> Analytical techniques to store, manage, transmit, and process data sets change as the size of data sets scale.</li>
-                <li><strong>EK 4.1.1B</strong> Sequencing is the application of each step of an algorithm in the order in which the statements are given.</li>
-                <li><strong>EK 5.1.3B</strong> Collaboration facilitates multiple perspectives in developing ideas for solving problems by programming.</li>
-                <li><strong>EK 5.1.3F</strong> Effective communication between participants is required for successful collaboration when developing programs.</li>
                 <li><strong>EK 5.2.1B</strong> Program instructions are executed sequentially.</li>
                 <li><strong>EK 5.2.1C</strong> Program instructions may involve variables that are initialized and updated, read, and written.</li>
-                <li><strong>EK 5.3.1I</strong> Strings and string operations, including concatenation and some form of substring, are common in many programs.</li>
                 <li><strong>EK 5.3.1K</strong> Lists and list operations, such as add, remove, and search, are common in many programs.</li> 
                 <li><strong>EK 5.3.1L</strong> Using lists and procedures as abstractions in programming can result in programs that are easier to develop and maintain.</li>
                 <li><strong>EK 5.5.1H</strong> Computational methods may use lists and collections to solve problems.</li>
-                <li><strong>EK 5.5.1I</strong> Lists and other collections can be treated as abstract data types (ADTs) in developing programs.</li>
-                <li><strong>EK 7.3.1K</strong> People can have instant access to vast amounts of information online; accessing this information can enable the collection of both individual and aggregate data that can be used and collected.</li>
 			</ul>
 		</div>			
 
