@@ -56,12 +56,12 @@
             
         <h3>Recursive Reporters</h3>
         <p>The general pattern for a recursive <em>command</em> is</p>
-        <p><img src="/bjc-r/img/7-recursive-reporters/rec-command.png" alt="if (base case?) then [do something simple] else [[do something] [recursive call] [do something]]"></p>
+        <p><img src="/bjc-r/img/8-recursive-reporters/rec-command.png" alt="if (base case?) then [do something simple] else [[do something] [recursive call] [do something]]"></p>
         <p>Compare this with the <code>nested triangle</code> block above. (In that one, the base case is particularly simple: it does nothing at all.) Most recursive commands follow this pattern, except that in certain cases there's more than one recursive call.</p>
         <p>It's therefore tempting to try to write a recursive <em>reporter</em> this way:</p>
-        <p><img src="/bjc-r/img/7-recursive-reporters/bad-rec-reporter.png" alt="if (base case?) then [report something simple] else [[report something] [report recursive call] [report something]]"></p>
+        <p><img src="/bjc-r/img/8-recursive-reporters/bad-rec-reporter.png" alt="if (base case?) then [report something simple] else [[report something] [report recursive call] [report something]]"></p>
         <p>But in fact you can't stack <code>report</code> blocks; once your block reports a value, it's finished. (This is why there's no connection tab at the bottom of the <code>report</code> block.) Instead, you have to use a <em>combiner</em> function to put the pieces together into a <em>single thing</em> to report:</p>
-        <p><img src="/bjc-r/img/7-recursive-reporters/rec-reporter.png" alt="if (base case?) then [report something simple] else [report (combiner (stuff) (recursive call) (stuff)]"></p>
+        <p><img src="/bjc-r/img/8-recursive-reporters/rec-reporter.png" alt="if (base case?) then [report something simple] else [report (combiner (stuff) (recursive call) (stuff)]"></p>
         <p>The combiner can be any function with the correct <em>range</em> (the kind of value it can return). So if your custom reporter is supposed to return a sentence, the combiner might be <code>join</code> or <code>join words</code>; if it's supposed to return a number, you might use <code>+</code> or <code>×</code>.</p>
         <div class="forYouToDo">
             <ol start="6">
