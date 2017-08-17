@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta http-equiv="content-type" content="text/html; charset=utf-8">
         <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
 		<script type="text/javascript" src="/bjc-r/utilities/gifffer.min.js"></script>
         <script type="text/javascript">window.onload = function() {Gifffer();}</script>
@@ -17,51 +17,51 @@
         	<!--<div class="sidenote">Designing a program to draw a brick wall (which you might later use as a stage background) is good practice in <em>analyzing structure</em>.</div>-->
             <img class="imageRight" src="/bjc-r/img/2-complexity/humpty-dumpty-tenniel.png" alt="Humpty Dumpty on brick wall" title="Humpty Dumpty on brick wall">
             <p><strong>In this project,</strong> you will use abstraction to draw a brick wall<!-- by first building  <img src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/drawBrick.png" alt="draw brick length:() width:() block" title="draw brick length:() width:() block"/>, then using it to write blocks for drawing different rows, and ultimately creating <img src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/draw-brick-wall-7.png" alt="draw a Brick Wall with (7) Rows block" title="draw a Brick Wall with (7) Rows block" />-->.</p>
-			<img border="0" class="indent" title="Sample image of brick wall" alt="Sample image of brick wall" src="/bjc-r/img/abstraction/new-brickwall/wall.png" />
+			<img border="0" class="indent" title="Sample image of brick wall" alt="Sample image of brick wall" src="/bjc-r/img/abstraction/new-brickwall/wall.png">
         </div>
         
     	
         <div class="takeNote">
             <h4><strong>Abstraction</strong></h4>
-            <p>Any good programming language might have many tools for drawing and moving, but it wouldn't make sense to have special tools for drawing bricks because most programs don't involve bricks. That's the sort of tool you make yourself when you need it.</p>
-            <p>Creating a special <img class="nopadtb" src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/drawBrick.png" alt="drawBrick length:() width:() block" title="drawBrick length:() width:() block"/> block lets you use procedure names related to the problem you are solving (like <code>draw brick</code>), rather than the general-purpose procedures  (like <code>move</code>) that the computer uses for all kinds of tasks. <!--The process of moving from what the programming language gives you to a natural language (one that humans speak) is a key part of good abstraction.--></p>
+            <p>Any good programming language might have many tools for drawing and moving, but it wouldn&apos;t make sense to have special tools for drawing bricks because most programs don&apos;t involve bricks. That&apos;s the sort of tool you make yourself when you need it.</p>
+            <p>Creating a special <img class="nopadtb" src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/drawBrick.png" alt="drawBrick length:() width:() block" title="drawBrick length:() width:() block"> block lets you use procedure names related to the problem you are solving (like <code>draw brick</code>), rather than the general-purpose procedures  (like <code>move</code>) that the computer uses for all kinds of tasks. <!--The process of moving from what the programming language gives you to a natural language (one that humans speak) is a key part of good abstraction.--></p>
 		</div>
         
 		<h3>Drawing One Brick</h3>
         <p>
-            A picture of a brick is just a rectangle with a brick red color. However, there's no <code>draw rectangle</code> block in <span class="snap">snap</span>. One way to draw one is by thinking of a rectangle as a very thick line. Here's the idea:<br />
-            <img class="indent" src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/simpleBrickCode.png" alt="draw rectangle, length:() width:() block definition" title="draw rectangle, length:() width:() block definition"/>
+            A picture of a brick is just a rectangle with a brick red color. However, there&apos;s no <code>draw rectangle</code> block in <span class="snap">snap</span>. One way to draw one is by thinking of a rectangle as a very thick line. Here&apos;s the idea:<br>
+            <img class="indent" src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/simpleBrickCode.png" alt="draw rectangle, length:() width:() block definition" title="draw rectangle, length:() width:() block definition">
         </p>
         <div class="forYouToDo" id="first">
 				<div class="sidenoteBig"> 
-                    <p>The <img src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/setFlat.png"  alt="set flat line ends to &lt; &gt;"> block isn't built into Snap<em>!</em>. In projects without it, you can set the "Flat line ends" in the <img src="/bjc-r/img/sys/settings.png" alt="Settings" title="Settings" /> menu.</p>
-                    <p>Ordinarily, Snap<em>!</em> draws thick lines with rounded ends: <img class="nopadtb" src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/round-ends.png" alt="line with round ends">.  That's often the best choice, and you can see why below. But for bricks, we want flat line ends: <img class="nopadtb" src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/flat-ends.png" alt="flat line ends">.</p>
-                    <p class="center"><img src="/bjc-r/img/2-complexity/flat-line-ends-why.jpg" alt="" title="" /><br /><strong>flat</strong> vs. <strong>rounded</strong> line ends</p>
+                    <p>The <img src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/setFlat.png" alt="set flat line ends to &lt; &gt;"> block isn&apos;t built into Snap<em>!</em>. In projects without it, you can set the &quot;Flat line ends&quot; in the <img src="/bjc-r/img/sys/settings.png" alt="Settings" title="Settings"> menu.</p>
+                    <p>Ordinarily, Snap<em>!</em> draws thick lines with rounded ends: <img class="nopadtb" src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/round-ends.png" alt="line with round ends">.  That&apos;s often the best choice, and you can see why below. But for bricks, we want flat line ends: <img class="nopadtb" src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/flat-ends.png" alt="flat line ends">.</p>
+                    <p class="center"><img src="/bjc-r/img/2-complexity/flat-line-ends-why.jpg" alt="" title=""><br><strong>flat</strong> vs. <strong>rounded</strong> line ends</p>
                 </div>
         	<ol>
                 <li>
-                    Load <a class="run" href="/bjc-r/prog/2-complexity/U2L4-brickwall.xml">this starter project</a>.  It includes the complete <code>draw brick</code> block shown below. Read the code; then try it out.<br />
-                    <img src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/drawBrickCode.png"  alt="draw brick, length:() width:() block definition" title="draw brick, length:() width:() block definition"/> 
+                    Load <a class="run" href="/bjc-r/prog/2-complexity/U2L4-brickwall.xml">this starter project</a>.  It includes the complete <code>draw brick</code> block shown below. Read the code; then try it out.<br>
+                    <img src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/drawBrickCode.png" alt="draw brick, length:() width:() block definition" title="draw brick, length:() width:() block definition"> 
 				</li>
             </ol>
         </div>
         
         <h3>Using Problem Decomposition</h3>
 		<p>
-        	You'd like the "top level" block to be something like this:<br />
-			<img class="indent" src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/draw-brick-wall-7.png" alt="draw-brick-wall-7" /><br />
+        	You&apos;d like the &quot;top level&quot; block to be something like this:<br>
+			<img class="indent" src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/draw-brick-wall-7.png" alt="draw-brick-wall-7"><br>
             Getting there involves <strong>problem decomposition</strong>: breaking the problem into smaller pieces.
         </p>
 		<p>
         	There are two kinds of rows, so we make blocks that specialize in each:
             <ul>
-                <li><strong>Row A</strong>: <img class="noshadow" border="0" title="Row A" alt="Row A" src="/bjc-r/img/abstraction/new-brickwall/row-a.png" /></li>
-                <li><strong>Row B</strong>: <img class="noshadow" border="0" title="Row B" alt="Row B" src="/bjc-r/img/abstraction/new-brickwall/row-b.png" /></li>
+                <li><strong>Row A</strong>: <img class="noshadow" border="0" title="Row A" alt="Row A" src="/bjc-r/img/abstraction/new-brickwall/row-a.png"></li>
+                <li><strong>Row B</strong>: <img class="noshadow" border="0" title="Row B" alt="Row B" src="/bjc-r/img/abstraction/new-brickwall/row-b.png"></li>
             </ul>
         </p>
         <div class="forYouToDo" id="second">
         	<ol start="2">
-            	<li>Use <code>draw brick</code> to make blocks <img src="/bjc-r/img/abstraction/new-brickwall/rowa-block.png" alt="Row A" /> and <img src="/bjc-r/img/abstraction/new-brickwall/rowb-block.png" alt="Row B" />.</li>
+            	<li>Use <code>draw brick</code> to make blocks <img src="/bjc-r/img/abstraction/new-brickwall/rowa-block.png" alt="Row A"> and <img src="/bjc-r/img/abstraction/new-brickwall/rowb-block.png" alt="Row B">.</li>
             	<!--<li>Think about what helper blocks besides <img src="/bjc-r/img/abstraction/new-brickwall/draw-brick.png" alt="Draw Brick" /> you might want.</li>-->
             
         <!--<div class="takeNote"> 
@@ -74,51 +74,51 @@
                 	The two kinds of rows should be exactly the same length.  Your first try at drawing Row B is probably a little too long. <strong>Debug it.</strong>
                     <ul>
                     	<li>Should Row B have different-size bricks, different-size gaps, or just different-size bricks on the end?</li>
-                        <li>If you're not sure, try all the possibilities and see which looks right in the finished wall.</li>
-                        <li>Or think "What would <em>make the most sense</em> in a <em>real</em> brick wall?"</li>
+                        <li>If you&apos;re not sure, try all the possibilities and see which looks right in the finished wall.</li>
+                        <li>Or think &quot;What would <em>make the most sense</em> in a <em>real</em> brick wall?&quot;</li>
                         
                     </ul>
                 </li>
             </ol>
         </div>
         
-        <p>Once you have rows A and B the same length, you are ready to write the <img class="nopadtb" src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/draw-brick-wall-7.png" alt="draw-brick-wall-7" /> block. </p>
+        <p>Once you have rows A and B the same length, you are ready to write the <img class="nopadtb" src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/draw-brick-wall-7.png" alt="draw-brick-wall-7"> block. </p>
         
         <div class="forYouToDo">
 			<ol start="4">
                 <li>
-                    <a href="/bjc-r/cur/programming/2-complexity/1-variables-games/4-importing-exporting.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment">Import</a> your <a href="/bjc-r/cur/programming/2-complexity/3-predicates/2-keeping-list-items.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment"><code>even?</code> block</a> and use it to write the <img class="nopadtb" src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/draw-brick-wall-7.png" alt="draw-brick-wall-7" /> block. Read the Debugging Dependencies section below and <strong>test</strong> your new block to make sure it works properly.
+                    <a href="/bjc-r/cur/programming/2-complexity/1-variables-games/4-importing-exporting.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&amp;course=bjc4nyc.html&amp;novideo&amp;noassignment">Import</a> your <a href="/bjc-r/cur/programming/2-complexity/3-predicates/2-keeping-list-items.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&amp;course=bjc4nyc.html&amp;novideo&amp;noassignment"><code>even?</code> block</a> and use it to write the <img class="nopadtb" src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/draw-brick-wall-7.png" alt="draw-brick-wall-7"> block. Read the Debugging Dependencies section below and <strong>test</strong> your new block to make sure it works properly.
                     <div class="takeNote">
                         <h4><strong>Debugging Dependencies</strong></h4>
-                            <img class="imageRight" src="/bjc-r/img/2-complexity/even-obsolete.png" alt="even? (number) block definition with Obsolete! block" title="even? (number) block definition with Obsolete! block" />
+                            <img class="imageRight" src="/bjc-r/img/2-complexity/even-obsolete.png" alt="even? (number) block definition with Obsolete! block" title="even? (number) block definition with Obsolete! block">
                         <p>You created your <code>even?</code> block using another custom block, <code>divisible by?</code>. You must export <em>both</em> blocks in order for <code>even?</code> to work properly when you import it into your Brick Wall project.</p>
                         <p>
-                            If you ever see this red <code>Obsolete!</code> block in code you have imported, it means that a required block was not exported. You'll want to go back to the original project and export again being sure to select all of the blocks needed by your custom blocks.<br />
+                            If you ever see this red <code>Obsolete!</code> block in code you have imported, it means that a required block was not exported. You&apos;ll want to go back to the original project and export again being sure to select all of the blocks needed by your custom blocks.<br>
                         </p>
                     </div>
                 </li>
-                <img class="imageRight" src="/bjc-r/img/icons/save-now.png" alt="Now Is a Good Time to Save" title="Now Is a Good Time to Save" />
+                <img class="imageRight" src="/bjc-r/img/icons/save-now.png" alt="Now Is a Good Time to Save" title="Now Is a Good Time to Save">
     		</ol>
 		</div>
         
         
         <div class="ifTime">
 			<ol start="5">
-                <li>Use your brick wall in another project by <a href="/bjc-r/cur/programming/2-complexity/1-variables-games/4-importing-exporting.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment">exporting and importing</a> your brick wall blocks.</li>
+                <li>Use your brick wall in another project by <a href="/bjc-r/cur/programming/2-complexity/1-variables-games/4-importing-exporting.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&amp;course=bjc4nyc.html&amp;novideo&amp;noassignment">exporting and importing</a> your brick wall blocks.</li>
           </ol>
         </div>
 		
        
-        <div class="takeItFurther"><a name="further" class="anchor">&nbsp;</a>
+        <div class="takeItFurther"><a name="further" class="anchor">&#xA0;</a>
             <ol type="A">
                 <li>
-                	Add more inputs to <code>draw Brick Wall</code> (and as needed to <code>row A</code> and <code>row B</code>) for:<br />
+                	Add more inputs to <code>draw Brick Wall</code> (and as needed to <code>row A</code> and <code>row B</code>) for:<br>
         			<ol style="list-style:lower-roman;">
                     	<li>Number of <var>bricks per row</var></li>
 				        <li><var>length</var> and <var>width</var> of a brick</li>
 				        <li>Gap <var>thickness</var></li>
                     </ol>
-					<img class="indent" src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/drawBrickWallwithManyInputs.png"  height="60" alt="draw a Brick Wall with (8) Rows with Bricks per Row: (7) of Brick Length: (40) Width: (20) Gap Thickness: (5)" title="draw a Brick Wall with (8) Rows with Bricks per Row: (7) of Brick Length: (40) Width: (20) Gap Thickness: (5)"/><br />
+					<img class="indent" src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/drawBrickWallwithManyInputs.png" height="60" alt="draw a Brick Wall with (8) Rows with Bricks per Row: (7) of Brick Length: (40) Width: (20) Gap Thickness: (5)" title="draw a Brick Wall with (8) Rows with Bricks per Row: (7) of Brick Length: (40) Width: (20) Gap Thickness: (5)"><br>
                     <div class="endnote">Add these one at a time, not all at once!  When you modify the length of a brick, that should also change the length of a row B end brick. When you modify the gap thickness, that should also change the distance between the rows.</div>
                 </li>
             </ol>
