@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+        <script type="text/javascript" src="/bjc-r/utilities/gifffer.min.js"></script>
+        <script type="text/javascript">window.onload = function() {Gifffer();}</script>
+        <link rel="stylesheet" type="text/css" href="/bjc-r/css/bjc-gifffer.css">
+<title>Unit 5 Optional Projects, Page 1</title>
+</head>
+
+<body>
+<h2>Tic-Tac-Toe with Intelligent Computer Player</h2>
+<div class="learn">
+In this last phase of the Tic-Tac-Toe project, you will learn how to make the computer play the game intelligently against a human player.<br />
+<img class="indent" data-gifffer="/bjc-r/img/5-algorithms/TTT3_img/AIAnimation_Draw.gif" height="300" alt=""/>
+</div>
+<div class="forYouToDo">
+<ol>
+<li>Open your Tic-Tac-Toe project from Unit 3.  The name suggested was U3L2-TicTacToe. </li>
+<li>Save it as U5-TicTacToe so the earlier work is saved separately.</li>
+<li>Create a new sprite and give it a name such as <code>Computer Player</code>.</li>
+<li><code>Computer Player</code> will need access to each square clone and tell it to put on a particular costume, so you will need a way of storing the squares in a list as each clone is created.  Create a variable <var>squares list </var>and initialize it to an empty list.  Using <code>When I start as a clone</code> control block, add each square clone to this list as soon as it is created.
+<br />
+<img class="indent" src="/bjc-r/img/5-algorithms/TTT3_img/AddtoSquareList.png"  height="100" alt=""/>
+</li>
+ 
+<div class="takeNote">For simplicity, you can assume that the human player will always start first.  In the "Take It Further A" below you will be asked to design your game so that human player is given the choice to start first or not.</div>
+<li>From your earlier work, the squares already know how to behave when they are clicked by a human player.  Now, you will just need to <code>broadcast</code> when human player is done with a move to announce that it is <code>Computer Player</code>’s turn.<br />
+ <img class="indent" src="/bjc-r/img/5-algorithms/TTT3_img/broadcastAIturn.png"  height="50" alt=""/>
+ </li>
+<li>Implement an algorithm such as this for the <code>Computer Player</code>:<br />
+<pre class="indent" style="width:600px">
+   Check each empty square for a winning move
+   If possible, make the winning move
+   Else, check each empty square to see if can block a win by the opponent
+   If possible, make the blocking move
+   Else, make a random(*) move to an available square
+   Check for a tie
+   If there is no tie, pass the turn to human player
+</pre>
+</li>
+<div class="takeNote">(*) In the "Take It Further B" below you can explore more intelligent alternative strategies to the random move.</div>
+</ol>
+</div>
+Notes:
+<ul>
+<li>Computer will use the (virtual) <var>board</var> to attempt a move and test for a win. If a win is possible, it will make the move on the actual board by telling the appropriate square to put on the relevant costume.<br />
+<img class="indent" src="/bjc-r/img/5-algorithms/TTT3_img/tellsquaretoputcostume.png"  height="100" alt=""/>
+ </li>
+ <li>If no win is possible with a move, it will undo the move on the (virtual) <var>board</var>.  A similar approach will be needed to see if blocking a win by the opponent is possible.<br />
+ <img class="indent" src="/bjc-r/img/5-algorithms/TTT3_img/undothemove.png"  height="50" alt=""/>
+ </li>
+</ul>
+<div class="forYouToDo" id="second">
+<ol start="7">
+<li>Create a fully functional Tic-Tac-Toe program endowed with an intelligent <code>Computer Player</code>.  Test and debug your code thoroughly.  Make sure that the <code>Computer Player</code> responds appropriately when you intentionally lose, tie and win the game.</li>
+</ol>
+ </div>
+ <div class="takeItFurther" id="first">
+<ol type="A">
+
+<li>Design your game so that the human player is given the choice whether to start first or not.</li>
+<li>Do some research on <a href="https://en.wikipedia.org/wiki/Tic-tac-toe" target="_blank">Tic-Tac-Toe</a> and implement a more intelligent strategy than making a random move in the algorithm given above.  Why moving to the center is most desirable?  Why getting a corner is second best?</li>
+<li>Learn about the game <a href="https://en.wikipedia.org/wiki/Ultimate_tic-tac-toe" target="_blank">Ultimate Tic-Tac-Toe</a> and implement it in Snap<em>!</em>.</li>
+<li>Read about artificial intelligence programs such as <a href="https://en.wikipedia.org/wiki/Deep_Blue_(chess_computer)" target="_blank">Deep Blue</a> and <a href="https://en.wikipedia.org/wiki/AlphaGo" target="_blank"> AlphaGo.</a></li>
+</ol>
+</div>
+
+</body>
+</html>
