@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Lab 1: Computer Abstraction Hierarchy, Page X</title>
+	</head>
+
+	<body>
+		<h2>Floating Point</h2>
+        
+        <div class="learn">
+        	<p><strong>On this page,</strong>...</p> 
+        </div>
+        
+        <!--<div class="sidenoteBig">A floating point value begins with a single <strong>sign bit</strong> (0 for positive or 1 for negative), then it has a specific number of bits for the <strong>exponent</strong>, and it ends with a specific number of bits for the <strong>significand</strong>, which everything after the decimal point. (In binary, the only digit that can be before the decimal in scientific notation is a 1.)</div>-->
+        <p>Many languages have another data type used to represent real numbers (including decimals and numbers too big to be stored as integers) called <strong>floating point</strong>, which is essentially a binary version of scientific notation. It's called floating point because the decimal point "floats" to just after the first digit.</p>
+        <div class="forYouToDo">
+            <ol start="3">
+                <li>
+                    Try <span class="katex">30!</span>.<br />
+            		<img class="indent" src="/bjc-r/img/4-internet/bang30.png" alt="(30) ! reporting 2.6525285981219103e+32" title="(30) ! reporting 2.6525285981219103e+32" />
+                </li>
+            </ol>
+        </div>
+        <p>That <code>e+32</code> is just a different way to write scientific notation. The "e+" means "times ten to the power of" so: <span class="katex">2.6525285981219103\text{e}+32 = 2.6525285981219103\times10^{32}</span> <span class="katex">=265,252,859,812,191,030,000,000,000,000,000</span>.</p>
+        <div class="takeNote">Floating point allows computers to store very large numbers and also decimals, but the format still has a specific number of bits, and that limits the range of floating point values and mathematical operations just like with integers. However with floating point, values that exceed the limitation may result in <em>round off</em> errors instead.</div>
+        <p>Most real numbers can't be represented exactly&mdash;even with floating point.</p>
+        <div class="forYouToDo">
+          <ol start="4">
+				<li>For example, try<img src="/bjc-r/img/4-internet/one-third.png" alt="1 / 3">.</li>
+            </ol>
+        </div>
+        <p>The decimal representation of <span class="katex">\frac13</span> is 0.33333... It has infinitely many digits, so the closest you can come in floating point isn't <em>exactly</em> <span class="katex">\frac13</span>; it gets cut off after a while.</p>
+        <p>Roundoff errors can result in some pretty weird calculations...</p>
+        <div class="forYouToDo">
+          <ol start="5">
+                <li>Try <img class="inline" src="/bjc-r/img/4-internet/0.2+0.4.png" alt="(0.2) + (0.4)" title="(0.2) + (0.4)" /> and then try <img class="inline" src="/bjc-r/img/4-internet/7.6+8.7.png" alt="(7.6) + (8.7)" title="(7.6) + (8.7)" />.</li>
+            </ol>
+        </div>
+        <p>This isn't a bug with Snap<em>!</em>. Many other languages (like JavaScript) will report the same values for these calculations.</p>
+        <div class="endnote">
+        	<p>Computer arithmetic on <em>integers</em> is straightforward. Either you get an exactly correct integer result or, if the result won't fit in integer representation, you get an <em>overflow error</em> and the result is, usually, converted to floating point representation (like <span class="katex">30!</span> was).</p>
+            <p>By contrast, computer arithmetic on <em>floating point numbers</em> is hard to get exactly right. Prior to 1985, every model of computer had a slightly different floating point format, and all of them got wrong answers to certain problems. This situation was resolved by the <a href="https://en.wikipedia.org/wiki/IEEE_floating_point" target="_blank">IEEE 754 floating point standard</a>, which is now used by every computer manufacturer and has been improved several times since it was created in 1985.</p>
+        </div>
+        <p><strong>How does a programming language know whether to interpret a bit sequence as an integer, a floating point, a text string of Unicode characters, an instruction, or something else?</strong> Programming languages differ in how they do this, but there's always some <em>extra</em> bit sequence that encodes the <em>data type</em> of any sequence of bits that tells the computer how to interpret it.</p>
+		<div class="takeNote">At the lowest level of software abstraction, <em>everything</em> in a computer is represented as a binary sequence. For example:
+        	<ul>
+            	<li>A Boolean value is a single bit, 0 for <code>false</code> and 1 for <code>true</code>.</li>
+                <li>A text string is a sequence of Unicode character codes, each of which is stored as a separate integer.</li>
+                <li>Lists and blocks are binary sequences too.</li>
+            </ul>
+		</div>
+		<div class="takeItFurther"><a name="further" class="anchor">&nbsp;</a>
+            <ol type="A">
+                <li>
+                    <img class="imageRight" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
+                    What's the <em>rightmost</em> digit in the binary representation of 15551212?
+                </li>
+                <li>What's the rightmost bit ("<strong>b</strong>inary dig<strong>it</strong>") of 123456789?</li>
+                <li>Develop a rule for finding the rightmost bit of any base 10 number.</li>
+            </ol>
+        </div>
+
+
+	</body>
+</html>
