@@ -29,13 +29,13 @@
         <p>
         	<!--(I dont' think this is true, personally. --MF) Recursive <em>reporters</em> can be more difficult to write than recursive <em>commands</em>, such as <code>tree</code> and <code>triangle fractal</code>.--> Recursive <em>commands</em> often have structure like this, with multiple commands in the recursive case:
     <div class="sidenote">Recursive <em>commands</em> can even have <em>multiple</em> recursive calls (<code>tree</code> is a good example; we called <code>tree</code> <em>twice</em> from within a single call to <code>tree</code>).</div>
-            <img class="indent" src="/bjc-r/img/8-recursive-reporters/rec-command.png" alt="recursive command pattern" />
+            <img class="indent" src="/bjc-r/img/8-recursive-reporters/rec-command.png" alt="recursive command pattern" title="recursive command pattern" />
         </p>
         
         <p>
         	Recursive <em>reporters</em> have different structure because they can report <em>only one</em> value. Since the <code>report</code> block <em>reports</em> an answer, you'll need to build the answer before or inside the <code>report</code> block call. So, this isn't possible:<br />
         	<div class="sidenote">You can't even build this script because you won't be allowed to connect any block <em>below</em> a <code>report</code> block.</div>
-            <img class="indent" src="/bjc-r/img/8-recursive-reporters/bad-rec-reporter.png" alt="bad (multi-report) recursive reporter pattern" />
+            <img class="indent" src="/bjc-r/img/8-recursive-reporters/bad-rec-reporter.png" alt="bad (multi-report) recursive reporter pattern" title="bad (multi-report) recursive reporter pattern" />
         </p>
         <!--<p> Higher-order functions, mathematics operations, and other ways to combine information are often used.</p>- ->
         <!--        <p>Instead, most of the time a recursive reporter call will be inside a <em>combiner</em> that attaches the result of the recursive call to some other value:</p>
@@ -53,18 +53,18 @@
                 <li>Recursion always needs a base case to stop the script from calling itself forever. What sort of base case might we use for this situation?</li>
                 <li>
                 	Create a <code>letter count</code> block that takes a list of words as input and reports the total number of letters in all the words. The <code>all but first of</code> block may be useful, but there is more than one way to do this.<br />
-                	<img class="indent" src="/bjc-r/img/8-recursive-reporters/lettercount.png" alt="letter count block" />
+                	<img class="indent" src="/bjc-r/img/8-recursive-reporters/lettercount.png" alt="letter count block" title="letter count block"/>
 				</li>
                 <li>
                 	<!--<div class="sidenote">You'll need a block that takes strings and makes larger strings...</div>
                     <div class="comment">I don't understand the above sidenote. I get that that's what we are doing, but what is this trying to tell me to do? --MF</div>-->
                     Create your own version of the <code>join words</code> block. This block inputs a list and outputs a string sentence, with spaces:<br />
-                    <img class="indent" src="/bjc-r/img/8-recursive-reporters/myjoinwords.png" alt="my join words block" />
+                    <img class="indent" src="/bjc-r/img/8-recursive-reporters/myjoinwords.png" alt="my join words block" title="my join words block" />
                 </li>
                 <!-- <p>Then, compare your work to the real <code>join words</code> block.</p>  -->
                 <div class="todo">
                     <p>Again, I am  concerned with teaching recursion as "a more complicated way to do what you already know how to do." I don't think <code>my join words</code> works because it can be done so much more quickly <em>non-recursively</em> by using <code>combine</code>. I <em>do</em> like <code>letter count</code> though because it <em>does</em> simplify the code. --MF<br />
-                    <img class="indent" src="/bjc-r/img/8-recursive-reporters/recursive-letter-count.png" alt="" title="" /></p>
+                    <img class="indent" src="/bjc-r/img/8-recursive-reporters/recursive-letter-count.png" alt="letter count(list){if(length of list=0){report()};report(length of(item(1) of list)+(letter count(all but first of list))}" title="letter count(list){if(length of list=0){report()};report(length of(item(1) of list)+(letter count(all but first of list))}"/></p>
                     <p>As noted in email, I don't think <code>letter count</code> is an exception, as Mary does. But more important, I don't think students can easily compare their <code>my join words</code> with the <code>join words</code> in the tools library, because the latter is variadic, taking multiple strings as inputs rather than taking one single list of strings. As a result, its code uses the sort of hidden and obscure &quot;input list&quot; feature of Snap<em>!</em>, which we haven't taught and I'd rather avoid teaching, at least in the middle of teaching other hard stuff. --bh
 					</p>
 					<p>I need a suggestion to change this. Or is the suggestion to delete the join-words task? Any other things to replace it? Also we should use "empty?" when possible, not "length = 0". -BK</p>
