@@ -14,27 +14,27 @@
                 <li>Initialize the variables that will keep track of time and the number of infected. Ask the user for the population size, the percentage of the population initially infected, and the speed at which the people will be moving.</li>
                 <li>
                     Keep track of time until the entire population is infected.<br />
-                    <img class="indent" src="/bjc-r/img/5-algorithms/img_disease-spread/timerCode.png" height="117" alt=""/>
+                    <img class="indent" src="/bjc-r/img/5-algorithms/img_disease-spread/timerCode.png" height="117" alt="reset timer; repeat until((infectedCounter)=(total)){set (timeElapsed) to (timer)}" title="reset timer; repeat until((infectedCounter)=(total)){set (timeElapsed) to (timer)}"/>
 				</li>
                 <li>
                     As you don't know ahead of time how many people sprites will be created, create a single sprite and then use the <code>create a clone of myself</code> block in Snap<em>!</em> to generate a population of size input by the user. <br />
-                    <img class="indent" src="/bjc-r/img/5-algorithms/img_disease-spread/cloneCode3.png" height="84" alt=""/>
+                    <img class="indent" src="/bjc-r/img/5-algorithms/img_disease-spread/cloneCode3.png" height="84" alt="repeat(total){create a clone of (myself)}" title="repeat(total){create a clone of (myself)}"/>
                 </li>
 				<li>
                     Initialize clones and give them behavior by using the <code>when I start as a clone</code> block.<br />
-                    <img class="indent" src="/bjc-r/img/5-algorithms/img_disease-spread/cloneCode2.png" height="55" alt=""/>
+                    <img class="indent" src="/bjc-r/img/5-algorithms/img_disease-spread/cloneCode2.png" height="55" alt="when I start as a clone" title="when I start as a clone"/>
 				</li>
                 <li>
                     Give the clones a sick or a healthy costume during their initialization. As the clones are being created, assign them  sick costumes until reaching the user-specified percentage of the population initially infected. <br />
-					<img class="indent" src="/bjc-r/img/5-algorithms/img_disease-spread/ifPercentage.png" height="185" alt=""/>
+					<img class="indent" src="/bjc-r/img/5-algorithms/img_disease-spread/ifPercentage.png" height="185" alt="switch to costume(healthy);if((infectedCounter)<((total)X((percentageInitiallyInfected)/100)){switch to costume(sick);change(infectedCounter) by (1)}" title="switch to costume(healthy);if((infectedCounter)<((total)X((percentageInitiallyInfected)/100)){switch to costume(sick);change(infectedCounter) by (1)}"/>
                 </li>
                 <li>
                     Give a random direction and location to clones initially, but once the timing starts, clones should move in a straight line with the user-specified speed until they hit an edge and bounce.
                 </li>
 				<li> 
                 	If a healthy sprite collides with a sick one, it should get sick. To do this, write code to detect collision with a sick person: <br />  
-                    <img class="indent" src="/bjc-r/img/5-algorithms/img_disease-spread/collideWithSick.png" width="631"  alt=""/><br />
-                    <div class="endnote">Build this block instead of using the <img src="/bjc-r/img/5-algorithms/img_disease-spread/touchingColor.png" height="36" alt=""/> block of the Sensing menu because Snap<em>!</em> can be very slow in sensing touching by color but is very fast sensing touching by sprite.</div>
+                    <img class="indent" src="/bjc-r/img/5-algorithms/img_disease-spread/collideWithSick.png" width="631"  alt="collideWithSick?{for each (item) of (my (neighbors)){if(touching(item)? and (costume name of (item)=sick)){report(true)}};report(false)}" title="collideWithSick?{for each (item) of (my (neighbors)){if(touching(item)? and (costume name of (item)=sick)){report(true)}};report(false)}"/><br />
+                    <div class="endnote">Build this block instead of using the <img src="/bjc-r/img/5-algorithms/img_disease-spread/touchingColor.png" height="36" alt="touching(red)?" title="touching(red)?"/> block of the Sensing menu because Snap<em>!</em> can be very slow in sensing touching by color but is very fast sensing touching by sprite.</div>
                 </li>
                 <li>Test your code to make sure that everything works as intended.</li>
             </ol>

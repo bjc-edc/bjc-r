@@ -30,7 +30,7 @@
                     Consider this <code>halts?</code> function. It takes two inputs, a function and an input value for that function, and it reports <code>true</code> if the function would report a value (and halt) or <code>false</code> if the function would run forever.<br />
                     <img class="indent" src="/bjc-r/img/5-algorithms/halts.png" alt="halts? (function) (input)" title="halts? (function) (input)" /><br />
 					For example, the function <code>round</code> will not run forever when given the input 7.5; it will report 8. So, <code>halts (round) (</code><var>7.5</var><code>)</code> will report <code>true</code> because <code>round (</code><var>7.5</var><code>)</code> will eventually halt.<br />
-                    <img class="indent" src="/bjc-r/img/5-algorithms/halts-reporting.png" alt="" title="" />
+                    <img class="indent" src="/bjc-r/img/5-algorithms/halts-reporting.png" alt="halts?(round())(7.5) reporting true" title="halts?(round())(7.5) reporting true" />
 					<div class="endnote">Note that <code>halts?</code> itself can't run forever. We are assuming that it always works, reporting an answer in a finite amount of time.</div>
                 </li>
             </ol>
@@ -38,7 +38,7 @@
         
 		<p>
             Then, Turing defined a function like this:<br />
-            <img class="indent" src="/bjc-r/img/5-algorithms/tester-halting.png" alt="tester(function)">
+            <img class="indent" src="/bjc-r/img/5-algorithms/tester-halting.png" alt="tester(function){if(halts?(function)(function){forever{}}else{report(true)}}" title="tester(function){if(halts?(function)(function){forever{}}else{report(true)}}">
         </p>
         <div class="forYouToDo">
             <ol start="2">
@@ -57,7 +57,7 @@
         
         <p>
             Turing then asked a question that makes the situation <em>exactly</em> like what Betsy said; he calls tester on <em>itself</em>:<br />
-            <img class="indent" src="/bjc-r/img/5-algorithms/testertester.png" alt="tester(tester)" title="tester(tester)" /><br />
+            <img class="indent" src="/bjc-r/img/5-algorithms/testertester.png" alt="tester(tester())" title="tester(tester())" /><br />
             Now, the <code>if</code> statement will ask if <code>tester</code> will halt (i.e., not run forever) if it's called with <code>tester</code> as input.
         </p>
         
@@ -69,7 +69,7 @@
                     <ol>
 						<li>Suppose <code>halts?</code> reports <code>true</code>. This would tell us that <code>tester(tester)</code> succeeds at reporting a value (it halts). Then <code>tester</code> takes the first branch of the <code>if</code>, and so <code>tester</code> loops forever (it doesn't halt).</li>
                         <li>Now suppose instead that <code>halts?</code> reports <code>false</code>. This would tell us that <code>tester(tester)</code> loops forever (it doesn't halt). In that case, <code>tester</code> takes the <code>else</code> branch, and reports <code>true</code> (it does halt). </li>
-						<img class="indent" src="/bjc-r/img/5-algorithms/tester-halting.png" alt="tester(function)">
+						<img class="indent" src="/bjc-r/img/5-algorithms/tester-halting.png" alt="tester(function){if(halts?(function)(function){forever{}}else{report(true)}}" title="tester(function){if(halts?(function)(function){forever{}}else{report(true)}}">
                     </ol>
                 </li>
             </ol>
