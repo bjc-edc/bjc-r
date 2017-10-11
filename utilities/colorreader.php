@@ -1,12 +1,14 @@
 <?php 
 
-// Written by Mary Fries, Oct 3, 2017
+// Written by Mary Fries, Oct 3-11, 2017
 // See also: http://php.net/manual/en/function.imagecolorat.php
 
-// initailize variable to hold image
+echo "<h2>Color version</h2>";
+
+// initialize variable to hold image
 $im = imagecreatefrompng("../img/6-computers/bjcfav_small.png");
 
-// initailize array to store colors
+// initialize array to store colors
 $color_array = array();
 
 // define funciton to make color values 3-digits
@@ -17,7 +19,7 @@ function pack8bitbyte($string) {
 	return $string;
 }
 
-// loop through columns
+// loop through columns (color version)
 for($y = 0; $y < imagesy($im); $y++) {
 	// initailize or re-initailize array to store row of colors
 	$row_array = array();
@@ -37,7 +39,6 @@ for($y = 0; $y < imagesy($im); $y++) {
 }
 
 
-$count = 0;
 
 // Now display the resulting binary sequence:
 // loop through columns
@@ -48,27 +49,46 @@ for($y = 0; $y < imagesy($im); $y++) {
 		for($n = 0; $n <= 2; $n++) {
 			// display each pixel component in binary
 			echo pack8bitbyte(decbin($color_array [$y][$x][$n]));
-			$count += 8;
 		}
 	}
 }
-echo "<br />" . $count;
 
-echo "<br /><br />fourth row:<br />";
+echo "<h2>B&W version</h2>";
 
-for($x = 0; $x < imagesx($im); $x++) {
-	for($n = 0; $n <= 2; $n++) {
-		echo $color_array [4][$x][$n] . " ";
+// initialize variable to hold image
+$imbw = imagecreatefrompng("../img/6-computers/bjcfav_small_bw.png");
+
+// initialize array to store B&W values
+$bw_array = array();
+
+// loop through columns (B&W version)
+for($y = 0; $y < imagesy($imbw); $y++) {
+	// initailize or re-initailize array to store row of colors
+	$row_array = array();
+	// loop through rows
+	for($x = 0; $x < imagesx($imbw); $x++) {
+		// get RGB value for pixel
+		$rgb = imagecolorat($imbw, $x, $y);
+		if ($rgb == 16777215) {
+			// if black, load "0" into row array
+			array_push($row_array, 0);
+		}
+		else {
+			// otherwise (should be white), load "1" into row array
+			array_push($row_array, 1);
+		}
 	}
-	echo "<br />";
+	// load row arraway into color array
+	array_push($bw_array, $row_array);
 }
-echo "<br /><br />fourth row:<br />";
 
-for($x = 0; $x < imagesx($im); $x++) {
-	for($n = 0; $n <= 2; $n++) {
-		echo pack8bitbyte(decbin($color_array [4][$x][$n])) . " ";
+// Now display the resulting binary sequence:
+// loop through columns
+for($y = 0; $y < imagesy($imbw); $y++) {
+	// loop through rows
+	for($x = 0; $x < imagesx($imbw); $x++) {
+		// display each pixel component
+		echo $bw_array [$y][$x];
 	}
-	echo "<br />";
 }
-
 ?>
