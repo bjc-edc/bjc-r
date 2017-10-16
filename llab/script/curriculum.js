@@ -28,6 +28,7 @@ llab.secondarySetUp = function() {
 
      // FIXME -- not sure this really belongs here as well.
      llab.addFeedback(document.title, llab.file, course);
+     llab.addFooter(); // Added by Mary Fries on 10/16/17
 
      /* This stuff should only happen on curriculum pages */
 
@@ -553,6 +554,10 @@ llab.addFeedback = function(title, topic, course) {
           return;
      }
 
+	 // Prevent Feedback Button on non Teacher Guide pages (Added by Mary Fries on 10/16/17)
+	 if (location.pathname.slice(0,25) != "/bjc-r/cur/teaching-guide") {
+		 return;
+	 }
 
      // TODO: Make this config
      var surveyURL = 'https://getfeedback.com/r/sPesM45m?PAGE=pageRep&TOPIC=topicRep&COURSE=courseRep&URL=urlRep';
@@ -589,10 +594,14 @@ llab.addFeedback = function(title, topic, course) {
                $('#fdbk').append(frame);
           }
      });
-	 //New footer content added by Mary on 1/20/16
-	 var footer = '<div class="footer" style="position:relative;"><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img class="imageLeft" alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><div style="position:absolute;left: 135px;"><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title"><em>Beauty and Joy of Computing</em></span> by <span xmlns:cc="http://creativecommons.org/ns#" property="cc:attributionName">University of California, Berkeley and Education Development Center, Inc.</span> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>. The development of this site is funded by the National Science Foundation under grant number 1441075. Any opinions, findings, and conclusions or recommendations expressed in this material are those of the author(s) and do not necessarily reflect the views of the National Science Foundation.</div></div>';
-     $(document.body).append(feedback).append(footer);
+     $(document.body).append(feedback);
 };
+
+// Footer content added by Mary on 1/20/16 was moved outside of feedback function by Mary on 10/16/17
+llab.addFooter = function() {
+     var footer = '<div class="footer" style="position:relative;"><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img class="imageLeft" alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><div style="position:absolute;left: 135px; margin-bottom: 20px;"><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title"><em>Beauty and Joy of Computing</em></span> by <span xmlns:cc="http://creativecommons.org/ns#" property="cc:attributionName">University of California, Berkeley and Education Development Center, Inc.</span> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>. The development of this site is funded by the National Science Foundation under grant number 1441075. Any opinions, findings, and conclusions or recommendations expressed in this material are those of the author(s) and do not necessarily reflect the views of the National Science Foundation.</div></div>';
+	$(document.body).append(footer);
+}
 
 /**
  *  Positions an image along the bottom of the lab page, signifying progress.
