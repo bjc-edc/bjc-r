@@ -560,7 +560,7 @@ llab.addFeedback = function(title, topic, course) {
 	 }
 
      // TODO: Make this config
-     var surveyURL = 'https://getfeedback.com/r/sPesM45m?PAGE=pageRep&TOPIC=topicRep&COURSE=courseRep&URL=urlRep';
+     var surveyURL = 'https://getfeedback.com/r/LRm9oI3N?PAGE=pageRep&TOPIC=topicRep&COURSE=courseRep&URL=urlRep';
      surveyURL = surveyURL.replace(/pageRep/g, encodeURIComponent(title))
                                 .replace(/topicRep/g, encodeURIComponent(topic))
                                 .replace(/courseRep/g, encodeURIComponent(course))
