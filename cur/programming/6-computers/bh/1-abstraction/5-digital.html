@@ -14,7 +14,25 @@ Why this?  This page is about the four levels of abstraction between the program
 <H2>The Digital Domain</H2>
 
 <p>We now move to the levels of abstraction between the program abstraction and the digital abstraction: architecture, components, chips, and logic gates.</p>
-<p>&nbsp;</p>
+
+<h3>Architecture</h3>
+
+<p>What's an architecture? It's an abstraction that specifies the machine language, the instructions that the hardware will understand; it tells how the processor connects to the memory; but it doesn't include actual circuitry, which comes at a lower level of abstraction.</p>
+<p>For example, most computer processors (the part that carries out instructions) in desktop or laptop computers use an architecture designed at Intel, a chip manufacturer, called &quot;x86.&quot; The first processor using that architecture was called the 8086, released in 1978. Since then, there have been many refinements of the architecture, but they're almost always <em>backward compatible,</em> meaning that a program written for the 8086 will still run on today's versions of x86.</p>
+<p>One important part of an architecture is the number of wires that run in parallel between the processor and the memory. This is called the <em>width</em> of the architecture, measured in <em>bits.</em> The original 8086 was a 16-bit architecture; since then 32-bit (since 1985) and 64-bit (since 2003) versions have been developed.</p>
+
+<h4>The memory hierarchy</h4>
+<p>For a given level of circuit hardware, <strong>the bigger the memory, the slower it works.</strong> For this reason, computers don't just have one big chunk of memory. There will be a small number of <em>registers</em> inside the processor itself: between 8 and 16 of them in x86 computers. The size of a register is generally equal to the width of the architecture.</p>
+<p>The computer's main memory, these days, is measured in GB (gigabytes, or billions of bytes). A memory of that size can't be fast enough to keep up with a modern processor. Luckily, computer programs generally have <em>locality of reference,</em> which means that if the program has just made use of a particular memory location, it's probably going to use a nearby location next. So a complete program may be very big, but only a small part of it will be needed over the course of a second or so. Therefore, between the processor and the memory will be one or more <em>cache</em> memories, much smaller than the main memory, and therefore faster. The processor makes sure that the most recently used memory is copied into the cache. One recent 64-bit x86 processor has a first level (L1) cache of 64KB (thousands of bytes) inside the processor chip, a larger but slower L2 cache of 256 KB, also inside the processor, and an L3 cache of up to 2 MB (megabytes, millions of bytes) outside the processor. Each level of cache has a copy of the most recently used parts of the next level outward: the L1 cache copies part of the L2 cache, which copies part of the L3 cache, which copies part of the main memory. Data in the L1 cache can be accessed by the processor about as fast as its internal registers, and each level outward is a little slower.</p>
+
+<h4>Second sourcing</h4>
+
+<p>Intel licenses other chip manufacturers to build processors that use the same architecture as Intel's processors. Why do they do that? Wouldn't they make more money if people had to buy from Intel? The reason is that computer manufacturers, such as Dell, Apple, and Lenovo, won't build their systems around an architecture that is only available from one company. They're not worried that Intel will go out of business; the worry is that there may be a larger-than-expected demand for a particular processor, and Intel may not be able to fill orders on time. But if that processor is also available from other companies such as AMD and Cyrix, then a delay at Intel won't turn into a delay at Dell. Those other chip manufacturers may not use the same circuitry as the Intel version, as long as they behave the same at the architecture level.</p>
+
+<h3>Components</h3>
+
+<p>For as long as people have been teaching other people about computers, one thing they always say is &quot;A computer consists of the processor, memory, and input/output devices.&quot; </p>
+<p>to be continued...</p>
 
 </body>
 </html>
