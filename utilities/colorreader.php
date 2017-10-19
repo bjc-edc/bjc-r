@@ -3,10 +3,11 @@
 // Written by Mary Fries, Oct 3-11, 2017
 // See also: http://php.net/manual/en/function.imagecolorat.php
 
-echo "<h2>Color version</h2>";
-
 // initialize variable to hold image
-$im = imagecreatefrompng("../img/6-computers/bjcfav_small.png");
+$png = "../img/6-computers/bjcfav_small.png";
+echo "<h2>Color version: " . $png . "</h2>";
+$im = imagecreatefrompng($png);
+
 
 // initialize array to store colors
 $color_array = array();
@@ -53,10 +54,11 @@ for($y = 0; $y < imagesy($im); $y++) {
 	}
 }
 
-echo "<h2>B&W version</h2>";
 
 // initialize variable to hold image
-$imbw = imagecreatefrompng("../img/6-computers/bjcfav_small_bw.png");
+$pngbw = "../img/6-computers/bjcfav_small_bw.png";
+echo "<h2>B&W version: " . $pngbw . "</h2>";
+$imbw = imagecreatefrompng($pngbw);
 
 // initialize array to store B&W values
 $bw_array = array();
