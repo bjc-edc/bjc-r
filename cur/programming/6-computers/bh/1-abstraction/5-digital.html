@@ -99,14 +99,6 @@ Why this?  This page is about the four levels of abstraction between the program
     <p><strong>Monitor:</strong> An output device where the computer visually displays information for the user.  The size of the screen is measured in inches using the diagonal distance between opposite corners.</p>
     </div>
     <div class="hoverinfo">
-    <area shape="rect" coords="335,245,373,276" href="#">
-    <p><strong>System Software:</strong> A program that manages and operates computer hardware and provides a platform for application software.  Examples are operating systems such as Mac OS X, Windows, Linux.</p>
-    </div>
-    <div class="hoverinfo">
-    <area shape="rect" coords="420,209,452,240" href="#">
-    <p><strong>Application Software:</strong> A program created for users to enable them in the performance of specific tasks.  Examples are word processors, computer games, graphing programs, media players.</p>
-    </div>
-    <div class="hoverinfo">
     <area shape="rect" coords="430,330,464,361" href="#">
     <p><strong>Keyboard:</strong> An input device on which the user can type and communicate with the computer.</p>
     </div>
@@ -127,7 +119,28 @@ Why this?  This page is about the four levels of abstraction between the program
     <div id="hint-target" class="collapse"><a href="https://en.wikipedia.org/wiki/Computer_hardware#/media/File:Personal_computer,_exploded_6.svg" target="_blank">Wikipedia user HereToHelp</a></div>
   </div>
   <img class="indent" src="/bjc-r/img/6-computers/Hardware_img/ComputerComponents.png" alt="Computer Components" title="Computer Components" height="400" usemap="#Map" style="min-width:665px;position:relative;">
-</ol>
+</ol></div>
 
+<h3>Integrated Circuits</h3>
+<p>The fundamental enabling technology for the computer age was the <em>transistor.</em> A transistor is an amplifier: A small change in its input causes a bigger change in its output. But in computer circuits, transistors are used as remote-control switches: The input either does or doesn't have voltage coming in, and the output does the same, but at higher power, similar to the way a light switch on the wall can control a high-power light bulb in the ceiling. We'll revisit how transistors function on the next page.</p>
+<p>The transistor was invented in 1947 by John Bardeen, Walter Brattain, and William Shockley at Bell Laboratories, also the home of Unix.  The inventors were awarded the 1956 Nobel Prize in Physics for this work.</p>
+<p>At first, each transistor was in a separate plastic package. Here's a picture of a circuit made with discrete (separate) transistors:</p>
+<p><img src="/bjc-r/img/6-computers/discrete-transistor-adder.jpg" alt="discrete transistor circuit"><br />
+<small>Photo and circuit construction by Simon Inns.  License: CC-BY-SA.  Downloaded from http://www.waitingforfriday.com.</small></p>
+<p>In this picture, the transistors are the black, D-shaped parts. The brown more-or-less cylindrical parts are <em>resistors,</em> a much simpler component that has been around about as long as electricity. The dark lines you can see through the circuit board are wires, printed onto the board. If your classroom printer had liquid silver ink, it could make circuit boards like this. All the components (transistors and resistors) are on the front of the board. The wires from these components (one at each end of a resistor, three close together on the flat side of a transistor) go through the board, where they are soldered (a kind of hot metallic glue) to the circuit board's wiring. A few wires are on the front side of the board, because otherwise the circuit couldn't be made without printed wires crossing each other.</p>
+<p>The IBM 7090, developed in 1959, was built out of discrete transistors — over 50,000 of them. As you can imagine, this machine was large and expensive: about three million dollars, equivalent to over $55 million today. In those days, almost everyone thought that computers would be used only by large corporations or governments.</p>
+<p>In order to have the modern computer age, in which many people carry extremely powerful computers in their pockets (their cell phones), circuits had to become much smaller and cheaper. The way this happened was through the invention of the <em>integrated circuit </em>(&quot;IC&quot; or &quot;chip&quot;). There wasn't a single definitive invention; the first relevant work was done in 1949, and techniques to fit components more closely in a chip are still being developed. But the Nobel Prize went to Jack Kilby, in 2000, for his 1958 demonstration of a working IC.</p>
+<p>Early ICs could include only a few transistors. The circuit in the photo above could just about fit in one IC in the early 1960s, but progress was quick, and the first one-chip computer processor, the Intel 4004, was designed in 1969-1970. It had about 2300 transistors, and took up well under one square inch. It was called the &quot;4004&quot; because it had a four-bit bus architecture, so it wasn't very powerful as computers go. But progress was quick; the eight-bit Intel 8008, with 3500 transistors on the chip, came out in 1972. The Intel 8086, their first 16-bit-wide microprocessor, came out in 1978 and had about 20,000 transistors.  A variant version called the 8088 was used in the first IBM PC. The Motorola 68000, with 40,000 transistors, came out in 1979, and was used in several manufacturers' Unix workstations and in the early versions of the Apple Macintosh.</p>
+<p>The largest processor chip in 2017, the AMC Epyc, has more than <em>19 billion</em> transistors!</p>
+
+<h3>Logic Gates</h3>
+
+<p>In a circuit with billions of transistors, or even thousands of transistors, hardware designers can't think about each individual transistor. Just as programmers use abstraction, hardware architects use abstractions, in which a group of transistors and other circuit elements are considered as a single thing. What kinds of things? There are basically two kinds, one for memory and one for computation.
+<p>Memory is made out of <em>flip-flops.</em>
+(They're officially called &quot;bistable multivibrators&quot; but you can see why nobody actually uses that name.) A flip-flop is a circuit that has two stable states, on and off. An input signal can tell it to change state, or to become on, or to become off.  Once that happens, the flip-flop stays in that state until it gets another signat. It has an output that reflects its state: on if the flip-flop is on, off if it's off.
+<p>A flip-flop is generally made out of four transistors. A <em>register</em> in the processor is a group of flip-flops. If it's a 32-bit processor, a register is 32 flip-flops, and the same for other processor widths.
+<p>The circuits to do computation are more interesting. They compute <em>functions,</em> just like reporters in Snap<em>!</em>. Since computers do a lot of arithmetic, you might think that the basic circuit functions would be addition, subtraction, multiplication, and division, but that's not the case. Of course there <em>are</em> circuits to do those things, but they're made out of <em>logic gates:</em> circuits that compute Boolean functions: <code>and</code>, <code>or</code>, and <code>not</code>. The reason that Boolean functions are considered more fundamental is that their inputs and outputs can be represented with a single wire going into or out from the circuit.  That's not true about arithmetic functions.  If you consider a voltage on a wire as meaning 1, and no voltage as meaning 0, then you have to see that an adder will have <em>three</em> possible output values, because 1+1=2, which is neither 0 nor 1.  By contrast, if you consider a voltage on a wire as meaning True, and no voltage as meaning False, then the output from a Boolean function of two inputs can still only be True or False, so only one output wire is needed.
+<p>In Lab 2 of this unit, you'll learn how numbers are represented using groups of wires, using <em>binary</em> representation.  In Lab 3, you'll learn how a handful of Boolean functions can be hooked up together, like composition of functions in Snap<em>!</em> programs, to make arithmetic circuits, such as an <em>adder,</em>
+which computes the sum of two numbers.
 </body>
 </html>
