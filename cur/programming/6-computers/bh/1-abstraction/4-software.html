@@ -27,6 +27,62 @@ Why this?  This page is about the two levels of abstraction above the program ab
 <p>When the application has all that under control, it has to know how to put the picture up on the actual screen.</p>
 <p>We could tell an equally complicated story about any of the other tasks a program may have to carry out. For example, how does the program find out where the mouse pointer is?</p>
 <p>No software would ever get developed if application programmers had to deal with all of these details in every program. Instead, some programmers write <em>libraries</em> that other programmers can include in their programs. You've used Snap<em>!</em> libraries in some projects. Also, some programming languages have abstractions built in that make certain tasks easier. For example, what happens if an application programmer wants a little picture to be able to move around in a screen that also has other pictures in it? Snap<em>!</em> lets you import a picture as a <em>costume</em> that can be attached to a sprite, and then you move the picture by moving the sprite. The language worries about which picture is in front of which other picture for you. Other languages may or may not include a sprite abstraction.</p>
+
+<h4>Data Compression</h4>
+<p>Why <em>are</em> there so many picture formats, anyway? There are several reasons, including bad ones such as the &quot;Not Invented Here syndrome&quot; in which developers are reluctant to use a standard that they didn't invent themselves. But we're going to focus on one good reason: <strong>data compression algorithms</strong>.</p>
+<p>Here's a picture of the BJC logo:</p>
+<img class="indent noshadow" src="/bjc-r/img/6-computers/bjc-logo-original.png" alt="BJC logo uncompressed" title="BJC logo uncompressed" />
+<p>This picture is 158 pixels wide, and 186 pixels tall, for a total of 29,388 pixels. The BMP (bitmap) format includes each of those pixels in the picture file, at four bytes per pixel, so the file size is about 120kB.</p>
+<p>But this is an inefficient way to store the information. That's especially true for a cartoon-like picture such as this one. Think about the 158 pixels in the top row. The first 60 or so are transparent (so that the logo can be used on a non-white background). Then come a few pixels of the Snap<em>!</em> Control-colored &quot;b.&quot; And the rest are transparent. So instead of 158×4 bytes, this row could be represented in 6×4 bytes using <em>run-length encoding:</em></p>
+
+<ul>
+<li>A four-byte number of pixels (60).</li>
+<li>The fout-byte representation for a transparent pixel.</li>
+<li>A four-byte number of pixels (5).</li>
+<li>The four-byte representation for that orange color.</li>
+<li>A four-byte number of pixels to finish the row (93).</li>
+<li>The fout-byte representation for a transparent pixel.</li>
+</ul>
+
+
+<p>Not all the rows are that simple, but the largest number of different colors on one row, not counting the transparent parts, is seven, in rows that include two parts of the &quot;c&quot; colors (red and orange). That's 15 color runs, including the transparent ones, so 15 run lengths and 15 colors, for a total of 30×4 bytes. If we approximate the file size by assuming that every row is that complicated, we get 186×30×4 = 22.3 kB, a reduction to about 1/6 of the space needed for the full bitmap picture. (These days, the size of one picture isn't so significant, but think about every frame of a movie, and think about the time required to send the information over the Internet.)</p>
+<p>It's important to note that run-length encoding does not <em>lose</em> any information. The original picture can be reconstructed with every pixel exactly correct. This is an example of <em>lossless compression.</em></p>
+<p>Run-length encoding doesn't do so well if the picture is a photograph, in which every pixel may be slightly different in color from its neighbors. (If every run length is just one pixel, run-length encoding will double the size of the file.) But the PNG  (Portable Network Graphics, pronounced &quot;ping&quot;) encoding does lossless compression of arbitrary pictures. Its algorithm is quite complicated to describe, because it uses several different strategies depending on how much variation in color there is in each small chunk of the image. But you don't have to know the details, just remember that PNG is a lossless format. The PNG version of the BJC logo is about 39 kB, larger than run-length encoding (for this simple image) but still a lot smaller than the 120 kB bitmap version.</p>
+<p>Some other compression algorithms use <strong>lossy compression</strong>. This means that file size can be even smaller than with lossless compression, but the original picture can't be perfectly reconstructed; information is lost. This sounds terrible, and it <em>would</em> be terrible if these algorithms were used to compress a computer program or a novel. But it turns out that people's perception of pictures does not really depend on extreme precision.</p>
+<p>Here's an example. The most commonly used lossy compression algorithm for pictures is called JPEG (for &quot;Joint Photographic Experts Group,&quot; the commitee that invented it; pronounced &quot;jay peg&quot;) or JPG. Like most lossy algorithms, it has a controllable degree of precision. Below are two versions of a picture. The size of the picture is 512×384 pixels. Here are the file sizes in various formats:</p>
+<table width="56%" border="4" cellspacing="8" summary="compression factors example">
+  <tr>
+    <th scope="col">format</th>
+    <th scope="col">size</th>
+  </tr>
+  <tr>
+    <td>BMP</td>
+    <td>590 kB</td>
+  </tr>
+  <tr>
+    <td>PNG</td>
+    <td>441 kB</td>
+  </tr>
+  <tr>
+    <td>JPEG best</td>
+    <td>390 kB</td>
+  </tr>
+  <tr>
+    <td>JPEG worst</td>
+    <td>21 kB</td>
+  </tr>
+</table>
+<p>"Best" and &quot;worst&quot; are according to the settings available in the Preview program on my Macintosh. Notice how tiny the JPEG worst file is! It must look terrible, right? Here are a section from that 21kB file and the original, uncompressed BMP file. Can you tell which is which?</p>
+<p><img src="/bjc-r/img/6-computers/pond.bmp" alt="pond"><img src="/bjc-r/img/6-computers/pond.jpg" alt="pond"></p>
+<p>&nbsp;</p>
+<div class="vocabFullWidth"><strong>: Lossy vs. Lossless</strong>
+  <p><strong>Lossless</strong> compression (like PNG) is <em>reversible</em> (there is no loss in quality); you can reconstruct the original data. It works by removing redundant data.</p>
+  <p><strong>Lossy</strong> compression (like JPG) is <em>not</em> fully reversible; you can only reconstruct an <em>approximation</em> of the original data. It works by removing irrelevant data (details that people aren't likely to notice).</p>
+  <p>There are trade-offs with each technique: lossless compression maintains the original data but might not be able to compress the data much or at all; lossy compression often results in a smaller file but may have artifacts (quality issues from the compression).</p>
+</div>
+
+
+
 <h4>High and Low Level Languages</h4>
 <p>A <em>high level language</em> is a programming language that includes many abstractions, of which the sprite abstraction is one example, that make it easier to talk about the problem you want to solve rather than talk about how the computer hardware works. A <em>low level language</em> is one with few abstractions, so you have to know a lot about the architecture of your computer to write a program for it.</p>
 <p>So why would anyone ever want to use a low level language? The best answer to this question is &quot;in order to write an operating system,&quot; as discussed below. But there are less-good reasons:</p>
