@@ -5,129 +5,142 @@
 		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
 		<title>Unit 6 Lab 1: Computer Abstraction Hierarchy, Page 5</title>
 	</head>
-<body>
-    <div class="todo">
-Why this?  This page is about the four levels of abstraction between the program abstraction and the digital abstraction, from the chart on page 1.
-<p>Why here?  There will be three pages, including this one, about the parts of the abstraction hierarchy separated by the two major abstraction barriers, going from top to bottom.</p>
-<p>2.2.3F A logic gate is a hardware abstraction that is modeled by a Boolean function.<br />
-2.2.3G A chip is an abstraction composed of low level components and circuits that perform a specific function<br />
-5.2.1F Processes use memory, a central processing unit (CPU), and input and output.
-</p>
-</div>
-
-<H2>The Digital Domain</H2>
-
-<p>We now move to the levels of abstraction between the program abstraction and the digital abstraction: architecture, components, chips, and logic gates.</p>
-
-<h3>Architecture</h3>
-
-<p>What's an architecture? It's an abstraction that specifies the machine language, the instructions that the hardware will understand; it tells how the processor connects to the memory; but it doesn't include actual circuitry, which comes at a lower level of abstraction.</p>
-<p>For example, most computer processors (the part that carries out instructions) in desktop or laptop computers use an architecture designed at Intel, a chip manufacturer, called &quot;x86.&quot; The first processor using that architecture was called the 8086, released in 1978. Since then, there have been many refinements of the architecture, but they're almost always <em>backward compatible,</em> meaning that a program written for the 8086 will still run on today's versions of x86.</p>
-<p>One important part of an architecture is the number of wires that run in parallel between the processor and the memory. This is called the <em>width</em> of the architecture, measured in <em>bits.</em> The original 8086 was a 16-bit architecture; since then 32-bit (since 1985) and 64-bit (since 2003) versions have been developed.</p>
-
-<h4>The memory hierarchy</h4>
-<p>For a given level of circuit hardware, <strong>the bigger the memory, the slower it works.</strong> For this reason, computers don't just have one big chunk of memory. There will be a small number of <em>registers</em> inside the processor itself: between 8 and 16 of them in x86 computers. The size of a register is generally equal to the width of the architecture.</p>
-<p>The computer's main memory, these days, is measured in GB (gigabytes, or billions of bytes). A memory of that size can't be fast enough to keep up with a modern processor. Luckily, computer programs generally have <em>locality of reference,</em> which means that if the program has just made use of a particular memory location, it's probably going to use a nearby location next. So a complete program may be very big, but only a small part of it will be needed over the course of a second or so. Therefore, between the processor and the memory will be one or more <em>cache</em> memories, much smaller than the main memory, and therefore faster. The processor makes sure that the most recently used memory is copied into the cache. One recent 64-bit x86 processor has a first level (L1) cache of 64KB (thousands of bytes) inside the processor chip, a larger but slower L2 cache of 256 KB, also inside the processor, and an L3 cache of up to 2 MB (megabytes, millions of bytes) outside the processor. Each level of cache has a copy of the most recently used parts of the next level outward: the L1 cache copies part of the L2 cache, which copies part of the L3 cache, which copies part of the main memory. Data in the L1 cache can be accessed by the processor about as fast as its internal registers, and each level outward is a little slower.</p>
-
-<h4>Second sourcing</h4>
-
-<p>Intel licenses other chip manufacturers to build processors that use the same architecture as Intel's processors. Why do they do that? Wouldn't they make more money if people had to buy from Intel? The reason is that computer manufacturers, such as Dell, Apple, and Lenovo, won't build their systems around an architecture that is only available from one company. They're not worried that Intel will go out of business; the worry is that there may be a larger-than-expected demand for a particular processor, and Intel may not be able to fill orders on time. But if that processor is also available from other companies such as AMD and Cyrix, then a delay at Intel won't turn into a delay at Dell. Those other chip manufacturers may not use the same circuitry as the Intel version, as long as they behave the same at the architecture level.</p>
-
-<h3>Components</h3>
-
-<p>For as long as people have been teaching other people about computers, one thing they always say is &quot;A computer consists of the processor, memory, and input/output devices.&quot; </p>
-<p>In the early days of computers, it was easy to point out the huge racks of equipment that contained each of those three components:</p>
-<p><img src="/bjc-r/img/6-computers/pdp-10.jpg" alt="PDP-10"></p>
-<p><img src="/bjc-r/img/6-computers/pdp-10-disks.jpg" alt="PDP-10 I/O"></p>
-
-<p>These are pictures of the Digital Equipment Corporation PDP-10 computer, from the 1970s. Each of the big racks full of circuitry is about the size of a refrigerator.  Today, a processor takes up a square about 1½ inches on a side, <em>including</em> two levels of cache memory.  The full main memory today will occupy one or two rectangular circuit boards about 1 inch by 3 inches.</p>
-<p>Even though they're harder to see today, the processor and memory are still the most important things to understand in an architecture. But the visible parts of a computer are also important:
-
-<div class="forYouToDo" id="first">
-<ol>
-  <li>Hover the mouse over the number next to each computer component to learn about it.  You can also use this<a href="/bjc-r/cur/programming/6-computers/1-hierarchy/1c-ComputerComponents.pdf" target="_blank"> PDF document</a> to learn about these computer components.</li>
-  <map name="Map">
-    <div class="hoverinfo">
-    <area shape="rect" coords="6,351,32,377" href="#">
-    <p><strong>Scanner:</strong> An input device that can optically scan an image, a writing etc. and convert it to a digital image that can be stored in the computer.</p>
-    </div>
-    <div class="hoverinfo">
-    <area shape="rect" coords="141,4,172,29" href="#">
-    <p> <strong>CPU:</strong>(Central Processing Unit) A microprocessor chip which is the brain of the computer where all computing is done.  Best CPU's can simultaneously perform multiple tasks.  It is one of the most expensive parts of the hardware.  Its speed is measured in gigahertz (GHz).<br />
-      <img class="indent" src="/bjc-r/img/6-computers/Hardware_img/CPU.jpg"  height="150" alt="CPU" title="CPU"/><br />
-      <!--<a href="https://en.wikipedia.org/wiki/Central_processing_unit#/media/File:Intel_80486DX2_bottom.jpg" target="_blank">-->
-      Image credit: Wikipedia user Solipsist</a>. </p>
-    </div>
-    <div class="hoverinfo">
-    <area shape="rect" coords="143,60,169,90" href="#">
-    <p> <strong>RAM:</strong> (Random Access Memory) Computer's short-term memory.  It temporarily stores data and instructions for programs that run on the computer.  Its capacity is measured in gigabytes (GB) and its speed is measured in megahertz (MHz).<br />
-      <img class="indent" src="/bjc-r/img/6-computers/Hardware_img/RAM.jpg" height="200" alt="RAM"/><br />
-      <!--<a href="https://en.wikipedia.org/wiki/Random-access_memory#/media/File:Memory_module_DDRAM_20-03-2006.jpg" target="_blank">-->
-      Image credit: Wikipedia user Cyberdex</a> </p>
-    </div>
-    <div class="hoverinfo">
-    <area shape="rect" coords="108,102,133,129" href="#">
-    <p> <strong>Expansion cards:</strong> A circuit board that can be inserted to add functionality to a computer system. <br />
-      <img class="indent" src="/bjc-r/img/6-computers/Hardware_img/ExpansionCard.jpg"  height="200" alt="Expansion Card" title="Expansion Card"/><br />
-      <!--<a href="https://en.wikipedia.org/wiki/Expansion_card#/media/File:Chassis-plans-Digital-IO-Card.jpg" target="_blank">-->
-      Image credit: Wikipedia user Rackmount-guy</a>. </p>
-    </div>
-    <div class="hoverinfo">
-    <area shape="rect" coords="60,137,87,164" href="#">
-    <p><strong>Power supply unit:</strong> It provides access to electricity which is the energy lifeline for all the components.</p>
-    </div>
-    <div class="hoverinfo">
-    <area shape="rect" coords="135,239,161,267" href="#">
-    <p><strong>Optical Disc Drive:</strong> Input/output device capable of reading data from and writing data to CDs and DVDs.</p>
-    </div>
-    <div class="hoverinfo">
-    <area shape="rect" coords="166,307,196,332" href="#">
-    <p> <strong>Hard Drive:</strong> Long term memory of the computer.  It has a rotating disk platter under a mechanical arm for reading and writing data to the drive.  Its storage capacity is measured in gigabytes (GB).<br />
-      <img class="indent" src="/bjc-r/img/6-computers/Hardware_img/HardDiskDrive.gif"  height="200" alt="Hard drive" title="Hard drive"/><br />
-      <!--<a href="https://en.wikipedia.org/wiki/File:HardDisk1.ogv" target="_blank">-->
-      Video credit: Wikipedia user Peter17</a> </p>
-    </div>
-    <div class="hoverinfo">
-    <area shape="rect" coords="251,21,280,52" href="#">
-    <p> <strong>Motherboard:</strong>An electronic circuit board that holds and connects different components of the computer and allows their communication.<br />
-      <img class="indent" src="/bjc-r/img/6-computers/Hardware_img/Motherboard.JPG"  height="200" alt="Motherboard" title="Motherboard"/><br />
-      <!--<a href="https://en.wikipedia.org/wiki/Motherboard#/media/File:Intel_D945GCPE_Board.JPG" target="_blank">-->
-      Image credit: Wikipedia user Julianprescott2604juuly</a>. </p>
-    </div>
-    <div class="hoverinfo">
-    <area shape="rect" coords="266,178,296,204" href="#">
-    <p><strong>Speaker:</strong> A device through which the computer outputs sound.</p>
-    </div>
-    <div class="hoverinfo">
-    <area shape="rect" coords="319,131,353,161" href="#">
-    <p><strong>Monitor:</strong> An output device where the computer visually displays information for the user.  The size of the screen is measured in inches using the diagonal distance between opposite corners.</p>
-    </div>
-    <div class="hoverinfo">
-    <area shape="rect" coords="430,330,464,361" href="#">
-    <p><strong>Keyboard:</strong> An input device on which the user can type and communicate with the computer.</p>
-    </div>
-    <div class="hoverinfo">
-    <area shape="rect" coords="496,292,532,326" href="#">
-    <p><strong>Mouse:</strong> An input device that allows the user to visually interact with graphical objects displayed on the monitor.</p>
-    </div>
-    <div class="hoverinfo">
-    <area shape="rect" coords="528,252,563,282" href="#">
-    <p><strong>External Hard Drive:</strong> A supplementary hard disk that typically connects to a computer through the USB port and allows for extra data storage.  It can be used as an input or an output device.</p>
-    </div>
-    <div class="hoverinfo">
-    <area shape="rect" coords="569,235,599,270" href="#">
-    <p><strong>Printer:</strong> A device that gives you printed output.</p>
-    </div>
-  </map>
-  <div class="sidenote"> <a href="#hint-target" data-toggle="collapse">Image credit</a>
-    <div id="hint-target" class="collapse"><a href="https://en.wikipedia.org/wiki/Computer_hardware#/media/File:Personal_computer,_exploded_6.svg" target="_blank">Wikipedia user HereToHelp</a></div>
-  </div>
-  <img class="indent" src="/bjc-r/img/6-computers/Hardware_img/ComputerComponents.png" alt="Computer Components" title="Computer Components" height="400" usemap="#Map" style="min-width:665px;position:relative;">
+    <body>
+        <div class="todo">
+            <p>Why this?  This page is about the four levels of abstraction between the program abstraction and the digital abstraction, from the chart on page 1.</p>
+            <p>Why here?  There will be three pages, including this one, about the parts of the abstraction hierarchy separated by the two major abstraction barriers, going from top to bottom.</p>
+            <p>
+                2.2.3F A logic gate is a hardware abstraction that is modeled by a Boolean function.<br />
+                2.2.3G A chip is an abstraction composed of low level components and circuits that perform a specific function<br />
+                5.2.1F Processes use memory, a central processing unit (CPU), and input and output.
+            </p>
+        </div>
+        
+        <h2>The Digital Domain</h2>
+        <p>We now move to the levels of abstraction between the program abstraction and the digital abstraction: architecture, components, chips, and logic gates.</p>
+        
+        <h3>Architecture</h3>
+        <p>What's an architecture? It's an abstraction that specifies the machine language, the instructions that the hardware will understand; it tells how the processor connects to the memory; but it doesn't include actual circuitry, which comes at a lower level of abstraction.</p>
+        <div class="endnote">
+            <a href="#hint-architecture" data-toggle="collapse">Learn about the PC/Mac architecture.</a>
+            <div id="hint-architecture" class="collapse">For example, most computer processors (the part that carries out instructions) in desktop or laptop computers use an architecture designed at Intel, a chip manufacturer, called "x86." The first processor using that architecture was called the 8086, released in 1978. Since then, there have been many refinements of the architecture, but they're almost always <em>backward compatible,</em> meaning that a program written for the 8086 will still run on today's versions of x86.</div>
+        </div>
+        <p>One important part of an architecture is the number of wires that run in parallel between the processor and the memory. This is called the <em>width</em> of the architecture, measured in <em>bits.</em> The original 8086 was a 16-bit architecture; since then 32-bit (since 1985) and 64-bit (since 2003) versions have been developed.</p>
+        
+        <h4>The memory hierarchy</h4>
+        <p>For a given level of circuit hardware, <strong>the bigger the memory, the slower it works.</strong> For this reason, computers don't just have one big chunk of memory. There will be a small number of <em>registers</em> inside the processor itself: between 8 and 16 of them in x86 computers. The size of a register is generally equal to the width of the architecture.</p>
+        <p>The computer's main memory, these days, is measured in GB (gigabytes, or billions of bytes). A memory of that size can't be fast enough to keep up with a modern processor. Luckily, computer programs generally have <em>locality of reference,</em> which means that if the program has just made use of a particular memory location, it's probably going to use a nearby location next. So a complete program may be very big, but only a small part of it will be needed over the course of a second or so. Therefore, between the processor and the memory will be one or more <em>cache</em> memories, much smaller than the main memory, and therefore faster. The processor makes sure that the most recently used memory is copied into the cache. One recent 64-bit x86 processor has a first level (L1) cache of 64KB (thousands of bytes) inside the processor chip, a larger but slower L2 cache of 256 KB, also inside the processor, and an L3 cache of up to 2 MB (megabytes, millions of bytes) outside the processor. Each level of cache has a copy of the most recently used parts of the next level outward: the L1 cache copies part of the L2 cache, which copies part of the L3 cache, which copies part of the main memory. Data in the L1 cache can be accessed by the processor about as fast as its internal registers, and each level outward is a little slower.</p>
+        
+        <h4>Second sourcing</h4>
+        <p>Intel licenses other chip manufacturers to build processors that use the same architecture as Intel's processors. Why do they do that? Wouldn't they make more money if people had to buy from Intel? The reason is that computer manufacturers, such as Dell, Apple, and Lenovo, won't build their systems around an architecture that is only available from one company. They're not worried that Intel will go out of business; the worry is that there may be a larger-than-expected demand for a particular processor, and Intel may not be able to fill orders on time. But if that processor is also available from other companies such as AMD and Cyrix, then a delay at Intel won't turn into a delay at Dell. Those other chip manufacturers may not use the same circuitry as the Intel version, as long as they behave the same at the architecture level.</p>
+        
+        <h3>Components</h3>
+        <p>For as long as people have been teaching other people about computers, one thing they always say is "A computer consists of the processor, memory, and input/output devices." </p>
+        <p>
+            In the early days of computers, it was easy to point out the huge racks of equipment that contained each of those three components:<br />
+            <img class="indent" width="400px" src="/bjc-r/img/6-computers/pdp-10.jpg" alt="PDP-10">
+            <img class="inline" width="360px" src="/bjc-r/img/6-computers/pdp-10-disks.jpg" alt="PDP-10 I/O">
+        </p>
+        
+        <p>These are pictures of the Digital Equipment Corporation PDP-10 computer, from the 1970s. Each of the big racks full of circuitry is about the size of a refrigerator.  Today, a processor takes up a square about 1½ inches on a side, <em>including</em> two levels of cache memory.  The full main memory today will occupy one or two rectangular circuit boards about 1 inch by 3 inches.</p>
+        <p>Even though they're harder to see today, the processor and memory are still the most important things to understand in an architecture. But the visible parts of a computer are also important.</p>
+        
+        <div class="forYouToDo" id="first">
+            <ol>
+                <li>Hover the mouse over the number next to each computer component to learn about it.  You can also use this<a href="/bjc-r/cur/programming/6-computers/1-hierarchy/1c-ComputerComponents.pdf" target="_blank"> PDF document</a> to learn about these computer components.</li>
+                <map name="Map">
+                    <div class="hoverinfo">
+                        <area shape="rect" coords="6,351,32,377" href="#">
+                        <p><strong>Scanner:</strong> An input device that can optically scan an image, a writing etc. and convert it to a digital image that can be stored in the computer.</p>
+                    </div>
+                    <div class="hoverinfo">
+                        <area shape="rect" coords="141,4,172,29" href="#">
+                        <p> 
+                            <strong>CPU:</strong>(Central Processing Unit) A microprocessor chip which is the brain of the computer where all computing is done.  Best CPU's can simultaneously perform multiple tasks.  It is one of the most expensive parts of the hardware.  Its speed is measured in gigahertz (GHz).<br />
+                            <img class="indent" src="/bjc-r/img/6-computers/Hardware_img/CPU.jpg"  height="150" alt="CPU" title="CPU"/><br />
+                            <!--<a href="https://en.wikipedia.org/wiki/Central_processing_unit#/media/File:Intel_80486DX2_bottom.jpg" target="_blank">-->
+                            Image credit: Wikipedia user Solipsist<!--</a>-->. 
+                        </p>
+                    </div>
+                    <div class="hoverinfo">
+                        <area shape="rect" coords="143,60,169,90" href="#">
+                        <p> 
+                            <strong>RAM:</strong> (Random Access Memory) Computer's short-term memory.  It temporarily stores data and instructions for programs that run on the computer.  Its capacity is measured in gigabytes (GB) and its speed is measured in megahertz (MHz).<br />
+                            <img class="indent" src="/bjc-r/img/6-computers/Hardware_img/RAM.jpg" height="200" alt="RAM"/><br />
+                            <!--<a href="https://en.wikipedia.org/wiki/Random-access_memory#/media/File:Memory_module_DDRAM_20-03-2006.jpg" target="_blank">-->
+                            Image credit: Wikipedia user Cyberdex<!--</a>-->
+                        </p>
+                    </div>
+                    <div class="hoverinfo">
+                        <area shape="rect" coords="108,102,133,129" href="#">
+                        <p> 
+                            <strong>Expansion cards:</strong> A circuit board that can be inserted to add functionality to a computer system. <br />
+                            <img class="indent" src="/bjc-r/img/6-computers/Hardware_img/ExpansionCard.jpg"  height="200" alt="Expansion Card" title="Expansion Card"/><br />
+                            <!--<a href="https://en.wikipedia.org/wiki/Expansion_card#/media/File:Chassis-plans-Digital-IO-Card.jpg" target="_blank">-->
+                            Image credit: Wikipedia user Rackmount-guy<!--</a>-->. 
+                        </p>
+                    </div>
+                    <div class="hoverinfo">
+                        <area shape="rect" coords="60,137,87,164" href="#">
+                        <p><strong>Power supply unit:</strong> It provides access to electricity which is the energy lifeline for all the components.</p>
+                    </div>
+                    <div class="hoverinfo">
+                        <area shape="rect" coords="135,239,161,267" href="#">
+                        <p><strong>Optical Disc Drive:</strong> Input/output device capable of reading data from and writing data to CDs and DVDs.</p>
+                    </div>
+                    <div class="hoverinfo">
+                        <area shape="rect" coords="166,307,196,332" href="#">
+                        <p> 
+                            <strong>Hard Drive:</strong> Long term memory of the computer.  It has a rotating disk platter under a mechanical arm for reading and writing data to the drive.  Its storage capacity is measured in gigabytes (GB).<br />
+                            <img class="indent" src="/bjc-r/img/6-computers/Hardware_img/HardDiskDrive.gif"  height="200" alt="Hard drive" title="Hard drive"/><br />
+                            <!--<a href="https://en.wikipedia.org/wiki/File:HardDisk1.ogv" target="_blank">-->
+                            Video credit: Wikipedia user Peter17<!--</a>--> 
+                        </p>
+                    </div>
+                    <div class="hoverinfo">
+                        <area shape="rect" coords="251,21,280,52" href="#">
+                        <p> 
+                        <strong>Motherboard:</strong>An electronic circuit board that holds and connects different components of the computer and allows their communication.<br />
+                        <img class="indent" src="/bjc-r/img/6-computers/Hardware_img/Motherboard.JPG"  height="200" alt="Motherboard" title="Motherboard"/><br />
+                        <!--<a href="https://en.wikipedia.org/wiki/Motherboard#/media/File:Intel_D945GCPE_Board.JPG" target="_blank">-->
+                        Image credit: Wikipedia user Julianprescott2604juuly<!--</a>-->. 
+                        </p>
+                    </div>
+                    <div class="hoverinfo">
+                        <area shape="rect" coords="266,178,296,204" href="#">
+                        <p><strong>Speaker:</strong> A device through which the computer outputs sound.</p>
+                    </div>
+                    <div class="hoverinfo">
+                        <area shape="rect" coords="319,131,353,161" href="#">
+                        <p><strong>Monitor:</strong> An output device where the computer visually displays information for the user.  The size of the screen is measured in inches using the diagonal distance between opposite corners.</p>
+                    </div>
+                    <div class="hoverinfo">
+                        <area shape="rect" coords="430,330,464,361" href="#">
+                        <p><strong>Keyboard:</strong> An input device on which the user can type and communicate with the computer.</p>
+                    </div>
+                    <div class="hoverinfo">
+                        <area shape="rect" coords="496,292,532,326" href="#">
+                        <p><strong>Mouse:</strong> An input device that allows the user to visually interact with graphical objects displayed on the monitor.</p>
+                    </div>
+                    <div class="hoverinfo">
+                        <area shape="rect" coords="528,252,563,282" href="#">
+                        <p><strong>External Hard Drive:</strong> A supplementary hard disk that typically connects to a computer through the USB port and allows for extra data storage.  It can be used as an input or an output device.</p>
+                    </div>
+                    <div class="hoverinfo">
+                        <area shape="rect" coords="569,235,599,270" href="#">
+                        <p><strong>Printer:</strong> A device that gives you printed output.</p>
+                    </div>
+                </map>
+                <div class="sidenote"> 
+                    <a href="#hint-components-credit" data-toggle="collapse">Image credit</a>
+                    <div id="hint-components-credit" class="collapse"><a href="https://en.wikipedia.org/wiki/Computer_hardware#/media/File:Personal_computer,_exploded_6.svg" target="_blank">Wikipedia user HereToHelp</a></div>
+                </div>
+                <img class="indent" src="/bjc-r/img/6-computers/Hardware_img/ComputerComponents.png" alt="Computer Components" title="Computer Components" height="400" usemap="#Map" style="min-width:665px;position:relative;">
                 <li>
                     Create a quiz game to test player's knowledge of computer hardware.<br />
-					<div class="sidenote">
-                    	The sprites are set to be <em>not draggable</em> so that the numbers don't move around as the player is playing.
-	                    <img src="/bjc-r/img/1-introduction/snap-center-tabs.png" alt="Draggable box un-check" title="Draggable box un-check" />
+                    <div class="sidenote">
+                        The sprites are set to be <em>not draggable</em> so that the numbers don't move around as the player is playing.
+                        <img src="/bjc-r/img/1-introduction/snap-center-tabs.png" alt="Draggable box un-check" title="Draggable box un-check" />
                     </div>
                     <a href="/bjc-r/prog/6-computers/U6L1-HardwareQuiz.xml" class="run"><img class="inline" src="/bjc-r/img/icons/load-save.png" alt="Click here to load this file. Then save it to your Snap! account." title="Click here to load this file. Then save it to your Snap! account."></a><br />
                     This project file contains a stage background, sprite costumes for the numbered components, and a list of components so you don't have to type them.<br />
@@ -142,38 +155,78 @@ Why this?  This page is about the four levels of abstraction between the program
                         </ol>
                     </div>
                     <div class="endnote">
-						Tips: 
+                        Tips: 
                         <ul>
-                        	<li>Use <img class="inline" src="/bjc-r/img/6-computers/my-name.png" alt="my (name)" title="my (name)" /> to access the name of a sprite. Find <code>my&nbsp;(</code><var>neighbors</var><code>)</code> in the Sensing menu, and change the drop-down menu to <var>name</var>.</li>
+                            <li>Use <img class="inline" src="/bjc-r/img/6-computers/my-name.png" alt="my (name)" title="my (name)" /> to access the name of a sprite. Find <code>my&nbsp;(</code><var>neighbors</var><code>)</code> in the Sensing menu, and change the drop-down menu to <var>name</var>.</li>
                             <img class="imageRight" src="/bjc-r/img/6-computers/when-clicked-respond.png" alt="when I am clicked, respond to click" title="when I am clicked, respond to click" />
                             <li>To copy a script to another sprite, drag the script onto the image of the sprite in the Sprite Corral below the stage. To save time while you are debugging, <strong>use abstraction</strong>: have each sprite use the same custom command block (example at right). That way, you only have to edit the sprites' script once for each change you make.</li>
                             <li>Unless the component list is reduced every time a component is guessed correctly, it will take a long time before all 14 components have been found. To avoid this, every time an item is guessed correctly, it should be removed from the list.</li>
                         </ul>
                     </div>
-                        <img class="indent" src="/bjc-r/img/6-computers/hardware-quiz.jpg" alt="image of computer hardware component quiz with Alonzo saying, 'Click the number for the CPU.'" title="image of computer hardware component quiz with Alonzo saying, 'Click the number for the CPU.'" />
+                    <img class="indent" src="/bjc-r/img/6-computers/hardware-quiz.jpg" alt="image of computer hardware component quiz with Alonzo saying, 'Click the number for the CPU.'" title="image of computer hardware component quiz with Alonzo saying, 'Click the number for the CPU.'" />
                 </li>
-</ol></div>
+            </ol>
+        </div>
+        
+        <h3>Integrated Circuits</h3>
+        <p>The fundamental enabling technology for the computer age was the <em>transistor.</em> A transistor is an amplifier: A small change in its input causes a bigger change in its output. But in computer circuits, transistors are used as remote-control switches: The input either does or doesn't have voltage coming in, and the output does the same, but at higher power, similar to the way a light switch on the wall can control a high-power light bulb in the ceiling. We'll revisit how transistors function on the next page.</p>
+        <p>The transistor was invented in 1947 by John Bardeen, Walter Brattain, and William Shockley at Bell Laboratories, also the home of Unix.  The inventors were awarded the 1956 Nobel Prize in Physics for this work.</p>
+        <p>
+            At first, each transistor was in a separate plastic package. Here's a picture of a circuit made with discrete (separate) transistors:<br />
+            <img class="indent" width="400px" src="/bjc-r/img/6-computers/discrete-transistor-adder.jpg" alt="discrete transistor circuit">
+            <br />
+            <small>Photo and circuit construction by Simon Inns.  License: CC-BY-SA.  Downloaded from http://www.waitingforfriday.com.</small>
+        </p>
+        <p>In this picture, the transistors are the black, D-shaped parts. The brown more-or-less cylindrical parts are <em>resistors,</em> a much simpler component that has been around about as long as electricity. The dark lines you can see through the circuit board are wires, printed onto the board. If your classroom printer had liquid silver ink, it could make circuit boards like this. All the components (transistors and resistors) are on the front of the board. The wires from these components (one at each end of a resistor, three close together on the flat side of a transistor) go through the board, where they are soldered (a kind of hot metallic glue) to the circuit board's wiring. A few wires are on the front side of the board, because otherwise the circuit couldn't be made without printed wires crossing each other.</p>
+        <p>The IBM 7090, developed in 1959, was built out of discrete transistors — over 50,000 of them. As you can imagine, this machine was large and expensive: about three million dollars, equivalent to over $55 million today. In those days, almost everyone thought that computers would be used only by large corporations or governments.</p>
+        <p>In order to have the modern computer age, in which many people carry extremely powerful computers in their pockets (their cell phones), circuits had to become much smaller and cheaper. The way this happened was through the invention of the <em>integrated circuit </em>("IC" or "chip"). There wasn't a single definitive invention; the first relevant work was done in 1949, and techniques to fit components more closely in a chip are still being developed. But the Nobel Prize went to Jack Kilby, in 2000, for his 1958 demonstration of a working IC.</p>
+        <p>Early ICs could include only a few transistors. The circuit in the photo above could just about fit in one IC in the early 1960s, but progress was quick, and the first one-chip computer processor, the Intel 4004, was designed in 1969-1970. It had about 2300 transistors, and took up well under one square inch. It was called the "4004" because it had a four-bit bus architecture, so it wasn't very powerful as computers go. But progress was quick; the eight-bit Intel 8008, with 3500 transistors on the chip, came out in 1972. The Intel 8086, their first 16-bit-wide microprocessor, came out in 1978 and had about 20,000 transistors.  A variant version called the 8088 was used in the first IBM PC. The Motorola 68000, with 40,000 transistors, came out in 1979, and was used in several manufacturers' Unix workstations and in the early versions of the Apple Macintosh.</p>
+        <p>The largest processor chip in 2017, the AMC Epyc, has more than <em>19 billion</em> transistors!</p>
+        
+        <h3>Logic Gates</h3>
+        <p>In a circuit with billions of transistors, or even thousands of transistors, hardware designers can't think about each individual transistor. Just as programmers use abstraction, hardware architects use abstractions, in which a group of transistors and other circuit elements are considered as a single thing. What kinds of things? There are basically two kinds, one for memory and one for computation.</p>
+        <div class="endnote">
+        	<a href="#hint-memory" data-toggle="collapse">Learn more about memory.</a>
+			<div id="hint-memory" class="collapse">
+            	<p>Memory is made out of <em>flip-flops.</em> (They're officially called "bistable multivibrators" but you can see why nobody actually uses that name.) A flip-flop is a circuit that has two stable states, on and off. An input signal can tell it to change state, or to become on, or to become off.  Once that happens, the flip-flop stays in that state until it gets another signat. It has an output that reflects its state: on if the flip-flop is on, off if it's off.</p>
+				<p>A flip-flop is generally made out of four transistors. A <em>register</em> in the processor is a group of flip-flops. If it's a 32-bit processor, a register is 32 flip-flops, and the same for other processor widths.</p>
+            </div>
+        </div>
+        <p>The circuits to do computation are more interesting. They compute <em>functions,</em> just like reporters in Snap<em>!</em>. Since computers do a lot of arithmetic, you might think that the basic circuit functions would be addition, subtraction, multiplication, and division, but that's not the case. Of course there <em>are</em> circuits to do those things, but they're made out of <em>logic gates:</em> circuits that compute Boolean functions: <code>and</code>, <code>or</code>, and <code>not</code>. The reason that Boolean functions are considered more fundamental is that their inputs and outputs can be represented with a single wire going into or out from the circuit.  That's not true about arithmetic functions.  If you consider a voltage on a wire as meaning 1, and no voltage as meaning 0, then you have to see that an adder will have <em>three</em> possible output values, because 1+1=2, which is neither 0 nor 1.  By contrast, if you consider a voltage on a wire as meaning True, and no voltage as meaning False, then the output from a Boolean function of two inputs can still only be True or False, so only one output wire is needed.</p>
+        <p>In Lab 2 of this unit, you'll learn how numbers are represented using groups of wires, using <em>binary</em> representation.  In Lab 3, you'll learn how a handful of Boolean functions can be hooked up together, like composition of functions in Snap<em>!</em> programs, to make arithmetic circuits, such as an <em>adder,</em> which computes the sum of two numbers.</p>
+        
+        <h3>Below the Digital Abstraction</h3>
+        <div class="todo">
+            <p>Why this?  This page is about transistors, the level of abstraction below the digital abstraction.</p>
+            <p>Why here?  There will be three pages, including this one, about the parts of the abstraction hierarchy separated by the two major abstraction barriers, going from top to bottom.</p>
+        </div>
+        <div class="todo">
+        	<p>Summarize in a sentence aimed at those interested in engineering -- PG</p>
+            <p>Perhaps use the takeNote at the bottom of the 'hint' below. --MF, 10/23/17</p>
+        </div>
+		<div class="endnote">
+        	<a href="#hint-digital-abstraction" data-toggle="collapse">Learn more about what's below the digital abstraction.</a>
+            <div id="hint-digital-abstraction" class="collapse">
+                <p>On the previous page we said, as everyone says when talking about computers, that a wire can either have a voltage or not have a voltage on it. But the reality is more complicated. The on-or-off picture of a wire, or a transistor, or a logic gate output, is a simplification — an abstraction. On the previous page we were in the<em> digital domain.</em> On this page, welcome to the <em>analog domain.</em></p>
+                <p>For the most part, in BJC, if we teach about something at all, we try to do it in depth, so that you come away with a serious understanding. But a deep understanding of transistors requires talking about quantum physics. (There are things called <em>quantum computers,</em> but that's not the point here. Regular old computers are made of transistors, and a transistor works for reasons that you can't really understand without getting into quantum physics.)</p>
+        
+                <h4><strong>The Transistor</strong></h4>
+                <p><img src="/bjc-r/img/6-computers/curve.png" alt="transistor input-output curve" title="transistor input-output curve" /></p>
+                <p>
+                    This is an approximation to the input-output behavior of a transistor. Things to note:
+                    <ul>
+                        <li>Very small input voltages, up to ½ volt, produce no output at all (0 volts).</li>
+                        <li>From ½ volt to about 7 volts input, the output goes up when the input goes up.  This part of the graph is approximately a straight line.</li>
+                        <li>For more than 7 volts input, the output stays roughly constant.</li>
+                    </ul>
+                </p>
+                <p>Transistors are versatile devices. When used in the middle part of the graph, they're <em>amplifiers,</em> and that's how they're used to play music in a stereo. But with a very small input or a very large input, the output is relatively unchanged by small changes. This is how transistors are used as <em>switches,</em> in a computer.</p>
+                <p>The flatness of the output at the two extremes is important because there <em>will</em> be small changes in the input. Electrical circuits have "noise," undesired changes in voltages, for reasons from the transistors getting hot to loose connections on the circuit board to cosmic rays. This is why computers use zeros and ones: A transistor has two flat regions in its input-output curve.</p>
+                <p>But the flatness of the flat regions is only approximate, and it depends on how the transistor is connected to the rest of the circuit. One example of a potential problem is <em>fanout,</em> the number of transistor inputs to which a transistor output is connected.  Beyond a certain number (it depends on the particular transistor type, but certainly ten inputs would be too many), the output voltage is reduced to the point that those inputs might think the voltage is closer to zero than to the fully-on voltage.</p>
+                <div class="takeNote">The moral of this story is that the digital domain is not a law of nature; circuit designers have to work at ensuring that each wire in a circuit is always either fully on or fully off.  The digital domain is an abstraction. As with any abstraction, it works only if it's used consistently.</div>
+            </div>
+        </div>
 
-<h3>Integrated Circuits</h3>
-<p>The fundamental enabling technology for the computer age was the <em>transistor.</em> A transistor is an amplifier: A small change in its input causes a bigger change in its output. But in computer circuits, transistors are used as remote-control switches: The input either does or doesn't have voltage coming in, and the output does the same, but at higher power, similar to the way a light switch on the wall can control a high-power light bulb in the ceiling. We'll revisit how transistors function on the next page.</p>
-<p>The transistor was invented in 1947 by John Bardeen, Walter Brattain, and William Shockley at Bell Laboratories, also the home of Unix.  The inventors were awarded the 1956 Nobel Prize in Physics for this work.</p>
-<p>At first, each transistor was in a separate plastic package. Here's a picture of a circuit made with discrete (separate) transistors:</p>
-<p><img src="/bjc-r/img/6-computers/discrete-transistor-adder.jpg" alt="discrete transistor circuit"><br />
-<small>Photo and circuit construction by Simon Inns.  License: CC-BY-SA.  Downloaded from http://www.waitingforfriday.com.</small></p>
-<p>In this picture, the transistors are the black, D-shaped parts. The brown more-or-less cylindrical parts are <em>resistors,</em> a much simpler component that has been around about as long as electricity. The dark lines you can see through the circuit board are wires, printed onto the board. If your classroom printer had liquid silver ink, it could make circuit boards like this. All the components (transistors and resistors) are on the front of the board. The wires from these components (one at each end of a resistor, three close together on the flat side of a transistor) go through the board, where they are soldered (a kind of hot metallic glue) to the circuit board's wiring. A few wires are on the front side of the board, because otherwise the circuit couldn't be made without printed wires crossing each other.</p>
-<p>The IBM 7090, developed in 1959, was built out of discrete transistors — over 50,000 of them. As you can imagine, this machine was large and expensive: about three million dollars, equivalent to over $55 million today. In those days, almost everyone thought that computers would be used only by large corporations or governments.</p>
-<p>In order to have the modern computer age, in which many people carry extremely powerful computers in their pockets (their cell phones), circuits had to become much smaller and cheaper. The way this happened was through the invention of the <em>integrated circuit </em>(&quot;IC&quot; or &quot;chip&quot;). There wasn't a single definitive invention; the first relevant work was done in 1949, and techniques to fit components more closely in a chip are still being developed. But the Nobel Prize went to Jack Kilby, in 2000, for his 1958 demonstration of a working IC.</p>
-<p>Early ICs could include only a few transistors. The circuit in the photo above could just about fit in one IC in the early 1960s, but progress was quick, and the first one-chip computer processor, the Intel 4004, was designed in 1969-1970. It had about 2300 transistors, and took up well under one square inch. It was called the &quot;4004&quot; because it had a four-bit bus architecture, so it wasn't very powerful as computers go. But progress was quick; the eight-bit Intel 8008, with 3500 transistors on the chip, came out in 1972. The Intel 8086, their first 16-bit-wide microprocessor, came out in 1978 and had about 20,000 transistors.  A variant version called the 8088 was used in the first IBM PC. The Motorola 68000, with 40,000 transistors, came out in 1979, and was used in several manufacturers' Unix workstations and in the early versions of the Apple Macintosh.</p>
-<p>The largest processor chip in 2017, the AMC Epyc, has more than <em>19 billion</em> transistors!</p>
-
-<h3>Logic Gates</h3>
-
-<p>In a circuit with billions of transistors, or even thousands of transistors, hardware designers can't think about each individual transistor. Just as programmers use abstraction, hardware architects use abstractions, in which a group of transistors and other circuit elements are considered as a single thing. What kinds of things? There are basically two kinds, one for memory and one for computation.
-<p>Memory is made out of <em>flip-flops.</em>
-(They're officially called &quot;bistable multivibrators&quot; but you can see why nobody actually uses that name.) A flip-flop is a circuit that has two stable states, on and off. An input signal can tell it to change state, or to become on, or to become off.  Once that happens, the flip-flop stays in that state until it gets another signat. It has an output that reflects its state: on if the flip-flop is on, off if it's off.
-<p>A flip-flop is generally made out of four transistors. A <em>register</em> in the processor is a group of flip-flops. If it's a 32-bit processor, a register is 32 flip-flops, and the same for other processor widths.
-<p>The circuits to do computation are more interesting. They compute <em>functions,</em> just like reporters in Snap<em>!</em>. Since computers do a lot of arithmetic, you might think that the basic circuit functions would be addition, subtraction, multiplication, and division, but that's not the case. Of course there <em>are</em> circuits to do those things, but they're made out of <em>logic gates:</em> circuits that compute Boolean functions: <code>and</code>, <code>or</code>, and <code>not</code>. The reason that Boolean functions are considered more fundamental is that their inputs and outputs can be represented with a single wire going into or out from the circuit.  That's not true about arithmetic functions.  If you consider a voltage on a wire as meaning 1, and no voltage as meaning 0, then you have to see that an adder will have <em>three</em> possible output values, because 1+1=2, which is neither 0 nor 1.  By contrast, if you consider a voltage on a wire as meaning True, and no voltage as meaning False, then the output from a Boolean function of two inputs can still only be True or False, so only one output wire is needed.
-<p>In Lab 2 of this unit, you'll learn how numbers are represented using groups of wires, using <em>binary</em> representation.  In Lab 3, you'll learn how a handful of Boolean functions can be hooked up together, like composition of functions in Snap<em>!</em> programs, to make arithmetic circuits, such as an <em>adder,</em>
-which computes the sum of two numbers.
-</body>
+        
+    </body>
 </html>
