@@ -5,107 +5,136 @@
 		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
 		<title>Unit 6 Lab 1: Computer Abstraction Hierarchy, Page 4</title>
 	</head>
-<body>
-    <div class="todo">
-Why this?  This page is about the two levels of abstraction above the program abstraction, from the chart on page 1.
-<p>Why here?  There will be three pages, including this one, about the parts of the abstraction hierarchy separated by the two major abstraction barriers, going from top to bottom.</p>
-<p>2.1.2B In many programming languages, the fixed number of bits used to represent characters or integers limits the range of integer values and mathematical operations; this limitation can result in overflow or other errors.<br />
-  2.1.2C In many programming languages, the fixed number of bits used to represent real numbers (as floating point numbers) limits the range of floating point values and mathematical operations; this limitation can result in roundoff errors<br />
-2.2.3A Different programming languages offer different levels of abstraction.<br />
-  2.2.3B High level programming languages provide more abstractions for the programmer and make it easier for people to read and write a program.<br />
-  5.5.1B Integers may be constrained in the maximum and minimum values that can be represented in a program because of storage limitations.</p>
-</div>
-
-<H2>Software</H2>
-
-<p>This page is about the two topmost levels of abstraction in the table on page 1 of this lab: application programs and operating systems.</p>
-<h3>Application Software</h3>
-<p>You're probably accustomed to talking about &quot;apps&quot; on your cell phone. That's an abbreviation for &quot;application programs.&quot;</p>
-<p>Applications are complicated. Think about a program that displays a picture on your screen. First, the program has to find out the size of the picture, usually expressed in &quot;pixels&quot; (short for &quot;picture elements&quot;). Each pixel, in turn, has a representation in the computer, usually three or four small integers between 0 and 255. Not all representations for pictures agree about what those numbers mean. In probably the most common version, the first three numbers represent the intensity of a particular color of light: first red, then green, then blue. (Other colors are made out of combinations of these.) The fourth number, if present, represents the <em>transparency,</em> like the ghost effect you used in the very first project in the course. This representation is called RGB, or RGBA if transparency is included.</p>
-<p>But some people believe that RGB, although it's great for computers, isn't good for people. Colors such as brown and brick-red (darker than pure red) are hard to figure out in RGB units. Another color system is called HSB (or HSBA with transparency), for <em>hue, saturation, brightness.</em> This is similar to the way Snap<em>!</em> handles pen colors. &quot;Pen color&quot; is hue (where on the rainbow is the color); &quot;pen shade&quot; is more or less saturation (zero means black, 100 means full rainbow color). From another point of view, RGB colors are good for lights, such as the tiny lights in your screen, but not good for printers. Ink or paint colors are measured in CMYK: Cyan, Magenta, Yellow, and Black.</p>
-<p>If that's not enough complexity, when a picture is stored in long-term memory, there are many different file formats possible. Some of the ones you may have seen are BMP, PNG, GIF, and JPG (or JPEG). These formats differ in compression (more on that below) and in how the computer finds the <em>dimensions</em> of the picture (width and height, in pixels).</p>
-<p>When the application has all that under control, it has to know how to put the picture up on the actual screen.</p>
-<p>We could tell an equally complicated story about any of the other tasks a program may have to carry out. For example, how does the program find out where the mouse pointer is?</p>
-<p>No software would ever get developed if application programmers had to deal with all of these details in every program. Instead, some programmers write <em>libraries</em> that other programmers can include in their programs. You've used Snap<em>!</em> libraries in some projects. Also, some programming languages have abstractions built in that make certain tasks easier. For example, what happens if an application programmer wants a little picture to be able to move around in a screen that also has other pictures in it? Snap<em>!</em> lets you import a picture as a <em>costume</em> that can be attached to a sprite, and then you move the picture by moving the sprite. The language worries about which picture is in front of which other picture for you. Other languages may or may not include a sprite abstraction.</p>
-
-<h4>Data Compression</h4>
-<p>Why <em>are</em> there so many picture formats, anyway? There are several reasons, including bad ones such as the &quot;Not Invented Here syndrome&quot; in which developers are reluctant to use a standard that they didn't invent themselves. But we're going to focus on one good reason: <strong>data compression algorithms</strong>.</p>
-<p>Here's a picture of the BJC logo:</p>
-<img class="indent noshadow" src="/bjc-r/img/6-computers/bjc-logo-original.png" alt="BJC logo uncompressed" title="BJC logo uncompressed" />
-<p>This picture is 158 pixels wide, and 186 pixels tall, for a total of 29,388 pixels. The BMP (bitmap) format includes each of those pixels in the picture file, at four bytes per pixel, so the file size is about 120kB.</p>
-<p>But this is an inefficient way to store the information. That's especially true for a cartoon-like picture such as this one. Think about the 158 pixels in the top row. The first 60 or so are transparent (so that the logo can be used on a non-white background). Then come a few pixels of the Snap<em>!</em> Control-colored &quot;b.&quot; And the rest are transparent. So instead of 158×4 bytes, this row could be represented in 6×4 bytes using <em>run-length encoding:</em></p>
-
-<ul>
-<li>A four-byte number of pixels (60).</li>
-<li>The fout-byte representation for a transparent pixel.</li>
-<li>A four-byte number of pixels (5).</li>
-<li>The four-byte representation for that orange color.</li>
-<li>A four-byte number of pixels to finish the row (93).</li>
-<li>The fout-byte representation for a transparent pixel.</li>
-</ul>
-
-
-<p>Not all the rows are that simple, but the largest number of different colors on one row, not counting the transparent parts, is seven, in rows that include two parts of the &quot;c&quot; colors (red and orange). That's 15 color runs, including the transparent ones, so 15 run lengths and 15 colors, for a total of 30×4 bytes. If we approximate the file size by assuming that every row is that complicated, we get 186×30×4 = 22.3 kB, a reduction to about 1/6 of the space needed for the full bitmap picture. (These days, the size of one picture isn't so significant, but think about every frame of a movie, and think about the time required to send the information over the Internet.)</p>
-<p>It's important to note that run-length encoding does not <em>lose</em> any information. The original picture can be reconstructed with every pixel exactly correct. This is an example of <em>lossless compression.</em></p>
-<p>Run-length encoding doesn't do so well if the picture is a photograph, in which every pixel may be slightly different in color from its neighbors. (If every run length is just one pixel, run-length encoding will double the size of the file.) But the PNG  (Portable Network Graphics, pronounced &quot;ping&quot;) encoding does lossless compression of arbitrary pictures. Its algorithm is quite complicated to describe, because it uses several different strategies depending on how much variation in color there is in each small chunk of the image. But you don't have to know the details, just remember that PNG is a lossless format. The PNG version of the BJC logo is about 39 kB, larger than run-length encoding (for this simple image) but still a lot smaller than the 120 kB bitmap version.</p>
-<p>Some other compression algorithms use <strong>lossy compression</strong>. This means that file size can be even smaller than with lossless compression, but the original picture can't be perfectly reconstructed; information is lost. This sounds terrible, and it <em>would</em> be terrible if these algorithms were used to compress a computer program or a novel. But it turns out that people's perception of pictures does not really depend on extreme precision.</p>
-<p>Here's an example. The most commonly used lossy compression algorithm for pictures is called JPEG (for &quot;Joint Photographic Experts Group,&quot; the commitee that invented it; pronounced &quot;jay peg&quot;) or JPG. Like most lossy algorithms, it has a controllable degree of precision. Below are two versions of a picture. The size of the picture is 512×384 pixels. Here are the file sizes in various formats:</p>
-<table width="56%" border="4" cellspacing="8" summary="compression factors example">
-  <tr>
-    <th scope="col">format</th>
-    <th scope="col">size</th>
-  </tr>
-  <tr>
-    <td>BMP</td>
-    <td>590 kB</td>
-  </tr>
-  <tr>
-    <td>PNG</td>
-    <td>441 kB</td>
-  </tr>
-  <tr>
-    <td>JPEG best</td>
-    <td>390 kB</td>
-  </tr>
-  <tr>
-    <td>JPEG worst</td>
-    <td>21 kB</td>
-  </tr>
-</table>
-<p>"Best" and &quot;worst&quot; are according to the settings available in the Preview program on my Macintosh. Notice how tiny the JPEG worst file is! It must look terrible, right? Here are a section from that 21kB file and the original, uncompressed BMP file. Can you tell which is which?</p>
-<p><img src="/bjc-r/img/6-computers/pond.bmp" alt="pond"><img src="/bjc-r/img/6-computers/pond.jpg" alt="pond"></p>
-<p>&nbsp;</p>
-<div class="vocabFullWidth"><strong>: Lossy vs. Lossless</strong>
-  <p><strong>Lossless</strong> compression (like PNG) is <em>reversible</em> (there is no loss in quality); you can reconstruct the original data. It works by removing redundant data.</p>
-  <p><strong>Lossy</strong> compression (like JPG) is <em>not</em> fully reversible; you can only reconstruct an <em>approximation</em> of the original data. It works by removing irrelevant data (details that people aren't likely to notice).</p>
-  <p>There are trade-offs with each technique: lossless compression maintains the original data but might not be able to compress the data much or at all; lossy compression often results in a smaller file but may have artifacts (quality issues from the compression).</p>
-</div>
-
-
-
-<h4>High and Low Level Languages</h4>
-<p>A <em>high level language</em> is a programming language that includes many abstractions, of which the sprite abstraction is one example, that make it easier to talk about the problem you want to solve rather than talk about how the computer hardware works. A <em>low level language</em> is one with few abstractions, so you have to know a lot about the architecture of your computer to write a program for it.</p>
-<p>So why would anyone ever want to use a low level language? The best answer to this question is &quot;in order to write an operating system,&quot; as discussed below. But there are less-good reasons:</p>
-<p><em>They don't know any better.</em> Application programmers don't generally think, &quot;I'm going to write this program in a low level language.&quot; They think the language they're using <em>is</em> high level. But often there are higher levels of abstraction that they don't think possible. For example, you'll learn later in this unit that a given computer's hardware limits the size of numbers that its arithmetic unit can add in a single step. Four billion, about ten digits, is a common size limit for integers. Many programmers, the ones who use Java or Javascript or Python or C or C++, think that that limit is unavoidable. But programmers who use <em>really</em> high level languages, such as Scheme or Common Lisp, know that they can do arithmetic on numbers of millions or billions of digits, limited only by the size of the computer's memory.</p>
-<p><em>They think abstraction is too slow.</em> A few programmers, namely the ones who write 3-D video games, really are doing things that strain the speed of modern computers. They often write part of their programs, the part that actually puts pictures on the screen, in low-level languages. But most programmers are writing applications that don't strain computers at all. When you send a message to Twitter or to email, the limiting factor on speed is how fast you can type, not how fast your computer can run programs. Sometimes an abstraction gets a reputation for slowness because 50 years ago, when the abstraction was first invented by university researchers, it really did push the limits of the computers of the day, and ever since then, old programmers tell young programmers how slow it is, even though today's computers are millions of times as fast.</p>
-<h3>Operating Systems</h3>
-<p>Your computer came with an <em>operating system</em> (OS) installed, probably Linux, MacOS, or Windows for computers with keyboards, and Android or iOS for phones and tablets.</p>
-<p>Many of the pieces of what is called the operating system are actually implemented as application programs: the window system, which allows more than one window to be open on your screen; the file manager, that displays the contents of folders and lets you select files to read or manipulate; and utilities such as a simple text editor or a calculator. But there are a few system tasks that can't be application programs, and they are handled by an operating system <em>kernel,</em> which deals directly with hardware capabilities, and must be written in a low level language.</p>
-<div class="takeNote">
-<b>Operating system kernel tasks:</b>
-<ol>
-<li>Scheduling.  In a computer there are many application programs all wanting to run at once. The OS, which has access to the time clock that's built into the hardware, lets each program run for a small amount of time (typically about 1/10 second) and then switches to the next program in line.</li>
-<li>Security. Those many application programs may have bugs, and may not have your best interests at heart. The OS, which has access to the <em>memory management</em> hardware inside the computer, has to ensure that each program is assigned a separate location in memory, and isn't allowed to refer to memory locations outside of its own allocation.  The OS also controls which data files a program can use, based on <em>file protection</em> settings you can apply to each file.</li>
-<li>Input and output. Many different devices can be attached to your computer.  (Some of them, such as the primary disk storage, may be inside the computer case.)  <em>Input</em> devices include the keyboard and mouse.  <em>Output</em> devices include the printer and, for desktop computers, the display screen.  Many devices can be used both for input and for output, such as a disk drive, optical drive (for CDs and DVDs), the Internet interface, and the touchscreen on a phone or tablet.  The OS has to know how the computer's hardware reads or writes to each of these. Only the kernel is allowed direct access to these devices, and it carries out authorized transfers of information on behalf of the applications.<br />
-<small>Some advanced operating systems make it possible for <em>privileged</em> application-level software to handle input/output devices, so that the code to run a particular device can be loaded into memory only when that device is being used.</small></li></ol></div>
-
-<div class="forYouToDo" type="first">
-<ol><li>Find out how to list all the programs that are running right now on your computer, and collect such a program list in a text file.  Then count how many of them are programs you asked the computer to run.  Of the rest, can you figure out from the names what they do?  Which ones are part of the operating system (not the OS kernel)?  See if you can figure out the purpose of some obscurely-named ones by doing a web search.</li></ol></div>
-
-<p>There has been a remarkable convergence in the OS kernels available today. Of the five systems listed earlier (Linux, MacOS, Windows, Android, and iOS), four of them (all but Windows) are based on variants of a single system, called Unix. (&quot;Unix&quot; is a trademark, currently owned by The Open Group, and not all of the variants discussed here are authorized to use that name, but they all provide essentially the same program interface.) Unix was created around 1970 by Ken Thompson and Dennis Ritchie at AT&amp;T Bell Laboratories.</p>
-
-<p>Prior to Unix, almost everyone thought that an operating system had to be developed for a particular computer architecture, and had to be written in the machine language of that computer, the very low-level instructions that the hardware understands directly. The very first version of Unix was also written in the machine language of a particular computer, the Digital Equipment Corporation PDP-11. But the Unix developers knew that the PDP-11 wasn't the only computer in the world, and better ones would come along eventually, so they wanted to make Unix <em>portable,</em> meaning that it could be brought to a new computer architecture without a complete rewrite.  So in 1972 Dennis Ritchie invented the C programming language for that purpose.  C is similar to other languages available at the time, but with one added feature: a C programmer can read or write any individual byte of the program's memory by knowing its <em>address,</em> a number that distinguishes it from other bytes.  (You can see that this feature is quite the opposite from high level abstraction.  It is useful only to a programmer who's thinking in detail about what's where in the computer's memory.) Unix was then rewritten in C.</p>
-
-<p>Indeed, because of its portability, Unix spread quickly to many computer architectures. Researchers at Berkeley developed a version, based on the AT&amp;T version, with <em>virtual memory,</em> the ability to run a program that's only partly in the computer's main memory, with the rest kept on a disk. This Berkeley version is the direct ancestor of Apple's operating systems, MacOS (since MacOS 10.0) and iOS. (An Apple computer doesn't behave anything like a Unix computer, but the differences are almost all in application-level programs, not in the kernel.) Android, Google's operating system for cell phones and tablets, is based on Linux, a complete rewrite of Unix originally written by Linus Torvalds, at the time a computer science student in Finland.</p>
-</body>
+    <body>
+        <div class="todo">
+            <p>Why this?  This page is about the two levels of abstraction above the program abstraction, from the chart on page 1.</p>
+            <p>Why here?  There will be three pages, including this one, about the parts of the abstraction hierarchy separated by the two major abstraction barriers, going from top to bottom.</p>
+            <p>2.1.2B In many programming languages, the fixed number of bits used to represent characters or integers limits the range of integer values and mathematical operations; this limitation can result in overflow or other errors.<br />
+            2.1.2C In many programming languages, the fixed number of bits used to represent real numbers (as floating point numbers) limits the range of floating point values and mathematical operations; this limitation can result in roundoff errors<br />
+            2.2.3A Different programming languages offer different levels of abstraction.<br />
+            2.2.3B High level programming languages provide more abstractions for the programmer and make it easier for people to read and write a program.<br />
+            5.5.1B Integers may be constrained in the maximum and minimum values that can be represented in a program because of storage limitations.</p>
+        </div>
+        
+        <h2>Software</h2>
+        <p>This page is about the two topmost levels of abstraction in the table on page 1 of this lab: application programs and operating systems.</p>
+        
+        <h3>Application Software</h3>
+        <p>You're probably accustomed to talking about "apps" on your cell phone. That's an abbreviation for "application programs."</p>
+        <p>Applications are complicated. Think about a program that displays a picture on your screen. First, the program has to find out the size of the picture, usually expressed in "pixels" (short for "picture elements"). Each pixel, in turn, has a representation in the computer, usually three or four small integers between 0 and 255. Not all representations for pictures agree about what those numbers mean. In probably the most common version, the first three numbers represent the intensity of a particular color of light: first red, then green, then blue. (Other colors are made out of combinations of these.) The fourth number, if present, represents the <em>transparency,</em> like the ghost effect you used in the very first project in the course. This representation is called RGB, or RGBA if transparency is included.</p>
+        <div class="endnote">
+            <a href="#hint-color-codes" data-toggle="collapse">Click here to learn more about Color Codes.</a>
+            <div id="hint-color-codes" class="collapse">But some people believe that RGB, although it's great for computers, isn't good for people. Colors such as brown and brick-red (darker than pure red) are hard to figure out in RGB units. Another color system is called HSB (or HSBA with transparency), for <em>hue, saturation, brightness.</em> This is similar to the way Snap<em>!</em> handles pen colors. "Pen color" is hue (where on the rainbow is the color); "pen shade" is more or less saturation (zero means black, 100 means full rainbow color). From another point of view, RGB colors are good for lights, such as the tiny lights in your screen, but not good for printers. Ink or paint colors are measured in CMYK: Cyan, Magenta, Yellow, and Black.</div>
+        </div>
+        <p>If that's not enough complexity, when a picture is stored in long-term memory, there are many different file formats possible. Some of the ones you may have seen are BMP, PNG, GIF, and JPG (or JPEG). These formats differ in compression (more on that below) and in how the computer finds the <em>dimensions</em> of the picture (width and height, in pixels).</p>
+        <p>When the application has all that under control, it has to know how to put the picture up on the actual screen.</p>
+        <p>We could tell an equally complicated story about any of the other tasks a program may have to carry out. For example, how does the program find out where the mouse pointer is?</p>
+        <p>No software would ever get developed if application programmers had to deal with all of these details in every program. Instead, some programmers write <em>libraries</em> that other programmers can include in their programs. You've used Snap<em>!</em> libraries in some projects. Also, some programming languages have abstractions built in that make certain tasks easier. For example, what happens if an application programmer wants a little picture to be able to move around in a screen that also has other pictures in it? Snap<em>!</em> lets you import a picture as a <em>costume</em> that can be attached to a sprite, and then you move the picture by moving the sprite. The language worries about which picture is in front of which other picture for you. Other languages may or may not include a sprite abstraction.</p>
+        
+        <h4><strong>Data Compression</strong></h4>
+        <p>Why <em>are</em> there so many picture formats, anyway? There are several reasons, including bad ones such as the "Not Invented Here syndrome" in which developers are reluctant to use a standard that they didn't invent themselves. But we're going to focus on one good reason: <strong>data compression algorithms</strong>.</p>
+        <p>
+            Here's a picture of the BJC logo:<br />
+            <img class="indent noshadow" src="/bjc-r/img/6-computers/bjc-logo-original.png" alt="BJC logo uncompressed" title="BJC logo uncompressed" />
+        </p>
+        <p>This picture is 158 pixels wide, and 186 pixels tall, for a total of 29,388 pixels. The BMP (bitmap) format includes each of those pixels in the picture file, at four bytes per pixel, so the file size is about 120kB.</p>
+        <p>But this is an inefficient way to store the information. That's especially true for a cartoon-like picture such as this one. Think about the 158 pixels in the top row. The first 60 or so are transparent (so that the logo can be used on a non-white background). Then come a few pixels of the Snap<em>!</em> Control-colored "b." And the rest are transparent. So instead of 158×4 bytes, this row could be represented in 6×4 bytes using <em>run-length encoding</em>.</p>
+        <div class="endnote">
+            <a href="#hint-run-length-encoding" data-toggle="collapse">Click to learn more about run-length encoding.</a>
+            <div id="hint-run-length-encoding" class="collapse">
+                <ul>
+                    <li>A four-byte number of pixels (60).</li>
+                    <li>The fout-byte representation for a transparent pixel.</li>
+                    <li>A four-byte number of pixels (5).</li>
+                    <li>The four-byte representation for that orange color.</li>
+                    <li>A four-byte number of pixels to finish the row (93).</li>
+                    <li>The fout-byte representation for a transparent pixel.</li>
+                </ul>
+                <p>Not all the rows are that simple, but the largest number of different colors on one row, not counting the transparent parts, is seven, in rows that include two parts of the "c" colors (red and orange). That's 15 color runs, including the transparent ones, so 15 run lengths and 15 colors, for a total of 30×4 bytes. If we approximate the file size by assuming that every row is that complicated, we get 186×30×4 = 22.3 kB, a reduction to about 1/6 of the space needed for the full bitmap picture. (These days, the size of one picture isn't so significant, but think about every frame of a movie, and think about the time required to send the information over the Internet.)</p>
+            </div>
+        </div>
+        <p>It's important to note that run-length encoding does not <em>lose</em> any information. The original picture can be reconstructed with every pixel exactly correct. This is an example of <em>lossless compression.</em></p>
+        <div class="sidenote">If every run length is just one pixel, run-length encoding will double the size of the file.<div class="todo">Paul, you had suggested tucking this away. I didn't only because I didn't see a clear place to do that. --MF, 10/23/17</div>
+		</div>
+        <p>Run-length encoding doesn't do so well if the picture is a photograph, in which every pixel may be slightly different in color from its neighbors.  But the PNG  (Portable Network Graphics, pronounced "ping") encoding does lossless compression of arbitrary pictures. Its algorithm is quite complicated to describe, because it uses several different strategies depending on how much variation in color there is in each small chunk of the image. But you don't have to know the details, just remember that PNG is a lossless format. The PNG version of the BJC logo is about 39 kB, larger than run-length encoding (for this simple image) but still a lot smaller than the 120 kB bitmap version.</p>
+        <p>Some other compression algorithms use <strong>lossy compression</strong>. This means that file size can be even smaller than with lossless compression, but the original picture can't be perfectly reconstructed; information is lost. This sounds terrible, and it <em>would</em> be terrible if these algorithms were used to compress a computer program or a novel. But it turns out that people's perception of pictures does not really depend on extreme precision.</p>
+        <p>Here's an example. The most commonly used lossy compression algorithm for pictures is called JPEG (for "Joint Photographic Experts Group," the commitee that invented it; pronounced "jay peg") or JPG. Like most lossy algorithms, it has a controllable degree of precision. Below are two versions of a picture. The size of the picture is 512×384 pixels. Here are the file sizes in various formats:</p>
+        <table width="56%" border="4" cellspacing="8" summary="compression factors example">
+            <tr>
+                <th scope="col">format</th>
+                <th scope="col">size</th>
+            </tr>
+            <tr>
+                <td>BMP</td>
+                <td>590 kB</td>
+            </tr>
+            <tr>
+                <td>PNG</td>
+                <td>441 kB</td>
+            </tr>
+            <tr>
+                <td>JPEG best</td>
+                <td>390 kB</td>
+            </tr>
+            <tr>
+                <td>JPEG worst</td>
+                <td>21 kB</td>
+            </tr>
+        </table>
+        <p>
+            "Best" and "worst" are according to the settings available in the Preview program on my Macintosh. Notice how tiny the JPEG worst file is! It must look terrible, right? Here are a section from that 21kB file and the original, uncompressed BMP file. Can you tell which is which?<br />
+            <img class="indent" src="/bjc-r/img/6-computers/pond.bmp" alt="pond pebbles BMP" title="pond pebbles BMP" />
+            <img src="/bjc-r/img/6-computers/pond.jpg" alt="pond pebbles JPG" title="pond pebbles JPG" />
+        </p>
+        <div class="vocabFullWidth"><strong>: Lossy vs. Lossless</strong>
+            <p><strong>Lossless</strong> compression (like PNG) is <em>reversible</em> (there is no loss in quality); you can reconstruct the original data. It works by removing redundant data.</p>
+            <p><strong>Lossy</strong> compression (like JPG) is <em>not</em> fully reversible; you can only reconstruct an <em>approximation</em> of the original data. It works by removing irrelevant data (details that people aren't likely to notice).</p>
+            <div class="sidenote">Paul, you suggested cutting this last paragraph, but I think it's one I wrote paraphrasing the EKs. --MF, 10/23/17</div>
+            <p>There are trade-offs with each technique: lossless compression maintains the original data but might not be able to compress the data much or at all; lossy compression often results in a smaller file but may have artifacts (quality issues from the compression).</p>
+        </div>
+        
+        <h4><strong>High and Low Level Languages</strong></h4>
+        <p>A <em>high level language</em> is a programming language that includes many abstractions, of which the sprite abstraction is one example, that make it easier to talk about the problem you want to solve rather than talk about how the computer hardware works. A <em>low level language</em> is one with few abstractions, so you have to know a lot about the architecture of your computer to write a program for it.</p>
+        <p>So why would anyone ever want to use a low level language? The best answer to this question is "in order to write an operating system," as discussed below. But there are less-good reasons.</p>
+        <div class="endnote">
+        	<a href="#hint-low-level-lang" data-toggle="collapse">Click to learn about these "less-good" reasons.</a>
+			<div id="hint-low-level-lang" class="collapse">
+            	<p><em>They don't know any better.</em> Application programmers don't generally think, "I'm going to write this program in a low level language." They think the language they're using <em>is</em> high level. But often there are higher levels of abstraction that they don't think possible. For example, you'll learn later in this unit that a given computer's hardware limits the size of numbers that its arithmetic unit can add in a single step. Four billion, about ten digits, is a common size limit for integers. Many programmers, the ones who use Java or Javascript or Python or C or C++, think that that limit is unavoidable. But programmers who use <em>really</em> high level languages, such as Scheme or Common Lisp, know that they can do arithmetic on numbers of millions or billions of digits, limited only by the size of the computer's memory.</p>
+        		<p><em>They think abstraction is too slow.</em> A few programmers, namely the ones who write 3-D video games, really are doing things that strain the speed of modern computers. They often write part of their programs, the part that actually puts pictures on the screen, in low-level languages. But most programmers are writing applications that don't strain computers at all. When you send a message to Twitter or to email, the limiting factor on speed is how fast you can type, not how fast your computer can run programs. Sometimes an abstraction gets a reputation for slowness because 50 years ago, when the abstraction was first invented by university researchers, it really did push the limits of the computers of the day, and ever since then, old programmers tell young programmers how slow it is, even though today's computers are millions of times as fast.</p>
+            </div>
+        </div>
+        
+        <h3>Operating Systems</h3>
+        <p>Your computer came with an <em>operating system</em> (OS) installed, probably Linux, MacOS, or Windows for computers with keyboards, and Android or iOS for phones and tablets.</p>
+        <p>Many of the pieces of what is called the operating system are actually implemented as application programs: the window system, which allows more than one window to be open on your screen; the file manager, that displays the contents of folders and lets you select files to read or manipulate; and utilities such as a simple text editor or a calculator. But there are a few system tasks that can't be application programs, and they are handled by an operating system <em>kernel,</em> which deals directly with hardware capabilities, and must be written in a low level language.</p>
+        <div class="takeNote">
+            <strong>Operating system kernel tasks:</strong>
+            <ol>
+                <li><strong>Scheduling.</strong>  In a computer there are many application programs all wanting to run at once. The OS, which has access to the time clock that's built into the hardware, lets each program run for a small amount of time (typically about 1/10 second) and then switches to the next program in line.</li>
+                <li><strong>Security.</strong> Those many application programs may have bugs, and may not have your best interests at heart. The OS, which has access to the <em>memory management</em> hardware inside the computer, has to ensure that each program is assigned a separate location in memory, and isn't allowed to refer to memory locations outside of its own allocation.  The OS also controls which data files a program can use, based on <em>file protection</em> settings you can apply to each file.</li>
+                <li>
+                    <strong>Input and output.</strong> Many different devices can be attached to your computer.  (Some of them, such as the primary disk storage, may be inside the computer case.)  <em>Input</em> devices include the keyboard and mouse.  <em>Output</em> devices include the printer and, for desktop computers, the display screen.  Many devices can be used both for input and for output, such as a disk drive, optical drive (for CDs and DVDs), the Internet interface, and the touchscreen on a phone or tablet.  The OS has to know how the computer's hardware reads or writes to each of these. Only the kernel is allowed direct access to these devices, and it carries out authorized transfers of information on behalf of the applications.<br />
+                    <small>Some advanced operating systems make it possible for <em>privileged</em> application-level software to handle input/output devices, so that the code to run a particular device can be loaded into memory only when that device is being used.</small>
+                </li>
+            </ol>
+        </div>
+        
+        <div class="forYouToDo" type="first">
+            <ol>
+            	<li>Find out how to list all the programs that are running right now on your computer, and collect such a program list in a text file.  Then count how many of them are programs you asked the computer to run.  Of the rest, can you figure out from the names what they do?  Which ones are part of the operating system (not the OS kernel)?  See if you can figure out the purpose of some obscurely-named ones by doing a web search.</li>
+            </ol>
+        </div>
+        
+        <p>There has been a remarkable convergence in the OS kernels available today. Of the five systems listed earlier (Linux, MacOS, Windows, Android, and iOS), four of them (all but Windows) are based on variants of a single system, called Unix.</p>
+        <div class="endnote">
+            <a href="#hint-unix" data-toggle="collapse">Click here to read more about Unix.</a>
+            <div id="hint-unix" class="collapse">
+                <p>("Unix" is a trademark, currently owned by The Open Group, and not all of the variants discussed here are authorized to use that name, but they all provide essentially the same program interface.) Unix was created around 1970 by Ken Thompson and Dennis Ritchie at AT&amp;T Bell Laboratories.</p>
+                <p>Prior to Unix, almost everyone thought that an operating system had to be developed for a particular computer architecture, and had to be written in the machine language of that computer, the very low-level instructions that the hardware understands directly. The very first version of Unix was also written in the machine language of a particular computer, the Digital Equipment Corporation PDP-11. But the Unix developers knew that the PDP-11 wasn't the only computer in the world, and better ones would come along eventually, so they wanted to make Unix <em>portable,</em> meaning that it could be brought to a new computer architecture without a complete rewrite.  So in 1972 Dennis Ritchie invented the C programming language for that purpose.  C is similar to other languages available at the time, but with one added feature: a C programmer can read or write any individual byte of the program's memory by knowing its <em>address,</em> a number that distinguishes it from other bytes.  (You can see that this feature is quite the opposite from high level abstraction.  It is useful only to a programmer who's thinking in detail about what's where in the computer's memory.) Unix was then rewritten in C.</p>
+                <p>Indeed, because of its portability, Unix spread quickly to many computer architectures. Researchers at Berkeley developed a version, based on the AT&amp;T version, with <em>virtual memory,</em> the ability to run a program that's only partly in the computer's main memory, with the rest kept on a disk. This Berkeley version is the direct ancestor of Apple's operating systems, MacOS (since MacOS 10.0) and iOS. (An Apple computer doesn't behave anything like a Unix computer, but the differences are almost all in application-level programs, not in the kernel.) Android, Google's operating system for cell phones and tablets, is based on Linux, a complete rewrite of Unix originally written by Linus Torvalds, at the time a computer science student in Finland.</p>
+            </div>
+        </div>
+        
+        
+    </body>
 </html>
