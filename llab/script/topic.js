@@ -88,7 +88,7 @@ llab.renderFull = function(data, ignored1, ignored2) {
         if (line.length && !raw && !isHidden) {
             if (line.slice(0, 6) === "title:") {
                 // TODO: Refractor to a set title function!
-                var titleHTML = "DRAFT ".concat(line.slice(6));
+                var titleHTML = line.slice(6);
                 $('.navbar-title').html(titleHTML);
                 $('.title-small-screen').html(titleHTML);
                 var titleText = $('.navbar-title').text();
