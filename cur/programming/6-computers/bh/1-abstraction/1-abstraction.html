@@ -27,28 +27,33 @@ several levels of abstraction, with application programs (like your email progra
 and transport protocols such as WiFi and Ethernet at the lowest level. Recall that <em>higher</em> levels of abstraction are closer to what users <em>want</em> to be thinking about; lower levels are closer to the way machines work.</p>
 
 <p>What's going on inside a computer also has levels of abstraction. </p>
-<p>At the highest level are programs: some people write them, some people just use them. For the most part, neither the programmer nor the user thinks at all about how the wires, glass, and plastic—the hardware—inside a smartphone or computer actually fit together or work. Programming and programs are an &quot;abstraction&quot;—a way of thinking that ignores details that are, for current purposes, irrelevant and distracting. </p>
-<p>Similarly, in a car, knowing that the brake pedal slows the car down is a high level of abstraction; as long as the engineers and mechanics  designed and built the car  right, you don't need to know  <em>how</em> the brake pedal causes wheels to slow down.  </p>
+<p>At the highest level are programs: some people write them, some people just use them. For the most part, neither the programmer nor the user thinks at all about how the wires, glass, and plastic—the hardware—inside a smartphone or computer actually fit together or work. Programming and programs are an <em>abstraction</em>—a way of thinking that takes for granted that computers can run computer programs, without thinking about how that happens. </p>
+<p>Similarly, in a car, knowing only that the brake pedal slows the car down is a high level of abstraction; as long as the engineers and mechanics  designed and built the car  right, you don't need to know  <em>how</em> the brake pedal causes wheels to slow down. (If your car is a hybrid, the mechanism might not work by friction against the wheels.)</p>
 <p>Programs start out as ideas in your head; a <em>programming language</em> lets you express those ideas in a form that can be carried out by a computer. The programming language—<em>any</em> programming language—provides   basic parts with built-in behaviors that you, the programmer, just assemble in order to accomplish your purpose. In Snap<em>!</em>, these  are parts like  <img class="inline" src="/bjc-r/img/blocks/if.png"  alt="the if-block" title="the if-block">, <img class="inline" src="/bjc-r/img/blocks/repeat-empty.png" alt="the repeat block" title="the repeat block">, <img class="inline" src="/bjc-r/img/blocks/equals.png" alt="the equals block" title="the equals block">, <img class="inline" src="/bjc-r/img/blocks/and.png" alt="the and block" title="the and block">, and <img class="inline" src="/bjc-r/img/blocks/turn-left.png" height="38" alt="the turn counterclockwise block" title="the turn counterclockwise block">. Often, you assemble those very basic parts into bigger parts that <em>your</em> program will need, like <img class="inline" src="/bjc-r/img/1-introduction/greet-player.png" height="36" alt="greet player block"  title="greet player block" />, and then you think in terms of these even higher levels of abstraction.</p>
-<p>Below the programming level is hardware (the guts of the computer) and its "architecture" (the design that specifies how those basic hardware components are used to do their job). The hardware's job is to execute whatever programs it gets. Even computer architects are (mostly) thinking just about how to make best use of parts (memory, chips, logic gates, etc.) that already have some useful built in behaviors. And they, too, often assemble these into slightly fancier components that they will need. These designers don't (mostly) have to think about the physics of electrons or photons.</p>
-<p>At the lowest level, computer scientists, mathematicians, and physicists who are inventing completely new ways to design faster, smaller computers do need to pay attention to the basic physics that determines how the hardware components work. </p>
-<p>Roughly, the abstraction levels might look like this:</p> 
+<p>Below the programming level is hardware (the guts of the computer) and its <em>architecture</em> (the design that specifies how those basic hardware components  fit together to do their job). The hardware's job is to execute whatever programs it gets. Even computer architects are (mostly) thinking just about how to make best use of parts (memory, chips, logic gates, etc.) that already have some useful built in behaviors. And they, too, often assemble these into slightly fancier components that they will need. These designers don't (mostly) have to think about how these digital components work inside.</p>
+<p>At the lowest level, electrical engineers do have to think about how the laws of physics determine the behavior of the lowest-level electronic components.</p>
+<p>Roughly, the abstraction levels might look like this:</p>
+<img height="432" src="/bjc-r/img/6-computers/hardware-abstraction.png" alt="hardware abstraction table">
+
+<!-- table version is more ADA-compliant?
 
 <table frame="border" border="4" cellspacing="20" cellpadding="20">
-<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;application program&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;&nbsp;software</td></tr>
-<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;operating system&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;&nbsp;software</td></tr>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;application program&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;operating system&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td></tr>
 <tr><td bgcolor="black">------------------</td><td>&nbsp;&nbsp;&nbsp;&nbsp;PROGRAM ABSTRACTION&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
-<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;stored-program architecture&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;&nbsp;architecture</td></tr>
-<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;component level: processor, memory, input/output&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;&nbsp;hardware/architecture</td></tr>
-<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;integrated circuits (chips)&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;&nbsp;hardware/architecture</td></tr>
-<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;logic gates&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;&nbsp;hardware</td></tr>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;stored-program architecture&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;component level: processor, memory, input/output&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;integrated circuits (chips)&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;logic gates&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
 <tr><td bgcolor="black"></td><td>&nbsp;&nbsp;&nbsp;&nbsp;DIGITAL ABSTRACTION&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
-<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;transistors&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;&nbsp;a most basic component</td></tr>
-<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;quantum physics&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;&nbsp;mathematics</td></tr>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;transistors&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;quantum physics&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;</td></tr>
 </table>
 
+-->
+
 <p>Different people might draw this diagram slightly differently, so don't try to
-memorize all the levels.  The  key abstraction levels to remember are programming, computer hardware, and underlying physics.</p>
+memorize all the levels.  The  key abstraction levels to remember are software, digital computer hardware, and underlying analog circuit components.</p>
 
 
 <p>The rest of this unit fills in some useful details about the levels of abstraction 
