@@ -40,7 +40,7 @@
 <div class="forYouToDo">
 <ol start="2">
   <li>What's the first integer whose factorial doesn't fit in a word?</li>
-  <li><div class="comment">"What do you think they used...?" is a guess-what's-on-my-mind question. Um, 15. Wait, two shaves and a haircut? And, I actually have no idea.</div> Discuss:  What's the biggest value that fits in a four-bit word? What do you think they used four-bit computers for?</li></ol></div>
+</ol></div>
  <h3>Bignums </h3>
  <p>All computers have a finite amount of memory. So it's not a surprise that there's a limit to the size of integers a computer can represent exactly.  But that limit is way more than 64 bits; your computer probably has 137 <em>billion</em> or more bits of memory.  Why can't programming languages just use more than one word if necessary to represent an integer? 
  <p>They can.  It's just that the language that computers &quot;natively&quot; know adds one-word numbers with a single machine intruction, whereas the person who designs the programming language that <em>we</em> write in must work a little harder to make &quot;add&quot; work with multiple-word values. (A multiple-word integer value is called a <strong>bignum</strong>.) The <em>best</em> programming languages do that; remember that the whole point of computer science is abstraction, and one important kind of abstraction is protecting the user from having to know about hardware limitations.  Alas, all   the languages you are most likely to have heard of limit integer values to what fits in a word. 
@@ -49,7 +49,7 @@
  <div class="takeNote">This business about better and worse languages isn't just a question of taste; it can be a matter of life and death.  Between 1985 and 1987, a therapeutic X-ray machine called the Therac-25 killed four patients and seriously injured two more because of several bugs in its software; one of the bugs was that a usage counter that was kept in an eight-bit-wide variable would reach its maximum value of 127 and then
  <strong>overflow</strong> to zero instead of 128.  When the variable was zero, an important safety check was not performed.  This would not have happened if the Therac software had been written in a better programming language.</div>
  <div class="forYouToDo">
-  <ol start="4">
+  <ol start="3">
   <li>Click on this block in the scripting area:<br />
   <img src="/bjc-r/img/4-internet/bignums-true.png" alt="USE BIGNUMS &lt;true&gt;"> 
   </li>
@@ -64,7 +64,7 @@
     <li>You'll see a new browser tab with an unreadably small picture. Click on the picture and it should expand to readable size with a scroll bar at the bottom of the screen.</li></ol></li>
     <li>How many digits are there in 200!&thinsp;? Hint: Don't count by hand; you have a computer.</li></ol></div>
     <h3>Floating Point</h3>
-    <div class ="forYouToDo"><ol start="8">
+    <div class ="forYouToDo"><ol start="7">
   <li>Turn bignums off and try 200! again.<br /><img src="/bjc-r/img/4-internet/200bang-fixnum.png" alt="((200) !) -&gt; infinity"></li></ol></div>
    
 
@@ -74,7 +74,7 @@
   <p><em>Most</em> real numbers, not just especially large ones, are not exactly representable in this format. Think about the decimal representation of 1/3, 0.33333... It has infinitely many digits, so the closest you can come in floating point isn't <em>exactly</em> 1/3. That's why even great programming languages set a limit to the number of digits representable in floating point notation.</p></div>
   <div class="forYouToDo">
   <p>On the other hand, fractions such as 1/3 <em>can</em> be represented exactly using a pair of integers, one for the numerator and one for the denominator.</p>
-<ol start="9">
+<ol start="8">
 <li>Try<img src="/bjc-r/img/4-internet/one-third.png" alt="1 / 3"> with bignums off and with bignums on.</li></ol></div>
   <div class="takeNote">
   <p><a id="hintbutton2" onClick="document.getElementById('hintbutton2').innerHTML='Computer arithmetic on integers is straightforward.  Either you get an exactly correct result or, if the correct result wouldn&rsquo;t fit in the representation you&rsquo;re using, you get an <strong>overflow</strong> and the result is, usually, converted to floating point representation.  By contrast, computer arithmetic on floating point real numbers is very, very hard to get exactly right.  Prior to 1985, every model of computer had a slightly different floating point format, and all of them got wrong answers to certain problems.  This situation was resolved by the <strong>IEEE 754</strong> floating point standard, designed by &#x263a; University of California, Berkeley &#x263a; Professor William Kahan, a mathematician and computer scientist who did the first truly adequate analysis of what&rsquo;s required to get answers to floating point computations that are as correct as possible given a limited number of bits.  Today every computer manufacturer uses Professor Kahan&rsquo;s standard (which has been improved several times since 1985).';">Floating point is messy. (Click for details.)</a></p>
@@ -95,7 +95,7 @@
 <div class="takeNote">All through this page we've been talking about numbers, but don't forget that, at the lowest level of software abstraction, <em>everything</em>
 
 in a computer is represented as a binary sequence. A Boolean value is a single bit, 0 for <code>false</code> and 1 for <code>true</code>.
- A character string is a sequence of <a href="/bjc-r/cur/programming/2-conditionals-abstraction-testing/2-script-variables/2-script-variable-projects.html#secretcode">Unicode character codes</a>, each of which is a small integer&mdash;
+ A character string is a sequence of Unicode character codes, each of which is a small integer&mdash;
 	a sequence of bits. Lists and procedures, too, are binary sequences, but the precise format is beyond the scope of this course.</div>
 	</body>
 </html>
