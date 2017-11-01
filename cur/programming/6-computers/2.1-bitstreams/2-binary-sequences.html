@@ -8,7 +8,9 @@
 
 	<body>
         </div>
-		<h2>Binary Sequences</h2>
+		<h2>Representing Numbers</h2>
+		<p>A binary sequence (a bunch of bits) can represent any kind of information, but for the rest of this lab we're going to concentrate on numbers.</p>
+		<h3>Integers</h3>
         
         <div class="forYouToDo" id="first">
 			<ol>
@@ -39,7 +41,7 @@
 <p>On a 64-bit computer, if you want to represent both positive and negative integers, <em>one </em>word can fit 2<sup>63</sup>=9223372036854775808 of each (2<sup>64</sup> nunbers altogether). 2<sup>63</sup> is about 9 quintillion, 9×10<sup>18</sup>. That means that the 19-digit value of 20! just fits in a word, but the 33-digit 30! doesn't.</p>
 <div class="forYouToDo">
 <ol start="2">
-  <li>What's the first integer whose factorial doesn't fit in a word?</li>
+  <li>What's the <em>first</em> integer whose factorial doesn't fit in a word?</li>
 </ol></div>
  <h3>Bignums </h3>
  <p>All computers have a finite amount of memory. So it's not a surprise that there's a limit to the size of integers a computer can represent exactly.  But that limit is way more than 64 bits; your computer probably has 137 <em>billion</em> or more bits of memory.  Why can't programming languages just use more than one word if necessary to represent an integer? 
@@ -64,6 +66,10 @@
     <li>You'll see a new browser tab with an unreadably small picture. Click on the picture and it should expand to readable size with a scroll bar at the bottom of the screen.</li></ol></li>
     <li>How many digits are there in 200!&thinsp;? Hint: Don't count by hand; you have a computer.</li></ol></div>
     <h3>Floating Point</h3>
+    <p>The computer representation for non-integer values is called <em>floating point.</em></p>
+        <div class="endnote">
+            <a href="#hint-float" data-toggle="collapse">Where did that funny name come from?</a>
+      <div id="hint-float" class="collapse">This non-obvious name is used because there used to be a <em>fixed point</em> non-integer notation with a <em>fixed</em> number of digits after the decimal <em>point.</em> For example, a fixed point notation with two digits after the decimal point was used to represent an amount of money: $82.47 The fraction part is the number of cents. But today's computers always use floating point for non-integer values.</div></div>
     <div class ="forYouToDo"><ol start="7">
   <li>Turn bignums off and try 200! again.<br /><img src="/bjc-r/img/4-internet/200bang-fixnum.png" alt="((200) !) -&gt; infinity"></li></ol></div>
    
@@ -87,11 +93,16 @@
 <p>As an integer, that pattern of bits represents 243290200817664000. But <em>that same pattern of bits</em> represents</p>
 <p>4.85611351839403586987046017196×10<sup>-146</sup></p>
 <p>when considered as a floating point representation. The same pattern of bits may <em>also</em> represent an instruction in the machine language of whatever computer you're using. This is so important we're going to say it in boldface: <span style="background-color: #fcc589"><strong>The meaning of a sequence of bits depends on the context in which it is used.</strong></span> That's the take-away understanding you should get from this page, after you've forgotten details such as how many bits there are in a word.</p>
-<p>What exactly do we mean by &quot;context&quot;? How does a programming language know whether to interpret a bit sequence as an integer, a float, a string of characters, an instruction, or something else? Here, too,  programming languages differ. There's always <em>another</em> bit sequence somewhere that encodes the <strong>data type</strong> of the bit sequence. In great languages, that data type code is attached to the value itself. In ordinary languages, when you make a variable, you have to say what type of value it will contain, and the data type is attached to the <em>variable</em>, so you can't get exact answers when the values are integers and also be able to handle non-integer values of the same variable. So instead of seeing</p>
+<p>What exactly do we mean by &quot;context&quot;? How does a programming language know whether to interpret a bit sequence as an integer, a float, a string of characters, an instruction, or something else? There's always <em>another</em> bit sequence somewhere that encodes the <strong>data type</strong> of the bit sequence.</p>
+        <div class="endnote">
+            <a href="#hint-data-types" data-toggle="collapse">But different languages use data types differently.</a>
+      <div id="hint-data-types" class="collapse">
+<p>In great languages, that data type code is attached to the value itself. In ordinary languages, when you make a variable, you have to say what type of value it will contain, and the data type is attached to the <em>variable</em>, so you can't get exact answers when the values are integers and also be able to handle non-integer values of the same variable. So instead of seeing</p>
 <p><img src="/bjc-r/img/4-internet/varfoo.png" alt="script variables (foo)"></p>
 <p>you see things like</p>
 <p><img src="/bjc-r/img/4-internet/intfoo.png" alt="integer (foo)"></p>
 <p>We're telling you all these things because Snap<em>!</em> has strengths that many  programming languages do not, and it's very likely that your <em>next</em> year's computer science class will use one of those other languages. For example, if you take the AP Computer Science A course, it will use Java.</p>
+</div></div>
 <div class="takeNote">All through this page we've been talking about numbers, but don't forget that, at the lowest level of software abstraction, <em>everything</em>
 
 in a computer is represented as a binary sequence. A Boolean value is a single bit, 0 for <code>false</code> and 1 for <code>true</code>.
