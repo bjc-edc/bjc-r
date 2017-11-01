@@ -41,19 +41,25 @@
 		<p>That <code>e+32</code> is just a different way to write scientific notation. The "e+" means "times ten to the power of" so this notation means 2.6525285981219103 &times; 10<sup>32</sup> = 265,252,859,812,191,030,000,000,000,000,000.</p>
         
 		<h3>Fixed Width Computer Hardware</h3>
-        <div class="comment">needs more word smithing</div>
-        <p>So why did Snap<em>!</em> display 20! in ordinary whole number representation but 30! in scientific notation? Every computer model is designed with a certain<strong> width</strong>, the number of bits that the processor reads from memory or writes into memory at a time. The object composed of that number of bits is called a <strong>word</strong>. As of 2016, most new computers are 64 bits wide—that is, they have 64 bit words—but there are still a lot of 32-bit computers around.  The first microcomputer, the Intel 4004, first sold in 1971, was four bits wide!</p>
+        <p>So why did Snap<em>!</em> display 20! in ordinary whole number representation but 30! in scientific notation? Every computer model is designed with a certain<strong> width</strong>, the number of bits that the processor reads from memory or writes into memory at a time. That number of bits is called a <strong>word</strong>. As of 2016, most new computers are 64 bits wide. The first microcomputer, sold in 1971, was four bits wide!</p>
 		<div class="endnote">If you got an answer in scientific notation for 20!, you're using a 32-bit computer.</div>
-            <p>A 64 bit word represents 2<sup>64</sup> different values. We use about half for negative numbers, one for zero, and the rest for postives. Half of 2<sup>64</sup>, which is 2<sup>63</sup>, is about 9 &times; 10<sup>18</sup> = .</p>
-       
+            <p>A 64-bit word represents 2<sup>64</sup> different values. We use half for negative numbers, one for zero, and the rest for positives. Half of 2<sup>64</sup> (which is 2<sup>63</sup> = 9,223,372,036,854,775,808) is about 9 &times; 10<sup>18</sup>. That means that the 19 digits of 20! just barely fit in a 64-bit word. But the 33 digits of 30! don't. So the computer hardware reports an <em>overflow</em> error, and Snap<em>!</em> computes an approximation.</p>
+            
+		<div class="endnote">
+        	<a href="#hint-target" data-toggle="collapse">Are processor widths always powers of two?</a>
+            <div id="hint-target" class="collapse">Processor widths don't have to be a power of two. Some old computers—the kind  you see in old movies that filled a large room—used 12-bit, 36-bit, and 60-bit words. But modern personal computers started at 8 bits and the widths have been doubling with each new generation.</div>
+        </div>
+		
+        <div class="comment">TG: this can be done by binary search<br />Add note to TG about casual use of the word binary</div>
+        <div class="forYouToDo">
+            <ol start="2">
+                <li>Experiment in Snap<em>!</em>. What's the <em>first</em> integer whose factorial doesn't fit in a word?</li>
+            </ol>
+        </div>
+
        <hr /> 
 
-        
-		<div class="takeNote">              
-        <p>Values that exceed this limitation may result in errors such as <em>overflow</em> errors because big values overflow the amount of space allocated to store one number.</p>
-        </div>  
-        
-        
+            
         
         
         <div class="comment">"the size limitation" needs to be connected to the "two or perhaps four bytes" above.</div>
@@ -66,6 +72,49 @@
         <h4><strong>Storing Text</strong></h4>
 		<div class="sidenoteBig">You can learn more about Unicode if you do the <a href="/bjc-r/cur/programming/4-internet/3-cybersecurity/3-caesar-cipher.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc.html&novideo&noassignment">Caesar Cipher Project</a> in the Cybersecurity lab, where you create a program to encrypt a message.</div>
         <p>It's common for programming languages to use a <em>specific</em> number of bits to represent Unicode characters or integers. Unicode is a system that allows computers to store letters as integers. For example, capital A is Unicode number 65, which is 01000001<sub>2</sub>.</p>
+        
+        <h3>Bignums </h3>
+        <p>All computers have a finite amount of memory. So it's not a surprise that there's a limit to the size of integers a computer can represent exactly.  But that limit is way more than 64 bits; your computer probably has 137 <em>billion</em> or more bits of memory.  Why can't programming languages just use more than one word if necessary to represent an integer?        <p>They can.  It's just that the language that computers "natively" know adds one-word numbers with a single machine intruction, whereas the person who designs the programming language that <em>we</em> write in must work a little harder to make "add" work with multiple-word values. (A multiple-word integer value is called a <strong>bignum</strong>.) The <em>best</em> programming languages do that; remember that the whole point of computer science is abstraction, and one important kind of abstraction is protecting the user from having to know about hardware limitations.  Alas, all   the languages you are most likely to have heard of limit integer values to what fits in a word. 
+        <div class="takeItFurther">
+            <img class="imageRight" src="/bjc-r/img/icons/tough-stuff-mini.png" alt="Tough Stuff" title="Tough Stuff" /><img class="imageRight" src="/bjc-r/img/icons/tough-stuff-mini.png" alt="Tough Stuff" title="Tough Stuff" />
+            <p>The paradigmatic example of a great programming language is <a href="http://groups.csail.mit.edu/mac/projects/scheme/index.html">Scheme</a>. You can learn it from <a href="https://mitpress.mit.edu/sicp/full-text/book/book.html"> a wonderful computer science book</a> (in our opinion, the best ever written).</p>
+        </div>
+        
+        <div class="takeNote">This business about better and worse languages isn't just a question of taste; it can be a matter of life and death.  Between 1985 and 1987, a therapeutic X-ray machine called the Therac-25 killed four patients and seriously injured two more because of several bugs in its software; one of the bugs was that a usage counter that was kept in an eight-bit-wide variable would reach its maximum value of 127 and then <strong>overflow</strong> to zero instead of 128.  When the variable was zero, an important safety check was not performed.  This would not have happened if the Therac software had been written in a better programming language.</div>
+        <div class="forYouToDo">
+            <ol start="3">
+                <li>
+                    Click on this block in the scripting area:<br />
+                    <img src="/bjc-r/img/4-internet/bignums-true.png" alt="USE BIGNUMS &lt;true&gt;"> 
+                </li>
+                <li>
+                	Now try 30! again.<br /><img src="/bjc-r/img/4-internet/bang30-bignum.png" alt="((30) !) -&gt; 265252859812191058636308480000000">
+                    <div class="endnote">Note that this (exactly correct) value is different from the (rounded off) <strong>floating point</strong> value above. (More about floating point in a moment.)</div>
+                </li>
+                <li>
+                    Try 200!. The resulting speech balloon won't fit on your screen, but you can see it this way:
+                    <img class="imageRight" src="/bjc-r/img/4-internet/script-pic.jpg" alt="script pic drop down menu" title="script pic drop down menu" />
+                    <ol type="a">
+                        <li>Hold down the shift key and right-click or control-click the <code>!</code> block.</li>
+                        <li>In the menu that appears, click on the red "script pic with result" item.</li>
+                        <li>You'll see a new browser tab with an unreadably small picture. Click on the picture and it should expand to readable size with a scroll bar at the bottom of the screen.</li>
+                    </ol>
+                </li>
+                <li>How many digits are there in 200!&thinsp;? Hint: Don't count by hand; you have a computer.</li>
+            </ol>
+        </div>
+        
+        <h3>Floating Point</h3>
+        <p>The computer representation for non-integer values is called <em>floating point.</em></p>
+        <div class="endnote">
+            <a href="#hint-float" data-toggle="collapse">Where did that funny name come from?</a>
+            <div id="hint-float" class="collapse">This non-obvious name is used because there used to be a <em>fixed point</em> non-integer notation with a <em>fixed</em> number of digits after the decimal <em>point.</em> For example, a fixed point notation with two digits after the decimal point was used to represent an amount of money: $82.47 The fraction part is the number of cents. But today's computers always use floating point for non-integer values.</div>
+        </div>
+        <div class ="forYouToDo">
+            <ol start="7">
+                <li>Turn bignums off and try 200! again.<br /><img src="/bjc-r/img/4-internet/200bang-fixnum.png" alt="((200) !) -&gt; infinity"></li>
+            </ol>
+        </div>
         
         
         
@@ -98,7 +147,7 @@
             </ol>
         </div>
         <div class="comment">We have a choice: we can store an algebraic idea (like 1/3) or we can store a number ( like 0.333333)...</div>
-        <p>The decimal representation of <span class="katex">\frac13</span> is 0.33333... It has infinitely many digits, so the closest you can come in floating point isn't <em>exactly</em> <span class="katex">\frac13</span>; it gets cut off after a while because your computer doesn't ahve enough memory.</p>
+        <p>The decimal representation of <span class="katex">\frac13</span> is 0.33333... It has infinitely many digits, so the closest you can come in floating point isn't <em>exactly</em> <span class="katex">\frac13</span>; it gets cut off after a while because your computer doesn't have enough memory.</p>
         <p>Roundoff errors can result in some pretty weird calculations...</p>
         <div class="forYouToDo">
           <ol start="5">
