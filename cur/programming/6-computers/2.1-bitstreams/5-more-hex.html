@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unit 6 Lab 2: Data Representation, Page 5</title>
+		<script type="text/javascript" src="/bjc-r/utilities/gifffer.min.js"></script>
+        <script type="text/javascript">window.onload = function() {Gifffer();}</script>
+        <link rel="stylesheet" type="text/css" href="/bjc-r/css/bjc-gifffer.css">
+	</head>
+
+	<body>
+		<h2>More About Hexadecimal</h2>
+		<p>We can pack four bits (binary digits) into one hexadecimal digit because 16 is a power of two (16 = 2<sup>4</sup>). So, a group of four bits represents a value between 0 and 15, and one hex digit also represents values from 0-15 (using 0-9 and A-F). This makes it easier to translate between binary and hex than between other bases.</p>
+        <div class="sidenote">
+        	<p>You can create a table like this whenever you need one.</p>
+        	<table class="byte center">
+            	<tr>
+                	<td><strong>binary</strong></td>
+                	<td><strong>hex</strong></td>
+                </tr>
+            	<tr>
+                	<td>0000<sub>2</sub></td>
+                	<td>0<sub>16</sub></td>
+                </tr>
+            	<tr>
+                	<td>0001<sub>2</sub></td>
+                	<td>1<sub>16</sub></td>
+                </tr>
+            	<tr>
+                	<td>0010<sub>2</sub></td>
+                	<td>2<sub>16</sub></td>
+                </tr>
+            	<tr>
+                	<td>0011<sub>2</sub></td>
+                	<td>3<sub>16</sub></td>
+                </tr>
+            	<tr>
+                	<td>0100<sub>2</sub></td>
+                	<td>4<sub>16</sub></td>
+                </tr>
+            	<tr>
+                	<td>0101<sub>2</sub></td>
+                	<td>5<sub>16</sub></td>
+                </tr>
+            	<tr>
+                	<td>0110<sub>2</sub></td>
+                	<td>6<sub>16</sub></td>
+                </tr>
+            	<tr>
+                	<td>0111<sub>2</sub></td>
+                	<td>7<sub>16</sub></td>
+                </tr>
+            	<tr>
+                	<td>1000<sub>2</sub></td>
+                	<td>8<sub>16</sub></td>
+                </tr>
+            	<tr>
+                	<td>1001<sub>2</sub></td>
+                	<td>9<sub>16</sub></td>
+                </tr>
+            	<tr>
+                	<td>1010<sub>2</sub></td>
+                	<td>A<sub>16</sub></td>
+                </tr>
+            	<tr>
+                	<td>1011<sub>2</sub></td>
+                	<td>B<sub>16</sub></td>
+                </tr>
+            	<tr>
+                	<td>1100<sub>2</sub></td>
+                	<td>C<sub>16</sub></td>
+                </tr>
+            	<tr>
+                	<td>1101<sub>2</sub></td>
+                	<td>D<sub>16</sub></td>
+                </tr>
+            	<tr>
+                	<td>1110<sub>2</sub></td>
+                	<td>E<sub>16</sub></td>
+                </tr>
+            	<tr>
+                	<td>1111<sub>2</sub></td>
+                	<td>F<sub>16</sub></td>
+                </tr>
+            </table>
+        </div>
+        <h3>Translating between Binary and Hex</h3>
+        <div class="takeNote">
+        	<p>To translate a binary numeral (like 1101011101<sub>2</sub>) to hexadecimal, <strong>start by splitting it into groups of four bits</strong>, from right-to-left (like this: <span class="blue">11</span> <span class="red">0101</span> <span class="darkgreen">1101</span>).</p>
+            <p>Then <strong>determine the value of each group and write the corresponding hex digit</strong> (look it up on the table at right).</p>
+            <p>For example: <span class="blue">11</span><sub>2</sub> = <span class="blue">3</span><sub>16</sub>, <span class="red">0101</span><sub>2</sub> = <span class="red">5</span><sub>16</sub>, and <span class="darkgreen">1101</span> = <span class="darkgreen">D</span><sub>16</sub>. So, <span class="katex">1101011101_2 = 35\text{D}_{16}</span>.</p>
+        </div>
+        <div class="forYouToDo" id="first">
+            <ol>
+                <li>Translate these <strong>binary numerals</strong> to <strong>hexadecimal</strong> notation:
+                    <ol>
+                        <li>111011<sub>2</sub></li>
+                        <li>1101111<sub>2</sub></li>
+                        <li>10110001<sub>2</sub></li>
+                    </ol>
+				</li>
+            </ol>
+        </div>
+        <!--<div class="ifTime">
+            <ol start="7">
+                <li>Write out some binary (base 2) numerals and translate them to base 16, or swap with a partner and translate theirs.</li>
+            </ol>
+        </div>-->
+        
+		<div class="takeNote">
+        	<p>To translate a hex numeral (like 4E1<sub>16</sub>) to binary, <strong>write each hex digit as a group of four bits</strong> (even if the binary representation doesn't need all four digits).</p>
+            <p>For example: <span class="blue">4</span><sub>16</sub> = <span class="blue">0100</span><sub>2</sub>, <span class="red">E</span><sub>16</sub> = <span class="red">1110</span><sub>2</sub>, and <span class="darkgreen">1</span> = <span class="darkgreen">0001</span><sub>2</sub>. So, <span class="katex">4\text{E}1_{16} = 010011100001_{2}</span> or just <span class="katex">10011100001_{2}</span> because we can drop the leading zero once the digits are all in their places.</p>
+        </div>
+		<div class="forYouToDo">
+			<div class="sidenoteBig">In practice, you rarely change number bases by hand, except of course on the AP exam. Once you understand the basic principles of these  representations, it's perfectly fine to use a <a href="https://www.mathsisfun.com/binary-decimal-hexadecimal-converter.html" target="_blank">Binary to Decimal to Hexadecimal Converter</a>.</div>
+			<ol start="2">
+            	<li>Translate these <strong>hexadecimal numerals</strong> to <strong>binary</strong> notation:
+                    <ol>
+                        <li>18<sub>16</sub></li>
+                        <li>5D<sub>16</sub></li>
+                        <li>F8<sub>16</sub></li>
+                    </ol>
+				</li>			
+            </ol>
+		</div>
+        <!--<div class="ifTime">
+            <ol start="9">
+                <li>Write out some hex (base 16) numerals and translate them to base 2, or swap with a partner and translate theirs.</li>
+            </ol>
+        </div>-->
+        
+
+		<h3>Hexadecimal Colors</h3>
+		<p>Computers have several ways of representing colors depending on whether they are intended for controlling three-color RGB (red, green, blue) screen display, four-color CMYK (cyan, magenta, yellow, black) printing, or other purposes. On a computer screen, each <strong>pixel</strong>—each dot that makes up the picture on the screen—is assigned an RGB color defined by the intensity of red, green, and blue in that color. These three color intensities each range from 0 to 255 (one byte is used for each of the three colors), which is 00 to FF in hex notation.  </p>
+        <p>If <span style="color:#8000FF;"> (R, G, B) = (128, 0, 255), the color is purple: some red and a lot of blue, but no green at all.</span> If all three colors are as bright as possible (all are 255), we see white; if they are as dark as possible (all are 0), we see black. Instead of writing (255, 255, 255) for white and (128, 0, 255) for purple, we often use hex notation: FFFFFF and 8000FF. And <span style="color:#FF7F00;"> this color is red 255, green 127, and blue 0</span>, which is <span style="color:#FF7F00;">FF7F00</span> in hex.</p>
+        <div class="forYouToDo">
+            <ol start="3">
+                <li>Represent these colors in hex notation:
+                    <ol>
+                        <li><span style="color:#0095EB;">red 0, green 149, and blue 235</span></li>
+                        <li><span style="color:#805A00;">red 128, green 90, and blue 0</span></li>
+                        <li><span style="color:#A30054;">red 163, green 0, and blue 84</span></li>
+                    </ol>
+				</li>
+                <li>Predict what this RGB color will look like based on its values: red 145, green 0, blue 226.</li>
+                <li>Predict what this <em>hex</em> RGB color will look like: 04FF61.</li>
+            </ol>
+        </div>
+        <div class="ifTime">
+            <ol start="6">
+                <li>Explore this RGB/HEX color converter: <a href="http://hex.colorrrs.com/" target="_blank">http://hex.colorrrs.com/</a></li>
+				<li>Play with this <a href="http://www.mathsisfun.com/numbers/color-wheel-interactive.html" target="_blank">Interactive Color Wheel</a></li>
+                <li>Read more about <a href="http://www.mathsisfun.com/hexadecimal-decimal-colors.html" target="_blank">RGB colors and hexadecimal notation</a>.</li>
+            </ol>
+        </div>
+        <div class="takeItFurther"><a name="further" class="anchor">&nbsp;</a>
+		    <ol type="A">
+				<li>
+                	<div class="sidenoteBig">As in all Snap<em>!</em> blocks, the numeric input slots take values in <em>base 10</em> (not hex).  Each color component has a value between 0 and 255.</div>
+					Load the Snap<em>!</em> RGB library into one of your projects to <strong>explore RGB color further</strong>. In the File menu, choose "Libraries..." and then choose "Set RGB or HSV pen color". This will give you a new "Pen" block: <br />
+                    <img class="indent" src="/bjc-r/img/4-internet/set-pen-color-RGB.png" alt="set pen color to r: () g: () b: ()" title="set pen color to r: () g: () b: ()" />
+                </li>
+            </ol>
+        </div>
+        
+        
+    </body>
+</html>

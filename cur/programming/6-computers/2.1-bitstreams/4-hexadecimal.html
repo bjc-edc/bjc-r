@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unit 6 Lab 2: Data Representation, Page 4</title>
+		<script type="text/javascript" src="/bjc-r/utilities/gifffer.min.js"></script>
+        <script type="text/javascript">window.onload = function() {Gifffer();}</script>
+        <link rel="stylesheet" type="text/css" href="/bjc-r/css/bjc-gifffer.css">
+	</head>
+
+	<body>
+		<h2>Hexadecimal Representation</h2>
+		<div class="todo">
+           <strong> 2.1</strong> A variety of abstractions built on binary sequences can be used to represent all digital data.<br />
+            <strong>2.1.1</strong> Describe the variety of abstractions used to represent data. [P3]<br />
+            2.1.1B At the lowest level, all digital data are represented by bits.<br />
+            2.1.1C At a higher level, bits are grouped to represent abstractions, including but not limited to numbers, characters, and color.<br />
+            2.1.1D Number bases, including binary, decimal, and hexadecimal, are used to represent and investigate digital data.<br />
+            2.1.1E At one of the lowest levels of abstraction, digital data is represented in binary (base 2) using only combinations of the digits zero and one.<br />
+            2.1.1F Hexadecimal (base 16) is used to represent digital data because hexadecimal representation uses fewer digits than binary.<br />
+            2.1.1G Numbers can be converted from any base to any other base.
+        </div>
+        
+        <p>Typing long strings of ones and zeros is inconvenient and prone to error. One common compromise is to use hexadecimal (base 16).  Four binary digits represent the values 0 through 15, whereas only <em>one</em> hex digit also represents 0 through 15. So eight digits of binary can be translated into two digits of hexadecimal, which is much easier and much less error-prone for humans.</p>
+        <table class="byte center">
+            <tr>
+                <td colspan="12" style="text-align:center;">Eight bits in base two...</td>
+            </tr>
+            <tr>
+                <td style="color:red">2<sup>7</sup></td>
+                <td style="color:red">2<sup>6</sup></td>
+                <td style="color:red">2<sup>5</sup></td>
+                <td style="color:red">2<sup>4</sup></td>
+                <td style="color:blue">2<sup>3</sup></td>
+                <td style="color:blue">2<sup>2</sup></td>
+                <td style="color:blue">2<sup>1</sup></td>
+                <td style="color:blue">2<sup>0</sup></td>
+            </tr>
+            <tr>
+                <td style="color:red">128s place</td>
+                <td style="color:red">64s place</td>
+                <td style="color:red">32s place</td>
+                <td style="color:red">16s place</td>
+                <td style="color:blue">eights place</td>
+                <td style="color:blue">fours place</td>
+                <td style="color:blue">twos place</td>
+                <td style="color:blue">ones place</td>
+            </tr>
+            <tr>
+                <td colspan="8" style="text-align:center;">...is two digits in base 16.</td>
+            </tr>
+            <tr>
+                <td style="color:red" colspan="4">16<sup>1</sup></td>
+                <td style="color:blue" colspan="4">16<sup>0</sup></td>
+            </tr>
+            <tr>
+                <td style="color:red" colspan="4">sixteens place</td>
+                <td style="color:blue" colspan="4">ones place</td>
+            </tr>
+        </table><br />
+        <table class="byte center">
+        	<tr>
+                <td colspan="8" style="text-align:center;">For example: 121<sub>10</sub> = 01111001<sub>2</sub> = 79<sub>16</sub></td>
+            </tr>
+            <tr>
+                <td style="color:red">0</td>
+                <td style="color:red">1</td>
+                <td style="color:red">1</td>
+                <td style="color:red">1</td>
+                <td style="color:blue">1</td>
+                <td style="color:blue">0</td>
+                <td style="color:blue">0</td>
+                <td style="color:blue">1</td>
+            </tr>
+            <tr>
+                <td style="color:red" colspan="4">7</td>
+                <td style="color:blue" colspan="4">9</td>
+            </tr>
+        </table>
+            
+    
+        <p>
+			<div class="sidenoteBig">
+                By convention, place value notations use only one digit in each place. We need to represent 0 through 15, and we have digits for 0-9, so we choose A-F for the remaining values:
+                <table class="byte">
+                    <tr>
+                        <td>10</td>
+                        <td>11</td>
+                        <td>12</td>
+                        <td>13</td>
+                        <td>14</td>
+                        <td>15</td>
+                    </tr>
+                    <tr>
+                        <td>A</td>
+                        <td>B</td>
+                        <td>C</td>
+                        <td>D</td>
+                        <td>E</td>
+                        <td>F</td>
+                    </tr>
+                </table>
+			</div>
+			In <strong>base 16</strong>, there are sixteen digits (0-9 and A-F), and each place is worth <em>sixteen</em> times the place to its right. One hex digit has 16 possible values, the equivalent of four binary digits (bits).<br />
+            <img class="indent noshadow" src="/bjc-r/img/4-internet/hex-places.jpg" alt="place values in hexadecimal" title="place values in hexadecimal" />
+        </p>
+        
+<!--        <div class="forYouToDo" id="first">
+			<ol>
+				<li>
+                    <img class="imageRight" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> 
+                    Watch this Hexadecimal and Binary Timer Snap<em>!</em> program run. The top row counts in binary, the middle in decimal, the bottom in hex. Write a description of the hex counter's behavior.<br />
+                    <img class="indent" data-gifffer="/bjc-r/img/4-internet/hex-timer-preview.gif" alt="Hexadecimal timer" title="Hexadecimal timer" />
+                </li>
+            </ol>
+        </div>   -->
+        
+                
+		<h3>Reading Hexadecimal</h3>
+        <div class="endnote">
+            <p>
+                <img class="imageRight" src="/bjc-r/img/4-internet/binary-places(18).jpg" alt="place values in binary" title="place values in binary" />
+           		<strong>Base 16</strong> uses <strong>powers of sixteen</strong> instead of powers of two or ten.  Place values in hexadecimal represent the units place (16<sup>0</sup> = 1), the sixteens place (16<sup>1</sup> = 16), the two hundred fifty-sixes place (16<sup>2</sup> = 256), the four thousand ninety-sixes place (16<sup>3</sup> = 4096), etc. So, for example:
+            </p>
+			<p align="center">3B<sub>16</sub> &nbsp; = &nbsp; 3 &times; 16<sup>1</sup> &nbsp;+&nbsp; 11 &times; 16<sup>0</sup> &nbsp; = &nbsp; 48 &nbsp;+&nbsp; 11 &nbsp; = &nbsp; 59<sub>10</sub></p>
+        </div>
+        
+<!--        <p>This video continues one you saw before.</p>
+		<img class="imageRight" src="/bjc-r/img/icons/headphones.png" alt="Set Up Your Headphones or Speakers" title="Set Up Your Headphones or Speakers" />
+        <div class="sidenote">If your connection blocks YouTube, <a href="http://scratch.mit.edu/discuss/youtube/SqhbDWVOLvk" target="_blank">watch the video here</a>, but only watch the segment about converting hexadecimal to decimal from 3:12 to 4:55. </div>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/SqhbDWVOLvk?rel=0&start=192&end=295" frameborder="0" allowfullscreen class="indent"></iframe><br />  -->
+        
+		<div class="takeNote">
+			<p>To translate from hexadecimal (for example, 7B3<sub>16</sub>) to base 10, <strong>first, write the digits on paper. Then write out the hexadecimal place values</strong>: start at the right with 1, then write 16 in the next place to the left, then write 256 (which is 16<sup>2</sup>), and so on. <em>Each new place will be worth 16 times the one to its right.</em></p>
+            <div class="sidenote">
+                A-F cover the digits after 9:
+				<table class="byte">
+                    <tr>
+                        <td>10</td>
+                        <td>11</td>
+                        <td>12</td>
+                        <td>13</td>
+                        <td>14</td>
+                        <td>15</td>
+                    </tr>
+                    <tr>
+                        <td>A</td>
+                        <td>B</td>
+                        <td>C</td>
+                        <td>D</td>
+                        <td>E</td>
+                        <td>F</td>
+                    </tr>
+				</table>
+            </div>
+			<table class="byte indent">
+                <tr>
+                    <td>7</td>
+                    <td>B</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td>256</td>
+                    <td>16</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td class="noborder" colspan="3">
+                    	<img class="indent noshadow" src="/bjc-r/img/8-recursive-reporters/r-to-l.png" alt="right-to-left arrow" title="right-to-left arrow" />
+                    </td>
+                </tr>
+			</table>
+			<p>This means <span class="katex">7B3_{16} = 7 \cdot 256 + 11 \cdot 16 + 3 \cdot 1 = 1792 + 176 + 3 = 1971_{10}</span>.</p>
+        </div>
+		
+		<div class="forYouToDo">
+			<ol start="1">
+                <div class="sidenoteBig">
+                    <span class="katex">\text{FF}_\text{16}</span><br />
+                    <span class="katex">= (15 \cdot 16^1 + 15 \cdot 16^0)_\text{10}</span><br />
+                    <span class="katex">= (15 \cdot 16 + 15)_\text{10}</span><br />
+                    <span class="katex">= 255_{10}</span>
+                </div>
+                <li>Translate these hexadecimal numerals into base 10 notation:
+					<ol>
+                        <li>AF<sub>16</sub></li>
+                        <li>5D<sub>16</sub></li>
+                        <li>18<sub>16</sub></li>
+                        <li>3E8<sub>16</sub></li>
+                    </ol>
+					<div class="endnote">A numeral like 11 could mean <em>eleven</em> in the usual decimal notation, or <em>three</em> if it is a binary numeral, or <em>seventeen</em> in hex notation. The only way you know that the "18" in the last problem doesn't mean <em>eighteen</em> is that the problem said that the numerals were  hex. If we need to be extra-clear, we write <span class="katex"> 18_\text{base  16} </span> or just <span class="katex"> 18_{16}</span>. (By convention, the base itself is always written in decimal notation.)</div>
+				</li>	
+            </ol>
+        </div>
+        
+        
+		<h3>Writing Hexadecimal</h3>
+        <div class="takeNote">
+			<p>To translate from base 10 (for example, <span class="katex">299_{10}</span>) to base 16, <strong>first write out the hex place values</strong> by <em>multiplying by 16 moving left from the units place</em> until you get to a value larger than your number (4096 for this example). <strong>Then think</strong>, "My number is smaller than 4096, so I  leave that place blank. But I can subtract a two hundred fifty-six once, so I write a 1 there, and there's 43 left. Now, I can subtract 2 sixteens, and there's 11 left. And 11 is B in hex.</p>
+			<table class="remainders indent">
+            	<tr><td><s>299</s></td></tr>
+            	<tr><td><s>43</s></td></tr>
+            	<tr><td><s>11</s></td></tr>
+            	<tr><td>0</td></tr>
+            </table>
+            <table class="byte">
+                <tr>
+                  <td class="noborder" colspan="4">
+                    	<img class="indent noshadow" src="/bjc-r/img/8-recursive-reporters/r-to-l.png" alt="right-to-left arrow" title="right-to-left arrow" />
+                  </td>
+				</tr>
+				<tr>
+                    <td>4096</td>
+                    <td>256</td>
+                    <td>16</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>1</td>
+                    <td>2</td>
+                    <td>11 (B)</td>
+                </tr>
+			</table>
+            <p>Now, read the number off: <span class="katex">12\text{B}_{16}=299_{10}</span>.</p>
+		</div>
+        
+<!--		<div class="sidenote">If your connection blocks YouTube, <a href="http://scratch.mit.edu/discuss/youtube/rVIq_bol1Es" target="_blank">watch the video here</a>, but only watch the segment about translating decimal to hexadecimal from 3:14 to 4:38. </div>
+		<img class="imageRight" src="/bjc-r/img/icons/headphones-mini.png" alt="Set Up Your Headphones or Speakers" title="Set Up Your Headphones or Speakers" />
+		<iframe width="560" height="315" src="https://www.youtube.com/embed/rVIq_bol1Es?rel=0&start=194&end=278" frameborder="0" allowfullscreen class="indent"></iframe>    -->
+        
+		<div class="forYouToDo">
+          <ol start="2">
+                <li>Translate these <strong>decimal numerals</strong> to <strong>hexadecimal</strong> notation:
+                    <ol>
+                        <li>59</li>
+                        <li>144</li>
+                        <li>229</li>
+                        <li>316</li>
+                    </ol>
+				</li>
+            </ol>
+        </div>
+        
+        
+    </body>
+</html>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unit 6 Lab 2: Data Representation, Page 3</title>
+		<script type="text/javascript" src="/bjc-r/utilities/gifffer.min.js"></script>
+        <script type="text/javascript">window.onload = function() {Gifffer();}</script>
+        <link rel="stylesheet" type="text/css" href="/bjc-r/css/bjc-gifffer.css">
+    </head>
+    
+    <body>
+    	<h2>Binary Representation</h2>
+        <div class="todo">
+            <strong>2.1</strong> A variety of abstractions built on binary sequences can be used to represent all digital data.<br />
+            <strong>2.1.1</strong> Describe the variety of abstractions used to represent data. [P3]<br />
+            2.1.1A Digital data is represented by abstractions at different levels.<br />
+            2.1.1B At the lowest level, all digital data are represented by bits.<br />
+            2.1.1C At a higher level, bits are grouped to represent abstractions, including but not limited to numbers, characters, and color.<br />
+            2.1.1D Number bases, including binary, decimal, and hexadecimal, are used to represent and investigate digital data.<br />
+            2.1.1E At one of the lowest levels of abstraction, digital data is represented in binary (base 2) using only combinations of the digits zero and one.<br />
+        </div>
+		<p>We've looked at how the number of bits used to represent an integer affects how big it can be. Now we turn to the specific way a single-word (non-bignum) integer is encoded as bits.</p>
+		<p>The word &quot;bit&quot; is an abbreviation for <em>binary digit.</em> People generally use base ten (decimal) to write numbers. Computers, because of the on/off nature of the wires inside them, use base two (binary).</p>
+		
+		<p>
+            In <strong>base 10</strong>, there are ten digits (0-9), and each place is worth <em>ten</em> times the place to its right. <br />
+          <img class="indent noshadow" src="/bjc-r/img/4-internet/decimal-places.jpg" alt="place values in decimal" title="place values in decimal" />
+        </p>
+        <p>
+            In <strong>binary, base 2</strong>, there are only two digits (0 and 1), and each place is worth <em>two</em> times the place to its right.<br />
+            <div class="sidenoteBig">The subscript 2 on 1101<sub>2</sub> means the 1101 is in base 2. Numbers are normally written in base 10, so a subscript 10 is only used when needed for clarity.</div>
+            <img class="indent noshadow" src="/bjc-r/img/4-internet/binary-places.jpg" alt="place values in binary" title="place values in binary" />
+        </p>
+        
+<!--        <div class="forYouToDo" id="first">
+			<ol>
+				<li>
+                    <img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> 
+                    Watch this Binary Timer Snap<em>!</em> program run. Write a description of the binary counter's behavior. Explain what you see going on.<br />
+                    <img class="indent" data-gifffer="/bjc-r/img/4-internet/bin-timer-preview.gif" alt="binary coutner Snap! project" title="binary coutner Snap! project" />
+                </li>
+            </ol>
+        </div>   -->
+
+        
+        <h3>Reading Binary</h3>
+        <div class="endnote">
+            <p>In <strong>base 10</strong> notation, each place value represents a <strong>power of ten</strong>: the units place (10<sup>0</sup> = 1), the tens place (10<sup>1</sup> = 10), the hundreds place (10<sup>2</sup> = 100), the thousands place (10<sup>3</sup> = 1000), etc. So, for example:</p>
+            <p class="center"> 9827  &nbsp; = &nbsp; 9 &times;  10<sup>3</sup> &nbsp;+&nbsp; 8 &times;  10<sup>2</sup> &nbsp;+&nbsp; 2 &times;  10<sup>1</sup> &nbsp;+&nbsp; 7 &times;  10<sup>0</sup></p>
+			<p>
+                <img class="imageRight" src="/bjc-r/img/4-internet/binary-places(18).jpg" alt="place values in binary" title="place values in binary" />
+           		<strong>Base 2</strong> uses the same idea but with <strong>powers of two</strong> instead of powers of ten. Binary place values represent the units place (2<sup>0</sup> = 1), the twos place (2<sup>1</sup> = 2), the fours place (2<sup>2</sup> = 4), the eights place (2<sup>3</sup> = 8), the sixteens place (2<sup>4</sup> = 16), etc. So, for example:
+            </p>
+			<p align="center">10010<sub>2</sub> &nbsp; = &nbsp; <strong>1 &times; 2<sup>4</sup></strong>	 &nbsp;+&nbsp; 0 &times; 2<sup>3</sup> &nbsp;+&nbsp; 0 &times; 2<sup>2</sup> &nbsp;+&nbsp; <strong>1 &times; 2<sup>1</sup></strong> &nbsp;+&nbsp; 0 &times; 2<sup>0</sup> &nbsp; = &nbsp; 16 &nbsp;+&nbsp; 2 &nbsp; = &nbsp; 18<sub>10</sub></p>
+        </div>
+        
+<!--		<p>
+        	Here's a video from a different version of BJC. It cuts off just before talking about base 16. (You'll see more about reading hexadecimal soon.)<br />
+        	<img class="imageRight" src="/bjc-r/img/icons/headphones.png" alt="Set Up Your Headphones or Speakers" title="Set Up Your Headphones or Speakers" />
+        </p>
+		
+        <div class="sidenote">If your connection blocks YouTube, <a href="http://scratch.mit.edu/discuss/youtube/SqhbDWVOLvk" target="_blank">watch the video here</a>, but you only need to watch the first 3:10&mdash;up to (but not including) the part about hexadecimal.</div>
+        <div class="sidenote">There is a <strong>mistake in the video</strong> at 2:50. Do you see why? (Also, not everyone learns base 10 place values in kindergarten!)</div>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/SqhbDWVOLvk?rel=0&end=190" frameborder="0" allowfullscreen class="indent"></iframe><br />    -->
+        
+        <div class="takeNote">
+          <p>To translate from binary (for example, <span class="katex">101101_2</span>) to base 10, <strong>first, write the number out on paper. Then write out the binary place values</strong> by <em>doubling left from the units place</em>:</p>
+          <div class="sidenoteBig">101101<sub>2</sub> has only six digits, so we don't need powers of two to the left of that.</div>
+            <table class="byte indent">
+                <tr>
+                    <td><strong>1</strong></td>
+                    <td>0</td>
+                    <td><strong>1</strong></td>
+                    <td><strong>1</strong></td>
+                    <td>0</td>
+                    <td><strong>1</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>32</strong></td>
+                    <td>16</td>
+                    <td><strong>8</strong></td>
+                    <td><strong>4</strong></td>
+                    <td>2</td>
+                    <td><strong>1</strong></td>
+                </tr>
+                <tr>
+                    <td class="noborder" colspan="6">
+                    	<img class="indent noshadow" src="/bjc-r/img/8-recursive-reporters/r-to-l.png" alt="right-to-left arrow" title="right-to-left arrow" />
+                    </td>
+                </tr>
+            </table>
+			<p>This means this number is 32 + 8 + 4 + 1. So, <span class="katex">101101_2 = 45_{10}</span>.</p>
+        </div>
+        
+		<div class="forYouToDo">
+            <ol start="1">
+                <li>
+                    Translate these binary numerals into base 10 notation:
+                      <ol>
+                    	<li>101<sub>2</sub></li>
+                        <li>111<sub>2</sub></li>
+                        <li>1010011<sub>2</sub></li>
+                    </ol>
+                </li>
+			</ol>
+		</div>
+
+		<h3>Writing Binary</h3>
+        <div class="takeNote">
+			<p>To translate from base 10 (like <span class="katex">89_{10}</span>) to base 2, <strong>first write out the binary place values</strong> by <em>doubling left from the units place</em> until you get to a value larger than your number (256 for this example). <strong>Then think</strong>, "My number is smaller than 128, so I can leave that place blank. But I can take out a 64, so I write a 1 there, and there's <span class="katex">25</span> left (89&nbsp;&ndash;&nbsp;64). I have 0 thirty-twos, because I only have 25. But I can take out 16, and there's <span class="katex">9</span> left. So, 8 and 1 are the last nonzero bits.</p>
+            <div class="sidenoteBig">Either way you are converting (and between any bases), always write the place values right-to-left (just like with units, tens, hundreds, etc.), and always write the number itself left-to-right (just like normal).</div>
+            <table class="remainders indent">
+            	<tr><td><s>89</s></td></tr>
+            	<tr><td><s>25</s></td></tr>
+            	<tr><td><s>9</s></td></tr>
+            	<tr><td><s>1</s></td></tr>
+            	<tr><td>0</td></tr>
+            </table>
+            <table class="byte indent">
+                <tr>
+					<td class="noborder" colspan="8">
+						<img class="indent noshadow" src="/bjc-r/img/8-recursive-reporters/r-to-l.png" alt="right-to-left arrow" title="right-to-left arrow" />
+					</td>
+                </tr>
+                <tr>
+                    <td>128</td>
+                    <td><strong>64</strong></td>
+                    <td>32</td>
+                    <td><strong>16</strong></td>
+                    <td><strong>8</strong></td>
+                    <td>4</td>
+                    <td>2</td>
+                    <td><strong>1</strong></td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td><strong>1</strong></td>
+                    <td>0</td>
+                    <td><strong>1</strong></td>
+                    <td><strong>1</strong></td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td><strong>1</strong></td>
+                </tr>
+            </table><br clear="all" />
+            <p>Now, read the number off: <span class="katex">1011001_2=89_{10}</span>.</p>
+		</div>
+        
+<!--        <p>Here's another video. (It also cuts off before talking about base 16.)</p>
+        <div class="sidenote">If your connection blocks YouTube, <a href="http://scratch.mit.edu/discuss/youtube/rVIq_bol1Es" target="_blank">watch the video here</a>, but you only need to watch the first 3:14&mdash;up to (but not including) the part about hexadecimal. </div>
+		<img class="imageRight" src="/bjc-r/img/icons/headphones-mini.png" alt="Set Up Your Headphones or Speakers" title="Set Up Your Headphones or Speakers" />
+		<iframe width="560" height="315" src="https://www.youtube.com/embed/rVIq_bol1Es?rel=0&end=194" frameborder="0" allowfullscreen class="indent"></iframe><br />   -->
+        
+        <div class="takeNote">
+        	Here's an <em>algorithm</em> you can follow to find the base 2 representation of any base 10 integer:
+            <ol type="a">
+                <li>First, find the largest power of two that fits inside the number.</li>
+                <li>Then, subtract that power of 2 from the number, keep the new number, and record a 1 in the place for that power of 2.</li>
+<!--                <div class="sidenote">You could <a href="/bjc-r/cur/programming/6-computers/1-number-representation/5-binary-counter.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc.html&novideo&noassignment">create a program</a> based on an algorithm like this.</div>   -->
+                <div class="sidenote">There is another  method and another explanation of this method described on  <a href="http://www.wikihow.com/Convert-from-Decimal-to-Binary" target="_blank">wikihow.com</a>.</div>
+                <li>
+                    Then, determine if the next largest power of 2 fits inside the new number, and:
+                    <ul>
+                        <li>If it does, subtract that power of 2 from the number, keep the new number, and record a 1 in the place for that power of 2.</li>
+                        <li>If it doesn't, keep the same number, and record a 0 for that power of 2.</li>
+                    </ul>
+                    Repeat this whole step with the next largest power of 2 until you have a bit (1 or 0) for all the remaining places down to and including the ones place (by which point you should have nothing left of the original number).
+                </li>
+            </ol>
+            <p>The string of ones and zeros you have recorded is the binary representation of your original number.</p>
+        </div>
+
+		<div class="forYouToDo">
+            <ol start="2">
+                <li>
+                    Represent these base 10 numerals in binary (base 2):
+                      <ol>
+                        <li>63</li>
+                        <li>64</li>
+                        <li>65</li>
+                        <li>129</li>
+                        <li>128</li>
+                        <li>127</li>
+                    </ol>
+                </li>
+            </ol>
+        </div>
+	
+    
+	</body>
+</html>
