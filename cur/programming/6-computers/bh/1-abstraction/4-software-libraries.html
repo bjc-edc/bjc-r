@@ -60,9 +60,9 @@
         <p>Run-length encoding doesn't <em>lose</em> any information. The original picture can be reconstructed with every pixel exactly correct. This is an example of <em>lossless compression.</em></p>
 
 		</div>
-        <p>Run-length encoding doesn't do  well if the picture is a photograph, in which every pixel may be slightly different in color from its neighbors.  (If the length of each color run is just one pixel, storing just the colors uses half the information than storing both run length <em>and</em> color.) So there are other compression algorithms. The PNG  (Portable Network Graphics, pronounced "ping") encoding does <em>lossless</em> compression of arbitrary pictures. Its algorithm is complicated, using several different strategies depending on how  color varies in each small chunk of the image. The thing to remember is that PNG is lossless.</p>
+        <p>Run-length encoding doesn't do  well if the picture is a photograph, in which every pixel may be slightly different in color from its neighbors.  (If the length of each color run is just one pixel, storing just the colors uses half as much information as storing both run length <em>and</em> color.) So there are other compression algorithms. The PNG  (Portable Network Graphics, pronounced "ping") encoding does <em>lossless</em> compression of arbitrary pictures. Its algorithm is complicated, using several different strategies depending on how  color varies in each small chunk of the image. The thing to remember is that PNG is lossless.</p>
 <p>Some   algorithms use <strong>lossy compression</strong>. This lets file size  be even smaller, but the original picture can't be perfectly reconstructed; information is lost. This would be terrible if these algorithms were used to compress a computer program or a novel, but people's perception of pictures does not  require extreme precision.</p>
-        <p>The most commonly used lossy compression algorithm for pictures is called JPEG (or JPG, both pronounced "jay peg") for "Joint Photographic Experts Group," the commitee that invented it. Lossy algorithms usually let you control the degree of precision. Below are two versions of a picture measuring 512×384 pixels and the file sizes in various formats.</p>
+        <p>The most commonly used lossy compression algorithm for pictures is called JPEG (or JPG, both pronounced "jay peg") for "Joint Photographic Experts Group," the commitee that invented it. Lossy algorithms usually let you control the degree of precision. Below are two versions of a picture measuring 256×192 pixels and the file sizes in various formats.</p>
         <table width="56%" border="4" cellspacing="8" summary="compression factors example">
           <tr>
                 <th scope="col">format</th>
@@ -70,29 +70,34 @@
             </tr>
             <tr>
                 <td>BMP (encoding every pixel individually)</td>
-                <td>590 kB</td>
+                <td>148 kB</td>
             </tr>
             <tr>
                 <td>PNG</td>
-                <td>441 kB</td>
+                <td>106 kB</td>
             </tr>
             <tr>
                 <td>JPEG set at &quot;best&quot; in the Preview app on a Mac</td>
-                <td>390 kB</td>
+                <td>94 kB</td>
             </tr>
             <tr>
                 <td>JPEG set at &quot;worst&quot; in the Preview app on a Mac</td>
-                <td>21 kB</td>
+                <td>5 kB</td>
             </tr>
         </table>
         <p>
-          Notice how tiny the JPEG worst file is! It must look terrible, right? Here are a section from that 21kB file and the original, uncompressed BMP file. Can you tell which is which?<br />
+          Notice how tiny the JPEG worst file is! It must look terrible, right? Here are  that 5kB file and the original, uncompressed BMP file. Can you tell which is which?<br />
             <img class="indent" src="/bjc-r/img/6-computers/pond.bmp" alt="pond pebbles" title="pond pebbles" />
             <img src="/bjc-r/img/6-computers/pond.jpg" alt="pond pebbles" title="pond pebbles" />
         </p>
+        <p>JPEG compression is designed for photographs; it's not so good for cartoon-like images. Here's the BJC logo in &quot;best&quot; and &quot;worst&quot; JPEG versions:<br />
+  <img src="/bjc-r/img/6-computers/bjc-logo-jpeg-best.jpg" alt="BJC logo, JPEG best">
+  &nbsp;&nbsp;&nbsp;
+  <img src="/bjc-r/img/6-computers/bjc-logo-jpeg-worst.jpg" alt="BJC logo, JPEG worst"><br>
+  The "best" one isn't too bad, but if you look closely you can see "jaggies": a stairstep effect at the edges of the letters.  The "worst" one has even worse jaggies, wrong colors in the B, and bits of fuzz in what should be the transparent areas near the letters.</p>
         <div class="vocabFullWidth"><strong>: Lossy vs. Lossless</strong>
-            <p><strong>Lossless</strong> compression (like PNG) is <em>reversible</em> (no loss in quality); you can reconstruct the original data. It works by removing redundant data.</p>
-            <p><strong>Lossy</strong> compression (like JPG) is <em>not</em> fully reversible; you can only reconstruct an <em>approximation</em> of the original data. It works by removing irrelevant data (details that people aren't likely to notice).</p>
+          <p><strong>Lossless</strong> compression (like PNG) is <em>reversible</em> (no loss in quality); you can reconstruct the original data. It works by removing redundant data.</p>
+            <p><strong>Lossy</strong> compression (like JPG) is <em>not</em> fully reversible; you can only reconstruct an <em>approximation</em> of the original data. It works by removing details that people aren't likely to notice.</p>
 
             <p>There are trade-offs: lossless compression maintains the original data but might not be able to compress the data much or at all; lossy compression often results in a smaller file but may have lower quality.</p>
         </div>
