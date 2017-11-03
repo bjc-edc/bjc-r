@@ -29,13 +29,13 @@
         <p>
         	<!--(I dont' think this is true, personally. --MF) Recursive <em>reporters</em> can be more difficult to write than recursive <em>commands</em>, such as <code>tree</code> and <code>triangle fractal</code>.--> Recursive <em>commands</em> often have structure like this, with multiple commands in the recursive case:
     <div class="sidenote">Recursive <em>commands</em> can even have <em>multiple</em> recursive calls (<code>tree</code> is a good example; we called <code>tree</code> <em>twice</em> from within a single call to <code>tree</code>).</div>
-            <img class="indent" src="/bjc-r/img/8-recursive-reporters/rec-command.png" alt="recursive command pattern" title="recursive command pattern" />
+            <img class="indent" src="/bjc-r/img/8-recursive-reporters/rec-command.png" alt="recursion(input){if(base case?(input){do something simple} else{do stuff; recursion(smaller input); do stuff}}" title="recursion(input){if(base case?(input){do something simple} else{do stuff; recursion(smaller input); do stuff}}" />
         </p>
         
         <p>
         	Recursive <em>reporters</em> have different structure because they can report <em>only one</em> value. Since the <code>report</code> block <em>reports</em> an answer, you'll need to build the answer before or inside the <code>report</code> block call. So, this isn't possible:<br />
         	<div class="sidenote">You can't even build this script because you won't be allowed to connect any block <em>below</em> a <code>report</code> block.</div>
-            <img class="indent" src="/bjc-r/img/8-recursive-reporters/bad-rec-reporter.png" alt="bad (multi-report) recursive reporter pattern" title="bad (multi-report) recursive reporter pattern" />
+            <img class="indent" src="/bjc-r/img/8-recursive-reporters/bad-rec-reporter.png" alt="Cannot do this: recursive reporter(input){if(base case?(input){report (something simple)} else{report something; report(recursive reporter(smaller input)); report something}}" title="Cannot do this: recursive reporter(input){if(base case?(input){report (something simple)} else{report something; report(recursive reporter(smaller input)); report something}}" />
         </p>
         <!--<p> Higher-order functions, mathematics operations, and other ways to combine information are often used.</p>- ->
         <!--        <p>Instead, most of the time a recursive reporter call will be inside a <em>combiner</em> that attaches the result of the recursive call to some other value:</p>
@@ -53,13 +53,13 @@
                 <li>Recursion always needs a base case to stop the script from calling itself forever. What sort of base case might we use for this situation?</li>
                 <li>
                 	Create a <code>letter count</code> block that takes a list of words as input and reports the total number of letters in all the words. The <code>all but first of</code> block may be useful, but there is more than one way to do this.<br />
-                	<img class="indent" src="/bjc-r/img/8-recursive-reporters/lettercount.png" alt="letter count block" title="letter count block"/>
+                	<img class="indent" src="/bjc-r/img/8-recursive-reporters/lettercount.png" alt="letter count(list{We, the. People, of, the, United, States}) reporting 28" title="letter count(list{We, the. People, of, the, United, States}) reporting 28"/>
 				</li>
                 <li>
                 	<!--<div class="sidenote">You'll need a block that takes strings and makes larger strings...</div>
                     <div class="comment">I don't understand the above sidenote. I get that that's what we are doing, but what is this trying to tell me to do? --MF</div>-->
                     Create your own version of the <code>join words</code> block. This block inputs a list and outputs a string sentence, with spaces:<br />
-                    <img class="indent" src="/bjc-r/img/8-recursive-reporters/myjoinwords.png" alt="my join words block" title="my join words block" />
+                    <img class="indent" src="/bjc-r/img/8-recursive-reporters/myjoinwords.png" alt="my join words(list{We, the. People, of, the, United, States}) reporting -We the People of the United States" title="my join words(list{We, the. People, of, the, United, States})reporting -We the People of the United States" />
                 </li>
                 <!-- <p>Then, compare your work to the real <code>join words</code> block.</p>  -->
                 <div class="todo">
@@ -78,7 +78,7 @@
             <ol start="8">
                 <li>
                     Build this <code>plurals</code> block, then describe how it works. (You've already built a simpler version of <code>plurals</code> using <code>map</code>; we want you to see that the same problem can be solved in multiple ways.)<br />
-                    <img class="indent" src="/bjc-r/img/8-recursive-reporters/plurals.png" alt="plurals" />
+                    <img class="indent" src="/bjc-r/img/8-recursive-reporters/plurals.png" alt="plurals(words){if(empty?(words)){report(empty list)} else{report((join (item 1 of words)(s) in front of (plurals(all but first of (words)))}}" title="plurals(words){if(empty?(words)){report(empty list)} else{report((join (item 1 of words)(s) in front of (plurals(all but first of (words)))}}" />
                 </li>
             </ol>
         </div>
