@@ -17,88 +17,8 @@
             5.5.1B Integers may be constrained in the maximum and minimum values that can be represented in a program because of storage limitations.</p>
         </div>
         
-        <h2>The Software Domain</h2>
-        <p>Mostly, when we talk about software, we mean application programs (&quot;apps&quot; for short) and the operating system (often OS for short). 
-Roughly, apps are the programs that <em>we</em> interact with (text editors, photo editors, calculators, music players, browsers, Snap<em>!</em>, etc.)  and operating systems are the programs that the apps interact with (like Mac OS or Microsoft Windows) to communicate with the computer.</p>
+        <h2>The Software Domain: Programming Languages</h2>
         
-<h3>Application Software</h3>
-        <p>Just to display a picture on your screen involves a lot of complexity. An app must find out the size of the picture (usually expressed in "pixels," short for "picture elements"). Each pixel is represented by numbers, usually three (or four)  integers between 0 and 255. Not all representations  use those numbers the same way. In probably the most common system (RGB), the  three numbers represent the intensity of   Red,  Green,  and Blue in that pixel. When all are 0, we see black; when all are 255, we see white; if R is 0, G is 120, and B is 0, we see a dark green; other combinations make other colors.  </p>
-        <div class="endnote">
-            <a href="#hint-color-codes" data-toggle="collapse">Click here to learn more about Color Codes.</a>
-          <div id="hint-color-codes" class="collapse">If a fourth number is used, it represents the <em>transparency,</em> like the ghost effect you used in your very first BJC project. RGB works well for lights, such as the tiny lights in your screen so it is great for computers,  but not good for printers. Ink or paint colors are measured in CMYK: Cyan, Magenta, Yellow, and Black. And some colors such as brown and brick-red (darker than pure red) are hard to figure out in RGB units, even for display in lights. Another color system is called HSB, for <em>hue, saturation, brightness.</em> Snap<em>!</em>'s system is similar to HSB: "pen color" is hue (location on the rainbow); "pen shade" is more or less saturation (zero means black, 100 means full rainbow color).  </div>
-</div>
-        <p>And there are many ways (file formats like BMP, PNG, GIF, and JPG or JPEG) to store the picture information in long-term memory.  These formats differ in compression (more on that below) and in how the computer finds the <em>dimensions</em> of the picture (width and height, in pixels).</p>
-    <p>The application also has to know how to put the picture up on the actual screen.</p>
-        <p>All  the other tasks a program may have to carry out—for example, knowing where the mouse pointer is—have complex parts.</p>
-        <p>If application programmers had to deal with all of these details in every program, no software would ever get developed. Instead, programming languages provide  abstractions that make certain tasks easier—&quot;tools&quot; that differ from language to language—that save the programmer from inventing them. For example, what happens if an application programmer wants a little picture to be able to move around in a screen that also has other pictures in it? In Snap<em>!</em>, that's built in: import a picture as a <em>costume</em> that can be attached to a sprite, and then  move the picture by moving the sprite. Not all languages  include a sprite abstraction. Moreover, some programmers write <em>libraries</em> that add to the built-in tool set, so that other programmers can just use the tools in their programs. You've used Snap<em>!</em> libraries in some projects. </p>
-        
-<h4><strong>Data Compression</strong></h4>
-        <p>Why <em>are</em> there so many picture formats, anyway? One  reason is the usefulness of different <strong>data compression algorithms</strong>.</p>
-        <p>
-            Here's a picture of the BJC logo:<br />
-            <img class="indent noshadow" src="/bjc-r/img/6-computers/bjc-logo-original.png" alt="BJC logo uncompressed" title="BJC logo uncompressed" />
-        </p>
-        <p>This picture is 158 pixels wide, and 186 pixels tall, for a total of 29,388 pixels. The BMP (bitmap) format includes each of those pixels in the picture file, at four bytes per pixel, so the file size is about 120kB.</p>
-        <p>This is an inefficient way to store the information. That's especially true for a cartoon-like picture such as this one. Think about the 158 pixels in the top row. </p>
-        <p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ...<img src="/bjc-r/img/6-computers/top-row-of-pixels-in-bjc-logo.png" alt="top-row-of-pixels-in-bjc-logo">...</p>
-        <p>The first 60 or so are transparent. Then come five pixels of mustard yellow (the top slice of the "b").The rest are transparent. So instead of storing a representation for all 158 pixels, we could just store the number 60, the code for &quot;transparent,&quot; the number 5, the code for &quot;mustard yellow,&quot; and the number 93 (to finish the row), and the code for transparent—six pieces of information instead of 158. This is called <em>run-length encoding</em>.</p>
-        <div class="endnote">
-            <a href="#hint-run-length-encoding" data-toggle="collapse">Click to learn more about run-length encoding.</a>
-      <div id="hint-run-length-encoding" class="collapse">
-       The run-length encoding for      that top row is:
-<ul>
-                    <li>A four-byte number of pixels (60).</li>
-                    <li>The four-byte representation for a transparent pixel.</li>
-                    <li>A four-byte number of pixels (5).</li>
-                    <li>The four-byte representation for that mustard-yellow color.</li>
-                    <li>A four-byte number of pixels to finish the row (93).</li>
-                    <li>The four-byte representation for a transparent pixel.</li>
-                </ul>
-                <p>Not all the rows are that simple. A slice across the picture near the top of the <em>j</em> looks like this.<br /> 
-        ... <img src="/bjc-r/img/6-computers/bjc-logo-original-middle-row.png" alt="bjc-logo-original-middle-row"> ... <br /> 
-        Storing the length of each  color run would require 24 pieces of information. But even this is better than 158. </p>
-                <p>These days, the size of one picture isn't so significant, but think about every frame of a movie, and think about the time required to send the information over the Internet. Compression makes it easier to stream that movie to you.</p>
-</div>
-        </div>
-        <p>Run-length encoding doesn't <em>lose</em> any information. The original picture can be reconstructed with every pixel exactly correct. This is an example of <em>lossless compression.</em></p>
-
-		</div>
-        <p>Run-length encoding doesn't do  well if the picture is a photograph, in which every pixel may be slightly different in color from its neighbors.  (If the length of each color run is just one pixel, storing just the colors uses half the information than storing both run length <em>and</em> color.) So there are other compression algorithms. The PNG  (Portable Network Graphics, pronounced "ping") encoding does <em>lossless</em> compression of arbitrary pictures. Its algorithm is complicated, using several different strategies depending on how  color varies in each small chunk of the image. The thing to remember is that PNG is lossless.</p>
-<p>Some   algorithms use <strong>lossy compression</strong>. This lets file size  be even smaller, but the original picture can't be perfectly reconstructed; information is lost. This would be terrible if these algorithms were used to compress a computer program or a novel, but people's perception of pictures does not  require extreme precision.</p>
-        <p>The most commonly used lossy compression algorithm for pictures is called JPEG (or JPG, both pronounced "jay peg") for "Joint Photographic Experts Group," the commitee that invented it. Lossy algorithms usually let you control the degree of precision. Below are two versions of a picture measuring 512×384 pixels and the file sizes in various formats.</p>
-        <table width="56%" border="4" cellspacing="8" summary="compression factors example">
-          <tr>
-                <th scope="col">format</th>
-                <th scope="col">size</th>
-            </tr>
-            <tr>
-                <td>BMP (encoding every pixel individually)</td>
-                <td>590 kB</td>
-            </tr>
-            <tr>
-                <td>PNG</td>
-                <td>441 kB</td>
-            </tr>
-            <tr>
-                <td>JPEG set at &quot;best&quot; in the Preview app on a Mac</td>
-                <td>390 kB</td>
-            </tr>
-            <tr>
-                <td>JPEG set at &quot;worst&quot; in the Preview app on a Mac</td>
-                <td>21 kB</td>
-            </tr>
-        </table>
-        <p>
-          Notice how tiny the JPEG worst file is! It must look terrible, right? Here are a section from that 21kB file and the original, uncompressed BMP file. Can you tell which is which?<br />
-            <img class="indent" src="/bjc-r/img/6-computers/pond.bmp" alt="pond pebbles" title="pond pebbles" />
-            <img src="/bjc-r/img/6-computers/pond.jpg" alt="pond pebbles" title="pond pebbles" />
-        </p>
-        <div class="vocabFullWidth"><strong>: Lossy vs. Lossless</strong>
-            <p><strong>Lossless</strong> compression (like PNG) is <em>reversible</em> (no loss in quality); you can reconstruct the original data. It works by removing redundant data.</p>
-            <p><strong>Lossy</strong> compression (like JPG) is <em>not</em> fully reversible; you can only reconstruct an <em>approximation</em> of the original data. It works by removing irrelevant data (details that people aren't likely to notice).</p>
-
-            <p>There are trade-offs: lossless compression maintains the original data but might not be able to compress the data much or at all; lossy compression often results in a smaller file but may have lower quality.</p>
-        </div>
         
         <h4><strong>High and Low Level Languages</strong></h4>
         <p>Javascript, Python, Snap<em>!</em>, C++, Java, Scheme, Prolog... Why are there so many programming languages? Why don't they just pick the best one, or design a new best one, and stick with that?</p>

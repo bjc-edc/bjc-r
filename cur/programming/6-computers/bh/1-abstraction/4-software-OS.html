@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unit 6 Lab 1: Computer Abstraction Hierarchy, Page 4</title>
+	</head>
+    <body>
+        <div class="todo">
+            <p>Why this?  This page is about the two levels of abstraction above the program abstraction, from the chart on page 1.</p>
+            <p>Why here?  There will be three pages, including this one, about the parts of the abstraction hierarchy separated by the two major abstraction barriers, going from top to bottom.</p>
+            <p>2.1.2B In many programming languages, the fixed number of bits used to represent characters or integers limits the range of integer values and mathematical operations; this limitation can result in overflow or other errors.<br />
+            2.1.2C In many programming languages, the fixed number of bits used to represent real numbers (as floating point numbers) limits the range of floating point values and mathematical operations; this limitation can result in roundoff errors<br />
+            2.2.3A Different programming languages offer different levels of abstraction.<br />
+            2.2.3B High level programming languages provide more abstractions for the programmer and make it easier for people to read and write a program.<br />
+            2.2.3C Code in a programming language is often translated into code in another (lowerlevel) language to be executed on a computer.<br />
+            5.5.1B Integers may be constrained in the maximum and minimum values that can be represented in a program because of storage limitations.</p>
+        </div>
+        
+        <h2>The Software Domain: Operating Systems</h2>
+   
+<p>Your computer came with an <em>operating system</em> (OS) installed, probably Linux, MacOS, or Windows for computers with keyboards, and Android or iOS for phones and tablets.</p>
+        <p>Many parts of what is called the operating system are actually implemented as application programs: the window system, which allows more than one window to be open on your screen; the file manager, that displays the contents of folders and lets you select files to read or manipulate; and utilities such as a simple text editor or a calculator. But there are a few system tasks that can't be application programs, and they are handled by an operating system <em>kernel,</em> which deals directly with hardware capabilities, and must be written in a low level language.</p>
+        <div class="takeNote">
+            <strong>Operating system kernel tasks:</strong>
+            <ol>
+                <li><strong>Scheduling.</strong>  In a computer there are many application programs all wanting to run at once. The OS, which has access to the time clock that's built into the hardware, lets each program run for a small amount of time (typically about 1/10 second) and then switches to the next program in line.</li>
+                <li><strong>Security.</strong> Those many application programs may have bugs. The OS, which has access to the <em>memory management</em> hardware of the computer,  ensures that each program is assigned a separate location in memory, and uses only the memory allocated to it so it doesn't interfere with other memory.  The OS also controls which data files a program can use, based on <em>file protection</em> settings you can apply to each file.</li>
+                <li>
+                  <strong>Input and output.</strong> Many  devices can be attached to your computer.  (Some, like the primary disk storage, may be inside the computer case.)  <em>Input</em> devices include the keyboard, mouse, and  microphone.  <em>Output</em> devices include the printer, speaker, and, for desktop computers, the display screen.  Touchscreens on phones and tablets are used both for input and for output. So are disk drives, optical drives (for CDs and DVDs), and the Internet interface.  The OS know how the computer's hardware reads or writes to each of these. Only the kernel is allowed direct access to these devices, and it carries out authorized transfers of information for the applications.
+                </li>
+            </ol>
+        </div>
+        
+        <div class="forYouToDo" type="first">
+            <ol>
+            	<li>Find out how to list all the programs that are running right now on your computer, and collect such a program list in a text file.  Then count how many of them are programs <em>you</em> asked the computer to run.  Of the rest, can you figure out from the names what they do?  Which ones are part of the operating system (not the OS kernel)?  See if you can figure out the purpose of some obscurely-named ones by doing a web search.</li>
+            </ol>
+        </div>
+        
+        <p>These days, OS kernels are remarkably similar. Of the five systems listed earlier (Linux, MacOS, Windows, Android, and iOS), four of them (all but Windows) are based on variants of a single system, called Unix.</p>
+        <div class="endnote">
+            <a href="#hint-unix" data-toggle="collapse">Click here to read more about Unix.</a>
+            <div id="hint-unix" class="collapse">
+                <p>("Unix" is a trademark, currently owned by The Open Group, and not all of the variants discussed here are authorized to use that name, but they all provide essentially the same program interface.) Unix was created around 1970 by Ken Thompson and Dennis Ritchie at AT&amp;T Bell Laboratories.</p>
+                <p>Prior to Unix, almost everyone thought that an operating system had to be developed for a particular computer architecture, and had to be written in the machine language of that computer, the very low-level instructions that the hardware understands directly. The very first version of Unix was also written in the machine language of a particular computer, the Digital Equipment Corporation PDP-11. But the Unix developers knew that the PDP-11 wasn't the only computer in the world, and better ones would come along eventually, so they wanted to make Unix <em>portable,</em> meaning that it could be brought to a new computer architecture without a complete rewrite.  So in 1972 Dennis Ritchie invented the C programming language for that purpose.  C is similar to other languages available at the time, but with one added feature: a C programmer can read or write any individual byte of the program's memory by knowing its <em>address,</em> a number that distinguishes it from other bytes.  (You can see that this feature is quite the opposite from high level abstraction.  It is useful only to a programmer who's thinking in detail about what's where in the computer's memory.) Unix was then rewritten in C.</p>
+                <p>Because of its portability, Unix spread quickly to many computer architectures. Researchers at Berkeley developed a version, based on the AT&amp;T version, with <em>virtual memory,</em> the ability to run a program that's only partly in the computer's main memory, with the rest kept on a disk. This Berkeley version is the direct ancestor of Apple's operating systems, MacOS (since MacOS 10.0) and iOS. (An Apple computer doesn't behave anything like a Unix computer, but the differences are almost all in application-level programs, not in the kernel.) Android, Google's operating system for cell phones and tablets, is based on Linux, a complete rewrite of Unix originally written by Linus Torvalds, who was, at the time, a computer science student in Finland.</p>
+            </div>
+        </div>
+        
+        
+    </body>
+</html>
