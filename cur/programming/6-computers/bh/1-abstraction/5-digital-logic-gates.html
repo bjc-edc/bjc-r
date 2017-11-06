@@ -38,12 +38,10 @@
 				<p>A flip-flop is generally made out of four transistors. A <em>register</em> in the processor is a group of flip-flops. If it's a 32-bit processor, a register is 32 flip-flops, and the same for other processor widths.</p>
             </div>
         </div>
-        <p>The circuits to do computation are more interesting. They compute <em>functions,</em> just like reporters in Snap<em>!</em>. Since computers do a lot of arithmetic, you might think that the basic circuit functions would be addition, subtraction, multiplication, and division, but that's not the case. Of course there <em>are</em> circuits to do those things, but they're made out of <em>logic gates:</em> circuits that compute Boolean functions: <code>and</code>, <code>or</code>, and <code>not</code>. The reason that Boolean functions are considered more fundamental is that their inputs and outputs can be represented with a single wire going into or out from the circuit.  That's not true about arithmetic functions.  If you consider a voltage on a wire as meaning 1, and no voltage as meaning 0, then you have to see that an adder will have <em>three</em> possible output values, because 1+1=2, which is neither 0 nor 1.  By contrast, if you consider a voltage on a wire as meaning True, and no voltage as meaning False, then the output from a Boolean function of two inputs can still only be True or False, so only one output wire is needed.</p>
-        
         <h3>Boolean Operators</h3>
-        <p>
-			<div class="sidenote">Technically, the circuitry is more complex than being "either on or off." <div class="todo">Include nod to whatever we do with <a href="/bjc-r/cur/programming/6-computers/bh/1-abstraction/6-analog.html?topic=nyc_bjc%2F6-how-computers-work.topic&course=bjc4nyc.html&novideo&noassignment">Below the Digital Abstraction</a>.</div></div>
-            At the very lowest level, computer circuitry is made of wires, and each wire is either on or off. So the only operations that can be performed at that lowest level are those that <em>operate on single-bit values</em> (just ones and zeros, that is, just ons and offs). These are called <strong>logical (or Boolean) operations</strong>, and you saw some examples in <a href="/bjc-r/cur/programming/2-complexity/3-predicates/1-adding-questions.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment">Unit 2 Lab 3: Making Decisions by Using Predicates</a>: <code>AND</code>, <code>OR</code>, and <code>NOT</code>:<br />
+        <p>The circuits to do computation are more interesting. They compute <em>functions,</em> just like reporters in Snap<em>!</em>. Since computers do a lot of arithmetic, you might think that the basic circuit functions would be addition, subtraction, multiplication, and division, but that's not the case. Of course there <em>are</em> circuits to do those things, but they're made out of <em>logic gates:</em> circuits that compute <strong>Boolean functions</strong>: <code>and</code>, <code>or</code>, and <code>not</code>. The reason that Boolean functions are considered more fundamental is that their inputs and outputs can be represented with a single wire going into or out from the circuit.  That's not true about arithmetic functions.  If you consider a voltage on a wire as meaning 1, and no voltage as meaning 0, then you have to see that an adder will have <em>three</em> possible output values, because 1+1=2, which is neither 0 nor 1.  By contrast, if you consider a voltage on a wire as meaning True, and no voltage as meaning False, then the output from a Boolean function of two inputs can still only be True or False, so only one output wire is needed.</p>
+        
+    <p>You saw some examples in <a href="/bjc-r/cur/programming/2-complexity/3-predicates/1-adding-questions.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment">Unit 2 Lab 3: Making Decisions by Using Predicates</a>: <code>AND</code>, <code>OR</code>, and <code>NOT</code>:<br />
             <img class="indent" src="/bjc-r/img/6-computers/logical-operators/and-TT-reporting.png" alt="(true) AND (true) reporting true" title="(true) AND (true) reporting true" />
             <img class="indent" src="/bjc-r/img/6-computers/logical-operators/and-TF-reporting.png" alt="(true) AND (false) reporting false" title="(true) AND (false) reporting false" />
             <img class="indent" src="/bjc-r/img/6-computers/logical-operators/and-FF-reporting.png" alt="(false) AND (false) reporting false" title="(false) AND (false) reporting false" />
@@ -54,7 +52,7 @@
             <img class="indent" src="/bjc-r/img/6-computers/logical-operators/not-F-reporting.png" alt="NOT (false) reporting true" title="NOT (false) reporting true" />
         </p>
 
-		<div class="endnote">
+	<div class="endnote">
             Boolean operations are sometimes represented as truth tables (either with true/false or ones/zeros).
             <ul>
                 <li>
@@ -128,7 +126,8 @@
                 <li>
                 	<a href="#hint-truth-tables-or" data-toggle="collapse">Click here to see truth tables for <code>or</code>.</a>
 					<div id="hint-truth-tables-or" class="collapse">
-                    	<div class="sidenote">As with the <code>and</code> tables, these two tables are identical except for whether they use true/false or ones/zeros.</div>
+                    	<div class="sidenoteBig"><p>As with the <code>and</code> tables, these two tables are identical except for whether they use true/false or ones/zeros.</p>
+ <p>In ordinary language, the word "or" can have two slightly different meanings.  <em>Inclusive or</em> means "at least one of these":   If it's raining <em>or</em> it's really cold out, you need your overcoat. (If it's both raining and cold, you'd still wear the coat.) <em>Exclusive or</em> means &quot;this or that, but not both&quot;: Eat your vegetables <em>or</em> you won't get any dessert. (You'd feel cheated if you ate the vegetables and still didn't get dessert.) In computer science (as in mathematics) the word &quot;or&quot; by itself always means inclusive or, as you can see in this truth table. If you mean &quot;exclusive or,&quot; you have to say that.</p></div>
                         <table class="truth bordered">
                         	<tr>
                             	<th colspan="2">inputs</th>
@@ -240,13 +239,13 @@
         
         
         <h2>Logic Gates</h2>
-        <p>Inside a computer, Boolean operations are implemented in phyiscal circuitry by logic gates. Logic gates are often represented with drawings that help engineers see how the information will flow through a circut. For example, the following diagram of a logic gate represents the Boolean expression <img class="inline" src="/bjc-r/img/6-computers/(a)or((a)and(b))-booleans.png" alt="A or (A and B)" title="A or (A and B)" />. Can you see how?</p>
+        <p>Inside a computer, Boolean operations are implemented in phyiscal circuitry using logic gates. (A single gate implements one of the basic functions <code>and</code>, <code>or</code>, or <code>not</code>.) Logic circuits are often represented with drawings that help engineers see how the information will flow through a circut. For example, the following diagram of a logic circuit with two gates represents the Boolean expression <img class="inline" src="/bjc-r/img/6-computers/(a)or((a)and(b))-booleans.png" alt="A or (A and B)" title="A or (A and B)" />. Can you see how?</p>
         
         <img class="indent noshadow" src="/bjc-r/img/6-computers/(a)or((a)and(b))-gate.png" alt="logic gate diagram of (A or (A and B))" title="logic gate diagram of (A or (A and B))" />
 
 		<div class="forYouToDo" id="first">
 			<ol>
-				<li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> Look at the logic gate drawn above. For what values of A and B will the output be <code>true</code>?</li>
+				<li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> Look at the logic circuit drawn above. For what values of A and B will the output be <code>true</code>?</li>
                 <div class="comment">These are a little advanced. Are they too advanced? (They are structured like <code>xor</code>.) --MF, 10/23/17</div>
                 <li>
                 	Review <code>AND</code>, <code>OR</code>, and <code>NOT</code> with the following questions, which are similar to the type of questions you will see on the AP CSP exam.
@@ -284,7 +283,7 @@
                     <div class="assessment-data" type="multiplechoice" identifier="Which logic gate will report TRUE?"
                         hasinlinefeedback="true" maxchoices="1" responseIdentifier="ri2" shuffle="false">
                         <div class="prompt">
-                            Which of the following logic gates will report <code>true</code>? (T stands for <code>true</code>, and F stands for <code>false</code>.)
+                            Which of the following logic circuits will report <code>true</code>? (T stands for <code>true</code>, and F stands for <code>false</code>.)
                             <ol style="list-style:upper-roman;">
 	                            <div class="sidenote">This problem is probably <em>harder</em> than something you'll see on the exam, so if you can get this one, you are doing great!</div>
                             	<table>
@@ -315,17 +314,17 @@
                             <div class="correctResponse" identifier="c2"></div>
                         </div>
                     </div>
-                
-                </li>				   
+                </li>
 			</ol>
 		</div>
         
-        <div class="ifTime">
+<!--        <div class="ifTime">
 			<ol start="3">
 				<li>Learn about other Boolean operators and how comptuers perform binary addition in the <a href="">Building a Binary Adder</a> optional project.</li>				   
 			</ol>
-		</div>
-		
+		</div>    -->
+
+<div class="endnote">On the previous page we were talking about tungsten and tin, and here we're talking about Boolean functions.  In what sense is this less abstract?  From the point of view of the IC designer, logic gates are the fundamental building blocks of a digital circuit.  The actual physical IC fabrication is at a lower level of abstraction, in the analog domain.</div>		
  <p>In Lab 2 of this unit, you'll learn how numbers are represented using groups of wires, using <em>binary</em> representation, and how logic gates can be combined to do arithmetic.</p>
 		
 		
