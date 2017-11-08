@@ -19,22 +19,20 @@
                 2.2.3J Applications and systems are designed, developed, and analyzed using levels of hardware, software, and conceptual abstractions.
             </p>
 		</div>
-		<div class="commentBig">
-        	<p>"Internet software <em>in a computer</em>" In a computer? That strikes me as confusing, can we cut those three words? --MF, 11/6/17</p>
-            <p>"transport protocols such as WiFi and Ethernet at the lowest level" is not how we discussed it in U4. If I understand correctly, we had WiFi and Ethernet at the Link layer, and Transport was much closer to the top. I'm guessing this is just about looseness in language, but we should make the two pages appear more consistent for clarity of the ideas. For now, what's the right thing for <em>this</em> page? --MF, 11/6/17</p>
-        </div>
-        <div class="learn">
-          <p><strong>In this lab,</strong> you will learn about the levels of abstraction in computer software and hardware.</p>
-          <p><strong>On this page,</strong> you will learn get an overview of three groups (<em>domains</em>) of levels of abstraction.</p>
-        </div>
-		<p>In Unit 4 <a href="/bjc-r/cur/programming/4-internet/2-communication-protocols/3-open-protocols.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc.html&novideo&noassignment">A Hierarchy of Open Protocols
-</a>, you saw that the Internet software in a computer is arranged in several levels of abstraction, with application programs (like your email program) at the highest level and transport protocols such as WiFi and Ethernet at the lowest level. Recall that <em>higher</em> levels of are closer to what users want to be thinking about; lower levels are closer to the way machines work.</p>
+        
+        <p>In Unit 4 <a href="/bjc-r/cur/programming/4-internet/2-communication-protocols/3-open-protocols.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc.html&novideo&noassignment">A Hierarchy of Open Protocols
+</a>, you saw that the Internet software is arranged in several levels of abstraction, with application programs (like your email program) at the highest level and network hardware protocols such as WiFi and Ethernet at the lowest level. Recall that <em>higher</em> levels of are closer to what users want to be thinking about; lower levels are closer to the way machines work.</p>
         <p>Like the Internet, the way a computer works on the inside also has levels of abstraction.</p>
 		
         
-        <p>Roughly, the three levels of abstraction look like this:</p>
+		<div class="learn">
+          <p><strong>In this lab,</strong> you will learn about the levels of abstraction in computer software and hardware.</p>
+          <p><strong>On this page,</strong> you will learn get an overview of three groups (<em>domains</em>) of levels of abstraction.</p>
+        </div>
+
+        <p>There are a lot of level of abstraction in how computers work. Here they are organized into three overarching domains:</p>
 		<div class="todo">
-        	I moved this graphic up because I think its more effective to <em>see</em> what we are talking about first thing. Brian wants the layers to mirror the lab pages, and I agree with the sentiment. I will revisit this graphic in discussion with him once I've worked through the rest of the lab. Also, the image needs a better (read: more or less word-for-word") alt/title description for ADA (todo after image is finalized). --MF, 11/6/17
+        	Brian wants the layers to mirror the lab pages, and I agree with the sentiment. I will revisit this graphic in discussion with him once I've worked through the rest of the lab. Also, the image needs a better (read: more or less word-for-word") alt/title description for ADA (todo after image is finalized). --MF, 11/6/17
         </div>
 		<img class="indent noshadow" src="/bjc-r/img/6-computers/hardware-abstraction.png" alt="hardware abstraction table" title="hardware abstraction table">
         <div class="endnote">
@@ -57,29 +55,28 @@
         -->
         
         <h3>Software Domain</h3>
-        <p>At the highest level are application programs&mdash;the computer software. For the most part, neither the programmer nor the user thinks at all about how the hardware inside a smartphone or computer (the wires, glass, and plastic) actually fit together or work. Using software is an <em>abstraction</em>&mdash;a way of thinking about the computer without thinking about how it works.</p>
-        <div class="endnote">Similarly, a driver is thinking at a high level of abstraction when using the brake pedal. As long as the engineers and mechanics  designed and built the car  right, drivers don't need to know all the details about <em>how</em> the brake system works&mdash;they just use it at a high level.</div>
+        <p>The programs you write and use are software, but underneath these programs is more software that helps them work. In this lab, we'll look at four layers of abstraction in the software domain: <strong>applications</strong> that you write and use, <strong>programing languages</strong> that are used to write them, <strong>libraries</strong> of useful functions that hide messy details, and <strong>operating systems</strong> that interface with the hardware.</p>
+        <p>Software is an <em>abstraction</em>&mdash;a way of thinking about the computer without thinking about how it works.</p>
+        <div class="endnote">Similarly, a driver is thinking at a high level of abstraction when using the brake pedal. As long as the engineers and mechanics designed and built the car right, drivers don't need to know all the details about <em>how</em> the brake system works&mdash;they just use it at a high level.</div>
         
         <div class="captioned">
             <img class="inline" src="/bjc-r/img/6-computers/motherboard_small.jpg" alt="motherboard" title="motherboard"/>
             <div><small>Image by Wikipedia user Julianprescott2604juuly</small></div>
         </div>
         <h3>Digital Domain</h3>
-        <div class="todo">Do we really need the word, "architecture" here? I commented it out, and I think it reads better like this. --MF, 11/6/17</div>
-        <p>Below the software is the hardware (the guts of the computer)<!-- and its <em>architecture</em> (the design that specifies how those basic hardware components  fit together to do their job)-->. The hardware's job is to run whatever programs the user requests. For hardware engineers, the <!--high level of--> abstraction focuses on how to make best use of components (memory, chips, logic gates, etc.) that already have some useful built in behaviors, and often also assembling these into slightly fancier components. Engineers mostly don't have to think about how these digital components work inside&mdash;they just think of circuits being either <em>on</em> or <em>off</em> (<em>1</em> or <em>0</em>), with no in-between values. </p>
+        <div class="todo">Brian and I have not been about to reach mutual understanding here. To be fixed!!! --MF, 11/7/17</div>
+		<p>The circuitry inside a computer is complicated, and to make building it possible, engineers think about it at several different levels of abstraction: <strong>architecture</strong> (the instructions that software can send that the hardware will understand), <strong>components</strong> (such as memory and ) that implements the architecture, those components are built out of <strong>integrated circuits (chips)</strong>, which are the back rectangles you can see on this circuit board, those ICs are designed around fundamental building blocks that implement Boolean functions (<strong>logic gates</strong>).</p>
+        <p>Engineers mostly don't have to think about how these digital components work inside&mdash;they just think of circuits being either <em>on</em> or <em>off</em> (<em>1</em> or <em>0</em>), with no in-between values.</p>
         
-        <h3>Analog Domain</h3>
-		<p><!--We call  digital an abstraction because a-->At the lowest level, "noise" in the electronic circuits means that there <em>are</em> in-between values (like "on a little bit"). Electrical engineers must think about  the laws of electronics (physics) to design circuits so that these in-between values stay close enough to 0 or 1 to be treated as if they really <em>are</em> 0 or 1.</p>
+        <s>Below the software is the hardware (the guts of the computer)<!-- and its <em>architecture</em> (the design that specifies how those basic hardware components  fit together to do their job)-->. The hardware's job is to run whatever programs the user requests. For hardware engineers, the <!--high level of--> abstraction focuses on how to make best use of components (memory, chips, logic gates, etc.) that already have some useful built in behaviors, and often also assembling these into slightly fancier components.  </s>
         
-        <div class="forYouToDo" id="first">
-		  <div class="todo">This feels a little lame, but I am wanting something to codify here. I left this open ended (as to whether to have it be on paper or out loud) so that the teacher can decide. If we keep this, we can explain that in the TG. Thoughts? ST might have a quizlet too... --MF, 11/6/17</div>
-			<ol>
-				<li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> Describe these three levels of computer abstraction in your own words.</li>				   
-			</ol>
-		</div>
-		
-		<!--<p>The rest of this unit fills in some useful details about the levels of abstraction in a computer system.</p>-->
-
+        <s>Most of the enginneering work is based on the assumption that any the biggest jump in abstraction is between the ones and zeros that everyone talks about and the way ... most of the work is dome in the digital domain, which is the levels of abstraction in which we pretend that only ones and zeros are possible.</s>
+        
+        <p>In the different levels of abstraction in software, each level of abstraciton is a different piece of software, but the level of abstraction in the digital domain are four ways of thinking about the same physical object.</p>
+        
+        <h3>Analog Domain</h3>        
+        <p>Logic gates, which are the lowest abstraction level of the digital domain, operate on ones and zeros. In physical reality, those logic gates are built out of <strong>transitors</strong>, a type of circuit component. Transitors aren't like light switches that are either on or off. There can be in-between values (like "on a little bit"). So, electrical engineers have to think about the laws of electronics to design digital circuits so that in-between values don't happen.
+        
         
 	</body>
 </html>
