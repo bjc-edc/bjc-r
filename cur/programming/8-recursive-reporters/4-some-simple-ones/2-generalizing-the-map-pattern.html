@@ -13,20 +13,20 @@
             <img class="indent" src="/bjc-r/img/8-recursive-reporters/plurals.png" alt="plurals (words){if(empty?(words)){report(list{})}else{report(join(item(1) of (words) (s) in front of (plurals(all but first of(words))))}}" title="plurals (words){if(empty?(words)){report(list{})}else{report(join(item(1) of (words) (s) in front of (plurals(all but first of(words))))}}" />
             <div class="sidenote">
                 Your <code>exaggerate word</code> block might look a lot different, but here is one version:<br />
-                <img src="/bjc-r/img/8-recursive-reporters/exaggerate-word.png" alt="exaggerate word" title="exaggerate word" />
+                <img src="/bjc-r/img/8-recursive-reporters/exaggerate-word.png" alt="exaggerate word (word){if(is (word) a (number)?){report(2*word)}; if(word=good){report(great)}; if(word=bad){report(terrible)}; if(word=like){report(love)}; if(word=dislike){report(hate)}; report(word)}" title="exaggerate word (word){if(is (word) a (number)?){report(2*word)}; if(word=good){report(great)}; if(word=bad){report(terrible)}; if(word=like){report(love)}; if(word=dislike){report(hate)}; report(word)}"  />
             </div>
             <img class="indent" src="/bjc-r/img/8-recursive-reporters/squares.png" alt="squares(numbers){if(empty?(numbers)){report(list{})}else{(item(1)of(numbers)*item(1)of(numbers)) infront of(squares(all but first of(numbers))))}}" title="squares(numbers){if(empty?(numbers)){report(list{})}else{(item(1)of(numbers)*item(1)of(numbers)) infront of(squares(all but first of(numbers))))}}"/><br />
-            <img class="indent" src="/bjc-r/img/8-recursive-reporters/exaggerate.png" alt="exaggerate" title="exaggerate" /><br />
-            <img class="indent" src="/bjc-r/img/8-recursive-reporters/exaggerate-wordlist.png" alt="exaggerate-wordlist" title="exaggerate-wordlist" />
+            <img class="indent" src="/bjc-r/img/8-recursive-reporters/exaggerate.png" alt="exaggerate(sentence){report(list->sentence(exagerate wordlist(sentence->list(sentence))))}" title="exaggerate(sentence){report(list->sentence(exagerate wordlist(sentence->list(sentence))))}" /><br />
+            <img class="indent" src="/bjc-r/img/8-recursive-reporters/exaggerate-wordlist.png" alt="exaggerate wordlist(words){if(empty? (words)){report(empty list)}else{report((exaggerate word(item(1) of (words))) in front of (exaggerate wordlist(all but first of (words))))}}" title="exaggerate wordlist(words){if(empty? (words)){report(empty list)}else{report((exaggerate word(item(1) of (words))) in front of (exaggerate wordlist(all but first of (words))))}}" />
         </p>
         <p>
             <code>Plurals</code>, <code>squares</code>, and <code>exaggerate wordlist</code> look almost identical:<br />
             <div class="comment">This is too wide for one pic and should be broken into 3. --MF</div>
-            <img src="/bjc-r/img/8-recursive-reporters/map-examples.png" alt="map-pattern examples" />
+            <img src="/bjc-r/img/8-recursive-reporters/map-examples.png" alt="Image showing code for plurals, squares and exaggerate and highlighting that all three have 'item(1) of ...' being acted on by a particular function" title="Image showing code for plurals, squares and exaggerate and highlighting that all three have 'item(1) of ...' being acted on by a particular function"/>
         </p>
         <p>
             The only difference is the circled part above: the particular function that's applied to <code>item 1 of</code> the input list. Here's a generalization of the pattern:<br />
-            <img class="indent" src="/bjc-r/img/8-recursive-reporters/map-start.png" alt="map definition without function call" title="map definition without function call" />
+            <img class="indent" src="/bjc-r/img/8-recursive-reporters/map-start.png" alt="map definition without function call: map (function) over (data){if (empty? (data)){report(empty list)} else{report(() in front of (map(function) over(all but first of (data))))}}" title="map definition without function call: map (function) over (data){if (empty? (data)){report(empty list)} else{report(() in front of (map(function) over(all but first of (data))))}}" />
         </p>
         <p>But what do we put in the first input slot of <code>in front of</code>?</p>
         <p>
@@ -36,7 +36,7 @@
         <p>The Greek letter λ that appears in the Block Editor next to the word <code>function</code> in the orange oval is a type reminder, just like the︙for lists.</p> 
         <p>
             Now you have to know how to apply the function to <code>item 1 of data</code>. Find the <code>call</code> block in the Control palette and click on its right arrowhead to give it a second input slot. Then fill it in like this:<br />
-            <img class="indent" src="/bjc-r/img/8-recursive-reporters/map.png" alt="map definition" title="map definition" />
+            <img class="indent" src="/bjc-r/img/8-recursive-reporters/map.png" alt="map definition: map (function lambda) over (data){if (empty? (data)){report(empty list)} else{report((call(function) with inputs (item(1) of (data))) in front of (map(function) over(all but first of (data))))}}" title="map definition: map (function lambda) over (data){if (empty? (data)){report(empty list)} else{report(((call(function) with inputs (item(1) of (data))) in front of (map(function) over(all but first of (data))))}}"/>
         </p>
         <p>That's it! You've written <code>map</code>, a higher-order function!</p>
         <!-- <p class="takeNote">(The version in the Snap<em>!</em> tool library is more complicated because it allows more than one input list. The actual code is kind of messy—not mysterious, just messy. It makes a single list a special case, which it then uses inside itself. There's no need for you to read it, but feel free if you don't mind mess.)</p> -->
@@ -52,12 +52,12 @@
                 <li>Rebuild the <code>exaggerate</code> block using a call to <code>map</code>. What happens to the helper function?</li>
                 <li>
                     Occasionally a problem comes up that doesn't <em>exactly </em>match the <code>map</code> pattern, but comes close. In that case, you can't use  <code>map</code>, but your understanding of the pattern still helps. Here's an example:<br />
-                    <img class="indent" src="/bjc-r/img/8-recursive-reporters/odds.png" alt="odd numbered items" title="odd numbered items" /><br />
+                    <img class="indent" src="/bjc-r/img/8-recursive-reporters/odds.png" alt="odd numbered items of (data){if(empty? (data)){report(empty list)} else{if(empty? (all but first of (data))){report(data)} else{report((item(1) of (data)) infront of (odd numbered items of(all but first of (all but first of (data)))))}}}" title="odd numbered items of (data){if(empty? (data)){report(empty list)} else{if(empty? (all but first of (data))){report(data)} else{report((item(1) of (data)) infront of (odd numbered items of(all but first of (all but first of (data)))))}}}" /><br />
                     Fill in the blanks: This script is just like the map pattern except for ______ (base case) and _____ (in the recursive case).
                 </li>
                 <li>
                     Build the <code>pairup</code> block:<br />
-                    <img class="indent" src="/bjc-r/img/8-recursive-reporters/pairup.png" alt="pairup example" title="pairup example" />
+                    <img class="indent" src="/bjc-r/img/8-recursive-reporters/pairup.png" alt="pairup(list{now, here, after, math}), reporting {nowhere, hereafter, aftermath}" title="pairup(list{now, here, after, math}), reporting {nowhere, hereafter, aftermath}" />
                 </li>
             </ol>
         </div>
