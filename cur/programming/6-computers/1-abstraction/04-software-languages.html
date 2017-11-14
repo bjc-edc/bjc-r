@@ -9,50 +9,226 @@
         <div class="todo">
             <p>2.2.3A Different programming languages offer different levels of abstraction.<br />
             2.2.3B High level programming languages provide more abstractions for the programmer and make it easier for people to read and write a program.<br />
-            2.2.3C Code in a programming language is often translated into code in another (lowerlevel) language to be executed on a computer.</p>
+            2.2.3C Code in a programming language is often translated into code in another (lower-level) language to be executed on a computer.</p>
         </div>
         
         <h2>The Software Domain: Programming Languages</h2>
-        <div class="learn"><strong>On this page</strong>, we answer the question "why isn't there just one programming language?" and look at some of the ways that different languages differ.</div>
-        <p>Javascript, Python, Snap<em>!</em>, C++, Java, Scheme, Prolog... Why are there so many programming languages? Why don't they just pick the best one, or design a new best one, and stick with that?</p>
-        <p>In one sense, all these languages are the same: If an algorithm can be expressed in one language, it can be expressed in all of them. The differences are about how <em>convenient</em> it is to write a particular program, and about how <em>safe against bugs</em> the resulting program will be.</p>
-        <p>Some languages have very narrow purposes. For example, Microsoft Word has a programming language built into it called "Word macros" that's just for generating data and formatting in a document. But the languages you've probably heard about are meant to be <em>general-purpose</em> programming languages, and the differences among languages are mostly about <em>levels of abstraction.</em></p>
+        <div class="learn"><strong>On this page</strong>, you will consider why there are different programming languages and look at some of the ways that languages differ.</div>
         
-        <h3>High and Low Level Languages</h3>
-        <p>A <em>high level language</em>  includes many abstractions that make it easier to focus on the problem you want to solve rather than on how  computer hardware works. (The sprite abstraction is one example.) A <em>low level language</em> has few abstractions, requiring you to know a lot about  your computer's architecture to write a program.</p>
-        <p>High level languages can produce <em>safer</em> programs—ones that are less likely to have bugs. </p>
-        <div class="endnote">To take one example, older, low level languages required the programmer to manage the use of the computer's memory with instructions saying "get me a block of memory big enough to hold 100 numbers" and other instructions saying "okay, I'm finished using this block of memory; it can be allocated for some other purpose." This is a nuisance to have to think about, and human programmers are really, really bad at it. In low level languages, a very common bug is for one part of a program to say "I'm done with this block of memory" while another part of the program is still using it. High level languages take care of this for us, using a technique called <em>garbage collection</em> that puts the computer in charge of knowing when a block of memory is really no longer in use.</div>
-        <div class="comment">What is the expectation here? Are we thinking that students will really read this? Wondering if this is worth changing into an activity somehow&mdash;like having them read the long one first and identifying that it's <code>map</code> or something like that. --MF, 11/8/17</div>
-        <p>
-            High level languages can also make programming much more convenient. One example is <em>higher order functions;</em> it's much easier to write:<br />
-            <img class="indent" src="/bjc-r/img/6-computers/map-s.png" alt="map (join () (s)) over (words)" title="map (join () (s)) over (words)" /><br />
-            than to write:<br />
-            <img class="indent"src="/bjc-r/img/6-computers/hard-way.png" alt="script variables (resul) (index); set result to (list); set index to 0; repeat (length of (words)): change index by 1; add (join (item index of words) s) to (result); report result" title="script variables (resul) (index); set result to (list); set index to 0; repeat (length of (words)): change index by 1; add (join (item index of words) s) to (result); report result" />
-        </p>        
-        <p>Both high and low level languages are used by <em>people</em> to write computer programs. Computer hardware understands a sort of ultra-low level language, called <em>machine language.</em> Special programs called <em>compilers</em> and <em>interpreters</em> are used to translate programming languages into machine language.</p>
+        
+        <p>JavaScript, Python, Snap<em>!</em>, C++, Java, Scheme, Prolog... Why are there so many programming languages? Why don't we just pick the best one, or design a new best one, and stick with that?</p>
+        <p>Some languages have very narrow purposes; these are called <em>special-purpose</em> languages. For example, Microsoft Word has a programming language built into it called "Word macros" that's just for generating data and formatting in a document. Likewise, HTML (Hyper-text Mark-up Language) is just for designing web pages.</p>
+        <p><em>General-purpose</em> languages are more powerful. In a sense, these languages are all the same: if an algorithm can be expressed in one language, it can be expressed in all of them. The differences among languages are mostly about <em>levels of abstraction.</em></p>
+        
+        
+		<h3>High-Level and Low-Level Languages</h3>
+        <p>A programming language provides basic parts with built-in behaviors that you, the programmer, assemble in order to accomplish your purpose. For example in Snap<em>!</em>, there are built-in parts like  <img class="inline" src="/bjc-r/img/blocks/if.png"  alt="the if-block" title="the if-block" />, <img class="inline" src="/bjc-r/img/blocks/repeat-empty.png" alt="the repeat block" title="the repeat block" />, <img class="inline" src="/bjc-r/img/blocks/equals.png" alt="the equals block" title="the equals block" />, <img class="inline" src="/bjc-r/img/blocks/and.png" alt="the and block" title="the and block" />, and <img class="inline" src="/bjc-r/img/blocks/turn-left.png" height="38" alt="the turn counterclockwise block" title="the turn counterclockwise block" />. Often, you assemble those basic parts into bigger parts that <em>your</em> program will need, like <img class="inline" src="/bjc-r/img/1-introduction/greet-player.png" height="36" alt="greet player block"  title="greet player block" /> or <img class="inline" src="/bjc-r/img/3-lists/name-selector.png" alt="name from contact: ()" title="name from contact: ()" />, and then you think in terms of these higher levels of abstraction. </p>
+        <p>A <em>high-level language</em> (like JavaScript, Python, or Snap<em>!</em>) includes many built-in abstractions that make it easier to focus on the problem you want to solve rather than on how computer hardware works. A <em>low-level language</em> (like Assembly) has few abstractions, requiring you to know a lot about your computer's architecture to write a program.</p>
+        
+        <h4><strong>Why do programmers use high-level languages?</strong></h4>
+        <p>High-level languages can produce <em>safer</em> programs&mdash;ones that are less likely to have bugs&mdash;because the abstractions manage messy details that can trip up programmers. </p>
+        <div class="endnote">
+            <a href="#hint-memory" data-toggle="collapse">Read about how high-level languages reduce bugs in memory use.</a>
+            <div id="hint-memory" class="collapse">
+            <p>Older, low-level languages required the programmer to manage the use of the computer's memory with instructions saying "get me a block of memory big enough to hold 100 numbers" and other instructions saying "okay, I'm finished using this block of memory; it can be allocated for some other purpose."</p>
+            <p>This is a nuisance to have to think about, and human programmers are bad at it. In low level languages, a very common bug is for one part of a program to say "I'm done with this block of memory" while another part of the program is still using it. High-level languages take care of this for us by using a technique called <em>garbage collection</em> that puts the computer in charge of knowing when a block of memory is no longer in use.</div>
+        </div>
+        <p>High-level languages can also make programming much more convenient. One example is <em>higher order functions</em>...</p>  
+        <div class="forYouToDo" id="first">
+			<div class="todo">The idea was to make this code something that they would read and reflect on rather than just skip over, but have I distracted from the goal of this page? --MF, 11/13/17</div>
+			<ol>
+				<li>
+                    <!-- Question 1 -->
+                    <div class="assessment-data" type="multiplechoice" identifier="Identify this higher order function."
+hasinlinefeedback="true" maxchoices="1" responseIdentifier="ri1" shuffle="false">
+                        <div class="prompt">
+                            This code is similar to a higher-level function that you have learned.
+                            <img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
+                            Identify the function that this code imitates:<br />
+                            <img class="indent"src="/bjc-r/img/6-computers/hard-way.png" alt="script variables (resul) (index); set result to (list); set index to 0; repeat (length of (words)): change index by 1; add (join (item index of words) s) to (result); report result" title="script variables (resul) (index); set result to (list); set index to 0; repeat (length of (words)): change index by 1; add (join (item index of words) s) to (result); report result" />
+                        <div class="endnote">
+                            <ul>
+                                <li>You learned about <code>for each</code> in <a href="/bjc-r/cur/programming/2-complexity/2-data-structures-art/1-the-for-each-block.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Processing Each Item in a List">Unit 2 Lab 2</a>.</li>
+                                <li>You learned about <code>keep</code> in <a href="/bjc-r/cur/programming/2-complexity/3-predicates/2-keeping-list-items.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Keeping Items from a List">Unit 2 Lab 3</a>.</li>
+                                <li>You learned about <code>map</code> in <a href="/bjc-r/cur/programming/3-lists/1-introduction-to-lists/4-mapping-over-list.html?topic=nyc_bjc%2F3-lists.topic&course=bjc4nyc.html&novideo&noassignment" title="Transforming Every List Item">Unit 3 Lab 1</a>.</li>
+                                <li>You learned about <code>combine</code> in <a href="/bjc-r/cur/programming/5-algorithms/3-timing-experiments/1-comparing-algorithms.html?topic=nyc_bjc%2F5-algorithms.topic&course=bjc4nyc.html&novideo&noassignment">Unit 5 Lab 3</a>.</li>
+                            </ul>
+                        </div>
+                        </div>
+                        <div class="choice" identifier="c1">
+                            <div class="text"><img src="/bjc-r/img/6-computers/for-each-s.png" alt="for each (word) of (words) (report ((join (word) (s)) over (words)))" title="for each (word) of (words) (report ((join (word) (s)) over (words)))" /></div>
+                            <div class="feedback">Does the original script report a list of words or does it report each word separately? Which would this do?</div>
+                        </div>
+                        <div class="choice" identifier="c2">
+                            <div class="text"><img src="/bjc-r/img/6-computers/keep-s.png" alt="report (keep items such that (join () (s)) from (words))" title="report (keep items such that (join () (s)) from (words))" /></div>
+                            <div class="feedback"><code>Keep</code> takes a predicate (a question) as input and reports a list of the items that make that predicate true.</div>
+                        </div>
+                        <div class="choice" identifier="c3">
+                            <div class="text"><img src="/bjc-r/img/6-computers/map-s.png" alt="report (map (join () (s)) over (words))" title="report (map (join () (s)) over (words))" /></div>
+                            <div class="feedback">Correct!</div>
+                        </div>
+                        <div class="choice" identifier="c4">
+                            <div class="text"><img src="/bjc-r/img/6-computers/combine-s.png" alt="report (combine with (join () (s)) items of (words))" title="report (combine with (join () (s)) items of (words))" /></div>
+                            <div class="feedback"><code>Combine</code> takes a predicate with two blanks (like <img class="inline" src="/bjc-r/img/3-lists/plus.png" alt="() + ()" title="() + ()" /> or <img class="inline" src="/bjc-r/img/3-lists/join.png" alt="join () ()" title="join () ()" />) as input and reports the result of combining all the list items using that function (for example, adding them all together or joining them all into one text string).</div>
+                        </div>
+                        <!-- Response ID
+                             Make sure each ID is unique, again!
+                             Keep these classes the same for multiple choice problems
+                         -->
+                        <div class="responseDeclaration" identifier="ri1">
+                            <div class="correctResponse" identifier="c4"></div>
+                        </div>
+                    </div>
+                </li>				   
+			</ol>
+		</div>
+        <p>A high-level language, like Snap<em>!</em>, includes functions like these higher-order functions to allow the programmer to write shorter, cleaner code. 
+
+        <h4><strong>Why do programmers use low-level languages?</strong></h4>
+		<p>The most common use of low-level languages is to write operating systems (like Windows, Mac OSX, Android, or iOS). You'll learn more about Operating systems on the <a href="/bjc-r/cur/programming/6-computers/1-abstraction/06-software-OS.html?topic=nyc_bjc%2F6-how-computers-work.topic&course=bjc4nyc.html&novideo&noassignment">The Software Domain: Operating Systems</a> page.</p>
+        <div class="endnote">
+            <a href="#hint-low-level-lang" data-toggle="collapse">Why else would a programmer use a low-level language?</a>
+            <div id="hint-low-level-lang" class="collapse">
+            	<div class="comment">I cut 3 paragraphs wholesale here so that kids might really choose to read this. --MF, 11/13/17</div>
+                <p><em>Programmers may think that abstraction is too slow.</em> Programmers of 3-D video games  need all the speed they can get; their programs strain the speed of modern computers. So they often write part of their programs, the part that actually puts pictures on the screen, in machine language, just for speed. But most programmers  write applications that don't strain computers at all. When you send an email or text message, the limiting factor  is how fast you can type, not how fast your computer can run programs.</p>
+                <p><em>Legacy code.</em> Programmers in industry hardly ever get to write a program from the beginning. Much more often, they're maintaining a program that somebody wrote years ago, and that person might not even work for that company anymore. In the long run, it might be better to rewrite the program in a more modern language, but in the short run, there's no time to do that so they end up modifying the existing code in the existing programming language.</p>
+            </div>
+        </div>
+        
+        <h4><strong>What is machine language?</strong></h4>
+        <p>Both high- and low-level languages are used by <em>people</em> to write computer programs. Computer hardware understands a sort of ultra-low-level language, called <em>machine language.</em> Special programs called <em>compilers</em> and <em>interpreters</em> are used to translate human programming languages into machine language.</p>
         <div class="endnote">
             <a href="#hint-compilers" data-toggle="collapse">Click to learn more about compilers and interpreters.</a>
             <div id="hint-compilers" class="collapse">
-            <p>A <em>compiler</em> is a program that takes a high or low level language program (the <em>source code</em>) as input, and produces a machine language program (the <em>object code</em>) as its output. Once produced, the machine language program can be run repeatedly without needing to be compiled again.</p>
-            <p>An <em>interpreter</em> is a program that takes a high or low level program as input, and carries out machine language instructions as needed to run the program. It does not produce a stand-alone machine language program as output.</p>
-            <div class="comment">Can these second two paragraphs be a second, embdedded hint under the question "Does that mean compilers are better?" --MF, 11/8/17</div>
-            <p>Does that mean compilers are better? It <em>would</em> mean that, except that the process of writing a program includes <em>debugging.</em> During the debugging, an interpreter can help by providing information about the progress of the program, like the visual stepping feature in Snap<em>!</em>, and allowing small changes in the source program without having to run a compiler repeatedly. For example, in Snap<em>!</em> you can drag a block into a script while it's running; a compiler couldn't allow that.</p>
-            <p>For professional programmers, the best arrangement is to have both an interpreter and a compiler for the same language. You write and debug the program using an interpreter, and once you're sure it works, you compile it. Then the compiler can run slowly, putting a lot of effort into <em>optimizing</em> the machine language code, so you get the very fastest possible compiled program. (Doesn't slowing down the compiler undo the benefit of speeding up the object code? No, because the program is compiled only once, but it may be run thousands or millions of times, especially if it's an application that millions of people use.)</p>
-            <!-- <p>Sometimes there are reasons to use a more complicated development process. For example, a high level language might be compiled into a lower level language, and then that <em>intermediate</em> program would be compiled into machine language. Or the intermediate program might be interpreted rather than compiled.</p> -->
+                <p>A <em>compiler</em> is a program that takes a high- or low-level language program (the <em>source code</em>) as input and produces a machine language program (the <em>object code</em>) as its output. Once produced, the machine language program can be run repeatedly without needing to be compiled again.</p>
+                <p>An <em>interpreter</em> is a program that takes a high- or low-level program as input and carries out machine language instructions as needed to run the program. It does not produce a stand-alone machine language program as output and will have to repeat the process again next time.</p>
+                <p>
+                    <a href="#hint-compilers-better" data-toggle="collapse">Does that mean compilers are better?</a>
+                    <div id="hint-compilers-better" class="collapse">
+                        <div class="comment">We haven't taught the visual stepping feature in Snap<em>!</em>, so it seems weird to reference it here. --MF, 11/13/17</div>
+                        <p>It <em>would</em> mean that, except that the process of writing a program includes <em>debugging.</em> During the debugging, an interpreter can help by providing information about the progress of the program, like the visual stepping feature in Snap<em>!</em>, and allowing small changes in the source program without having to run a compiler repeatedly. For example, in Snap<em>!</em> you can drag a block into a script while it's running, and a compiler couldn't allow that.</p>
+                        <p>For professional programmers, the best arrangement is to have <em>both</em> an interpreter and a compiler for the same language. The programmer writes and debugs the program using an interpreter, and once they're sure it works, they compile it. Then, the compiler can run slowly, putting a lot of effort into <em>optimizing</em> the machine language code, so they get the fastest possible compiled program. <!--(Doesn't slowing down the compiler undo the benefit of speeding up the object code? No, because the program is compiled only once, but it may be run thousands or millions of times, especially if it's an application that millions of people use.)--></p>
+                    </div>
+                </p>
             </div>
         </div>
-        <p>So why would anyone ever want to use a low level language? The best answer is "in order to write an operating system." (Operating systems are discussed two pages later.)</p>
-        <div class="endnote">
-            <a href="#hint-low-level-lang" data-toggle="collapse">There are also less-good reasons.</a>
-            <div id="hint-low-level-lang" class="collapse">
-            	<div class="comment">Yikes! This needs to be cut back even in a hint! --MF, 11/8/17</div>
-                <p>Application programmers don't  often decide "I'm going to write this program in a low level language." They may simply not realize that higher levels of abstraction are possible. For example,  a  computer's hardware limits the size of numbers that its arithmetic unit can add in a single step. Four billion—about ten digits—is a common size limit for integers. Programmers who use Java, Javascript, Python, C or C++ may think that this limit is unavoidable. But programmers who use <em>really</em> high level languages, such as Scheme or Common Lisp, know that they can do arithmetic on numbers with millions or billions of digits, limited only by the size of the computer's memory. As you will see later, Snap<em>!</em> has a <strong>library</strong> that lets it do this, too.                </p>
-                <p>People often say that different programming languages are good for different kinds of programs, but except for 3-D video processing (next paragraph), it's hard to imagine an application that would be <em>harmed</em> by things like garbage collection or higher order functions. There are just a few cases in which people deliberately design languages with features that might not be wanted for some applications. Here's one such example: In Snap<em>!</em>, a text string of only digits is considered to be a number; you can do arithmetic on it. In a language for learners, conversion between data types just makes it harder to get started programming. But most languages that aren't meant for beginners keep the two data types separate.</p>
-                <p><em>Programmers may think that abstraction is too slow.</em> Programmers of 3-D video games  need all the speed they can get; their programs strain the speed of modern computers. So they often write part of their programs, the part that actually puts pictures on the screen, in machine language, just for speed. But most programmers  write applications that don't strain computers at all. When you send an email or text message, the limiting factor  is how fast you can type, not how fast your computer can run programs.</p>
-                <p>Sometimes an abstraction gets a reputation for slowness because 50 years ago, when the abstraction was first invented by  researchers, it really did strain the computers of the day; old programmers may continue to tell young programmers how slow it is, even though today's computers are millions of times as fast. For example, automatic garbage collection for program safety was introduced in the programming language Lisp in 1958. (Lisp is the second oldest programming language still in use, after Fortran.) But it wasn't until the introduction of Java in 1995 (37 years later) that "real world" programmers admitted that it's a good idea.</p>
-                <p><em>Legacy code.</em> Programmers in industry hardly ever get to write a program from the beginning. Much more often, they're maintaining a program that somebody who no longer works for the company wrote 20 years ago. In the long run, it might be better to rewrite the program in a more modern language, but in the short run there's no time to do that, so they end up modifying the existing code, in its existing programming language.</p>
-            </div>
-        </div>
+        
+        <div class="forYouToDo" id="first">
+			<ol start="2">
+				<li>
+                    Look at these three examples of the <em>same code</em> in different languages:
+                    <div class="endnote">This code is a Fibonacci number calculator from Wikipedia's <a href="https://en.wikipedia.org/wiki/Low-level_programming_language" target="_blank">Low-level programming language</a> page.</div>
+                    <ul>
+                        <li>Ultra-low machine code:
+                        <pre>8B542408 83FA0077 06B80000 0000C383
+FA027706 B8010000 00C353BB 01000000
+B9010000 008D0419 83FA0376 078BD989
+C14AEBF1 5BC3</pre>
+                        </li>
+                        <li>Low-level Assembly:
+                        <pre>
+fib:
+    mov edx, [esp+8]
+    cmp edx, 0
+    ja @f
+    mov eax, 0
+    ret
+    
+    @@:
+    cmp edx, 2
+    ja @f
+    mov eax, 1
+    ret
+    
+    @@:
+    push ebx
+    mov ebx, 1
+    mov ecx, 1
+    
+    @@:
+        lea eax, [ebx+ecx]
+        cmp edx, 3
+        jbe @f
+        mov ebx, ecx
+        mov ecx, eax
+        dec edx
+    jmp @b
+    
+    @@:
+    pop ebx
+    ret
+</pre>
+						</li>
+                        <li>Higher-level C: 
+                        <pre>
+unsigned int fib(unsigned int n) {
+    if (n &lt;= 0)
+        return 0;
+    else if (n &lt;= 2)
+        return 1;
+    else {
+        unsigned int a,b,c;
+        a = 1;
+        b = 1;
+        while (1) {
+            c = a + b;
+            if (n &lt;= 3) return c;
+            a = b;
+            b = c;
+            n--;
+        }
+    }
+}
+</pre>
+					</li>
+                    </ul>
+                    <div class="takeNote">Notice that even if you don't know C, you can still read some of the code. And what you can't read, you can probably imagine learning to read without much effort. The lower-level languages are <em>much</em> harder to learn.</div>
+                </li>				   
+			</ol>
+		</div>
+        
+        <div class="ifTime">
+			<ol start="3">
+				<li>
+                    <div class="sidenote">Click the Snap<em>!</em> code to open it in Snap<em>!</em>.</div>
+                    Here is the same code in Snap<em>!</em>. Compare it to the C code shown again here.
+					<table>
+                        <tr>
+                            <td><a class="run" href="/bjc-r/prog/6-computers/U6L1-Fibonacci.xml" target="_blank"><img class="indent" src="/bjc-r/img/6-computers/fib(n)definition.png" alt="Snap! code for Fibonacci program; click this image to open it in Snap!" title="Snap! code for Fibonacci program; click this image to open it in Snap!" /></a></td>
+                            <td style="width: 10%;">&nbsp;</td>
+                            <td>
+                                <pre class="indent">
+unsigned int fib(unsigned int n) {
+    if (n &lt;= 0)
+        return 0;
+    else if (n &lt;= 2)
+        return 1;
+    else {
+        unsigned int a,b,c;
+        a = 1;
+        b = 1;
+        while (1) {
+            c = a + b;
+            if (n &lt;= 3) return c;
+            a = b;
+            b = c;
+            n--;
+        }
+    }
+}
+</pre>
+                            </td>
+                        </tr>
+                    </table>
+                    
+                    <div class="endnote">
+                        Note that this code uses an abstraction for <code>&le;</code> so that it looks more like the C code. Different languages have different built-in abstractions.<br />
+                        <img class="indent" src="/bjc-r/img/6-computers/leq.png" alt="(num1) &le; (num2): report ((num1 &lt; num2) or (num1 = num2))" title="(num1) &le; (num2): report ((num1 &lt; num2) or (num1 = num2))" />
+                    </div>
+                </li>
+			</ol>
+		</div>
+		
         
       </body>
 </html>
