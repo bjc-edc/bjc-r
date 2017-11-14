@@ -370,6 +370,21 @@ llab.setupTitle = function() {
      llab.titleSet = true;
 };
 
+// Mary's developer note toggle --MF, 11/14/17
+var addToggle = "";
+if (window.location.href.slice(0,16) == "http://localhost") {
+	addToggle = "<button class='imageRight' onclick='hidedev()'>Toggle developer todos/comments (red boxes)</button>";
+};
+function hidedev() {
+	var devremarks = document.querySelectorAll(".todo, .comment, .commentBig");
+	for (i = 0; i < devremarks.length; i++) {				
+		if (devremarks[i].style.display === "none") {
+			devremarks[i].style.display = "block";
+		} else {
+			devremarks[i].style.display = "none";
+		}
+	}
+};
 
 // Create the 'sticky' title header at the top of each page.
 llab.createTitleNav = function() {
@@ -387,7 +402,7 @@ llab.createTitleNav = function() {
                        "<a class='btn btn-default forwardbutton arrow'>next</a>";
 
      if (topNav.length === 0) {
-          $(document.body).prepend(topHTML);
+          $(document.body).prepend(topHTML.concat(addToggle));
           topNav = $(llab.selectors.NAVSELECT);
           topNav.append(navHTML);
      }
