@@ -3,34 +3,53 @@
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
-		<title>Unit 6 Lab 1: Software Domain—Libraries, Page 5</title>
+		<title>Unit 6 Lab 1: Computer Abstraction Hierarchy, Page 4</title>
 	</head>
     <body>
         <div class="todo">
+            Take these EKs with the image compression content. --MF, 11/15/17
             <p>3.3.1C There are trade offs in using lossy and lossless compression techniques for storing and transmitting data.<br>
               3.3.1D Lossless data compression reduces the number of bits stored or transmitted but allows complete reconstruction of the original data<br>
             3.3.1E Lossy data compression can significantly reduce the number of bits stored or transmitted at the cost of being able to reconstruct only an approximation of the original data.</p>
         </div>
         
         <h2>The Software Domain: Libraries</h2>
-        
-        <div class="todo">I have problems with this page: namely, it's not about libraries. It's a quick nod to libraries, which I don't think really need a page, and then it's all about images. That's a problem that needs to be resolved ASAP. --MF, 11/8/17</div>
+        <div class="learn"><strong>On this page</strong>, you'll learn how some programmers write <em>libraries</em> to help other programmers not have to think about some messy details.</div>
 		
-<div class="learn">
-<strong>On this page</strong> you learn how some programmers help other programmers not have to think about some messy details, by writing <em>libraries</em>.</div>
-<p>A <strong>library</strong> is a piece of computer code that's meant to be used as part of another program, rather than by itself. You've used libraries in Snap<em>!</em>, consisting of blocks (procedures) that provide some useful abstraction.</p>
-<p>What happens if an application programmer wants a little picture to be able to move around in a screen that also has other pictures in it? In Snap<em>!</em>, that's built in: import a picture as a <em>costume</em> that can be attached to a sprite, and then  move the picture by moving the sprite. The sprite abstraction lets a programmer <em>move</em> a picture (the sprite's costume) over other pictures (the stage background, pen trails, and other sprites' costumes) without thinking about all the details. Not all languages  include a sprite abstraction. For those languages, other programmers may have developed  libraries to provide that capability.  </p>
-<p>Even just displaying a picture on your screen, without moving it, involves complexity that a programmer shouldn't have to think about. An app must find out the size of the picture (usually expressed in "pixels," short for "picture elements"). Each pixel is represented by numbers, usually three (or four)  integers between 0 and 255. Not all representations  use those numbers the same way. In probably the most common system (RGB), the  three numbers represent the intensity of   Red,  Green,  and Blue in that pixel. When all are 0, we see black; when all are 255, we see white. If R is 0, G is 120, and B is 0, there is no red, no blue, and less than half the available intensity of green, so we see a dark green. Other combinations make other colors.  </p>
+		<p>A <strong>library</strong> is a piece of computer code that's meant to be used as part of another program, rather than by itself. Libraries add other features to a language that may be needed by some programmers but not others.</p>
+        
+        <h3>Snap<em>!</em> Libraries</h3>
+        <p>
+            You've used libraries in Snap<em>!</em>, consisting of blocks (procedures) that provide some useful abstraction. For example, every time you <img class="inline nopadtb" src="/bjc-r/img/icons/import-tools.png" alt="Import Tools" title="Import Tools" />, you are importing a library of additional procedures including <code>for</code>, <code>tell</code>, <code>keep</code>, <code>map</code>, <code>label</code>, and <code>combine</code>:<br />
+            <img class="indent" src="/bjc-r/img/6-computers/libraries-1.png" alt="Snap! File menu opened with cursor over 'Libraries'" title="Snap! File menu opened with cursor over 'Libraries'" />
+            <img class="indent" src="/bjc-r/img/6-computers/libraries-2.png" alt="Snap! 'Import library' dialog box highlighting 'Tools' library" title="Snap! 'Import library' dialog box highlighting 'Tools' library" />
+        </p>
+        <p>
+        	Snap<em>!</em> also has libraries for many other things, including one for accessing different parts of words and sentences and one for controlling pen color using different ways of encoding colors.<br />
+            <img class="indent" src="/bjc-r/img/6-computers/libraries-words.png" alt="Snap! 'Import library' dialog box highlighting 'Words, sentences' library" title="Snap! 'Import library' dialog box highlighting 'Words, sentences' library" />
+            <img class="indent" src="/bjc-r/img/6-computers/libraries-pen.png" alt="Snap! 'Import library' dialog box highlighting 'Set RGB or HSV pen color' library" title="Snap! 'Import library' dialog box highlighting 'Set RGB or HSV pen color' library" />
+        </p>
+        
+        <div class="todo">I would actually be fine to end the page right here. --MF, 11/15/17</div>
+         
+		<h3>Image Libraries</h3>
+        <div class="todo">These next two sections still need some work, but we should first address the issue of where image compression really belongs. --MF, 11/15/17</div>
+		<p>What happens if an application programmer wants a little picture to be able to move around in a screen that also has other pictures in it? In Snap<em>!</em>, that's built in: import a picture as a <em>costume</em> that can be attached to a sprite, and then  move the picture by moving the sprite. The sprite abstraction lets a programmer <em>move</em> a picture (the sprite's costume) over other pictures (the stage background, pen trails, and other sprites' costumes) without thinking about all the details. Not all languages  include a sprite abstraction. For those languages, other programmers may have developed  libraries to provide that capability.  </p>
+        <p>Beyond just representing color, there are also many ways (file formats like BMP, PNG, GIF, and JPG or JPEG) to store the picture information in long-term memory.  These formats differ in compression (more on that below) and in how the computer finds the <em>dimensions</em> of the picture (width and height, in pixels). And the application also has to know how to put the picture up on the actual screen. So application programmers use <em>graphics libraries</em> to take care of these details.</p> 
+                
+        <h3>Other Types of Libraries</h3>
+        <p>And other common tasks—for example, knowing where the mouse pointer is, doing arithmetic on huge numbers, managing sound—have complex parts, too. If application programmers had to deal with all of these details in every program, no software would ever get developed. And because many languages and apps need the same abilities, it's wasteful to rewrite all that code for each one. That's why programmers write <em>libraries</em> for other programmers to  use.</p> 
+        <div class="todo">I suggest working the remainder of this content into data representation with some revision. --MF, 11/15/17
+		<p>Even just displaying a picture on your screen, without moving it, involves complexity that a programmer shouldn't have to think about. An app must find out the size of the picture (usually expressed in "pixels," short for "picture elements"). Each pixel is represented by numbers, usually three (or four)  integers between 0 and 255. Not all representations  use those numbers the same way. In probably the most common system (RGB), the  three numbers represent the intensity of   Red,  Green,  and Blue in that pixel. When all are 0, we see black; when all are 255, we see white. If R is 0, G is 120, and B is 0, there is no red, no blue, and less than half the available intensity of green, so we see a dark green. Other combinations make other colors.  </p>
         <div class="endnote">
             <a href="#hint-color-codes" data-toggle="collapse">Click here to learn more about Color Codes.</a>
-          <div id="hint-color-codes" class="collapse">If a fourth number is used, it represents the <em>transparency,</em> like the ghost effect you used in your very first BJC project. RGB works well for lights, such as the tiny lights in your computer screen, so it is great for computers. But it's not good for printers: no combination of Red,  Green and Blue sprayed on paper would quite make black, and zero of each would leave the paper white. Ink or paint colors are measured in CMYK: Cyan, Magenta, Yellow, and Black. And some colors such as brown and brick-red (darker than pure red) are hard to figure out in RGB units, even for display in lights. Another color system is called HSB, for <em>hue, saturation, brightness.</em> Snap<em>!</em>'s system is similar to HSB: "pen color" is hue (location on the rainbow); "pen shade" is more or less saturation (zero means black, 100 means full rainbow color).  </div>
-</div>
-        <p>Beyond just representing color, there are also many ways (file formats like BMP, PNG, GIF, and JPG or JPEG) to store the picture information in long-term memory.  These formats differ in compression (more on that below) and in how the computer finds the <em>dimensions</em> of the picture (width and height, in pixels). And the application also has to know how to put the picture up on the actual screen. So application programmers use <em>graphics libraries</em> to take care of these details.</p> 
-        <p>And other common tasks—for example, knowing where the mouse pointer is, doing arithmetic on huge numbers, managing sound—have complex parts, too. If application programmers had to deal with all of these details in every program, no software would ever get developed. And because many languages and apps need the same abilities, it's wasteful to rewrite all that code for each one. That's why programmers write <em>libraries</em> for other programmers to  use.</p> 
-        <p><strong>Data Compression</strong></p>
+            <div id="hint-color-codes" class="collapse">If a fourth number is used, it represents the <em>transparency,</em> like the ghost effect you used in your very first BJC project. RGB works well for lights, such as the tiny lights in your computer screen, so it is great for computers. But it's not good for printers: no combination of Red,  Green and Blue sprayed on paper would quite make black, and zero of each would leave the paper white. Ink or paint colors are measured in CMYK: Cyan, Magenta, Yellow, and Black. And some colors such as brown and brick-red (darker than pure red) are hard to figure out in RGB units, even for display in lights. Another color system is called HSB, for <em>hue, saturation, brightness.</em> Snap<em>!</em>'s system is similar to HSB: "pen color" is hue (location on the rainbow); "pen shade" is more or less saturation (zero means black, 100 means full rainbow color).  </div>
+        </div>
+        
+		<h3>Data Compression</h3>
         <div class="todo">I find this section to need a lot of cleanup, but I also think it does not belong here, and that problem needs to be sorted out before word-smithing. --MF, 11/8/17</div>
-		
-<p>Why <em>are</em> there so many picture formats, anyway? One  reason is the usefulness of different <strong>data compression algorithms</strong>.</p>
+        
+        <p>Why <em>are</em> there so many picture formats, anyway? One  reason is the usefulness of different <strong>data compression algorithms</strong>.</p>
         <p>
             Here's a picture of the BJC logo:<br />
             <img class="indent noshadow" src="/bjc-r/img/6-computers/bjc-logo-original.png" alt="BJC logo uncompressed" title="BJC logo uncompressed" />
@@ -40,40 +59,40 @@
         <p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ...<img src="/bjc-r/img/6-computers/top-row-of-pixels-in-bjc-logo.png" alt="top-row-of-pixels-in-bjc-logo">...</p>
         <p>The first 60 or so are transparent. Then come five pixels of mustard yellow (the top slice of the "b").The rest are transparent. So instead of storing a representation for all 158 pixels, we could just store six values:</p>
         <table width="30%" border="4" cellspacing="8" alt="60, transparent, 5, mustard yellow, 93, transparent">
-          <tr>
-            <th width="47%" scope="col">how many</th>
-            <th width="53%" scope="col">what color</th>
-          </tr>
-          <tr>
-            <td align="right">60&nbsp;</td>
-            <td>&nbsp;(transparent)</td>
-          </tr>
-          <tr>
-            <td align="right">5&nbsp;</td>
-            <td bgcolor="#EBBC71">&nbsp;231,167,32</td>
-          </tr>
-          <tr>
-            <td align="right">93&nbsp;</td>
-            <td>&nbsp;(transparent)</td>
-          </tr>
+            <tr>
+                <th width="47%" scope="col">how many</th>
+                <th width="53%" scope="col">what color</th>
+            </tr>
+            <tr>
+                <td align="right">60&nbsp;</td>
+                <td>&nbsp;(transparent)</td>
+            </tr>
+            <tr>
+                <td align="right">5&nbsp;</td>
+                <td bgcolor="#EBBC71">&nbsp;231,167,32</td>
+            </tr>
+            <tr>
+                <td align="right">93&nbsp;</td>
+                <td>&nbsp;(transparent)</td>
+            </tr>
         </table>
         <p> This is called <em>run-length encoding</em>.</p>
         <div class="endnote">
             <a href="#hint-run-length-encoding" data-toggle="collapse">Click to learn more about run-length encoding.</a>
-      <div id="hint-run-length-encoding" class="collapse">
-       Not all the rows are that simple. A slice across the picture near the top of the <em>j</em> looks like this.<br /> 
-        ... <img src="/bjc-r/img/6-computers/bjc-logo-original-middle-row.png" alt="bjc-logo-original-middle-row"> ... <br /> 
-        Storing the length of each  color run would require 24 pieces of information. But even this is better than 158. 
+            <div id="hint-run-length-encoding" class="collapse">
+                Not all the rows are that simple. A slice across the picture near the top of the <em>j</em> looks like this.<br /> 
+                ... <img src="/bjc-r/img/6-computers/bjc-logo-original-middle-row.png" alt="bjc-logo-original-middle-row"> ... <br /> 
+                Storing the length of each  color run would require 24 pieces of information. But even this is better than 158. 
                 <p>These days, the size of one picture isn't so significant, but think about every frame of a movie, and think about the time required to send the information over the Internet. Compression makes it easier to stream that movie to you.</p>
-</div>
+            </div>
         </div>
         <p>Run-length encoding doesn't <em>lose</em> any information. The original picture can be reconstructed with every pixel exactly correct. This is an example of <em>lossless compression.</em></p>
-
-        <p>Run-length encoding doesn't do  well if the picture is a photograph, in which every pixel may be slightly different in color from its neighbors.  (If the length of each color run is just one pixel, storing just the colors uses half as much information as storing both run length <em>and</em> color.) So there are other compression algorithms. The PNG  (Portable Network Graphics, pronounced "ping") encoding does <em>lossless</em> compression of arbitrary pictures. Its algorithm is complicated, using several different strategies depending on how  color varies in each small chunk of the image. The thing to remember is that PNG is lossless.</p>
-<p>Some   algorithms use <strong>lossy compression</strong>. This lets file size  be even smaller, but the original picture can't be perfectly reconstructed; information is lost. This would be terrible if these algorithms were used to compress a computer program or a novel, but people's perception of pictures does not  require extreme precision.</p>
+        
+        <p>Run-length encoding doesn't do well if the picture is a photograph, in which every pixel may be slightly different in color from its neighbors.  (If the length of each color run is just one pixel, storing just the colors uses half as much information as storing both run length <em>and</em> color.) So there are other compression algorithms. The PNG  (Portable Network Graphics, pronounced "ping") encoding does <em>lossless</em> compression of arbitrary pictures. Its algorithm is complicated, using several different strategies depending on how  color varies in each small chunk of the image. The thing to remember is that PNG is lossless.</p>
+        <p>Some algorithms use <strong>lossy compression</strong>. This lets file size  be even smaller, but the original picture can't be perfectly reconstructed; information is lost. This would be terrible if these algorithms were used to compress a computer program or a novel, but people's perception of pictures does not  require extreme precision.</p>
         <p>The most commonly used lossy compression algorithm for pictures is called JPEG (or JPG, both pronounced "jay peg") for "Joint Photographic Experts Group," the committee that invented it. Lossy algorithms usually let you control the degree of precision. Below are two versions of a picture measuring 256×192 pixels and the file sizes in various formats.</p>
         <table width="56%" border="4" cellspacing="8" summary="compression factors example">
-          <tr>
+            <tr>
                 <th scope="col">format</th>
                 <th scope="col">size</th>
             </tr>
@@ -86,29 +105,32 @@
                 <td>106 kB</td>
             </tr>
             <tr>
-                <td>JPEG set at &quot;best&quot; in the Preview app on a Mac</td>
+                <td>JPEG set at "best" in the Preview app on a Mac</td>
                 <td>94 kB</td>
             </tr>
             <tr>
-                <td>JPEG set at &quot;worst&quot; in the Preview app on a Mac</td>
+                <td>JPEG set at "worst" in the Preview app on a Mac</td>
                 <td>5 kB</td>
             </tr>
         </table>
         <p>
-          Notice how tiny the JPEG worst file is! It must look terrible, right? Here are  that 5kB file and the original, uncompressed BMP file. Can you tell which is which?<br />
+            Notice how tiny the JPEG worst file is! It must look terrible, right? Here are  that 5kB file and the original, uncompressed BMP file. Can you tell which is which?<br />
             <img class="indent" src="/bjc-r/img/6-computers/pond.bmp" alt="pond pebbles" title="pond pebbles" />
             <img src="/bjc-r/img/6-computers/pond.jpg" alt="pond pebbles" title="pond pebbles" />
         </p>
-        <p>JPEG compression is designed for photographs; it's not so good for cartoon-like images. Here's the BJC logo in &quot;best&quot; and &quot;worst&quot; JPEG versions:<br />
-  <img src="/bjc-r/img/6-computers/bjc-logo-jpeg-best.jpg" alt="BJC logo, JPEG best">
-  &nbsp;&nbsp;&nbsp;
-  <img src="/bjc-r/img/6-computers/bjc-logo-jpeg-worst.jpg" alt="BJC logo, JPEG worst"><br>
-  The "best" one isn't too bad, but if you zoom in you can see "jaggies": a stairstep effect at the edges of the letters.  The "worst" one has even worse jaggies, wrong colors in the B, and bits of fuzz in what should be the transparent areas near the letters.</p>
+        <p>
+            JPEG compression is designed for photographs; it's not so good for cartoon-like images. Here's the BJC logo in "best" and "worst" JPEG versions:<br />
+            <img src="/bjc-r/img/6-computers/bjc-logo-jpeg-best.jpg" alt="BJC logo, JPEG best">
+            &nbsp;&nbsp;&nbsp;
+            <img src="/bjc-r/img/6-computers/bjc-logo-jpeg-worst.jpg" alt="BJC logo, JPEG worst"><br>
+            The "best" one isn't too bad, but if you zoom in you can see "jaggies": a stairstep effect at the edges of the letters.  The "worst" one has even worse jaggies, wrong colors in the B, and bits of fuzz in what should be the transparent areas near the letters.
+        </p>
         <div class="vocabFullWidth"><strong>: Lossy vs. Lossless</strong>
-          <p><strong>Lossless</strong> compression (like PNG) is <em>reversible</em> (no loss in quality); you can reconstruct the original data. It works by removing redundant data.</p>
+            <p><strong>Lossless</strong> compression (like PNG) is <em>reversible</em> (no loss in quality); you can reconstruct the original data. It works by removing redundant data.</p>
             <p><strong>Lossy</strong> compression (like JPG) is <em>not</em> fully reversible; you can only reconstruct an <em>approximation</em> of the original data. It works by removing details that people aren't likely to notice. </p>
         </div>
         <div class="todo">BH idea: We could do a FYTD where they have to run-length encodedecode something. Maybe even encoding/decoding images in Snap. --MF, 11/8/17</div>
+        </div>
 		
 		
     </body>
