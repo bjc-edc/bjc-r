@@ -20,11 +20,11 @@
         <p><em>General-purpose</em> languages don't have a narrow purpose in mind. In a sense, these languages are all the same: if an algorithm can be expressed in one language, it can be expressed in all of them. The differences among languages are mostly about <em>levels of abstraction.</em></p>
         
 		<h3>High-Level and Low-Level Languages</h3>
-        <!--<p>A programming language provides basic parts with built-in behaviors that you, the programmer, assemble in order to accomplish your purpose. For example in Snap<em>!</em>, there are built-in parts like  <img class="inline" src="/bjc-r/img/blocks/if.png"  alt="the if-block" title="the if-block" />, <img class="inline" src="/bjc-r/img/blocks/repeat-empty.png" alt="the repeat block" title="the repeat block" />, <img class="inline" src="/bjc-r/img/blocks/equals.png" alt="the equals block" title="the equals block" />, <img class="inline" src="/bjc-r/img/blocks/and.png" alt="the and block" title="the and block" />, and <img class="inline" src="/bjc-r/img/blocks/turn-left.png" height="38" alt="the turn counterclockwise block" title="the turn counterclockwise block" />. Often, you assemble those basic parts into bigger parts that <em>your</em> program will need, like <img class="inline" src="/bjc-r/img/1-introduction/greet-player.png" height="36" alt="greet player block"  title="greet player block" /> or <img class="inline" src="/bjc-r/img/3-lists/name-selector.png" alt="name from contact: ()" title="name from contact: ()" />, and then you think in terms of these higher levels of abstraction. </p>-->
-        <div class="commentBig">TG: What makes Snap<em>!</em> a high-level language? data types are associated with data not with variables, big nums, special forms (users can change the syntax of the language).</div>
+        <img class="imageRight" src="/bjc-r/img/6-computers/language-continuum.png" alt="" title="" />
         <p>A <em>high-level language</em> (like Snap<em>!</em> or Scheme) includes many built-in abstractions that make it easier to focus on the problem you want to solve rather than on how computer hardware works. A <em>low-level language</em> (like C) has fewer abstractions, requiring you to know a lot about your computer's architecture to write a program.</p>
+        <div class="todo">TG: What makes Snap<em>!</em> a high-level language? data types are associated with data not with variables, big nums, special forms (users can change the syntax of the language).</div>
         
-        <h3>Why do programmers use high-level languages?</h3>
+        <h4><strong>Why do programmers use high-level languages?</strong></h4>
         <p>High-level languages can produce <em>safer</em> programs&mdash;ones that are less likely to have bugs&mdash;because the abstractions manage messy details that can trip up programmers. </p>
         <div class="endnote">
             <a href="#hint-memory" data-toggle="collapse">Read about how high-level languages reduce bugs in memory use.</a>
@@ -33,20 +33,31 @@
                 <p>This is a nuisance to have to think about, and human programmers are bad at it. In low level languages, a very common bug is for one part of a program to say "I'm done with this block of memory" while another part of the program is still using it. High-level languages take care of this for us by using a technique called <em>garbage collection</em> that puts the computer in charge of knowing when a block of memory is no longer in use.</p>
             </div>
         </div>
-        <p>High-level languages can also make programming much more convenient because they offer more abstractions. One example is <em>higher order functions</em> (like <code>map</code>, <code>keep</code>, <code>combine</code>, and <code>for each</code>), which allow the programmer to write shorter, cleaner code. </p>
+        <p>High-level languages can also make programming much more convenient because they offer more abstractions. One example is <em>higher order functions</em> (like <code>map</code>, <code>keep</code>, <code>combine</code>, and <code>for each</code>), which allow the programmer to write shorter, cleaner code. It's much easier to write:<br />
+            <img class="indent" src="/bjc-r/img/6-computers/map-s.png" alt="map (join () (s)) over (words)" title="map (join () (s)) over (words)" /><br />
+            than it is to write:<br />
+            <div class="sidenote">
+                Lower-level languages like C don't have anything like this grey ring <div class="todo">HELP with wording</div>
+		<br />
+                <img class="inline" src="/bjc-r/img/6-computers/join-with-s-in-ring.png" alt="a grey ring around join () (s)" title="a grey ring around join () (s)" />
+            </div>
+            <img class="indent" src="/bjc-r/img/6-computers/hard-way.png" alt="script variables (resul) (index); set result to (list); set index to 0; repeat (length of (words)): change index by 1; add (join (item index of words) s) to (result); report result" title="script variables (resul) (index); set result to (list); set index to 0; repeat (length of (words)): change index by 1; add (join (item index of words) s) to (result); report result" />
+        </p>        
+        
 
-        <h3>Why do programmers use low-level languages?</h3>
+        <h4><strong>Why do programmers use low-level languages?</strong></h4>
 		<p>The most common use of low-level languages is to write operating systems (like Windows, Mac OSX, Android, or iOS). You'll learn more about Operating systems on the <a href="/bjc-r/cur/programming/6-computers/1-abstraction/06-software-OS.html?topic=nyc_bjc%2F6-how-computers-work.topic&course=bjc4nyc.html&novideo&noassignment">The Software Domain: Operating Systems</a> page.</p>
         <div class="endnote">
             <a href="#hint-low-level-lang" data-toggle="collapse">Why else would a programmer use a low-level language?</a>
             <div id="hint-low-level-lang" class="collapse">
-                <p><em>Programmers may think that abstraction is too slow.</em> Programmers of 3-D video games  need all the speed they can get; their programs strain the speed of modern computers. So they often write part of their programs, the part that actually puts pictures on the screen, in machine language, just for speed. But most programmers  write applications that don't strain computers at all. When you send an email or text message, the limiting factor  is how fast you can type, not how fast your computer can run programs.</p>
+                <div class="todo">Brian wants to include "they don't know better." --MF, 11/16/17</div>
+				<p><em>Programmers may think that abstraction is too slow.</em> Programmers of 3-D video games  need all the speed they can get; their programs strain the speed of modern computers. So they often write part of their programs, the part that actually puts pictures on the screen, in machine language, just for speed. But most programmers  write applications that don't strain computers at all. When you send an email or text message, the limiting factor  is how fast you can type, not how fast your computer can run programs.</p>
                 <p><em>Legacy code.</em> Programmers in industry hardly ever get to write a program from the beginning. Much more often, they're maintaining a program that somebody wrote years ago, and that person might not even work for that company anymore. In the long run, it might be better to rewrite the program in a more modern language, but in the short run, there's no time to do that so they end up modifying the existing code in the existing programming language.</p>
             </div>
         </div>
         
-        <h3>What is machine language?</h3>
-        <p>Both high- and low-level languages are used by <em>people</em> to write computer programs. Computer hardware understands a sort of ultra-low-level language, called <em>machine language.</em> Special programs called <em>compilers</em> and <em>interpreters</em> are used to translate human programming languages into machine language.</p>
+        <h4><strong>What is machine language?</strong></h4>
+        <p>Both high- and low-level languages are used by <em>people</em> to write computer programs. Computer hardware understands a sort of ultra-low-level language, called <em>machine language.</em> Special programs called <em>compilers</em> and <em>interpreters</em> are used to translate human programming languages into machine language to be run by the computer.</p>
         <div class="endnote">
             <a href="#hint-compilers" data-toggle="collapse">Read more about compilers and interpreters.</a>
             <div id="hint-compilers" class="collapse">
@@ -66,81 +77,15 @@
         <div class="forYouToDo" id="first">
 			<ol>
 				<div class="todo">June suggested using a more accessible program that isn't as mathy. I don't have a good way to translate to Assembly and machine code. Would someone like to suggest a more accessible project (I only used this one because it was available on Wikipedia) and then figure out how to write it in other languages? --MF, 11/14/17</div>
-				<li>
-                    Look at these examples of the <em>same code</em> in different languages:
                     <div class="endnote">This code is a Fibonacci number calculator from Wikipedia's <a href="https://en.wikipedia.org/wiki/Low-level_programming_language" target="_blank">Low-level programming language</a> page.</div>
-                    <ul>
-                        <!--<li>Machine code:
-                        <pre>8B542408 83FA0077 06B80000 0000C383
-FA027706 B8010000 00C353BB 01000000
-B9010000 008D0419 83FA0376 078BD989
-C14AEBF1 5BC3</pre>
-                        </li>-->
-                        <li>Assembly, a notation for machine language:
-                        <pre>
-fib:
-    mov edx, [esp+8]
-    cmp edx, 0
-    ja @f
-    mov eax, 0
-    ret
-    
-    @@:
-    cmp edx, 2
-    ja @f
-    mov eax, 1
-    ret
-    
-    @@:
-    push ebx
-    mov ebx, 1
-    mov ecx, 1
-    
-    @@:
-        lea eax, [ebx+ecx]
-        cmp edx, 3
-        jbe @f
-        mov ebx, ecx
-        mov ecx, eax
-        dec edx
-    jmp @b
-    
-    @@:
-    pop ebx
-    ret
-</pre>
-						</li>
-                        <li>Higher-level C: 
-                        <pre>
-unsigned int fib(unsigned int n) {
-    if (n &lt;= 0)
-        return 0;
-    else if (n &lt;= 2)
-        return 1;
-    else {
-        unsigned int a,b,c;
-        a = 1;
-        b = 1;
-        while (1) {
-            c = a + b;
-            if (n &lt;= 3) return c;
-            a = b;
-            b = c;
-            n--;
-        }
-    }
-}
-</pre>
-					</li>
-                    </ul>
                     <div class="takeNote">Notice that even if you don't know C, you can still read some of the code. And what you can't read, you can probably imagine learning to read without much effort. The lower-level languages are <em>much</em> harder to learn.</div>
-                </li>
-                <li>
+				<li>
                     <div class="sidenote">Click the Snap<em>!</em> code to open it in Snap<em>!</em>.</div>
                     Here is the same code in Snap<em>!</em>. Compare it to the C code shown again here.
 					<table>
                         <tr>
-                            <td><a class="run" href="/bjc-r/prog/6-computers/U6L1-Fibonacci.xml" target="_blank"><img class="indent" src="/bjc-r/img/6-computers/fib(n)definition.png" alt="Snap! code for Fibonacci program; click this image to open it in Snap!" title="Snap! code for Fibonacci program; click this image to open it in Snap!" /></a></td>
+                            <td style="width: 10%;">&nbsp;</td>
+                            <td><a class="run" href="/bjc-r/prog/6-computers/U6L1-Fibonacci.xml" target="_blank"><img src="/bjc-r/img/6-computers/fib(n)definition.png" alt="Snap! code for Fibonacci program; click this image to open it in Snap!" title="Snap! code for Fibonacci program; click this image to open it in Snap!" /></a></td>
                             <td style="width: 10%;">&nbsp;</td>
                             <td>
                                 <pre class="indent">
@@ -244,10 +189,10 @@ unsigned int fib(unsigned int n) {
 			</ol>
 		</div>
                     
-        <div class="ifTime">
+        <!--<div class="ifTime">
 			<ol start="5">
                 <li>
-                    <!-- Question 1 -->
+                    <!-- Question 1 - ->
                     <div class="assessment-data" type="multiplechoice" identifier="Identify this higher order function."
 hasinlinefeedback="true" maxchoices="1" responseIdentifier="ri1" shuffle="false">
                         <div class="prompt">
@@ -283,14 +228,14 @@ hasinlinefeedback="true" maxchoices="1" responseIdentifier="ri1" shuffle="false"
                         <!-- Response ID
                              Make sure each ID is unique, again!
                              Keep these classes the same for multiple choice problems
-                         -->
+                         - ->
                         <div class="responseDeclaration" identifier="ri1">
                             <div class="correctResponse" identifier="c4"></div>
                         </div>
                     </div>
                 </li>				   
 			</ol>
-		</div>
+		</div>-->
         
 		
         
