@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unit 6 Lab 1: Computer Abstraction Hierarchy, Page 6</title>
+	</head>
+    <body>
+        <div class="todo">
+            <p>2.2.3C Code in a programming language is often translated into code in another (lower-level) language to be executed on a computer.<br />2.2.3I Hardware is built using multiple levels of abstractions, such as transistors, logic gates, chips, memory, motherboards, special purposes cards, and storage devices.</p>
+		</div>
+        <div class="todo">        The whole idea of softqare depaends on the crutial invention in the arcitechure of computing hardward, namely, the sotred program arcectcture, which allows the machine to carry out any algorithm—not just the particular one that's built in. it makes the hardware universal so the specification of what to do becomes the software which is much easier to changes.
+</div>
+		
+        
+        <h2>The Digital Domain: Architecture</h2>
+        <div class="learn"><strong>On this page</strong> we shift from software to hardware, starting with the <em>architecture,</em> which is essentially the hardware as it looks to the software, abstracting away the actual implementation of the architecture.</div>        
+        <div class="todo">I want to do more to make this content flow nicely. Also, I'm not sure that it needs to be it's own page. --MF, 11/8/17</div>
+		<p>The software in a computer would be useless without the computer's <em>hardware:</em> the actual circuitry inside the box. Just as there are layers of abstraction for software, hardware designers also think in layers of abstraction.</p>
+        <div class="comment">I find this information very helpful and might even consider putting it in a "takenote" block. --MF, 11/8/17</div>
+        <p>Everyone talks about computers representing all data using only two values, 0 and 1. But that's not really how electronic circuits work. Computer designers can work <em>as if</em> circuits were either off (0) or on (1) because of the <strong>digital abstraction</strong>, the most important abstraction in hardware. Above that level of abstraction, there are four more detailed levels, called the <strong>digital domain</strong>. Below the digital abstraction, designers work in the <strong>analog domain</strong>, in which a wire in a circuit can have any voltage value, not just two values.    </p>
+		
+        <h3>What's an Architecture?</h3>
+        <p>The processor in the computer you are using understands only one language, its own <em>machine language</em>. Not Java, C, Snap<em>!</em>, Python, or anything else. To be run by your machine, programs written in those other programming languages must first be translated into machine language. The designers of a programming language must somehow include that translation. Languages like Snap<em>!</em> that run in a browser let the browser handle part of that translation. Other languages come in different versions depending on the machine and operating system.</p>
+		<div class="vocabFullWidth"><strong>: Machine Language</strong>
+			<p>Machine language is the lowest-level programming language, directly understood by the computer hardware.</p>
+        </div>
+        <p><em>Architecture</em> is an abstraction that specifies the machine language, instructions that the hardware will understand. It also tells how the processor connects to the memory. It doesn't include actual circuitry; that comes at a lower level of abstraction. </p>
+        <p>One important part of an architecture is the number of wires that connect the processor and  memory. This is called the <em>width</em> of the architecture, measured in <em>bits.</em> The width is the number of data bits that the computer  processes in one instruction.</p>
+        <div class="endnote">
+			<a href="#hint-architecture" data-toggle="collapse">Learn about the PC/Mac architecture.</a>
+			<div id="hint-architecture" class="collapse">
+			  <div class="comment">This has a lot of numbers in it which make it harder to read, but more importantly it's so abstract and doesn't really talk about anything familiar, which given the hint title "PC/Mac" I was expecting. Needs some work. --MF, 11/8/17</div>Most computer processors (the part that carries out instructions) in desktop or laptop computers use an architecture called "x86" that was designed at Intel, a chip manufacturer. The first processor using that architecture was called the 8086, released in 1978. The original 8086 was a 16-bit architecture; since then 32-bit (since 1985) and 64-bit (since 2003) versions have been developed. Even with all the refinements of the architecture,  the new x86 processors are almost always <em>backward compatible,</em> meaning that  today's versions  will still run  programs that were written for the original 8086. </div>
+        </div>
+        <div class="endnote">
+            <a href="#hint-architecture-general" data-toggle="collapse">Learn more about computer architecture in general.</a>
+            <div id="hint-architecture-general" class="collapse">
+            	<div class="todo">This needs some heavy edits. For example, perhaps the whole third paragraph, "One recent 64-bit x86..." could be cut. --MF, 11/8/17 </div>
+		<h4>The memory hierarchy</h4>
+                <p>For a given cost of circuit hardware, <strong>the bigger the memory, the slower it works.</strong> For this reason, computers don't just have one big chunk of memory. There will be a small number of <em>registers</em> inside the processor itself, usually between 8 and 16 of them. The &quot;size&quot; (number of bits) of a data register is  equal to the width of the architecture.</p>
+                <p>The computer's main memory, these days, is measured in GB (gigabytes, or billions of bytes). A memory of that size can't be fast enough to keep up with a modern processor. Luckily, computer programs generally have <em>locality of reference,</em> which means that if the program has just made use of a particular memory location, it's probably going to use a nearby location next. So a complete program may be very big, but over the course of a second or so only a small part of it will be needed. Therefore,  modern computers are designed with one or more <em>cache</em> memories—much smaller  and therefore faster—between the processor and the main memory. The processor makes sure that the most recently used memory is copied into the cache. </p>
+                <p>One recent 64-bit x86 processor has a first level (L1) cache of 64KB (thousands of bytes) inside the processor chip, a larger but slower L2 cache of 256 KB, also inside the processor, and an L3 cache of up to 2 MB (megabytes, millions of bytes) outside the processor. Each level of cache has a copy of the most recently used parts of the next level outward: the L1 cache copies part of the L2 cache, which copies part of the L3 cache, which copies part of the main memory. Data in the L1 cache can be accessed by the processor about as fast as its internal registers, and each level outward is a little slower. Hardware in the processor handles all this complexity, so that programmers can write programs as if they were directly connected to the main memory.</p>
+                
+                <h4>Second sourcing</h4>
+                <p>Intel licenses other chip manufacturers to build processors that use the same architecture as Intel's processors. Why do they do that? Wouldn't they make more money if people had to buy from Intel? The reason is that computer manufacturers, such as Dell, Apple, and Lenovo, won't build their systems around an architecture that is only available from one company. They're not worried that Intel will go out of business; the worry is that there may be a larger-than-expected demand for a particular processor, and Intel may not be able to fill orders on time. But if that processor is also available from other companies such as AMD and Cyrix, then a delay at Intel won't turn into a delay at Dell. Those other chip manufacturers may not use the same circuitry as the Intel version, as long as they behave the same at the architecture level.</p>
+			</div>
+        </div>
+        
+	</body>
+</html>
