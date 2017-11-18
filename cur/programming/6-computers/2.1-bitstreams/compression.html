@@ -3,59 +3,26 @@
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
-		<title>Unit 6 Lab 1: Computer Abstraction Hierarchy, Page 4</title>
+		<title>Lab 2: Data Representation and Bits, Page X</title>
 	</head>
-    <body>
-        <div class="todo">
-            Take these EKs with the image compression content. --MF, 11/15/17
+
+	<body>
+		<h2>Data Compression</h2>
+		<div class="todo">
             <p>3.3.1C There are trade offs in using lossy and lossless compression techniques for storing and transmitting data.<br>
               3.3.1D Lossless data compression reduces the number of bits stored or transmitted but allows complete reconstruction of the original data<br>
             3.3.1E Lossy data compression can significantly reduce the number of bits stored or transmitted at the cost of being able to reconstruct only an approximation of the original data.</p>
         </div>
         
-        <h2>The Software Domain: Libraries</h2>
-        <div class="learn"><strong>On this page</strong>, you'll learn how some programmers write <em>libraries</em> to help other programmers not have to think about some messy details.</div>
-		
-		<p>A <strong>library</strong> is a piece of computer code that's meant to be used as part of another program, rather than by itself. Libraries add other features to a language that may be needed by some programmers but not others.</p>
-        
-        <h3>Snap<em>!</em> Libraries</h3>
-        <p>
-            You've used libraries in Snap<em>!</em>, consisting of blocks (procedures) that provide some useful abstraction. For example, every time you <img class="inline nopadtb" src="/bjc-r/img/icons/import-tools.png" alt="Import Tools" title="Import Tools" />, you are importing a library of additional procedures including <code>for</code>, <code>tell</code>, <code>keep</code>, <code>map</code>, <code>label</code>, and <code>combine</code>:<br />
-            <img class="indent" src="/bjc-r/img/6-computers/libraries-1.png" alt="Snap! File menu opened with cursor over 'Libraries'" title="Snap! File menu opened with cursor over 'Libraries'" />
-            <img class="indent" src="/bjc-r/img/6-computers/libraries-2.png" alt="Snap! 'Import library' dialog box highlighting 'Tools' library" title="Snap! 'Import library' dialog box highlighting 'Tools' library" />
-        </p>
-        <p>
-        	Snap<em>!</em> also has libraries for many other things, including one for accessing different parts of words and sentences and one for controlling pen color using different ways of encoding colors.<br />
-            <img class="indent" src="/bjc-r/img/6-computers/libraries-words.png" alt="Snap! 'Import library' dialog box highlighting 'Words, sentences' library" title="Snap! 'Import library' dialog box highlighting 'Words, sentences' library" />
-            <img class="indent" src="/bjc-r/img/6-computers/libraries-pen.png" alt="Snap! 'Import library' dialog box highlighting 'Set RGB or HSV pen color' library" title="Snap! 'Import library' dialog box highlighting 'Set RGB or HSV pen color' library" />
-        </p>
-        
-        <div class="todo">I would actually be fine to end the page right here (minus the FYTD). --MF, 11/15/17</div>
-         
-		<h3>Image Libraries</h3>
-        <div class="todo">These next two sections still need some work, but we should first address the issue of where image compression really belongs. --MF, 11/15/17</div>
-		<p>What happens if an application programmer wants a little picture to be able to move around in a screen that also has other pictures in it? In Snap<em>!</em>, that's built in: import a picture as a <em>costume</em> that can be attached to a sprite, and then  move the picture by moving the sprite. The sprite abstraction lets a programmer <em>move</em> a picture (the sprite's costume) over other pictures (the stage background, pen trails, and other sprites' costumes) without thinking about all the details. Not all languages  include a sprite abstraction. For those languages, other programmers may have developed  libraries to provide that capability.  </p>
-        <p>Beyond just representing color, there are also many ways (file formats like BMP, PNG, GIF, and JPG or JPEG) to store the picture information in long-term memory.  These formats differ in compression (more on that below) and in how the computer finds the <em>dimensions</em> of the picture (width and height, in pixels). And the application also has to know how to put the picture up on the actual screen. So application programmers use <em>graphics libraries</em> to take care of these details.</p> 
-                
-        <h3>Other Types of Libraries</h3>
-        <p>And other common tasks—for example, knowing where the mouse pointer is, doing arithmetic on huge numbers, managing sound—have complex parts, too. If application programmers had to deal with all of these details in every program, no software would ever get developed. And because many languages and apps need the same abilities, it's wasteful to rewrite all that code for each one. That's why programmers write <em>libraries</em> for other programmers to  use.</p> 
-        
-        <div class="forYouToDo" id="first">
-			<ol>
-				<li>Read through the libraries listed in Snap<em>!</em> (as shown above), and choose one block that interests you and that you have never used. Build a small project that uses that block, and use your project to teach that block to some of your classmates.</li>
-			</ol>
-		</div>
-		
-        <div class="todo">I suggest working the remainder of this content into data representation with some revision. --MF, 11/15/17
-		<p>Even just displaying a picture on your screen, without moving it, involves complexity that a programmer shouldn't have to think about. An app must find out the size of the picture (usually expressed in "pixels," short for "picture elements"). Each pixel is represented by numbers, usually three (or four)  integers between 0 and 255. Not all representations  use those numbers the same way. In probably the most common system (RGB), the  three numbers represent the intensity of   Red,  Green,  and Blue in that pixel. When all are 0, we see black; when all are 255, we see white. If R is 0, G is 120, and B is 0, there is no red, no blue, and less than half the available intensity of green, so we see a dark green. Other combinations make other colors.  </p>
+        <p>Even just displaying a picture on your screen, without moving it, involves complexity that a programmer shouldn't have to think about. An app must find out the size of the picture (usually expressed in "pixels," short for "picture elements"). Each pixel is represented by numbers, usually three (or four)  integers between 0 and 255. Not all representations  use those numbers the same way. In probably the most common system (RGB), the  three numbers represent the intensity of   Red,  Green,  and Blue in that pixel. When all are 0, we see black; when all are 255, we see white. If R is 0, G is 120, and B is 0, there is no red, no blue, and less than half the available intensity of green, so we see a dark green. Other combinations make other colors.  </p>
         <div class="endnote">
             <a href="#hint-color-codes" data-toggle="collapse">Click here to learn more about Color Codes.</a>
             <div id="hint-color-codes" class="collapse">If a fourth number is used, it represents the <em>transparency,</em> like the ghost effect you used in your very first BJC project. RGB works well for lights, such as the tiny lights in your computer screen, so it is great for computers. But it's not good for printers: no combination of Red,  Green and Blue sprayed on paper would quite make black, and zero of each would leave the paper white. Ink or paint colors are measured in CMYK: Cyan, Magenta, Yellow, and Black. And some colors such as brown and brick-red (darker than pure red) are hard to figure out in RGB units, even for display in lights. Another color system is called HSB, for <em>hue, saturation, brightness.</em> Snap<em>!</em>'s system is similar to HSB: "pen color" is hue (location on the rainbow); "pen shade" is more or less saturation (zero means black, 100 means full rainbow color).  </div>
         </div>
+		<p>Beyond just representing color, there are also many ways (file formats like BMP, PNG, GIF, and JPG or JPEG) to store the picture information in long-term memory.  These formats differ in compression (more on that below) and in how the computer finds the <em>dimensions</em> of the picture (width and height, in pixels). And the application also has to know how to put the picture up on the actual screen. So application programmers use <em>graphics libraries</em> to take care of these details.</p> 
+
         
-		<h3>Data Compression</h3>
-        <div class="todo">I find this section to need a lot of cleanup, but I also think it does not belong here, and that problem needs to be sorted out before word-smithing. --MF, 11/8/17</div>
-        
+		<h3>Data Compression</h3>        
         <p>Why <em>are</em> there so many picture formats, anyway? One  reason is the usefulness of different <strong>data compression algorithms</strong>.</p>
         <p>
             Here's a picture of the BJC logo:<br />
@@ -137,8 +104,7 @@
             <p><strong>Lossy</strong> compression (like JPG) is <em>not</em> fully reversible; you can only reconstruct an <em>approximation</em> of the original data. It works by removing details that people aren't likely to notice. </p>
         </div>
         <div class="todo">BH idea: We could do a FYTD where they have to run-length encodedecode something. Maybe even encoding/decoding images in Snap. --MF, 11/8/17</div>
-        </div>
-		
-		
-    </body>
+
+
+	</body>
 </html>
