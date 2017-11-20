@@ -72,11 +72,7 @@
             	<li>A great example of a high-level programming language is <a href="http://groups.csail.mit.edu/mac/projects/scheme/index.html">Scheme</a>. You can learn it from the free, online book <a href="https://mitpress.mit.edu/sicp/full-text/book/book.html">Structure and Interpretation of Computer Programs</a>.</li>
             </ol>
 
-        </div>
- 
- 
-  
- 
+        </div>  
         
         <div class="takeNote">The design of a programming language isn't just a question of taste; it can be a matter of life and death. Between 1985 and 1987, a therapeutic X-ray machine   killed four patients and seriously injured two more because of several bugs in its software; one of the bugs was that a   counter that was kept in an eight-bit-wide variable would reach its maximum value of 127 and then <em>overflow</em> to zero instead of 128. When the variable was zero, an important safety check was not performed. This would not have happened if the   software had been written in a better programming language.</div>
 
@@ -98,141 +94,13 @@
                     Try <code>200!</code>. The reported result won't fit on your screen, but you can see it this way:
                     <img class="imageRight" src="/bjc-r/img/4-internet/script-pic.jpg" alt="script pic drop down menu" title="script pic drop down menu" />
                     <ol type="a">
-                        <li>Hold down the shift key and right-click or control-click the <img class="inline" src="/bjc-r/img/6-computers/factorial.png" alt="() !" title="() !" /> block.
-                        
-                 
-                        
-                        
-                        
-                        </li>
+                        <li>Hold down the shift key and right-click or control-click the <img class="inline" src="/bjc-r/img/6-computers/factorial.png" alt="() !" title="() !" /> block.</li>
                         <li>In the menu that appears, click on the red "script pic with result..." item.</li>
                         <li>An image will download onto your computer or open in a new tab.</li>
                     </ol>
                 </li>
                 <li>How many digits are there in <code>200!</code>? (Don't count by hand; you have a computer.)</li>
             </ol>
-        </div>
-        
-        <hr />
-        <h1>Page break?</h1>
-        <hr />
-        
-        <h2>Floating Point</h2>
-        <div class="learn">
-        	<p><strong>On this page,</strong> you'll learn how computers store numbers that are not integers.</p> 
-        </div>
-        
-        <p>The way computers store numbers that are not integers is called <strong>floating point</strong>.
-		<div class="endnote">
-            <div class="commentBig">Mary thinks the shown hint text should say, "Why is it called floating point?" but she gave up fighting with Brian. Paul, please decide. --MF, 11/8/17</div>
-            <a href="#hint-float" data-toggle="collapse">Where did that funny name come from?</a>
-            <div id="hint-float" class="collapse">This non-obvious name is used because there used to be a <em>fixed point</em> non-integer notation with a <em>fixed</em> number of digits after the decimal <em>point.</em> For example, a fixed point notation with two digits after the decimal point was used to represent an amount of money in dollars and cents: $82.47. But today's computers always use floating point for non-integer values, including money.</div>
-        </div>
-        
-        <div class="takeNote">Floating point allows computers to store very large numbers and also decimals, but the format still has a specific number of bits, and that limits the range of floating point values and mathematical operations just as with integers. However with floating point, values that exceed the limitation may result in <em>round off</em> errors instead.</div>
-		<div class="comment">TG: Any rational number can be represented exactly as a fraction (e.g., 1/3), but irrational numbers cannot.</div>
-		<div class="forYouToDo">
-			<ol start="7">
-				<li>For example, try<img src="/bjc-r/img/4-internet/one-third.png" alt="1 / 3"> once with bignums on and once with bignum off.</li>
-            </ol>
-        </div>
-	        <p>The decimal representation of ⅓ is 0.33333... It has infinitely many digits, so the closest you can come in floating point isn't <em>exactly</em> ⅓; it gets cut off after a while because your computer doesn't have enough memory.</p>
-        <p>Roundoff errors can result in some pretty non-intuitive results...</p>
-        
-        
-        
-         <div class="comment">AC:  This is maddening.  If you enter 2/10 + 4/10, it adds the fractions and reports the reduced fraction.  If you enter 76/10 + 87/10, it gives a decimal approximtion.  What's the logic behind these choices?  I'm missing something. </div>
-        <div class="forYouToDo">
-			<ol start="8">
-				<li>
-                Try <img class="inline" src="/bjc-r/img/4-internet/0.2+0.4.png" alt="(0.2) + (0.4)" title="(0.2) + (0.4)" /> and then try <img class="inline" src="/bjc-r/img/4-internet/7.6+8.7.png" alt="(7.6) + (8.7)" title="(7.6) + (8.7)" />.</li>
-            </ol>
-        </div>
-        <p>This isn't a bug in Snap<em>!</em>, which is correctly reporting the result computed by the floating point hardware.
-		<div class="endnote">
-        	<a href="#hint-roundoff" data-toggle="collapse">How can such simple computations get wrong results?</a>
-            <div id="hint-roundoff" class="collapse">These results seem surprising because a fractional value such as 0.2 can be represented exactly <em>in decimal</em> (unlike the example of ⅓). But <em>in binary,</em> only fractions whose denominator is a power of 2 can be represented exactly. So 2/16 can be represented exactly, but 2/10 can't. The binary floating point representation of 0.2 is just slightly too big, and so is the binary representation of 0.4. Adding two slightly-too-big values produces an error big enough to get to the next higher representable value.</p>
-            </div>
-        </div>
-		<p>No matter how good the hardware is, certain kinds of computations are likely to give severe errors in floating point.  One simple example is subtracting two numbers that are almost equal in value.  The correct answer will be near zero, and if it's near enough, it will <em>underflow</em> and an exact zero might be reported.</p>
-		<div class="endnote">
-			<a href="#hint-killer" data-toggle="collapse">Floating point errors can be very expensive and can even kill people.</a>
-            <div id="hint-killer" class="collapse">
-            <p>A notorious example is the fate of the Ariane rocket launched on June 4, 1996 (European Space Agency 1996). In the 37th second of flight, the inertial reference system attempted to convert a 64-bit floating-point number to a 16-bit number, but instead triggered an overflow error which was interpreted by the guidance system as flight data, causing the rocket to veer off course and be destroyed.</p>
-            <p>The Patriot missile defense system used during the Gulf War was also rendered ineffective due to roundoff error (Skeel 1992, U.S. GAO 1992). The system used an integer timing register which was incremented at intervals of 0.1 s. However, the integers were converted to decimal numbers by multiplying by the binary approximation of 0.1, 0.00011001100110011001100<sub>2</sub> = 209715/2097152.</p>
-            <p>As a result, after 100 hours (3.6 &times; 10<sup>6</sup> ticks), an error of<br />
-			<p class="indent"><span class="katex">(\frac{1}{10}-\frac{209715}{2097152})(3600\times100\times10)=\frac{5625}{16384} \approx 0.3433 \text{ seconds}</span></p>
-			 had accumulated. This discrepancy caused the Patriot system to continuously recycle itself instead of targeting properly. As a result, an Iraqi Scud missile could not be targeted and was allowed to detonate on a barracks, killing 28 people.</p>
-            <p><small>From <em>Analog and Digital Conversion</em>, by Wikibooks contributors, <a href="https://en.wikibooks.org/wiki/Analog_and_Digital_Conversion/Fixed_Wordlength_Effects">https://en.wikibooks.org/wiki/Analog_and_Digital_Conversion/Fixed_Wordlength_Effects</a></small></p>
-            </div>
-		</div>            
-                    
-		 
-			<p>Computer arithmetic on <em>integers</em> is straightforward. Either you get an exactly correct integer result or, if the result won't fit in (non-bignum) integer representation, you get an <em>overflow error</em> and the result is, usually, converted to floating point representation (as 30! was).</p>
-            <p>By contrast, computer arithmetic on <em>floating point numbers</em> is hard to get exactly right. Prior to 1985, every model of computer had a slightly different floating point format, and all of them got wrong answers to certain problems. This situation was resolved by the <a href="https://en.wikipedia.org/wiki/IEEE_floating_point" target="_blank">IEEE 754 floating point standard</a>, which is now used by every computer manufacturer and has been improved several times since it was created in 1985.</p> 
-            
-            
-            
-            <div class="endnote">
-            <a href="#hint-alternatives" data-toggle="collapse">There are alternatives to floating point.</a>
-                <div id="hint-alternatives" class="collapse"><p>If the subtle errors in floating point computation turn out to be unacceptable in a particular application, software can use alternative representations:
-                <ul>
-                    <li><strong>Exact rationals.</strong>
-                    Two bignums, one for the numerator and one for the denominator, can be used to represent any fractional value exactly.</li>
-                    <li><strong>Binary coded decimal.</strong> A decimal digit can be represented in four bits, with a few four-bit combinations left over for a minus sign and a decimal point. A sequence of decimal digits of any length can be used to create decimal bignums, representing exactly any fractional value that takes a finite number of decimal digits. This would avoid the 0.2+0.4 problem, but wouldn't work for problems involving ⅓.</li>
-                    <li><strong>Decimal floating point.</strong> If the binary coded decimal notation is extended with a four-bit code for "times ten to the power," numbers in (base 10) scientific notation can be represented exactly.</li>
-                </ul>
-            </div>
-        </div> 
-       
-       
-       
-       
-        <p>
-        	Recall that when a result is too large to be an integer, it get's converted to floating point.<br />
-        	<img class="indent" src="/bjc-r/img/4-internet/bang30.png" alt="(30) ! reporting 2.6525285981219103e+32" title="(30) ! reporting 2.6525285981219103e+32" />
-        </p>
-        
-        <div class ="forYouToDo">
-            <ol start="9">
-                <li>
-                    Try 200! again with bignums off.<br />
-                    <img src="/bjc-r/img/4-internet/200bang-fixnum.png" alt="((200) !) reporting infinity" title="((200) !) reporting infinity" />
-                </li>
-            </ol>
-        </div>
-        
-        <p><strong>What's going on?</strong> Although 200! is very large, it's not "infinity". This report is the result of the size limitation of finite width of the floating point format. If the result of a computation is bigger than than the range of numbers that can be stored, then the computer returns a special code or an overflow error.</p>
-        
-        <div class="endnote">
-            In floating point, there are special codes for infinity, &ndash;infinity (smaller than any finite value), and "Not a Number," which is the notification used for illegal computations such as 0/0.<br />
-          <img class="indent" src="/bjc-r/img/4-internet/zero-div-zero-reporting-NaN.png" alt="(0) / (0) reporting NaN" title="(0) / (0) reporting NaN" />
-        </div>
-        
-        <div class="takeItFurther">
-            <ol type="A">
-                <li>Imagine a <em>decimal</em> floating point representation with one significand digit, and a range of exponents from 10<sup>-2</sup> to 10<sup>2</sup>.  The smallest positive number representable in this notation is 0.01 (1×10<sup>-2</sup>) and the largest is 900 (9×10<sup>2</sup>).  Sketch a number line from 0 to 1000 and mark all of the positive values representable in this notation.  What can you say about the spacing of values?  How many fractional values are representable?  How many integer values less than 1000 are <em>not</em> representable?  What are the strengths and weaknesses of this choice of representable values?  (Real floating point has many more representable values, of course, but the way they're spaced on the number line is similar to this.)</li>
-            </ol>
-        </div>
-        
-        <p><strong>How does a programming language know whether to interpret a bit sequence as an integer, a floating point, a text string of Unicode characters, an instruction, or something else?</strong> <div class = "comment"> Does this explain my lament above?  If so, can we move it up? </div>Programming languages differ in how they do this, but there's always some <em>extra</em> bit sequence that encodes the <em>data type</em> of any sequence of bits that tells the computer how to interpret it.</p>
-		<div class="takeNote">At the lowest level of software abstraction, <em>everything</em> in a computer is represented as a binary sequence. For example:
-        	<ul>
-            	<li>A Boolean value is a single bit, 0 for <code>false</code> and 1 for <code>true</code>.</li>
-                <li>A text string is a sequence of Unicode character codes, each of which is stored as a separate integer.</li>
-                <li>Lists and blocks are binary sequences too.</li>
-            </ul>
-		</div>
-        
-        <div class="endnote">
-            <a href="#hint-data-types" data-toggle="collapse">But different languages use data types differently.</a>
-            <div id="hint-data-types" class="collapse">
-                <p>In well-designed languages (those based on scheme, for example), that data type code is attached to the value itself. In other languages, when you make a variable, you have to say what type of value it will contain, and the data type is attached to the <em>variable</em>, so you can't get exact answers when the values are integers and also be able to handle non-integer values of the same variable. So instead of seeing</p>
-                <p><img src="/bjc-r/img/4-internet/varfoo.png" alt="script variables (foo)"></p>
-                <p>you see things like</p>
-                <p><img src="/bjc-r/img/4-internet/intfoo.png" alt="integer (foo)"></p>
-                <p>We're telling you all these things because Snap<em>!</em> has strengths that many  programming languages do not, and it's very likely that your <em>next</em> year's computer science class will use one of those other languages.</p>
-            </div>
         </div>
         
         
