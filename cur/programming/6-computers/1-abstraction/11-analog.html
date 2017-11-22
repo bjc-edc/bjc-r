@@ -11,7 +11,6 @@
         <h2>The Analog Domain: Transistors</h2>
         <div class="comment"><a href="/bjc-r/cur/programming/6-computers/1-abstraction/old/11-analog.html" target="_blank">Prior version of page</a></div>
         <div class="sidenote">
-            <div class="todo">It's too complex to really define, but we should give them something concrete.</div>
 			A <strong>transistor</strong> is a type of circuit component.<br />
             <img class="indent" src="/bjc-r/img/6-computers/transistors.jpg" alt="image of several transistor types" title="image of several transistor types" /><br />
             <small>Image by sv.Wikipedia user DaRy</small>
@@ -27,26 +26,23 @@
 
         <p>You've learned that a wire can either have a voltage or not have a voltage on it. The reality is more complicated. The on-or-off picture of a wire, a transistor, or a logic gate output is a simplification&mdash;an abstraction. </p>
         <img class="imageLeft" height="220" src="/bjc-r/img/6-computers/transistor-curve.png" alt="graph showing 'Input voltage' on the horizontal axis and 'Output voltage' on the vertical axis; the graph begins near the origin and remains nearly flat for a while, then it curves upward and becomes nearly straight again at this new angle, then it curves back down to nearly flat until the end; the lower flat region is labeled 'cutoff' and colored blue; the central, inclined region is labeled 'linear' and colored pink; the upper flat region is labeled 'saturation' and colored blue" title="graph showing 'Input voltage' on the horizontal axis and 'Output voltage' on the vertical axis; the graph begins near the origin and remains nearly flat for a while, then it curves upward and becomes nearly straight again at this new angle, then it curves back down to nearly flat until the end; the lower flat region is labeled 'cutoff' and colored blue; the central, inclined region is labeled 'linear' and colored pink; the upper flat region is labeled 'saturation' and colored blue" />
-        <p>This is a rough graph of the actual input-output behavior of a transistor.  Don't worry about the details; just notice the two blue <em>flat</em> parts of the graph. <!--With a very small input (cutoff) or a very large input (saturation), the output is relatively unchanged by small variations.--> Within the "cutoff" region, changes to the input voltage do not change the output voltage very much; the output is interpreted as a <em>zero</em>. Likewise within the "saturation" region, input changes hardly impact output changes; there, the output is interpreted as a <em>one</em>. This is how transistors are used as <em>switches</em> in a computer.</p>
+        <p>This is a rough graph of the actual input-output behavior of a transistor.  Don't worry about the details; just notice the two blue <em>flat</em> parts of the graph. <!--With a very small input (cutoff) or a very large input (saturation), the output is relatively unchanged by small variations.--> Within the "cutoff" region, small changes to the input voltage do not change the output voltage at all; the output is always <em>zero</em> volts. Likewise within the "saturation" region, small input changes hardly impact output voltage; the output is interpreted as a <em>one</em>. This is how transistors are used as <em>switches</em> in a computer.</p>
 		<p>Transistors are versatile devices. When used in the middle, linear (pink) part of the graph, they're <em>amplifiers</em>; a small variation in input voltage produces a large variation in output voltage. That's how they're used to play music in a stereo. </p>
         <div class="endnote" style="overflow: hidden;"><!-- one day make a class for this --MF, 11/21/17 -->
             <a href="#hint-chart-labels" data-toggle="collapse">Why are they called "cutoff," "linear," and "saturation"?</a>
             <div id="hint-chart-labels" class="collapse">The lower region of the curve is called "cutoff" because the output is close enough to zero to be treated as off.  The upper region is called "saturation" because the transistor is at its maximum. The central region is called "linear" because it behaves like a linear (straight) function.</div>
         </div>
         
-		<div class="takeNote">The digital domain is not a law of nature; circuit designers have to work at ensuring that each wire in a circuit is always either fully on or fully off.  The digital domain is an abstraction. As with any abstraction, it works only if it's used consistently.
-        <div class="todo">This last sentence is not clear to me. I want to change "used" to "applied" or something... --MF, 11/19/17</div>
-		</div>
+		<div class="endnote">The transistor was invented in 1947 by John Bardeen, Walter Brattain, and William Shockley at Bell Laboratories, also the home of Unix. The inventors were awarded the 1956 Nobel Prize in Physics for this work.</div>
+
+		<div class="takeNote">The digital domain is not a law of nature; circuit designers have to work at ensuring that each wire in a circuit is always either fully on or fully off.  The digital domain is an abstraction. As with any abstraction, it works only if it's applied consistently.</div>
 
         <div class="endnote">
-            <a href="#hint-digital-abstraction" data-toggle="collapse">Learn more about what's below the digital abstraction.</a>
+            <a href="#hint-digital-abstraction" data-toggle="collapse">Learn more about what's below the digital abstraction and how it's applied.</a>
             <div id="hint-digital-abstraction" class="collapse">
                 <p>The flatness of the output at the two extremes is important because there <em>will</em> be small changes in the input. Electrical circuits have "noise," undesired changes in voltages, for reasons from the transistors getting hot to loose connections on the circuit board to cosmic rays. This is why computers use zeros and ones: a transistor has two flat regions in its input-output curve.</p>
                 <p>But the flatness of the flat regions is only approximate, and it depends on how the transistor is connected to the rest of the circuit. One example of a potential problem is <em>fanout,</em> the number of transistor inputs to which one transistor's output is connected.  Beyond a certain number (it depends on the particular transistor type, but certainly ten inputs would be too many), the output voltage is reduced to the point that those inputs might not be sure whether they're getting a zero or a one.</p>
-                <div class="todo">Let's not say "we aren't going to tell you." It's frustrating. Why mention it at all? I'd cut. --MF, 11/21/17
-                <h4>How the Transistor Works</h4>
-                <p>We really can't get into that in this course. The ultimate answer is that it depends on quantum physics. (We're not talking about <em>quantum computers;</em> plain old computer circuits are based on quantum effects also.) To learn more about analog-domain circuit design and what's inside a transistor, take an Electrical Engineering course.</p>
-                </div>
+                <p>The way a transistor really works depends on quantum physics. (We're not talking about <em>quantum computers;</em> plain old computer circuits are based on quantum effects also.) To learn more about analog-domain circuit design and what's inside a transistor, take an Electrical Engineering course.</p>
             </div>
         </div>
         
