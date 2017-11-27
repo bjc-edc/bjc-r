@@ -3,33 +3,34 @@
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
-        <script src="https://www.w3schools.com/lib/w3.js"></script>
+		<script src="https://www.w3schools.com/lib/w3.js"></script>
 		<title>Unit 6 Lab 1 Teacher Guide</title>
 	</head>
 
 	<body>
 		<h2>Lab 1: Computer Abstraction Hierarchy</h2>
-		<p>People mostly take for granted the enormous behind-the-curtain mechanism that allows their favorite apps to work. For apps that rely on the Internet, we got a first glimpse at that mechanism in Unit 4, with the abstraction hierarchy that includes application protocols, TCP, IP, and link layer (hardware interface) protocols. But there are even more levels of abstraction inside your local computer. The purpose of this lab is to tour the levels of abstraction, from high (application programs) to low (transistors).</p>
-		<p>One of our college professors said something profound in class one day about this abstraction hierarchy: Most engineers specialize in one level of abstraction, and spend their entire careers working at that level. But the <em>great</em> engineers, the ones who really change the nature of the technology, are always aware of the latest developments at the levels above and below their own work, because those other levels exert pressure on the design of any individual level.</p>
-		<p>For example, at the beginning of the 1970s, computer architectures were mostly designed to provide a very large and flexible set of machine language instructions. By the end of the decade, instruction sets were much smaller and simpler. Why? Two reasons. The pressure from above: At the beginning of the decade, a lot of programming was still done by human programmers writing machine language (using the assembly language notation); by the end of the decade, compiler technology had improved to the point where pretty much everyone trusted compilers to produce efficient programs. And for a compiler, it's easiest to optimize programs using simple instruction sets. The pressure from below: At the beginning of the decade, the circuitry inside the processor was much faster than the computer's memory, and so it made sense to get as much computation as possible out of each instruction loaded from memory. By the end of the decade, multilevel cache memory technology meant that memory references were usually about as fast as processor cycles, so the way to make programs run efficiently is to have instructions loaded from memory as fast as possible, each instruction doing only as much computational work as can fit before the next instruction arrives.</p>
-		<p>The details of this example aren't important for you to learn; the point of the story is to motivate familiarizing students with the entire hierarchy from top to bottom.</p>
-		<p>Having said that, not all transitions between levels are equally important. We single out two for special emphasis: the <em>software abstraction</em> that allows a computer to solve different problems without having to be physically rewired for each one, and the <em>digital abstraction</em> that allows designers to pretend that a transistor is always either fully on or fully off.</p> 
+		<p>People mostly take for granted the enormous behind-the-curtain mechanism that allows their favorite apps to work. Unit 4 gave a first glimpse at that mechanism for apps that rely on the Internet,  with an abstraction hierarchy that includes application protocols, TCP, IP, and link layer (hardware interface) protocols. There are even more levels of abstraction inside your local computer. The purpose of this lab is to tour the levels of abstraction, from high (application programs) to low (transistors).</p>
+	<p><!-- One of our college professors said something profound in class one day about this abstraction hierarchy: -->
+    Why tour that whole range? Most computer engineers specialize in one level of abstraction, spending their entire careers  at that level. But the engineers who really change the nature of the technology are always aware of the latest developments at  levels above and below their own work, because those other levels exert pressure on the design of any individual level.</p>
+		<p>An example. At the start of the 1970s, computer architectures were mostly designed to provide a  large and flexible set of machine language instructions. By the end of the decade, instruction sets were  smaller and simpler. Why? Two reasons. <strong>Pressure from above.</strong> In the early '70s, a lot of programming was done by human programmers writing machine language (using  assembly language notation). By the end of the decade, compiler technology had improved enough for pretty much everyone to trust compilers to produce efficient programs. For a compiler, simple instruction sets make it easier to optimize programs. <strong>Pressure from below.</strong> In the early '70s,  processor circuitry   was much faster than the computer's memory,  so it made sense to get as much computation as possible out of each instruction loaded from memory. By the end of the decade, multilevel cache memory technology made memory references  about as fast as processor cycles, so the way to make programs  efficient was to load instructions  from memory as fast as possible, each instruction doing only as much computational work as can fit before the next instruction arrives.</p>
+		<p>The details of this example aren't important for you or your students to learn; the point of the story is to motivate familiarizing students with the entire hierarchy from top to bottom.</p>
+		<p>Not all abstraction levels are equally important. We single out two: the <em>software abstraction</em> that allows a computer to solve different problems without having to be physically rewired for each one, and the <em>digital abstraction</em> that allows hardware designers to pretend that a transistor is always either fully on or fully off.</p> 
 		
 		<h3>Pacing</h3>
 		<div>
 			The 10 lab pages could be split across X or X days (X-X minutes). Expected times to complete follow:
 			<ul>
-				<li>15-30 minutes (&lt;1 class period) on <a href="/bjc-r/cur/programming/6-computers/1-abstraction/01-abstraction.html?topic=nyc_bjc%2F6-how-computers-work.topic&course=bjc4nyc.html&novideo&noassignment">Abstraction Inside the Computer</a></li>
-				<li>15-30 minutes (&lt;1 class period) on <a href="/bjc-r/cur/programming/6-computers/1-abstraction/02-software-applications.html?topic=nyc_bjc%2F6-how-computers-work.topic&course=bjc4nyc.html&novideo&noassignment">The Software Domain: Applications</a></li>
-				<li>30-60 minutes (about 1 class period) on <a href="/bjc-r/cur/programming/6-computers/1-abstraction/03-software-languages.html?topic=nyc_bjc%2F6-how-computers-work.topic&course=bjc4nyc.html&novideo&noassignment">The Software Domain: Programming Languages</a></li>
-				<li>30-60 minutes (about 1 class period) on <a href="/bjc-r/cur/programming/6-computers/1-abstraction/04-software-libraries.html?topic=nyc_bjc%2F6-how-computers-work.topic&course=bjc4nyc.html&novideo&noassignment">The Software Domain: Libraries</a></li>
-				<li>15-30 minutes (&lt;1 class period) on <a href="/bjc-r/cur/programming/6-computers/1-abstraction/05-software-OS.html?topic=nyc_bjc%2F6-how-computers-work.topic&course=bjc4nyc.html&novideo&noassignment">The Software Domain: Operating Systems</a></li>
-				<li>X-X minutes (X-X class periods) on <a href="/bjc-r/cur/programming/6-computers/1-abstraction/07-digital-architecture.html?topic=nyc_bjc%2F6-how-computers-work.topic&course=bjc4nyc.html&novideo&noassignment">The Digital Domain: Architecture</a></li>
-				<li>X-X minutes (X-X class periods) on <a href="/bjc-r/cur/programming/6-computers/1-abstraction/08-digital-components.html?topic=nyc_bjc%2F6-how-computers-work.topic&course=bjc4nyc.html&novideo&noassignment">The Digital Domain: Components</a></li>
-				<li>X-X minutes (X-X class periods) on <a href="/bjc-r/cur/programming/6-computers/1-abstraction/09-digital-IC.html?topic=nyc_bjc%2F6-how-computers-work.topic&course=bjc4nyc.html&novideo&noassignment">The Digital Domain: Integrated Circuits</a></li>
-				<li>X-X minutes (X-X class periods) on <a href="/bjc-r/cur/programming/6-computers/1-abstraction/10-digital-logic-gates.html?topic=nyc_bjc%2F6-how-computers-work.topic&course=bjc4nyc.html&novideo&noassignment">The Digital Domain: Logic Gates</a></li>
-				<li>10-20 minutes (&lt;1 class period) on <a href="/bjc-r/cur/programming/6-computers/1-abstraction/11-analog.html?topic=nyc_bjc%2F6-how-computers-work.topic&course=bjc4nyc.html&novideo&noassignment">The Analog Domain: Transistors</a> *</li>				
-			</ul>
+				    <li>15-30 minutes (&lt;1 class period) on <a href="/bjc-r/cur/programming/6-computers/1-abstraction/01-abstraction.html?topic=nyc_bjc%2F6-how-computers-work.topic&course=bjc4nyc.html&novideo&noassignment">Abstraction Inside the Computer</a></li>
+		<li>15-30 minutes (&lt;1 class period) on <a href="/bjc-r/cur/programming/6-computers/1-abstraction/02-software-applications.html?topic=nyc_bjc%2F6-how-computers-work.topic&course=bjc4nyc.html&novideo&noassignment">The Software Domain: Applications</a></li>
+		<li>30-60 minutes (about 1 class period) on <a href="/bjc-r/cur/programming/6-computers/1-abstraction/03-software-languages.html?topic=nyc_bjc%2F6-how-computers-work.topic&course=bjc4nyc.html&novideo&noassignment">The Software Domain: Programming Languages</a></li>
+		<li>30-60 minutes (about 1 class period) on <a href="/bjc-r/cur/programming/6-computers/1-abstraction/04-software-libraries.html?topic=nyc_bjc%2F6-how-computers-work.topic&course=bjc4nyc.html&novideo&noassignment">The Software Domain: Libraries</a></li>
+		<li>15-30 minutes (&lt;1 class period) on <a href="/bjc-r/cur/programming/6-computers/1-abstraction/05-software-OS.html?topic=nyc_bjc%2F6-how-computers-work.topic&course=bjc4nyc.html&novideo&noassignment">The Software Domain: Operating Systems</a></li>
+		<li>X-X minutes (X-X class periods) on <a href="/bjc-r/cur/programming/6-computers/1-abstraction/07-digital-architecture.html?topic=nyc_bjc%2F6-how-computers-work.topic&course=bjc4nyc.html&novideo&noassignment">The Digital Domain: Architecture</a></li>
+		<li>X-X minutes (X-X class periods) on <a href="/bjc-r/cur/programming/6-computers/1-abstraction/08-digital-components.html?topic=nyc_bjc%2F6-how-computers-work.topic&course=bjc4nyc.html&novideo&noassignment">The Digital Domain: Components</a></li>
+		<li>X-X minutes (X-X class periods) on <a href="/bjc-r/cur/programming/6-computers/1-abstraction/09-digital-IC.html?topic=nyc_bjc%2F6-how-computers-work.topic&course=bjc4nyc.html&novideo&noassignment">The Digital Domain: Integrated Circuits</a></li>
+		<li>X-X minutes (X-X class periods) on <a href="/bjc-r/cur/programming/6-computers/1-abstraction/10-digital-logic-gates.html?topic=nyc_bjc%2F6-how-computers-work.topic&course=bjc4nyc.html&novideo&noassignment">The Digital Domain: Logic Gates</a></li>
+		<li>10-20 minutes (&lt;1 class period) on <a href="/bjc-r/cur/programming/6-computers/1-abstraction/11-analog.html?topic=nyc_bjc%2F6-how-computers-work.topic&course=bjc4nyc.html&novideo&noassignment">The Analog Domain: Transistors</a> *</li>	    
+</ul>
 		</div>
 
         <div w3-include-html="/bjc-r/utilities/includes/asterisk.txt"></div><script>w3.includeHTML();</script>
@@ -37,14 +38,16 @@
 		<h3>Prepare</h3>
 		<div>
 			<ul>
-                <li>Although this is not mentioned in the student materials to avoid forcing teachers' hands, the very best way to begin this unit is to have students in groups take apart an actual physical computer.  (Preferably, you'll have one old computer per four students or so, but even if it's just one computer with the whole class watching, it's still a great activity.) It doesn't have to be a <em>working</em> computer, although if it is, so much the better; the thrill when they put it back together and it still works is fantastically motivating. Since it's generally no longer legal to dump old computers in the garbage because of toxic materials, nonworking computers can often be obtained free from the local recycling center. Working but antique computers (i.e., more than ten years old) can be bought very cheaply at used computer stores, or also at the recycling center if you're lucky. If you're <em>very</em> lucky, your school will decide to buy new computers, and you can grab bunches of old ones before they leave the building.</li>
-                <li><a href="ifixit.com">ifixit.com</a> is one good source of teardown guides, such as this example: <a href="https://www.ifixit.com/Teardown/Compaq+Deskpro+EN+Teardown/55804">https://www.ifixit.com/Teardown/Compaq+Deskpro+EN+Teardown/55804</a>You can perhaps find one specifically for the particular model of old computer you salvaged. It doesn't have to be on their site; just do a web search for your computer model and the word "teardown."</li>
-                <li>What follows is a list of things not to do, but don't let the list scare you away from the activity.</li>
+                <li>To leave  you free to choose, the ideal introduction to this unit  is not mentioned in the student materials, but it's exciting and instructive  for students in groups to take apart an actual  (<em>old</em>) computer.  (Preferably, one  per four students or so, but even just one computer with the whole class watching is still  great.) You don't need a <em>working</em> computer, but working is better; the thrill when they put it back together and it still works is fantastically motivating. In most places, it's no longer legal to dump old computers in the garbage, so nonworking computers can often be obtained free from   recycling centers. Working  antiques (i.e., over ten years old) can be bought very cheaply at used computer stores or    recycling centers. If your school is buying new computers,  you may be able to grab  old ones before they leave the building.</li>
+                <li><a href="ifixit.com">ifixit.com</a> is one good source of teardown guides, such as this example: <a href="https://www.ifixit.com/Teardown/Compaq+Deskpro+EN+Teardown/55804">https://www.ifixit.com/Teardown/Compaq+Deskpro+EN+Teardown/55804</a>. You can perhaps find one specifically for the particular model of old computer you salvaged. It doesn't have to be on their site; just do a web search for your computer model and the word "teardown."</li>
+                <li>Safety guide.</li>
+                <ul>
                 <li><em><strong>Do not tear down a laptop</strong></em> the first time you try this activity. Laptops are very dense, and parts are often held together with glue. People do tear down laptops and even get them working again, but get some experience with desktop/tower computers first. Also, laptop batteries have been known to catch fire.</li>
-                <li><em><strong>Do not tear down a cell phone in class ever.</strong></em> Besides sharing all the problems of laptops, they have highly explosive and flammable batteries. People do tear them down, and put them back together, but it's not worth the risk of trying it with 30 novice kids at once.</li>
-                <li>If you want the computer to work after the activity, whoever is working on the electronics should be grounded before opening the case. If your classroom is humid and not carpeted, you can probably get away with skipping this step, but if your room is air conditioned or carpeted, so people pick up static charges, it's important. The pros do it with a metal strap wrapped around their wrist and clamped to a water pipe or electrical outlet box if one is mounted outside the wall. But touching the metal frame of anything in the room that has a three-prong power cord (and is plugged in) will do.</li>
+                <li><em><strong>Do not tear down a cell phone in class ever.</strong></em> Besides sharing all the problems of laptops, they have highly explosive and flammable batteries. </li>
+                <li><em><strong>Grounding. </strong></em>If you want the computer to work afterward, whoever works on the electronics should be grounded before opening the case. This is to protect the <em>electronics</em>; the <em>person</em> is safe with or without grounding. Pros use a metal strap wrapped around their wrist with a wire clamped to a water pipe. Or, touching the metal frame of any grounded object—one that has a three-prong power cord (and is plugged in)—will do. Look up "grounding  while working on a computer" to learn more.</li> 
+                </ul>
 			</ul>
-		</div>
+	</div>
 
 
 		<h3>Lab Pages</h3>
@@ -76,10 +79,9 @@
 								    </li>
 							      </ul>
 								</li>
-								<li>Don't obsess, and don't let kids obsess, over the specific levels of abstraction. The main points are that software lets you control a computer, abstracting away the actual machine; and "zeros and ones" are an abstraction over the way transistors really work.</li>
+								<li>Nobody (you or kids) needs to obsess over the specific levels of abstraction. The main points are that software lets you control a computer, abstracting away the actual machine; and "zeros and ones" are an abstraction over the way transistors really work.</li>
                                 <div class="comment">This abstraction commentary should really appear earlier. We should change the next year, and what remains here should just be a nod to that ongoing discussion. --MF, 11/21/17 (with Brian)</div>
-                                <li>Abstraction has many nuanced meanings in computer science. At the end of each page that deals with abstraction, ask students, "What does abstraction mean on this page?" and consider keeping a running log.</li>
-							</ul>
+                                <li>Abstraction has many nuanced meanings in computer science. At the end of each page that deals with abstraction, ask students, "What does abstraction mean on this page?" and consider keeping a running log.</li>							</ul>
 						</li>
 					</ul>
 				</li>
@@ -89,14 +91,14 @@
 						<li>
 							<strong>Learning Goals:</strong>
 							<ul>
-								<li>This page is very light on technical content. For the most part it's telling students things they already know from real life, although we try to emphasize <em>creating</em> media, for example, rather than just consuming media.</li>
-								<li>The real point here is implicit: People mostly think of apps as the complete story about software, but actually apps are the tip of the iceberg, supported by a huge collection of other software.</li>
+								<li>This page is  light on technical content, mostly reviewing what students  know from experience but emphasizing <em>creating</em>  rather than just consuming.</li>
+								<li>The major point: People may see apps as the complete story about software, but  apps are the tip of the iceberg, supported by a huge collection of other software.</li>
 							</ul>
 						</li>
 						<li>
 							<strong>Tips:</strong>
 							<ul>
-								<li>Here and there in the litany of software uses are bad ones: fake news, finding out your political views. Don't over-emphasize these, but also don't leave the page until at least one comes up in discussion.</li>
+								<li>Here and there in the litany of software uses are bad ones: fake news, finding out your political views, malware. Don't over-emphasize these, but also don't leave the page until at least one comes up in discussion.</li>
 								<li></li>
 							</ul>
 						</li>
@@ -108,18 +110,18 @@
 						<li>
 							<strong>Learning Goals:</strong>
 							<ul>
-								<li>Students should understand that some languages are at a higher level of abstraction than others.</li>
+								<li>Some languages are at a higher level of abstraction than others.</li>
 								<li>In almost all situations, higher is better, both for safety against bugs and for ease of programming.</li>
-								<li>On the other hand, all general-purpose languages are <em>equivalent</em> in the sense that an algorithm expressible in one language is expressible in any of them.</li>
+								<li>On the other hand, all general-purpose languages are <em>equivalent</em> in the sense that an algorithm expressible in one language is expressible in any.</li>
 							</ul>
 						</li>
 						<li>
 							<strong>Tips:</strong>
 							<ul>
-								<li>Throughout this lab, there's a <em>lot</em> that can be said on the topic. This page in particular tries to present a topic that fills an entire semester course for college computer science students. We want to get most students through the topic quickly, because there's so much to fit into the lab as a whole, but we also want to be able to excite the enthusiasm of the best students. Therefore, <strong>we use hint boxes for the opposite reason</strong> from how we use them elsewhere in the curriculum. Usually these boxes hide extra hints for students who are struggling to complete an assignment. Here, they hide extra detail that's not needed for the AP exam, but repays careful reading for more advanced students.</li>
-								<li>There are many ways to make taxonomies of programming languages, but as usual, we take abstraction as our guiding idea. But the things that make one language more abstract than another are generally subtle. We tried to pick examples that are relatively easy to explain, even if students may be unfamiliar with them. For example, automatic memory management versus programmer-controlled memory management isn't an obvious difference when reading code, but it's perhaps the most important example; today it would be engineering malpractice to use a language that allows programmers any control over memory allocation. It's easy to make that case, because of a long history of programming disasters caused by dangling pointer bugs in old software. Some other examples are harder to explain. One such example in the lab is that high level languages associate data types with values, whereas low level languages associate data types with variables. (That is, if your language makes you say <code>int i</code> or <code>float x</code>, it's a low-level language.) It's easy enough to say what we just said, but harder to explain why dynamic typing (the high-level kind) is better. (One reason is that in a language with dynamic typing it's just as easy to make a list whose items are of different data types as to make one whose items are all integers, or all character strings.) A high level language allows users to invent new syntactic forms, such as the <code>for</code> block in the Snap<em>!</em> tools library. Java, for example, has a <code>for</code> notation, but if it didn't, a Java programmer couldn't create one. A final example, discussed at length in Lab 2, is that a high-level language doesn't limit the size or precision of numbers based on the width of the machine architecture; you should be able to compute 200 factorial and get an exact integer answer.</li>
-								<li>The page makes the argument that some languages students have never heard of, such as Scheme, are all-around better than the languages they <em>have</em> heard of, such as Python or Java. It's not important that students, or you, agree with this, but in evaluating the idea, bear in mind that the most widely used operating system on computers is Microsoft Windows. Popularity doesn't imply high quality.</li>
-								<li>Another side point to note is that <em>our</em> language, Snap<em>!</em>, is higher level than many of the "grownup" languages even though it looks like a kid language. It would be great if students come to understand this, although it's not really a goal of the course.</li>
+								<li>Keep this entire lab light. Throughout the lab, there's a <em>lot</em> that can be expanded—this page in particular  fills an entire semester course for college computer science students—but your students need just the overview. Some students will want more, so <strong>we use hint boxes differently here</strong> from how we use them elsewhere. Usually these boxes hide support for students who are struggling. Here, they hide  detail that's not needed for the AP exam, but may appeal to student curiosity.</li>
+								<li><div class="comment"> This entire long paragraph is likely to be obscure to nearly all teachers ("programmer-controlled memory management, "dangling pointer bugs," "dynamic typing"). In this form, I don't think it <em>serves</em> its useful purpose. Brian, please fix. The Java example (can't create <code>for</code>) might be clear. Other things might be, without CS jargon. Shorter is better. --PG</div> There are many ways to make taxonomies of programming languages; we take abstraction as our guiding idea. The things that make one language more abstract than another are generally subtle. We tried to pick examples that are relatively easy to explain, even if students may be unfamiliar with them. For example, automatic memory management versus programmer-controlled memory management isn't an obvious difference when reading code, but it's perhaps the most important example; today it would be engineering malpractice to use a language that allows programmers any control over memory allocation. It's easy to make that case, because of a long history of programming disasters caused by dangling pointer bugs in old software. Some other examples are harder to explain. One such example in the lab is that high level languages associate data types with values, whereas low level languages associate data types with variables. (That is, if your language makes you say <code>int i</code> or <code>float x</code>, it's a low-level language.) It's easy enough to say what we just said, but harder to explain why dynamic typing (the high-level kind) is better. (One reason is that in a language with dynamic typing it's just as easy to make a list whose items are of different data types as to make one whose items are all integers, or all character strings.) A high level language allows users to invent new syntactic forms, such as the <code>for</code> block in the Snap<em>!</em> tools library. Java, for example, has a <code>for</code> notation, but if it didn't, a Java programmer couldn't create one. A final example, discussed at length in Lab 2, is that a high-level language doesn't limit the size or precision of numbers based on the width of the machine architecture; you should be able to compute 200 factorial and get an exact integer answer.</li>
+								<!-- <li>The page makes the argument that some languages students have never heard of, such as Scheme, are all-around better than the languages they <em>have</em> heard of, such as Python or Java. It's not important that students, or you, agree with this, but in evaluating the idea, bear in mind that the most widely used operating system on computers is Microsoft Windows. Popularity doesn't imply high quality.</li> 
+								<li>Another side point to note is that <em>our</em> language, Snap<em>!</em>, is higher level than many of the "grownup" languages even though it looks like a kid language. It would be great if students come to understand this, although it's not really a goal of the course.</li>-->
 							</ul>
 						</li>
 					</ul>
@@ -132,7 +134,7 @@
 							<ul>
 								<li>Anyone who writes an application program is standing on the shoulders of excellent programmers who build libraries that do many of the hard parts.
 								  <ul>
-								    <li>(Most of the time, it's the application programmers who get rich and famous, while the library programmers are often university students who do this work for love.)</li>
+								    <li>Most of the time, it's the application programmers who get rich and famous, while the library programmers are often university students who do this work for love.</li>
 							      </ul>
 								</li>
 								<li>Two of the specific topics on this page, color codes and data compression, are AP Framework topics as well as being examples of tasks generally done by libraries. <span style="color: #d2691e">(It's because of libraries that programmers can specify colors by name, such as "cinnamon," rather than having to remember or look up numeric codes such as "d2691e".)</span><br>
@@ -142,15 +144,12 @@
 						<li>
 							<strong>Tips:</strong>
 							<ul>
-								<li>We use run-length encoding as an example of lossless compression because the algorithm is very easy for students to understand, as opposed to the really complicated algorithm used to make PNG files.</li>
-								<li>
-                                    Although we don't do this on the page, if you want to present a similarly simple algorithm for lossy compression, consider reducing the set of possible colors by restricting each of red, green, and blue to the (hexadecimal) values 00, 11, 22, ... dd, ee, and ff, so that <span style="color:#d62">cinnamon would be rounded to dd6622, and then stored in files as d62,</span> so each color number would take two bytes (including transparency) instead of four. You can see that that color is closer to orange than the real cinnamon, but the change is hardly noticeable in real pictures:<br />
+								<li>We use run-length encoding as an example of lossless compression because this algorithm, unlike many, is  easy for students to understand.</li>
+								<li>If you want to present a similarly simple algorithm for lossy compression, consider reducing the set of possible colors by restricting each of red, green, and blue to the (hexadecimal) values 00, 11, 22, ... dd, ee, and ff, so that <span style="color:#d62">cinnamon would be rounded to dd6622, and then stored in files as d62.</span> Each color number would then take two bytes (including transparency) instead of four. You can see that that color is closer to orange than the real cinnamon, but the change is hardly noticeable in real pictures:<br />
                                     <img src="/bjc-r/img/6-computers/pond-small-palette.png" alt="pond with reduced color palette"><br />
-                                    By the way, I made that picture with Snap<em>!</em>'s Pixels library:<br />   
-                                    <div class="todo">ST-This is confusing and its purpose unclear.<p>The purpose is to make the point that we can create media-computation examples in Snap<em>!</em>.</p></div>
+                                    By the way, this picture was processed using Snap<em>!</em>'s Pixels library:<br />   <div class="todo">ST-This is confusing and its purpose unclear.<p>The purpose is to make the point that we can create media-computation examples in Snap<em>!</em>.</div>
 								</li>
-                                    <img height="132" src="/bjc-r/img/6-computers/small-palette script pic.png" alt="small-palette-script">
-                                    <li>When people who aren't programming language specialists compare languages, it's almost always really libraries that they are comparing, e.g., "JavaScript is good because you can make web pages in it."  That's because the JavaScript in web browsers has a web-page library, not because of the language itself.
+																  <img height="132" src="/bjc-r/img/6-computers/small-palette script pic.png" alt="small-palette-script"><li>When people who aren't programming language specialists compare languages, it's almost always the libraries that they are comparing, e.g., "JavaScript is good because you can make web pages in it."  That's because the JavaScript in web browsers has a web-page library, not because of the language itself.
 							  </li>
 							</ul>
 						</li>
@@ -163,14 +162,14 @@
 							<strong>Learning Goals:</strong>
 							<ul>
 								<li>An operating system (Linux, macOS, Windows, etc.) is actually a package of hundreds of programs including applications (Finder, TextEdit, etc.) and libraries, along with one special program: the kernel.</li>
-								<li>The kernel is almost always written in a low-level language, because it has to have access to specific memory addresses that are actually not memory at all, but rather I/O device control registers, as well as controlling other hardware features such as the clock.</li>
-								<li>The AP Framework doesn't explicitly mention the operating system or its kernel at all, but some of the EKs are indirectly about the kernel, such as "5.2.1G A process may execute by itself or with other processes." If there are multiple processes running at once on one processor, then there has to be a <em>scheduler</em> that switches the hardware's attention among all the processes. That's part of the kernel. Similarly, the kernel is in charge of security in the file system.</li>
+								<li>The kernel is almost always written in a low-level language, because it has to have access to specific memory addresses (not general-purpose memory at all, but rather I/O device control registers) and other hardware features such as the clock.</li>
+								<li>The AP Framework doesn't explicitly mention the operating system or its kernel, but some  EKs are indirectly about the kernel, such as "5.2.1G A process may execute by itself or with other processes." If  one processor is running multiple processes  at once,  there has to be a <em>scheduler</em> that switches the hardware's attention among  the processes. That's part of the kernel. Similarly, the kernel is in charge of security in the file system.</li>
 							</ul>
 						</li>
-						<li>
+						<!-- <li>
 							<strong>Tips:</strong>
 							<ul>
-								<li>It would be nice if we could include a programming task here, but we can't; your school's IT person would never permit students to have kernel-level access to the computers.</li>
+								<li>It would be nice if we could include a programming task here, but we can't; your school's IT person would never permit students to have kernel-level access to the computers.</li> -->
 							</ul>
 						</li>
 					</ul>
@@ -182,25 +181,24 @@
 							<strong>Learning Goals:</strong>
 							<ul>
 								<li>To a first approximation, an architecture is a machine language. The job of the architecture is to enable the software abstraction by specifying how to interpret a binary sequence as representing an algorithm, just as Unicode specifies how to interpret a binary sequence as a character string.</li>
-								<li>There may be many different hardware devices implementing the same architecture, e.g., at different speeds and costs. The architecture is an <em>interface specification, </em>a document you can read, rather than an actual piece of hardware.</li>
+								<li>Many different hardware devices might implement the same architecture, e.g., at different speeds and costs. The architecture is an <em>interface specification, </em>a document you can read, rather than an actual piece of hardware.</li>
 								<li>Long before we had electronic circuit devices, the crucial invention of the <em>stored-program</em> architecture was made by Charles Babbage with Ida Lovelace.</li>
 							</ul>
 						</li>
 						<li>
 							<strong>Tips:</strong>
 							<ul>
-								<li>There are two yellow "hint boxes" at the end of the page. The first of these is just to make the point that pretty much every computer these days (but not phones and tablets) use the <em>same</em> Intel x86 architecture. That wasn't always true, PCs have always been Intel-based, but the Mac started out using the Motorola 68000 architecture, then the Apple-specific PowerPC architecture, before switching to x86. If you're interested, there are further questions you can suggest as research topics:
+								<li>There are two yellow "hint boxes" at the end of the page. The first  makes the point that pretty much all computers these days (except for phones and tablets) use the <em>same</em> Intel x86 architecture. That wasn't always true. PCs have always been Intel-based, but the Mac started out using the Motorola 68000 architecture, then the Apple-specific PowerPC architecture, before switching to x86. If you're interested, these are further questions you can suggest as research topics:
 								  <ul>
 								    <li>Why did desktop/laptop computers end up with every brand using a single architecture?</li>
 								    <li>And why <em>didn't</em> that happen (so far) for phones and tablets?</li>
 							      </ul>
-								</li>
-								<li>The second hint box is about things to know about architecture in general. The one about second sourcing is just an interesting side point relevant to the question about all computers using x86, but the one about memory hierarchy is important to a <em>full</em> understanding of the AP's topics about memory. Specifically, the AP wants students to know that the components of a computer include the processor and the memory, but these days, the most important parts of the memory, the level-1 and level-2 caches, are <em>part of the same chip</em> as the processor. One reason that has to be true is that today's processors are fast enough so that the speed of electrons through wire is important; the fastest memory has to be mere nanometers away from the processor.</li>
-								<li>We try hard not to get into the difference between machine language and assembly language. There is no difference in the level of abstraction, because one assembly language instruction exactly represents one machine language instruction.  They're <em>the same language</em> in two different notations, akin to the difference between binary and hexadecimal: Hex is just an abbreviation for binary that's a bit more human-readable, and assembly language is just an abbreviation for machine language that's a bit more human-readable. </li>
+							  </li>
+								<li>The second hint box is about  architecture in general. Second sourcing is just an interesting side point about why all computers use x86, but the note about memory hierarchy is important to a full understanding of the AP's topics about memory. Specifically, the AP wants students to know that the components of a computer include the processor and the memory, but these days, the most important parts of the memory—the level-1 and level-2 caches—are <em>part of the same chip</em> as the processor. One reason for this is that today's processors are fast enough so that the speed of electrons through wire matters; the fastest memory has to be mere nanometers away from the processor.</li>
 							</ul>
 						</li>
 					</ul>
-				</li>
+		  </li>
                 <li>
 					<strong>Page 7: The Digital Domain: Components.</strong>
 					<ul>
