@@ -13,8 +13,8 @@
 	<body>
 		<h2>The Digital Domain: Logic Gates</h2>
 		<div class="todo">
-        <p>2.2.3F A logic gate is a hardware abstraction that is modeled by a Boolean function. 
-        <br />2.2.3I Hardware is built using multiple levels of abstractions, such as transistors, logic gates, chips, memory, motherboards, special purposes cards, and storage devices.
+        <p>2.2.3F A logic gate is a hardware abstraction that is modeled by a Boolean function. <br />
+        2.2.3I Hardware is built using multiple levels of abstractions, such as transistors, logic gates, chips, memory, motherboards, special purposes cards, and storage devices.</p>
         </div>
         
 		<div class="learn"><strong>On this page,</strong> you  review three Boolean operators (<code>and</code>, <code>or</code>, and <code>not</code>) and learn how they relate to electronic circuitry.</div>
@@ -23,14 +23,13 @@
         <div class="endnote">
         	<a href="#hint-memory" data-toggle="collapse">Learn more about memory.</a>
 			<div id="hint-memory" class="collapse">
-            	<div class="comment">I commented out some of this that I suggest cutting. I made a few other edits for clarity. You meant signal not signat, right? I think we could lose the second paragraph.  --MF, 11/8/17</div>
-                <p>Memory is made out of <em>flip-flops.</em> <!--(They're officially called "bistable multivibrators" but you can see why nobody actually uses that name.)--> A flip-flop is a circuit that has two stable states, on and off. An input signal can tell it to turn on, turn off, or change whatever it's state is.  Once that happens, the flip-flop stays in the new state until it gets another signal. It has an output that reflects its state: on if the flip-flop is on, off if it's off.</p>
-				<p>A flip-flop is generally made out of four transistors. A <em>register</em> in the processor is a group of flip-flops. If it's a 32-bit processor, a register is 32 flip-flops, and the same for other processor widths.</p>
+                <p>Memory is made out of <em>flip-flops.</em> A flip-flop is a circuit that has two stable states, on and off. An input signal can tell it to turn on, turn off, or change whatever it's state is.  Once that happens, the flip-flop stays in the new state until it gets another signal. It has an output that reflects its state: on if the flip-flop is on, off if it's off.</p>
             </div>
         </div>
         
         <h3>Boolean Operators</h3>
-        <p>The circuits to do computation are more interesting. They compute <em>functions,</em> just like reporters in Snap<em>!</em>. Since computers do a lot of arithmetic, you might think that the basic circuit functions would be addition, subtraction, multiplication, and division, but that's not the case. Of course there <em>are</em> circuits to do those things, but they're made out of <em>logic gates:</em> circuits that compute <strong>Boolean functions</strong>: <code>and</code>, <code>or</code>, and <code>not</code>. The reason that Boolean functions are considered more fundamental is that their inputs and outputs can be represented with a single wire going into or out from the circuit.  That's not true about arithmetic functions.  If you consider a voltage on a wire as meaning 1, and no voltage as meaning 0, then you have to see that an adder will have <em>three</em> possible output values, because 1+1=2, which is neither 0 nor 1.  By contrast, if you consider a voltage on a wire as meaning True, and no voltage as meaning False, then the output from a Boolean function of two inputs can still only be True or False, so only one output wire is needed.</p>
+        <p>The circuits to do computation are more interesting. They compute <em>functions,</em> just like reporters in Snap<em>!</em>. Since computers do a lot of arithmetic, you might think that the basic circuit functions would be addition, subtraction, multiplication, and division, but that's not the case. Of course there <em>are</em> circuits to do those things, but they're made out of <em>logic gates:</em> circuits that compute <strong>Boolean functions</strong>: <code>and</code>, <code>or</code>, and <code>not</code>.</p>
+        <p>The reason that Boolean functions are considered more fundamental is that their inputs and outputs can be represented with a single wire going into or out from the circuit.  That's not true about arithmetic functions.  If you consider a voltage on a wire as meaning 1, and no voltage as meaning 0, then you have to see that an adder will have <em>three</em> possible output values, because 1+1=2, which is neither 0 nor 1.  By contrast, if you consider a voltage on a wire as meaning True, and no voltage as meaning False, then the output from a Boolean function of two inputs can still only be True or False, so only one output wire is needed.</p>
 		<p>You saw some examples in <a href="/bjc-r/cur/programming/2-complexity/3-predicates/1-adding-questions.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment">Unit 2 Lab 3: Making Decisions by Using Predicates</a>: <code>AND</code>, <code>OR</code>, and <code>NOT</code>:<br />
             <img class="indent" src="/bjc-r/img/6-computers/logical-operators/and-TT-reporting.png" alt="(true) AND (true) reporting true" title="(true) AND (true) reporting true" />
             <img class="indent" src="/bjc-r/img/6-computers/logical-operators/and-TF-reporting.png" alt="(true) AND (false) reporting false" title="(true) AND (false) reporting false" />
@@ -232,10 +231,36 @@
         <p>Inside a computer, Boolean operations are implemented in physical circuitry using logic gates. (A single gate implements one of the basic functions <code>and</code>, <code>or</code>, or <code>not</code>.) Logic circuits are often represented with drawings that help engineers see how the information will flow through a circuit. For example, the following diagram of a logic circuit with two gates represents the Boolean expression <img class="inline" src="/bjc-r/img/6-computers/(a)or((a)and(b))-booleans.png" alt="A or (A and B)" title="A or (A and B)" />. Can you see how?</p>
         
         <img class="indent noshadow" src="/bjc-r/img/6-computers/(a)or((a)and(b))-gate.png" alt="logic gate diagram of (A or (A and B))" title="logic gate diagram of (A or (A and B))" />
-
-		<div class="forYouToDo" id="first">
+        
+        <div class="forYouToDo" id="first">
 			<ol>
 				<li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> Look at the logic circuit drawn above. For what values of A and B will the output be <code>true</code>?</li>
+            </ol>
+        </div>
+        
+		<div class="takeNote">On the previous page, you learned about tungsten and tin, and here we're talking about Boolean functions. In what sense is this less abstract? <strong>From the point of view of the chip designer, logic gates are the fundamental building blocks of a digital circuit.</strong> (The actual physical chip fabrication is at an even lower level of abstraction, in the analog domain.)</div>		
+
+		<div class="endnote">
+            <a href="#hint-circuits" data-toggle="collapse">How are logic gates created electronically?</a>
+            <div id="hint-circuits" class="collapse">
+                <p>
+                    This electric circuit shows a simplified way to emulate the Boolean operator <code>and</code> electronically. The two switches are in <em>series</em>; if both of the switches are on, the current flows and the light bulb turns on.<br />
+                    <img class="indent" data-gifffer="/bjc-r/img/6-computers/LogicGates_img/Animations/gif/AND_Animation.gif" height="350" alt="Electric circuit for AND" title="Electric circuit for AND"/>
+				</p> 
+                <p>
+                    This electric circuit shows a simplified way to emulate the Boolean operator <code>or</code> electronically. The two switches are in <em>parallel</em>; if either (or both) of the switches are on, the current flows and the light bulb turns on.<br />
+                    <img class="indent" data-gifffer="/bjc-r/img/6-computers/LogicGates_img/Animations/gif/OR_Animation.gif" height="350" alt="Electric circuit for OR" title="Electric circuit for OR"/>
+                </p>
+                
+                <p>
+                	This electric circuit shows a simplified way to emulate the Boolean operator <code>not</code> electronically. This switch is basically a <em>circuit breaker</em>: if the switch is <em>on</em>, the current flow is broken and the light bulb turns off; if the switch is off, the current flows directly to the light bulb and the light bulb turns on.<br />
+	                <img class="indent" data-gifffer="/bjc-r/img/6-computers/LogicGates_img/Animations/gif/NOT_Animation2.gif" height="250" alt="Electric circuit for NOT" title="Electric circuit for NOT"/>
+                </p>
+            </div>
+        </div>
+        
+        <div class="forYouToDo">
+			<ol start="2">
                 <div class="comment">These are a little advanced. Are they too advanced? (They are structured like <code>xor</code>.) --MF, 10/23/17</div>
                 <li>
                 	Review <code>AND</code>, <code>OR</code>, and <code>NOT</code> with the following questions, which are similar to the type of questions you will see on the AP CSP exam.
@@ -308,16 +333,28 @@
 			</ol>
 		</div>
         
+        <div class="endnote">
+        	<a href="#hint-target" data-toggle="collapse">How do engineers draw logic gates?</a>
+			<div id="hint-target" class="collapse">
+                Engineers typically draw logic gates horizontally and use special shapes that represent each gate: <br />
+                <img class="indent" src="/bjc-r/img/6-computers/LogicGates_img/Gates/AND.png" width="151" height="80" alt="AND-gate" title="AND-gate"/>
+                <img class="indent" src="/bjc-r/img/6-computers/LogicGates_img/Gates/OR.png" width="156" height="81" alt="OR-gate" title="OR-gate"/>
+                <img class="indent" src="/bjc-r/img/6-computers/LogicGates_img/Gates/NOT.png" width="126" height="69" alt="NOT-gate" title="NOT-gate"/><br />
+                Do an <a href="https://www.google.com/search?q=logic+gate+diagrams&tbm=isch" target="_blank">image search for "logic gate diagrams"</a> to see some examples. 
+            </div>
+        </div>
+
+		<div class="todo">There is a commented out ifTime here that would link to the adder project. I think we should add it back in as a TIF once that optional project is done. --MF, 11/30/17</div>
+		
+        
 <!--        <div class="ifTime">
 			<ol start="3">
 				<li>Learn about other Boolean operators and how comptuers perform binary addition in the <a href="">Building a Binary Adder</a> optional project.</li>				   
 			</ol>
 		</div>    -->
 
-        <div class="todo">If we want students to understand the abstraction hierarchy at all, we need to clarify this kind of thing much more prominently. Or we can let up on the digital domain hierarchy somehow. --MF, 11/8/17</div>
-		<div class="endnote">On the previous page we were talking about tungsten and tin, and here we're talking about Boolean functions.  In what sense is this less abstract?  From the point of view of the IC designer, logic gates are the fundamental building blocks of a digital circuit.  The actual physical IC fabrication is at a lower level of abstraction, in the analog domain.</div>		
-        <div class="commentBig">I don't think this kind of thing helps here at the end of the page. Kids will expect the green section to be the end. I'd cut this last sentence. --MF, 11/8/17</div>
-		<p>In Lab 2 of this unit, you'll learn how numbers are represented using groups of wires, using <em>binary</em> representation, and how logic gates can be combined to do arithmetic.</p>
+<!--        <div class="commentBig">I don't think this kind of thing helps here at the end of the page. Kids will expect the green section to be the end. I'd cut this last sentence. --MF, 11/8/17</div>
+		<p>In Lab 2 of this unit, you'll learn how numbers are represented using groups of wires, using <em>binary</em> representation, and how logic gates can be combined to do arithmetic.</p>-->
 		
 		
 	</body>
