@@ -22,10 +22,10 @@
             </ul>
         </div>
         
-		<p>Beyond just representing color, there are also many ways (file formats like BMP, PNG, GIF, and JPG or JPEG) to store the picture information in long-term memory.  These formats differ in compression (more on that below) and in how the computer finds the <em>dimensions</em> of the picture (width and height, in pixels). And the application also has to know how to put the picture up on the actual screen. So application programmers use <em>graphics libraries</em> to take care of these details.</p> 
+		<!---<p>Beyond just representing color, there are also many ways (file formats like BMP, PNG, GIF, and JPG or JPEG) to store the picture information in long-term memory.  These formats differ in compression (more on that below) and in how the computer finds the <em>dimensions</em> of the picture (width and height, in pixels). And the application also has to know how to put the picture up on the actual screen. So application programmers use <em>graphics libraries</em> to take care of these details.</p> --->
 
         
-		<h3>Data Compression</h3>        
+<h3>Data Compression</h3>        
         <p>Why <em>are</em> there so many picture formats, anyway? One  reason is the usefulness of different <strong>data compression algorithms</strong>.</p>
         <p>
             Here's a picture of the BJC logo:<br />
@@ -35,7 +35,12 @@
         <p>This is an inefficient way to store the information. That's especially true for a cartoon-like picture such as this one. Think about the 158 pixels in the top row. </p>
         <p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ...<img src="/bjc-r/img/6-computers/top-row-of-pixels-in-bjc-logo.png" alt="top-row-of-pixels-in-bjc-logo">...</p>
         <p>The first 60 or so are transparent. Then come five pixels of mustard yellow (the top slice of the "b").The rest are transparent. So instead of storing a representation for all 158 pixels, we could just store six values:</p>
-        <table width="30%" border="4" cellspacing="8" alt="60, transparent, 5, mustard yellow, 93, transparent">
+
+        
+        
+        
+        
+<table width="30%" border="4" cellspacing="8" alt="60, transparent, 5, mustard yellow, 93, transparent">
             <tr>
                 <th width="47%" scope="col">how many</th>
                 <th width="53%" scope="col">what color</th>
@@ -53,6 +58,7 @@
                 <td>&nbsp;(transparent)</td>
             </tr>
         </table>
+          
         <p> This is called <em>run-length encoding</em>.</p>
         <div class="endnote">
             <a href="#hint-run-length-encoding" data-toggle="collapse">Click to learn more about run-length encoding.</a>
@@ -63,9 +69,36 @@
                 <p>These days, the size of one picture isn't so significant, but think about every frame of a movie, and think about the time required to send the information over the Internet. Compression makes it easier to stream that movie to you.</p>
             </div>
         </div>
-        <p>Run-length encoding doesn't <em>lose</em> any information. The original picture can be reconstructed with every pixel exactly correct. This is an example of <em>lossless compression.</em></p>
         
-        <p>Run-length encoding doesn't do well if the picture is a photograph, in which every pixel may be slightly different in color from its neighbors.  (If the length of each color run is just one pixel, storing just the colors uses half as much information as storing both run length <em>and</em> color.) So there are other compression algorithms. The PNG  (Portable Network Graphics, pronounced "ping") encoding does <em>lossless</em> compression of arbitrary pictures. Its algorithm is complicated, using several different strategies depending on how  color varies in each small chunk of the image. The thing to remember is that PNG is lossless.</p>
+    <div class="forYouToDo" id="first">
+			<ol>
+				<li>
+                Right above the table, we mention "six values."  What are they? 
+ 				</li>
+                <li>Use the Color Mixer at <a href="http://www.mathsisfun.com/hexadecimal-decimal-colors.html" target="_blank">RGB colors and hexadecimal notation</a> to check the result of the RGB codes (231,167,32). 
+                </li>
+        
+        </ol>
+        
+    </div>
+                
+        '
+        
+        
+        
+        
+      
+    <p>Run-length encoding doesn't <em>lose</em> any information. The original picture can be reconstructed with every pixel exactly correct. This is an example of <em>lossless compression.</em></p>
+    
+    
+    <div class = "sidenote"> ``<strong>lossless</strong>''  means that <em>no</em> information is lost<div class ="katex"> \ldots</div> </div>
+    
+        
+        <p>Run-length encoding doesn't do well if the picture is a photograph, in which every pixel may be slightly different in color from its neighbors.   If the length of each color run is just one pixel, storing just the colors uses half as much information as storing both run length <em>and</em> color.  So there are other compression algorithms. The PNG  (Portable Network Graphics, pronounced "ping") encoding does <strong>lossless</strong> compression of  pictures. Its algorithm is complicated, using several different strategies depending on how  color varies in each small chunk of the image. The thing to remember is that PNG is lossless.</p>
+        
+         
+    <div class = "sidenote"> "and <strong>lossy</strong>" means that <em>some</em> information is lost.  Clever, eh?</div>
+    
         <p>Some algorithms use <strong>lossy compression</strong>. This lets file size  be even smaller, but the original picture can't be perfectly reconstructed; information is lost. This would be terrible if these algorithms were used to compress a computer program or a novel, but people's perception of pictures does not  require extreme precision.</p>
         <p>The most commonly used lossy compression algorithm for pictures is called JPEG (or JPG, both pronounced "jay peg") for "Joint Photographic Experts Group," the committee that invented it. Lossy algorithms usually let you control the degree of precision. Below are two versions of a picture measuring 256×192 pixels and the file sizes in various formats.</p>
         <table width="56%" border="4" cellspacing="8" summary="compression factors example">
@@ -90,11 +123,31 @@
                 <td>5 kB</td>
             </tr>
         </table>
-        <p>
-            Notice how tiny the JPEG worst file is! It must look terrible, right? Here are  that 5kB file and the original, uncompressed BMP file. Can you tell which is which?<br />
+      <p>
+           <!--- Notice how tiny the JPEG worst file is! It must look terrible, right? Here are  that 5kB file and the original, uncompressed BMP file. Can you tell which is which?<br /> --->
             <img class="indent" src="/bjc-r/img/6-computers/pond.bmp" alt="pond pebbles" title="pond pebbles" />
             <img src="/bjc-r/img/6-computers/pond.jpg" alt="pond pebbles" title="pond pebbles" />
         </p>
+        
+        
+        
+    <div class="forYouToDo"  >
+ 
+		<ol start="3">  
+        
+        <li> Which image above is the 5kB version?  How did youi tell? </li>
+        
+        </ol>
+                
+        
+       
+        
+    </div>
+        
+        
+        
+        
+        
         <p>
             JPEG compression is designed for photographs; it's not so good for cartoon-like images. Here's the BJC logo in "best" and "worst" JPEG versions:<br />
             <img src="/bjc-r/img/6-computers/bjc-logo-jpeg-best.jpg" alt="BJC logo, JPEG best">
@@ -102,14 +155,14 @@
             <img src="/bjc-r/img/6-computers/bjc-logo-jpeg-worst.jpg" alt="BJC logo, JPEG worst"><br>
             The "best" one isn't too bad, but if you zoom in you can see "jaggies": a stairstep effect at the edges of the letters.  The "worst" one has even worse jaggies, wrong colors in the B, and bits of fuzz in what should be the transparent areas near the letters.
         </p>
-        <div class="vocabFullWidth"><strong>: Lossy vs. Lossless</strong>
+        <div class="takeNote"><strong> Lossy vs. Lossless</strong>
             <p><strong>Lossless</strong> compression (like PNG) is <em>reversible</em> (no loss in quality); you can reconstruct the original data. It works by removing redundant data.</p>
             <p><strong>Lossy</strong> compression (like JPG) is <em>not</em> fully reversible; you can only reconstruct an <em>approximation</em> of the original data. It works by removing details that people aren't likely to notice. </p>
         </div>
         <div class="todo">BH idea: We could do a FYTD where they have to run-length encodedecode something. Maybe even encoding/decoding images in Snap. --MF, 11/8/17</div>
 
-        <div class="forYouToDo" id="first">
-			<ol>
+        <div class="forYouToDo" >
+			<ol start="4">
 				<li>
                     These questions are similar to those you will see on the AP CSP exam.
                     <!-- Question 1 -->
