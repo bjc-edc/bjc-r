@@ -63,7 +63,7 @@
         <h4><strong>The Analytical Engine</strong></h4>
         <div class="sidenote">
             <img src="/bjc-r/img/6-computers/punched-cards-analytical-engine.jpg" height="400px" alt="punched cards used to program the Analytic Engine" title="punched cards used to program the Analytic Engine" /><br />
-            Punched cards used to program the Analytic Engine<br />
+            Punched cards used to program the Analytical Engine<br />
             <small>Karoly Lorentey.  Copyright 2004.  License: CC-BY.</small>
         </div>
         <p>The Difference Engine could be used to compute many different functions by manually setting the starting position of various gears.  But it had <strong>only one algorithm</strong>: the one built into the hardware design. In 1833, Babbage began working on the Analytical Engine, which was based on the general idea of the Difference Engine but <strong>could carry out instructions</strong> in a primitive programming language prepared on punched cards (shown right).</p>
@@ -107,7 +107,7 @@
             <div id="hint-target" class="collapse">
             	<p>The most important part of the architecture is the machine language, the set of ultra-low-level instructions that the hardware understands.  This language is like a contract between the hardware and the software: The hardware promises to understand a set of instructions, and the software compiles programs from human-friendly language into those instructions.</p>
                 <p>
-                	For example, take the Snap! instruction <img class="inline nopad" src="/bjc-r/img/6-computers/set-c-to-a+b.png" alt="set (c) to (a + b)" title="set (c) to (a + b)" />.  In a lower-level language such as C or Java, the same idea would be written as:<br />
+                	For example, take the Snap<em>!</em> instruction <img class="inline nopad" src="/bjc-r/img/6-computers/set-c-to-a+b.png" alt="set (c) to (a + b)" title="set (c) to (a + b)" />.  In a lower-level language such as C or Java, the same idea would be written as:<br />
                     <pre >c = a+b;</pre>
                     That simple command might be translated into six machine language instructions (slightly simplified here):<br />
                     <pre>movq    _c, %rcx
@@ -118,8 +118,8 @@ addl    (%rdx), %edi
 movl    %edi, (%rcx)</pre>
                     This notation, called <em>assembly language</em>, is a line-by-line equivalent to the actual numeric instruction codes, but is slightly more readable.
                 </p>
-                <p>The first three instructions load the <em>addresses</em> of the three variables into registers inside the processor.  The names with percent signs, such as %rcx, refer to specific processor registers.  MOVQ is the name of a machine language instruction. (It abbreviates "move quote," which says to move a constant value into a register.  Note that A is a variable, but <em>the address of</em> A is a constant value -- the variable doesn't move around in the computer's memory.)  The next instruction, MOVL ("move long"), says to move a word from one place to another.  Putting a register name in parentheses, like "(%rsi)," means to use the memory location whose address is in the register.  In this case, since the third MOVQ put the address of A into register %rsi, the first MOVL says to move the variable A from memory into a processor register.  Then the ADDL instruction says to add the variable B into that same register.  Finally, the value in register %edi is moved into the memory location containing variable C.</p>
-                <p>You wouldn't want to have to program in this language!  And you don't have to; modern architectures are designed for compilers, not for human machine language programmers.</p>
+                <p>The first three instructions load the <em>addresses</em> of the three variables into registers inside the processor.  The names with percent signs, such as %rcx, refer to specific processor registers.  MOVQ is the name of a machine language instruction. (It abbreviates "move quote," which says to move a constant value into a register.  Note that <var>a</var> is a variable, but <em>the address of</em> <var>a</var> is a constant value — the variable doesn't move around in the computer's memory.)  The next instruction, MOVL ("move long"), says to move a word from one place to another.  Putting a register name in parentheses, like "(%rsi)," means to use the memory location whose address is in the register.  In this case, since the third MOVQ put the address of A into register %rsi, the first MOVL says to move the variable A from memory into a processor register.  Then the ADDL instruction says to add the variable B into that same register.  Finally, the value in register %edi is moved into the memory location containing variable C.</p>
+                <p>You wouldn't want to have to program in this language!  And you <em>don't</em> have to; modern architectures are designed for compilers, not for human machine language programmers.</p>
             </div>
         </div>
 		
@@ -162,8 +162,7 @@ movl    %edi, (%rcx)</pre>
                             <small><small>NXP Freescale SCM-i.MX6D chip</small></small>
                         </p>
                         <p>For embedded computing, the main design criteria are small size and low power consumption. The chip in the picture above is based on the ARM architecture, like most cell phones. That's actually a <em>big</em> embedded-systems chip; the Kinetis KL02 MCU (micro controller unit) fits in a 2 millimeter square—less than 1/10 inch. That's still too big to float in the air like dust, but imagine it in a sticky container and thrown onto the wall.</p>        
-                        <div class="comment">We should integrate this into the paragraphs. --MF, 12/4/17</div>
-                        <p><a href="https://www.engadget.com/2017/05/17/arm-targets-your-brain-with-new-implantable-chips/" target="_blank">ARM targets your brain with new implantable chips</a></p>
+                        <p>Someday, the spying will be even more effective (along with, we hope, treatment for diseases of the brain): <a href="https://www.engadget.com/2017/05/17/arm-targets-your-brain-with-new-implantable-chips/" target="_blank">ARM targets your brain with new implantable chips</a> (Engadget, 5/17/2017).</p>
                         <p>Intel made a button-sized x86-compatible chip in 2015, but announced in 2017 that it would be discontinued, leaving only ARM and PowerPC-based processors competing in this market.</p>
                     </div>
                 </li>
