@@ -14,9 +14,9 @@
                 3.3.1D Lossless data compression reduces the number of bits stored or transmitted but allows complete reconstruction of the original data<br />
                 3.3.1E Lossy data compression can significantly reduce the number of bits stored or transmitted at the cost of being able to reconstruct only an approximation of the original data.<br />
             </p>
-            Brian also wants to add the following EKs here. Mary is skeptical but would love for someone (Al?) to work these into the page in a reasonable way. :) --MF, 12/1/17
+            Brian also <s>wants</s> thought it might be possible to add the following EKs here if only we knew what they mean. Mary is skeptical but would love for someone (Al?) to work these into the page in a reasonable way. :) --MF, 12/1/17
             <ul>
-                <li>3.3.1B Security concerns engender tradeoffs in storing and transmitting information.</li>
+    <li>3.3.1B Security concerns engender tradeoffs in storing and transmitting information.</li>
                 <li>3.3.1H The choice of storage media affects both the methods and costs of manipulating the data it contains.</li>
                 <li>3.3.1I Reading data and updating data have different storage requirements.</li>
             </ul>
@@ -26,15 +26,15 @@
 
         
 <h3>Data Compression</h3>        
-        <p>Why <em>are</em> there so many picture formats, anyway? One  reason is the usefulness of different <strong>data compression algorithms</strong>.</p>
+        <p>Why are there so many picture file formats (BMP, PNG, JPEG, GIF...)? One  reason is the usefulness of different <strong>data compression algorithms</strong>.</p>
         <p>
             Here's a picture of the BJC logo:<br />
-            <img class="indent noshadow" src="/bjc-r/img/6-computers/bjc-logo-original.png" alt="BJC logo uncompressed" title="BJC logo uncompressed" />
+            <img class="indent" src="/bjc-r/img/6-computers/bjc-logo-original.png" alt="BJC logo uncompressed" title="BJC logo uncompressed" />
         </p>
         <p>This picture is 158 pixels wide, and 186 pixels tall, for a total of 29,388 pixels. The BMP (bitmap) format includes each of those pixels in the picture file, at four bytes per pixel, so the file size is about 120kB.</p>
         <p>This is an inefficient way to store the information. That's especially true for a cartoon-like picture such as this one. Think about the 158 pixels in the top row. </p>
         <p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ...<img src="/bjc-r/img/6-computers/top-row-of-pixels-in-bjc-logo.png" alt="top-row-of-pixels-in-bjc-logo">...</p>
-        <p>The first 60 or so are transparent. Then come five pixels of mustard yellow (the top slice of the "b").The rest are transparent. So instead of storing a representation for all 158 pixels, we could just store six values:</p>
+        <p>The first 60 or so are transparent. Then come five pixels of Snap<em>!</em>-control-palette orange (the top slice of the "b").The rest are transparent. So instead of storing a representation for all 158 pixels, we could just store six values:</p>
 
         
         
@@ -91,13 +91,14 @@
     <p>Run-length encoding doesn't <em>lose</em> any information. The original picture can be reconstructed with every pixel exactly correct. This is an example of <em>lossless compression.</em></p>
     
     
-    <div class = "sidenote"> ``<strong>lossless</strong>''  means that <em>no</em> information is lost<div class ="katex"> \ldots</div> </div>
+    <div class = "sidenote">&quot;<strong>Lossless</strong>"  means that <em>no</em> information is lost...
+    </div>
     
         
         <p>Run-length encoding doesn't do well if the picture is a photograph, in which every pixel may be slightly different in color from its neighbors.   If the length of each color run is just one pixel, storing just the colors uses half as much information as storing both run length <em>and</em> color.  So there are other compression algorithms. The PNG  (Portable Network Graphics, pronounced "ping") encoding does <strong>lossless</strong> compression of  pictures. Its algorithm is complicated, using several different strategies depending on how  color varies in each small chunk of the image. The thing to remember is that PNG is lossless.</p>
         
          
-    <div class = "sidenote"> "and <strong>lossy</strong>" means that <em>some</em> information is lost.  Clever, eh?</div>
+    <div class = "sidenote"> and "<strong>lossy</strong>" means that <em>some</em> information is lost.  Clever, eh?</div>
     
         <p>Some algorithms use <strong>lossy compression</strong>. This lets file size  be even smaller, but the original picture can't be perfectly reconstructed; information is lost. This would be terrible if these algorithms were used to compress a computer program or a novel, but people's perception of pictures does not  require extreme precision.</p>
         <p>The most commonly used lossy compression algorithm for pictures is called JPEG (or JPG, both pronounced "jay peg") for "Joint Photographic Experts Group," the committee that invented it. Lossy algorithms usually let you control the degree of precision. Below are two versions of a picture measuring 256×192 pixels and the file sizes in various formats.</p>
