@@ -14,8 +14,8 @@
 		<p>An example. At the start of the 1970s, computer architectures were mostly designed to provide a  large and flexible set of machine language instructions. By the end of the decade, instruction sets were  smaller and simpler. Why? Two reasons. <strong>Pressure from above.</strong> In the early '70s, a lot of programming was done by human programmers writing machine language (using  assembly language notation). By the end of the decade, compiler technology had improved enough for pretty much everyone to trust compilers to produce efficient programs. For a compiler, simple instruction sets make it easier to optimize programs. <strong>Pressure from below.</strong> In the early '70s,  processor circuitry   was much faster than the computer's memory,  so it made sense to get as much computation as possible out of each instruction loaded from memory. By the end of the decade, multilevel cache memory technology made memory references  about as fast as processor cycles, so the way to make programs  efficient was to load instructions  from memory as fast as possible, each instruction doing only as much computational work as can fit before the next instruction arrives.</p>
 		<p>The details of this example aren't important for you or your students to learn; the point of the story is to motivate you in familiarizing students with the entire hierarchy from top to bottom.</p>
 		<p>Not all abstraction levels are equally important. We single out two: the <em>software abstraction</em> that allows a computer to solve different problems without having to be physically rewired for each one, and the <em>digital abstraction</em> that allows hardware designers to pretend that a transistor is always either fully on or fully off.</p> 
-		
-		<h3>Pacing</h3>
+        
+        <h3>Pacing</h3>
 		<div>
 			The 7 required lab pages could be split across 3-7 days (<strong>145-290 minutes</strong>). Expected times to complete follow:
 			<ul>
@@ -24,7 +24,7 @@
                 <li>30-60 minutes (about 1 class period) on <a href="/bjc-r/cur/programming/6-computers/1-abstraction/03-software-languages.html?topic=nyc_bjc%2F6-how-computers-work.topic&course=bjc4nyc.html&novideo&noassignment">The Software Domain: Programming Languages</a></li>
                 <li>30-60 minutes (about 1 class period) on <a href="/bjc-r/cur/programming/6-computers/1-abstraction/04-software-libraries.html?topic=nyc_bjc%2F6-how-computers-work.topic&course=bjc4nyc.html&novideo&noassignment">The Software Domain: Libraries</a></li>
                 <li>15-30 minutes (&lt;1 class period) on <a href="/bjc-r/cur/programming/6-computers/1-abstraction/05-software-OS.html?topic=nyc_bjc%2F6-how-computers-work.topic&course=bjc4nyc.html&novideo&noassignment">The Software Domain: Operating Systems</a> *</li>
-                <div class="commentBig">I'm still worried about the amount of reading on the Architecture page (even just the non-yellow reading; the yellow reading is downright excessive). What if eveything in the "The Stored Program Computer" section was yellow? --MF, 12/6/17</div>
+                <div class="commentBig">I'm still worried about the amount of reading on the Architecture page (even just the non-yellow reading; the yellow reading is downright excessive). What if everything in the "The Stored Program Computer" section was yellow? --MF, 12/6/17</div>
                 <li>15-30 minutes (&lt;1 class periods) on <a href="/bjc-r/cur/programming/6-computers/1-abstraction/06-digital-architecture.html?topic=nyc_bjc%2F6-how-computers-work.topic&course=bjc4nyc.html&novideo&noassignment">The Digital Domain: Architecture</a></li>
                 <li>15-30 minutes (&lt;1 class period) on <a href="/bjc-r/cur/programming/6-computers/1-abstraction/07-digital-components.html?topic=nyc_bjc%2F6-how-computers-work.topic&course=bjc4nyc.html&novideo&noassignment">The Digital Domain: Components</a></li>
                 <li>25-50 minutes (about 1 class period) on <a href="/bjc-r/cur/programming/6-computers/1-abstraction/08-digital-IC.html?topic=nyc_bjc%2F6-how-computers-work.topic&course=bjc4nyc.html&novideo&noassignment">The Digital Domain: Integrated Circuits</a> *</li>
@@ -56,31 +56,38 @@
 				<li>
 					<strong>Page 1: Abstraction Inside the Computer.</strong>
 					<ul>
-						<li>
+						<img class="imageRight noshadow" src="/bjc-r/img/6-computers/hardware-abstraction.png" alt="diagram of computer abstraction hierarchy showing three levels of decreasing abstraction: software domain (including applications, programming languages, libraries, and operating systems), digital domain (including architecture, components, integrated circuits, and logic gates), and analog domain (including transistors); there is a dividing line between the software and digital domains labeled 'program abstraction barrier' and a dividing line between the digital and analog domains labeled 'digital abstraction barrier;' there is a vertical double-headed arrow on the right indicating that the items listed first on the list (and their sub-lists) have a 'high level of abstraction' and those lower on the list have a 'low level of abstraction'" title="diagram of computer abstraction hierarchy showing three levels of decreasing abstraction: software domain (including applications, programming languages, libraries, and operating systems), digital domain (including architecture, components, integrated circuits, and logic gates), and analog domain (including transistors); there is a dividing line between the software and digital domains labeled 'program abstraction barrier' and a dividing line between the digital and analog domains labeled 'digital abstraction barrier;' there is a vertical double-headed arrow on the right indicating that the items listed first on the list (and their sub-lists) have a 'high level of abstraction' and those lower on the list have a 'low level of abstraction'" />
+						<div class="commentBig">I included the above abstraction image so that it's right here for teachers to refer to as they read. Selim, if you agree that we should have this, just remove the comment. --MF, 12/6/17</div>
+                        <li>
 							<strong>Learning Goals:</strong>
 							<ul>
-								<li>This is a long lab with many pages; the point of this first page is to provide a table of contents, and a grouping of abstraction levels into three major "domains": software, digital, and analog.</li>
-								
+								<li>Understand that the computer abstraction hierarchy includes three major "domains": software, digital, and analog.</li>
+                                <li>Understand that these domains are separated by the abstraction of a "program" and the abstraction of data being represented "digitally," as ones and zeros.</li>
+								<li>Understand that the software and digital domains each include a sub-hierarchy of abstraction.</li>
 							</ul>
 						</li>
 						<li>
 							<strong>Tips:</strong>
 							<ul>
-								<li>This tip is about the whole lab, not just the first page, but it's about the domains that are introduced here:
-								  <ul>
-								    <li>The levels of abstraction in the <em>software</em> domain are <em>different programs:</em> the application programs are written in a programming language, and use libraries, and interface with the operating system to control the hardware.</li>
-								    <li>By contrast, the levels of abstraction in the <em>digital</em> domain are <em>different ways of thinking</em> about the <em>same</em> physical object. Envision yourself holding a processor chip in your hand, and asking yourself
-								      <ul>
-								        <li>What's it for?</li>
-								        <li>What are the major structures inside it?</li>
-								        <li>What's physically	inside	the	plastic	case?</li>
-								        <li>What are the primitive building blocks of a digital circuit?</li>
-							          </ul>
-								    </li>
-							      </ul>
-								</li>
-								<li>Nobody (you or kids) needs to obsess over the specific levels of abstraction. The main points are that software lets you control a computer, abstracting away the actual machine; and "zeros and ones" are an abstraction over the way transistors really work.</li>
-                                <div class="comment">This abstraction commentary should really appear earlier. We should change the next year, and what remains here should just be a nod to that ongoing discussion. --MF, 11/21/17 (with Brian)</div>
+								<li>
+                                    Don't worry about students memorizing the specific levels of abstraction. The main points are:
+                                    <ul>
+                                        <li>Software lets you control a computer, abstracting away the actual machine (the program abstraction); and "zeros and ones" are an abstraction over the way transistors really work (the digital abstraction).</li>
+                                        <li>The levels of abstraction in the <em>software</em> domain are <em>different programs:</em> the application programs are written in a programming language, and use libraries, and interface with the operating system to control the hardware.</li>
+                                        <li>By contrast, the levels of abstraction in the <em>digital</em> domain are <em>different ways of thinking</em> about the <em>same</em> physical object.</li>
+                                    </ul>
+                                    <div class="todo">
+                                        <p>I'm not sure what to do with this, and it doesn't fit for me here. <strong>Brian</strong>, is this needed? What purpose does it serve? --MF, 12/6/17</p>
+                                        Envision yourself holding a processor chip in your hand, and asking yourself
+                                        <ul>
+                                            <li>What's it for?</li>
+                                            <li>What are the major structures inside it?</li>
+                                            <li>What's physically	inside	the	plastic	case?</li>
+                                            <li>What are the primitive building blocks of a digital circuit?</li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <div class="todo">The following abstraction commentary (about nuanced meanings below) should really appear earlier in the year. We should change the next year, and what remains here should just be a nod to that ongoing discussion. --MF, 11/21/17 (with Brian)</div>
                                 <li>Abstraction has many nuanced meanings in computer science. At the end of each page that deals with abstraction, ask students, "What does abstraction mean on this page?" and consider keeping a running log.</li>							</ul>
 						</li>
 					</ul>
