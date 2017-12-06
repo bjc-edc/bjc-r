@@ -61,14 +61,25 @@
 						<li>
 							<strong>Learning Goals:</strong>
 							<ul>
-								<li>Understand that data is represented using binary notation.</li>
+								<li>Understand that data is represented using bits.</li>
+								<li>Understand that <em>n</em> bits are needed to represent 2<sup><em>n</em></sup> values.</li>
                             </ul>
 						</li>
 						<li>
 							<strong>Tips:</strong>
 							<ul>
-								<li></li>
-								<li></li>
+								<li>It's deliberate that the word &quot;binary&quot; doesn't appear on this page. We talk about binary two pages later, when we first discuss the representation of numbers. On <em>this</em> page, we don't want students thinking about place value, etc., only about questions such as &quot;how many bits do you need to represent the colors of the rainbow?&quot; or &quot;how many bits do you need to represent the months of the year?&quot;</li>
+								<li>Problem 7: If 32 bits can represent 4 billion values, how many can 64 bits represent? 
+								  <ul>
+								    <li>If your students have studied logs and exponentials, they should quickly see that doubling the number of bits <em>squares</em> the number of values, so 16 billion billion, or 16 quintillion. </li>
+								    <li>If not, then it will really help them a lot to learn the trick in the orange box: every ten bits multiplies the number of values by 1000, so 60 bits would be a thousand thousand thousand thousand thousand thousand (six of them), and the remaining four bits represent another factor of 16.
+								      <ul>
+								        <li>They can just count off six thousand-group names: thousand, million, billion, trillion, quadrillion, quintillion.</li>
+							          </ul>
+								    </li>
+							      </ul>
+								</li>
+								<li>We say 8-bit bytes are used mainly to represent text characters, and that's true, but it's <em>not</em> quite true that one character is one byte. That's true for English speakers who aren't interested in emoji or mathematics, but strange characters, and also the alphabet in a language with accents or ideograms, may require more than one byte per character.</li>
 							</ul>
 						</li>
 					</ul>
@@ -79,14 +90,14 @@
 						<li>
 							<strong>Learning Goals:</strong>
 							<ul>
-                                <li>Understand that the meaning of a string of binary digits depends on the context in which it is used.</li>
+                                <li>Understand that the meaning of a string of bits depends on the context in which it is used.</li>
                             </ul>
 						</li>
 						<li>
 							<strong>Tips:</strong>
 							<ul>
-								<li></li>
-								<li></li>
+								<li>We use the phrase &quot;binary sequences&quot; because the AP requires it, but otherwise we are still avoiding talking about binary.</li>
+								<li>Is a kilobyte 1000 bytes, or 1024 bytes? This turns out to be a complicated question: If we're talking about the computer's main memory, it's 1024 bytes, but if we're talking about a disk, it's 1000 bytes. To try to resolve this ambiguity, the standards people have introduced new metric-ish names for the powers of two, so we're supposed to call 1024 bytes a &quot;kibibyte&quot; or KiB. The power-of-two names all have &quot;bi&quot; replacing the second syllable of the metric name: kibi, mebi, gibi, tebi, pebi, etc. You needn't go into this with kids, but in case a kid asks, that's the story.</li>
 							</ul>
 						</li>
 					</ul>
@@ -97,23 +108,23 @@
 						<li>
 							<strong>Learning Goals:</strong>
 							<ul>
-                                <li>Understand that the choice of representation has implications for the kinds of numbers that can be stored and how accurately they can be stored. </li>
+                                <li>Understand that the choice of representation has implications for the kinds of numbers that can be stored and how precisely they can be stored. </li>
                                 <li>Understand that the standard mechanism of storing numbers has limitations on the size of the number. </li>
+                                <li>Understand that the standard mechanism of storing numbers isn't very good, and has in fact killed people, because of those needless limitations.</li>
 							</ul>
 						</li>
 						<li>
 							<strong>Tips:</strong>
 							<ul>
-								<li>You might have students take turns reading, or you might have all students read a section silently and then ask one or two summarize out loud.</li>
-                                <li>
-                                    Discussion: After students work through the lab page, you might use this question to review:
-                                    <ul>
-                                        <li>Why did Snap<em>!</em> display <code>20!</code> in ordinary, whole number representation but <code>30!</code> in scientific notation?</li>
-                                        <!--<li>Why can't programming languages just use more than one word if necessary to represent an integer?</li>-->
-                                    </ul>
+<div class="comment">	Why this?  There isn't that much text on the page. --bh							<li>You might have students take turns reading, or you might have all students read a section silently and then ask one or two summarize out loud.</li></div>
+                                <li>We discuss only nonnegative integers, except to say that half the integers are negative so the maximum value in a single word is 2<sup>63</sup> rather than 2<sup>64</sup>.          </li>
+                                <li>Discussion: After students work through the lab page, you might use this question to review:
+  <ul>
+    <li>Why did Snap<em>!</em> display <code>20!</code> in ordinary, whole number representation but <code>30!</code> in scientific notation?</li>
+    <!--<li>Why can't programming languages just use more than one word if necessary to represent an integer?</li>-->
+  </ul>
                                 </li>
-                        		<li>We explain that other data types, including lists, are represented as binary sequences, but we do not introduce the idea of pointers to memory addresses.<div class="todo">Still true? --MF, 11/22/17</div></li>
-                                <li><div class="comment">Brian, please review this addition and then remove this comment. --MF, 11/30/17</div>The question "What's the <em>first</em> integer whose factorial doesn't fit in a word?" can be answered by binary search, which students learned in <a href="/bjc-r/cur/programming/5-algorithms/1-searching-lists/2-improving-search.html?topic=nyc_bjc%2F5-algorithms.topic&course=bjc4nyc.html&novideo&noassignment">Unit 5 Lab 1: Analyzing and Improving Searches</a>. This is a different use of the word <em>binary</em> than in "binary sequences" or "binary representation." In "binary search," the word <em>binary</em> refers to splitting the list being searched into two parts.</li>
+                                <li>The question "What's the <em>first</em> integer whose factorial doesn't fit in a word?" can be answered by binary search, which students learned in <a href="/bjc-r/cur/programming/5-algorithms/1-searching-lists/2-improving-search.html?topic=nyc_bjc%2F5-algorithms.topic&course=bjc4nyc.html&novideo&noassignment">Unit 5 Lab 1: Analyzing and Improving Searches</a>, between 20 (known to fit) and 30 (known not to fit). This is a different use of the word <em>binary</em> from the use in "binary sequences" or "binary representation." In "binary search," the word <em>binary</em> refers to splitting the range being searched into two equal parts.</li>
 							</ul>
 						</li>
 					</ul>
@@ -125,13 +136,15 @@
 							<strong>Learning Goals:</strong>
 							<ul>
                                 <li>Understand that floating point is a representation for storing numbers that is analogous to scientific notation. </li>
-                                <li>Understand that by default, if a number is above a certain size, it will be stored as a floating point value and therefore be rounded. </li>
+                                <li>Understand that by default, if a whole number is above a certain size, it will be stored as a floating point value and therefore be rounded. </li>
 							</ul>
 						</li>
 						<li>
 							<strong>Tips:</strong>
 							<ul>
-								<li>This page includes rational numbers. In case it comes up, note that any rational number can be represented exactly as a fraction (e.g., 1/3), but irrational numbers cannot.</li>
+								<li>This page includes rational numbers. In case it comes up, note that any rational number can be represented exactly as a fraction (a pair of integers, e.g., 1/3), but irrational numbers cannot.</li>
+								<li>You don't have to say this to students, but knowing it may help you answer their questions: Since the floating point format has a finite number of bits, and since irrational numbers require infinitely many digits, <em>every</em> representable number is rational. Irrational numbers can only be approximated in floating point. (The converse isn't true: Not every rational number is representable.)</li>
+                        		<li>We explain that other data types, including lists, are represented as binary sequences, but we do not introduce the idea of pointers to memory addresses.</li>
 								<li></li>
 							</ul>
 						</li>
@@ -154,8 +167,7 @@
 							<ul>
                                 <li>Don't try to teach students to do binary <em>arithmetic</em>. The goal is for students to learn to translate between representations.</li>
 								<li>
-                                	<p>
-                                        Here's a video from a different version of BJC. It cuts off just before talking about base 16. (You'll see more about reading hexadecimal soon.)<br />
+                                	Here's a video from a different version of BJC. It cuts off just before talking about base 16. (You'll see more about reading hexadecimal soon.)<br />
                                         <img class="imageRight" src="/bjc-r/img/icons/headphones.png" alt="Set Up Your Headphones or Speakers" title="Set Up Your Headphones or Speakers" />
                                     </p>
                                     <div class="sidenote">If your connection blocks YouTube, <a href="http://scratch.mit.edu/discuss/youtube/SqhbDWVOLvk" target="_blank">watch the video here</a>, but you only need to watch the first 3:10&mdash;up to (but not including) the part about hexadecimal.</div>
@@ -163,7 +175,7 @@
                                     <iframe width="560" height="315" src="https://www.youtube.com/embed/SqhbDWVOLvk?rel=0&end=190" frameborder="0" allowfullscreen class="indent"></iframe>
                                 </li>
                                 <li>
-                                    <p>Here's another video. (It also cuts off before talking about base 16.)</p>
+ Here's another video. (It also cuts off before talking about base 16.)</p>
                                     <div class="sidenote">If your connection blocks YouTube, <a href="http://scratch.mit.edu/discuss/youtube/rVIq_bol1Es" target="_blank">watch the video here</a>, but you only need to watch the first 3:14&mdash;up to (but not including) the part about hexadecimal. </div>
                                     <img class="imageRight" src="/bjc-r/img/icons/headphones-mini.png" alt="Set Up Your Headphones or Speakers" title="Set Up Your Headphones or Speakers" />
                                     <iframe width="560" height="315" src="https://www.youtube.com/embed/rVIq_bol1Es?rel=0&end=194" frameborder="0" allowfullscreen class="indent"></iframe>
@@ -190,7 +202,7 @@
                                 <li>Don't overemphasize number representations.  This is a popular topic because it's easy, but it doesn't call for deep understanding; hex is just a notation that people find convenient in a few computing contexts (<em>very</em> few, actually; RGB and IPv6 pretty much exhaust them).</li>
                                 <li>Although base 16 is a base in its own right, it's <em>important</em> only as an abbreviation for the underlying binary. You don't necessarily have to say that to students, but don't allow a mystique to develop around hex.</li>
                                 <li>
-                                    <p>This video continues one you saw before.</p>
+    This video continues one you saw before.</p>
                                     <img class="imageRight" src="/bjc-r/img/icons/headphones.png" alt="Set Up Your Headphones or Speakers" title="Set Up Your Headphones or Speakers" />
                                     <div class="sidenote">If your connection blocks YouTube, <a href="http://scratch.mit.edu/discuss/youtube/SqhbDWVOLvk" target="_blank">watch the video here</a>, but only watch the segment about converting hexadecimal to decimal from 3:12 to 4:55. </div>
                                     <iframe width="560" height="315" src="https://www.youtube.com/embed/SqhbDWVOLvk?rel=0&start=192&end=295" frameborder="0" allowfullscreen class="indent"></iframe>
@@ -228,7 +240,7 @@
 						<li>
 							<strong>Learning Goals:</strong>
 							<ul>
-								<li></li>
+								<li>Understand lossless vs. lossy compression, and when each is appropriate.</li>
 								<li></li>
 							</ul>
 						</li>
@@ -237,9 +249,9 @@
 							<ul>
 								<li>We use run-length encoding as an example of lossless compression because this algorithm, unlike the one used for png files, is  easy for students to understand.</li>
 								<li>
-                                	If you want to present a similarly simple algorithm for lossy compression, consider reducing the set of possible colors by restricting each of red, green, and blue to the (hexadecimal) values 00, 11, 22, ... dd, ee, and ff, so that <span style="background:#d62">cinnamon would be rounded to dd6622, and then stored in files as d62.</span> (Browsers actually do accept these three-hex-digit color codes.) Each color number would then take two bytes (including transparency) instead of four. You can see that that color is closer to orange than <span style="background:#d2691e">the real cinnamon (d2691e)</span> is, but the change is hardly noticeable in real pictures:<br />
+                                	If you want to present a similarly simple algorithm for lossy compression, consider reducing the set of possible colors by restricting each of red, green, and blue to the (hexadecimal) values 00, 11, 22, ... dd, ee, and ff, so that <span style="background:#d62">cinnamon would be rounded to dd6622, and then stored in files as d62.</span> (Browsers actually do accept these three-hex-digit color codes.) Each color number would then take two bytes (including transparency) instead of four. You can see that that color is a little closer to orange than <span style="background:#d2691e">the real cinnamon (d2691e)</span> is, but this restriction is hardly noticeable in real pictures:<br />
                                     <img class="indent" src="/bjc-r/img/6-computers/pond-small-palette.png" alt="pond with reduced color palette"><br />
-                                    By the way, this picture was processed using Snap<em>!</em>'s Pixels library:<br />   <div class="todo">ST-This is confusing and its purpose unclear.<p>The purpose is to make the point that we can create media-computation examples in Snap<em>!</em>.</div>
+                                    By the way, this compressed picture was made using Snap<em>!</em>'s Pixels library:<br />   <div class="todo">ST-This is confusing and its purpose unclear.<p>The purpose is to make the point that we can create media-computation examples in Snap<em>!</em>.</div>
 									<img class="indent" height="132" src="/bjc-r/img/6-computers/small-palette script pic.png" alt="small-palette-script">
                                 </li>
 							</ul>

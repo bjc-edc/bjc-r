@@ -35,10 +35,7 @@
                 		</li>
                 		<li>Exercise 6: This is what 200! looks like in Snap<em>!</em> when we <code>use bignums:</code><br />
                         <img src="/bjc-r/img/6-computers/200factorial.png"  height="30" alt="200! reporting huge value." title="200! reporting huge value."/><br />
-                        To count the digits of a number we can use logarithm base 10 which basically computes the power of 10 a number is.  200! has 375 digits because 200!&asymp;10<sup>375</sup>.<br />
-                        <img class="indent" src="/bjc-r/img/6-computers/log200factorial.png"  height="50" alt="log(200!) reporting 374.89688..." title="log(200!) reporting 374.89688..."/>
-                        
-                        </li>
+To find out the number of digits, just ask Snap<em>!</em>: <img width="244" src="/bjc-r/img/6-computers/digits-in-factorial-200.png" alt="length of ((200) !) -&gt; 375"></li>
                 </ul>
                 
                 
@@ -46,14 +43,23 @@
                 <strong><a href="/bjc-r/cur/programming/6-computers/2-representation-compression/4-floating-point.html?topic=nyc_bjc%2F6-how-computers-work.topic&course=bjc4nyc.html&novideo&noassignment">Page 4: Floating Point.</a></strong>
                     <ul>
                         <li>
-                            Take It Further: <br /> This number line from 0 to 1000 in increments of 0.01 may give you an idea.<br />
-                             <img class="indent" src="/bjc-r/img/6-computers/numberline0to1000.png"  height="100" alt="Number line from 0 to 1000 in increments of 0.01" title="Number line from 0 to 1000 in increments of 0.01"/><br />
-                             The spacing is equal in increments of 0.01.  There are 100 values from 0 to 1 and 900&times;100=90,000 values between 0 and 900.  As each value is a terminating decimal, each of these represents a fractional value (i.e. a rational number).  There are 99 integer values from 901 to 999 that are not representable.  A strength of this system is that you can capture and represent a sizable number of real numbers (90,000 of them) accurate to the hundredths digit.  The weakness is that you cannot capture every real number (for example, 789.123) between 0 and 900.  The system is finite and have limited precision.
-                		</li>
-                		
-                        
-                        </li>
-                </ul>
+                            Take It Further: <br />
+&quot;One significant digit&quot; means that, for example, 200 is representable, but 210 isn't. Here are <em>all</em> the representable values:
+<ul>
+  <li>0</li>
+  <li>0.01, 0.02, ... 0.09</li>
+  <li>0.1, 0.2, ... 0.9</li>
+  <li>1, 2, ... 9</li>
+  <li>10, 20, ... 90</li>
+  <li>100, 200, ... 900</li>
+</ul>
+So there are
+                        exactly 51 representable values. Here they are, on the number line:<br />
+     <img src="/bjc-r/img/6-computers/floats.png" width="1200" alt="number line with floating point values plotted"> <br />
+     It's easy to see the multiples of 10 and of 100, but all the smaller values are a blur.  If you could zoom in on the range from 0 to 10, it would look the same, with the multiples of 0.1 and 1 visible, and the multiples of 0.01 just a blur.
+     <p>What are the pros and cons of this representation?  Only 31 integer values can be represented, so 969 integers less than 1000 <em>can't</em> be.  This seems like a severe weakness, but remember, the rules of this game say that you only have enough room in your representation for 51 values altogether. You could choose multiples of 20, to get all your values evenly spaced, but then you get no fractions at all.  This system gives you a few really small values, a few medium-sized values, and a few really big values.  So physicists can measure the size of an electron, astronomers can measure the size of the galaxy, and the rest of us can budget our money.</p>
+     <p>By the way, if you want to make this picture in Snap<em>!</em>, you need a widescreen monitor, and then you can click on the gear (settings) menu, choose &quot;stage size,&quot; and set the horizontal size to 1200 so there's some margin around your number line.</p></li>
+                  </ul>
                 
                 
             	<li>
@@ -72,8 +78,7 @@
                                 <li>1010011<sub>2</sub> = 83<sub>10</sub></li>
                             </ol>
                         </li>
-                    </ul>
-                    <ul>
+                    
                     	<li>
                             Exercise 3: Translating base 10 numerals in binary (base 2):
                             <ol>
@@ -162,16 +167,16 @@
                         <li>Exercise 4: red 145, green 0, blue 226 will be a <span style="color:#9100E2;">slightly blueish purple</span></li>
                         <li>Exercise 5: 04FF61 will be a <span style="color:#04FF61;">slightly blueish green</span></li>
                         <li>Exercise 6: The hex RGB codes requires less space. The color names are easier to understand. The two are easy to use in different ways: the RGB code is precise and doesn't depend on human interpretation, but the color names may be more familiar.</li>
-                        <li>Exercise 7: Each of these bases are useful representations that simplify things in different contexts: binary is useful in the context of computers, decimal is useful in the context of human interactions, hexadecimal is useful in the context of color representations.</li>
-                        <li>Exercise 8: In all of these contexts, abstraction is used to hide complexity and to simplify things.  Hexidecimal representation abbreviates binary representation and makes it more readable, just as custom blocks and ADT's simplify complex code and make the code more readable.</li>
+                        <li>Exercise 7: Human beings use decimal because we have ten fingers, and computers use decimal when they are interacting with human beings. When they're <em>not</em> interacting with people, computers use binary because transistors have two stable states. Neither people nor computers really speak hex, but when people are forced to deal with binary, we use hex as an abbreviation (one fourth the length of the binary numeral), and so computers use hex to convey binary to humans. RGB color codes are just one instance of that.</li>
+                        <li>Exercise 8: In all of these contexts, abstraction is used to hide complexity and to simplify things.  Hexadecimal representation abbreviates binary representation and makes it more readable, just as custom blocks and ADT's simplify complex code and make the code more readable.</li>
                     </ul>
                 </li>
                 
                 <li><strong><a href="/bjc-r/cur/programming/6-computers/2-representation-compression/8-compression.html?topic=nyc_bjc%2F6-how-computers-work.topic&course=bjc4nyc.html&novideo&noassignment">Page 8: Data Compression.</a></strong>
                 <ul>
                 <li>Exercise 1: If you look at the given table you will see 3 entries under "how many" and 3 corresponding entries for "what color".  So the 6 values would be:<br /> {60, (transparent), 5, (231,167,32), 93, (transparent)}. </li>
-                <li>Exercise 2: RGB:(231,167,32) in hexadecimal is: E7A720  and you get this <span style="color:#E7A720">orangeish brown color</span> which is a slight variation of the color called <span style="color:#DAA520">"Goldenrod"</span>.</li>
-                <li>Exercise 3: One on the right. If you look closely you will notice that the picture on the right is slightly more blurry than the one on the left.  What is surprising is how similar they look despite the effects of lossy compression.</li>
+                <li>Exercise 2: RGB:(231,167,32) in hexadecimal is: E7A720  and you get this <span style="color:#E7A720">orangeish brown color</span> which is a slight variation of the color called <span style="color:#DAA520">"Goldenrod"</span>. (It's actually exactly the color of the Control blocks in Snap<em>!</em>.)</li>
+                <li>Exercise 3: The one on the right is the compressed picture. If you look closely you will notice that the picture on the right is slightly more blurry than the one on the left.  A few colors are also a little off, especially the very bright reflections from some of the rocks. What is surprising is how similar they look despite the effects of lossy compression.</li>
                 </ul>
                 
                 </li>
