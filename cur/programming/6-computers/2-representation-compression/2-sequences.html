@@ -8,6 +8,9 @@
 
 	<body>
 		<h2>Binary Sequences</h2>
+        
+        <div class="todo"><h1>Page in progress; <strong>not ready for review</strong>. I'm working on adding in that project I made. Stay tuned. --MF, 12/6/17</h1></div>
+		
 
         <div class="todo">
             <p>
@@ -22,13 +25,26 @@
             </p>
         </div>
 
-        <div class="todo">Mary's project still needs to be integrated into this lab. --MF, 11/28/17 (More notes on this on previous page. --MF, 11/30/17</div>
-        
+		<div class="todo">
+            Mary's project still needs to be integrated into this lab. --MF, 11/28/17
+            <ul>
+                <li><a class="run" href="/bjc-r/prog/6-computers/U6L1-TranslatingBinary.xml" target="_blank">U6L1-TranslatingBinary.xml</a></li>
+                <li>The color version of the project (<a class="run" href="/bjc-r/prog/6-computers/U6L1-TranslatingBinary_color.xml" target="_blank">U6L1-TranslatingBinary_color.xml</a>) breaks Snap<em>!</em> because of an unresolved bug (<a href="https://github.com/jmoenig/Snap--Build-Your-Own-Blocks/issues/1873" target="_blank">#1873</a>). Perhaps, we can get the B&amp;W version to work as a project, but we still need to resolve some issues with the sequence requiring a flag (e.g., "TEXT") at the front so it isn't treated as a number (if I recall correctly). I don't like the flag solution because it breaks the idea that text can be stored as ones and zeros if we have to include something that is not ones and zeros with it.</li>
+                <li>The PHP script that I used to get the binary sequences for images is here: <a href="http://localhost/bjc-r/utilities/colorreader.php" target="_blank">http://localhost/bjc-r/utilities/colorreader.php</a>. Edit the $im variable initialization (currently line 9) to change the path of the color file exported into a binary sequence, and edit the $imbw initialization (currently line 59) to change the B&amp;W file. It would be amazing to incorporate this into the project, but that would require being able to handle uploaded images or images with an existing URL, and I haven't thought through that possibility yet. --MF, 11/30/17</li>
+            </ul>
+        </div>
+		
+                
         <div class="comment"><a href="http://localhost/bjc-r/cur/programming/6-computers/old/1-hierarchy/3-processing.html?topic=nyc_bjc%2F6-how-computers-work.topic&course=bjc4nyc.html&novideo&noassignment" target="_blank">old version of page</a></div>
         
-        <div class="learn"><strong>On this page,</strong> you will...</div>
+        <div class="learn">
+            <div class="comment">New. OK? --MF, 12/6/17</div>
+            <p><strong>On this page,</strong> you will learn about another central idea of how information is represented inside the computer: <em>binary sequences</em>, sequences of bits.</p>
+		</div>
 		
-        <table class="indent">
+        <div class="todo">
+        Why are these images here? They don't seem to fit. --MF, 12/6/17
+		<table class="indent">
             <tr>
                 <td>
                     <img src="/bjc-r/img/6-computers/Hardware_img/RAM.jpg" height="200" alt="RAM (Random Access Memory), short-term memory" title="RAM (Random Access Memory), short-term memory" /><br />
@@ -40,8 +56,11 @@
                 </td>
             </tr>
         </table>
+        </div>
         
         <p>So far we've been working with small chunks of data, from Boolean values (one bit) to characters (eight bits). But of course some information in your computer or smartphone is much bigger than that.</p>
+        <div class="todo">We've hardly said anything about characters yet! Is this where you wanted to include something about Unicode? Something needs to change here... --MF, 12/6/17</div>
+		
         <div class="commentBig">AC:  Say a bit more here:  each character is a byte? Give an example.<br />
         Oy. One character is one byte if you're an English speaker (and not a mathematician). Otherwise it gets more complicated. Hoping to avoid that here. --bh</div><p>For starters, characters aren't generally used one at a time; they're used in <em>text strings</em> such as "<code>Welcome to the Beauty and Joy of Computing.</code>" These 43 characters occupy 43 bytes of computer memory. (In many programming languages there's a convention that every text string ends with a <em>null</em> byte, in which all eight bits are zero, a code that's reserved for this purpose. So our string might actually occupy 44 bytes.)</p>
         <p>But the real champion users of space are media files: pictures, sounds (mostly music), and video. For example, the spinning disk drive picture above takes up about 16Mb — 16 million bytes.</p>
@@ -58,8 +77,84 @@
         </div>
         <div class="vocabBig">
             <p>A <strong>binary sequence</strong> (also called a <em>bitstream</em>) is an ordered list of bits. </p>
+            <div class="todo">a string of ones and zeros </div>
         </div>       
-        <p>That shows just 449 bits. A 16GB cell phone has sixteen gigabytes (about 16 billion bytes) of storage, each byte containing 8 bits. That's 128,000,000,000 bits. Printed on paper as ones and zeros, the 16 GB phone’s memory would take nearly 40,000,000 pages! The information in storage—whether it is a text message, a photograph, a song, a computer program, or a list of phone numbers—looks just the same, a sequence of bits that are either On or Off (one or zero). So if pictures, music, and words all look the same in memory—all binary sequences—how can the computer tell what any chunk of memory actually is? For example, should the sequence 01000001 be interpreted as the number 65, the letter A, a rather dark shade of red, or something else?</p>
+        <p>That shows just 449 bits. A 16GB cell phone has sixteen gigabytes (about 16 billion bytes) of storage, each byte containing 8 bits. That's 128,000,000,000 bits. Printed on paper as ones and zeros, the 16 GB phone’s memory would take nearly 40,000,000 pages! The information in storage—whether it is a text message, a photograph, a song, a computer program, or a list of phone numbers—looks just the same, a sequence of bits that are either On or Off (one or zero).</p>
+        <div class="forYouToDo" id="first">
+			<ol>
+				<li>
+                	<a class="run" href="/bjc-r/prog/6-computers/U6L1-TranslatingBinary.xml" target="_blank"><img class="inline" src="/bjc-r/img/icons/load-save.png" alt="Click here to load this file. Then save it to your Snap! account." title="Click here to load this file. Then save it to your Snap! account."></a>
+                    <p>
+                        Take a look at these 3 custom blocks that you will use to explore binary sequences:
+                        <ul>
+                            <li>
+                                A reporter that accepts a string of text as input and translates that text into a binary sequence:<br />
+                                <img class="indent" src="/bjc-r/img/6-computers/translate-text-to-binary.png" alt="translate text () to binary sequence" title="translate text () to binary sequence" />
+                            </li>
+                            <li>
+                            	A reporter that accepts a binary sequence as input and translates it into text:<br />
+                                <img class="indent" src="/bjc-r/img/6-computers/translate-binary-to-text.png" alt="translate binary sequence () to text" title="translate binary sequence () to text" />
+                            </li>
+                            <li>
+                            	<div class="sidenoteBig">You can use the second and third inputs to control where the block breaks the sequence to start a new line and also how large the image is drawn.</div>
+                                A command block that accepts a binary sequence as input and draws a black and white image on the stage where each 0 in the sequence becomes a white "pixel" and each 1 becomes a black "pixel." <br />
+                                <img class="indent" src="/bjc-r/img/6-computers/translate-binary-to-image.png" alt="translate binary sequence () to B&amplW imge that is () pixels wide and scaled by factor of ()" title="" />
+                            </li>
+                        </ul>
+                    </p>
+                </li>
+				<li>
+                	Translating a short text string into a binary sequence. 
+                	<ul>
+                        <div class="sidenote"><div class="todo"><strong>Brian</strong>, I expect you'll want to review this sidenote in particular. --MF, 12/6/17</div>The quotes tell Snap<em>!</em> that the binary sequence should be saved "as is." Without them, Snap<em>!</em> will think your binary sequence is a number, and it would remove any zeros at the front, which would change the interpretation of where each byte begins and ends.</div>
+                        <li>
+                            Find the <code>set (</code><var>output</var><code>) to...</code> instruction and <strong>change the input text</strong> to a short text string of your choosing. The reported binary sequence will be stored in the <var>output</var> variable with quotes around it.<br />
+                          <img class="indent" src="/bjc-r/img/6-computers/set-output-to-translate-text.png" alt="set (output) to (translate text (Beauty and Joy of Computing) to binary sequence)" title="set (output) to (translate text (Beauty and Joy of Computing) to binary sequence)" />
+                      </li>
+                        <li>
+                            Access the output by right-clicking (or control-clicking) on the OUTPUT watcher on the stageand choosing "export..." The binary sequence will download as a text file. Copy the binary sequence out of the file, but not the quotes.<br />
+                            <img class="indent" src="/bjc-r/img/6-computers/exporting-output-watcher.png" alt="image of output watcher on stage storing a binary sequence with the dropdown menu open and the point on 'export...'" title="image of output watcher on stage storing a binary sequence with the dropdown menu open and the point on 'export...'" />
+                        </li>
+                    </ul>
+                </li>
+				<li>
+                    Paste the outputted binary sequence into the <code>translate binary sequence to text</code> block and run it. (It may take a moment to report.)
+                    <ul>
+                        <li>Is your original text reported back? (If not, you may have included the quotes or lost a bit or two while copying.)</li>
+                        <li>
+                            Once you've gotten your original text to report back, try making some changes.
+                            <ul>
+                                <li>What happens if you change one bit?</li>
+                                <li>What happens if you add a bit somewhere in the middle of the sequence?</li>
+                                <li>What happens if you add a bit at the beginning?</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+        
+        <div class="todo">Something about sequences can be used for images and for text... --MF, 12/6/17</div>
+        
+        <div class="forYouToDo">
+			<ol start="4">
+	            <div class="sidenote">You can experiment with the second and third inputs if you like.</div>
+                <li>Go back to the exported output.txt file and copy your original binary sequence again. Paste it into the <code>translate binary sequence to B&amp;W image</code> block and run the block. You are not likely to see anything meaningful. Why not?</li>
+                <li>
+                    Try this binary sequence in <code>translate binary sequence to B&amp;W image</code> with the second input set to <var>14</var> pixels wide:<br />
+                    <div class="sidenote">Double-click the binary sequence to select it all at once.</div>
+                    <p class="indent"><code class="break">00000110000000000001000110000000010000000000001100100110000011111111000001100111100000010010110011000111001111100000100110110000000001000000000000110000000000111000000011000100011000010000000100000110000110000000111111000000</code><br /></p>
+                    You should see a meaningful image. What is it? 
+                </li>
+                <li>What do you get if you translate the binary sequence that gives that meaningful image into text?</li>
+			</ol>
+		</div>
+        
+        <div class="todo">Need some sumarizing commentary. --MF, 12/6/17</div>
+		
+        
+        <div class="todo">This next section just leaves us hanging? What's the answer?</div>
+		<p>So if pictures, music, and words all look the same in memory—all binary sequences—how can the computer tell what any chunk of memory actually is? For example, should the sequence 01000001 be interpreted as the number 65, the letter A, a rather dark shade of red, or something else?</p>
         
         <div class="todo">
         	I'm assuming that the next three paragraphs are meant to satisfy some requirement, but it's not clear to me what EKs are involved.  For example, does the discussion of high level languages in the second paragraph below give us something not in the earlier discussion on 6.1.3? -bh<br />
@@ -70,14 +165,14 @@
         </div>
         
 
-        <h3>Sizes</h3>
-        <p> Here are a few rough examples of what kind of data would fit in how much memory:</p>
         <div class="endnote">
+            <h3>Sizes</h3>
+            <p> Here are a few rough examples of what kind of data would fit in how much memory:</p>
             <table class="byte indent">
                 <tr>
-                    <td><strong>measure</strong></td>
-                    <td style="width:300px;"><strong>amount</strong></td>
-                    <td style="width:300px;"><strong>example</strong></td>
+                    <th scope="col">measure</th>
+                    <th scope="col" style="width:300px;">amount</th>
+                    <th scope="col" style="width:300px;">example</th>
                 </tr>
                 <tr>
                     <td>bit</td>
@@ -120,11 +215,8 @@
                     <td>about 20% of all the words ever spoken by humankind</td>
                 </tr>
             </table>
-As we write this in 2017, it's common to have a terabyte disk drive on your desk. Web services deal with petabytes or exabytes of data. 
-        </div>
-        
-        <div class="endnote">
-            <a href="#hint-target" data-toggle="collapse">Where do these prefixes like "tera-" and "peta-" come from?</a>
+            <p>As we write this in 2017, it's common to have a terabyte disk drive on your desk. Web services deal with petabytes or exabytes of data.</p>
+            <p><a href="#hint-target" data-toggle="collapse">Where do these prefixes like "tera-" and "peta-" come from?</a></p>
             <div id="hint-target" class="collapse">
                 <p>When we write big numbers, we put commas every three digits (counting from the right). Each group of three has a name: thousand, million, billion, and so on. So, the number 1,234,567,890 is pronounced "one billion, 234 million, 567 thousand, 890." Those group names ("thousand" and so on) also have prefix names used in metric measurements:</p>
                 <table class="byte indent" width="600px">
@@ -202,7 +294,8 @@ As we write this in 2017, it's common to have a terabyte disk drive on your desk
                         <td>1/1,000,000,000,000,000,000</td>
                     </tr>
                 </table>
-The fractional names are used to measure times in the computer, such as a nanosecond memory access time, or distances between wires on a chip, which are measured in nanometers.            </div>
+				The fractional names are used to measure times in the computer, such as a nanosecond memory access time, or distances between wires on a chip, which are measured in nanometers.
+            </div>
         </div>
     <!--<p>Exactly how much data fits on a terabyte disk? If it were a terabyte of main memory inside the computer, it would be 2<sup>40</sup>or 1,099,511,627,776 bytes (about 1.1 trillion). But disk drive manufacturers measure sizes in powers of ten, not powers of two, so a terabyte of <em>disk</em> is exactly one trillion bytes — 10% smaller than the same amount of memory.</p>
 
@@ -214,11 +307,15 @@ The fractional names are used to measure times in the computer, such as a nanose
       <p>Yet another standards group, the International Electrotechnical Commission, has established a different set of prefixes for things measured in powers of two. Each of these is the first two letters of a metric prefix, followed by "bi" for binary. So, instead of "kilo" for 10<sup>3</sup>, we're supposed to say "kibi" for 2<sup>10</sup>. Similarly, "mega" (10<sup>6</sup>) becomes "mebi" (2<sup>20</sup>), "giga" becomes "gibi," and so on.  So the memory size generally called 4GB (gigabytes) should officially be called 4GiB (gibibytes).</p>
       <p>These names are starting to appear in operating system software, but so far, nobody actually uses them in conversation (other than our colleague, Berkeley Professor Dan Garcia, who's very into them). For example, if you look very closely at the memory boards pictured above, you'll see that each of them is labelled as 512MB, not 512MiB.</p>
       </div></p></div> --->
-        <div class="forYouToDo" id="first">
-			<ol>
+        <div class="forYouToDo">
+			<ol start="7">
 				<li>
                     These questions are similar to those you will see on the AP CSP exam.
 					<!-- Question 1 -->
+                    <div class="comment">
+                        <p>I edited the feedback for the correct answer (from 0-12 to 1-12 and adding the last sentence).</p>
+                        <p>Also, I wonder about putting this question on the prior page... --MF, 12/6/17</p>
+                    </div>
                     <div class="assessment-data" type="multiplechoice" identifier="Which cannot be represented by a bit?"
                         hasinlinefeedback="true" maxchoices="1" responseIdentifier="ri1" shuffle="false">
                         <div class="prompt">Which of the following CANNOT be expressed using one bit?</div>
@@ -236,7 +333,7 @@ The fractional names are used to measure times in the computer, such as a nanose
                         </div>
                         <div class="choice" identifier="c4">
                             <div class="text">The position of the hour hand of a clock.</div>
-                            <div class="feedback">Correct.  The hour hand spans a range of values between 0 to 12 and a bit is not sufficient.</div>
+                            <div class="feedback">Correct.  The hour hand spans a range of values between 1 to 12 so one bit is not sufficient. It will actually require 4 bits.</div>
                         </div>
                         <div class="responseDeclaration" identifier="ri1">
                             <div class="correctResponse" identifier="c4"></div>
@@ -270,6 +367,21 @@ The fractional names are used to measure times in the computer, such as a nanose
                 </li>
 			</ol>
 		</div>
+        
+        <div class="ifTime">
+			<ol start="8">
+				<li>
+                	Look inside the <code>translate text to binary sequence</code> and <code>translate binary sequence to text</code> reporters. <strong>Describe how these two reporters work.</strong> There are several custom blocks inside:
+                    <ul>
+                        <li><code>pack 8-bit byte</code> takes a binary sequence of 8 vits or less and add enough zeros to the front to make a whole byte. How is this used?</li>
+                        <li><code>translate decimal to binary</code> takes a decimal value (a normal number) as input and translates it to the binary representation of that number. This block uses recursion. Why is recursion helpful here?</li>
+                        <li><code>translate text to unicode list</code> takes a text string and outputs a list of each charcter's unicode value. Why is a list output helpful here?</li>
+                    </ul>
+    			</li>
+			</ol>
+		</div>
+		
+        
 		
       
     </body>
