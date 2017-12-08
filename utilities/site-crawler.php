@@ -29,6 +29,7 @@ function crawl_for_links($input_url) {
 		foreach($html_file_lines -> find('<a') as $i => $link) {
 			$urls[$i] = $link -> href;
 		}
+		$html_file_lines->clear(); //clearing available memory per: https://www.electrictoolbox.com/php-simple-html-dom-parser-allowed-memory-exhausted/
 	} elseif (substr($input_url, -5) == "topic") {
 		// crawl for links in TOPIC pages
 		$topic_file_lines = file($input_url); // loads topic file into $topic_file_lines array
