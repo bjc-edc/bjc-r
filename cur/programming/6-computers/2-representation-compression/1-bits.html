@@ -125,8 +125,8 @@
                 <li>About how many different values can be represented in a 64-bit word? (Don't use a calculator; use the trick!)</li>
             </ol>
         </div>
-<div class="todo">
-<h3>Bytes and Characters</h3>
+        
+		<h3>Bytes and Characters</h3>
         
         <p>The main use of eight-bit bytes is to represent characters of text.</p>
 		
@@ -135,26 +135,73 @@
             	<li>How many bits do you need to represent the 26 letters  in English and the ten digits 0-9?</li>
             </ol>
         </div> 
-
+        
+        <div class="todo">Brian, I kept some of what was in your new todo wholesale, and some of it I condenced into the following two paragraphs and the sidenote. Thoughts? --MF, 12/8/17</div>
+		<div class="sidenote">The widespread use of eight-bit ASCII is the main historical reason why the eight-bit byte became standard. (Another reason is that computer circuitry can most easily deal with widths that are powers of two.)</div>
+        <div class="todo">ST-Error? else this needs explanation 26 Upper+ 26 lower + 10 digits make 62&lt;64=2<sup>6</sup>.  Why we need 7?  do you mean also negatives of the digits?<p>I added "and punctuation." --MF, 12/8/17</p></div>
+        <p>Computers used six-bit-wide character codes for many years, but to have both <em>UPPER CASE</em> and <em>lower case</em> letters and punctuation requires seven bits. The first officially recognized character encoding was the seven bit ASCII (American Standard Code for Information Interchange) character set. It included an optional eighth bit for error detection, which was taken over to include accented characters in Spanish, French, German, and some other European languages.</p>
+        
+       <div class="todo">Can we include something (like half a sentence) about how many bits Unicode uses? My mind went straight to that question because we've been so focused on bits. --MF, 12/8/17</div>
+       <p>As the use of computers and the Internet spread around the world, people wanted to be able to write Chinese, Japanese, Arabic, Kabyle, Russian, Tamil, etc. The <em>Unicode</em> character set supports about 1900 languages, using 32 modern alphabets and 107 historical alphabets that are no longer in living use. The complete Unicode character set includes 136,755 characters.</p>
+       
+<div class="todo indent">
    <!--
     <div class="endnote">
       <p>AC:  Very nice, but a digression, I think,  AC <a href="#hint-ascii" data-toggle="collapse">Click for some history about character representation.</a>
       <div id="hint-ascii" class="collapse">   -->
-        <p>So, in a pinch you could use a six-bit-wide character code, and computers did that for many years. But if you want both <em>UPPER CASE</em> and <em>lower case</em> letters, you need seven bits.<div class="todo">ST-Error? else this needs explanation 26 Upper+ 26 lower + 10 digits make 62&lt;64=2<sup>6</sup>.  Why we need 7?  do you mean also negatives of the digits?</div> The first officially recognized character encoding was the seven bit ASCII (American Standard Code for Information Interchange). It included an optional eighth bit for error detection.</p>
+        <p>So, in a pinch you could use a six-bit-wide character code, and computers did that for many years. But if you want both <em>UPPER CASE</em> and <em>lower case</em> letters, you need seven bits. The first officially recognized character encoding was the seven bit ASCII (American Standard Code for Information Interchange). It included an optional eighth bit for error detection.</p>
   <p>Note the word "American" in the name of ASCII. In the early days of computers, most of them were in the United States, where we speak a language with a very small alphabet. Speakers of Spanish, French, German, and some other European languages use basically the same Latin alphabet, but with accented characters, as in the name of the main developer of Snap<em>!</em>, Jens Mönig. (The closest English sound is the "u" in "lunch.") So European computer users took over the eighth bit to double the number of characters, to include the ones they needed.</p>
   <p>The widespread use of eight-bit ASCII is the main historical reason why the eight-bit byte became standard. (Another reason is that computer circuitry can most easily deal with widths that are powers of two.)</p>
 
 
-<p>Eight bits per character was enough space for most American and European languages, but as the use of computers and the Internet spread around the world, people naturally wanted to be able to write Chinese or Japanese or Arabic or Kabyle  or Russian or Tamil or... The <em>Unicode</em> character set supports about 1900 languages, using 32 modern alphabets and 107 historical alphabets that are no longer in living use.  The complete character set includes 136,755 characters. 
+<p>Eight bits per character was enough space for most American and European languages, but as the use of computers and the Internet spread around the world, people naturally wanted to be able to write Chinese or Japanese or Arabic or Kabyle  or Russian or Tamil or... The <em>Unicode</em> character set supports about 1900 languages, using 32 modern alphabets and 107 historical alphabets that are no longer in living use.  The complete character set includes 136,755 characters. </p>
+</div>
 
-<div class="forYouToDo">
-<ol start="9"><li>What's the minimum number of bits needed to represent any Unicode character?</li></ol></div> 
-
-  <div class="endnote">
-            <p><a href="#hint-unicode" data-toggle="collapse">
-        The actual computer representation of Unicode is complicated.</a>
-      <div id="hint-unicode" class="collapse"><p>The most straightforward representation of Unicode uses one 32-bit word per character, which is more than enough. But program developers consider that an inefficient use of computer memory, and also, a lot of old software still in use was written when eight bits per character was standard. So Unicode characters are generally represented in a <em>multi-byte</em> representation in which the original 128 ASCII characters occupy one byte, while other characters may require up to four bytes. (It's also possible in this representation to use a multi-byte sequence to tell your word processing software that until further notice you want one-byte codes to represent a specific non-Latin alphabet.)</p></div></p></div>   </div>
+        <div class="forYouToDo">
+            <ol start="9">
+            	<li>What's the minimum number of bits needed to represent any Unicode character?</li>
+                <li>
+                	This question is similar to those you will see on the AP CSP exam.
+					<!-- Question 1 -->
+                    <div class="comment">
+                        <p>I edited the feedback for the correct answer (from 0-12 to 1-12 and adding the last sentence). --MF, 12/6/17</p>
+                    </div>
+                    <div class="assessment-data" type="multiplechoice" identifier="Which cannot be represented by a bit?"
+                        hasinlinefeedback="true" maxchoices="1" responseIdentifier="ri1" shuffle="false">
+                        <div class="prompt">Which of the following CANNOT be expressed using one bit?</div>
+                        <div class="choice" identifier="c1">
+                            <div class="text">The state of an ON/OFF switch</div>
+                            <div class="feedback">This has two possible states so a single bit is enough.</div>
+                        </div>
+                        <div class="choice" identifier="c2">
+                            <div class="text">The value of a Boolean variable</div>
+                            <div class="feedback">This has two possible values TRUE/FALSE, so a single bit is enough.</div>
+                        </div>
+                        <div class="choice" identifier="c3">
+                            <div class="text">The remainder when dividing a positive integer by 2</div>
+                            <div class="feedback">There are two possible remainders 0 or 1, so a single bit is enough.</div>
+                        </div>
+                        <div class="choice" identifier="c4">
+                            <div class="text">The position of the hour hand of a clock</div>
+                            <div class="feedback">Correct.  The hour hand spans a range of values between 1 to 12 so one bit is not sufficient. It will actually require 4 bits.</div>
+                        </div>
+                        <div class="responseDeclaration" identifier="ri1">
+                            <div class="correctResponse" identifier="c4"></div>
+                        </div>
+                    </div>
+				</li>
+            </ol>
+        </div> 
+        
+        <div class="endnote">
+            <a href="#hint-unicode" data-toggle="collapse">The actual computer representation of Unicode is complicated.</a>
+            <div id="hint-unicode" class="collapse">
+            	<p>The most straightforward representation of Unicode uses one 32-bit word per character, which is more than enough. But program developers consider that an inefficient use of computer memory, and also, a lot of old software still in use was written when eight bits per character was standard. So Unicode characters are generally represented in a <em>multi-byte</em> representation in which the original 128 ASCII characters occupy one byte, while other characters may require up to four bytes. (It's also possible in this representation to use a multi-byte sequence to tell your word processing software that until further notice you want one-byte codes to represent a specific non-Latin alphabet.)</p>
+            </div>
+        </div> 
+        
+          
 		
       
-</body>
+	</body>
 </html>
