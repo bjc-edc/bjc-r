@@ -18,13 +18,11 @@
         </div>
         
         <div class="learn">
-        	<div class="comment">New "On this page." OK? --MF, 12/6/17</div>
         	<p><strong>In this lab,</strong> you will explore how different kinds of information are represented in a computer.</p>
-        	<p><strong>On this page,</strong> you will learn about a central idea: <em>bits</em>, the basic unit of data in computing.</p> 
+        	<p><strong>On this page,</strong> you will learn about a central idea: <em>bits</em>, the basic units of data in computing.</p> 
         </div>
 
         <div class="vocab">
-            <div class="todo">pulled to side because it is clear enough in the text.</div>
             <p>A <strong>bit</strong> is a single unit of data that can only have one of two values. We usually represent the two values as "0" and "1."</p>
         </div>
 
@@ -38,35 +36,34 @@
                 <li>...and many more</li>
             </ul>
         </p>
-        <p>But what if the traffic light also needs a yellow value?  It's tempting to say that, for example, 0 volts on the wire means red, 1 volt means yellow, and 2 volts means green.  But then we would have all the problems of electrical noise that the digital abstraction was designed to avoid.</p>
-        <div class="todo">I'm wanting a little more at the end of the prior paragraph for clarity/reminder. Some students won't have seen 6.1.10. Can we say something along the lines of this: "a low or high input signal is interpreted as a clear on or off, but an in between value is too easily misinterpreted"? --MF, 12/6/17</div>
+        <p>But what if the traffic light also needs a yellow value?  It's tempting to say that, for example, 0 volts on the wire means red, 1 volt means yellow, and 2 volts means green.  But then we would have all the problems of electrical noise that the digital abstraction was designed to avoid: a low or high input signal is interpreted as a clear on or off, but an in between value is too easily misinterpreted. (See <a href="/bjc-r/cur/programming/6-computers/1-abstraction/10-analog.html?topic=nyc_bjc%2F6-how-computers-work.topic&course=bjc4nyc.html&novideo&noassignment">Unit 6, Lab 1: The Analog Domain: Transistors</a>.)</p>
 		
         <p>
             Instead, we <em>use more than one bit</em> if we need to represent more than two possible values.  So, for the traffic light, we could use two bits:
-            <table frame="box" rules="all" width="400px" align="center" >
+            <table class="byte indent" width="300px" align="center" >
                 <tr>
                     <th scope="col">first bit</th>
                     <th scope="col">second bit</th>
                     <th scope="col">meaning</th>
                 </tr>
                 <tr>
-                    <td align="right">0&nbsp;</td>
-                    <td>&nbsp;0</td>
+                    <td style="text-align:right;">0&nbsp;</td>
+                    <td style="text-align:left;">&nbsp;0</td>
                     <td>&nbsp;red</td>
                 </tr>
                 <tr>
-                    <td align="right">0&nbsp;</td>
-                    <td>&nbsp;1</td>
+                    <td style="text-align:right;">0&nbsp;</td>
+                    <td style="text-align:left;">&nbsp;1</td>
                     <td>&nbsp;yellow</td>
                 </tr>
                 <tr>
-                    <td align="right">1&nbsp;</td>
-                    <td>&nbsp;0</td>
+                    <td style="text-align:right;">1&nbsp;</td>
+                    <td style="text-align:left;">&nbsp;0</td>
                     <td>&nbsp;green</td>
                 </tr>
                 <tr>
-                    <td align="right">1&nbsp;</td>
-                    <td>&nbsp;1</td>
+                    <td style="text-align:right;">1&nbsp;</td>
+                    <td style="text-align:left;">&nbsp;1</td>
                     <td>&nbsp;&nbsp;&nbsp;(unused)</td>
                 </tr>
             </table>
@@ -90,14 +87,13 @@
             </ol>
         </div>
         
-        <div class="vocab">
-            <div class="todo">These are not useful because they just repeat what's in the text. Can we rephrase? --MF, 12/6/17</div>
+        <div class="vocabBig">
             <p>A <strong>byte</strong> is eight bits.</p>
-            <p>A <strong>word</strong> is 32 or 64 bits.</p>
+            <p>A <strong>word</strong> is the number of wires that connect the processor to the memory. As of 2017, words can be are 32 or 64 bits.</p>
         </div>
-        <p>Bits aren't expensive, but what <em>is</em> expensive is the circuitry to let the programmer use exactly the smallest number of bits for a particular problem.</p>
+        <p>Bits aren't expensive, but what <em>is</em> expensive is the circuitry to let the programmer use exactly the smallest number of bits for a particular problem. 
 
-<div class="todo">
+<!--
         <div class="endnote">
             <p><a href="#hint-ldb" data-toggle="collapse">Some old computers did allow that.</a>
           <div id="hint-ldb" class="collapse">The PDP-10, that big blue computer you saw in Lab 1, had
@@ -110,13 +106,11 @@
  <p>          
             
  </div>  <!-- AC --> 
-	<div class="todo">The sentence above this doesn't quite fit. Do we need it? Could it be in a yellow box? If we keep it, we need some kind of transition into the next part. My preference would be a sidenoteBig between #1-3 and #4-6. --MF, 12/6/17</div>
-		<p>Modern computers generally allow memory allocation in two sizes: the <strong>byte</strong>, which is standardized at eight bits, and the <strong>word</strong>, which is defined by the number of wires that connect the processor to the memory. As of 2017, words can be 32 bits or 64 bits wide.</p>
+		Instead, modern computers generally allow memory allocation in only two sizes: the <strong>byte</strong>, which is standardized at eight bits, and the <strong>word</strong>, which is defined by the number of wires that connect the processor to the memory. As of 2017, words can be 32 bits or 64 bits wide.</p>
         <div class="takeNote">
             <div class="sidenote">The exact answer for 32 bits is 4,294,967,296 so this approximation is pretty close.   </div>
             <p>How many distinct values can be represented in 32 bits? You don't have to memorize the answer, because you can quickly approximate it using the fact that 2<sup><small>10</small></sup> = 1024, which is about 1000. This means that every ten bits of width multiplies the number of values that can be represented by about 1000. So, 10 bits allows about a thousand values, 20 bits is about a million values, 30 bits is about a billion, and 32 bits allows over four billion values (because we double the billion two more times for the difference between 30 and 32).</p>
             <p>You might find this trick helpful on the AP exam.</p>
-            <div class="todo">True? --MF, 12/6/17</div>
 		</div>  
         <p>Four billion values sounds like it ought to be enough, but it's not if you're an astronomer or a banker (or Google or Facebook). And you learned in Unit 4 that 32 bits are not enough to give every computer an Internet address.  That's why we now have 64-bit computers. </p>
         
@@ -136,36 +130,29 @@
             </ol>
         </div> 
         
-        <div class="todo">Brian, I kept some of what was in your new todo wholesale, and some of it I condenced into the following two paragraphs and the sidenote. Thoughts? --MF, 12/8/17</div>
 		<div class="sidenote">The widespread use of eight-bit ASCII is the main historical reason why the eight-bit byte became standard. (Another reason is that computer circuitry can most easily deal with widths that are powers of two.)</div>
-        <div class="todo">ST-Error? else this needs explanation 26 Upper+ 26 lower + 10 digits make 62&lt;64=2<sup>6</sup>.  Why we need 7?  do you mean also negatives of the digits?<p>I added "and punctuation." --MF, 12/8/17</p></div>
-        <p>Computers used six-bit-wide character codes for many years, but to have both <em>UPPER CASE</em> and <em>lower case</em> letters and punctuation requires seven bits. The first officially recognized character encoding was the seven bit ASCII (American Standard Code for Information Interchange) character set. It included an optional eighth bit for error detection, which was taken over to include accented characters in Spanish, French, German, and some other European languages.</p>
+        <p>Computers used six-bit-wide character codes for many years, but to have both <em>UPPER CASE</em> and <em>lower case</em> letters and punctuation requires seven bits. The first officially recognized character encoding was the seven bit ASCII (American Standard Code for Information Interchange) character set. It included an optional eighth bit for error detection, which was taken over to include accented characters in Spanish, French, German, and some other European languages. For example, there is an accented character in the name of the main developer of Snap<em>!</em>, Jens Mönig, who is German. (The closest English sound is the "u" in "lunch.")</p>
         
-       <div class="todo">Can we include something (like half a sentence) about how many bits Unicode uses? My mind went straight to that question because we've been so focused on bits. --MF, 12/8/17</div>
        <p>As the use of computers and the Internet spread around the world, people wanted to be able to write Chinese, Japanese, Arabic, Kabyle, Russian, Tamil, etc. The <em>Unicode</em> character set supports about 1900 languages, using 32 modern alphabets and 107 historical alphabets that are no longer in living use. The complete Unicode character set includes 136,755 characters.</p>
-       
-<div class="todo indent">
-   <!--
-    <div class="endnote">
-      <p>AC:  Very nice, but a digression, I think,  AC <a href="#hint-ascii" data-toggle="collapse">Click for some history about character representation.</a>
-      <div id="hint-ascii" class="collapse">   -->
-        <p>So, in a pinch you could use a six-bit-wide character code, and computers did that for many years. But if you want both <em>UPPER CASE</em> and <em>lower case</em> letters, you need seven bits. The first officially recognized character encoding was the seven bit ASCII (American Standard Code for Information Interchange). It included an optional eighth bit for error detection.</p>
-  <p>Note the word "American" in the name of ASCII. In the early days of computers, most of them were in the United States, where we speak a language with a very small alphabet. Speakers of Spanish, French, German, and some other European languages use basically the same Latin alphabet, but with accented characters, as in the name of the main developer of Snap<em>!</em>, Jens Mönig. (The closest English sound is the "u" in "lunch.") So European computer users took over the eighth bit to double the number of characters, to include the ones they needed.</p>
-  <p>The widespread use of eight-bit ASCII is the main historical reason why the eight-bit byte became standard. (Another reason is that computer circuitry can most easily deal with widths that are powers of two.)</p>
-
-
-<p>Eight bits per character was enough space for most American and European languages, but as the use of computers and the Internet spread around the world, people naturally wanted to be able to write Chinese or Japanese or Arabic or Kabyle  or Russian or Tamil or... The <em>Unicode</em> character set supports about 1900 languages, using 32 modern alphabets and 107 historical alphabets that are no longer in living use.  The complete character set includes 136,755 characters. </p>
-</div>
 
         <div class="forYouToDo">
             <ol start="9">
             	<li>What's the minimum number of bits needed to represent any Unicode character?</li>
-                <li>
+            </ol>
+        </div>
+        
+        <div class="endnote">
+            <a href="#hint-unicode" data-toggle="collapse">The <em>actual</em> computer representation of Unicode is complicated.</a>
+            <div id="hint-unicode" class="collapse">
+            	<p>The most straightforward representation of Unicode uses one 32-bit word per character, which is more than enough. But program developers consider that an inefficient use of computer memory, and also, a lot of old software still in use was written when eight bits per character was standard. So Unicode characters are generally represented in a <em>multi-byte</em> representation in which the original 128 ASCII characters occupy one byte, while other characters may require up to four bytes. (It's also possible to use a multi-byte sequence to tell your word processing software that you want to use one-byte codes to represent a particular non-Latin alphabet.)</p>
+            </div>
+        </div>
+        
+        <div class="forYouToDo" id="first">
+			<ol start="10">
+	            <li>
                 	This question is similar to those you will see on the AP CSP exam.
 					<!-- Question 1 -->
-                    <div class="comment">
-                        <p>I edited the feedback for the correct answer (from 0-12 to 1-12 and adding the last sentence). --MF, 12/6/17</p>
-                    </div>
                     <div class="assessment-data" type="multiplechoice" identifier="Which cannot be represented by a bit?"
                         hasinlinefeedback="true" maxchoices="1" responseIdentifier="ri1" shuffle="false">
                         <div class="prompt">Which of the following CANNOT be expressed using one bit?</div>
@@ -193,12 +180,7 @@
             </ol>
         </div> 
         
-        <div class="endnote">
-            <a href="#hint-unicode" data-toggle="collapse">The actual computer representation of Unicode is complicated.</a>
-            <div id="hint-unicode" class="collapse">
-            	<p>The most straightforward representation of Unicode uses one 32-bit word per character, which is more than enough. But program developers consider that an inefficient use of computer memory, and also, a lot of old software still in use was written when eight bits per character was standard. So Unicode characters are generally represented in a <em>multi-byte</em> representation in which the original 128 ASCII characters occupy one byte, while other characters may require up to four bytes. (It's also possible in this representation to use a multi-byte sequence to tell your word processing software that until further notice you want one-byte codes to represent a specific non-Latin alphabet.)</p>
-            </div>
-        </div> 
+         
         
           
 		
