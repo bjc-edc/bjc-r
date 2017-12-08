@@ -90,7 +90,8 @@
 
         <h3>What's an Architecture?</h3>
         <p>The Analytical Engine (described above) was the first programmable computer architecture. The processor in the computer you are using today understands only one language, its own <em>machine language</em>&mdash;not Java, not C, not Snap<em>!</em>, not Python, nor anything else. Programs written in those other languages must first be translated into machine language.</p>
-		<div class="vocabFullWidth">
+		<p>The most important part of the architecture is the machine language, the set of ultra-low-level instructions that the hardware understands. This language is like a contract between the hardware and the software: The hardware promises to understand a set of instructions, and the software compiles programs from human-friendly language into those instructions.</p>
+	<div class="vocabFullWidth">
 			<p><strong>Machine language</strong> is the lowest-level programming language; it is directly understood by the computer hardware.</p>
             <p><strong>Architecture</strong> is an abstraction, a specification of the machine language. It also tells how the processor connects to the memory. It doesn't specify the circuitry; the same architecture can be built as circuitry in many different ways.</p>
         </div>
@@ -99,20 +100,23 @@
         <div class="endnote">        
             <a href="#hint-machine-language" data-toggle="collapse">What does machine language look like?</a>
             <div id="hint-machine-language" class="collapse">
-            	<p>The most important part of the architecture is the machine language, the set of ultra-low-level instructions that the hardware understands.  This language is like a contract between the hardware and the software: The hardware promises to understand a set of instructions, and the software compiles programs from human-friendly language into those instructions.</p>
                 <p>
-                	For example, take the Snap<em>!</em> instruction <img class="inline nopad" src="/bjc-r/img/6-computers/set-c-to-a+b.png" alt="set (c) to (a + b)" title="set (c) to (a + b)" />.  In a lower-level language such as C or Java, the same idea would be written as:<br />
+                	Consider the Snap<em>!</em> instruction <img class="inline nopad" src="/bjc-r/img/6-computers/set-c-to-a+b.png" alt="set (c) to (a + b)" title="set (c) to (a + b)" />.  In a lower-level language such as C or Java, the same idea would be written as:<br />
                     <pre >c = a+b;</pre>
-                    That simple command might be translated into six machine language instructions (slightly simplified here):<br />
+                    That simple command might be translated into <em>six</em> machine language instructions (slightly simplified here):<br />
                     <pre>movq    _c, %rcx
 movq    _b, %rdx
 movq    _a, %rsi
 movl    (%rsi), %edi
 addl    (%rdx), %edi
 movl    %edi, (%rcx)</pre>
-                    This notation, called <em>assembly language</em>, is a line-by-line equivalent to the actual numeric instruction codes, but is slightly more readable.
+                    This notation, called <em>assembly language</em>, is a line-by-line equivalent to the actual numeric instruction codes but is slightly more readable.
                 </p>
-                <p>The first three instructions load the <em>addresses</em> of the three variables into registers inside the processor.  The names with percent signs, such as %rcx, refer to specific processor registers.  MOVQ is the name of a machine language instruction. (It abbreviates "move quote," which says to move a constant value into a register.  Note that <var>a</var> is a variable, but <em>the address of</em> <var>a</var> is a constant value — the variable doesn't move around in the computer's memory.)  The next instruction, MOVL ("move long"), says to move a word from one place to another.  Putting a register name in parentheses, like "(%rsi)," means to use the memory location whose address is in the register.  In this case, since the third MOVQ put the address of A into register %rsi, the first MOVL says to move the variable A from memory into a processor register.  Then the ADDL instruction says to add the variable B into that same register.  Finally, the value in register %edi is moved into the memory location containing variable C.</p>
+                <a href="#hint-assembly" data-toggle="collapse">What does that code mean?</a>
+				<div id="hint-assembly" class="collapse">
+					<p>The first three instructions load the <em>addresses</em> of the three variables into registers inside the processor.  The names with percent signs, such as <code>%rcx</code>, refer to specific processor registers.  <code>Movq</code> is the name of a machine language instruction. (It abbreviates "move quote," which says to move a constant value into a register.  Note that <var>a</var> is a variable, but <em>the address of</em> <var>a</var> is a constant value — the variable doesn't move around in the computer's memory.)</p>
+					<p>The next instruction, <code>movl</code> ("move long"), says to move a word from one place to another.  Putting a register name in parentheses, like <code>(%rsi)</code>, means to use the memory location whose address is in the register.  In this case, since the third <code>movq</code> put the address of <var>a</var> into register <code>%rsi</code>, the first <code>movl</code> says to move the variable <var>a</var> from memory into a processor register.  Then the <code>addl</code> instruction says to add the variable <var>b</var> into that same register.  Finally, the value in register <code>%edi</code> is moved into the memory location containing variable <var>c</var>.</p>
+                </div>
                 <p>You wouldn't want to have to program in this language!  And you <em>don't</em> have to; modern architectures are designed for compilers, not for human machine language programmers.</p>
             </div>
         </div>
