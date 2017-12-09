@@ -28,12 +28,12 @@
         <img class="imageRight" src="/bjc-r/img/6-computers/bjc-logo-original.png" alt="BJC logo uncompressed" title="BJC logo uncompressed" />
 		<p>This picture of the BJC logo (shown right) is 158 pixels wide and 186 pixels tall, for a total of 29,388 pixels. The BMP (bitmap) format includes each of those pixels in the picture file, at four bytes per pixel, so the file size is about 120kB.</p>
         
-    <h3>Lossless Compression</h3>
-        <p>That is an inefficient way to store the information. Think about the 158 pixels in the top row. The first 60 or so are white. Then come five pixels of yellowish orange (the top slice of the "b"). And the rest of that row are white.</p>
+		<h3>Lossless Compression</h3>
+		<p>That is an inefficient way to store the information. Think about the 158 pixels in the top row. The first 60 or so are white. Then come five pixels of yellowish orange (the top slice of the "b"). And the rest of that row is white.</p>
         <p class="indent">...<img src="/bjc-r/img/6-computers/top-row-of-pixels-in-bjc-logo.png" alt="top-row-of-pixels-in-bjc-logo">...</p>
         <p>Instead of storing all 158 pixels individually, we could compress them with <em>run-length encoding</em> and just store six values (three numbers and three colors):</p>
         
-		<div class="sidenote">Run-length encoding stores the length of each run of a single color.</div>
+        <div class="sidenote">Run-length encoding stores the length of each run of a single color.</div>
         <table class="byte indent" width="30%" summary="run length encoding for top row of BJC logo">
             <tr>
                 <th width="47%" scope="col">pixel count</th>
@@ -72,12 +72,12 @@
             </ol>
         </div>
         
-        <div class="sidenote">
+		<div class="sidenote">
         	<p><strong>Lossless compression</strong> means that <em>no</em> information is lost.</p>
         </div>
-        <p>Run-length encoding is a <strong>lossless compression</strong> format; it doesn't <em>lose</em> any information. The original picture can be reconstructed with every pixel exactly correct. But run-length encoding doesn't do well if the picture is a photograph where every pixel may be (at least slightly) different in color from its neighbors. If the length of each color run is just one pixel, both run length and color will take <em>twice</em> as much space as just storing the color of each pixel. Another lossless image format you may have heard of is PNG (Portable Network Graphics, pronounced "ping"), which uses a more complicated algorithm.</p>
+        <p>Run-length encoding is a <strong>lossless compression</strong> format; it doesn't <em>lose</em> any information. The original picture can be reconstructed with every pixel exactly correct. But run-length encoding doesn't do well if the picture is a photograph where every pixel may be (at least slightly) different in color from its neighbors. If the length of each color run is just one pixel, both run length and color will take <em>twice</em> as much space as just storing the color of each pixel. Another lossless image format you may have heard of is PNG (Portable Network Graphics, pronounced "ping").</p>
             
-        <div class="endnote">The PNG (Portable Network Graphics, pronounced "ping")  algorithm is complicated, using several different strategies depending on how  color varies in each small chunk of the image. The thing to remember is that PNG is lossless.</div>	
+        <div class="endnote">The PNG algorithm is complicated and uses several different strategies depending on how color varies in each small chunk of the image. The thing to remember is that PNG is lossless.</div>	
     
         <h3>Lossy Compression</h3>
         
@@ -88,7 +88,7 @@
         <p><strong>Lossy compression</strong> algorithms let file sizes be even smaller, but the original picture can't be perfectly reconstructed; information is <em>lost</em>. This would be terrible if these algorithms were used to compress a computer program or a novel, but people's perception of images do not require extreme precision.</p>
         <p>The most commonly used lossy compression algorithm for pictures is called JPEG (or JPG, both pronounced "jay peg" for "Joint Photographic Experts Group," the committee that invented it). Lossy algorithms usually let you <em>control the degree of precision</em>. </p>
         <p>
-            Below are an original BMP and a highly compressed JPG of a picture measuring 256×192 pixels. Can you tell which is which?<br />
+            Below are an original, lossless BMP and a highly compressed JPG of a picture measuring 256×192 pixels. Can you tell which is which?<br />
             <!--- Notice how tiny the JPEG worst file is! It must look terrible, right? Here are  that 5kB file and the original, uncompressed BMP file. Can you tell which is which?<br /> --->
             <img class="indent" src="/bjc-r/img/6-computers/pond.bmp" alt="pond pebbles" title="pond pebbles" />
             <img src="/bjc-r/img/6-computers/pond.jpg" alt="pond pebbles" title="pond pebbles" />
@@ -110,11 +110,11 @@
                     <td>106 kB</td>
                 </tr>
                 <tr>
-                    <td style="text-align: left;">JPEG at highest compression</td>
+                    <td style="text-align: left;">JPEG with least compression</td>
                     <td>94 kB</td>
                 </tr>
                 <tr>
-                    <td style="text-align: left;">JPEG at lowest compression (shown above)</td>
+                    <td style="text-align: left;">JPEG with most compression (shown above)</td>
                     <td>5 kB</td>
                 </tr>
             </table>
@@ -126,7 +126,7 @@
             <img class="indent noshadow" src="/bjc-r/img/6-computers/bjc-logo-jpeg-best.jpg" alt="BJC logo, JPEG best">
             <img class="indent noshadow" src="/bjc-r/img/6-computers/bjc-logo-jpeg-worst.jpg" alt="BJC logo, JPEG worst"><br>
             The "best" one isn't too bad, but if you zoom in you can see "jaggies": a stairstep effect at the edges of the letters.  The "worst" one has even worse jaggies, wrong colors in the B, and bits of fuzz in what should be the transparent areas near the letters.
-    </p>
+		</p>
         
         <div class="todo">I see the same jaggies in the "best" one here as I do in the image at the top off the page. That's confusing. --MF, 12/8/17</div>-->
 		
@@ -135,10 +135,12 @@
             <p><strong>Lossy</strong> compression (like JPG) is <em>not</em> fully reversible; you can only reconstruct an <em>approximation</em> of the original data. It works by removing details that people aren't likely to notice. </p>
         </div>
         <div class="todo">BH idea: We could do a FYTD where they have to run-length encode/decode something. Maybe even encoding/decoding images in Snap. --MF, 11/8/17</div>
+        
+        <h3>Abstraction and Security</h3>
         <p>Something like a picture file is an abstraction built on other abstractions. For example, a file is an abstraction. Also, you can include a picture in an email or text message, in which case, the <em>message</em> includes a <em>picture</em>, which is a kind of <em>file</em>, which is a kind of <em>bitstream</em>.</p>
         <div class="comment">EK 3.3.1F Security and privacy concerns arise with data containing personal information.<br />
         EK 3.3.1B Security concerns engender trade-offs in storing and transmitting information.</div>
-        <p>In Unit 1, Lab 4, you learned about privacy. If you post a picture of you and your friends to a website, you are making information public about where you were and what you were doing, which may violate both your own privacy and that of your friends. Also, if your phone is lost or stolen, someone else might get access to pictures you thought were private. That's why data on cellphones is normally encrypted so that it can't be recovered without your password. Having to type your password is an example of a trade-off between convenience and security.</p>
+        <p>In Unit 1, Lab 4, you learned about privacy. If you post a picture of you and your friends to a website, you are making information public about where you were and what you were doing, which may violate both your own privacy and that of your friends. Also, if your phone is lost or stolen, someone else might get access to pictures you thought were private. That's why data on cell phones is normally encrypted so that it can't be recovered without your password. Having to type your password is an example of a trade-off between convenience and security.</p>
 
         <div class="forYouToDo">
 			<ol start="2">
@@ -147,7 +149,7 @@
                     <!-- Question 1 -->
                     <div class="assessment-data" type="multiplechoice" identifier="Which is NOT an explanation of low image quality?"
                         hasinlinefeedback="true" maxchoices="1" responseIdentifier="ri1" shuffle="false">
-                        <div class="prompt">A film student is recording a movie on his laptop. When the recording is done, he decides to save a copy on his computer. The student then notices that the saved copy is of much lower image quality than the original. Which of the following could NOT be a possible explanation for the lower image quality?</div>
+                        <div class="prompt">A film student is recording a movie on his smartphone. When the recording is done, he decides to save a copy on his computer. The student then notices that the saved copy is of much lower image quality than the original. Which of the following could NOT be a possible explanation for the lower image quality?</div>
                         <div class="choice" identifier="c1">
                             <div class="text">The movie was saved using fewer bits per second than the original movie.</div>
                             <div class="feedback">This is likely what happened.</div>
@@ -172,7 +174,7 @@
                     <!-- Question 2 -->
                     <div class="assessment-data" type="multiplechoice" identifier="Which are examples of lossless transformation?"
                         hasinlinefeedback="true" maxchoices="2" responseIdentifier="ri2" shuffle="true">
-                        <div class="prompt">Red, green, and blue values (an RGB triplet) are used to represent each individual pixel of a digital image. In a lossless transformation of the image, no information is lost during the transformation; the original image can be reconstructed from the transformed image.  A visual artist is processing a digital image and overwriting the original.  Which of the following describe lossless transformations of the digital image from which the original image can be recovered? <em>Choose two answers.</em></div>
+                        <div class="prompt">A visual artist is processing a digital image and overwriting the original.  Which of the following describe <strong>lossless</strong> transformations of the digital image from which the original image can be recovered? <em>Choose two answers.</em></div>
                         <div class="choice" identifier="c1">
                             <div class="text">Creating the negative of an image, where colors are reversed and dark areas appear light.</div>
                             <div class="feedback">Correct. This transformation is reversible and is an example of a lossless transformation.</div>
@@ -182,8 +184,8 @@
                             <div class="feedback">The blurring blends colors at the edges of the image and once colors have blended it is impossible to retrieve the original RGB values of the pixels involved.</div>
                         </div>
                         <div class="choice" identifier="c3">
-                            <div class="text">Creating a gray scale copy of an image.</div>
-                            <div class="feedback">The gray scale of an image replaces each RGB value with their average and once colors have been averaged it is impossible to retrieve the original RGB values of the pixels.</div>
+                            <div class="text">Creating a grayscale copy of an image.</div>
+                            <div class="feedback">The grayscale of an image replaces each RGB value with their average and once colors have been averaged it is impossible to retrieve the original RGB values of the pixels.</div>
                         </div>
                         <div class="choice" identifier="c4">
                             <div class="text">Creating a vertically flipped copy of the image.</div>
