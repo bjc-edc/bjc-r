@@ -9,13 +9,30 @@
 
 	<body>
 		<h2>Lab 1: Computer Abstraction Hierarchy</h2>
-		<p>People mostly take for granted the enormous behind-the-curtain mechanism that allows their favorite apps to work. Unit 4 gave a first glimpse at that mechanism for apps that rely on the Internet,  with an abstraction hierarchy that includes application protocols, TCP, IP, and link layer (hardware interface) protocols. There are even more levels of abstraction inside your local computer. The purpose of this lab is to tour the levels of abstraction, from high (application programs) to low (transistors).</p>
-		<p>Why tour that whole range? Most computer engineers specialize in one level of abstraction, spending their entire careers  at that level. But the engineers who really change the nature of the technology are always aware of the latest developments at  levels above and below their own work, because those other levels exert pressure on the design of any individual level.</p>
-		<p>An example. At the start of the 1970s, computer architectures were mostly designed to provide a  large and flexible set of machine language instructions. By the end of the decade, instruction sets were  smaller and simpler. Why? Two reasons. <strong>Pressure from above.</strong> In the early '70s, a lot of programming was done by human programmers writing machine language (using  assembly language notation). By the end of the decade, compiler technology had improved enough for pretty much everyone to trust compilers to produce efficient programs. For a compiler, simple instruction sets make it easier to optimize programs. <strong>Pressure from below.</strong> In the early '70s,  processor circuitry   was much faster than the computer's memory,  so it made sense to get as much computation as possible out of each instruction loaded from memory. By the end of the decade, multilevel cache memory technology made memory references  about as fast as processor cycles, so the way to make programs  efficient was to load instructions  from memory as fast as possible, each instruction doing only as much computational work as can fit before the next instruction arrives.</p>
-		<p>The details of this example aren't important for you or your students to learn; the point of the story is to motivate you in familiarizing students with the entire hierarchy from top to bottom.</p>
-		<p>Not all abstraction levels are equally important. We single out two: the <em>software abstraction</em> that allows a computer to solve different problems without having to be physically rewired for each one, and the <em>digital abstraction</em> that allows hardware designers to pretend that a transistor is always either fully on or fully off.</p> 
+		<p>People mostly take for granted the enormous behind-the-curtain technology that allows their favorite apps to work. Unit 4 gave a first glimpse at that technology for apps that rely on the Internet, with an abstraction hierarchy that includes application protocols, TCP, IP, and link layer (hardware interface) protocols. There are even more levels of abstraction <em>inside</em> your computer. The purpose of this lab is to tour these levels of abstraction, from high (application programs) to low (transistors).</p>
+        <div class="comment">Some of this has been pulled up from the tip sections below because I think it's relevant to the whole lab. --MF, 12/12/17</div>
+        <p>
+        	Keep this entire lab light. Throughout the lab, there's much that can be expanded; the Programming Languages page, in particular, fills <em>an entire semester course</em> for college computer science students, but your students need just the overview. Some students will want more, so additional interesting information is tucked away in optional reading sections that hide detail that's not needed for the AP exam but may appeal to student curiosity, like this:
+			<div class="endnote">
+                <a href="#hint-why" data-toggle="collapse">Why tour that whole range of abstraction?</a>
+                <div id="hint-why" class="collapse">
+                    <p>Most computer engineers specialize in one level of abstraction, spending their entire careers  at that level. But the engineers who really change the nature of the technology are always aware of the latest developments at  levels above and below their own work, because those other levels exert pressure on the design of any individual level.</p>
+                    <p>
+                        For example at the start of the 1970s, computer architectures were mostly designed to provide a  large and flexible set of machine language instructions. By the end of the decade, instruction sets were  smaller and simpler. Why? Two reasons:
+                        <ul>
+                            <li><strong>Pressure from above.</strong> In the early '70s, a lot of programming was done by human programmers writing machine language (using  assembly language notation). By the end of the decade, compiler technology had improved enough for pretty much everyone to trust compilers to produce efficient programs. For a compiler, simple instruction sets make it easier to optimize programs.</li>
+                            <li><strong>Pressure from below.</strong> In the early '70s,  processor circuitry was much faster than the computer's memory,  so it made sense to get as much computation as possible out of each instruction loaded from memory. By the end of the decade, multilevel cache memory technology made memory references  about as fast as processor cycles, so the way to make programs  efficient was to load instructions  from memory as fast as possible, each instruction doing only as much computational work as can fit before the next instruction arrives.</li>
+                        </ul>
+                    </p>
+                    <p>The details of this example aren't important for you or your students to learn; the point of the story is to motivate you in familiarizing students with the entire hierarchy from top to bottom.</p>
+                </div>
+			</div>
+        </p>
+        <p>Not all abstraction levels are equally important. We single out two: the <em>software abstraction</em> that allows a computer to solve different problems without having to be physically rewired for each one, and the <em>digital abstraction</em> that allows hardware designers to pretend that a transistor is always either fully on or fully off.</p> 
+        <div class="commentBig">FOR NEXT YEAR: The abstraction commentary about "nuanced meanings" should really appear earlier in the year. We should change the next year, and what remains here should just be a nod to that ongoing discussion. --MF, 11/21/17 (with Brian)</div>
+        <p>Abstraction has many nuanced meanings in computer science. At the end of each page that deals with abstraction, ask students, "What does abstraction mean on this page?" and consider keeping a running log.</p>
         
-        <h3>Pacing</h3>
+    <h3>Pacing</h3>
 		<div>
 			The 7 required lab pages could be split across 3-7 days (<strong>140-280 minutes</strong>). Expected times to complete follow:
 			<ul>
@@ -24,7 +41,6 @@
                 <li>30-60 minutes (about 1 class period) on <a href="/bjc-r/cur/programming/6-computers/1-abstraction/03-software-languages.html?topic=nyc_bjc%2F6-how-computers-work.topic&course=bjc4nyc.html&novideo&noassignment">The Software Domain: Programming Languages</a></li>
                 <li>30-60 minutes (about 1 class period) on <a href="/bjc-r/cur/programming/6-computers/1-abstraction/04-software-libraries.html?topic=nyc_bjc%2F6-how-computers-work.topic&course=bjc4nyc.html&novideo&noassignment">The Software Domain: Libraries</a></li>
                 <li>15-30 minutes (&lt;1 class period) on <a href="/bjc-r/cur/programming/6-computers/1-abstraction/05-software-OS.html?topic=nyc_bjc%2F6-how-computers-work.topic&course=bjc4nyc.html&novideo&noassignment">The Software Domain: Operating Systems</a> *</li>
-                <div class="commentBig">I'm still worried about the amount of reading on the Architecture page (even just the non-yellow reading; the yellow reading is downright excessive). What if everything in the "The Stored Program Computer" section was yellow? --MF, 12/6/17</div>
                 <li>15-30 minutes (&lt;1 class periods) on <a href="/bjc-r/cur/programming/6-computers/1-abstraction/06-digital-architecture.html?topic=nyc_bjc%2F6-how-computers-work.topic&course=bjc4nyc.html&novideo&noassignment">The Digital Domain: Architecture</a></li>
                 <li>10-20 minutes (&lt;1 class period) on <a href="/bjc-r/cur/programming/6-computers/1-abstraction/07-digital-components.html?topic=nyc_bjc%2F6-how-computers-work.topic&course=bjc4nyc.html&novideo&noassignment">The Digital Domain: Components</a></li>
                 <li>25-50 minutes (about 1 class period) on <a href="/bjc-r/cur/programming/6-computers/1-abstraction/08-digital-IC.html?topic=nyc_bjc%2F6-how-computers-work.topic&course=bjc4nyc.html&novideo&noassignment">The Digital Domain: Integrated Circuits</a> *</li>
@@ -36,18 +52,25 @@
         <div w3-include-html="/bjc-r/utilities/includes/asterisk.txt"></div><script>w3.includeHTML();</script>
 
 		<h3>Prepare</h3>
-		<div>
-			<ul>
-                <li>To leave  you free to choose, the ideal introduction to this unit  is not mentioned in the student materials, but it's exciting and instructive  for students in groups to take apart an actual  (<em>old</em>) computer.  (Preferably, one  per four students or so, but even just one computer with the whole class watching is still  great.) You don't need a <em>working</em> computer, but working is better; the thrill when they put it back together and it still works is fantastically motivating. In most places, it's no longer legal to dump old computers in the garbage, so nonworking computers can often be obtained free from   recycling centers. Working  antiques (i.e., over ten years old) can be bought very cheaply at used computer stores or    recycling centers. If your school is buying new computers,  you may be able to grab  old ones before they leave the building.</li>
-                <li><a href="http://www.ifixit.com" target="_blank">ifixit.com</a> is one good source of teardown guides, such as this example: <a href="https://www.ifixit.com/Teardown/Compaq+Deskpro+EN+Teardown/55804" target="_blank">https://www.ifixit.com/Teardown/Compaq+Deskpro+EN+Teardown/55804</a>. You can perhaps find one specifically for the particular model of old computer you salvaged. It doesn't have to be on their site; just do a web search for your computer model and the word "teardown."</li>
-                <li>Safety guide.</li>
-                <ul>
-                <li><em><strong>Do not tear down a laptop</strong></em> the first time you try this activity. Laptops are very dense, and parts are often held together with glue. People do tear down laptops and even get them working again, but get some experience with desktop/tower computers first. Also, laptop batteries have been known to catch fire.</li>
-                <li><em><strong>Do not tear down a cell phone in class ever.</strong></em> Besides sharing all the problems of laptops, they have highly explosive and flammable batteries. </li>
-                <li><em><strong>Grounding. </strong></em>If you want the computer to work afterward, whoever works on the electronics should be grounded before opening the case. This is to protect the <em>electronics</em>; the <em>person</em> is safe with or without grounding. Pros use a metal strap wrapped around their wrist with a wire clamped to a water pipe. Or, touching the metal frame of any grounded object—one that has a three-prong power cord (and is plugged in)—will do. Look up "grounding  while working on a computer" to learn more.</li> 
-                </ul>
-			</ul>
-	</div>
+        <div>
+            <ul>
+                <li>
+                    <strong>Hardware Teardown.</strong> The ideal introduction to this unit is not mentioned in the student materials to leave teachers free to choose, but it's exciting and instructive for students in groups to take apart an actual (<em>old</em>) computer.
+                    <ul>
+                        <li>Materials: Preferably, one computer per four students or so, but even just one computer with the whole class watching is still  great. You don't need a <em>working</em> computer, but working is better; the thrill when they put it back together and it still works is fantastically motivating. In most places, it's no longer legal to dump old computers in the garbage, so nonworking computers can often be obtained free from recycling centers. Working  antiques (i.e., over ten years old) can be bought very cheaply at used computer stores or recycling centers. If your school is buying new computers,  you may be able to grab  old ones before they leave the building.</li>
+                        <li>Instructions: <a href="http://www.ifixit.com" target="_blank">ifixit.com</a> is one good source of teardown guides, such as this example: <a href="https://www.ifixit.com/Teardown/Compaq+Deskpro+EN+Teardown/55804" target="_blank">Compaq Deskpro EN Teardown</a>. You can perhaps find one specifically for the particular model of old computer you salvaged. It doesn't have to be on their site; just do a web search for your computer model and the word "teardown."</li>
+                        <li>
+                            Safety:
+                            <ul>
+                                <li><em><strong>Do not tear down a laptop</strong></em> the first time you try this activity. Laptops are very dense, and parts are often held together with glue. People do tear down laptops and even get them working again, but get some experience with desktop/tower computers first. Also, laptop batteries have been known to catch fire.</li>
+                                <li><em><strong>Do not tear down a cell phone in class ever.</strong></em> Besides sharing all the problems of laptops, they have highly explosive and flammable batteries. </li>
+                                <li><em><strong>Grounding. </strong></em>If you want the computer to work afterward, whoever works on the electronics should be grounded before opening the case. This is to protect the <em>electronics</em>; the person is safe with or without grounding. Pros use a metal strap wrapped around their wrist with a wire clamped to a water pipe. Touching the metal frame of any grounded object&mdash;one that has a three-prong power cord (and is plugged in)&mdash;will do. Look up "grounding while working on a computer" to learn more.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
 
 
 		<h3>Lab Pages</h3>
@@ -57,7 +80,6 @@
 					<strong>Page 1: Abstraction Inside the Computer.</strong>
 					<ul>
 						<img class="imageRight noshadow" src="/bjc-r/img/6-computers/hardware-abstraction.png" alt="diagram of computer abstraction hierarchy showing three levels of decreasing abstraction: software domain (including applications, programming languages, libraries, and operating systems), digital domain (including architecture, components, integrated circuits, and logic gates), and analog domain (including transistors); there is a dividing line between the software and digital domains labeled 'program abstraction barrier' and a dividing line between the digital and analog domains labeled 'digital abstraction barrier;' there is a vertical double-headed arrow on the right indicating that the items listed first on the list (and their sub-lists) have a 'high level of abstraction' and those lower on the list have a 'low level of abstraction'" title="diagram of computer abstraction hierarchy showing three levels of decreasing abstraction: software domain (including applications, programming languages, libraries, and operating systems), digital domain (including architecture, components, integrated circuits, and logic gates), and analog domain (including transistors); there is a dividing line between the software and digital domains labeled 'program abstraction barrier' and a dividing line between the digital and analog domains labeled 'digital abstraction barrier;' there is a vertical double-headed arrow on the right indicating that the items listed first on the list (and their sub-lists) have a 'high level of abstraction' and those lower on the list have a 'low level of abstraction'" height="250"/>
-						
                         <li>
 							<strong>Learning Goals:</strong>
 							<ul>
@@ -87,8 +109,7 @@
                                         </ul>
                                     </div>
                                 </li>
-                                <div class="todo">The following abstraction commentary (about nuanced meanings below) should really appear earlier in the year. We should change the next year, and what remains here should just be a nod to that ongoing discussion. --MF, 11/21/17 (with Brian)</div>
-                                <li>Abstraction has many nuanced meanings in computer science. At the end of each page that deals with abstraction, ask students, "What does abstraction mean on this page?" and consider keeping a running log.</li>							</ul>
+							</ul>
 						</li>
 					</ul>
 				</li>
@@ -96,25 +117,16 @@
 					<strong>Page 2: The Software Domain: Applications.</strong>
 					<ul>
 						<li>
-                        <div class="todo">
-                        Selim's suggestion<br />
-                        <strong>Learning Goals:</strong>
-                        <ul>
-                        	<li>Realize that apps are not the complete story about software but rather the tip of the iceberg, supported by a huge collection of other software.</li>
-                            <li>Review what students already know about software but with an emphasis on creation rather than on consuming.</li>
-                        </ul>
-                        </div>
-                        	
-							<strong>Learning Goals:</strong>
+                        	<strong>Learning Goals:</strong>
 							<ul>
-								<li>This page is  light on technical content, mostly reviewing what students  know from experience but emphasizing <em>creating</em>  rather than just consuming.</li>
-								<li>The major point: People may see apps as the complete story about software, but  apps are the tip of the iceberg, supported by a huge collection of other software.</li>
-							</ul>
+                                <li>Understand that apps are not the complete story about software but rather the tip of the iceberg, supported by a huge collection of other software.</li>
+                                <li>Review what students already know about software but with an emphasis on <em>creating</em> rather than on consuming.</li>
+                            </ul>
 						</li>
 						<li>
 							<strong>Tips:</strong>
 							<ul>
-								<li>Here and there in the litany of software uses are bad ones: fake news, finding out your political views, malware. Don't over-emphasize these, but also don't leave the page until at least one comes up in discussion.</li>
+								<li>Here and there in the litany of software uses are bad ones: creating fake news, making public personal info such as your political views, malware. Don't over-emphasize these, but also mention at least one if one doesn't come up naturally in discussion.</li>
 								<li>Consider reading and discussing the chapter "Propaganda Machine" (pages 68–83) in <em>Weapons of Math Destruction: How big data increases inequality and threatens democracy</em> by mathematician Cathy O'Neil. It gives examples of destructive sides of "targeted advertising," and mentions a school in Brooklyn that helped expose one such destructive example.</li>
 							</ul>
 						</li>
@@ -124,26 +136,17 @@
 					<strong>Page 3: The Software Domain: Programming Languages.</strong>
 					<ul>
 						<li>
-                        <div class="todo">
-                        Selim's suggestion<br />
-                        <strong>Learning Goals:</strong>
-                        <ul>
-                        	<li>Understand that some languages are at a higher level of abstraction than others.</li>
-                            <li>Realize that in almost all situations, higher level of abstraction is better, both for safety against bugs and for ease of programming.</li>
-                            <li>Learn that all general-purpose languages are <em>equivalent</em> in the sense that an algorithm expressible in one language is expressible in any.</li>
-                        </ul>
-                        </div>
 							<strong>Learning Goals:</strong>
 							<ul>
-								<li>Some languages are at a higher level of abstraction than others.</li>
-								<li>In almost all situations, higher is better, both for safety against bugs and for ease of programming.</li>
-								<li>On the other hand, all general-purpose languages are <em>equivalent</em> in the sense that an algorithm expressible in one language is expressible in any.</li>
+                        		<li>Understand that some languages are at a higher level of abstraction than others.</li>
+                                <li>Understand that in almost all situations, a higher level of abstraction is better, both for safety against bugs and for ease of programming.</li>
+                                <li>Learn that, nevertheless, all general-purpose languages are <em>equivalent</em> in the sense that an algorithm expressible in one language is expressible in any.</li>
 							</ul>
 						</li>
 						<li>
 							<strong>Tips:</strong>
-							<ul>
-								<li>Keep this entire lab light. Throughout the lab, there's a <em>lot</em> that can be expanded—this page in particular  fills an entire semester course for college computer science students—but your students need just the overview. Some students will want more, so <strong>we use hint boxes differently here</strong> from how we use them elsewhere. Usually these boxes hide support for students who are struggling. Here, they hide  detail that's not needed for the AP exam, but may appeal to student curiosity.</li>
+							<div class="todo">I'm having trouble with this whole tip. What's the tip here? Also, the first two of these three aren't actually examples that students see in the white text, and the third is from Lab 2.</div>
+		<ul>
 								<li>There are many ways to make taxonomies of programming languages; we take abstraction as our guiding idea. The things that make one language more abstract than another are generally subtle. We tried to pick examples that are relatively easy to explain, even if students may be unfamiliar with them.
 								  <ul>
 								    <li>Automatic memory management (garbage collection) is perhaps the most important example. When it was introduced in Lisp in 1952, mainstream programmers ridiculed it as being too slow. But since it was used in Java in 1995, every new programming language has included it. Today it would be engineering malpractice to use a language that allows programmers any control over memory allocation. It's easy to make that case, because of a long history of memory management disasters in old software. </li>
@@ -159,6 +162,8 @@
 						</li>
 					</ul>
 				</li>
+                <div class="todo">Mary has reviewed up to here. --MF, 12/12/17</div>
+		
                 <li>
 					<strong>Page 4: The Software Domain: Libraries.</strong>
 					<ul>
@@ -168,7 +173,7 @@
                         <strong>Learning Goals:</strong>
                         <ul>
                         	<li>Appreciate that anyone who writes an application program is standing on the shoulders of excellent programmers who build libraries that do many of the hard parts.</li>
-                            <li>Understand that by hiding vast amounts of complexity from the programmers while providing them with versatile utility, software libaries are excellent examples of abstraction.</li>
+                            <li>Understand that by hiding vast amounts of complexity from the programmers while providing them with versatile utility, software libraries are excellent examples of abstraction.</li>
                         </ul>
                         </div>
 							<strong>Learning Goals:</strong>
@@ -299,7 +304,7 @@
                         <strong>Learning Goals:</strong>
                         <ul>
                         	<li>Realize that ICs are all about <em>miniaturization</em> and it was their invention that got us from the big-as-a-room computers to modern desktop and smaller computers.</li>
-                            <li>Consider the social implications of computing in light of the history of <em>conlict materials</em>.</li>
+                            <li>Consider the social implications of computing in light of the history of <em>conflict materials</em>.</li>
                         </ul>
                         </div>
 							<strong>Learning Goals:</strong>
