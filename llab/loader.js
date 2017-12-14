@@ -68,13 +68,11 @@ llab.paths.scripts[0].push("script/quiz/multiplechoice.js");
 
 llab.loaded['config'] = false;
 llab.loaded['library'] = false;
+llab.loaded['multiplechoice'] = false
 llab.paths.stage_complete_functions[0] = function() {
     return ( typeof jQuery === 'function' &&
         llab.loaded['config'] && llab.loaded['library'] );
 }
-
-
-
 
 
 /////////////////
@@ -88,12 +86,9 @@ llab.paths.scripts[1].push("script/topic.js");
 
 // Doing a very weird thing delaying this until stage 1
 // try to get the above files loaded faster, they only depend on jQuery.
-llab.loaded['multiplechoice'] = false
 llab.paths.stage_complete_functions[1] = function() {
     return ( llab.loaded['multiplechoice'] );
 }
-
-
 
 ////////////////////
 //////////////////// stage 2
@@ -175,10 +170,9 @@ llab.initialSetUp = function() {
                 loadScriptsAndLinks(stage_num + 1);
             }
         } else {
-            // console.log("waiting on stage " + stage_num);
             setTimeout(function() {
                 proceedWhenComplete(stage_num);
-            }, 5);
+            }, 10);
         }
     }
 };
