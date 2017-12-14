@@ -9,22 +9,14 @@
 	<body>
 		<h2>Data Compression</h2>
 		<div class="todo">
-            <p>EK 2.2.3K Lower-level abstractions can be combined to make higher level abstractions, such as short message services (SMS) or email messages, images, audio files, and videos. </p>
             <p>
-                EK 3.3.1B Security concerns engender trade-offs in storing and transmitting information.<br />
                 EK 3.3.1C There are trade offs in using lossy and lossless compression techniques for storing and transmitting data.<br />
                 EK 3.3.1D Lossless data compression reduces the number of bits stored or transmitted but allows complete reconstruction of the original data<br />
                 EK 3.3.1E Lossy data compression can significantly reduce the number of bits stored or transmitted at the cost of being able to reconstruct only an approximation of the original data.<br />
-                EK 3.3.1F Security and privacy concerns arise with data containing personal information.<br />
             </p>
-        </div>
+        </div>        
         
-		<!---<p>Beyond just representing color, there are also many ways (file formats like BMP, PNG, GIF, and JPG or JPEG) to store the picture information in long-term memory.  These formats differ in compression (more on that below) and in how the computer finds the <em>dimensions</em> of the picture (width and height, in pixels). And the application also has to know how to put the picture up on the actual screen. So application programmers use <em>graphics libraries</em> to take care of these details.</p> --->
-
-        <div class="comment"><a href="http://localhost/bjc-r/cur/programming/6-computers/old/1-hierarchy/2-storage.html" target="_blank">Mary's old version with some content she wants to discuss before abandoning.</a></div>
-        
-        
-        <div class="learn"><strong>On this page,</strong> you learn about different <em>data compression algorithms</em> used in  common picture file formats.</div>
+        <div class="learn"><strong>On this page,</strong> you learn about different <em>data compression algorithms</em>, such as the ones used in common picture file formats.</div>
         <img class="imageRight" src="/bjc-r/img/6-computers/bjc-logo-original.png" alt="BJC logo uncompressed" title="BJC logo uncompressed" />
 		<p>This picture of the BJC logo (shown right) is 158 pixels wide and 186 pixels tall, for a total of 29,388 pixels. The BMP (bitmap) format includes each of those pixels in the picture file, at four bytes per pixel, so the file size is about 120kB.</p>
         
@@ -85,13 +77,13 @@
         	<p><strong>Lossy</strong> means that <em>some</em> information is lost.</p>
         </div>
     
-        <p><strong>Lossy compression</strong> algorithms let file sizes be even smaller, but the original picture can't be perfectly reconstructed; information is <em>lost</em>. This would be terrible if these algorithms were used to compress a computer program or a novel, but people's perception of images do not require extreme precision.</p>
+        <p><strong>Lossy compression</strong> algorithms let file sizes be even smaller, but the original picture can't be perfectly reconstructed; information is <em>lost</em>. This would be terrible if these algorithms were used to compress a computer program or a novel, but people's perception of images do not require extreme precision. Similarly, sounds and movies can survive lossy compression without most people noticing.</p>
         <p>The most commonly used lossy compression algorithm for pictures is called JPEG (or JPG, both pronounced "jay peg" for "Joint Photographic Experts Group," the committee that invented it). Lossy algorithms usually let you <em>control the degree of precision</em>. </p>
         <p>
             Below are an original, lossless BMP and a highly compressed JPG of a picture measuring 256×192 pixels. Can you tell which is which?<br />
             <!--- Notice how tiny the JPEG worst file is! It must look terrible, right? Here are  that 5kB file and the original, uncompressed BMP file. Can you tell which is which?<br /> --->
-            <img class="indent" src="/bjc-r/img/6-computers/pond.bmp" alt="pond pebbles 1" title="pond pebbles 1" />
-            <img src="/bjc-r/img/6-computers/pond.jpg" alt="pond pebbles 2 -slightly blurrier" title="pond pebbles 2" />
+            <img class="indent" src="/bjc-r/img/6-computers/pond.bmp" alt="pond pebbles" title="pond pebbles" />
+            <img src="/bjc-r/img/6-computers/pond.jpg" alt="pond pebbles" title="pond pebbles" />
         </p>
                         
         <p>
@@ -120,28 +112,12 @@
             </table>
         </p>
         
-        <!--<p>
-            JPEG compression is designed for photographs; it's not so good for cartoon-like images. Here's the BJC logo in "best" and "worst" JPEG versions:<br />
-            <div class="comment">This difference is SOOO much easier for me to see than in the pebbles image above. It breaks the point we are making. I will not be the only person to see it like this. --MF, 12/8/17</div>
-            <img class="indent noshadow" src="/bjc-r/img/6-computers/bjc-logo-jpeg-best.jpg" alt="BJC logo, JPEG best">
-            <img class="indent noshadow" src="/bjc-r/img/6-computers/bjc-logo-jpeg-worst.jpg" alt="BJC logo, JPEG worst"><br>
-            The "best" one isn't too bad, but if you zoom in you can see "jaggies": a stairstep effect at the edges of the letters.  The "worst" one has even worse jaggies, wrong colors in the B, and bits of fuzz in what should be the transparent areas near the letters.
-		</p>
-        
-        <div class="todo">I see the same jaggies in the "best" one here as I do in the image at the top off the page. That's confusing. --MF, 12/8/17</div>-->
-		
         <div class="vocabFullWidth"><strong>: Lossy vs. Lossless</strong>
             <p><strong>Lossless</strong> compression (like PNG) is <em>reversible</em> (no loss in quality); you can reconstruct the original data. It works by removing redundant data.</p>
             <p><strong>Lossy</strong> compression (like JPG) is <em>not</em> fully reversible; you can only reconstruct an <em>approximation</em> of the original data. It works by removing details that people aren't likely to notice. </p>
         </div>
         <div class="todo">BH idea: We could do a FYTD where they have to run-length encode/decode something. Maybe even encoding/decoding images in Snap. --MF, 11/8/17</div>
         
-        <h3>Abstraction and Security</h3>
-        <p>Something like a picture file is an abstraction built on other abstractions. For example, a file is an abstraction. Also, you can include a picture in an email or text message, in which case, the <em>message</em> includes a <em>picture</em>, which is a kind of <em>file</em>, which is a kind of <em>bitstream</em>.</p>
-        <div class="comment">EK 3.3.1F Security and privacy concerns arise with data containing personal information.<br />
-        EK 3.3.1B Security concerns engender trade-offs in storing and transmitting information.</div>
-        <p>In Unit 1, Lab 4, you learned about privacy. If you post a picture of you and your friends to a website, you are making information public about where you were and what you were doing, which may violate both your own privacy and that of your friends. Also, if your phone is lost or stolen, someone else might get access to pictures you thought were private. That's why data on cell phones is normally encrypted so that it can't be recovered without your password. Having to type your password is an example of a trade-off between convenience and security.</p>
-
         <div class="forYouToDo">
 			<ol start="2">
 				<li>
