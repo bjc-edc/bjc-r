@@ -48,7 +48,7 @@ llab.secondarySetUp = function() {
              function: llab.mathDisplaySetup()
          }
      ]);
-     
+
      // We don't have a topic file, so we should exit.
      if (llab.file === '' || !llab.isCurriculum()) {
           return;
@@ -99,7 +99,7 @@ llab.additionalSetup = function(triggers) {
  */
 llab.codeHighlightSetup = function () {
     var cssFile, jsFile, css, js;
-    cssFile = llab.paths.css_files.syntax_highlights;
+    cssFile = llab.paths.syntax_highlighting_css;
     jsFile  = llab.paths.syntax_highlights;
     css = getTag('link', cssFile, 'text/css');
     css.rel = "stylesheet";
@@ -128,7 +128,7 @@ llab.highlightSyntax = function() {
  */
 llab.mathDisplaySetup = function () {
     var cssFile, jsFile, css, js;
-    cssFile = llab.paths.css_files.math_katex_css;
+    cssFile = llab.paths.katex_css;
     jsFile  = llab.paths.math_katex_js;
     css = getTag('link', cssFile, 'text/css');
     css.rel = "stylesheet";
@@ -377,7 +377,7 @@ if (window.location.href.slice(0,16) == "http://localhost") {
 };
 function hidedev() {
 	var devremarks = document.querySelectorAll(".todo, .comment, .commentBig");
-	for (i = 0; i < devremarks.length; i++) {				
+	for (i = 0; i < devremarks.length; i++) {
 		if (devremarks[i].style.display === "none") {
 			devremarks[i].style.display = "block";
 		} else {

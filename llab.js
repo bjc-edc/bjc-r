@@ -1,8 +1,8 @@
 if (typeof llab === 'undefined') {
-	llab = {};
-	llab.paths = {};
-	llab.paths.css_files = [];
-	llab.loaded = {};
+    llab = {};
+    llab.paths = {};
+    llab.paths.css_files = [];
+    llab.loaded = {};
 }
 
 /*
@@ -25,9 +25,6 @@ llab.llab_path = llab.rootURL + llab.install_directory;
 
 // reference your custom CSS files, from within llab install directory.
 // Multiple CSS files is fine, include a separate push for each
-// llab.paths.css_files.push('css/3.3.0/bootstrap.min.css');
-// llab.paths.css_files.push('css/3.3.0/bootstrap-theme.min.css');
-llab.paths.css_files.push('css/3.3.0/bootstrap-compiled.min.css');
 llab.paths.css_files.push('css/default.css');
 // In /bjc-r/css
 // new CSS added for new mainpage only, by Mary 1/26/16
@@ -35,10 +32,8 @@ var url = window.location.pathname;
 if (url.slice(url.search("/bjc-r/")) == "/bjc-r/" || url == "/") {
     llab.paths.css_files.push('../css/bjc-mainpage.css');
 } else {
-	llab.paths.css_files.push('../css/bjc.css');
+    llab.paths.css_files.push('../css/bjc.css');
 }
-
-
 
 
 // courses -- path to folder containing courses.
