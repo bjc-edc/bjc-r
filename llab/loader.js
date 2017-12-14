@@ -67,8 +67,10 @@ llab.paths.scripts[0].push("script/library.js");
 llab.paths.scripts[0].push("script/quiz/multiplechoice.js");
 
 llab.loaded['config'] = false;
+llab.loaded['library'] = false;
 llab.paths.stage_complete_functions[0] = function() {
-    return ( typeof jQuery === 'function' && llab.loaded['config'] );
+    return ( typeof jQuery === 'function' &&
+        llab.loaded['config'] && llab.loaded['library'] );
 }
 
 
@@ -79,11 +81,16 @@ llab.paths.stage_complete_functions[0] = function() {
 ///////////////// stage 1
 llab.paths.scripts[1] = [];
 llab.paths.scripts[1].push("lib/bootstrap.min.js");
+llab.paths.scripts[1].push("script/curriculum.js");
+llab.paths.scripts[1].push("script/course.js");
+llab.paths.scripts[1].push("script/topic.js");
 // llab.paths.scripts[1].push("script/lib/sha1.js");     // for brainstorm
 
-llab.loaded['library'] = false;
+// Doing a very weird thing delaying this until stage 1
+// try to get the above files loaded faster, they only depend on jQuery.
+llab.loaded['multiplechoice'] = false
 llab.paths.stage_complete_functions[1] = function() {
-    return ( llab.loaded['library'] );
+    return ( llab.loaded['multiplechoice'] );
 }
 
 
@@ -93,31 +100,14 @@ llab.paths.stage_complete_functions[1] = function() {
 // all these scripts depend on jquery, loaded in stage 1
 // all quiz item types should get loaded here
 llab.paths.scripts[2] = [];
-llab.paths.scripts[2].push("script/curriculum.js");
-llab.paths.scripts[2].push("script/course.js");
-llab.paths.scripts[2].push("script/topic.js");
+llab.paths.scripts[2].push("script/quiz.js");
+// llab.paths.scripts[2].push("script/brainstorm.js");
 // llab.paths.scripts[2].push("script/user.js");
 
-llab.loaded['multiplechoice'] = false;
 llab.paths.stage_complete_functions[2] = function() {
-    return ( llab.loaded['multiplechoice'] //&&
-             // llab.loaded['user']
-        );
+    return true; // && llab.loaded['user'];
 }
 
-
-////////////////
-////////////////  stage 3
-// quiz.js depends on each of the quiz item types having loaded
-// TODO: fix this.
-llab.paths.scripts[3] = [];
-llab.paths.scripts[2].push("script/quiz.js");
-// llab.paths.scripts[3].push("script/brainstorm.js");
-
-
-llab.paths.stage_complete_functions[3] = function() {
-    return true; // the last stage, no need to wait
-}
 
 //////////////
 
