@@ -54,14 +54,17 @@ llab.paths.math_katex_js = "lib/katex.min.js";
 llab.paths.katex_css = "css/katex.min.css";
 
 // CSS
-llab.paths.css_files.push('css/3.3.0/bootstrap-compiled.min.css');
+llab.paths.css_files.push('css/3.3.7/bootstrap-compiled.min.css');
 
 
 /////////////////////////
 ///////////////////////// stage 0
+// Stage 0 items can be executed with no dependences.
 llab.paths.scripts[0] = [];
 llab.paths.scripts[0].push(llab.CONFIG_FILE_PATH);
 llab.paths.scripts[0].push("lib/jquery.min.js");
+llab.paths.scripts[0].push("script/library.js");
+llab.paths.scripts[0].push("script/quiz/multiplechoice.js");
 
 llab.loaded['config'] = false;
 llab.paths.stage_complete_functions[0] = function() {
@@ -75,7 +78,7 @@ llab.paths.stage_complete_functions[0] = function() {
 /////////////////
 ///////////////// stage 1
 llab.paths.scripts[1] = [];
-llab.paths.scripts[1].push("script/library.js");
+llab.paths.scripts[1].push("lib/bootstrap.min.js");
 // llab.paths.scripts[1].push("script/lib/sha1.js");     // for brainstorm
 
 llab.loaded['library'] = false;
@@ -93,8 +96,6 @@ llab.paths.scripts[2] = [];
 llab.paths.scripts[2].push("script/curriculum.js");
 llab.paths.scripts[2].push("script/course.js");
 llab.paths.scripts[2].push("script/topic.js");
-llab.paths.scripts[2].push("script/quiz/multiplechoice.js");
-llab.paths.scripts[2].push("lib/bootstrap.min.js");
 // llab.paths.scripts[2].push("script/user.js");
 
 llab.loaded['multiplechoice'] = false;
@@ -105,16 +106,13 @@ llab.paths.stage_complete_functions[2] = function() {
 }
 
 
-
-
 ////////////////
 ////////////////  stage 3
 // quiz.js depends on each of the quiz item types having loaded
 // TODO: fix this.
 llab.paths.scripts[3] = [];
-llab.paths.scripts[3].push("script/quiz.js");
+llab.paths.scripts[2].push("script/quiz.js");
 // llab.paths.scripts[3].push("script/brainstorm.js");
-
 
 
 llab.paths.stage_complete_functions[3] = function() {

@@ -370,41 +370,37 @@ llab.setupTitle = function() {
      llab.titleSet = true;
 };
 
-// Mary's developer note toggle --MF, 11/14/17
-var addToggle = "";
-if (window.location.href.slice(0,16) == "http://localhost") {
-	addToggle = "<button class='imageRight' onclick='hidedev()'>Toggle developer todos/comments (red boxes)</button>";
-};
-function hidedev() {
-	var devremarks = document.querySelectorAll(".todo, .comment, .commentBig");
-	for (i = 0; i < devremarks.length; i++) {
-		if (devremarks[i].style.display === "none") {
-			devremarks[i].style.display = "block";
-		} else {
-			devremarks[i].style.display = "none";
-		}
-	}
+llab.toggleDevComments = function() {
+    $(".todo, .comment, .commentBig").toggle();
 };
 
 // Create the 'sticky' title header at the top of each page.
 llab.createTitleNav = function() {
-     // FIXME -- clean up!!
-     var topHTML = (
-          '<nav class="llab-nav navbar navbar-default navbar-fixed-top" role="navigation">' +
-          '<div class="nav navbar-nav navbar-left navbar-title"></div></nav>' +
-          '<div class="title-small-screen"></div>'),
-          botHTML = "<div class='full-bottom-bar'><div class='bottom-nav " +
-                           "btn-group'></div></div>",
-          navHTML = '<div class="nav navbar-nav navbar-right">' +
-                      '<ul class="nav-btns btn-group"></ul></div>',
-          topNav = $(llab.selectors.NAVSELECT),
-          buttons = "<a class='btn btn-default backbutton arrow'>back</a>" +
-                       "<a class='btn btn-default forwardbutton arrow'>next</a>";
+    var addToggle = "";
+    if (window.location.href.slice(0,16) == "http://localhost") {
+        addToggle = $('<button>').addClass('imageRight btn btn-default')
+                    .click(llab.toggleDevComments)
+                    .text('Toggle developer todos/comments (red boxes)');
+    };
 
-     if (topNav.length === 0) {
-          $(document.body).prepend(topHTML.concat(addToggle));
-          topNav = $(llab.selectors.NAVSELECT);
-          topNav.append(navHTML);
+    // FIXME -- clean up!!
+    var topHTML = (
+        '<nav class="llab-nav navbar navbar-default navbar-fixed-top" role="navigation">' +
+        '<div class="nav navbar-nav navbar-left navbar-title"></div></nav>' +
+        '<div class="title-small-screen"></div>'
+        ),
+        botHTML = "<div class='full-bottom-bar'><div class='bottom-nav btn-group'></div></div>",
+        navHTML = '<div class="nav navbar-nav navbar-right">' +
+                  '<ul class="nav-btns btn-group"></ul></div>',
+        topNav = $(llab.selectors.NAVSELECT),
+        buttons = "<a class='btn btn-default backbutton arrow'>back</a>" +
+                  "<a class='btn btn-default forwardbutton arrow'>next</a>";
+
+    if (topNav.length === 0) {
+        $(document.body).prepend(addToggle);
+        $(document.body).prepend(topHTML);
+        topNav = $(llab.selectors.NAVSELECT);
+        topNav.append(navHTML);
      }
 
      // Don't add anything else if we don't know the step...
