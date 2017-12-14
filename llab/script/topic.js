@@ -241,7 +241,7 @@ llab.displayTopic = function() {
             success : llab.renderFull
         });
     } else {
-        document.getElementsByTagName(llab.selectors.FULL).item(0).innerHTML = "Please specify a file in the URL.";
+        $(llab.selectors.FULL).text("Please specify a file in the URL.");
     }
 }
 
