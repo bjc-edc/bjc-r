@@ -28,7 +28,7 @@ In Unit 3, they made a program that can detect wins and ties, but doesn't genera
 
 <div class="forYouToDo">
 <ol>
-<li>Play part of a game, and then build and click on each of the following expressions.  Discuss with your partner what the expression does, and what algorithm it uses.  (Edit the block to remind yourself if you're not sure.)
+<li>Play part of a game, and then click on each of the following expressions.  Discuss with your partner what the expression does, and what algorithm it uses.  (Edit the block to remind yourself if you're not sure.)
   <ol type="a">
 <li><img src="/bjc-r/img/5-algorithms/ttt-wins.png" alt="TicTacToe wins"></li>
 <li><img src="/bjc-r/img/5-algorithms/status-winning-triples.png" alt="status of winning triples">
@@ -48,18 +48,18 @@ In Unit 3, they made a program that can detect wins and ties, but doesn't genera
 <li>What's the next most important rule?</li>
 <li>Can you express "If I can win on this move" in more detail, in terms of the current board position, so that you could program it into Snap<em>!</em>?</li>
 </ol></div>
-<p>The if-all-else-fails rule is "If no other rule applies, play in the best possible square: the center (square 5), if it's free, or a corner (squares 1, 3, 7, and 9) as second choice, or an edge (2, 4, 6, 8) as last resort."</p>
+<p>The if-all-else-fails rule is "If no other rule applies, play in some free square.&quot; But not all squares are equally good, so you should program a refinement: Play in the center (square 5), if it's free; or a corner (squares 1, 3, 7, and 9) as second choice; or an edge (2, 4, 6, 8) as last resort."</p>
 <div class="forYouToDo"><ol start="5">
 <li>Why is the center the best choice? Why is a corner second best? You should have a really short, logical, convincing explanation. Compare your explanation with those of other students</li>
 </ol></div>
-<p>These three rules (including the one you answered in question 3 above) are part of everyone's tic-tac-toe strategy, and they are the minimum acceptable strategy for this assignment.  Humans don't always think alike about the in-between rules; we'll make suggestions later, after you finish the minimal assignment.</p>
+<p>These three rules (if you can win on this move, do so; the one you answered in question 3 above; and the just-pick-a-square rule) are part of everyone's tic-tac-toe strategy, and they are the minimum acceptable strategy for this assignment.  But these three rules alone aren't enough to play tic-tac-toe really well. Most players develop additional rules that come after the first two but before the last-resort rule. Human players don't always think alike about those middle rules; we'll make suggestions later, after you finish the minimal assignment.</p>
 <h3>Choosing the Best Move</h3>
 <p>To simplify the project, assume that the human player will always move first (playing X). So the computer is playing O. Make a block <img src="/bjc-r/img/5-algorithms/next-move.png" alt="next move"> that will report the square number (1-9) into which O should move.</p>
 <p><strong>Don't copy this,</strong> but a handwavy approximation to the structure of the block would be</p>
 <img src="/bjc-r/img/5-algorithms/pick-a-move.png" alt="if &lt;I can win on this move&gt; report (winning square for [O]; if &lt;opponent can win on next move&gt; report (winning move for X); ... more rules ... ; report (best empty square)">
 <div class="forYouToDo">
 <ol start="6">
-<li>The <code>won?</code> block works by looking for a triple in which all three slots are O, or all three slots are X. Describe precisely what the slots of a triple will contain if O can win on this move by filling its last square. (There's more than one correct answers to this question, but not very many of them.)</li>
+<li>The <code>won?</code> block works by looking for a triple in which all three slots are O, or all three slots are X. Describe precisely what the slots of a triple will contain if O can win on this move by filling its last square. (There's more than one correct answer to this question, but not very many of them.)</li>
 <li>Write the <img src="/bjc-r/img/5-algorithms/winning-square-for.png" alt="winning square for [ ]"> block. If there is no winning square for the input player, it should report 0. <a href="#hint-triple" data-toggle="collapse">Want a hint?</a>
             <div id="hint-triple" class="collapse">The empty slot can be in any of the three positions.</div>
 </li>
