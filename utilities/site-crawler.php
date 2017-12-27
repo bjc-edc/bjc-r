@@ -65,6 +65,7 @@ function crawl_for_links($input_url) {
 		
 		// remove other HTML file TOPIC suffixes
 			$urls[$i] = substr($urls[$i], 0, stripos($urls[$i], "?topic=nyc_bjc")); //cuts everything after "?topic=nyc_bjc"
+			//NOTE: TO FIX: this breaks if there is a URL of http://bjc.edc.org; why does line 56-59 not work here?
 		}
 	
 		// remove MISC files
