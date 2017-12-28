@@ -67,11 +67,15 @@ project is just like the one you made in <a href="/bjc-r/cur/programming/3-lists
 <div class="endnote">
 You might find this block in the starter file useful:<br />
 <img src="/bjc-r/img/5-algorithms/find-first.png" alt="find first item such that (predicate) from (list)"><br />
-It's like <code>keep</code>, except that it reports just one matching item, rather than a list of all matching items.  (If there are no matching items, it reports an empty list.)</div>
+It's like <code>keep</code>, except that it reports just one matching item, rather than a list of all matching items.  (If there are no matching items, it reports an empty list.)
+<p>Also, you may find it helpful to invent these blocks:<br />
+<img src="/bjc-r/img/5-algorithms/opponent.png" alt="opponent [X] -&gt; O">&nbsp;
+<img src="/bjc-r/img/5-algorithms/number-of-in.png"width="337" alt="number of (X) in (list X 5 X) -&gt; 2">
+</div>
 <a href="#hint-triple" data-toggle="collapse">Want a hint?</a>
   <div id="hint-triple" class="collapse">The empty slot can be in any of the three positions.
   <a href="#hint-details" data-toggle="collapse">Try hard to solve this without another hint, but if you need one, here it is.</a>
-  <div id="hint-details" class="collapse">Use <code>find</code> to find a suitable winning triple, then use <code>find</code> again to find the square number within that triple.</div></div><br />
+  <div id="hint-details" class="collapse">Use <code>find first item</code> to find a suitable winning triple, then use <code>find first item</code> again to find the square number within that triple.</div></div><br />
 (Do you see why it's important to represent empty squares with the square number rather than the word "Empty"?)</li>
 <li>Use the block you just wrote to implement <img src="/bjc-r/img/5-algorithms/can-xo-win-now.png" alt="can [ ] win now?">.</li>
 <li>Now implement the first two rules in <img src="/bjc-r/img/5-algorithms/next-move.png" alt="next move">.</li>
@@ -108,15 +112,20 @@ It's like <code>keep</code>, except that it reports just one matching item, rath
       <p>X opened the game with the standard opening move, in the center. O  responded very badly, on the top edge, and is therefore about to lose the game. X played in the top left corner. O had to respond in the bottom right corner in order to block an immediate win for X. It's X's turn. There is no winning combination with two Xs, nor with two Os. But X can find <em>two</em> winning combinations, the ones marked with the red lines, both of which have one X and two free squares, <em>with one of the free squares in common. </em>In the picture, the common square is 4, the left edge square, and so that's where X should move.</p></li>
     <li>Trick question to make sure you're paying attention: Wouldn't it be better to find a fork in which X has <em>two</em> apperances in each triple? Discuss this with your partner if you don't have a good answer.</li>
     <li>The point of the fork is that if X moves in square 4, then X has two winning combinations for next time. It's O's turn, but O can block only one of the two wins, and so X fills out the remaining winning combination two moves from now. For example, if O moves in square 6 to block the center row, then X moves in square 7 to win in the left column. Conversely, if O moves in 7, then X moves in 6 and wins.</li>
-    <li>Find all the triples (that is, report a <em>list of triples</em>) in which the computer has one square, and the other two are empty.</li>
-<div class="sidenote">"Atom" is a technical term for a value that isn't a list.</div>    
+    <li>Find all the triples (that is, report a <em>list of triples</em>) in which the computer has one square, and the other two are empty and store in a variable called <var>singles</var>.</li>
+<div class="sidenoteBig">"Atom" is a technical term for a value that isn't a list. A list contains a bunch of items, just as a molecule contains a bunch of atoms.</div>    
     <li>Make one big list of all the letters and numbers from the triples:
       <br />
       <img src="/bjc-r/img/hof/ttt-flatten.png" alt="flatten triples" /><br />
       You don't have the <code>append</code> block in your palette, but it's in one of the Snap<em>!</em> libraries. Click on the file menu icon, and choose "Libraries...", then choose "List utilities" from the new menu that appears.</li>
-    <li>Now find a number that appears more than once in <code>atoms</code>.</li></ol>
+      <div class="sidenoteBig">You wrote a <code>duplicates in</code> block in 
+      <a href="/bjc-r/cur/programming/5-algorithms/1-searching-lists/3-comparing-search-algorithms.html">Unit 5 Lab 1</a>.</div>
+      <li>Now find a number that appears more than once in <code>atoms</code>.<br /><br /></li></ol>
 </li>
+                <img class="imageRight" src="/bjc-r/img/icons/tough-stuff-mini.png" alt="Tough Stuff" title="Tough Stuff" />
   <li>Here's a completely different approach to tic-tac-toe: Make a permanent list of <em>key-value pairs</em> in which the key (the first item of a pair) is a possible state of the board <img src="/bjc-r/img/5-algorithms/board.png" alt="board"> and the value (the second item) is a number saying where to move next. This would be really messy if you had to account for every possible board position, but you only need to consider the ones in which neither player has won yet. Also, you can make a special case for the computer's first move. If the computer is playing O, there are really only three ways X can have made the first move: the center, a corner, or an edge. If X moved in a corner, <em>renumber</em> the board so that the corner where X moved becomes 1, and similarly for an edge move. (This will take some effort in the program; you can't just wish away the fact that X may have moved in square 3, say, rather than 1.) Then the computer can move just by looking for the current board situation in the list.</li>
+                  <img class="imageRight" src="/bjc-r/img/icons/tough-stuff-mini.png" alt="Tough Stuff" title="Tough Stuff" />
+                  <img class="imageRight" src="/bjc-r/img/icons/tough-stuff-mini.png" alt="Tough Stuff" title="Tough Stuff" />
   <li>Here's yet a third approach: Have the same key-value list, but have it start out empty. If the computer moves next and the current board situation isn't in the key-value list, make a <em>random</em> move, keep a record of it, and see what happens. If the program loses a game, it should note that its last move wasn't a good one, and next time that same board position comes up, try a different random move. This <em>learning </em>version is complicated to write, but it's much more like a serious artificial intelligence program, and it's not limited to tic-tac-toe.  You can use the same algorithm to play any strategy game. Once you've written the program, you can let it play <em>against itself</em> a few thousand times and save the resulting key-value list. </li>
 </ol>
 </div>
