@@ -186,12 +186,23 @@ foreach ($crawled_urls as $crawled_url) {
 	}
 	
 	if (count($found_standards) >= 1){
-		//report all found standards
+		// report all found standards
+		$PTpage = "0"; // Boolean for if it's the AP Performance Tasks page
 		if ($unit != substr(substr($crawled_url, strpos($crawled_url, "/U") + 1), 0, 2)) {
 			$unit = substr(substr($crawled_url, strpos($crawled_url, "/U") + 1), 0, 2);
-			echo "<h3>" . $unit . "</h3>";
+			if ($unit == "tt") { // it's the AP Performance Tasks page
+				$PTpage = "1"; 
+				echo "<h3>AP Performance Tasks</h3>";
+			} else {
+				$PTpage = "0";
+				echo "<h3>" . $unit . "</h3>";
+			}
 		}
-		echo "<strong>" . substr($crawled_url, strpos($crawled_url, "/lab-pages/") + 11) . "</strong><br />";
+		if ($PTpage == "1") { // it's the AP Performance Tasks page
+			echo "<strong>AP-performance-tasks.html</strong><br />";
+		} else {
+			echo "<strong>" . substr($crawled_url, strpos($crawled_url, "/lab-pages/") + 11) . "</strong><br />";
+		}
 		foreach ($found_standards as $found_standard){
 			echo $found_standard . "<br />";
 			array_push($all_covered_LOs, $found_standard);
