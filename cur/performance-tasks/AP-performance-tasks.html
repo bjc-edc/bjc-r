@@ -22,12 +22,13 @@
         <h4><strong>Creating Script Pics</strong></h4>
         <p>
         	You can download a PNG image file of any block or script by right-clicking it (or control-clicking it on a mac) and selecting "script pic..." Look in your browser's Downloads folder for the image file.<br />
+            <div class="sidenote">If you <em>shift</em>-right-click (or <em>shift</em>-control-click) on a <em>reporter</em> block, you will get a script pic of the reporter with it's report bubble showing.</div>
             <img class="indent" src="/bjc-r/img/ap-support/script-pic.png" alt="image of pinwheel block definition with right-click drop-down menu showing and mouse over 'script pic...' There is a balloon showing above the pointer that says, 'open a new window with a picture of this script'" title="image of pinwheel block definition with right-click drop-down menu showing and mouse over 'script pic...' There is a balloon showing above the pointer that says, 'open a new window with a picture of this script'" />
         </p>
         
         <h4><strong>Exporting All the Images at Once</strong></h4>
         <p>
-        	You can download a HTML file of all of the blocks in your whole project as well as a picture of the stage by selecting "Export summary..." from the Snap<em>!</em> File menu (<img class="inline" src="/bjc-r/img/1-introduction/file_button.png" style="height:1.6em;" alt="File button" title="File button"/>). The HTML file also land in your browser's Downloads folder. Open it (in a browser), right-click (or control-click on a mac) to copy the images you need, and paste them into the document where you are describing your code.<br />
+        	You can download an HTML file of all of the blocks in your whole project as well as a picture of the stage by selecting "Export summary..." from the Snap<em>!</em> File menu (<img class="inline" src="/bjc-r/img/1-introduction/file_button.png" style="height:1.6em;" alt="File button" title="File button"/>). The HTML file also land in your browser's Downloads folder. Open it (in a browser), right-click (or control-click on a mac) to copy the images you need, and paste them into the document where you are describing your code.<br />
             <img class="indent" src="/bjc-r/img/ap-support/export-summary.png" alt="image of Snap! file menu open with mouse over 'Export summary...' There is a balloon showing above the pointer that says, 'open a new browser browser window with a summary of the project'" title="image of Snap! file menu open with mouse over 'Export summary...' There is a balloon showing above the pointer that says, 'open a new browser browser window with a summary of the project'" />
         </p>
                 
@@ -39,9 +40,9 @@
         	In Unit 1, you created an algorithm for drawing this pinwheel shape:<br />
             <img class="indent noshadow" src="/bjc-r/img/ap-support/pinwheel-shape.png" alt="image of pinwheel drawn in Snap!" title="image of pinwheel drawn in Snap!" />
         </p>
-		<img class="imageRight" src="/bjc-r/img/ap-support/algorithm-without-abstraction.png" alt="the three blocks 'move (100) steps, move (-70) steps, turn ↻ (45) degrees' repeated 8 times" title="the three blocks 'move (100) steps, move (-70) steps, turn ↻ (45) degrees' repeated 8 times" />
-        <p>The shape consists of eight lines, each the same length. The first line is 100 steps long. To prepare for the next line, the sprite backs up 70 steps along the first line and turns 45 degrees to the right. Each new line follows the same pattern: <code>move 100</code>, <code>move -70</code>, <code>turn 45</code>. It could be written using eight sets of those three blocks (as shown at right). That is the algorithm, but it's hard to read. For one thing, it's hard to tell whether all the blocks are there. Using <code>repeat</code> makes the algorithm clearer, briefer, and easier to read. This is how the algorithm is now expressed:<br />
-          <img class="indent" src="/bjc-r/img/ap-support/algorithm-with-repeat.png" alt="repeat (8) {move (100) steps, move (-70) steps, turn ↻ (45) degrees}" title="repeat (8) {move (100) steps, move (-70) steps, turn ↻ (45) degrees}" />
+		<img class="imageRight" src="/bjc-r/img/ap-support/algorithm-without-abstraction.png" alt="the three blocks 'move (100) steps, move (-70) steps, turn clockwise (45) degrees' repeated 8 times" title="the three blocks 'move (100) steps, move (-70) steps, turn clockwise (45) degrees' repeated 8 times" />
+        <p>The shape consists of eight line segments, each the same length. The first segment is 100 steps long. To prepare for the next segment, the sprite backs up 70 steps along the first segment and turns 45 degrees to the right. Each new line segment follows the same pattern: <code>move 100</code>, <code>move -70</code>, <code>turn 45</code>. It could be written using eight sets of those three blocks (as shown at right). That is the algorithm, but it's hard to read. For one thing, it's hard to tell whether all the blocks are there. Using <code>repeat</code> makes the algorithm clearer, briefer, and easier to read. This is how the algorithm is now expressed:<br />
+          <img class="indent" src="/bjc-r/img/ap-support/algorithm-with-repeat.png" alt="repeat (8) {move (100) steps, move (-70) steps, turn clockwise (45) degrees}" title="repeat (8) {move (100) steps, move (-70) steps, turn clockwise (45) degrees}" />
     	</p>
         <div class="takeNote">Your program for the AP task will have different algorithms (<strong>stretches of code that accomplish a particular purpose</strong>), and you can point to any chunk of code like that in your program as an example of an algorithm.</div>
         
@@ -49,11 +50,11 @@
         <p>The last step shown above, using <code>repeat</code> to clarify the structure is also a simple example of abstraction. It hides a lot of repetitive detail and shows the <em>structure</em> better.</p>
         <p>
         	But you used another abstraction as well. The way you actually wrote the algorithm in Unit 1 recognized that the 45 degree turn was <span class="katex">\frac{1}{8}</span> of the total turning of 360&deg;. So you wrote the algorithm this way:<br />
-			<img class="indent" src="/bjc-r/img/ap-support/algorithm-with-repeat-and-div.png" alt="repeat (8) {move (100) steps, move (-70) steps, turn ↻ ((360) / (8)) degrees}" title="repeat (8) {move (100) steps, move (-70) steps, turn ↻ ((360) / (8)) degrees}" />
+			<img class="indent" src="/bjc-r/img/ap-support/algorithm-with-repeat-and-div.png" alt="repeat (8) {move (100) steps, move (-70) steps, turn clockwise ((360) / (8)) degrees}" title="repeat (8) {move (100) steps, move (-70) steps, turn clockwise ((360) / (8)) degrees}" />
         </p>
         <p>
         	Changing both 8s to 5s in that algorithm would create a 5-branched pinwheel. Instead of changing the numbers each time you wanted a new pinwheel, you created a <em>block</em> that contained the algorithm and let you just input whatever number of branches you want:<br />
-            <img class="indent" src="/bjc-r/img/ap-support/pinwheel-block-def.png" alt="pinwheel, branches: (number of branches): {repeat(number of branches) {move (100) steps, move (-70) steps, turn ↻ (360/number of branches) degrees}}" title="pinwheel, branches: (number of branches): {repeat(number of branches) {move (100) steps, move (-70) steps, turn ↻ (360/number of branches) degrees}}" />
+            <img class="indent" src="/bjc-r/img/ap-support/pinwheel-block-def.png" alt="pinwheel, branches: (number of branches): {repeat(number of branches) {move (100) steps, move (-70) steps, turn clockwise (360/number of branches) degrees}}" title="pinwheel, branches: (number of branches): {repeat(number of branches) {move (100) steps, move (-70) steps, turn clockwise (360/number of branches) degrees}}" />
         </p>
         <p>
         	This abstraction helped in three ways:
@@ -61,15 +62,15 @@
                 <li>It saves you from having to change <em>two</em> numbers each time you use the code, which is prone to error (such as accidentally changing only one of them).</li>
                 <li>
                     Instead of putting all this code<br />
-                    <img class="indent" src="/bjc-r/img/ap-support/algorithm-with-repeat-and-div.png" alt="repeat (8) {move (100) steps, move (-70) steps, turn ↻ ((360) / (8)) degrees}" title="repeat (8) {move (100) steps, move (-70) steps, turn ↻ ((360) / (8)) degrees}" /><br />
+                    <img class="indent" src="/bjc-r/img/ap-support/algorithm-with-repeat-and-div.png" alt="repeat (8) {move (100) steps, move (-70) steps, turn clockwise ((360) / (8)) degrees}" title="repeat (8) {move (100) steps, move (-70) steps, turn clockwise ((360) / (8)) degrees}" /><br />
                     in your program everywhere you want it to draw a pinwheel, you now need only<br />
-                    <img class="indent" src="/bjc-r/img/ap-support/pinwheel.png" alt="pinwheel, branches: ()" title="pinwheel, branches: ()" />
+                    <img class="indent" src="/bjc-r/img/ap-support/pinwheel.png" alt="pinwheel, branches: (8)" title="pinwheel, branches: (8)" />
                 </li>
-                <li>Your code is easier for someone else to read, because it now <em>says what it does</em>: it makes a pinwheel.</li>
+                <li>Your code is easier for someone else to read, because it now <em>says what it does</em>: it makes a pinwheel with 8 branches.</li>
             </ol>
         </p>
-        <p>When you create a block and give it a name that describes its purpose, you are creating an abstraction. You are <em>hiding the details</em> and showing only the purpose. When you use that pinwheel block in some other program, it shows the <em>structure</em> of that other program more clearly. The reader of you program doesn't need to figure out what the inside details of pinwheel do; the reader just knows that it makes a pinwheel. When you create a block with an input that lets it vary what it does, using the same algorithm, you are making it a more general-purpose block, and that is also a kind of abstraction.</p>
-        <div class="takeNote">Packing your entire complex program into a single block makes the page cleaner but is <em>not</em> usually, by itself, a good example of abstraction. The best examples of abstraction to highlight for the AP are <strong>pieces of code that you use more than once in your program and are clearer <em>because</em> they are packed into a well-named block</strong>. You can often use what's <em>in</em> that block as an example of the <em>algorithm</em> for the purpose that that block serves.</div>
+        <p>When you create a block and give it a name that describes its purpose, you are creating an abstraction. You are <em>hiding the details</em> and showing only the purpose. When you use that pinwheel block in some other program, it shows the <em>structure</em> of that other program more clearly. The reader of your program doesn't need to figure out what the inside details of pinwheel do; the reader just knows that it makes a pinwheel with a given number of branches. When you create a block with an input that lets it vary what it does, using the same algorithm, you are making it a more general-purpose block, and that is also a kind of abstraction.</p>
+        <div class="takeNote">Packing your entire complex program into a single block makes the page cleaner but is <em>not</em> usually, by itself, a good example of abstraction. The best examples of abstraction to highlight for the AP are <strong>pieces of code that you use multiple times in your program and are clearer <em>because</em> they are packed into a well-named block</strong>. You can often use what's <em>in</em> that block as an example of the <em>algorithm</em> for the purpose that that block serves.</div>
         
 
 	</body>
