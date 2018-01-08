@@ -84,24 +84,37 @@
                                     </div>
                                 </li>
                                 <li>
-                                To make a proof by contradiction, we start by supposing that there is a <code>halts?</code> function that that takes a function and an input to that function and reports <code>true</code> if the function will terminate when given that input and reports <code>false</code> if it won't.<br />
-                                <img class="indent" src="/bjc-r/img/5-algorithms/halts-reporting.png" alt="halts?(round())(7.5) reporting true" title="halts?(round())(7.5) reporting true" /><br />
-                                Then, we show that there has to be at least one function and one input to that function for which <code>halts?</code> fails, namely, if we call <code>halts?</code> with the function <code>tester</code> as both the function to be tested and the input to give that function, any result reported by <code>halts?</code> will be wrong.<br />
-                                <img class="indent" src="/bjc-r/img/5-algorithms/tester-halting.png" alt="tester(function){if(halts?(function)(function){forever{}}else{report(true)}}" title="tester(function){if(halts?(function)(function){forever{}}else{report(true)}}">
-                                <img class="indent" src="/bjc-r/img/5-algorithms/halts-tester-tester.png" alt="halts (tester ()) (tester ())" title="halts (tester ()) (tester ())" />
+                                    To make a proof by contradiction, we start by supposing that there <em>is</em> a <code>halts?</code> function that takes two inputs: a function and an input to that function; it reports <code>true</code> if the function will terminate when given that input and reports <code>false</code> if it won't.<br />
                                     <ul>
-                                        <li>It's crucial to the proof that the function given as input to <code>halts?</code> takes an input, and that <code>tester</code> is written so that it tests that function <em>with itself as input.</em> It's tempting to leave out the input, but this is how we get the self-reference that leads to a contradiction proving that there can be no such <code>halts?</code> function.</li>
-		
-                                        <li>
-                                            Showing that <strong>the result has to be wrong</strong> involves a <em>case analysis</em> like the ones used to solve the logic puzzles on page 1:
-                                            <ul>
-                                                <li>Suppose <code>halts?</code> reports <code>true</code>, telling us that <code>tester(tester)</code> succeeds at reporting a value. Because <code>halts?</code> reports <code>true</code>, <code>tester</code> takes the first branch of the <code>if</code>, and so it loops forever. Thus <code>tester</code> doesn't halt, and so <code>halts?</code> gave the wrong answer.</li>
-                
-                                                <li>Now suppose instead that <code>halts?</code> reports <code>false</code>, thereby claiming that <code>tester(tester)</code> never halts. But in that case, <code>tester</code> takes the <code>else</code> branch and reports <code>true</code>, and so <code>halts?</code> is wrong again.</li>
-                                                <li>Note that it doesn't matter <em>what</em> value <code>tester</code> reports, just that it reports <em>some</em> value, but it <em>does</em> matter what value <code>halts?</code> reports.</li>
-                                            </ul>
-                                        </li>
+                                        <li><img class="inline" src="/bjc-r/img/5-algorithms/halts-reporting.png" alt="halts?(round())(7.5) reporting true" title="halts?(round())(7.5) reporting true" /> because <img class="inline" src="/bjc-r/img/5-algorithms/round(7-5).png" alt="" title="" /> returns a value.</li>
+                                        <li><img class="inline" src="/bjc-r/img/5-algorithms/halts-reporting-false.png" alt="halts?(program with an infinite loop ())(foo) reporting false" title="halts?(program with an infinite loop ())(foo) reporting false" /> because <img class="inline" src="/bjc-r/img/5-algorithms/program-with-loop(foo).png" alt="program with an infinite loop (foo)" title="program with an infinite loop (foo)" /> loops.</li>
                                     </ul>
+                                    Then to show the contradiction, we show that there has to be at least one function and one input to that function for which <code>halts?</code> fails. We construct the block <code>tester</code> for this purpose. <br />
+                                    <img class="indent" src="/bjc-r/img/5-algorithms/tester-halting.png" alt="tester(function){if(halts?(function)(function){forever{}}else{report(true)}}" title="tester(function){if(halts?(function)(function){forever{}}else{report(true)}}">
+                                    <p>Students consider the expression <img class="inline" src="/bjc-r/img/5-algorithms/testertester.png" alt="tester(tester())" title="tester(tester())" /> which sets up a contradictory self-reference that proves that the <code>halts?</code> function inside <code>tester</code> can't exist. In this case in the body of <code>tester</code>, the variable <var>reporter</var> has <code>tester</code> itself as its value. Therefore, the expression <img class="inline" src="/bjc-r/img/5-algorithms/halts-reporter-reporter.png" alt="halts (reporter) (reporter)" title="halts (reporter) (reporter)" /> becomes <img class="inline" src="/bjc-r/img/5-algorithms/halts-tester-tester.png" alt="halts (tester ()) (tester ())" title="halts (tester ()) (tester ())" />.<!--</p>
+                                    <p>
+                                        Showing that <strong>the result has to be wrong</strong> involves a <em>case analysis</em> like the ones used to solve the logic puzzles on page 1 (and in the examples above):
+                                        <ul>
+                                            <li><img class="inline" src="/bjc-r/img/5-algorithms/halts-tester-tester-reporting-true.png" alt="halts (tester) (tester) reporting true" title="halts (tester) (tester) reporting true" /> would mean that <code>tester(tester)</code> returns a value. In this case because <code>halts?</code> reports <code>true</code>, <code>tester</code> takes the first branch of the <code>if</code>, and so it will loop forever. Thus <code>tester</code> won't halt, and so <code>halts?</code> gave the wrong answer.</li>
+                                            <li><img class="inline" src="/bjc-r/img/5-algorithms/halts-tester-tester-reporting-false.png" alt="halts (tester) (tester) reporting false" title="halts (tester) (tester) reporting false" /> would mean that <code>tester(tester)</code> loops indefinitely. Because <code>halts?</code> reports <code>false</code>, thereby claiming that <code>tester(tester)</code> never halts. But in that case, <code>tester</code> takes the <code>else</code> branch and reports <code>true</code>, and so <code>halts?</code> is wrong again.</li>
+                                        </ul>
+                                    </p>
+                                    <p>It's crucial to the proof that the function given as input to <code>halts?</code> takes an input, and that <code>tester</code> is written so that it tests that function <em>with itself as input.</em> It's tempting to leave out the second input in <code>halts?</code>, but this is how we get the self-reference that leads to a contradiction proving that there can be no such <code>halts?</code> function.</p>-->
+                                    Just as in the examples above:
+                                    <ul>
+                                        <li><img class="inline" src="/bjc-r/img/5-algorithms/halts-tester-tester-reporting-true.png" alt="halts (tester) (tester) reporting true" title="halts (tester) (tester) reporting true" /> would mean that <code>tester(tester)</code> returns a value.</li>
+                                        <li><img class="inline" src="/bjc-r/img/5-algorithms/halts-tester-tester-reporting-false.png" alt="halts (tester) (tester) reporting false" title="halts (tester) (tester) reporting false" /> would mean that <code>tester(tester)</code> loops indefinitely.</li>
+                                    </ul>
+                                    <p>It's crucial to the proof that the function given as input to <code>halts?</code> takes an input, and that <code>tester</code> is written so that it tests that function <em>with itself as input.</em> It's tempting to leave out the second input in <code>halts?</code>, but this is how we get the self-reference that leads to a contradiction proving that there can be no such <code>halts?</code> function.</p>
+                                    <p>
+                                        Showing that <strong>the result has to be wrong</strong> involves a <em>case analysis</em> like the ones used to solve the logic puzzles on page 1:
+                                        <ul>
+                                            <li>Suppose <code>halts?</code> reports <code>true</code>, telling us that <code>tester(tester)</code> succeeds at reporting a value. Because <code>halts?</code> reports <code>true</code>, <code>tester</code> will take the first branch of the <code>if</code>, and so it will loop forever. Thus <code>tester</code> won't halt, and so <code>halts?</code> gave the wrong answer.</li>
+            
+                                            <li>Now suppose instead that <code>halts?</code> reports <code>false</code>, thereby claiming that <code>tester(tester)</code> never halts. But in that case, <code>tester</code> takes the <code>else</code> branch and reports <code>true</code>, and so <code>halts?</code> is wrong again.</li>
+                                        </ul>
+                                    </p>
+                                    <p>Note that it doesn't matter <em>what</em> value <code>tester</code> reports, just that it reports <em>some</em> value, but it <em>does</em> matter what value <code>halts?</code> reports.</p>
                                 </li>
                                 <li>The second page involves mostly reading and discussion; by the nature of a proof by contradiction, there are no concrete examples students can try individually.</li> 
 								<div class="endnote">
