@@ -82,14 +82,14 @@
                                             <p>The question is whether we can devise a test that will tell us whether <em>any</em> given function will report a value for <em>any</em> given input.</p>
                                         </div>
                                     </div>
-                                </li>
-                                <li>
                                     To make a proof by contradiction, we start by supposing that there <em>is</em> a <code>halts?</code> function that takes two inputs: a function and an input to that function; it reports <code>true</code> if the function will terminate when given that input and reports <code>false</code> if it won't.<br />
                                     <ul>
                                         <li><img class="inline" src="/bjc-r/img/5-algorithms/halts-reporting.png" alt="halts?(round())(7.5) reporting true" title="halts?(round())(7.5) reporting true" /> because <img class="inline" src="/bjc-r/img/5-algorithms/round(7-5).png" alt="" title="" /> returns a value.</li>
                                         <li><img class="inline" src="/bjc-r/img/5-algorithms/halts-reporting-false.png" alt="halts?(program with an infinite loop ())(foo) reporting false" title="halts?(program with an infinite loop ())(foo) reporting false" /> because <img class="inline" src="/bjc-r/img/5-algorithms/program-with-loop(foo).png" alt="program with an infinite loop (foo)" title="program with an infinite loop (foo)" /> loops.</li>
                                     </ul>
-                                    Then to show the contradiction, we show that there has to be at least one function and one input to that function for which <code>halts?</code> fails. We construct the block <code>tester</code> for this purpose. <br />
+                                </li>
+                                <li>
+                                    <strong>Proof:</strong> To show the contradiction, we show that there has to be at least one function and one input to that function for which <code>halts?</code> fails. We construct the block <code>tester</code> for this purpose. <br />
                                     <img class="indent" src="/bjc-r/img/5-algorithms/tester-halting.png" alt="tester(function){if(halts?(function)(function){forever{}}else{report(true)}}" title="tester(function){if(halts?(function)(function){forever{}}else{report(true)}}">
                                     <p>Students consider the expression <img class="inline" src="/bjc-r/img/5-algorithms/testertester.png" alt="tester(tester())" title="tester(tester())" /> which sets up a contradictory self-reference that proves that the <code>halts?</code> function inside <code>tester</code> can't exist. In this case in the body of <code>tester</code>, the variable <var>reporter</var> has <code>tester</code> itself as its value. Therefore, the expression <img class="inline" src="/bjc-r/img/5-algorithms/halts-reporter-reporter.png" alt="halts (reporter) (reporter)" title="halts (reporter) (reporter)" /> becomes <img class="inline" src="/bjc-r/img/5-algorithms/halts-tester-tester.png" alt="halts (tester ()) (tester ())" title="halts (tester ()) (tester ())" />.<!--</p>
                                     <p>
