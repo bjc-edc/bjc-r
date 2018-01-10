@@ -33,11 +33,11 @@ project is just like the one you made in <a href="/bjc-r/cur/programming/3-lists
 <ol>
 <li>Play part of a game, and then click on each of the following expressions.  Discuss with your partner what the expression does, and what algorithm it uses.  (Edit the block to remind yourself if you're not sure.)
   <ol type="a">
-<li><img src="/bjc-r/img/5-algorithms/ttt-wins.png" alt="TicTacToe wins"></li>
-<li><img src="/bjc-r/img/5-algorithms/status-winning-triples.png" alt="status of winning triples">
+<li><img src="/bjc-r/img/5-algorithms/ttt-wins.png" alt="TicTacToe wins" title="TicTacToe wins"></li>
+<li><img src="/bjc-r/img/5-algorithms/status-winning-triples.png" alt="status of winning triples" title="status of winning triples">
 </li>
-<li><img src="/bjc-r/img/5-algorithms/wonp-x.png" alt="won? [X]"></li>
-<li><img src="/bjc-r/img/5-algorithms/board.png" alt="board"></li>
+<li><img src="/bjc-r/img/5-algorithms/wonp-x.png" alt="won? (X)" title="won? (X)"></li>
+<li><img src="/bjc-r/img/5-algorithms/board.png" alt="board" title="board"></li>
 </ol></li>
 <li>Discuss with another pair: <code>status of winning triples</code> and <code>board</code> both tell you what's on the board, in different forms. Why do you need both of those?  When do you use each of them?</li>
 </ol></div>
@@ -57,37 +57,37 @@ project is just like the one you made in <a href="/bjc-r/cur/programming/3-lists
 </ol></div>
 <p>These three rules (if you can win on this move, do so; the one you answered in question 3 above; and the just-pick-a-square rule) are part of any human-like tic-tac-toe strategy, and they are the minimum acceptable strategy for this assignment.  But these three rules alone aren't enough to play tic-tac-toe really well. Most players develop additional rules that come after the first two but before the last-resort rule. Human players don't always think alike about those middle rules; we'll make suggestions later, after you finish the minimal assignment.</p>
 <h3>Choosing the Best Move</h3>
-<p>To simplify the project,<strong> assume that the human player will always move first (playing X)</strong>. So the computer is playing O. Make a block <img src="/bjc-r/img/5-algorithms/next-move.png" alt="next move"> that will report the square number (1-9) into which O should move.</p>
+<p>To simplify the project,<strong> assume that the human player will always move first (playing X)</strong>. So the computer is playing O. Make a block <img src="/bjc-r/img/5-algorithms/next-move.png" alt="next move for computer" title="next move for computer"> that will report the square number (1-9) into which O should move.</p>
 <p><strong>Don't copy this,</strong> but a handwavy approximation to the structure of the block would be</p>
-<img src="/bjc-r/img/5-algorithms/pick-a-move.png" alt="if &lt;I can win on this move&gt; report (winning square for [O]; if &lt;opponent can win on next move&gt; report (winning move for X); ... more rules ... ; report (best empty square)">
+<img src="/bjc-r/img/5-algorithms/pick-a-move.png" alt="next move for computer{if (I can win on this move){report (winning square for (O))}; if (opponent can win on next move){report (winning square for (X))}; ... more rules ... ; report(best empty square)}" title="next move for computer{if (I can win on this move){report (winning square for (O))}; if (opponent can win on next move){report (winning square for (X))}; ... more rules ... ; report(best empty square)}">
 <div class="forYouToDo">
 <ol start="6">
 <li>The <code>won?</code> block works by looking for a triple in which all three slots are O, or all three slots are X. Describe precisely what the slots of a triple will contain if O can win on this move by filling its last square. (There's more than one correct answer to this question, but not very many of them.)</li>
-<li>Write the <img src="/bjc-r/img/5-algorithms/winning-square-for.png" alt="winning square for [ ]"> block. If there is no winning square for the input player, it should report 0.
+<li>Write the <img src="/bjc-r/img/5-algorithms/winning-square-for.png" alt="winning square for ()" title="winning square for ()"> block. If there is no winning square for the input player, it should report 0.
 <div class="endnote">
 You might find this block in the starter file useful:<br />
-<img src="/bjc-r/img/5-algorithms/find-first.png" alt="find first item such that (predicate) from (list)"><br />
+<img src="/bjc-r/img/5-algorithms/find-first.png" alt="find first item such that (predicate) from (list)" title="find first item such that (predicate) from (list)"><br />
 It's like <code>keep</code>, except that it reports just one matching item, rather than a list of all matching items.  (If there are no matching items, it reports an empty list.)
 <p>Also, you may find it helpful to invent these blocks:<br />
-<img src="/bjc-r/img/5-algorithms/opponent.png" alt="opponent [X] -&gt; O">&nbsp;
-<img src="/bjc-r/img/5-algorithms/number-of-in.png"width="337" alt="number of (X) in (list X 5 X) -&gt; 2">
+<img src="/bjc-r/img/5-algorithms/opponent.png" alt="opponent (O) reporting X" title="opponent (O) reporting X">&nbsp;
+<img src="/bjc-r/img/5-algorithms/number-of-in.png"width="337" alt="number of (X) in (list{X,5,X}) reporting 2" title="number of (X) in (list{X,5,X}) reporting 2">
 </div>
-<a href="#hint-triple" data-toggle="collapse">Want a hint?</a>
+<a href="#hint-triple" data-toggle="collapse" title="Hint for FYTD#7">Want a hint?</a>
   <div id="hint-triple" class="collapse">The empty slot can be in any of the three positions.
-  <a href="#hint-details" data-toggle="collapse">Try hard to solve this without another hint, but if you need one, here it is.</a>
+  <a href="#hint-details" data-toggle="collapse" title="Another hint for FYTD#7">Try hard to solve this without another hint, but if you need one, here it is.</a>
   <div id="hint-details" class="collapse">Use <code>find first item</code> to find a suitable winning triple, then use <code>find first item</code> again to find the square number within that triple.</div></div><br />
 (Do you see why it's important to represent empty squares with the square number rather than the word "Empty"?)</li>
-<li>Use the block you just wrote to implement <img src="/bjc-r/img/5-algorithms/can-xo-win-now.png" alt="can [ ] win now?">.</li>
-<li>Now implement the first two rules in <img src="/bjc-r/img/5-algorithms/next-move.png" alt="next move">.</li>
-<li>For the if-all-else-fails case, implement <img src="/bjc-r/img/5-algorithms/best-empty-square.png" alt="best empty square">. Use it at the end of <img src="/bjc-r/img/5-algorithms/next-move.png" alt="next move">. <a href="#hint-empty" data-toggle="collapse">Want a hint?</a>
-    <div id="hint-empty" class="collapse"><img src="/bjc-r/img/5-algorithms/empties.png" alt="(list 5 1 3 7 9 2 4 6 8)"></div></li>
+<li>Use the block you just wrote to implement <img src="/bjc-r/img/5-algorithms/can-xo-win-now.png" alt="can () win now?" title="can () win now?">.</li>
+<li>Now implement the first two rules in <img src="/bjc-r/img/5-algorithms/next-move.png" alt="next move for computer" title="next move for computer">.</li>
+<li>For the if-all-else-fails case, implement <img src="/bjc-r/img/5-algorithms/best-empty-square.png" alt="best empty square" title="best empty square">. Use it at the end of <img src="/bjc-r/img/5-algorithms/next-move.png" alt="next move for computer" title="next move for computer">. <a href="#hint-empty" data-toggle="collapse" title="Hint for FYTD#10">Want a hint?</a>
+    <div id="hint-empty" class="collapse"><img src="/bjc-r/img/5-algorithms/empties.png" alt="list{5, 1, 3, 7, 9, 2, 4, 6, 8}" title="list{5, 1, 3, 7, 9, 2, 4, 6, 8}"></div></li>
 
 <img class="imageRight" src="/bjc-r/img/icons/save-now.png" alt="Now Is a Good Time to Save" title="Now Is a Good Time to Save" /><br /><br /><br />
 <li>Modify the <code>When I am clicked</code> script so that after a move by the human player, if nobody has won and the game isn't tied, it makes a move for the computer.  <strong>This is tricky because the computer has to move in a<em> different</em> square from the one where the person just moved:</strong>
   <ol type="a">
   <li><code>Broadcast</code> the square where the program should move.</li>
   <li>Make this script:<br />
-  <img src="/bjc-r/img/5-algorithms/when-receive-any.png" alt="when I receive [any message] if (message) = (square number) ..."></li>
+  <img src="/bjc-r/img/5-algorithms/when-receive-any.png" alt="when I receive (any message){if (square number=message){ ...}" title="when I receive (any message){if (square number=message){ ...}"></li>
   <li>Complete the script so that it actually makes the program's move. (Hint: The script has to do many of the same things as the <code>when I am clicked</code> script. Put the common part in a new block instead of duplicating it.)</li>
   </ol></li>
   <li>Play several games against the program. Make sure it doesn't crash, and make sure its moves aren't dramatically awful.</li>
@@ -96,9 +96,9 @@ It's like <code>keep</code>, except that it reports just one matching item, rath
 
 <div class="ifTime">
 <ol start="13">
-<li>Modify the program so that the computer can play either X or O.  When the game starts, ask the human player to choose X or O. <a href="#hint-playX" data-toggle="collapse">Want a hint?</a>
-            <div id="hint-playX" class="collapse">Some of the procedures you've already written should be changed to take X or O as an input. <a href="#hint-opponent" data-toggle="collapse">Want another hint?</a>
-            <div id="hint-opponent" class="collapse"><img src="/bjc-r/img/5-algorithms/opponent.png" alt="opponent [X] -&gt; O"></div> </div></li></ol></div>
+<li>Modify the program so that the computer can play either X or O.  When the game starts, ask the human player to choose X or O. <a href="#hint-playX" data-toggle="collapse" title="Hint for ITIT#13">Want a hint?</a>
+            <div id="hint-playX" class="collapse">Some of the procedures you've already written should be changed to take X or O as an input. <a href="#hint-opponent" data-toggle="collapse" title="Another hint for ITIT#13">Want another hint?</a>
+            <div id="hint-opponent" class="collapse"><img src="/bjc-r/img/5-algorithms/opponent.png" alt="opponent(O) reporting X" title="opponent(O) reporting X"></div> </div></li></ol></div>
 
 <div class="takeItFurther">
 <ol type="A">
@@ -107,7 +107,7 @@ It's like <code>keep</code>, except that it reports just one matching item, rath
   <ol type="a">
     <li>It's not good enough just to look for a winning move for yourself two moves from now. If you can see such a move, so can your opponent, who'll move to block you. So what you have to find is a <em>fork: </em>two triples in which you have one appearance and your opponent has none, and which have a free square in common. This is much easier to see with a picture:
       
-      <p><img src="/bjc-r/img/hof/fork.png" alt="board with fork" /></p>
+      <p><img src="/bjc-r/img/hof/fork.png" alt="board with fork" title="board with fork" /></p>
       
       <p>X opened the game with the standard opening move, in the center. O  responded very badly, on the top edge, and is therefore about to lose the game. X played in the top left corner. O had to respond in the bottom right corner in order to block an immediate win for X. It's X's turn. There is no winning combination with two Xs, nor with two Os. But X can find <em>two</em> winning combinations, the ones marked with the red lines, both of which have one X and two free squares, <em>with one of the free squares in common. </em>In the picture, the common square is 4, the left edge square, and so that's where X should move.</p></li>
     <li>Trick question to make sure you're paying attention: Wouldn't it be better to find a fork in which X has <em>two</em> apperances in each triple? Discuss this with your partner if you don't have a good answer.</li>
@@ -116,14 +116,14 @@ It's like <code>keep</code>, except that it reports just one matching item, rath
 <div class="sidenoteBig">"Atom" is a technical term for a value that isn't a list. A list contains a bunch of items, just as a molecule contains a bunch of atoms.</div>    
     <li>Make one big list of all the letters and numbers from the triples:
       <br />
-      <img src="/bjc-r/img/hof/ttt-flatten.png" alt="flatten triples" /><br />
+      <img src="/bjc-r/img/hof/ttt-flatten.png" alt="script variable(atoms); set (atoms) to (combine with(append()()) items of (singles))" title="script variable(atoms); set (atoms) to (combine with(append()()) items of (singles))" /><br />
       You don't have the <code>append</code> block in your palette, but it's in one of the Snap<em>!</em> libraries. Click on the file menu icon, and choose "Libraries...", then choose "List utilities" from the new menu that appears.</li>
       <div class="sidenoteBig">You wrote a <code>duplicates in</code> block in 
-      <a href="/bjc-r/cur/programming/5-algorithms/1-searching-lists/3-comparing-search-algorithms.html">Unit 5 Lab 1</a>.</div>
+      <a href="/bjc-r/cur/programming/5-algorithms/1-searching-lists/3-comparing-search-algorithms.html" title="List Processing Algorithms">Unit 5 Lab 1</a>.</div>
       <li>Now find a number that appears more than once in <code>atoms</code>.<br /><br /></li></ol>
 </li>
                 <img class="imageRight" src="/bjc-r/img/icons/tough-stuff-mini.png" alt="Tough Stuff" title="Tough Stuff" />
-  <li>Here's a completely different approach to tic-tac-toe: Make a permanent list of <em>key-value pairs</em> in which the key (the first item of a pair) is a possible state of the board <img src="/bjc-r/img/5-algorithms/board.png" alt="board"> and the value (the second item) is a number saying where to move next. This would be really messy if you had to account for every possible board position, but you only need to consider the ones in which neither player has won yet. Also, you can make a special case for the computer's first move. If the computer is playing O, there are really only three ways X can have made the first move: the center, a corner, or an edge. If X moved in a corner, <em>renumber</em> the board so that the corner where X moved becomes 1, and similarly for an edge move. (This will take some effort in the program; you can't just wish away the fact that X may have moved in square 3, say, rather than 1.) Then the computer can move just by looking for the current board situation in the list.</li>
+  <li>Here's a completely different approach to tic-tac-toe: Make a permanent list of <em>key-value pairs</em> in which the key (the first item of a pair) is a possible state of the board <img src="/bjc-r/img/5-algorithms/board.png" alt="board" title="board"> and the value (the second item) is a number saying where to move next. This would be really messy if you had to account for every possible board position, but you only need to consider the ones in which neither player has won yet. Also, you can make a special case for the computer's first move. If the computer is playing O, there are really only three ways X can have made the first move: the center, a corner, or an edge. If X moved in a corner, <em>renumber</em> the board so that the corner where X moved becomes 1, and similarly for an edge move. (This will take some effort in the program; you can't just wish away the fact that X may have moved in square 3, say, rather than 1.) Then the computer can move just by looking for the current board situation in the list.</li>
                   <img class="imageRight" src="/bjc-r/img/icons/tough-stuff-mini.png" alt="Tough Stuff" title="Tough Stuff" />
                   <img class="imageRight" src="/bjc-r/img/icons/tough-stuff-mini.png" alt="Tough Stuff" title="Tough Stuff" />
   <li>Here's yet a third approach: Have the same key-value list, but have it start out empty. If the computer moves next and the current board situation isn't in the key-value list, make a <em>random</em> move, keep a record of it, and see what happens. If the program loses a game, it should note that its last move wasn't a good one, and next time that same board position comes up, try a different random move. This <em>learning </em>version is complicated to write, but it's much more like a serious artificial intelligence program, and it's not limited to tic-tac-toe.  You can use the same algorithm to play any strategy game. Once you've written the program, you can let it play <em>against itself</em> a few thousand times and save the resulting key-value list. </li>
