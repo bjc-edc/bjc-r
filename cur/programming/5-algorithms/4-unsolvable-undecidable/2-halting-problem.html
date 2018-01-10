@@ -12,39 +12,39 @@
         Selim suggested EK's: <br />
         4.2.2D Some problems cannot be solved using any algorithm. <br />
         4.2.3C An undecidable problem is one in which no algorithm can be constructed that always leads to a correct yes or no answer. <br /><br />
-        Mary suggests adding text to cover:<br />
-        4.2.3A An undecidable problem may have instances that have an algorithmic solution, but there is not algorithmic solution that solves all instances of the problem.<br />
-		4.2.3B A decidable problem is one in which an algorithm can be constructed to answer "yes" or "no" for all inputs (e.g., "is the number even?").<br />
+        Mary added text in attempt to cover:<br />
+		<em>(in the orange box at the end)</em> 4.1.2F The language used to express an algorithm can affect characteristics such as clarity or readability but not whether an algorithmic solution exists.<br />
+        <em>(in the introductory white text and the vocab box beside it)</em> 4.2.3A An undecidable problem may have instances that have an algorithmic solution, but there is not algorithmic solution that solves all instances of the problem.<br />
+		<em>(in the introductory white text and the vocab box beside it)</em> 4.2.3B A decidable problem is one in which an algorithm can be constructed to answer "yes" or "no" for all inputs (e.g., "is the number even?").<br />
         </div>
+        
+        <div class="todo">
+            <p>
+                Blue Button Feedback: Why does halts? have to take a function with an input. Makes it harder to see the problem.
+                <ul>
+                    <li>Should we include the below only in the TG, or should we put it on the student page? I think I vote TG because I think a teacher is more likely to wonder the above, and I want to minimize distractions for the student. --MF, 1/10/18</li>
+                    <li>It's crucial to the proof that the function given as input to <code>halts?</code> takes an input, and that <code>tester</code> is written so that it tests that function <em>with itself as input.</em> It's tempting to leave out the second input in <code>halts?</code>, but this is how we get the self-reference that leads to a contradiction proving that there can be no such <code>halts?</code> function.</li>
+                </ul>
+            </p>
+        </div>
+        
         
         <div class="learn">
             <p><strong>On this page,</strong> you will consider a problem that <em>can't</em> have an answer.</p>
         </div>
         
-		<div class="todo">
-            I put all of the history in the yellow box at the very end as it's a distraction from the core learning, and I dropped the pic per Paul's decision. --MF, 1/3/18<br />
-            Decider Paul says: "No picture of any people.  If anyone cares, they can look up pictures.  Pictures of the people are not "information" or education.  Their stories, perhaps, but not their looks." --MF, 1/8/18
-        </div>
-        
 		<div class="vocabBig">
-            <div class="todo">I added this vocab box because infinite loop is critical to understanding the rest of the page and undecidable problem is the crux of the EK we are going for here; text ok? --MF, 1/3/18</div>
             <p>An <strong>infinite loop</strong> is a sequence of computer instructions that repeats forever.</p>
             <p>An <strong>undecidable problem</strong> is one for which no algorithm can ever be written that will always give a correct true/false answer.</p> 
         </div>
 		<p>By this point in the course, you've experienced the frustration of debugging a program. It would be great if there were a general-purpose debugging program that could read any code and determine if there were bugs. Unfortunately, we can use proof by contradiction (as Alphie, Betsy, and Gamal did on the previous page) to prove that this can't be done.</p>
         <p>First, we'll assume that it's possible to write a function to determine if there are <em>infinite loops</em> in a program (situations in which a function runs forever without reporting a value). Then, we'll use that function in a program especially designed to create a contradiction (a logical incompatibility) to prove that the assumption is wrong&mdash;<strong>no general-purpose debugging program program can exist</strong>. "Does this program have bugs" is an <em>undecidable problem</em>; no algorithm can ever be constructed that always solves it correctly for every program.</p>
-        <div class="todo">How's that last sentence? I'm trying to get cover 4.2.3A and 4.2.3B here and the in the vocab box. --MF, 1/9/18</div>
 		
         
         <h3>Assuming That a <code>Halts?</code> Function Exists</h3>
 
-        <div class="todo">Blue Button Feedback: Why does halts? have to take a function with an input. Makes it harder to see the problem.<ul><li>I think we need to address this directly somewhere on the page. --MF, 1/8/18</li></ul></div>
 
         <p>
-            <div class="commentBig">
-              <p>"whether any reporter will report a value for any input"? --MF, 1/8/18</p>
-              <p>No, <code>halts?</code> just checks about a particular input. If we can give one function <em>and one input</em> for which <code>halts?</code> gives the wrong answer, we've proven that the halting problem is undecidable. -bh</p>
-            </div>
             <div class="sidenote">We can't show the code inside <code>halts?</code>; we are proving that it can't be written, no matter what code implements it.</div>
             First, we <em>assume</em> there exists a function called <code>halts?</code> that determines whether a given reporter will report a value in a finite time. (If so, we say that the reporter <em>halts.</em>) It takes two inputs: a function and an input value for that function. It reports <code>true</code> if the function would report a value when given that input;  it reports <code>false</code> if the function would run forever (in an infinite loop).<br />
             <img class="indent" src="/bjc-r/img/5-algorithms/halts.png" alt="halts? (function) (input)" title="halts? (function) (input)" />
@@ -92,6 +92,7 @@
                     <p>The question is whether we can devise a test that will tell us whether <em>any</em> given function will report a value for <em>any</em> given input.</p>
                 </div>
             </div>
+            <p>"Happy" or really want to? I'm now thinking that it should go in the TG because like the question of why halts needs two inputs, it's interesting, and teachers should be able to answer the question, but it's not necessary to clutter the page with it. I'm wanting it to be near the next block of white text, which includes, "there has to be at least one function and one input to that function" but I don't want to break the flow of what we have to cram it in. So, TG OK? --MF, 1/10/18</p>
         </div>
         
 		<h3>Showing How This Creates a Contradiction</h3>
@@ -118,24 +119,16 @@
         <p>
             To make the situation <em>exactly</em> like what Betsy said ("The statement I'm making <em>right now </em>is false."), we'll call <code>tester</code> on <em>itself</em>:<br />
             <img class="indent" src="/bjc-r/img/5-algorithms/testertester.png" alt="tester(tester())" title="tester(tester())" /><br />
-            Now, the <code>if</code> statement inside the <code>tester</code> block will ask if <code>tester</code> will halt (not run forever) if it's called with <code>tester</code> as its input. The predicate in the <code>if</code> statement will become:<br />
-            <img class="indent" src="/bjc-r/img/5-algorithms/halts-tester-tester.png" alt="halts (tester ()) (tester ())" title="halts (tester ()) (tester ())" />
+            Now, the <code>if</code> statement inside the <code>tester</code> block will ask if <code>tester</code> will halt (not run forever) if it's called with <code>tester</code> as its input. The predicate in the <code>if</code> statement will become <code>halts? (tester) (tester)</code>.<br />
+            <img class="indent" src="/bjc-r/img/5-algorithms/tt-t-htt.png" alt="tester(tester) -&gt; reporter input in tester definition -&gt; halts? (tester) (tester)">
         </p>
         <p>So, just as in the examples above,</p>
         <p class="indent"><img class="inline" src="/bjc-r/img/5-algorithms/halts-tester-tester-reporting-true.png" alt="halts (tester) (tester) reporting true" title="halts (tester) (tester) reporting true" /> would mean that <img class="inline" src="/bjc-r/img/5-algorithms/testertester.png" alt="tester(tester())" title="tester(tester())" /> returns a value.</p>
         <p class="indent"><img class="inline" src="/bjc-r/img/5-algorithms/halts-tester-tester-reporting-false.png" alt="halts (tester) (tester) reporting false" title="halts (tester) (tester) reporting false" /> would mean that <img class="inline" src="/bjc-r/img/5-algorithms/testertester.png" alt="tester(tester())" title="tester(tester())" /> loops infinitely.</p>
-        
-<div class="todo">No, this isn't recursion.  Recursion is when the block <em>calls itself.</em>  Tester isn't calling itself; it's examining itself as a datum. -bh
-        <div class="endnote">
-            Calling a function with itself as input (recursion) isn't the problem. You used recursion when you called <code>nested square</code> inside itself to create fractal art in <a href="/bjc-r/cur/programming/2-complexity/4-abstraction/2-fractal-art.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 2 Lab 4: Fractal Art">Unit 2 Lab 4</a>. But in this case&mdash;because <code>halts?</code> is impossible to code correctly&mdash;we end up with a contradiction.
-
-        </div>
-    </div>
-        
+                
         <h4><strong>Understanding the Contradiction</strong></h4>
         <p>
         	When we call <img class="inline" src="/bjc-r/img/5-algorithms/testertester.png" alt="tester(tester())" title="tester(tester())" />, we run into the contradiction. To see how, look back at the <code>tester</code> definition:<br />
-<div class="todo">This is where I would put this picture instead--bh<br /><img src="/bjc-r/img/5-algorithms/tt-t-htt.png" alt="tester(tester) -&gt; reporter input in tester definition -&gt; halts? (tester) (tester)"></div>
             <img class="indent" src="/bjc-r/img/5-algorithms/tester-halting.png" alt="tester(function){if(halts?(function)(function){forever{}}else{report(true)}}" title="tester(function){if(halts?(function)(function){forever{}}else{report(true)}}">
         </p>
         <p>
@@ -149,27 +142,7 @@
         
         <div class="takeNote">
             <p>No matter what <code>halts?</code> reports, it will always disagree with itself in a program like this. <strong>This contradiction (this logical impossibility) means that the assumption that it's possible write <code>halts?</code> has to be wrong</strong>. This isn't just a claim about what will happen in Snap<em>!</em>. The language you use to explore a computational problem can impact the clarity or readability of your code but not whether a solution to a problem exists. Even with advances in quantum computing, we will never be able to create a general-purpose debugging program. This famous example is known as the <em>halting problem,</em> and the fact that the halting problem is not decidable is the <em>Halting Theorem.</em></p>
-            <div class="todo">EK 4.1.2F The language used to express an algorithm can affect characteristics such as clarity or readability but not whether an algorithmic solution exists.</div>
 		</div>
-        
-        <div class="todo">
-            <p>Leaving this for the TG. --MF, 1/9/18</p>
-            <p>It's crucial to the proof that the function given as input to <code>halts?</code> takes an input, and that <code>tester</code> is written so that it tests that function <em>with itself as input.</em> It's tempting to leave out the second input in <code>halts?</code>, but this is how we get the self-reference that leads to a contradiction proving that there can be no such <code>halts?</code> function.</p>
-            <ul><li>I wrote that bit about recursion to addresses how the self-reference leads to contradiction, but the bit about the second input being essential is (I hope) clearer with this rewrite, and I didn't mention it on this student page. --MF, 1/9/18</li>
-              <li>I copied just the sentence below into the page a little above here. And, the recursion thing is wrong.--bh</li>
-            </ul>
-			<p>Showing that <strong>the result has to be wrong</strong> involves a <em>case analysis</em> like the ones used to solve the logic puzzles on page 1.</p>
-        </div>
-        
-        <div class="endnote">
-        	<div class="commentBig">This has been lightly rewritten to work well at the end here. --MF</div>
-            <a href="#hint-target" data-toggle="collapse" title="Who first proved the halting problem?">Who first proved the Halting Theorem?</a>
-			<div id="hint-target" class="collapse">
-                <p>Alan Turing (1912-1954) was one of the founders of computer science. He is known for two achievements. First, he made a massive contribution to winning World War II by inventing a mathematical theory and corresponding computer hardware to break the encoded messages generated by the German Enigma machine. Second, together with his colleague Alonzo Church, Turing was a founder of <em>theoretical computer science</em>: proving how computers <em>must</em> work regardless of future technology. Though his work on the Halting Problem, he proved that <em>there are computations that can never be done</em>, no matter how big and fast computers get.</p>
-<div class="comment">I took out <code>for each</code> because it's not a function and it isn't worth commenting on that.</div>
-                <p>When Turing did this work, there were no programmable computers; people had to rewire physical machines to solve each new problem. With powerful programming languages (such as Snap<em>!</em>), we can see and understand the essence of Turing's proof much more easily because we can use functions as inputs to other functions, as you've seen with <code>map</code>, <code>keep</code>, and <code>combine</code>. This proof was even harder for Turing because he had to invent the idea of a computer program that can itself be represented as data inside the computer.</p>
-            </div>
-        </div>
         
         <div class="forYouToDo">
             <ol start="2">
@@ -186,6 +159,13 @@
             </ol>
         </div>
         
+        <div class="endnote">
+            <div class="comment">I took this out of the hint as BH requested, but I moved it after the FYTD because I don't want it to distract the flow of working through the proof. --MF, 1/10/18</div>
+            <h4><strong>Who first proved the Halting Theorem?</strong></h4>
+            <p>Alan Turing (1912-1954) was one of the founders of computer science. He is known for two achievements. First, he made a massive contribution to winning World War II by inventing a mathematical theory and corresponding computer hardware to break the encoded messages generated by the German Enigma machine. Second, together with his colleague Alonzo Church, Turing was a founder of <em>theoretical computer science</em>: proving how computers <em>must</em> work regardless of future technology. Though his work on the Halting Problem, he proved that <em>there are computations that can never be done</em>, no matter how big and fast computers get.</p>
+            <p>When Turing did this work, there were no programmable computers; people had to rewire physical machines to solve each new problem. With powerful programming languages (such as Snap<em>!</em>), we can see and understand the essence of Turing's proof much more easily because we can use functions as inputs to other functions, as you've seen with <code>map</code>, <code>keep</code>, and <code>combine</code>. This proof was even harder for Turing because he had to invent the idea of a computer program that can itself be represented as data inside the computer.</p>
+        </div>
+                
         
 	</body>
 </html>
