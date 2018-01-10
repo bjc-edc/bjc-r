@@ -377,7 +377,7 @@ llab.toggleDevComments = function() {
 // Create the 'sticky' title header at the top of each page.
 llab.createTitleNav = function() {
     var addToggle = "";
-    if (window.location.href.slice(0,16) == "http://localhost") {
+    if (window.location.href.slice(0,16) == "http://localhost" || window.location.href.slice(0,32) == "http://bjc-edc-2017-18.github.io") {
         addToggle = $('<button>').addClass('imageRight btn btn-default')
                     .click(llab.toggleDevComments)
                     .text('Toggle developer todos/comments (red boxes)');
