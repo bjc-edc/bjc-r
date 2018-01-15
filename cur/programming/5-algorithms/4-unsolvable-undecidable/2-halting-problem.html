@@ -105,10 +105,10 @@
                 <img class="indent" src="/bjc-r/img/5-algorithms/input-type-reporter.png" alt="selecting the Reporter input type" title="selecting the Reporter input type"/><br />
                 Recall that a type hint changes the appearance of the input slot so that it indicates what kind of input is expected. The input slot for <code>tester</code> will have a rounded gray ring to indicate that the input should be a reporter: <img class="inline nopadtb" src="/bjc-r/img/5-algorithms/tester().png" alt="tester ()" title="tester ()" />
             </div>
-            <img class="indent" src="/bjc-r/img/5-algorithms/tester-halting.png" alt="tester(function){if(halts?(function)(function){forever{}}else{report(true)}}" title="tester(function){if(halts?(function)(function){forever{}}else{report(true)}}">
+            <img class="indent" src="/bjc-r/img/5-algorithms/tester-halting.png" alt="tester(reporter){if(halts?(reporter)(reporter){forever{}}else{report(true)}}" title="tester(reporter){if(halts?(reporter)(reporter){forever{}}else{report(true)}}">
         </p>
         <p>The <code>forever</code> block in this script creates an infinite loop. If the <code>tester</code> code ends up in this part of the <code>if</code> statement, it will never report anything. So whether <code>tester</code> <em>itself</em> will halt depends on the output of the <code>halts?</code> predicate in the <code>if</code> statement inside it.</p>
-        <p>The expression <img class="inline" src="/bjc-r/img/5-algorithms/halts-reporter-reporter.png" alt="halts (reporter) (reporter)" title="halts (reporter) (reporter)" /> asks what will happen if we call the inputted function (<var>reporter</var>) with <em>itself</em> as its own input (like <code>round(round())</code> if <code>round</code> were the inputted function). This is similar to when Betsy made a statement about the statement she was making, when she said, "The statement I'm making <em>right now</em> is false."</p>
+        <p>The expression <img class="inline" src="/bjc-r/img/5-algorithms/halts-reporter-reporter.png" alt="halts? (reporter) (reporter)" title="halts? (reporter) (reporter)" /> asks what will happen if we call the inputted function (<var>reporter</var>) with <em>itself</em> as its own input (like <code>round(round())</code> if <code>round</code> were the inputted function). This is similar to when Betsy made a statement about the statement she was making, when she said, "The statement I'm making <em>right now</em> is false."</p>
         
         <div class="endnote">
             <img class="inline" src="/bjc-r/img/icons/tough-stuff-mini.png" alt="Tough Stuff" title="Tough Stuff" />
@@ -121,7 +121,7 @@
             <img class="indent" src="/bjc-r/img/5-algorithms/testertester.png" alt="tester(tester())" title="tester(tester())" /><br />
             Now, the <code>if</code> statement inside the <code>tester</code> block will ask if <code>tester</code> will halt (not run forever) if it's called with <code>tester</code> as its input. The predicate in the <code>if</code> statement will become <code>halts? (tester) (tester)</code>.<br />
 <div class="todo">I took out class="indent" on this picture so that it'd fit in the window.  If you don't like that, figure out how to shrink the picture without fuzzing it up. -bh</div>
-            <img src="/bjc-r/img/5-algorithms/tt-t-htt.png" alt="tester(tester) -&gt; reporter input in tester definition -&gt; halts? (tester) (tester)">
+            <img src="/bjc-r/img/5-algorithms/tt-t-htt.png" alt="tester(tester) -&gt; reporter input in tester definition -&gt; halts? (tester) (tester)" title="tester(tester) -&gt; reporter input in tester definition -&gt; halts? (tester) (tester)">
         </p>
         <p>So, just as in the examples above,</p>
         <p class="indent"><img class="inline" src="/bjc-r/img/5-algorithms/halts-tester-tester-reporting-true.png" alt="halts (tester) (tester) reporting true" title="halts (tester) (tester) reporting true" /> would mean that <img class="inline" src="/bjc-r/img/5-algorithms/testertester.png" alt="tester(tester())" title="tester(tester())" /> returns a value.</p>
@@ -130,7 +130,7 @@
         <h4><strong>Understanding the Contradiction</strong></h4>
         <p>
         	When we call <img class="inline" src="/bjc-r/img/5-algorithms/testertester.png" alt="tester(tester())" title="tester(tester())" />, we run into the contradiction. To see how, look back at the <code>tester</code> definition:<br />
-            <img class="indent" src="/bjc-r/img/5-algorithms/tester-halting.png" alt="tester(function){if(halts?(function)(function){forever{}}else{report(true)}}" title="tester(function){if(halts?(function)(function){forever{}}else{report(true)}}">
+            <img class="indent" src="/bjc-r/img/5-algorithms/tester-halting.png" alt="tester(reporter){if(halts?(reporter)(reporter){forever{}}else{report(true)}}" title="tester(reporter){if(halts?(reporter)(reporter){forever{}}else{report(true)}}">
         </p>
         <p>
             Showing that <strong>the result has to be wrong</strong> involves a <em>case analysis</em> like the ones used to solve the logic puzzles on page 1. Consider the two possible cases:
