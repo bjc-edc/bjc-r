@@ -24,7 +24,7 @@
         
         <p>The way computers store numbers that are not integers is called <strong>floating point</strong>.</p>
 		<div class="endnote">
-            <a href="#hint-float" data-toggle="collapse">Where did that funny name come from?</a>
+            <a href="#hint-float" data-toggle="collapse" title="Where did that funny name come from?">Where did that funny name come from?</a>
             <div id="hint-float" class="collapse">This non-obvious name is used because there used to be a <em>fixed point</em> non-integer notation with a <em>fixed</em> number of digits after the decimal <em>point.</em> For example, a fixed point notation with two digits after the decimal point was used to represent an amount of money in dollars and cents: $82.47. But today's computers always use floating point for non-integer values, including money.</div>
         </div>
         
@@ -50,12 +50,12 @@
         </div>
         <p>This isn't a bug in Snap<em>!</em>, which is correctly reporting the result computed by the floating point hardware.</p>
 		<div class="endnote">
-        	<a href="#hint-roundoff" data-toggle="collapse">How can such simple computations get wrong results?</a>
+        	<a href="#hint-roundoff" data-toggle="collapse" title="How can such simple computations get wrong results?">How can such simple computations get wrong results?</a>
             <div id="hint-roundoff" class="collapse">These results seem surprising because a fractional value such as 0.2 can be represented exactly <em>in decimal</em> (unlike the example of ⅓). But <em>in binary,</em> only fractions whose denominator is a power of 2 can be represented exactly. So 2/16 can be represented exactly, but 2/10 can't. The binary floating point representation of 0.2 is just slightly too big, and so is the binary representation of 0.4. Adding two slightly-too-big values produces an error big enough to get to the next higher representable value.</div>
         </div>
 		<p>No matter how good the hardware is, certain kinds of computations are likely to give severe errors in floating point.  One simple example is subtracting two numbers that are almost equal in value.  The correct answer will be near zero, and if it's near enough, it will <em>underflow</em> and an exact zero might be reported.</p>
 		<div class="endnote">
-			<a href="#hint-killer" data-toggle="collapse">Floating point errors can be very expensive and can even kill people.</a>
+			<a href="#hint-killer" data-toggle="collapse" title="Floating point errors can be very expensive and can even kill people">Floating point errors can be very expensive and can even kill people.</a>
             <div id="hint-killer" class="collapse">
             <p>A notorious example is the fate of the Ariane rocket launched on June 4, 1996 (European Space Agency 1996). In the 37th second of flight, the inertial reference system attempted to convert a 64-bit floating-point number to a 16-bit number, but instead triggered an overflow error which was interpreted by the guidance system as flight data, causing the rocket to veer off course and be destroyed.</p>
             <p>The Patriot missile defense system used during the Gulf War was also rendered ineffective due to roundoff error (Skeel 1992, U.S. GAO 1992). The system used an integer timing register which was incremented at intervals of 0.1 s. However, the integers were converted to decimal numbers by multiplying by the binary approximation of 0.1, 0.00011001100110011001100<sub>2</sub> = 209715/2097152.</p>
@@ -70,7 +70,7 @@
         <p>By contrast, computer arithmetic on <em>floating point numbers</em> is hard to get exactly right. Prior to 1985, every model of computer had a slightly different floating point format, and all of them got wrong answers to certain problems. This situation was resolved by the <a href="https://en.wikipedia.org/wiki/IEEE_floating_point" target="_blank">IEEE 754 floating point standard</a>, which is now used by every computer manufacturer and has been improved several times since it was created in 1985.</p> 
             
 		<div class="endnote">
-            <a href="#hint-alternatives" data-toggle="collapse">There are alternatives to floating point.</a>
+            <a href="#hint-alternatives" data-toggle="collapse" title="There are alternatives to floating point">There are alternatives to floating point.</a>
 			<div id="hint-alternatives" class="collapse">
                 If the subtle errors in floating point computation turn out to be unacceptable in a particular application, software can use alternative representations:
                 <ul>
@@ -122,7 +122,7 @@
 		</div>
         
         <div class="endnote">
-            <a href="#hint-data-types" data-toggle="collapse">But different languages use data types differently.</a>
+            <a href="#hint-data-types" data-toggle="collapse" title="But different languages use data types differently">But different languages use data types differently.</a>
             <div id="hint-data-types" class="collapse">
                 <p>
                     In well-designed languages (those based on Scheme, for example), that data type code is attached to the value itself. In other languages, when you make a variable, you have to say what type of value it will contain, and the data type is attached to the <em>variable</em>, so you can't both get exact answers when the values are integers and also be able to handle non-integer values of the same variable. So instead of seeing:<br />
