@@ -60,65 +60,7 @@
                             </ul>
                         </li>
                         <li>
-                            <strong>Tips about the Halting Theorem:</strong>
-                            <ul>
-                                <li>
-                                    We use proof by contradiction to show that the following question <em>can't</em> be answered <em>in general</em>: <strong>Will a certain computer program, given a certain input, report a result in a finite amount of time?</strong>
-                                    <div class="endnote">
-                                        <a href="#hint-general" data-toggle="collapse" title="For some specific functions">We <em>can</em> answer the question for some <em>specific</em> functions...</a>
-                                        <div id="hint-general" class="collapse">
-                                            <p>
-                                                The "in general" part is important. Of course we can answer the question for certain particular programs. This one halts (reports a value) for any input:<br />
-                                                <img class="indent" src="/bjc-r/img/5-algorithms/three-fn.png" alt="three(x): report (3)" title="three(x): report (3)" /> 
-                                            </p>
-                                            <p> 
-                                                This one never halts for any input:<br />
-                                                <img class="indent" src="/bjc-r/img/5-algorithms/loop-fn.png" width="158" alt="loop(x): forever (wait 1 secs)" title="loop(x): forever (wait 1 secs)" /> 
-                                            </p>
-                                            <p>
-                                                And this one halts for any input except 87:<br />
-                                                <img class="indent" src="/bjc-r/img/5-algorithms/weird-fn.png" width="158" alt="weird(x): if (x = 87) (forever (wait 1 secs)) else (report (3))" title="weird(x): if (x = 87) (forever (wait 1 secs)) else (report (3))" /> 
-                                            </p>
-                                            <p>The question is whether we can devise a test that will tell us whether <em>any</em> given function will report a value for <em>any</em> given input.</p>
-                                        </div>
-                                    </div>
-                                    To make a proof by contradiction, we start by supposing that there <em>is</em> a <code>halts?</code> function that takes two inputs: a function and an input to that function; it reports <code>true</code> if the function will terminate when given that input and reports <code>false</code> if it won't.<br />
-                                    <ul>
-                                        <li><img class="inline" src="/bjc-r/img/5-algorithms/halts-reporting.png" alt="halts?(round())(7.5) reporting true" title="halts?(round())(7.5) reporting true" /> because <img class="inline" src="/bjc-r/img/5-algorithms/round(7-5).png" alt="round(7.5)" title="round(7.5)" /> returns a value.</li>
-                                        <li><img class="inline" src="/bjc-r/img/5-algorithms/halts-reporting-false.png" alt="halts?(program with an infinite loop ())(foo) reporting false" title="halts?(program with an infinite loop ())(foo) reporting false" /> because <img class="inline" src="/bjc-r/img/5-algorithms/program-with-loop(foo).png" alt="program with an infinite loop (foo)" title="program with an infinite loop (foo)" /> loops indefinitely.</li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <strong>Proof:</strong> To show the contradiction, we show that there has to be at least one function and one input to that function for which <code>halts?</code> fails. We construct the block <code>tester</code> for this purpose. <br />
-                                    <img class="indent" src="/bjc-r/img/5-algorithms/tester-halting.png" alt="tester(reporter){if(halts?(reporter)(reporter){forever{}}else{report(true)}}" title="tester(reporter){if(halts?(reporter)(reporter){forever{}}else{report(true)}}">
-                                    <p>Students consider the expression <img class="inline" src="/bjc-r/img/5-algorithms/testertester.png" alt="tester(tester())" title="tester(tester())" /> which sets up a contradictory self-reference that proves that the <code>halts?</code> function inside <code>tester</code> can't exist. For this input, the variable <var>reporter</var> in the body of <code>tester</code> has <code>tester</code> itself as its value. Therefore, the expression <img class="inline" src="/bjc-r/img/5-algorithms/halts-reporter-reporter.png" alt="halts? (reporter) (reporter)" title="halts? (reporter) (reporter)" /> becomes <img class="inline" src="/bjc-r/img/5-algorithms/halts-tester-tester.png" alt="halts? (tester ()) (tester ())" title="halts? (tester ()) (tester ())" />.</p>
-									<p>
-                                        Just as in the examples above,
-                                        <ul>
-                                            <li><img class="inline" src="/bjc-r/img/5-algorithms/halts-tester-tester-reporting-true.png" alt="halts? (tester) (tester) reporting true" title="halts? (tester) (tester) reporting true" /> would mean that <img class="inline" src="/bjc-r/img/5-algorithms/testertester.png" alt="tester(tester())" title="tester(tester())" /> returns a value.</li>
-                                            <li><img class="inline" src="/bjc-r/img/5-algorithms/halts-tester-tester-reporting-false.png" alt="halts? (tester) (tester) reporting false" title="halts? (tester) (tester) reporting false" /> would mean that <img class="inline" src="/bjc-r/img/5-algorithms/testertester.png" alt="tester(tester())" title="tester(tester())" /> loops indefinitely.</li>
-                                        </ul>
-                                    </p>
-                                    <p>It's crucial to the proof that the function given as input to <code>halts?</code> takes an input, and that <code>tester</code> is written so that it tests that function <em>with itself as input.</em> It's tempting to leave out the second input in <code>halts?</code>, but this is how we get the self-reference that leads to a contradiction proving that there can be no such <code>halts?</code> function.</p>
-                                    <p>
-                                        Showing that <strong>the result has to be wrong</strong> involves a <em>case analysis</em> like the ones used to solve the logic puzzles on page 1:
-                                        <ul>
-                                            <li>Suppose <code>halts?</code> reports <code>true</code>, telling us that <code>tester(tester)</code> succeeds at reporting a value. Because <code>halts?</code> reports <code>true</code>, <code>tester</code> will take the first branch of the <code>if</code>, and so it will loop forever. Thus <code>tester</code> won't halt, and so <code>halts?</code> gave the wrong answer.</li>
-            
-                                            <li>Now suppose instead that <code>halts?</code> reports <code>false</code>, thereby claiming that <code>tester(tester)</code> never halts. But in that case, <code>tester</code> takes the <code>else</code> branch and reports <code>It doesn't matter what value is reported</code>, and so <code>halts?</code> is wrong again.</li>
-                                        </ul>
-                                    </p>
-                                    <p>Note that it doesn't matter <em>what</em> value <code>tester</code> reports, just that it reports <em>some</em> value, but it <em>does</em> matter what value <code>halts?</code> reports.</p>
-                                </li>
-                                <li>The second page involves mostly reading and discussion; by the nature of a proof by contradiction, there are no concrete examples students can try individually.</li> 
-								<div class="endnote">
-                                	<a href="#hint-set" data-toggle="collapse" title="Set Theory">If you know any set theory...</a>
-                                	<div id="hint-set" class="collapse"><p>You shouldn't say this to students, but for your own understanding: there are only countably many computer programs because a program is a finite string from a finite alphabet. But there are uncountably many functions! So <em>almost all</em> functions are uncomputable.  The halting function is just one example that's easy to describe.</p></div>                                
-								</div>
-							</ul>
-						</li>
-                        <li>
-                            <strong>Tips about the Historical Background:</strong>
+                            <strong>Tips:</strong>
 							<ul>
                                 <div class="endnote">
                                 	<a href="#hint-hilbert" data-toggle="collapse" title="Some historical background on Hilbert, Turing, and Church">Some historical background on Hilbert, Turing, and Church</a>
