@@ -17,7 +17,7 @@
             </p>
             Mary added text in attempt to cover:<br />
           <em>(in the orange box at the end)</em> 4.1.2F The language used to express an algorithm can affect characteristics such as clarity or readability but not whether an algorithmic solution exists. [Isn't this covered in 6.1.3, programming languages? -bh] <br />
-          <div class="todo">Brian, I thought it was relevant here also. I wasn't looking for a place to put this EK, I thought it actually applied. Do you agree? --MF, 2/1/18</div>
+          <div class="todo">Brian, I thought it was relevant here also. I wasn't looking for a place to put this EK, I thought it actually applied. Do you agree? --MF, 2/1/18 Sure, it's fine--bh</div>
 		
         </div>
         
@@ -41,7 +41,8 @@
         </p>
         
         <p>For example, the function <code>round</code> will not run forever when given the input <var>7.5</var>; it will report 8.</p>
-        <div class="sidenote"><div class="todo">Brian to review. --MF, 2/1/18</div>The gray ring around the input function means that the <code>halts?</code> code will treat the input function as data instead of running it. </div>
+        <div class="sidenote">
+    <div class="todo">Brian to review. --MF, 2/1/18 Fine -bh</div>The gray ring around the input function means that the <code>halts?</code> code will treat the input function as data instead of running it. </div>
         <p class="indent"><img class="inline" src="/bjc-r/img/5-algorithms/halts-reporting.png" alt="halts?(round())(7.5) reporting true" title="halts?(round())(7.5) reporting true" /> because <img class="inline" src="/bjc-r/img/5-algorithms/round(7-5).png" alt="round (7.5)" title="round (7.5)" /> reports a value.</p>
 
         <p>On the other hand, imagine we had a function that will get stuck in an infinite loop when given the input <var>foo</var>; it would never report (never halt).</p>
@@ -64,14 +65,20 @@
 
         <h3>Showing How This Creates a Contradiction</h3>
         
-		<div class="commentBig">Brian, you convinced me to make this white text (which I think could still be refined), but I didn't agree to put it before FYTD 1. I hope you can at least accept it being here until we discuss it further. --MF, 2/1/18</div>
+		<div class="commentBig">
+		  <p>Brian, you convinced me to make this white text (which I think could still be refined), but I didn't agree to put it before FYTD 1. I hope you can at least accept it being here until we discuss it further. --MF, 2/1/18</p>
+		  <p>I guess, although the text after the FYTD would help them answer at least part b. --bh</p>
+		</div>
         
         <p>We'll use proof by contradiction to show that the following question <em>can't</em> be answered <em>in general</em>:</p>
         <p class="center"><strong>Will a certain computer program, given a certain input, report a result in a finite amount of time?</strong></p>
-        <p>(The "computer program" is the first input to <code>halts?</code>. The "given input" is the the second input to <code>halts?</code>. And the report is the <code>true</code>/<code>false</code>, result: yes it will halt or no it won't.)</p>
-		<p>We <em>can</em> answer this question for some <em>specific</em> functions, but we are trying to determine whether we can devise a <em>general</em> test that will tell us whether <em>any</em> given function will report a value for <em>any</em> given input.</p>
+        <p>(The "computer program" is the first input to <code>halts?</code>. The "given input" is the second input to <code>halts?</code>. And what <code>halts?</code> reports is  <code>true</code> or <code>false</code>: yes the &quot;computer program&quot; will halt, or no it won't. <code>Halts?</code> itself must always report a result, even if the program it's testing doesn't.)</p>
+		<p>We <em>can</em> answer this question for some <em>specific</em> functions, but we are trying to determine whether we can devise a <em>general</em> test that will tell us whether <em>any</em> particular function will report a value for <em>any</em> specific input.</p>
         
-        <div class="todo">I'm having trouble with the wording "whether <em>any</em> given function will report a value for <em>any</em> given input." It's any <em>specific</em> given input, right? I'm getting caught on these words, and I think we should refine. --MF, 2/1/18</div>
+        <div class="todo">
+          <p>I'm having trouble with the wording "whether <em>any</em> given function will report a value for <em>any</em> given input." It's any <em>specific</em> given input, right? I'm getting caught on these words, and I think we should refine. --MF, 2/1/18</p>
+          <p>Is this better? -bh</p>
+        </div>
 		
         <div class="endnote">
 			<a href="#hint-general" data-toggle="collapse" title="What specific functions?">What does it mean to answer the question for <em>specific</em> functions?</a>
@@ -92,7 +99,7 @@
 			</div>
 		</div>
         
-		<h4><strong>Constructing a Program Where <code>Halts?</code> Won't Work</strong></h4>
+		<h4><strong>Constructing a Program For Which <code>Halts?</code> Won't Work</strong></h4>
 		<p>
             To prove there can be no such function, we need to create a contradiction. We need to show that there has to be at least one function and one input to that function for which <code>halts?</code> fails to work the way we assumed it does. So, we can make up a block, <code>tester</code>, specifically for the purpose of breaking <code>halts?</code>:<br />
             <div class="sidenoteBig">
@@ -107,7 +114,7 @@
         
         <div class="endnote">
             <img class="inline" src="/bjc-r/img/icons/tough-stuff-mini.png" alt="Tough Stuff" title="Tough Stuff" />
-            This <em>is</em> challenging. Stick with it! We are <em>creating a contradiction</em> to prove that the <code>halts?</code> function inside <code>tester</code> can't exist. 
+            This <em>is</em> challenging. Stick with it! We are <em>creating a contradiction</em> to prove that the <code>halts?</code> function called inside <code>tester</code> can't exist. 
         </div>
         
         <h4><strong>Using Self-Reference to Lead to Contradiction</strong></h4>
