@@ -9,14 +9,16 @@
 	<body>
 		<h2>Analyzing and Improving Searches</h2>
         <div class="todo">
-        	<p>See BH comment on <a href="https://piazza.com/class/j183gzjdzdv2gh?cid=40" target="_blank">Piazza post</a>.<br />ST-10.5.17: Images are now revised and TG solution added comment to resolve this issue which also came up in the Aug NYC PD.</p>
-            <p>There is a lot of commented out content on this page. We should remove anything that we don't want. --MF, 12/27/17</p>
+        	<ul>
+                <li><strong>EK 4.1.2A</strong> Languages for algorithms include natural language, pseudocode, and visual and textual programming languages.</li>
+                <li><strong>EK 4.1.2B</strong> Natural language and pseudocode describe algorithms so that humans can understand them.</li>
+                <li><strong>EK 4.2.4E</strong> Sometimes, more efficient algorithms are more complex.</li>
+                <li><strong>EK 4.2.4H</strong> Linear search can be used when searching for an item in any list; binary search can be used only when the list is sorted.</li>
+        	</ul>
         </div>
         <div class="todo">
-        Selim suggested standards:<br />
-        4.2.4H Linear search can be used when searching for an item in any list; binary search can be used only when the list is sorted.
+            <p>There is a lot of commented out content on this page. We should remove anything that we don't want. --MF, 12/27/17</p>
         </div>
-        
         <div class="learn">
             <p><strong>On this page</strong>, you will see how the characteristics of a list can affect the algorithm for searching in it.</p>
         </div>
@@ -31,10 +33,9 @@
             <div><span>Betsy: </span> Oh. Well, then I think the best you can do for now is to write a program that starts at the beginning and looks for Gamal. </div>
         </div>-->
 		
-    	
 	
         <h3>Searching in Unsorted Data</h3>
-        <p>Searching for an item in <em>unsorted</em> data is less efficient because you have to check every item, but it is easier to code.</p>
+        <p>When searching for an item in <em>unsorted</em> data, you have to check every item until you find the value you are looking for.</p>
         <img class="imageRight" src="/bjc-r/img/5-algorithms/unsorted-list.png" alt="unsorted list {20, 12, 3, 100, 50, 12}" title="unsorted list {20, 12, 3, 100, 50, 12}" />
         <div class="forYouToDo" id="first">
             <ol>
@@ -56,29 +57,16 @@
             <div><span>Betsy: </span> This feels a lot like the guessing game we built&mdash;I pick a number and the computer tries to guess it by splitting the list in half with each guess.</div>
             <img class="imageRight" src="/bjc-r/img/5-algorithms/awful-list-indexed.png" height="350" alt="awful-list {1:1, 1:7, 3:8, 4:9, 5:11, 6:12, 7:21, 8:22, 9:23, 10:24, 11:73, 12:73, 13:96, 14:99}" title="awful-list {1:1, 1:7, 3:8, 4:9, 5:11, 6:12, 7:21, 8:22, 9:23, 10:24, 11:73, 12:73, 13:96, 14:99}" />
 			<div>
-            <!--ST-Took steps to address this concern<div class="todo">ST-NYC teacher Chris asks if doing binary search how can you guarantee to encounter the first occurence of a duplicate? What should be reported? This should be clarified</div>-->
-                <span>Alphie: </span> But in that one, the computer guessed a number that we picked.  Now we want it to find a number in a list <!--that it knows (because we tell it)--> and report its position.  It should work like this:<br />
-                <!--Covered by side image --MF, 2/6/17
-                <img class="indent" src="/bjc-r/img/5-algorithms/awful-list-definition.png" alt="awful list: report {1, 7, 8, 9, 11, 20, 21, 22, 23, 24, 73, 83, 93, 99}" title="awful list: report {1, 7, 8, 9, 11, 20, 21, 22, 23, 24, 73, 83, 93, 99}" /><br />-->
+                <span>Alphie: </span> But in that one, the computer guessed a number that we picked.  Now we want it to find a number in a list and report its position. It should work like this:<br />
                 <img class="indent" src="/bjc-r/img/5-algorithms/position-of-number-11-in-sorted-list-awful-list.png" alt="position of number (11) in sorted list (awful list) reporting 5" title="position of number (11) in sorted list (awful list) reporting 5" />
             </div>
             <div class="todo">Al's note: this should look more like a "kid sketch" and not usable code. BK to MF or anyone else: How do I center an image?? BK to AC: these two images should use the same list; use 9 and not 9.3. BK tech glitch: in building this, when I try to place the sidenote inside the dialog, it cuts out the remaining "span" name callouts. For now the sidenote is outside the dialog box.</div>
             <div><span>Betsy: </span> Yes, but it still <em>feels</em> the same. It should have the same guts as the guessing game.</div>
-            <!--I found this unecessary and clarified FYTD #2 instead. --MF, 2/6/17
-            <div>
-                <span>Alphie: </span> OK. Let's modify our guessing game project so that when it gets the number, it tells us how many guesses it took and, instead of saying "Yay" when it finds it, it tells us where the number is in the list.<br />
-                <img class="image" width="75%" src="/bjc-r/img/5-algorithms/alphieidea.png" alt="Modifying the guessing game" title="Modifying the guessing game" />
-            </div>-->
         </div>
 		
         <div class="takeNote">Betsy's last remark is a version of <strong>abstraction</strong>. Betsy noticed that <code>position in sorted list</code> and the <a href="/bjc-r/cur/programming/5-algorithms/1-searching-lists/1-sorted-lists.html?topic=nyc_bjc%2F5-algorithms.topic&course=bjc4nyc.html&novideo&noassignment" title="Searching a Sorted List">number guesser algorithm</a> should have the same overall <em>structure</em>.
         </div>
-		<!--NOT IN U4 NOW. --MF, 12/24/17
-        <div class="endnote">
-            <p>Both <code>position in sorted list</code> and the number guesser algorithm can be built with the same <em>binary search</em> algorithm. How does this connect to the use of the word <em>binary</em> in Unit 4?</p>
-            <p>Note: In the binary search it's okay to find the position of any copy of a duplicated value.  (Although if for some reason it were important to find the first copy, you could do the binary search and then look leftward in the list until you find some unequal value.)</p>
-        </div>-->
-
+		
         <div class="forYouToDo">
             <ol start="2">
             	<!--I found this unecessary and clarified FYTD #2 instead. --MF, 2/6/17
@@ -93,6 +81,7 @@
                         <img class="indent" src="/bjc-r/img/5-algorithms/5.1.2-saypositionofnumber.png"  height="50" alt="say position of number (11) in sorted list (awful list)" title="say position of number (11) in sorted list (awful list)" />
                         <img class="indent" src="/bjc-r/img/5-algorithms/5.1.2-SpriteSays.png"  height="150" alt="sprite saying 'Position is 5, found in 4 guesses'" title="sprite saying 'Position is 5, found in 4 guesses'"/>
                     </ul>
+                    <div class="endnote">If the number is in the list more than once, any one that you find is ok.</div>
                 </li>
                 <li> 	       
                 <!--<div class="todo">NYC teacher Chris noticed that #2 and #3 are identical tasks.  Revise.</div>-->
