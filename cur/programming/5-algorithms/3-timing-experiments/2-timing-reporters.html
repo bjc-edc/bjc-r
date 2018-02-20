@@ -6,44 +6,18 @@
 		<title>Unit 5 Lab 3: Timing Experiments, Page 2</title>
 	</head>
 
-
-	<body>
+<body>
 		<h2>Timing Reporters</h2>
 		<div class="todo">
-        Selim suggested EK's: <br/>
-        4.2.4D Different correct algorithms for the same problem can have different efficiencies.<br />
-        4.2.4F Finding an efficient algorithm for a problem can help solve larger instances of the problem. <br />
-        
-        
-        </div>
-        <div class="todo">
-        	Blue button feedback:
             <ul>
-                <li>Point to specific labs in Step 5. Also, hard to export blocks.</li>
-                
-                
+                <li><strong>EK 4.2.4D</strong> Different correct algorithms for the same problem can have different efficiencies.</li>
+                <li><strong>EK 4.2.4F</strong> Finding an efficient algorithm for a problem can help solve larger instances of the problem.</li>
             </ul>
-        </div>
-        <div class="todo">
-        ST-1/24/18<br />
-        IMPORTANT: Tim Matthies @ Piazza mentions a series of issues with U5L3<br />
-        		<a href="https://piazza.com/class/h8yx482idav52y?cid=1857">3, </a>
-                <a href="https://piazza.com/class/h8yx482idav52y?cid=1861">6, </a>
-                <a href="https://piazza.com/class/h8yx482idav52y?cid=1863">8 </a>
-                <br />Resolved:<br />
-                <a href="https://piazza.com/class/h8yx482idav52y?cid=1850">1, </a>
-                <a href="https://piazza.com/class/h8yx482idav52y?cid=1855">2, </a>
-                <a href="https://piazza.com/class/h8yx482idav52y?cid=1858">4, </a>
-                <a href="https://piazza.com/class/h8yx482idav52y?cid=1862">7, </a>
-                <a href=" https://piazza.com/class/h8yx482idav52y?cid=1860">5 </a>
-                
-                
-        </div>
+		</div>
         
-        <div class="learn">
-        	<p><strong>On this page</strong>, you will create an <em>algorithm timer</em> to help you compare the efficiency of algorithms.</p>
+		<div class="learn">
+        	<p><strong>On this page</strong>, you will use an <em>algorithm timer</em> to help you compare the efficiency of algorithms.</p>
         </div>
-		
 		
 		<div class="sidenoteBig">The title of this page has two meanings: You will build a "timing reporter" that times reporters.</div>
         <p>Snap<em>!</em> allows us to report how long a program takes to finish.</p>
@@ -52,63 +26,61 @@
             <ol>
                 <li>In the "Sensing" palette, look for the <code>current (</code><var>date</var><code>)</code> reporter. Drag it into the scripting area.  From its input menu, select <var>time in milliseconds</var>.
                 </li>
-                <img class="imageRight" src="/bjc-r/img/5-algorithms/current-time.png" alt="current (time in milliseconds) reporting 1454091401280" title="current (time in milliseconds) reporting 1454091401280" />
-                <li>Click the block several times.  Note the results.
-                </li>
+                <img class="indent" src="/bjc-r/img/5-algorithms/current-time.png" alt="current (time in milliseconds) reporting 1454091401280" title="current (time in milliseconds) reporting 1454091401280" />
+                <li>Click the block several times.  Note the results.</li>
+                <li>Open the "U5L3-ReporterTimer" project that you saved on the previous page. </li>
+                <li>Download this library: <a target="_blank" href="/bjc-r/prog/5-algorithms/U5L3functiontimer.xml" download title="U5L3functiontimer.xml">U5L3functiontimer.xml</a>, and drag the file into your Snap<em>!</em> application to import it.</li>
             </ol>
         </div>
-
-        <p>
-            This block can be used to time how long a reporter takes to output. Here’s an algorithm:
-            <ul>
-                <li><strong>Step 1.</strong> Create a variable <var>start time</var> and set it to the current time.</li>
-                <li><strong>Step 2.</strong> Call the reporter that you're trying to time.  Ignore the result.</li>
-                <li><strong>Step 3.</strong> When the reporter finishes, get the current time and subtract <var>start time</var> from it.</li>
-            </ul>
-        </p>
-        
-        <div class="forYouToDo">
-            <ol start="3">
-                <li>Download <a target="_blank" href="/bjc-r/prog/5-algorithms/U5L3functiontimer.xml" download title="U5L3functiontimer.xml">this library</a> and drag the file into your Snap! application so that it gets imported. A block called <code>time function</code> is provided that takes any reporter (with its inputs filled in), computes the result, but reports <em>how long it took</em> to do the computation.  The answer will be in milliseconds.  Take a minute to review the code in <code>time function</code>.</li>
-                <li>Open the project <tt>U5L3-ReporterTimer</tt> that you saved on page 1 of this lab. Drag in the <tt>U5L3functiontimer</tt> library that you just downloaded.</li>
-            </ol>
-        </div>
+		<div class="commentBig">Brian says <code>time function</code> should really be <code>time expression</code>. --MF, 2/20/18	</div>
+        <p>At the bottom of the Variables palette, there will now be a block called <code>time function</code>. It takes any reporter (with its inputs filled in), computes the result, and reports <em>how long it took</em> to do the computation (in milliseconds).</p>
         
 		<div class="sidenoteBig">You can replace the <code>list from</code> block with any reporter. You can edit <code>time function</code> to see how it works.</div>
 		<img class="indent" src="/bjc-r/img/5-algorithms/timereport.png" alt="time function (list from (1) through (1000)) reporting 27" title="time function (list from (1) through (1000)) reporting 27" />
 
-        <p>In this example, it took 27 milliseconds to compute the list of integers from 1 to 1000. (The actual number will depend on how fast your computer is.)</p>
+        <p>In this example, it took 27 milliseconds to compute the list of integers from 1 to 1000. (The number you see reported will depend on how fast your computer is and what other programs are running on it.)</p>
+        <p>
+            Here's how <code>time function</code> works:<br />
+            <img class="indent" style="padding-right:40px" src="/bjc-r/img/5-algorithms/time-function-definition.png" alt="time function (function): (script variables (start time), set (start time) to (current(time in milliseconds)), ignore (call(function)), report(current(time in milliseconds) - start time))" title="time function (function): (script variables (start time), set (start time) to (current(time in milliseconds)), ignore (call(function)), report(current(time in milliseconds) - start time))" /> 
+        	<ol type="i">
+                <li>It creates a variable <var>start time</var> and sets it to the current time.</li>
+            	<li>It calls the reporter that you're trying to time, but it ignores the result.</li>
+                <li>When the reporter finishes, it gets the current time and subtracts the <var>start time</var> from it.</li>
+            </ol>
+		</p>
         
         <div class="forYouToDo">
             <ol start="5">
                 <li>
                     Use <code>time function</code> to compare Alphie and Betsy's ways of adding the integers from 1 to <em>n</em>. Try it with several different large numbers to see just how different the algorithms are in terms of the time it takes to compute their outputs.<br />
                     <div class="sidenoteBig">Alphie and Betsy’s algorithms solve the same problem but are quite different in efficiency. Imagine the difference when adding the integers from 1 to 1,000,000&hellip;</div>
-                    <!--<div class="todo">These images should be the same size. --MF, 12/24/17</div>-->
-		<img class="indent" src="/bjc-r/img/5-algorithms/time-function-betsy-way-2000-reporting.png" height="50" alt="time function (betsy way (2000)) reporting 1" title="time function (betsy way (2000)) reporting 1" /><br />
+				  <img class="indent" src="/bjc-r/img/5-algorithms/time-function-betsy-way-2000-reporting.png" height="50" alt="time function (betsy way (2000)) reporting 1" title="time function (betsy way (2000)) reporting 1" /><br />
                     <img class="indent" src="/bjc-r/img/5-algorithms/time-function-alphie-way-2000-reporting.png" height="50" alt="time function (alphie way (2000)) reporting 187" title="time function (alphie way (2000)) reporting 187" />
                 </li>
                 <div class="takeNote">The efficiency of an algorithm can make a huge difference. Sometimes, an efficient algorithm is necessary to solve larger instances of a problem.</div>
                 <li>
-                    In <a href="/bjc-r/cur/programming/5-algorithms/1-searching-lists/2-improving-search.html" title="Analyzing and Improving Searches">Lab 1</a> you built two reporters that output the position of an element in a list. The reporter <code>position of __ in unsorted list</code> works for any list as a <em>linear search</em>, checking element-by-element until it finds a match (or gets to the end and reports &quot;Not In List&quot;). The reporter <code>position of __ in sorted list</code> works on sorted lists as a <em>binary search</em> algorithm. So, both will work on sorted lists. Compare them for some long sorted lists and make a table of your findings.	 You may have to use very large lists, say 1000 or 2000 items, to get meaningful results.
-                    <div class="sidenote">Is the other algorithm ever faster?</div> Which algorithm is faster?
+                    In <a href="/bjc-r/cur/programming/5-algorithms/1-searching-lists/2-improving-search.html" title="Analyzing and Improving Searches">Lab 1</a> you built two reporters that output the position of an element in a list:
+                    <ul>
+                      <li>The reporter <code>position of __ in unsorted list</code> works for any list as a <em>linear search</em>, checking element-by-element until it finds a match (or gets to the end and reports "Not In List").</li>
+                      <li>The reporter <code>position of __ in sorted list</code> works on sorted lists as a <em>binary search</em> algorithm.</li>
+                    </ul>
+                    Both will work on sorted lists. Compare them for some long sorted lists and make a table of your findings.	 You may have to use very large lists, say 1000 or 2000 items, to get meaningful results. Which algorithm is faster?
+                    <div class="endnote">Is the other algorithm ever faster?</div> 
                 </li>
                 <li>
-                    <img class="imageRight" src="/bjc-r/img/icons/write-out-thoughts.png" alt="Write Out Your Thoughts" title="Write Out Your Thoughts" />
-                    Throughout this course, you've programmed many algorithms. Try timing them! Test your favorite algorithms, such as:
-                    <ul>
-                        <li>Creating a list of numbers</li>
-                        <li>Testing a list to see if the elements are distinct</li>
-                        <li>Adding 1 to a number</li>
-                        <div class="commentBig">This is currently the first mention of factorials in the curriculum, so I commented it out as it can't be a "favorite algorithm." --MF, 11/22/17</div>
-                        <!--<li>Computing the factorial of a number</li>-->
-                        <li>Number guessing games</li>
+                    <!--<img class="imageRight" src="/bjc-r/img/icons/write-out-thoughts.png" alt="Write Out Your Thoughts" title="Write Out Your Thoughts" />-->
+                    Throughout this course, you've programmed many algorithms. Try timing them. Here are some examples:
+                  <ul>	
+                    <li>Creating a list of numbers (<code>numbers from () to ()</code> on <a href="/bjc-r/cur/programming/5-algorithms/3-timing-experiments/1-comparing-algorithms.html?topic=nyc_bjc%2F5-algorithms.topic" title="Unit 5 Lab 3: Comparing Algorithms">Unit 5 Lab 3: Comparing Algorithms</a>)</li>
+                        <li>Testing a list to see if the elements are distinct (<code>are the numbers of () distinct?</code> on <a href="/bjc-r/cur/programming/5-algorithms/1-searching-lists/3-comparing-search-algorithms.html?topic=nyc_bjc%2F5-algorithms.topic" title="Unit 5 Lab 1: List Processing Algorithms">Unit 5 Lab 1: List Processing Algorithms</a>)</li>
+                        <li>Graphing (<code>graph datapoints</code> on <a href="/bjc-r/cur/programming/3-lists/4-graphing/2-building-a-grapher.html?topic=nyc_bjc%2F3-lists.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 3 Lab 4: Building a Graphing App">Unit 3 Lab 4: Building a Graphing App</a>)</li>
                     </ul>
                     <p>Time your algorithms for varying size inputs and describe the different behaviors you see. Again, use large inputs for meaningful results.</p>
                 </li>
                 <li><div class="saveAs"><span class="text">"U5L3-timer"</span><img src="/bjc-r/img/icons/save-this-as.png" alt="save your work as U5L3-timer" title="save your work as U5L3-timer" /></div></li>
             </ol>
         </div>
+        
 
-	</body>
+</body>
 </html>
