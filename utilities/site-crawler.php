@@ -76,7 +76,6 @@ function intro_text() {
 }
 
 // start crawl and report dead links (begins with $seed_url and populates $crawled_urls array)
-echo "\t\t<div class=\"sidenote\">If there are just 3 dead links here, ignore them. This is just a bug in the crawler that I haven't bothered to track down yet. More than the 3 is something that should be sorted out. --MF, 2/16/18</div>\n";
 crawl_for_links($seed_url);
 function crawl_for_links($input_url) {
 	// initialize local array
@@ -130,7 +129,12 @@ function crawl_for_links($input_url) {
 		}
 	
 		// remove MISC files
-		if ((substr($found_url, -3) == "xml") or (substr($found_url, -3) == "pdf") or (substr($found_url, -3) == "png") or (substr($found_url, -4) == "pptx") or (substr($found_url, -3) == "csv")) {
+		if (ends_with($found_url, "xml") or ends_with($found_url, "pdf") or ends_with($found_url, "png") or ends_with($found_url, "pptx") or ends_with($found_url, "csv")) {
+			unset($urls[$i]);
+		}
+		
+		// remove Specific files
+		if (ends_with($found_url, "ap-standards.html") or ends_with($found_url, "video-list-scratch.html") or ends_with($found_url, "video-list.html") or ends_with($found_url, "updates.html")) {
 			unset($urls[$i]);
 		}
 		
@@ -211,6 +215,13 @@ crawl_all_urls_for_stnds ("EK", $all_covered_EKs);
 cleanup_stnds_list($all_covered_EKs); // clean up list
 show_covered_stnds ($all_EKs, $all_covered_EKs, "EK"); // show covered
 show_and_count_missing_stnds ($all_EKs, $all_covered_EKs, "EK", 6); // show and count missing
+
+// define function to check if one string ends with another
+function ends_with ($string, $end){
+	if (substr($string, -strlen($end)) == $end) {
+		return true;
+	} else {return false;}
+} // end ends_with definition
 
 // define function to crawl $crawled_urls for standards (populates $found_standards array)
 function crawl_all_urls_for_stnds($input_stnd, &$input_covered_list) {
@@ -369,6 +380,14 @@ global $conn;
 for ($cpt_num = 1; $cpt_num <= 6; $cpt_num++) {
 	$sql = "SELECT DISTINCT FileName, PageName, WholeStandard FROM LOs WHERE WholeStandard LIKE '%[P" . $cpt_num . "]%' ORDER BY WholeStandard";
 	$result = $conn->query($sql);
+	switch($cpt_num) {
+		case 1: echo "\t\t\t<tr><td colspan='3'>P1: Connecting Computing - Developments in computing have far-reaching effects on society and have led to significant innovations. The developments have implications for individuals, society, commercial markets, and innovation. Students in this course study these effects, and they learn to draw connections between different computing concepts. Students are expected to:<ul><li>P1.1. Identify impacts of computing.</li><li>P1.2. Describe connections between people and computing.</li><li>P1.3. Explain connections between computing concepts.</li></ul></td></tr>\n"; break;
+		case 2: echo "\t\t\t<tr><td colspan='3'>P2: Creating Computational Artifacts - Computing is a creative discipline in which creation takes many forms, such as remixing digital music, generating animations, developing Web sites, and writing programs. Students in this course engage in the creative aspects of computing by designing and developing interesting computational artifacts as well as by applying computing techniques to creatively solve problems. Students are expected to:<ul><li>P2.1. Create an artifact with a practical, personal, or societal intent.</li><li>P2.2. Select appropriate techniques to develop a computational artifact.</li><li>P2.3. Use appropriate algorithmic and information management principles.</li></ul></td></tr>\n"; break;
+		case 3: echo "\t\t\t<tr><td colspan='3'>P3: Abstracting -  Computational thinking requires understanding and applying abstraction at multiple levels, such as privacy in social networking applications, logic gates and bits, and the human genome project. Students in this course use abstraction to develop models and simulations of natural and artificial phenomena, use them to make predictions about the world, and analyze their efficacy and validity. Students are expected to:<ul><li>P3.1. Explain how data, information, or knowledge is represented for computational use.</li><li>P3.2. Explain how abstractions are used in computation or modeling.</li><li>P3.3. Identify abstractions.</li><li>P3.4. Describe modeling in a computational context.</li></ul></td></tr>\n"; break;
+		case 4: echo "\t\t\t<tr><td colspan='3'>P4: Analyzing Problems and Artifacts -  The results and artifacts of computation and the computational techniques and strategies that generate them can be understood both intrinsically for what they are as well as for what they produce. They can also be analyzed and evaluated by applying aesthetic, mathematical, pragmatic, and other criteria. Students in this course design and produce solutions, models, and artifacts, and they evaluate and analyze their own computational work as well as the computational work others have produced. Students are expected to:<ul><li>P4.1. Evaluate a proposed solution to a problem.</li><li>P4.2. Locate and correct errors.</li><li>P4.3. Explain how an artifact functions.</li><li>P4.4. Justify appropriateness and correctness of a solution, model, or artifact.</li></ul></td></tr>\n"; break;
+		case 5: echo "\t\t\t<tr><td colspan='3'>P5: Communicating -  Students in this course describe computation and the impact of technology and computation, explain and justify the design and appropriateness of their computational choices, and analyze and describe both computational artifacts and the results or behaviors of such artifacts. Communication includes written and oral descriptions supported by graphs, visualizations, and computational analysis. Students are expected to:<ul><li>P5.1. Explain the meaning of a result in context.</li><li>P5.2. Describe computation with accurate and precise language, notations, or visualizations.</li><li>P5.3. Summarize the purpose of a computational artifact.</li></ul></td></tr>\n"; break;
+		case 6: echo "\t\t\t<tr><td colspan='3'>P6: Collaborating -  Innovation can occur when people work together or independently. People working collaboratively can often achieve more than individuals working alone. Learning to collaborate effectively includes drawing on diverse perspectives, skills, and the backgrounds of peers to address complex and open-ended problems. Students in this course collaborate on a number of activities, including investigation of questions using data sets and in the production of computational artifacts. Students are expected to:<ul><li>P6.1: Collaborate with another student in solving a computational problem.</li><li>P6.2. Collaborate with another student in producing an artifact.</li><li>P6.3. Share the workload by providing individual contributions to an overall collaborative effort.</li><li>P6.4. Foster a constructive, collaborative climate by resolving conflicts and facilitating the contributions of a partner or team member.</li><li>P6.5. Exchange knowledge and feedback with a partner or team member.</li><li>P6.6. Review and revise their work as needed to create a high-quality artifact.</li></ul></td></tr>\n"; break;
+	}
 	create_spreadsheet_row ("P" . $cpt_num, $result, "ctps");
 }
 echo "\t\t</table>\n";
