@@ -34,10 +34,36 @@ function setup_mysql() {
 		die("Connection failed: " . $conn->connect_error);
 	} 
 	
-	// Clear existing DB tables
-	mysqli_query($conn, "DELETE FROM EUs");
-	mysqli_query($conn, "DELETE FROM LOs");
-	mysqli_query($conn, "DELETE FROM EKs");
+	// Check for EU table & either create it or clear it
+	$sql = "SELECT * FROM information_schema.tables WHERE table_schema = 'Crawl_Standards_List' AND table_name = 'EUs'";
+	$result = $conn->query($sql);	
+	if ($result->num_rows > 0) {
+		mysqli_query($conn, "DELETE FROM EUs");
+	} else {
+		$sql = "CREATE TABLE EUs (Filename VARCHAR(150), Standard VARCHAR(20), PageName VARCHAR(100), WholeStandard VARCHAR(300))";
+		$result = $conn->query($sql);	
+	}
+	
+	// Check for LO table & either create it or clear it
+	$sql = "SELECT * FROM information_schema.tables WHERE table_schema = 'Crawl_Standards_List' AND table_name = 'LOs'";
+	$result = $conn->query($sql);	
+	if ($result->num_rows > 0) {
+		mysqli_query($conn, "DELETE FROM LOs");
+	} else {
+		$sql = "CREATE TABLE LOs (Filename VARCHAR(150), Standard VARCHAR(20), PageName VARCHAR(100), WholeStandard VARCHAR(300))";
+		$result = $conn->query($sql);	
+	}
+	
+	// Check for EK table & either create it or clear it
+	$sql = "SELECT * FROM information_schema.tables WHERE table_schema = 'Crawl_Standards_List' AND table_name = 'EKs'";
+	$result = $conn->query($sql);	
+	if ($result->num_rows > 0) {
+		mysqli_query($conn, "DELETE FROM EKs");
+	} else {
+		$sql = "CREATE TABLE EKs (Filename VARCHAR(150), Standard VARCHAR(20), PageName VARCHAR(100), WholeStandard VARCHAR(300))";
+		$result = $conn->query($sql);	
+	}
+	
 } // end function definition
 
 // make global definitions 
@@ -71,7 +97,7 @@ function initialize_vars(){
 // display intro text for user
 intro_text();
 function intro_text() {
-	echo "\t\t<div class=\"sidenote\" style=\"position: fixed; top: 80px; right:20px;\">\n\t\t\t<p><a href=\"#hint-TOC\" data-toggle=\"collapse\">Table of Contents...</a></p>\n\t\t\t<div id=\"hint-TOC\" class=\"collapse\"><ul><li><a href=\"#top\">Back to Top</a></li><li>EUs<ul><li><a href='#EU'>EUs by TG Lab Page</a></li><li><a href='#allEU'>Covered EUs</a></li><li><a href='#missingEU'>Missing EUs</a></li></ul></li><li>LOs<ul><li><a href='#LO'>LOs by TG Lab Page</a></li><li><a href='#allLO'>Covered LOs</a></li><li><a href='#missingLO'>Missing LOs</a></li></ul></li><li>EKs<ul><li><a href='#EK'>EKs by TG Lab Page</a></li><li><a href='#allEK'>Covered EKs</a></li><li><a href='#missingEK'>Missing EKs</a></li></ul></li><li><a href='#ordered'>Ordered LOs/EKs List for LL</a></li><li><a href='#CTP'>CTP Lists</a></li></ul></div>\n\t\t\t<p><a href=\"#hint-Links\" data-toggle=\"collapse\">Other Links...</a></p>\n\t\t\t<div id=\"hint-Links\" class=\"collapse\"><ul><li><a href=\"https://docs.google.com/spreadsheets/d/1Iw3-TINMp_-qJ10688pfg9ACDjYAyWTWMSG_Op8sQOw/edit#gid=477558311\" target=\"_blank\">NonCorrespondenceList</a></li><li><a href=\"https://secure-media.collegeboard.org/digitalServices/pdf/ap/ap-computer-science-principles-course-and-exam-description.pdf\" target=\"_blank\">Framework</a></li><li><a href=\"https://www2.cs.duke.edu/csed/csprinciples/framework/\" target=\"_blank\">Lookup</a></li></ul></div>\n\t\t</div>\n";
+	echo "\t\t<div class=\"sidenote\" style=\"position: fixed; top: 80px; right:20px;\">\n\t\t\t<p><a href=\"#hint-TOC\" data-toggle=\"collapse\">Table of Contents...</a></p>\n\t\t\t<div id=\"hint-TOC\" class=\"collapse\"><ul><li><a href=\"#top\">Back to Top</a></li><li>EUs<ul><li><a href='#EU'>EUs by TG Lab Page</a></li><li><a href='#allEU'>Covered EUs</a></li><li><a href='#missingEU'>Missing EUs</a></li></ul></li><li>LOs<ul><li><a href='#LO'>LOs by TG Lab Page</a></li><li><a href='#allLO'>Covered LOs</a></li><li><a href='#missingLO'>Missing LOs</a></li></ul></li><li>EKs<ul><li><a href='#EK'>EKs by TG Lab Page</a></li><li><a href='#allEK'>Covered EKs</a></li><li><a href='#missingEK'>Missing EKs</a></li></ul></li><li><a href='#map'>Ordered EUs/LOs List for CB Map</a></li><li><a href='#ordered'>Ordered LOs/EKs List for LL</a></li><li><a href='#CTP'>CTP Lists</a></li></ul></div>\n\t\t\t<p><a href=\"#hint-Links\" data-toggle=\"collapse\">Other Links...</a></p>\n\t\t\t<div id=\"hint-Links\" class=\"collapse\"><ul><li><a href=\"https://docs.google.com/spreadsheets/d/1Iw3-TINMp_-qJ10688pfg9ACDjYAyWTWMSG_Op8sQOw/edit#gid=477558311\" target=\"_blank\">NonCorrespondenceList</a></li><li><a href=\"https://secure-media.collegeboard.org/digitalServices/pdf/ap/ap-computer-science-principles-course-and-exam-description.pdf\" target=\"_blank\">Framework</a></li><li><a href=\"https://www2.cs.duke.edu/csed/csprinciples/framework/\" target=\"_blank\">Lookup</a></li></ul></div>\n\t\t</div>\n";
 	echo "\t\t<h3>This<a name=\"top\">&nbsp;</a>script crawls for standards on your localhost copy of the repo.</h3><p><small>Please note that:<ul><li>This crawler will catch <em>any</em> standard in our list format <em>even if it's commented out</em>;</li><li>It doesn't differentiate between rewritten copies of the same standard. (If the number of standards found to be \"Missing (determined by subtraction)\"&mdash; subtracting the number covered standards from the actual number of standards&mdash;doesn't match the \"Total Found Missing,\" then slightly rewritten copies are likely the cause.)</li></ul></small></p><hr />\n";
 }
 
@@ -183,7 +209,7 @@ function crawl_for_links($input_url) {
 } // end function definition
 
 // report data from crawling process
-echo "\t\t<hr /><p><strong>Total Pages Crawled: " . count($crawled_urls)."</strong></p>\n";
+echo "\t\t<p><strong>Total Pages Crawled: " . count($crawled_urls)."</strong></p>\n";
 show_crawled_urls ();
 function show_crawled_urls () {
 	global $html_data_from_crawled_urls;
@@ -352,8 +378,49 @@ function show_and_count_missing_stnds (&$input_stnd_list, $input_covered_list, $
 	echo "<br /><strong>Total Found Missing " . $input_stnd . "s: " . $missing_stnds . "</strong><br />";
 	} // end show_and_count_missing_stnds definition
 	
-// ORDERED STANDARDS WITH PAGENAMES FOR LL SPREADSHEET
-echo "\t\t<hr>\n\t\t<h2>Ordered<a name='ordered' class='anchor'>&nbsp;</a>Standards for Pasting into Learning List Spreadsheet</h2>\n";
+function lastchr($input) { if (strlen($input) > 0){ return substr($input, strlen($input)-1); } }
+function re_to_AP($input) { if ($input == "re") { return "Performance Tasks"; } else { return $input; } }
+
+// ORDERED EUs and LOs WITH UNIT NAMES FOR COLLEGE BOARD CURRIULUM MAP
+echo "\t\t<hr>\n\t\t<h2>Ordered<a name='map' class='anchor'>&nbsp;</a>EUs and LOs for Pasting into College Board Curriculum Map</h2>\n";
+echo "\t\t<table class=\"bordered\">\n";
+$EU = "";
+foreach  ($all_LOs as $LO) {
+	$LO_units = populate_stnds_list($LO, "LO");
+	if ($EU == substr($LO, 0, 3)) {
+		echo "\t\t\t<tr>\n\t\t\t\t<td width='100px'></td><td width='100px'></td><td width='100px'>LO " . $LO . "</td>\n\t\t\t\t<td>" . $LO_units . "</td>\n\t\t\t</tr>\n";
+	} else {
+		$EU = substr($LO, 0, 3);
+		$EU_units = populate_stnds_list($EU, "EU");
+		echo "\t\t\t<tr>\n\t\t\t\t<td width='100px'>EU " . $EU . "</td><td width='100px'>" . $EU_units . "</td><td width='100px'>LO " . $LO . "</td>\n\t\t\t\t<td>" . $LO_units . "</td>\n\t\t\t</tr>\n";
+	}
+}
+echo "\t\t</table>\n";
+
+// define function to create list of units for inputed stanard (for curriculum map_
+function populate_stnds_list ($standard, $type){
+	$stnd_units = "";
+	// gather data for each standards
+	$sql = "SELECT Filename FROM " . $type . "s WHERE Standard = '" . $type . " " . $standard . "' and PageName LIKE '%Teacher Guide%'";
+	global $conn;
+	$result = $conn->query($sql);
+	if ($result->num_rows > 0) {
+		while ($row = $result->fetch_assoc()) {
+			$new_stnd_unit = re_to_AP(substr($row["Filename"], strpos($row["Filename"], "teaching-guide/") + 15, 2));
+			if (lastchr($new_stnd_unit) != lastchr($stnd_units)) {
+				if (strlen($stnd_units) > 0) {
+					$stnd_units .= ", " . $new_stnd_unit;
+				} else {
+					$stnd_units .= $new_stnd_unit;
+				}
+			}
+		}
+	}	
+	return $stnd_units;
+} // end populate_stnds_list definition
+
+// ORDERED LOs and EKs WITH PAGE NAMES FOR LL SPREADSHEET
+echo "\t\t<hr>\n\t\t<h2>Ordered<a name='ordered' class='anchor'>&nbsp;</a>LOs and EKs for Pasting into Learning List Spreadsheet</h2>\n";
 echo "\t\t<table class=\"bordered\">\n";
 foreach  ($all_LOs as $LO) {
 	global $conn;
@@ -375,10 +442,10 @@ echo "\t\t</table>\n";
 // LIST OF LOs UNDER EACH CTP FOR LL SPREADSHEET
 echo "\t\t<hr>\n\t\t<h2>List<a name='CTP' class='anchor'>&nbsp;</a>of LOs under each CTPs for Further Work before Entry into LL Spreadsheet</h2>\n";
 echo "\t\t<table class=\"bordered\">\n";
-global $conn;
+//global $conn;
 // create table rows for each LO
 for ($cpt_num = 1; $cpt_num <= 6; $cpt_num++) {
-	$sql = "SELECT DISTINCT FileName, PageName, WholeStandard FROM LOs WHERE WholeStandard LIKE '%[P" . $cpt_num . "]%' ORDER BY WholeStandard";
+	$sql = "SELECT DISTINCT Filename, PageName, WholeStandard FROM LOs WHERE WholeStandard LIKE '%[P" . $cpt_num . "]%' ORDER BY WholeStandard";
 	$result = $conn->query($sql);
 	switch($cpt_num) {
 		case 1: echo "\t\t\t<tr><td colspan='3'>P1: Connecting Computing - Developments in computing have far-reaching effects on society and have led to significant innovations. The developments have implications for individuals, society, commercial markets, and innovation. Students in this course study these effects, and they learn to draw connections between different computing concepts. Students are expected to:<ul><li>P1.1. Identify impacts of computing.</li><li>P1.2. Describe connections between people and computing.</li><li>P1.3. Explain connections between computing concepts.</li></ul></td></tr>\n"; break;
@@ -391,6 +458,15 @@ for ($cpt_num = 1; $cpt_num <= 6; $cpt_num++) {
 	create_spreadsheet_row ("P" . $cpt_num, $result, "ctps");
 }
 echo "\t\t</table>\n";
+
+// define function to create row in College Board Curriculum Map
+function create_map_row ($td_stnd, $result_of_query) {
+	if ($result_of_query->num_rows > 0) {
+		while ($row = $result_of_query->fetch_assoc()) {
+			echo "\t\t\t<tr>\n\t\t\t\t<td width='100px'></td><td width='100px'></td><td width='100px'>" . $td_stnd . "</td>\n\t\t\t\t<td>" . substr($row["Filename"], strpos($row["Filename"], "teaching-guide/") - 15, 2) . "</td>\n\t\t\t</tr>\n";
+		}
+	}
+} // end create_map_row definition
 
 // define function to create row in LL Spreadsheet
 function create_spreadsheet_row ($td_stnd, $result_of_query, $purpose) {
@@ -405,10 +481,10 @@ function create_spreadsheet_row ($td_stnd, $result_of_query, $purpose) {
 				if ($td_page_count < $result_of_query->num_rows) { $td_pages = $td_pages . "; ";} // add semicolons up until the last page
 			} elseif ($purpose == "ctps") {
 				if ($standard == $row["WholeStandard"]) { // if we are still on the same LO
-					$td_pages = $td_pages . "<a href='" . $row["FileName"] . "' target=\"_blank\">" . $row["PageName"] . "</a>; ";
+					$td_pages = $td_pages . "<a href='" . $row["Filename"] . "' target=\"_blank\">" . $row["PageName"] . "</a>; ";
 				} else {
 					$standard = $row["WholeStandard"];
-					$td_pages = $td_pages . "<br />" . $standard . " &mdash; " . "<a href='" . $row["FileName"] . "' target=\"_blank\">" . $row["PageName"] . "</a>; ";
+					$td_pages = $td_pages . "<br />" . $standard . " &mdash; " . "<a href='" . $row["Filename"] . "' target=\"_blank\">" . $row["PageName"] . "</a>; ";
 				}
 			}
 		}
@@ -419,7 +495,7 @@ function create_spreadsheet_row ($td_stnd, $result_of_query, $purpose) {
 	if (substr($td_stnd, 0, 2) == "LO") {$stnd_color = "blue";} else {$stnd_color = "yellow";}
 	if ($td_pages == "0 results") {$stnd_pages = "red";} else {$stnd_pages = "white";}
 	echo "\t\t\t<tr>\n\t\t\t\t<td width='100px' bgcolor='" . $stnd_color . "'>" . $td_stnd . "</td>\n\t\t\t\t<td bgcolor='" . $stnd_pages . "'>" . $td_pages . "</td>\n\t\t\t\t<td bgcolor='" . $stnd_pages . "'>" . $td_page_count . "</td>\n\t\t\t</tr>\n";
-} // end show_and_count_missing_stnds definition
+} // end create_spreadsheet_row definition
 
 // add HTML Page Footer
 insert_html_foot();
