@@ -11,13 +11,14 @@
     
     <body>
 		<h2>Debugging Recap</h2>       
+		<div class="todo">Selim's original version of the Debugging Summary is <a href="http://localhost/bjc-r/cur/programming/2-complexity/debugging/debugging-summary.html">here</a>.</div>
 		
 		<div class="learn">
             <p><strong>On this page,</strong> you will review what you've learned about debugging in Snap<em>!</em> and learn some good programming habits.</p>
         </div>
         
         <div class="sidenote">
-        	The first computer "bug" was an actual moth that got stuck inside a computer in 1947.<br />
+        	One early case of "debugging" was when an actual moth got stuck inside a computer in 1947. Here is a page from Grace Hopper's notebook with the moth pasted in:
             <img  class="inline" src="/bjc-r/img/2-complexity/Debugging/first-computer-bug.jpg"  alt="Photo of the first actual case of bug being found, at Mark II Aiken Relay Calculator, Harvard, 1947" title="Photo of the first actual case of bug being found, at Mark II Aiken Relay Calculator, Harvard, 1947"/>
         </div>
         
@@ -92,18 +93,18 @@
                 </li>
                 <li>
                     <strong>Keep your code tidy.</strong> Delete unused blocks, and use the Snap<em>!</em>'s "clean up" feature to organize your code.
-                    <div class="endnote">You learned about code organization in <a href="http://localhost/bjc-r/cur/programming/1-introduction/3-drawing/4-modify-your-pinwheel.html?topic=nyc_bjc%2F1-intro-loops.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 1 Lab 3 Page 4: Modify Your Pinwheel">Unit 1 Lab 3 Page 4: Modify Your Pinwheel</a></div>
+                    <div class="endnote">You learned about code organization in <a href="http://localhost/bjc-r/cur/programming/1-introduction/3-drawing/4-modify-your-pinwheel.html?topic=nyc_bjc%2F1-intro-loops.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 1 Lab 3 Page 4: Modify Your Pinwheel">Unit 1 Lab 3 Page 4: Modify Your Pinwheel</a>.</div>
                 </li>
                 <li>
                 	<strong>Use readable names</strong> for blocks and variables. 
-                    
+                    <div class="todo">I'm not sure how this helps minimize bugs, but I have left it here for now. Perhaps someone has a insight for me, or maybe this section should just be "Good Programming Habits." --MF, 5/11/18</div>
                     <div class="endnote">
-                    In text-based programming languages (Python, Java, etc.) you may not be able to use spaces in variable or procedure names, and because programmers have to write the name out each time, it's common to abbreviate names. But this makes the names harder to read and understand what they mean. For example in Snap<em>!</em>, you might use a variable name like <var>Alonzo's Current Score</var>, but in a text-based language, you might end up with <var>aloCurScr</var>. Take advantage of Snap<em>!</em>'s flexibility with naming, and make your blocks and variables with sensible names that you will remember later and other people can understand easily.
+                    In text-based programming languages (Python, Java, etc.), you may not be able to use spaces in variable or procedure names, and because programmers using text-based languages have to write the name out each time they use it, it's common to abbreviate names. But this makes the names harder to read and understand what they mean! For example in Snap<em>!</em>, you might use a variable name like <var>Alonzo's Current Score</var>, but in a text-based language, you might use something like <var>aloCurScr</var>, but this can be confusing to read. Take advantage of Snap<em>!</em>'s flexibility with naming, and create your blocks and variables with sensible names that you will remember later and other people can understand easily.
                     </div>
 				</li>
 				<li>
                     <strong>Use abstraction</strong> to hide the complexity of code. Examples of abstraction include: using loops to repeat, using custom blocks, using an abstract data type.
-                	<div class="todo">Do we have other examples to list here? --MF, 5/11/18</div>
+                	<div class="todo">Do we have other examples to list here? Do we want to link to pages where we discuss these things? I feel like there is more to say about how abstraction helps minimize bugs, but I'm running out of steam. Brian? --MF, 5/11/18</div>
                 </li>
             </ul>
         </div>
@@ -121,7 +122,7 @@
                     <img src="/bjc-r/img/2-complexity/Debugging/without-abstraction.png"  height="250" alt="Code without abstraction: repeat(3){move (100) steps; turn counter-clockwise (120) degrees};repeat(4){move (100) steps; turn counter-clockwise (90) degrees};repeat(5){move (100) steps; turn counter-clockwise (72) degrees};repeat(6){move (100) steps; turn counter-clockwise (60) degrees} image of four nested polygons" title="Code without abstraction: repeat(3){move (100) steps; turn counter-clockwise (120) degrees};repeat(4){move (100) steps; turn counter-clockwise (90) degrees};repeat(5){move (100) steps; turn counter-clockwise (72) degrees};repeat(6){move (100) steps; turn counter-clockwise (60) degrees} image of four nested polygons"/>
 					<img src="/bjc-r/img/2-complexity/Debugging/with-abstraction.png"  height="250" alt="Code with abstraction: for (i)=(3) to (6){polygon, sides:(i) side length:(100)} image of four nested polygons" title="Code with abstraction: for (i)=(3) to (6){polygon, sides:(i) side length:(100)} image of four nested polygons"/>
                     <div class="todo">
-                        Solutions:
+                        Solutions for TG:
                         <ol>
                             <li>The most likely response would be to point out how the code uses <code>repeat</code> instead of listing each <code>move</code>, <code>turn</code> sequence 3, 4, 5, or 6 times.</li>
                             <li>The two most likely responses would be the use of a <code>polygon block</code> instead of <code>move</code>, <code>turn</code> and the use of a <code>for</code> loop instead of multiple <code>repeat</code> blocks. You might ask students: "What else does the second version of the code do differently?" to draw attention to the fact that the second version also determines the correct turning angle from the number of sides. </li>
@@ -132,7 +133,8 @@
                                     <li>If you want to change something about how the shapes are drawn, you only have to change the code inside <code>polygon</code> one time.</li>
                                     <li>If you need to debug, you have fewer places to look for errors.</li>
                                     <li>The <code>polygon</code> block can be reused in another part of the program.</li>
-                                    <li>You only have to change one number to add more levels of polygons..</li>
+                                    <li>You only have to change one number to add more levels of polygons (a septagon, octagon, etc.).</li>
+                                    <li>You only have to change one number to adjust the size of the whole picture.</li>
                                 </ul>
                             </li>
                         </ol>
