@@ -8,8 +8,7 @@
 
     <body> 
         <div class="todo">
-            ST EK List:
-            <br />
+            ST EK List:<br />
             No EK's found
         </div>
         <div class="todo">
@@ -18,57 +17,77 @@
         </div>
         <h2>Building a Tic-Tac-Toe Board</h2>
         <div class="todo">
-            <h3>Ruthless Suggestions from Al</h3>
-            <ul>
-                <li>“Do we want this? –bh” I guess not. Frown.</li>
-                <ul><li>Is this comment still relevant, Al or Brian? --MF, 5/16/18</li></ul>
-            </ul>
+        	<p><strong>Mary's 5/21/18 revision</strong>: I read and worked through this whole page. I had trouble understanding how clones work, so I made edits for clarity. Please read over the page, and make sure that I haven't make any mistakes or destroyed anything we were trying to do. --MF, 5/21/18</p>
+        	<p>
+                Here is some of the critical teacher feedback (there was great feedback too!):
+                <ul>
+                    <li>I had to trace the code with the students for the Tic Tac Toe project and I used Jorge's handout. Most of the students spent way too much time trying to figure out the problem.</li>
+                    <li>...my students are not really thinking through the projects.</li>
+                    <li>...the whole Lab is very heavy for the students.</li>
+                    <li>Students struggled with creating the tic tax toe board using clones</li>
+                    <li>Students found it very difficult to understand</li>
+                    <li>While most of my students can do simpler labs, most give up when confronted with a more sophisticated and nuanced situation.</li>
+                </ul>
+            </p>
         </div>
-        <div class="todo">There is a lot on this page and it ends with an orange wall of text... I suggest we reread with an eye for trimming back. --MF, 5/16/18</div>
 		
         <div class="learn">
-            <img class="indent" src="/bjc-r/img/2-complexity/TTT1_img/Three States of TTT.png" width="550"  alt="Three states of Tic Tac Toe: in progress, win, tie" title="Three states of Tic Tac Toe: in progress, win, tie"/><br />
             <p><strong>In this <em>yearlong</em> project,</strong> you will  develop a program that plays Tic-Tac-Toe as well as you do.</p>
             <p><strong>On this first page,</strong> you display a Tic-Tac-Toe board and let two human players enter moves.</p>
+            <img class="indent" src="/bjc-r/img/2-complexity/TTT1_img/Three States of TTT.png" width="550"  alt="Three states of Tic Tac Toe: in progress, win, tie" title="Three states of Tic Tac Toe: in progress, win, tie"/>
         </div>
-        <p>One approach to this problem uses<em> multiple sprites</em> to make an "active" Tic-Tac-Toe board, in which each square is actually a separate sprite. Each sprite knows which square it's in, because once the board is set up, the sprites never move. You click in a square, and the sprite that you clicked on changes its costume to display the move.  It doesn't have to compute the square number based on the mouse coordinates.</p>
+        <div class="todo">The prior version of this paragraph read like it was explaining why we are doing it this way rather than the old way. The students won't have seen the old way, so that is unnecessary. If we want to compare versions (which I think might be too complex for here) we should actually show both versions and then compare--not just talk about something we have seen and they have not. --MF, 5/21/18</div>
+		<p>One approach to building this game is to use <em>multiple sprites</em>; each square is separate sprite. Each sprite knows where it is on the board, and the sprites never move. The player clicks one of the nine squares, and that sprite changes its costume to display the move.</p>
+        
         <div class="forYouToDo" id="first">
             <ol>
+            	<div class="todo"><strong>SELIM</strong>, Do we still need this commented-out HTML? --MF, 5/22/18</div>
           <!--      <li>Play with <a href="/bjc-r/cur/programming/2-complexity/new/6b-newTTT-phase1-interactive.html" target="_blank">this example</a> to get a feel for the Phase 1 version of Tic Tac Toe. </li>   -->
                 <li><a class="run" href="/bjc-r/prog/2-complexity/U2L4-Tic-Tac-Toe.xml" target="_blank"><img class="inline" src="/bjc-r/img/icons/load-save.png" alt="Click here to load this file. Then save it to your Snap! account." title="Click here to load this file. Then save it to your Snap! account." /></a></li>
                 <li>
-                	A sprite has already been created for you with three costumes: Empty, X, and O. Click on the <code>next costume</code> block at the top of the scripting area a few times to see all of them.<br />
+                	The first sprite has already been set up for you. It has three costumes: Empty, X, and O. Click <img class="inline" src="/bjc-r/img/blocks/next-costume.png" alt="next costume" title="next costume" /> a few times to see all of them.<br />
                     <img class="indent" src="/bjc-r/img/2-complexity/TTT1_img/Costumes.png" height="100" alt="Costumes of a square: Empty, X and O" title="Costumes of a square: Empty, X and O" />
 				</li>
             </ol>
         </div>
         
+        <p>You will use <em>clones</em> to create the 3&times;3 Tic-Tac-Toe board.</p>
+        <div class="vocabFullWidth">
+            <p>A <strong>clone</strong> is a copy of a sprite that <em>shares information</em> with its parent sprite (the original sprite). For example, clones have copies of any scripts from the parent, and if the parent's script is changed, then the clones' scripts change too. However, changes to a clone are <em>not</em> shared with the parent, so you can do things like move each clone to a different position.</p>
+        </div>
         <p>
-            You will be using the <strong>clone</strong> feature in Snap<em>!</em> to create the 3&times;3 Tic-Tac-Toe board. A clone is sort of like a copy of an existing sprite, but it <em>shares information</em> with its parent sprite. So, for example, the clones will share any scripts you write in the parent, even if you change a script after the clones are created. But changes in a clone are not shared by the parent, so, for example, you can move each clone to a different position.<br />
-            <div class="endnote">In this project you're going to need <em>nine</em> clones, one for each square of the Tic-Tac-Toe board. So you'd like to say something along the lines of<br /><img class="indent" src="/bjc-r/img/2-complexity/9-copies.png" alt="repeat (9){create a clone of (myself)}" title="repeat (9){create a clone of (myself)}"><br />
-            The actual code in the project will be slightly more than this, but this is the central idea.</div>
-            A clone  starts with the same position, costumes, scripts, and so on, of its parent.  But...
+            Clones start with the same position, costumes, and scripts of their parent. But...
             <ul>
-                <li>The clone doesn't appear in the sprite corral.</li>
-                <li>Clones made with the <code>create a clone</code> block are <em>temporary.</em>  Clicking the stop button will delete all clones in the project.</li>
+                <li>Clones <em>don't</em> appear in the sprite corral.</li>
+                <li>Clones are <em>temporary.</em> Clicking the stop button will delete all clones in the project.</li>
             </ul>
-        </p>
-        <p>
-            In the starter project is this demonstration script:<br />
-            <img class="indent" src="/bjc-r/img/2-complexity/TTT1_img/WhenIamClicked.png" height="200" alt="when I am (clicked){ create a clone of (myself); say(You clicked me!); glide (1) secs to x: (pick random(-200) to (200)) y: (pick random(-150) to (150)); say()}" title="when I am (clicked){ create a clone of (myself); say(You clicked me!); glide (1) secs to x: (pick random(-200) to (200)) y: (pick random(-150) to (150)); say()}"><br />
-            You're going to use this script <em>right now</em> to learn more about clones, but it isn't going to be part of <em>the finished project.</em> 
+            <div class="endnote">
+            	<div class="comment">I'm trying to make this more understandable. I found myself tripping on 9 clones vs. 8 because we didn't explain it. Now we do. I tried to be simple and clear about it. Success? --MF, 5/22/18</div>
+                In this project, you'll need <em>nine</em> clones, one for each square of the Tic-Tac-Toe board. So, you'd need something like:<br />
+                <img class="indent" src="/bjc-r/img/2-complexity/9-copies.png" alt="repeat (9){create a clone of (myself)}" title="repeat (9){create a clone of (myself)}"><br />
+	            The actual code you write will be slightly more than this, but this is the central idea. You'll need nine clones, and you will hide the parent. This will allow you to control the squares of the grid with blocks like:<br />
+                <img class="indent" src="/bjc-r/img/blocks/when-i-start-as-clone.png" alt="When I start as a clone" title="When I start as a clone" />
+            </div>
         </p>
         
         <div class="forYouToDo">
 			<ol start="3">
-	            <li><em><strong>Read</strong></em> the script together with your partner and talk over what you think will happen when you click on the sprite. Then click on the sprite  on the stage and compare what happens with what you expected.
-	                <div class="narrower">				
+	            <li>
+            		<div class="comment">There was a lot of talking around the fact that this is just a demo. I think it can be simpler like this. --MF, 5/22/18</div>
+                    Before clicking anything else, read this demonstration script with your partner. Discuss what will happen when you click the sprite. <br />
+                    <div class="sidenote">This script will help you learn about clones, but it won't be part of your finished project.</div>
+                    <img class="indent" src="/bjc-r/img/2-complexity/TTT1_img/WhenIamClicked.png" height="200" alt="when I am (clicked){ create a clone of (myself); say(You clicked me!); glide (1) secs to x: (pick random(-200) to (200)) y: (pick random(-150) to (150)); say()}" title="when I am (clicked){ create a clone of (myself); say(You clicked me!); glide (1) secs to x: (pick random(-200) to (200)) y: (pick random(-150) to (150)); say()}"><br />
+                </li>
+                <li>
+                	Then click the sprite on the stage, and compare what happens with what you expected.
+                    <div class="narrower">				
                     	<ul>
-                        	<li>Notice that it is the clicked sprite that moves to a new random position after cloning itself. (You can tell because it's the one that says "You clicked me.")
-                            <!--<div class="todo"> The text says "original" above.  I think that makes things clearest, even though technically it's not necessarily true, since you can also click on a clone once you have some.  The script used to <code>say</code> "I'm the original" but Mary objected because of that technical point.  But in light of Al's complaint that he wasn't sure which was the original, I'm inclined to go back to "I'm the original" in the script.  Thoughts?  --bh</div>--></li>
-                    		<li>Note that both copies are <em>active</em> sprites.  Both are clickable (try it) and draggable (try that too).</li>
-                            <!--<li>The <code>next costume</code> block chooses each of the three costumes in turn: empty, X, O, empty, ...</li>-->
-                            <li>The <code>create a clone</code> block takes an input because it can copy <em>any</em> sprite, but in this project there's only one "starter" sprite, so you can use <code>myself</code> or <code>Square</code> as the input.</li>
+                        	<div class="todo">
+                                <p><strong>Selim</strong>, please change "You clicked me!" to "I'm the parent." Brian agrees. The XML and the image need to be updated. --MF, 5/21/18</p>
+                            </div>
+							<li>Notice that the parent sprite (not the clone) moves to the new random position after cloning itself. Look back at the code; why does this make sense?</li>
+                    		<li>Note that <em>both</em> the clones and the parent <em>are sprites</em>. Both are clickable (try it) and draggable (try that too). This is different from the effects of the <code>stamp</code> Pen block, which just leaves a picture of the sprite on the stage.</li>
+                            <li>The <code>create a clone</code> block takes an input because it can copy <em>any</em> sprite. In this project, there's only one sprite at the beginning, so your choices are either <var>myself</var> or <var>Square</var> (the sprite's name), which in this case, means the same thing.</li>
 						</ul>
 					</div>           
                 </li>
@@ -76,55 +95,87 @@
         </div>
         
         <p>
-            The next script in the starter project is this:<br />
+            The next script in the project is:<br />
             <img class="indent" src="/bjc-r/img/2-complexity/TTT1_img/delete-clone.png" alt="when flag clicked{delete this clone}" title="when flag clicked{delete this clone}"><br />
-            The block is called <code>delete this clone</code> rather than <code>delete this sprite</code> because it works only for clones.  So when you click the green flag, the original sprite and all its clones will run the script, but only the clones will be deleted.  There will then be one sprite left on the stage.
-            (Clicking the stop sign automatically deletes clones, but this script is insurance in case you run the program and then run it again without clicking stop first.)
+            The block is called <code>delete this clone</code> rather than <code>delete this sprite</code> because it only works for clones. When you click <img class="inline" src="/bjc-r/img/1-introduction/green-flag_button.png" alt="green-flag button" title="green-flag button"/>, the parent sprite and all its clones will run this script, but only the clones will be deleted, leaving just the parent on the stage.
         </p>
         
+		<div class="endnote">Clicking <img class="inline" src="/bjc-r/img/1-introduction/stop_button.png" alt="stop button" title="stop button" /> automatically deletes clones, but this script is insurance in case you run the program multiple times without clicking stop.</div>
+        
         <div class="forYouToDo">
-    		<ol start="4">
+    		<ol start="5">
               <li>
-                	Delete the <code>when I am clicked</code> script from problem 3.  It was just for demonstration, and shouldn't be in the actual project. (You'll make your own different one soon.)  
-                	Also, at the bottom of the scripting area, there's an additional <code>when</code> <span style="color:green">⚑</span> <code>clicked</code> block near, but separate from, the script just below it. They're separated because this script isn't part of the demonstration in problem 2, but it <em>is</em> part of the Tic-Tac-Toe game, so click the two pieces together now. 
-					<div class="narrower">  Read that script and notice:             
-                        <ul>
-                            <li>The <code>wait</code> block is needed to ensure that the <em>other</em> <code>when</code> <span style="color:green">⚑</span> <code>clicked</code> script has time to delete old clones before we make new ones.</li>
-                            <li><code>makeBoard</code> is an empty script.  You're going to write it in the next problem.</li>
-                            <li>The variable <var>X's turn?</var> will be <code>true</code> when it's X's turn to play, or <code>false</code> when it's O's turn.  When alternating between two values, it's convenient to use <code>true</code> and <code>false</code> because you can use <img src="/bjc-r/img/2-complexity/TTT1_img/setXsturn.png" height="50" alt="set (X's turn?) to (not (X's turn?))" title="set (X's turn?) to (not (X's turn?))"> to switch between them, and just<br />
-                            <img src="/bjc-r/img/2-complexity/if-x-turn.png"  alt="if (X's turn?){}" title="if (X's turn?){}"><br />                            
-                          to test the variable.</li>
-                       </ul>
-					</div>             
+                    Prepare to create your app:
+                    <ol>
+                        <li>Delete the <code>when I am clicked</code> demonstration script from exercise 3.</li>
+                        <li>
+                            Connect the additional <code>when</code> <span style="color:green">⚑</span> <code>clicked</code> block toward the bottom of the scripting area to the script just below it.<br />
+                            <img class="indent" src="/bjc-r/img/2-complexity/make-board-script.png" alt="when green flag clicked, wait (.1) secs [comment: Wait for old clones to be deleted.], makeBoard, set (X's turn?) to (true) [Comment: X plays first.]" title="when green flag clicked, wait (.1) secs [comment: Wait for old clones to be deleted.], makeBoard, set (X's turn?) to (true) [Comment: X plays first.]" />
+                        </li> 
+                    	<div class="todo"><strong>Selim</strong>: Please make <code>makeBoard</code> yellow and redo the image just above. --MF, 5/23/18</div>
+						<li>
+                            Read that script and notice...             
+                            <div class="narrower">
+                                <ul type="circle">
+                                    <li>The <code>wait</code> block ensures that the <em>other</em> <code>when</code> <span style="color:green">⚑</span> <code>clicked</code> script has time to delete old clones before we make new ones.</li>
+                                    <li>The <code>makeBoard</code> block is empty. You'll write it in the next problem.</li>
+                                    <li>
+                                        The variable <var>X's turn?</var> will be <code>true</code> when it's X's turn to play or <code>false</code> when it's O's turn. 
+                                        <div class="endnote">
+                                            When alternating between two values, it's convenient to use Booleans because you can use <code>not</code> to switch between them, and you can use <code>if</code> to <em>test</em> the variable. (Recall that <code>if</code> requires a <code>true</code>/<code>false</code> input.)<br />
+                                            <img class="indent" src="/bjc-r/img/2-complexity/TTT1_img/setXsturn.png" height="50" alt="set (X's turn?) to (not (X's turn?))" title="set (X's turn?) to (not (X's turn?))" />
+                                            <img class="indent" src="/bjc-r/img/2-complexity/if-x-turn.png"  alt="if (X's turn?){}" title="if (X's turn?){}" />
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+					</ol>            
 				</li>
                 <li>
-                    Edit the block <code>makeBoard</code> to set up nine clones in three rows of three:<br />
+                    Edit the block <code>makeBoard</code> to set up nine clones in three rows of three.<br />
                     <img class="indent" src="/bjc-r/img/2-complexity/TTT1_img/Row1.png"  height="100" alt="One row of squares" title="One row of squares"/>
                     <img src="/bjc-r/img/2-complexity/TTT1_img/Row2.png"  height="100" alt="Two rows of squares" title="Two rows of squares"/>
                     <img src="/bjc-r/img/2-complexity/TTT1_img/Row3.png"  height="100" alt="Three rows of squares" title="Three rows of squares"/><br />
                     <div class="narrower">
+                        Tips:
                         <ul>
-                        	<li>
-                                Hint:<br />
-                                <img class="indent" src="/bjc-r/img/2-complexity/TTT1_img/for-row-column.png" alt="for (row) = 1 to 3 {for (column) = 1 to 3 {} }" title="for (row) = 1 to 3 {for (column) = 1 to 3 {} }">
-                            </li>
-
-                            <li>The costumes are all 50 steps tall and wide.</li>
+		                    <div class="comment">I just made the hint an actual hint and reordered. --MF, 5/22/18</div>
+                            <li>The costumes are all 50 steps tall and 50 steps wide.</li>
                             <li>Make sure the clones start out with the empty square costume.</li>
                             <li>Be sure to <code>show</code> the original sprite before cloning it, so that the clones will be visible.  After cloning nine times to create the board, <code>hide</code> the original sprite so it does not interfere with the game as a tenth square.</li>
+                            <li>
+                                <a href="#hint-for" data-toggle="collapse" title="hint about for block">Click for a hint on how to use the <code>for</code> block for this problem.</a>
+                                <div id="hint-for" class="collapse">
+                                	<img class="indent" src="/bjc-r/img/2-complexity/TTT1_img/for-row-column.png" alt="for (row) = 1 to 3 {for (column) = 1 to 3 {} }" title="for (row) = 1 to 3 {for (column) = 1 to 3 {} }">
+                                </div>
+                            </li>
                         </ul>
                     </div>
                 </li>
-                <li>Now write a <code>when I am clicked</code> script that will allow each clone to put on the proper costume when clicked: X or O depending on whose turn it is. Also decide how  a square should behave when it is clicked while already wearing an X or O costume.</li>
+                <li>
+                    Now finish up:
+                    <ol>
+                        <li>Write a <code>when I am clicked</code> script that will make each clone wear the proper costume when clicked: X or O depending on whose turn it is.</li>
+                        <li>Decide how a square should behave when it is clicked while already wearing an X or O costume.</li>
+                        <li>
+                            Make the parent sprite <em>not</em>-draggable so that the clone squares aren't accidentally moved around when the player clicks.<br />
+                            <img class="indent" src="/bjc-r/img/2-complexity/not-draggable.png" alt="Draggable box un-checked" title="Draggable box un-checked" />
+                    	</li>
+                	</ol>
+                </li>
+                <li>Play one or two games of Tic Tac Toe with your partner, and fix any bugs. Then, discuss what else you might want to add to the app.</li>
+                <div class="endnote">
+                    <p>You can leave comments in the project file to remind yourself of things you might want to do later.</p>
+                    <p>You will work on this more in <a href="/bjc-r/cur/programming/3-lists/2-tic-tac-toe/1-find-ties.html?topic=nyc_bjc%2F3-lists.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 3 Lab 2 Page 1: Remembering the Moves">Unit 3 Lab 2 Page 1: Remembering the Moves</a>.</p>
+                </div>
                 <li><img class="inline" src="/bjc-r/img/icons/save-use-later.png" alt="Save. You will use this later." title="Save. You will use this later." /></li>
             </ol>
 		</div>
-        <div class="takeNote">
-            <p>This project hints at two important modern ideas in computer science.  One is <strong>object oriented programming</strong>: Instead of a single sequence of instructions, the program has several <em>independent</em> objects (also called "agents" or "actors"), each of which has its own behavior.  In this project, you can only click on one sprite at a time, and it then carries out a very quick task (changing costume) before you click another sprite.  But a more complicated program might have one sprite send a <em>message</em> to another sprite, which would respond with its own behavior, while the first sprite continues with its own script.</p>
-            <p>The other idea is <strong>parallelism</strong> or <strong>distributed computing</strong>. Your project is running on a single computer, and the apparent ability of sprites to run simultaneously is an illusion provided by Snap<em>!</em>, which runs one script for a little while, then switches to a different script, and so on, then updates the display, then continues the first script. But you <em>could</em> have nine separate computers, one for each sprite. That would be overkill for this small project, but large web servers such as Google or Twitter have many thousands of computers all cooperating to handle the large amounts of data they require.</p>
-        </div>
         
-       
+        <div class="todo">Brian and I agreed to move takeNote content that was here to the TG. --MF, 5/23/18</div>
+		
+		
     
     </body>
 </html>
