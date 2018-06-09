@@ -50,6 +50,7 @@
                     Create a reporter that outputs a list of all possible winning triples. It will look something like this:<br />
                     <img class="indent" src="/bjc-r/img/3-lists/winning-triples.png" alt="winning triples partial block definition showing a list with at least two lists inside it: {1,2,3} and {2,5,8}" title="winning triples partial block definition showing a list with at least two lists inside it: {1,2,3} and {2,5,8}"/>
                 </li>
+				<div class="todo">I think this should be renamed <code>possible winning triples</code> so as not to be confused with the new block I'm using in U5 called <code>winning triple for player ()</code> (it's a single <code>keep</code> helper function that goes inside the single <code>keep</code> in <code>winning square for player</code>--this abstracts away the conceptual snarl of nested HOFs). I guess <code>status of all winning triples</code> should be <code>status of all possible winning triples</code> too then. --MF, 6/8/18</div>
             </ol>
         </div>
         
@@ -70,14 +71,14 @@
                 <li>Click <img src="/bjc-r/img/1-introduction/green-flag_button.png" alt="green flag button" title="green flag button" /> to start a new game. Play one game, <em>deliberately letting <strong>x</strong>  win</em>. </li>
                 <li>
                     Then build this expression, and see what it reports:<br />
-                <div class="sidenoteBig">
-                	<a href="#hint-map-item" data-toggle="collapse" title="What's going on here?">What's going on here?  Click for more information.</a>
-					<div id="hint-map-item" class="collapse">
-                        <p>This <code>map</code> expression works the same way as the <code>join</code> example above, but it's a little more complex to think about. As before, <code>map</code> inserts each list item into the blank space in the function inside the gray ring, and it reports a list of the results.</p>
-                        <p>But here, the function in the gray ring is <code>item ( ) of (</code><var>board</var><code>)</code>, so <code>map</code> checks items 1, 2, and 3 of the list stored in the <var>board</var> variable, and it reports a list of what is in those three positions (X, O, or Empty).</p>
-                        <p>(If you can't see what's inside the <var>board</var> variable, be sure its box is checked in the Variables palette, and expand its watcher to see its list items as in the picture at the top of the previous page.)</p>
+                    <div class="sidenoteBig">
+                        <a href="#hint-map-item" data-toggle="collapse" title="What's going on here?">What's going on here?  Click for more information.</a>
+                        <div id="hint-map-item" class="collapse">
+                            <p>This <code>map</code> expression works the same way as the <code>join</code> example above, but it's a little more complex to think about. As before, <code>map</code> inserts each list item into the blank space in the function inside the gray ring, and it reports a list of the results.</p>
+                            <p>But here, the function in the gray ring is <code>item ( ) of (</code><var>board</var><code>)</code>, so <code>map</code> checks items 1, 2, and 3 of the list stored in the <var>board</var> variable, and it reports a list of what is in those three positions (X, O, or Empty).</p>
+                            <p>(If you can't see what's inside the <var>board</var> variable, be sure its box is checked in the Variables palette, and expand its watcher to see its list items as in the picture at the top of the previous page.)</p>
+                        </div>
                     </div>
-                </div>
                     <img class="indent" src="/bjc-r/img/3-lists/map-item-board.png" alt="map (item ( ) of (board)) over (list{1, 2, 3})" title="map (item ( ) of (board)) over (list{1, 2, 3})"><br />
                 </li>
                 <li>
@@ -145,7 +146,10 @@
 			<ol start="14">
 				<li>
                     <div class="sidenote">
-                    <div class="todo">This hint won't work when we change "Empty" to numbers. -bh</div>
+                        <div class="todo">
+                            <p>This hint won't work when we change "Empty" to numbers. -bh</p>
+                            <p>I don't want to do that until we need it--in U5. --MF, 6/8/18</p>
+                        </div>
                         <a href="#hint-tie-contains" data-toggle="collapse" title="Hint">Click for a hint.</a>
                         <div id="hint-tie-contains" class="collapse"><img src="/bjc-r/img/3-lists/contains.png" alt="( ) contains ( )" title="( ) contains ( )" /></div>
 					</div>
