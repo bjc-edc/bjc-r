@@ -34,9 +34,13 @@
         <div class="forYouToDo">
 			<ol start="3">
                 <li>
-                    Create these two new blocks for implementing the strategy rules. <!--Use the same script-local variable name, <var>player</var> for the inputs.--> For now, make <code>can player win now?</code> report <code>false</code> no matter what. That way, the computer will just default to the final rule, and you can continue using your program as you build and test the <code>winning square for player</code> algorithm. (You don't have to put code inside <code>winning square for player</code> yet.)<br />
+                    Create these two new blocks for implementing the strategy rules. <!--Use the same script-local variable name, <var>player</var> for the inputs.--> For now, make <code>can player win now?</code> report <code>false</code> no matter what. Don't put code inside <code>winning square for player</code> yet.<br />
                     <img class="indent" src="/bjc-r/img/5-algorithms/can-player-win-now.png" alt="can player () win now?" title="can player () win now?" />
                     <img class="indent" src="/bjc-r/img/5-algorithms/winning-square-for-player.png" alt="winning square for player" title="winning square for player" />
+                    <div class="endnote">
+                        <strong>Why make <code>can player win now?</code> report <code>false</code>?</strong>
+                        That way, the computer will skip rules 1 and 2 and just default to the final rule, and so you can continue using your program as you build and test these two new blocks.
+                    </div>
                 </li>
                 <li>Inside the <code>next move for computer</code> block, implement the <em>structure</em> of the strategy rules using these new blocks. You'll write the code behind them next.</li>
                 <div class="endnote">
@@ -48,7 +52,7 @@
                         <img class="indent" src="/bjc-r/img/5-algorithms/next-move-for-computer-definition.png" alt="next move for computer: { if (can player (O) win now?) {report (winning square for player (O))}, if (can player (X) win now?) {report (winning square for player (X))}, report (best empty square) } There are three comments. The first comment is on the 'if (can player (O) win now?)' line and says 'Rule 1: If computer can win; do so.' The second comment is on the 'if (can player (X) win now?)' line and says 'Rule 2: If human can win; block them.' The third comment is on the 'report (best empty square)' line and says 'Final rule: Otherwise, just pick the best empty square.'" title="next move for computer: { if (can player (O) win now?) {report (winning square for player (O))}, if (can player (X) win now?) {report (winning square for player (X))}, report (best empty square) } There are three comments. The first comment is on the 'if (can player (O) win now?)' line and says 'Rule 1: If computer can win; do so.' The second comment is on the 'if (can player (X) win now?)' line and says 'Rule 2: If human can win; block them.' The third comment is on the 'report (best empty square)' line and says 'Final rule: Otherwise, just pick the best empty square.'" /></div>
                     </div>
                 </div>
-                <li>Play a game against the computer, and make sure that your code still works.</li>
+                <li>Play a game against the computer, and make sure that your game still works.</li>
             </ol>
         </div>
         <p>You can check <code>status of all winning triples</code> for a triple that will allow the computer player to win on the next turn, but you will not be able to tell the <em>position</em> of the square where that player will move. To make that possible, you will need to initialize the spaces in the <var>board</var> variable with the numbers 1 to 9 instead of nine copies of the word "Empty." Then <img class="inline" src="/bjc-r/img/5-algorithms/winning-square-for-player.png" alt="winning square for player" title="winning square for player" /> can select the position number out of the winning triple.</p>
@@ -69,7 +73,8 @@
 			</ol>
 		</div>
 		
-        <p>Now you'll begin working on the <img class="inline" src="/bjc-r/img/5-algorithms/winning-square-for-player.png" alt="winning square for player" title="winning square for player" /> and <img class="inline" src="/bjc-r/img/5-algorithms/can-player-win-now.png" alt="can player () win now?" title="can player () win now?" /> blocks. The <code>can player win now?</code> block can just check if there is a winning square by checking the results of <code>winning square for player</code>, so you'll code that first. You'll begin by building a <img class="inline" src="/bjc-r/img/5-algorithms/winning-triple-for-player.png" alt="winning triple for player" title="winning triple for player" /> block to identify the contents of the three squares on the board where the player could win on their next turn. Then, <code>winning square for player</code> will select the correct position out of that triple.<br />
+        <p>Now you'll begin working on the <img class="inline" src="/bjc-r/img/5-algorithms/winning-square-for-player.png" alt="winning square for player" title="winning square for player" /> and <img class="inline" src="/bjc-r/img/5-algorithms/can-player-win-now.png" alt="can player () win now?" title="can player () win now?" /> blocks. The <code>can player win now?</code> block can just check if there is a winning square by checking the results of <code>winning square for player</code>, so you'll code <code>winning square for player</code> first.</p>
+        <p>You'll begin by building a <img class="inline" src="/bjc-r/img/5-algorithms/winning-triple-for-player.png" alt="winning triple for player" title="winning triple for player" /> block to identify the contents of the three squares on the board where the player could win on their next turn. Then, <code>winning square for player</code> will select the correct position out of that triple.<br />
             <img class="indent" src="/bjc-r/img/5-algorithms/winning-triple-for-player-reporting.png" alt="winning triple for player reporting {3, O, O}" title="winning triple for player reporting {3, O, O}" />
             <img class="indent" src="/bjc-r/img/5-algorithms/winning-square-for-player-o-reporting.png" alt="winning square for player O reporting 3" title="winning square for player O reporting 3" />
         </p>
@@ -100,14 +105,19 @@
                         <div id="hint-winning-triple" class="collapse">
                             <img class="indent" src="/bjc-r/img/5-algorithms/winning-triple-for-player-hint.png" alt="item (1) of (keep items such that ('The code is missing. Plain text says: You build the predicate.') from (status of all winning triples))" title="item (1) of (keep items such that ('The code is missing. Plain text says: You build the predicate.') from (status of all winning triples))" />
                             <p>You learned about using <code>keep</code> with predicates in <a href="/bjc-r/cur/programming/2-complexity/3-predicates/2-keeping-list-items.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="">Unit 2 Lab 3 Page 2: <code>Keep</code>ing Items from a List</a>.</p>
+                            <p><a href="#hint-winning-triple2" data-toggle="collapse" title="Click here for abother hint about winning triple for player.">Click here for abother hint about <code>winning triple for player</code>.</a></p>
+							<div id="hint-winning-triple2" class="collapse">The player must appear twice in the triple, but the opponent must not appear at all.</div>
                         </div>
                     </div>
                 </li>
                 <li>Play part of a game, and then test <code>winning triple for player</code> for both inputs (X and O). Play a little more, and then test them both again. Fix any bugs.</li>
 				<li>What does <code>winning triple for player</code> report if there is no winning triple?</li>
-                <li>Write the <img src="/bjc-r/img/5-algorithms/winning-square-for-player.png" alt="winning square for player ()" title="winning square for player ()"> block to test for that case. (You will use what you choose to make this block report in that special case when you build <code>can player win now?</code>.)</li>
+                <li>Write the <img src="/bjc-r/img/5-algorithms/winning-square-for-player.png" alt="winning square for player ()" title="winning square for player ()"> block to test for that case. (You will use what you chose to make this block report in that special case when you build <code>can player win now?</code>.)</li>
+                <div class="todo">I think the above parenthetical could be clearer. Thoughts? Maybe we also need a hint here (perhaps just <code>is () a list?</code> and <code>is () a number?</code>) --MF, 6/13/18</div>
                 <li>Play part of a game, test <code>winning square for player</code> for both players, and fix any bugs.</li>
                 <li>Implement <img class="inline" src="/bjc-r/img/5-algorithms/can-player-win-now.png" alt="can player () win now?" title="can player () win now?" /> using your <code>winning square for player</code> block.</li>
+                <div class="todo">Might be nice to have a hint here too... --MF, 6/13/18</div>
+		
                 <li>Play several games against the program. Fix any bugs, including if the computer isn't making strategic moves according to the three rules.</li>
             </ol>
         </div>
