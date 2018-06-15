@@ -6,7 +6,8 @@
         <script type="text/javascript" src="/bjc-r/utilities/gifffer.min.js"></script>
         <script type="text/javascript">window.onload = function() {Gifffer();}</script>
         <link rel="stylesheet" type="text/css" href="/bjc-r/css/bjc-gifffer.css">
-		<title>Unit 5 Lab X: Tic-Tac-Toe with a Computer Player, Page 2</title>
+		<!--<title>Unit 5 Lab X: Tic-Tac-Toe with a Computer Player, Page 2</title>-->
+        <title>Unit 5 Optional Project, Page 2</title>
     </head>
     
     <body>
@@ -16,54 +17,7 @@
         </div>
         
         <p>The game currently allows two human players to take turns playing. But you don't really need a computer to keep track of moves for two human players. We want the human player to take turns with a computer player that will move automatically. To simplify the project, we'll assume that the human player will always move first (playing X), and so the computer is playing O.</p>
-
-		<div class="forYouToDo" id="first">
-			<ol>
-                <div class="commentBig"><strong>NEXT YEAR:</strong> Need to rename project rename directive based on where this lands. --MF, 6/8/18</div>
-                <li>If it isn't open already, open your U5-TicTacToe project.</li>
-                <li>
-                    If you haven’t already, consolidate the code that implements each player's move and checks for wins and ties into one or two custom blocks. 
-                    <div class="endnote">
-                    	<p><div class="commentBig"><strong>Brian</strong>, I imagine you'll have comments here. Go at it. I'm trying to justify why we are asking them to make custom blocks in a way that helps students understand abtraction and motivates them to use it in their own work. --MF, 6/8/18</p>
-                        <p>Haven't we already told them to make <code>win?</code> and <code>tie?</code> blocks?  Those are the ones that will be used for both players.  "Implements each player's move" is a little vague, and will be (very) different for computer and human.  I think this should just be about <code>win?</code> and <code>tie?</code>.  --bh</p>
-                    </div>
-                  Benefits of using this kind of <em>abstraction</em> for this project:
-                    <ul>
-                      <li>You can read your code more easily as you prepare to add more blocks.</li>
-                      <li>You can use your custom block(s) for both the human <em>and</em> the computer players.</li>
-                      </ul>
-                  </div>
-                  
-                </li>
-			</ol>
-		</div>
-        <!--<div class="todo">We don't need this much hand holding. There is no reason they need this to be two blocks. Let them do it how they want. --MF, 6/8/18</div>
-		<p>
-            First, we'll create two abstractions (<code>make player move</code> and <code>check for wins and ties</code>) using the code you already have so that:
-            <ol type="a">
-                <li>You can read your code more easily,</li>
-                <li>You can use these blocks to make the moves for both the human <em>and</em> the computer players, and</li>
-                <li>You can use them to check for wins and ties for both players too.</li>
-            </ol>
-        </p>
-        <div class="forYouToDo" id="first">
-			<ol>
-                <li>
-                    If you haven’t already, consolidate the code that implements each player's move into one abstraction. Create a <code>make player move</code> block, and use it to simplify your <code>when I am clicked</code> script.<br />
-					<div class="sidenote">If you have already built blocks like <code>make player move</code> and <code>check for wins and ties</code>, you don't have to change their names, but you should look inside and	remember how they work.</div>
-                    <img class="indent" src="/bjc-r/img/5-algorithms/make-player-move-definition.png" alt="partially showing block definition for 'make player move' showing: if (X's turn?), switch to..., replace..., else..." title="partially showing block definition for 'make player move' showing: if (X's turn?), switch to..., replace..., else..." />
-                </li>
-                <li>
-                    If you haven’t already, create a <code>check for wins and ties</code> block, and use it to simplify your code too.<br />
-                    <img class="indent" src="/bjc-r/img/5-algorithms/check-for-wins-and-ties-definition.png" alt="partially showing block definition for 'check for wins and ties' showing: if (won? (X))..." title="partially showing block definition for 'check for wins and ties' showing: if (won? (X))..." />
-                </li>
-			</ol>
-		</div>-->
-        
-        <div class="commentBig">
-          We haven't done much with <code>broadcast</code> or clones, so I want to make sure these ideas are clear before we go on. --MF, 6/7/18
-        </div>
-		<p>For now, you'll create a computer player that moves to <em>random</em> positions on the board. (It won't be a very good player, but you'll fix that once the structure of the computer's-move code is in place.) Once the program decides where it wants to move, you'll use <code>broadcast</code> to send a message to tell the correct clone to record a move. (For the human player, <code>when I am clicked</code> serves this purpose, but the computer's moves aren't prompted by the user clicking a square.)</p>
+        <p>For now, you'll create a computer player that moves to <em>random</em> positions on the board. (It won't be a very good player, but you'll fix that once the structure of the computer's-move code is in place.) Once the program decides where it wants to move, you'll use <code>broadcast</code> to send a message to tell the correct clone to record a move. (For the human player, <code>when I am clicked</code> serves this purpose, but the computer's moves aren't prompted by the user clicking a square.)</p>
         <div class="endnote">Recall that clones are temporary copies of a sprite. You learned about them in <a href="/bjc-r/cur/programming/2-complexity/4-abstraction/4-building-Tic-Tac-Toe.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment#clones" title="Unit 2 Lab 4 Page 4: Building a Tic-Tac-Toe Board">Unit 2 Lab 4 Page 4: Building a Tic-Tac-Toe Board</a>.</div>
         <div class="takeNote">
             <img class="indent" src="/bjc-r/img/blocks/broadcast.png" alt="broadcast" title="broadcast" />
@@ -73,34 +27,44 @@
             <p>The <code>message</code> reporter reports the most recent message.</p>
         </div>
         
-		<div class="forYouToDo">
-			<ol start="3">
-				<li>At the end of your <code>when I am clicked</code> script, use <code>broadcast</code> with a random number from 1 to 9 as the message. (The computer will move in the corresponding square, once you've written the code to handle the message.)</li>
-                <li>Then create a <code>when I receive</code> script that will accept <var>any message</var> as input. If the <var>square number</var> for the clone matches the <code>message</code>, use the abstractions you just created to make the computer move in the correct clone's space and check for a win or a tie.</li>
+		<div class="forYouToDo" id="first">
+			<ol>
+                <div class="commentBig"><strong>NEXT YEAR:</strong> Need to rename project rename directive based on where this lands. --MF, 6/8/18</div>
+                <li>If it isn't open already, open your U5-TicTacToe project.</li>				
+                <li>At the end of your <code>when I am clicked</code> script, use <code>broadcast</code> with a random number from 1 to 9 as the message. (The computer will move in the corresponding square, once you've written the code to handle the message.)</li>
                 <div class="todo"><strong>NEXT YEAR:</strong> change <var>square number</var> to <var>position number</var> above. --MF, 6/13/18</div>
-				<div class="endnote">
+                <div class="sidenoteBig">
                 	<a href="#hint-when-i-receive" data-toggle="collapse" title="Click here for a hint about the <code>when I am clicked</code> script.">Click here for a hint about the <code>when I receive</code> script.</a>
 					<div id="hint-when-i-receive" class="collapse"><img src="/bjc-r/img/5-algorithms/when-i-am-clicked-script.png" alt="when I receive (any message) {if (position number = message) {} }" title="when I receive (any message) {if (position number = message) {} }"></div>
                 </div>
-				<li><div class="comment">I don't like "big" and "small" here.  For one thing, the student may have different ideas about which are the big bugs.  (The occupied-square bug seems pretty significant to me!)  Second, if you think it through, this says that <em>our</em> bug is small, but <em>their</em> bugs are big. --bh</div>Take turns with your partner playing Tic-Tac-Toe against the computer. Fix any big bugs. There will be one small bug that we will fix next: sometimes the computer will try to move in a square that is already occupied.</li>
+				<li>Then create a <code>when I receive</code> script that will accept <var>any message</var> as input. If the <var>square number</var> for the clone matches the <code>message</code>, make the computer move in the correct clone's space and check for a win or a tie.</li>
+                <div class="takeNote">Instead of copying code from <code>when I am clicked</code> to <code>when I receive</code>, move that code into a custom block and call the custom block from both scripts. This is one of the ways to use <em>abstraction</em> in programming: don't have two copies of the same piece of code; instead, give it a name.</div>
+		
+				<li>Take turns with your partner playing Tic-Tac-Toe against the computer. Fix any bugs except for the one you will fix next: sometimes the computer will try to move in a square that is already occupied.</li>
 			</ol>
 		</div>
         
         <p>You <em>could</em> fix the bug by replacing <code>random</code> with a block that reports a random  place on the board that is <em>not yet filled</em>. But instead, we'll start to give the computer some strategy.</p>
         <div class="commentBig">
-            <p><strong>Brian</strong>, eh? Ethics and humor? ;) --MF, 6/8/18</p>
             <p>BTW, I'm not convinced that center is better than a corner. --MF, 6/8/18</p>
             <p>The center is part of four winning triples; each corner is part of three winning triples.</p>
-            <p>The picture would be okay if it couldn't be interpreted as saying that Asian kids are better than Native American kids. In NYC it's the Asian part that matters, but elsewhere both parts may matter. --bh</p>
+            <p>
+                <strong>BRIAN,</strong> yeah, but... 
+                <ul>
+                    <li>Mary: 1</li>
+                    <li>Computer: 5</li>
+                    <li>Mary: 9 &rightarrow; easy setup for fork. No matter where O goes, I take either 3 or 7 and then win.</li>
+                </ul>
+                After I noticed that, I did a little TTT strategy reading online, and it didn't seem clear that center was always better. I left our ordering as is, but I stayed away from declaring a preference between center and corner. --MF, 6/15/18
+            </p>
         </div>
         <p>
             Unlike people, all squares on the tic-tac-toe board are <em>not</em> created equal. Playing in the center (position 5) or on a corner (positions 1, 3, 7, or 9) is better than playing on an edge (positions 2, 4, 6, or 8).<br />
-            <div class="commentBig">Hopefully, it's clear that this images is just intended to clarify the text above. Does anyone (e.g., <strong>Brian</strong>) think that this could be confusing to students (if they think there should be emojis on their board)? --MF, 6/8/18</div>
             <img class="indent noshadow" src="/bjc-r/img/5-algorithms/position-ranking.png" alt="Tic-tac-toe grid showing happy faces in the corners and center and sad faces on the four edges" title="Tic-tac-toe grid showing happy faces in the corners and center and sad faces on the four edges" />
         </p>
 
         <div class="forYouToDo">
-            <ol start="6">
+            <ol start="5">
             	<li>
                     <img class="imageRight" src="/bjc-r/img/icons/talk-with-another-pair.png" alt="Talk with Another Pair" title="Talk with Another Pair" />
                     Why is the center or a corner better than an edge? Develop a short, logical, and convincing explanation. Compare your explanation with that of other students.<br>
@@ -108,7 +72,6 @@
                 <li>
                     Create a <img class="inline" src="/bjc-r/img/5-algorithms/best-empty-square.png" alt="best empty square" title="best empty square" /> block that reports the best position on the board that is not yet filled. Use it as input to your <code>broadcast</code> instruction in place of <code>random</code>.
                     <div class="endnote">
-                    <div class="commentBig">I know I wrote this hint, but it's not really a hint, is it?  It's the whole solution.  Maybe it should be <img src="/bjc-r/img/5-algorithms/just5.png">? --bh</div>
                         <a href="#hint-empty" data-toggle="collapse" title="Click for a hint about best empty square.">Click for a hint about <code>best empty square</code>.</a>
                         <div id="hint-empty" class="collapse"><img class="indent" src="/bjc-r/img/5-algorithms/empties.png" alt="list (5, 1, 3, 7, 9, 2, 4, 6, 8)" title="list (5, 1, 3, 7, 9, 2, 4, 6, 8)"></div>
                     </div>
@@ -117,8 +80,10 @@
                 <img class="inline" src="/bjc-r/img/icons/save-now.png" alt="Now Is a Good Time to Save" title="Now Is a Good Time to Save" />
 			</ol>
 		</div>
-        <div class="endnote">You will work on this project more in <a href="/bjc-r/cur/programming/5-algorithms/tic-tac-toe/3-developing-strategy.html?topic=nyc_bjc%2F5-algorithms.topic" title="Unit 5 Lab X: Tic-Tac-Toe wth a Strategic Computer Player">Unit 5 Lab X: Tic-Tac-Toe wth a Strategic Computer Player</a>.</div>
-        
+        <div class="todo">
+		<strong>NEXT YEAR</strong>
+        <div class="endnote">You will work on this project more in <a href="/bjc-r/cur/programming/5-algorithms/tic-tac-toe/3-developing-strategy.html?topic=nyc_bjc%2F5-algorithms.topic" title="Unit 5 Lab X: Tic-Tac-Toe wth a Strategic Computer Player">Unit 5 Lab X: Tic-Tac-Toe with a Strategic Computer Player</a>.</div>
+        </div>
     
     </body>
 </html>
