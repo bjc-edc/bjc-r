@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+        <script type="text/javascript" src="/bjc-r/utilities/gifffer.min.js"></script>
+        <script type="text/javascript">window.onload = function() {Gifffer();}</script>
+        <link rel="stylesheet" type="text/css" href="/bjc-r/css/bjc-gifffer.css">
+		<!--<title>Unit 5 Lab X: Tic-Tac-Toe with a Strategic Computer Player, Page 2</title>-->
+        <title>Unit 5 Optional Project, Page 4</title>
+    </head>
+    
+    <body>
+        <h2>Making the Computer Play Strategically</h2>
+        <div class="learn">
+            <p><strong>On this page</strong>, you'll implement the Tic-Tac-Toe strategy rules to make the computer play strategically.</p>
+        </div>
+        
+        <p>You'll set up a <img src="/bjc-r/img/5-algorithms/next-move.png" alt="next move for computer" title="next move for computer"> block so you can broadcast to all the clones the position where the computer will move. As before, only the clone with the matching <var>position number</var> will make the move.</p>
+        <p>
+        	The code for <code>next move for computer</code> will implement the three strategy rules:
+            <ul>
+                <li>Rule 1: If I (the computer, player O) can win; do so.</li>
+                <li>Rule 2: If my opponent (the human, player X) can win; block them.</li>
+                <li>Final rule: Otherwise, just pick the best empty square.</li>
+            </ul>
+		</p>
+        <div class="endnote">You will build the <code>next move for computer</code> block using two new blocks: <code>can player win now?</code> and <code>winning square for player</code>, which aren't written yet. To start building <code>next move for computer</code>, you'll make the other two blocks, but they won't really do anything. They'll just be for setting up the code for <code>next move for computer</code>, and you'll make them do what they're meant to later.</div>
+        
+        <div class="forYouToDo" id="first">
+			<ol>
+				<li>If it isn't open already, open your U5-TicTacToe project.</li>
+                <li>
+                    Create these two new blocks for implementing the strategy rules. <!--Use the same script-local variable name, <var>player</var> for the inputs.--> For now, make <code>can player win now?</code> report <code>false</code> no matter what. Don't put code inside <code>winning square for player</code> yet.<br />
+                    <img class="indent" src="/bjc-r/img/5-algorithms/can-player-win-now.png" alt="can player () win now?" title="can player () win now?" />
+                    <img class="indent" src="/bjc-r/img/5-algorithms/winning-square-for-player.png" alt="winning square for player" title="winning square for player" />
+                    <div class="endnote">
+                        <strong>Why make <code>can player win now?</code> report <code>false</code>?</strong>
+                        That way, the computer will skip rules 1 and 2 and just default to the final rule, and so you can continue using your program as you build and test these two new blocks.
+                    </div>
+                </li>
+                <li>Now, create the <img src="/bjc-r/img/5-algorithms/next-move.png" alt="next move for computer" title="next move for computer"> block that implements the strategy rules using these two new blocks, and use it as the input to <code>broadcast</code> instead of <code>best empty square</code>. </li>
+                <div class="endnote">
+                    <a href="#hint-rules" data-toggle="collapse" title="Click for a hint about implementing the strategy rules.">Click for a hint about implementing the strategy rules.</a>
+                    <div id="hint-rules" class="collapse">
+	                    <p>Use your <img class="inline" src="/bjc-r/img/5-algorithms/best-empty-square.png" alt="best empty square" title="best empty square" /> block too.</p>
+                        <a href="#hint-bigger" data-toggle="collapse" title="">Click for a bigger hint about implementing the strategy rules.</a>
+                        <div id="hint-bigger" class="collapse">
+                        <img class="indent" src="/bjc-r/img/5-algorithms/next-move-for-computer-definition.png" alt="next move for computer: { if (can player (O) win now?) {report (winning square for player (O))}, if (can player (X) win now?) {report (winning square for player (X))}, report (best empty square) } There are three comments. The first comment is on the 'if (can player (O) win now?)' line and says 'Rule 1: If computer can win; do so.' The second comment is on the 'if (can player (X) win now?)' line and says 'Rule 2: If human can win; block them.' The third comment is on the 'report (best empty square)' line and says 'Final rule: Otherwise, just pick the best empty square.'" title="next move for computer: { if (can player (O) win now?) {report (winning square for player (O))}, if (can player (X) win now?) {report (winning square for player (X))}, report (best empty square) } There are three comments. The first comment is on the 'if (can player (O) win now?)' line and says 'Rule 1: If computer can win; do so.' The second comment is on the 'if (can player (X) win now?)' line and says 'Rule 2: If human can win; block them.' The third comment is on the 'report (best empty square)' line and says 'Final rule: Otherwise, just pick the best empty square.'" /></div>
+                    </div>
+                </div>
+                <li>Play a game against the computer, and make sure that your game still works.</li>
+            </ol>
+        </div>
+        
+        <p>You can check <code>status of all winning triples</code> for a triple that will allow the computer player to win on the next turn, but you will not be able to tell the <em>position</em> of the square where that player will move. To make that possible, you will need to initialize the spaces in the <var>board</var> variable with the numbers 1 to 9 instead of nine copies of the word "Empty." Then <img class="inline" src="/bjc-r/img/5-algorithms/winning-square-for-player.png" alt="winning square for player" title="winning square for player" /> can select the position number out of the winning triple.</p>
+        
+        <div class="forYouToDo">
+            <ol start="5">
+				<li>
+                    Change the initialization instruction for the <var>board</var> variable to a list of the numbers from 1 to 9.
+                    <div class="endnote">You can type the numbers out by hand or just use <img class="inline" src="/bjc-r/img/blocks/numbers-from-to.png" alt="numbers from () to ()" title="numbers from () to ()" />.</div>
+                </li>
+				<li><strong>Debugging.</strong> Play a game. Identify the parts of your code that cause the problems, and come up with a solution.
+                <div class="endnote">
+                	<!--<p><a href="#hint-tie-bug" data-toggle="collapse" title="Click for a hint about what's causing the error with the board variable.">Click for a hint about what's causing the error.</a></p>
+                    <div id="hint-tie-bug" class="collapse">Think: how can you tell there is a bug? What part of your code is related to what you are seeing?</div>-->
+                    <p><a href="#hint-tie-bug-fix" data-toggle="collapse" title="Click for a hint about how to fix the error with the board variable.">Click for a hint about how to fix the errors.</a></p>
+                    <div id="hint-tie-bug-fix" class="collapse"><img class="indent" src="/bjc-r/img/blocks/is-a-number.png" alt="is () a number?" title="is () a number?" /></div>
+                </div>
+                </li>
+                <div class="todo">
+                    TG Note: After changing the <var>board</var> initialization from nine instances of "Empty" to the numbers 1-9, students are likely to have two bugs:
+                    <ul>
+                        <li>One in the code that determines if there is a tie</li>
+                        <li>Another in the <code>best empty square</code> block</li>
+                    </ul>
+                    In both cases, the bug is using "Empty" in the <code>contains</code> block and the solution is to use <code>is () a number?</code> instead.
+				</div>
+		
+			</ol>
+		</div>
+		
+        <p>Now you'll begin working on the <img class="inline" src="/bjc-r/img/5-algorithms/winning-square-for-player.png" alt="winning square for player" title="winning square for player" /> and <img class="inline" src="/bjc-r/img/5-algorithms/can-player-win-now.png" alt="can player () win now?" title="can player () win now?" /> blocks. The <code>can player win now?</code> block can just check if there is a winning square by checking the results of <code>winning square for player</code>, so you'll code <code>winning square for player</code> first.</p>
+        <p>You'll begin by building a <img class="inline" src="/bjc-r/img/5-algorithms/winning-triple-for-player.png" alt="winning triple for player" title="winning triple for player" /> block to identify the contents of the three squares on the board where the player could win on their next turn. Then, <code>winning square for player</code> will select the correct position out of that triple.<br />
+            <img class="indent" src="/bjc-r/img/5-algorithms/winning-triple-for-player-reporting.png" alt="winning triple for player reporting {3, O, O}" title="winning triple for player reporting {3, O, O}" />
+            <img class="indent" src="/bjc-r/img/5-algorithms/winning-square-for-player-o-reporting.png" alt="winning square for player O reporting 3" title="winning square for player O reporting 3" />
+        </p>
+        
+        <div class="forYouToDo">
+            <ol start="7">
+				<li>
+                    <img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
+                    How could you use one or more of the blocks that you have to determine if a player can win on their next turn?<br />
+                    <img class="indent" src="/bjc-r/img/5-algorithms/board.png" alt="board" title="board">
+					<img class="indent" src="/bjc-r/img/5-algorithms/ttt-wins.png" alt="TicTacToe wins" title="TicTacToe wins">
+                    <div class="comment">
+                        <strong>NEXT YEAR:</strong> Keep for revised variable names in U2 and U3 next year... (and replace above IMG with this.) --MF, 6/13/18
+                        <img class="indent" src="/bjc-r/img/5-algorithms/possible-winning-triples.png" alt="possible winning triples" title="possible winning triples">
+                    </div>
+                    <img class="indent" src="/bjc-r/img/5-algorithms/status-of-all-winning-triples.png" alt="status of all winning triples" title="status of all winning triples">
+                    <img class="indent" src="/bjc-r/img/5-algorithms/wonp-x.png" alt="won? (X)" title="won? (X)">
+                    <div class="endnote">You don't have to program it yet. Just talk about what you could do.</div>
+                </li>
+                <div class="todo">
+                    TG Tip: Creating the <code>winning triple for player</code> and <code>winning square for player</code> blocks are the most challenging parts of this page. Help students prepare by making sure they:
+                    <ul>
+                        <li>Debug everything that comes before developing these blocks</li>
+                        <li>Think through the approach they will take (as suggested on the page just before they begin building <code>winning triple for player</code>)</li>
+                        <li>Consider building the suggested <code>opponent to</code> and <code>how many () in ()?</code> blocks</li>
+                        <li>Review the hint about <code>winning triple for player</code> and the page where they first learned about <code>keep</code></li>
+                    </ul>
+                    Encourage pairs who have done all of these things and are still stuck to talk with other pairs.
+                    <p>You may also choose to have them each write out their approach to 'determining if a player can win on their next turn' individually after they discuss it and before they start coding.</p>
+                </div>
+				<li>
+                	Create a <img src="/bjc-r/img/5-algorithms/winning-triple-for-player.png" alt="winning triple for player ()" title="winning triple for player ()"> block. It should report the first triple it finds that contains a place where the player could win.
+                    <div class="endnote">
+                    	You may find it helpful to invent these blocks:<br />
+                        <img class="indent" src="/bjc-r/img/5-algorithms/opponent-to-o-reporting.png" alt="opponent to (O) reporting X" title="opponent to (O) reporting X" />
+                        <img class="indent" src="/bjc-r/img/5-algorithms/how-many-x-in-x-5-x-reporting.png" alt="number of (X) in (list{X,5,X}) reporting 2" title="number of (X) in (list{X,5,X}) reporting 2" />
+                        <p><a href="#hint-winning-triple" data-toggle="collapse" title="Click here for a hint about winning triple for player.">Click here for a hint about <code>winning triple for player</code>.</a></p>
+                        <div id="hint-winning-triple" class="collapse">
+                            <img class="indent" src="/bjc-r/img/5-algorithms/winning-triple-for-player-hint.png" alt="item (1) of (keep items such that ('The code is missing. Plain text says: You build the predicate.') from (status of all winning triples))" title="item (1) of (keep items such that ('The code is missing. Plain text says: You build the predicate.') from (status of all winning triples))" />
+                            <p>You learned about using <code>keep</code> with predicates in <a href="/bjc-r/cur/programming/2-complexity/3-predicates/2-keeping-list-items.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="">Unit 2 Lab 3 Page 2: <code>Keep</code>ing Items from a List</a>.</p>
+                            <p><a href="#hint-winning-triple2" data-toggle="collapse" title="Click here for abother hint about winning triple for player.">Click here for another hint about <code>winning triple for player</code>.</a></p>
+							<div id="hint-winning-triple2" class="collapse">The player must appear twice in the triple, but the opponent must not appear at all.</div>
+                        </div>
+                    </div>
+                </li>
+                <li>Play part of a game, and then test <code>winning triple for player</code> for both inputs (X and O). Play a little more, and then test them both again. Fix any bugs.</li>
+				<li>What does <code>winning triple for player</code> report if there is no winning triple?</li>
+                <li>Now write the code inside the <img src="/bjc-r/img/5-algorithms/winning-square-for-player.png" alt="winning square for player ()" title="winning square for player ()"> block. Make sure it works even if there is no winning square. </li>
+                <div class="endnote">
+                	<a href="#hint-winning-square" data-toggle="collapse" title="Click for a hint about building winning square for player.">Click for a hint about <code>winning square for player</code>.</a>
+                    <div id="hint-winning-square" class="collapse">
+                        <img class="indent" src="/bjc-r/img/blocks/is-a-number.png" alt="is () a number?" title="is () a number?" />
+                        <img class="indent" src="/bjc-r/img/blocks/is-a-list.png" alt="is () a list?" title="is () a list?" />
+                    </div>
+				</div>
+                <li>Play part of a game, test <code>winning square for player</code> for both players, and fix any bugs.</li>
+                <li>Implement <img class="inline" src="/bjc-r/img/5-algorithms/can-player-win-now.png" alt="can player () win now?" title="can player () win now?" /> using your <code>winning square for player</code> block.</li>
+		
+                <li>Play several games against the program. Fix any bugs. Make sure computer is using three rules.</li>
+            </ol>
+        </div>
+        
+        <div class="ifTime">
+            <ol start="15">
+                <li>Modify the program so that the computer can play either X or O.  When the game starts, ask the human player to choose X or O.</li>
+            </ol>
+        </div> 
+        
+        <div class="takeItFurther">
+            <ol type="A">
+                <li>Play against the computer, and find a strategy that lets you win the game. (This isn't trivial; just the computer rules you already have are pretty good.)</li>
+                <li>
+                    Program more rules to make the computer a better player.  This will involve looking more than one move ahead.  There are various ways to do it, and what follows is just one suggestion.
+                    <ol type="a">
+                        <li>
+                            It's not good enough just to look for a winning move for yourself two moves from now. If you can see such a move, so can your opponent, who'll move to block you. So what you have to find is a <em>fork: </em>two triples in which you have one appearance and your opponent has none, and which have a free square in common. This is much easier to see with a picture:<br />
+                            <img class="indent" src="/bjc-r/img/hof/fork.png" alt="board with fork" title="board with fork" /><br />
+                            <div class="endnote">Player X opened the game with the standard opening move, in the center. Player O responded poorly, on the top edge, and is therefore about to lose the game. Player X played in the top left corner. Player O had to respond in the bottom right corner in order to block an immediate win for player X. It's player X's turn. There is no winning combination with two Xs, nor with two Os. But player X can find <em>two</em> winning combinations, the ones marked with the red lines, both of which have one X and two free squares, <em>with one of the free squares in common</em>. In the picture, the common square is 4, the left edge square, and so that's where Player X should move.</div>
+                        </li>
+                        <li>Find all the triples (that is, report a <em>list of triples</em>) in which the computer has one square and the other two are empty, and store then in a variable called <var>singles</var>.</li>
+                        <li>
+                            Make one big list of all the letters and numbers from the triples:<br />
+                            <img class="indent" src="/bjc-r/img/hof/ttt-flatten.png" alt="script variable(atoms); set (atoms) to (combine with(append()()) items of (singles))" title="script variable(atoms); set (atoms) to (combine with(append()()) items of (singles))" /><br />
+                            You don't have the <code>append</code> block in your palette, but it's in one of the Snap<em>!</em> libraries. Click on the file menu icon, and choose "Libraries...", then choose "List utilities" from the menu that appears.
+                        </li>
+                        <div class="endnote">"Atom" is a technical term for a value that isn't a list. A list contains a bunch of items, just as a molecule contains a bunch of atoms.</div>    
+                        <li>Now find a number that appears more than once in <code>atoms</code>.</li>
+                        <div class="endnote">
+                            You wrote a <code>duplicates in</code> block in 
+                            <a href="/bjc-r/cur/programming/5-algorithms/1-searching-lists/3-comparing-search-algorithms.html" title="Unit 5 Lab 1 Page 3: List Processing Algorithms">Unit 5 Lab 1 Page 3: List Processing Algorithms</a>.
+                        </div>
+                        
+                    </ol>
+                </li>
+                <div class="todo">I cut both of the key-value pair problems. We don't have to list every single possible way to do things, and I think those are too much. If you, Brian, want to bring them back, please convince someone else on the team. --MF, 6/8/18<p><strong>Mary</strong> to talk to Selim</p></div>
+            </ol>
+        </div>       
+        
+    
+    </body>
+</html>

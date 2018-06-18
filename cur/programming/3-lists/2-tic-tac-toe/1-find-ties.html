@@ -21,7 +21,6 @@
         </div>
 
     	<div class="todo">
-        	<p><strong>Mary's 5/23/18 review</strong>: I made some bigger pedagogical changes here than in 2.4.4, namely, I tried to provide context and explanation before each of the directives. --MF, 5/24/18</p>
         	<p>
                 Here is some of the critical teacher feedback (there was some positive feedback, but more like this):
                 <ul>
@@ -48,15 +47,6 @@
             <p><strong>In this lab</strong>, you will continue your <a href="/bjc-r/cur/programming/2-complexity/4-abstraction/4-building-tic-tac-toe.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Building a Tic-Tac-Toe Board">Tic-Tac-Toe project from Unit 2</a> to make the program <em>analyze</em> the game board to detect wins and ties.</p>
             <p><strong>On this page</strong>, you'll prepare by allowing the program to record the moves that are made.</p>
         </div>
-		<!--
-<div class="takeNote">In Unit 2, you may have done either or both of two versions of the tic-tac-toe project: the 
-<a href="/bjc-r/cur/programming/2-complexity/4-abstraction/4-building-tic-tac-toe.html">one-sprite version</a> in Lab 4 and the <a href="/bjc-r/cur/programming/2-complexity/optional-projects/4-tic-tac-toe.html">nine-sprite version</a> in the optional projects.  Each version has different virtues:
-<ul>
-<li>In the one-sprite version, it took some calculation to find out which square the player moved into, but very little extra effort to check for illegal moves and to collect the result of all moves in one place.</li>
-<li>In the nine-sprite version, knowing which square was automatic, because the player moved by clicking a different sprite for each square.  Detecting illegal moves was also easy because each sprite knew the state of one square. But collecting the moves in one place  required sending messages between sprites.</li></ul>
-There's no obvious better choice between the two.
-<p><em><strong>Both versions</strong></em><strong> end up with a global variable <var>board</var> whose value is a nine-item list representing the current state of the game board.</strong> As a result, you can now build on either version in this lab.</p></div>
-    -->
         <p>
             When you first wrote Tic Tac Toe, it was easy to detect illegal moves (moving to a square that's already wearing an X or O costume) because each sprite could test for that without knowing about the rest of the gameboard. But to detect wins and ties, the program needs a way to test the state of the <em>whole gameboard</em>, not just one individual piece. So, we'll use a <em>global variable</em>, <img src="/bjc-r/img/5-algorithms/board.png" alt="board" title="board">, to keep track of whether the square in each position is empty or filled with an X or an O.<br />
             <div class="sidenoteBig">
@@ -68,11 +58,14 @@ There's no obvious better choice between the two.
             <img class="indent noshadow" src="/bjc-r/img/3-lists/ttt-board-var.png" alt="picture of: watcher of board variable showing {X, O, Empty, Empty, X, Empty, Empty, Empty, O}; and Tic Tac Toe game with X in upper left and center and O in upper middle and lower right" title="picture of: watcher of board variable showing {X, O, Empty, Empty, X, Empty, Empty, Empty, O}; and Tic Tac Toe game with X in upper left and center and O in upper middle and lower right" />
         </p>
         
-        <div class="todo">Two things: (1) We're going to change this to start with numbers, not "Empty". (2) Since they've already seen global variables, shouldn't the vocabulary box be on that earlier page? --bh</div>
+        <div class="todo">
+            <p>Two things: (1) We're going to change this to start with numbers, not "Empty". (2) Since they've already seen global variables, shouldn't the vocabulary box be on that earlier page? --bh</p>
+            <p>1) Not in the new version I've been working on. 2) I agree that we should have one there, but I don't think it hurts to have a reminder here too. --MF, 6/8/18</p>
+        </div>
         
-    <div class="forYouToDo" id="first">
+		<div class="forYouToDo" id="first">
 			<ol>
-                <li>Open your <strong>U2L4-TicTacToe</strong> project, and save it as <strong>U3L2-TicTacToe</strong> so you have a copy of your old version.</li>
+                <li>Open your <strong>U2L4-TicTacToe</strong> project, and save it as <strong>U3L2-TicTacToe</strong> so you'll still have your old version when you edit the new one.</li>
                 <li>
                     Make a global variable called <var>board</var> that, at the beginning of the game, contains a list with the word "Empty" nine times.<br />
                     <!--<img class="indent" src="/bjc-r/img/2-complexity/TTT1_img/BoardInitialize.png"  height="70" alt="set (board) to {'Empty', 'Empty', 'Empty', 'Empty', 'Empty', 'Empty', 'Empty', 'Empty', 'Empty'}" title="set (board) to {'Empty', 'Empty', 'Empty', 'Empty', 'Empty', 'Empty', 'Empty', 'Empty', 'Empty'}" /><br />-->
@@ -90,7 +83,10 @@ There's no obvious better choice between the two.
         <div class="takeNote">
             A <strong>sprite-local variable</strong>  is like a global variable in that it doesn't belong to a particular <em>script</em> (as a script-local variable does), but it does belong to a particular <em>sprite.</em> 
         </div>
-        <div class="todo">Aren't these two boxes redundant? -bh</div> 
+        <div class="todo">
+            <p>Aren't these two boxes redundant? -bh</p>
+            <p>I want to look at this again more closely later and perhaps talk it through together. --MF, 6/8/18</p>
+        </div> 
         <p>You'll create this <code>position number</code> variable for the parent sprite, and then increase the variable by one before making each new clone. That way, each clone will have a unique value of <code>position number</code>.</p>
         
         <div class="forYouToDo">
@@ -114,7 +110,11 @@ There's no obvious better choice between the two.
                 </li>
                 <li>
                     <div class="sidenote">
-                    <div class="todo">This hint has already been given away in the white text above. -bh</div>
+                    <div class="todo">
+                        <p>This hint has already been given away in the white text above. -bh</p>
+                        <p>Not entirely, but I suppose I'm ok to drop it if that's what you are proposing. --MF, 6/8/18</p>
+                        <p>I'd rather drop the white text! --bh</p>
+                    </div>
                         <a href="#hint-1" data-toggle="collapse" class="collapsed" title="Hint">Click for a hint on setting the <var>position number</var>.</a>
                         <div id="hint-1" class="collapse">
                             In the loop that makes the clones, increase the main sprite's <var>position number</var> by one before each cloning.
