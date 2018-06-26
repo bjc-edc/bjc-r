@@ -13,7 +13,6 @@
         </div>
     	<h2>Detecting  Wins and Ties</h2>
         <div class="todo">
-        	<p><strong>Mary's 5/25/18 revision</strong>: I revised this page <em><strong>heavily</strong></em>. The project is still the same (minus some variable name changes). But the page is now split up with text to motivate the FYTDs, there are more hints, and the use of <code>map</code> is unpacked so it's comprehensible. I think we should split this into 2, 3, or even 4 pages (making it up to 5 pages for the whole lab), but I won't do that until Brian has had a chance to see what I've done. The teacher guide will need attention and the solutions file needs the blocks renamed at a minimum. --MF, 5/25/18</p>
 	        <p>I made some edits to include the word "possible" more. I'm not sure I didn't make it more confusing. Need to look again another day. --MF, 6/13/18</p>
         </div>
 		
@@ -69,21 +68,28 @@
                 <li>Click <img src="/bjc-r/img/1-introduction/green-flag_button.png" alt="green flag button" title="green flag button" /> to start a new game. Play one game, <em>deliberately letting <strong>x</strong>  win</em>. </li>
                 <li>
                     Then build this expression, and see what it reports:<br />
-                    <div class="sidenoteBig">
-                        <a href="#hint-map-item" data-toggle="collapse" title="What's going on here?">What's going on here?  Click for more information.</a>
+                    <img class="indent" src="/bjc-r/img/3-lists/map-item-board.png" alt="map (item ( ) of (board)) over (list{1, 2, 3})" title="map (item ( ) of (board)) over (list{1, 2, 3})"><br />
+                    <div class="endnote">
+                        <a href="#hint-map-item" data-toggle="collapse" title="How does map work here?">How does <code>map</code> work here?</a>
                         <div id="hint-map-item" class="collapse">
                             <p>This <code>map</code> expression works the same way as the <code>join</code> example above, but it's a little more complex to think about. As before, <code>map</code> inserts each list item into the blank space in the function inside the gray ring, and it reports a list of the results.</p>
                             <p>But here, the function in the gray ring is <code>item ( ) of (</code><var>board</var><code>)</code>, so <code>map</code> checks items 1, 2, and 3 of the list stored in the <var>board</var> variable, and it reports a list of what is in those three positions (X, O, or Empty).</p>
-                            <p>(If you can't see what's inside the <var>board</var> variable, be sure its box is checked in the Variables palette, and expand its watcher to see its list items as in the picture at the top of the previous page.)</p>
+                            <p>
+                            	If you can't see what's inside the <var>board</var> variable, be sure its box is checked in the Variables palette and expand its watcher to see its list items as in the picture below.
+                                <img class="indent noshadow" src="/bjc-r/img/3-lists/ttt-board-var.png" alt="picture of: watcher of board variable showing {X, O, Empty, Empty, X, Empty, Empty, Empty, O}; and Tic Tac Toe game with X in upper left and center and O in upper middle and lower right" title="picture of: watcher of board variable showing {X, O, Empty, Empty, X, Empty, Empty, Empty, O}; and Tic Tac Toe game with X in upper left and center and O in upper middle and lower right" />
+							</p>
                         </div>
                     </div>
-                    <img class="indent" src="/bjc-r/img/3-lists/map-item-board.png" alt="map (item ( ) of (board)) over (list{1, 2, 3})" title="map (item ( ) of (board)) over (list{1, 2, 3})"><br />
                 </li>
                 <div class="todo">
-                <p>One reason students find this confusing, I think, is that typically the first input to <code>item</code> is a constant number, e.g.,<br />
-                 <img src="/bjc-r/img/3-lists/constant-first-input.png"><br />
-As a result, they're in the habit of thinking of the first input as part of the block syntax, and the second input as the <em>real</em> input.  That makes it hard to think about this situation in which it's the first input that changes.</p>
-                <p>So the question is, should we be explicit about this point? Or maybe put it in the TG, but here in the student text would be my vote. --bh</p></div>
+                    <p>
+                        One reason students find this confusing, I think, is that typically the first input to <code>item</code> is a constant number, e.g.,<br />
+                        <img src="/bjc-r/img/3-lists/constant-first-input.png"><br />
+                        As a result, they're in the habit of thinking of the first input as part of the block syntax, and the second input as the <em>real</em> input.  That makes it hard to think about this situation in which it's the first input that changes.
+                    </p>
+                    <p>So the question is, should we be explicit about this point? Or maybe put it in the TG, but here in the student text would be my vote. --bh</p>
+                    <p><strong>Brian,</strong> does the hint not help enough here? --MF, 6/26/18</p>
+                </div>
                 <li>
                     <img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
                     What does the result of that expression tell you about the state of the game?
@@ -104,7 +110,6 @@ As a result, they're in the habit of thinking of the first input as part of the 
         <p>You've just built a block that will check one triple to see which player (if either of them) has chosen those each of those squares. Now, you'll build a block, <code>status of all winning triples</code> to perform the same check on the player moves for <em>all</em> of the triples that are winning triples. Then, use that block you'll check if any of the triples that would be a win actually contain three moves from the same player.</p>
         <p>
         	For example, Player O has won this game, and the <code>status of all winning triples</code> block contains the status of each triple. The computer can use this block to check for a row with either all X or all O.<br />
-            <div class="commentBig">Both these pictures would benefit from yellow highlighter to make the winning triple easier to spot. --bh</div>
 	        <img class="indent noshadow" src="/bjc-r/img/3-lists/status-of-all-board.png" alt="Tic Tac Toe game where Player O has won down the middle column. In row one, there is X, O, and X. In row two, there is X, O, and an empty square. In row three, there is an empty square, O, and an empty square." title="Tic Tac Toe game where Player O has won down the middle column. In row one, there is X, O, and X. In row two, there is X, O, and an empty square. In row three, there is an empty square, O, and an empty square." />
 	        <img class="indent noshadow" src="/bjc-r/img/3-lists/status-of-all-reporting.png" alt="The status of all winning triples block is reporting a list of lists (a table). There are three columns and eight rows, and each cell contains either a X, an O, or Empty. There is text to the right of each row listing the corresponding triple and where it appears on the board (such as 1, 5, 9 being the top-left to bottom-right diagonal). The triple in which Player O has won this game (2, 5, 8) shows O, O, O in the table. That is the only row with either all O or all X." title="The status of all winning triples block is reporting a list of lists (a table). There are three columns and eight rows, and each cell contains either a X, an O, or Empty. There is text to the right of each row listing the corresponding triple and where it appears on the board (such as 1, 5, 9 being the top-left to bottom-right diagonal). The triple in which Player O has won this game (2, 5, 8) shows O, O, O in the table. That is the only row with either all O or all X." />
         </p>
@@ -158,12 +163,11 @@ As a result, they're in the habit of thinking of the first input as part of the 
                         <a href="#hint-tie-contains" data-toggle="collapse" title="Hint">Click for a hint.</a>
                         <div id="hint-tie-contains" class="collapse"><img src="/bjc-r/img/3-lists/contains.png" alt="( ) contains ( )" title="( ) contains ( )" /></div>
 					</div>
-					<div class="comment">I cut this because I think it's a great thing for kids to struggle with: "Be sure to make this test <em>after</em> the test for a win." --MF, 5/25/18</div>
                     Develop a way to determine if the game has tied, and if so, make the program notify the players.
                 </li>
                 <li>Play a couple games to test the tie-checking feature, and fix any bugs.</li>
                 <div class="sidenoteBig">
-                    <p>You can work on this project more in <a href="/bjc-r/cur/programming/5-algorithms/optional-projects/tic-tac-toe.html?topic=nyc_bjc%2F5-algorithms.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 5 Optional Project: Tic-Tac-Toe with Intelligent Computer Player">Unit 5 Optional Project: Tic-Tac-Toe with Intelligent Computer Player</a>.</p>
+                    <p>You can work on this project more in <a href="/bjc-r/cur/programming/5-algorithms/old/tic-tac-toe.html?topic=nyc_bjc%2F5-algorithms.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 5 Optional Project: Tic-Tac-Toe with Intelligent Computer Player">Unit 5 Optional Project: Tic-Tac-Toe with Intelligent Computer Player</a>.</p>
                 </div>
                 <li>
                 	Why does the order of the tests (for wins vs. for ties) matter?
