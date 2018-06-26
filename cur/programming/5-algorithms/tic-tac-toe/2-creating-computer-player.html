@@ -18,7 +18,7 @@
         
         <p>The game currently allows two human players to take turns playing. But you don't really need a computer to keep track of moves for two human players. We want the human player to take turns with a computer player that will move automatically. To simplify the project, we'll assume that the human player will always move first (playing X), and so the computer is playing O.</p>
         <p>For now, you'll create a computer player that moves to <em>random</em> positions on the board. (It won't be a very good player, but you'll fix that once the structure of the computer's-move code is in place.) Once the program decides where it wants to move, you'll use <code>broadcast</code> to send a message to tell the correct clone to record a move. (For the human player, <code>when I am clicked</code> serves this purpose, but the computer's moves aren't prompted by the user clicking a square.)</p>
-        <div class="endnote">Recall that clones are temporary copies of a sprite. You learned about them in <a href="/bjc-r/cur/programming/2-complexity/4-abstraction/4-building-Tic-Tac-Toe.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment#clones" title="Unit 2 Lab 4 Page 4: Building a Tic-Tac-Toe Board">Unit 2 Lab 4 Page 4: Building a Tic-Tac-Toe Board</a>.</div>
+        <div class="endnote">Recall that clones are temporary copies of a sprite. You learned about them in <a href="/bjc-r/cur/programming/2-complexity/4-abstraction/4-building-tic-tac-toe.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment#clones" title="Unit 2 Lab 4 Page 4: Building a Tic-Tac-Toe Board">Unit 2 Lab 4 Page 4: Building a Tic-Tac-Toe Board</a>.</div>
         <div class="takeNote">
             <img class="indent" src="/bjc-r/img/blocks/broadcast.png" alt="broadcast" title="broadcast" />
             <img class="indent" src="/bjc-r/img/blocks/when-i-receive.png" alt="when I receive" title="when I receive" />
@@ -39,27 +39,13 @@
                 </div>
 				<li>Then create a <code>when I receive</code> script that will accept <var>any message</var> as input. If the <var>square number</var> for the clone matches the <code>message</code>, make the computer move in the correct clone's space and check for a win or a tie.</li>
                 <div class="takeNote">Instead of copying code from <code>when I am clicked</code> to <code>when I receive</code>, move that code into a custom block and call the custom block from both scripts. This is one of the ways to use <em>abstraction</em> in programming: don't have two copies of the same piece of code; instead, give it a name.</div>
-		
-				<li>Take turns with your partner playing Tic-Tac-Toe against the computer. Fix any bugs except for the one you will fix next: sometimes the computer will try to move in a square that is already occupied.</li>
+				<div class="narrower">
+				  <div class="comment"><strong>Next year</strong>: change variable to <var>position number.</var> --MF, 6/21/18</div>If your computer player uses the wrong costume when it plays in the last square, it's because the parent sprite has the same <var>square number</var>. Revise <code>make board</code>, and ensure that the parent's position number isn't 1-9 so that it doesn't conflict with a clone.</div>
+				<li>Take turns with your partner playing Tic-Tac-Toe against the computer. Fix any bugs you find.</li>
 			</ol>
 		</div>
         
-        <p>You <em>could</em> fix the bug by replacing <code>random</code> with a block that reports a random  place on the board that is <em>not yet filled</em>. But instead, we'll start to give the computer some strategy.</p>
-        <div class="commentBig">
-            <p>BTW, I'm not convinced that center is better than a corner. --MF, 6/8/18</p>
-            <p>The center is part of four winning triples; each corner is part of three winning triples.</p>
-            <p>
-                <strong>BRIAN,</strong> yeah, but... 
-                <ul>
-                    <li>Mary: 1</li>
-                    <li>Computer: 5</li>
-                    <li>Mary: 9 &rightarrow; easy setup for fork. No matter where O goes, I take either 3 or 7 and then win.</li>
-                </ul>
-                After I noticed that, I did a little TTT strategy reading online, and it didn't seem clear that center was always better. I left our ordering as is, but I stayed away from declaring a preference between center and corner. --MF, 6/15/18
-            </p>
-        </div>
-        <p>
-            Unlike people, all squares on the tic-tac-toe board are <em>not</em> created equal. Playing in the center (position 5) or on a corner (positions 1, 3, 7, or 9) is better than playing on an edge (positions 2, 4, 6, or 8).<br />
+		<p>Instead of having the computer move at random, you will start to give the computer some strategy. Unlike people, all squares on the tic-tac-toe board are <em>not</em> created equal. Playing in the center (position 5) or on a corner (positions 1, 3, 7, or 9) is better than playing on an edge (positions 2, 4, 6, or 8).<br />
             <img class="indent noshadow" src="/bjc-r/img/5-algorithms/position-ranking.png" alt="Tic-tac-toe grid showing happy faces in the corners and center and sad faces on the four edges" title="Tic-tac-toe grid showing happy faces in the corners and center and sad faces on the four edges" />
         </p>
 
