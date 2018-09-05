@@ -49,21 +49,13 @@
         </div>
         <p>
             When you first wrote Tic Tac Toe, it was easy to detect illegal moves (moving to a square that's already wearing an X or O costume) because each sprite could test for that without knowing about the rest of the gameboard. But to detect wins and ties, the program needs a way to test the state of the <em>whole gameboard</em>, not just one individual piece. So, we'll use a <em>global variable</em>, <img src="/bjc-r/img/5-algorithms/board.png" alt="board" title="board">, to keep track of whether the square in each position is empty or filled with an X or an O.<br />
-            <div class="sidenoteBig">
+            <div class="sidenote">
                 <p>You learned about <strong>global variables</strong> on <a href="/bjc-r/cur/programming/2-complexity/1-variables-games/3-keeping-score.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 2 Lab 1 Page 3: Keeping Score with Global Variables">Unit 2 Lab 1 Page 3: Keeping Score with Global Variables</a>.</p>
-                <div class="vocabFullWidth">
-                	<p>A <strong>global variable</strong> is a variable that can be set, used, or changed anywhere in the program.</p>
-                </div>
             </div>
             <img class="indent noshadow" src="/bjc-r/img/3-lists/ttt-board-var.png" alt="picture of: watcher of board variable showing {X, O, Empty, Empty, X, Empty, Empty, Empty, O}; and Tic Tac Toe game with X in upper left and center and O in upper middle and lower right" title="picture of: watcher of board variable showing {X, O, Empty, Empty, X, Empty, Empty, Empty, O}; and Tic Tac Toe game with X in upper left and center and O in upper middle and lower right" />
         </p>
-        
-        <div class="todo">
-            <p>Two things: (1) We're going to change this to start with numbers, not "Empty". (2) Since they've already seen global variables, shouldn't the vocabulary box be on that earlier page? --bh</p>
-            <p>1) Not in the new version I've been working on. 2) I agree that we should have one there, but I don't think it hurts to have a reminder here too. --MF, 6/8/18</p>
-        </div>
-        
-		<div class="forYouToDo" id="first">
+
+        <div class="forYouToDo" id="first">
 			<ol>
                 <li>Open your <strong>U2L4-TicTacToe</strong> project, and save it as <strong>U3L2-TicTacToe</strong> so you'll still have your old version when you edit the new one.</li>
                 <li>
@@ -74,20 +66,12 @@
         </div>
         
         <p>Each sprite needs to know its own position on the board so that we can use the <code>item of</code> block to replace that position with an X or an O. So, we'll create a <em>sprite-local variable</em>, <img class="inline nopadtb" src="/bjc-r/img/3-lists/position-number.png" alt="position number" title="position number" />, and each clone will have its <em>own version</em> of this variable.</p>
-        <div class="endnote">
-            <p>You learned about <strong>script-local variables</strong> on <a href="http://localhost/bjc-r/cur/programming/2-complexity/1-variables-games/1-number-guessing-game.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 2 Lab 1 Page 1: Developing a Number Guessing Game with Script Variables">Unit 2 Lab 1 Page 1: Developing a Number Guessing Game with Script Variables</a>. Now you're seeing a new kind of local variable.</p>
-            <div class="vocabFullWidth">
-            	<p>A <strong>local variable</strong> is a variable that can be set or used only in the environment in which it is defined.</p>
-            </div>
+        <div class="vocabFullWidth">
+            <div class="sidenoteBig">
+				<p>You learned about <strong>script-local variables</strong> on <a href="http://localhost/bjc-r/cur/programming/2-complexity/1-variables-games/1-number-guessing-game.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 2 Lab 1 Page 1: Developing a Number Guessing Game with Script Variables">Unit 2 Lab 1 Page 1: Developing a Number Guessing Game with Script Variables</a>.</p>
+			</div>
+			<p>A <strong>sprite-local variable</strong>  is like a global variable in that it doesn't belong to a particular <em>script</em> (as a script-local variable does), but it does belong to a particular <em>sprite.</em> </p>
         </div>
-        <div class="takeNote">
-            A <strong>sprite-local variable</strong>  is like a global variable in that it doesn't belong to a particular <em>script</em> (as a script-local variable does), but it does belong to a particular <em>sprite.</em> 
-        </div>
-        <div class="todo">
-            <p>Aren't these two boxes redundant? -bh</p>
-            <p>I want to look at this again more closely later and perhaps talk it through together. --MF, 6/8/18</p>
-        </div> 
-        <p>You'll create this <code>position number</code> variable for the parent sprite, and then increase the variable by one before making each new clone. That way, each clone will have a unique value of <code>position number</code>.</p>
         
         <div class="forYouToDo">
 			<ol start="3">
@@ -109,20 +93,15 @@
                     </div>                    
                 </li>
                 <li>
-                    <div class="sidenote">
-                    <div class="todo">
-                        <p>This hint has already been given away in the white text above. -bh</p>
-                        <p>Not entirely, but I suppose I'm ok to drop it if that's what you are proposing. --MF, 6/8/18</p>
-                        <p>I'd rather drop the white text! --bh</p>
-                    </div>
+                    As you create the clones, set each one's <var>position number</var> to the appropriate value (1-9).<br />
+                    <div class="endnote">
                         <a href="#hint-1" data-toggle="collapse" class="collapsed" title="Hint">Click for a hint on setting the <var>position number</var>.</a>
                         <div id="hint-1" class="collapse">
-                            In the loop that makes the clones, increase the main sprite's <var>position number</var> by one before each cloning.
+                            In the loop that makes the clones, increase the variable by one for each new clone so that each clone will have a unique value.
                         </div>
                     </div>
-                    As you create the clones, set each one's <var>position number</var> to the appropriate value (1-9).<br />
+					<div class="takeNote">Make sure that the parent's <var>position number</var> doesn't end up being a number 1-9 so that it doesn't conflict with a clone.</div>
                 </li>
-                <div class="takeNote">After drawing the board, make sure that the parent's position number isn't 1-9 so that it doesn't conflict with a clone.</div>
                 <li>When a square is clicked, replace that square's entry in the <var>board</var> list with X or O as appropriate.</li>
                 <li>Watch the values stored in the <var>board</var> variable as you play a game of Tic Tac Toe. Make sure that it updates as you expect it to, and fix any bugs.</li>	
                 <li>
