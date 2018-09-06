@@ -16,32 +16,35 @@
             <p><strong>On this page</strong>, you'll make the computer play against the human player.</p>
         </div>
         
-        <p>The game currently allows two human players to take turns playing. But you don't really need a computer to keep track of moves for two human players. We want the human player to take turns with a computer player that will move automatically. To simplify the project, we'll assume that the human player will always move first (playing X), and so the computer is playing O.</p>
-        <p>For now, you'll create a computer player that moves to <em>random</em> positions on the board. (It won't be a very good player, but you'll fix that once the structure of the computer's-move code is in place.) Once the program decides where it wants to move, you'll use <code>broadcast</code> to send a message to tell the correct clone to record a move. (For the human player, <code>when I am clicked</code> serves this purpose, but the computer's moves aren't prompted by the user clicking a square.)</p>
+        <p>The game currently allows two human players to take turns playing. But you don't really need a computer to keep track of moves for two human players. We want the human player to take turns with a computer player that will move automatically. To simplify the project, we'll assume that the human player will always move first (playing X) and that the computer is playing O.</p>
+        <p>For now, you'll create a computer player that moves to <em>random</em> positions on the board. (It won't be a very good player, but you'll fix that once the structure of the code for the computer's move is in place.) Once the program decides where it wants to move, you'll use <code>broadcast</code> to send a message to tell the clone with the matching <var>position number</var> to record a move. (For the human player, <code>when I am clicked</code> serves this purpose, but the computer's moves aren't prompted by the user clicking a square.)</p>
         <div class="endnote">Recall that clones are temporary copies of a sprite. You learned about them in <a href="/bjc-r/cur/programming/2-complexity/4-abstraction/4-building-tic-tac-toe.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment#clones" title="Unit 2 Lab 4 Page 4: Building a Tic-Tac-Toe Board">Unit 2 Lab 4 Page 4: Building a Tic-Tac-Toe Board</a>.</div>
         <div class="takeNote">
             <img class="indent" src="/bjc-r/img/blocks/broadcast.png" alt="broadcast" title="broadcast" />
             <img class="indent" src="/bjc-r/img/blocks/when-i-receive.png" alt="when I receive" title="when I receive" />
             <img class="indent" src="/bjc-r/img/blocks/message.png" alt="message" title="message" /><br />
-            <p><code>Broadcast</code> sends out a message to all the sprites in the project. Any scripts that start with <code>when I receive</code> with a matching message in the input slot will run.</p>
-            <p>The <code>message</code> reporter reports the most recent message.</p>
+            <p><code>Broadcast</code> sends out a message to all the sprites in the project. Any scripts that start with <code>when I receive</code> and have a matching message in the input slot will run.</p>
+            <p>The <code>message</code> reporter reports the most recent message sent out.</p>
         </div>
         
 		<div class="forYouToDo" id="first">
 			<ol>
-                <div class="commentBig"><strong>NEXT YEAR:</strong> Need to rename project rename directive based on where this lands. --MF, 6/8/18</div>
                 <li>If it isn't open already, open your U5-TicTacToe project.</li>				
-                <li>At the end of your <code>when I am clicked</code> script, use <code>broadcast</code> with a random number from 1 to 9 as the message. (The computer will move in the corresponding square, once you've written the code to handle the message.)</li>
-                <div class="todo"><strong>NEXT YEAR:</strong> change <var>square number</var> to <var>position number</var> above. --MF, 6/13/18</div>
+                <div class="todo">
+                    This had said the following, but it's not right to put it at the end because then it is triggered after the "This space has been played. Try another space." message. How's this change? --MF, 9/6/18
+		            <li>At the end of your <code>when I am clicked</code> script, use <code>broadcast</code> with a random number...</li>
+                </div>
+                <li>After your code for Player X's turn, use <code>broadcast</code> with a random number from 1 to 9 as the message. (The computer will move in the corresponding square, once you've written the code to handle the message.)</li>
                 <div class="sidenoteBig">
                 	<a href="#hint-when-i-receive" data-toggle="collapse" title="Click here for a hint about the <code>when I am clicked</code> script.">Click here for a hint about the <code>when I receive</code> script.</a>
 					<div id="hint-when-i-receive" class="collapse"><img src="/bjc-r/img/5-algorithms/when-i-am-clicked-script.png" alt="when I receive (any message) {if (position number = message) {} }" title="when I receive (any message) {if (position number = message) {} }"></div>
                 </div>
-				<li>Then create a <code>when I receive</code> script that will accept <var>any message</var> as input. If the <var>square number</var> for the clone matches the <code>message</code>, make the computer move in the correct clone's space and check for a win or a tie.</li>
+				<li>Then create a <code>when I receive</code> script that will accept <var>any message</var> as input. If the <var>position number</var> for the clone matches the <code>message</code>, make the computer move in the correct clone's space and check for a win or a tie.</li>
                 <div class="takeNote">Instead of copying code from <code>when I am clicked</code> to <code>when I receive</code>, move that code into a custom block and call the custom block from both scripts. This is one of the ways to use <em>abstraction</em> in programming: don't have two copies of the same piece of code; instead, give it a name.</div>
-				<div class="narrower">
-				  <div class="comment"><strong>Next year</strong>: change variable to <var>position number.</var> --MF, 6/21/18</div>If your computer player uses the wrong costume when it plays in the last square, it's because the parent sprite has the same <var>square number</var>. Revise <code>make board</code>, and ensure that the parent's position number isn't 1-9 so that it doesn't conflict with a clone.</div>
+				<div class="narrower">If your computer player uses the wrong costume when it plays in the last square, it's because the parent sprite has the same <var>position number</var>. Revise <code>make board</code>, and ensure that the parent's position number isn't 1-9 so that it doesn't conflict with a clone.</div>
 				<li>Take turns with your partner playing Tic-Tac-Toe against the computer. Fix any bugs you find.</li>
+                <div class="todo">In the first move of the first time I tried this today, the computer played in the same space as I had just played, so I fixed that (knowing, as the curriculum designer that I don't really have to because of what comes next, but because the student won't know what's next), but then I noticed that when X wins, which it generally will against a random player, O then moves again--potentially even "winning" after me. So I tried to fix that, and after trying for a bit, I ended up deciding to stop and write about this potential time sink rather than sinking my own time into it. What to do? --MF, 9/6/18
+                    <p>Also: we have no note about removing the Player O code, which we might consider adding, and the orange box in #3 is too late; I'd already done copy and paste before I saw it. Our directions really inspire "just doing what it says without thinking" I'm not sure what to do about that... (BTW, should we have said that earlier? I can't find a good place because we build up the code slowly, but I wondered it.) --MF, 9/6/18</p></div>
 			</ol>
 		</div>
         
@@ -53,7 +56,7 @@
             <ol start="5">
             	<li>
                     <img class="imageRight" src="/bjc-r/img/icons/talk-with-another-pair.png" alt="Talk with Another Pair" title="Talk with Another Pair" />
-                    Why is the center or a corner better than an edge? Develop a short, logical, and convincing explanation. Compare your explanation with that of other students.<br>
+                    Why is playing in the center or a corner better than an edge? Develop a short, logical, and convincing explanation. Compare your explanation with that of other students.<br>
                 </li>
                 <li>
                     Create a <img class="inline" src="/bjc-r/img/5-algorithms/best-empty-square.png" alt="best empty square" title="best empty square" /> block that reports the best position on the board that is not yet filled. Use it as input to your <code>broadcast</code> instruction in place of <code>random</code>.
