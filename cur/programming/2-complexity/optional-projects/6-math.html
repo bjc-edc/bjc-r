@@ -8,32 +8,90 @@
 
     <body>
 		<h2>Making Computers Do Math</h2>
-        <div class="todo">So, I cleaned up this page, but I had a "so what?" feeling at the end. These feel like random tasks your teacher makes you do that go nowhere. At first, I thought to offer some interesting and fun mathematical explorations that could be made much easier with these blocks, but then I thought to look back at my <a href="https://snap.berkeley.edu/snapsource/snap.html#present:Username=mfries&ProjectName=standard%20algorithms&editMode" title="standard algorithms" target="_blank">standard algorithms</a> collection. I'm having the same problem here as I did with <a href="/bjc-r/cur/programming/1-introduction/2-gossip-and-greet/5-sentence-builder.html" title="Modeling Language">Modeling Language</a> in U1--why this? why here? It feels like the thing we say we shouldn't do: writing something in because someone likes it. I know this isn't quite that because 1) we are agreed that we want more contextual variety and 2) we are agreed that we want more FP examples, but I there is work to do to address (1) without feeling arbitrary and pointless and (2) to explicitly discuss FP as much as we want to. --MF, 9/12/18
+        <div class="todo">I there is work to do to address to explicitly discuss FP as much as we want to. --MF, 9/12/18
         <p>BH and Mary need to talk about Katex style. --MF, 9/12/18</p></div>
         <div class="learn"><strong>In this project</strong>, you will build blocks that you can use to help you solve mathematics problems.</div>
 		        
         <div class="forYouToDo" id="first">
             <ol>
-                <li><div class="newProject"><span class="text">"U2-MathTools"</span><img src="/bjc-r/img/icons/new-project-called.png" alt="Start a New Project called U2-MathTools" title="Start a New Project called U2-MathTools" /></div></li>
                 <li>
+                    Develop a <code>number of divisors</code> block, and use it to answer these questions: 
+                    <ul style="list-style-type: disc">
+                        <li><strong>What kinds of numbers have an odd number of divisors?</strong></li>
+                        <li><strong>What kinds of numbers have exactly two divisors?</strong></li>
+                    </ul><br />
+                    You can do this on your own or follow these steps:
+                    <ol>
+                        <li>
+                            Export your <code>divisible?</code> and <code>even?</code> blocks from your U2L3-Predicates project. <div class="newProject inline"><span class="text">"U2-MathTools"</span><img src="/bjc-r/img/icons/new-project-called.png" alt="Start a New Project called U2-MathTools" title="Start a New Project called U2-MathTools" /></div> Import those two blocks into your new project file, and test both blocks and resolve any issues.
+                            <div class="endnote">
+                                <p>You learned how to export and import blocks in <a href="/bjc-r/cur/programming/2-complexity/1-variables-games/4-importing-exporting.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Importing Greet Player into Another Program">Unit 2 Lab 1 Page 4: Importing <code>Greet Player</code> into Another Program</a>.</p>
+                                <img class="imageRight" src="/bjc-r/img/blocks/obsolete.png" alt="obsolete block" title="obsolete block" />
+                                <p>If the imported <code>even?</code>block does not work, review the section about "<a href="/bjc-r/cur/programming/2-complexity/4-abstraction/3-brick-wall.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment#dependencies" title="Debugging Dependencies">Debugging Dependencies</a>" on the Brick Wall page.</p>
+                            </div>
+                        </li>
+                        <li>
+                            Build an <code>odd?</code> block.<br />
+                            <img class="indent" src="/bjc-r/img/2-complexity/odd-6-reporting.png" alt="odd? (6) reporting false" title="odd? (6) reporting false" />
+                            <img class="indent" src="/bjc-r/img/2-complexity/odd--7-reporting.png" alt="odd? (-7) reporting true" title="odd? (-7) reporting true" />
+                        </li>
+                        <li>
+                            Build an <code>divisors</code> block.<br />
+                            <img class="indent" src="/bjc-r/img/2-complexity/divisors-9-reporting.png" alt="divisors of (9) reporting {1, 3, 9}" title="divisors of (9) reporting {1, 3, 9}" />
+                            <img class="indent" src="/bjc-r/img/2-complexity/divisors-12-reporting.png" alt="divisors of (12) reporting {1, 2, 3, 4, 6, 12}" title="divisors of (12) reporting {1, 2, 3, 4, 6, 12}" />
+                            <div class="endnote">
+                                <a href="#hint-divisors" data-toggle="collapse" title="Hints about building the divisors block.">Hints about building <code>divisors</code>.</a>
+                                <div id="hint-divisors" class="collapse">
+                                    <p>You could build this with <code>for</code> or <code>for each</code>, but it will require less code to build it with <code>keep</code>.</p>
+                                    <p>You could build this with <code>mod</code>, but you already built <code>divisible?</code> (using <code>mod</code>), so <code>divisible?</code> will be simpler to use.</p>
+                                    <p>The <img class="inline" src="/bjc-r/img/blocks/numbers-from-to.png" alt="numbers from () to ()" title="numbers from () to ()" /> block may be helpful.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            Build the <code>number of divisors</code> block.<br />
+                            <img class="indent" src="/bjc-r/img/2-complexity/number-of-divisors-9-reporting.png" alt="number of divisors (9) reporting 3" title="number of divisors (9) reporting 3" />
+                            <img class="indent" src="/bjc-r/img/2-complexity/number-of-divisors-12-reporting.png" alt="number of divisors (12) reporting 6" title="number of divisors (12) reporting 6" />
+                            <div class="endnote">
+                                <a href="#hint-number-divisors" data-toggle="collapse" title="Hints about building the number of divisors block.">Hints about building <code>number of divisors</code>.</a>
+                                <div id="hint-number-divisors" class="collapse"><img class="indent" src="/bjc-r/img/blocks/length-list-big.png" alt="length of {}" title="length of {}" /></div>
+                            </div>
+                        </li>
+                        <li>
+                            Build an expression using <code>keep</code> to answer each of these questions that were introduced above:
+                            <ul style="list-style-type: disc">
+                                <li><strong>What kinds of numbers have an odd number of divisors?</strong></li>
+                                <li><strong>What kinds of numbers have exactly two divisors?</strong></li>
+                            </ul>
+                            <img class="imageRight" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> For each question, determine: <em>why</em> do these kinds of numbers have these kinds of divisors? 
+                        </li>
+                    </ol>
+                </li>
+            </ol>
+        </div>
+        
+        <div class="ifTime">
+            <p>There are many other mathematical tools you can build. Build some that are interesting to you.</p>
+			<ol start="2">
+				<li>
                     Create a <strong>factorial</strong> block that takes a positive integer <em>n</em> as input and reports the <em>product</em> of all whole numbers from 1 through <em>n</em>. In other words, <code>factorial (</code><var>n</var><code>)</code> should report <span class="katex">1 \times 2 \times 3 \times ... \times (n - 1) \times n</span>.<br />
                     <img class="indent" src="/bjc-r/img/2-complexity/3-factorial-reporting.png" alt="(3)! reporting 6" title="(3)! reporting 6" />
                     <img class="indent" src="/bjc-r/img/2-complexity/4-factorial-reporting.png" alt="(4)! reporting 24" title="(4)! reporting 24" />
                     <img class="indent" src="/bjc-r/img/2-complexity/5-factorial-reporting.png" alt="(5)! reporting 120" title="(5)! reporting 120" />
                     <ol>
                         <li>
-                            <strong>Test.</strong> If you divide 5! by 4!, the result should be 5 because 5! is really just 5 times 4!. <br />
-                            <img class="indent" src="/bjc-r/img/2-complexity/5-factorial-divided-by-4-factorial-with-result(5).png" alt="5!/4! reporting 5" title="5!/4! reporting 5"> <br />
-                            Using your block, check each of these computations:
+                            <strong>Test.</strong> If you divide 5! by 4!, the result should be 5 because 5! is really just 5 times 4!. Check it:
+                            <img class="inline" src="/bjc-r/img/2-complexity/5-factorial-divided-by-4-factorial-with-result(5).png" alt="5!/4! reporting 5" title="5!/4! reporting 5"> <br />
+                            <!--Using your block, check each of these computations:-->
                             <ul>
-                                <li><img src="/bjc-r/img/2-complexity/4-factorial-divided-by-3-factorial.png" alt="4!/3!" title="4!/3!"></li>
-                                <li><img src="/bjc-r/img/2-complexity/3-factorial-divided-by-2-factorial.png" alt="3!/2!" title="3!/2!"></li>
-                                <li><img src="/bjc-r/img/2-complexity/2-factorial-divided-by-1-factorial.png" alt="2!/1!" title="2!/1!"></li>
-                                <li><img src="/bjc-r/img/2-complexity/1-factorial-divided-by-0-factorial.png" alt="1!/0!" title="1!/0!"></li>
+                                <!--<li><img src="/bjc-r/img/2-complexity/4-factorial-divided-by-3-factorial.png" alt="4!/3!" title="4!/3!"></li>-->
+                                <li>What should <img src="/bjc-r/img/2-complexity/3-factorial-divided-by-2-factorial.png" alt="3!/2!" title="3!/2!"> report? Does it?</li>
+                                <li>What should <img style="inline" src="/bjc-r/img/2-complexity/2-factorial-divided-by-1-factorial.png" alt="2!/1!" title="2!/1!"> report? Does it?</li>
+                                <li>What should <img style="inline"  src="/bjc-r/img/2-complexity/1-factorial-divided-by-0-factorial.png" alt="1!/0!" title="1!/0!"> report? Does it?</li>
                             </ul>
                         </li>
+                        
                         <li>
-                            <div class="commentBig">I want some justification here. Please help. --MF, 9/11/18</div>
                             <strong>Debug:</strong> One of these will be inconsistent with the others. To fix the problem, you'll need to <em>define</em> 0! as 1. Edit your factorial block to report 1 if <em>n</em> = 0. Then fully test your block again to make sure it works as it should. </li>
                         <div class="todo">
                             I think that because they've learned input types in 2.2.1 and we show them in the problems above, we don't need to do this. --MF, 9/11/18
@@ -54,9 +112,7 @@
                     <img class="indent" src="/bjc-r/img/2-complexity/triangular-number-4-reporting.png" alt="triangular number (4) reporting 10" title="triangular number (4) reporting 10" /><br />
                     Define your block so that <code> triangular number (</code><var>0</var><code>)</code> reports 0. </li>
                 <li>Create <strong>sum</strong> so that <img src="/bjc-r/img/2-complexity/sum-from3to7-170x27.png" alt="sum from (3) to (7)" title="sum from (3) to (7)"> reports the sum 3 + 4 + 5 + 6 + 7, and <img src="/bjc-r/img/2-complexity/sum-from-3to3.png" alt="sum from (-3) to (3)" title="sum from (-3) to (3)"> reports the sum of -3 + -2 + -1 + 0 + 1 + 2 + 3.</li>
-                <div class="todo">I stopped here. I don't know what the point of this next problem is, so it's hard to know how to write it. I would do this by actually finding the divisors and then running <code>length</code> on that list. I guess you could run a counter through the process instead of storing the divisors, but that avoids building another useful block that's trivial to add to the effort. <strong>WHY THIS?</strong> --MF, 9/12/18</div>
-                <li> <div class="sidenote">Recall that <code>n mod i</code> will tell you if <em>i</em> is a divisor of <em>n</em>.</div>
-                <strong>Counting divisors: </strong>Create a block that takes a whole number as input and checks  numbers from 1 through that input and counts the ones that evenly divide the input. So, for example, <img src="/bjc-r/img/2-complexity/number-of-divisors-of-8-with-result(4).png" alt="number of divisors of 8, with result = 4"> because, from 1 through 8, only the numbers 1, 2, 4, and 8 evenly divide 8.  <code>number-of-divisors 10</code> should also report 4 because, of the numbers from 1 through 10, only 1, 2, 5, and 10 are divisors of 10. <strong>Experiment</strong> to find several numbers that have an odd number of divisors.</li>
+                
                 
                 
 			</ol>
@@ -66,6 +122,7 @@
         <div class="takeItFurther"><a name="further" class="anchor">&nbsp;</a>
             <ol type="A">
                 <li>Edit your <code>raise (n) to the power (b)</code> block to make it work for negative integer exponents. </li> 
+                <div class="todo">I want to cut these. "This is how we did it before computers" is not a good argument for making a kid do this in a CS class--especially after they just did it. This is math content. --MF, 9/12/18
                 <li>
                     <strong>Old-fashioned divisibility test—divisibility by 3 or 9: </strong>
                     <ul>
@@ -89,8 +146,10 @@
                     <p>Test it first on several multiples of 7 (small and large) and make sure that, for multiples of 7, it reports only the results 14, 7, 0, -7, and -14. Also test it on several numbers that are <em>not</em> multiples of 7; for those numbers, it should never report 14, 7, 0, -7, or -14. <img src="/bjc-r/img/2-complexity/multiples-of-7-algorithm-block-with-501298-as-input(and-result-neg14).png" alt="multiples-of-7-algorithm-block-with-501298-as-input(and-result-neg14)"></p>
                 </li>  
                 <li>Look up a test for divisibility by 11 or 13 and see if you can build a block that performs that algorithm.</li><div class="endnote">In <span class="snap">snap</span>, as in most programming languages, you can test for divisibility just by using <code>mod</code>, but before computers were widespread, algorithms like these greatly simplified some computations.</div>
+                </div>
             </ol>
             <div class="takeNote">
+                <div class="todo">I would edit out the "you aren't ready yet" language, but I'd offer the <code>combine</code> examples. --MF, 9/12/18 </div>
                 <img class="imageRight" src="/bjc-r/img/icons/import-tools-mini.png" alt="Import Tools" title="Import Tools" />Although this 
                 <img src="/bjc-r/img/2-complexity/clobber.png" alt="set variable to function of variable"> style of programming is very common, pretty soon you'll learn a better way: <em>functional programming,</em> in which you never change the value of a variable.  You're not quite ready to write functional programs yet (that'll come in Unit 3), but here are some examples from above, rewritten functionally, that you can probably understand:      <br />                  <img src="/bjc-r/img/2-complexity/better-factorial.png" alt="factorial: combine with times items of numbers from 1 to n"><img src="/bjc-r/img/2-complexity/better-divisors.png" alt="number-of-divisors: length of keep items such that ((n mod __) = 0) from (values from 1 to n)">
                 <img src="/bjc-r/img/2-complexity/better-digit-sum.png" alt="digit sum: combine with + items of word to list of number">
