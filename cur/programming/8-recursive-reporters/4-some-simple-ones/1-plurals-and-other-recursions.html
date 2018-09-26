@@ -10,11 +10,13 @@
 		<div class="todo">BH: suggests putting this lab after the Social Implications, so that it is the last thing in the course. </div>
         <div class="todo">AC:  Still thinks that this unit should start with this lab.  Indeed, it should come much earlier in the program.  Oh well\dots </div>
         <h2>Walking Down a List</h2>
+        <div class="todo"><strong>Fundamental Concern:</strong> The idea seems important for this unit, but I don't buy the "you should build this some other way that isn't as efficient because we said so" approach. Find some reasonable examples of where this is useful or don't teach it. <code>Map</code> is the obvious choice for #1. I haven't decided how I feel about #2, but we give them most of the answer here at the end of the year, so what's the point? --MF, 9/26/18</div>
         <div class="sidenote">It's a big simplification to say that adding "s" always forms the plural. If you did the optional project on Plurals and you like, you can use your work from the <code>plural</code> block you made in <a href="/bjc-r/cur/programming/2-complexity/optional-projects/5-plurals2.html" title="Modeling Language: Plurals, Part 2">Unit 2</a>.</div>
 
 		<p>
-        	Here's the <code>plurals</code> block from Lab 1. It takes a <em>list of words</em> as input, and reports a list of the plurals of those words. Although there is a way to build this block using <code>map</code>, bear with us: there is a good reason to investigate this recursive version.<br />
-        	<img class="indent" src="/bjc-r/img/8-recursive-reporters/plurals.png" alt="plurals (words){if(empty?(words)){report(list{})}else{report(join(item(1) of (words) (s) in front of (plurals(all but first of(words))))}}" title="plurals (words){if(empty?(words)){report(list{})}else{report(join(item(1) of (words) (s) in front of (plurals(all but first of(words))))}}" />
+            Here's the <code>plurals</code> block from Lab 1. It takes a <em>list of words</em> as input, and reports a list of the plurals of those words. Although there is a way to build this block using <code>map</code>, bear with us: there is a good reason to investigate this recursive version.<br />
+            <div class="comment">Redo the image with plain prototype labels. --MF, 9/26/18</div>
+            <img class="indent" src="/bjc-r/img/8-recursive-reporters/plurals.png" alt="plurals (words){if(empty?(words)){report(list{})}else{report(join(item(1) of (words) (s) in front of (plurals(all but first of(words))))}}" title="plurals (words){if(empty?(words)){report(list{})}else{report(join(item(1) of (words) (s) in front of (plurals(all but first of(words))))}}" />
         </p>
 		<div class="takeNote">
             <p>The big idea here is that you can divide a list into its first item and all the rest of the items, form the plural of the first one, and make a recursive call for the rest. The <code>in front of</code> block may look strange at first, with its asymmetrical inputs (one item, one list), but it puts the plural of the first word and the plurals of the rest of the words back together.</p>
