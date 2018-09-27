@@ -8,14 +8,15 @@
 
     <body>
 		<h2>More Math Tools</h2>
-        <div class="todo">I'm starting to wonder if this should NOT be an optional project. There are a lot of nice things unfolding... --MF, 9/13/18</div>
+        <div class="todo">
+            <p>I'm starting to wonder if this should NOT be an optional project. There are a lot of nice things unfolding... (It does use <code>combine</code>, so perhaps this could be the introduction that Paul and I think needs to happen before <a href="/bjc-r/cur/programming/5-algorithms/3-timing-experiments/1-comparing-algorithms.html?topic=nyc_bjc%2F5-algorithms.topic&course=bjc4nyc.html&novideo&noassignment">5.3.1</a>.).--MF, 9/13/18</p>
+        <p>I'd love to find some <strong>interesting</strong> questions kids can answer much more easily now that they have some of these computational tools.
+        </div>
         <div class="learn">
-            <strong>In this project</strong>, you will create mathematical blocks that combine several numbers using addition or multiplication, such as <code>sum</code>: <br />
+            <strong>In this project</strong>, you will create mathematical blocks that combine several numbers, such as how <code>sum from () to ()</code> combines numbers using addition: <br />
             <img class="indent" src="/bjc-r/img/3-lists/sum-from-4-to-6-reporting.png" alt="sum from (4) to (6) reporting 15" title="sum from (4) to (6) reporting 15" />
         </div>
-        
-        <div class="todo"><a href="/bjc-r/cur/programming/2-complexity/3-predicates/1-adding-questions.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Lab 3 Page 1: What's a Predicate?">Lab 3 Page 1: What's a Predicate?</a></div>
-        
+                
         <div class="forYouToDo" id="first">
 			<ol>
 				<li>
@@ -45,9 +46,8 @@
         <p>
             <div class="sidenote">You learned about <em>iteration</em> in <a href="/bjc-r/cur/programming/1-introduction/3-drawing/6-the-for-block.html?topic=nyc_bjc%2F1-intro-loops.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 1 Lab 3 Page 6: Looping with a Counter">Unit 1 Lab 3 Page 6: Looping with a Counter</a>. Examples of iteration include using: <code>forever</code>, <code>repeat</code>, <code>repeat until</code>, <code>for</code>, and <code>for each</code>.</div>
             You <em>could</em> develop these procedures <strong>iteratively</strong> (using a loop):<br />
-            <div class="todo">Need to do alt/title tags here and in the two images in the paragraph just below. --MF, 9/13/18</div>
-            <img class="indent" src="/bjc-r/img/3-lists/triangular-number-definition-itterative.png" alt="" title="" />
-            <img class="indent" src="/bjc-r/img/3-lists/factorial-definition-itterative.png" alt="" title="" />
+            <img class="indent" src="/bjc-r/img/3-lists/triangular-number-definition-itterative.png" alt="triangular number (number #) : script variables (sum), set (sum) to (0), for (i) = (1) to (number) (set (sum) to (sum + i)), report (sum)" title="triangular number (number #) : script variables (sum), set (sum) to (0), for (i) = (1) to (number) (set (sum) to (sum + i)), report (sum)" />
+            <img class="indent" src="/bjc-r/img/3-lists/factorial-definition-itterative.png" alt="(number #)! : script variables (product), set (product) to (1), for (i) = (1) to (number) (set (product) to (product × i)), report (product)" title="(number #)! : script variables (product), set (product) to (1), for (i) = (1) to (number) (set (product) to (product × i)), report (product)" />
         </p>
         <p>
             <div class="sidenote">
@@ -55,31 +55,17 @@
                 <img class="inline" src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/three-color-sierpinski.png" alt="Red triangle with blue children and green grandchildren" title="Red triangle with blue children and green grandchildren" />
             </div>
             And you <em>could</em> develop these procedures <strong>recursively</strong> (by using the function inside itself):<br />
-            <img class="indent" src="/bjc-r/img/3-lists/triangular-number-definition-recursive.png" alt="" title="" />
-            <img class="indent" src="/bjc-r/img/3-lists/factorial-definition-recursive.png" alt="" title="" />
+            <img class="indent" src="/bjc-r/img/3-lists/triangular-number-definition-recursive.png" alt="triangular number (number #) : if (number = 1) (report (1)), report (number + (triangular number (number - 1)))" title="triangular number (number #) : if (number = 1) (report (1)), report (number + (triangular number (number - 1)))" />
+            <img class="indent" src="/bjc-r/img/3-lists/factorial-definition-recursive.png" alt="(number #)! : if (number = 1) (report (1)), report (number × ((number - 1)!))" title="(number #)! : if (number = 1) (report (1)), report (number × ((number - 1)!))" />
         </p>
         <p>The code using recursion is shorter and simpler to look at; programmers would call it "more elegant." But there is an even easier way. You can just <code>combine</code> the elements of a list using whichever operation you want to use (addition or multiplication).</p>
         <p>
-            The <img class="inline" src="/bjc-r/img/blocks/combine.png" alt="combine with() items of ()" title="combine with() items of ()" /> block takes an operation and a list as input and reports the combination of all the elements in the inputted list using the inputted operation. For example, the expression below reports: <span class="katex">3 + 1 + 1 + 0 + - 1</span>.<br />
-            <div class="sidenote">Read this out loud as "combine the elements of  the list {5, 6, 2, 3} with addition."</div>
+            The <img class="inline" src="/bjc-r/img/blocks/combine.png" alt="combine with() items of ()" title="combine with() items of ()" /> block takes an operation and a list as input and reports the result of combining all the elements in the inputted list using the inputted operation. For example, the expression below reports: <span class="katex">3 + 1 + 1 + 0 + - 1</span>.<br />
+            <!--<div class="sidenoteBig">Read this out loud as "combine the elements of  the list {3, 1, 1, 0, -1} with addition."</div>-->
             <img class="indent" src="/bjc-r/img/3-lists/combine-simple-example.png" alt="combine with (()+()) items of (list {3, 1, 1, 0, -1}) reporting 4" title="combine with (()+()) items of (list {3, 1, 1, 0, -1}) reporting 4" />
         </p>
-        <div class="endnote"><code>Combine</code> is a <em>higher order function</em>; it is a function that takes a function as input. You've seen several higher order functions already: <code>for each</code> (in <a href="/bjc-r/cur/programming/2-complexity/2-data-structures-art/1-the-for-each-block.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Processing Each Item in a List">Unit 2 Lab 2</a>), <code>keep</code> (in <a href="/bjc-r/cur/programming/2-complexity/3-predicates/2-keeping-list-items.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Keeping Items from a List">Unit 2 Lab 3</a>), and <code>map</code> (in <a href="/bjc-r/cur/programming/3-lists/1-introduction-to-lists/4-mapping-over-list.html?topic=nyc_bjc%2F3-lists.topic&course=bjc4nyc.html&novideo&noassignment" title="Transforming Every List Item">Unit 3 Lab 1</a>).</div>
-
-            <div class="todo">Probably drop because not official into to <code>combine</code>. --MF, 9/13/18
-                <div class="endnote">
-                Unlike <code>map</code> and <code>keep</code>, <code>combine</code> is mostly used with one of <em>only these six</em> functions:<br />
-                <img class="indent" src="/bjc-r/img/3-lists/plus.png" alt="+" title="+" /> <img src="/bjc-r/img/3-lists/times.png" alt="&times;" title="&times;" /><br />
-                <img class="indent" src="/bjc-r/img/3-lists/and-block.png" alt="and" title="and" /> <img src="/bjc-r/img/3-lists/or-block.png" alt="or" title="or" /><br />
-                <img class="indent" src="/bjc-r/img/3-lists/join.png" alt="join" title="join" /> <img src="/bjc-r/img/3-lists/join-words.png" alt="join words" title="join words" /><br />
-                Among blocks you might write yourself, there are only two likely candidates:<br />
-                <img class="indent" src="/bjc-r/img/3-lists/max.png" alt="max" title="max" /> <img src="/bjc-r/img/3-lists/min.png" alt="min" title="min" /><br />
-                <a data-toggle="collapse" href="#hint-3">Why so few?</a>
-                <div id="hint-3" class="collapse">
-                    The function has to be <em>associative</em>, meaning that it doesn't matter what order you group the items in; (7&thinsp;+&thinsp;8)&thinsp;+&thinsp;1 is the same as 7&thinsp;+&thinsp;(8&thinsp;+&thinsp;1) (work it out yourself), but (7&thinsp;−&thinsp;8)&thinsp;−&thinsp;1 is different from 7&thinsp;−&thinsp;(8&thinsp;−&thinsp;1).
-                    So <img src="/bjc-r/img/3-lists/combine-minus.png" alt="combine with (-) items of (list 7 8 1)"> would be ambiguous.
-                </div>
-            </div>  </div>          
+        <div class="endnote"><code>Combine</code> is a <em>higher order function</em>; it is a function that takes a function as input. You've seen higher order functions already: <code>keep</code> (in <a href="/bjc-r/cur/programming/2-complexity/3-predicates/2-keeping-list-items.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Keeping Items from a List">Unit 2 Lab 3</a>) and <code>map</code> (in <a href="/bjc-r/cur/programming/3-lists/1-introduction-to-lists/4-mapping-over-list.html?topic=nyc_bjc%2F3-lists.topic&course=bjc4nyc.html&novideo&noassignment" title="Transforming Every List Item">Unit 3 Lab 1</a>).</div>
+                 
     
         <div class="forYouToDo">
             <ol start="2">
@@ -94,7 +80,7 @@
                 </li>
                 
                 <li>
-                    Create a <code>sum</code> of a list block that reports the sum of the items of a list.<br />
+                    Create a <code>sum of a list</code> block that reports the sum of the items of a list.<br />
                     <img class="indent" src="/bjc-r/img/3-lists/sum-of-list-reporting.png" alt="sum of {1, 2, 3, 10} reporting 16" title="sum of {1, 2, 3, 10} reporting 16" />
                 </li>
                 <li>
@@ -107,50 +93,69 @@
                 </li>
             </ol>
         </div>
-
-        <div class="todo">Unfinished beyond here, but the ideas I want are there. --MF, 9/13/18</div>
-
       
         <div class="ifTime">
             <ol start="6">
+                <div class="comment">Problem 6 is referenced below; if this number changes here, change that.</div>
+                <div class="sidenote">
+                    <a href="#hint-combine" data-toggle="collapse" title="Hint about building maximum of list">Hint about building <code>maximum of list</code></a>
+                    <div id="hint-combine" class="collapse">Use <code>combine</code>.</div>
+                </div>
                 <li>
-                    <strong>Test:</strong> If you divide 5! by 4!, the result should be 5 because 5! is really just 5 times 4!. Check it:
-                    <img class="inline" src="/bjc-r/img/3-lists/5-factorial-divided-by-4-factorial-with-result(5).png" alt="5!/4! reporting 5" title="5!/4! reporting 5"> <br />
-                    <!--Using your block, check each of these computations:-->
-                    <ul>
-                        <!--<li><img src="/bjc-r/img/3-lists/4-factorial-divided-by-3-factorial.png" alt="4!/3!" title="4!/3!"></li>-->
-                        <li>What should <img src="/bjc-r/img/3-lists/3-factorial-divided-by-2-factorial.png" alt="3!/2!" title="3!/2!"> report? Does it?</li>
-                        <li>What should <img style="inline" src="/bjc-r/img/3-lists/2-factorial-divided-by-1-factorial.png" alt="2!/1!" title="2!/1!"> report? Does it?</li>
-                        <li>What should <img style="inline"  src="/bjc-r/img/3-lists/1-factorial-divided-by-0-factorial.png" alt="1!/0!" title="1!/0!"> report? Does it?</li>
-                    </ul>
-                </li>
-
-                <li>
-                    <strong>Debug:</strong> One of these will be inconsistent with the others. To fix the problem, you'll need to <em>define</em> <code>(</code><var>0</var><code>)!</code> as 1. Edit your factorial block to report 1 if <em>n</em> = 0. Then test again to make sure it works as it should.
+                    Use <code>combine</code> to build <code>maximum of list</code> and <code>minimum of list</code>. (If you don't have them already in your project from your work in Unit 2, you will need to build <img class="inline" src="/bjc-r/img/3-lists/maximum.png" alt="maximum of () and ()" title="maximum of () and ()" /> and <img class="inline" src="/bjc-r/img/3-lists/minimum.png" alt="minimum of () and ()" title="minimum of () and ()" />.)<br />
+                    <img class="indent" src="/bjc-r/img/3-lists/max-of-list-reporting.png" alt="maximum of list {1, 22, 3, -4} reporting {22}" title="" />
+                    <img class="indent" src="/bjc-r/img/3-lists/min-of-list-reporting.png" alt="" title="" />
                 </li>
                 <li>
-                    Define your <code>triangular number</code> block so that <code> triangular number (</code><var>0</var><code>)</code> reports 0. </li>
-            </ol>
-
-            
-            
-            <div class="todo">note about error cases (see comments in stnd alg proj), and FP. --MF, 9/12/18</div>
-            <div class="takeNote">
-                <img src="/bjc-r/img/2-complexity/better-divisors.png" alt="number-of-divisors: length of keep items such that ((n mod __) = 0) from (values from 1 to n)">
-                <img src="/bjc-r/img/2-complexity/better-digit-sum.png" alt="digit sum: combine with + items of word to list of number">
-            </div>
-            <li><code>Max/min of list</code></li>
+                    <p><strong>Test:</strong> If you divide 5! by 4!, the result should be 5 because 5! is really just 5 times 4! :</p>
+                    <p class="center"><span class="katex">\frac{5!}{4!} = \frac{1 \times 2 \times 3 \times 4 \times 5}{1 \times 2 \times 3 \times 4} = \frac{5}{1} = 5</span></p>
+                    <p>
+                        Check it:
+                        <img class="inline" src="/bjc-r/img/3-lists/5-factorial-divided-by-4-factorial-with-result(5).png" alt="5!/4! reporting 5" title="5!/4! reporting 5"> <br />
+                        <!--Using your block, check each of these computations:-->
+                        <ul>
+                            <!--<li><img src="/bjc-r/img/3-lists/4-factorial-divided-by-3-factorial.png" alt="4!/3!" title="4!/3!"></li>-->
+                            <li>What should <img src="/bjc-r/img/3-lists/3-factorial-divided-by-2-factorial.png" alt="3!/2!" title="3!/2!"> report? Does it?</li>
+                            <li>What should <img style="inline" src="/bjc-r/img/3-lists/2-factorial-divided-by-1-factorial.png" alt="2!/1!" title="2!/1!"> report? Does it?</li>
+                            <li>What should <img style="inline"  src="/bjc-r/img/3-lists/1-factorial-divided-by-0-factorial.png" alt="1!/0!" title="1!/0!"> report? Does it?</li>
+                        </ul>
+                    </p>
+                    <p><strong>Debug:</strong> One of these will be inconsistent with the others. To fix the problem, you'll need to <em>define</em> <code>(</code><var>0</var><code>)!</code> as 1. Edit your factorial block to report 1 if <em>n</em> = 0. Then test again to make sure it works as it should.</p>
+                </li>
+                <li>Adjust your <code>triangular number</code> block so that <code> triangular number (</code><var>0</var><code>)</code> reports 0. </li>
+                <li>The <code>triangular number</code> and <code>factorial</code> functions are only defined for <em>positive integers</em>. Make both blocks test that the input is a positive integer and report an error message if the input is negative or non-integer.</li>
             </ol>
         </div>
 
       
         <div class="takeItFurther"><a name="further" class="anchor">&nbsp;</a>
             <ol type="A">
-                <li>factor list and GCD</li>
-                <li>acronym?</li>
+                <li>
+                    <div class="sidenote">The <strong>greatest common divisor</strong> of two integers is the largest positive integer that is a divisor (a factor) of both integers.</div>
+                    Develop a <code>greatest common divisor</code> block. (If you don't have it already in your project from your work in <a href="/bjc-r/cur/programming/2-complexity/optional-projects/6-math.html" title="Unit 2 Optional Project: Making Computers Do Math">Unit 2 Optional Project: Making Computers Do Math</a>, you will need to build <img class="inline" src="/bjc-r/img/2-complexity/divisors.png" alt="divisors of ()" title="divisors of ()" />.)<br />
+                    <img class="indent" src="/bjc-r/img/3-lists/gcd-20-50-reporting.png" alt="greatest common divisor of (20) and (50) reporting 10" title="greatest common divisor of (20) and (50) reporting 10" />
+                    <img class="indent" src="/bjc-r/img/3-lists/gcd-36-40-reporting.png" alt="greatest common divisor of (36) and (40) reporting 4" title="greatest common divisor of (36) and (40) reporting 4" />
+                    <div class="endnote">
+                        <a href="#hint-GCD-hint" data-toggle="collapse" title="Hints about building greatest common divisor">Hint about building <code>greatest common divisor</code></a>
+                        <div id="hint-GCD-hint" class="collapse">
+                            You may find it useful to use <code>maximum of list</code> above (in problem 6) as well as <code>divisors</code> and also to build an <code>intersection</code> block that takes two lists as input and reports all of the items that are on both lists.<br />
+                            <img class="indent" src="/bjc-r/img/3-lists/intersection-reporting.png" alt="intersection of {apples, potatoes, carrots, pears} and {acorns, apples, pears, pinecones} reporting {apples, pears}" title="intersection of {apples, potatoes, carrots, pears} and {acorns, apples, pears, pinecones} reporting {apples, pears}" /><br />
+                            <a href="#hint-GCD-hints" data-toggle="collapse" title="More detailed hints about greatest common divisor">More detailed hints about <code>greatest common divisor</code></a>
+                            <div id="hint-GCD-hints" class="collapse">
+                                In order to find the greatest common divisor of two numbers you will need to find:
+                                <ol>
+                                    <li>The <em>divisors of each</em> input number</li>
+                                    <li>The numbers that are <em>divisors of both</em> input numbers </li>
+                                    <li>The <em>greatest</em> number that is a divisor of both input numbers</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </li>
             </ol>
         </div>
       
+        <div class="todo"><a href="/bjc-r/cur/programming/3-lists/old/1-nesting-functions.html">Acronym</a> (another <a href="/bjc-r/cur/programming/3-lists/old/2-sorting/1-recursion.html">older? version</a>) would be fun to do too, but it's not a math tool... Maybe that's an optional project after this page is in the main text. Does anyone remember why that got cut? --MF, 9/27/18</div>
    
 	</body>
 </html>
