@@ -28,7 +28,7 @@
         <div class="todo">TODO: Change blocks to:<br />
             <img class="indent" src="/bjc-r/img/2-complexity/draw-brick-wall.png" alt="draw brick wall, rows: ()" title="draw brick wall, rows: ()" />
             <img class="indent" src="/bjc-r/img/2-complexity/draw-brick-wall-tif.png" alt="draw brick wall, rows: () bricks per row: () brick length: () brick width: () gap thickness: ()" title="draw brick wall, rows: () bricks per row: () brick length: () brick width: () gap thickness: ()" /><br />
-            Also consider changing <code>rowA</code> and <code>rowB</code> to <code>draw row A</code> and <code>draw row B</code> and changing quizlet images on <a href="/bjc-r/cur/programming/3-lists/1-introduction-to-lists/4-mapping-over-list.html?topic=nyc_bjc%2F3-lists.topic&course=bjc4nyc.html&novideo&noassignment">Transforming Every List Item</a> if a related quizlet actually lands there.
+            Also change <code>rowA</code> and <code>rowB</code> to <code>draw row A</code> and <code>draw row B</code> (change images, text, starter file, solutions, and TG).
             --MF, 1/18/19
         </div>
         <div class="learn">
@@ -37,13 +37,7 @@
 			<img border="0" class="indent" title="Sample image of brick wall" alt="Sample image of brick wall" src="/bjc-r/img/abstraction/new-brickwall/wall.png" />
         </div>
             	
-        <div class="vocabFullWidth">
-            <div class="comment">AAP-3.B.1</div>
-            <p><strong>Procedural abstraction</strong> is the process of developing a program by breaking up a large problem into smaller sub-problems.</p>
-            <p>Creating a <code>draw brick</code> block lets you think in terms of a procedure with a name related to the problem you are solving. Once you've coded and debugged the block, you don't need to think about how it works each time you use it. That's the beauty of procedural abstraction.</p>
-		</div>
-        
-		<h3>Drawing One Brick</h3>
+        <h3>Drawing One Brick</h3>
         <div class="sidenoteBig">Any good programming language might have many tools for drawing and moving, but it wouldn't make sense to have special tools for drawing bricks because most programs don't involve bricks. That's the sort of tool you make yourself when you need it.</div>
         <p>
             A picture of a brick is just a rectangle with a brick red color. However, there's no <code>draw rectangle</code> block in <span class="snap">snap</span>. One way to draw one is by thinking of a rectangle as a very thick line. Here's the idea:<br />
@@ -51,8 +45,9 @@
         </p>
         <div class="forYouToDo" id="first">
         	<ol>
+                <div class="comment">I'd like to swap the presentation here so students do what we want. First we should show the code and ask them what it does; then we should give them the starter file link and ask them to run the code. Otherwise, it's too tempting to run the code first, and then you never have the chance to figure out what it will do by reading it. --MF, 1/18/19</div>
                 <li><a class="run" href="/bjc-r/prog/2-complexity/U2L4-brickwall.xml"><img class="inline" src="/bjc-r/img/icons/load-save.png" width="550" alt="Click here to load this file. Then save it to your Snap! account." title="Click here to load this file. Then save it to your Snap! account."></a><br />It includes the complete <code>draw brick</code> block shown below. Read the code; then try it out.<br />
-                    <img src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/drawBrickCode.png"  alt="draw brick, length:(length#) width:(width#){set pen color to (red); set flat line ends to (true); set pen size to (width); pen down; move(length) steps; pen up}" title="draw brick, length:(length#) width:(width#){set pen color to (red); set flat line ends to (true); set pen size to (width); pen down; move(length) steps; pen up}"/> 
+                    <img class="indent" src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/drawBrickCode.png"  alt="draw brick, length:(length#) width:(width#){set pen color to (red); set flat line ends to (true); set pen size to (width); pen down; move(length) steps; pen up}" title="draw brick, length:(length#) width:(width#){set pen color to (red); set flat line ends to (true); set pen size to (width); pen down; move(length) steps; pen up}"/> 
 				</li>
                 <div class="endnote"> 
                     <p>The <img src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/setFlat.png"  alt="set flat line ends to &lt; &gt;" title="set flat line ends to &lt; &gt;"> block isn't built into Snap<em>!</em>. In projects without it, you can set the "Flat line ends" in the <img src="/bjc-r/img/sys/settings.png" alt="Settings" title="Settings" /> menu.</p>
@@ -62,6 +57,12 @@
             </ol>
         </div>
         
+        <div class="vocabFullWidth">
+            <div class="comment">AAP-3.B.1</div>
+            <p><strong>Procedural abstraction</strong> is the process of developing a program by breaking up a large problem into smaller sub-problems.</p>
+            <p>Creating a <code>draw brick</code> block lets you think in terms of a procedure with a name related to the problem you are solving. Once you've coded and debugged the block, you don't need to think about how it works each time you use it. That's the beauty of procedural abstraction.</p>
+		</div>
+
         <h3>Using Problem Decomposition</h3>
 		<p>
         	You'd like the "top level" block to be something like this:<br />
@@ -78,15 +79,15 @@
         <div class="forYouToDo" id="second">
         	<ol start="2">
             	<li>Use <code>draw brick</code> to make blocks <img src="/bjc-r/img/abstraction/new-brickwall/rowa-block.png" alt="block rowA" title="block rowA"/> and <img src="/bjc-r/img/abstraction/new-brickwall/rowb-block.png" alt="block rowB" title="block rowB"/>.</li>
-            
-    <div class="endnote"> 
-        <a href="#hint-too-much" data-toggle="collapse" title="">Too much abstraction?</a>
-        <div id="hint-too-much" class="collapse">
-            <p>It's possible to go overboard on abstraction and build so many blocks that your program is just as cluttered as it would be without the custom blocks. But it <em>can</em> be useful to make a custom block even when its definition is just one built-in block. For example, to draw the cement between blocks (shown as white space), you can just use <img src="/bjc-r/img/abstraction/new-brickwall/move4.png" alt="Move 4 Steps">, but it might make sense to define a <code>draw cement</code> block that uses <code>move</code> inside it. </p>
-            <p>Why? You might later decide that four steps is the wrong thickness for cement and you'd rather have five. Or you might want the cement to be cement-colored, slightly gray. With many <img src="/bjc-r/img/abstraction/new-brickwall/move4.png" alt="Move 4 Steps"> scattered through your program, you would have to find and change each one. To make matters worse, your complete project might have <code>move</code> blocks that <em>aren't</em> about cement. But with a <code>draw cement</code> block, you can change just its definition, and all the cement in your picture will be changed.</p>
-        </div>
-    </div>
-            	<li>
+                <div class="endnote"> 
+                    <img class="inline" src="/bjc-r/img/icons/read-more-mini.png" alt="Read More" title="Read More" />
+                    <a href="#hint-too-much" data-toggle="collapse" title="Too much abstraction?">Too much abstraction?</a>
+                    <div id="hint-too-much" class="collapse">
+                        <p>It's possible to go overboard on abstraction and build so many blocks that your program is just as cluttered as it would be without the custom blocks. But it <em>can</em> be useful to make a custom block even when its definition is just one built-in block. For example, to draw the cement between blocks (shown as white space), you can just use <img src="/bjc-r/img/abstraction/new-brickwall/move4.png" alt="Move 4 Steps">, but it might make sense to define a <code>draw cement</code> block that uses <code>move</code> inside it. </p>
+                        <p>Why? You might later decide that four steps is the wrong thickness for cement and you'd rather have five. Or you might want the cement to be cement-colored, slightly gray. With many <img src="/bjc-r/img/abstraction/new-brickwall/move4.png" alt="Move 4 Steps"> scattered through your program, you would have to find and change each one. To make matters worse, your complete project might have <code>move</code> blocks that <em>aren't</em> about cement. But with a <code>draw cement</code> block, you can change just its definition, and all the cement in your picture will be changed.</p>
+                    </div>
+                </div>
+                <li>
                 	The two kinds of rows should be exactly the same length.  Your first try at drawing Row B is probably a little too long. <strong>Debug it.</strong>
                     <ul>
                     	<li>Should Row B have different-size bricks, different-size gaps, or just different-size bricks on the end?</li>
@@ -113,6 +114,21 @@
                     </div>
                 </li>
                 <img class="imageRight" src="/bjc-r/img/icons/save-now.png" alt="Now Is a Good Time to Save" title="Now Is a Good Time to Save" />
+            </ol>
+        </div>
+    
+        <div class="examFullWidth">
+            <p>You will need to be able to identify a procedural abstraction in a program you write and also clearly explain how your abstraction manages the complexity of your code.</p>
+        </div>
+    
+        <div class="forYouToDo" id="first">
+			<ol start="5">
+                <div class="comment">AP-3.B</div>
+                <li>
+                    <img class="inline" src="/bjc-r/img/icons/talk-with-another-pair.png" alt="Talk with Another Pair" title="Talk with Another Pair" />
+                    How do you think procedural abstraction could be used to manage the complexity of a program?
+                </li>
+                <div class="todo">Add to TG: Ten minutes before the end of class, make sure that students to the discussion problem: "How do you think procedural abstraction could be used to manage the complexity of a program?" Then take reports from several groups and collectively converge on a single explanation.</div>
     		</ol>
 		</div>
         
