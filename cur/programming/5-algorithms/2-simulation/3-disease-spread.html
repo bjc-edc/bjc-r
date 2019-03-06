@@ -12,7 +12,7 @@
     
 	<body>
         <h2>Disease Spread Project</h2>
-        <div class="todo">
+        <!--<div class="todo">
         	<ul>
             	<li><strong>EK 1.3.1E</strong> Computing enables creative exploration of both real and virtual phenomena.</li>
                 <li><strong>EU 2.3</strong> Models and simulations use abstraction to generate new understanding and knowledge.</li>
@@ -33,82 +33,55 @@
                 <li><strong>EK 2.3.2G</strong> The time required for simulations is impacted by the level of detail and quality of the models, and the software and hardware used for the simulation.</li>
                 <li><strong>EK 2.3.2H</strong> Rapid and extensive testing allows models to be changed to accurately reflect the objects or phenomena being modeled.</li>
         	</ul>
-		</div>
+		</div>-->
         
 		<div class="todo">Brian wants to do something with a real example (like weather modeling). --MF, 2/20/18</div>
+		<div class="todo">We need to go back and rework the solutions file completely so it is a reporter and actually answers the exercises on this new version of the page. --MF, 3/6/19</div>
         
 		<div class="learn">
             <p><strong>On this page,</strong> you will model the spread of a disease in a population.</p>
            
             <img class="indent" data-gifffer="/bjc-r/img/5-algorithms/img_disease-spread/disease-spread.gif" height="300" alt="Simulation of a disease spreading in a population.  A single infected individual eventually causes everyone to be infected." title="Simulation of a disease spreading in a population.  A single infected individual eventually causes everyone to be infected."/>
         </div>
-        <p>Suppose you are a medical researcher at the Centers for Disease Control (CDC) and would like to understand the factors that contribute to the spreading of a new disease across a population. In particular, you would like to know the effect of population size on the rate at which the disease spreads.</p>
+        <p>Suppose you are a medical researcher at the Centers for Disease Control (CDC) and would like to understand the factors that contribute to the spread of a new disease. In particular, you want to know the effect of population size on the time it takes for everyone to be infected.</p>
         
         <div class="forYouToDo" id="first">
             <ol>
-            	<li>What would be a sensible hypothesis on how population size relates to the rate of the spread of the disease?</li>
+            	<li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> What would be a sensible hypothesis on how population size affects the elapsed time?</li>
             </ol>
         </div>
         
-        <p>You may not have enough data from actual outbreaks to test your hypothesis and make any meaningful conclusions, and it would be unethical to induce the disease in some population in order to gather new data. In this situation, a simulation would be the best option to generate data in order to test your hypotheses without the constraints of time, cost, and ethics.</p>
+        <p>You may not have enough data from actual outbreaks to test your hypothesis and make any meaningful conclusions, and it would be unethical to induce the disease in a population just to gather new data. In this situation, a simulation would be the best option to generate data to test your hypotheses without the constraints of time, cost, and ethics.</p>
         <p>In this project, you will simulate the spread of a disease within a small population and explore the effects of variables such as population size and speed of human interaction on the spread of disease.</p>
         
         <div class="forYouToDo" id="second">
             <ol start="2">
-                <li>Play with the Snap<em>!</em> file 
-                <!--<a href="http://snap.berkeley.edu/snapsource/snap.html#present:Username=bjcsolutions&ProjectName=U5L3p3%20Disease%20Spread%20(answer%20file)%20%20&hideControls" target="_blank">-->
-                <a href="/bjc-r/cur/programming/5-algorithms/2-simulation/3c-disease-spread-interactive.html" target="_blank" title="Disease Spread Interactive">
-                linked here</a> to get a feel for the simulation program you will be writing.</li>
                 <li>
-                    Your code should:<br />
+                    Your simulation should:<br />
 					<ul>
-                        <li>Ask the user for 3 inputs: the population size, the percentage of the population initially infected, and the speed at which the people should be moving.</li>
-                        <li>Create a single person sprite and use the <code>create a clone of myself</code> block to generate a population with the size inputted by the user.</li>
-                        <div class="sidenote">Do this on your own but if you get stuck, you can use <a href="/bjc-r/cur/programming/5-algorithms/2-simulation/3b-disease-spread-hints.html" target="_blank" title="Hints">this page</a> for hints.</div>
-                        <li>Make the user-specified percentage of the population sick and the rest of the population healthy.</li>
-                        <li>Have a timer measure the duration of the outbreak (until everyone is infected).</li>
-                        <li>Have the people move around with the constant speed inputted by the user.</li>
-                        <li>Make sure that when a healthy person collides with a sick person, they also becomes sick.</li>
-                        <li>Stop the animations and the timer when the entire population becomes sick.</li>
+                        <li>Take 3 inputs: the population size, the percentage of the population initially infected, and the speed at which the simulated people should be moving around.</li>
+                        <div class="commentBig">Add to TG: How do you make a collection of identical sprites? Create a single person sprite and use the <code>create a clone of myself</code> block.</div>
+                        <li>Infect a healthy person when they touch a sick person.</li>
+                        <li>When the entire population becomes sick, stop the animation and report the duration of the outbreak.</li>
 					</ul>
 				</li>
-                <li>Discuss how your simulation may be similar to and different from a real life disease outbreak. Identify the <em>simplifying assumptions</em> you made in this simulation.</li>
+                <li><img class="imageRight" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> Discuss how your simulation may be similar to and different from a real-life disease outbreak. Identify the <em>simplifying assumptions</em> you made in this simulation.</li>
                 <li>
-                    Study the relationships between the various variables in the simulation:
-                    <ul>
-                        <li>the <var>population size</var></li>
-                        <li>the percentage of the population initially sick (<var>percent initially sick</var>)</li>
-                        <li>the <var>speed</var> at which the people move</li>
-                        <li><var>time elapsed</var> (at the point when the entire population becomes sick)</li>
-                    </ul>
-                    <div class="todo">Brian, I made light edits to the following line and I split off the end of #5 into a new &lt;li&gt;; if you agree, this changes needs to be made to the solution file too. Also, the solution file still has single-letter variables in it toward the end. --MF, 2/22/18</div>
-					Create a refined hypothesis predicting the pattern(s) that will emerge in the simulations.<br />
-                    <div class="narrower">
-                        <p>For example, to understand the effect of the <var>population size</var> on the time it takes the disease to fully spread (<var>time elapsed</var>), you might fix <var>population size</var> at 10 and <var>speed</var> at 2, and use your simulation to make a chart of <var>time elapsed</var> (on the vertical axes) as a function of <var>population size</var> (on the horizontal axis) in increments of 10 for <var>population size</var>.</p>
-                        <p>Perform similar experiments to understand the effect of initial percentage of the sick and to understand the effect of agent speed.</p>
-                        <p>Since the results of each run are partly random, you may need to run each particular simulation several times and take an average.</p>
-                    </div>
-                    
+                    <div class="comment">AAP-3.F.8</div>
+                    You want to know the effect of population size on the time elapsed. Because there is some randomness in the simulation, you are going to get some variation in the reported time. (This isn't a bug; in real life, random events affect the elapsed time.) Write a function in Snap<em>!</em> that runs the simulation 10 times while keeping the percent initially infected at 10 and the speed at 2, and reports the average time elapsed.<br />
+                    <img class="indent" src="/bjc-r/img/5-algorithms/average-of-disease-spread.png" alt="average time for disease spread with population size: ()" title="average time for disease spread with population size: ()" />
                 </li>
                 <div class="comment">AAP-3.F.7</div>
-                <li>Create a visual graph of your findings. Do you see any patterns?  Do they agree with your latest hypothesis? If not, make a new hypothesis.  How can you study the effects of other variables with your simulations?</li>		
+                <li>Call this function four times with different populations (50, 100, 150, and 200), and write down the results. Create a refined hypothesis about the relationship between population size and time for the entire population to be infected.</li>
 			</ol>
         </div>
-        <p>This is a simplified model. There are many things you could do to make the model more realistic. For example, you could make the infected people heal over time, or you could add doctor sprites who can heal sick sprites. But if you included <em>all</em> the things that happen in real human populations in your simulation, it would slow down the simulation too much to use. Updating your software or upgrading your hardware may help you include more details in your simulation, but you will always have to make some simplifications.</p>
-        <div class="endnote">There was a time when weather scientists could do a good job of predicting the weather with a complicated model. The only problem was that the computers back then took several days to run the model, so the predictions weren't ready in time. Computers these days can run many complicated weather models fast enough to predict the weather reasonably well.</div>
+        <p>This is a simplified model. There are many things you could do to make the model more realistic. For example, you could make the infected people heal over time, or you could add doctor sprites who can heal sick sprites, but you will always have to make some simplifications.</p>
         <div class="takeItFurther">
             <ol type="A">
-                <li>
-                    Here are some possible variations on this simulation that could make it more realistic. Save a copy of your work before exploring one or more of these variations:<br />
-                    <ul>
-                        <li>Give a probability to being infected when a healthy person encounters a sick person.</li>
-                        <li>Let the infected people slow down in speed.</li>
-                        <li>Let the infected people heal either with time or by a probability.</li>
-                        <li>Let those infected and then healed become immune to the sickness.</li>
-                        <li>Introduce doctor sprites that heal the sick upon encounter.</li>
-                        <li>At the start of simulation, introduce vaccination to a given percentage of the population.</li>
-                    </ul>
-                </li>
+                <li>Now conduct a similar experiment holding population size constant and varying the percent initially infected. Come up with a hypothesis for this relationship.</li>
+                <li>Then conduct an other experiment by varying movement speed and keeping population size and percent initially infected constant, and create a third hypothesis.</li>
+                <li>Add some more inputs to the simulation block. We've suggested people getting better after time or getting healed by doctors, but there are many more you could think of.</li>
+                <li>You have hypotheses for changing only one variable, but what if you change two things? Do they affect the result independently, or is there a cross effect (for example, if sick people heal quickly, does that change the relationship between population size and time elapsed)? Run experiments to find out.</li>
                 <li>Design and implement a predator-prey simulation in Snap<em>!</em>. For example, you could model an environment with wolf and deer populations where the wolf prey on the deer. What are some parameters you need to incorporate into your model so you can simulate realistic fluctuations in the populations of predator and prey?</li>
                 <li>
                     Imagine you work at a bank that wants to minimize customer wait times in line. The bank is considering two alternatives: 
