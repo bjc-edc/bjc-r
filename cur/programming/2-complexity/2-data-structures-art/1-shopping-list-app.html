@@ -3,63 +3,92 @@
 	<head>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
-        <title>Unit 3 Lab 1: Introduction to Lists, Page 1</title>
         <script type="text/javascript" src="/bjc-r/utilities/gifffer.min.js"></script>
         <script type="text/javascript">window.onload = function() {Gifffer();}</script>
         <link rel="stylesheet" type="text/css" href="/bjc-r/css/bjc-gifffer.css">
+        <title>Unit 2 Lab 2: Managing Data, Page 1</title>
 	</head>
 
 	<body>
         <h2>Shopping List App</h2>
-        <img class="inline" src="/bjc-r/img/icons/pair-programming-swap-reminder.png" alt="Remember to Do Pair Programming Swaps" title="Remember to Do Pair Programming Swaps" /><br clear="all" />
+        <div class="todo">BH, I've made significant revisions. The previous version is <a href="https://bjc.edc.org/bjc-r/cur/programming/3-lists/1-introduction-to-lists/old/1-shopping-list-app.html">here</a>. --MF, 3/21/19</div>
+        <div class="learn">
+            <p><strong>In this lab,</strong> you will create tools for storing and accessing the data you need for your projects.  <div class="todo">
+                <h3>I do want to say something about being organized for the sake of debugging and about problem decomposition, but not here in the pink box. --MF, 3/21/19</h3>
+                ...in an organized way so that it's easy to program with and your code is easy debug. To do this, you will use problem decomposition&mdash;breaking down the problem into smaller pieces.</div> </p>
+            <p><strong>On this page,</strong> you will create a shopping list app. </p>
+            <div class="comment">I'm not convinced we need this animation or that it has to go here, but there is something nice about seeing it... --MF, 3/21/19</div>
+            <img class="indent" data-gifffer="/bjc-r/img/3-lists/shopping-list-project-v3.gif" alt="animation of shopping list app">
+        </div>
 
-        <img class="imageRight" src="/bjc-r/img/3-lists/shoppinglist.png" alt="list {apples, bread, yogurt, spinach, bananas, eggs, cucumber, tomatoes, olive oil, almonds}" title="list {apples, bread, yogurt, spinach, bananas, eggs, cucumber, tomatoes, olive oil, almonds}" />
-
-        <div class="comment">Next round, make gif match project --MF</div>
-        <p>Many computer apps—contact lists, playlists, calendars of events, locations on a map, reminders—involve manipulating <em>lists</em> of information with tools that search, sort, or change the items on the list. In this first activity, you'll create a  Shopping List app.</p>
-        <img class="indent" data-gifffer="/bjc-r/img/3-lists/shopping-list-project-v3.gif" alt="animation of shopping list app">
-        <div class="endnote">
-            <!--Some programming languages use the name <strong>array</strong> for their <em>sequence</em> data type.-->You've worked with lists before. In this unit you will learn more about  this powerful data structure. Lists can contain letters or words, as you've seen before, or lists, as you'll see in this unit, or even blocks, as you'll see in Unit 6. When you used <strong>map</strong> with lists in Unit 1, it worked with <em>all</em> the items in a list. You can also select a specific item in a list by specifying its <em>position</em> by  number. That number is called the <strong>index</strong>.<br />
+        <div class="sidenote">Some programming languages use the word <strong>array</strong> instead of "list." <div class="todo">...for their <em>sequence</em> data type.</div></div>
+        <p>
+            Many computer applications—contact lists, playlists, calendars, reminders—involve manipulating <em>lists</em> of information using tools that search, sort, or change the items on the list. You've worked with lists before as you customized the gossip project.<br />
+            <img class="indent" src="/bjc-r/img/1-introduction/list-from-who.png" alt="list{Senora, Ms. C, my cat, Hannah, Jake}" title="list{Senora, Ms. C, my cat, Hannah, Jake}" />
+        </p>
+        <div class="todo">
+            <h4>Move to next page where they first see lists of lists? --MF, 3/21/19</h4>
+            Lists can contain letters or words, as you've seen before; lists, as you'll see in this lab; or even blocks, as you'll see in Unit 6. 
+            <div class="endnote">For an optional preview using blocks in a list: open Snap<em>!</em>, choose Open... from the File menu, press the Examples button on the left of the window that opens, and explore the Vee project.</div>
+        </div>
+        <div class="todo">
+            <h4>Do we need this on this page or should it be on the next page where they actually use <code>item of</code>? Part of me does want to see it before ADTs, but I guess <a href="http://localhost/bjc-r/cur/programming/1-introduction/2-gossip-and-greet/2-customizing.html?topic=nyc_bjc%2F1-intro-loops.topic&course=bjc4nyc.html&novideo&noassignment">gossip</a> counts... --MF, 3/21/19</h4>
+            When you used <strong>map</strong> with lists in Unit 1, it worked with <em>all</em> the items in a list. You can also select a specific item in a list by specifying its <em>position</em> by  number. That number is called the <strong>index</strong>.<br />
             <img class="indent" src="/bjc-r/img/3-lists/item-2-of-list-reporting.png" alt="item (2) of (list () (cantaloupe) (banana)) reporting 'cantaloupe'" title="item (2) of (list () (cantaloupe) (banana)) reporting 'cantaloupe'" />
             <!--<img src="/bjc-r/img/3-lists/item-5-of-shoppinglist-reporting-bananas.png" alt="item (5) of (list {apples, bread, yogurt, spinach, bananas, eggs, cucumber, tomatoes, olive oil, almonds}" title="list {apples, bread, yogurt, spinach, bananas, eggs, cucumber, tomatoes, olive oil, almonds}) reporting 'bananas'" />--><br />
-        </div>
+        </div>        
         
-        <div class="todo">
-            <div class="vocabFullWidth">
-                <ul>
-                    <div class="todo">
-                        <p>Brian and Mary agreed to address <strong>element</strong> and <strong>index</strong> with lists on <a href="http://localhost/bjc-r/cur/programming/3-lists/1-introduction-to-lists/old/1-shopping-list-app.html">shopping list</a>, where it's already mentioned, and the part about strings on <a href="http://localhost/bjc-r/cur/programming/2-complexity/3-predicates/3-solving-word-puzzle.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment">2.3.3</a>. (AAP-1.C.3) --MF, 12/19/18</p>
-                    </div>
-                    <div class="comment">AAP-1.C.2 and AAP-1.C.3</div>
-                    <li>An <strong>element</strong> is an individual item in a list.</li>
-                    <li>Every element of a list is assigned a unique <strong>index</strong> for referencing specific elements.</li>
-                </ul>
-            </div>
-        </div>
-            
         <div class="forYouToDo" id="first">
 			<ol>
-				<li><a class="run" href="/bjc-r/prog/3-lists/old/U3L1-ShoppingList.xml" target="_blank">Load this project</a>.</li>
-                <li><img class="inline" src="/bjc-r/img/3-lists/Make-a-variable.png" alt="Make a variable" title="Make a variable"> called <var>shopping list</var> to store the information.</li>
-                <div class="sidenoteBig">Setting the starting value of a variable is known as <strong>initializing</strong><a name="initialize" class="anchor">&nbsp;</a>the variable. </div>
+                <img class="imageRight" src="/bjc-r/img/icons/pair-programming-swap-reminder.png" alt="Remember to Do Pair Programming Swaps" title="Remember to Do Pair Programming Swaps" />
+				<li><a class="run" href="/bjc-r/prog/2-complexity/U2L2-ShoppingList.xml" target="_blank"><img class="inline" src="/bjc-r/img/icons/load-save.png" alt="Click here to load this file. Then save it to your Snap! account." title="Click here to load this file. Then save it to your Snap! account."></a> It contains sprite costumes for the buttons the user will click to control the items on their shopping list.</li>
+                <div class="sidenoteBig">You learned how to make a global variable on <a href="/bjc-r/cur/programming/2-complexity/1-variables-games/3-keeping-score.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 2, Lab 1, Page 3: Keeping Score with Global Variables">Unit 2, Lab 1, Page 3: Keeping Score with Global Variables</a>.</div>
+                <li>Make a global variable called <var>shopping list</var> to store the information.</li>
                 <li>Use <img class="inline" src="/bjc-r/img/blocks/set-()-to-(0).png" alt="set block" title="set block"> to set the starting value of <var>shopping list</var> to be an empty list. You will need the list block <img class="inline" src="/bjc-r/img/blocks/list.png" alt="list block" title="list block">. Use its arrows to get rid of its input slot so that it looks like this: <img src="/bjc-r/img/3-lists/empty-list-block.png"  alt="empty list block">. </li>
+                <div class="vocabFullWidth">
+                    <p>Setting the starting value of a variable is known as <strong>initializing</strong><a name="initialize" class="anchor">&nbsp;</a>the variable.</p> 
+                    <div class="todo">Shouldn't this term be defined on 2.1.3? --MF, 3/21/19</div>
+                </div>
             </ol>
         </div>
-        
+    
+        <div class="vocabBig">
+            <p>An <strong>element</strong> is an individual item in a list.</p>
+            <div class="todo">
+                <h4>I think this should be moved to the next page where we introduce <code>item of</code> --MF, 3/21/19</h4>
+                <p>Every element of a list is assigned a unique <strong>index</strong> for referencing specific elements.</p>
+                <h4>Or should both be moved? My use of "element" in the paragraph at left feels a little forced... --MF, 3/21/19</h4>
+            </div>
+            <div class="todo">
+                AAP-1.C.2 and AAP-1.C.3
+                <p>Re AAP-1.C.3, We (might) address <strong>element</strong> and <strong>index</strong> here, and the part about strings on <a href="http://localhost/bjc-r/cur/programming/2-complexity/3-predicates/3-solving-word-puzzle.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment">2.3.3</a>. --MF, 12/19/18</p>
+            </div>
+        </div>
+        <p>You can use the <img class="inline" src="/bjc-r/img/blocks/add.png" alt="add (thing) to 'list input slot'" title="add (thing) to 'list input slot'" /> or <img class="inline" src="/bjc-r/img/blocks/insert.png" alt="insert (thing) at (1) of 'list input slot'" title="insert (thing) at (1) of 'list input slot'" /> blocks to add <em>elements</em> to a list. <code>Add</code> adds the item to the end of the list. <code>Insert</code> lets you decide where you want it to be added in the list (first, second, third, last, etc.).</p>
+        <div class="todo">Do we need to present both here? It did come up on the <a href="https://docs.google.com/document/d/1nlaMHWivBt8s45jZqgZWJt-85POInfAi7NZEIERpf-A/edit" target="_blank"> U5 Assessment</a>, so maybe we should. --MF, 3/21/19</div>
         <div class="endnote">
             Some block input slots expect a list as input. You can tell because the input slot looks kind of like a list:<br />
-            <img class="indent" src="/bjc-r/img/blocks/all-but-first.png" alt="all but first of" title="all but first of" />
+            <img class="indent" src="/bjc-r/img/blocks/all-but-first_larger.png" alt="all but first of" title="all but first of" />
             <img class="indent" src="/bjc-r/img/blocks/item.png" alt="item of" title="item of" />
             <!--      <img class="indent" src="/bjc-r/img/blocks/length-list.png" alt="length of list" title="length of list" />  -->
             <img class="indent" src="/bjc-r/img/3-lists/listpic.png" alt="picture of 2-item list">
+            <div class="todo">Brian, can you please remake the third image here so they are all the same size. --MF, 3/21/19</div>
         </div>
+        
+            
+        
         
         <div class="forYouToDo">
             <ol start="4">
-                <div class="sidenoteBig">You first saw the <code>ask</code> and <code>answer</code> blocks in Unit 2: <a href="/bjc-r/cur/programming/2-complexity/old/4-multiple-ifs.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment">Using Multiple <code>If</code> Statements</a> and <a href="/bjc-r/cur/programming/2-complexity/4-abstraction/old/2-abstraction-developing-a-number-guessing-game.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment">Developing a Number Guessing Game</a>.</div>
-                <li>Write a script for the "Add Item" button so that when that sprite is clicked, it will <code>ask</code> the user for a new item, and then add the new item to the grocery list. You can use the <code>add</code> or <code>insert</code> list block to modify the list. Make sure it works.</li>
+                <div class="todo">Is this their first experience with multiple sprites? If so, we need some support around that. --MF, 3/21/19</div>
+                <div class="sidenoteBig">You've seen the <code>ask</code> and <code>answer</code> blocks in Unit 2: <a href="/bjc-r/cur/programming/2-complexity/1-variables-games/1-number-guessing-game.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment">Developing a Number Guessing Game</a>.<div class="todo">Fix link after page 2.1.1 is split. --MF, 3/21/19</div></div>
+                <li>
+                    Write a script for the "Add Item" button so that when that sprite is clicked, it will ask the user for a new item, and then add the new item to the grocery list. 
+                </li>
+                <li>Test your "Add Item" button several times and fix any problems.</li>
                 <li>Write a script for the "Clear List" button that asks for confirmation and then sets the variable back to an empty list.</li>
                 <img class="imageRight" src="/bjc-r/img/icons/save-now.png" alt="Now Is a Good Time to Save" title="Now Is a Good Time to Save" />
+                <li>Test your "Clear List" button and fix it if needed.</li>
             </ol>
         </div>
         
