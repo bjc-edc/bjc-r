@@ -7,9 +7,9 @@
 	</head>
 
 	<body>
-		<h2>Analyzing and Improving Searches</h2>
-        <div class="todo">
-            <h3>Todo: add a quizlet (now) and make the ITIT a FYTD after 2018-2019 upload. --MF, 12/19/18</h3></div>
+		<h2>Building a Spell Checker</h2>
+            <div class="todo">TG and solutions will need to be checked. --MF, 12/19/18</div>
+        <div class="todo">Todo: add a quizlet --MF, 12/19/18</div>
         <!--<div class="todo">
         	<ul>
                 <li><strong>EK 4.1.2A</strong> Languages for algorithms include natural language, pseudocode, and visual and textual programming languages.</li>
@@ -19,108 +19,190 @@
         	</ul>
         </div>-->
         <div class="todo">
-            <p>Brian wants to rename this page "Searching a List." --MF, 2/19/18</p>
+            <p>
+                Point of page:
+                <ul>
+                    <li>different algorithms have different time requirements</li>
+                    <li>the structure of the data changes what algorithms you can use</li>
+                </ul>
+            </p>
+            <p>
+                Plan:
+                <ul>
+                    <li>finding all the words such that ____</li>
+                    <li>is ___ a word?</li>
+                </ul>
+        </p>
         </div>
-        
-        <div class="learn">
-            <p><strong>On this page</strong>, you will see how the characteristics of a list can affect the algorithm for searching in it.</p>
-        </div>
-		
-        <!--I cut this because: 1) it isn't buyable as a motivation for coding because it reads like it's about a standard contact list app that comes with any phone, 2) it's confusing because the last line is about writing an app to do what Alphie's already said they need to do by sight, and 3) it's irrelevant because they write a program to search a 1-dim list not 2-plus-dim list. --MF 1/6/17
-        <div class="dialogue">
-            <div><span>Alphie: </span> I've got 45 numbers in my recent call list. I'm looking for Gamal's number. I can't remember it, but I'd recognize it if I saw it.</div>
-            <div><span>Betsy: </span> Just start at the top and work down.</div>
-            <div><span>Alphie: </span> Yeah, but there are so many numbers. It's really hard to find.</div>
-            <div><span>Betsy: </span> Did you assign Gamal as a contact? If you did, then just look through your contacts. That's a lot easier, because it's in order.</div>
-            <div><span>Alphie: </span> Well, no, it's not in order. I added new people to my contact list when I learned their number. I'll have to sort it some day and change my <strong>new contact</strong> program to put new numbers where they belong, alphabetically.</div>
-            <div><span>Betsy: </span> Oh. Well, then I think the best you can do for now is to write a program that starts at the beginning and looks for Gamal. </div>
-        </div>-->
-		
-	
-        <h3>Searching in Unsorted Data</h3>
-        <p>When searching for an item in <em>unsorted</em> data, you have to check every item until you find the value you are looking for.</p>
-        <img class="imageRight" src="/bjc-r/img/5-algorithms/unsorted-list.png" alt="unsorted list {20, 12, 3, 100, 50, 12}" title="unsorted list {20, 12, 3, 100, 50, 12}" />
-        <div class="forYouToDo" id="first">
-            <ol>
-                <li> 	       
-                    Build a <code>position of number in unsorted list</code> block that reports the earliest location of a number in an unsorted list or reports "Not In List" (or NIL, if you like) if the number is not in the list.<br />
-                    <img class="indent" src="/bjc-r/img/5-algorithms/position-of-number-12-in-unsorted-list-reporting-2.png" alt="position of number (12) in unsorted list(list{20,12,3,100,50,12}) reporting 2" title="position of number (12) in unsorted list(list{20,12,3,100,50,12}) reporting 2" />
-                </li>
-                <div class="todo">Why? Because you told me too? Can we offer any kind of a meaningful context? Would contact list be a good context here somehow? --MF, 3/13/19</div>
-            </ol>
-        </div>
-	    <div class="endnote">Searching unsorted data can become slow if we're dealing with a lot of data, but it is quick when working with short lists.</div>	
-        <div class="vocabFullWidth">: <strong>Linear Search</strong> or <strong>Sequential Search</strong>
-            <div class="comment">AAP-2.O.5</div>
-            <p>A <strong>linear search</strong> (or <strong>sequential search</strong>) algorithm checks each element of a list in order.</p>
-        </div>
-        
-        <h3>Searching in Sorted Data</h3>
-        <p>If you are searching for a number in a <em>sorted</em> list, you have more information. Suppose you have a sorted list and you want to locate the position of a number.</p>
-        <div class="endnote">Typically, sorted lists are from lowest to highest. You'll create a block that sorts a list of numbers in Unit 8, <a href="/bjc-r/cur/programming/8-recursive-reporters/2-sorting/1-sorting-a-list.html?topic=nyc_bjc%2F7-recursive-reporters.topic&course=bjc4nyc.html&novideo&noassignment" title="Sorting a List">Sorting a List</a>.<div class="todo">Change "a block that sorts a list of numbers" to "a sorting algorithm"? --MF, 3/13/19</div></div>
     
-        <div class="dialogue">
-            <div class="todo">I don't like this either. Feels like busy work. Could be said in a sentence or two of whitetext. --MF, 3/13/19</div>
-            <div><span>Alphie: </span> If the list is sorted, we could look at the  middle element of the list and see if our number is in the first or last half of the list. That would save time.</div>
-            <div><span>Betsy: </span> This feels a lot like the guessing game we built&mdash;I pick a number and the computer tries to guess it by splitting the list in half with each guess.</div>
-            <div class="comment">Brian wants us to scrub the list name "awful list" from the curriculum, and Mary agrees. --MF, 2/22/18</div>
-            <img class="imageRight" src="/bjc-r/img/5-algorithms/awful-list-indexed.png" height="350" alt="awful-list {1:1, 1:7, 3:8, 4:9, 5:11, 6:12, 7:21, 8:22, 9:23, 10:24, 11:73, 12:73, 13:96, 14:99}" title="awful-list {1:1, 1:7, 3:8, 4:9, 5:11, 6:12, 7:21, 8:22, 9:23, 10:24, 11:73, 12:73, 13:96, 14:99}" />
-			<div>
-                <span>Alphie: </span> But in that one, the computer guessed a number that we picked.  Now we want it to find a number in a list and report its position. It should work like this:<br />
-                <img class="indent" src="/bjc-r/img/5-algorithms/position-of-number-11-in-sorted-list-awful-list.png" alt="position of number (11) in sorted list (awful list) reporting 5" title="position of number (11) in sorted list (awful list) reporting 5" />
-            </div>
-            <div><span>Betsy: </span> Yes, but it still <em>feels</em> the same. It should have the same guts as the guessing game.</div>
+        <h3>Two Algorithms</h3>
+        <div class="learn">
+            <p><strong>On this page</strong>, you will investigate two different problems about lists.</p>
+            <p><strong>On this page</strong>, you will compare two different problems to understand how some problems can be solved by algorithms that use a more efficient search strategy like you used to find the secret number.</p>
+            <p><strong>On this page</strong>, you will compare two different problems to see how some problems allow you to use more efficient algorithms to solve them.</p>
         </div>
-		
-        <div class="takeNote">Betsy's last remark is a version of <strong>abstraction</strong>. Betsy noticed that <code>position in sorted list</code> and the <a href="/bjc-r/cur/programming/5-algorithms/1-searching-lists/1-sorted-lists.html?topic=nyc_bjc%2F5-algorithms.topic&course=bjc4nyc.html&novideo&noassignment" title="Searching a Sorted List">number guesser algorithm</a> should have the same overall <em>structure</em>.
-        </div>
-		
-        <div class="forYouToDo">
-            <ol start="2">
-            	<!--I found this unecessary and clarified FYTD #2 instead. --MF, 2/6/17
-				<li>
-                    Automate your block so that it doesn't have to ask you for feedback. Now, the block should just find the number and say its position:<br />
-                    <img class="indent" width="75%" src="/bjc-r/img/5-algorithms/sayposition.png" alt="Automating the search" title="Automating the search" />
-                </li>-->
-                <div class="todo">This is feeling very much like a pointless school exercise. Can we find a context --MF, 3/13/19</div>
-                <li>Using the strategy of your guessing game project from the previous page, write a block that says:
-					<ul>
-                        <li>the <em>position</em> of an item in an ordered list, and,</li>
-                        <li>the <em>number of guesses</em> it takes to find the number</li>
-                        <img class="indent" src="/bjc-r/img/5-algorithms/5.1.2-saypositionofnumber.png"  height="50" alt="say position of number (11) in sorted list (awful list)" title="say position of number (11) in sorted list (awful list)" />
-                        <img class="indent" src="/bjc-r/img/5-algorithms/5.1.2-SpriteSays.png"  height="150" alt="sprite saying 'Position is 5, found in 4 guesses'" title="sprite saying 'Position is 5, found in 4 guesses'"/>
-                    </ul>
-                    <div class="endnote">If the number is in the list more than once, any one that you find is ok.</div>
-                </li>
-                <li> 	       
-                <!--<div class="todo">NYC teacher Chris noticed that #2 and #3 are identical tasks.  Revise.</div>-->
-					Then, build a <code>position of number in sorted list</code> block that returns the <!--earliest<div class="comment">Is "earliest" right with binary search? What if it's <code>list {1, 1, 1, 1, 1}</code>?</div>--> position of a number in a list sorted from lowest to highest or zero if the number is not in the list. (Note: This task is identical to the previous one except that instead of the block "saying" the position it will need to "report" the position.)<br />
-                    <img class="indent" src="/bjc-r/img/5-algorithms/position-of-number-11-in-sorted-list-awful-list.png" alt="position of number (11) in sorted list (awful list) reporting 5" title="position of number (11) in sorted list (awful list) reporting 5" /><br />
-                    <img class="indent" src="/bjc-r/img/5-algorithms/position-of-number-2-in-sorted-list-awful-list.png" alt="position of number (2) in sorted list (awful list)  reporting 0" title="position of number (2) in sorted list (awful list) reporting 0" /><br />
-                </li>
-                <div class="todo">Why don't we just start with #3 and scrap #2 completely? What's the reason for #2? --MF, 3/13/19</div>
+        
+        <h3>How many five-letter words are there in the dictionary?</h3>
+        <div class="forYouToDo" id="first">
+			<ol>
+                <li><a href="/bjc-r/prog/5-algorithms/U5L1-Spell-Checker.xml" class="run"><img class="inline" src="/bjc-r/img/icons/load-save.png" alt="Click here to load this file. Then save it to your Snap! account." title="Click here to load this file. Then save it to your Snap! account."></a> Run the <code>initialize</code> block to load a list of 10,000 words.</li>
+				<li>How many five-letter words are in the <code>10,000 words</code> list?</li>
+				<li>Use the <img class="inline" src="/bjc-r/img/5-algorithms/computation-time-of.png" alt="computation time of 'grey ring input slot'" title="computation time of 'grey ring input slot'" /> block provided in this project to determine how long it takes for the computer to answer that question.</li>
+                <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> How long do you think it would take to answer that question if the list had 100,000 words?</li>
+                <li>Use the <code>computation time of</code> block to determine how many five-letter words are in the <code>100,000 words</code> list. </li>
                 <li>
-                	<div class="comment">AAP-2.P.3</div>
-                	Compare <code>position in sorted list</code> with <code>position in unsorted list</code>:
+                    Suppose instead, we count the seven letter words. This will take:
                     <ol>
-                        <li>Which runs faster for large inputs?</li>
-                        <li>Which has more blocks in its code?</li>
+                        <li>More time because seven letters is more than five letters.</li>
+                        <li>Less time because there are fewer seven letter words than five letter words.</li>
+                        <li>The same time because it's not the word length that matters; it's the size of the dictionary.</li>
                     </ol>
-                    <div class="todo">Does <code>computation time of ()</code> belong here? --MF, 3/13/19</div>
+                    <img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> And then experiment to find out for sure.
                 </li>
-            </ol>
+			</ol>
+		</div>
+        <p>The only way to answer this problem is to check every single word in the dictionary. So if you have <strong>ten times as many</strong> words in the dictionary, it takes <strong>ten times as long</strong> to check them all. </p>
+        <div class="vocabFullWidth">: <strong>Linear Search</strong> or <strong>Sequential Search</strong>
+            <ul>
+                <li>An algorithm takes <strong>linear time</strong> if multiplying the input size by ten multiplies the time required by ten.<br /> 
+                <img class="indent noshadow" style="height:300px" src="/bjc-r/img/5-algorithms/size-vs-time.png" alt="graph of size vs. time showing a straight line through the origin and up to the right with the points for x=10,000 and x=100,000 marked" title="graph of size vs. time showing a straight line through the origin and up to the right with the points for x=10,000 and x=100,000 marked" />
+                </li>
+                <div class="comment">AAP-2.O.5</div>
+                <li>A <strong>linear search</strong> (or <strong>sequential search</strong>) algorithm checks each element of a list in order , a process which takes <em>linear time</em>.</li>
+            </ul>
+        </div>
+
+
+        <div class="todo"><h3>Possibly a page break</h3></div>
+
+        <h3>Is "seperate" spelled correctly?</h3>
+        <p>Answering this question is easy in Snap<em>!</em>, because you can just say <img class="inline nopadtb" src="/bjc-r/img/5-algorithms/100000-words-contains-seperate.png" alt="100000-words-contains-seperate.png" title="(100,000 words) contains (seperate)" />. But <em>"easy" doesn't mean fast</em>. The <code>contains</code> block still has to look at each item in the list until it finds the one you are looking for (and says <code>true</code>) or reaches the end of the list (and says <code>false</code>). </p>
+        <p>When you are only looking for <em>one</em> thing in a list (for example, checking whether a particular word is spelled correctly) rather than finding <em>all</em> the words with some characteristic (for example, looking for all five-letter words), you can use the strategy from <a href="/bjc-r/cur/programming/5-algorithms/1-searching-lists/1-sorted-lists.html?topic=nyc_bjc%2F5-algorithms.topic&course=bjc4nyc.html&novideo&noassignment" title="Page 1: Guess My Number to make your algorithm faster.">Page 1: Guess My Number</a> to make your algorithm faster. The best strategy for that problem is a <em>binary search</em> algorithm: always guess the <em>middle</em> value. That way, you eliminate half the possibilities with each guess. We can use a similar strategy to look for a word in the dictionary.</p>
+        <div class="vocabFullWidth">: <strong>Binary Search</strong>
+            <p>A <strong>binary search</strong> algorithm starts at the middle of a sorted data set and eliminates half of the data in each iteration until either the value is found or all elements have been eliminated.</p>
         </div>
         <div class="vocabFullWidth">: <strong>Binary Search</strong>
         	<div class="comment">AAP-2.P.1, AAP-2.P.2</div>
-            <p>A <strong>binary search</strong> algorithm starts in the middle of a sorted list and repeatedly eliminates half the list until either the desired data is found or all elements have been eliminated.</p>
+            <p>A <strong>binary search</strong> algorithm starts in the middle of a <em>sorted</em> list and repeatedly eliminates half the list until either the desired data is found or all elements have been eliminated.</p>
         </div>
+        <div class="endnote">Computers use binary: zeros and ones. Binary search has nothing to do with that. The word "binary" just means "involving two things."</div>
+    
+        
+        <p>Notice that you could have written a simpler number guessing program: the computer could guess the number 1, then 2, then 3, and so on until it finds the number. That would be a <em>linear search</em> algorithm; it's easier to code, but it takes longer to run because every time it makes a wrong guess, it only eliminates only that guess. With binary search,  every wrong guess eliminates <em>half</em> the possibilities at once.</p>
+        <div class="comment">image needs alt/title tags --MF, 3/28/19</div>
+        <img class="indent" src="/bjc-r/img/5-algorithms/binary-search-block-definition.png" alt="" title="" />
+        <div class="endnote"><code>&gt;</code> works on words.</div>
+        <div class="forYouToDo" id="first">
+			<ol>
+				<li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> Compare this block with the block that you wrote on the previous page. What parts are the same? What parts are different? <img class="inline" src="/bjc-r/img/icons/write-out-thoughts.png" alt="Write Out Your Thoughts" title="Write Out Your Thoughts" /></li>
+                <div class="todo">TG: The crucial difference is that you find the average position on in the list but them to see if you are high or low, you have to look at the actual item in the list, not just the position number.</div>
+				<li>Answer the question: Is "seperate" spelled correctly?</li>
+				<li>Try some words that you know are spelled correctly and some that you know are incorrect. </li>
+				<li>Now try it with the unsorted list.</li>
+				<li><img class="imageRight" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> Why does it work on one list but not the other?</li>
+			</ol>
+		</div>
 
+        <div class="todo">
+            Mary wants to be sure these ideas are clear:
+            <p>Somewhere in there we say, or have them figure out, that this works only if the list is alphabetized.  </p>
+		    <p>Data must be sorted in order to use the binary search algorithm.</p>
+            <p>In guess my number, you can find the halfway point, by using the average of the two end points, but with a list, you can take the average to find the position of the halfway point, but hen you have to actually look at the value at that position.</p>
+        </div>
+        <p>This is why <code>Contains</code> works the way it does; it can't make any assumptions about the list you are searching, but if you are only looking for one thing in a sorted list...
+        <div class="ifTime">
+			<ol start="6">
+				<li>Build a spell-checker.</li>
+                <div class="endnote">Use <img class="inline" src="/bjc-r/img/blocks/sentence-to-list.png" alt="sentence &rightarrow; list ()" title="sentence &rightarrow; list ()" /> to convert the input text into a list.</div>
+                <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />Should our spell-checker look for every dictionary word in the text or every word in the text in the dictionary?</li>
+			</ol>
+		</div>
+
+		<div class="takeNote">
+            <p>
+                Two things affect whether you can use a binary search algorithm:
+                <ul>
+                    <li>What question you are trying to answer? Are you searching for <em>one</em> thing in a list or are you finding <em>all</em> the things in the list with some characteristic?</li>
+                    <li>What is the condition of your data? Are they sorted or unsorted?</li>
+                </ul>
+                <div class="comment">fix table CSS if we keep this.</div>
+                <table>
+                    <tr>
+                        <th>&nbsp;</th>
+                        <th>find one value</th>
+                        <th>find many values</th>
+                    </tr>
+                    <tr>
+                        <th>sorted data</th>
+                        <td>binary search</td>
+                        <td>linear search</td>
+                    </tr>
+                    <tr>
+                        <th>unsorted data</th>
+                        <td>linear search</td>
+                        <td>linear search</td>
+                    </tr>
+                </table>
+            </p>
+        </div>
+        <div class="endnote">Searching unsorted data can become slow if we're dealing with a lot of data, but it is quick when working with short lists.</div>	
+
+
+
+
+        <div class="todo"><h2>Page break since we are shifting gears from sorting to efficiency --MF, 3/14/19</h2></div>
+        <div class="todo"><h2>Exactly How Much Faster Is Binary Search?</h2></div>
+        
+        <div class="forYouToDo">
+            <ol>
+                <li>Time KEEP on 100, 1000, and 10000 words.</li>
+            </ol>
+        </div>    
+			
+    <h3>Searching in Unsorted Data</h3>
+        <!--<p>You'll first write an algorithm that searches through un easyer algorithm.</p>-->
+        <div class="comment">Image needs updates.</div>
+        <img class="imageRight" src="/bjc-r/img/5-algorithms/unsorted-list.png" alt="unsorted list {20, 12, 3, 100, 50, 12}" title="unsorted list {20, 12, 3, 100, 50, 12}" />
+        <div class="forYouToDo">
+            <ol>
+                <li><a href="/bjc-r/prog/5-algorithms/U5L1-Spell-Checker.xml" class="run"><img class="inline" src="/bjc-r/img/icons/load-save.png" alt="Click here to load this file. Then save it to your Snap! account." title="Click here to load this file. Then save it to your Snap! account."></a> Run the <code>initialize</code> block to load the <var>unsorted word list</var> variable.</li>
+                <li>Before you write the spell checker, write ...</li>
+                <li>
+                    Use this list to write a spell checker that takes text as input and report a list of the misspelled words. Because the dictionary is unsorted, you'll have to check every word in the list to see if the word you are checking is there. This is called a <em>linear search</em>. <br />
+                    <img class="indent" src="/bjc-r/img/5-algorithms/spelling-errors-unsorted-reporting.png" alt="spelling errors, using unsorted word list, in (IP transmits packets from one IP adress to another TCP guarantees reliable transmision) reporting {adress, transmision}" title="spelling errors, using unsorted word list, in (IP transmits packets from one IP adress to another TCP guarantees reliable transmision) reporting {adress, transmision}" />
+                </li>
+                <div class="endnote">Use <img class="inline" src="/bjc-r/img/blocks/sentence-to-list.png" alt="sentence &rightarrow; list ()" title="sentence &rightarrow; list ()" /> to convert the input text into a list.</div>
+                <!--<li> 	       
+                    Build a <code>position of number in unsorted list</code> block that reports the earliest location of a number in an unsorted list or reports "Not In List" (or NIL, if you like) if the number is not in the list.<br />
+                    <img class="indent" src="/bjc-r/img/5-algorithms/position-of-number-12-in-unsorted-list-reporting-2.png" alt="position of number (12) in unsorted list(list{20,12,3,100,50,12}) reporting 2" title="position of number (12) in unsorted list(list{20,12,3,100,50,12}) reporting 2" />
+                </li>-->
+                <div class="todo">Solution should use keep as an alternative. Still? --MF, 3/14/19</div>
+            </ol>
+        </div>
+        <h3>Searching in Sorted Data</h3>
+        <!--<p>If you are searching for a number in a <em>sorted</em> list, you have more information. Suppose you have a sorted list and you want to locate the position of a number.</p>-->
+        <div class="todo">Needed? --MF, 3/14/19
+            <div class="endnote">Typically, sorted lists are from lowest to highest. You'll create a block that sorts a list of numbers in Unit 8, <a href="/bjc-r/cur/programming/8-recursive-reporters/2-sorting/1-sorting-a-list.html?topic=nyc_bjc%2F7-recursive-reporters.topic&course=bjc4nyc.html&novideo&noassignment" title="Sorting a List">Sorting a List</a>.<div class="todo">Change "a block that sorts a list of numbers" to "a sorting algorithm"? --MF, 3/13/19</div></div>
+        </div>
+                        <div class="todo">For TG hints: If the number is in the list more than once, any one that you find is ok.</div>
 
         <div class="forYouToDo">
-            <div class="todo">Brian and Mary agreed to make this a FYTD in order to cover the LOs (next year, because TG and solutions will need to be checked). --MF, 12/19/18</div>
+            <ol start="2">
+                  <li>On the previous page, you developed a strategy for guessing a number using a <em>binary search</em> algorithm, which searches a <em>sorted</em> list. Use <var>word list</var> to program <img class="inline" src="/bjc-r/img/5-algorithms/spelling-errors-sorted.png" alt="spelling errors, using sorted word list, in ()" title="spelling errors, using sorted word list, in ()" />.</li>
+            </ol>
+        </div>
+        
+        <div class="forYouToDo">
         	<div class="comment">AAP-2.P</div>
             <ol start="5">
-        		<li>
+                <li>
+                    <div class="comment">Use pic of <code>computation time of ()</code> block and add hintbox about how it works. --MF, 3/14/19</div><div class="comment">AAP-2.P.3</div>
+                    Use the <code>computation time of ()</code> block provided in this project to test the time it takes to find the spelling errors in the same sentence using each algorithm.
+                    <div class="todo">Do a table with headers: length of list, linear, and binary, and then the length of list column is filled in and the others are filed in by the students with times...</div>
+                </li>
+                <li>(Something about formal reasoning; like <a href="/bjc-r/cur/programming/5-algorithms/3-timing-experiments/1-comparing-algorithms.html?topic=nyc_bjc%2F5-algorithms.topic&course=bjc4nyc.html&novideo&noassignment" title="">5.3.1.4</a>)
+                <div class="takeNote">The efficiency of an algorithm can make a huge difference. Sometimes, an efficient algorithm is necessary to solve larger instances of a problem.</div>
+                
                     Make a table that tracks the number of guesses it takes to find a number in a sorted list depending on the length of the list if that number turns out to be the last item.
                     <div class="todo">This is not clear. --MF, 3/13/19</div>
                     <table class="bordered center" summary="table showing the number of guesses needed to find the last number in a sorted list for a list of a given length">
@@ -150,8 +232,15 @@
                         </tr>
                     </table>
                 </li>
-                <!--Included in note above. --MF, 2/6/17
-                <li> This type of<a name="bsearch" class="anchor">&nbsp;</a>search is called a <strong>binary search</strong>. Can you think of some connections to the use of <em>binary</em> in Unit 4?</li>-->
+                <li>
+                	<div class="comment">AAP-2.P.3</div>
+                    <div class="comment">they need a linear search block to do this; point is: more code can make it faster</div>
+                	Compare <code>position in sorted list</code> with <code>position in unsorted list</code>:
+                    <ol>
+                        <li>Which runs faster for large inputs?</li>
+                        <li>Which has more blocks in its code?</li>
+                    </ol>
+                </li>
                 <li>
                     <!-- Question 1 -->
                     <div class="assessment-data" type="multiplechoice" identifier="In order to use a binary search, the data must be..."
@@ -193,6 +282,6 @@
             </ol>
 		</div>
     
-    
+
     </body>
 </html>
