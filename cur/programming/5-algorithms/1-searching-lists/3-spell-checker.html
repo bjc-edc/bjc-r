@@ -13,24 +13,21 @@
         </div>
         <div class="todo">
             <p>
-                Point of page:
+                Point of pages:
                 <ul>
                     <li>different algorithms have different time requirements</li>
                     <li>the structure of the data changes what algorithms you can use</li>
                 </ul>
             </p>
-            <p>
-                Plan:
-                <ul>
-                    <li>finding all the words such that ____</li>
-                    <li>is ___ a word?</li>
-                </ul>
-            </p>
         </div>
     
         <h2>Is "Seperate" Spelled Correctly?</h2>
+        <div class="learn">
+            <div class="comment">Thoughts, Brian? --MF, 3/29/19</div>
+            <p><strong>On this page</strong>, you will learn how the type of problem and also the structure of the data changes what algorithms you can use.</p>
+        </div>
         <p>Answering this question is easy in Snap<em>!</em>, because you can just say <img class="inline nopadtb" src="/bjc-r/img/5-algorithms/100000-words-contains-seperate.png" alt="100000-words-contains-seperate.png" title="(100,000 words) contains (seperate)" />. But <em>"easy" doesn't mean fast</em>. The <code>contains</code> block still has to look at each item in the list until it finds the one you are looking for (and says <code>true</code>) or reaches the end of the list (and says <code>false</code>). </p>
-        <p>When you are only looking for <em>one</em> thing in a list (for example, checking whether a particular word is spelled correctly) rather than finding <em>all</em> the words with some characteristic (for example, looking for all five-letter words), you can use the strategy from <a href="/bjc-r/cur/programming/5-algorithms/1-searching-lists/1-sorted-lists.html?topic=nyc_bjc%2F5-algorithms.topic&course=bjc4nyc.html&novideo&noassignment" title="Page 1: Guess My Number to make your algorithm faster.">Page 1: Guess My Number</a> to make your algorithm faster. The best strategy for that problem is a <em>binary search</em> algorithm: always guess the <em>middle</em> value. That way, you eliminate half the possibilities with each guess. We can use a similar strategy to look for a word in the dictionary.</p>
+        <p>When you are only looking for <em>one</em> thing in a list (for example, checking whether a particular word is spelled correctly) rather than finding <em>all</em> the words with some characteristic (for example, looking for all five-letter words), you can use the strategy from <a href="/bjc-r/cur/programming/5-algorithms/1-searching-lists/1-sorted-lists.html?topic=nyc_bjc%2F5-algorithms.topic&course=bjc4nyc.html&novideo&noassignment" title="Page 1: Guess My Number to make your algorithm faster.">Page 1: Guess My Number</a> to make your algorithm faster. The best strategy for that problem is a <em>binary search</em> algorithm: always guess the <em>middle</em> value. That way, you eliminate half the possibilities with each guess. We can use a similar strategy to look for a word in a word list.</p>
         <div class="vocabFullWidth">: <strong>Binary Search</strong>
         	<div class="comment">AAP-2.P.1, AAP-2.P.2</div>
             <p>A <strong>binary search</strong> algorithm starts in the middle of a <em>sorted</em> list and repeatedly eliminates half the list until either the desired data is found or all elements have been eliminated.</p>
@@ -40,7 +37,7 @@
         <div class="todo">For TG hints: If the number is in the list more than once, any one that you find is ok.</div>
         
         <p>You could have written a simpler number guessing program: the computer could guess the number 1, then 2, then 3, and so on until it finds the number. That would be a <em>linear search</em> algorithm; it's easier to code, but it takes longer to run because every time it makes a wrong guess, it only eliminates only that guess. With binary search,  every wrong guess eliminates <em>half</em> the possibilities at once.</p>
-        <div class="comment">image needs alt/title tags --MF, 3/28/19</div>
+        <div class="comment">image needs alt/title tags --MF, 3/28/19<p>Also, I think we should move this down between #1 and #2. --MF, 3/29/19</p></div>
         <img class="indent" src="/bjc-r/img/5-algorithms/binary-search-block-definition.png" alt="" title="" />
         <div class="endnote"><div class="comment">Mary to make pics. --MF, 3/28/19</div>The <code>&gt;</code> block works alphabetically on words: two images: blah reporting true blah reporting false</div>
         <div class="forYouToDo" id="first">
@@ -50,8 +47,8 @@
                 <div class="todo">TG: The crucial difference is that you find the average position on in the list but them to see if you are high or low, you have to look at the actual item in the list, not just the position number.</div>
 				<li>Answer the question: Is "seperate" spelled correctly?</li>
 				<li>Try some words that you know are spelled correctly and some that you know are incorrect. </li>
-				<li>Now try it with the unsorted list.</li>
-				<li><img class="imageRight" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> Why does it work on one list but not the other?</li>
+				<li>Now search for the same words in <var>unsorted word list</var>.</li>
+				<li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> Why does it work on one list but not the other?</li>
 			</ol>
 		</div>
 
@@ -60,8 +57,10 @@
             <p>Somewhere in there we say, or have them figure out, that this works only if the list is alphabetized.  </p>
 		    <p>Data must be sorted in order to use the binary search algorithm.</p>
             <p>In guess my number, you can find the halfway point, by using the average of the two end points, but with a list, you can take the average to find the position of the halfway point, but hen you have to actually look at the value at that position.</p>
+            I'm feeling better about these at this point. What do you think? --MF, 3/29/19
         </div>
-        <p>This is why <code>Contains</code> works the way it does; it can't make any assumptions about the list you are searching, but if you are only looking for one thing in a sorted list...
+        <p>This is why <code>contains</code> works the way it does; it can't make any assumptions about the list you are searching, but if you are only looking for one thing in a sorted list...</p>
+        <div class="comment">Should we move the ITIT to the end? --MF, 3/29/19</div>
         <div class="ifTime">
 			<ol start="6">
 				<li>Build a spell-checker.</li>
@@ -112,23 +111,23 @@
                         <div class="choice" identifier="c1">
                             <div class="text">binary</div>
                             <div class="feedback">
-                                Think about the value of x after the first step.
+                                Binary data is data stored as one of two values (ones and zeros, ons and offs, trues and falses). All data on a computer is binary. This use of the word binary is unrelated to binary searches, which is about comparing against the middle value to choose which of two halves to eliminate.
                             </div>
                         </div>
                         <div class="choice" identifier="c2">
                             <div class="text">sorted</div>
                             <div class="feedback">
-                                Correct! Think about the value of x after the first step.
+                                Correct! If the data is sorted, then comparing to the middle data point will give you good information about which half of the data to keep.
                             </div>
                         </div>
                         <div class="choice" identifier="c3">
                             <div class="text">unsorted</div>
                             <div class="feedback">
-                                Think about the value of x after the first step.
+                                If the data is unsorted, checking against the middle data point won't help you understand which half of the data to keep.
                             </div>
                         </div>
                         <div class="choice" identifier="c4">
-                            <div class="text">sequential</div>
+                            <div class="text">sequential - This a bad distractor because it kinda means sorted. Better choices: linear, one specific value, eliminated, seperate ;) --MF, 3/29/19</div>
                             <div class="feedback">
                                 Think about the value of x after the first step.
                             </div>
@@ -138,6 +137,7 @@
                         </div>
                     </div>
                 </li>
+                <div class="todo">I feel like another quizlet might be nice here. Maybe something about the "find one value"/"find many values" distinction? or harping on something in a standard we could cover better? --MF, 3/29/19</div>
             </ol>
 		</div>
     
