@@ -11,20 +11,12 @@
             <p>PAUL MUST REVIEW THIS CONTENT.</p>
             <p>TG and solutions will need to be checked. --MF, 12/19/18</p>
         </div>
-        <div class="todo">
-            <p>
-                Point of pages:
-                <ul>
-                    <li>different algorithms have different time requirements</li>
-                    <li>the structure of the data changes what algorithms you can use</li>
-                </ul>
-            </p>
-        </div>
-    
+        
         <h2>Is "Seperate" Spelled Correctly?</h2>
         <div class="learn">
-            <div class="comment">Thoughts, Brian? --MF, 3/29/19</div>
-            <p><strong>On this page</strong>, you will learn how the type of problem and also the structure of the data changes what algorithms you can use.</p>
+            <div class="commentBig">To Paul: Brian and I have realized that we don't agree on the point of these boxes. Can you choose (or write) the statement that you think best fits their purpose? Thanks! --MF, 4/1/19</div>
+            <p><strong>On this page</strong>, you will learn a faster way to find things in a sorted list.</p>
+            <p><strong>On this page</strong>, you will learn how the question you are trying to answer and the condition of the data change what algorithms you can use to solve a problem.</p>
         </div>
         <p>Answering this question is easy in Snap<em>!</em>, because you can just say <img class="inline nopadtb" src="/bjc-r/img/5-algorithms/100000-words-contains-seperate.png" alt="100000-words-contains-seperate.png" title="(100,000 words) contains (seperate)" />. But <em>"easy" doesn't mean fast</em>. The <code>contains</code> block still has to look at each item in the list until it finds the one you are looking for (and says <code>true</code>) or reaches the end of the list (and says <code>false</code>). </p>
         <p>When you are only looking for <em>one</em> thing in a list (for example, checking whether a particular word is spelled correctly) rather than finding <em>all</em> the words with some characteristic (for example, looking for all five-letter words), you can use the strategy from <a href="/bjc-r/cur/programming/5-algorithms/1-searching-lists/1-sorted-lists.html?topic=nyc_bjc%2F5-algorithms.topic&course=bjc4nyc.html&novideo&noassignment" title="Page 1: Guess My Number to make your algorithm faster.">Page 1: Guess My Number</a> to make your algorithm faster. The best strategy for that problem is a <em>binary search</em> algorithm: always guess the <em>middle</em> value. That way, you eliminate half the possibilities with each guess. We can use a similar strategy to look for a word in a word list.</p>
@@ -37,13 +29,48 @@
         <div class="todo">For TG hints: If the number is in the list more than once, any one that you find is ok.</div>
         
         <p>You could have written a simpler number guessing program: the computer could guess the number 1, then 2, then 3, and so on until it finds the number. That would be a <em>linear search</em> algorithm; it's easier to code, but it takes longer to run because every time it makes a wrong guess, it only eliminates only that guess. With binary search,  every wrong guess eliminates <em>half</em> the possibilities at once.</p>
-        <div class="comment">image needs alt/title tags --MF, 3/28/19<p>Also, I think we should move this down between #1 and #2. --MF, 3/29/19</p></div>
-        <img class="indent" src="/bjc-r/img/5-algorithms/binary-search-block-definition.png" alt="" title="" />
-        <div class="endnote"><div class="comment">Mary to make pics. --MF, 3/28/19</div>The <code>&gt;</code> block works alphabetically on words: two images: blah reporting true blah reporting false</div>
         <div class="forYouToDo" id="first">
 			<ol>
 				<div class="todo">more scaffolding, and some pictures, and to be finished.</div>
-                <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> Compare this block with your code from <a href="/bjc-r/cur/programming/5-algorithms/1-searching-lists/1-sorted-lists.html?topic=nyc_bjc%2F5-algorithms.topic&course=bjc4nyc.html&novideo&noassignment" title="Page 1: Guess My Number to make your algorithm faster.">Page 1: Guess My Number</a>. What parts are the same? What parts are different? <img class="inline" src="/bjc-r/img/icons/write-out-thoughts.png" alt="Write Out Your Thoughts" title="Write Out Your Thoughts" /></li>
+                <li>
+                    <img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> Compare this <code>binary search</code> block with your code from <a href="/bjc-r/cur/programming/5-algorithms/1-searching-lists/1-sorted-lists.html?topic=nyc_bjc%2F5-algorithms.topic&course=bjc4nyc.html&novideo&noassignment" title="Page 1: Guess My Number to make your algorithm faster.">Page 1: Guess My Number</a>. What parts are the same? What parts are different? <img class="inline" src="/bjc-r/img/icons/write-out-thoughts.png" alt="Write Out Your Thoughts" title="Write Out Your Thoughts" />
+                    <img class="indent" src="/bjc-r/img/5-algorithms/binary-search-block-definition.png" alt="binary search for (value) in (data) {
+            script variables (low) (high) (current index) (current item)
+            set (low) to (1)
+            set (high) to (length of (data))
+            repeat until ((low) > (high)) {
+                        set (current index) to (average of (low) and (high)) #comment: find the middle word
+                        set (current item) to (item (current index) of (data))
+                        if ((current item) = (value)) { report (true) }
+                        else {
+                                    if ((current item) > (value)) #comment: eliminate half the list {
+                                                set (high) to ((current index) – (1))
+                                    } else { set (low) to ((current index) + (1)) }
+                        }
+            }
+            report (false)
+}" title="binary search for (value) in (data) {
+            script variables (low) (high) (current index) (current item)
+            set (low) to (1)
+            set (high) to (length of (data))
+            repeat until ((low) > (high)) {
+                        set (current index) to (average of (low) and (high)) #comment: find the middle word
+                        set (current item) to (item (current index) of (data))
+                        if ((current item) = (value)) { report (true) }
+                        else {
+                                    if ((current item) > (value)) #comment: eliminate half the list {
+                                                set (high) to ((current index) – (1))
+                                    } else { set (low) to ((current index) + (1)) }
+                        }
+            }
+            report (false)
+}" />
+                    <div class="endnote">
+                        The <code>&gt;</code> block (as well as the <code>&lt;</code> and <code>=</code> blocks) works alphabetically on words: <br />
+                        <img class="indent" src="/bjc-r/img/5-algorithms/carrot>banana-reporting.png" alt="(carrot) > (banana) reporting true" title="(carrot) > (banana) reporting true" />
+                        <img class="indent" src="/bjc-r/img/5-algorithms/apple>banana-reporting.png" alt="(apple) > (banana) reporting false" title="(apple) > (banana) reporting false" />
+                    </div>
+                </li>
                 <div class="todo">TG: The crucial difference is that you find the average position on in the list but them to see if you are high or low, you have to look at the actual item in the list, not just the position number.</div>
 				<li>Answer the question: Is "seperate" spelled correctly?</li>
 				<li>Try some words that you know are spelled correctly and some that you know are incorrect. </li>
