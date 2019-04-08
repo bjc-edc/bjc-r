@@ -58,16 +58,37 @@
                 </li>
             </ol>
         </div>
-        <div class="vocabFullWidth">
-                <p>
+        
+        <div class="vocabFullWidth">: <strong>Strings</strong> and <strong>Concatenation</strong>
+            <ul>
+                <div class="comment">AAP-1.2.2</div>
+                <li>
                     A <strong>list</strong> is an ordered set of items. You've seen this example:<br />
                     <img class="indent" src="/bjc-r/img/1-introduction/list-from-who.png" alt="list{Senora, Ms. C, my cat, Hannah, Jake}" title="list{Senora, Ms. C, my cat, Hannah, Jake}" />
-                </p>
+                </li>
                 <div class="endnote">
+                    <div class="todo">I think they have not used the word input before. --MF, 4/8/19</div>
                     In this expression, the value reported by the <code>list</code> block is used as an input to the <code>item</code> block.<br />
                     <img class="indent" src="/bjc-r/img/1-introduction/composition.png" alt="item (random) of (list{Senora, Ms. C, my cat, Hannah, Jake})" title="item (random) of (list{Senora, Ms. C, my cat, Hannah, Jake})">            
                 </div>
+                <div class="comment">AAP-2.D.1</div>
+                <li>A <strong>string</strong> is a sequence of characters (letters, digits, punctuation, etc.).</li>
+                <li>To <strong>concatenate</strong> strings means to use the <img class="inline nopadtb" src="/bjc-r/img/blocks/join()().png" alt="join () ()" title="join () ()" /> block on them&mdash;to report one new string that connects each input string to the one before it.</li>
+            </ul>
+        </div>
+		        
+        <div class="endnote">
+            <a href="#hint-say-report" data-toggle="collapse" title="Why do reporters use the report block instead of say?">Why do reporters use the <code>report</code> block instead of <code>say</code>?</a>
+            <div id="hint-say-report" class="collapse">
+                Here is the complete definition of the <code>who</code> <em>reporter</em>: <br />
+                <img class="indent" src="/bjc-r/img/1-introduction/who-block-definition.png" alt="who reporter block definition: report (item (random) of (list (Señora) (Ms. C) (my cat) (Hannah) (Jake)))" title="who reporter block definition: report (item (random) of (list (Señora) (Ms. C) (my cat) (Hannah) (Jake)))" /><br />
+                So, why not use <code>say</code> instead of <code>report</code>?<br />
+                <img class="indent" src="/bjc-r/img/1-introduction/say-version-of-who.png" alt="who command block definition: say (item (random) of (list (Señora) (Ms. C) (my cat) (Hannah) (Jake)))" title="who command block definition: say (item (random) of (list (Señora) (Ms. C) (my cat) (Hannah) (Jake)))" /><br />
+                If you do that, you can't use <code>who</code> as an input to another block such as the <code>join</code> in <code>gossip</code>. So, we have to make <code>who</code> be a <em>reporter</em> in order to use it in <code>gossip</code>:<br />
+                <img class="indent" src="/bjc-r/img/1-introduction/gossip-definition.png" alt="gossip: (report (join (who) ( ) (does what) ( ) (who)))" title="gossip: (report (join (who) ( ) (does what) ( ) (who)))" />
+                <p>The <code>say</code> block says something to the user. The <code>report</code> block reports something to the computer so that it can be used elsewhere in the program.</p>
             </div>
+        </div>
         
         <div class="forYouToDo">
 			<ol start="2">
@@ -81,6 +102,59 @@
         <div class="vocabFullWidth">
             <p>This process of testing, finding problems, and fixing them is called <strong>debugging</strong>.</p>
         </div>
+        
+        <div class="forYouToDo" id="first">
+			<ol start="3">
+				<li>
+					<div class="todo"></div>
+                    <!-- Question 1 -->
+                    <div class="assessment-data" type="multiplechoice" identifier="Which of the following expressions could be reported by gossip?"
+						hasinlinefeedback="true" maxchoices="4" responseIdentifier="ri1" shuffle="true">
+						<div class="prompt">
+        					<div class="comment">AAP-2.D</div>
+							Which of the following expressions could be reported by <code>gossip</code>?<br />
+                            <img class="indent" src="/bjc-r/img/1-introduction/gossip-definition.png" alt="gossip: (report (join (who) ( ) (does what) ( ) (who)))" title="gossip: (report (join (who) ( ) (does what) ( ) (who)))" />
+                            <div class="endnote">
+                                For reference:<br >
+                                <img class="indent" src="/bjc-r/img/1-introduction/who-block-definition.png" height="77px" alt="who reporter block definition: report (item (random) of (list (Señora) (Ms. C) (my cat) (Hannah) (Jake)))" title="who reporter block definition: report (item (random) of (list (Señora) (Ms. C) (my cat) (Hannah) (Jake)))" />
+                                <img class="indent" src="/bjc-r/img/1-introduction/does-what-block-definition.png" height="89px" alt="does what reporter block definition: report (item (random) of (list (listened to) (loves) (ran away from) (helped) (is in a band with)))" title="does what reporter block definition: report (item (random) of (list (listened to) (loves) (ran away from) (helped) (is in a band with)))" /><br />
+                            
+                            </div>
+						</div>
+						<div class="choice" identifier="c1">
+							<div class="text">Señora and Ms. C helped.</div>
+							<div class="feedback">
+								It's true that there are two people (two "who"s) and one action (one "does what"), but they aren't in the right order. Also, the word "and" isn't anywhere in the program.
+							</div>
+						</div>
+						<div class="choice" identifier="c2">
+							<div class="text">Señora ran away from my cat.</div>
+							<div class="feedback">
+								Correct! This follows the pattern: "who," "does what," "who."
+							</div>
+						</div>
+						<div class="choice" identifier="c3">
+							<div class="text">Hannah listened to Hannah.</div>
+							<div class="feedback">
+								Correct! This follows the pattern: "who," "does what," "who."
+							</div>
+						</div>
+						<div class="choice" identifier="c4">
+							<div class="text">Jake helped.</div>
+							<div class="feedback">
+								This expression is missing the second "who."
+							</div>
+						</div>
+						<div class="responseDeclaration" identifier="ri1">
+							<div class="correctResponse" identifier="c2"></div>
+							<div class="correctResponse" identifier="c3"></div>
+						</div>
+					</div>
+				</li>
+			</ol>
+		</div>
+		
+
     
 
         <div class="ifTime">
@@ -94,6 +168,7 @@
                         <div id="hint-changing-background" class="collapse">
                             <img src="/bjc-r/img/1-introduction/U1ImageVideoAddendum_img/U1L2-GossipBackground.gif" alt="change the background on the stage" title="change the background on the stage"/>
                         </div>
+                    </div>
                 </li>
 				<li>
                     Change the costumes to anything you like. You can use a photograph or picture from the Internet by dragging the image into the costume area for that sprite. 
