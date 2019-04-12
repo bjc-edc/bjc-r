@@ -122,7 +122,7 @@ MC.prototype.render = function() {
         //$('.MultipleChoice').html(pageTemplate);
 
         /* set the question type title */
-        this.multipleChoice.find('.questionType').html('Question ' + (this.num + 1));
+        this.multipleChoice.find('.questionType').html(/*'Question ' + (this.num + 1)*/ 'Self-Check Question'); /* This line edited by Mary Fries on 4/14/19 so that For You To Do problem numbers and quiz numbers don't conflict. */
     }
 
     /* render the prompt */
