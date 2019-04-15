@@ -6,12 +6,12 @@
         <script type="text/javascript" src="/bjc-r/utilities/gifffer.min.js"></script>
         <script type="text/javascript">window.onload = function() {Gifffer();}</script>
         <link rel="stylesheet" type="text/css" href="/bjc-r/css/bjc-gifffer.css">
-        <title>Unit 2 Lab 2: Managing Data with ADTs, Page 3</title>
+        <title>Unit 2 Lab 2: Managing Data Using Abstract Data Types, Page 3</title>
     </head> 
 
 	<body>
-        <div class="todo">Here is another proposed lab title... "Managing Data with ADTs" --MF, 3/21/19</div>
-        <h2>Checking Each Quiz Answer (or Traversing the List of Quiz Items with <code>For Each</code>)</h2>
+        <h2>Checking Each Quiz Answer</h2>
+        <div class="todo">Another possible title: "Traversing the List of Quiz Items with <code>For Each</code>" --MF, 4/15/19</div>
 
         <div class="learn">
             <p>
@@ -24,9 +24,8 @@
             <div class="stagedir">
                 The students are considering how to use their abstract data type as they develop the code for their project. 
             </div>
-            <div><span>Alphie:</span> We can use our selectors to get the question and answer for any pair in our list, but how do we get the pair out of the list so we can ask each question and check the answers?</div>
+            <div><span>Alphie:</span> We can use our <img class="inline" src="/bjc-r/img/2-complexity/question-selector-notype.png" alt="question from ()" title="question from ()"/> and <img class="inline" src="/bjc-r/img/2-complexity/answer-selector-notype.png" alt="answer from ()" title="answer from ()"/> selectors to get the question and answer for any pair in our list. But how do we get the pair out of the list in the first place?</div>
             <div>
-                <div class="comment">These images all need alt/title tags. --MF 3/8/19</div>
                 <span>Gamal:</span> Maybe we can use <code>item of</code> inside a <code>for</code> loop and use the index from the <code>for</code> loop as the first input to <code>item of</code>, like this:<br />
                 <img class="indent" src="/bjc-r/img/2-complexity/for-with-item-of.png" alt="for (i) = (1) to (4) {
     ask (question from (item (i) of (computer science quiz))) and wait
@@ -36,27 +35,29 @@
             </div>
             <div>
                 <img class="imageRight" src="/bjc-r/img/icons/import-tools-mini.png" alt="Import Tools" title="Import Tools" />
-                <span>Betsy:</span> Yeah, we could, but that's a little hard to read with that index variable to keep track of, and if we add more questions, we'll have to update the number 4 that tells us when to end the loop. I bet we can use <img src="/bjc-r/img/2-complexity/for-each-(item)-of().png" height="68" alt="for-each-(item)-of(){}" title="for-each-(item)-of(){}"> to do most of that. We could even rename <var>item</var> something logical like <var>question/answer pair</var>. Then the code inside will run once for each question/answer pair in our quiz item list.
+                <span>Betsy:</span> Yeah, we could, but that's a little hard to read with that index variable to keep track of, and if we add more questions, we'll have to update the number 4 that tells us when to end the loop. I bet we can use <img src="/bjc-r/img/2-complexity/for-each-(item)-of().png" height="68" alt="for each (item) of 'list input slot' {}" title="for each (item) of 'list input slot' {}"> to do most of that. We could even rename <var>item</var> something logical like <var>question/answer pair</var>. Then the code inside will run once for each question/answer pair in our quiz item list.
             </div>
             <div><span>Alphie:</span> And the code will be more readable when we want to do something like asking the question or checking the answer from a pair.</div>
         </div>
 
         <div class="examFullWidth AP-only">
             <div class="comment">AAP-2.O.3</div>
-            <p>
-                The script<br />
-                <img class="indent" src="/bjc-r/img/2-complexity/example-for-each-point.png" alt="for each (point) of (my drawing) (go to (point))" title="for each (point) of (my drawing) (go to (point))" /><br />
-                would be written as<br />
-                <pre class="indent">FOR EACH point IN myDrawing
+            <div class="pseudop">
+                The script 
+                <img class="inline" src="/bjc-r/img/2-complexity/example-for-each-point.png" alt="for each (point) of (my drawing) (go to (point))" title="for each (point) of (my drawing) (go to (point))" />
+                would be written as
+                <div class="pre-container"><pre class="inline">FOR EACH point IN myDrawing
 {
     GoTo (point)
-}</pre>
-            </p>
+}</pre></div>.
+            </div>
+            <div class="todo">I tightened this up onto one line. Do we like? --MF, 4/15/19</div>
         </div>
 
         <div class="vocabFullWidth">: <strong>Traversing a List</strong>
             <div class="comment">AAP-2.O.2</div>
             <p><strong>Traversing</strong> a list means looking at each item of the list. <code>For each</code> is iterative (that is, repetitive, like <code>for</code>), but <code>for each</code> traverses the list <em>without using index numbers</em>.</p>
+            <div class="todo">This language should be tightened up. For example, it's not clear whether <code>for</code> traverses a list. --MF, 4/15/19</div>
         </div>
 
         <div class="forYouToDo">
