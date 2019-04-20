@@ -70,6 +70,7 @@ llab.renderFull = function(data, ignored1, ignored2) {
     var line;
     var in_topic = false;
     var topic;
+    var lablist;
     var item;
     var learningGoal = false;
     var bigIdea = false;
@@ -112,8 +113,11 @@ llab.renderFull = function(data, ignored1, ignored2) {
                 learningGoal = false;
                 bigIdea = false;
             } else if (line.slice(0, 8) == "heading:") {
+		if (lablist) {topic.append(lablist);};
                 item = $(document.createElement("h3")).append(line.slice(8));
                 topic.append(item);
+                lablist = $(document.createElement("ol")); // .attr({'class': 'topic_header'}).append(line.slice(6));
+                topic.append(lablist);
                 learningGoal = false;
                 bigIdea = false;
             } else if (line[0] == "}") {
@@ -129,7 +133,7 @@ llab.renderFull = function(data, ignored1, ignored2) {
                     line = $.trim(line);
                     learningGoal = true;
                     item = $(document.createElement("div")).attr({'class': 'learninggoals' + indent});
-                    list = $(document.createElement("ul"));
+                    list = $(document.createElement("ol"));
                     list.append($(document.createElement("li")).append(line.slice(14)));
                     item.append(list);
                     topic.append(item);
@@ -143,7 +147,7 @@ llab.renderFull = function(data, ignored1, ignored2) {
                     line = $.trim(line);
                     bigIdea = true;
                     item = $(document.createElement("div")).attr({'class': 'bigideas' + indent});
-                    list = $(document.createElement("ul"));
+                    list = $(document.createElement("ol"));
                     list.append($(document.createElement("li")).append(line.slice(9)));
                     item.append(list);
                     topic.append(item);
@@ -154,10 +158,10 @@ llab.renderFull = function(data, ignored1, ignored2) {
                 learningGoal = false;
                 bigIdea = false;
                 var sepIdx = line.indexOf(":");
-                if (sepIdx != -1 && llab.isTag(line.slice(0, sepIdx))) {
-                    item = $(document.createElement(line.slice(0, sepIdx)));
-                } else if (sepIdx != -1) {
-                    item = $(document.createElement("div")).attr({'class': line.split(":")[0] + indent});
+		if (sepIdx != -1 && llab.isTag(line.slice(0, sepIdx))) {
+                    item = $(document.createElement("div")).append(line.slice(0, sepIdx));
+                } else if (sepIdx != -1 && line.slice(0, sepIdx) != "raw-html") {
+                    item = $(document.createElement("li"));
                 } else {
                     item = $(document.createElement("div"));
                 }
@@ -181,7 +185,7 @@ llab.renderFull = function(data, ignored1, ignored2) {
                 } else {
                     item.append(line.slice(sepIdx + 1));
                 }
-                topic.append(item);
+                if (lablist) {lablist.append(item);} else {topic.append(item);};
             }
         } else if (line.length == 1) {
             learningGoal = false;
@@ -194,7 +198,7 @@ llab.renderFull = function(data, ignored1, ignored2) {
                 i++;
                 line = lines[i];
             }
-            topic.append(raw_html);
+            lablist.append(raw_html);
             raw = false;
         } else {
             learningGoal = false;
