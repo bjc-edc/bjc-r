@@ -113,7 +113,7 @@ llab.renderFull = function(data, ignored1, ignored2) {
                 learningGoal = false;
                 bigIdea = false;
             } else if (line.slice(0, 8) == "heading:") {
-		if (lablist) {topic.append(lablist);};
+//		if (lablist) {topic.append(lablist);};
                 item = $(document.createElement("h3")).append(line.slice(8));
                 topic.append(item);
                 lablist = $(document.createElement("ol")); // .attr({'class': 'topic_header'}).append(line.slice(6));
@@ -159,11 +159,12 @@ llab.renderFull = function(data, ignored1, ignored2) {
                 bigIdea = false;
                 var sepIdx = line.indexOf(":");
 		if (sepIdx != -1 && llab.isTag(line.slice(0, sepIdx))) {
-                    item = $(document.createElement("div")).append(line.slice(0, sepIdx));
-                } else if (sepIdx != -1 && line.slice(0, sepIdx) != "raw-html") {
+//                    item = $(document.createElement("div")).append(line.slice(0, sepIdx));
+                    item = $(document.createElement(line.slice(0, sepIdx)));
+                } else if (sepIdx != -1 && line.slice(0, sepIdx) != "raw-html" && lablist) {
                     item = $(document.createElement("li"));
                 } else {
-                    item = $(document.createElement("div"));
+                    item = $(document.createElement("div")).attr({'class': indent});
                 }
                 if (line.indexOf("[") != -1) {
                     var temp = $(document.createElement("a"));
