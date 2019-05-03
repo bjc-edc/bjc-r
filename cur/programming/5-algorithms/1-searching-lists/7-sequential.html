@@ -9,22 +9,11 @@
 	
     <body>
 		<h2>Parallelism</h2>
-        <div class="todo">We still need a working XML file for the TIF. --MF, 5/3/19<p>Also, I want us to to a better job of covering <a href="http://localhost/bjc-r/cur/programming/old-labs/concurrency/snap/snap-machine-concepts.html?topic=berkeley_bjc%2Fareas%2Fconcurrency.topic&course=berkeley_bjc.html&noassignment" target="_blank">what Dan has said like this</a>: <ul><li>"Snap supports parallelism! The programming environment is full of concurrency, implicit (two scripts both start when the green flag is clicked, or when they receive the same broadcast message), and explicit (the launch block). "</li><li>Snap actually does NOT make use of more than one core (independent hardware computation unit), it runs everything in one core and time shares any parallel task on the single core. This gives Snap much more control over its parallelism, since once you decide to use two (or more) physical cores, you can no longer control when (or in what order) the computations will return, and you open up the standard Pandora's box of concurrency problems, like deadlock and race conditions. So your Snap programs are insulated from these realities, allowing you to have predictable parallelism (usually impossible) at the cost of being able to run really fast and make use of hardware resources."</li></ul></p></div>
         <div class="learn">
-            <div class="todo">Needs attention. --MF, 5/3/19</div>
             <p><strong>On this page,</strong> you will learn how running multiple scripts in parallel can reduce the total time it takes to run an algorithm.</p>
         </div>
         <p>In Snap<em>!</em>, you are accustomed to seeing a bunch of scripts that all run independently, which may or may not be associated with different sprites. This is kind of like <em>parallel computing</em>. So, if we had a different computer for each sprite, that would be true parallelism. As it is, there is only one computer, and it divides its attention among the processes by running a little bit of one and then running a little bit of the next one. Specifically, it switches at the bottom of loops (<code>forever</code>, <code>repeat</code>, etc.).</p>
         
-        <!--<p>Snap<em>!</em>  supports parallelism. The programming environment is full of concurrency, implicit (two scripts both start when the green flag is clicked, or when they receive the same broadcast message), and explicit (the launch block). Let's first explore the explicit kind, then we will play with the implicit kind a bit. </p>
-        <p>Let's try to use concurrency for what it was meant for: <b>speed!</b> </p>
-        <p>There are three important models of the machine you should develop:
-            <ol>
-                <li>Snap<em>!</em> is like a parent with lots of kids, the parent wants to give the kids equal attention. So if there are 3 things happening at one time, Snap<em>!</em>  will rotate among the three of them, giving each of them a chance to do their "thing" (e.g., complete one iteration of a loop). It will choose the same order every time, in a very predictable way. This is known as time-sharing. </li>
-                <li>Snap<em>!</em> has a speed governor so that projects can run at the same speed on different machines. It is obvious why that is important&#8212;imagine developing this great Pac Man game on your parent's slow computer and working very hard to get the timing just right so it is not too fast or slow. However, when you share it with others who have faster machines, it runs too fast to play (because the other computers have a faster "heartbeat", the clock rate). So Snap<em>!</em>  slows itself down on faster computers so that it always looks like it is running on the same, slow, computer. The reason this is relevant in the discussion of concurrency is that (on the vast majority of computers) Snap<em>!</em> = spends a lot of time just sitting there, waiting, so it has lots of idle "cycles" to handle multiple things running at the same time. </li>
-                <li>Snap<em>!</em>  actually does NOT make use of more than one core (independent hardware computation unit), it runs everything in one core and time shares any parallel task on the single core. This gives Snap<em>!</em>  much more control over its parallelism, since once you decide to use two (or more) physical cores, you can no longer control when (or in what order) the computations will return, and you open up the standard Pandora's box of concurrency problems, like deadlock and race conditions. So your Snap<em>!</em> programs are insulated from these realities, allowing you to have predictable parallelism (usually impossible) at the cost of being able to run really fast and make use of hardware resources. </li>
-            </ol>
-        </p>-->
         <div class="vocabFullWidth">: <strong>Sequential</strong> and <strong>Parallel Computing</strong>
             <div class="comment">CSN-2.A.1, CSN-2.A.2</div>
             <p>
@@ -141,7 +130,7 @@
                 <div class="comment">CSN-2.A, CSN-2.B, CSN-2.B.1, CSN-2.C.5</div>
 				<li>
                     Suppose a task includes one minute of sequential steps and a parallelizable portion that would take an hour if done sequentially.  Fill in this table:
-                    <table class="bordered standard nowrap center" summary="">
+                    <table class="bordered standard nowrap center" summary="Table of number of processors vs. total program running time">
                         <tr>
                             <th scope="col">Number of Processors</th>
                             <th scope="col">Total Time Required</th>
@@ -204,7 +193,7 @@
                 </li>
                 <div class="endnote">
                     <a href="#hint-diminishing" data-toggle="collapse" title="What is the law of diminishing returns?">What is the law of diminishing returns?</a>
-                    <div id="hint-diminishing" class="collapse">The law of diminishing returns is an idea from economics that basically says that after a certain point, more is not better. For example, if you got five birthday presents, you might be happier than if you got only one, but more presents isn't necessarily better. Imagine you received a hundred  presents. You'd get bored opening them and probably feel overwhelmed. And getting a thousand or a million presents wouldn't make your birthday any happier. The same rule applies to birthday cake!</div>
+                    <div id="hint-diminishing" class="collapse">The law of diminishing returns is an idea from economics that basically says that after a certain point, more is not better. For example, if you got five birthday presents, you might be happier than if you got only one, but getting more presents isn't necessarily better. Imagine you received a hundred  presents. You'd get bored opening them and probably feel overwhelmed. And getting a thousand or a million presents wouldn't make your birthday any happier. The same rule applies to birthday cake!</div>
                 </div>
 			</ol>
 		</div>
@@ -221,13 +210,59 @@
             </ul>
         </div>
     
-        <div class="todo">
-            <h3>New text from BH</h3>
-            <div class="todo">Brian, I used some of these ideas to shape the FYTD below, but I didn't use most of this text. It feels like too much(too long and too much new vocab) for what it is worth. </div>
-            <p>Computers are very reliable; it's extremely rare for the hardware to break down while you're running a program.  But when you have tens of thousands of computers working on a problem, it's /likely/ that one of them will fail.  (If the probability of one computer failing during a program run is 0.0001, and you use 10,000 computers, the probability of one of them failing is about 0.368 -- one time in three.)  So you have to compensate in software, by including checks that all the machines are running, and reassigning the task of a failed computer to another one.</p>
-            <p>If your program isn't purely functional, and if any data are shared between two or more computers, it's possible for your program to have /race conditions/, in which partway through a section of the program on one computer, another computer changes the value of a variable, and so the end result isn't what you were expecting.</p>
-            <p>For those reasons and others, writing and debugging a program that uses parallelism is much harder than a single-thread program.</p>
-        </div>
+        <p>Computer hardware is very reliable; it's rare for the hardware to break down while you're running a program. But in distributed computing with tens of thousands of computers working on the same problem, it's <em>likely</em> that one of them will fail. (If the probability of one computer failing during a program run is 0.0001, and you use 10,000 computers, then the probability of one of them failing is about 0.368&mdash;about a third of the time!) So software has to compensate by checking that the machines are running and reassigning the tasks of a failed computer to a working one.</p>
+        <p>Also, when you are doing things in parallel, the parallel processes can interfere with each other.
+            <div class="endnote">
+                <a href="#hint-banking" data-toggle="collapse" title="An example of interfering processes with banking...">An example of interfering processes with banking...</a>
+                <div id="hint-banking" class="collapse">
+                    <p>
+                        If one person withdraws money from an ATM at the same time as someone at a different ATM withdraws money from the same account, you could run into a situation like this:
+                        <table class="bordered standard nowrap center" summary="Possible sequence of events when two ATM transactions happen in parallel">
+                        <tr>
+                            <td rowspan="9" style="vertical-align: middle; border-left: 0; border-top: 0; border-bottom: 0;"><img class="inline noshadow" src="/bjc-r/img/5-algorithms/time-arrow.png" alt="downward pointing arrow labeled 'time'" title="downward pointing arrow labeled 'time'" /></td>
+                            <th scope="col">ATM 1</th>
+                            <th scope="col">ATM 2</th>
+                        </tr>
+                        <tr>
+                            <td>looks up the balance ($100)</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>looks up the balance ($100)</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>checks if the amount requested ($40) is available</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>adjusts the balance ($60)</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>dispenses the money</td>
+                        </tr>
+                        <tr>
+                            <td>check if the amount requested ($20) is available</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>adjusts the balance ($80)</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>dispenses the money</td>
+                            <td></td>
+                        </tr>
+                    </table>
+                    </p>
+                    <p>Because ATM 2 changed the account balance after ATM 1 looked up the balance, ATM 1 didn't know that the balance had been changed. The bank account ended up a balance of $80 even though it started at $100 and a total of $60 was withdrawn.</p>
+                </div>
+            </div>
+        </p>
+        <p>For these reasons and others, a parallel program is harder to write and debug than a sequential program.</p>
+
     
         <div class="forYouToDo">
 			<ol start="5">
@@ -235,16 +270,6 @@
                     <img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
                     Identify some benefits and potential challenges of parallel and distributed computing.
                     <img class="inline" src="/bjc-r/img/icons/write-out-thoughts.png" alt="Write Out Your Thoughts" title="Write Out Your Thoughts" />
-                    <div class="endnote">
-                        <a href="#hint-benefits-challenges" data-toggle="collapse" title="Some ideas about the potential challenges of parallel and distributed computing">Some ideas about the potential challenges</a>
-                        <div id="hint-benefits-challenges" class="collapse">
-                            <ul>
-                                <li>If you are solving a problem with only one computer, it's unlikely that your hardware will break down, but what if you have tens of thousands of computers working on the problem? What might programmers do to address this problem? </li>
-                                <li>Distributed computing shares information between computers. What kinds of problems can this introduce?</li>
-                                <li>What kinds of additional costs may be required by a distributed computing setup?</li>
-                            </ul>
-                        </div>
-                    </div>
                 </li>
 			</ol>
 		</div>
@@ -299,10 +324,16 @@
 			</ol>
 		</div>
     
-        <div class="todo">We still need a working XML file for the TIF. --MF, 5/3/19<p>Also, note that I call it "sprite parallelism" below.</p></div>
         <div class="takeItFurther">
             <ol type="A">
-                <li><a href="/bjc-r/prog/5-algorithms/U5L1-Split-Wordlist.xml" class="run"><img class="inline" src="/bjc-r/img/icons/load-save.png" alt="Click here to load this file. Then save it to your Snap! account." title="Click here to load this file. Then save it to your Snap! account."></a> You will find a variable <var>split wordlist</var> whose value is <em>a list of 26 lists</em>. The first list contains all the words starting with A; the second list contains all the words starting with B; and so on, ending with the twenty-sixth list, which contains all the words starting with Z. Write a program that uses sprite parallelism to find all the five-letter words in this list. Your program should make 26 clones and assign to each clone the task of <code>keep</code>ing all the five-letter words from its assigned sublist. When all the clones have finished, the original sprite should <code>append</code> the 26 result lists, in order, to get a single list of five-letter words.</li>
+                <li><a href="/bjc-r/prog/5-algorithms/U5L1-Split-Wordlist.xml" class="run"><img class="inline" src="/bjc-r/img/icons/load-save.png" alt="Click here to load this file. Then save it to your Snap! account." title="Click here to load this file. Then save it to your Snap! account."></a> You will find a variable <var>split wordlist</var> whose value is <em>a list of 26 lists</em>. The first list contains all the words starting with A; the second list contains all the words starting with B; and so on, ending with the twenty-sixth list, which contains all the words starting with Z.
+                    <ol>
+                        <li>The project also includes part of a program that will use sprite parallelism to find all the five-letter words in the <var>split wordlist</var>. It makes 25 clones and assigns to each clone the task of keeping all the five-letter words from its assigned sublist (the parent sprite performs the task for the 26th letter).  When all the clones have finished, the parent sprite appends the 26 result lists, in order, to get a single list of five-letter words. Complete the program.</li>
+                        <li>Add code to compute the total amount of time required.</li>
+                        <li>Create a sequential version of this project and time it.</li>
+                        <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> Were the timing results what you expected? Why do you think that happened?</li>
+                    </ol>
+                </li>
             </ol>
         </div>
         
