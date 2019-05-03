@@ -29,6 +29,16 @@
                         <li>CSN-2.B.4: The “speedup” of a parallel solution is measured in the time it took to complete the task sequentially divided by the time it took to complete the task when done in parallel.</li>
                     </ul>
                 </li>
+                <li>
+                CSN-2.C: Describe benefits and challenges of parallel and distributed computing.
+                    <ul>
+                        <li>CSN-2.C.1: Parallel computing consists of a parallel portion and a sequential portion.</li>
+                        <li>CSN-2.C.2: Solutions that use parallel computing can scale more effectively than solutions that use sequential computing.</li>
+                        <li>CSN-2.C.3: Distributed computing allows problems to be solved that could not be solved on a single computer, either because of the processing time or storage needs involved.</li>
+                        <li>CSN-2.C.4: Distributed computing allows much larger problems to be solved quicker than they could be solved using a single computer.</li>
+                        <li>CSN-2.C.5: When increasing the use of parallel computing in a solution, the efficiency of the solution is still limited by the sequential portion. This means at some point, adding parallel portions will no longer increase efficiency.</li>
+                    </ul>
+                </li>
             </ul>
         </div>
         <div class="learn">
@@ -47,7 +57,7 @@
             </ol>
         </p>-->
         <div class="vocabFullWidth">: <strong>Sequential</strong> and <strong>Parallel Computing</strong>
-            <div class="comment">CSN-2.A.1, CSN-2.A.2, CSN-2.A.3</div>
+            <div class="comment">CSN-2.A.1, CSN-2.A.2</div>
             <p>
                 This section covers two computational models:
                 <ul>
@@ -68,7 +78,7 @@
                         hasinlinefeedback="true" maxchoices="1" responseIdentifier="ri1" shuffle="true">
                         <div class="prompt">
                             <div class="comment">CSN-2.B, CSN-2.B.2</div>
-                            How long will this sequential program take to run?<br />
+                            How long will this  <em>sequential</em> program take to run?<br />
                             <img class="indent" src="/bjc-r/img/5-algorithms/quizlet-sequential.png" alt="wait (6), wait (4), wait (8)" title="wait (6), wait (4), wait (8)" />
                         </div>
                         <div class="choice" identifier="c1">
@@ -106,11 +116,10 @@
                         hasinlinefeedback="true" maxchoices="1" responseIdentifier="ri2" shuffle="true">
                         <div class="prompt">
                             <div class="comment">CSN-2.B, CSN-2.B.3</div>
-                            How long will this parallel program take to run?<br />
+                            How long will this <em>parallel</em> program take to run?<br />
                             <img class="indent" src="/bjc-r/img/5-algorithms/quizlet-parallel-1.png" alt="broadcast (go) and wait, wait (6) secs" title="broadcast (go) and wait, wait (6) secs" />
                             <img class="indent" src="/bjc-r/img/5-algorithms/quizlet-parallel-2.png" alt="when I receive (go): wait (4) secs" title="when I receive (go): wait (4) secs" />
                             <img class="indent" src="/bjc-r/img/5-algorithms/quizlet-parallel-3.png" alt="when I receive (go): wait (8) secs" title="when I receive (go): wait (8) secs" />
-                            
                         </div>
                         <div class="choice" identifier="c1">
                             <div class="text">18</div>
@@ -144,74 +153,165 @@
 			</ol>
 		</div>
     
-        <p>Writing a program that does nothing but wait is, of course, unrealistic, but what is realistic is that in most problems, there isn't a solution that's purely parallel. Some part of the computation has to be done sequentially. In the previous question, the sequential part is modeled by <code>wait 6 secs</code>.</p>
-        <p>As a more realistic example, suppose you want to know the average word length in list of 100,000 words. You can divide the task among several computers (one for each starting letter). Each computer adds the lengths of all the words assigned to it (all the "A" words, all the "B" words, etc). Then one computer has to add the 26 partial results and divide by the total number of words to find the average.</p>
+        <div class="comment">CSN-2.C.1, CSN-2.C.2, CSN-2.C.4</div>
+        <p>
+            <img class="noshadow imageRight" src="/bjc-r/img/5-algorithms/sequential-parallel-parts.png" alt="diagram of algorithm for finding the average word length in list of 100,000 words: the first two steps (Divide up the wordlist, Send tasks to each other computer) are labeled 'sequential'; then arrows indicate branching off into multiple tasks (Count all the 'A' words, Count all the 'B' words, ..., Count all the 'Z' words) that are labeled 'parallel'; finally, arrows indicate rejoining these results back into a single thread of three steps (Add the 26 partial results, Divide that sum by the total number of words, Report that average) labeled 'sequential'" title="diagram of algorithm for finding the average word length in list of 100,000 words: the first two steps (Divide up the wordlist, Send tasks to each other computer) are labeled 'sequential'; then arrows indicate branching off into multiple tasks (Count all the 'A' words, Count all the 'B' words, ..., Count all the 'Z' words) that are labeled 'parallel'; finally, arrows indicate rejoining these results back into a single thread of three steps (Add the 26 partial results, Divide that sum by the total number of words, Report that average) labeled 'sequential'" />
+            Writing a program that does nothing but wait is, of course, unrealistic, but what <em>is</em> realistic is that in most problems, there isn't a solution that's purely parallel. Some part of the computation has to be done sequentially. In the previous question, the sequential part is modeled by <code>wait 6 secs</code>. Parallelization with this silly example feels trivial, but imagine you work for Google. Millions of search queries and web page edits have happened today, and it's your job to have to process them. If they didn't have huge server farms with thousands of computers in each building, they couldn't keep up at all. Parallel computing lets you <em>scale</em> to very large problems.</p>
         <div class="comment">CSN-2.B.3</div>
-        <p>To calculate the run time of this parallel solution, you would add the run time of the longest parallel portion (the run time for the letter with the most words) to the run time of the sequential portion (adding the 26 partial results and dividing the sum by the total number of words).
-            <div class="todo">We stopped here.</div>
+        <p>As a more specific example, suppose you want to know the average word length in list of 100,000 words. You can divide the task among several computers (one for each starting letter). Each computer adds the lengths of all the words assigned to it (all the "A" words, all the "B" words, etc). Then one computer has to add the 26 partial results and divide by the total number of words to find the average. To calculate the run time of this parallel solution, you would add the run time of the longest parallel portion (the run time for the letter with the most words) to the run time of the sequential portion (adding the 26 partial results and dividing the sum by the total number of words).</p>
     
         
-        <div class="forYouToDo">
+        <div class="forYouToDo" style="clear: right;">
+            <p>Because every computation includes a sequential portion, there is a limit to how much you can speed up a task by adding processors.</p>
 			<ol start="3">
+                <div class="comment">CSN-2.A, CSN-2.B, CSN-2.B.1, CSN-2.C.5</div>
 				<li>
-				    <div class="todo">Give them a more realistic example to compute</div></li>
+                    Suppose a task includes one minute of sequential steps and a parallelizable portion that would take an hour if done sequentially.  Fill in this table:
+                    <table class="bordered standard nowrap center" summary="">
+                        <tr>
+                            <th scope="col">Number of Processors</th>
+                            <th scope="col">Total Time Required</th>
+                            <th scope="col">Solution Type</th>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>61 minutes (1 hr + 1 min)</td>
+                            <td>sequential solution</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>31 minutes (30 min + 1 min)</td>
+                            <td rowspan="10">parallel solutions</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>10</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>20</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>30</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>60</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>120</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>240</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>480</td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </li>
+                <li>Consider the issue of "diminishing returns":
+                    <ol>
+                        <li>If you have one processor and you add one more, how much time do you save?</li>
+                        <li>If you have 240 processor and you add 240 more, how much time do you save?</li>
+                        <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> How many processors do you think are worth having for this problem?</li>
+                    </ol>
+                </li>
 			</ol>
 		</div>
 		
         <div class="vocabFullWidth">
             <div class="comment">CSN-2.B.4</div>
-            <p>
-                Programmers refer to the <strong>speedup</strong> of parallel solution to describe how many times as fast the parallel solution is compared to the sequential solution:<br />
+            <ul>
+                <li>
+                    Programmers refer to the <strong>speedup</strong> of parallel solution to describe how many times as fast the parallel solution is compared to the sequential solution:<br />
                 <span class="katex indent">\text{speedup} = \frac{\text{sequential time}}{\text{parallel time}}</span>
-            </p>
+                </li>
+                <div class="comment">CSN-2.A.3</div>
+                <li>Modern computers have multiple processors (2, 4, or 8) in a single computer, so you can do small-scale parallel processing on the machine on your desk. <strong>Distributed computing</strong> uses multiple computers (perhaps even spread out around the world).</li>
+            </ul>
         </div>
-        
+    
+        <div class="forYouToDo">
+			<ol start="5">
+				<li>
+                <div class="todo">
+                    <p>CSN-2.A: Compare problem solutions that use sequential, parallel, and distributed computing.</p>
+                    <p>CSN-2.C: Describe benefits and challenges of parallel and distributed computing.</p>
+                </div>
+                </li>
+			</ol>
+		</div>
+
         <div class="ifTime">
-			<ol start="4">
+			<ol start="6">
 				<li>
                     <!-- Question 3 -->
-                    <div class="assessment-data" type="multiplechoice" identifier="How long will this parallel script take to run?"
+                    <div class="assessment-data" type="multiplechoice" identifier="What is the speedup for this parallel solution when compared to the sequential solution?"
                         hasinlinefeedback="true" maxchoices="1" responseIdentifier="ri3" shuffle="true">
                         <div class="prompt">
-                            What is the <em>speedup</em> for the parallel solution shown above when compared to the sequential solution?
+                            What is the <em>speedup</em> for this parallel solution when compared to the sequential solution?<br />
+                            <ul>
+                                <li>Sequential solution: <img class="inline" src="/bjc-r/img/5-algorithms/quizlet-sequential.png" alt="wait (6), wait (4), wait (8)" title="wait (6), wait (4), wait (8)" /></li>
+                                <li>
+                                    Parallel solution:
+                                    <img class="inline" src="/bjc-r/img/5-algorithms/quizlet-parallel-1.png" alt="broadcast (go) and wait, wait (6) secs" title="broadcast (go) and wait, wait (6) secs" />
+                                    <img class="inline" src="/bjc-r/img/5-algorithms/quizlet-parallel-2.png" alt="when I receive (go): wait (4) secs" title="when I receive (go): wait (4) secs" />
+                                    <img class="inline" src="/bjc-r/img/5-algorithms/quizlet-parallel-3.png" alt="when I receive (go): wait (8) secs" title="when I receive (go): wait (8) secs" />
+                                </li>
+                            </ul>
                         </div>
                         <div class="choice" identifier="c1">
-                            <div class="text">2</div>
+                            <div class="text"><span class="katex">\frac{18}{14}</span></div>
                             <div class="feedback">
-                                Think about the value of x after the first step.
+                                Correct!
+                            </div>
+                        </div>
+                        <div class="choice" identifier="c2">
+                            <div class="text"><span class="katex">\frac{14}{18}</span></div>
+                            <div class="feedback">
+                                Speedup is calculated by dividing the sequential time by the parallel time.
+                            </div>
+                        </div>
+                        <div class="choice" identifier="c3">
+                            <div class="text"><span class="katex">\frac{18}{6}</span></div>
+                            <div class="feedback">
+                                <code>Broadcast and wait</code> waits until all the tasks that it started have finished.
+                            </div>
+                        </div>
+                        <div class="choice" identifier="c4">
+                            <div class="text"><span class="katex">\frac{18}{8}</span></div>
+                            <div class="feedback">
+                                The longest parallel time does matter, but it's not the only thing that contributes to the total parallel time.
                             </div>
                         </div>
                         <div class="responseDeclaration" identifier="ri3">
-                            <div class="correctResponse" identifier="c2"></div>
+                            <div class="correctResponse" identifier="c1"></div>
                         </div>
                     </div>
                 </li>
 			</ol>
 		</div>
+    
+        <div class="takeItFurther">
+            <ol type="A">
+                <li><a href="/bjc-r/prog/5-algorithms/U5L1-Spell-Checker.xml" class="run"><img class="inline" src="/bjc-r/img/icons/load-save.png" alt="Click here to load this file. Then save it to your Snap! account." title="Click here to load this file. Then save it to your Snap! account."></a> You will find a variable <var>split wordlist</var> whose value is <em>a list of 26 lists</em>. The first list contains all the words starting with A; the second list contains all the words starting with B; and so on, ending with the twenty-sixth list containing all the words starting with Z. Write a program that uses parallelism to find all the five-letter words in this list. Your program should make 26 clones and assign to each clone the task of <code>keep</code>ing all the five-letter words from its assigned sublist. When all the clones have finished, the original sprite should <code>append</code> the 26 result lists, in order, to get a single list of five-letter words.</li>
+            </ol>
+        </div>
         
-        <h3>Distributed Computing</h3>
-        <div class="todo">
-        <ul>
-            <li>
-                CSN-2.C: Describe benefits and challenges of parallel and distributed computing.
-                    <ul>
-                        <li>CSN-2.C.1: Parallel computing consists of a parallel portion and a sequential portion.</li>
-                        <li>CSN-2.C.2: Solutions that use parallel computing can scale more effectively than solutions that use sequential computing.</li>
-                        <li>CSN-2.C.3: Distributed computing allows problems to be solved that could not be solved on a single computer, either because of the processing time or storage needs involved.</li>
-                        <li>CSN-2.C.4: Distributed computing allows much larger problems to be solved quicker than they could be solved using a single computer.</li>
-                        <li>CSN-2.C.5: When increasing the use of parallel computing in a solution, the efficiency of the solution is still limited by the sequential portion. This means at some point, adding parallel portions will no longer increase efficiency.</li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    
-        <div class="vocabFullWidth">
-            <div class="comment">CSN-2.A.3</div>
-            <p>In <strong>distributed computing</strong>, <em>multiple devices</em> are used to run a program.</p>
-        </div>
-		
-
-    
+        
+        
         
         
     </body>
