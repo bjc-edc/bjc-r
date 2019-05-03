@@ -9,40 +9,9 @@
 	
     <body>
 		<h2>Parallelism</h2>
-        <div class="todo">
-            CSN-2: Parallel and distributed computing leverages multiple computers to more quickly solve complex problems or process large data sets.
-            <ul>
-                <li>
-                    CSN-2.A: Compare problem solutions that use sequential, parallel, and distributed computing.
-                    <ul>
-                        <li>CSN-2.A.1: Sequential computing is a computational model in which operations are performed in order one at a time.</li>
-                        <li>CSN-2.A.2: Parallel computing is a computational model where the program is broken into multiple smaller sequential computing operations some of which are performed simultaneously.</li>
-                        <li>CSN-2.A.3: Distributed computing is a computational model in which multiple devices are used to run a program.</li>
-                    </ul>
-                </li>
-                <li>
-                    CSN-2.B: Determine the efficiency of sequential and parallel solutions.
-                    <ul>
-                        <li>CSN-2.B.1: Comparing efficiency of solutions can be done by comparing the time it takes them to perform the same task</li>
-                        <li>CSN-2.B.2: A sequential solution takes as long as the sum of all of its steps.</li>
-                        <li>CSN-2.B.3: A parallel computing solution takes as long as its sequential tasks plus the longest of the tasks done in parallel.</li>
-                        <li>CSN-2.B.4: The “speedup” of a parallel solution is measured in the time it took to complete the task sequentially divided by the time it took to complete the task when done in parallel.</li>
-                    </ul>
-                </li>
-                <li>
-                CSN-2.C: Describe benefits and challenges of parallel and distributed computing.
-                    <ul>
-                        <li>CSN-2.C.1: Parallel computing consists of a parallel portion and a sequential portion.</li>
-                        <li>CSN-2.C.2: Solutions that use parallel computing can scale more effectively than solutions that use sequential computing.</li>
-                        <li>CSN-2.C.3: Distributed computing allows problems to be solved that could not be solved on a single computer, either because of the processing time or storage needs involved.</li>
-                        <li>CSN-2.C.4: Distributed computing allows much larger problems to be solved quicker than they could be solved using a single computer.</li>
-                        <li>CSN-2.C.5: When increasing the use of parallel computing in a solution, the efficiency of the solution is still limited by the sequential portion. This means at some point, adding parallel portions will no longer increase efficiency.</li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
+        <div class="todo">We still need a working XML file for the TIF. --MF, 5/3/19<p>Also, I want us to to a better job of covering <a href="http://localhost/bjc-r/cur/programming/old-labs/concurrency/snap/snap-machine-concepts.html?topic=berkeley_bjc%2Fareas%2Fconcurrency.topic&course=berkeley_bjc.html&noassignment" target="_blank">what Dan has said like this</a>: <ul><li>"Snap supports parallelism! The programming environment is full of concurrency, implicit (two scripts both start when the green flag is clicked, or when they receive the same broadcast message), and explicit (the launch block). "</li><li>Snap actually does NOT make use of more than one core (independent hardware computation unit), it runs everything in one core and time shares any parallel task on the single core. This gives Snap much more control over its parallelism, since once you decide to use two (or more) physical cores, you can no longer control when (or in what order) the computations will return, and you open up the standard Pandora's box of concurrency problems, like deadlock and race conditions. So your Snap programs are insulated from these realities, allowing you to have predictable parallelism (usually impossible) at the cost of being able to run really fast and make use of hardware resources."</li></ul></p></div>
         <div class="learn">
-            <!--<p><strong>In this lab,</strong> you will learn .</p>-->
+            <div class="todo">Needs attention. --MF, 5/3/19</div>
             <p><strong>On this page,</strong> you will learn how running multiple scripts in parallel can reduce the total time it takes to run an algorithm.</p>
         </div>
         <p>In Snap<em>!</em>, you are accustomed to seeing a bunch of scripts that all run independently, which may or may not be associated with different sprites. This is kind of like <em>parallel computing</em>. So, if we had a different computer for each sprite, that would be true parallelism. As it is, there is only one computer, and it divides its attention among the processes by running a little bit of one and then running a little bit of the next one. Specifically, it switches at the bottom of loops (<code>forever</code>, <code>repeat</code>, etc.).</p>
@@ -162,7 +131,12 @@
     
         
         <div class="forYouToDo" style="clear: right;">
-            <p>Because every computation includes a sequential portion, there is a limit to how much you can speed up a task by adding processors.</p>
+            <p>Because every computation includes a sequential portion, there is a limit to how much you can speed up a task by adding <em>processors</em>.</p>
+            <div class="vocab">
+                <p>A <strong>processor</strong> is a piece of circuitry inside a computer that processes the instructions from computer programs.</p> 
+                <p class="center"><img class="" src="/bjc-r/img/6-computers/Hardware_img/CPU_small.jpg" alt="CPU" title="CPU"/></p>
+                <p><small>Image credit: Wikipedia user Solipsist</small></p>
+            </div>
 			<ol start="3">
                 <div class="comment">CSN-2.A, CSN-2.B, CSN-2.B.1, CSN-2.C.5</div>
 				<li>
@@ -221,13 +195,17 @@
                         </tr>
                     </table>
                 </li>
-                <li>Consider the issue of "diminishing returns":
+                <li>Consider the law of diminishing returns:
                     <ol>
                         <li>If you have one processor and you add one more, how much time do you save?</li>
-                        <li>If you have 240 processor and you add 240 more, how much time do you save?</li>
+                        <li>If you have 240 processors and you add 240 more, how much time do you save?</li>
                         <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> How many processors do you think are worth having for this problem?</li>
                     </ol>
                 </li>
+                <div class="endnote">
+                    <a href="#hint-diminishing" data-toggle="collapse" title="What is the law of diminishing returns?">What is the law of diminishing returns?</a>
+                    <div id="hint-diminishing" class="collapse">The law of diminishing returns is an idea from economics that basically says that after a certain point, more is not better. For example, if you got five birthday presents, you might be happier than if you got only one, but more presents isn't necessarily better. Imagine you received a hundred  presents. You'd get bored opening them and probably feel overwhelmed. And getting a thousand or a million presents wouldn't make your birthday any happier. The same rule applies to birthday cake!</div>
+                </div>
 			</ol>
 		</div>
 		
@@ -243,13 +221,30 @@
             </ul>
         </div>
     
+        <div class="todo">
+            <h3>New text from BH</h3>
+            <div class="todo">Brian, I used some of these ideas to shape the FYTD below, but I didn't use most of this text. It feels like too much(too long and too much new vocab) for what it is worth. </div>
+            <p>Computers are very reliable; it's extremely rare for the hardware to break down while you're running a program.  But when you have tens of thousands of computers working on a problem, it's /likely/ that one of them will fail.  (If the probability of one computer failing during a program run is 0.0001, and you use 10,000 computers, the probability of one of them failing is about 0.368 -- one time in three.)  So you have to compensate in software, by including checks that all the machines are running, and reassigning the task of a failed computer to another one.</p>
+            <p>If your program isn't purely functional, and if any data are shared between two or more computers, it's possible for your program to have /race conditions/, in which partway through a section of the program on one computer, another computer changes the value of a variable, and so the end result isn't what you were expecting.</p>
+            <p>For those reasons and others, writing and debugging a program that uses parallelism is much harder than a single-thread program.</p>
+        </div>
+    
         <div class="forYouToDo">
 			<ol start="5">
 				<li>
-                <div class="todo">
-                    <p>CSN-2.A: Compare problem solutions that use sequential, parallel, and distributed computing.</p>
-                    <p>CSN-2.C: Describe benefits and challenges of parallel and distributed computing.</p>
-                </div>
+                    <img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
+                    Identify some benefits and potential challenges of parallel and distributed computing.
+                    <img class="inline" src="/bjc-r/img/icons/write-out-thoughts.png" alt="Write Out Your Thoughts" title="Write Out Your Thoughts" />
+                    <div class="endnote">
+                        <a href="#hint-benefits-challenges" data-toggle="collapse" title="Some ideas about the potential challenges of parallel and distributed computing">Some ideas about the potential challenges</a>
+                        <div id="hint-benefits-challenges" class="collapse">
+                            <ul>
+                                <li>If you are solving a problem with only one computer, it's unlikely that your hardware will break down, but what if you have tens of thousands of computers working on the problem? What might programmers do to address this problem? </li>
+                                <li>Distributed computing shares information between computers. What kinds of problems can this introduce?</li>
+                                <li>What kinds of additional costs may be required by a distributed computing setup?</li>
+                            </ul>
+                        </div>
+                    </div>
                 </li>
 			</ol>
 		</div>
@@ -304,14 +299,12 @@
 			</ol>
 		</div>
     
+        <div class="todo">We still need a working XML file for the TIF. --MF, 5/3/19<p>Also, note that I call it "sprite parallelism" below.</p></div>
         <div class="takeItFurther">
             <ol type="A">
-                <li><a href="/bjc-r/prog/5-algorithms/U5L1-Spell-Checker.xml" class="run"><img class="inline" src="/bjc-r/img/icons/load-save.png" alt="Click here to load this file. Then save it to your Snap! account." title="Click here to load this file. Then save it to your Snap! account."></a> You will find a variable <var>split wordlist</var> whose value is <em>a list of 26 lists</em>. The first list contains all the words starting with A; the second list contains all the words starting with B; and so on, ending with the twenty-sixth list containing all the words starting with Z. Write a program that uses parallelism to find all the five-letter words in this list. Your program should make 26 clones and assign to each clone the task of <code>keep</code>ing all the five-letter words from its assigned sublist. When all the clones have finished, the original sprite should <code>append</code> the 26 result lists, in order, to get a single list of five-letter words.</li>
+                <li><a href="/bjc-r/prog/5-algorithms/U5L1-Split-Wordlist.xml" class="run"><img class="inline" src="/bjc-r/img/icons/load-save.png" alt="Click here to load this file. Then save it to your Snap! account." title="Click here to load this file. Then save it to your Snap! account."></a> You will find a variable <var>split wordlist</var> whose value is <em>a list of 26 lists</em>. The first list contains all the words starting with A; the second list contains all the words starting with B; and so on, ending with the twenty-sixth list, which contains all the words starting with Z. Write a program that uses sprite parallelism to find all the five-letter words in this list. Your program should make 26 clones and assign to each clone the task of <code>keep</code>ing all the five-letter words from its assigned sublist. When all the clones have finished, the original sprite should <code>append</code> the 26 result lists, in order, to get a single list of five-letter words.</li>
             </ol>
         </div>
-        
-        
-        
         
         
     </body>
