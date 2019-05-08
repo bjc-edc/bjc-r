@@ -34,51 +34,59 @@
         
 		<div class="learn">
         	<p>
-                <strong>On this page,</strong> you will test if the elements of a list are <em>distinct</em> (no duplicates).<br />
-                <img class="indent" src="/bjc-r/img/5-algorithms/are-numbers-in-list-distinct-reporting.png" alt="are the numbers of (list {7, 47, 88, 62, 9, 11}) distinct? reporting false" title="are the numbers of (list {20, 12, 3100, 50, 12}) distinct? reporting false" />
-                <img class="indent" src="/bjc-r/img/5-algorithms/are-numbers-in-list-distinct-reporting-true.png" alt="are the numbers of (list {7, 47, 88, 62, 9, 11}) distinct? reporting false" title="are the numbers of (list {20, 12, 3100, 50, 12}) distinct? reporting false" />
+                <strong>On this page,</strong> you will learn a recursive technique to remove duplicates from a list.<br />
+                <img class="indent" src="/bjc-r/img/5-algorithms/distinct-reporter-reporting.png" alt="distinct items from (list (apples) (carrots) (bananas) (oranges) (bananas) (bread) (carrots)) repoting { apples, oranges, bananas, bread, carrots}" title="distinct items from (list (apples) (carrots) (bananas) (oranges) (bananas) (bread) (carrots)) repoting { apples, oranges, bananas, bread, carrots}" />
                 <div class="todo">The first page says, "In this lab, you will explore various algorithms for searching a list." This pink box doesn't feel like a continuation of that. --MF, 3/13/19</div>
 		    </p>
         </div>
-        <p>Suppose you have a list of items and want to know if the elements of the list are <em>distinct</em>.</p>
-        <div class="todo">Can we give a context? Like, checking if you have duplicate contacts in your list (or easier: items on your shopping list). --MF, 3/13/19</div>
-        <div class="todo">Why are we giving so much away here? Could we yellowbox-hint this? --MF, 9/26/18</div>
+
+        <p>Suppose you have a list of items and want to know if the elements of the list are <em>distinct</em>. For example, you might want to make sure that you don't have anything on your shopping list twice.</p>
+        <p>As a first step, we'll just answer the yes/no question: are there any duplicates on your list?<br />
+            <img class="indent" src="/bjc-r/img/5-algorithms/distinct-predicate-reporting.png" alt="are the items of (list (apples) (carrots) (bananas) (oranges) (bananas) (bread) (carrots)) distinct? reporting false" title="are the items of (list (apples) (carrots) (bananas) (oranges) (bananas) (bread) (carrots)) distinct? reporting false" />
+        </p>
          
-		
 		<div class="forYouToDo" id="first">
 			<ol>
+                <li><div class="comment">Fill in alt text --MF, 5/8/19 </div>Experiment with the <img class="inline nopadtb" src="/bjc-r/img/blocks/all-but-first-full-size.png" alt="" title="" /> block using a few different input lists. <img class="inline" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
+ What does this block report?</li>
                 <li>
-                	Build a predicate that implements the above algorithm.<br />
-                	<img class="indent" src="/bjc-r/img/5-algorithms/distinctelements.png" alt="are the numbers in () distinct?" title="are the numbers in () distinct?" />
-        <div class="endnote">
-        	<a href="#hint-algorithm" data-toggle="collapse" title="If you can't think of an algorithm at all, here's a suggestion." />
-            <div id="hint-algorithm" class="collapse">Here is one algorithm to solve the problem:
-        	<ul>
-            	<li><strong>Step 1</strong>. Compare the first item of the list with each of the later items in the list (the second item, the item, etc.). If you see the first item again, report that the numbers <em>are not</em> distinct (<code>false</code>).</li>
-                <li><strong>Step 2</strong>. If you complete Step 1 without stopping, compare the <em>second</em> item with each of the later items (the third, the, etc.). If you see the second item again, report that the numbers <em>are not</em> distinct (<code>false</code>).</li>
-                <li><strong>Step 3</strong>. Repeat Step 2 for each number in the list. Compare that item with each of the later items in the in the list.</li>
-                <li><strong>Step 4.</strong> If you complete Step 3 without finding any duplicates, report that the items <em>are</em> distinct (<code>true</code>).</li>
-            </ul>
-		</div>
-		</div>
+                    Finish building the <code>are the items distinct?</code> predicate. Since you're writing a predicate, your procedure should always report <code>true</code> or <code>false</code>.<br />
+                    <div class="comment">Fill in alt text --MF, 5/8/19 </div>
+                    <img class="indent" src="/bjc-r/img/5-algorithms/distinct-predicate-starter.png" alt="" title="" />   
+                    <div class="endnote">
+                        Notice that this procedure calls itself at the end.
+                        <div class="comment">Image needs alt text. --MF, 5/8/19</div>
+                        This won't work if the input to that call is the same as the original input. So you can't say <img class="inline" src="/bjc-r/img/5-algorithms/report-are-items-of-data-distinct.png" alt="" title="" />. Instead, you have to use a smaller input value. 
+                    </div>
                 </li>
-				<li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> If you doubled the length of the list, would this algorithm take the same amount of time? Twice as long? More than twice as long? </li>
+				<li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> If you doubled the length of the list, would this algorithm take the same amount of time? Twice as long? More than twice as long? </li>
             </ol>
         </div>
+
+        <p>For your grocery list, you wouldn't just want to know whether or not there are duplicates. You'd want a new list with the duplicates removed.</p>
         
-        <div class="forYouToDo" >
-            <ol start="3">
-	            <li>Build a reporter that returns all the duplicated items in a list:</li>
-				<img class="indent" src="/bjc-r/img/5-algorithms/dupdisplay.png" alt="duplicates in (list{3,10,7,3,20,12,7}) reporting {3,7}" title="duplicates in (list{3,10,7,3,20,12,7}) reporting {3,7}" />
-                <div class="todo">CONTEXT!??! --MF, 3/13/19</div>
+        <div class="forYouToDo">
+			<ol start="4">
+                <li><div class="comment">Fill in alt text --MF, 5/8/19 </div>Experiment with the <img class="inline nopadtb" src="/bjc-r/img/blocks/in-front-of-full-size.png" alt="" title="" /> block using a few different inputs. <img class="inline" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> What does this block report?</li>
+                <li>
+                    Build a <code>distinct items from</code> reporter using a structure similar to that of the <code>are the items distinct?</code> predicate.
+                    <div class="endnote">
+                        <div class="comment">Fill in alt text --MF, 5/8/19 </div>
+                        <img class="imageRight" src="/bjc-r/img/5-algorithms/distinct-reporter-starter.png" alt="" title="" /><p>The algorithm for this block will make the same decisions as in <code>are the items distinct?</code>.  But that was a predicate. This one has to report a list. So look at the three <code>report</code> blocks in your code for the <code>are the items distinct?</code> predicate, and decide what they should report for the <code>distinct items from</code> reporter.</p>
+                        <p>
+                            <a href="#hint-target" data-toggle="collapse" title="Need another hint about the <code>distinct items from</code> reporter?">Need another hint?</a>
+                            <div id="hint-target" class="collapse">
+                                <ul>
+                                    <li>If the list is empty, what should <code>distinct items from</code> report?</li>
+                                    <li>If the first item in the list appears in the rest of the list, it doesn't matter which copy you leave out. Is there an easy way to get a version of the list without one of those copies? What if there are other duplicates in that list?</li>
+                                    <li>If computer makes it to the third <code>report</code> block, what does it tell you about the first item in the list? Do you want the first item as part of the list you report?</li>
+                                </ul>
+                            </div>
+                        </p>
+                    </div>
+                </li> 
+                <li style="clear: right;">Test it. </li>
             </ol>
-        </div>
-        
-        <div class="ifTime">
-            <ol start="4">
-        		<li>Build a reporter, <code>unique elements of</code>, that takes a list as input and reports a new list that has the same elements as the input list but has no duplicate elements.</li>
-                <div class="todo">Need to check that solutions and TG is updated with this block name (was rem dups). --MF, 3/22/19</div>
-        	</ol>
         </div>
         
         
