@@ -86,7 +86,73 @@
 				<li>Modify your "Delete Contact" script so that it lets the user choose which contact they want to delete when <code>find</code> reports more than one.</li>
 			</ol>
 		</div>
-        
+
+		<div class="takeItFurther">
+            This requires that you've already done the TIF on the previous
+			page.
+		    <ol type="A">
+			    <li>Write a predicate function that takes two contacts
+				as inputs.  It should return True if the first contact
+				belongs before the second one in a sorted contact list.
+				That is, you'll have to extract the names (in sorted form)
+				from the two contacts, and then use <code>&lt;</code>
+				to compare them.  Respect the data abstractions.</li>
+			    <li>Make a block to sort the contact list.  To do
+				the actual sorting, you can load the "List utilities"
+				library.  It has a block
+				<img src="/bjc-r/img/blocks/sort-block.png" width="242">.
+				Use the contact list as the first input.  The second
+				input should be the predicate function you just wrote.
+				(Leave its two input slots empty.)  The <code>sort</code>
+				block will report a new, sorted contact list.</li>
+				<li>Test what you've done so far.</li>
+				<li><img class="inline" src="/bjc-r/img/icons/tough-stuff-mini.png" alt="Tough Stuff" title="Tough Stuff" />
+				<img class="inline" src="/bjc-r/img/icons/tough-stuff-mini.png" alt="Tough Stuff" title="Tough Stuff" />
+				We've been sloppy so far in talking about name formats.
+				Most people in the United States say their given name (the one
+				their parents chose for them) first, and their family name
+				last.  But in China, for example, the family name comes first.
+				So "Sun Yat-sen" is a member of the Sun family.
+				<ul><li>How should his name be displayed to the user?</li>
+				<li>How should his name look to sort contacts by family name?</li>
+				<li>What about someone with a middle name, such as
+				Martin Luther King?  Is the middle name a family name or a
+				given name?</li>
+				</ul></li>
+				<li><img class="inline" src="/bjc-r/img/icons/tough-stuff-mini.png" alt="Tough Stuff" title="Tough Stuff" />
+				<img class="inline" src="/bjc-r/img/icons/tough-stuff-mini.png" alt="Tough Stuff" title="Tough Stuff" />
+				Here's the tricky part:  To make this all work correctly, a
+				name (as defined by the Name ADT) has to know whether it's a
+				given-first name such as Betsy Anderson or a family-first
+				name such as Sun Yat-Sen.  <strong>Redefine your Name ADT</strong>
+				to make it
+				a list of <em>three</em> items.  The first will be either
+				<code>given-first</code> or <code>family-first</code>.  This
+				first item is called a <em>type tag.</em>  The second will be
+				the given name (or names, if there's a middle name), and the
+				third will be the family name.</li>
+                <li><img class="inline" src="/bjc-r/img/icons/tough-stuff-mini.png" alt="Tough Stuff" title="Tough Stuff" />
+				<img class="inline" src="/bjc-r/img/icons/tough-stuff-mini.png" alt="Tough Stuff" title="Tough Stuff" />
+				<strong>Reading a name:</strong> Find where you ask the user
+				for first and last name, and change the code to ask for
+				given name(s) and family name.  Also ask which comes first.
+				You might want to have two name constructors,
+				<code>given-first name from given: family:</code> and
+				<code>family-first name from given: family:</code>.</li>
+                <li><img class="inline" src="/bjc-r/img/icons/tough-stuff-mini.png" alt="Tough Stuff" title="Tough Stuff" />
+				<img class="inline" src="/bjc-r/img/icons/tough-stuff-mini.png" alt="Tough Stuff" title="Tough Stuff" />
+				<strong>Writing a name:</strong> Modify your
+				<code>name (display form) from contact</code> and
+				<code>name (sort form) from contact</code> so that they
+				check the type tag of the name (the first item) when
+				necessary.  Be careful about when to add a comma.</li>
+				<li><img class="inline" src="/bjc-r/img/icons/tough-stuff-mini.png" alt="Tough Stuff" title="Tough Stuff" />
+				<img class="inline" src="/bjc-r/img/icons/tough-stuff-mini.png" alt="Tough Stuff" title="Tough Stuff" />
+				Make sure your
+				<code>find contacts</code> block
+				and your sorting of the contact list still work.</li>
+		    </ol></div>
+				
 				
 		
     </body>
