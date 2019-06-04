@@ -8,11 +8,12 @@
 
 	<body>
 		<h2>Lab 4: Some Simple Ones</h2>
+        <div class="todo">Lab needs learning goals. Can probably digest "students will" into them. --MF, 6/4/19</div>
 		<p>We end the unit by what will seem like a step backwards, to relatively simple linear recursions. But this important lab has a hidden agenda: The simple examples can be generalized into the higher order functions of Unit 3. For students who've made it through the rest of Unit 8, this lab won't seem hard at all, but implementing higher order functions is a big idea that students can accomplish. The visual metaphors of Snap<em>!</em> enable this simple treatment.</p>
 		<p>Don't warn the students that they'll be writing higher order functions. We want it to be a surprise, on page 2, when the almost insultingly simple examples of page 1 turn out to lead them to this wizardly conclusion.</p> 
 		
 
-		<h3>Pacing:</h3>
+		<h3>Pacing</h3>
 		<div>
 			The 3 lab pages should take 3 days (<strong>135-165 minutes</strong>). Expected times to complete follow:
 			<ul>
@@ -39,14 +40,15 @@
 		</div> 
 			  
 		
-		<h3>As a Class:</h3>
+		<h3>Lab Pages</h3>
 		<div>
 			<ul>
 				<li>
-					<strong>Page 1: Plurals and Other Simple Recursions.</strong>
+					<strong>Page 1: Walking Down a List.</strong>
 					<ul>
+						<li><strong>Learning Goal:</strong></li>
 						<li>
-							Discussion: What is the <code>plurals</code> code pattern useful for?
+							<strong>Discussion:</strong> What is the <code>plurals</code> code pattern useful for?
 							<ul>
 								<li>What is the base case?</li>
 								<li>How does the pattern ensure that the base case is reached?</li>
@@ -54,117 +56,90 @@
 								<li>Given a list, what sorts of things could this pattern be used for?</li>
 							</ul>
 						</li>
+                        <li>
+                            <strong>Tips:</strong>
+                            <ul>
+                                <li>Students may have a hard time playing along with the concept, so emphasize that you're focusing on a pattern of code.</li>
+                                <li>
+                                    If time permits, work with some more examples like <code>squares</code> as a full-class discussion. Try one or more of these examples, then ask the students for their ideas:
+                                    <ul>
+                                        <li>subtract 1 from each element of a list</li>
+                                        <li>round each element of a list to the nearest integer</li>
+                                        <li>converting Unicode numbers to letters</li>
+                                    </ul>
+                                    Doing this may help students realize that the <code>plurals</code> code pattern is the same one that <code>map</code> uses.
+                                </li>
+                                <li>If a student does yell out "Oh! We're basically just writing <code>map</code>!" just say "Shh! It's a secret."</li>
+                                <li>Students may also comment that they could write these procedures iteratively, <code>add</code>ing transformed items to a result list. That's true; linear recursions (only one recursive call, unlike partition sort or Pascal's triangle with more than one recursive call per caller) can usually be done iteratively instead. But we are trying to promote <em>functional programming,</em> in which you don't use commands to mutate (change) an existing data structure.  Don't tell the student that their answer is <em>wrong,</em> but depending on the level of the rest of the class, this may be a "yes, see me later about it" sort of issue.</li>
+                                <li>The <code>exaggerate</code> example is slightly more complicated than the others, because it involves three blocks: <code>exaggerate</code>, <code>exaggerate wordlist</code>, and <code>exaggerate word</code>. We give them the code for <code>exaggerate</code>, which is just a sentence-to-list wrapper around <code>exaggerate wordlist</code>. That's the important one for our purposes, because, like the other examples, it maps a function over a list. But students will want to spend all their time on <code>exaggerate word</code>, which is the most fun because that's where the actual exaggeration is done. Consider having them start with a version that exaggerates only numbers, then make sure they have <code>exaggerate wordlist</code> and <code>exaggerate</code> working, and <em>then</em> let them go wild on <code>exaggerate word</code>.</li>
+                            </ul>
+                        </li>
 					</ul>
 				</li>
 				<li>
 					<strong>Page 2: Generalizing the <code>Map</code> Pattern.</strong>
 					<ul>
+						<li><strong>Learning Goal:</strong></li>
 						<li>
-							Discussion: How does <code>map</code> work?
+							<strong>Discussion:</strong> How does <code>map</code> work?
 							<ul>
 								<li>How is <code>map</code> similar to <code>plurals</code>? How is it different?</li>
-							<li>What is the base case?</li>
+                                <li>What is the base case?</li>
 								<li>How does <code>map</code> ensure that the base case is reached?</li>
 								<li>How does <code>map</code> use a function as input? What does the <code>call</code> block do?</li>
 								<li>Why can't you write <code>odd numbered items</code> and <code>pairup</code> using the map block? Since you can't, why do we say these are still using "the <code>map</code> pattern"?</li>
 							</ul>
 						</li>
+                        <li>
+                            <strong>Tips:</strong>
+                            <ul>
+                                <li>Emphasize the similarity between the three pieces of code on the page, and what a generalization of that pattern might look like. At that point, students understand what <code>map</code> does: It is just a flexible <em>abstraction</em> of the code pattern used by <code>plurals</code>.</li>
+                                <li>Remind students about abstracting blocks such as <code>square</code> and <code>triangle</code> into a general <code>polygon</code> block: The blocks for specific polygons took one input, for the size of the shape, while the <code>polygon</code> block takes <em>two</em> inputs, the original size and an additional one for the number of sides. In general, you generalize (i.e., abstract) a pattern by adding an input to capture what's <em>different</em> among the specific examples of the pattern.</li>
+                                <li>The details of marking the input as a function and using the <code>call</code> block are necessary details, but ultimately the activity is about the fact that <code>map</code> isn't very complicated. It's a generalization of the pattern used by a simple recursive reporter. If students get lost in those details they may miss this important point.</li>
+                                <div class="todo">Commenting out because <code>map</code> is a primative now. Can we cut this? --MF, 6/4/19
+                                    <li>Very interested groups may want to dig into the code of the internal <code>map</code> block, which is similar in principle to what is built here. Most of the additional code for the internal <code>map</code> block handles multiple lists as input to a single call, in order to process functions with multiple inputs. The <strong>mapone</strong> area of the block is the place to focus. On the other hand, the <code>keep</code> and <code>combine</code> library tool blocks look exactly like what we expect students to write, so you might want to steer them away from reading the library <code>map</code> definition lest it scare them away from the other easier ones on the next page.</li>
+                                </div>
+                            </ul>
+                        </li>
 					</ul>
 				</li>
 				<li>
 					<strong>Page 3: Even Numbers and <code>Keep</code>.</strong>
 					<ul>
+						<li><strong>Learning Goal:</strong></li>
 						<li>
-							Discussion: How does <code>keep</code> work?
+							<strong>Discussion:</strong> How does <code>keep</code> work?
 							<ul>
-								<li>How is <code>keep</code> similar to <code>evens</code>? How is it different?</li>
-							<li>What is the base case?</li>
-							<li>Why are there two different recursive calls?</li>
-								<li>How does <code>keep</code> ensure that the base case is reached?</li>
-								<li>What does <code>keep</code> use as input?</li>
+                                <li>How is <code>keep</code> similar to <code>evens</code>? How is it different?</li>
+                                <li>What is the base case?</li>
+                                <li>Why are there two different recursive calls?</li>
+                                <li>How does <code>keep</code> ensure that the base case is reached?</li>
+                                <li>What does <code>keep</code> use as input?</li>
 							</ul>
 						</li>
+                        <li>
+                            <strong>Tips:</strong>
+                            <ul>
+                                <li>The page begins with recursive code for the <code>evens</code> block. If there is time, start by asking students to build this block, rather than reading the code written here.</li>
+                                <li>Emphasize the similarity between <code>evens</code>, <code>ends-e</code>, and <code>numbers</code>, and what a generalization of that pattern might look like. At that point, students understand what <code>keep</code> does: It is just a flexible abstraction of the code pattern used by <code>evens</code>.</li>
+                                <li>Students may have a slight difficulty constructing <code>keep</code>, since the details of building its inputs are unusual: As for <code>map</code>, an input type must be declared, but this time it is a <strong>predicate</strong> rather than a reporter. (It's not so terrible if they get that part wrong; their code will still work, but their block will have a round gray ring instead of a hexagonal one.)</li>
+                                <li>The work on <code>combine</code> and <code>sort</code> also allow for further opportunities to use the process that built <code>map</code> and <code>keep</code>. Emphasize to students the types involved, to help them decide when the gray-box input should be a reporter and when it should be a predicate.</li>
+                                <li>If there is time, definitely dig into the code of the internal <code>keep</code> block. Its code is almost identical to the generalization of <code>evens</code>. Expect students' code for <code>combine</code>  also to be very similar to the code of the internal block.</li>
+                                <li>Celebrate! Remind the class that higher order functions probably seemed pretty magical when they learned about them in Unit 3. But now they're no big deal. This is partly because they have a language that makes otherwise abstract ideas visually apparent, but it's also because the students themselves have stretched their minds a lot; there are plenty of programmers out in the real world who don't really get recursion and don't have a clue about higher order functions. Hand out wizard hats, or something.</li>
+                            </ul>
+                        </li>
 					</ul>
 				</li>
 			</ul>
 		</div>
 
-			
-		<!--<h3>Look For:</h3>
-		<div><ul><li>...</li></ul></div>
-
-			
-		<h3>Related Resources:</h3>
-		<div><ul><li>...</li></ul></div>-->
-
-			
-		<h3>Tips:</h3>
+		<h3>Solutions</h3>
 		<div>
             <ul>
-            	<li>
-                	<strong>Page 1: Plurals and Other Simple Recursions.</strong>
-                    <ul>
-						<li>Students may have a hard time playing along with the concept, so emphasize that you're focusing on a pattern of code.</li>
-						<li>
-                            If time permits, work with some more examples like <code>squares</code> as a full-class discussion. Try one or more of these examples, then ask the students for their ideas:
-                            <ul>
-                                <li>subtract 1 from each element of a list</li>
-                                <li>round each element of a list to the nearest integer</li>
-                                <li>converting Unicode numbers to letters</li>
-                            </ul>
-                    		Doing this may help students realize that the <code>plurals</code> code pattern is the same one that <code>map</code> uses.
-                        </li>
-					  <li>If a student does yell out "Oh! We're basically just writing <code>map</code>!" just say "Shh! It's a secret."</li>
-					  <li>Students may also comment that they could write these procedures iteratively, <code>add</code>ing transformed items to a result list. That's true; linear recursions (only one recursive call, unlike partition sort or Pascal's triangle with more than one recursive call per caller) can usually be done iteratively instead. But we are trying to promote <em>functional programming,</em> in which you don't use commands to mutate (change) an existing data structure.  Don't tell the student that their answer is <em>wrong,</em> but depending on the level of the rest of the class, this may be a "yes, see me later about it" sort of issue.</li>
-					  <li>The <code>exaggerate</code> example is slightly more complicated than the others, because it involves three blocks: <code>exaggerate</code>, <code>exaggerate wordlist</code>, and <code>exaggerate word</code>. We give them the code for <code>exaggerate</code>, which is just a sentence-to-list wrapper around <code>exaggerate wordlist</code>. That's the important one for our purposes, because, like the other examples, it maps a function over a list. But students will want to spend all their time on <code>exaggerate word</code>, which is the most fun because that's where the actual exaggeration is done. Consider having them start with a version that exaggerates only numbers, then make sure they have <code>exaggerate wordlist</code> and <code>exaggerate</code> working, and <em>then</em> let them go wild on <code>exaggerate word</code>.</li>
-					</ul>
-                </li>
-            	<li>
-                	<strong>Page 2: Generalizing the <code>Map</code> Pattern.</strong>
-                    <ul>
-						<li>Emphasize the similarity between the three pieces of code on the page, and what a generalization of that pattern might look like. At that point, students understand what <code>map</code> does: It is just a flexible <em>abstraction</em> of the code pattern used by <code>plurals</code>.</li>
-						<li>Remind students about anstracting blocks such as <code>square</code> and <code>triangle</code> into a general <code>polygon</code> block: The blocks for specific polygons took one input, for the size of the shape, while the <code>polygon</code> block takes <em>two</em> inputs, the original size and an additional one for the number of sides. In general, you generalize (i.e., abstract) a pattern by adding an input to capture what's <em>different</em> among the specific examples of the pattern.</li>
-						<li>The details of marking the input as a function and using the <code>call</code> block are necessary details, but ultimately the activity is about the fact that <code>map</code> isn't very complicated. It's a generalization of the pattern used by a simple recursive reporter. If students get lost in those details they may miss this important point.</li>
-						<li>Very interested groups may want to dig into the code of the internal <code>map</code> block, which is similar in principle to what is built here. Most of the additional code for the internal <code>map</code> block handles multiple lists as input to a single call, in order to process functions with multiple inputs. The <strong>mapone</strong> area of the block is the place to focus. On the other hand, the <code>keep</code> and <code>combine</code> library tool blocks look exactly like what we expect students to write, so you might want to steer them away from reading the library <code>map</code> definition lest it scare them away from the other easier ones on the next page.</li>
-                    </ul>
-                </li>
-            	<li>
-                	<strong>Page 3: Even Numbers and <code>Keep</code>.</strong>
-                    <ul>
-					  <li>The page begins with recursive code for the <code>evens</code> block. If there is time, start by asking students to build this block, rather than reading the code written here.</li>
-						<li>Emphasize the similarity between <code>evens</code>, <code>ends-e</code>, and <code>numbers</code>, and what a generalization of that pattern might look like. At that point, students understand what <code>keep</code> does: It is just a flexible abstraction of the code pattern used by <code>evens</code>.</li>
-						<li>Students may have a slight difficulty constructing <code>keep</code>, since the details of building its inputs are unusual: As for <code>map</code>, an input type must be declared, but this time it is a <strong>predicate</strong> rather than a reporter. (It's not so terrible if they get that part wrong; their code will still work, but their block will have a round grey ring instead of a hexagonal one.)</li>
-						<li>The work on <code>combine</code> and <code>sort</code> also allow for further opportunities to use the process that built <code>map</code> and <code>keep</code>. Emphasize to students the types involved, to help them decide when the gray-box input should be a reporter and when it should be a predicate.</li>
-						<li>If there is time, definitely dig into the code of the internal <code>keep</code> block. Its code is almost identical to the generalization of <code>evens</code>. Expect students' code for <code>combine</code>  also to be very similar to the code of the internal block.</li>
-						<li>Celebrate! Remind the class that higher order functions probably seemed pretty magical when they learned about them in Unit 3. But now they're no big deal. This is partly because they have a language that makes otherwise abstract ideas visually apparent, but it's also because the students themselves have stretched their minds a lot; there are plenty of programmers out in the real world who don't really get recursion and don't have a clue about higher order functions. Hand out wizard hats, or something.</li>
-
-                    </ul>
-                </li>
+                <li><a href="https://snap.berkeley.edu/snapsource/snap.html#present:Username=bjcsolutions&ProjectName=U8L4-SomeSimpleOnes&editMode" target="_blank">Page 1, 2, 3: Some Simple Ones</a></li>
             </ul>
         </div>
-
-			
-		<h3>Solutions</h3>
-		<div><ul><li><a href="https://snap.berkeley.edu/snapsource/snap.html#present:Username=bjcsolutions&ProjectName=U8L4-SomeSimpleOnes&editMode" target="_blank">Page 1, 2, 3: Some Simple Ones</a></li></ul></div>
-			
-			<!--
-			
-		<!--MARY TOOK THIS OUT BECAUSE U7/U8 HAPPEN AFTER THE EXAM, SO THESE DON'T COUNT. THIS WAS DONE IN DISCUSSION WITH BRIAN. --MF, 12/29/17
-		<h3>Correlation with AP CS Principles Framework:<a name="AP" class="anchor">&nbsp;</a></h3>
-		<div class="apStandards">
-			<h4>Enduring Understandings:</h4>
-			<ul>
-				<li>Coming soon...</li>
-			</ul>
-			<h4>Learning Objectives:</h4>
-			<ul>
-				<li>Coming soon...</li>
-			</ul>
-			<h4>Essential Knowledge:</h4>
-			<ul>
-				<li>Coming soon...</li>
-			</ul>
-		</div>			-->
+        
 
 	</body>
 </html>
