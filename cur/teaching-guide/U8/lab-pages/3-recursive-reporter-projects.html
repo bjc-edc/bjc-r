@@ -8,9 +8,10 @@
 
 	<body>
 		<h2>Lab 3: Recursive Reporter Projects</h2>
-        <div class="todo">THIS TG DOES NOT MATCH THE LAB!!! --MF, 7/7/17</div>
-		<div class="takeNote">
+		<div class="todo">We still need learning goals for projects 3 and 4. Also need to remove and integrate "students will" section. --MF, 6/4/19</div>
+        <div class="takeNote">
 			<p>There are many ways to use this lab. One approach is for students to select and work on one project, moving to another if they finish early. There is some crossover between projects; if you expect a student to work through more than one project, you might suggest  starting with  Pascal's Triangle first. If a student is interested in the Subsets project, it might be good to try the Ice Cream Bowls project first.</p>
+            <div class="todo">I think this section should be after the 4 bullets--just before Pacing. --MF, 6/4/19</div>
 		</div>		
 
         <p>
@@ -23,7 +24,7 @@
             </ul>	
         </p>	
                 
-        <h3>Pacing:</h3>
+        <h3>Pacing</h3>
 		<div>
 			Depending on worked projects, this lab can take between 10 and 18 days (<strong>400-700 minutes</strong>). Expected times to complete follow:
 			<ul>
@@ -52,42 +53,74 @@
 		</div> 
 			  
 		
-		<h3>As a Class:</h3>
+		<h3>Lab Pages</h3>
 		<div>
 			<ul>
 				<li>
-					<strong>Project 1: Pascal's Triangle.</strong>
+					<strong>Project 1: Pascal's Triangle (Pages 1: Pascal's Triangle and 2: Pascal's Triangle and Efficiency).</strong>
 					<ul>
-						<li>
-							Discussion: How is recursion structured in Pascal's Triangle?
+						<li><strong>Learning Goal:</strong> Understand branched recursion and functions.</li>
+                        <li>
+							<strong>Discussion:</strong> How is recursion structured in Pascal's Triangle?
 							<ul>
 								<li>What are the base cases?</li>
 								<li>What potential problems could happen if the base cases are not well specified?</li>
 								<li>What problems are caused by the structure of recursion here, and how could you solve them?</li>
 							</ul>
 						</li>
+                        <li>
+                            <strong>Tips:</strong>
+                            <ul>
+                                <li>Many students will make errors about the numbers in each row, because of the different indexing involved. It is helpful to tell students that the "first" number in the <em>n</em>th row is <em>n</em>. (The "<em>zeroth</em>" number is 1.) Even so, expect many debugging issues to come up around improper indexing.</li>
+                                <li>For students to write the general recursion here, it is very helpful to give multiple numeric examples like the ones used. More numeric examples are better than trying to explain the generalization directly, because that gives away the code students will write.</li>
+                                <li>Students will make errors by ignoring the base cases, notably the 1s at the end of a given row. This base case is necessary or an indexing error may occur.</li>
+                                <li>Students may think something is broken when calling <code>pascal</code> with high inputs: this is the effect of the massive recursion. Including a visible counter variable can show students that things are working. However, you'll need to watch for the difference between a long recursion, and an infinite one caused by an error in base cases.</li>
+                                <li>Advanced students focusing on memoization may decide to scrap the recursion for iteration, and this is fine; encourage them to use recursion if they can figure out how to do so. (Don't let them think that the inefficiency is <em>because of</em> recursion. We could write inefficient iterative code, or efficient recursive code.) The memoization function will track the list of known values, use it when one is available, and record a new value when not available. For a simpler version of memoization, you could ask students to build an efficient calculator of Fibonacci numbers using this concept.</li>
+                            </ul>
+                        </li>
 					</ul>
 				</li>
 
 				<li>
-					<strong>Project 2: Base Conversion.</strong>
+					<strong>Project 2: Base Conversion (Pages 3: Binary Conversion and 4: Base Conversion).</strong>
 					<ul>
 						<li>
-							Discussion: How is recursion structured in Base Conversion?
+							<strong>Learning Goals:</strong> 
+                            <ul>
+                                <li>Practice recursive functions.</li>
+                                <li>Learn a more elegant approach to base conversion.</li>
+                            </ul>
+                        </li>
+                        <li>
+							<strong>Discussion:</strong> How is recursion structured in Base Conversion?
 							<ul>
 								<li>What are the base cases?</li>
 								<li>What potential problems could happen if the base cases are not well specified?</li>
 								<li>What parts of the algorithm and base cases change when extending beyond binary conversion?</li>
 								<li>How does the <code>from base</code> conversion algorithm compare to the <code>base</code> conversion algorithm?</li>
 							</ul>
-						</li >
+						</li>
+                        <li>
+                            <strong>Tips:</strong>
+                            <ul>
+                                <li>Some students may get confused by the word <strong>base</strong> here, thinking it connects to <strong>base cases</strong>. These are two different uses of the same word.</li>
+                                <li>Give students a chance to try the binary conversion problem directly, but chances are they will need the hints from the second page. Solutions that students construct without the hints are often iterative instead of recursive. Some students also find the general base conversion problem (or a specific one like base 7) to be easier than binary conversion, so if a student continues to be stuck, switch them to a different base.</li>
+                                <li>Some solutions will involve lists; students may not know about the <code>list-&gt;word</code> block (added by using Import tools) that can solve this problem; it is also possible to write a recursive version using <code>join</code>. The provided solution uses <code>join</code> as part of the recursive step, so it is done as part of the process.</li>
+                                <li>Watch for errors in base cases when students move beyond binary conversion, since more values should be part of the base case. This is a common mistake.</li>
+                                <li>Students may need to search to find the <img src="/bjc-r/img/8-recursive-reporters/letterblock.png" alt="letter (1) of (6254) reporting 6" title="letter (1) of (6254) reporting 6"/> block, which is very helpful for the <code>from base</code> block.</li>
+                                <li>You can use a counter variable to keep track of the number of calls if you are interested in talking about how the Base Conversion algorithm is linear time.</li>
+                            </ul>
+                        </li>
 					</ul>
 				</li>
 				<li>
-					<strong>Project 3: Ice Cream Bowls.</strong>
+					<strong>Project 3: Ice Cream Bowls (Page 5: Ice Cream Bowls).</strong>
 					<ul>
 						<li>
-							Discussion: How is recursion structured in Ice Cream Bowls?
+							<strong>Learning Goal:</strong>
+                        </li>
+                        <li>
+							<strong>Discussion:</strong> How is recursion structured in Ice Cream Bowls?
 							<ul>
 								<li>What are the base cases?</li>
 								<li>How does recursion reduce the problem to a simpler version of itself?</li>
@@ -95,117 +128,64 @@
 								<li>In what ways is this project similar to <code>tree</code>?</li>
 							</ul>
 						</li>
+                        <li>
+                            <strong>Tips:</strong>
+                            <ul>
+                                <li>Make sure students understand that a vanilla-chocolate bowl is the same as a chocolate-vanilla bowl. This is helpful in building a recursive algorithm for the problem; once a flavor is used completely, it can be ignored, with a recursive call to the remaining flavors.</li>
+                                <li>Expect students to have a lot of difficulty starting; encourage them to list all the 2-scoop bowls for 8 flavors as a start. When students write this list, they should notice that all the options for one flavor are exhausted, then all the options for a second flavor, and so on, which should lead them to understand how recursion can solve the problem.</li >
+                                <li>If students previously worked through Pascal's Triangle, ask them about connections in this project. The total number of possible bowls is driven by the numbers in Pascal's Triangle, and students can even gain insight into the algorithm: a 3-scoop bowl from 8 flavors is found by either a 2-scoop bowl with 7 flavors (then adding the 8th), or by a 3-scoop bowl from 7 flavors (not using the 8th).</li>
+                                <li>If students still cannot see a recursive way to code the algorithm, ask them to list all the 2-scoop bowls for 9 flavors, starting with a new ninth flavor you declare. It's likely they will exhaust the ninth flavor, then recognize their previous list as the rest of what is needed.</li>
+                                <li>Some students will have trouble with the data structure here, since the result is a list of small lists. In particular, using the results from the 2-scoop problem to help solve the 3-scoop problem is challenging. Students who make this leap should be capable of handling the <em>n</em>-scoop case, since it is very similar.</li>
+                                <li>Students are likely to build separate blocks for 2-scoop and 3-scoop algorithms. When prompted to go for 4 scoops, they are likely to recognize the similarities in the previous work, much like the different algorithms for <code>tree2</code> and <code>tree3</code> eventually led to a single overarching <code>tree</code> block.</li>
+                                <li>Depending on students' programming structure, allowing repeated flavors can be simple or devastatingly difficult. This is a more difficult extension than it appears.</li>
+                            </ul>
+                        </li>
 					</ul>
 				</li>
 				<li>
-					<strong>Project 4: Subsets.</strong>
+					<strong>Project 4: Subsets (Pages 6: Subsets and 7: Subsets and Efficiency).</strong>
 					<ul>
 						<li>
-							Discussion: How is recursion structured in Subsets?
+							<strong>Learning Goal:</strong>
+                        </li>
+                        <li>
+							<strong>Discussion:</strong> How is recursion structured in Subsets?
 							<ul>
 								<li>Where are the base cases this time?</li>
 								<li>How does recursion reduce the problem to a simpler version of itself?</li>
 								<li>How can you tell from the recursion that the resulting list will have 2<sup><em>n</em></sup> elements?</li>
 							</ul>
 						</li>
+                        <li>
+                            <strong>Tips:</strong>
+                            <ul>
+                                <li>
+                                    As the hints page notes, the base case is very difficult to get right here. Very often, students say that if there is one item in the list, the result should be that item, <em>but this is incorrect</em> because of the empty set. There are two possible base cases students should use: if there is <em>nothing</em> in the list, the result should be a list containing one item, which is an empty list:
+                                    <img src="/bjc-r/img/8-recursive-reporters/emptyset.png" alt="list{list{}}" title="list{list{}}"/><br />
+                                    If there is one item in the list, the result should be a list of two elements: the empty set, and a list containing the item:<br />
+                                    <img class="indent" src="/bjc-r/img/8-recursive-reporters/oneitemsubset.png" alt="list{list{},list{item 1}} reporting a list containing the empty list and list with item 1" title="list{list{},list{item 1}} reporting a list containing the empty list and list with item 1"/>
+                                    <p>Stressing that the empty set must always be part of the output is a step toward this.</p>
+                                </li>
+                                <li>It is also helpful to remind students that the output of <code>subsets</code> is always a list of lists. This can help resolve some of the difficulties around the base case; in many ways it is easier to solve the problem with 3 items than it is with 1!</li>
+                                <li>Students who have worked on Ice Cream Bowls are better prepared for this project in several ways. They're more familiar with using lists of lists. They've also built the basic idea that leads to the recursive call: an item is either in, or it's out, and either way dictates a simpler set. It is even possible to solve Subsets using only calls to Ice Cream Bowls functions: the subsets of <em>n</em> items include all the <em>n</em>-scoop bowls, all the <em>n</em>-1-scoop bowls, &hellip;, all the 1-scoop bowls, and the 0-scoop bowl.</li>
+                                <li>The hint page tells students  that the <code>append</code> block is needed, and shows the general structure of the block.</li>
+                                <li>Students will have trouble coming up with <code>map</code> as a means to repeat the item into the half of subsets that contain the item. There are other ways to do it, but <code>map</code> is necessary if attempting to do it within the <code>append</code> line.</li>
+                                <li>A counter variable can count the number of recursive calls to show that for any <em>n</em>, the basic version of the Subsets algorithm runs in exponential time, with the number of calls doubling each time <em>n</em> increases by one. This algorithm  does not complete in "reasonable time.&quot;</li>
+                                <li>On the last page, students are given the opportunity to simplify the algorithm by eliminating duplicate calls. The speedup will be very noticeable. Still, since the result is a list of 2<sup><em>n</em></sup> items (each a sublist of the original list), and each of those has to be added to the list somehow. The <em>number of recursive calls</em> is reduced from exponential to linear, but not the running time, because there are still 2<sup><em>n</em></sup> calls to <code>in front of.</code> If possible, ask students to compare the two versions of <code>subsets</code> for speed, especially on larger lists. Note that depending on the algorithms students programmed, their first definition may already avoid redundant recursive calls; if so, show them the version provided on <a href="/bjc-r/cur/programming/8-recursive-reporters/3-projects/7-subsets-and-efficiency.html" title="Subsets and Efficiency">this page</a>.</li>
+                            </ul>
+                        </li>
 					</ul>
 				</li>
-
 			</ul>
 		</div>
 			
-		<h3>Tips:</h3>
+		<h3>Solutions</h3>
 		<div>
             <ul>
-            	<li>
-                	<strong>Project 1: Pascal's Triangle.</strong>
-                    <ul>
-						<li>Many students will make errors about the numbers in each row, because of the different indexing involved. It is helpful to tell students that the "first" number in the <em>n</em>th row is <em>n</em>. (The "<em>zeroth</em>" number is 1.) Even so, expect many debugging issues to come up around improper indexing.</li>
-						<li>For students to write the general recursion here, it is very helpful to give multiple numeric examples like the ones used. More numeric examples are better than trying to explain the generalization directly, because that gives away the code students will write.</li>
-						<li>Students will make errors by ignoring the base cases, notably the 1s at the end of a given row. This base case is necessary or an indexing error may occur.</li>
-						<li>Students may think something is broken when calling <code>pascal</code> with high inputs: this is the effect of the massive recursion. Including a visible counter variable can show students that things are working. However, you'll need to watch for the difference between a long recursion, and an infinite one caused by an error in base cases.</li>
-						<li>Advanced students focusing on memoization may decide to scrap the recursion for iteration, and this is fine; encourage them to use recursion if they can figure out how to do so. (Don't let them think that the inefficiency is <em>because of</em> recursion. We could write inefficient iterative code, or efficient recursive code.) The memoization function will track the list of known values, use it when one is available, and record a new value when not available. For a simpler version of memoization, you could ask students to build an efficient calculator of Fibonacci numbers using this concept.</li>
-                    </ul>
-                </li>
-            	<li>
-                	<strong>Project 2: Base Conversion.</strong>
-                    <ul>
-					<li>Some students may get confused by the word <strong>base</strong> here, thinking it connects to <strong>base cases</strong>. These are two different uses of the same word.</li>
-						<li>Give students a chance to try the binary conversion problem directly, but chances are they will need the hints from the second page. Solutions that students construct without the hints are often iterative instead of recursive. Some students also find the general base conversion problem (or a specific one like base 7) to be easier than binary conversion, so if a student continues to be stuck, switch them to a different base.</li>
-						<li>Some solutions will involve lists; students may not know about the <code>list-&gt;word</code> block (added by using Import tools) that can solve this problem; it is also possible to write a recursive version using <code>join</code>. The provided solution uses <code>join</code> as part of the recursive step, so it is done as part of the process.</li>
-						<li>Watch for errors in base cases when students move beyond binary conversion, since more values should be part of the base case. This is a common mistake.</li>
-						<li>Students may need to search to find the <img src="/bjc-r/img/8-recursive-reporters/letterblock.png" alt="letter (1) of (6254) reporting 6" title="letter (1) of (6254) reporting 6"/> block, which is very helpful for the <code>from base</code> block.</li>
-						<li>You can use a counter variable to keep track of the number of calls if you are interested in talking about how the Base Conversion algorithm is linear time.</li>
-                    </ul>
-                </li>
-            	<li>
-                	<strong>Project 3: Ice Cream Bowls.</strong>
-                    <ul>
-					<li>Make sure students understand that a vanilla-chocolate bowl is the same as a chocolate-vanilla bowl. This is helpful in building a recursive algorithm for the problem; once a flavor is used completely, it can be ignored, with a recursive call to the remaining flavors.</li>
-						<li>Expect students to have a lot of difficulty starting; encourage them to list all the 2-scoop bowls for 8 flavors as a start. When students write this list, they should notice that all the options for one flavor are exhausted, then all the options for a second flavor, and so on, which should lead them to understand how recursion can solve the problem.</li >
-						<li>If students previously worked through Pascal's Triangle, ask them about connections in this project. The total number of possible bowls is driven by the numbers in Pascal's Triangle, and students can even gain insight into the algorithm: a 3-scoop bowl from 8 flavors is found by either a 2-scoop bowl with 7 flavors (then adding the 8th), or by a 3-scoop bowl from 7 flavors (not using the 8th).</li>
-						<li>If students still cannot see a recursive way to code the algorithm, ask them to list all the 2-scoop bowls for 9 flavors, starting with a new ninth flavor you declare. It's likely they will exhaust the ninth flavor, then recognize their previous list as the rest of what is needed.</li>
-						<li>Some students will have trouble with the data structure here, since the result is a list of small lists. In particular, using the results from the 2-scoop problem to help solve the 3-scoop problem is challenging. Students who make this leap should be capable of handling the <em>n</em>-scoop case, since it is very similar.</li>
-						<li>Students are likely to build separate blocks for 2-scoop and 3-scoop algorithms. When prompted to go for 4 scoops, they are likely to recognize the similarities in the previous work, much like the different algorithms for <code>tree2</code> and <code>tree3</code> eventually led to a single overarching <code>tree</code> block.</li>
-						<li>Depending on students' programming structure, allowing repeated flavors can be simple or devastatingly difficult. This is a more difficult extension than it appears.</li>
-                    </ul>
-                </li>
-            	<li>
-                	<strong>Project 4: Subsets.</strong>
-                    <ul>
-						<li>As the hints page notes, the base case is very difficult to get right here. Very often, students  say that if there is one item in the list, the result should be that item, <em>but this is incorrect</em> because of the empty set. There are two possible base cases students should use: if there is <em>nothing</em> in the list, the result should be a list containing one item, which is an empty list:
-						<img src="/bjc-r/img/8-recursive-reporters/emptyset.png" alt="list{list{}}" title="list{list{}}"/>
-						<p>If there is one item in the list, the result should be a list of two elements: the empty set, and a list containing the item:
-						<img src="/bjc-r/img/8-recursive-reporters/oneitemsubset.png" alt="list{list{},list{item 1}} reporting a list containing the empty list and list with item 1" title="list{list{},list{item 1}} reporting a list containing the empty list and list with item 1"/></p>
-						<p>Stressing that the empty set must always be part of the output is a step toward this.</p>
-						</li>
-						<li>It is also helpful to remind students that the output of <code>subsets</code> is always a list of lists. This can help resolve some of the difficulties around the base case; in many ways it is easier to solve the problem with 3 items than it is with 1!</li>
-						<li>Students who have worked on Ice Cream Bowls are better prepared for this project in several ways. They're more familiar with using lists of lists. They've also built the basic idea that leads to the recursive call: an item is either in, or it's out, and either way dictates a simpler set. It is even possible to solve Subsets using only calls to Ice Cream Bowls functions: the subsets of <em>n</em> items include all the <em>n</em>-scoop bowls, all the <em>n</em>-1-scoop bowls, &hellip;, all the 1-scoop bowls, and the 0-scoop bowl.</li>
-						<li>The hint page tells students  that the <code>append</code> block is needed, and shows the general structure of the block.</li>
-						<li>Students will have trouble coming up with <code>map</code> as a means to repeat the item into the half of subsets that contain the item. There are other ways to do it, but <code>map</code> is necessary if attempting to do it within the <code>append</code> line.</li>
-						<li>A counter variable can count the number of recursive calls to show that for any <em>n</em>, the basic version of the Subsets algorithm runs in exponential time, with the number of calls doubling each time <em>n</em> increases by one. This algorithm  does not complete in "reasonable time.&quot;</li>
-						<li>On the last page, students are given the opportunity to simplify the algorithm by eliminating duplicate calls. The speedup will be very noticeable. Still, since the result is a list of 2<sup><em>n</em></sup> items (each a sublist of the original list), and each of those has to be added to the list somehow. The <em>number of recursive calls</em> is reduced from exponential to linear, but not the running time, because there are still 2<sup><em>n</em></sup> calls to <code>in front of.</code> If possible, ask students to compare the two versions of <code>subsets</code> for speed, especially on larger lists. Note that depending on the algorithms students programmed, their first definition may already avoid redundant recursive calls; if so, show them the version provided on <a href="/bjc-r/cur/programming/8-recursive-reporters/3-projects/7-subsets-and-efficiency.html" title="Subsets and Efficiency">this page</a>.</li>
-                    </ul>
-                </li>
+                <li><a href="https://snap.berkeley.edu/snapsource/snap.html#present:Username=bjcsolutions&ProjectName=U8L3-RecursiveReporterProjects&editMode" target="_blank">Pages 1-7: Recursive Reporter Projects</a></li>
             </ul>
         </div>
-
 			
-		<h3>Solutions</h3>
-		<div><ul><li><a href="https://snap.berkeley.edu/snapsource/snap.html#present:Username=bjcsolutions&ProjectName=U8L3-RecursiveReporterProjects&editMode" target="_blank">Page 1, 2, 3, 4, 5, 6, 7: Recursive Reporter Projects</a></li></ul></div>
-			
-			
-		<!--MARY TOOK THIS OUT BECAUSE U7/U8 HAPPEN AFTER THE EXAM, SO THESE DON'T COUNT. THIS WAS DONE IN DISCUSSION WITH BRIAN. --MF, 12/29/17
-		<h3>Correlation with AP CS Principles Framework:<a name="AP" class="anchor">&nbsp;</a></h3>
-		<div class="apStandards">
-			<h4>Enduring Understandings:</h4>
-			<ul>
-				<li><strong>E U 1.1</strong> Creative development can be an essential process for creating computational artifacts.</li>
-				<li><strong>E U 1.2</strong> Computing enables people to use creative development processes to create computational artifacts for creative expression or to solve a problem.</li>
-				<li><strong>E U 2.2</strong> Multiple levels of abstraction are used to write programs or create other computational artifacts.</li>
-				<li><strong>E U 4.1</strong> Algorithms are precise sequences of instructions for processes that can be executed by a computer and are implemented using programming languages.</li>
-			</ul>
-			<h4>Learning Objectives:</h4>
-			<ul>
-				<li><strong>L O 1.1.1</strong> Apply a creative development process when creating computational artifacts. [P2]</li>
-				<li><strong>L O 1.2.2</strong> Create a computational artifact using computing tools and techniques to solve a problem. [P2]</li>
-				<li><strong>L O 1.2.3</strong> Create a new computational artifact by combining or modifying existing artifacts. [P2]</li>
-				<li><strong>L O 2.2.1</strong> Develop an abstraction when writing a program or creating other computational artifacts. [P2]</li>
-				<li><strong>L O 4.1.1</strong> Develop an algorithm for implementation in a program. [P2]</li>
-			</ul>
-			<h4>Essential Knowledge:</h4>
-			<ul>
-				<li><strong>E K 1.1.1A</strong> A creative process in the development of a computational artifact can include, but is not limited to, employing nontraditional, nonprescribed techniques; the use of novel combinations of artifacts, tools, and techniques; and the exploration of personal curiosities.</li>
-				<li><strong>E K 1.2.2A</strong> Computing tools and techniques can enhance the process of finding a solution to a problem.</li>
-				<li><strong>E K 1.2.3A</strong> Creating computational artifacts can be done by combining and modifying existing artifacts or by creating new artifacts.</li>
-				<li><strong>E K 1.2.3B</strong> Computation facilitates the creation and modification of computational artifacts with enhanced detail and precision.</li>
-				<div class="comment">At some point, we should look further. I stopped arbitrarily, because we have enough (and have other work to do) not because we'd found everything.</div>
-				<li><strong>E K 2.2.1A</strong> The process of developing an abstraction involves removing detail and generalizing functionality.</li>
-				<li><strong>E K 2.2.1C</strong> An abstraction generalizes functionality with input parameters that allow software reuse.</li>
-				<li><strong>E K 4.1.1H</strong> Different algorithms can be developed to solve the same problem.</li>
-			</ul>
-		</div>			-->
-
 
 	</body>
 </html>
