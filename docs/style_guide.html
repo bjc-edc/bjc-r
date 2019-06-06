@@ -28,6 +28,7 @@
                 <li><a href="#naming">File Naming Conventions</a></li>
                 <li><a href="#katex">KaTeX</a></li>
                 <li><a href="#css">Page Elements, a.k.a. CSS Styles</a></li>
+                <li><a href="#blocks">Breaking CSS Blocks</a></li>
                 <li><a href="#custom">Custom Block Colors</a></li>
                 <li><a href="#naming">Block Naming</a></li>
                 <li><a href="#code">Showing Code</a></li>
@@ -137,7 +138,20 @@
 
         <div class="endnote">This <strong>div class="endnote"</strong> box is for optional reading material that might summarize what they've been doing or for addtional, slightly off topic, but interesting material.</div>
 
-		<div class="vocab">This box is for <strong>vocabulary</strong> words, which should be italics in the text and bold in the vocab box.</div>
+        <div class="endnote">
+            <a href="#hint-target" data-toggle="collapse" title="">Do you want a hint?</a>
+            <div id="hint-target" class="collapse">
+                Here are two:
+                <ol>
+                    <li>Always change the "hint-target" to something else. I usually keep the word "hint" and change the word "target". It must be changed both in the calling <code>a</code> tag and in the recipient <code>div</code>.</li>
+                    <li>Always be sure to copy the text of the <code>a</code> tag (minus any formatting) into the <em>title</em> attibute of the <code>a</code> tag for screen readers. I have not done it here so that if someone forgets, mine doesn't get copied. ;)</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="vocab">: <strong>wordGOEShere</strong>
+            <p>This box is for <strong>vocabulary</strong> words, which should be italics in the text and bold in the vocab box.</p>
+        </div>
         
         <div class="dialogue">
             <div>
@@ -193,7 +207,14 @@
             </div>
         </div>
         
-        
+        <h3>Breaking CSS Blocks<a name="blocks" class="anchor">&nbsp;</a></h3>
+        <p>Two ways to break text where blocks are bumping into each other:
+            <ol>
+                <li>Add the code <code>&lt;p style=&quot;clear: both; height: 0px;&quot;&gt;&lt;/p&gt;</code> inside a div to keep an image from falling out of it OR to keep a side div from pushing down into the following div.</li>
+                <li>Add the code <code>style=&quot;clear: right;&quot;</code> to the following div if an image in white text is pushing down into a div.</li>
+            </ol>
+        </p>
+    
         <h3>Custom Block Colors<a name="custom" class="anchor">&nbsp;</a></h3>
         <div>
             <ol>
@@ -226,7 +247,7 @@
         <div>
             <ol type="A">
                 <li>
-                    Use the "code" tag for <code>code</code>. Use the "var" tag for <var>variables</var>. Reference blocks (e.g. <code>pen down</code>) using the "code" tag or an image of the actual block: <img src="/bjc-r/img/1-introduction/pen-down.png" class="block"/>. 
+                    Use the "code" tag for <code>code</code>. Use the "var" tag for <var>variables</var>. Reference blocks (e.g. <code>pen down</code>) using the "code" tag or an image of the actual block: <img class="block" src="/bjc-r/img/1-introduction/pen-down.png" alt="pen down" title="pen down" />. 
                     <ol style="list-style:lower-roman;">
                         <li>Note: The <code>code</code> tag has been used all over the place in the pre-EDC version of BJC. Please try to keep it to only actual code blocks.</li>
                         <li>Re: variables and mathematics&mdash;If you are referencing a mathematical variable that you have made into a <span class="snap">snap</span> variable (hence, a block) then use the code tag (or an image of the block). If you are referencing the plus/minus/etc. block, use the code tag (or an image of the block). If you are just discussing a mathematical idea, then use regular notation: e.g. <em>x</em> + <em>y</em> = 7. </li>
