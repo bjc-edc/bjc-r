@@ -103,12 +103,20 @@
                             </ul>
                             <p>Notice that all of these examples only require data from one column. If you want to ask a question that requires looking at another column (for example, "What's the model of the car with the highest MPG?"), you can do the Take It Further Activity below.</p>
                         </div>
-                        <div class="todo">We have not done a multi-column slice yet. --MF, 6/25/19 <p>What is that again? Is that <code>map (list (item 1 of ( )) (item (13) of ( )) ) over (cars)</code>? I couldn't think of a good reason to have them to that... --MF, 6/26/19</p>
-                        <p>Build a problem 11 with this... --MF, 6/27/19</p></div>
+                        <div class="todo">
+                            We have not done a multi-column slice yet. --MF, 6/25/19 <p>What is that again? Is that <code>map (list (item 1 of ( )) (item (13) of ( )) ) over (cars)</code>? I couldn't think of a good reason to have them to that... --MF, 6/26/19</p>
+                            <p>Build a problem 11 with this... --MF, 6/27/19</p>
+                            <p>I can't think of a good way to motivate this... --MF, 6/28/19</p>
+                            <li>constructing new list a.k.a. inserting a column with <code>map</code> (TIF because this is complicated to think about)</li>
+                            <p>This is both inside the yellow box and the todo above. weird.... The LI tag must have bumped it out... I've never seen that happen before.</p>
+                        </div>
                     </div>
                 </li>
             </ol>
         </div>
+        
+        <div class="todo">I'm not convinced this is the best way to access this information or that it's worth teaching given how complicated it is to talk about (name the block). --MF, 6/28/19</div>
+        <div class="todo">Does this question fit in the TIF too (Which vehicle make has the fewest cars in this database? (You'd need <code>minimum</code>.)? --MF, 6/28/19</div>
         <div class="todo"><p>I need to redo these images and <code>code</code> statements with "record" instead of "row." --MF, 6/27/19</p></div>
         <div class="takeItFurther">
             <ol type="A">
@@ -232,7 +240,7 @@
             <div class="comment">image needs alt-title text --MF, 6/26/19</div>
             <img class="indent" src="/bjc-r/img/5-algorithms/group-data-of-cars-reporting.png" alt="" title="" /><br />
             <ul>
-                <li>Column A shows all of the vehicle makes.</li>
+                <li>Column A shows all of the vehicle makes (field 12 of each record).</li>
                 <li>Column B shows the total number of vehicles of each make.</li>
                 <li>Column C contains a list of all the data from <var>cars</var> for the vehicles of that Make (such as all the data for the Acuras or all the data for the Nissans). If you double-click one of the lists in column C, another table will open showing the data for all cars of that make. </li>
             </ul>  
@@ -267,45 +275,46 @@
             The <code>histogram</code> function works like the <code>group</code> function, except that it allows you to specify the upper and lower boundaries of the data you are grouping by and the size of the groupings, and it sorts the data by grouping. For example, here is the <var>cars</var> data grouped by MPG (column 1):<br />
             <img class="indent" src="/bjc-r/img/5-algorithms/histogram-by-mpg.png" alt="" title="" />
             <ul>
-                <li>Now, Column A shows MPG grouped and sorted into intervals of 5.</li>
-                <li>As before, Column B shows the total number of vehicles with each MPG range (0&ndash;5, 5&ndash;10, 10&ndash;15, etc.)</li>
-                <li>As before, Column C contains a list of all the data from cars with that MPG range (such as all the data for the 268 cars that get between 20 and 25 MPG in the city).</li>
+                <li>Now, Column A shows MPG (the first field of each record) grouped into intervals of 5 and sorted.</li>
+                <li>As before, Column B shows the total number of vehicles within each MPG range (0&ndash;5, 5&ndash;10, 10&ndash;15, etc.)</li>
+                <li>As before, Column C contains a list of all the data from cars within that MPG range (such as all the data for the 268 cars that get between 20 and 25 MPG in the city).</li>
             </ul>
         </p>
         <div class="endnote">
             <p><code>Histogram</code> is a higher order function like <code>keep</code>, <code>map</code>, <code>combine</code>, <code>find first</code>, and <code>group</code> because it takes functions (here, both <code>field</code> and <code>+5</code>) as input.</p>
         </div>
-        
-        <p>
-            
-            For example, with and without pipe...<br />
+        <p>You can plot that second column from <code>histogram</code> to visualize your data:
+            <div class="comment">images need alt/title text. --MF, 6/27/19</div>
             <img class="indent" src="/bjc-r/img/5-algorithms/plot-cars-histogram.png" alt="" title="" />
-            <img class="indent" src="/bjc-r/img/5-algorithms/plot-cars-histogram-with-pipe.png" alt="" title="" /><br />
-
-            And you can plot...<br />
-            <img class="indent" src="/bjc-r/img/5-algorithms/plot-cars-histogram-stage.png" alt="" title="" />
+            <img class="indent noshadow" src="/bjc-r/img/5-algorithms/plot-cars-histogram-stage.png" alt="" title="" />
         </p>
+        <div class="endnote">
+            <div class="comment">image needs alt/title text. --MF, 6/27/19</div>
+            <p><a href="#hint-pipeplot" data-toggle="collapse" title="Click to see an example of using pipe with plot.">Click to see an example of using <code>pipe</code> with <code>plot</code>.</a></p>
+            <div id="hint-pipeplot" class="collapse">
+                <p>
+                    This <code>plot</code> instruction with <code>pipe</code> will generate the same image as the <code>plot</code> instruction without <code>pipe</code> above.<br />
+                    <img class="indent" src="/bjc-r/img/5-algorithms/plot-cars-histogram-with-pipe.png" alt="" title="" />
+                </p>
+            </div>
+        </div>
     
         <div class="forYouToDo">
-			<ol start="5">
-				<li><code>histogram</code> and <code>plot</code></li>
+			<ol start="6">
+				<li>Create a histogram plot to examine some aspect of your dataset. Experiment with the interval to see what different intervals look like. </li>
+                <li><div class="comment">DAT-2.E</div><img class="inline" src="/bjc-r/img/icons/write-out-thoughts.png" alt="Write Out Your Thoughts" title="Write Out Your Thoughts" />How can programs like Snap<em>!</em> help you gain knowledge by investigating data. Provide three examples of knowledge you gained about your dataset, and how you created that information from the data. </li>
 			</ol>
 		</div>
 
-        <h3>Asking Questions Across Columns</h3>
-        <p>E.g., Which vehicle make has the fewest cars in this database? (You'd need <code>minimum</code>.)</p>
-
         <div class="todo">I'm wondering about offering the kids the video or part of it on the page or in the TIF (the teachers should definitely see it). --MF, 6/26/19</div>
 
-        <div class="takeItFurther">
+        <div class="todo">Still need to write TIF</div>
+            <div class="takeItFurther">
             <ol type="A">
 				<li><code>sort</code> (TIF because it's hard to understand how/why to set up the predicate</li>
-                <li>constructing new list a.k.a. inserting a column with <code>map</code> (TIF because this is complicated to think about)</li>
             </ol>
         </div>
     
-        
-
 
     </body>
 </html>
