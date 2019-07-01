@@ -18,8 +18,8 @@
 		        
         <div class="forYouToDo" id="first">
             <ol>
-                <div class="comment">Also <code>&le;</code> and <code>&ge;</code>? --MF, 6/11/19</div>
-                <li>Export all of the custom blocks from your U2L3-Predicates project. (These should include <code>between?</code>, <code>divisible?</code>, <code>even?</code>, and perhaps also <code>integer?</code> if you had time to build it.) </li>
+				<div class="todo">Why export and start new project, rather than load project and save with new name?  That would avoid the Obsolete business. -bh</div>
+                <li>Export all of the custom blocks from your U2L3-Predicates project. (These should include <code>between?</code>, <code>divisible?</code>, <code>even?</code>,  <code>&le;</code>, <code>&ge;</code>, <code>&ne;</code>, and perhaps also <code>integer?</code> if you had time to build it.) </li>
                 <div class="endnote">
                     <p>You learned how to export and import blocks in <a href="/bjc-r/cur/programming/2-complexity/1-variables-games/old/4-importing-exporting.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Importing Greet Player into Another Program">Unit 2 Lab 1 Page 4: Importing <code>Greet Player</code> into Another Program</a>.</p>
                     <div class="todo">Page Unit 2 Lab 1 Page 4 has been cut. Need to refer them to 2.3.2: Keeping Items from a List once importing has been added to that page. --MF, 3/21/19</div>
@@ -29,8 +29,8 @@
                 <li><div class="newProject inline"><span class="text">"U2-MathTools"</span><img src="/bjc-r/img/icons/new-project-called.png" alt="Start a New Project called U2-MathTools" title="Start a New Project called U2-MathTools" /></div></li>
                 <li>Import those blocks into your new project file, test them and resolve any issues, and save.</li>
                 <li>
-                    <div class="commentBig">We didn't used to require the use of <code>keep</code>, but it is the best option, and if they don't use keep then it doesn't work to teach <code>pipe</code> below. --MF, 6/12/19</div>
-                    Develop a <code>number of divisors</code> block (using <code>keep</code>), and use it to answer these questions: 
+                    <div class="comment">I made this a picture so that seeing the numeric input slot would help them. --bh</div>
+                    Develop a <img src="/bjc-r/img/2-complexity/number-of-divisors.png" alt="number of divisors reporter with numeric input slot" title="number of divisors reporter with numeric input slot"> block (using <code>keep</code>), and use it to answer these questions: 
                     <ul style="list-style-type: disc">
                         <li><strong>What kinds of numbers have an odd number of divisors?</strong></li>
                         <li><strong>What kinds of numbers have exactly two divisors?</strong></li>
@@ -83,8 +83,8 @@
         
         <p>
             Nested functions (that is, functions used inside of other functions, like the way you used <code>divisible?</code> and <code>numbers</code> inside of <code>keep</code>) can be hard to read. Snap<em>!</em> offers another way to write code with multiple functions. You can use the <img class="nopadtb" src="/bjc-r/img/blocks/pipe.png" alt="pipe () → ()" title="pipe () → ()" /> function from the "Frequency Distribution Analysis" library to write your code one function at at time.
-            <div class="comment">image needs alt/title tags --MF, 6/11/19</div><img class="indent" src="/bjc-r/img/2-complexity/divisors-with-pipe.png" /><br />
-            The <code>pipe</code> function sends the <var>input number</var> data through <code>numbers (1) of ()</code> to report a list of numbers and then that list goes through <code>keep items such that ((input number) divisible by ()?) from ()</code> to get the numbers from that list that are divisible by the input number.
+            <div class="comment">image needs alt/title tags --MF, 6/11/19<br />Any reason the input isn't just called "number"? -bh</div><img class="indent" src="/bjc-r/img/2-complexity/divisors-with-pipe.png" /><br />
+            The <code>pipe</code> function sends the <var>input number</var> input through <code>numbers from (1) to ()</code> to report a list of numbers and then that list goes through <code>keep items such that ((input number) divisible by ()?) from ()</code> to get the numbers from that list that are divisible by the input number.
         </p>
         <p>
             Notice that the empty input slots in each function are filled by the output of the previous function (or filled by the starting data in the case of the first function): 
@@ -99,12 +99,12 @@
             It's like a pipe of made of pieces connected together; the <var>input number</var> goes in one end and works through each function, producing a new output at each step.
         </p>
     
-    
-        <div class="endnote"><code>Pipe</code> is a <em>higher order function</em>; it is a function that takes functions as input. You've seen a higher order functions already: <code>keep</code> (in <a href="/bjc-r/cur/programming/2-complexity/3-predicates/2-keeping-list-items.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Keeping Items from a List">Unit 2 Lab 3</a>).</div>
+		<div class="todo">I find this description painful.  If we're going to teach pipe at all, what's needed here is a CS-Illustrated-style picture with a specific number as input and then all the intermediate values shown with arrows pointing to which empty slot each one fills.  But, why do this?  Is the theory that pipe will be easier for most kids than nesting?  And if so, wouldn't it be easier still to make a bunch of script variables and set each one to the result of one function call?  And <i>then</i> show how that turns into a pipe. Or do it instead of pipe. -bh</div>
+        <div class="endnote"><code>Pipe</code> is a <em>higher order function</em>; it is a function that takes functions as input. You've seen a higher order function before: <code>keep</code> (in <a href="/bjc-r/cur/programming/2-complexity/3-predicates/2-keeping-list-items.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Keeping Items from a List">Unit 2 Lab 3</a>).</div>
     
         <div class="forYouToDo">
 			<ol start="5">
-				<li>Look at the <code>pipe</code> version of <code>divisors</code> above. <img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> What would happen if you did <code>keep</code> before <code>number</code>?</li>
+				<li>Look at the <code>pipe</code> version of <code>divisors</code> above. <img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> What would happen if you did <code>keep</code> before <code>numbers</code>?</li>
 				<li>Choose "Libraries..." in the Snap<em>!</em> file menu (<img src="/bjc-r/img/1-introduction/file_button.png" style="height:1.6em;" alt="File button" title="File button"/>), and select and import the "Frequency Distribution Analysis" library.</li>
                 <li>Rebuild your <code>number of divisors</code> block using the <code>pipe</code> function.
                 <div class="endnote">You can either create a new function called something like <code>number of divisors 2 </code> or <code>pipe version of number of divisors</code>, or you can rewrite the same block and just drag off the original report instruction but leave it inside the <code>number of divisors</code> block unattached from the hat block so will be saved in there but it won't run.</div>
