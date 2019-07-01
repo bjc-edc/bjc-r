@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+        <script type="text/javascript" src="/bjc-r/utilities/gifffer.min.js"></script>
+        <script type="text/javascript">window.onload = function() {Gifffer();}</script>
+        <link rel="stylesheet" type="text/css" href="/bjc-r/css/bjc-gifffer.css">
+		<title>Unit 5 Lab 3: Turning Data into Information, Page 5</title>
+    </head>
+
+    <body>
+        <h2>Visualizing Data</h2>
+        <div class="learn">
+            <p><strong>On this page</strong>, you will...</p>
+        </div>
+        <h3>Grouping Data</h3>
+        <p>
+            Another thing that's often done in data science is <em>grouping</em> data. For example, here is the <var>cars</var> data grouped by vehicle make (column 12):<br />
+            <div class="comment">image needs alt-title text --MF, 6/26/19</div>
+            <img class="indent" src="/bjc-r/img/5-algorithms/group-data-of-cars-reporting.png" alt="" title="" /><br />
+            <ul>
+                <li>Column A shows all of the vehicle makes (field 12 of each record).</li>
+                <li>Column B shows the total number of vehicles of each make.</li>
+                <li>Column C contains a list of all the data from <var>cars</var> for the vehicles of that Make (such as all the data for the Acuras or all the data for the Nissans). If you double-click one of the lists in column C, another table will open showing the data for all cars of that make. </li>
+            </ul>  
+        </p>
+        <div class="endnote">
+            <p><code>Group</code> is a higher order function like <code>keep</code>, <code>map</code>, <code>combine</code>, and <code>find first</code> because it takes a function (here, <code>field</code>) as input.</p>
+        </div>
+        
+        <div class="forYouToDo" id="first">
+			<ol>
+				<li>Open your U3L4-Data-Processing project if it isn't open already.</li>
+                <li>
+                    <img class="inline" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> Determine one question you can answer by <strong>grouping</strong> your data, and build code to answer it.
+                    <div class="endnote">
+                        <a href="#hint-grouping" data-toggle="collapse" title="Click for example questions that require grouping to answer.">Click for example questions that require grouping to answer.</a>
+                        <div id="hint-grouping" class="collapse">
+                            <ul>
+                                <li>How many Toyotas are in the database?</li>
+                                <li>How many cars in the database are hybrids?</li>
+                                <li>How many 2010 Hyundais are in the database? (This requires looking inside one of the lists in column C, so you'd need two <code>keep</code> functions.)</li>
+                            </ul>
+                            <p><code>Pipe</code> may be useful for questions that require looking inside the inner lists of the grouped data (in column C).</p>
+                        </div>
+                    </div>
+                </li>
+			</ol>
+		</div>
+    
+
+        <h3>Plotting Data</h3>
+        <p>
+            <div class="comment">image needs alt/title text. --MF, 6/27/19</div>
+            The <code>histogram</code> function works like the <code>group</code> function, except that it allows you to specify the upper and lower boundaries of the data you are grouping by and the size of the groupings, and it sorts the data by grouping. For example, here is the <var>cars</var> data grouped by MPG (column 1):<br />
+            <img class="indent" src="/bjc-r/img/5-algorithms/histogram-by-mpg.png" alt="" title="" />
+            <ul>
+                <li>Now, Column A shows MPG (the first field of each record) grouped into intervals of 5 and sorted.</li>
+                <li>As before, Column B shows the total number of vehicles within each MPG range (0&ndash;5, 5&ndash;10, 10&ndash;15, etc.)</li>
+                <li>As before, Column C contains a list of all the data from cars within that MPG range (such as all the data for the 268 cars that get between 20 and 25 MPG in the city).</li>
+            </ul>
+        </p>
+        <div class="endnote">
+            <p><code>Histogram</code> is a higher order function like <code>keep</code>, <code>map</code>, <code>combine</code>, <code>find first</code>, and <code>group</code> because it takes functions (here, both <code>field</code> and <code>+5</code>) as input.</p>
+        </div>
+        <p>You can plot that second column from <code>histogram</code> to visualize your data:
+            <div class="comment">images need alt/title text. --MF, 6/27/19</div>
+            <img class="indent" src="/bjc-r/img/5-algorithms/plot-cars-histogram.png" alt="" title="" />
+            <img class="indent noshadow" src="/bjc-r/img/5-algorithms/plot-cars-histogram-stage.png" alt="" title="" />
+        </p>
+        <div class="endnote">
+            <div class="comment">image needs alt/title text. --MF, 6/27/19</div>
+            <p><a href="#hint-pipeplot" data-toggle="collapse" title="Click to see an example of using pipe with plot.">Click to see an example of using <code>pipe</code> with <code>plot</code>.</a></p>
+            <div id="hint-pipeplot" class="collapse">
+                <p>
+                    This <code>plot</code> instruction with <code>pipe</code> will generate the same image as the <code>plot</code> instruction without <code>pipe</code> above.<br />
+                    <img class="indent" src="/bjc-r/img/5-algorithms/plot-cars-histogram-with-pipe.png" alt="" title="" />
+                </p>
+            </div>
+        </div>
+    
+        <div class="forYouToDo">
+			<ol start="3">
+				<li>Create a histogram plot to examine some aspect of your dataset. Experiment with the interval to see what different intervals look like. </li>
+                <li><div class="comment">DAT-2.E</div><img class="inline" src="/bjc-r/img/icons/write-out-thoughts.png" alt="Write Out Your Thoughts" title="Write Out Your Thoughts" />How can programs like Snap<em>!</em> help you gain knowledge by investigating data? Provide three examples of knowledge you gained about your dataset, and describe how you created that information from the data. </li>
+			</ol>
+		</div>
+
+        <div class="todo">I'm wondering about offering the kids the video or part of it on the page or in the TIF (the teachers should definitely see it). --MF, 6/26/19</div>
+    
+
+    </body>
+</html>
