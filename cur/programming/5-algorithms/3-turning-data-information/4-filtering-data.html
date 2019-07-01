@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+        <script type="text/javascript" src="/bjc-r/utilities/gifffer.min.js"></script>
+        <script type="text/javascript">window.onload = function() {Gifffer();}</script>
+        <link rel="stylesheet" type="text/css" href="/bjc-r/css/bjc-gifffer.css">
+		<title>Unit 5 Lab 3: Turning Data into Information, Page 4</title>
+    </head>
+
+    <body>
+        <h2>Analyzing Data</h2>
+        <div class="learn">
+            <p><strong>On this page</strong>, you will ask and answer more demanding questions about your dataset and learn new tools.</p>
+        </div>
+        
+        <p>
+            <div class="comment">DAT-2.D.4: Data filtering systems are important tools for finding information and recognizing patterns in data.</div>
+            You can ask questions about a specific subset of your data by <em>filtering</em> the data using <code>keep</code>. Filtering is a powerful technique for finding information and recognizing patterns in data. For example, filtering can help you answer questions like "What the average city MPG <em>for just the Subarus</em> in this dataset?"<br />
+            <div class="comment">BH, please review revised alt/title text on this image. --MF, 6/27/19</div>
+            <img class="indent" src="/bjc-r/img/5-algorithms/average-mpg-of-subarus-reporting.png" alt="average of (column (1) of table (keep items (field (12) of record 'list input slot' = Subaru) from (data of table (cars))) reporting 19.49..." title="average of (column (1) of table (keep items (field (12) of record 'list input slot' = Subaru) from (data of table (cars))) reporting 19.49..." /><br />
+            <div class="comment">Include a link to wherever U3 math tools ends up for the <code>average</code> block import. --MF, 6/7/19</div>
+            Column 12 is the "Make" of the vehicle, so we <code>keep</code> all the items from <var>cars</var> where the 12<sup>th</sup> item is Subaru. Then, we take column 1 of that (the "City MPG") and take the average of those values.
+        </p>
+        <div class="endnote">
+            <p>Notice that there are many digits in the answer above.  How many digits are in each car's MPG?  An important rule in data science is not to claim more precision in a result than is warranted by the given data, so this answer should be rounded to 19.</p>
+            <p>You might find expressions with many nested function calls easier to build by using <code>pipe</code>, which you learned in <a href="/bjc-r/cur/programming/2-complexity/4-making-computers-do-math/1-math-predicates.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 2 Lab 4 Page 1: Mathematical Predicates">Unit 2 Lab 4 Page 1: Mathematical Predicates</a>. </p>
+            <p>
+                <a href="#hint-pipe" data-toggle="collapse" title="">What would this look like using <code>pipe</code>?</a>
+                <div id="hint-pipe" class="collapse">
+                    <p>
+                        You can use the <code>pipe</code> function from the "Frequency Distribution Analysis" library to work through your data analysis one function at at time:<br />
+                        <div class="comment">BH, please review revised alt/title text on this image. --MF, 6/27/19</div>
+                        <img class="indent" src="/bjc-r/img/5-algorithms/pipe-cars-reporting.png" alt="pipe (data of table (cars)) → (keep items (field (12) of record 'list input slot' = Subaru) from 'list input slot') (column (1) of table ()) (average of ()) reporting 19.49..." title="pipe (data of table (cars)) → (keep items (field (12) of record 'list input slot' = Subaru) from 'list input slot') (column (1) of table ()) (average of ()) reporting 19.49..." /><br />
+                        The <code>pipe</code> function sends the <code>data from table(</code><var>cars</var><code>)</code> through <code>keep</code> to filter it for just the Subarus, through <code>column (1) of table</code> to get just the "City MPG" for those Subarus, and finally through <code>average</code> to get the average of those Subaru MPG values.  
+                    </p>
+                    <p>Recall that the empty input slots in each function are filled by the output of the previous function (or the starting dataset in the case of the first function): the empty slots in the <code>keep</code> function are both filled by <code>data from table(</code><var>cars</var><code>)</code>; the empty slot in <code>column (1) of table</code> is filled by the output of <code>keep</code>; and the empty slot in <code>average</code> is filled by the output of <code>column (1) of table</code>. It's like a pipe of made of pieces connected together; the data goes in one end and works through each function, computing a new value at each step.</p>
+                </div>
+            </p>
+        </div>
+        
+        <div class="forYouToDo">
+			<ol>
+				<li>Open your U3L4-Data-Processing project if it isn't open already.</li>
+                <li>Load the "Frequency Distribution Analysis" from the Libraries... option in the Snap<em>!</em> File menu (<img src="/bjc-r/img/1-introduction/file_button.png" style="height:1.6em;" alt="File button" title="File button"/>).</li>
+                <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> Determine one question you can answer by <strong>looking at a single column of a <em>portion</em> </strong> of your data set, and then build code to answer that question. You can nest your function or use <code>pipe</code>. (Or try both!)</li>
+				<div class="endnote">
+                    <a href="#hint-portion" data-toggle="collapse" title="Click for example questions to ask about a portion of a single column.">Click for example questions to ask about a portion of a single column.</a>
+                    <div id="hint-portion" class="collapse">
+                        <ul>
+                            <li>What's the average MPG that <em>Volvos</em> in this database get in the city? (You'd need <code>average</code>.)</li>
+                            <li>What's the year of the oldest <em>Honda</em> in this dataset? (You'd need <code>minimum</code>.)</li>
+                            <li>How many <em>2009</em> cars in this dataset have manual transmission? </li>
+                        </ul>
+                        <p>Notice that the column you use to filter the data (such as year) doesn't have to be the column you are asking about (such as transmission).</p>
+                    </div>
+                </div>
+			</ol>
+		</div>
+        <div class="comment">Images need alt/title text. --MF, 6/27/19</div>
+        <p>
+            Sometimes, you want to keep a subset of your data (such as "Which cars were made in 2010?"), but other times, you just want one item that matches your requirement (such as "What's a car that was made in 2010?"). Snap<em>!</em> has a higher order function <img class="inline nopadtb" src="/bjc-r/img/blocks/find-first.png" alt="find first item () in 'list input slot'" title="find first item () in 'list input slot'" /> that works similarly to <code>keep</code>, but it reports only the first item that's found. 
+            <a href="#hint-findfirst" data-toggle="collapse" title="Click for an example of keep vs. find first.">Click for an example of <code>keep</code> vs. <code>find first</code>.</a>
+            <div id="hint-findfirst" class="collapse">
+                <img class="indent" src="/bjc-r/img/5-algorithms/keep-cars-2010.png" alt="" title="" />
+                <img class="indent" src="/bjc-r/img/5-algorithms/find-first-car-2010.png" alt="" title="" />
+            </div>
+        </p>
+        <div class="endnote">
+            <p><code>Find first</code> is a higher order function like <code>keep</code>, <code>map</code>, and <code>combine</code>, because it takes a function (a predicate) as input.</p>
+            <p>(<code>Find first</code> is like <code>item (1) of (keep))</code>.)</p>
+        </div>
+            
+        <div class="forYouToDo">
+			<ol start="4">
+                <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> Ask and answer a question that you can answer by looking at a single column of a portion of your data set and <strong>examining just the first item</strong>. Build code to answer your question.</li>
+			</ol>
+		</div>
+
+        
+    </body>
+</html>
