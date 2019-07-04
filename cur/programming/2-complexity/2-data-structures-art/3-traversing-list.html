@@ -10,8 +10,7 @@
     </head> 
 
 	<body>
-        <h2>Checking Each Quiz Answer</h2>
-        <div class="todo">Another possible title: "Traversing the List of Quiz Items with <code>For Each</code>" --MF, 4/15/19</div>
+        <h2>Checking Each Quiz Answer using <code>For Each</code></h2>
 
         <div class="learn">
             <p>
@@ -24,7 +23,7 @@
             <div class="stagedir">
                 The students are considering how to use their abstract data type as they develop the code for their project. 
             </div>
-            <div><span>Alphie:</span> We can use our <img class="inline" src="/bjc-r/img/2-complexity/question-selector-notype.png" alt="question from ()" title="question from ()"/> and <img class="inline" src="/bjc-r/img/2-complexity/answer-selector-notype.png" alt="answer from ()" title="answer from ()"/> selectors to get the question and answer for any pair in our list. But how do we get the pair out of the list in the first place?</div>
+            <div><span>Alphie:</span> We can use our <img class="" src="/bjc-r/img/2-complexity/question-selector.png" alt="question from quiz item: ()" title="question from quiz item: ()"/> and <img class="" src="/bjc-r/img/2-complexity/answer-selector.png" alt="answer from quiz item: ()" title="answer from quiz item: ()"/> selectors to get the question and answer for quiz item in our list. But how do we get the quiz item <em>out</em> of the list in the first place?</div>
             <div>
                 <span>Gamal:</span> Maybe we can use <code>item of</code> inside a <code>for</code> loop and use the index from the <code>for</code> loop as the first input to <code>item of</code>, like this:<br />
                 <img class="indent" src="/bjc-r/img/2-complexity/for-with-item-of.png" alt="for (i) = (1) to (4) {
@@ -34,13 +33,35 @@
 }" />
             </div>
             <div>
-<!--                <img class="imageRight" src="/bjc-r/img/icons/import-tools-mini.png" alt="Import Tools" title="Import Tools" />
-  -->
-                <span>Betsy:</span> Yeah, we could, but that's a little hard to read with that index variable to keep track of, and if we add more questions, we'll have to update the number 4 that tells us when to end the loop. I bet we can use <img src="/bjc-r/img/2-complexity/for-each-(item)-of().png" height="68" alt="for each (item) of 'list input slot' {}" title="for each (item) of 'list input slot' {}"> to do most of that. We could even rename <var>item</var> something logical like <var>question/answer pair</var>. Then the code inside will run once for each question/answer pair in our quiz item list.
+                <span>Betsy:</span> Yeah, we could, but that's a little hard to read with that index variable to keep track of, and if we add more questions, we'll have to update the number 4 that tells us when to end the loop. I bet we can use <img src="/bjc-r/img/2-complexity/for-each-(item)-of().png" height="68" alt="for each (item) of 'list input slot' {}" title="for each (item) of 'list input slot' {}"> to <em>traverse</em> the list. We could even rename <var>item</var> something logical like <var>quiz item</var>. Then the code inside will run once for each quiz item in our list.
             </div>
-            <div><span>Alphie:</span> And the code will be more readable when we want to do something like asking the question or checking the answer from a pair.</div>
+            <div><span>Alphie:</span> And the code will be more readable when we want to do something like asking the question or checking the answer from a pair!</div>
         </div>
 
+        <div class="vocabFullWidth">: <strong>Traversing a List</strong>
+            <div class="comment">AAP-2.O.2</div>
+            <p><strong>Traversing</strong> a list means looking at each item of the list. <code>For each</code> is iterative (that is, it's repetitive, like <code>for</code>, which also traverses lists). But unlike <code>for</code>, <code>for each</code> traverses the list <em>without using index numbers</em>.</p>
+            <div class="todo">This language should be tightened up. For example, it's not clear whether <code>for</code> traverses a list. --MF, 4/15/19<br />
+			I changed FOR to FOREVER, so clearly not traversing a list.  Does that fix it?  -bh
+            <p>No, that makes things worse because the end of the sentence won't make sense. --MF, 7/3/19</p></div>
+        </div>
+
+        <div class="forYouToDo">
+            <ol>
+                <li>
+                    Use <code>for each</code> to <em>traverse</em> your list, asking each quiz question, checking each answer, and letting the user know if they are right or wrong on each item.
+                </li>
+                <li>Take your quiz a few times as a user would, and work out any problems with the code. Then, give your quiz to a friend.</li>
+            </ol>
+        </div>
+        
+        <div class="ifTime">
+            <ol start="3">
+                <li>If the user is wrong, don't just let them know, but tell them the right answer too.</li>
+                <li>Use a script variable to keep track of the player's score and report it at the end of the quiz.</li>
+            </ol>
+        </div>
+        
         <div class="examFullWidth AP-only">
             <div class="comment">AAP-2.O.3</div>
             <div class="pseudop">
@@ -55,36 +76,6 @@
             <div class="todo">We could add an APblocktran image here too. --MF, 4/19/19</div>
         </div>
 
-        <div class="vocabFullWidth">: <strong>Traversing a List</strong>
-            <div class="comment">AAP-2.O.2</div>
-            <p><strong>Traversing</strong> a list means looking at each item of the list. <code>For each</code> is iterative (that is, repetitive, like <code>forever</code>), but <code>for each</code> traverses the list <em>without using index numbers</em>.</p>
-            <div class="todo">This language should be tightened up. For example, it's not clear whether <code>for</code> traverses a list. --MF, 4/15/19<br />
-			I changed FOR to FOREVER, so clearly not traversing a list.  Does that fix it?  -bh</div>
-        </div>
-
-        <div class="forYouToDo">
-            <ol>
-                <li>
-<!--                    <img class="inline" src="/bjc-r/img/icons/import-tools.png" alt="Import Tools" title="Import Tools" />
-  -->
-                    Use <code>for each</code> to <em>traverse</em> your list, asking each question, checking each answer, and letting the user know if they are right or wrong on each item.
-                </li>
-<!--                <div class="endnote">
-                    Like <code>for</code>, the <code>for each</code> block isn't installed automatically; you'll need to select "Import Tools..." from the Snap<em>!</em> File (<img src="/bjc-r/img/1-introduction/file_button.png" style="height:1.5em;" alt="File button" title="File button"/>) menu. <br />
-                </div>
-  -->
-                <li>Take your quiz a few times and work out any problems with the code. Then give your quiz to a friend.</li>
-            </ol>
-        </div>
-        
-        <div class="ifTime">
-            <ol start="3">
-                <li>If the user is wrong, don't just let them know, but tell them the right answer too.</li>
-                <li>Use a script variable to keep track of the player's score and report it at the end of the quiz.</li>
-            </ol>
-        </div>
-        
-        
         <div class="forYouToDo">
 			<ol start="5">
                 <li>These questions are similar to those you will see on the AP CSP exam.
