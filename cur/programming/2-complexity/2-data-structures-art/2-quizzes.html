@@ -18,21 +18,28 @@
         <div class="forYouToDo" id="first">
 			<ol>
                 <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />Decide what type of quiz you would like to build, and write three to five questions and their correct answers.</li>
-                <li><img class="inline" src="/bjc-r/img/icons/take-turns-speaking-mini.gif" alt="Take turns speaking" title="Take turns speaking">Read the following section, opening all the links and carefully reading all the code as you go...</li>
+                <li><img class="inline" src="/bjc-r/img/icons/take-turns-speaking-mini.gif" alt="Take turns speaking" title="Take turns speaking">Read the following section, <em>clicking all the links</em> and carefully reading all the code as you go...</li>
 			</ol>
 		</div>
         
+	<div class="todo">I take it the "unique" in the vocab box is AP language?  Because it sounds weird, as if we were saying that there can't be duplicate items in a list. -bh</div>
+
         <div class="vocab">
-            <p>The <strong>index</strong> of an item in a list its unique position number in the list.</p>
+            <p>The <strong>index</strong> of an item in a list is its unique position number in the list.</p>
             <div class="todo">AAP-1.C.3 (partial). We address the part about strings on <a href="http://localhost/bjc-r/cur/programming/2-complexity/3-predicates/3-solving-word-puzzle.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment">2.3.3</a>. --MF, 12/19/18</div>
         </div>
         <p>
-            You'll use a list to store your quiz items in a variable. You <em>could</em> just <a href="#hint-solidlist" data-toggle="collapse" title="put all the questions and their answers in a list like this">put all the questions and their answers in a list like this</a> and then use <img src="/bjc-r/img/blocks/item-empty-full-size.png" height="35" alt="item () of 'list input slot'" title="item () of 'list input slot'"> to retrieve each question and answer using its index.
+            You'll use a list to store your quiz items in a variable. You <em>could</em> just <a href="#hint-solidlist" data-toggle="collapse" title="put all the questions and their answers in a list like this">put all the questions and their answers in a list like this</a> and then use <img src="/bjc-r/img/blocks/item-empty-full-size.png" height="35" alt="item () of 'list input slot'" title="item () of 'list input slot'"> to retrieve each question and each answer using its index.
             <div id="hint-solidlist" class="collapse"><img class="indent" src="/bjc-r/img/2-complexity/quiz-questions-list.png" alt="set (computer science quiz) to (list (What is the computer science term for looping or repetition?) (iteration) (What is the name for the abstraction in a program that can hold a value?) (variable) (What kind of variable is available only in the part of the program where it is defined?) (local variable))" title="set (computer science quiz) to (list (What is the computer science term for looping or repetition?) (iteration) (What is the name for the abstraction in a program that can hold a value?) (variable) (What kind of variable is available only in the part of the program where it is defined?) (local variable))"></div>
+	    <div class="todo">I still think "items five and six" isn't quite honest.  You'd say<br />
+            <img src="/bjc-r/img/2-complexity/imperfect-quiz.png"><br />
+	    ... which is definitely hideous, but not because you'd be doing
+	    arithmetic in your head.  I see that you don't want to show this code, and indeed you shouldn't, but let's find wording that's both convincing and true. -bh</div>
+
             That might be ok for the first quiz item (you could use <img class="inline nopadtb" src="/bjc-r/img/2-complexity/item-1-of-csquiz.png" alt="item (1) of (computer science quiz)" title="item (1) of (computer science quiz)"> to get the first question and <img class="inline nopadtb" src="/bjc-r/img/2-complexity/item-2-of-csquiz.png" alt="item (2) of (computer science quiz)" title="item (2) of (computer science quiz)"> to get the first answer), but for the third quiz item, you'd need list items five and six, and that approach is inelegant and prone to errors.
         </p>
         <div class="vocab">: <strong>Sublist</strong> 
-            <p>A <strong>sublist</strong> is a list inside another list.</p>
+            <p>A <strong>sublist</strong> is a list as an item of another list.</p>
         </div>
         <p>
             Instead, <a href="#hint-sublist" data-toggle="collapse" title="you can use a sublist for each question/answer pair">you can use a <em>sublist</em> for each question/answer pair</a>. Then you could choose just one of those lists at a time to work with.
@@ -45,13 +52,15 @@
         <p>
             But with nested lists (lists with sublists) it can be hard to keep track of the input numbers for <code>item of</code>, so <a href="#hint-useabstraction" data-toggle="collapse" title="a better way is to use abstraction to organize the quiz items">a better way is to <em>use abstraction</em> to organize the quiz items</a>. 
             <div id="hint-useabstraction" class="collapse">
+		A data abstraction consists of a <em>constructor</em>:
                 <img class="indent" src="/bjc-r/img/2-complexity/quiz-questions-list-of-adts.png" alt="set (computer science quiz) to (list (question: (What is the computer science term for looping or repetition?) answer: (iteration)) (question: (What is the name for the abstraction in a program that can hold a value?) answer: (variable)) (question: (What kind of variable is available only in the part of the program where it is defined?) answer: (local variable)))" title="set (computer science quiz) to (list (question: (What is the computer science term for looping or repetition?) answer: (iteration)) (question: (What is the name for the abstraction in a program that can hold a value?) answer: (variable)) (question: (What kind of variable is available only in the part of the program where it is defined?) answer: (local variable)))">
                 <div class="comment">Image needs alt/title text. --MF, 7/3/19</div>
+		<br />and one or more <em>selectors:</em>
                 <img class="indent" src="/bjc-r/img/2-complexity/abstracted-quiz-script.png" alt="" title="" />
             </div>
         </p>
         <p>
-            These abstractions just hide the <code>list</code> and <code>item of</code> blocks, so they aren't complicated to build, but they can make your code <em>much</em> easier to write, read, and debug.<br />
+            This abstraction just hides the <code>list</code> and <code>item of</code> blocks, so it isn't complicated to build, but it can make your code <em>much</em> easier to write, read, and debug.<br />
         </p>
         <div class="vocabFullWidth">
             <ul>
@@ -84,13 +93,14 @@
         <div class="todo">The constructor makes it certain that every time you use it, you build the thing in the right order.</div>
         
         <div class="forYouToDo">
+	    <div class="todo">I wish we could find a way to combine this with the vocab box above.  As it is, first we tell them in white what an ADT is and what its pieces are, then we tell them again in gray, and then we tell them for a <em>third</em> time in green. -bh</div>
             <ol start="3">
                 <li>Build the custom <code>quiz item</code> abstract data type (both the constructor and the two selectors).</li>
                 <div class="narrower">
                     <h4><strong>Specifying an Input Type</strong></h4>
-                    <p>You can make your blocks show what type of data they expect as inputs. It's not necessary in Snap<em>!</em> but, like assigning a color to a block, it can be a helpful reminder of what the block does and what type of input it expects. You've already seen input slots of several shapes, indicating different expected data types. </p>
+                    <p>Your selectors expect a quiz item, i.e., a list, as input.  You can make your blocks <em>show</em> what type of data they expect. It's not necessary in Snap<em>!</em> but, like assigning a color to a block, it can be a helpful reminder of what the block does and what type of input it expects. You've already seen input slots of several shapes, indicating different expected data types. </p>
                     <p>
-                        After creating the title and naming the input,
+                        In the Block Editor while creating a selector, click on a plus sign to enter an input name.  Then...
                         <ol style="list-style-type:lower-alpha">
                             <li>
                                 Click on the arrow to the right of the input name:<br />
