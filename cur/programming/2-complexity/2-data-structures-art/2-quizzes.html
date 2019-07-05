@@ -22,24 +22,14 @@
 			</ol>
 		</div>
         
-	<div class="todo">I take it the "unique" in the vocab box is AP language?  Because it sounds weird, as if we were saying that there can't be duplicate items in a list. -bh<p>Yes, but I see your point. I could image making a little graphic showing a list with duplicate item(s) and how they each have a unique position. See if you like what I added to the vocab box. (This poses some layout issues, but I'm not going to solve them unless that's the right content solution.) --MF, 7/5/19
-        </p></div>
-
         <div class="vocab">
-            <p>The <strong>index</strong> of an item in a list is its unique position number in the list.</p>
-            <div class="todo">AAP-1.C.3 (partial). We address the part about strings on <a href="http://localhost/bjc-r/cur/programming/2-complexity/3-predicates/3-solving-word-puzzle.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment">2.3.3</a>. --MF, 12/19/18</div>
-            <p class="center"><img class="" src="/bjc-r/img/2-complexity/shopping-list-indices.png" alt="" title="" /></p>
-            The index of item "oranges" is 5. "Bread" appears twice in the list at indices 3 and 6.
+            <p>The <strong>index</strong> of an item in a list is its position number in the list.</p>
+            <div class="todo">AAP-1.C.2, AAP-1.C.3 (partial). We address the part about strings on <a href="http://localhost/bjc-r/cur/programming/2-complexity/3-predicates/3-solving-word-puzzle.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment">2.3.3</a>. --MF, 12/19/18</div>
         </div>
         <p>
             You'll use a list to store your quiz items in a variable. You <em>could</em> just <a href="#hint-solidlist" data-toggle="collapse" title="put all the questions and their answers in a list like this">put all the questions and their answers in a list like this</a> and then use <img src="/bjc-r/img/blocks/item-empty-full-size.png" height="35" alt="item () of 'list input slot'" title="item () of 'list input slot'"> to retrieve each question and each answer using its index.
             <div id="hint-solidlist" class="collapse"><img class="indent" src="/bjc-r/img/2-complexity/quiz-questions-list.png" alt="set (computer science quiz) to (list (What is the computer science term for looping or repetition?) (iteration) (What is the name for the abstraction in a program that can hold a value?) (variable) (What kind of variable is available only in the part of the program where it is defined?) (local variable))" title="set (computer science quiz) to (list (What is the computer science term for looping or repetition?) (iteration) (What is the name for the abstraction in a program that can hold a value?) (variable) (What kind of variable is available only in the part of the program where it is defined?) (local variable))"></div>
-	    <div class="todo">I still think "items five and six" isn't quite honest.  You'd say<br />
-            <img src="/bjc-r/img/2-complexity/imperfect-quiz.png"><br />
-	    ... which is definitely hideous, but not because you'd be doing
-	    arithmetic in your head.  I see that you don't want to show this code, and indeed you shouldn't, but let's find wording that's both convincing and true. -bh<p>Let's talk about it. Maybe: "but for the thirteenth quiz item, you'd need list items twenty-five and twenty-six (in general, quiz item <span class="katex">i</span> would have its question at list item <span class="katex">2i-1</span> and its answer at <span class="katex">2i</span>, and that approach is inelegant and prone to errors." --MF, 7/5/19</div>
-
-            That might be ok for the first quiz item (you could use <img class="inline nopadtb" src="/bjc-r/img/2-complexity/item-1-of-csquiz.png" alt="item (1) of (computer science quiz)" title="item (1) of (computer science quiz)"> to get the first question and <img class="inline nopadtb" src="/bjc-r/img/2-complexity/item-2-of-csquiz.png" alt="item (2) of (computer science quiz)" title="item (2) of (computer science quiz)"> to get the first answer), but for the third quiz item, you'd need list items five and six, and that approach is inelegant and prone to errors.
+            That might be ok for the first quiz item (you could use <img class="inline nopadtb" src="/bjc-r/img/2-complexity/item-1-of-csquiz.png" alt="item (1) of (computer science quiz)" title="item (1) of (computer science quiz)"> to get the first question and <img class="inline nopadtb" src="/bjc-r/img/2-complexity/item-2-of-csquiz.png" alt="item (2) of (computer science quiz)" title="item (2) of (computer science quiz)"> to get the first answer), but for a long quiz, you might leave out one answer by accident and then after that, the program will get questions and answers mixed up.
         </p>
         <div class="vocab">: <strong>Sublist</strong> 
             <p>A <strong>sublist</strong> is a list as an item of another list.</p>
@@ -53,13 +43,10 @@
             </div>
         </p>
         <p>
-            <div class="comment">I don't like your changes here. It distracts from reading the code and is duplicative of the vocab box the follows just below. --MF, 7/5/19</div>
             But with nested lists (lists with sublists) it can be hard to keep track of the input numbers for <code>item of</code>, so <a href="#hint-useabstraction" data-toggle="collapse" title="a better way is to use abstraction to organize the quiz items">a better way is to <em>use abstraction</em> to organize the quiz items</a>. 
             <div id="hint-useabstraction" class="collapse">
-		A data abstraction consists of a <em>constructor</em>:
                 <img class="indent" src="/bjc-r/img/2-complexity/quiz-questions-list-of-adts.png" alt="set (computer science quiz) to (list (question: (What is the computer science term for looping or repetition?) answer: (iteration)) (question: (What is the name for the abstraction in a program that can hold a value?) answer: (variable)) (question: (What kind of variable is available only in the part of the program where it is defined?) answer: (local variable)))" title="set (computer science quiz) to (list (question: (What is the computer science term for looping or repetition?) answer: (iteration)) (question: (What is the name for the abstraction in a program that can hold a value?) answer: (variable)) (question: (What kind of variable is available only in the part of the program where it is defined?) answer: (local variable)))">
                 <div class="comment">Image needs alt/title text. --MF, 7/3/19</div>
-		<br />and one or more <em>selectors:</em>
                 <img class="indent" src="/bjc-r/img/2-complexity/abstracted-quiz-script.png" alt="" title="" />
             </div>
         </p>
@@ -70,20 +57,21 @@
             <ul>
                 <li>
                     The <img class="inline" src="/bjc-r/img/2-complexity/quiz-item-constructor.png" alt="quiz item, question: () answer: ()" title="quiz item, question: () answer: ()" /> block is the <strong>constructor</strong>; it <em>constructs</em> the data structure.<br />
-                    <img class="indent" src="/bjc-r/img/2-complexity/quiz-questions-constructor-definition.png" alt="quiz item, question: (question) answer: (answer) {report (list (question) (answer))}" title="quiz item, question: (question) answer: (answer) {report (list (question) (answer))}">
+                    <!--<img class="indent" src="/bjc-r/img/2-complexity/quiz-questions-constructor-definition.png" alt="quiz item, question: (question) answer: (answer) {report (list (question) (answer))}" title="quiz item, question: (question) answer: (answer) {report (list (question) (answer))}">-->
                 </li>
                 <li>
                     The <img class="inline" src="/bjc-r/img/2-complexity/question-selector.png" alt="question from quiz item: ()" title="question from quiz item: ()"/> and <img class="inline" src="/bjc-r/img/2-complexity/answer-selector.png" alt="answer from quiz item: ()" title="answer from quiz item: ()"/> blocks are the <strong>selectors</strong>; they each <em>select</em> one piece of the data structure.<br />
-                    <img class="indent" src="/bjc-r/img/2-complexity/question-definition.png" alt="question from quiz item: (quiz item) {report (item (1) of (quiz item)}" title="question from quiz item: (quiz item) {report (item (1) of (quiz item)}" />
-                    <img class="indent" src="/bjc-r/img/2-complexity/answer-definition.png" alt="answer from quiz item: (quiz item) {report (item (2) of (quiz item)}" title="answer from quiz item: (quiz item) {report (item (2) of (quiz item)}" />
+                    <!--<img class="indent" src="/bjc-r/img/2-complexity/question-definition.png" alt="question from quiz item: (quiz item) {report (item (1) of (quiz item)}" title="question from quiz item: (quiz item) {report (item (1) of (quiz item)}" />
+                    <img class="indent" src="/bjc-r/img/2-complexity/answer-definition.png" alt="answer from quiz item: (quiz item) {report (item (2) of (quiz item)}" title="answer from quiz item: (quiz item) {report (item (2) of (quiz item)}" />-->
                 </li>
                 <li>
-                    The constructor and selector together make up the <code>quiz item</code> <em>abstract data type</em>. An <strong>abstract data type</strong> (or <strong>ADT</strong>) is a custom data type that's meaningful to your program. It's not built into the language; you develop it as you code. </li><li>
-                    A <strong>data type</strong> is  what type of data something is (number, text string, list, etc.). For example, the data type for the first input to <img src="/bjc-r/img/blocks/item.png" height="35" alt="item (1) of ()" title="item (1) of ()"> is number and the data type for its second is list.
+                    The constructor and selector together make up the <code>quiz item</code> <em>abstract data type</em>. An <strong>abstract data type</strong> (or <strong>ADT</strong>) is a custom data type that's meaningful to your program. It's not built into the language; you develop it as you code. 
                 </li>
                 <li>
-                    Each programming language provides some <strong>primitive data types</strong> (data types that are built-in). For example, Snap<em>!</em> provides numbers, text (words and sentences), Booleans (true or false), lists, and some you haven't yet used as data (like sprites and costumes). <a href="#hint-target" data-toggle="collapse" title="This block's pull-down menu shows all of Snap!'s primitive types.">This block's pull-down menu shows all of Snap<em>!</em>'s primitive types.</a>
-                    <div class="comment"></div>
+                    A <strong>data type</strong> is what kind of data something is (number, text string, list, etc.). For example, the data type for the first input to <img src="/bjc-r/img/blocks/item.png" height="35" alt="item (1) of ()" title="item (1) of ()"> is number and the data type for its second input is list.
+                </li>
+                <li>
+                    Each programming language provides some <strong>primitive data types</strong> (data types that are built-in). For example, Snap<em>!</em> provides numbers, text (words and sentences), Booleans (true or false), lists, and some you haven't yet used as data (such as sprites and costumes). <a href="#hint-target" data-toggle="collapse" title="This block's pull-down menu shows all of Snap!'s primitive types.">This block's pull-down menu shows all of Snap<em>!</em>'s primitive types.</a>
                     <div id="hint-target" class="collapse">
                     <img class="indent" src="/bjc-r/img/2-complexity/isa-menu.png" alt="primitive types: number, text, Boolean, list, sprite, command, reporter, predicate" title="primitive types: number, text, Boolean, list, sprite, command, reporter, predicate"/>
                     </div>
@@ -118,186 +106,6 @@
                 <li>Create a global variable to store your quiz items and initialize it as a list using your constructor. (Don't type everything again; use copy and paste.)</li>
                 <li>Test both the selectors for different items in your list of quiz items, and debug any problems.</li>
             </ol>
-        </div>
-        
-        
-		
-
-        <div class="todo">
-            <hr />
-            <h1>Old version below</h1>
-            <hr />
-        
-        
-        <div class="todo">I think they need some kind of solid experience with <code>item of</code> before we abstract it away with an ADT. Gossip was just an introduction and it only used random, so we weren't really thinking about accessing any particular item. I believe something else is needed here before ADTs. --MF, 4/15/19</div>
-        <div class="todo">
-            <p>Lists can contain letters or words, as you've seen before; lists, as you'll see in this lab; or even blocks, as you'll see in Unit 6. </p>
-            <p>
-                Lists can contain:
-                <div class="comment">Assuming we go with the plan to move vee to U3 as an activity. This will need edits if we don't. --MF, 4/15/19</div>
-                <ul>
-                    <li>Strings (letters, numbers, or words), as you've seen before;</li>
-                    <li>Lists, as you'll see in this project; or even...</li>
-                    <li>Blocks, as you'll see in Unit 3.</li>
-                </ul>
-            </p>
-            <h4>I want more of the following before ADTs; <a href="http://localhost/bjc-r/cur/programming/1-introduction/2-gossip-and-greet/2-customizing.html?topic=nyc_bjc%2F1-intro-loops.topic&course=bjc4nyc.html&novideo&noassignment">gossip</a> isn't enough... --MF, 3/21/19</h4>
-            When you used <code>item of</code> with lists in Unit 1, you were accessing items from the list randomly, but you can also select a specific item in a list by specifying its <em>position</em> by  number. That number is called the <strong>index</strong>.<br />
-            <img class="indent" src="/bjc-r/img/3-lists/item-2-of-list-reporting.png" alt="item (2) of (list () (cantaloupe) (banana)) reporting 'cantaloupe'" title="item (2) of (list () (cantaloupe) (banana)) reporting 'cantaloupe'" />
-            <!--<img src="/bjc-r/img/3-lists/item-5-of-shoppinglist-reporting-bananas.png" alt="item (5) of (list {apples, bread, yogurt, spinach, bananas, eggs, cucumber, tomatoes, olive oil, almonds}" title="list {apples, bread, yogurt, spinach, bananas, eggs, cucumber, tomatoes, olive oil, almonds}) reporting 'bananas'" />--><br />
-            <div class="vocabBig">
-				<p>The <strong>index</strong> of an item in a list is the number for its position in the list.</p>
-                <div class="todo"><p>Every element of a list is assigned a unique <strong>index</strong> for referencing specific elements.</p></div>
-                <div class="todo">AAP-1.C.3 (partial). We address the part about strings on <a href="http://localhost/bjc-r/cur/programming/2-complexity/3-predicates/3-solving-word-puzzle.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment">2.3.3</a>. --MF, 12/19/18</div>
-            </div>
-        </div> 
-
-        
-        <div class="dialogue">
-            <div class="stagedir">
-                <p>Betsy, Alphie, and Gamal are creating a quiz to help them study computer science. </p>
-            </div>
-            <div><span>Betsy:</span> We just learned how to use variables to store things, but we are going to need a lot of variables!</div>
-            <div>
-                <span>Alphie:</span> What if we stored everything in the same variable using a list like this?<br />
-                <img class="indent" src="/bjc-r/img/2-complexity/quiz-questions-list.png" alt="set (computer science quiz) to (list (What is the computer science term for looping or repetition?) (iteration) (What is the name for the abstraction in a program that can hold a value?) (variable) (What kind of variable is available only in the part of the program where it is defined?) (local variable) (What is the process of testing your program, finding problems, and fixing them called?) (debugging))" title="set (computer science quiz) to (list (What is the computer science term for looping or repetition?) (iteration) (What is the name for the abstraction in a program that can hold a value?) (variable) (What kind of variable is available only in the part of the program where it is defined?) (local variable) (What is the process of testing your program, finding problems, and fixing them called?) (debugging))">
-            </div>
-        </div>
-        
-        <div class="forYouToDo" id="first">
-            <ol>
-            	<li><div class="newProject"><span class="text">"U2L2-Quiz"</span><img src="/bjc-r/img/icons/new-project-called.png" alt="Create a new project called U2L2-Quiz" title="Create a new project called U2L2-Quiz" /></div></li>
-                <div class="todo">We should not have them do it the wrong way first! --MF, 7/2/19</div>
-                <li>Decide what type of quiz you would like to build, write three to five questions and their correct answers, and store them in a variable as a list.</li>
-            </ol>
-        </div>
-		
-        <div class="examFullWidth">
-            <ul>
-                <div class="comment">AAP-1.C.1 and AAP-1.D.7.</div>
-                <li>The list expression <img class="inline" src="/bjc-r/img/2-complexity/example-list.png" alt="{7, nine, apples, spaghetti}" title="{7, nine, apples, spaghetti}" /> would be written as <pre class="inline">[7, nine, apples, spaghetti]</pre>.</li>
-                <li>The assignment instruction <img class="inline" src="/bjc-r/img/2-complexity/example-list-assignment.png" alt="set (mylist) to {7, nine, apples, spaghetti}" title="set (mylist) to {7, nine, apples, spaghetti}" /> would be written as <pre class="inline">myList &leftarrow; [7, nine, apples, spaghetti]</pre>.</li>
-                <div class="todo">We could add APblocktran images here too. --MF, 4/19/19</div>
-            </ul>
-        </div>
-        
-        <div class="dialogue">
-            <div class="stagedir">
-                <p>The students are discussing how to store each of the quiz questions together with their matching answers.</p>
-            </div>
-            <div>
-                <span>Alphie:</span> How do we get the questions and answers out of the list?
-            </div>
-            <div>
-                <span>Betsy:</span> Look in the palette. Below the <code>list</code> block, there is an <img src="/bjc-r/img/blocks/item.png" height="35" alt="item (1) of ()" title="item (1) of ()"> block. Maybe we can use that. The first input is the position of the thing that we want, and the second input is the list.
-            </div>
-            <div>
-                <span>Alphie:</span> OK, so we use <img class="inline nopadtb" src="/bjc-r/img/2-complexity/item-1-of-csquiz.png" alt="item (1) of (computer science quiz)" title="item (1) of (computer science quiz)"> to get the first question and <img class="inline nopadtb" src="/bjc-r/img/2-complexity/item-2-of-csquiz.png" alt="item (2) of (computer science quiz)" title="item (2) of (computer science quiz)"> to get the first answer...
-            </div>
-            <div>
-                <span>Betsy:</span> It's going to be hard to keep track of the numbers. For the third question and answer pair, we need items 5 and 6. Who can remember that? It seems easy to mess it up!
-            </div>
-            <div>
-                <span>Gamal:</span> What if we use a separate list for each question/answer pair, to keep things more organized. Then we could choose one of those lists at a time and just work with that.<br />
-                <img class="indent" src="/bjc-r/img/2-complexity/quiz-questions-list-of-lists.png" alt="set (computer science quiz) to (list (list (What is the computer science term for looping or repetition?) (iteration)) (list (What is the name for the abstraction in a program that can hold a value?) (variable)) (list (What kind of variable is available only in the part of the program where it is defined?) (local variable)) (list (What is the process of testing your program, finding problems, and fixing them called?) (debugging)))" title="set (computer science quiz) to (list (list (What is the computer science term for looping or repetition?) (iteration)) (list (What is the name for the abstraction in a program that can hold a value?) (variable)) (list (What kind of variable is available only in the part of the program where it is defined?) (local variable)) (list (What is the process of testing your program, finding problems, and fixing them called?) (debugging)))">
-            </div>
-            <div>
-                <span>Betsy:</span> Yes! And we could even create a custom block that makes a question/answer pair to make it easier to see which are the questions and which are the answers!<br />
-                <img class="indent" src="/bjc-r/img/2-complexity/quiz-questions-constructor-definition.png" alt="question: (question) answer: (answer) {report (list (question) (answer))}" title="question: (question) answer: (answer) {report (list (question) (answer))}">
-                <img class="indent" src="/bjc-r/img/2-complexity/quiz-questions-list-of-adts.png" alt="set (computer science quiz) to (list (question: (What is the computer science term for looping or repetition?) answer: (iteration)) (question: (What is the name for the abstraction in a program that can hold a value?) answer: (variable)) (question: (What kind of variable is available only in the part of the program where it is defined?) answer: (local variable)) (question: (What is the process of testing your program, finding problems, and fixing them called?) answer: (debugging)))" title="set (computer science quiz) to (list (question: (What is the computer science term for looping or repetition?) answer: (iteration)) (question: (What is the name for the abstraction in a program that can hold a value?) answer: (variable)) (question: (What kind of variable is available only in the part of the program where it is defined?) answer: (local variable)) (question: (What is the process of testing your program, finding problems, and fixing them called?) answer: (debugging)))">
-            </div>
-        </div>
-        
-        <div class="vocabFullWidth">
-            <ul>
-                <li>A <strong>data type</strong> is  what type of data something is (number, text string, list, etc.). For example, Betsy noticed that the <em>data type</em> for the second input to <img src="/bjc-r/img/blocks/item.png" height="35" alt="item (1) of ()" title="item (1) of ()"> is a list. </li>
-                <li>
-                    Each programming language provides some <strong>primitive data types</strong> (data types that are built-in). For example, Snap<em>!</em> provides numbers, text (words and sentences), Booleans, lists, and some you haven't yet used as data. This block's pull-down menu shows all of Snap<em>!</em>'s primitive types:<br />
-                    <img class="indent" src="/bjc-r/img/2-complexity/isa-menu.png" alt="primitive types: number, text, Boolean, list, sprite, command, reporter, predicate" title="primitive types: number, text, Boolean, list, sprite, command, reporter, predicate"/>
-                </li>
-                <li>An <strong>abstract data type</strong> (or <strong>ADT</strong>) is a custom data type that's meaningful to your program. It's not built into the language; you develop it as you code. For example Gamal, Betsy, and Alphie just made up a <code>question answer</code> abstract data type.</li>
-                <li><strong>Data abstraction</strong> is the creation and use of abstract data types in a program.</li>
-            </ul>
-            <div class="endnote">
-                <p>The word "abstract" is often used casually to mean something <em>harder</em> to understand or more complex, but in computer science, its meaning is almost the opposite. ADTs are things that you, the programmer, create to make your program <em>easier</em> for you and others to read, debug, and improve.</p>
-            </div>        
-        </div>
-        
-        
-        <div class="forYouToDo">
-            <ol start="3">
-                <li>Build the custom <code>question answer</code> block that Betsy designed, and use it to replace each question/answer list in your list of quiz items. (Don't type everything again; use copy and paste.)</li>
-            </ol>
-        </div>
-        
-        <div class="dialogue">
-            <div class="stagedir">
-                <p>The students are discussing how to retrieve the quiz questions and answers.</p>
-            </div>
-            <div>
-                <span>Alphie:</span> We can use <code>item of</code> to select a question/answer pair, but we need a way to get the question or answer out. I guess we could just use <code>item of</code> again. 
-            </div>
-            <div>
-                <span>Gamal:</span> Yeah, but <img class="inline" src="/bjc-r/img/2-complexity/item-2-of-item-3-of-csquiz.png" alt="item (2) of (item (3) of (computer science quiz))" title="item (2) of (item (3) of (computer science quiz))" /> looks confusing. I'll forget what's going on there when I'm debugging this later.
-            </div>
-            <div>
-                <span>Betsy:</span> We can use <code>item of</code> to get the question and the answer, but let's hide it behind blocks that say what we mean like <img class="inline" src="/bjc-r/img/2-complexity/answer-from-item-3-of-csquiz.png" alt="answer from (item (3) of (computer science quiz))" title="answer from (item (3) of (computer science quiz))" />.
-            </div>
-        </div>
-        
-        <div class="vocabFullWidth">
-            <ul>
-                <li>The <img class="inline" src="/bjc-r/img/2-complexity/question-answer-constructor-notype.png" alt="question: () answer: ()" title="question: () answer: ()" /> block is called the <strong>constructor</strong> of this new abstract data type. It's used to <em>construct</em> data using the ADT.</li>
-                <li> The <img class="inline" src="/bjc-r/img/2-complexity/question-selector-notype.png" alt="question from ()" title="question from ()"/> and <img class="inline" src="/bjc-r/img/2-complexity/answer-selector-notype.png" alt="answer from ()" title="answer from ()"/> blocks are called the <strong>selectors</strong> for the ADT because they each <em>select</em> one piece of the quiz item.</li>
-                <div class="endnote">
-                    You can change the input slot types for the constructor and selectors in the "If There Is Time" activity below.<br />
-                    <img class="indent" src="/bjc-r/img/2-complexity/question-answer-constructor.png" alt="question: () answer: ()" title="question: () answer: ()" />
-                    <div class="comment">These images have been changed, so the alt/title text is now wrong here. --MF, 7/3/19</div>
-                    <img class="indent" src="/bjc-r/img/2-complexity/question-selector.png" alt="question from ()" title="question from ()"/>
-                    <img class="indent" src="/bjc-r/img/2-complexity/answer-selector.png" alt="answer from ()" title="answer from ()"/>
-                    <div class="todo">Are we certain this shouldn't be a FYTD? With ADTs, I don't think it's decoration. Highlighting the expected input type helps prevent bugs. --MF, 7/2/19</div>
-                </div>
-            </ul> 
-        </div>
-        
-        <div class="forYouToDo">
-            <ol start="4">
-                <li>Build the selectors, and test them both for different items in your list of question/answer pairs. Debug any problems.</li>
-            </ol>
-        </div>  
-        
-        <div class="todo">I'm a little uneasy about having things like this and the costuming tips on <a href="http://localhost/bjc-r/cur/programming/1-introduction/2-gossip-and-greet/2-customizing.html?topic=nyc_bjc%2F1-intro-loops.topic&course=bjc4nyc.html&novideo&noassignment">1.2.2</a> hidden away like this. Some people will never see them and wonder why they don't know this stuff. It's one thing to have hidden optional exercises, but I find it strange to hide relevant informative content just because we don't consider it as important. --MF, 4/15/19<br />
-		Yeah!  Just like the one I wanted to unhide the other day...  :-)  Actually I would make a distinction between this example (computer science content) and costumes (not really CS content).  So there should be two kinds of ITIT and TIF boxes, hidden and not hidden. --bh</div>
-
-        <div class="ifTime">
-            <ol start="5">
-                <li>Specify the input type for your constructor and selectors.</li>
-                <div class="endnote">
-                    <h4><strong>Specifying an Input Type</strong></h4>
-                    <p>You can make your blocks show what type of data they expect as inputs: a number, a list, or some other type. It's not necessary in Snap<em>!</em> but, like assigning a color to a block, it can be a helpful reminder of what the block does and what type of input it expects. You've already seen input slots of several shapes, indicating different expected data types. </p>
-                    <p>
-                        After creating the title and naming the input,
-                        <ol style="list-style-type:lower-alpha">
-                            <li>
-                                Click on the arrow to the right of the input name:<br />
-                                <img class="indent" src="/bjc-r/img/2-complexity/create-input-name-right_arrow.png" height="125" alt="create input name right arrow" title="create input name right arrow" />
-                            </li>
-                            <li>Choose the data type you want for that input. (For this project, you'll use the "text" and "list" input types.)</li>
-                            <li>Click OK.</li>
-                        </ol>
-                    </p>
-                    <div class="todo">
-                        <div class="todo">This video needs to be redone for our selectors, but I'm not sure it's needed at all. --MF 3/8/19</div>
-                        <p><a href="#hint-specify-type" data-toggle="collapse" title="This animation shows you how to specify the list input type">This animation</a> shows you how to specify the list input type (<img class="inline" src="/bjc-r/img/3-lists/list_input_slot.png" alt="list input type: rectangle with two smaller orange rectangles inside" title="list input type: rectangle with two smaller orange rectangles inside">). Other input types are specified the same way.</p>
-
-                        <div id="hint-specify-type" class="collapse">
-                            <img class="indent" data-gifffer="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/gotopointAnimation.gif" height="400" alt="List input type selection" title="List input type selection" /> 
-                            <p>Notice that there are many input types you can specify (Text, Number, Boolean, etc.).</p>
-                        </div>
-                    </div>
-                </div>
-            </ol>
-        </div>
         </div>
     
 
