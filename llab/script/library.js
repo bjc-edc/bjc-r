@@ -23,6 +23,7 @@ llab.CORSCompliantServers.push("cs10.berkeley.edu");
 llab.CORSCompliantServers.push("localhost");
 llab.CORSCompliantServers.push("0.0.0.0");
 llab.CORSCompliantServers.push("bjc.edc.org");
+llab.CORSCompliantServers.push("bjc2.edc.org");
 llab.CORSCompliantServers.push("bjc-edc-2017-18.github.io");
 
 //// TODO: Move this to config? Or refactor?
