@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<script type="text/javascript" src="/bjc-r/utilities/gifffer.min.js"></script>
+        <script type="text/javascript">window.onload = function() {Gifffer();}</script>
+        <link rel="stylesheet" type="text/css" href="/bjc-r/css/bjc-gifffer.css">
+        <title>Unit 2 Lab 4: Dealing with Complexity, Page 2</title>
+    </head>
+    
+    <body>
+        <h2>Fractal Art</h2>
+        <div class="endnote">
+            <h4>Please note, this is a adaptation of the student-facing page and was designed for use in a brief conference session. The complete student-facing version is available on <a href="https://bjc.edc.org/bjc-r/cur/programming/2-complexity/4-abstraction/2-fractal-art.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 2 Lab 4 Page 2: Fractal Art" target="_blank">bjc.edc.org</a>.</h4>
+        </div>
+        <div class="learn">
+            <strong>In this project,</strong> you will learn about recursion (when code calls itself) as you program a triangle fractal.
+        </div>
+        
+        <div class="forYouToDo" id="first">
+            <ol>
+                <li><a class="run" href="/bjc-r/prog/CSTA/CSTA-2019-Fractal-Art.xml" target="_blank">Click to load this file in Snap<em>!</em></a></li>				
+                <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />Click each of the first three scripts shown, and discuss what each does. </li>
+                <li>
+                    Without running (clicking) any code, try to predict what will happen if you insert the entire script for the blue triangle between the <code>move</code> and <code>turn</code> blocks of script for the red triangle. (You can build this code to read it, but don't run it until you've made a prediction.)
+                    <div class="endnote">
+                        <a href="#hint-embedding" data-toggle="collapse" title="Click for a video of embedding the blue triangle script inside the red triangle script.">Click for a video.</a>
+                        <div id="hint-embedding" class="collapse">
+                            <img class="indent" src="/bjc-r/img/1-introduction/embedding-one-script-in-another.gif" alt="embedding the blue triangle in the red triangle" title="embedding the blue triangle in the red triangle">
+                        </div>
+                    </div>
+                </li>
+                <li>Then, click this new combined script to verify your prediction. Was the outcome what you expected? If not, discuss why the code did what it did.</li>
+				<li>
+                    Using only the triangle scripts you have explored so far, find a way to make this picture. Use Visible Stepping (described below) to help you work out any bugs.<br />
+                    <img class="indent" src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/three-color-sierpinski.png" height="300" alt="Red triangle with blue children and green grandchildren" title="Red triangle with blue children and green grandchildren" />
+                </li>
+                <div class="endnote">
+                    <p><a href="#hint-stepping" data-toggle="collapse" title="Having trouble? Click here.">Having trouble? Click here for a instructions on using <strong>Visible Stepping</strong> to see your code running one line at a time.</a></p>
+                    <div id="hint-stepping" class="collapse">
+                        <h4><strong>Debugging with Visible Stepping</strong></h4>
+                        <p>Snap<em>!</em> has a debugging tool called <strong>Visible Stepping</strong> that allows you to control how quickly Snap<em>!</em> steps through the blocks of your code. This lets you see the effect of each block one-by-one to help you understand any errors in your code.</p>
+                        <p>After clicking the Visible Stepping button (<img class="inline nopadtb" src="/bjc-r/img/2-complexity/visible-stepping.png" alt="Visible Stepping button with two footprints" title="Visible Stepping button with two footprints" />), you can adjust the slider to control the stepping speed. The sprite executes the each step of the code as it is highlighted in <span style="color: black; background-color:cyan">cyan</span>. <a href="#hint-slider" data-toggle="collapse" title="Click for a video of adjusting the Visible Stepping slider.">Click for a video.</a></p>
+                        <div id="hint-slider" class="collapse">
+                            <img  class="indent" src="/bjc-r/img/2-complexity/VisualSteppinginFractal.gif" alt="Animation that shows how to use Visible stepping in Snap!" title="Animation that shows how to use Visible stepping in Snap!"/>
+                        </div>
+                        <p>If you move the slider to the slowest setting (all the way to the left), the shape of the yellow Run/Pause button will change, and you can press it to <em>single step</em> through your code. This can help you see what happens at a specific point. <a href="#hint-slider-left" data-toggle="collapse" title="Click for a video of single-stepping through code.">Click for a video.</a></p>
+                        <div id="hint-slider-left" class="collapse">
+                            <img class="indent" src="/bjc-r/img/2-complexity/VisualPauseSteppinginFractal.gif" alt="Animation that shows how to use single-step Visible stepping in Snap!" title="Animation that shows how to use single-step Visible stepping in Snap!"/>
+                        </div>
+                    </div>
+                </div>
+            </ol>
+        </div>
+        
+        <p>The code you have built uses a similar script structure repeatedly inside itself. Next, you'll abstract that structure into a custom procedure and use that procedure inside itself.</p>
+        <div class="vocabFullWidth">
+            <p>Using a block inside itself is called <strong>recursion</strong>. It is one of the most powerful techniques in computer science. </p>
+        </div>
+        
+        <p>Recursion works by solving a <em>smaller, similar subproblem</em> and using that result to help solve the original problem.</p>
+        
+        <div class="forYouToDo">
+            <ol start="6">
+                <div class="comment">alt text needs edits</div>
+                <img class="imageRight" src="/bjc-r/img/2-complexity/triangle-new.png" alt="if(size>9){repeat(3){move 100 steps; turn clockwise 120 degrees}}" title="if(size>9){repeat(3){move 100 steps; turn clockwise 120 degrees}}">
+                <li>	
+                    Implement the solution to the subproblem (drawing a single triangle). That is, edit the <code>nested triangle</code> block to <strong>make it draw a single triangle</strong>:
+                    <ol type="a">
+                        <li>First, locate the <code>nested triangle</code> block below the triangle scripts, right-click it, and choose "edit..."</li>
+                        <li>Then, implement a condition: only draw the triangle if the size greater than 9.</li>
+                        <li>Next, using various scripts for a single triangle as your model, make the <code>nested triangle</code> block control the triangle's size based on the input value.<br />
+                        </li>
+                        <li>Click the "Apply" button in the Block Editor, and test the block (by clicking its script) with different inputs (e.g., 4, 9, 18, and 78) to make sure draws triangles of different sizes as long as they are greater than 9.</li>
+                    </ol>
+                </li>
+                <li>
+                    Now <strong>make it recursive</strong>. Previously, you dragged another triangle script between the <code>move</code> and <code>turn</code> blocks. You can do a similar thing here.
+                    <ol>
+                        <li>
+                            Locate the <code>nested triangle</code> block in the blue Motion palette on the left, drag a copy of it into the Block Editor, and insert it into the definition of <code>nested triangle</code> between the <code>move</code> and <code>turn</code> blocks.  Make its <var>size</var> input half the current value of <var>size</var>.<br />
+                            <img class="indent" src="/bjc-r/img/2-complexity/nested-tri-recur-no-color.png" alt="nested triangle, size: (size/2)" title="nested triangle, size: (size/2)">
+                        </li>
+                        <li>
+                            Click "OK," and try out your block again with several inputs (e.g., 4, 9, 18, and 78) to make sure it draws a triangle fractal.
+                            <img class="inline" src="/bjc-r/img/icons/save-mini.png" alt="Save Your Work" title="Save Your Work" />
+                        </li>
+                    </ol>
+                </li>
+				<li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> Discuss how recursion works in this script. How is the recursive code similar to and different from the colorful triangle fractal you coded first? What stops the recursion drawing smaller and smaller triangles forever?</li>
+            </ol>
+		</div>
+        <div class="endnote">
+            <p>Here, you've built a recursive <em>command</em>, which tells the computer to do something. Recursion can also be used in <em>reporters</em>, which report values. <a href="#hint-who" data-toggle="collapse" title="Click for an example students would have already explored.">Click for an example students would have already explored.</a></p>
+            <div id="hint-who" class="collapse">
+                <div class="todo">images need alt/title tags</div>
+                <p>
+                    These images come from a project where the computer generates random gossip. <code>Who</code> reports a noun phrase, <code>does what</code> reports a verb phrase, and <code>more complicated who</code> reports a more complicated noun phrase.<br />
+                    <img class="indent" src="/bjc-r/img/1-introduction/gossip-insides.png" alt="" title="" /><br />
+                    <code>More complicated who</code> is initially given to students with <code>who</code> in the first input slot to <code>join</code>, and they replace that with another copy of <code>more complicated who</code>, making the procedure recursive (sometimes it will call itself, creating a more complicated phrase).
+                    <img class="indent" src="/bjc-r/img/1-introduction/more-complicated-who-definition.png" alt="" title="" />
+                </p>
+            </div>
+        </div>
+    
+    
+    </body>
+</html>
