@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unit 2 Lab 3: Making Decisions, Page 3</title>
+	</head>
+
+	<body>
+        <h2>Solving a Word Puzzle</h2>
+        <div class="endnote">
+            <h4>Please note, this is a adaptation of the student-facing page and was designed for use in a brief conference session. The complete student-facing version is available on <a href="https://bjc.edc.org/bjc-r/cur/programming/2-complexity/3-predicates/3-solving-word-puzzle.html?topic=nyc_bjc/2-conditionals-abstraction.topic&course=bjc4nyc.html" title="Unit 2 Lab 3 Page 3: Solving a Word Puzzle" target="_blank">bjc.edc.org</a>.</h4></div>
+
+        
+        <div class="learn">
+			<p><strong>On this page</strong>, you will solve a crossword puzzle by using the higher order function <code>keep</code> to keep items in a word list that match specific characteristics.</p>
+            <img class="indent" src="/bjc-r/img/2-complexity/keep-example-4-new.png" alt="keep items (does () have (5) letters?) from {apple, banana, orange, grape, kiwi, mango, watermelon} reporting {apple, grape, mango}" title="keep items (does () have (5) letters?) from {apple, banana, orange, grape, kiwi, mango, watermelon} reporting {apple, grape, mango}">
+        </div>		        
+                
+        <div class="vocabFullWidth"><strong>: Predicate</strong> and <strong> Boolean</strong>
+            <p>A <strong>predicate</strong> is a procedure that asks a true/false question such as <img src="/bjc-r/img/2-complexity/a-gt-7.png" alt="a &gt; 7" title="a &gt; 7" />. Predicates report a <strong>Boolean</strong> value (either <img class="inline" src="/bjc-r/img/blocks/true.png" alt="true" title="true" /> or <img class="inline" src="/bjc-r/img/blocks/false.png" alt="false" title="false" />). </p>
+            <p>Predicates fit into a hexagonal input slots of conditionals, such as in  <img class="inline" src="/bjc-r/img/blocks/if-full-size.png" alt="if block" title="if block" /> and <img class="inline" src="/bjc-r/img/blocks/repeat-until.png" alt="repeat until" title="repeat until" />. Predicates can help your program <em>decide when to do something</em>.</p>
+        </div>
+        
+        <p>
+            Predicates can also be used with <img class="inline" src="/bjc-r/img/blocks/keep-new.png" alt="keep items () from 'list input slot'" title="keep items () from 'list input slot'" /> to <em>decide which things to keep</em>. The <code>keep</code> block takes a list and a predicate as input, and it reports a new list keeping only the items from the list that make the predicate true. For example, this expression finds words from the <var>words list</var> whose first letter is v and reports a list of 170 matching words. The <em>blank input slot</em> is where each word in the list goes to decide if it will be kept.<br>
+			<div class="comment">alt/title text needs updates</div>
+            <img class="indent" src="/bjc-r/img/2-complexity/keep-example-6-new-reporting.png" alt="keep items such that ((letter(1) of ( )) = (v)) from (words list)" title="keep items such that ((letter(1) of ( )) = (v)) from (words list)">
+        </p>
+
+        <div class="forYouToDo" id="first">
+		    <ol>
+		        <li>
+                    <img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> Discuss this example of <code>keep</code>. Explain what this expression is doing and why it reports what it does.<br />
+                    <img class="indent" src="/bjc-r/img/2-complexity/keep-example-4-new.png" alt="keep items (does () have (5) letters?) from {apple, banana, orange, grape, kiwi, mango, watermelon} reporting {apple, grape, mango}" title="keep items (does () have (5) letters?) from {apple, banana, orange, grape, kiwi, mango, watermelon} reporting {apple, grape, mango}">
+                </li>
+                <div class="endnote">
+                    <a href="#hint-keep-example" data-toggle="collapse" title="How does this keep example work?">How does this <code>keep</code> example work?</a>
+                    <div id="hint-keep-example" class="collapse">
+                        <p>This expression keeps list items of a certain length; every word in the list is asked whether it has five letters, and only those that do are reported by the expression.</p>
+                    </div>
+                </div>
+                <li>
+                    <img class="inline" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> Discuss this example that uses the <code>and</code> block to combine multiple predicates. Explain what it is doing and why it reports what it does.<br />
+                    <img class="indent" src="/bjc-r/img/2-complexity/keep-example-4-new.png" alt="keep items (does () have (5) letters?) from {apple, banana, orange, grape, kiwi, mango, watermelon} reporting {apple, grape, mango}" title="keep items (does () have (5) letters?) from {apple, banana, orange, grape, kiwi, mango, watermelon} reporting {apple, grape, mango}">
+                </li>
+                <div class="endnote">
+                    <a href="#hint-keep-example2" data-toggle="collapse" title="How does this keep example work?">How does this <code>keep</code> example work?</a>
+                    <div id="hint-keep-example2" class="collapse">
+                        <p>This expression keeps list items that make <em>both</em> inner predicate expressions true; every word in the list is asked whether it has five letters <em>and</em> ends with "put." Only those that match both requirements are reported.</p>
+                    </div>
+                </div>
+            </ol>
+        </div>
+    
+        <div class="takeNote">
+            <h4><strong>Essential Idea</strong></h4>
+            <p>You write the predicate that does the checking, and <code>keep</code> applies that predicate to each item in the input list and then reports a new list of only the items that make your predicate <code>true</code>.</p>
+			<p>Note that the blank input slot in the predicate is <em>required</em> when using <code>keep</code>. This is where the item from the list goes each time the question (predicate) is asked.</p>
+		</div>
+        
+		
+        <div class="forYouToDo">
+			<ol start="3">
+                <li><a class="run" href="/bjc-r/prog/CSTA/CSTA-2019-WordPuzzleSolver.xml" target="_blank">Click to load this file in Snap<em>!</em></a></li>				
+				<li>Build expressions using the predicates provided together with <code>and</code> and <code>keep</code> to solve this Word Puzzle.<br />
+                    <div class="AP-only">
+                    <div class="vocab">
+                    	<p>All the words in the puzzle are related to the AP CS Principles course.</p>
+                    </div>
+                    </div>
+                    <a class="run" href="https://drive.google.com/open?id=1x8ShDe58qUQJDK8n97xoQGY4J4rw9aDsJCmkY-6SQc0" target="_blank"><img class="indent" src="/bjc-r/img/2-complexity/crossword.jpg" alt="Solving a Word Puzzle" title="Solving a Word Puzzle" /></a>
+				</li>
+            </ol>
+		</div>
+                
+        <div class="endnote">
+            <p><code>Keep</code> is a <em>higher order function</em>; it is a function that takes functions as input. <a href="#hint-examples" data-toggle="collapse" title="Click for two other examples from BJC.">Click for two other examples from BJC.</a></p>
+            <div id="hint-examples" class="collapse">
+                <p>
+                    The <img class="inline" src="/bjc-r/img/blocks/map-new.png" alt="map() over ()" title="map() over ()" /> block applies the input function to each item in the input list and then reports a new list of each original value after being modified by the function. For example...<br />
+                    <img class="indent" src="/bjc-r/img/3-lists/map-example-2.png" alt="map (join( )(s)) over (list {cat, dog, bird}) reporting {cats, dogs, birds}" title="map (join( )(s)) over (list {cat, dog, bird}) reporting {cats, dogs, birds}" />
+                </p>
+                <p>
+                    The <img class="inline" src="/bjc-r/img/blocks/combine-new.png" alt="combine 'list input slot' using ()" title="combine 'list input slot' using ()" /> block combines all the elements in the input list using the input operation. For example...<br />
+                    <img class="indent" src="/bjc-r/img/3-lists/combine-simple-example-new.png" alt="combine with (()+()) items of (list {0, 1, 2}) reporting 3" title="combine with (()+()) items of (list {0, 1, 2}) reporting 3" />
+                </p>
+            </div>
+        </div>
+        
+        <img class="imageRight" src="/bjc-r/img/icons/save-mini.png" alt="Save Your Work" title="Save Your Work" />
+        <div class="ifTime"> 
+			<img class="imageRight" src="/bjc-r/img/sys/dialog-cloud-signup.png" alt="signing up for the cloud" title="signing up for the cloud"/> 
+			<ol start="5">
+				<li>
+                	You can save your work into the Snap<em>!</em> cloud.
+                    <ol>
+                    <li>
+                        In the Snap<em>!</em> window, click the Cloud menu (<img src="/bjc-r/img/1-introduction/cloud_button.png" style="height:1.6em;" alt="Cloud button"/>), select "Signup...", and follow the instructions. <br />
+                            <img class="indent" src="/bjc-r/img/sys/button-cloud-with-context.png" alt="cloud icon" title="cloud icon"/>
+                        </li>
+                        <div class="endnote">
+                            <p>You'll be asked to click a link in your email to verify your account, but you don't have to do that right now.</p>
+                        </div>
+                        <li>
+                            Choose "Save" from the Snap<em>!</em> File menu (<img src="/bjc-r/img/1-introduction/file_button.png" style="height:1.6em;" alt="File button" title="File button"/>).
+                        </li>
+                    </ol>
+                </li>
+			</ol>
+            <p style="clear: both; height: 0px;"></p>
+		</div>
+		
+
+	</body>
+</html>
