@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+        <title>Unit 1 Lab 3: Modern Art with Polygons, Page 6</title>
+    </head>
+    
+    <body>
+        <h2>Looping with a Counter</h2>
+        <div class="todo">
+            <p>PG: Pink box has too many unclear things to be clear. "The FOR block lets you not only repeat, but count the repetitions and /use/ that number to vary the repetitions." Or something.</p>
+            <p>BH: Hmm, here we have a FOR variable.  We should think about whether we can avoid the name "variable" and call it, I don't know, a procedure output?</p>
+        </div>
+        
+        <div class="learn">
+            <p>
+                <strong>On this page,</strong> you will use <code>for</code> loops to repeat <em>and count the repetitions</em> so you can use that counter to draw shapes with repeated patterns...<br />
+                <img class="indent" src="/bjc-r/img/prog/spiral.png" alt="spiral" title="spiral" />
+                <img class="indent" src="/bjc-r/img/1-introduction/nested-squares.png" alt="nested squares" title="nested squares" />
+            </p>
+        </div>
+    
+
+        <p>
+        	You've seen these ways to repeat a set of commands:
+			<ul>
+                <div class="sidenoteBig">The <code>forever</code> block generates an <em>infinite loop</em> that goes on forever.  An infinite loop can sometimes be the result of a bug, but in some interactive programs, you <em>want</em> the program to keep running until stopped by the user.</div>
+				<li><img class="inline" src="/bjc-r/img/blocks/forever.png" alt="the forever block" title="the forever block" />  repeats the same commands <em>forever</em>. (You used it to make Alonzo keep moving in <a href="/bjc-r/cur/programming/1-introduction/1-building-an-app/3-keeping-score.html?topic=nyc_bjc%2F1-intro-loops.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 1 Lab 1 Page 3: Make It a Game">Unit 1 Lab 1 Page 3: Make It a Game</a>.)</li>
+                <li><img class="inline" src="/bjc-r/img/1-introduction/repeat.png" alt="the repeat block" title="the repeat block" />  repeats them <em>a specific number of times</em>. (You used it to draw shapes in <a href="/bjc-r/cur/programming/1-introduction/3-drawing/1-exploring-motion.html?topic=nyc_bjc%2F1-intro-loops.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 1 Lab 3 Page 1: Exploring Motion">Unit 1 Lab 3 Page 1: Exploring Motion</a>.)</li>
+				<!--<li><img src="/bjc-r/img/blocks/repeat-until.png" alt="repeat until" title="repeat until" /> repeats until <em>some special condition</em> occurs.</li>-->
+            </ul>
+        </p>
+        
+        
+        <div class="vocabFullWidth">: <strong>Iteration</strong>
+            <p>Computer scientists describe a repeating program structure as <em>looping</em>, <em>repetition</em>, or <strong>iteration</strong>.</p>
+        </div>
+
+        <p>
+            Sometimes the script inside a loop needs to know which time through the loop it's in (first, second, etc.).
+            You can use <img src="/bjc-r/img/prog/for.png" class="imageCenter" alt="for(i)=(1) to (10){}" title="for(i)=(1) to (10){}" /> to keep track, and you can use its counter (the default name is <img class="inline" src="/bjc-r/img/blocks/variable-i.png" alt="i" title="i" />) in the repeated script. For example, the <code>for</code> block lets you simplify long scripts like: <br /> 
+            <img class="indent" src="/bjc-r/img/looping/for-loop-equivalent.png" alt="say (1) for (2) secs, say (2) for (2) secs, say (3) for (2) secs... say (10) for (2) secs" title="say (1) for (2) secs, say (2) for (2) secs, say (3) for (2) secs... say (10) for (2) secs" />  
+            &nbsp; &nbsp; &nbsp; to  
+            <img class="noshadow" src="/bjc-r/img/looping/for-loop-drag-i.gif" alt="for (i)= (1) to (10) {say (i) for (2) secs}" title="for (i)= (1) to (10) {say (i) for (2) secs}" /> 
+		</p>
+        <p>Each time the <code>for</code> block  runs the script inside, it changes the value of the counter by 1, beginning with the first input number and ending after the second.</p>   
+		
+
+<!--        <div class="endnote">
+            <p class="center"><img class="inline" src="/bjc-r/img/icons/import-tools.png" alt="Import Tools" title="Import Tools" /></p>
+            In the current version of <span class="snap">snap</span>, the <code>for</code> block isn't installed automatically.  You'll need to import tools once into each new <span class="snap">snap</span> project where you need <code>for</code> or some other important tools. <br />
+            <img class="indent" src="/bjc-r/img/1-introduction/import-tools.png" alt="select 'Import tools' from the Snap! file menu" title="select 'Import tools' from the Snap! file menu" />
+        </div>
+    -->    
+        
+        <div class="forYouToDo" id="first">
+            <ol>
+                <li>Click on the File <img src="/bjc-r/img/sys/button-file-menu.png" class="inline" style="height:1.7em;" alt="File menu icon" title="File menu icon" /> menu at the top of the <span class="snap">snap</span> window and select "Import Tools."</li>
+                <div class="takeNote">The <code>for</code> block gives you a default counter name, <var>i</var> (for index). You can change this name by clicking it. To use the counter, drag it into the script.</div>
+                <li>
+                	Build this script that makes the sprite say the numbers 1 through 10. <br />
+                	<img class="indent" src="/bjc-r/img/1-introduction/for-i-1-10-say-i.png" alt="for (i) = (1) to (10) {say (i) for (2) secs}" title="for (i) = (1) to (10) {say (i) for (2) secs}" />
+                    <ol>
+                        <li>Then modify it so that the sprite says 0, 2, 4, 6, 8, ... up through 30.</li>
+                        <li>Discuss your solutions with another pair.</li>
+                    </ol>
+				</li>
+				<li>
+                    Experiment with spirals.
+                    <ol>
+						<li>
+                        	Build this script and try it out:<br />
+                            <div class="sidenote">This design got the nickname "squiral" because it's a <strong>squ</strong>are sp<strong>iral</strong>. </div>
+                            <img class="indent" src="/bjc-r/img/looping/squirral-script.png" alt="pen down; for(length)=(1) to (100){move(2Xlength) steps; turn clockwise (90) degrees}" title="pen down; for(length)=(1) to (100){move(2Xlength) steps; turn clockwise (90) degrees}"><br />
+						</li>
+                        <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> Make sure you can explain why the squiral spirals outward.</li>
+                        <li>Try switching the order of the 100 and the 1 in the <code>for</code> block in the squiral script. What is the result?</li>
+                        <li>Try changing the turning angle in the squiral script to other numbers such as 92, 126, etc.</li>
+                        <li>
+                        	Change the inputs to <code>turn</code> and <code>move</code> to get as close as you can get to a smooth spiral:<br />
+                        	<img class="indent" src="/bjc-r/img/prog/spiral.png" alt="spiral" title="spiral" />
+                        </li>
+                    </ol>
+                </li>
+                <li><div class="saveAs"><span class="text">"U1L3-Squiral"</span><img class="inline" src="/bjc-r/img/icons/save-this-as.png" alt="Save your work as U1L3-Squiral" title="Save your work as U1L3-Squiral" /></div></li>
+                <li> 
+                    Open your U1L3-Pinwheel project, and build a <code>nest squares</code> block that uses <code>for</code> and your <code>polygon</code> block to draw nested squares. Give it an input so that it will draw whatever <var>number of squares</var> you specify, with each square larger than the previous: <br /> 
+                    <img class="indent" src="/bjc-r/img/1-introduction/nested-squares.png" alt="nested squares" title="nested squares" />
+                </li>
+                
+			</ol>
+		</div>
+        
+        <div class="ifTime">
+            <ol start="6">
+                <li>Build <code>nest polygons</code> that accepts the <var>number of polygons</var> and the <var>number of sides</var> for the polygons.</li>
+                <li>
+                    Build a script that draws 12 regular polygons, each with one more side than the previous one, as shown below.<br />
+                    <img class="indent" src="/bjc-r/img/1-introduction/polygons.png" alt="polygons: triangle through decagon" title="polygons: triangle through decagon" />
+                </li>
+                <li>Predict what this script will do before you try it:<br /><img class="indent" src="/bjc-r/img/1-introduction/nested-fors.png" width="399" height="147" alt="for (tens) = (0) to (9){ for (ones) = (0) to (9){ say (join (tens) (ones)) for (0.3) secs}}" title="for (tens) = (0) to (9){ for (ones) = (0) to (9){ say (join (tens) (ones)) for (0.3) secs}}"></li>
+                <li>Build a script that counts down by 10 from 100 to 0  (that is, 100, 90, 80, etc.).</li>
+				<!--<li><img class="inline" src="/bjc-r/img/icons/tough-stuff-mini.png" alt="Tough Stuff" title="Tough Stuff" /> Build a <em>block</em> with inputs that let you specify how to count. If you say <img src="/bjc-r/img/1-introduction/count-by-10-from-100-to-0.png" alt="count-by-10-from-100-to-0">, it counts 100, 90, 80, etc., but if you say <img src="/bjc-r/img/1-introduction/count-by-2-from-0-to-30.png" alt="count-by-2-from-0-to-30">, it counts 0, 2, 4, 6, ..., 28, 30.</li>-->
+                <!--<div class="comment">We might want to teach them about sliders as part of the TiF. It is useful here, not essential (so TiF) and cool (so TiF). </div>-->
+                <li>
+                	Below are two animations that use the <code>pinwheel</code> code with inputs. Find out how to create your own artistic animations.<br />
+                    <img class="indent" src="/bjc-r/img/1-introduction/Blockswith-Inputs_img/pinwheelArray" height="200" alt="Array of pinwheels animation" title="Array of pinwheels animation"/>
+                    <img  src="/bjc-r/img/1-introduction/Blockswith-Inputs_img/PinwheelWreathAnimation.gif"  height="200" alt="Pinwheel wreath animation" title="Pinwheel wreath animation"/><br />
+                    <div class="endnote">
+                        <p>The following code may give you ideas about how to create animations. Make sure to remove all <code> wait</code> <var>0.5</var> <code>secs</code> blocks from your <code>pinwheel</code> code so they don't slow it down. The <code>warp</code> block allows the drawing of the pinwheel all at once.</p>
+                        <img class="indent" src="/bjc-r/img/1-introduction/Blockswith-Inputs_img/animationCode.png"  height="150" alt="forever{for(i)=(0) to (50){clear;warp{pinwheel, branches:(12) size:(50) backup:(i)}}}" title="forever{for(i)=(0) to (50){clear;warp{pinwheel, branches:(12) size:(50) backup:(i)}}}"/>
+                    </div>
+                </li>
+            </ol>
+        </div>
+       
+<hr style="color:black" \>
+
+		<img src="/bjc-r/img/1-introduction/bh/Stage (7).png" width="200">
+		<img src="/bjc-r/img/1-introduction/bh/Stage (7) 2.png" width="200">
+		<img src="/bjc-r/img/1-introduction/bh/Stage (8).png" width="200">
+		<img src="/bjc-r/img/1-introduction/bh/Stage (15).png" width="200">
+		<br />
+		<img src="/bjc-r/img/1-introduction/bh/Stage (16).png" width="200">
+		<img src="/bjc-r/img/1-introduction/bh/Stage (17).png" width="200">
+		<img src="/bjc-r/img/1-introduction/bh/Stage (20).png" width="200">
+		<img src="/bjc-r/img/1-introduction/bh/Stage (21).png" width="200">
+		<br />
+		<img src="/bjc-r/img/1-introduction/bh/Stage (22).png" width="200">
+		<img src="/bjc-r/img/1-introduction/bh/Stage (25).png" width="200">
+		<img src="/bjc-r/img/1-introduction/bh/Stage (25) 2.png" width="200">
+		<img src="/bjc-r/img/1-introduction/bh/Costume(2).png" width="200">
+		<br />
+		<img src="/bjc-r/img/1-introduction/bh/Costume(3).png" width="200">
+		<img src="/bjc-r/img/1-introduction/bh/Costume(4).png" width="200">
+		<img src="/bjc-r/img/1-introduction/bh/Costume(6).png" width="200">
+		<img src="/bjc-r/img/1-introduction/bh/Costume(7).png" width="200">
+        
+        <div class="takeItFurther">
+            <ol type="A">
+
+                <li>
+                    Find a way to use <code>for</code> to nest squares this way. Build your <em>block</em> with two inputs that let you specify how many squares the design will contain and how much bigger each square will be than the previous one.<br />
+                    <img class="imageRight" src="/bjc-r/img/icons/tough-stuff.png" alt="Tough Stuff" title="Tough Stuff" /> 
+                    <img class="indent" src="/bjc-r/img/1-introduction/concentric-squares.png" width="219" height="170" alt="concentric squares" title="concentric squares">
+                </li>
+			</ol>
+		<img class="imageRight" src="/bjc-r/img/1-introduction/Josef_Albers's_painting_'Homage_to_the_Square',_1965.jpg" height="130" alt="painting-by-Josef-Albers" title="painting-by-Josef-Albers" />
+		<p>On the right is a painting by Josef Albers.  He was interested in
+		experimenting with variations of color within a "family" of similar
+		colors.  Snap<i>!</i> will let you make similar experiments.</p>
+
+			<ol type="A" start="2">
+			<li>What is the favorite color of the author of this activity?</li>
+			<li>Okay, now dig in.  Here are some tricks you haven't learned yet:
+				<ul> <li><strong>Solid squares:</strong> Find the <img
+				src="/bjc-r/img/1-introduction/bh/set-system.png" alt="set
+				[video capture] to <>" title="set [video capture] to <>">
+				block in the Sensing menu.  Click on the downarrow in the
+				first input slot and change it to "flat line ends."  Then
+				click once in the second (hexagonal) input slot, so that you
+				see a green check mark.  Click on that block.  Set the pen
+				size to 100, put the pen down, and move 100 steps.  You can,
+				of course, use any number instead of 100.</li>
+				<li><strong>Colors:</strong>Albers was interested in families
+				of colors, and there's an easy way to work within a family in
+				Snap<i>!</i>:
+					<ul><li>From the File menu, choose "Libraries."</li>
+					<li>Select the one named "Provide 100 selected colors"
+					and click OK.</li>
+					<li>Find the "Set pen to crayon" block (in Pen), and
+					click on the downarrow in the input slot.</li>
+					<li>Examine the crayon numbers for each of the color
+					families.  Ignoring the first two families, each of
+					the others have exactly 10 crayons.  The reds are 20-29,
+					the oranges are 30-39, and so on.  So if you want a color
+					in the Blue family, you pick a random number between 80
+					and 89, inclusive.</li></ul></li>
+				<li><strong>Randomness:</strong> The examples above are
+				different from the actual Albers picture in that they include
+				occasional colors that aren't from the same family.  This can
+				make the pictures more interesting to someone who doesn't
+				share Albers's interest in subtle differences in color.
+				<em>Too much</em> randomness, though, can make the picture
+				<em>less</em> interesting.  Compare the last two examples
+				above; the left one is clearly based on the red family, but
+				the right one has violets, greens, oranges, a yellow&mdash;too
+				much chaos, maybe.  Look back at the Gossip project if you
+				don't remember how to choose something special once out of six
+				times, or once out of 14 times.  Other random choices you can
+				make are the number of squares, how much to shrink the size
+				from one square to the next, and how much to move the corner of
+				the next square horizontally and vertically (the picture is more
+				interesting if those two numbers are different, so the smallest
+				square isn't exactly in the center).</li>
+				</ul> </li>
+				<li>
+                    <img src="/bjc-r/img/icons/tough-stuff-mini.png" alt="Tough Stuff" title="Tough Stuff" />
+                    <img src="/bjc-r/img/icons/tough-stuff-mini.png" alt="Tough Stuff" title="Tough Stuff" />
+                    <img src="/bjc-r/img/icons/tough-stuff-mini.png" alt="Tough Stuff" title="Tough Stuff" />
+                    This block is like the squiral, but instead of changing the input to <code>move</code>, it changes the input to <code>turn</code>:<br />
+                    <img class="indent" src="/bjc-r/img/1-introduction/inspi.png" height="150" alt="inspi repeat:(num) size:(size) angle:(angle) : for (i) = (1) to (num) {move (size) steps; turn ((i) * (angle)) degrees}" title="inspi repeat:(num) size:(size) angle:(angle) : for (i) = (1) to (num) {move (size) steps; turn ((i) * (angle)) degrees}" />
+                    <ol>
+                        <li>Try sketching what it will draw with an angle of 2.</li>
+                        <li>
+                            Then build it, and try each of these tests:<br />
+                            <div class="sidenote">You can stop each test with the stop button (<img class="button" src="/bjc-r/img/1-introduction/stop_button.png" alt="stop button" title="stop button"/>) when you're sure nothing new will happen, but don't decide that too quickly!</div>
+                            <img class="indent" src="/bjc-r/img/1-introduction/inspi-tests.png" alt="inspi with (1000,10,80), (1000,5,1), (1000,5,7), (1000,5,13), (1000,10,77)" title="inspi with (1000,10,80), (1000,5,1), (1000,5,7), (1000,5,13), (1000,10,77)" />
+                        </li>
+                        <!--<li>What's going on? Can you work out a theory to predict anything about the shape it draws for a particular angle input? <a id="hintbutton" onClick="document.getElementById('hintbutton').innerHTML='Think about divisibility.';">(Don't click unless you really, really need a super big hint.)</a></li>-->
+                        <li>
+                            What's going on? Can you work out a theory to predict anything about the shape it draws for a particular angle input? <a href="#hint-1" data-toggle="collapse" class="collapsed" title="Hint">(Don't click unless you need a big hint.)</a>
+                            <div id="hint-1" class="collapse">Hint: Think about divisibility.</div>
+                        </li>
+                    </ol>
+                </li>  
+            </ol>
+        </div>  
+        
+    </body>
+</html>

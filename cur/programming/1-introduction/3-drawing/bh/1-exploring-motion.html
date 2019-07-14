@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unit 1 Lab 3: Modern Art with Polygons, Page 1</title>
+    </head>
+    
+    <body>
+        <h2>Exploring Motion</h2>
+        <div class="todo">
+            <p>PG: We imply a promise we only sort-of keep. I'd mostly keep this page, but change the pink box. I'd also bring back the Albers algorithm (currently optional project page 5) somewhere. That one doesn't even require angle and gives a rich variety of solid-color shapes—rectangles, triangles, circles, hot-dogs—as well as opportunities for varying color. USE, MODIFY, be creative. </p>
+            <p>BH: I would eliminate all the WAIT blocks throughout.  I'm saying KEEP if that's the only problem.</p>
+            <ul><li>If we have the time and consider this a priority, Brian and Mary think we should teach visual stepping (currently on <a href="http://localhost/bjc-r/cur/programming/2-complexity/4-abstraction/2-fractal-art.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment">2.4.2</a>) here rather than using all these <code>wait</code> blocks. This would require changes to most of 1.3 and it's images as well as changes to <a href="http://localhost/bjc-r/cur/programming/2-complexity/4-abstraction/2-fractal-art.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment">2.4.2</a> and a minor changes to <a href="http://localhost/bjc-r/cur/programming/2-complexity/4-abstraction/5-debugging-recap.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment">2.4.5</a>. --MF, 12/18/18</li></ul>
+        </div>
+        <div class="todo">BH wants to rewrite this lab:
+        
+        <pre>p.1  Square.  Art: several squares one inside another but not concentric.
+
+2.  Draw an equilateral triangle.  Discuss w/ another pair.  WRITE DOWN everything you try.
+
+Here's a way to think about turning angles: Asterisks.  What's the turning angle for a 3-way asterisk?
+
+Art: snowflake art.
+
+3.  Connection between asterisk angle and polygon angle: Invent pinwheel.
+Abstraction: generalize a pattern.
+
+the video.
+
+Art: Albers.  (Thick pen.)
+
+4. More generalization. Circles/Kandinsky
+
+5. Name poly/aster as specific cases of pinwheel.
+
+6. FOR.  Albers again?  Squiral.
+TIF: Mondrian.</pre></div>
+        <div class="learn">
+            <p>These are works by artists Josef Albers, Maya Hayuk, Vassily Kandinsky, Atta Kwami, Kazimir Malevich, Carlos Merida, Piet Mondrian, Alma Thomas, and Theo van Doesburg.  The styles are different, but all of them are based on polygons or circles.</p>
+            <p>
+                <img src="/bjc-r/img/1-introduction/Josef_Albers's_painting_'Homage_to_the_Square',_1965.jpg" height="130" alt="painting-by-Josef-Albers" title="painting-by-Josef-Albers" />
+                <img src="/bjc-r/img/1-introduction/GraphicArt_img/MayaHayuk1.jpg" height="150" alt="Maya Hayuk" title="Maya Hayuk"/>
+                <img src="/bjc-r/img/1-introduction/1280px-Vassily_Kandinsky,_1926_-_Several_Circles,_Gugg_0910_25.jpg" height="180" alt="painting-by-Kandinsky" title="painting-by-Kandinsky" />
+                <img src="/bjc-r/img/1-introduction/GraphicArt_img/AttaKwami_bobbo.jpg" height="150" alt="Atta Kwami" title="Atta Kwami"/>
+                <img src="/bjc-r/img/1-introduction/1024px-Suprematist_Composition_-_Kazimir_Malevich.jpg" height="180" alt="painting-by-Malevich" title="painting-by-Malevich" />
+                <img src="/bjc-r/img/1-introduction/GraphicArt_img/CarlosMerida1.jpg" height="150" alt="Carlos Merida" title="Carlos Merida"/>
+                <img src="/bjc-r/img/1-introduction/Piet_Mondrian_-_Lozenge_Composition_with_Yellow,_Black,_Blue,_Red,_and_Gray_-_1921_-_The_Art_Institute_of_Chicago.jpg" height="180" alt="painting-by-Mondrian" title="painting-by-Mondrian" />
+                <img src="/bjc-r/img/1-introduction/GraphicArt_img/AlmaThomas2.jpg" height="150" alt="Alma Thomas" title="Alma Thomas"/>
+                <img src="/bjc-r/img/1-introduction/Theo_van_Doesburg_Composition_VII_(the_three_graces).jpg" height="130" alt="painting-by-van-Doesburg" title="painting-by-van-Doesburg" />
+			</p>
+            <p>
+                <strong>In this lab,</strong> you'll draw polygons so you can create your own art:
+                <img class="noshadow" src="/bjc-r/img/1-introduction/polygon-row.png" width="20%" alt="regular polygons" title="regular polygons" /><br />
+                <img class="indent" src="/bjc-r/img/1-introduction/GraphicArt_img/ColoredSquareMesh.png" height="200" alt="random colored squares on black background" title="random colored squares on black background" />
+            </p> 
+            <p><strong>On this page,</strong> you will explore the basics of drawing a shape in Snap<em>!</em> by using the <code>repeat</code> block to loop through the same code multiple times.</p>
+		</div>
+
+        <div class="AP-only">        
+		<div class="vocabFullWidth"><strong>: Algorithm</strong> and <strong>Pseudocode</strong>
+			<div class="sidenoteBig">The whole idea of "pseudocode" is a little iffy.  The trouble with it is that it makes wishful thinking too easy.  You just have a line of pseudocode that says "Write the harmony" or "Pick the winning lottery numbers" or "Modify the Facebook server so whenever anyone logs in, it automatically adds me as their friend."  Pseudocode to document an algorithm works only if you have a clear understanding of what the computer really knows how to do, as the next step.  And the only way to be sure of that is to <em>code</em> the next step, in a real programming language, <em>before</em> you write the pseudocode.  If you're an experienced programmer, you can write that code mentally, but if not, you're going to write it <em>in</em> the language itself.  Then, after secretly writing and debugging the code, you back up and write the pseudocode, to make your teacher happy.</div>
+            <p>An <strong>algorithm</strong> is a sequence of steps that are usually performed by a computer. The algorithm doesn't have to be written in any particular programming language or even in a programming language at all; you can write your algorithm in English or any other human language. Some people call an algorithm written in human language <strong>pseudocode</strong>. Once you know the steps that the computer will take, you can code your algorithm in the programming language of your choice.</p>
+        </div></div>
+        
+        <div class="forYouToDo" id="first">
+			<ol>
+				<!-- <div class="sidenote">
+                    <img class="imageCenter" src="/bjc-r/img/1-introduction/motion-palette-categories.jpg" alt="Motion palette categories: Motion, Looks, Sound, Pen, Control, Sensing, Operators, and Variables" title="Motion palette categories: Motion, Looks, Sound, Pen, Control, Sensing, Operators, and Variables" /><br />
+                    The blocks' colors match their palettes: blue for Motion, green for Pen, etc.
+                </div> -->
+				<li>
+                    <img class="inline" src="/bjc-r/img/icons/work-with-a-partner.png" alt="Work with a Partner" title="Work with a Partner" />
+                    <img class="inline" src="/bjc-r/img/icons/write-out-thoughts.png" alt="Write Out Your Thoughts" title="Write Out Your Thoughts" />
+                    Describe what this algorithm will make the sprite do:<br />
+                    <img class="indent" src="/bjc-r/img/1-introduction/repeat-4(move-100-turn-right-90).png" alt="repeat (4) (move (100), turn clockwise (90))" title="repeat (4) (move (100), turn clockwise (90))" />
+                </li>
+				<li>Log in to <a href="http://snap.berkeley.edu/run" title="Snap! Build Your Own Blocks" target="_blank">Snap<em>!</em></a> and build that script to test your hypothesis.<br /> 
+                    <div class="sidenote">Clicking on a script runs it.</div> 
+                	<ol>
+                    	<li>Click it, and watch what the sprite does. </li>
+                        <li>Click <img src="/bjc-r/img/1-introduction/pen-down.png" height="36" alt="pen down" title="pen down">, and then click your script to run it again.</li>
+                	</ol>
+                </li>
+                <div class="narrower">
+                    <h4><strong>Using Visible Stepping</strong></h4>
+                    <p>Snap<em>!</em> has a tool called <strong>Visible Stepping</strong> that allows you to control how quickly Snap<em>!</em> steps through the blocks of your code. </p>
+                    <ul>
+                        <li>
+                            Click the Visible Stepping button (<img class="inline nopadtb" src="/bjc-r/img/2-complexity/visible-stepping.png" alt="Visible Stepping button with two footprints" title="Visible Stepping button with two footprints" />), and adjust the slider to control the stepping speed. The sprite slowly executes each step of the code while it is highlighted in <span style="color: black; background-color:cyan">cyan</span>.
+                            <div class="endnote">
+                                <div class="todo">BH, can you remake the video for this project? --MF, 5/14/19</div>
+                                <a href="#hint-slider" data-toggle="collapse" title="Click for a video of adjusting the Visible Stepping slider.">Click for a video of adjusting the Visible Stepping slider.</a>
+                                <div id="hint-slider" class="collapse">
+                                    <img  class="inline" src="/bjc-r/img/2-complexity/VisualSteppinginFractal.gif" alt="Animation that shows how to use Visible stepping in Snap!" title="Animation that shows how to use Visible stepping in Snap!"/>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            You can slow the stepping to one just step at a time. Move the slider to the slowest setting (all the way to the left), and the shape of the yellow Run/Pause button will change (<img class="inline" src="/bjc-r/img/sys/play-pause-button.png" alt="pause button with play/pause icon" title="pause button with play/pause icon" />). Now, you can press Run/Pause button to <em>single step</em> through your code and see what happens at each step.
+                            <div class="endnote">
+                                <div class="todo">BH, can you remake the video for this project? --MF, 5/14/19</div>
+                                <a href="#hint-slider-left" data-toggle="collapse" title="Click for a video of single-stepping through code.">Click for a video of single-stepping through code.</a>
+                                <div id="hint-slider-left" class="collapse">
+                                    <img class="inline" src="/bjc-r/img/2-complexity/VisualPauseSteppinginFractal.gif" alt="Animation that shows how to use single-step Visible stepping in Snap!" title="Animation that shows how to use single-step Visible stepping in Snap!"/>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </ol>
+        </div>
+        
+        <p>One way visible stepping is useful is to help you read someone else's code, by watching it unfold at human speed instead of computer speed. That's what you're doing here. Visible stepping is also useful in fixing problems with (debugging) your own code when it's doing something wrong and it's hard to see what.</p>
+        
+		<div class="forYouToDo">
+			<ol start="3">
+                <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner"> Analyze <em>why</em> that script does what it does.</li>
+                <li><img class="inline" src="/bjc-r/img/icons/talk-with-another-pair-mini.png" alt="Talk with Another Pair" title="Talk with Another Pair" />Compare your work with another pair. If your script behaves differently from theirs, check both.</li>
+                <li>
+                    <img class="inline" src="/bjc-r/img/icons/pair-programming-swap-mini.png" alt="Pair Programming Swap" title="Pair Programming Swap" /> Switch who is sitting at the keyboard. Then experiment:<br />
+                    <ol>
+                        <li>Change 100 to 50 as shown <img class="inline" src="/bjc-r/img/1-introduction/move-50.png" height="36" alt="move (50) steps" title="move (50) steps"> in the <code>move</code> block <em>of your script</em>, and click the script again to run it with the new input value.</li>
+                        <li>Click the <img class="inline" src="/bjc-r/img/blocks/clear.png" height="36"  alt="clear" title="clear" /> block in the green Pen palette.</li>
+                        <div class="endnote">You can click <img class="inline" src="/bjc-r/img/blocks/clear.png" height="36" alt="clear" title="clear" /> (or any block) in the palette or in the scripting area to run it. If you click a block inside a script, the whole script runs.</div>
+                        <li>Change the number in the <img class="inline" src="/bjc-r/img/1-introduction/turn-right-90.png" height="36" alt="turn clockwise (90) degrees" title="turn clockwise (90) degrees"> block and run the script again... and again... and again.</li>
+                        <li>Change the number in the <img class="inline" src="/bjc-r/img/1-introduction/repeat-4.png" alt="repeat (4){}" title="repeat (4){}" /> block.</li>
+                        <li>Experiment with the input numbers in the <code>turn</code> and <code>repeat</code> blocks. Try to draw a  triangle.</li>
+                        <li> Use <span class="center"><img class="inline" src="/bjc-r/img/blocks/set-pen-size-to-blank.png" height="36" alt="set pen size to ()" title="set pen size to ()" /></span> to set the pen size to something like 4 or 10 or 50. Then draw something. </li>
+                        <div class="endnote">To change the pen size you must <em>click</em> the <code>set pen size</code> block to run it after you've entered the number you want.</div>
+					</ol>
+				</li>
+			</ol>
+		</div>
+        
+        <div class="ifTime">
+            <ol start="6">
+                <li>
+                	Experiment: What leaves a trace?
+                    <ol>
+                        <li>Move the sprite by dragging it to a new location. Does it leave a trace as you move it?</li>
+                        <li>Move the sprite by clicking on <img class="inline" src="/bjc-r/img/1-introduction/move-50.png" height="36"  alt="move (50) steps" title="move (50) steps">. Does it leave a trace as it moves?</li>
+                        <li>Click <img class="inline" src="/bjc-r/img/blocks/go-to-x-y-0-0.png" height="36"  alt="go to x:(0) y:(0)" title="go to x:(0) y:(0)" />.  Does it leave a trace?</li>
+                        <div class="endnote">The <img class="inline" src="/bjc-r/img/blocks/go-to-x-y-0-0.png" height="36"  alt="go to x:(0) y:(0)" title="go to x:(0) y:(0)" />block can get your sprite back when it runs off the screen.</div>
+                    </ol>
+                </li>
+            </ol>
+        </div>        
+        
+	</body>
+</html>
