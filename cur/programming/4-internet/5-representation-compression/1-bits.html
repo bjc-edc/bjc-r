@@ -20,12 +20,12 @@
         </div>
 
         <div class="vocab">
-            <p>A <strong>bit</strong> is a single unit of data that can only have one of two values. We usually represent the two values as 0 and 1.</p>
+            <p>A <strong>bit</strong> is a single unit of data that can only have one of two values. We usually represent the two values as 0 (off) and 1 (on).</p>
         </div>
 
         <p>As you know, information travels over wires inside the computer, and because of the digital abstraction, each wire is either <em>on</em> or <em>off,</em> with no intermediate states allowed.  This small piece of information is called a <strong>bit</strong>, the smallest possible unit of information in the digital domain.</p>
         <p>
-            What does the value of a bit <em>mean</em>? By convention, the two states of a bit are interpreted as 0 and 1, but that doesn't mean they have to represent numbers. A single bit can represent:
+            What does the value of a bit <em>mean</em>? By convention, the two states of a bit are interpreted as 0 and 1, but that doesn't mean they have to represent numbers. A single bit can represent
             <ul>
                 <li>False and True</li>
                 <li>Off and On, simulating a light switch</li>
@@ -33,11 +33,24 @@
                 <li>...and many more</li>
             </ul>
         </p>
-        <div class="todo">Do we really want a forward reference here? --MF, 6/13/19</div>
-    <p>But what if the traffic light also needs a yellow value?  It's tempting to say that, for example, 0 volts on the wire means red, 1 volt means yellow, and 2 volts means green.  But then we would have all the problems of electrical noise that the digital abstraction was designed to avoid: a low or high input signal is interpreted as a clear on or off, but an in between value is too easily misinterpreted. (See <a href="/bjc-r/cur/programming/6-computers/1-abstraction/10-analog.html?topic=nyc_bjc%2F6-how-computers-work.topic&course=bjc4nyc.html&novideo&noassignment">Unit 6, Lab 1: The Analog Domain: Transistors</a>.)</p>
+        <div class="todo"><div class="forYouToDo"><ol start="0">
+	<li>Explain why transsexuals, gays, and other kinds of nonconforming sexuality are collectively called "non-binary."</div>
+	I know we can't really do it, but what a great question!</div>
+    <p>But what if the traffic light also needs a yellow value?  It's tempting to say that, for example, 0 volts on the wire means red, 1 volt means yellow, and 2 volts means green.  Long ago, there were computers that worked that way, but there are good reasons to stick with two possible values per wire.</p>
+
+        <div class="endnote">
+            <a href="#hint-bistable" data-toggle="collapse" title="What good reasons?">What good reasons?</a>
+            <div id="hint-bistable" class="collapse">
+		<p>The fundamental building block of computer circuitry is the <em>transistor.</em>  In a digital computer, the input to a transistor is either zero or whatever voltage represents one.  But electrical circuits aren't perfect; the input may be a little larger or smaller than it should be.</p>
+		<img class="imageLeft" height="220" src="/bjc-r/img/6-computers/transistor-curve.png" alt="graph showing 'Input voltage' on the horizontal axis and 'Output voltage' on the vertical axis; the graph begins near the origin and remains nearly flat for a while, then it curves upward and becomes nearly straight again at this new angle, then it curves back down to nearly flat until the end; the lower flat region is labeled 'cutoff' and colored blue; the central, inclined region is labeled 'linear' and colored pink; the upper flat region is labeled 'saturation' and colored blue" title="graph showing 'Input voltage' on the horizontal axis and 'Output voltage' on the vertical axis; the graph begins near the origin and remains nearly flat for a while, then it curves upward and becomes nearly straight again at this new angle, then it curves back down to nearly flat until the end; the lower flat region is labeled 'cutoff' and colored blue; the central, inclined region is labeled 'linear' and colored pink; the upper flat region is labeled 'saturation' and colored blue" />
+		<p>This is a rough graph of the actual input-output behavior of a transistor.  Don't worry about the details; just notice the two blue <em>flat</em> parts of the graph. <!--With a very small input (cutoff) or a very large input (saturation), the output is relatively unchanged by small variations.--> Within the "cutoff" region, small changes to the input voltage do not change the output voltage at all; the output is always <em>zero</em> volts. Likewise within the "saturation" region, small input changes don't affect the output voltage; this output is interpreted as a <em>one</em>. This is how transistors are used as <em>switches</em> in a computer.</p>
+		<p>Transistors are versatile devices. When used in the middle, linear (pink) part of the graph, they're <em>amplifiers</em>; a small variation in input voltage produces a <em>large</em> variation in output voltage. That's how they're used to play music in a stereo. </p>
+            </div>
+        </div>
+
 		
         <p>
-            Instead, we <em>use more than one bit</em> if we need to represent more than two possible values.  So, for the traffic light, we could use two bits:
+            Instead of multiple-valued wires, we <em>use more than one bit</em> if we need to represent more than two possible values.  So, for the traffic light, we could use two bits:
             <table class="byte indent" width="400px" align="center" summary="table of binary representation of traffic signal colors">
                 <tr>
                     <th scope="col">first bit</th>
@@ -87,7 +100,7 @@
         
         <div class="vocabBig">
             <p>A <strong>byte</strong> is eight bits.</p>
-            <p>A <strong>word</strong> is the number of wires that connect the processor to the memory. As of 2017, words can be are 32 or 64 bits.</p>
+            <p>A <strong>word</strong> is the number of wires that connect the processor to the memory. As of 2017, words are 32 or 64 bits.</p>
         </div>
         <p>Bits aren't expensive, but what <em>is</em> expensive is the circuitry to let the programmer use exactly the smallest number of bits for a particular problem. 
 
