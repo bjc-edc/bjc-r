@@ -10,13 +10,14 @@
 		<h2>Data Compression</h2>
         
 		<div class="learn"><strong>On this page,</strong> you learn about different <em>data compression algorithms</em>, such as the ones used in common picture file formats.</div>
-		<div class="todo">Snap<i>!</i> 5.0 includes support for image processing, pixel by pixel, reasonably fast.  Students could definitely implement run length encoding, and might be able to implement lossy algorithms, although not jpg or gif.  But, for example, turning every 2x2 array of pixels into its average color.  We really should consider this as a way to get some of the beauty and joy back.</div>
+		<div class="todo">Snap<i>!</i> 5.0 includes support for image processing, pixel by pixel, reasonably fast.  Students could definitely implement run length encoding, and might be able to implement lossy algorithms, although not jpg or gif.  But, for example, turning every 2x2 array of pixels into its average color.  We really should consider this as a way to get some of the beauty and joy back. --BH</div>
         <img class="imageRight" src="/bjc-r/img/6-computers/bjc-logo-original.png" alt="BJC logo uncompressed" title="BJC logo uncompressed" />
 		<p>This picture of the BJC logo (shown right) is 158 pixels wide and 186 pixels tall, for a total of 29,388 pixels. The BMP (bitmap) format includes each of those pixels in the picture file, at four bytes per pixel, so the file size is about 120kB.</p>
         
 		<h3>Lossless Compression</h3>
 		<p>That is an inefficient way to store the information. Think about the 158 pixels in the top row. The first 60 or so are white. Then come five pixels of yellowish orange (the top slice of the "b"). And the rest of that row is white.</p>
         <p class="indent">...<img src="/bjc-r/img/6-computers/top-row-of-pixels-in-bjc-logo.png" alt="top-row-of-pixels-in-bjc-logo: 4 white, 6 yellow-orange, 3 white" title="top-row-of-pixels-in-bjc-logo: 4 white, 6 yellow-orange, 3 white">...</p>
+        <div class="comment">DAT-1.D.1</div>
         <p>Instead of storing all 158 pixels individually, we could compress them with <em>run-length encoding</em> and just store six values (three numbers and three colors):</p>
         
         <div class="sidenote">Run-length encoding stores the length of each run of a single color.</div>
@@ -40,13 +41,12 @@
         </table>
 
         <p>These days, the size of one picture isn't so significant, but think about every frame of a movie, and think about the time required to send the information over the Internet. Compression makes it easier to stream that movie to you.</p>
-		<div class="todo">
-            <p>BH: The FYTD is silly.  There must be some real activities we could provide, e.g., write a compression program in Snap!.</p>
-        </div>
-
+		
         <div class="forYouToDo" id="first">
             <ol>
-                <li>Use the Color Mixer at <a href="http://www.mathsisfun.com/hexadecimal-decimal-colors.html" target="_blank" title="Hexadecimal Colors">RGB colors and hexadecimal notation</a> to check the result of the hex code E5A84A.</li>
+                <li>Open Snap<em>!</em>. Import the "Set RGB or HSV pen color" Library from the File menu. Using the <img class="inline nopadtb" src="/bjc-r/img/blocks/set-pen-color-rgb.png" alt="set pen color to r:(255) g: (0) b: (0)" title="set pen color to r:(255) g: (0) b: (0)" /> block, determine what happens to the sprite's color if you set the red (r) and green (g) inputs to the maximum value (255) and the blue (b) to 0?</li>
+                <div class="endnote">If you want to see the sprite's color more easily, increase its size using <img class="" src="/bjc-r/img/blocks/set-size-empty.png" alt="set size to ( ) %" title="set size to ( ) %" />.</div>
+                <li>What if the green is only half as much?</li>
             </ol>
         </div>
         
@@ -55,6 +55,7 @@
 		<div class="vocab">
         	<p><strong>Lossless compression</strong> means that <em>no</em> information is lost.</p>
         </div>
+        <div class="comment">DAT-1.D.2, DAT-1.D.4</div>
         <p>Run-length encoding is a <strong>lossless compression</strong> format; it doesn't <em>lose</em> any information. The original picture can be reconstructed with every pixel exactly correct. But run-length encoding doesn't do well if the picture is a photograph where every pixel may be (at least slightly) different in color from its neighbors. If the length of each color run is just one pixel, both run length and color will take <em>twice</em> as much space as just storing the color of each pixel. Another lossless image format you may have heard of is PNG (Portable Network Graphics, pronounced "ping").</p>
             
         <div class="endnote">The PNG algorithm is complicated and uses several different strategies depending on how color varies in each small chunk of the image. The thing to remember is that PNG is lossless.</div>	
@@ -65,6 +66,7 @@
         	<p><strong>Lossy compression</strong> means that <em>some</em> information is lost.</p>
         </div>
     
+        <div class="comment">DAT-1.D.7, DAT-1.D.8</div>
         <p><strong>Lossy compression</strong> algorithms let file sizes be even smaller, but the original picture can't be perfectly reconstructed; information is <em>lost</em>. This would be terrible if these algorithms were used to compress a computer program or a novel, but people's perception of images do not require extreme precision. Similarly, sounds and movies can survive lossy compression without most people noticing.</p>
         <p>The most commonly used lossy compression algorithm for pictures is called JPEG (or JPG, both pronounced "jay peg" for "Joint Photographic Experts Group," the committee that invented it). Lossy algorithms usually let you <em>control the degree of precision</em>. </p>
         
@@ -74,6 +76,7 @@
             <img src="/bjc-r/img/6-computers/pond.jpg" alt="pond pebbles" title="pond pebbles" />
         </p>
                         
+        <div class="comment">DAT-1.D.6</div>
         <p>
             Here are the sizes of this picture in four different formats:
             <table class="byte indent" width="56%" summary="compression factors example">
@@ -99,7 +102,8 @@
                 </tr>
             </table>
         </p>
-	<p>You probably <em>could</em> tell which is which, especially if you looked for sharp edges, or very shiny spots.  But the compressed file takes up 1/30th the space of the original!  And you could certainly tell that it's a picture of rocks; for many purposes it'd be good enough.  For most purposes, though, people select less extreme compression settings, so the compressed file might be 4/5 the size of the original.</p>
+        <div class="comment">DAT-1.D.5</div>
+        <p>You probably <em>could</em> tell which is which, especially if you looked for sharp edges, or very shiny spots.  But the compressed file uses 1/30th of the space used by the original!  And you could certainly tell that it's a picture of rocks; for many purposes it'd be good enough.  For most purposes, though, people select less extreme compression settings, so the compressed file might be 4/5 the size of the original.</p>
         
         <div class="vocabFullWidth"><strong>: Lossy vs. Lossless</strong>
             <p><strong>Lossless</strong> compression (like PNG) is <em>reversible</em> (no loss in quality); you can reconstruct the original data. It works by removing redundant data.</p>
@@ -108,7 +112,7 @@
         <div class="todo">BH idea: We could do a FYTD where they have to run-length encode/decode something. Maybe even encoding/decoding images in Snap. --MF, 11/8/17</div>
         
         <div class="forYouToDo">
-			<ol start="2">
+			<ol start="3">
 				<li>
                     These questions are similar to those you will see on the AP CSP exam.
                     <!-- Question 1 -->

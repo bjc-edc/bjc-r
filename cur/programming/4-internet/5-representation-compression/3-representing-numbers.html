@@ -44,18 +44,19 @@
 		<p>The "e+" means "times ten to the power of" so this notation means 2.6525285981219103 &times; 10<sup>32</sup> = 265,252,859,812,191,030,000,000,000,000,000.</p>
         
 		<h3>Fixed Width Computer Hardware</h3>
-        <div class="todo">Do we really need to teach width and word? Could they by optional reading? Same question about bignums. I think these EKs could be covered much more succinctly. We really fell into a reading trap with U4 and U6. --MF, 9/26/18</div>
         <div class="vocabBig">
         	<p><strong>width</strong>: the number of bits that a CPU processes at a time</p>
             <p><strong>word</strong>: a binary sequence of that many bits</p>
         </div>
         <p>So why did Snap<em>!</em> display 20! in ordinary whole number representation but 30! in scientific notation? Every computer model is designed with a certain<strong> width</strong>, the number of bits that the processor reads from memory or writes into memory at a time. That number of bits is called a <strong>word</strong>. As of 2016, most new computers are 64 bits wide. The first microcomputer, sold in 1971, was four bits wide!</p>
 		<div class="endnote">If you got an answer in scientific notation for 20!, you're using a 32-bit computer.</div>
-            <p>A 64-bit word represents 2<sup>64</sup> different values. We use half for negative numbers, one for zero, and the rest for positives. Half of 2<sup>64</sup> (which is 2<sup>63</sup> = 9,223,372,036,854,775,808) is about 9 &times; 10<sup>18</sup>. That means that the 19 digits of 20! just barely fit in a 64-bit word. But the 33 digits of 30! don't. So the computer hardware reports an <em>overflow</em> error, and Snap<em>!</em> computes an approximation.</p>
+        <div class="comment">DAT-1.B.1</div>
+        <p>A 64-bit word represents 2<sup>64</sup> different values. We use half for negative numbers, one for zero, and the rest for positives. Half of 2<sup>64</sup> (which is 2<sup>63</sup> = 9,223,372,036,854,775,808) is about 9 &times; 10<sup>18</sup>. That means that the 19 digits of 20! just barely fit in a 64-bit word. But the 33 digits of 30! don't. So the computer hardware reports an <em>overflow</em> error, and Snap<em>!</em> computes an approximation.</p>
             
-	 <div class="endnote">
+        <div class="endnote">
         	<a href="#hint-power-2" data-toggle="collapse" title="Are processor widths always powers of two?">Are processor widths always powers of two?</a>
-            <div id="hint-power-2" class="collapse">Processor widths don't have to be a power of two. Some old computers&mdash;the kind you see in old movies that filled a large room&mdash;used 12-bit, 36-bit, and 60-bit words. But modern personal computers started at 8 bits and the widths have been doubling with each new generation.</div></div>
+            <div id="hint-power-2" class="collapse">Processor widths don't have to be a power of two. Some old computers&mdash;the kind you see in old movies that filled a large room&mdash;used 12-bit, 36-bit, and 60-bit words. But modern personal computers started at 8 bits and the widths have been doubling with each new generation.</div>
+        </div>
 		
         <div class="forYouToDo">
             <ol start="2">
@@ -64,6 +65,7 @@
         </div>
 
 		<h3>Bignums</h3><div class ="sidenote"> A multiple-word integer is called a <strong>bignum</strong>. </div>
+        <div class="comment">DAT-1.B.2</div>
         <p>Why can't programming languages just use more than one word to represent an integer? They can. It's just that a single machine language instruction can only add one-word numbers. A programming language must work a little harder to make addition work with multiple-word values. Not all languages do this, but the highest-level languages do. </p>
         <div class="takeItFurther">
             <img class="imageRight" src="/bjc-r/img/icons/tough-stuff-mini.png" alt="Tough Stuff" title="Tough Stuff" />
