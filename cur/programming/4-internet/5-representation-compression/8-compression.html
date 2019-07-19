@@ -8,13 +8,9 @@
 
 	<body>
 		<h2>Data Compression</h2>
-		<div class="todo">
-            <p>BH: The FYTD is silly.  There must be some real activities we could provide, e.g., write a compression program in Snap!.</p>
-            <p>MF: lightly clean up to make the text more concise</p>
-        </div>
         
-        <div class="todo">There is commented out content on this page that probably could be removed. --MF, 2/26/18</div>
 		<div class="learn"><strong>On this page,</strong> you learn about different <em>data compression algorithms</em>, such as the ones used in common picture file formats.</div>
+		<div class="todo">Snap<i>!</i> 5.0 includes support for image processing, pixel by pixel, reasonably fast.  Students could definitely implement run length encoding, and might be able to implement lossy algorithms, although not jpg or gif.  But, for example, turning every 2x2 array of pixels into its average color.  We really should consider this as a way to get some of the beauty and joy back.</div>
         <img class="imageRight" src="/bjc-r/img/6-computers/bjc-logo-original.png" alt="BJC logo uncompressed" title="BJC logo uncompressed" />
 		<p>This picture of the BJC logo (shown right) is 158 pixels wide and 186 pixels tall, for a total of 29,388 pixels. The BMP (bitmap) format includes each of those pixels in the picture file, at four bytes per pixel, so the file size is about 120kB.</p>
         
@@ -42,19 +38,11 @@
                 <td>FFFFFF</td>
             </tr>
         </table>
-          
-        <!-- Not really that much more info, and it's not an accurate representation of the actual image. Brian and Mary agreed to remove.
-        <div class="endnote">
-            <a href="#hint-run-length-encoding" data-toggle="collapse">Click to learn more about run-length encoding.</a>
-            <div id="hint-run-length-encoding" class="collapse">
-                Not all the rows are that simple. A slice across the picture near the top of the <em>c</em> looks like this:<br /> 
-                <div class="todo">Is this a real row? I don't see anywhere in the image that looks like this... --MF, 12/8/17</div>
-		... <img src="/bjc-r/img/6-computers/bjc-logo-original-middle-row.png" alt="bjc-logo-original-middle-row"> ... <br /> 
-                Storing the length of each color in this row would require 24 pieces of information. But even this is better than 158. 
-            </div>
-        </div>-->
 
         <p>These days, the size of one picture isn't so significant, but think about every frame of a movie, and think about the time required to send the information over the Internet. Compression makes it easier to stream that movie to you.</p>
+		<div class="todo">
+            <p>BH: The FYTD is silly.  There must be some real activities we could provide, e.g., write a compression program in Snap!.</p>
+        </div>
 
         <div class="forYouToDo" id="first">
             <ol>
@@ -64,7 +52,7 @@
         
         <div class="todo">Possible quizlet for LO: (include picture with fairly thin diagonal lines) A student proposes to use run-length encoding to compress this picture. Is that a good idea, why or why not? --MF, 12/16/18</div>
         
-		<div class="sidenote">
+		<div class="vocab">
         	<p><strong>Lossless compression</strong> means that <em>no</em> information is lost.</p>
         </div>
         <p>Run-length encoding is a <strong>lossless compression</strong> format; it doesn't <em>lose</em> any information. The original picture can be reconstructed with every pixel exactly correct. But run-length encoding doesn't do well if the picture is a photograph where every pixel may be (at least slightly) different in color from its neighbors. If the length of each color run is just one pixel, both run length and color will take <em>twice</em> as much space as just storing the color of each pixel. Another lossless image format you may have heard of is PNG (Portable Network Graphics, pronounced "ping").</p>
@@ -73,8 +61,8 @@
     
         <h3>Lossy Compression</h3>
         
-        <div class="sidenote">
-        	<p><strong>Lossy</strong> means that <em>some</em> information is lost.</p>
+        <div class="vocab">
+        	<p><strong>Lossy compression</strong> means that <em>some</em> information is lost.</p>
         </div>
     
         <p><strong>Lossy compression</strong> algorithms let file sizes be even smaller, but the original picture can't be perfectly reconstructed; information is <em>lost</em>. This would be terrible if these algorithms were used to compress a computer program or a novel, but people's perception of images do not require extreme precision. Similarly, sounds and movies can survive lossy compression without most people noticing.</p>
@@ -82,7 +70,6 @@
         
         <p>
             Below are an original, uncompressed BMP and a highly compressed JPG of a picture measuring 256×192 pixels. Can you tell which is which?<br />
-            <!--- Notice how tiny the JPEG worst file is! It must look terrible, right? Here are  that 5kB file and the original, uncompressed BMP file. Can you tell which is which?<br /> --->
             <img class="indent" src="/bjc-r/img/6-computers/pond.bmp" alt="pond pebbles" title="pond pebbles" />
             <img src="/bjc-r/img/6-computers/pond.jpg" alt="pond pebbles" title="pond pebbles" />
         </p>
@@ -112,6 +99,7 @@
                 </tr>
             </table>
         </p>
+	<p>You probably <em>could</em> tell which is which, especially if you looked for sharp edges, or very shiny spots.  But the compressed file takes up 1/30th the space of the original!  And you could certainly tell that it's a picture of rocks; for many purposes it'd be good enough.  For most purposes, though, people select less extreme compression settings, so the compressed file might be 4/5 the size of the original.</p>
         
         <div class="vocabFullWidth"><strong>: Lossy vs. Lossless</strong>
             <p><strong>Lossless</strong> compression (like PNG) is <em>reversible</em> (no loss in quality); you can reconstruct the original data. It works by removing redundant data.</p>
