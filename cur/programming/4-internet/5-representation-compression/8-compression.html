@@ -103,12 +103,22 @@
             </table>
         </p>
         <div class="comment">DAT-1.D.5</div>
-        <p>You probably <em>could</em> tell which is which, especially if you looked for sharp edges, or very shiny spots.  But the compressed file uses 1/30th of the space used by the original!  And you could certainly tell that it's a picture of rocks; for many purposes it'd be good enough.  Mostly, though, people select less extreme compression settings, so the compressed file might be 4/5 the size of the original.</p>
+        <p>You probably <em>could</em> tell which is which, especially if you looked for sharp edges, or very shiny spots.  But the compressed file uses 1/30th of the space used by the original!  And you could certainly tell that it's a picture of rocks; for many purposes it'd be good enough.  Mostly, though, people select less extreme compression settings, so the compressed file might be 4/5 the size of the original, and look much more like the lossless version.</p>
+		<p>Here's a most-compression JPEG of the BJC logo:<br />
+		<img class="indent" src="/bjc-r/img/4-internet/bjc-logo-jpeg.jpg"><br />
+		As you can see, the distortion from the lossy compression is much more noticeable when the original picture has sharp edges and solid colors.  (Even so, a less severe JPEG compression doesn't look nearly this bad.)</p>
         
         <div class="vocabFullWidth"><strong>: Lossy vs. Lossless</strong>
             <p><strong>Lossless</strong> compression (like PNG) is <em>reversible</em> (no loss in quality); you can reconstruct the original data. It works by removing redundant data.</p>
             <p><strong>Lossy</strong> compression (like JPG) is <em>not</em> fully reversible; you can only reconstruct an <em>approximation</em> of the original data. It works by removing details that people aren't likely to notice. </p>
         </div>
+
+		<p>JPEG encoding is a complicated algorithm, but we can experiment with a simpler lossy compression algorithm:  Divide the picture into 2-by-2 squares of four pixels.  Then average the four pixels in each square.  The result is a smaller picture:<br />
+		<img class="indent" src="/bjc-r/img/4-internet/small-stones.png"><br />
+		Since the smaller costume has 1/4 as many pixels, it has about 25% the size of the original.  Now we can decompress the picture by replacing each pixel with a 2-by-2 square of identical pixels:<br />
+		<img class="indent" src="/bjc-r/img/4-internet/restored-stones.png"><br />
+		The picture is still recognizably rocks, but it's even fuzzier than the lossy JPEG.  That's not surprising, since the compression technique is much simpler than JPEG.</p>
+
         <div class="todo">BH idea: We could do a FYTD where they have to run-length encode/decode something. Maybe even encoding/decoding images in Snap. --MF, 11/8/17</div>
         
         <div class="forYouToDo">
@@ -181,59 +191,57 @@
                         </div>
                     </div>
                     
-                    <div class="todo">
-                        <h1>Quiz code for DAT-1.D additions</h1>
-                    
                     <!-- Question X -->
-                    <div class="assessment-data" type="multiplechoice" identifier="What is the value of x?"
-                        hasinlinefeedback="true" maxchoices="1" responseIdentifier="ri1" shuffle="true">
+					<div class="comment">DAT-1.D</div>
+                    <div class="assessment-data" type="multiplechoice" identifier="Which are examples of lossless transformation?"
+                        hasinlinefeedback="true" maxchoices="2" responseIdentifier="ri5" shuffle="true">
                         <div class="prompt">
-                            Put the question here.
+                            For which of the following kinds of data would <em>lossy</em> compression be okay?  Check as many as apply.
                         </div>
                         <!-- Answer Options
                             There can be as many of these as you need. Make sure the
                             "identifier" for each question is unique!
                         -->
                         <div class="choice" identifier="c1">
-                            <div class="text">2</div>
+                            <div class="text">The HTML code for this web page.</div>
                             <div class="feedback">
-                                Think about the value of x after the first step.
+                                Would you be happy if some of the words on the page disappeared?
+                            </div>
+                        </div>
+                        <div class="choice" identifier="c2">
+                            <div class="text">Your computer's desktop picture.</div>
+                            <div class="feedback">
+                                Correct.  The picture could have a few wrong pixels and would still look okay.
+                            </div>
+                        </div>
+                        <div class="choice" identifier="c3">
+                            <div class="text">A live-action movie on Netflix.</div>
+                            <div class="feedback">
+                                Correct.  The movie could have a few corrupted frames and would still look okay.
+                            </div>
+                        </div>
+                        <div class="choice" identifier="c4">
+                            <div class="text">A cartoon on Netflix.</div>
+                            <div class="feedback">
+                                Actually, corrupted frames are more noticeable in a cartoon, which has solid areas separated by sharp edges.  (Fortunately, using techniques such as run length encoding, it's relatively easy to get a lossless, highly compressed version of a cartoon.)
+                            </div>
+                        </div>
+                        <div class="choice" identifier="c5">
+                            <div class="text">A digital book, to be read on a computer.</div>
+                            <div class="feedback">
+                                Digital books aren't stored as pictures, but as text.  Any error will be noticeable, as gibberish characters on the page.
                             </div>
                         </div>
                         <!-- Response ID
                              Make sure each ID is unique, again!
                              Keep these classes the same for multiple choice problems
                          -->
-                        <div class="responseDeclaration" identifier="ri1">
+                        <div class="responseDeclaration" identifier="ri5">
                             <div class="correctResponse" identifier="c2"></div>
-                        </div>
-                    </div>
-                    <!-- Question X -->
-                    <div class="assessment-data" type="multiplechoice" identifier="What is the value of x?"
-                        hasinlinefeedback="true" maxchoices="1" responseIdentifier="ri1" shuffle="true">
-                        <div class="prompt">
-                            Put the question here.
-                        </div>
-                        <!-- Answer Options
-                            There can be as many of these as you need. Make sure the
-                            "identifier" for each question is unique!
-                        -->
-                        <div class="choice" identifier="c1">
-                            <div class="text">2</div>
-                            <div class="feedback">
-                                Think about the value of x after the first step.
-                            </div>
-                        </div>
-                        <!-- Response ID
-                             Make sure each ID is unique, again!
-                             Keep these classes the same for multiple choice problems
-                         -->
-                        <div class="responseDeclaration" identifier="ri1">
-                            <div class="correctResponse" identifier="c2"></div>
+                            <div class="correctResponse" identifier="c3"></div>
                         </div>
                     </div>
                     
-                    </div>
                 </li>
 			</ol>
 		</div>
