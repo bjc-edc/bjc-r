@@ -10,46 +10,87 @@
     	<h2>Cryptography</h2>
         <div class="todo">
             <p>BH: It would be nice to look at some serious ciphers, e.g., Playfair.  And make xkcd white background.</p>
+            <p>I disagree about the comic. Humor is different for everyone. Reading a comic should not be required. If you don't get it, then you waste time trying to or you think you or the curriculum is stupid. I'm on for it to remain un-hinted yellow. Also, I moved it to a later page because it belongs after they know what public and private keys are. --MF, 7/25/19</p>
         </div>
         
         <div class="learn">
             <p><strong>In this lab,</strong> you will learn about security risks on the Internet and how data can be encoded to protect it.</p>
-            <p><strong>On this page,</strong> you will learn different ways of encoding and decoding a message.</p>
+            <p><strong>On this page,</strong> you will experiment with different ways of encoding and decoding a message and learn a simple method of symmetric encryption.</p>
         </div>
         
         <div class="forYouToDo" id="first">
             <ol>
-                <li>Write a secret message to send to a partner. Invent some way of encoding the message. Then send the <em>encoded</em> message to your partner.</li>
-                <li>Your partner will send <em>you</em> an encoded message. When you get it, try to decode it. What strategies are you using to decode it?</li>
-                <li><img class="imageRight" src="/bjc-r/img/icons/talk-with-another-pair.png" alt="Talk with Another Pair" title="Talk with Another Pair" />With another pair of students, compare the methods you used to encode your messages. Was anyone able to decode their message? How?</li>
+                <li>Write a secret message to send to a partner. Invent some way of encoding the message. Then give the <em>encoded</em> message to your partner.</li>
+                <li>Your partner will give <em>you</em> an encoded message. When you get it, try to decode it. What strategies are you using to decode it?</li>
+                <li><img class="inline" src="/bjc-r/img/icons/talk-with-another-pair-mini.png" alt="Talk with Another Pair" title="Talk with Another Pair" />With another pair of students, compare the methods you used to encode your messages. Was anyone able to decode their message? How?</li>
             </ol>
         </div>
         
-        <p>Cryptography is the study of how to convert messages into code (encryption) and how to solve codes (decryption). Just as TCP enables reliable transmission over an unreliable network, cryptography enables <em>verifiable</em>, <em>secure</em> transmission over an insecure network.</p>
-        <div class="vocabFullWidth">
+        <div class="vocab">
             <p>A <strong>secure</strong> transmission can't be read if it is intercepted.</p>
             <p>A <strong>verifiable</strong> transmission is guaranteed to be from the person it claims to be from.</p>
         </div>
-        <br />
+        <p>Cryptography is the study of how to convert messages into code (encryption) and how to solve codes (decryption). Just as TCP enables reliable transmission over an unreliable network, cryptography enables <em>verifiable</em>, <em>secure</em> transmission over an insecure network.</p>
 		
 		
-		<img class="imageRight" src="/bjc-r/img/icons/headphones.png" alt="Set Up Your Headphones or Speakers" title="Set Up Your Headphones or Speakers" />
-        <div class="sidenote">If your connection blocks YouTube, <a href="http://scratch.mit.edu/discuss/youtube/ZghMPWGXexs" target="_blank" title="The Internet: Encryption & Public Keys">watch the video here</a>.</div>
-		<iframe width="560" height="315" src="https://www.youtube.com/embed/ZghMPWGXexs?rel=0" frameborder="0" allowfullscreen class="indent"></iframe>
-
-        <div class="vocab">
-        	<p><strong>Cryptography</strong> is the methods for encoding and decoding messages.</p>
+		<div class="todo">
+            <img class="imageRight" src="/bjc-r/img/icons/headphones.png" alt="Set Up Your Headphones or Speakers" title="Set Up Your Headphones or Speakers" />
+            <div class="sidenote">If your connection blocks YouTube, <a href="http://scratch.mit.edu/discuss/youtube/ZghMPWGXexs" target="_blank" title="The Internet: Encryption & Public Keys">watch the video here</a>.</div>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/ZghMPWGXexs?rel=0" frameborder="0" allowfullscreen class="indent"></iframe>
+            <div class="vocab">
+                <p><strong>Cryptography</strong> is the methods for encoding and decoding messages.</p>
+            </div>
         </div>
-        <div class="takeNote">
-            <p><strong>Symmetric cryptography</strong> uses the <em>same secret key</em> to encode and to decode a message. Symmetric cryptography has been around for thousands of years. The trouble with symmetric cryptography is that the key becomes <em>another</em> message that needs to be transmitted securely.</p> 
-            <p><strong>Public key (asymmetric) cryptography</strong> was created by mathematicians in the 1970s.  It uses <em>two different keys</em> for encryption and decryption, so sharing the public encryption key doesn't give away the private decryption key. Public key encryption is the primary method of encryption today because of its high level of security.</p>
-        </div>        
-        	
         
-		<div class="endnote">
-        	<div class="todo">Brian wants to discuss having these as white text for the sake of beauty and joy. --MF, 1/26/18</div>
-			Read this comic by Randall Munroe (source: XKCD). <img class="inline" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> What's the joke?<br />
-			<img class="indent" src="http://imgs.xkcd.com/comics/public_key.png" alt="XKCD: Public Key" title="I guess I should be signing stuff, but I&#39;ve never been sure what to sign. Maybe if I post my private key, I can crowdsource my decisions about what to sign." />
+        <p>
+            You might have used a <em>substitution cipher</em> to encode your message, substituting each letter of the alphabet with some other letter. You could substitute letters in any order, like this:
+            <div class="indent fixedwidth">ABCDEFGHIJKLMNOPQRSTUVWXYZ</div>
+            <div class="indent fixedwidth">PQVFUBZOTHWYELIXRNAMGDSCKJ<img class="noshadow nopad" src="/bjc-r/img/4-internet/this-is-the-key.jpg" alt="This is the key." title="This is the key." /></div>
+            That's called a <em>simple substitution cipher</em>.
+        </p>
+        <p>
+            An easier way is to just shift the letters in order. For example, this is a shift of 3:
+            <div class="indent fixedwidth">ABCDEFGHIJKLMNOPQRSTUVWXYZ</div>
+            <div class="indent fixedwidth">DEFGHIJKLMNOPQRSTUVWXYZABC<img class="noshadow nopad" src="/bjc-r/img/4-internet/this-is-the-key.jpg" alt="This is the key." title="This is the key." /></div> 
+            That's a special kind of simple substitution cipher called a <em>Caesar Cipher</em> (named for Julius Caesar) or a <em>shift cipher</em>.
+        </p>
+        <div class="vocabFullWidth">
+            <div class="comment">IOC-2.B.5</div>
+            <p>Substitution ciphers are examples of <strong>symmetric encryption</strong> because they use the <em>same key</em> for both encryption and decryption.</p>
+            <div class="endnote">
+                <p>
+                    There are more complicated methods of symmetric encryption, but they always use the same key. 
+                    <a href="#hint-symmetric" data-toggle="collapse" title="How has symmetric encryption been used?">How has symmetric encryption been used?</a>
+                </p>
+                <div id="hint-symmetric" class="collapse">Up through the 1970s, symmetric encryption was all people had, but they used much more complicated algorithms than substitution ciphers. These days, simple substitution ciphers are used as puzzles in magazines, but breaking the German Enigma cipher in World War II, which you'll learn about in Unit 5, took a building full of mathematicians and computing equipment.</div>
+            </div>
+        </div>
+
+
+        <div class="forYouToDo">
+            <ol start="4">
+                <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />The person who receives your message has to know how to decode it. Describe an algorithm for decoding a message that was created with a Caesar (shift) cipher.</li>
+            </ol>
+        </div>
+        
+        <div class="ifTime">
+			<ol start="5">
+                <li>If you intercepted a message that was created with a simple substitution cipher, how might you decode it without knowing the key?</li>
+                <li>What are some ways the sender and receiver could make the encryption more secure than a simple substitution cipher?</li>
+			</ol>
+		</div>
+		
+        <div class="takeItFurther">
+        	<ol type="A">
+            	<li>
+                    A simple substitution cipher is relatively easy to break because some letters are used more frequently than others.
+                    <ul>
+                        <li>Read about Al-Kindi, the Arabic philosopher and mathematician who first described the frequency analysis method of code-breaking, in "Breaking Substitution Ciphers" (<a href="http://www.bitsbook.com/wp-content/uploads/2008/12/B2B_3.pdf#page=185" target="_blank" title="Breaking Substitution Ciphers"><em>Blown to Bits</em> pages 166-169</a>).</li>
+                        <li>This method is still useful today, even with better  cryptography tools: <a href="http://www.forbes.com/sites/thomasbrewster/2015/09/03/microsoft-dumb-attacks-cracks-next-gen-cryptography/" target="_blank" title="How A 1200-Year-Old Hacking Technique Can Already Crack Tomorrow's Encrypted Vaults">How a 1200-year-old Hacking Technique Can Already Crack Tomorrow's Encrypted Vaults (Forbes, 9/3/15)</a></li>
+                    </ul>
+                </li>
+                <li>Read "Secret Keys and One-Time Pads" (<a href="http://www.bitsbook.com/wp-content/uploads/2008/12/B2B_3.pdf#page=187" target="_blank" title="Secret Keys and One-Time Pads"><em>Blown to Bits</em> pages 169-173</a>) to learn about Vigenère ciphers and methods used during World War 2 and the Cold War.</li>
+            </ol>
         </div>
         
         	

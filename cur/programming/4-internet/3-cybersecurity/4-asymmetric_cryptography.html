@@ -48,17 +48,27 @@
             <div id="hint-digital-signatures" class="collapse">That's no good for secret messages (why not?), but it's useful for <strong>digital signatures</strong>.  I use my private key to encrypt a message; you use my public key to decrypt it.  If you get a meaningful message as the result, that proves that the message was encrypted with my private key.  (If I want both secrecy and digital signing, I encrypt the message with my private key to sign it, then encrypt the encrypted result <em>again</em> with your public key to keep it secret. You decrypt it twice, first with your private key and then with my public key.) This is a nice example of <em>composition of functions:</em> the output from the first encryption is the input to the second encryption.</div>
         </div>
         
+        <div class="takeNote">
+            <p><strong>Symmetric cryptography</strong> uses the <em>same secret key</em> to encode and to decode a message. Symmetric cryptography has been around for thousands of years. The trouble with symmetric cryptography is that the key becomes <em>another</em> message that needs to be transmitted securely.</p> 
+            <p><strong>Public key (asymmetric) cryptography</strong> was created by mathematicians in the 1970s.  It uses <em>two different keys</em> for encryption and decryption, so sharing the public encryption key doesn't give away the private decryption key. Public key encryption is the primary method of encryption today because of its high level of security.</p>
+        </div>        
+        			
+        <div class="endnote">
+			This comic was written by Randall Munroe (source: XKCD). <img class="inline" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> What's the joke?<br />
+			<img class="indent" src="http://imgs.xkcd.com/comics/public_key.png" alt="XKCD: Public Key" title="I guess I should be signing stuff, but I&#39;ve never been sure what to sign. Maybe if I post my private key, I can crowdsource my decisions about what to sign." />
+        </div>
+        
         <h3>Secure HTTP</h3>
         <p>Secure HTTP connections (those that use <strong>https://</strong> instead of <strong>http://</strong>) use a protocol called <em>Transport Layer Security</em> (TLS) or maybe an older version called <em>Secure Sockets Layer</em> (SSL). Both are based on public key cryptography. With SSL/TLS, the site you are visiting sends its public key, and your browser uses it to encrypt the information you send.</p>
         <div class="vocabFullWidth">
         	<p><strong>SSL/TLS</strong> (secure sockets layer/transport layer security) is the standard used for cryptographically secured information transfer on the Internet.</p>
         </div>
-        <br clear="all" />
         
-        <div class="sidenote">If your connection blocks YouTube, <a href="http://scratch.mit.edu/discuss/youtube/kBXQZMmiA4s" target="_blank" title="The Internet: HTTP & HTML">watch the video here</a>, but start it at 4:40. </div>
-		<img class="imageRight" src="/bjc-r/img/icons/headphones-mini.png" alt="Set Up Your Headphones or Speakers" title="Set Up Your Headphones or Speakers" />
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/kBXQZMmiA4s?start=280&rel=0" frameborder="0" allowfullscreen class="indent"></iframe>
-        
+        <div class="todo">
+            <div class="sidenote">If your connection blocks YouTube, <a href="http://scratch.mit.edu/discuss/youtube/kBXQZMmiA4s" target="_blank" title="The Internet: HTTP & HTML">watch the video here</a>, but start it at 4:40. </div>
+            <img class="imageRight" src="/bjc-r/img/icons/headphones-mini.png" alt="Set Up Your Headphones or Speakers" title="Set Up Your Headphones or Speakers" />
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/kBXQZMmiA4s?start=280&rel=0" frameborder="0" allowfullscreen class="indent"></iframe>
+        </div>
         <div class="endnote">
             <a href="#hint-open-standards" data-toggle="collapse" title="Open Standards Help Security">Open standards help security...</a>
     		<div id="hint-open-standards" class="collapse">
@@ -70,7 +80,8 @@
         
         <h3>Certificate Authorities</h3>
         <div class="vocabBig">
-        	<p><strong>Certificate authorities</strong> issue digital certificates that verify who owns the encryption keys used for secured communications.</p>
+        	<div class="comment">IOC-2.B.6</div>
+            <p><strong>Certificate authorities</strong> issue digital certificates that verify who owns the encryption keys used for secured communications.</p>
         </div>
         <p>Public key cryptography doesn't solve all the problems, because an eavesdropper (say, Eve) might publish a fake public key pretending to be Alice. Then Bob might accidentally encrypt their message for Alice using the Eve's fake key, and then the Eve can read the message.  In practice, this is partly fixed by relying on trusted third parties, called <em>Certificate Authorities</em>, to certify public keys. In your browser's security options you can see all of the Certificate Authorities that it trusts.</p>
 		<div class="endnote">But this just pushes the problem back a layer. How does the Certificate Authorities know that you are who you say you are? The problem is a little bit like how your bank knows that you who you say you are when you call them on the phone. Namely, they ask you questions for which they hope only you know the answer.</div>
