@@ -8,11 +8,14 @@
 
 	<body>
 		<h2>Data Compression</h2>
+        <div class="todo">
+            I reviewed the page and cut back on the text, including by hinting stuff and dropping redundant vocab boxes. But overall, I find this page tough to get through. I think this is a case where we've tried to do too much and have obscured the point. --MF, 8/7/19
+        </div>
         
 		<div class="learn"><strong>On this page,</strong> you learn about different <em>data compression algorithms</em>, such as the ones used in common picture file formats.</div>
 		<div class="todo">Snap<i>!</i> 5.0 includes support for image processing, pixel by pixel, reasonably fast.  Students could definitely implement run length encoding, and might be able to implement lossy algorithms, although not jpg or gif.  But, for example, turning every 2x2 array of pixels into its average color.  We really should consider this as a way to get some of the beauty and joy back. --BH</div>
         <img class="imageRight" src="/bjc-r/img/6-computers/bjc-logo-original.png" alt="BJC logo uncompressed" title="BJC logo uncompressed" />
-		<p>This picture of the BJC logo (shown right) is 158 pixels wide and 186 pixels tall, for a total of 29,388 pixels. The BMP (bitmap) format includes each of those pixels in the picture file, at four bytes per pixel, so the file size is about 120kB.</p>
+		<p>The picture of the BJC logo (at right) is 158 pixels wide and 186 pixels tall, for a total of 29,388 pixels. The BMP (bitmap) format includes each of those pixels in the picture file, at four bytes per pixel, so the file size is about 120kB.</p>
         
 		<h3>Lossless Compression</h3>
 		<p>That is an inefficient way to store the information. Think about the 158 pixels in the top row. The first 60 or so are white. Then come five pixels of yellowish orange (the top slice of the "b"). And the rest of that row is white.</p>
@@ -40,9 +43,10 @@
             </tr>
         </table>
 
-        <p>These days, the size of one picture isn't so significant, but think about every frame of a movie, and think about the time required to send the information over the Internet. Compression makes it easier to stream that movie to you.</p>
+        <p>These days, the size of one picture isn't so significant, but think about every frame of a movie and the time required to send that information over the Internet. Compression makes it easier to stream that movie to you.</p>
 		
-        <div class="forYouToDo" id="first">
+        <div class="todo">I made this an ITIT because these problems feel only tangentially related to the page. --MF, 8/7/19</div>
+        <div class="ifTime">
             <ol>
                 <li>Open Snap<em>!</em>. Import the "Set RGB or HSV pen color" Library from the File menu. Using the <img class="inline nopadtb" src="/bjc-r/img/blocks/set-pen-color-rgb.png" alt="set pen color to r:(255) g: (0) b: (0)" title="set pen color to r:(255) g: (0) b: (0)" /> block, determine what happens to the sprite's color if you set the red (r) and green (g) inputs to the maximum value (255) and the blue (b) to 0.</li>
                 <div class="endnote">If you want to see the sprite's color more easily, increase its size using <img class="" src="/bjc-r/img/blocks/set-size-empty.png" alt="set size to ( ) %" title="set size to ( ) %" />.</div>
@@ -50,24 +54,24 @@
             </ol>
         </div>
         
-        <div class="todo">Possible quizlet for LO: (include picture with fairly thin diagonal lines) A student proposes to use run-length encoding to compress this picture. Is that a good idea, why or why not? --MF, 12/16/18</div>
+        <div class="todo">Possible quizlet for LO: (include picture with fairly thin diagonal lines) A student proposes to use run-length encoding to compress this picture. Is that a good idea, why or why not? --MF, 12/16/18<p>I think this would be a much better FYTD although it needs some support so students actually get the idea. I would have done it, but my attempts to use snap to generate such an image failed perhaps due to some weird snap graphic stuff? --MF, 8/7/19</p></div>
         
-		<div class="vocab">
-        	<p><strong>Lossless compression</strong> means that <em>no</em> information is lost.</p>
-        </div>
         <div class="comment">DAT-1.D.2, DAT-1.D.3, DAT-1.D.4</div>
-        <p>Run-length encoding is a <strong>lossless compression</strong> format; it doesn't <em>lose</em> any information. The original picture can be reconstructed with every pixel exactly correct. But run-length encoding doesn't do well if the picture is a photograph where every pixel may be (at least slightly) different in color from its neighbors. If the length of each color run is just one pixel, both run length and color will take <em>twice</em> as much space as just storing the color of each pixel. Another lossless image format you may have heard of is PNG (Portable Network Graphics, pronounced "ping").</p>
+		<!--<div class="vocab">
+        	<p><strong>Lossless compression</strong> means that <em>no</em> information is lost.</p>
+        </div>-->
+        <p>Run-length encoding is a <em>lossless compression</em> format; it doesn't lose any information. The original picture can be precisely reconstructed. But run-length encoding isn't good for images where many pixels are even slightly different in color from its neighbors. If the length of each color run is just one pixel, encoding both run length and color will take <em>twice</em> as much space as just storing the color of each pixel. Another lossless image format you may have heard of is PNG (Portable Network Graphics, pronounced "ping").</p>
             
         <div class="endnote">The PNG algorithm is complicated and uses several different strategies depending on how color varies in each small chunk of the image. The thing to remember is that PNG is lossless.</div>	
-    
+
         <h3>Lossy Compression</h3>
         
-        <div class="vocab">
+        <!--<div class="vocab">
         	<p><strong>Lossy compression</strong> means that <em>some</em> information is lost.</p>
-        </div>
+        </div>-->
     
         <div class="comment">DAT-1.D.7, DAT-1.D.8</div>
-        <p><strong>Lossy compression</strong> algorithms let file sizes be even smaller, but the original picture can't be perfectly reconstructed; information is <em>lost</em>. This would be terrible if these algorithms were used to compress a computer program or a novel, but people's perception of images do not require extreme precision. Similarly, sounds and movies can survive lossy compression without most people noticing.</p>
+        <p><em>Lossy compression</em> algorithms let file sizes be even smaller, but the original picture can't be perfectly reconstructed; information is lost. This would be a poor choice for compressing a computer program or a novel, but images (as well as sounds and movies) do not require precision.</p>
         <p>The most commonly used lossy compression algorithm for pictures is called JPEG (or JPG, both pronounced "jay peg" for "Joint Photographic Experts Group," the committee that invented it). Lossy algorithms usually let you <em>control the degree of precision</em>. </p>
         
         <p>
@@ -104,26 +108,39 @@
         </p>
         <div class="comment">DAT-1.D.5</div>
         <p>You probably <em>could</em> tell which is which, especially if you looked for sharp edges, or very shiny spots.  But the compressed file uses 1/30th of the space used by the original!  And you could certainly tell that it's a picture of rocks; for many purposes it'd be good enough.  Mostly, though, people select less extreme compression settings, so the compressed file might be 4/5 the size of the original, and look much more like the lossless version.</p>
-		<p>Here's a most-compression JPEG of the BJC logo:<br />
-		<img class="indent" src="/bjc-r/img/4-internet/bjc-logo-jpeg.jpg"><br />
-		As you can see, the distortion from the lossy compression is much more noticeable when the original picture has sharp edges and solid colors.  (Even so, a less severe JPEG compression doesn't look nearly this bad.)</p>
+		<div class="comment">This was called "most-compression" but since we don't explain what we mean by that (and I don't think we should try to), it's clearer to say "high-compression." --MF, 8/7/19</div>
+        <p>
+            Here's a high-compression JPEG of the BJC logo:<br />
+            <img class="indent" src="/bjc-r/img/4-internet/bjc-logo-jpeg.jpg" alt="pixelated copy of BJC logo" title="pixelated copy of BJC logo" /><br />
+            As you can see, the distortion from the lossy compression is much more noticeable when the original picture has sharp edges and solid colors.  (Even so, a less severe JPEG compression doesn't look nearly this bad.)
+        </p>
         
         <div class="vocabFullWidth"><strong>: Lossy vs. Lossless</strong>
-            <p><strong>Lossless</strong> compression (like PNG) is <em>reversible</em> (no loss in quality); you can reconstruct the original data. It works by removing redundant data.</p>
-            <p><strong>Lossy</strong> compression (like JPG) is <em>not</em> fully reversible; you can only reconstruct an <em>approximation</em> of the original data. It works by removing details that people aren't likely to notice. </p>
+            <ul>
+                <li><strong>Lossless</strong> compression (like PNG) is <em>reversible</em> (no loss in quality); you can reconstruct the original data. It works by removing redundant data.</li>
+                <li><strong>Lossy</strong> compression (like JPG) is <em>not</em> fully reversible; you can only reconstruct an <em>approximation</em> of the original data. It works by removing details that people aren't likely to notice. </li>
+            </ul>
         </div>
 
-		<p>JPEG encoding is a complicated algorithm, but we can experiment with a simpler lossy compression algorithm:  Divide the picture into 2-by-2 squares of four pixels.  Then average the four pixels in each square.  The result is a smaller picture:<br />
-		<img class="indent" src="/bjc-r/img/4-internet/small-stones.png"><br />
-		Since the smaller costume has 1/4 as many pixels, it has about 25% the size of the original.  Now we can decompress the picture by replacing each pixel with a 2-by-2 square of identical pixels:<br />
-		<img class="indent" src="/bjc-r/img/4-internet/restored-stones.png"><br />
-		The picture is still recognizably rocks, but it's even fuzzier than the lossy JPEG.  That's not surprising, since the compression technique is much simpler than JPEG.</p>
+		<div class="endnote">
+            <p><a href="#hint-simpler" data-toggle="collapse" title="Are there simpler ways to do lossy compression?">Are there simpler ways to do lossy compression?</a></p>
+            <div id="hint-simpler" class="collapse">
+                <p>
+                    JPEG encoding is a complicated algorithm, but we can experiment with a simpler lossy compression algorithm:  Divide the picture into 2-by-2 squares of four pixels.  Then average the four pixels in each square.  The result is a smaller picture:<br />
+                    <img class="indent" src="/bjc-r/img/4-internet/small-stones.png" alt="pond pebbles, half the size or original image" title="pond pebbles, half the size or original image" /><br />
+                    Since the smaller costume has 1/4 as many pixels, it has about 25% the size of the original.  Now we can decompress the picture by replacing each pixel with a 2-by-2 square of identical pixels:<br />
+                    <img class="indent" src="/bjc-r/img/4-internet/restored-stones.png" alt="pond pebbles, blown up to full size from half size image" title="pond pebbles, blown up to full size from half size image" /><br />
+                    The picture is still recognizably rocks, but it's even fuzzier than the lossy JPEG.  That's not surprising, since the compression technique is much simpler than JPEG.
+                </p>        
+            </div>
+        </div>
 
         <div class="todo">BH idea: We could do a FYTD where they have to run-length encode/decode something. Maybe even encoding/decoding images in Snap. --MF, 11/8/17</div>
-        
+
         <div class="forYouToDo">
 			<ol start="3">
-				<li>
+				<div class="todo">This question is cute, but I don't see what it offers us... --MF, 8/7/19</div>
+                <li>
 					"If u cn rd ths u cn gt a gd jb w hi pa!"  This was the headline of an advertisement in the subway many years ago, for a shorthand system called Speedwriting.
 					<ol type="a">
 						<li>
@@ -133,28 +150,27 @@
 							How effective is Speedwriting as a compression algorithm?  That is, what fraction of the size of the full text is the size of the shorthand text?  (Just count letters, not the spaces between words, which don't take time to write.)
 						</li>
 						<li>
-							<img src="http://localhost/bjc-r/img/icons/talk-with-your-partner.png">
-							Is this an example of lossy or lossless compression?  Why?  (This is <em>not</em> an obvious question.)
+							<img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
+                            Is this an example of lossy or lossless compression?  Why?  (This is <em>not</em> an obvious question.)
 						</li>
 					</ol>
 				</li>
 				<li>
                     These questions are similar to those you will see on the AP CSP exam.
                     <!-- Question 1 -->
-                    <div class="assessment-data" type="multiplechoice" identifier="Which is NOT an explanation of low image quality?"
-                        hasinlinefeedback="true" maxchoices="1" responseIdentifier="ri1" shuffle="false">
-                        <div class="prompt">A film student is recording a movie on his smartphone. When the recording is done, he decides to save a copy on his computer. The student then notices that the saved copy is of much lower image quality than the original. Which of the following could NOT be a possible explanation for the lower image quality?</div>
+                    <div class="assessment-data" type="multiplechoice" identifier="Which is NOT an explanation of low image quality?" hasinlinefeedback="true" maxchoices="1" responseIdentifier="ri1" shuffle="false">
+                        <div class="prompt">A film student records a movie on his smartphone and then saves a copy on his computer. He notices that the saved copy is of much lower image quality than the original. Which of the following could <strong>NOT</strong> be a possible explanation for the lower image quality?</div>
                         <div class="choice" identifier="c1">
-                            <div class="text">The movie was saved using fewer bits per second than the original movie.</div>
-                            <div class="feedback">This is likely what happened.</div>
+                            <div class="text">The movie was saved using fewer bits per second (a lower bitrate) than the original movie.</div>
+                            <div class="feedback">This is likely what happened. Which one could NOT be a possible explanation?</div>
                         </div>
                         <div class="choice" identifier="c2">
                             <div class="text">The copy of the movie file was somehow corrupted in the process of saving.</div>
-                            <div class="feedback">This is possible, however if the file is corrupted it is unlikely to have a consistent negative impact on image quality. </div>
+                            <div class="feedback">This is possible; however if the file is corrupted, it is unlikely to have a consistent negative impact on image quality. </div>
                         </div>
                         <div class="choice" identifier="c3">
                             <div class="text">The movie was saved using a lossy compression technique.</div>
-                            <div class="feedback">This is very likely.</div>
+                            <div class="feedback">This is very likely. Which one could NOT be a possible explanation?</div>
                         </div>
                         <div class="choice" identifier="c4">
                             <div class="text">Whenever a file is saved from one computer to another, some information is always lost.</div>
@@ -168,7 +184,7 @@
                     <!-- Question 2 -->
                     <div class="assessment-data" type="multiplechoice" identifier="Which are examples of lossless transformation?"
                         hasinlinefeedback="true" maxchoices="2" responseIdentifier="ri2" shuffle="true">
-                        <div class="prompt">A visual artist is processing a digital image and overwriting the original.  Which of the following describe <strong>lossless</strong> transformations of the digital image from which the original image can be recovered? <em>Choose two answers.</em></div>
+                        <div class="prompt">A visual artist is processing a digital image.  Which of the following describe a <strong>lossless</strong> transformation from which the original image can be recovered? <em>Choose two answers.</em></div>
                         <div class="choice" identifier="c1">
                             <div class="text">Creating the negative of an image, where colors are reversed (dark areas appear light).</div>
                             <div class="feedback">Correct. This transformation is reversible and is an example of a lossless transformation.</div>
@@ -179,7 +195,7 @@
                         </div>
                         <div class="choice" identifier="c3">
                             <div class="text">Creating a grayscale copy of an image.</div>
-                            <div class="feedback">The grayscale of an image replaces each RGB value with their average and once colors have been averaged it is impossible to retrieve the original RGB values of the pixels.</div>
+                            <div class="feedback">The grayscale of an image replaces each RGB value with their average and once the amounts of red, green, and blue have been averaged together, it is impossible to retrieve the original RGB values of the pixels.</div>
                         </div>
                         <div class="choice" identifier="c4">
                             <div class="text">Creating a vertically flipped copy of the image.</div>
@@ -191,17 +207,13 @@
                         </div>
                     </div>
                     
-                    <!-- Question X -->
+                    <!-- Question 3 -->
 					<div class="comment">DAT-1.D</div>
                     <div class="assessment-data" type="multiplechoice" identifier="Which are examples of lossless transformation?"
-                        hasinlinefeedback="true" maxchoices="2" responseIdentifier="ri5" shuffle="true">
+                        hasinlinefeedback="true" maxchoices="2" responseIdentifier="ri3" shuffle="true">
                         <div class="prompt">
                             For which of the following kinds of data would <em>lossy</em> compression be okay?  Check as many as apply.
                         </div>
-                        <!-- Answer Options
-                            There can be as many of these as you need. Make sure the
-                            "identifier" for each question is unique!
-                        -->
                         <div class="choice" identifier="c1">
                             <div class="text">The HTML code for this web page.</div>
                             <div class="feedback">
@@ -236,7 +248,7 @@
                              Make sure each ID is unique, again!
                              Keep these classes the same for multiple choice problems
                          -->
-                        <div class="responseDeclaration" identifier="ri5">
+                        <div class="responseDeclaration" identifier="ri3">
                             <div class="correctResponse" identifier="c2"></div>
                             <div class="correctResponse" identifier="c3"></div>
                         </div>
