@@ -45,6 +45,7 @@
 
         <div class="forYouToDo">
             <ol>
+                <div class="comment">AAP-2.K part a</div>
                 <li>Use <code>for each</code> to <em>traverse</em> your list, asking each quiz question, checking each answer, and letting the user know if they are right or wrong on each item.</li>
                 <li>Take your quiz a few times as a user would, and work out any problems with the code. Then, give your quiz to a friend.</li>
             </ol>
@@ -59,6 +60,7 @@
         
         <div class="forYouToDo" id="first">
 			<ol start="5">
+                <div class="comment">AAP-2.K part b</div>
 				<li>
                     <!-- Question 1-->
                     <div class="assessment-data" type="multiplechoice" identifier="abe" hasinlinefeedback="true" maxchoices="2" responseIdentifier="ri1" shuffle="true">
@@ -66,7 +68,7 @@
                             <p>
                                 Which of the scripts below will produce the following sprite behavior?<br />
                                 <img class="indent noshadow" src="/bjc-r/img/3-lists/abelincoln.gif" alt="sprite saying Abraham then Lincoln" title="sprite saying Abraham then Lincoln"><br />
-                                (When you run the script, it actually says Abraham Lincoln <em>only once</em> though.)
+                                (When you run the script, though, it actually says Abraham Lincoln <em>only once</em>.)
                             </p>
                             <p>
                                 Choose <strong>all</strong> that apply.
@@ -122,12 +124,18 @@
                 The script 
                 <img class="inline" src="/bjc-r/img/2-complexity/example-for-each-point.png" alt="for each (point) of (my drawing) (go to (point))" title="for each (point) of (my drawing) (go to (point))" />
                 would be written as
+                <div class="comment">Where did we come up with <pre class="inline">GoTo()</pre>? Shouldn't it have some yellow-box commentary? --MF, 8/22/19</div>
                 <div class="pre-container"><pre class="inline">FOR EACH point IN myDrawing
 {
-    GoTo (point)
-}</pre></div>.
+    GoTo(point)
+}</pre></div> or <img class="inline" src="/bjc-r/img/2-complexity/for-each-blocktran.png" alt="FOR EACH point IN myDrawing
+{
+    GoTo(point)
+}" title="FOR EACH point IN myDrawing
+{
+    GoTo(point)
+}" />.
             </div>
-            <div class="todo">We could add an APblocktran image here too. --MF, 4/19/19</div>
         </div>
 
         <div class="forYouToDo">
@@ -137,14 +145,14 @@
                     <div class="assessment-data" type="multiplechoice" identifier="FOR EACH positive and square over 4"
                         hasinlinefeedback="true" maxchoices="1" responseIdentifier="ri2" shuffle="false">
                         <div class="prompt">
-                            
+                            <div class="comment">This used to be <pre class="inline">IF ( (item &gt; 0)  AND  (item * item &gt; 4) )</pre>, but the exam doesn't look like it uses parens like that, so I dropped them. Does that seem right to you, Brian? --MF, 8/22/19<div class="pseudop">Also, please note that I used parens with IF: <pre class="inline">IF()</pre> in the feedback below. Is that correct? --MF, 8/22/19</div></div>
                             <pre>inputList ← [3, -1, 2, 10, -5]
 
 FOR EACH item IN inputList
 {	
-  IF ( (item &gt; 0)  AND  (item * item &gt; 4) )
+  IF(item &gt; 0  AND  item * item &gt; 4)
   {
-    DISPLAY item
+    DISPLAY(item)
   }
 }
 </pre><br />
@@ -153,13 +161,13 @@ FOR EACH item IN inputList
                         <div class="choice" identifier="c1">
                             <div class="text">9, 1, 4, 100, 25</div>
                             <div class="feedback">
-                                What does the <pre class="inline">IF</pre> block test? What does the <pre class="inline">DISPLAY</pre> instruction in this code display?
+                                What does the <pre class="inline">IF()</pre> block test? What does the <pre class="inline">DISPLAY()</pre> instruction in this code display?
                             </div>
                         </div>
                         <div class="choice" identifier="c2">
                             <div class="text">9, 100</div>
                             <div class="feedback">
-                                What does the <pre class="inline">DISPLAY</pre> instruction in this code display?
+                                What does the <pre class="inline">DISPLAY()</pre> instruction in this code display?
                             </div>
                         </div>
                         <div class="choice" identifier="c3">
@@ -183,17 +191,17 @@ FOR EACH item IN inputList
                     <div class="assessment-data" type="multiplechoice" identifier="Mystery Procedure"
                         hasinlinefeedback="true" maxchoices="1" responseIdentifier="ri3" shuffle="true">
                         <div class="prompt">
-                            <pre>PROCEDURE Mystery (numberList, targetNumber)
+                            <pre>PROCEDURE Mystery(numberList, targetNumber)
 {
   counter ← 0
   FOR EACH number IN numberList
   {
-    IF (number &gt; targetNumber)
+    IF(number &gt; targetNumber)
     {
       counter ← counter + 1
     }
   }
-  RETURN (counter)
+  RETURN(counter)
 }
 myMathGrades ← [100, 80, 90, 80, 60, 100, 50, 100]
 Mystery(myMathGrades, 60)
