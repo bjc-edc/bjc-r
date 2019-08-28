@@ -9,15 +9,15 @@
 
 	<body>
 		<h2>Lab 4: Making Computers Do Math</h2>
-		<p>This lab has two purposes.  It's at this point in the course because it gives practice in making and using predicates.  But also, the specific predicates students build here will be used later in the course.</p>
+		<p>This lab introduces the <code>mod</code> function, gives practice in making and using predicate and reporter functions, and allows students to collect their mathematical blocks from this and the prior lab into a single library project as they learn about importing and exporting blocks.</p>
 
 		<h3>Pacing</h3>
 		<div>
-			The 2 required lab pages could be split across X-X days (<strong>X-X minutes</strong>). Expected times to complete follow:
+			The 3 required lab pages could be split across 2-4 days (<strong>70-140 minutes</strong>). Expected times to complete follow:
             <ul>                
-                <li>X-X minutes (X-X class periods) on <a href="/bjc-r/cur/programming/2-complexity/4-making-computers-do-math/1-mod-operator.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="The Mod Operator">The <code>Mod</code> Operator</a></li>
-				<li>X-X minutes (X-X class periods) on <a href="/bjc-r/cur/programming/2-complexity/4-making-computers-do-math/2-math-predicates.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Mathematical Predicates">Mathematical Predicates</a></li>
-				<li>X-X minutes (X-X class periods) on <a href="/bjc-r/cur/programming/2-complexity/4-making-computers-do-math/3-other-math-reporters.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Other Mathematical Reporters">Other Mathematical Reporters</a></li>
+                <li>25-50 minutes (&lt;1 class period) on <a href="/bjc-r/cur/programming/2-complexity/4-making-computers-do-math/1-mod-operator.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="The Mod Operator">The <code>Mod</code> Operator</a></li>
+				<li>25-50 minutes (&lt;1 class period) on <a href="/bjc-r/cur/programming/2-complexity/4-making-computers-do-math/2-math-predicates.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Making a Mathematical Library">Making a Mathematical Library</a></li>
+				<li>20-40 minutes (&lt;1 class period) on <a href="/bjc-r/cur/programming/2-complexity/4-making-computers-do-math/3-other-math-reporters.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="More Mathematical Reporters">More Mathematical Reporters</a></li>
 			</ul>
 		</div>
 
@@ -34,37 +34,60 @@
 		<div>
 			<ul>
 				<li>
-					<strong>Page 1: Mathematical Predicates.</strong>
+					<strong>Page 1: The <code>Mod</code> Operator.</strong>
 					<ul>
 						<li>
 							<strong>Learning Goals:</strong>
 							<ul>
-								<li>Review exporting and importing blocks.</li>
-								<li>Get comfortable using KEEP to answer "which items?" or "how many items?" questions.</li>
+								<li>Understand the <code>mod</code> function.</li>
+                                <li>Use <code>mod</code> to build a divisibility checker predicate and a predicate to test whether a number is even.</li>
 							</ul>
 						</li>
 						<li>
 							<strong>Tips:</strong>
 							<ul>
-								<li>Question 4 has handholding baby steps hidden behind a link.  Students should understand that if they always use the hints throughout the curriculum, they'll end the year not having learned many programming skills.  On the other hand, people often get stuck on small points that they really do already understand, but just aren't seeing that day.  Maybe yesterday or tomorrow they'd find the same question easy.  So it's okay for them to click the hint links when they've really tried, and they and their partner are both really stuck on the problem.</li>
-								<li>A "number of" block is almost always done by first making a block to determine the actual items and then using <code>length</code> to count them.  This is what's behind the hint link.  But students should understand it as a general strategy.</li>
-								<li><b>Pipe.</b>  There are, in general, three ways to denote calling a bunch of reporters, each taking the result of the previous one as an input.  We generally favor <em>nesting</em> function calls: f(g(x)).  The trouble with nesting, for students, is that the function they see first in the code is called last -- it's the <em>innermost</em> function -- <em>g</em> in the f(g(x)) example -- that's called first.</p>
-								<p>The <code>pipe</code> is just another representation of the same function calls, but with the one that's called first shown first.  It'd be <code>pipe (x) (g) (f)</code> to compute f(g(x)).</p>
-								<p>A third way to present the same idea is to use temporary variables to hold intermediate results:</p>
-								<img src="/bjc-r/img/2-complexity/divisors-sets.png">
-								<p>Students can do whatever makes them comfortable, but they should give nesting a try, and give pipe a try, before they settle on sequential <code>set</code>s of temporary variables.  But you can show them a page with the same function done all three ways, and they can use the sequential one to help them understand the other two.</p></li>
+								<li>
+                                	<strong>Mathematics Note: <code>Mod</code>.</strong><a name="mod" class="anchor">&nbsp;</a>For positive whole number inputs, the <code>mod</code> block returns the remainder when the first input is divided by the second.
+                                    <div class="endnote">
+                                        If either input is negative, what's meant by &quot;remainder&quot; gets more complicated, and there are actually two different functions, &quot;mod&quot; and &quot;remainder,&quot; with different answers.  Negative numbers will not be used with <code>mod</code> in this course.
+                                    </div>
+                                </li>
+                                <li>Resist the urge to pre-teach <code>mod</code>, and instead allow student to explore and experience the function before formalizing. After most students have considered the self-check questions toward the end, post similar questions, such as "What is the value of 13 MOD 2 + 1?" (2) or "What is the value of 13 MOD (2 + 1)?" (1), and have students share and discuss their thinking with the class.</li>
+                                <div class="todo">Any reason to keep any of this?
+                                    <li>Question 4 has handholding baby steps hidden behind a link.  Students should understand that if they always use the hints throughout the curriculum, they'll end the year not having learned many programming skills.  On the other hand, people often get stuck on small points that they really do already understand, but just aren't seeing that day.  Maybe yesterday or tomorrow they'd find the same question easy.  So it's okay for them to click the hint links when they've really tried, and they and their partner are both really stuck on the problem.</li>
+								    <li>A "number of" block is almost always done by first making a block to determine the actual items and then using <code>length</code> to count them.  This is what's behind the hint link.  But students should understand it as a general strategy.</li>
+                                </div>
 							</ul>
 						</li>
 					</ul>
 				</li>
 				<li>
-					<strong>Page 2: Other Mathematical Reporters.</strong>
+					<strong>Page 2: Making a Mathematical Library.</strong>
 					<ul>
 						<li>
 							<strong>Learning Goals:</strong>
 							<ul>
-								<li>Learn to use the <code>combine</code> block.</li>
-								<li>Add to students' collection of useful functions for later use.</li>
+                                <li>Create a library of mathematical procedures.</li>
+                                <li>Learn about importing and exporting functions.</li>
+								<li>Practice using <code>keep</code>.</li>
+							</ul>
+						</li>
+						<li>
+							<strong>Tips:</strong>
+							<ul>
+								<li>See the "Block Libraries" section on the bottom of page 29 in the <a href="https://snap.berkeley.edu/snapsource/help/SnapManual.pdf#page=29" target="_blank" title="Snap! Reference Manual">Snap<em>!</em> Reference Manual</a> for more information about exporting and importing.</li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Page 3: More Mathematical Reporters.</strong>
+					<ul>
+						<li>
+							<strong>Learning Goals:</strong>
+							<ul>
+								<li>Use the <code>combine</code> block to develop several list functions.</li>
+								<li>Add to students' collection of useful mathematical functions.</li>
 							</ul>
 						</li>
 						<li>
@@ -72,7 +95,7 @@
 							<ul>
 								<div class="comment">Do we say this in the student pages?</div>
 								<li><code>Map</code> and <code>keep</code> are versatile functions; almost anything might be used as its function input.  <code>Combine</code>, though, really makes sense only with <code>+</code>, <code>&times;</code>, <code>and</code>, <code>or</code>, <code>join</code>, <code>join words</code>, and the blocks <code>min</code> and <code>max</code> that students write in this lab.</li>
-								<li>About <code>average</code> (problem 5): Note that it's incorrect to average two numbers, then average that result with the third number, and so on.  That gives too much weight to the last numbers averaged in.  Students must first add all the numbers, then, just once, divide by the number of numbers.</li>
+								<li>Regarding <code>average of list</code>, note that it's incorrect to average two numbers, then average that result with the third number, and so on.  That gives too much weight to the last numbers averaged in.  Students must first add all the numbers, then, just once, divide by the number of numbers.</li>
 							</ul>
 						</li>
 					</ul>
@@ -92,17 +115,17 @@
 		<h3>Solutions</h3>
 		<div>
 			<ul>
-				<li>...</li>
+                <li><a href="https://snap.berkeley.edu/snap/snap.html#present:Username=bjcsolutions&ProjectName=U2L4-MathLibrary%20(answer%20file)&editMode&noRun" target="_blank" title="Solution to Lab 4: Making Computers Do Math">Lab 4: Making Computers Do Math</a></li>
 			</ul>
 		</div>
 			
 			
-		<h3>Correlation with AP CS Principles Framework<a name="AP" class="anchor">&nbsp;</a></h3>
+		<!--<h3>Correlation with AP CS Principles Framework<a name="AP" class="anchor">&nbsp;</a></h3>
 		<div class="apStandards">
 			<!--<h4>Computational Thinking Practices:</h4>
 			<ul>
 				<li>Coming soon...</li>
-			</ul-->
+			</ul- - >
 			<h4>Enduring Understandings:</h4>
 			<p></p>
 			<ul>
@@ -117,7 +140,7 @@
 			<ul>
 				<li>Coming soon...</li>
 			</ul>
-		</div>			
+		</div>	-->		
 
 
 	</body>
