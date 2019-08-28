@@ -9,11 +9,12 @@
     <body>
         <h2>The <code>Mod</code> Operator</h2>
         <div class="learn">
+            <p><strong>In this lab,</strong> you will program procedures to carry out mathematical tasks.</p>
             <p><strong>On this page,</strong> you create a predicate to check whether one number is divisible by another.</p>
         </div>
 		<div class="forYouToDo">
 			<ol>
-                <li>Open your project "U2L3-Predicates" if it's not open already.</li>
+                <li><div class="newProject inline"><span class="text">"U2L4-MathTools"</span><img src="/bjc-r/img/icons/new-project-called.png" alt="Start a New Project called U2L4-MathTools" title="Start a New Project called U2L4-MathLibrary" /></div></li>
                 <li>
                     Experiment with the <img class="inline" src="/bjc-r/img/blocks/mod.png" alt="() mod ()" title="() mod ()"/> block.
                     <ol style="list-style-type:lower-roman;">
@@ -41,7 +42,7 @@
         <div class="forYouToDo">
 			<ol start="3">
                 <div class="sidenote">                    
-                        In this picture, the even and odd numbered rows are different. In a later lab, you can use your <code>even?</code> block to draw a <a href="/bjc-r/cur/programming/2-complexity/5-abstraction/3-brick-wall.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Brick Wall">brick wall</a>.<br />
+                        In a later lab, you can use your <code>even?</code> block to draw a <a href="/bjc-r/cur/programming/2-complexity/5-abstraction/3-brick-wall.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Brick Wall">brick wall</a> because the even and odd numbered rows are different. <br />
 						<img class="inline" src="/bjc-r/img/abstraction/new-brickwall/wall.png" alt="Sample image of brick wall" title="Sample image of brick wall" />
                     </div>
                 <li>
@@ -50,7 +51,7 @@
                     <img class="indent" src="/bjc-r/img/2-complexity/15-divisible-by-6-reporting-false.png" alt="is (15) divisible by (6) ? reporting false" title="is (15) divisible by (6) ? reporting false" />
                 </li>
                 <li>
-                    Use this <code>divisible?</code> predicate to build a predicate that tests whether its input is even (divisible by 2).<br />
+                    Use this <code>divisible by?</code> predicate to build a predicate that tests whether its input is even (divisible by 2).<br />
                     <img class="indent" src="/bjc-r/img/2-complexity/even--22-reporting-true.png" alt="even? (-22) reporting true" title="even? (-22) reporting true" />
                     <img class="indent" src="/bjc-r/img/2-complexity/even-7-reporting-false.png" alt="even? (7) reporting false" title="even? (7) reporting false" />
                 </li>
@@ -59,18 +60,41 @@
         </div>
 
         <div class="examFullWidth">
-            <div class="todo">The MOVE_FORWARD(), ROTATE_RIGHT() and ROTATE_LEFT() procedures are not in the 2020 standards. Does that matter? They also appear on 1.3.4 (and robot in a maze and mandala). --MF, 8/16/19</div>
             <div class="comment">AAP-2.H.2</div>
-            <div class="sidenote"><p><pre class="inline">MOVE_FORWARD()</pre> is just like <code>move () steps</code>.</p><p><pre class="inline">ROTATE_RIGHT()</pre> is like <code>turn &#x21bb; (90) degrees</code>.</p></div>
-            <div class="pseudop">The conditional expression <img class="inline" src="/bjc-r/img/2-complexity/if-example-preview-fractal-art.png" alt="if (size > 15) {repeat (4) {move (size) steps, turn clockwise (90) degrees}}" title="if (size > 15) {repeat (4) {move (size) steps, turn clockwise (90) degrees}}" /> would be written as <div class="pre-container"><pre class="inline">
-IF (size &gt; 15)
+            <div class="sidenote">
+                <div class="pseudop">The procedures <pre class="inline">move()</pre> and <pre class="inline">turn_clockwise()</pre> aren't built in to the AP's language so they are written in lower case like other programmer-defined procedures.</div>
+            </div>
+            <div class="pseudop">
+                The conditional expression 
+                <img class="inline" src="/bjc-r/img/2-complexity/if-example-preview-fractal-art.png" alt="if (size > 15) {repeat (4) {move (size) steps, turn clockwise (90) degrees}}" title="if (size > 15) {repeat (4) {move (size) steps, turn clockwise (90) degrees}}" /> 
+                would be written as 
+                <div class="pre-container"><pre class="inline">
+IF(size &gt; 15)
 {
-    REPEAT (4)
+    REPEAT 4 TIMES
     {
-        MOVE_FORWARD (size)
-        ROTATE_RIGHT
+        move(size)
+        turn_clockwise(90)
     }
-}</pre></div></div>
+}</pre>
+                </div>
+                or 
+                <img class="inline" src="/bjc-r/img/2-complexity/if-blocktran.png" alt="IF(size &gt; 15)
+{
+    REPEAT 4 TIMES
+    {
+        move(size)
+        turn clockwise(90)
+    }
+}" title="IF(size &gt; 15)
+{
+    REPEAT 4 TIMES
+    {
+        move(size)
+        turn clockwise(90)
+    }
+}" />
+            </div> 
             <p>As in Snap<em>!</em>, if the condition <code>(</code><var>size</var><code>) &gt; 15</code> is <code>true</code>, the code inside the <code>if</code> statement runs; if it is <code>false</code>, it does not.</p>
         </div>
         
@@ -81,7 +105,8 @@ IF (size &gt; 15)
                     <div class="assessment-data" type="multiplechoice" identifier="What's the missing condition for an ODD? predicate?"
                         hasinlinefeedback="true" maxchoices="1" responseIdentifier="ri2" shuffle="false">
                         <div class="prompt">
-                            The following incomplete code fragment was designed to test if <pre class="inline">number</pre> is odd:<br />
+                            <div class="comment">AAP-2.L.2</div>
+                            Algorithms that look the same may have different results. The following incomplete code fragment was designed to test if <pre class="inline">number</pre> is odd:<br />
                             <pre>IF (MISSING CONDITION)
 {
   DISPLAY "It is odd."
@@ -118,7 +143,7 @@ IF (size &gt; 15)
                     </div>
                 </li>
                 <li>
-                    <!-- Question 6 -->
+                    <!-- Question 7 -->
                     <div class="assessment-data" type="multiplechoice" identifier="What's the value of 11 MOD (2 + 3)?"
                         hasinlinefeedback="true" maxchoices="1" responseIdentifier="ri3" shuffle="true">
                         <div class="prompt">
