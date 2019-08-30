@@ -11,21 +11,16 @@
     
 	<body>
         <h2>Disease Spread Project</h2>
-        <div class="todo">Brian wants to do something with a real example (like weather modeling). --MF, 2/20/18</div>
 		<div class="todo">
-            <h3><p>We need to go back and rework the solutions file completely so it is a reporter and actually answers the exercises on this new version of the page. --MF, 3/6/19</p>
-            <p>This page is listed as optional in the TG but now has standards on it, and so may well need to be required. --MF, 3/6/19</p></h3>
+            <h3><p>Need to rework the solutions so it is a reporter and actually answers the new exercises. Also page is no longer optional. --MF, 8/30/19</p></h3>
         </div>
         <div class="todo">
+            <p>Brian wants to do something with a real example (like weather modeling). --MF, 2/20/18</p>
             <p>PG: SCRAP. What I really mean is change, but major change. Again, what we're seeing is how clever someone else can be. Learning to model is different. The first few pages of DHH's Calculus text does a great job if building an intellectual model that could be programmed in Snap. Weather could be ok, but I think the disease spread might be easier to understand and model. I'd keep the /idea/ here, but stop trying to show off /our/ projects and instead teach a kid how to model.</p>
-            <ul><li><a href="https://github.com/bjc-edc-2017-18/bjc-r/commits/master/cur/programming/5-algorithms/2-simulation/3-disease-spread.html">all old commits before page rename</a>--perhaps it's better now? --MF, 4/4/19</li><li>Also, compare to <a href="https://bjc.edc.org/bjc-r/cur/programming/5-algorithms/2-simulation/3-disease-spread.html?topic=nyc_bjc%2F5-algorithms.topic&course=bjc4nyc.html&novideo&noassignment">live page</a> --MF, 4/4/19</li></ul> 
-            <p>BH: Ditto. (Get rid of hints page; put good hints in expanding link.  Also, "Do this on your own" sounds like we want them not to pair program.)</p>
-            <p>MF: lightly clean up to make the text more concise</p>
         </div>
     
 		<div class="learn">
             <p><strong>On this page,</strong> you will model the spread of a disease in a population.</p>
-           
             <img class="indent" data-gifffer="/bjc-r/img/5-algorithms/img_disease-spread/disease-spread.gif" height="300" alt="Simulation of a disease spreading in a population.  A single infected individual eventually causes everyone to be infected." title="Simulation of a disease spreading in a population.  A single infected individual eventually causes everyone to be infected."/>
         </div>
         <p>Suppose you are a medical researcher at the Centers for Disease Control (CDC) and would like to understand the factors that contribute to the spread of a new disease. In particular, you want to know the effect of population size on the time it takes for everyone to be infected.</p>
@@ -33,6 +28,7 @@
         <div class="forYouToDo" id="first">
             <ol>
             	<li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> What would be a sensible hypothesis on how population size affects the elapsed time?</li>
+                <li>What if the space the people lived in (in the simulation, the size of the Snap<em>!</em> stage) was twice as big?</li>
             </ol>
         </div>
         
@@ -40,11 +36,11 @@
         <p>In this project, you will simulate the spread of a disease within a small population and explore the effects of variables such as population size and speed of human interaction on the spread of disease.</p>
         
         <div class="forYouToDo" id="second">
-            <ol start="2">
+            <ol start="3">
                 <li>
                     Write a simulation that will:<br />
 					<ul>
-                        <div class="sidenoteBig">How do you make a collection of identical sprites? Create a single person sprite and use the <code>create a clone of myself</code> block. You learned how to clone a sprite in <a href="/bjc-r/cur/programming/2-complexity/5-abstraction/4-building-tic-tac-toe.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 2 Lab 4 Page 4: Building a Tic-Tac-Toe Board">Unit 2 Lab 4 Page 4: Building a Tic-Tac-Toe Board</a>.</div>
+                        <div class="sidenoteBig">How do you make a collection of identical sprites? Create a single person sprite, and use the <code>create a clone of myself</code> block. You learned how to clone a sprite in <a href="/bjc-r/cur/programming/2-complexity/5-abstraction/4-building-tic-tac-toe.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 2 Lab 5 Page 4: Building a Tic-Tac-Toe Board">Unit 2 Lab 5 Page 4: Building a Tic-Tac-Toe Board</a>.</div>
                         <li>Take 3 inputs: the population size, the percentage of the population initially infected, and the speed at which the simulated people should be moving around.</li>
                         <li>Infect a healthy person when they touch a sick person.</li>
                         <li>When the entire population becomes sick, stop the animation and report the duration of the outbreak.</li>
@@ -56,15 +52,16 @@
         <div class="endnote">Using clones is a form of parallelism. But as you learned on the <a href="/bjc-r/cur/programming/5-algorithms/1-searching-lists/7-sequential.html?topic=nyc_bjc%2F5-algorithms.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 5 Lab 1 Page 7: Parallelism">Unit 5 Lab 1 Page 7: Parallelism</a>, because the clones are all running on one processor, cloning doesn't give you any speedup.</div>
         
         <div class="forYouToDo">
-			<ol start="3">
+			<ol start="4">
 				<li><img class="imageRight" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> Discuss how your simulation may be similar to and different from a real-life disease outbreak. Identify the <em>simplifying assumptions</em> you made in this simulation.</li>
                 <li>
                     <div class="comment">AAP-3.F.8</div>
-                    You want to know the effect of population size on the time elapsed. Because there is some randomness in the simulation, you are going to get some variation in the reported time. (This isn't a bug; in real life, random events affect the elapsed time.) Write a function in Snap<em>!</em> that runs the simulation 10 times while keeping the percent initially infected at 10 and the speed at 2, and reports the average time elapsed.<br />
+                    You want to know the effect of population size on the time elapsed. Because there is some randomness in the simulation, you are going to get some variation in the reported time. (This isn't a bug; in real life, random events affect the elapsed time.) Write a function in Snap<em>!</em> that runs the simulation 10 times while keeping the percent initially infected at 10 and the speed of infection at 2, and reports the average time elapsed.<br />
                     <img class="indent" src="/bjc-r/img/5-algorithms/average-of-disease-spread.png" alt="average time for disease spread with population size: ()" title="average time for disease spread with population size: ()" />
                 </li>
                 <div class="comment">AAP-3.F.7</div>
                 <li>Call this function four times with different populations (50, 100, 150, and 200), and write down the results. Create a refined hypothesis about the relationship between population size and time for the entire population to be infected.</li>
+                <li>In real disease scenarios, not everyone ends up getting sick. How would you decide if the simplifications you used in a simulation invalidate the conclusions you might draw?</li>
 			</ol>
         </div>
         <p>This is a simplified model. There are many things you could do to make the model more realistic. For example, you could make the infected people heal over time, or you could add doctor sprites who can heal sick sprites, but you will always have to make some simplifications.</p>
