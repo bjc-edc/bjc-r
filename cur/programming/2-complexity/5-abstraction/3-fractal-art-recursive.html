@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<script type="text/javascript" src="/bjc-r/utilities/gifffer.min.js"></script>
+        <script type="text/javascript">window.onload = function() {Gifffer();}</script>
+        <link rel="stylesheet" type="text/css" href="/bjc-r/css/bjc-gifffer.css">
+        <title>Unit 2 Lab 5: Dealing with Complexity, Page 3</title>
+    </head>
+    
+    <body>
+        <h2>Using Abstraction to Nest Triangles</h2>
+        <div class="learn">
+            <p><strong>On this page,</strong> you will use abstraction to nest your triangle script inside itself as you learn about <em>recursion</em>.</p>
+        </div>
+        <p>Does all that copying and pasting of triangle scripts feel awkward to you? You know a better way: <em>abstraction</em>. In Unit 1, you used a <code>pinwheel</code> block to implement the similar programs <code>asterisk</code> and <code>polygon</code> rather than copying the code. Here, you can use a block to manage the abstraction too. But in this case, we want the similar code (a smaller triangle) <em>nested inside</em>, so we will actually use the same block inside itself, a process called <em>recursion</em>.</p>
+        
+		<div class="forYouToDo">
+			<ol start="1">
+                <li>If it isn't open already, open your U2L4-FractalArt project.</li>
+                <li>	
+                    Create a <code>nested triangle</code> block that takes one input, <var>size</var>, and only draws the triangle if <var>size</var> &gt; 9. (For now, leave out the code about changing colors.)
+                    <div class="endnote">
+                        <a href="#hint-nested" data-toggle="collapse" title="Click for hints about building a nested triangle block.">Click for hints about building a <code>nested triangle</code> block.</a>
+                        <div id="hint-nested" class="collapse">
+                            <ol type="a">
+                                <li>
+                                    Design the block with one input, <var>size</var>. <br />
+                                    <img class="indent" src="/bjc-r/img/2-complexity/nested-tri-no-color-proto.png" alt="nested triangle, size: (size)" title="nested triangle, size: (size)"><br />
+                                </li>
+                                <li>
+                                    Use your first triangle script from problem thee previous page as a model. But add one condition: draw the triangle only if it's big enough:<br />
+                                    <img class="indent" src="/bjc-r/img/2-complexity/triangle.png" alt="if(size>9){repeat(3){move 100 steps; turn clockwise 120 degrees}}" title="if(size>9){repeat(3){move 100 steps; turn clockwise 120 degrees}}">
+                                </li>
+                                <li>Click the "Apply" button in the Block Editor so that the block appears in the palette on the left.</li>
+                            </ol>
+                        </div>
+                    </div>
+                </li>
+                <li>Try out your block  giving at least the inputs 9, 18,  20 and 100 to make sure it works as you expect.</li>
+            </ol>
+        </div>
+        <p>So far, this is just a triangle procedure, but next you'll make it recursive.</p>
+        <div class="vocabFullWidth">
+            <p>Calling a procedure from inside itself is called <strong>recursion</strong>.</p>
+        </div>
+        <p>On the previous page, you dragged a copy of the triangle script in between the <code>move</code> and <code>turn</code> blocks. You can do a similar thing with your <code>nested triangle</code> block.</p>
+        <div class="forYouToDo">
+			<ol start="4">
+                <li>
+                    From the palette, drag a copy of <code>nested triangle</code> into the definition of <code>nested triangle</code> between the <code>move</code> and <code>turn</code> blocks.  Make its <var>size</var> input half the current value of <var>size</var>.<br />
+                    <img class="indent" src="/bjc-r/img/2-complexity/nested-tri-recur-no-color.png" alt="nested triangle, size: (size/2)" title="nested triangle, size: (size/2)">
+                </li>
+                <li>
+                    Again try out your block with at least the inputs 9, 18, 20 and 100 to make sure it works as you expect.  
+                    <div class="endnote">You are using <code>nested triangle</code> in its own definition; this makes it a recursive process.  Recursion is one of the most powerful techniques in computer science and you will learn more about it in later projects.</div>
+                </li>
+                <img class="imageRight" src="/bjc-r/img/icons/save-now.png" alt="Now Is a Good Time to Save" title="Now Is a Good Time to Save" />
+            </ol>
+		</div>
+            
+		<div class="todo">I find the second ITIT here unnecessarily awkward, but I'm having so much trouble with the second sentence, that I'm not sure how to fix it... --MF, 8/30/19</div>
+        <div class="ifTime">
+            <ol start="6">
+                <li>Use <code>nested triangle</code> as a model to define a recursive <code>nested square</code> block.</li>
+            	<li>Try adding a <var>color</var> input and using <img src="/bjc-r/img/2-complexity/set-pen-color-to-number.png"  alt="set pen color to (0)" title="set pen color to (0)"> so  you can vary the color as you draw. In the &quot;recursive call&quot;—the block that is embedded <em>inside</em> and that has the half-size input—try adding 10 to the color. Before you try this block, use <img src="/bjc-r/img/2-complexity/set-pen-color-to-color-selector.png" alt="set pen color to (red)" title="set pen color to (red)"> to pick a colorful color, not nearly white or nearly black. Then you can use any color number as input to your new block.</li>
+			</ol>
+		</div>
+	
+        <div class="takeItFurther">
+            <ol type="A">
+                <li>
+                    Use what you know about animations to try things like this:<br />
+                    <img src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/RecursiveTriangleAnimation.gif" height="300" alt="Recursive Triangle Animation" title="Recursive Triangle Animation"/>
+                    <img src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/RecursiveSquareAnimation.gif" height="300" alt="Recursive Square Animation" title="Recursive Square Animation"/>                  
+                </li>
+            </ol>
+        </div>
+
+
+    </body>
+</html>
