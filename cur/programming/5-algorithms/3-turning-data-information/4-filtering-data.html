@@ -23,18 +23,15 @@
         </p>
         <div class="endnote">
             <p>Notice that there are many digits in the answer above.  How many digits are in each car's MPG?  An important rule in data science is not to claim more precision in a result than is warranted by the given data, so this answer should be rounded to 19.</p>
-            <div class="todo">They have not seen PIPE there now. --MF, 8/16/19</div>
-            <p>You might find expressions with many nested function calls easier to build by using <code>pipe</code>, which you learned in <a href="/bjc-r/cur/programming/2-complexity/4-making-computers-do-math/2-math-predicates.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 2 Lab 4 Page 1: Mathematical Predicates">Unit 2 Lab 4 Page 1: Mathematical Predicates</a>. </p>
-            <p>
-                <a href="#hint-pipe" data-toggle="collapse" title="What would this look like using pipe?">What would this look like using <code>pipe</code>?</a>
+            <p>You might find expressions with many nested function calls easier to build by using <code>pipe</code>. <a href="#hint-pipe" data-toggle="collapse" title="What would this look like using pipe?">What would this look like using <code>pipe</code>?</a>
                 <div id="hint-pipe" class="collapse">
                     <p>
                         You can use the <code>pipe</code> function from the "Frequency Distribution Analysis" library to work through your data analysis one function at at time:<br />
                         <div class="comment">BH, please review revised alt/title text on this image. --MF, 6/27/19</div>
                         <img class="indent" src="/bjc-r/img/5-algorithms/pipe-cars-reporting.png" alt="pipe (data of table (cars)) → (keep items (field (12) of record 'list input slot' = Subaru) from 'list input slot') (column (1) of table ()) (average of ()) reporting 19.49..." title="pipe (data of table (cars)) → (keep items (field (12) of record 'list input slot' = Subaru) from 'list input slot') (column (1) of table ()) (average of ()) reporting 19.49..." /><br />
-                        The <code>pipe</code> function sends the <code>data from table(</code><var>cars</var><code>)</code> through <code>keep</code> to filter it for just the Subarus, through <code>column (1) of table</code> to get just the "City MPG" for those Subarus, and finally through <code>average</code> to get the average of those Subaru MPG values.  
+                        The <code>pipe</code> function sends the <code>data from table (</code><var>cars</var><code>)</code> through <code>keep</code> to filter it for just the Subarus, through <code>column (1) of table</code> to get just the "City MPG" for those Subarus, and finally through <code>average</code> to get the average of those Subaru MPG values.  
                     </p>
-                    <p>Recall that the empty input slots in each function are filled by the output of the previous function (or the starting dataset in the case of the first function): the empty slots in the <code>keep</code> function are both filled by <code>data from table(</code><var>cars</var><code>)</code>; the empty slot in <code>column (1) of table</code> is filled by the output of <code>keep</code>; and the empty slot in <code>average</code> is filled by the output of <code>column (1) of table</code>. It's like a pipe of made of pieces connected together; the data goes in one end and works through each function, computing a new value at each step.</p>
+                    <p>Recall that the empty input slots in each function are filled by the output of the previous function (or the starting dataset in the case of the first function): the empty slots in the <code>keep</code> function are both filled by <code>data from table (</code><var>cars</var><code>)</code>; the empty slot in <code>column (1) of table</code> is filled by the output of <code>keep</code>; and the empty slot in <code>average</code> is filled by the output of <code>column (1) of table</code>. It's like a pipe of made of pieces connected together; the data goes in one end and works through each function, computing a new value at each step.</p>
                 </div>
             </p>
         </div>
