@@ -15,17 +15,17 @@
         <div class="learn">
             <p><strong>On this page,</strong> you'll learn that even for unreasonable time algorithms, there can still be "close enough" solutions.</p>
         </div>
-        <div class="takeNote">
-            <div class="comment">AAP-4.A.6, AAP-4.A.8, AAP-4.A.9</div>
-            <p>If a problem can be solved in exponential time, there may be a different algorithm that can do it in polynomial time, but some problems can't possibly be done in polynomial time. It's important to recognize that an exponential time algorithm <strong>still solves a problem correctly</strong>. Exponential time algorithms can sometimes be replaced by <em>heuristics</em>, which are polynomial-time algorithms that don't solve the problem exactly, but give a good enough approximation. <!--Heuristics are useful when a problem has has a solution, and although we can't compute the solution in a practical amount a time, we can still find "pretty good" solutions.--></p>
-        </div>
+        <div class="comment">AAP-4.A.6, AAP-4.A.8, AAP-4.A.9</div>
+        <p>If a problem can be solved in exponential time, there might be a different algorithm that can do it in polynomial time (that is, more quickly), but some problems can't possibly be answered in polynomial time. It's important to recognize that an exponential time algorithm <strong>still solves a problem correctly</strong>; it just takes a unreasonably long time (perhaps even hundreds of years for some inputs, for example).</p>
+        <p>Exponential time algorithms can sometimes be replaced by <em>heuristics</em>, which are polynomial-time algorithms that don't solve the problem exactly, but give a good enough approximation. Heuristics are only useful for certain kinds of problems though.<!--Heuristics are useful when a problem has has a solution, and although we can't compute the solution in a practical amount a time, we can still find "pretty good" solutions.--></p>
         <div class="vocabFullWidth">
             <div class="comment">AAP-4.A.2</div>
             <ul>
-                <li>An <b>optimization problem</b> is one with the goal of finding the <em>best</em> solution among many (for example...).</li>
-                <li>A <b>decision problem</b> is a problem with a true/false answer (for example, "is 5,825,496,221 a prime number?").</li>
+                <li>A <strong>decision problem</strong> is a problem with a true/false answer (for example, "is 5,825,496,221 a prime number?").</li>
+                <li>An <strong>optimization problem</strong> is one with the goal of finding the <em>best</em> solution among many (for example, "what's the best school schedule to place every student into as many of their requested classes as possible?").</li>
             </ul>
         </div>
+        <div class="todo">There have been edits to the text before this. --MF, 9/1/19</div>
 
         <div class="forYouToDo">
 			<ol>
@@ -34,10 +34,10 @@
 		</div>
 
         <p>
-            An example of a problem for which a heuristic solution is useful is the <strong>traveling salesperson problem</strong>: For a group of cities, what is the shortest route for a salesperson to visit every city and return to their home city? This is good case for heuristics because:
+            An example of a problem for which a heuristic solution is useful is the <strong>traveling salesperson problem</strong>: For a group of cities, <em>what is the shortest route</em> for a salesperson to visit every city and return to their home city? This is good case for heuristics because:
             <ol>
-                <li>It's clear that there is a shortest route.</li>
-                <li>There is no known polynomial time algorithm for this problem, and most computer scientists think that it's not possible to write one.</li>
+                <li>It's clear that there must actually be a shortest route.</li>
+                <li>There is no known polynomial time algorithm for this problem. (Most computer scientists think that it's not possible to write one!)</li>
                 <li>There <em>is</em> a possible heuristic: pick a path at random, then try to improve it by swapping two cities repeatedly until you can't make the path better with such small changes.</li>
             </ol>
             <div class="endnote">This heuristic is called "hill climbing" because you'll find the best <em>nearby</em> path (the top of a hill), but there might be a higher hill (a better path) further away.</div>
@@ -84,9 +84,28 @@
                 </li>
 			</ol>
 		</div>
+    
+        <div class="todo">Brian, I moved the yellow box that was here to white text on the previous page just before the ITIT and gave it a standards flag. Also, all of the following is new. --MF, 9/1/19</div>
+    
+        <h3>Can All Decision Problems Be Solved?</h3>
+        <p>As it turns out, not all decision problems (true/false questions) can be solved with an algorithm.</p>
+    
+        <div class="vocabFullWidth">
+            <div class="comment">AAP-4.B.1, AAP-4.B.2, AAP-4.B.3</div>
+            <p>A <strong>decidable</strong> problem a decision problem for which it's possible to write an algorithm that will give a correct output for all inputs. </p>
+            <p>An <strong>undecidable</strong> problem is the opposite. It's <em>not</em> possible to write an algorithm that will give a correct output for all inputs&mdash;even though it might be possible for some of them. </p>
+        </div>
         <div class="endnote">
-            One reason it's worth learning these categories is to avoid reinventing the wheel. For example, you've learned that if a list is sorted you can search it in sublinear time using binary search. So when you're writing a program that needs to search through a list repeatedly, it's worthwhile to sort the list before searching. Knowing about algorithms that already exist can help you construct new algorithms.
-        </div>        
+            <p>The question "Is the integer even?" is an example of a <em>decidable problem</em> because all integers are either even or not; there are no integers for which we don't know whether they are odd or even.</p>
+            <p>The question "Will this computer program that takes an input always eventually report a result?" is an <em>undecidable problem</em>. It's possible to write such a checker program that would be able to tell you for <em>some</em> programs with inputs whether they will report a result or get stuck in an infinite loop and never report. But it turns out that it's not possible write a checker program that will work for <em>any</em> program with <em>any</em> input. (You can see an example of a checker program and an input program and its input that definitely won't work in <a href="/bjc-r/cur/programming/5-algorithms/4-unsolvable-undecidable/1-logical-inconsistency.html?topic=nyc_bjc%2F5-algorithms.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 5 Lab 4">Lab 4</a>.</p>
+        </div>
+        
+        <div class="forYouToDo">
+			<ol start="3">
+                <div class="comment">AAP-4.B</div>
+                <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />What does it mean for a problem to be undecidable?</li>
+			</ol>
+		</div>
                 
 
     </body>
