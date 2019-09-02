@@ -6,6 +6,14 @@
   /*display: none;*/ /*MARY remember to "Draft a New Release" on the GH releases page per Tech Check-in 2018-01-03*/
 }
 
+/*div.full::before { /* DRAFT MESSAGING FOR bjc2.edc.org --MF, 7/5/19 
+    background-color: yellow;
+    color: red;
+    content: "This is a draft version of BJC. Visit bjc.edc.org for the current version.";
+    font-size: 2em;
+    font-weight: bold;
+}*/
+
 .anchor {
    padding-top: 65px;
    margin-top: -65px;
@@ -52,14 +60,6 @@ div.footer {font-size: .8em;}
 .inline {
   padding-top: -5px;
   padding-bottom: -5px;
-}
-
-div.full::before { /* DRAFT MESSAGING FOR bjc2.edc.org --MF, 7/5/19 */
-    background-color: yellow;
-    color: red;
-    content: "This is a draft version of BJC. Visit bjc.edc.org for the current version.";
-    font-size: 2em;
-    font-weight: bold;
 }
 
 h4 {  padding: 5px 0px 0px 0px;}
@@ -143,17 +143,17 @@ table.remainders {float:left; margin-right:100px;}
 .commentBig {width: 40%;}
 
 code, var {
-  font-family: courier; 
-  font-size: 1.2em;
-  padding: 2px;
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
+  font-weight: bold;
+  padding: 0px;
   font-style: normal;
+  color: #8B008B; /*#4B0064; */
 }
 
 code.break {word-wrap: break-word;}
 
 var {
-  font-style: normal;
-  color: #4B0064;
+  color: #F3761D; /* was #4B0064; but that's now in use for .code --MF, 7/29/19*/
 }
 
 .classIndent {
@@ -249,7 +249,7 @@ var {
 
 .sideHOMbig {width: 40%;}
 
-.manual, .manualBig { /* added by Mary Fries based on .sidenote */
+.manual, .manualBig { /* added by Mary Fries based on .sidenote. THESE ARE NOT IN USE. --MF, 7/25/19 */
   font-size: .9em;
   float: right;
   margin-right: 20px;
@@ -297,6 +297,18 @@ img.noshadow {
   margin-bottom: .5em;
   margin-top: .5em;
 }
+
+/*.ifTime, .dialogue, .takeItFurther, .takeNote, .endnote, .narrower, .narrowblue, .narrowpurple, .time, .learn {/*New Graphic design --MF, 7/26/19
+    border: solid;
+    border-right: 2px;
+    border-left: 200px;
+    border-top: 2px;
+    border-bottom: 2px;
+}
+
+.ifTime, .takeItFurther, .endnote, .sidenote, .sidenoteBig {
+    border-color: #e6a822;
+}*/    
 
 .forYouToDo:before, .forYouToDoHeader, .ifTime:before, .dialogue:before, .takeItFurther:before, .takeNote:before, .narrower:before, .narrowblue:before, .narrowpurple:before, .endnote > div:not(.sidenote):not(.sidenoteBig):not(.sideHOM):not(.sideHOMbig):not(.todo):not(.comment):not(.commentBig):not(.takeNote):not(.collapse):not(.collapsing):not(.takeItFurther):not(.endnote):not(.vocabFullWidth):not(.pseudop), .time:before   { /* Shared Heading Formatting */ 
 /* 
@@ -398,7 +410,7 @@ table.truth tr th {
 }
 
 table.truth tr td {
-  text-align:center;
+  text-align: center;
   border: 1px solid black;
   padding: 5px;
 }
@@ -642,4 +654,28 @@ table.videos td {
   max-width:400px;
   z-index:1;
 }
+
+@media print {
+    .full {
+        border: 0px;
+    }
+    body {
+        font-size: .8em;
+    }
+    h2 {
+        font-size: 1.4em;
+    }
+    h3 {
+        font-size: 1.2em;
+    }
+    h4 {
+        font-size: 1em;
+    }
+    .learn, .sidenote, .sidenoteBig, .endnote, .sideHOM, .sideHOMbig, .takeNote, .vocab, .vocabBig, .vocabFullWidth, .exam, .examBig, .examFullWidth, .dialogue, .narrower, .narrowblue, .narrowpurple {
+        border:.5px solid;
+    } /* Currrent excludes .forYouToDo, .ifTime, .takeItFurther, Also, we need to find a way to make ITIT and TIFs show up on the printouts. --MF, 7/25/19 */ 
+    .btn-default, .todo, .comment, .commentBig, img { 
+        display: none;
+    }
     
+}
