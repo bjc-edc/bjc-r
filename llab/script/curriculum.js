@@ -41,11 +41,15 @@ llab.secondarySetUp = function() {
      // making ifTime and takeItFurther DIVs hide until clicked --MF, 2/9/18
      $('div.ifTime').each(function(i) {
           var divcontent = this.innerHTML;
-		  this.innerHTML = "&nbsp;<a href='#hint-ifTime".concat(i, "' data-toggle='collapse' title='Try these optional activities.'>Try these optional activities.</a><div id='hint-ifTime", i, "' class='collapse'>", divcontent, "</div>");
+		  this.innerHTML = "&nbsp;<a style='font-size: 18px;' href='#hint-ifTime".concat(i, "' data-toggle='collapse' title='If There Is Time...'><strong>If There Is Time...</strong></a><div id='hint-ifTime", i, "' class='collapse'>", divcontent, "</div>");
      });
 	 $('div.takeItFurther').each(function(i) {
           var divcontent = this.innerHTML;
-		  this.innerHTML = "&nbsp;<a href='#hint-takeItFurther".concat(i, "' data-toggle='collapse' title='Try these advanced activities...'>Try these advanced activities...</a><div id='hint-takeItFurther", i, "' class='collapse'>", divcontent, "</div>");
+		  this.innerHTML = "&nbsp;<a style='font-size: 18px;' href='#hint-takeItFurther".concat(i, "' data-toggle='collapse' title='Take It Further...'><strong>Take It Further...</strong></a><div id='hint-takeItFurther", i, "' class='collapse'>", divcontent, "</div>");
+     });
+	 $('div.takeItTeased').each(function(i) {
+          var divcontent = this.innerHTML;
+		  this.innerHTML = "&nbsp;<a style='font-size: 18px;' href='#hint-takeItFurther".concat(i, "' data-toggle='collapse' title='Take It Further...'><strong>Take It Further...</strong></a><div id='hint-takeItFurther", i, "' class='collapse'>", divcontent, "</div>");
      });
 
      llab.additionalSetup([
