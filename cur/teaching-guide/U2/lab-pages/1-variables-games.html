@@ -10,14 +10,16 @@
     </head>
     
     <body>
-        <h2>Lab 1: Making Games</h2>
+        <h2>Lab 1: Games</h2>
         <div class="todo">
             <p>Developers, see <a href="https://piazza.com/class/i7hy3udaukx6su?cid=413" target="_blank">Unit 2 Lab 1 Pages 1-2 tips and videos on Piazza</a>.</p>
             <h4>Lab pages have been renumbered (pg 1 split into two and page 4 dropped). Need to adjust TG. --MF, 3/21/19</h4>
         </div>
 		<p>Students build a number-guessing game in which the player tries to guess the computer's secret number, and the computer responds with as human-like dialog as the programmer can build. <!--In doing so, they focus on ideas of <strong>abstraction</strong> to serve the goals or writing clear, debuggable, improvable code—essential for developing complex programs.-->
          Students gain more experience with conditionals and predicates, preparing them to refine and deepen their understanding  in lab 3. </p>
+		<p>This game comes back more than once in later units, because it's the canonical example of a <em>binary search</em> strategy. If you notice that some students always guess 5 first, while other kids start with 1 or 10, and if there's time at the end of the week, consider a class discussion of strategies.</p>
 		<p>This lab also expands students' understanding of variables. Students have  encountered variables in two contexts: they have created blocks that have <strong>input variables</strong>, usable only inside the block for which they were created; and they have used the <code>for</code> block, which provides an <strong>index variable</strong> (i.e., a counter), usable only in the script that contains the <strong>for</strong> block. This lab introduces <strong>script variables</strong> (a kind of <strong>local variable</strong>), created by the <img class="nopadtb" src="/bjc-r/img/prog/scriptvar.png" alt="script variables (a)" title="script variables (a)"/> block, which lets programmers create their own temporary variables in which to store information that a script  needs while it is running. A script variable is called &quot;local&quot; because it exists only while that script is active and  is accessible only by blocks inside that script. Blocks inside that script can set, use, or change the value of that script's variables; blocks outside that script cannot. Index and input variables are also local. By contrast, a <strong>global variable</strong> is accessible by any block in any script belonging to any sprite: it is global in scope.</p>
+        <div class="takeNote">It's traditional in teaching programming to start with global variables, on the theory that they're easier to understand.  We take pains to teach global variables <em>last,</em> so that students get practice dealing with limited-scope variables early.  This lets us teach good programming style without hectoring students about it.</div>
 <p>Students take time to debug each portion of their project. They get suggestions for features to add but are on their own to think about how to structure these extensions and modifications so that the code works and remains clear.</p>
         
                 
@@ -29,7 +31,7 @@
 				<li>20-40 minutes (&lt; 1 class period) on <a href="/bjc-r/cur/programming/2-complexity/1-variables-games/2-checking-player-guess.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Checking the Player's Guess">Checking the Player's Guess</a></li>
 				<li>30-60 minutes (about 1 class period) on <a href="/bjc-r/cur/programming/2-complexity/1-variables-games/3-debugging-extending.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Debugging and Extending Your Number Guessing Game">Debugging and Extending Your Number Guessing Game</a></li>
 				<li>20-40 minutes (about 1 class period) on <a href="/bjc-r/cur/programming/2-complexity/1-variables-games/4-keeping-score.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Keeping Score with Global Variables">Keeping Score with Global Variables</a></li>
-				<li>20-40 minutes (about 1 class period) on <a href="/bjc-r/cur/programming/2-complexity/1-variables-games/old/4-importing-exporting.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Importing Greet Player into Another Program">Importing <code>Greet Player</code> into Another Program</a></li>
+				<li>20-40 minutes (about 1 class period) on <a href="/bjc-r/cur/programming/2-complexity/1-variables-games/old/4-importing-exporting.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Importing Greet Player into Another Program">Choosing a Costume</a></li>
 			</ul>
 		</div>
         
@@ -43,8 +45,10 @@
 							<strong>Learning Goals:</strong>
 							<ul>
 								<li>Create a script variable to store temporary data.</li>
+								<li>Understand that programmers can assign values to variables, more than once to the same variable, unlike students' previous experience with variables in algebra.</li>
 							</ul>
 						</li>
+                        <div class="todo">It doesn't belong anywhere; we're flushing that Discussions page! -bh
 						<li>
 							<strong>As a Class:</strong>
 							<ul>
@@ -52,6 +56,7 @@
                                 <li>There is an introductory offline activity suggested for this page included in the <a href="/bjc-r/cur/teaching-guide/U1/general-support/discussion.html#OA" title="Engaging Students in Building Algorithms Offline">Engaging Students in Building Algorithms Offline</a> section of the introduction to this Teacher Guide.</li>
 							</ul>
 						</li>
+                        </div>
 					</ul>
 				</li>
                 <li>
@@ -79,8 +84,8 @@
 						<li>
 							<strong>Tips:</strong>
 							<ul>
-                                <li>The bug in the <code>Number guessing game</code> block is in the predicate of the <code>repeat until</code>, that is, in <code>answer =</code> <var>secret number</var>. If the same number is randomly chosen twice in a row, the player's last guess will be saved in <code>answer</code>, and therefore without guessing the player's answer, the program will match the secret number and the player will be congratulated. A good strategy to avoid this is to save <code>answer</code> to a variable and make sure to clear that variable's value every time the game starts again or to reset it to something that is definitely not the right answer (such as a word or a negative number).</li>
-								<li>Debugging is a skill to refine over time. To support its development, analyze and debug projects together as a class. You may also have students share bugs they have encountered either to solicit suggestions from the class or to share a successful debugging approach. Make "Cherish your bugs" a classroom slogan.</li>
+                                <li>The bug in the <code>Number guessing game</code> block is in the predicate of the <code>repeat until</code>, that is, in <code>answer =</code> <var>secret number</var>. If the same number is randomly chosen twice in a row, the player's last guess will be saved in <code>answer</code>, and therefore without asking the player to guess, the program will match the secret number and the player will be congratulated. A good strategy to avoid this is to save <code>answer</code> to a variable and make sure to clear that variable's value every time the game starts again or to reset it to something that is definitely not the right answer (such as a word or a negative number).</li>
+								<li>Debugging is a skill to refine over time. To support its development, analyze and debug projects together as a class. You may also have students share bugs they have encountered either to solicit suggestions from the class or to share a successful debugging approach. Make "Cherish your bugs" a classroom slogan. If students keep journals, ask them to record every bug: the symptom, the error in the code,  how they found the error, and how they fixed it.</li>
 							</ul>
 						</li>
 					</ul>
@@ -99,6 +104,7 @@
 						<li>
 							<strong>Tips:</strong>
 							<ul>
+								<li>Note that this page is about the Click Alonzo game from U1L1, not about the number guessing game!</li>
 								<li>Be sure that students rename their project with a Unit 2 filename: U2L1-ClickAlonzo as Snap<em>!</em> will overwrite their Unit 1 project if students save their work under the U1L1-ClickAlonzo filename.
 								  <ul>
 								    <li>The student page urges students to get in the habit of saving an old project under a new name <em>before</em> they change anything in the project.</li>
@@ -109,14 +115,18 @@
 					</ul>
 				</li>
                 <li>
-					<strong>Page 5: Importing <code>Greet Player</code> into Another Program.</strong>
+					<strong>Page 5: Choosing a Costume.</strong>
 					<ul>
 						<li>
 							<strong>Learning Goals:</strong>
 							<ul>
-								<li>Export blocks and import them successfully into other projects.</li>
-								<li>Debug possible dependencies on global variables</li>
+								<li>Manipulate list items.</li>
 							</ul>
+						</li>
+						<li><strong>Tips:</strong>
+						  <ul>
+						    <li>This page is only superficially about costumes. It's about  assigning a list value to a variable, about selecting an item from a list, and about the syntax of dropping an expression over a menu-type input slot.</li>
+					      </ul>
 						</li>
 						<!--<li>
 							<strong>Tips:</strong>
