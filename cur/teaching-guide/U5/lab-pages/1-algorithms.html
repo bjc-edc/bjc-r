@@ -184,13 +184,16 @@
 						<li>
 							<strong>Learning Goals:</strong>
 							<ul>
-								<li></li>
+								<li>Students invent the binary search algorithm by observing their own guesses and trying to improve their play.</li>
+								<li>They then implement the algorithm for the computer to use while guessing.</li>
 							</ul>
 						</li>
 						<li>
                         	<strong>Tips:</strong>
 							<ul>
-                                <li></li>
+                                <li>Students have built the version of the game in which the human player does the guessing in Unit 2. Some will already have discovered the binary search algorithm. Indeed, some may have played the game in elementary school math class.</li>
+                                <li>When students implement the program that lets the computer guess the human player's number, there is no scaffolding at all for the programming. We're in Unit 5, almost ready for the AP exam, and they need to have some skill at coding by now. Reassure them (and yourself) that they can do this, and refrain from giving them code. Instead, tell them to read the algorithm description they've just written.</li>
+                                <li>By the way, they wrote the algorithm in English in the context of teaching it to another student. This is a much more natural and honest context for writing algorithms in text than talk of &quot;pseudocode&quot;; if you're writing an algorithm for a computer to use, the only reason not to write it directly in code is that you're using a bad programming language. But other human beings are &quot;programmed&quot; in English.</li>
                             </ul>
                         </li>
                     </ul>
@@ -201,13 +204,20 @@
 						<li>
 							<strong>Learning Goals:</strong>
 							<ul>
-								<li></li>
+								<li>Students will use the <code>computation time of</code> block to measure the running time of a process.</li>
+								<li>Students will understand what it means for a process to take linear time: The time is proportional to the size of the input.</li>
 							</ul>
 						</li>
 						<li>
                         	<strong>Tips:</strong>
 							<ul>
-                                <li></li>
+                                <li>As the page reminds them, students have already written the (one-line) function, using <code>keep</code>, to count the number of five-letter words. If they've forgotten, let them review the linked page.</li>
+                                <li>It's important that they do problem 5 (estimate the time for a ten-times-as-long dictionary) before problem 6 (do the experiment).</li>
+                                <li>Note that the inner green box invites students to look inside the <code>computation time of</code> block. It's a simple piece of code, won't take long to read, and may be useful in demystifying the measurement of time.</li>
+                                <li>The block measures &quot;wall clock time&quot;: the actual elapsed time, not the amount of time the computer actually spends running this program. Modern operating systems start roughly 100 programs when they are booted; all those programs compete with Snap<em>!</em> for computer time. That's why running the same experiment twice will generally give different answers.</li>
+                                <li>Don't obsess over the difference between a problem and an instance of the problem, but there <em>is</em> a reason for making the distinction: An instance of the problem, working with specific inputs, takes constant time!  (Maybe a small constant, maybe a large constant, but either way it's constant.) It's only when you compare several instances of the problem that you can observe how running time varies as a function of problem size.</li>
+                                <li><code>Keep</code> is a Snap<em>!</em> primitive, but that doesn't mean it takes constant time. <em>Most</em> primitives do take constant time (think about arithmetic operators, sprite motion, and so on), so some students may assume that <em>all</em> primitives are constant time. But even not counting higher order functions, the <code>contains</code> predicate for lists takes linear time.</li>
+                                <li>Don't neglect problem 7. It's not always obvious which of several sizes in a problem is the relevant one for timing computations.</li>
                             </ul>
                         </li>
                     </ul>
@@ -218,13 +228,16 @@
 						<li>
 							<strong>Learning Goals:</strong>
 							<ul>
-								<li></li>
+								<li>The goal of this page is for students to understand and time binary search.</li>
 							</ul>
 						</li>
 						<li>
                         	<strong>Tips:</strong>
 							<ul>
-                                <li></li>
+                                <li>The main difference between guess my number and binary search is that in the former, each number is its own position. (That is, in the numbers from 1 to 10, 3 is the third number.) So there's no need to consider the position and the value at that position separately. But in binary search of a dictionary, after computing the middle position in the list, you have to actually retrieve that item of the list with the <code>item</code> block.</li>
+                                <li>Don't bring this up unless a student asks, but the comparison predicates, when applied to <em>numbers, don't</em> compare alphabetically; 2 comes before 12 as a number, even though in alphabetical order, &quot;2&quot; would be compared with <em>the first digit of</em> &quot;12,&quot; i.e., with &quot;1.&quot;</li>
+                                <li>Don't bring this up, either, but if you do a binary search of a <em>linked</em> list (one that was constructed with the <code>in front of</code> function rather than by mutation) it'll take somewhat more than linear time, because each call to <code>item</code> takes linear time instead of constant time. It won't happen with the dictionaries in the starter project.</li>
+                                <li>The &quot;If There Is Time&quot; project, a spell checker, is fun and useful.</li>
                             </ul>
                         </li>
                     </ul>
@@ -235,14 +248,15 @@
 						<li>
 							<strong>Learning Goals:</strong>
 							<ul>
-								<li></li>
+								<li>Students will determine that binary search takes less than linear time, both by experimental measurement and by counting the number of constant-time steps required.</li>
 							</ul>
 						</li>
 						<li>
                         	<strong>Tips:</strong>
 							<ul>
                                 <li>After students have they've made their tables, have a few students share their times and observe the variation. Then have a few students share their number of steps and observe that everyone (ideally) has the same count for the steps. This is because the number of steps is a fixed quantity, whereas the time the algorithm takes to run depends on the speed of the computer and what else it's doing at that moment.</li>
-                                <li>Students may notice that there are actually two comparisons in every iteration for <code>binary search</code>: an <code>=</code> and a <code>&lt;</code>. We are considering that to be just one step, but if they want to each as its own step, that's fine; they will just get twice as many steps for each list in their table.</li>
+                                <li>Students may notice that there are actually two comparisons in every iteration for <code>binary search</code>: an <code>=</code> and a <code>&lt;</code>. We are considering that to be just one step, but if they want to count each as its own step, that's fine; they will just get twice as many steps for each list in their table.</li>
+                                <li>If your students are old enough to have studied logarithms, you can ask them to determine the exact number of comparisons needed as a function of the list size, namely <em>f</em>(<em>n</em>)=⌈log<sub>2</sub><em>n</em>⌉. (Of course this is a worst case time; you might be lucky enough to be searching for the word exactly halfway through the list.) But if they haven't studied logs, it's not important; they should just see how dramatically lower the number of guesses is than the size of the list.</li>
 
                             </ul>
                         </li>
@@ -254,13 +268,15 @@
 						<li>
 							<strong>Learning Goals:</strong>
 							<ul>
-								<li></li>
+								<li>Understand examples of constant time, sublinear (e.g., log) time, linear time, quadratic time, and exponential time.</li>
 							</ul>
 						</li>
 						<li>
                         	<strong>Tips:</strong>
 							<ul>
-                                <li></li>
+                                <li>Because 25,000 is a big number, students may find it counterintuitive that it's in the fastest category (constant time). But this is a case in which the relevant number is, indeed, 25,000&mdash;but it's <em>always</em> 25,000. 25,000 numbers starting at 1,000,000 takes just as long as 25,000 numbers starting at 1. So the input to the function is irrelevant.</li>
+                                <li>We provide a sort function that takes quadratic time, not the most efficient possible, because we want students to understand quadratic time. Optimal sort algorithms take <em>n</em> log <em>n</em> time.</li>
+                                <li>The exponential-time algorithm, the one that finds values in Pascal's triangle by adding the two values above the one you want, is in an If There Is Time. But try to fit this in; the experience of measuring an exponential-time function will really give students an intuitive feel for how unreasonable an exponential-time algorithm is. Just reading about it isn't the same.</li>
                             </ul>
                         </li>
                     </ul>
