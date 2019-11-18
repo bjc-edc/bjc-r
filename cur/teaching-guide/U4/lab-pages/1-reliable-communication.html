@@ -9,9 +9,21 @@
 
 	<body>
 		<h2>Lab 1: Computer Networks</h2>
-		<div class="todo">Brian, please review <a href="/bjc-r/cur/teaching-guide/U4/lab-pages/OLD/2-communication-protocols.html">OLD Lab 2: Communication Protocols</a> as some of that student-facing content was absorbed into this lab (though most was just cut). Thanks! --MF, 11/17/19</div>
-        <p>This lab offers an introduction to the Internet that covers the difference between the World Wide Web and the Internet, URLs, network redundancy, and domain name hierarchy. Optional pages include information on the history of the Internet and a very brief introduction to HTML.</p>
-        
+        <p>This lab offers a very brief overview of what could be (and often is, in college-level CS) a full course in itself: how the Internet works. It emphasizes a few key ideas:</p>
+        <ul>
+        	<li>The Internet is a huge artifact, built and maintained by thousands of people around the world, based on a level of cooperation that's remarkable, considering that it connects enemy countries and competing corporations.</li>
+        	<li>The design of the network has to be very different from the kind of programming students have done in this course, because in such a large system you have to assume that some network software or (more likely) equipment will fail in the middle of a transaction. So the network needs a lot of redundancy, and software (mostly running in routers) has to manage the redundant parts.</li>
+        	<li>The complexity of the network is such that abstraction is an absolute requirement, not just a good idea in general. The multiple levels of abstraction are provided by <em>protocols:</em> design specifications for software in terms of the services it can expect from lower levels of abstraction and the services it must provide to higher levels. There are four main levels of abstraction:
+            <ul>
+            	<li>Application layer: User-visible software such as browsers and email. Assumes a reliable Internet.</li>
+            	<li>Transport layer: Provides the abstraction of a reliable Internet. The main protocol at this level is TCP: Transmission Control Protocol. Assumes a world-wide addressable Internet.</li>
+            	<li>Internet layer: Provides the abstraction of a world-wide Internet. The main protocol at this level is IP: Internet Protocol.  This runs mainly in routers, not in users' computers. Assumes connection to a local network and one or more larger networks.</li>
+            	<li>Link layer: Provides hardware connection to a network. Ethernet, WiFi, and cellular data are the main examples.</li>
+           	  </ul>
+       	  </li>
+        	<li>The running of the Internet takes a lot of work, and involves a lot of international politics. &quot;Who's in charge?&quot; is not a simple question.</li>
+        </ul>
+     <p>In addition to these main points, there's a lot of vocabulary the College Board expects students to learn.  We try to present the vocabulary a little at a time, in contexts in which each term makes sense.
         <h3>Pacing</h3>
 		<p>Coming soon...</p>
         <div class="todo">
@@ -43,22 +55,19 @@
 					<strong>Page 1: What Is the Internet?</strong>
 					<ul>
 						<li>
-							<strong>Learning Goals:</strong>
-							<ul>
-								<li>Understand HTTP as a protocol for enabling the World Wide Web. </li>
-                                <li>Understand how a URL is put together and how it enables routing of documents on the World Wide Web. </li>
-                                <!--<li>Understand the physical components that make up the Internet. </li>-->
-							</ul>
+						<strong>Learning Goals:</strong>
+						  <ul>
+						      <li>Understand the range of uses of the Internet, including but not limited to the World Wide Web.</li>
+						      <li>Understand some of the technical requirements to make the Internet work.</li>
+						      <li>Understand what it means for data or processors to be &quot;in the cloud.&quot;</li>
+</ul>
 						</li>
-						<li>
-                        	<strong>Discussion Questions:</strong>
-                            <ul>
-                                <li>What is HTML? How is it used?</li>
-                                <li>What is HTTP? How is it used?</li>
-                                <li>What is a URL? What are the different parts of a URL?</li>
-                            </ul>
-						</li>
-					</ul>
+                        <li><strong>Tips:</strong>
+                          <ul>
+                            <li>Ask your school's IT person if you can run &quot;traceroute&quot; in class, to show students how a message is routed to a computer in another country.</li>
+                          </ul>
+                        </li>
+                    </ul>
 				</li>
 				<li>
 					<strong>Page 2: Network Redundancy.</strong>
@@ -84,27 +93,26 @@
 				<li>
 					<strong>Page 3: Internet Abstractions and Open Protocols.</strong>
 					<ul>
-						<li><strong>Learning Goal:</strong> Understand the hierarchy of domain names. </li>
-                        <li>
-							<strong>Tips:</strong>
-							<ul>
-								<li>In exercise 2, there are two student-chosen alternatives to support different learning styles. Exercise (a) is broad, so a wide range of levels of detail can be considered correct. But for the same reason, some students may not know where to start. Exercise (b) has a very specific answer: <em>when you specify an IP address, you are not specifying the exact path that's taken; you are only specifying the endpoint. That's an abstraction because the Internet can't get your message to the endpoint without building a path from sender to receiver.</em> Students who have trouble with abstraction may find it a harder question.</li>
-                            </ul>
-                        </li>
-                        <li>
-                            <strong>Discussion Questions:</strong>
-                            <ul>
-                                <li>What are the different parts of a domain name?</li>
-                                <li>What is a subdomain?</li>
-                                <li>What aspects of the Internet's design and development have helped it scale and flourish? (This is an essential question for Big Idea 6: The Internet in the <a href="https://secure-media.collegeboard.org/digitalServices/pdf/ap/ap-computer-science-principles-curriculum-framework.pdf#page=39" target="_blank" title="AP CSP Big Idea 6: The Internet">AP CS Frameworks</a>.)</li>
-                            </ul>
-                        </li>
+						<li><strong>Learning Goals:</strong>
+						  <ul>
+						    <li>Understand the four layers of abstraction in the Internet protocols.</li>
+						    <li>Understand how TCP/IP together provide the main abstractions for the net.</li>
+						    <li>Understand how your home router can send a message to any IP address.</li>
+					      </ul>
+						</li>
+						<li><strong>Tips:</strong>
+						  <ul>
+						    <li> The Wikipedia article &quot;<a href="https://en.wikipedia.org/wiki/Internet_protocol_suite" target="_blank">Internet Protocol Suite</a>&quot; has a chart showing just a few of the 300-odd protocols that run the Internet. You might let interested kids read up on some obscure protocol and explain to the class what it does and why it's important.</li>
+						    <li>The specific implementation of  TCP/IP most commonly used around the world was developed at UC Berkeley. :-)</li>
+						    <li>It's easy to give a one-sentence description of a protocol, but, for example, early implementations of TCP worked in theory but could easily become swamped with backed up traffic; the current protocol description includes complicated timing mechanisms that are essential to keeping the net flowing smoothly.</li>
+					      </ul>
+						</li>
 					</ul>
 				</li>
 				<li>
 					<strong>Page 4: Who's In Charge of the Internet?</strong>
 					<ul>
-						<li><strong>Learning Goal:</strong> <!--(+) -->Understand the history of the development of the Internet.</li>
+						<li><strong>Learning Goal:</strong> <!--(+) -->Understand the history of the development of the Internet. In particular, understand the political history of ICANN and the IETF.</li>
 					</ul>
 				</li>
                 <!--<li>
@@ -115,22 +123,10 @@
 							<ul>
                     			<li>Understand HTML with CSS as a special purpose programming language designed for programming web pages. </li>
                         <!-- <li>(+) Understand Javascript as a general purpose programming language that is frequently used with web programming.</li>- ->
-							</ul>
-						</li>
-                        <li>
-                            Discussion Questions:
-                            <ul>
-                                <li>What have you learned about HTML code?</li>
-                                <li>How is HTML code different from coding with Snap<em>!</em>?</li>
-                                <li>What is CSS? What have you learned about CSS code?</li>
-                            </ul>
-                        </li>
-                    </ul>
-            	</li>-->
-			</ul>
+		  </ul>
 		</div>
 
-
+<!--
 		<h3>Assignments</h3>
 		<div>
         	<ul>
