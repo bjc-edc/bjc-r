@@ -3,7 +3,7 @@
 
 /** Basic HTML **/
 .todo, .comment, .commentBig { 
-  display: none; /*MARY remember to "Draft a New Release" on the GH releases page per Tech Check-in 2018-01-03*/
+  /*display: none; /*MARY remember to "Draft a New Release" on the GH releases page per Tech Check-in 2018-01-03*/
 }
 
 .anchor {
@@ -18,6 +18,7 @@ a, .dialogue a {  color: #2a6496; /* was 428bca; */}
 body { /* Added 12/15/16 by Mary Fries to provide more screen real estate.*/
   width: 100%;
   max-width: none;
+  background-color: #FDFDFD;
 }
   
 .blockquote {
@@ -54,6 +55,19 @@ div.footer {font-size: .8em;}
   padding-bottom: -5px;
 }
 
+div.full {
+    border: 0px;
+    padding: 0px;
+}
+
+/*div.full::before { /* DRAFT MESSAGING FOR bjc2.edc.org --MF, 7/5/19 * /
+    background-color: yellow;
+    color: red;  
+    content: "This is a draft version of BJC. Visit bjc.edc.org for the current version.";
+    font-size: 2em; 
+    font-weight: bold;
+}*/
+
 h4 {  padding: 5px 0px 0px 0px;}
 
 h3 {  padding-top: 10px;}
@@ -78,6 +92,15 @@ li > ul, li > ol {/* Edited by Mary Fries, March 2015 */
 
 li > ol {  list-style-type: lower-alpha;}
 
+ol.horizontal {
+    display: flex !important;
+    flex-wrap: wrap;
+}
+ol.horizontal li {
+    margin-right: 30px;
+    list-style-type: lower-alpha;
+}
+
 .nopad {
 	padding: 0px;
 }
@@ -87,7 +110,22 @@ li > ol {  list-style-type: lower-alpha;}
 	padding-bottom: 0px;
 }
 
-p {margin-top:8px;}
+pre {
+    display: block; 
+    padding: 2px; 
+    width: min-content;}
+
+pre.inline {
+    display: inline; 
+    margin: 0 .25em 0 .25em; 
+}
+
+div.pre-container {
+    display: inline-grid;
+    vertical-align: middle;
+}
+
+p, div.pseudop {margin-top: 8px;}
 
 table.remainders {float:left; margin-right:100px;}
 
@@ -114,17 +152,17 @@ table.remainders {float:left; margin-right:100px;}
 .commentBig {width: 40%;}
 
 code, var {
-  font-family: courier; 
-  font-size: 1.2em;
-  padding: 2px;
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
+  font-weight: bold;
+  padding: 0px;
   font-style: normal;
+  color: #8B008B; /*#4B0064; */
 }
 
 code.break {word-wrap: break-word;}
 
 var {
-  font-style: normal;
-  color: #4B0064;
+  color: #F3761D; /* was #4B0064; but that's now in use for .code --MF, 7/29/19*/
 }
 
 .classIndent {
@@ -143,30 +181,17 @@ var {
   font-size: 18px;
   font-weight: bold;
 }
-
-
-/** Side Notes **/
-.attribRight { /* added by Mary Fries on 10/10/15 based on .sidenote */
-  font-size: .5em;
-  float: right;
-  margin-right: 20px;
-  margin-left: 1em;
-  margin-bottom: 20px;
-  width: 20%;
-  padding: 5px;
-  background-color: #FFF; /* #F3F0B3; */
-  clear:both;
-  text-indent: 0em;
-}
 	
+.sidenote, .sidenoteBig, .endnote { 
+  font-size: .92em;
+}
 .sidenote, .sidenoteBig { /* added by Mary Fries based on http://hartshorne.ca/2005/07/27/footnotes_v_sidenotes/ */
-  font-size: .9em;
   float: right;
   margin-right: 20px;
   margin-left: 1em;
   margin-bottom: 20px;
   padding: 10px;
-  background-color: #FFF8AD; /* was #F3F0B3; */
+  /* overriding with new style --MF, 10/11/19 background-color: #FFF8AD; /* was #F3F0B3; */
   clear:both;
   text-indent: 0em;
 }
@@ -177,23 +202,28 @@ var {
 
 .endnote { /* added by Mary Fries on 6/9/15 based on above */
   width: 90%;
-  background-color: #FFF8AD;
+  /* overriding with new style --MF, 10/11/19 background-color: #FFF8AD; */
   margin-left: auto;
-  margin-right: auto;
+  /*margin-right: auto;*/
  }
 
 .narrower { /* added by bh on 5/4/17 based on above */
   width: 90%;
-  background-color: #e2f3ce;
+  /* overriding with new style --MF, 10/11/19 background-color: #e2f3ce; */
   margin-left: auto;
   margin-right: auto;
  }
  
- 
+.narrowblue { /* added by MF on 4/17/19 based on above */
+  width: 90%;
+  /* overriding with new style --MF, 10/11/19 background-color: #dcf4ff; */
+  margin-left: auto;
+  margin-right: auto;
+ }
  
 .narrowpurple {
   width: 90%;
-  background-color: #f4ddf3;
+  /* overriding with new style --MF, 10/11/19 background-color: #f4ddf3; */
   margin-left: auto;
   margin-right: auto;
  }
@@ -206,7 +236,7 @@ var {
   margin-left: 1em;
   margin-bottom: 20px;
   padding: 10px;
-  background-color: #FCC589; /* #FEC46C; /* #F3F0B3; */
+  /* overriding with new style --MF, 10/11/19 background-color: #FCC589; /* #FEC46C; /* #F3F0B3; */
   clear:both;
   text-indent: 0em;
 }
@@ -215,21 +245,6 @@ var {
 
 .sideHOMbig {width: 40%;}
 
-.manual, .manualBig { /* added by Mary Fries based on .sidenote */
-  font-size: .9em;
-  float: right;
-  margin-right: 20px;
-  margin-left: 1em;
-  margin-bottom: 20px;
-  padding: 10px;
-  background-color: #e4cde3; /* #F3F0B3; */
-  clear:both;
-}
-
-.manual {width: 20%;}
-
-.manualBig {width: 40%;}
-
 img.noshadow {
   /* Better resizing of images for mobile devices */
   -webkit-filter: drop-shadow(0px 0px 0px rgba(0,0,0,0.5));
@@ -237,7 +252,7 @@ img.noshadow {
   filter: none;
 }
 
-
+/* Is this in use? --MF, 10/11/19 */
 .apStandards {
   background-color: #fcc589;
   width: 100%;
@@ -258,13 +273,56 @@ img.noshadow {
   margin-bottom: .2em;
 }
 
-.forYouToDo, .ifTime, .dialogue, .takeItFurther, .takeNote, .endnote, .narrower, .narrowpurple, .time, .learn {/* Shared Box Formatting */
+.forYouToDo, .ifTime, .dialogue, .takeItFurther, .takeNote, .endnote, .narrower, .narrowblue, .narrowpurple, .time /*, .learn*/ {/* Shared Box Formatting */
   padding: 1em;
   margin-bottom: .5em;
   margin-top: .5em;
 }
 
-.forYouToDo:before, .forYouToDoHeader, .ifTime:before, .dialogue:before, .takeItFurther:before, .takeNote:before, .narrower:before, .narrowpurple:before, .endnote > div:not(.sidenote):not(.sidenoteBig):not(.sideHOM):not(.sideHOMbig):not(.comment):not(.commentBig):not(.takeNote):not(.collapse):not(.collapsing):not(.takeItFurther):not(.endnote):not(.vocabFullWidth), .time:before   { /* Shared Heading Formatting */ 
+        /*New Graphic design - STRIPES*/
+        .forYouToDo, .dialogue, .ifTime, .takeItFurther, .takeItTeaser, .takeItTeased {
+            border-style: solid;
+            border-width: 2px;
+            border-left-width: 20px;
+            background-color: #FFFFFF;
+        }
+        .takeItTeaser {border-bottom-width: 0px;}
+        .takeItTeased {border-top-width: 0px;}
+
+        .forYouToDo {border-color: #62C213;} /* Operators Palette */
+        .dialogue {border-color: #0494DC;} /* Sensing Palette*/
+        .ifTime {border-color: #4A6CD4;} /* Motion Palette: 4A6CD4 (TINT:a5b6ea) */
+        .takeItFurther, .takeItTeaser, .takeItTeased {border-color: #8F56E3;} /* Looks Palette: 8F56E3 (TINT:c7abf1) */
+
+
+        /*New Graphic design - BORDERS*/
+        .endnote, .sidenote, .sidenoteBig, .narrower, .narrowblue, .narrowpurple {border-style: solid; border-width: 0px;}
+        /*New Graphic design - TINTS*/
+        .learn {font-size: 1.2em;/*background-color: #f5dbf7;*/} /* Pen Palette: CF4AD9 */
+        .endnote, .sidenote, .sidenoteBig {background-color: #FFF8AD; border-color: #E6A822;} /* Control Palette: E6A822, (TINT:f3d491; LIGHTER TINT:faeed3; OLD DESIGN:FFF8AD) */
+        .vocab, .vocabBig, .exam, .examBig, .vocabFullWidth, .examFullWidth {background-color: #eaeaea;} /* Gray Palette: 969696 (TINT:cbcbcb)*/
+        /*New Graphic design - LIGHTER TINTS*/
+        .narrower {background-color: #e2f3ce; border-color: #62C213;} /* Operators Palette: 62C213; TINT: e0f3d0; LIGHTER-TINT:eff9e7; OLD DESIGN: e2f3ce */
+        .narrowblue {background-color: #dbe2f6; border-color: #4A6CD4;} /* Motion Palette: 4A6CD4 OLD DESIGN: dcf4ff */
+        .narrowpurple {background-color: #e9ddf9; border-color: #8F56E3;} /* Looks Palette: 8F56E3 OLD DESIGN: f4ddf3 */
+
+        .takeNote, .takeNote h4, .endHOM, .sideHOM , .sideHOMbig {background-color: #993800; color: #FFFFFF;} /* Purple we'd been trying for a while: 8F56E3 Brian's dark orange that isn't dark enough for white text: #CC5500  Mary's green: #62C213*/
+        div.comment, .takeNote div.commentBig, .takeNote div.todo, .takeNote div.sidenote, .takeNote div.sidenoteBig, .takeNote div.endnote, .sideHOM div.todo  {color: #000000;}
+        .takeNote code {color: #ff33ff;}
+        .takeNote var {color: #f9b686;}
+        .takeNote a {color: #75a9d7;}
+
+.takeItTeaser {
+  padding-top: 1em;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+
+.takeItTeased {
+  padding: 1em;
+}
+
+.forYouToDo:before, .forYouToDoHeader, .ifTime:before, .dialogue:before, .takeItFurther:before, .takeItTeased:before, .takeNote:before, .narrower:before, .narrowblue:before, .narrowpurple:before, .endnote > div:not(.sidenote):not(.sidenoteBig):not(.sideHOM):not(.sideHOMbig):not(.todo):not(.comment):not(.commentBig):not(.takeNote):not(.collapse):not(.collapsing):not(.takeItFurther):not(.endnote):not(.vocabFullWidth):not(.pseudop), .time:before   { /* Shared Heading Formatting */ 
 /* 
 	On 9/5/17, Mary cut ".sidenote > div:not(.todo):not(.takeNote), .sidenoteBig > div:not(.todo)" because it was messing up the hints on 2.1.2 and 8.2.3. 
 	Then I added ".not(collapsing)" because bootstrap.min.css was being weird, and this stopped it. ;)
@@ -274,11 +332,11 @@ img.noshadow {
   line-height: 2.5em;
 }
 
-.dialogue {background-color: #cce4f6; /* #ecf4fb; */}
+.dialogue {/* overriding with new style --MF, 10/11/19 background-color: #cce4f6; /* #ecf4fb; */}
 
 .dialogue:before {content: "Thinking Out Loud";}
 
-.dialogue > div:not(.sidenote):not(.sidenoteBig):not(.comment):not(.commentBig):not(.todo):not(.endnote):not(.narrower):not(.narrowpurple):not(.vocab) {
+.dialogue > div:not(.sidenote):not(.sidenoteBig):not(.comment):not(.commentBig):not(.todo):not(.endnote):not(.narrower):not(.narrowblue):not(.narrowpurple):not(.vocab) {
   padding-top: 5px;
   padding-bottom: 5px;
   padding-left: 6em;
@@ -313,29 +371,39 @@ img.noshadow {
 .forYouToDoHeader {text-indent:-40px;}
 
 .forYouToDo {
-  background-color: #d2e3be; /* #edf4e6; */
+  /* overriding with new style --MF, 10/11/19 background-color: #d2e3be; /* #edf4e6; */
   margin-bottom: .5em;
 }
 
-.forYouToDo:before {content: "For You To Do";} /* This had been .forYouToDo#first:before but we changed it for ADA compliance. --MF, 9/26/17 */
+/*.forYouToDo:before {content: "For You To Do";} /* This had been .forYouToDo#first:before but we changed it for ADA compliance. --MF, 9/26/17 */
 
 .ifTime {
-  background-color: #cce4f6; /*#d2e3be; /* #edf4e6; */
+  /* overriding with new style --MF, 10/11/19 background-color: #cce4f6; /*#d2e3be; /* #edf4e6; */
   width: 95%;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: .5em;
 }
 
-.ifTime:before {content: "If There Is Time...";}
-
 .ifTimeHide:before {content: "";}
 
 .learn {
-  background-color: #fcc7c2; 
-  width: 100%;
+  /* overriding with new style --MF, 10/11/19 background-color: #fcc7c2; */
+  /* width: 100%;
   margin-left: auto;
-  margin-right: auto;
+  margin-right: auto; */
+}
+
+table.standard th {
+    white-space: nowrap;
+}
+
+table.nowrap td {
+    white-space: nowrap;
+}
+
+table.center td {
+    text-align: center;
 }
 
 table.truth {
@@ -352,22 +420,24 @@ table.truth tr th {
 }
 
 table.truth tr td {
-  text-align:center;
+  text-align: center;
   border: 1px solid black;
   padding: 5px;
 }
 
-.takeItFurther {
-  background-color: #e4cde3; 
+.takeItFurther, .takeItTeaser, .takeItTeased {
+  /* overriding with new style --MF, 10/11/19 background-color: #e4cde3; */
   width: 90%;  
   margin-left: auto;
   margin-right: auto;
   }
 
-.takeItFurther:before {  content: "Take It Further";}
+.takeItFurther, .takeItTeased ol ol li {
+    list-style:lower-roman;
+}
 
 .takeNote, endHOM {
-  background-color: #fcc589;
+  /* overriding with new style --MF, 10/11/19 background-color: #fcc589;*/
   width: 100%;
   margin-left: auto;
   margin-right: auto;
@@ -379,8 +449,8 @@ table.truth tr td {
 
 .timeline img{height:250px; margin-left: 10%;}  /*This is a hack to get the timeline in Unit 6, The History of Computers to work */
 
-.vocab, .vocabBig {
-  background-color: #D3D3D3;
+.vocab, .vocabBig, .exam, .examBig {
+  /* overriding with new style --MF, 10/11/19 background-color: #D3D3D3;*/
   font-size: .9em;
   float: right;
   margin-right: 20px;
@@ -391,15 +461,16 @@ table.truth tr td {
   text-indent: 0em;
 }
 
-.vocab {width: 20%;}
+.vocab, .exam {width: 20%;}
 
-.vocabBig {width: 40%;}
+.vocabBig, .examBig {width: 40%;}
 
-.vocabFullWidth {
-  background-color: #D3D3D3;
-  width: 100%;
+.vocabFullWidth, .examFullWidth {
+  /* overriding with new style --MF, 10/11/19 background-color: #D3D3D3;*/
+  width: 90%;
   margin-left: auto;
-  margin-right: auto;
+  /*margin-right: auto;*/
+  margin-top: .5em;
   padding: 20px;
   /*clear: both;*/
   text-indent: 0em;
@@ -407,6 +478,13 @@ table.truth tr td {
 
 .vocab:before, .vocabBig:before, .vocabFullWidth:before {
   content: "Vocabulary";
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 1.5em;
+}
+
+.exam:before, .examBig:before, .examFullWidth:before {
+  content: "On the AP Exam...";
   font-size: 16px;
   font-weight: bold;
   line-height: 1.5em;
@@ -506,6 +584,7 @@ div.CSPpeach, div.visualgreen, div.visualcyan, div.visualpurple, div.visualyello
 	margin-bottom:10px;
 }
 
+/* Are these in use? --MF, 10/11/19 */
 div.CSPpeach {background-color: papayawhip;}
 div.visualgreen {background-color: #d8fbd8;}
 div.visualcyan {background-color: lightcyan}
@@ -585,3 +664,28 @@ table.videos td {
   z-index:1;
 }
     
+
+@media print {
+    .full {
+        border: 0px;
+    }
+    body {
+        font-size: .8em;
+    }
+    h2 {
+        font-size: 1.4em;
+    }
+    h3 {
+        font-size: 1.2em;
+    }
+    h4 {
+        font-size: 1em;
+    }
+    /*.learn, */.sidenote, .sidenoteBig, .endnote, .sideHOM, .sideHOMbig, .takeNote, .vocab, .vocabBig, .vocabFullWidth, .exam, .examBig, .examFullWidth, .dialogue, .narrower, .narrowblue, .narrowpurple {
+        border:.5px solid;
+    } /* Current excludes .forYouToDo, .ifTime, .takeItFurther, Also, we need to find a way to make ITIT and TIFs show up on the printouts. --MF, 7/25/19 */ 
+    .btn-default, .todo, .comment, .commentBig, img { 
+        display: none;
+    }
+    
+}
