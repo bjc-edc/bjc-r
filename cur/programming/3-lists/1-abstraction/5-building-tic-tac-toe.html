@@ -33,9 +33,10 @@
 		
         <div class="learn">
             <p><strong>In this <em>yearlong</em> project,</strong> you will  develop a program that plays Tic-Tac-Toe as well as you do.</p>
-            <p><strong>On this first page,</strong> you display a Tic-Tac-Toe board and let two human players enter moves.</p>
-            <img class="indent" src="/bjc-r/img/2-complexity/TTT1_img/Three States of TTT.png" width="550"  alt="Three states of Tic-Tac-Toe: in progress, win, tie" title="Three states of Tic-Tac-Toe: in progress, win, tie"/>
+            <p><strong>On this first page,</strong> you use <em>clones</em> to display a Tic-Tac-Toe board and let two human players enter moves.</p>
+            <img class="indent" src="/bjc-r/img/3-lists/TTT1_img/Three States of TTT.png" width="550"  alt="Three states of Tic-Tac-Toe: in progress, win, tie" title="Three states of Tic-Tac-Toe: in progress, win, tie"/>
         </div>
+		<p>The project is spread out over different units because there's a lot to do, and because some steps require techniques you haven't learned yet. On <em>this</em> page, you'll learn about <em>cloning</em> a sprite (like copying it, only better).</p>
 		<p>One approach to building this game is to use <em>multiple sprites</em>; each square of the board is a separate sprite. Each sprite knows where it is on the board, and, once positioned, the sprites never move. The player clicks one of the nine squares, and that sprite changes its costume to display the move.</p>
         
         <div class="forYouToDo" id="first">
@@ -44,7 +45,7 @@
                 <li><a class="run" href="/bjc-r/prog/3-lists/U3L1-Tic-Tac-Toe.xml" target="_blank"><img class="inline" src="/bjc-r/img/icons/load-save.png" alt="Click here to load this file. Then save it to your Snap! account." title="Click here to load this file. Then save it to your Snap! account." /></a></li>
                 <li>
                 	The first sprite has already been set up for you. It has three costumes: Empty, X, and O. Click <img class="inline" src="/bjc-r/img/blocks/next-costume.png" alt="next costume" title="next costume" /> a few times to see all of them.<br />
-                    <img class="indent noshadow" src="/bjc-r/img/2-complexity/TTT1_img/Costumes.png" height="100" alt="Costumes of a square: Empty, X and O" title="Costumes of a square: Empty, X and O" />
+                    <img class="indent noshadow" src="/bjc-r/img/3-lists/TTT1_img/Costumes.png" height="100" alt="Costumes of a square: Empty, X and O" title="Costumes of a square: Empty, X and O" />
 				</li>
             </ol>
         </div>
@@ -56,10 +57,12 @@
         <p>
 			<!--I find this a confusing and uncessary distraction. --MF, 6/7/18
             <div class="sidenoteBig">We say "made by a program" because it's also possible to make clones by hand, right-clicking on a sprite.  Those clones are more permanent.  But don't worry about that now.)</div>-->
-            Clones start with the same position, costumes, and scripts of their parent. But clones (at least those made by a program)...<ul>
-                <li><em>Don't</em> appear in the sprite corral</li>
-                <li>Are <em>temporary</em>. Clicking the stop button will delete all clones in the project</li>
+            Clones start with the same position, costumes, and scripts of their parent. But clones made by a program...
+    <ul>
+                <li><em>Don't</em> appear in the sprite corral.</li>
+                <li>Are <em>temporary</em>. Clicking the stop button or green flag will delete all temporary clones in the project.</li>
             </ul>
+    <p>(There can also be permanent clones, which are created differently, but they're not used in this project.)</p>
 			<div class="endnote">
                 In this project, you'll need <em>nine</em> clones, one for each square of the Tic-Tac-Toe board. So, you'd need something like:<br />
                 <img class="indent" src="/bjc-r/img/2-complexity/9-copies.png" alt="repeat (9){create a clone of (myself)}" title="repeat (9){create a clone of (myself)}"><br />
@@ -73,7 +76,7 @@
 	            <li>
                     Before clicking anything else, read this demonstration script with your partner. Discuss what will happen when you click the sprite. <br />
                     <div class="sidenote">This script will help you learn about clones, but it won't be part of your finished project.</div>
-                    <img class="indent" src="/bjc-r/img/2-complexity/TTT1_img/WhenIamClicked.png" height="200" alt="when I am (clicked){ create a clone of (myself); say(You clicked me!); glide (1) secs to x: (pick random(-200) to (200)) y: (pick random(-150) to (150)); say()}" title="when I am (clicked){ create a clone of (myself); say(You clicked me!); glide (1) secs to x: (pick random(-200) to (200)) y: (pick random(-150) to (150)); say()}"><br />
+                    <img class="indent" src="/bjc-r/img/3-lists/TTT1_img/WhenIamClicked.png" height="200" alt="when I am (clicked){ create a clone of (myself); say(I'm the parent.); glide (1) secs to x: (pick random(-200) to (200)) y: (pick random(-150) to (150)); say()}" title="when I am (clicked){ create a clone of (myself); say(I'm the parent.); glide (1) secs to x: (pick random(-200) to (200)) y: (pick random(-150) to (150)); say()}"><br />
                 </li>
                 <li>
                 	Then click the sprite on the stage, and compare what happens with what you expected.
@@ -88,16 +91,7 @@
                 </li>
             </ol>
         </div>
-        
-		<div class="todo">This is obsolete; Snap<em>!</em> now deletes temporary clones on green flag as well as on stop sign.  The <code>wait 0.1 secs</code> block is obsolete too.  Starter and solution files should also be changed. -bh
-          <p>
-    The next script in the project is:<br />
-            <img class="indent" src="/bjc-r/img/2-complexity/TTT1_img/delete-clone.png" alt="when flag clicked{delete this clone}" title="when flag clicked{delete this clone}"><br />
-            The block is called <code>delete this clone</code> rather than <code>delete this sprite</code> because it only works for clones. When you click <img class="inline" src="/bjc-r/img/1-introduction/green-flag_button.png" alt="green-flag button" title="green-flag button"/>, the parent sprite and all its clones will run this script, but only the clones will be deleted, leaving just the parent on the stage.
-        </p>
-        
-		<div class="endnote">Clicking <img class="inline" src="/bjc-r/img/1-introduction/stop_button.png" alt="stop button" title="stop button" /> automatically deletes clones, but this script is insurance in case you run the program multiple times without clicking stop.</div>
-    </div>
+     </div>
         
         <div class="forYouToDo">
     		<ol start="5">
@@ -106,21 +100,20 @@
                     <ol>
                         <li>Delete the <code>when I am clicked</code> demonstration script from exercise 3.</li>
                         <li>
-                            Connect the additional <code>when</code> <span style="color:green">⚑</span> <code>clicked</code> block toward the bottom of the scripting area to the script just below it.<br />
-                            <img class="indent" src="/bjc-r/img/2-complexity/TTT1_img/make-board-script.png" height="150" alt="when green flag clicked, wait (.1) secs [comment: Wait for old clones to be deleted.], makeBoard, set (X's turn?) to (true) [Comment: X plays first.]" title="when green flag clicked, wait (.1) secs [comment: Wait for old clones to be deleted.], makeBoard, set (X's turn?) to (true) [Comment: X plays first.]" />
+                            Connect the <code>when</code> <span style="color:green">⚑</span> <code>clicked</code> block toward the bottom of the scripting area to the script just below it.<br />
+                            <img class="indent" src="/bjc-r/img/3-lists/TTT1_img/make-board-script.png" alt="makeBoard, set (X's turn?) to (true) [Comment: X plays first.]" title="makeBoard, set (X's turn?) to (true) [Comment: X plays first.]" />
                         </li> 
                     	
 						<li>
                             Read that script and notice...             
                             <div class="narrower">
                                 <ul type="circle">
-                                    <li>The <code>wait</code> block ensures that the <em>other</em> <code>when</code> <span style="color:green">⚑</span> <code>clicked</code> script has time to delete old clones before we make new ones.</li>
                                     <li>The <code>makeBoard</code> block is empty. You'll write it in the next problem.</li>
                                     <li>
                                         The variable <var>X's turn?</var> will be <code>true</code> when it's X's turn to play or <code>false</code> when it's O's turn. 
                                         <div class="endnote">
                                             When alternating between two values, it's convenient to use Booleans because you can use <code>not</code> to switch between them and you can use <code>if</code> to <em>test</em> the variable. (Recall that <code>if</code> requires a <code>true</code>/<code>false</code> input.)<br />
-                                            <img class="indent" src="/bjc-r/img/2-complexity/TTT1_img/setXsturn.png" height="50" alt="set (X's turn?) to (not (X's turn?))" title="set (X's turn?) to (not (X's turn?))" />
+                                            <img class="indent" src="/bjc-r/img/3-lists/TTT1_img/setXsturn.png" height="50" alt="set (X's turn?) to (not (X's turn?))" title="set (X's turn?) to (not (X's turn?))" />
                                             <img class="indent" src="/bjc-r/img/2-complexity/if-x-turn.png"  alt="if (X's turn?){}" title="if (X's turn?){}" />
                                         </div>
                                     </li>
@@ -131,9 +124,9 @@
 				</li>
                 <li>
                     Edit the block <code>makeBoard</code> to set up nine clones in three rows of three.<br />
-                    <img class="indent" src="/bjc-r/img/2-complexity/TTT1_img/Row1.png"  height="100" alt="One row of squares" title="One row of squares"/>
-                    <img src="/bjc-r/img/2-complexity/TTT1_img/Row2.png"  height="100" alt="Two rows of squares" title="Two rows of squares"/>
-                    <img src="/bjc-r/img/2-complexity/TTT1_img/Row3.png"  height="100" alt="Three rows of squares" title="Three rows of squares"/><br />
+                    <img class="indent" src="/bjc-r/img/3-lists/TTT1_img/Row1.png"  height="100" alt="One row of squares" title="One row of squares"/>
+                    <img src="/bjc-r/img/3-lists/TTT1_img/Row2.png"  height="100" alt="Two rows of squares" title="Two rows of squares"/>
+                    <img src="/bjc-r/img/3-lists/TTT1_img/Row3.png"  height="100" alt="Three rows of squares" title="Three rows of squares"/><br />
                     <div class="narrower">
                         Tips:
                         <ul>
@@ -143,7 +136,7 @@
                             <li>
                                 <a href="#hint-for" data-toggle="collapse" title="Click if you need an additional hint.">Click if you need an additional hint about <code>makeBoard</code>.</a>
                                 <div id="hint-for" class="collapse">
-                                	<img class="indent" src="/bjc-r/img/2-complexity/TTT1_img/for-row-column.png" alt="for (row) = 1 to 3 {for (column) = 1 to 3 {} }" title="for (row) = 1 to 3 {for (column) = 1 to 3 {} }">
+                                	<img class="indent" src="/bjc-r/img/3-lists/TTT1_img/for-row-column.png" alt="for (row) = 1 to 3 {for (column) = 1 to 3 {} }" title="for (row) = 1 to 3 {for (column) = 1 to 3 {} }">
                               </div>
 							</li>
                         </ul>
@@ -163,7 +156,7 @@
                 <li>Play one or two games of Tic-Tac-Toe with your partner, and fix any bugs. Then, discuss what else you might want to add to the project.</li>
                 <div class="endnote">
                     <p>You can leave comments in the project file to remind yourself of things you might want to do later.</p>
-                    <p>You will work on this more in <a href="/bjc-r/cur/programming/3-lists/3-tic-tac-toe/1-find-ties.html?topic=nyc_bjc%2F3-lists.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 3 Lab 3 Page 1: Remembering the Moves">Unit 3 Lab 3 Page 1: Remembering the Moves</a>.</p>
+                    <p>You will work on this more in <a href="/bjc-r/cur/programming/3-lists/3-tic-tac-toe/1-find-ties.html?topic=nyc_bjc%2F3-lists.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 3 Lab 3 Page 1: Remembering the Moves">Unit 3 Lab 3: Tic-Tac-Toe</a>.</p>
                 </div>
                 <li><img class="inline" src="/bjc-r/img/icons/save-use-later.png" alt="Save. You will use this later." title="Save. You will use this later." /></li>
             </ol>
