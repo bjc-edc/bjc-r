@@ -9,13 +9,14 @@
 	<body>
 		<h2>Snap<em>!</em> Crash Course</h2>
         <div class="todo">
+            <h1>Brian please start here.</h1>
             What else do we need? 
             <ul>
                 <li><s>how do we want to order AP tran vs. Snaptran in text and headings? That is: "Procedures (Blocks)" or <strong>"Blocks (Procedures)"</strong>?</s></li>
-                <li>What functions have different names in other languages that we might consider mentioning (e.g., concatenate)?</li>
-                <li>What other topics might a new Snap<em>!</em> user want to know?</li>
+                <li><strong>What functions have different names in other languages that we might consider mentioning (e.g., concatenate)?</strong></li>
+                <li><strong>What other topics might a new Snap<em>!</em> user want to know?</strong></li>
             </ul>
-            Also, can I drop the first paragraph on this page? (Then it will be applicable to anyone (even new BJC users.) I think you are OK with that Brian, but I'm just checking... --MF, 4/4/20
+            <strong>Also, can I drop the first paragraph on this page?</strong> (Then it will be applicable to anyone (even new BJC users.) I think you are OK with that Brian, but I'm just checking... --MF, 4/4/20
         </div>
         <p>
             <img class="imageRight" src="/bjc-r/img/ref-guide/repeat-example.png" alt="repeat (4) times
@@ -495,7 +496,8 @@
                     <img class="indent" src="/bjc-r/img/2-complexity/Debugging/commenting.gif" alt="Animation on how to  add a comment to a block and how a comment added to a hat block becomes that custom block's help message." title="Animation on how to add a comment to a block and how a comment added to a hat block becomes that custom block's help message."/>
                 </div>
             </p>
-            <p>You can create a help message for your block by attaching a comment to the hat block in the Block Editor. Then people using your block can find out what your block does without having to look inside, just like the help messages for built-in blocks.
+            <p>
+                You can create a help message for your block by attaching a comment to the hat block in the Block Editor. Then people using your block can find out what your block does without having to look inside, just like the help messages for built-in blocks.
                 <div>
                     <div style="display: inline; vertical-align: top;">
                         <img class="indent" src="/bjc-r/img/1-introduction/good-comments.png" alt="block definition for a square-drawing block called 'square' with a comment attached to the hat block that says, 'This block draws a square. The input says how big to make the sides of the square.'" title="block definition for a square-drawing block called 'square' with a comment attached to the hat block that says, 'This block draws a square. The input says how big to make the sides of the square.'" />
@@ -517,8 +519,6 @@
             There is also a <strong>"find blocks button"</strong> in the palette in case you are thinking of a block you can't find:<br />
             <img class="indent" src="/bjc-r/img/sys/find-blocks-button.png" alt="image of the magnifying glass icon at the top right of the palette just under the eight palette menus; there is a hover-over bubble that says 'find blocks...'" title="image of the magnifying glass icon at the top right of the palette just under the eight palette menus; there is a hover-over bubble that says 'find blocks...'" />
         </p>
-
-        <div class="todo"><h1>Page is drafted only up to here. --MF, 3/29/20</h1></div>
 
 
         <h3>Additional Programming Topics</h3>
@@ -593,18 +593,89 @@
         </div>
         
         <a href="#hint-recursion" data-toggle="collapse" class="collapsed expansion-menu" title="Recursion"><h4><strong>Recursion</strong></h4></a>
-        <p>
-            Recursion lets you deal with a list by left-to-right traversal, but without the use of index variables.  Instead, you split the list into its first item and a sublist with all but the first item:<br />
-            <code>ITEM 1 OF foo</code><br />
-            <code>ALL BUT FIRST OF foo</code>
-        </p>
-        <p>You compute some function of the first item, and combine that with a call to the same procedure you're writing:
-        <pre>PLURALS words
-  IF (IS words EMPTY?)
-     REPORT (LIST)
-  ELSE
-     REPORT (JOIN (ITEM 1 OF words) s) IN FRONT OF (PLURALS (ALL BUT FIRST OF words))</pre>
-        </p>
+        <div class="todo">Brian, I didn't feel like list traversal was the right place to start, so I showed a recursive command and then a recursive reporter before recursive list traversal. You might find these to be spoilers, but, I'm not terribly worried. Thoughts? --MF, 4/4/20</div>
+        <div class="todo">Also, please review the alt/title text on the three block definitions carefully. --MF, 4/4/20</div>
+        <div id="hint-recursion" class="collapse">
+            <p>
+                Another powerful capability of Snap<em>!</em> is the ability to call a procedure inside itself: recursion. 
+                <ul>
+                    <li>
+                        <a href="#hint-draw-triangle" data-toggle="collapse" title="Click for an example of a recursive command that draws one triangle, and at each corner  draws a smaller triangle, and at each corner of that draws another smaller triangle and so on until it reaches the last requested level.">Click for an example of a <strong>recursive command</strong> that draws one triangle, and at each corner draws a smaller triangle, and at each corner of those draws another smaller triangle and so on until it reaches the last requested level.</a>
+                        <div id="hint-draw-triangle" class="collapse">
+                            <div class="indent" style="display: inline-block;">
+                                <img src="/bjc-r/img/ref-guide/draw-triangle-fractal-definition.png" alt="draw triangle fractal with (levels #) levels and starting size (size #) {
+        repeat (3) {
+            move (size) steps
+            if (levels > 1) {
+                draw triangle fractal with (levels - 1) levels and starting size (size / 2)
+            }
+            turn right (120) degrees
+        }
+    }" title="draw triangle fractal with (levels #) levels and starting size (size #) {
+        repeat (3) {
+            move (size) steps
+            if (levels > 1) {
+                draw triangle fractal with (levels - 1) levels and starting size (size / 2)
+            }
+            turn right (120) degrees
+        }
+    }" />
+                            </div>
+                            <div class="indent" style="display: inline-block; vertical-align: top;">
+                                This instruction:<br />
+                                <img src="/bjc-r/img/ref-guide/draw-triangle-fractal-block.png" alt="draw triangle fractal with (4) levels and starting size (100)" title="draw triangle fractal with (4) levels and starting size (100)" /><br />
+                                Makes this image:<br />
+                                <img class="indent noshadow" src="/bjc-r/img/ref-guide/triangle-fractal.jpg" alt="An image of a triangle fractal with 4 levels. That is, one triangle, and at each corner a smaller triangle, and at each corner of those another smaller triangle, and at each of thos corners another smaller triangle. There are 40 triangles total." title="An image of a triangle fractal with 4 levels. That is, one triangle, and at each corner a smaller triangle, and at each corner of those another smaller triangle, and at each of thos corners another smaller triangle. There are 40 triangles total." />
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="#hint-number-triangles" data-toggle="collapse" title="Click for an example of ecursive reporter that reports the number of triangles drawn by the recursive command above (if you click the link).">Click for an example of <strong>recursive reporter</strong> that reports the number of triangles drawn by the recursive command shown above (if you clicked the link).</a>
+                        <div id="hint-number-triangles" class="collapse">
+                            <div class="indent" style="display: inline-block;">
+                                <img src="/bjc-r/img/ref-guide/number-of-triangles-definition.png" alt="number of triangles in level (levels #) fractal {
+        if (levels > 1) {
+            report ((3 × number of triangles in level (levels  - 1) fractal) + 1)
+        }
+        report 1
+    }" title="number of triangles in level (levels #) fractal {
+        if (levels > 1) {
+            report ((3 × number of triangles in level (levels  - 1) fractal) + 1)
+        }
+        report 1
+    }" />
+                            </div>
+                            <div class="indent" style="display: inline-block; vertical-align: top;">
+                                This expression reports the number of triangles in the image for the <code>draw triangle fractal with (4) levels</code> block shown above:<br />
+                                <img src="/bjc-r/img/ref-guide/number-of-triangles-reporting.png" alt="number of triangles in level (4) fractal reporting 40" title="number of triangles in level (4) fractal reporting 40" />
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </p>
+            <p>
+                Recursion also lets you deal with a list by traversal, like <code>for each</code> does, but without the use of index variables.  Instead, you split the list into its first item and everything else:<br />
+                <img class="indent" src="/bjc-r/img/ref-guide/item-1-of-fruits-reporting.png" alt="item (1) of (list (apple) (banana) (orange) (grape)) reporting 'apple'" title="item (1) of (list (apple) (banana) (orange) (grape)) reporting 'apple'" />
+                <img class="indent" src="/bjc-r/img/ref-guide/all-but-first-of-fruits-reporting.png" alt="all but first of (list (apple) (banana) (orange) (grape)) reporting [banana, orange, grape]" title="all but first of (list (apple) (banana) (orange) (grape)) reporting [banana, orange, grape]" />
+            </p>
+            <p>
+                You compute some function of the first item, and combine that with a call to the same procedure you're writing:
+                <img class="indent" src="/bjc-r/img/ref-guide/plurals-definition.png" alt="plurals (words ‘list input symbol’) {
+        if (is (words) empty?) {
+            report (list)
+        } else {
+            report ((join (item (1) of (words)) (s)) in front of (plurals (all but first of (words))))
+        }
+    }" title="plurals (words ‘list input symbol’) {
+        if (is (words) empty?) {
+            report (list)
+        } else {
+            report ((join (item (1) of (words)) (s)) in front of (plurals (all but first of (words))))
+        }
+    }" />
+                <img class="indent" src="/bjc-r/img/ref-guide/plurals-fruits-reporting.png" alt="plurals (list (apple) (banana) (orange) (grape)) reporting [apples, bananas, oranges, grapes]" title="plurals (list (apple) (banana) (orange) (grape)) reporting [apples, bananas, oranges, grapes]" />
+            </p>
+        </div>
 
 
 	</body>
