@@ -227,9 +227,15 @@
                         </ul>
                     </div>
                 </li>
-                <li><a href="" title="Page 2: An Undecidable Problem" target="_blank">An Undecidable Problem</a></li>
-                <div class="todo">This lab is unfinished. --MF, 5/25/20</div>
-            </ol>
+               <li><a href="#proof-by-contradiction-2" data-toggle="collapse" class="collapsed expansion-menu" title="Page 2: An Undecidable Problem" target="_blank">An Undecidable Problem</a>
+                    <div id="proof-by-contradiction-2" class="collapse">
+		      <ol>
+			<li>These discussions aren't meant to be handed in; instead, you might have a whole-class discussion after the partners have a chance for their small-group discussions.
+			<ol>
+			  <li>In a proof by contradiction, you start by assuming the <em>opposite</em> of what you're trying to prove, and from there you derive a contradiction.  So the opposite can't be true, which means the original goal must be true.  (By the way, although it's an unusual position today, around 1900 there was a strong <a href="https://en.wikipedia.org/wiki/Intuitionism" target="_blank">group</a> of mathematicians who rejected proof by contradiction and insisted that theorems could be proved only by showing examples of the theorem at work.  So if your students have trouble with the idea, they're in good company!)</li>
+			  <li>The <code>halts?</code> function takes a reporter <code>f</code> (more abstractly, a function in any formalism) and an argument (input) value <code>x</code> and reports <code>True</code> if and only if the computation of <code>f(x)</code> will report a value in finite time.  In other words, <code>halts?</code> is (supposedly) able to detect an infinite loop in any program.  (Note in passing that this proof would be impossible in a programming language in which procedures can't be used as data.  The Halting Theorem would still be true, but proving it would be a lot harder&mdash;as it was for Turing.)</li>
+			  <li>We construct a procedure <code>tester</code> so that it reports a value if <code>halts?</code> says that <code>f(f)</code> for some given function <code>f</code> loops forever, but <code>tester</code> loops forever if <code>halts?</code> says that <code>f(f)</code> reports a value.  So, whatever <code>f</code> does, <code>tester</code> does the opposite.  Then we call <code>tester</code> on itself: <code>tester(tester)</code>.  Whatever <code>halts?</code> says <code>tester</code> will do, <code>tester</code> does the opposite.  That's a contradiction, and so an infallible <code>halts?</code> can't exist.</li></ol></li>
+           </ol></div>
         </div>
 
         <h4><strong>Lab 5: Computing in War</strong></h4>
