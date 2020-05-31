@@ -7,7 +7,7 @@
 	</head>
 
 	<body>
-        <a class="course_link" href="/bjc-r/topic/topic.html?topic=nyc_bjc/5-teaching-guide.topic&course=bjc4nyc_teacher.html&novideo&noassignment">Go to Unit 5 Teacher Guide Overview</a>
+        <a class="course_link" href="/bjc-r/topic/topic.html?topic=nyc_bjc/5-teaching-guide.topic&course=bjc4nyc_teacher.html&novideo&noassignment" title="Go to Unit 5 Teacher Guide Overview">Go to Unit 5 Teacher Guide Overview</a>
 
         <h3>Lab Page Solutions</h3>
 
@@ -227,15 +227,23 @@
                         </ul>
                     </div>
                 </li>
-               <li><a href="#proof-by-contradiction-2" data-toggle="collapse" class="collapsed expansion-menu" title="Page 2: An Undecidable Problem" target="_blank">An Undecidable Problem</a>
+                <div class="todo">Brian, below a) I added "even though most mathematicians now know that an example isn't proof"; b) I also tweaked the language around function and argument and added a little more about what it means to use procedures as data; and c) I replaced "if" with "IFF" and tweaked the text a little bit. Please review. --MF, 5/30/20 </div>
+                <li>
+                    <a href="#proof-by-contradiction-2" data-toggle="collapse" class="collapsed expansion-menu" title="Page 2: An Undecidable Problem" target="_blank">An Undecidable Problem</a>
                     <div id="proof-by-contradiction-2" class="collapse">
-		      <ol>
-			<li>These discussions aren't meant to be handed in; instead, you might have a whole-class discussion after the partners have a chance for their small-group discussions.
-			<ol>
-			  <li>In a proof by contradiction, you start by assuming the <em>opposite</em> of what you're trying to prove, and from there you derive a contradiction.  So the opposite can't be true, which means the original goal must be true.  (By the way, although it's an unusual position today, around 1900 there was a strong <a href="https://en.wikipedia.org/wiki/Intuitionism" target="_blank">group</a> of mathematicians who rejected proof by contradiction and insisted that theorems could be proved only by showing examples of the theorem at work.  So if your students have trouble with the idea, they're in good company!)</li>
-			  <li>The <code>halts?</code> function takes a reporter <code>f</code> (more abstractly, a function in any formalism) and an argument (input) value <code>x</code> and reports <code>True</code> if and only if the computation of <code>f(x)</code> will report a value in finite time.  In other words, <code>halts?</code> is (supposedly) able to detect an infinite loop in any program.  (Note in passing that this proof would be impossible in a programming language in which procedures can't be used as data.  The Halting Theorem would still be true, but proving it would be a lot harder&mdash;as it was for Turing.)</li>
-			  <li>We construct a procedure <code>tester</code> so that it reports a value if <code>halts?</code> says that <code>f(f)</code> for some given function <code>f</code> loops forever, but <code>tester</code> loops forever if <code>halts?</code> says that <code>f(f)</code> reports a value.  So, whatever <code>f</code> does, <code>tester</code> does the opposite.  Then we call <code>tester</code> on itself: <code>tester(tester)</code>.  Whatever <code>halts?</code> says <code>tester</code> will do, <code>tester</code> does the opposite.  That's a contradiction, and so an infallible <code>halts?</code> can't exist.</li></ol></li>
-           </ol></div>
+                        <ul>
+                            <li>
+                                Exercise 1: These discussions aren't meant to be handed in; instead, you might have a whole-class discussion after the partners have a chance for their small-group discussions.
+                                <ol>
+                                    <li>In a proof by contradiction, you start by assuming the <em>opposite</em> of what you're trying to prove, and from there you derive a contradiction.  You prove that the opposite <em>can't</em> be true, which means the original goal must be true.  (By the way, although it's an unusual position today, around 1900 there was a strong <a href="https://en.wikipedia.org/wiki/Intuitionism" target="_blank">group</a> of mathematicians who rejected proof by contradiction and insisted that theorems could be proved only by showing examples of the theorem at work even though most mathematicians now know that an example isn't proof.  So if your students have trouble with the idea, they're in good company!)</li>
+                                    <li>The <code>halts?</code> function takes a reporter (that is, a function; for example, <code>f</code>) and an input value (an argument; for example, <code>x</code>) and reports <code>true</code> if and only if the computation of <code>f(x)</code> will report a value in finite time.  In other words, <code>halts?</code> is (supposedly) able to detect an infinite loop in any program.  (Note that this proof would be impossible in a programming language in which procedures can't be used as data, that is, in which a function couldn't be used as input to another function, such as inputting <code>f</code> into <code>halts?</code>.  The Halting Theorem would still be true, but proving it would be a lot harder&mdash;as it was for Turing.)</li>
+                                    <li>We construct a procedure <code>tester</code> so that it reports a value if and only if <code>halts?</code> says that <code>f(f)</code> loops forever for some given function <code>f</code> but also so that <code>tester</code> loops forever if <code>halts?</code> says that <code>f(f)</code> reports a value.  So, whatever <code>f</code> does, <code>tester</code> does the opposite.  Then we call <code>tester</code> on itself: <code>tester(tester)</code>.  Whatever <code>halts?</code> says that <code>tester</code> will do, <code>tester</code> will be forced to actually do the opposite.  That's a contradiction, and so an infallible <code>halts?</code> can't exist.</li>
+                                </ol>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ol>
         </div>
 
         <h4><strong>Lab 5: Computing in War</strong></h4>
