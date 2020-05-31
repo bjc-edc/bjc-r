@@ -10,15 +10,44 @@
         <a class="course_link" href="/bjc-r/topic/topic.html?topic=nyc_bjc/4-teaching-guide.topic&course=bjc4nyc_teacher.html&novideo&noassignment">Go to Unit 4 Teacher Guide Overview</a>
 
         <h3>Lab Page Solutions</h3>
-        <div class="todo">BRIAN: These solution files all need to link to snap projects. --MF, 5/16/20</div>
+
+<!-- ol style="list-style-type:decimal;" -->
 
         <h4><strong>Lab 1: Computer Networks</strong></h4>
         <div>
 			<ul>
-				<li><a href="" title="Page 1: What Is the Internet?" target="_blank">What Is the Internet?</a></li>
-				<li><a href="" title="Page 2: Network Redundancy" target="_blank">Network Redundancy</a></li>
-				<li><a href="" title="Page 3: Internet Abstractions and Open Protocols" target="_blank">Internet Abstractions and Open Protocols</a></li>
-				<li><a href="" title="Page 4: Who's In Charge of the Internet?" target="_blank">Who's In Charge of the Internet?</a></li>
+				<li>What Is the Internet?
+			          <ul>
+				    <li>
+				      <p>1. The <em>Internet</em> is a technology (including hardware and software) that allows a connection between any two Internet-enabled computers, regardless of the content of the connection.</p>
+				      <p>The <em>World Wide Web</em> is a technology that uses the Internet to allow a user at one computer to read content published by any other Internet-enabled computer.  It is the technology used by the <em>browser</em> software installed on most computers.</p>
+				    </li>
+				    <li>
+				     2-4. Most computers, in homes or small businesses, have just one hardware connection to the Internet, provided by their telephone company or cable TV company (their <em>Internet Service Provider</em> or ISP).  (If the computer is a smartphone or tablet, the connection is wireless, but that still counts.)  Those computers are at the very outside of the graph.  The ISP has computers in each neighborhood to which customer computers are connected by hardware (typically by way of a customer <em>router</em>).  Those ISP neighborhood connection points are the second level into the graph.  The "fireworks" appearance reflects the fact that everyone in the neighborhood connects to one such connection point (a router at the ISP), so a lot of lines come together there.  (If a computer is located at a large business or school, the organization may have its own connection points serving, for example, each building; those then connect to an ISP.)  Because your computer only has one route onto the Internet, any message your computer sends takes the same route, to your ISP.  But once the message reaches the ISP, things get more complicated.  The neighborhood connection point probably connects to a city connection point, but after that, the routers have to know roughly where your message is going and which of several routes it should take.  These complicated routers are the tangle in the middle, where each point connects to many other points.  Then eventually the message reaches the other endpoint's ISP (maybe different from yours, another reason for the tangle) and then finds its way to a neighborhood connection point and finally to the destination computer.
+				    </li>
+				  </ul>
+			        </li>
+				<li>Network Redundancy
+				  <ul>
+				    <li>1. The animation shows that there are many possible paths between two nodes on a network with redundancy, and if one node fails, other nodes can still communicate.  (It's worth noting that this picture is partly unrealistic with respect to the Internet.  As noted on page 1 of this lab, <em>most</em> of the computers on the Internet have just one connection, to an ISP.  If that connection fails, there's no way to route around it.  This animation is more realistic as a model of the tangle in the middle of the Internet, in which ISPs talk to each other.  But that's the part where redundancy is most important.  If your connection to your ISP fails, that's bad for you, but doesn't affect anyone else.  But if AT&T can't talk to Verizon, that would be a huge problem.)</li>
+				    <li>3.
+				      <ol>
+					<li>One way to think about this is to note that every once in a while your TV loses a frame of the video, but that's not a disaster, because your brain provides the missing continuity.  But in a data transfer, a similar glitch would tell your bank to send Amazon $100,027.95 instead of $27.95.  It's to avoid such problems that the Internet was designed for fault tolerance.  The point about the millions of computers is that your TV hardly ever glitches, but <em>someone's</em> TV glitches every second, round the clock.  And the same with computers.  Every second, someone's data is corrupted in transit, and the network protocols have to catch this and correct the problem.</li>
+					<li>This page is about fault tolerance through redundant hardware.  But software also contributes to fault tolerance:  Error checking and correction protocols, the ability to change routing in the middle of a connection, and redundant storage of routing information are examples.</li>
+					<li>It's hard to imagine how the <em>entire</em> Internet could fail, even in nightmare scenarios such as nuclear war.  But every so often a large chunk of the net, such as all of a country, can be off the net at once, either because several hardware routes into the country all fail at once (one recent example was probably due to deliberate sabotage) or because the routing information databases are corrupted (which used to happen accidentally from time to time, but is now also probably sabotage, or censorship by the country itself). <!-- Yes Mary your grammar book says that comma is wrong, but without it, the sentence is ambiguous. --></li>
+				      </ul>
+				</li>
+				<li>Internet Abstractions and Open Protocols
+				  <ol style="list-style-type:decimal;">
+				    <li>This is an open-ended question whose answer could fill a book, but here's a fairly brief answer:  The stream of data is broken into packets (usually by TCP but maybe by IP) so that the entire stream doesn't have to be resent if an error occurs.  If it's a TCP packet, then the TCP software attaches a serial number to it, so that TCP at the receiver can reassemble the packets in the correct order.  The IP software in the user's computer combines the packet data with a packet <em>header</em> that says where the packet should go (the other computer's IP address and a <em>port</em> number to address the packet to a particular program running on that computer).  The augmented packet is sent to the user's local router, and from there to the ISP, where routing magic happens so that it arrives at the recipient computer.  That computer's IP software figures out which process should handle this packet, probably a TCP process, which does error checking, asks the sender to resend missing packets (after waiting a few minutes), and sends the reconstructed data stream to another process that knows what to do with it.</li>
+				    <li>
+				      <ul>
+					<li>HTTP abstracts away the details of formatting of the information in a web page.  The original design of the web was that servers would send pages with only information categories such as paragraph, table, subheading, and&mdash;the crucial innovation that makes the web one vast "hypertext" document&mdash;link.  Browsers would use those categories to format the information on the user's screen.  This clean division, with servers providing information and clients providing formatting, is no longer the case; businesses, in particular, want to control in great detail exactly how a page looks to the user, and so the language understood by HTTP (called HTML) now includes ways to control the font, size, color, and positioning of each piece of text.  (Browsers may still change the appearance of the page because, for example, the screen is too small to display the page as the server sent it, or because the user is visually impaired and tells the browser to increase the size of the text.)</li>
+					<li>TCP abstracts away the fact that errors can happen on the network; it provides the user with the illusion of a contiguous stream of data, of any length, despite the corruption or complete disappearance of packets.</li>
+					<li>IP abstracts away the fact that the Internet is a network of networks, and that there's almost certainly no direct connection between your computer and the one you want to send information to.  It translates the other computer's IP address into a decision about which of the directly connected computers is best able to forward the message toward its destination.  (That's an easy choice for IP on your computer, which only connects to one router, but the routers nearer to the center of the IP graph have much more complicated decisions to make.)</li>
+					</ul>
+				</li>
+				<li>Who's In Charge of the Internet?  (No solutions.)</li>
 			</ul>
         </div>
 
@@ -58,34 +87,20 @@
         <div class="todo">See redbox below. --MF, 5/16/20</div>
         <div>
 			<ul>
-				<li><a href="" title="Page 1: Bits" target="_blank">Bits</a></li>
-				<li><a href="" title="Page 2: Binary Sequences" target="_blank">Binary Sequences</a></li>
-				<li><a href="" title="Page 3: Representing Whole Numbers" target="_blank">Representing Whole Numbers</a></li>
-				<li><a href="" title="Page 4: Floating Point" target="_blank">Floating Point</a></li>
-				<li><a href="" title="Page 5: Binary Representation" target="_blank">Binary Representation</a></li>
-				<li><a href="" title="Page 6: Data Compression" target="_blank">Data Compression</a></li>
-			</ul>
-            
-            <div class="todo">
-                The following may replace the above. --MF, 5/16/20
-                <h5><a href="/bjc-r/cur/programming/4-internet/4-representation-compression/1-bits.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc.html&novideo&noassignment" title="Bits">Page 1: Bits.</a></h5>
-                <div>
-                    <div class="comment">I'm not sure that curly brackets are the right thing here. --MF, 12/13/17</div>
-                    <ul>
-                        <li>Exercise 1: With 2 bits there are only 2<sup>2</sup> = 2 &times; 2 = 4 possibilities {00,01,10,11}.</li>
-                        <li>Exercise 2: With 3 bits there are only 2<sup>3</sup> = 2 &times; 2 &times; 2 = 8 possibilities {000, 001, 010, 011, 100, 101, 110, 111}.</li>
+				<li>Bits
+                   <ul>
+                       <li>Exercise 2: With 3 bits there are only 2<sup>3</sup> = 2 &times; 2 &times; 2 = 8 possibilities {000, 001, 010, 011, 100, 101, 110, 111}.</li>
                         <li>Exercise 3: With 4 bits there are only 2<sup>4</sup> = 2 &times; 2 &times; 2 &times; 2 = 16 possibilities {0000, 0001, ...., 1111}.</li>
                         <li>Exercise 4: 2<sup>10</sup> = 1024 to be exact.</li>
                         <li>Exercise 5: There are 7 days of the week and the closest power of 2 past 7 is 8 which is 2<sup>3</sup>.  Thus, 3 bits are enough.</li>
                         <li>Exercise 6: There are 10 decimal digits {0, 1, 2, ...,9} and the closest power of 2 past 10 is 16 which is 2<sup>4</sup>.  Thus, 4 bits are enough.</li>
-                        <li>Exercise 7: If we use a calculator like Wolfram Alpha we get 2<sup>64</sup> = 18446744073709551616 = 1.8446744073709551616 &times; 10<sup>19</sup> many values.  The approximation trick can be used 2<sup>10</sup> &asymp; 1000. So 2<sup>64</sup> = 2<sup>4</sup> &times; 2<sup>60</sup> = 16 &times; (2<sup>10</sup>)<sup>6</sup> &asymp; 16 &times; (1000)<sup>6</sup> = 1.6 &times; 10<sup>19</sup> which is close to the actual number given above.</li>
+                        <li>Exercise 7: Every group of ten bits multiplies the number of values by about 1000.  So 60 bits can represent 1,000,000,000,000,000,000 values (one quintillion).  The remaining four bits multiply that answer by 2<sup>4</sup>=16.  So the final approximate answer is 16 quintillion, or 16&times;10<sup>18</sup>.  (The exact number of values in 64 bits is 2<sup>64</sup> = 18,446,744,073,709,551,616.  So 16 quintillion is off by about 2&frac12; quintillion, an error of about 13%.)</li>
                         <li>Exercise 8: There are 26 letters {A, B, C, ..., Z} and 10 digits {0, 1, ..., 9} so 26 + 10 = 36 in total.  The closest power of 2 past 36 is 64 which is 2<sup>6</sup>.  Thus, 6 bits are enough.</li>
-                        <li>Exercise 9:  Unicode has 136,755 characters, so 18 bits are needed as the closest power of 2 past this number is 2<sup>18</sup> = 266,144 &gt; 136,755 but 2<sup>17</sup> = 131,072 &lt; 136,755.</li>
+                        <li>Exercise 9:  Unicode has 136,755 characters, so 18 bits are needed as the closest power of 2 past this number is 2<sup>18</sup> = 266,144 &gt; 136,755 (but 2<sup>17</sup> = 131,072 &lt; 136,755).</li>
                     </ul>
-                </div>
-
-                <h5><a href="/bjc-r/cur/programming/4-internet/4-representation-compression/3-representing-numbers.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc.html&novideo&noassignment" title="Representing Whole Numbers">Page 3: Representing Whole Numbers.</a></h5>
-                <div>
+			</li>
+				<li><a href="" title="Page 2: Binary Sequences" target="_blank">Binary Sequences</a></li>
+				<li>Representing Whole Numbers
                     <ul>
                         <li>
                             Exercise 2:  This will depend on the computer that you use.  In a 64-bit computer, 22 is the first integer whose factorial does not fit in a word and rounding starts:<br />
@@ -96,15 +111,12 @@
                             <img src="/bjc-r/img/6-computers/200factorial.png"  height="30" alt="200! reporting huge value." title="200! reporting huge value."/><br />
                             To find out the number of digits, just ask Snap<em>!</em>: <img width="244" src="/bjc-r/img/6-computers/digits-in-factorial-200.png" alt="length of ((200) !) reporting 375" title="length of ((200) !) reporting 375"></li>
                     </ul>
-                </div>
-
-                <h5><a href="/bjc-r/cur/programming/4-internet/4-representation-compression/4-floating-point.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc.html&novideo&noassignment" title="Floating Point">Page 4: Floating Point.</a></h5>
-                <div>
-                    <strong>Take It Further:</strong>
-                    <ul>
-                        <li>
+				</li>
+				<li>Floating Point
+				<ul>
+				                          <li>
                             <p>
-                                Exercise A: "One significant digit" means that, for example, 200 is representable, but 210 isn't. Here are <em>all</em> the representable values:
+                                TIF A: "One significant digit" means that, for example, 200 is representable, but 210 isn't. Here are <em>all</em> the representable values:
                                 <ul>
                                     <li>0</li>
                                     <li>0.01, 0.02, ... 0.09</li>
@@ -122,7 +134,28 @@
                             <p>By the way, if you want to make this picture in Snap<em>!</em>, you need a widescreen monitor, and then you can click on the gear (settings) menu, choose "stage size," and set the horizontal size to 1200 so there's some margin around your number line.</p>
                         </li>
                     </ul>
-                </div>
+
+				</li>
+				<li><a href="" title="Page 5: Binary Representation" target="_blank">Binary Representation</a></li>
+				<li><a href="" title="Page 6: Data Compression" target="_blank">Data Compression</a></li>
+			</ul>
+            
+            <div class="todo">
+                The following may replace the above. --MF, 5/16/20
+                <h5><a href="/bjc-r/cur/programming/4-internet/4-representation-compression/1-bits.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc.html&novideo&noassignment" title="Bits">Page 1: Bits.</a></h5>
+                <div>
+
+               </div>
+
+                <h5><a href="/bjc-r/cur/programming/4-internet/4-representation-compression/3-representing-numbers.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc.html&novideo&noassignment" title="Representing Whole Numbers">Page 3: Representing Whole Numbers.</a></h5>
+                <div>
+               </div>
+
+                <h5><a href="/bjc-r/cur/programming/4-internet/4-representation-compression/4-floating-point.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc.html&novideo&noassignment" title="Floating Point">Page 4: Floating Point.</a></h5>
+                <div>
+                    <strong>Take It Further:</strong>
+                    <ul>
+               </div>
 
                 <h5><a href="/bjc-r/cur/programming/4-internet/4-representation-compression/5-binary.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc.html&novideo&noassignment" title="Binary Representation">Page 5: Binary Representation.</a></h5>
                 <div>
