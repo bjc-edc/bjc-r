@@ -40,7 +40,7 @@
                             <li><img class="inline" src="/bjc-r/img/3-lists/string-contains.png" alt="string () contains () ?" title="string () contains () ?" />, which reports <code>true</code> if the first string (for example, a contact's name in the list) contains the second string (for example, a name or part of a name)</li>
                             <div class="sidenote">You learned about <a href="/bjc-r/cur/programming/2-complexity/3-predicates/5-keeping-list-items.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Keeping Items from a List"><code>keep</code> in Unit 2</a>.</div>
                             <li><img class="inline" src="/bjc-r/img/blocks/keep.png" alt="keep items such that &lt;  &gt; from (list)" title="keep items such that &lt;  &gt; from (list)">, which reports only the items that make the function true</li>
-                            <li><img class="inline" src="/bjc-r/img/blocks/empty.png" alt="empty?() predicate function" title="empty?() predicate function" />, which returns <code>true</code> if the list is empty and <code>false</code> otherwise</li>
+                            <li><img class="inline" src="/bjc-r/img/blocks/empty.png" alt="is 'list input slot' empty?" title="is 'list input slot' empty?" />, which returns <code>true</code> if the list is empty and <code>false</code> otherwise</li>
                             <li>Selector<!--s--> <img class="inline" src="/bjc-r/img/3-lists/name-selector.png" alt="name from contact: ()" title="name from contact: ()" /> <!--and <img class="inline" src="/bjc-r/img/3-lists/name-display.png" alt="display-form from name: ()" title="display-form from name: ()" />--></li>
                         </ol>
                     </div>
@@ -83,18 +83,48 @@
                         <li>If the user confirms that they want to delete these contacts, replace the <var>contact list</var> with a list of all contacts whose name does <em>not</em> match the input name.</li>
                     </ol>
                 </li>
-		<li>Modify your "Delete Contact" script so that it
-		lets the user choose which contact they want to delete when
-		<code>find</code> reports more than one.
-		    <ol>
-		      <li>Write a helper block <code>delete contact</code> that takes a contact as input and removes that contact from <var>contact list</var>.</li>
-		      <li>Modify "Delete Contact" so that, if more than one contact matches the user's name input, it displays a list of the matching names and asks the user to select one by number.  (The item numbers are automatically displayed in the name list, so you don't have to worry about that part.)  Give the user a way to cancel the request instead of choosing a name.</li>
-		      <li>If <em>exactly one</em> contact matches, instead of displaying the one-item list of names, just ask the user to confirm or cancel deleting it.  (Optional.)</li>
-		</li>
+                <li>
+                    Modify your "Delete Contact" script so that it lets the user choose which contact they want to delete when
+                    <code>find</code> reports more than one.
+                    <ol>
+                        <li>Write a helper block <code>delete contact</code> that takes a contact as input and removes that contact from <var>contact list</var>.</li>
+                        <li>Modify "Delete Contact" so that, if more than one contact matches the user's name input, it displays a list of the matching names and asks the user to select one by number.  (The item numbers are automatically displayed in the name list, so you don't have to worry about that part.)  Give the user a way to cancel the request instead of choosing a name.</li>
+                        <li>If <em>exactly one</em> contact matches, instead of displaying the one-item list of names, just ask the user to confirm or cancel deleting it.  (Optional.)</li>
+                    </ol>
+                </li>
 			</ol>
 		</div>
 
-		<div class="takeItFurther">
+		<div class="todo">Brian wants to integrate this into the TIF--MF, 5/31/20
+        <div class="narrower">
+            <h4><strong>Creating Menu Inputs</strong></h4>
+            There are specific values allowed for the <var>month</var>, <var>day</var>, and <var>year</var> input, and you can have users select them from a menu to avoid typos. To do that:
+            <ol type="a">
+                <li>Edit the <code>date</code> block and click on the orange <var>month</var> variable in its header.</li>
+                <li>
+                    Click on the arrowhead to open the type selector, then right-click on it:<br />
+                    <img src="/bjc-r/img/3-lists/option-context-menu.png" height="460" alt="option context menu in input dialog"><br />
+                    Then click "options..."
+                </li>
+                <li>
+                    Enter the type tags in the box, one per line:<br />
+                    <img src="/bjc-r/img/3-lists/option-dialog.png" height="460" alt="menu options 'given-first' and 'family-first'">
+                </li>
+                <li>
+                    Click OK, then right-click the type selector again and choose "read-only."
+                    <div class="endnote">
+                        There are two kinds of menu input slots:<br />&nbsp;&nbsp;
+                        <img src="/bjc-r/img/3-lists/dropdown-item.png" alt="item (...) non-read-only menu input slot"><br />
+                        <img src="/bjc-r/img/3-lists/dropdown-touching.png" alt="touching (...) ?  read-only input slot"><br />
+                        For this block, we don't want users to enter values other than the ones in the menu.
+                    </div>
+                </li>
+                <li>Click OK on the <var>type</var> input box and then on the Block Editor.</li>
+            </ol>
+        </div>
+        </div>
+        
+        <div class="takeItFurther">
             This requires that you've already done the TIF on 
 			page 2.
 		    <ol type="A">
