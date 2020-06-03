@@ -25,11 +25,33 @@
 			</ol>
 		</div>
 		
-        <div class="comment">It looks like we lost some of the explanation here. For example, both <code>keep</code> on 2.3.5 and <code>map</code> on 3.2.5 have a takenote box explaining the procedure in more detail. That's not necessarily needed, but I do remember the <code>combine</code> page in the past (when it was in U5) having some presentation of the input functions that would be used, and I think it would be nice to have at least one example other than addition. --MF, 4/4/20</div>
+        <div class="comment">It looks like we lost some of the explanation here. For example, both <code>keep</code> on 2.3.5 and <code>map</code> on 3.2.5 have a takenote box explaining the procedure in more detail. That's not necessarily needed, but I do remember the <code>combine</code> page in the past (when it was in U5) having some presentation of the input functions that would be used, and I think it would be nice to have at least one example other than addition. --MF, 4/4/20<p>I took a first pass at this and will review more later. --MF, 6/3/20</p></div>
         <p> The <img class="inline" src="/bjc-r/img/blocks/combine.png" alt="combine with 'reporter input slot' items of 'list input slot'" title="combine with 'reporter input slot' items of 'list input slot'" /> block takes an operation <em>with two inputs</em> and a list as inputs, and it reports the result of combining all the elements in the input list using the input operation. For example, the expression below reports: 0 + 1 + 2.<br />
             <img class="indent" src="/bjc-r/img/3-lists/combine-simple-example.png" alt="combine with (()+()) items of (list {0, 1, 2}) reporting 3" title="combine with (()+()) items of (list {0, 1, 2}) reporting 3" />
         </p>
-        <div class="endnote"><code>Combine</code> is a <em>higher order function</em>; it is a function that takes a function as input. You've seen another higher order function already: <code>keep</code> (in <a href="/bjc-r/cur/programming/2-complexity/3-predicates/5-keeping-list-items.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Keeping Items from a List">Unit 2 Lab 3</a>).</div>
+        <div class="endnote">
+            <p><code>Combine</code> is a <em>higher order function</em>; it is a function that takes a function as input. You've seen another higher order function already: <code>keep</code> (in <a href="/bjc-r/cur/programming/2-complexity/3-predicates/5-keeping-list-items.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Keeping Items from a List">Unit 2 Lab 3</a>).</p>
+            <p>
+                Unlike <code>keep</code>, <code>combine</code> is only used with a few functions.
+                <a href="#hint-which-functions" data-toggle="collapse" title="Which functions?">Which functions?</a>
+                <div id="hint-which-functions" class="collapse">
+                    <p>
+                        <code>Combine</code> is mostly used with one of <em>only these functions</em>:<br />
+                        <img class="indent" src="/bjc-r/img/3-lists/plus.png" alt="+" title="+" /> <img src="/bjc-r/img/3-lists/times.png" alt="&times;" title="&times;" /><br />
+                        <img class="indent" src="/bjc-r/img/3-lists/and-block.png" alt="and" title="and" /> <img src="/bjc-r/img/3-lists/or-block.png" alt="or" title="or" /><br />
+                        <img class="indent" src="/bjc-r/img/3-lists/join.png" alt="join" title="join" /> <img src="/bjc-r/img/3-lists/join-words.png" alt="join words" title="join words" /><br />
+                        Plus the <code>maximum</code> and <code>minimum</code> blocks you've just written yourself.
+                    </p>
+                    <p>
+                        <a data-toggle="collapse" href="#hint-3">Why so few?</a>
+                        <div id="hint-3" class="collapse">
+                            The function has to be <em>associative</em>, meaning that it doesn't matter what order you group the items in; (7&thinsp;+&thinsp;8)&thinsp;+&thinsp;1 is the same as 7&thinsp;+&thinsp;(8&thinsp;+&thinsp;1) (work it out yourself), but (7&thinsp;−&thinsp;8)&thinsp;−&thinsp;1 is different from 7&thinsp;−&thinsp;(8&thinsp;−&thinsp;1).
+                            So expressions like <img src="/bjc-r/img/3-lists/combine-minus.png" alt="combine with (-) items of (list 7 8 1)"> would be ambiguous.
+                        </div>
+                    </p>
+                </div>
+            </p>
+        </div>
                  
     
         <div class="forYouToDo">
@@ -169,6 +191,7 @@ ELSE
                 </li>
 			</ol>
 		</div>
+                            
 
         <div class="todo">I have a lot of edits to make in this TIF based on the paper I'm writing and the NCTM presentation I'm giving. --MF, 8/12/19</div>
         <div class="takeItFurther">
