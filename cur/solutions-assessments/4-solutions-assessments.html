@@ -149,7 +149,18 @@
                             </li>
                             <li>Exercise 6: The output is <img class="inline noshadow" src="/bjc-r/img/4-internet/text-as-image-solution.jpg" alt="output watcher showing unusual characters some of which cannot be entered into a web page" title="output watcher showing unusual characters some of which cannot be entered into a web page" />. It is not meaningful as text because the binary sequence encoded was originally an image.</li>
                             <li>Exercise 7: Self-check exercises have response feedback built in.</li>
-                            <li>Exercise 8 (If There Is Time):</li>
+                            <li>
+                                Exercise 8 (If There Is Time): 
+                                <ul>
+                                    <li>
+                                        Working from the inside out, the <code>translate text to binary sequence</code> block uses <code>translate text to Unicode list</code> to get a list of the unicode for the characaters in the input string. The list is helpful because it is then used with the higher order function, <code>map</code> to translate each of those unicode characters into binary using the <code>translate decimal to binary</code> function.* Next, <code>map</code> and <code>pack 8-bit byte</code> take that list of unicode characters in binary and ensures that each has enough zeros in front to be a full byte. Then, <code> list &rightarrow; word</code> converts that list of unicode characters in binary as full bytes into a single string and <code>join</code> wraps quotes around the whole thing so that Snap<em>!</em>doesn't remove any leading zeros, and the quoted binary sequence is reported.
+                                        <ul>
+                                            <li>* The <code>translate decimal to binary</code> function uses recursion</li>
+                                        </ul>
+                                    </li>
+                                    <li>Working from the inside out, the <code>translate binary sequence to text</code> block uses <code>split binary sequence into list byte</code> to cut the binary sequence up into a list of bytes for each character. <code>Map</code> and <code>translate binary to decimal</code> then turn that into a list of decimal values for each character. And then <code>map</code> and <code>unicode of letter</code> turn that into a list of the charaters. Finally, <code>list &rightarrow; word</code> converts the list of charaters into a text string, which is reported.</li>
+                                </ul>
+                            </li>
                             <div class="todo">I need to finish this one. --MF, 6/1/20</div>
                         </ul>
                     </div>
@@ -236,41 +247,53 @@
 				<li>Page 6: Data Compression (Self-check exercises have response feedback built in.)</li>
 			</ul>
 		</div>
-        <div class="todo">Mary has cleaned up the html formatting up to here. --MF, 5/31/20</div>
         
         <h4><strong>Lab 5: Computers and Work</strong></h4>
         <div class="todo">Brian, I think there might be stuff in the tips sections of the <a href="http://localhost/bjc-r/cur/teaching-guide/U4/lab-pages/5-work.html?topic=nyc_bjc%2F4-teaching-guide.topic&course=bjc4nyc_teacher.html&novideo&noassignment">4.5 TG</a> that should be moved here. --MF, 5/31/20</div>
         <div>
             <ul>
-                <li>Page 1: Past and Future
-	          <ul>
-		    <li>Exercise 1:
-		      <ul>
-			<li>Jobs that didn't exist at all 25 years ago include social media influencers, data scientists (although to some extent this is just a renaming of statisticians), reality TV stars, and the like.  But 60 years ago, at the beginning of the personal computer revolution, was a burst of new jobs that still just barely existed 25 years ago and are now very significant, e.g., movie digital effects technicians.  A different question that could be asked, though, is "what jobs are showing the most growth?" and the answers are personal services, including home health care for boomers, and (as everyone knows) fast food workers.  There have also been shifts in the nature of work that amount to a new category even though the work itself has been around forever, such as the shift from employees of taxi companies to self-employed Uber drivers.</li>
-			<li>Many repair jobs, e.g., watch repair, and to a large extent automobile repair, have lost ground because it's cheaper to replace the entire thing, in the case of watches, or a major subassembly such as the transmission, in the case of cars.  Manufacturing jobs are disappearing quickly, both to automation and to China.  Teaching jobs are in decline, a victim of school budgets.</li>
-			<li>The job situation in 25 years depends on the <em>general</em> situation in 25 years.  For example, there could be a greatly increased need for rescue workers if climate change leads to many more extreme weather events. On the other hand, US job loss could reach the point at which not having a job and having a government-provided, livable minimum income becomes politically acceptable.  New Deal-style infrastructure jobs (from fixing the potholes to painting murals) may appear.  Perhaps there will be a profession of privacy advocates who fight Facebook on your behalf.</li>
-			<li>"Never" is a long time.  It's definitely possible that in some future time the question of consciousness&mdash;the property we have that computers, so far, don't&mdash;becomes fully understood, so that computers can do anything.  But if present trends continue, what we'll see is probably that computers will continue to do a mediocre job of things like language translation, much better than nothing, but comically bad compared to human beings.</li>
-			<li>Of course this is an opinion question without a correct answer.  But the kind of work that should be withheld from computers includes jobs in which they do very well in the average, but the results are terrible for some individual person when they do badly, such as the current experiments in making parole decisions by computer.</li>
-			</ul>
-		     </li>
-		  </ul>
-	        </li>
-                <li>Page 2: Working Conditions
-		  <ul>
-		    <li>Exercise 1: The answers are really the same for all the bullet points in this question:  They're all good from the employer's point of view, and all bad from the worker's point of view.  Even the last one, using video surveillance to reduce theft, which seems unobjectionable at first glance, has the problem that the video cameras won't <em>only</em> pick up theft.  They'll also see a worker taking a short break, overhear the worker complaining about the boss, and record minor embarrassing behaviors like itching scratches in sensitive areas.  So, as usual in social implications questions, a better way to think about it is (1) what are the benefits; (2) what are the harms; <em>and (3) how could we change the design to keep the benefits and avoid the harms?</em>  So, in the case of video surveillance, perhaps a system could guarantee that the recordings aren't visible by the boss, and are deleted after 24 hours unless a theft is detected, in which case the police can see the recordings but the boss still can't.  In the case of email, the current position of the law is that anything you do using your boss's computer is their property, but occasional personal email while at work is something everyone does, and the law <em>should</em> find a way to preserve the worker's privacy.  As a start, perhaps the employer should see a log of names of people outside the company with whom a worker corresponds, but not the content of the messages.  Even that's problematic, but would be better.  As for games, if I had a job answering phone calls from customers, I'd play games on the side, too.</li>
-		    <li>Exercise 2: (Second bullet group.)  The answers are pretty clear, namely, false, it depends, true, and true.  One question not asked here is about the benefits to customers, i.e., cheap rides.  (The downside for both customers and drivers is the occasional assault by the other party.)  For those of us who were red diaper babies, this is no different from the century-old question about scab labor vs. union labor; the former makes for cheaper products, but not cheaper enough to make up for the loss of income.</li>
-		    </ul>
-		</li>
-                <li>Page 3: Working Remotely
-		   <ul>
-		     <li>Exercise 1.  This page was written before COVID-19, which has changed everything, perhaps permanently.  Even before the pandemic, there was a sharp division between intellectual workers, who can work anywhere, and service workers, who have to work on location.  Since the pandemic, the division is not only financial but in workers' ability to protect themselves from illness.  For <em>most</em> workers, the issues on this page don't arise.  For intellectual workers, employers used to prefer on-site work because of the ease of conducting both formal and spur-of-the-moment meetings.  (This is the explanation for the provision on site of everything from Nerf balls to laundry facilities.)  But now there has been a forced movement of intellectual workers to their homes, and employers are discovering that it's not so terrible.  Workers are more alert if they can skip the hours every day wasted in commuting, and Zoom, one of the few companies whose stock rose during the massive sell-offs in the first days of the pandemic, isn't so bad for customers who pay for premium service.  So it's likely that even after a return to the workplace is possible, many workers will choose to remain at home with their employer's blessing.</li>
-		     <li>Exercise 2.
-		        <ul>
-			  <li>Telemedicine is way better than nothing, although its big weakness is that a doctor may be less likely to notice something about the patient's condition other than the problem that brought the patient to the doctor.</li>
-			  <li>Third world agriculture has indeed been changed dramatically by cell phones, but this really has nothing to do with remote work.</li>
-			  <li>Outsourcing is always bad for US workers.  It saves money for already-rich companies at a huge human cost.  At the end of the page is a discussion of individuals outsourcing their lives; there has been at least one case in which a computer programmer hired programmers in India for very low wages to perform his entire job!  (He was fired when his employer found out.)</li>
-			</ul>
-		</li>
+                <li>
+                    <a href="#hint-past-future" data-toggle="collapse" class="collapsed expansion-menu" title="Lab 5 Page 1: Past and Future">Page 1: Past and Future</a>
+                    <div id="hint-past-future" class="collapse">
+                    
+                        <ul>
+                            <li>Exercise 1:
+                                <ul>
+                                    <li>Jobs that didn't exist at all 25 years ago include social media influencers, data scientists (although to some extent this is just a renaming of statisticians), reality TV stars, and the like.  But 60 years ago, at the beginning of the personal computer revolution, was a burst of new jobs that still just barely existed 25 years ago and are now very significant, e.g., movie digital effects technicians.  A different question that could be asked, though, is "what jobs are showing the most growth?" and the answers are personal services, including home health care for boomers, and (as everyone knows) fast food workers.  There have also been shifts in the nature of work that amount to a new category even though the work itself has been around forever, such as the shift from employees of taxi companies to self-employed Uber drivers.</li>
+                                    <li>Many repair jobs, e.g., watch repair, and to a large extent automobile repair, have lost ground because it's cheaper to replace the entire thing, in the case of watches, or a major subassembly such as the transmission, in the case of cars.  Manufacturing jobs are disappearing quickly, both to automation and to China.  Teaching jobs are in decline, a victim of school budgets.</li>
+                                    <li>The job situation in 25 years depends on the <em>general</em> situation in 25 years.  For example, there could be a greatly increased need for rescue workers if climate change leads to many more extreme weather events. On the other hand, US job loss could reach the point at which not having a job and having a government-provided, livable minimum income becomes politically acceptable.  New Deal-style infrastructure jobs (from fixing the potholes to painting murals) may appear.  Perhaps there will be a profession of privacy advocates who fight Facebook on your behalf.</li>
+                                    <li>"Never" is a long time.  It's definitely possible that in some future time the question of consciousness&mdash;the property we have that computers, so far, don't&mdash;becomes fully understood, so that computers can do anything.  But if present trends continue, what we'll see is probably that computers will continue to do a mediocre job of things like language translation, much better than nothing, but comically bad compared to human beings.</li>
+                                    <li>Of course this is an opinion question without a correct answer.  But the kind of work that should be withheld from computers includes jobs in which they do very well in the average, but the results are terrible for some individual person when they do badly, such as the current experiments in making parole decisions by computer.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <a href="#hint-working-conditions" data-toggle="collapse" class="collapsed expansion-menu" title="Lab 5 Page 2: Working Conditions">Page 2: Working Conditions</a>
+                    <div id="hint-working-conditions" class="collapse">
+                        <ul>
+                            <li>Exercise 1: The answers are really the same for all the bullet points in this question:  They're all good from the employer's point of view, and all bad from the worker's point of view.  Even the last one, using video surveillance to reduce theft, which seems unobjectionable at first glance, has the problem that the video cameras won't <em>only</em> pick up theft.  They'll also see a worker taking a short break, overhear the worker complaining about the boss, and record minor embarrassing behaviors like itching scratches in sensitive areas.  So, as usual in social implications questions, a better way to think about it is (1) what are the benefits; (2) what are the harms; <em>and (3) how could we change the design to keep the benefits and avoid the harms?</em>  So, in the case of video surveillance, perhaps a system could guarantee that the recordings aren't visible by the boss, and are deleted after 24 hours unless a theft is detected, in which case the police can see the recordings but the boss still can't.  In the case of email, the current position of the law is that anything you do using your boss's computer is their property, but occasional personal email while at work is something everyone does, and the law <em>should</em> find a way to preserve the worker's privacy.  As a start, perhaps the employer should see a log of names of people outside the company with whom a worker corresponds, but not the content of the messages.  Even that's problematic, but would be better.  As for games, if I had a job answering phone calls from customers, I'd play games on the side, too.</li>
+                            <li>Exercise 2: (Second bullet group.)  The answers are pretty clear, namely, false, it depends, true, and true.  One question not asked here is about the benefits to customers, i.e., cheap rides.  (The downside for both customers and drivers is the occasional assault by the other party.)  For those of us who were red diaper babies, this is no different from the century-old question about scab labor vs. union labor; the former makes for cheaper products, but not cheaper enough to make up for the loss of income.</li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <a href="#hint-working-remotely" data-toggle="collapse" class="collapsed expansion-menu" title="Lab 5 Page 3: Working Remotely">Page 3: Working Remotely</a>
+                    <div id="hint-working-remotely" class="collapse">
+                        <ul>
+                            <li>Exercise 1:  This page was written before COVID-19, which has changed everything, perhaps permanently.  Even before the pandemic, there was a sharp division between intellectual workers, who can work anywhere, and service workers, who have to work on location.  Since the pandemic, the division is not only financial but in workers' ability to protect themselves from illness.  For <em>most</em> workers, the issues on this page don't arise.  For intellectual workers, employers used to prefer on-site work because of the ease of conducting both formal and spur-of-the-moment meetings.  (This is the explanation for the provision on site of everything from Nerf balls to laundry facilities.)  But now there has been a forced movement of intellectual workers to their homes, and employers are discovering that it's not so terrible.  Workers are more alert if they can skip the hours every day wasted in commuting, and Zoom, one of the few companies whose stock rose during the massive sell-offs in the first days of the pandemic, isn't so bad for customers who pay for premium service.  So it's likely that even after a return to the workplace is possible, many workers will choose to remain at home with their employer's blessing.</li>
+                            <li>
+                                Exercise 2:
+                                <ul>
+                                    <li>Telemedicine is way better than nothing, although its big weakness is that a doctor may be less likely to notice something about the patient's condition other than the problem that brought the patient to the doctor.</li>
+                                    <li>Third world agriculture has indeed been changed dramatically by cell phones, but this really has nothing to do with remote work.</li>
+                                    <li>Outsourcing is always bad for US workers.  It saves money for already-rich companies at a huge human cost.  At the end of the page is a discussion of individuals outsourcing their lives; there has been at least one case in which a computer programmer hired programmers in India for very low wages to perform his entire job!  (He was fired when his employer found out.)</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
             </ul>
         </div>
 		
