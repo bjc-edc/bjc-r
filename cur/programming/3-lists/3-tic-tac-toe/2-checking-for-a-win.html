@@ -38,10 +38,10 @@
         </div>
         <p>
             We <em>could</em> check for each possible win separately:<br />        
-            <img class="indent" src="/bjc-r/img/3-lists/silly-check-win.png" alt="is there a win? : if (is there a win at (1) (2) (3) ?) report (true); if (is there a win at (4) (5) (6) ?) report (true); ...; if (is there a win at (3) (5) (7) ?) report (true); report (false)" title="is there a win? : if (is there a win at (1) (2) (3) ?) report (true); if (is there a win at (4) (5) (6) ?) report (true); ...; if (is there a win at (3) (5) (7) ?) report (true); report (false)">  
+            <img class="indent" src="/bjc-r/img/3-lists/silly-check-win.png" alt="is there a win? (Comment: Don't build this!! Just read it.) : if (is there a win at (1) (2) (3) ?) report (true); if (is there a win at (4) (5) (6) ?) report (true); ...; if (is there a win at (3) (5) (7) ?) report (true); report (false)" title="is there a win? (Comment: Don't build this!! Just read it.) : if (is there a win at (1) (2) (3) ?) report (true); if (is there a win at (4) (5) (6) ?) report (true); ...; if (is there a win at (3) (5) (7) ?) report (true); report (false)">  
         </p>
                       
-        <p>But that's way too much code, especially because we'll have to do something very similar later on, when the computer actually plays against you. Instead, we'll create a list to store all of the possible winning triples so we can check it against the current state of the game stored by <var>board</var>.</p>
+        <p>But that's way too much code, especially because we'll have to do something very similar again, later on, when the computer actually plays against you. Instead, we'll create a list to store all of the possible winning triples so we can check it against the current state of the game stored by <var>board</var>.</p>
         
         <div class="forYouToDo">
 			<ol start="2">
@@ -75,14 +75,12 @@
                     <div class="endnote">
                         <a href="#hint-map-item" data-toggle="collapse" title="How does map work here?">How does <code>map</code> work here?</a>
                         <div id="hint-map-item" class="collapse">
-                            <p>This <code>map</code> expression works the same way as the <code>join</code> example above, but it's a little more complex to think about. As before, <code>map</code> inserts each list item into the blank space in the function inside the gray ring, and it reports a list of the results.</p>
-                            <p>But here, the function in the gray ring is <code>item ( ) of (</code><var>board</var><code>)</code>, so <code>map</code> checks items 1, 2, and 3 of the list stored in the <var>board</var> variable, and it reports a list of what is in those three positions (X, O, or a number).</p>
+                            <p>This <code>map</code> expression works the same way as the <code>join</code> example above, but people sometimes find it a little more complex to think about, because it's natural to expect <img src="/bjc-r/img/3-lists/map-over-board.png" alt="map (something) over (board)" title="map (something) over (board)">, but that's <em>not</em> what the expression says.  Instead, it maps over a <em>constant</em> list, not a variable. As before, <code>map</code> inserts each list item into the blank space in the function inside the gray ring, and it reports a list of the results.</p>
+                            <p>But here, the function in the gray ring is <code>item ( ) of (</code><var>board</var><code>)</code>, so <code>map</code> checks items 1, 2, and 3 of the <var>board</var> list, and it reports a list of what is in those three positions (each of which is X, O, or a number).</p>
                             <p>
                             	If you can't see what's inside the <var>board</var> variable, be sure its box is checked in the Variables palette and expand its watcher to see its list items as in the picture below.<br />
-                                <div class="todo">Brian, you need to redo these images and their alt/title text. --MF, 5/31/20
-                                <img class="indent noshadow" src="/bjc-r/img/3-lists/ttt-board-var.png" alt="picture of: watcher of board variable showing {X, O, Empty, Empty, X, Empty, Empty, Empty, O}; and Tic Tac Toe game with X in upper left and center and O in upper middle and lower right" title="picture of: watcher of board variable showing {X, O, Empty, Empty, X, Empty, Empty, Empty, O}; and Tic Tac Toe game with X in upper left and center and O in upper middle and lower right" />
-                                <img class="indent" src="/bjc-r/img/3-lists/map-item-board-reporting.png" alt="map (item ( ) of (board)) over (list{1, 2, 3}) reporting {X, Empty, Empty}" title="map (item ( ) of (board)) over (list{1, 2, 3}) reporting {X, Empty, Empty}"><br />
-                                </div>
+            <img class="indent noshadow" src="/bjc-r/img/3-lists/ttt-board-var.png" alt="picture of: watcher of board variable showing {O, O, X, 4, X, 6, X, 8, 9}; and Tic Tac Toe game with X, X, O in top row; empty, X, empty in middle row; and X, empty, empty in bottom row" title="picture of: watcher of board variable showing {O, O, X, 4, X, 6, X, 8, 9}; and Tic Tac Toe game with X, X, O in top row; empty, X, empty in middle row; and X, empty, empty in bottom row" />
+                               <img class="indent" src="/bjc-r/img/3-lists/map-item-board-reporting.png" alt="map (item ( ) of (board)) over (list{1, 2, 3}) reporting {O, O, X}" title="map (item ( ) of (board)) over (list{1, 2, 3}) reporting {O, O, X}"><br />
 							</p>
                         </div>
                     </div>
@@ -93,7 +91,7 @@
                 </li>
                 <li>If <code>{1, 2, 3}</code> isn't the triple in which <strong>x</strong> won the game, replace the list in the <code>map</code> expression with the winning triple, and click the expression again.</li>
                 <li>
-                	Use this idea to make a <img src="/bjc-r/img/3-lists/status-of-triple.png" alt="status of triple ( )" title="status of triple ( )"> block that takes one possible winning triple (a triple like <img src="/bjc-r/img/3-lists/{1,2,3}.png" alt="list{1, 2, 3}" title="list{1, 2, 3}">) as input and reports a list of what is in those three positions (X, O, or Empty).
+                	Use this idea to make a <img src="/bjc-r/img/3-lists/status-of-triple.png" alt="status of triple ( )" title="status of triple ( )"> block that takes one possible winning triple (a triple like <img src="/bjc-r/img/3-lists/{1,2,3}.png" alt="list{1, 2, 3}" title="list{1, 2, 3}">) as input and reports a list of what is in those three positions (X, O, or Empty).  Then use it to write an expression in the scripting area whose value will be <code>True</code> if X won the game <em>in the triple <img src="/bjc-r/img/3-lists/{1,2,3}.png" alt="list{1, 2, 3}" title="list{1, 2, 3}">,</em> or <code>False</code> otherwise.
                     <div class="endnote">You learned how to specify the list input type (<img class="inline" src="/bjc-r/img/3-lists/list_input_slot.png" alt="list input type: rectangle with two smaller orange rectangles inside" title="list input type: rectangle with two smaller orange rectangles inside">) on <a href="/bjc-r/cur/programming/2-complexity/2-data-structures-art/2-quizzes.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 2 Lab 2 Page 2: Planning a Quiz App">Unit 2 Lab 2 Page 2: Planning a Quiz App</a>.</div>
                 </li>
                 <li>
