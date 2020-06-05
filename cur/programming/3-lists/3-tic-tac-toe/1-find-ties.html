@@ -7,46 +7,18 @@
     </head> 
     
     <body>
-        <div class="todo">This comment box applies to both pages of the lab.
-            <p><strong>Why at all?</strong> This lab
-        introduces <code>map</code> and gives practice in using HOFs to do interesting analysis.  It also lays the groundwork for later strategy computation.</p>        
-            <p><strong>Why here?</strong> This unit is about lists, HOFs, and functional programming, all of which are exercised in this lab.  In particular, this lab replaces the former one with a page per HOF.</p>
-            <p>This very short page could possibly be combined with the next, to make a one-page lab.</p>
-        </div>
-
-    	<div class="todo">
-        	<p>
-                Here is some of the critical teacher feedback (there was some positive feedback, but more like this):
-                <ul>
-                	<li>Didn't feel students were prepared to complete without significant hand holding</li>
-                	<li>[to modify, I] Revised the instructions... wanted to ensure that the students understood what was happening more completely using various models.</li>
-                	<li>I needed to scaffold the use of map to identify wins. This was way over their heads</li>
-                	<li>This lab was challenging to break down to the students. ... I broke each step down into even smaller steps. I also supplemented ... the information... had some gaps...</li>
-                	<li>"Detecting Wins and Ties" task was difficult.</li>
-                	<li>complex, was a stretch for some students</li>
-                	<li>Overall the students found this unit to be very challenging.</li>
-                	<li>the use of “map” was not nearly well developed enough for them to get it. The mapping of the board over win list was very obscure in how it worked. Much more difficult than a simple “add something to everything”.</li>
-                	<li>some students really struggled.</li>
-                	<li>I was super heavy handed in helping the kids on this one.</li>
-                	<li>Students struggled.</li>
-                	<li>Some students were successful, but the majority were not.</li>
-                	<li>students found it really difficult</li>
-                	<li>The second part of the Tic-Tac-Toe lab, can be scaffolded more. the final task Detecting Win/Ties was challenging.</li>
-                	<li>Students had difficulties using higher order functions in their labs.</li>
-                </ul>
-            </p>
-        </div>
+	<h2>Detecting Wins and Ties</h2>
 		
-        <div class="learn">
+       <div class="learn">
             <p><strong>In this lab</strong>, you will continue your <a href="/bjc-r/cur/programming/3-lists/1-abstraction/5-building-tic-tac-toe.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Building a Tic-Tac-Toe Board">Tic-Tac-Toe project</a> to make the program <em>analyze</em> the game board to detect wins and ties.</p>
             <p><strong>On this page</strong>, you'll prepare by allowing the program to record the moves that are made.</p>
         </div>
-        <p>
+       <p>
             When you first wrote Tic Tac Toe, it was easy to detect illegal moves (moving to a square that's already wearing an X or O costume) because each sprite could test for that without knowing about the rest of the gameboard. But to detect wins and ties, the program needs a way to test the state of the <em>whole gameboard</em>, not just one individual piece. So, we'll use a <em>global variable</em>, <img src="/bjc-r/img/5-algorithms/board.png" alt="board" title="board">, to keep track of whether the square in each position is empty or filled with an X or an O.<br />
             <div class="sidenote">
                 <p>You learned about <strong>global variables</strong> on <a href="/bjc-r/cur/programming/2-complexity/1-variables-games/4-keeping-score.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 2 Lab 1 Page 4: Keeping Score with Global Variables">Unit 2 Lab 1 Page 4: Keeping Score with Global Variables</a>.</p>
             </div>
-            <img class="indent noshadow" src="/bjc-r/img/3-lists/ttt-board-var.png" alt="picture of: watcher of board variable showing {X, O, Empty, Empty, X, Empty, Empty, Empty, O}; and Tic Tac Toe game with X in upper left and center and O in upper middle and lower right" title="picture of: watcher of board variable showing {X, O, Empty, Empty, X, Empty, Empty, Empty, O}; and Tic Tac Toe game with X in upper left and center and O in upper middle and lower right" />
+            <img class="indent noshadow" src="/bjc-r/img/3-lists/ttt-board-var.png" alt="picture of: watcher of board variable showing {O, O, X, 4, X, 6, X, 8, 9}; and Tic Tac Toe game with X, X, O in top row; empty, X, empty in middle row; and X, empty, empty in bottom row" title="picture of: watcher of board variable showing {O, O, X, 4, X, 6, X, 8, 9}; and Tic Tac Toe game with X, X, O in top row; empty, X, empty in middle row; and X, empty, empty in bottom row" />
         </p>
 
         <div class="forYouToDo" id="first">
@@ -59,7 +31,7 @@
             </ol>
         </div>
         
-        <p>Each sprite needs to know its own position on the board so that we can use the <code>item of</code> block to replace that position with an X or an O. So, we'll create a <em>sprite-local variable</em>, <img class="inline nopadtb" src="/bjc-r/img/3-lists/position-number.png" alt="position number" title="position number" />, and each clone will have its <em>own version</em> of this variable.</p>
+        <p>Each sprite needs to know its own position on the board so that we can use the <code>item of</code> block to replace that position with an X or an O. So, we'll create a <em>sprite variable</em>, <img class="inline nopadtb" src="/bjc-r/img/3-lists/position-number.png" alt="position number" title="position number" />, and each clone will have its <em>own version</em> of this variable.</p>
         
         <div class="vocabFullWidth">: <strong>Sprite Variable</strong>
             <p>A <strong>sprite variable</strong> is like a global variable in that it <em>doesn't</em> belong to a particular <em>script</em>, but it does belong to a particular <em>sprite.</em></p>
@@ -74,10 +46,10 @@
                     Create a sprite variable <var>position number</var>.
                     <div class="narrower">
                         <p>
-                            You make a local variable similarly to how you make global variables: 
+                            You make a sprite variable similarly to how you make global variables: 
                             <ul>
-                                <li>Click <img class="inline nopadtb noshadow" src="/bjc-r/img/1-introduction/make-a-variable.png" alt="make a variable button" title="make a variable button" /> in the Variables palette</li>
-                                <li>Then, as you are typing the variable's name, select "for this sprite only" to make it a local (sprite) variable</li>
+                                <li>Click <img class="inline nopadtb noshadow" src="/bjc-r/img/1-introduction/make-a-variable.png" alt="make a variable button" title="make a variable button" /> in the Variables palette.</li>
+                                <li>Then, as you are typing the variable's name, select "for this sprite only" to make it a sprite variable.</li>
                             </ul>
                         </p>
                         
@@ -89,7 +61,7 @@
                     <div class="endnote">
                         <a href="#hint-1" data-toggle="collapse" class="collapsed" title="Hint">Click for a hint on setting the <var>position number</var>.</a>
                         <div id="hint-1" class="collapse">
-                            In the loop that makes the clones, increase the variable by one for each new clone so that each clone will have a unique value.
+                            In the loop that makes the clones, increase the parent sprite's variable by one for each new clone so that each clone will have a unique value.
                         </div>
                     </div>
 					<div class="takeNote">Make sure that the parent's <var>position number</var> doesn't end up being a number 1-9 so that it doesn't conflict with a clone.</div>
