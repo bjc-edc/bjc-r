@@ -152,16 +152,10 @@
                             <li>
                                 Exercise 8 (If There Is Time): 
                                 <ul>
-                                    <li>
-                                        Working from the inside out, the <code>translate text to binary sequence</code> block uses <code>translate text to Unicode list</code> to get a list of the unicode for the characaters in the input string. The list is helpful because it is then used with the higher order function, <code>map</code> to translate each of those unicode characters into binary using the <code>translate decimal to binary</code> function.* Next, <code>map</code> and <code>pack 8-bit byte</code> take that list of unicode characters in binary and ensures that each has enough zeros in front to be a full byte. Then, <code> list &rightarrow; word</code> converts that list of unicode characters in binary as full bytes into a single string and <code>join</code> wraps quotes around the whole thing so that Snap<em>!</em>doesn't remove any leading zeros, and the quoted binary sequence is reported.
-                                        <ul>
-                                            <li>* The <code>translate decimal to binary</code> function uses recursion</li>
-                                        </ul>
-                                    </li>
-                                    <li>Working from the inside out, the <code>translate binary sequence to text</code> block uses <code>split binary sequence into list byte</code> to cut the binary sequence up into a list of bytes for each character. <code>Map</code> and <code>translate binary to decimal</code> then turn that into a list of decimal values for each character. And then <code>map</code> and <code>unicode of letter</code> turn that into a list of the charaters. Finally, <code>list &rightarrow; word</code> converts the list of charaters into a text string, which is reported.</li>
+                                    <li>Working from the inside out, the <code>translate text to binary sequence</code> block uses <code>translate text to Unicode list</code> to get a list of the Unicode numbers for the characaters in the input string. The list is helpful because it is then used with the higher order function <code>map</code> to translate these into binary using the <code>translate decimal to binary</code> function. Next, <code>map</code> and <code>pack 8-bit byte</code> take that list adds enough zeros in front of each numeral to make a full byte. Then, <code> list &rightarrow; word</code> converts those bytes into a single string, <code>join</code> wraps quotes around the whole thing so that Snap<em>!</em>doesn't remove any leading zeros, and the quoted binary sequence is reported.</li>
+                                    <li>Working from the inside out, the <code>translate binary sequence to text</code> block uses <code>split binary sequence into list of bytes</code> to cut the binary sequence up into a list of bytes&mdash;one for each character. <code>Map</code> and <code>translate binary to decimal</code> then turn that into a list of Unicode values for each character. And then <code>map</code> and <code>unicode as letter</code> turn that into a list of charaters. Finally, <code>list &rightarrow; word</code> converts that into a text string, which is reported.</li>
                                 </ul>
                             </li>
-                            <div class="todo">I need to finish this one. --MF, 6/1/20</div>
                         </ul>
                     </div>
                 </li>
@@ -200,7 +194,8 @@
                                 <p>
                                     So there are exactly 46 representable values. Here they are, on the number line:<br />
                                     <img src="/bjc-r/img/6-computers/floats.png" width="1200" alt="number line with floating point values plotted" title="number line with floating point values plotted"><br />
-                                    It's easy to see the multiples of 10 and of 100, but all the smaller values are a blur.  If you could zoom in on the range from 0 to 10, it would look the same, with the multiples of 0.1 and 1 visible, and the multiples of 0.01 just a blur.</p>
+                                    It's easy to see the multiples of 10 and of 100, but all the smaller values are a blur.  If you could zoom in on the range from 0 to 10, it would look the same, with the multiples of 0.1 and 1 visible, and the multiples of 0.01 just a blur.
+                                </p>
                                 <p>What are the pros and cons of this representation?  Only 28 integer values can be represented, so 972 integers less than 1000 <em>can't</em> be.  This seems like a severe weakness, but remember, the rules of this game say that you only have enough room in your representation for 46 values altogether. You could choose multiples of 20, to get all your values evenly spaced, but then you get no fractions at all.  This system gives you a few really small values, a few medium-sized values, and a few really big values.  So physicists can measure the size of an electron, astronomers can measure the size of the galaxy, and the rest of us can budget our money.</p>
                                 <p>By the way, if you want to make this picture in Snap<em>!</em>, you need a widescreen monitor, and then you can click on the gear (settings) menu, choose "stage size," and set the horizontal size to 1200 so there's some margin around your number line.</p>
                             </li>
