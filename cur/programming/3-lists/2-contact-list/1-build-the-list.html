@@ -73,7 +73,6 @@
 		<div class="todo">Need to fix the yellowbox font color inside orangebox in the CSS. --MF, 11/15/19</div>
         <div class="takeNote">
             <h4><strong>Why global?</strong></h4>
-            <div class="sidenoteBig">Also, in Snap<em>!</em>, only global variables save their data when the project is saved.</div>
             <strong>Multiple scripts</strong> across the project <strong>will use this variable</strong>, so it shouldn't be attached to just one script like a local, script variable.
         </div>
 
@@ -84,6 +83,7 @@
             <div><span>Betsy:</span> We need a way to add a contact to our <var>contact list</var>.</div>
             <div><span>Gamal:</span> Each contact will be a list that with the a person's name, phone number, address, email, or whatever we write.</div>
             <div><span>Betsy:</span> <a href="/bjc-r/cur/programming/2-complexity/2-data-structures-art/2-quizzes.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="In Unit 2, we created a quiz item abstract data type">In Unit 2, we created a <code>quiz item</code> abstract data type</a> to store the questions and answers in a list of quiz items. Here, we can make a <code>contact</code> abstract data type to store the data for each contact in our list of contacts.</div>
+            <div class="todo">Do we need this commented out part of the dialog? --MF, 6/6/20</div>
             <!--<div><span>Gamal:</span> Yes! <em>(Gamal opens their old project, but you don't need to.)</em> Before, we used a <code>point</code> constructor to construct a list of coordinates.</div>
             <div class="stagedir">
             	Gamal points to the code for the <code>point</code> constructor:<br />     
@@ -112,47 +112,25 @@
 					<img class="indent" src="/bjc-r/img/3-lists/contact-constructor-reporting.png" alt="contact with name: (Betsy) address: (123 Main St. #4, New York, NY 10001) phone: (212-555-1234) reporting {Betsy Anderson; 123 Main St. #4, New York, NY 10001; 212-555-1234}" title="contact with name: (Betsy Anderson) address: (123 Main St. #4, New York, NY 10001) phone: (212-555-1234) reporting {Betsy Anderson; 123 Main St. #4, New York, NY 10001; 212-555-1234}" /><br />
                 </li>
                 <li>
-                    Write the <em>selector</em> blocks to retrieve the <code>name from contact</code>, <code>address from contact</code>, or <code>phone from contact</code>:	<br />
-                    <div class="todo">The following three images and the yellow box could probably be hidden behind a click. --MF, 6/28/19</div>
-                    <img class="indent" src="/bjc-r/img/3-lists/contact-constructor-in-name-selector.png" alt="contact name (contact block with inputs) reporting " title="contact name (contact block with inputs) reporting "><br />
-                    <img class="indent" src="/bjc-r/img/3-lists/contact-constructor-in-address-selector.png" alt="contact address (contact block with inputs) reporting " title="contact address (contact block with inputs) reporting "><br />
-                    <img class="indent" src="/bjc-r/img/3-lists/contact-constructor-in-phone-selector.png" alt="contact phone (contact block with inputs) reporting " title="contact phone (contact block with inputs) reporting ">
+                    Write the <em>selector</em> blocks to retrieve the <code>name from contact</code>, <code>address from contact</code>, or <code>phone from contact</code>. <a href="#hint-target" data-toggle="collapse" title="Click for examples for the selectors in action.">Click for examples.</a>
+                    <div id="hint-target" class="collapse">
+                        <img class="indent" src="/bjc-r/img/3-lists/contact-constructor-in-name-selector.png" alt="contact name (contact block with inputs) reporting " title="contact name (contact block with inputs) reporting "><br />
+                        <img class="indent" src="/bjc-r/img/3-lists/contact-constructor-in-address-selector.png" alt="contact address (contact block with inputs) reporting " title="contact address (contact block with inputs) reporting "><br />
+                        <img class="indent" src="/bjc-r/img/3-lists/contact-constructor-in-phone-selector.png" alt="contact phone (contact block with inputs) reporting " title="contact phone (contact block with inputs) reporting ">
+                        <div class="endnote">
+                            <p>Its somewhat artificial to use the constructor as the input to a selector; these images are just examples to show what the selectors should be able to do when given a contact as input. In <em>your</em> program, the selectors will take an item from the contact list as input and output the correct piece of that contact, like this:<br />
+                                <img class="indent" src="/bjc-r/img/3-lists/address-from-contact-item-1-of-contact-list-reporting.png" alt="address from contact (item (1) of (contact list)) reporting '123 Main St. #4, New York, NY 10001'" title="address from contact (item (1) of (contact list)) reporting '123 Main St. #4, New York, NY 10001'" />
+                            </p>
+                        </div>
+                    </div>
                 </li>
-                <div class="endnote">
-                    <p>Its somewhat artificial to use the constructor as the input to a selector; these images are just examples to show what the selectors should be able to do when given a contact as input. In <em>your</em> program, the selectors will take an item from the contact list as input and output the correct piece of that contact, like this:<br />
-                        <img class="indent" src="/bjc-r/img/3-lists/address-from-contact-item-1-of-contact-list-reporting.png" alt="address from contact (item (1) of (contact list)) reporting '123 Main St. #4, New York, NY 10001'" title="address from contact (item (1) of (contact list)) reporting '123 Main St. #4, New York, NY 10001'" />
-                    </p>
-                    <div class="todo">This feels artificial too (because of the item (1)). Should we show <code>address of (keep items that contain)</code> here? For that matter, should we be teaching <code>find first</code> in this lab rather than in 5.3?? --MF, 6/28/19</div>
-                </div>
-                <div class="todo">
-                    Keeping in case we need this elsewhere. --MF, 12/14/18
-                    <div class="vocabFullWidth">
-                        <p>Using the result from <code>item</code> as the input to <code>address from contact</code> is called <strong>composition</strong> of functions.</p>
-                    </div>
-                </div>
-                <div class="todo">
-                	This will go somewhere else. Brian says this box is mostly about composition of functions, which is just a piece of functional programming... --MF, 6/29/18
-                    <div class="vocabFullWidth">
-                        <p>This project demonstrates a style of programming called <strong>functional programming</strong>. In functional programming, the <em>output of one function is used as the input to another function</em> rather than storing temporary data in a variable.</p>
-                    </div>
-                </div>
-                <div class="todo">
-                	<div class="endnote">
-                    There are many reasons to use functional programming: 
-                        <ul>
-                            <li>It's easier to debug smaller, separate functions than one big one.</li>
-                            <li>When you use variables to transfer data around your project, one part of your project might change a variable's value before the data gets where it's going. It's safer to put the output of one function directly into the input of another function.</li>
-                            <li>If several parts of your program run <em>concurrently</em> (at the same time), functional programming avoids the chance of things happening in out of order because the outputs of functions that are used as inputs to other functions are always computed before they are used.</li> 
-                            <li>It makes your code easier to read.</li>
-                        </ul>
-                    </div>
-                </div>
 		        <li>
                     Declare input types for each selector to make it obvious that they expect a list (one whole contact) as input.<br />
                     <img class="indent" src="/bjc-r/img/3-lists/name-selector.png" alt="name from contact: ()" title="name from contact: ()" />
                     <img class="indent" src="/bjc-r/img/3-lists/address-selector.png" alt="address from contact: ()" title="address from contact: ()" />
                     <img class="indent" src="/bjc-r/img/3-lists/phone-selector.png" alt="phone from contact: ()" title="phone from contact: ()" />
                     <div class="endnote"> You learned about <a href="/bjc-r/cur/programming/2-complexity/2-data-structures-art/2-quizzes.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Specifying an Input Type">Specifying an Input Type</a> in Unit 2.</div>
+                    <div class="todo">Do we need this commented out HTML? --MF, 6/6/20</div>
                     <!--<div class="endnote">
                         You could paste each of these text strings into the "Make a block" window:<br />
                         <ul>
@@ -202,7 +180,6 @@
                                 If you don't see the watcher on the stage, make sure the checkbox beside the <var>contact list variable</var> in the Variables palette is checked.
                                 <img class="inlinde" src="/bjc-r/img/3-lists/contact-list-watcher.png" alt="contact list watcher checked" title="contact list watcher checked" />
                             </div>
-                            <div class="todo">the following should probably be hidden behind a click... --MF, 6/28/19</div>
                             <ul style="list-style-type: disc;">
                                 <li>
                                     <strong>Table View</strong> for <var>Contact List</var> Watcher:<br />
