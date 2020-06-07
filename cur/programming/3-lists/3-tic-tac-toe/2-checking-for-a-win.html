@@ -7,8 +7,7 @@
     </head> 
     
     <body>
-        <div class="todo">Is this actually the right page name though? --MF, 6/3/20</div>
-        <h2>Detecting A Win</h2>
+       <h2>Detecting A Win</h2>
         <div class="todo">
            <p>I made some edits to include the word "possible" more. I'm not sure I didn't make it more confusing. Need to look again another day. --MF, 6/13/18</p>
             <p>I need to review the rest of this lab. Looks different than before. --MF, 5/31/20</p>
@@ -16,43 +15,10 @@
         </div>
         
         <div class="learn">
-            <p><strong>On this page</strong>, you'll identify all the ways a player can win and program your Tic-Tac-Toe project to report the contents of one specific set of three squares that would make a win (such as the top row).</p>
+            <p><strong>On this page</strong>, you'll program your Tic-Tac-Toe project first to report the contents of one specific set of three squares that would make a win (such as the top row), and then using that to find the contents of all possible winning triples.  You'll use that information to find out if one of the players has won the game.</p>
         </div>
         
-        <h3>Storing All the Ways to Win</h3>
-		<p>
-            To program a way to detect a win, we need to determine what counts as a win. We'll store each possible winning triple as a list of three position numbers (a <em>triple</em>).  For example, this winning triple could be represented as <img src="/bjc-r/img/3-lists/{3,5,7}.png" alt="list{3, 5, 7}" title="list{3, 5, 7}"> because the win is in the 3<sup>rd</sup>, 5<sup>th</sup>, and 7<sup>th</sup> positions:<br />
-            <img class="indent noshadow" src="/bjc-r/img/3-lists/winning-combo-357.png" alt="diagonal win bottom left to top right" title="diagonal win bottom left to top right"><br />
-        </p>
-        
-        <div class="forYouToDo" id="first">
-			<ol>
-                <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
-                    <ol>
-                        <li>How many winning triples are possible? </li>
-                        <li>Write down each of the possible winning triples.</li>
-                    </ol>
-                </li>
-            </ol>
-        </div>
-        <p>
-            We <em>could</em> check for each possible win separately:<br />        
-            <img class="indent" src="/bjc-r/img/3-lists/silly-check-win.png" alt="is there a win? (Comment: Don't build this!! Just read it.) : if (is there a win at (1) (2) (3) ?) report (true); if (is there a win at (4) (5) (6) ?) report (true); ...; if (is there a win at (3) (5) (7) ?) report (true); report (false)" title="is there a win? (Comment: Don't build this!! Just read it.) : if (is there a win at (1) (2) (3) ?) report (true); if (is there a win at (4) (5) (6) ?) report (true); ...; if (is there a win at (3) (5) (7) ?) report (true); report (false)">  
-        </p>
-                      
-        <p>But that's way too much code, especially because we'll have to do something very similar again, later on, when the computer actually plays against you. Instead, we'll create a list to store all of the possible winning triples so we can check it against the current state of the game stored by <var>board</var>.</p>
-        
-        <div class="forYouToDo">
-			<ol start="2">
-	            <li>Open your project <strong>U3L2-TicTacToe</strong> if it isn't open already.</li>
-                <img class="imageRight" src="/bjc-r/img/icons/save-mini.png" alt="Save Your Work" title="Save Your Work" />
-                <li>
-                    Create a reporter that outputs a list of all possible winning triples. It will look something like this:<br />
-                    <img class="indent" src="/bjc-r/img/3-lists/winning-triples.png" alt="winning triples partial block definition showing a list with at least two lists inside it: {1,2,3} and {2,5,8}" title="winning triples partial block definition showing a list with at least two lists inside it: {1,2,3} and {2,5,8}"/>
-                </li>
-            </ol>
-        </div>
-        
+       
         <h3>Checking One Way to Win</h3>
         <p>We need a way to find out if a winning triple has actually happened. We can use <code>map</code> to check each position in one triple to see if either player has won with that triple. </p>
         
@@ -66,7 +32,7 @@
         </div>
         
         <div class="forYouToDo">
-			<ol start="4">
+			<ol start="1">
                 <li>Click <img src="/bjc-r/img/1-introduction/green-flag_button.png" alt="green flag button" title="green flag button" /> to start a new game. Play one game, <em>deliberately letting <strong>x</strong>  win</em>. </li>
                 <li>
                     Then build this expression, and see what it reports:<br />
@@ -100,6 +66,51 @@
             </ol>
         </div>
         
+        <h3>Checking All the Ways to Win</h3>
+
+	<p>Now you're going to use <code>status of triple</code> systematically to check <em>all</em> the triples.</p>
+
+	<p>
+        	For example, Player O has won the game below, and the <code>status of all winning triples</code> block finds the status of each possible triple. The computer can use this block to check for a winning triple that has either all X or all O.<br />
+	        <img class="indent noshadow" src="/bjc-r/img/3-lists/status-of-all-board.png" alt="Tic Tac Toe game where Player O has won down the middle column. In row one, there is X, O, and X. In row two, there is X, O, and an empty square. In row three, there is an empty square, O, and an empty square." title="Tic Tac Toe game where Player O has won down the middle column. In row one, there is X, O, and X. In row two, there is X, O, and an empty square. In row three, there is an empty square, O, and an empty square." />
+	        <img class="indent noshadow" src="/bjc-r/img/3-lists/status-of-all-reporting.png" alt="The status of all winning triples block is reporting a list of lists (a table). There are three columns and eight rows, and each cell contains either a X, an O, or a number. There is text to the right of each row listing the corresponding triple and where it appears on the board (such as 1, 5, 9 being the top-left to bottom-right diagonal). The triple in which Player O has won this game (2, 5, 8) shows O, O, O in the table. That is the only row with either all O or all X." title="The status of all winning triples block is reporting a list of lists (a table). There are three columns and eight rows, and each cell contains either a X, an O, or a number. There is text to the right of each row listing the corresponding triple and where it appears on the board (such as 1, 5, 9 being the top-left to bottom-right diagonal). The triple in which Player O has won this game (2, 5, 8) shows O, O, O in the table. That is the only row with either all O or all X." />
+        </p>
+        <div class="endnote">The order of your triples and/or the numbering of the positions in your project might be different. This is OK as long as your project works.</div>
+        <div class="forYouToDo">
+			<ol start="7">
+                <li>Use <code>map</code> together with some of the other blocks you have made to build the <code>status of all winning triples</code> block. It should report the status of all of the possible winning triples as a list of lists, as shown above.</li>
+	            <div class="endnote">
+                    <a href="#hint-status-all" data-toggle="collapse" title="Click for a hint on how to use map.">Click for a hint on how to use <code>map</code>.</a>
+                    <div id="hint-status-all" class="collapse">
+                        <p>
+                            When you use <code>map</code> think:
+                            <ol>
+                                <li>What is the function you are performing? That goes in the gray ring.</li>
+                                <li>What data are you performing that function on? That is the list you are mapping over.</li>
+                            </ol>
+                            Here, you want to know the status of each possible winning triple.
+                        </p>
+                    </div>
+                </div>
+                <div class="sidenoteBig">
+                	<a href="#hint-won" data-toggle="collapse" title="Click for a hint on building won?.">Click for a hint on building <code>won?</code>.</a>
+					<div id="hint-won" class="collapse">
+                    	<p>Put it in words: What is it that you want to check?</p>
+                        <p>Are there any blocks that might be helpful for that?</p>
+                        <p>
+                            <a href="#hint-won-contains" data-toggle="collapse" title="Click for another hint.">Click for another hint.</a>
+                            <div id="hint-won-contains" class="collapse"><img src="/bjc-r/img/3-lists/contains.png" alt="( ) contains ( )" title="( ) contains ( )" /></div>
+                        </p>
+                    </div>
+                </div>
+                <li>Now make a block <img src="/bjc-r/img/3-lists/wonQ.png" alt="won? ( )" title="won? ( )"> that takes the letter <strong>X</strong> or <strong>O</strong> as input, and reports <code>true</code> if and only if that player has won the game. </li>
+                <img class="imageRight" src="/bjc-r/img/icons/save-mini.png" alt="Save Your Work" title="Save Your Work" />
+                <li>Modify your program so that when a player wins the game, the program <em>notifies</em> the players.</li>
+                <li>Play the game a few times to check that it's working, and fix any bugs. Be sure to let each player win at least once.</li>
+            </ol>
+        </div>
+        
+
 
 	</body>
 </html>

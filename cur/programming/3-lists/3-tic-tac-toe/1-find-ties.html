@@ -7,11 +7,11 @@
     </head> 
     
     <body>
-	    <h2>Remembering the Moves</h2>
+	    <h2>Remembering the Moves and Possible Wins</h2>
 		
         <div class="learn">
             <p><strong>In this lab</strong>, you will continue your <a href="/bjc-r/cur/programming/3-lists/1-abstraction/5-building-tic-tac-toe.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Building a Tic-Tac-Toe Board">Tic-Tac-Toe project</a> to make the program <em>analyze</em> the game board to detect wins and ties.</p>
-            <p><strong>On this page</strong>, you'll prepare by allowing the program to record the moves that are made.</p>
+            <p><strong>On this page</strong>, you'll prepare by allowing the program to record the moves that are made, and teach it the winning groups of three squares.</p>
         </div>
         <p>
             When you first wrote Tic Tac Toe, it was easy to detect illegal moves (moving to a square that's already wearing an X or O costume) because each sprite could test for that without knowing about the rest of the gameboard. But to detect wins and ties, the program needs a way to test the state of the <em>whole gameboard</em>, not just one individual piece. So, we'll use a <em>global variable</em>, <img src="/bjc-r/img/5-algorithms/board.png" alt="board" title="board">, to keep track of whether the square in each position is empty or filled with an X or an O.<br />
@@ -67,12 +67,47 @@
                 </li>
                 <li>When a square is clicked, replace that square's entry in the <var>board</var> list with X or O as appropriate.</li>
                 <li>Watch the values stored in the <var>board</var> variable as you play a game of Tic Tac Toe. Make sure that it updates as you expect it to, and fix any bugs.</li>	
-                <li>
-                	<img class="inline" src="/bjc-r/img/icons/save-use-later.png" alt="Save. You will use this later." title="Save. You will use this later." />
-				</li>
 			</ol>
 		</div>
+
+        <h3>Storing All the Ways to Win</h3>
+		<p>
+            To program a way to detect a win, we need to determine what counts as a win. We'll store each possible winning triple as a list of three position numbers (a <em>triple</em>).  For example, this winning triple could be represented as <img src="/bjc-r/img/3-lists/{3,5,7}.png" alt="list{3, 5, 7}" title="list{3, 5, 7}"> because the win is in the 3<sup>rd</sup>, 5<sup>th</sup>, and 7<sup>th</sup> positions:<br />
+            <img class="indent noshadow" src="/bjc-r/img/3-lists/winning-combo-357.png" alt="diagonal win bottom left to top right" title="diagonal win bottom left to top right"><br />
+        </p>
         
+        <div class="forYouToDo">
+			<ol start="7">
+                <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
+                    <ol>
+                        <li>How many winning triples are possible? </li>
+                        <li>Write down each of the possible winning triples.</li>
+                    </ol>
+                </li>
+            </ol>
+        </div>
+        <p>
+            We <em>could</em> check for each possible win separately:<br />        
+            <img class="indent" src="/bjc-r/img/3-lists/silly-check-win.png" alt="is there a win? (Comment: Don't build this!! Just read it.) : if (is there a win at (1) (2) (3) ?) report (true); if (is there a win at (4) (5) (6) ?) report (true); ...; if (is there a win at (3) (5) (7) ?) report (true); report (false)" title="is there a win? (Comment: Don't build this!! Just read it.) : if (is there a win at (1) (2) (3) ?) report (true); if (is there a win at (4) (5) (6) ?) report (true); ...; if (is there a win at (3) (5) (7) ?) report (true); report (false)">  
+        </p>
+                      
+        <p>But that's way too much code, especially because we'll have to do something very similar again, later on, when the computer actually plays against you. Instead, we'll create a list to store all of the possible winning triples so we can check it against the current state of the game stored by <var>board</var>.</p>
+        
+        <div class="forYouToDo">
+			<ol start="8">
+               <img class="imageRight" src="/bjc-r/img/icons/save-mini.png" alt="Save Your Work" title="Save Your Work" />
+                <li>
+                    Create a reporter that outputs a list of all possible winning triples. It will look something like this:<br />
+                    <img class="indent" src="/bjc-r/img/3-lists/winning-triples.png" alt="winning triples partial block definition showing a list with at least two lists inside it: {1,2,3} and {2,5,8}" title="winning triples partial block definition showing a list with at least two lists inside it: {1,2,3} and {2,5,8}"/>
+                </li>
+		<li>
+                	<img class="inline" src="/bjc-r/img/icons/save-use-later.png" alt="Save. You will use this later." title="Save. You will use this later." />
+				</li>
+            </ol>
+        </div>
+
+
+       
         
     </body>
 </html>
