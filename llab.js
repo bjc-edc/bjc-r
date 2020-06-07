@@ -26,6 +26,7 @@ llab.llab_path = llab.rootURL + llab.install_directory;
 // reference your custom CSS files, from within llab install directory.
 // Multiple CSS files is fine, include a separate push for each
 llab.paths.css_files.push('css/default.css');
+llab.paths.css_files.push('../css/edcdevtech-headerfooter.css'); /* for new headers and footers, by EDC Dev Tech, May 2020 */
 // In /bjc-r/css
 // new CSS added for new mainpage only, by Mary 1/26/16
 var url = window.location.pathname;
