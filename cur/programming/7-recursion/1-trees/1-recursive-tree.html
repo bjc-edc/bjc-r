@@ -14,7 +14,7 @@
         <div class="todo">Brian, as I edited, I changed the problem numbers. This may impact solutions. Delete this comment once you are sure they do not. --MF, 6/18/20</div>
 
         <div class="learn">
-            <p><strong>In this lab,</strong> you will create tree-drawing programs that use recursion to draw the branches by drawing smaller and smaller trees.</p>
+            <p><strong>In this lab,</strong> you will create a tree-drawing program that uses recursion to draw the branches by drawing smaller and smaller trees.</p>
             <p><strong>On this page,</strong> you will explore nesting code for trees inside code for trees.</p>
         </div>
         <div class="todo">BH, I reviewed this page and resolved my pedagogical concerns with a small change (they don't have to build it. This comment and the following two can be removed if you feel they are resolved. --MF, 6/18/20</div>
@@ -60,14 +60,14 @@
                 <li>
                     Build a <code>tree 2</code> block that uses <code>tree 1</code>  as its branches.<br />
                     <div class="indent borderless-table two-col">
-                        <div><img src="/bjc-r/img/7-recursion/tree2.png" alt="tree 2, size: (size #) {
+                        <div><img src="/bjc-r/img/7-recursion/tree-2-script.png" alt="tree 2, size: (size #) {
     move (size) steps
     turn counterclockwise (25) degrees
     tree 1, size: (size ✕ 0.65)
     turn clockwise (25) degrees
     turn clockwise(35) degrees
     tree 1 size: (size ✕ 0.85)
-    turn counterclockwise (35)
+    turn counterclockwise (35) degrees
     move(-1 ✕ size) steps
 }" title="tree 2, size: (size #) {
     move (size) steps
@@ -76,7 +76,7 @@
     turn clockwise (25) degrees
     turn clockwise(35) degrees
     tree 1 size: (size ✕ 0.85)
-    turn counterclockwise (35)
+    turn counterclockwise (35) degrees
     move(-1 ✕ size) steps
 }"/></div>
                         <div>
@@ -121,12 +121,31 @@
             <ol start="8">
                 <li>
                     This is the general idea for the <em>recursive</em> version. <img class="inline" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> What are the differences between this recursive tree script and the code for <code>tree 2</code> and <code>tree 3</code>, and why are these differences needed?<br />
-            		<img class="indent" src="/bjc-r/img/7-recursion/tree-nobase.png" alt="tree level:(level#) size:(size#){move(size) steps; turn counterclockwise (25) degrees; tree level:(level-1) size:(size*0.65); turn clockwise(25) degrees; turn clockwise(35) degrees; tree level:(level-1) size:(size*0.85); turn counterclockwise (35); move(-1*size) steps}" title="tree level:(level#) size:(size#){move(size) steps; turn counterclockwise (25) degrees; tree level:(level-1) size:(size*0.65); turn clockwise(25) degrees; turn clockwise(35) degrees; tree level:(level-1) size:(size*0.85); turn counterclockwise (35); move(-1*size) steps}" />
+            		<img class="indent" src="/bjc-r/img/7-recursion/tree-nobase.png" alt="tree, level: (level #) size: (size #){
+    move (size) steps
+    turn counterclockwise (25) degrees
+    tree, level: (level - 1) size: (size ✕ 0.65)
+    turn clockwise (25) degrees
+    turn clockwise (35) degrees
+    tree, level: (level - 1) size: (size ✕ 0.85)
+    turn counterclockwise (35) degrees
+    move(-1 ✕ size) steps
+}" 
+                         title="tree, level: (level #) size: (size #){
+    move (size) steps
+    turn counterclockwise (25) degrees
+    tree, level: (level - 1) size: (size ✕ 0.65)
+    turn clockwise (25) degrees
+    turn clockwise (35) degrees
+    tree, level: (level - 1) size: (size ✕ 0.85)
+    turn counterclockwise (35) degrees
+    move(-1 ✕ size) steps
+}" />
                 </li>
                 <li>
                     Here is what happens if you run <code>tree, level: 9 size: 50</code>.<br />
-                    <img class="indent noshadow" data-gifffer="/bjc-r/img/7-recursion/treebug.gif" alt="Tree drawing never terminates, stuck at a single branch" title="Tree drawing never terminates, stuck at a single branch" /><br />                    
-                    It doesn't work. Try to debug the script. Consider building the code and running it yourself. The code is <em>almost</em> correct, and you will be able to modify it to work correctly on the next page. <img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> What's going wrong?<br />
+                    <img class="indent noshadow" data-gifffer="/bjc-r/img/7-recursion/treebug.gif" alt="Tree drawing never terminates, stuck at a single branch" title="Tree drawing never terminates, stuck at a single branch" /><br />
+                    It doesn't work. Try to debug the script. Consider building the code and running it yourself. <img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> What's going wrong?<br />
                 </li>
             </ol>
         </div> 
