@@ -14,11 +14,65 @@
         
         <p>
             It seemed to make sense to replace all the look-alike numbered tree scripts with a single recursive script with the same structure:<br />
-            <div class="comment">Need to fix images and alt text --MF, 6/18/20</div>
-            <img class="indent"src="/bjc-r/img/7-recursion/tree-2-script.png" height="267" alt="tree2 size:(size#){move(size) steps; turn counterclockwise (25) degrees; tree 1 size:(size*0.65); turn clockwise(25) degrees; turn clockwise(35) degrees; tree 1 size:(size*0.85); turn counterclockwise (35); move(-1*size) steps}" title="tree2 size:(size#){move(size) steps; turn counterclockwise (25) degrees; tree 1 size:(size*0.65); turn clockwise(25) degrees; turn clockwise(35) degrees; tree 1 size:(size*0.85); turn counterclockwise (35); move(-1*size) steps}">&nbsp; 
-            <img src="/bjc-r/img/7-recursion/tree-3-script.png" height="267" alt="tree 3 size:(size#){move(size) steps; turn counterclockwise (25) degrees; tree 2 size:(size*0.65); turn clockwise(25) degrees; turn clockwise(35) degrees; tree 2 size:(size*0.85); turn counterclockwise (35); move(-1*size) steps}" title="tree 3 size:(size#){move(size) steps; turn counterclockwise (25) degrees; tree 2 size:(size*0.65); turn clockwise(25) degrees; turn clockwise(35) degrees; tree 2 size:(size*0.85); turn counterclockwise (35); move(-1*size) steps}">
+            <img class="indent" src="/bjc-r/img/7-recursion/tree-2-script.png" style="height: 230px;" alt="tree 2, size: (size #) {
+    move (size) steps
+    turn counterclockwise (25) degrees
+    tree 1, size: (size ✕ 0.65)
+    turn clockwise (25) degrees
+    turn clockwise(35) degrees
+    tree 1 size: (size ✕ 0.85)
+    turn counterclockwise (35) degrees
+    move(-1 ✕ size) steps
+}" title="tree 2, size: (size #) {
+    move (size) steps
+    turn counterclockwise (25) degrees
+    tree 1, size: (size ✕ 0.65)
+    turn clockwise (25) degrees
+    turn clockwise(35) degrees
+    tree 1 size: (size ✕ 0.85)
+    turn counterclockwise (35) degrees
+    move(-1 ✕ size) steps
+}"/>
+            <img src="/bjc-r/img/7-recursion/tree-3-script.png" style="height: 230px;" alt="tree 3, size: (size #) {
+    move (size) steps
+    turn counterclockwise (25) degrees
+    tree 2, size: (size ✕ 0.65)
+    turn clockwise (25) degrees
+    turn clockwise(35) degrees
+    tree 2 size: (size ✕ 0.85)
+    turn counterclockwise (35) degrees
+    move(-1 ✕ size) steps
+}" title="tree 3, size: (size #) {
+    move (size) steps
+    turn counterclockwise (25) degrees
+    tree 2, size: (size ✕ 0.65)
+    turn clockwise (25) degrees
+    turn clockwise(35) degrees
+    tree 2 size: (size ✕ 0.85)
+    turn counterclockwise (35) degrees
+    move(-1 ✕ size) steps
+}"/>
             <big><strong>&rightarrow;</strong></big>
-            <img src="/bjc-r/img/7-recursion/recursiveTree-wo-base.png" height="267"  alt="tree level:(level#) size:(size#){move(size) steps; turn counterclockwise (25) degrees; tree level:(level-1) size:(size*0.65); turn clockwise(25) degrees; turn clockwise(35) degrees; tree level:(level-1) size:(size*0.85); turn counterclockwise (35); move(-1*size) steps}" title="tree level:(level#) size:(size#){move(size) steps; turn counterclockwise (25) degrees; tree level:(level-1) size:(size*0.65); turn clockwise(25) degrees; turn clockwise(35) degrees; tree level:(level-1) size:(size*0.85); turn counterclockwise (35); move(-1*size) steps}" >
+            <img src="/bjc-r/img/7-recursion/tree-nobase.png" style="height: 230px;" alt="tree, level: (level #) size: (size #){
+    move (size) steps
+    turn counterclockwise (25) degrees
+    tree, level: (level - 1) size: (size ✕ 0.65)
+    turn clockwise (25) degrees
+    turn clockwise (35) degrees
+    tree, level: (level - 1) size: (size ✕ 0.85)
+    turn counterclockwise (35) degrees
+    move(-1 ✕ size) steps
+}" 
+                         title="tree, level: (level #) size: (size #){
+    move (size) steps
+    turn counterclockwise (25) degrees
+    tree, level: (level - 1) size: (size ✕ 0.65)
+    turn clockwise (25) degrees
+    turn clockwise (35) degrees
+    tree, level: (level - 1) size: (size ✕ 0.85)
+    turn counterclockwise (35) degrees
+    move(-1 ✕ size) steps
+}" />
         </p>
         <p>
             But it didn't work:<br />
@@ -54,35 +108,13 @@
         	<div>
                 <span>Gamal:</span> Yup! It has to draw just a line without adding another branch.
             </div>
-
-			<div class="vocabFullWidth">
-                <p>This different version for the lowest level of a recursive script is called the <strong>base case</strong>.</p>
-            </div>
-
-            <div>
-                <span>Betsy:</span> Let's think through a simple tree to figure out how this "base case" needs to work. Let's look at <code>tree 3</code> with size 40.<br />
-            </div>
-            <div class="comment">Need to redo alt/title text on first image. --MF, 6/19/20</div>
-            <img class="indent"src="/bjc-r/img/7-recursion/tree-3-script.png" alt="tree 3 size:(size#){move(size) steps; turn counterclockwise (25) degrees; tree 2 size:(size*0.65); turn clockwise(25) degrees; turn clockwise(35) degrees; tree 2 size:(size*0.85); turn counterclockwise (35); move(-1*size) steps}" title="tree 3 size:(size#){move(size) steps; turn counterclockwise (25) degrees; tree 2 size:(size*0.65); turn clockwise(25) degrees; turn clockwise(35) degrees; tree 2 size:(size*0.85); turn counterclockwise (35); move(-1*size) steps}">
-            <img class="indent" src="/bjc-r/img/7-recursion/tree3-call.png" alt="clear
-point in direction (0)
-pen down
-tree 3, size: (40)" title="clear
-point in direction (0)
-pen down
-tree 3, size: (40)"  />
-            <div><span>Alphie:</span> Ok, after clearing the stage, pointing up, and putting the pen down, the sprite will move 40 steps and then turn 25 degrees left. And then it will call <code>tree 2</code> with a smaller size.</div>
-            <div><span>Betsy:</span> Right. And <code>tree 2</code>, which is almost the same,  will move, turn, and then call <code>tree 1</code>, which <em>just draws a line and goes back</em>. Then, <code>tree 2</code> tells the sprite to turn right 60&deg; and draw another little <code>tree 1</code> and.... </div>
-            <div> <span>Gamal:</span> Yeah, and because <code>tree 1</code> finishes, <em>that lets <code>tree 2</code> finish!</em> Here, let's draw out what has happened by the time the first <code>tree 2</code> finishes:</div>
-            <div class="stagedir"><img class="noshadow" src="/bjc-r/img/7-recursion/tree3-drawing-partial.jpg" height="100" alt="drawing of tree 3 after the first tree 2 is called" title="drawing of tree 3 after the first tree 2 is called" /></div>
-            <div><span>Alphie:</span> Yup. And then the <code>tree 3</code> script turns right a total of 60 degrees and then uses the whole <code>tree 2</code> script again to create the other side. And finally it'll turn left 35 degrees and move backwards to the very beginning.</div>
-            <div class="stagedir"><img class="noshadow" src="/bjc-r/img/7-recursion/tree3-drawing-complete.jpg" alt="drawing of tree3 after the second tree 2 is called" title="drawing of tree 3 after the second tree 2 is called" /></div>
-            <div><span>Betsy:</span> So that's how <code>tree 3</code> finishes. Now, about that "base case" thing for the recursive <code>tree</code> script... The base case is the lowest level of the recursion, so that's like the <code>tree 1</code>. </div>
-            <div><span>Alphie:</span> Yeah, the <code>tree 1</code> just draws a line and doesn't try to make another tree.</div>
-            <div><span>Betsy:</span> So, we need our <em>recursive</em> <code>tree</code> block to draw a line at level 1 instead of making more little trees forever.</div>
 		</div>
 
-		<div class="forYouToDo" id="first">
+		<div class="vocabFullWidth">
+            <p>This different version for the lowest level of a recursive script is called the <strong>base case</strong>.</p>
+        </div>
+    
+        <div class="forYouToDo" id="first">
             <ol>
                 <li>
                     Correct the recursive <code>tree</code> block from the bottom of the previous page so that it includes a base case to stop the script from calling itself forever. 
