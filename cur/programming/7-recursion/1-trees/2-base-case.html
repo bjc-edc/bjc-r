@@ -3,7 +3,7 @@
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
-		<title>Unit 7 Lab 1: Trees in a Forest, Page 2</title>
+		<title>Unit 7 Lab 1: Trees, Page 2</title>
 	</head>
 
 	<body>
@@ -52,7 +52,7 @@
     turn counterclockwise (35) degrees
     move(-1 ✕ size) steps
 }"/>
-            <big><strong>&rightarrow;</strong></big>
+            <span style="padding-right: 1em; padding-left: 1em; font-size: 36px;">&rightarrow;</span>
             <img src="/bjc-r/img/7-recursion/tree-nobase.png" style="height: 230px;" alt="tree, level: (level #) size: (size #){
     move (size) steps
     turn counterclockwise (25) degrees
@@ -80,7 +80,7 @@
         </p>
         <div class="dialogue">
         	<div>
-                <span>Betsy:</span> I ran <code>tree, level 9 size 50</code>, but look what happned. What's going wrong? 
+                <span>Betsy:</span> I ran <code>tree, level 9 size 50</code>, but look what happened. What's going wrong? 
             </div>
         	<div>
                 <span>Alphie:</span> It never stops! 
@@ -118,7 +118,6 @@
             <ol>
                 <li>
                     Correct the recursive <code>tree</code> block from the bottom of the previous page so that it includes a base case to stop the script from calling itself forever. 
-                    <div class="todo">Brian, I thought this was over-scaffolded for Unit 7, so I double hinted. If you agree without remarks, please delete this red box. --MF, 6/19/20</div>
                     <div class="endnote">
                         <a href="#hint-base-case" data-toggle="collapse" title="Click for a hint about how to use a base case to fix the recursive tree script.">Click for a hint.</a>
                         <div id="hint-base-case" class="collapse">
@@ -136,66 +135,21 @@
                     Test your code: Run <code>tree level: 9 size: 50</code>. If it is working properly, you should get a result like this.<br />
                     <img class="indent noshadow" src="/bjc-r/img/7-recursion/tree-level9.jpg" alt="Tree with trunk and 8 levels of branches" title="Tree with trunk and 8 levels of branches"/>
                 </li>
-                <li>The time it takes to draw the tree increases <em>very</em> quickly with the number of levels, so we don't recommend trying 20 levels. But try timing level 8 through level 12.</li>
 			</ol>
 		</div>
 
-        <div class="todo">I stopped here. I question qhether 4 should be an ITIT before TIF A. Also I need to think more about whether the orange box is formatted most clearly and appropriately. --MF, 6/19/20</div>
-
-        <div class="takeItFurther">
-            <ol type="A">
-            	<li><strong>Analyze:</strong> <code>tree 1</code> produces just one stick. How many <em>new</em> sticks (branches) are produced by <code>tree 2</code>? Then, how many <em>new</em> ones are produced by <code>tree 3</code>?  By <code>tree 4</code>? Figure out how many new twigs are added at level 10. You can now see why it would take a long time to draw level 20.</li>
-            </ol>
-        </div>
-        
         <div class="takeNote">
         	<img class="imageRight" src="/bjc-r/img/icons/take-turns-speaking-mini.gif" alt="Take turns speaking" title="Take turns speaking">
-            <p><em>Recursive</em> scripts call themselves. In order for them to stop, there must be some special case when they <em>don't</em> call themselves. We call that  the <strong>base case</strong>, a simpler version of the script that <em>doesn't call the block itself</em>.</p>
-            <p>There is usually a <em>conditional</em> (like <code>if-else</code>) with two cases: a <em>base case</em> for the lowest level that stops the recursion from going on forever and a <strong>recursive case</strong> that calls the script itself again and again at lower levels until it reaches the base case.</p>
-            <p>When a script <em>does</em> keep recursively calling itself forever (as when the sprite was just spinning around in one place), that's a bug, and we say the program is stuck in an <strong>infinite loop</strong>.</p>
+            <p><em>Recursive</em> scripts call themselves. In order for them to finish, there must be some special case when they don't call themselves. That is the <em>base case</em>, a simpler version of the script that doesn't call the block itself.</p>
+            <p>There is usually a conditional with two cases: a <em>base case</em> for the lowest level that stops the recursion from going on forever and a <em>recursive case</em> that calls the block itself at lower levels until it reaches the base case.</p>
+            <p>If a script keeps recursively calling itself forever (as when the sprite was just spinning around in one place), that's a bug, and we say the program is stuck in an <em>infinite loop</em>.</p>
         </div>
         
         <div class="forYouToDo">
-            <ol start="4">
-      <!--          <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />Look at your corrected recursive <code>tree</code> script. Identify the <em>base case</em> and the <em>recursive case</em>, and discuss how recursion works in this script. </li>    -->
-                <li>
-                    Add a global <var>count</var> variable, incremented first thing in the <code>tree</code> block, to record the number of times that  <code>tree</code>  is called when running different levels. Make a table. What pattern do you find?
-                    <table class="center bordered" summary="table showing the number of times that TREE runs (this number is labeled 'count') for a TREE of a given level">
-                        <tr>
-                            <th scope="col" style="font-weight:normal;"><var>level</var></th>
-                            <th scope="col" style="font-weight:normal;"><var>count</var></th>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>1</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>3</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>7</td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>?</td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                            <td>&nbsp;</td>
-                        </tr>
-                        <tr>
-                            <td>6</td>
-                            <td>&nbsp;</td>
-                        </tr>
-                        <tr>
-                            <td>etc.</td>
-                            <td>etc.</td>
-                        </tr>
-                    </table>
-                </li>
-                <div class="endnote">This is an example of exponential growth. This kind of growth for an algorithm is considered to take <em>unreasonable time</em> as you saw in <a href="/bjc-r/cur/programming/5-algorithms/old/3-timing-experiments/3-classifying-algorithms.html?topic=nyc_bjc%2F5-algorithms.topic&course=bjc4nyc.html&novideo&noassignment" title="Classifying Algorithms">Unit 5 Lab 3: Classifying Algorithms</a>. This is why we suggested <em>against</em> trying 20 levels. </div>
+            <ol start="3">
+                <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />Look at your corrected recursive <code>tree</code> script. Identify the <em>base case</em> and the <em>recursive case</em>, and discuss how recursion works in this script. </li>
+                <li>Does <code>tree</code> run in reasonable or unreasonable time? You could think this out, you could try timing the script for levels 8 through 12, or you could create a global <var>count</var> variable and add one to it first thing in the <code>tree</code> block in order to record the number of times that the procedure is called for trees of different levels.</li>
+                <div class="endnote">You learned about reasonable and unreasonable time in <a href="/bjc-r/cur/programming/5-algorithms/old/3-timing-experiments/3-classifying-algorithms.html?topic=nyc_bjc%2F5-algorithms.topic&course=bjc4nyc.html&novideo&noassignment" title="Classifying Algorithms">Unit 5 Lab 3: Classifying Algorithms</a>. </div>
             </ol>
         </div>
         
