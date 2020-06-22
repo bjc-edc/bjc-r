@@ -14,7 +14,7 @@
             <p><strong>On this page</strong>, you'll prepare by allowing the program to record the moves that are made, and teach it the winning groups of three squares.</p>
         </div>
         <p>
-            When you first wrote Tic Tac Toe, it was easy to detect illegal moves (moving to a square that's already wearing an X or O costume) because each sprite could test for that without knowing about the rest of the gameboard. But to detect wins and ties, the program needs a way to test the state of the <em>whole gameboard</em>, not just one individual piece. So, we'll use a <em>global variable</em>, <img src="/bjc-r/img/5-algorithms/board.png" alt="board" title="board">, to keep track of whether the square in each position is empty or filled with an X or an O.<br />
+            When you first wrote Tic Tac Toe, it was easy to detect illegal moves (moving to a square that's already wearing an X or O costume) because each sprite could test for that without knowing about the rest of the gameboard. But to detect wins and ties, the program needs a way to test the state of the <em>whole gameboard</em>, not just one individual piece. So, you'll use a <em>global variable</em>, <img src="/bjc-r/img/5-algorithms/board.png" alt="board" title="board">, to keep track of whether the square in each position is empty or filled with an X or an O.<br />
             <div class="sidenote">
                 <p>You learned about <strong>global variables</strong> on <a href="/bjc-r/cur/programming/2-complexity/1-variables-games/4-keeping-score.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 2 Lab 1 Page 4: Keeping Score with Global Variables">Unit 2 Lab 1 Page 4: Keeping Score with Global Variables</a>.</p>
             </div>
@@ -30,7 +30,7 @@
             </ol>
         </div>
         
-        <p>Each sprite needs to know its own position on the board so that we can use the <code>item of</code> block to replace that position with an X or an O. So, we'll create a <em>sprite variable</em>, <img class="inline nopadtb" src="/bjc-r/img/3-lists/position-number.png" alt="position number" title="position number" />, and each clone will have its <em>own version</em> of this variable.</p>
+        <p>Each sprite needs to know its own position on the board so that you can use the <code>item of</code> block to replace that position with an X or an O. So, you'll create a <em>sprite variable</em>, <img class="inline nopadtb" src="/bjc-r/img/3-lists/position-number.png" alt="position number" title="position number" />, and each clone will have its <em>own version</em> of this variable.</p>
         
         <div class="vocabFullWidth">: <strong>Sprite Variable</strong>
             <p>A <strong>sprite variable</strong> is like a global variable in that it <em>doesn't</em> belong to a particular <em>script</em>, but it does belong to a particular <em>sprite.</em></p>
@@ -72,7 +72,7 @@
 
         <h3>Storing All the Ways to Win</h3>
 		<p>
-            To program a way to detect a win, we need to determine what counts as a win. We'll store each possible winning triple as a list of three position numbers (a <em>triple</em>).  For example, this winning triple could be represented as <img src="/bjc-r/img/3-lists/{3,5,7}.png" alt="list{3, 5, 7}" title="list{3, 5, 7}"> because the win is in the 3<sup>rd</sup>, 5<sup>th</sup>, and 7<sup>th</sup> positions:<br />
+            To program a way to detect a win, you need to determine what counts as a win.  You'll store each possible winning triple as a list of three position numbers (a <em>triple</em>).  For example, this winning triple could be represented as <img src="/bjc-r/img/3-lists/{3,5,7}.png" alt="list{3, 5, 7}" title="list{3, 5, 7}"> because the win is in the 3<sup>rd</sup>, 5<sup>th</sup>, and 7<sup>th</sup> positions:<br />
             <img class="indent noshadow" src="/bjc-r/img/3-lists/winning-combo-357.png" alt="diagonal win bottom left to top right" title="diagonal win bottom left to top right"><br />
         </p>
         
@@ -87,11 +87,11 @@
             </ol>
         </div>
         <p>
-            We <em>could</em> check for each possible win separately:<br />        
+            You <em>could</em> check for each possible win separately:<br />        
             <img class="indent" src="/bjc-r/img/3-lists/silly-check-win.png" alt="is there a win? (Comment: Don't build this!! Just read it.) : if (is there a win at (1) (2) (3) ?) report (true); if (is there a win at (4) (5) (6) ?) report (true); ...; if (is there a win at (3) (5) (7) ?) report (true); report (false)" title="is there a win? (Comment: Don't build this!! Just read it.) : if (is there a win at (1) (2) (3) ?) report (true); if (is there a win at (4) (5) (6) ?) report (true); ...; if (is there a win at (3) (5) (7) ?) report (true); report (false)">  
         </p>
                       
-        <p>But that's way too much code, especially because we'll have to do something very similar again, later on, when the computer actually plays against you. Instead, we'll create a list to store all of the possible winning triples so we can check it against the current state of the game stored by <var>board</var>.</p>
+        <p>But that's way too much code, especially because you'll have to do something very similar again, later on, when the computer actually plays against you. Instead, you'll create a list to store all of the possible winning triples so you can check it against the current state of the game stored by <var>board</var>.</p>
         
         <div class="forYouToDo">
 			<ol start="8">
