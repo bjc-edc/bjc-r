@@ -39,7 +39,7 @@
                         <ol type="a">
                             <li><img class="inline" src="/bjc-r/img/3-lists/string-contains.png" alt="string () contains () ?" title="string () contains () ?" />, which reports <code>true</code> if the first string (for example, a contact's name in the list) contains the second string (for example, a name or part of a name)</li>
                             <div class="sidenote">You learned about <a href="/bjc-r/cur/programming/2-complexity/3-predicates/5-keeping-list-items.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Keeping Items from a List"><code>keep</code> in Unit 2</a>.</div>
-                            <li><img class="inline" src="/bjc-r/img/blocks/keep.png" alt="keep items such that &lt;  &gt; from (list)" title="keep items such that &lt;  &gt; from (list)">, which reports only the items that make the function true</li>
+                            <li><img class="inline" src="/bjc-r/img/blocks/keep.png" alt="keep items 'predicate input slot' from 'list input slot'" title="keep items 'predicate input slot' from 'list input slot'">, which reports only the items that make the function true</li>
                             <li><img class="inline" src="/bjc-r/img/blocks/empty.png" alt="is 'list input slot' empty?" title="is 'list input slot' empty?" />, which returns <code>true</code> if the list is empty and <code>false</code> otherwise</li>
                             <li>Selector<!--s--> <img class="inline" src="/bjc-r/img/3-lists/name-selector.png" alt="name from contact: ()" title="name from contact: ()" /> <!--and <img class="inline" src="/bjc-r/img/3-lists/name-display.png" alt="display-form from name: ()" title="display-form from name: ()" />--></li>
                         </ol>
@@ -94,111 +94,46 @@
                 </li>
 			</ol>
 		</div>
-
-		<div class="todo">Brian wants to integrate this into the TIF--MF, 5/31/20
-        <div class="narrower">
-            <h4><strong>Creating Menu Inputs</strong></h4>
-            There are specific values allowed for the <var>month</var>, <var>day</var>, and <var>year</var> input, and you can have users select them from a menu to avoid typos. To do that:
-            <ol type="a">
-                <li>Edit the <code>date</code> block and click on the orange <var>month</var> variable in its header.</li>
-                <li>
-                    Click on the arrowhead to open the type selector, then right-click on it:<br />
-                    <img src="/bjc-r/img/3-lists/option-context-menu.png" height="460" alt="option context menu in input dialog"><br />
-                    Then click "options..."
-                </li>
-                <li>
-                    Enter the type tags in the box, one per line:<br />
-                    <img src="/bjc-r/img/3-lists/option-dialog.png" height="460" alt="menu options 'given-first' and 'family-first'">
-                </li>
-                <li>
-                    Click OK, then right-click the type selector again and choose "read-only."
-                    <div class="endnote">
-                        There are two kinds of menu input slots:<br />&nbsp;&nbsp;
-                        <img src="/bjc-r/img/3-lists/dropdown-item.png" alt="item (...) non-read-only menu input slot"><br />
-                        <img src="/bjc-r/img/3-lists/dropdown-touching.png" alt="touching (...) ?  read-only input slot"><br />
-                        For this block, we don't want users to enter values other than the ones in the menu.
-                    </div>
-                </li>
-                <li>Click OK on the <var>type</var> input box and then on the Block Editor.</li>
-            </ol>
-        </div>
-        </div>
         
         <div class="takeItFurther">
-            This requires that you've already done the TIF on 
-			page 2.
+            <p>This set of exercises requires that you've already done the Take It Further exercises on page 2.</p>
 		    <ol type="A">
-			    <li>Write a predicate function that takes two contacts
-				as inputs.  It should return True if the first contact
-				belongs before the second one in a sorted contact list.
-				That is, you'll have to extract the names (in sorted form)
-				from the two contacts, and then use <code>&lt;</code>
-				to compare them.  Respect the data abstractions.</li>
-			    <li>Make a block to sort the contact list.  To do
-				the actual sorting, you can load the "List utilities"
-				library.  It has a block
-				<img src="/bjc-r/img/blocks/sort-block.png" width="242">.
-				Use the contact list as the first input.  The second
-				input should be the predicate function you just wrote.
-				(Leave its two input slots empty.)  The <code>sort</code>
-				block will report a new, sorted contact list.</li>
+			    <li>Write a predicate function that takes two contacts as inputs.  It should return True if the first contact belongs before the second one in a sorted contact list. That is, you'll have to extract the names (in sorted form) from the two contacts, and then use <code>&lt;</code> to compare them.  Respect the data abstractions.</li>
+			    <li>
+                    Make a block to sort the contact list.  To do the actual sorting, you can load the "List utilities" library.  It has a block
+				    <img src="/bjc-r/img/blocks/sort-block.png" width="242" alt="sort 'list input slot' ordering with 'predicate input slot'" title="sort 'list input slot' ordering with 'predicate input slot'" />.
+                    Use the contact list as the first input.  The second input should be the predicate function you just wrote. (Leave its two input slots empty.)  The <code>sort</code> block will report a new, sorted contact list.
+                </li>
 				<li>Test what you've done so far.</li>
-				<li><img class="inline" src="/bjc-r/img/icons/tough-stuff-mini.png" alt="Tough Stuff" title="Tough Stuff" />
-				<img class="inline" src="/bjc-r/img/icons/tough-stuff-mini.png" alt="Tough Stuff" title="Tough Stuff" />
-				We've been sloppy so far in talking about name formats.
-				Most people in the United States say their given name (the one
-				their parents chose for them) first, and their family name
-				last.  But in China, for example, the family name comes first.
-				So "Sun Yat-sen" is a member of the Sun family.
-				<ul><li>How should his name be displayed to the user?</li>
-				<li>How should his name look to sort contacts by family name?</li>
-				<li>What about someone with a middle name, such as
-				Martin Luther King?  Is the middle name a family name or a
-				given name?</li>
-				</ul></li>
-				<li><img class="inline" src="/bjc-r/img/icons/tough-stuff-mini.png" alt="Tough Stuff" title="Tough Stuff" />
-				<img class="inline" src="/bjc-r/img/icons/tough-stuff-mini.png" alt="Tough Stuff" title="Tough Stuff" />
-				Here's the tricky part:  To make this all work correctly, a
-				name (as defined by the Name ADT) has to know whether it's a
-				given-first name such as Betsy Anderson or a family-first
-				name such as Sun Yat-Sen.  <strong>Redefine your Name ADT</strong>
-				to make it
-				a list of <em>three</em> items.  The first will be either
-				<code>given-first</code> or <code>family-first</code>.  This
-				first item is called a <em>type tag.</em>  The second will be
-				the given name (or names, if there's a middle name), and the
-				third will be the family name.
-				<div class="endnote">
-				    You've been using type tags all along without knowing it.
-					Many programming languages, including Snap<i>!</i>, attach
-					type tags to every value, saying "I am a list" or "I am a
-					number" and so on.  The user (i.e., you) doesn't see the
-					type tags, unless you provide a bad input to a
-					primitive block, and you see a message like "Expecting
-					list but getting text."
-				</div></li>
-                <li><img class="inline" src="/bjc-r/img/icons/tough-stuff-mini.png" alt="Tough Stuff" title="Tough Stuff" />
-				<img class="inline" src="/bjc-r/img/icons/tough-stuff-mini.png" alt="Tough Stuff" title="Tough Stuff" />
-				<strong>Reading a name:</strong> Find where you ask the user
-				for first and last name, and change the code to ask for
-				given name(s) and family name.  Also ask which comes first.
-				You might want to have two name constructors,
-				<code>given-first name from given: family:</code> and
-				<code>family-first name from given: family:</code>.</li>
-                <li><img class="inline" src="/bjc-r/img/icons/tough-stuff-mini.png" alt="Tough Stuff" title="Tough Stuff" />
-				<img class="inline" src="/bjc-r/img/icons/tough-stuff-mini.png" alt="Tough Stuff" title="Tough Stuff" />
-				<strong>Writing a name:</strong> Modify your
-				<code>name (display form) from contact</code> and
-				<code>name (sort form) from contact</code> so that they
-				check the type tag of the name (the first item) when
-				necessary.  Be careful about when to add a comma.</li>
-				<li><img class="inline" src="/bjc-r/img/icons/tough-stuff-mini.png" alt="Tough Stuff" title="Tough Stuff" />
-				<img class="inline" src="/bjc-r/img/icons/tough-stuff-mini.png" alt="Tough Stuff" title="Tough Stuff" />
-				Make sure your
-				<code>find contacts</code> block
-				and your sorting of the contact list still work with
-				a contact list containing both kinds of names.</li>
-		    </ol></div>
+				<li>
+                    <img class="inline" src="/bjc-r/img/icons/tough-stuff.png" alt="Tough Stuff" title="Tough Stuff" />
+                    We've been sloppy so far in talking about name formats. Most people in the United States say their given name (the one their parents chose for them) first, and their family name last.  But in China, for example, the family name comes first. So "Sun Yat-sen" is a member of the Sun family.
+                    <ul>
+                        <li>How should the name "Sun Yat-sen" be displayed to the user?</li>
+                        <li>How should "Sun Yat-sen" look in order to sort contacts by family name?</li>
+                        <li>What about someone with a middle name, such as Martin Luther King?  Is the middle name a family name or a given name?</li>
+                    </ul>
+                </li>
+				<li>
+                    <img class="inline" src="/bjc-r/img/icons/tough-stuff-mini.png" alt="Tough Stuff" title="Tough Stuff" />
+				    Here's the tricky part:  To make this all work correctly, a name (as defined by the <code>name</code> ADT) has to know whether it's a given-first name such as Betsy Anderson or a family-first name such as Sun Yat-Sen.  <strong>Redefine your Name ADT</strong> to make it a list of <em>three</em> items.  The first will be either the text 'given-first' or 'family-first'.  This first item is called a <em>type tag.</em>  The second item will be the given name (or names), and the third will be the family name (or names).
+                    <div class="endnote">
+                        You've been using type tags all along without knowing it. Many programming languages, including Snap<i>!</i>, attach type tags to every value, saying "I am a list" or "I am a number" and so on.  The user (i.e., you) doesn't see the type tags, unless you provide a bad input to a primitive block, and you see a message like "Expecting list but getting text."
+                    </div>
+                </li>
+                <li>
+                    <img class="inline" src="/bjc-r/img/icons/tough-stuff-mini.png" alt="Tough Stuff" title="Tough Stuff" />
+                    <strong>Reading a name:</strong> Find where you ask the user for first and last name, and change the code to ask for given name(s) and family name.  Also ask which comes first. You might want to have two name constructors, <img class="inline" src="/bjc-r/img/3-lists/given-first-constructor.png" alt="contact name, given-first, from given: () family: ()" title="contact name, given-first, from given: () family: ()" /> and <img class="inline" src="/bjc-r/img/3-lists/family-first-constructor.png" alt="contact name, family-first, from given: () family: ()" title="contact name, family-first, from given: () family: ()" />.
+                </li>
+                <li>
+                    <img class="inline" src="/bjc-r/img/icons/tough-stuff-mini.png" alt="Tough Stuff" title="Tough Stuff" /><strong>Writing a name:</strong> Modify your  <img class="inline" src="/bjc-r/img/3-lists/name-display-form-from-contact.png" alt="name, display form, from contact 'list input slot" title="name, display form, from contact 'list input slot" /> and <img class="inline" src="/bjc-r/img/3-lists/name-sort-form-from-contact.png" alt="name, sort form, from contact 'list input slot'" title="name, sort form, from contact 'list input slot'" /> so that they check the type tag of the name (the first item) when necessary. Be careful about when to add a comma.
+                </li>
+				<li>
+                    <img class="inline" src="/bjc-r/img/icons/tough-stuff-mini.png" alt="Tough Stuff" title="Tough Stuff" />
+				    Make sure your <code>find contacts</code> block and your sorting of the contact list still work with a contact list containing both kinds of names.
+                </li>
+		    </ol>
+        </div>
 				
 				
 		
