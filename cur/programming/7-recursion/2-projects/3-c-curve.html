@@ -21,18 +21,18 @@
             </ul>
         </div>
         <p>
-            As in the snowflake algorithm, the base case for the Lévy C-curve is a single line segment.<br />
+            As in the snowflake algorithm, the base case for the Lévy C-curve is a single line segment:<br />
             <img class="indent noshadow" src="/bjc-r/img/7-recursion/c-curve-level01.jpg" alt="Lévy C-Curve Level 1: just a straight line segment" title="Lévy C-Curve Level 1: just a straight line segment" />
         </p>
         <p>
-            At each level, the algorithm replaces a straight line with a bent line, following this rule:  turn 45&deg; left, do the previous level at a reduced size,  turn 90&deg; right, do the previous level again, and finally turn 45&deg; left to return to the starting direction. You'll have to figure out how much smaller the <var>size</var> input should be in the recursive calls to make the new level exactly fit the level before.<br />
+            At each next level, the algorithm draws two copies of the previous level, some percentage of the length of the previous level, arranged this way. (The red shows a smaller version of the previous level.) You'll have to figure out how much smaller the <var>size</var> input should be in the recursive calls to make the new level exactly fit the level before.<br />
 			<img class="indent noshadow" src="/bjc-r/img/7-recursion/c-curve-level02.jpg" alt="Lévy C-Curve Level 2: segment broken into two segments that meet at a right angle in the middle" title="Lévy C-Curve Level 2: segment broken into two segments that meet at a right angle in the middle" />
         </p>
         <div class="forYouToDo" id="first">
             <ol>
                 <li>
                     <img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
-                    The original line is replaced by two other lines; together the three would form a right triangle, with the original line being the hypotenuse. If the original line's length is held by the variable <var>size</var>, what length must be passed to the recursive call? That is, what are the lengths of the legs? You can use the Pythagorean formula: <span class="katex">a^2 + b^2 = c^2</span>.
+                    The original line is replaced by two other lines. Together, the three would form a right triangle with the original line as the hypotenuse. If the hypotenuse (the base case length) is <var>size</var>, what length must be given to the recursive call? That is, what are the lengths of the legs (the second level lines)? You can use the Pythagorean formula: <span class="katex">a^2 + b^2 = c^2</span>.
                 </li>
             </ol>
         </div>
