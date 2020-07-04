@@ -7,38 +7,44 @@
 	</head>
 
     <body>
+        <div class="todo">Brian, please review the whole page including the TIF. --MF, 7/3/20</div>
         <h2>Transforming Every List Item</h2>
-        
-        <div class="todo">
-            Random old stuff I hung on to for convenience... --MF, 6/27/20
-            <ul>
-                <li><img class="" src="/bjc-r/img/3-lists/unicode-map.png" alt="" title="" /></li>
-                <li>revive some of <a href="https://bjc.edc.org/Jan2017/bjc-r/cur/programming/3-lists/4-combining-list-ops/1-nesting-functions.html?topic=nyc_bjc%2F3-lists.topic&amp;novideo&amp;noassignment">Nesting Function Calls</a> (teachers have been asking about it on <a href="https://piazza.com/class/h8yx482idav52y?cid=2731">piazza</a>) --MF, 4/26/19</li>
-                <li><a href="http://snap.berkeley.edu/snapsource/snap.html#present:Username=bh&ProjectName=acronym" target="_blank">http://snap.berkeley.edu/snapsource/snap.html#present:Username=bh&ProjectName=acronym</a></li>
-            </ul>
-        </div>
-        <div class="todo">
-            <ul>
-                <p>Brian, I cut the test you were referring to and totally restructured this content, but I'm keeping your comment for transparency. Unless you think we still need this comment, please remove this whole TODO. Thanks! --MF, 6/27/20</p>
-                <li>In the revision, to follow the idea of projects first, this section should come at the beginning, and the page heading should be "Acronym Generator," and things like Unicode and each individual HOF should be introduced as it's needed, e.g., Unicode to help distinguish capitals from lower case. --bh</li>
-                <p>An <strong>acronym</strong> is a "word" made up of the first letters of every capitalized word in a phrase. For example, the acronym for United States of America is USA, and SUNY is an acronym for State University of New York.</p>
-                <p>In this project, you will create a reporter block that takes a phrase as input and reports an acronym made <em>only from the capitalized words</em>. It should work like this:<br/>
-                <img class="indent"	 src="/Jan2017/bjc-r/img/3-lists/acronym_BJC.png" title="Beauty and Joy of Computing: BJC" alt="Beauty and Joy of Computing: BJC"  />
-                <img src="/Jan2017/bjc-r/img/3-lists/acronym_NYC.png" title="New York City: NYC" alt="New York City: NYC"  /> </p>
-            </ul>
-        </div>
-		
         <div class="learn">
         	<p>
-                <strong>On this page,</strong> you will use the <code>map</code> block together with <code>keep</code> and <code>combine</code> to create an <code>abbreviate</code> block that you can use with your contact list.<br />
-                <img class="indent" src="/bjc-r/img/3-lists/abbreviate-reporting-BJC.png" alt="abbreviate (Beauty and Joy of Computing) reporting 'BJC'" title="abbreviate (Beauty and Joy of Computing) reporting 'BJC'" />
+                <strong>On this page,</strong> you will use the <code>map</code> block to create an <code>initials from name</code> block and then use <code>map</code> together with <code>initials from name</code> to find the initials of all of your contacts.
             </p>
         </div>
         
-        <div class="forYouToDo" id="first">
+        <div class="dialogue">
+            <div class="stagedir">
+                Alphie, Betsy, and Gamal are building an <code>initials from name</code> block that accepts one contact as input and reports that person's initials.<br />
+                <img class="indent" src="/bjc-r/img/3-lists/initials-reporting.png" alt="initials from name (name from contact( (item (1) of (contact list)) reporting 'BA'" title="initials from name (name from contact( (item (1) of (contact list)) reporting 'BA'" />
+            </div>
+            <div>
+                <span>Betsy:</span> I used the <img class="inline" src="/bjc-r/img/blocks/split-by.png" alt="split () by ('pink dot indicating a space character')" title="split () by ('pink dot indicating a space character')" /> block to break up the contact's full name into a list of their names, and then I joined the first letter of each name:<br />
+                <img class="indent" src="/bjc-r/img/3-lists/initials-definition.png" alt="initials from contact: (contact) {
+    script variables (list of names)
+    set (list of names) to (split (name from contact (contact)) by (word))
+    report (join (letter (1) of (item (1) of (list of names))) (letter (1) of (item (2) of (list of names))) )
+}" title="initials from contact: (contact) {
+    script variables (list of names)
+    set (list of names) to (split (name from contact (contact)) by (word))
+    report (join (letter (1) of (item (1) of (list of names))) (letter (1) of (item (2) of (list of names))) )
+}" />
+            </div>
+            <div><span>Alphie:</span> But what about someone who goes by three names like Martin Luther King? It would just report "ML" for him.</div>
+            <div><span>Gamal:</span> Oh, that's because the block only takes the first letter of items 1 and 2. We have to add in <code>letter (1) of (item (3) of (list of names))</code>. </div>
+            <div><span>Betsy:</span> But what if someone has more names than that? In my aunt's family they each have five or six names...</div>
+            <div><span>Gamal:</span> Well, then we need to take <code>letter (1) of</code> <em>every</em> item in the <var>list of names</var>. That sounds like a <em>higher order function</em>. We need to apply the <code>letter (1) of</code> function to every item in the list.</div>
+            <div class="vocabFullWidth">
+                <p>A <strong>higher order function</strong> is a function that takes a function as input (or reports a function as output). </p>
+            </div>
+        </div>
+        
+        <div class="forYouToDo">
 			<ol>
-				<li>
-                    Build and experiment with these examples of <code>map</code>.<br />
+                <li>
+                    Build and experiment with these examples of the <code>map</code> function.<br />
                     <img class="indent" src="/bjc-r/img/3-lists/map-join-s.png" alt="map (join( )(s)) over (list{block, script, Boolean})" title="map (join( )(s)) over (list{block, script, Boolean})" /><br />
                     <img class="indent" src="/bjc-r/img/3-lists/map-3x.png" alt="map ((3) * ( )) over (list{7, 8, 1})" title="map ((3) * ( )) over (list{7, 8, 1})"  /><br />
                     <img class="indent" src="/bjc-r/img/3-lists/map-letter-1.png" alt="map (letter (1) of ( )) over (list{bounce, join, clear})" title="map (letter (1) of ( )) over (list{bounce, join, clear})" />
@@ -55,19 +61,56 @@
 		
 		<div class="takeNote">
             <p><strong>You choose the function that describes the change, and <code>map</code> applies that function to each item in the input list and then reports the list of changed values.</strong></p>
-            <p>Notice that the function mapped over the list always has a blank input slot. This is where the list item goes each time the function is performed.</p>
+            <p><code>Map</code> is a higher order function just like <code>keep</code> and <code>combine</code>. The function mapped over the list always has a blank input slot. This is where the list item goes each time the function is performed.</p>
+            <div class="endnote">
+                <p>
+                    <a href="#hint-hofs-review" data-toggle="collapse" title="Here is a quick review of higher order functions.">Here is a quick review of higher order <code>map</code>, <code>keep</code>, <code>combine</code>.</a>
+                    <div id="hint-hofs-review" class="collapse">
+                        <ul>
+                            <li>
+                                <code>Map</code> performs a function on every item of a list and reports the list of changed items.<br />
+                                <img class="indent" src="/bjc-r/img/3-lists/map-example-1.png" alt="map (( )-(1)) over (list (96) (-100) (4.7)) reporting" title="map (( )-(1)) over (list (96) (-100) (4.7)) reporting" />
+                            </li>
+                            <li>
+                                <code>Keep</code> uses a predicate function (a true/false question) to check every item in a list and reports the items that make the predicate true. (You learned about <code>keep</code> on <a href="/bjc-r/cur/programming/2-complexity/3-predicates/5-keeping-list-items.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 2 Lab 3 Page 5: Keeping Items from a List">Unit 2 Lab 3 Page 5: <code>Keep</code>ing Items from a List</a>.)<br />
+                                <img class="indent" src="/bjc-r/img/3-lists/keep-items-(last-letter-h)-reporting.png" alt="keep-items-such-that-(last-letter-of-(input)-equals-h)-from-test-list"><br />
+                            </li>
+                            <li>
+                                <code>Combine</code> uses a combining function (a function with two inputs) to report the results of combining all the items in a list using that function. (You learned about <code>combine</code> on  <a href="/bjc-r/cur/programming/2-complexity/4-making-computers-do-math/3-other-math-reporters.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 2 Lab 4 Page 3: More Mathematical Reporters">Unit 2 Lab 4 Page 3: More Mathematical Reporters</a>.)<br />
+                                <img class="indent" src="/bjc-r/img/3-lists/combine-simple-example.png" alt="combine (list {0, 1, 2}) with (()+()) reporting 3" title="combine (list {0, 1, 2}) with (()+()) reporting 3" />
+                            </li>
+                        </ul>
+                    </div>
+                </p>
+            </div>
         </div>
-        
-        <div class="vocabFullWidth">
-            <p>A <strong>higher order function</strong> is a function that takes a function as input. Like <code>keep</code> and <code>combine</code>, <code>map</code> is a higher order function.</p>
-        </div>
-        
-
-
         <div class="forYouToDo">
-            <div class="todo">Brian, the following two self-checks were one combined self-check, and I though that was confusing so I rebuilt it as two. Please review carefully for any potential mistakes especially in quiz-functionality but also in feedback. I added additional distractors in the second one. --MF, 6/27/20</div>
 			<ol start="3">
-				<li>
+				<li>If it isn't open already, open your U3L2-ContactList project.</li>
+                <li>
+                    Use <code>map</code> and <code>combine</code> together to build an <code>initials from name</code> reporter that takes a name as input and reports that person's initials.<br />
+                    <img class="indent" src="/bjc-r/img/3-lists/initials-reporting.png" alt="initials from name (name from contact( (item (1) of (contact list)) reporting 'BA'" title="initials from name (name from contact( (item (1) of (contact list)) reporting 'BA'" />
+                    <img class="indent" src="/bjc-r/img/3-lists/initials-reporting-mlk.png" alt="initials from name (Martin Luther King) reporting 'MLK'" title="initials from name (Martin Luther King) reporting 'MLK'" />
+                </li>
+                <li>Test and debug your <code>initials from name</code> block.</li>
+                <li>
+                    Create an expression to report a list of the initials of all your contacts.<br />
+                    <div class="endnote">
+                        <a href="#hint-list-names" data-toggle="collapse" title="Need a hint about reporting the initials of everyone in your contact list?">Need a hint?</a>
+                        <div id="hint-list-names" class="collapse">
+                            <p>
+                                First, create an expression to report a list of the names of all your contacts.<br />
+                                <img class="indent" src="/bjc-r/img/3-lists/contact-list-list-view.png" alt="contact list watcher in list view" title="contact list watcher in list view" />
+                                <span style="padding-right: 1em; padding-left: 1em; font-size: 36px;">&rightarrow;</span>
+                                <img class="" src="/bjc-r/img/3-lists/names.png" alt="list in list view containing three items: Betsy Anderson, Alphie Preston, Gamal Abdel" title="list in list view containing three items: Betsy Anderson, Alphie Preston, Gamal Abdel" />
+                            </p>
+                        </div>
+                    </div>
+                    <img class="indent" src="/bjc-r/img/3-lists/contact-list-list-view.png" alt="contact list watcher in list view" title="contact list watcher in list view" />
+                    <span style="padding-right: 1em; padding-left: 1em; font-size: 36px;">&rightarrow;</span>
+                    <img class="" src="/bjc-r/img/3-lists/initials.png" alt="list in list view containing three items: BA, AP, GA" title="list in list view containing three items: BA, AP, GA" />
+                </li>
+                <li>
                     <!-- question 1 -->
                     <div class="assessment-data" type="multiplechoice" identifier="mapLetterVsItem" hasinlinefeedback="true" maxchoices="1" responseIdentifier="resp1" shuffle="false">
                         <div class="prompt">
@@ -104,7 +147,6 @@
                     <!-- question 2 -->
                     <div class="assessment-data" type="multiplechoice" identifier="mapLetterVsItem" hasinlinefeedback="true" maxchoices="5" responseIdentifier="resp2" shuffle="false">
                         <div class="prompt">
-                            <div class="todo">Two of these prompts are new (because I wanted to attend to how map does and doesn't work) and much of the feedback is new or modified. Please review carefully.--MF, 6/27/20</div>
                             Which of the following statements are true about this list?<br />
                             <img class="indent" src="/bjc-r/img/3-lists/check1capitals.png" alt="set (capitals) to {{Augusta, Maine}, {Boise, Idaho}, {Columbia, South Carolina}, {Des Moines, Iowa}}" title="set (capitals) to {{Augusta, Maine}, {Boise, Idaho}, {Columbia, South Carolina}, {Des Moines, Iowa}}" /><br />
                             Choose <strong>all</strong> that apply.
@@ -141,7 +183,7 @@
                             <div class="text">
                                 <img border="0" src="/bjc-r/img/3-lists/check2mapc5.png" alt="map (all but first of ()) over (capitals)" title="map (all but first of ()) over (capitals)"> reports the list {Maine, Idaho, South Carolina, Iowa}.
                             </div>
-                            <div class="feedback">No. This is a tricky one. What gets reported is actually a list of one-item lists: {{Maine}, {Idaho}, {South Carolina}, {Iowa}}. You might want to try it in Snap<em>!</em>.</div>
+                            <div class="feedback">No. This is a tricky one. What gets reported is actually a list of one-item lists: {{Maine}, {Idaho}, {South Carolina}, {Iowa}}. You might want to try it in Snap<em>!</em>. The expression <code>map (item (2) of ()) over (capitals)</code> would report the list {Maine, Idaho, South Carolina, Iowa}.</div>
                         </div>
                         <div class="choice" identifier="c5">
                             <div class="text">
@@ -162,136 +204,23 @@
                 </li>
 			</ol>
 		</div>
-        
-        <div class="todo">We could do a page break here. In fact, we could even break this up into a couple of pages and have it be it's own lab... Thoughts? I suppose I'm leaning toward this being two pages in the same lab. (Two because that gives the teachers a reasonable place to stop for the day if needed and same lab because it's easier to manage, and there is some stuff about contacts, albeit very little, at the end.) --MF, 6/27/20</div>
-        
-        <h3>Creating an <code>Abbreviate</code> Block</h3>        
-        <p>
-            Computers store keyboard characters (capital and lowercase letters, punctuation marks, space, digits, symbols, and so on) as numbers called Unicode. Unicode assigns a number to every letter that can be typed in any language, as well as to special characters, such as !, @, #, &ouml;, &lambda;, &clubs;, and the space bar. This table shows the Unicode for some of the keyboard characters:<br />
-            <div class="sidenote">The full list of <a href="https://en.wikipedia.org/wiki/List_of_Unicode_characters#Latin_script" target="_blank">Unicode characters</a> is much longer.</div>
-            <img class="indent noshadow" src="/bjc-r/img/4-internet/img_CaesarCipher/Mary_CharacterTable.jpeg" height="330px" alt="Unicode Table"/>
-        </p>
-        <p>
-            In Snap<em>!</em>, the <code>unicode of</code> block reports the number that is used for a particular character:<br />
-            <img class="indent" src="/bjc-r/img/4-internet/img_CaesarCipher/SnapUnicode1.png" height="52" alt="unicode of (a) reporting '97'" title="unicode of (a) reporting '97'" /><br />
-            The <code>unicode as letter</code> block reports the character that a given Unicode number represents:<br /> 
-            <img class="indent" src="/bjc-r/img/4-internet/img_CaesarCipher/SnapUnicode2.png" height="52"  alt="unicode (65) as letter reporting 'A'" title="unicode (65) as letter reporting 'A'" />
-        </p>
-        <div class="todo">If we keep the above section, we need to go back and modify <a href="http://localhost/bjc-r/cur/programming/4-internet/2-cybersecurity/2-caesar-cipher.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc.html&novideo&noassignment">4.2.2</a> because I stole most of this from there. --MF, 6/27/20</div>
-
-        <div class="forYouToDo">
-            <ol start="6">
-                <li>Use <code>unicode as letter</code> and <code>map</code> to figure out the characters for the unicode numbers in this list: {72, 105, 33}. </li>
-                <div class="comment">Need to change image and XML to match block name (abbreviate, not acronym). --MF, 6/27/20</div>
-                <li>
-                    Decode this message:<br />
-                    <a class="run" href="/Jan2017/bjc-r/prog/3-lists/U3Lab3CodedMessage.xml"> 
-                        <img class="indent" src="/bjc-r/img/3-lists/code.png" alt="list of unicode numbers" title="list of unicode numbers" /> 
-                    </a>
-                </li>
-                <div class="todo">Notice that I'm not having them save anything up to this point. Everything above is just learning and experimenting. I don't care that they keep it. Do you think that's OK (for teachers)? We could put a note in the TG about it. --MF, 6/27/20</div>
-                <li>
-                    To create an <code>abbreviate</code> block, you need a way to identify which unicode numbers represent capital letters. Open your U2L4-MathLibrary project, and export your <code>is between?</code> predicate. Then open your U3L2-ContactList project, and import your <code>is between?</code> predicate.</li>
-                    <div class="endnote">You learned about exporting and importing blocks on <a href="/bjc-r/cur/programming/2-complexity/4-making-computers-do-math/2-math-predicates.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 2 Lab 4 Page 2: Making a Mathematical Library">Unit 2 Lab 4 Page 2: Making a Mathematical Library</a>.</div>
-                <li>
-                    <img class="imageRight" src="/bjc-r/img/icons/tough-stuff.png" alt="Tough Stuff" title="Tough Stuff" />
-                    The three higher order functions (<code>map</code>, <code>keep</code>, and <code>combine</code>) can be used together to build more advanced functions. Create an <code>abbreviate</code> reporter that takes text as input and reports an abbreviation made of the first letters of the capitalized words.<br />
-                    <img class="indent" src="/bjc-r/img/3-lists/abbreviate-reporting-BJC.png" alt="abbreviate (Beauty and Joy of Computing) reporting 'BJC'" title="abbreviate (Beauty and Joy of Computing) reporting 'BJC'" />
-                    <div class="endnote">
-                        <p>
-                            <a href="#hint-hofs-review" data-toggle="collapse" title="Here is a quick review of higher order functions.">Here is a quick review of higher order functions.</a>
-                            <div id="hint-hofs-review" class="collapse">
-                                <ul>
-                                    <li>
-                                        <code>Map</code> performs a function on every item of a list and reports the list of changed items.<br />
-                                        <img class="indent" src="/bjc-r/img/3-lists/map-example-1.png" alt="map (( )-(1)) over (list (96) (-100) (4.7)) reporting" title="map (( )-(1)) over (list (96) (-100) (4.7)) reporting" />
-                                    </li>
-                                    <li>
-                                        <code>Keep</code> uses a predicate function (a true/false question) to check every item in a list and reports the items that make the predicate true. (You learned about <code>keep</code> on <a href="/bjc-r/cur/programming/2-complexity/3-predicates/5-keeping-list-items.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 2 Lab 3 Page 5: Keeping Items from a List">Unit 2 Lab 3 Page 5: <code>Keep</code>ing Items from a List</a>.)<br />
-                                        <img class="indent" src="/bjc-r/img/3-lists/keep-items-(last-letter-h)-reporting.png" alt="keep-items-such-that-(last-letter-of-(input)-equals-h)-from-test-list"><br />
-                                    </li>
-                                    <li>
-                                        <code>Combine</code> uses a combining function (a function with two inputs) to report the results of combining all the items in a list using that function. (You learned about <code>combine</code> on  <a href="/bjc-r/cur/programming/2-complexity/4-making-computers-do-math/3-other-math-reporters.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 2 Lab 4 Page 3: More Mathematical Reporters">Unit 2 Lab 4 Page 3: More Mathematical Reporters</a>.)<br />
-                                        <img class="indent" src="/bjc-r/img/3-lists/combine-simple-example.png" alt="combine (list {0, 1, 2}) with (()+()) reporting 3" title="combine (list {0, 1, 2}) with (()+()) reporting 3" />
-                                    </li>
-                                </ul>
-                            </div>
-                        </p>
-                        <a href="#hint-abbreviate" data-toggle="collapse" title="Here are some hints about one way to build the abbreviate block.">Here are some hints on <em>one way</em> to build the abbreviate block.</a>
-                        <div id="hint-abbreviate" class="collapse">
-                            <ol>
-                                <li>
-                                    The input phrase is a string of characters. Break it up into a list of words. <a href="#hint-break-string" data-toggle="collapse" title="How can you break up a string into a list?">How can you break up a string into a list?</a>
-                                    <div id="hint-break-string" class="collapse">
-                                        <p>
-                                            There are many ways to turn a string like "Beauty and Joy of Computing" into a list of words. Here are two:
-                                            <ul>
-                                                <li>The <img class="inline" src="/bjc-r/img/blocks/split-by.png" alt="split () by ('pink dot indicating a space character')" title="split () by ('pink dot indicating a space character')" /> block breaks a string up by the character in the second input slot and reports the pieces in a list.</li>
-                                                <li>The "Words, sentences" library includes <img border="0" src="/bjc-r/img/3-lists/sentence_to_list.png" title="sentence to list" alt="sentence to list"  /> (pronounced "sentence to list"), which breaks a string at every space and reports the words in a list. (You learned how to import a library on <a href="/bjc-r/cur/programming/2-complexity/4-making-computers-do-math/2-math-predicates.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 2 Lab 4 Page 2: Making a Mathematical Library">Unit 2 Lab 4 Page 2: Making a Mathematical Library</a></li>
-                                            </ul>
-                                        </p>
-                                    </div>
-                                </li>
-                                <li>You have choices about the next step. You could use <code>map</code> to generate a new list containing only the first letters of the words in your input list, and <em>then</em> <code>keep</code> only those that are capital letters. Or you could <code>keep</code> only the words that begin with capitals and <em>then</em> use <code>map</code> to create a list containing only the first letters of those words.
-                                </li>
-                                <li>Last, you need to convert that list back into a string.</li>
-                            </ol>
-                        </div>
-                    </div>
-                </li>
-                <li>Test and debug your <code>abbreviate</code> block.</li>
-                <li>
-                    Create an expression to report a list of the names of all your contacts.<br />
-                    <img class="indent" src="/bjc-r/img/3-lists/contact-list-list-view.png" alt="contact list watcher in list view" title="contact list watcher in list view" />
-                    <span style="padding-right: 1em; padding-left: 1em; font-size: 36px;">&rightarrow;</span>
-                    <img class="" src="/bjc-r/img/3-lists/names.png" alt="list in list view containing three items: Betsy Anderson, Alphie Preston, Gamal Abdel" title="list in list view containing three items: Betsy Anderson, Alphie Preston, Gamal Abdel" />
-                </li>
-                <li>
-                    Create an expression to report a list of the initials of all your contacts.<br />
-                    <img class="indent" src="/bjc-r/img/3-lists/contact-list-list-view.png" alt="contact list watcher in list view" title="contact list watcher in list view" />
-                    <span style="padding-right: 1em; padding-left: 1em; font-size: 36px;">&rightarrow;</span>
-                    <img class="" src="/bjc-r/img/3-lists/initials.png" alt="list in list view containing three items: BA, AP, GA" title="list in list view containing three items: BA, AP, GA" />
-                </li>
-                <div class="todo">PG: I'd be happier if something happened with the result of #3 other than students having done it.  Somehow this feels like an almost-lesson.<p>Brian, is the page better now? --MF, 6/27/20</p></div>
-            </ol>
-        </div>
     
-        <div class="todo">
-            <div class="todo">I didn't find a way to use any of this. --MF, 6/27/20</div>
+    <div class="todo">Brian, I redid this with ADTs. Also, this data makes it look like programmers are poor and also it's better to go into business. :( --MF, 7/3/20</div>
 
-	        <div class="comment">Brian, I'm curious about your thoughts here too. --MF<br />I'm not sure we need this box at all, but if we want it, here's what it should say. --bh</div>
-            <p>The orange oval blocks that name variables are reporters, like other oval blocks.  But <em>most</em> reporters implement <em>functions,</em> which means that when you call the same block with the same inputs, you always get the same value. <code>2+3</code> is always 5. The <code>random</code> block, and reporters you write using <code>random</code>, are different; calling them twice with the same inputs may report different answers.</p>
-            <p>Variable blocks are one step further away from functions; a program can choose to change the value that a variable block will report by using <code>set</code> or <code>change</code> to give the variable a new value.</p>
-            <img src="/bjc-r/img/2-complexity/score-variable-reporting-7.png" alt="score reporting 7"><br />
-            <img src="/bjc-r/img/2-complexity/change-score-by-1.png" alt="change score by 1"><br />
-              <img src="/bjc-r/img/2-complexity/score-variable-reporting-8.png" alt="score reporting 8">      
-            <p> It turns out that any program that changes the values of variables can be rewritten in a way that doesn't <code>set</code> or otherwise change the values of variables. There are advantages to this <em>functional programming</em> style, which avoids certain kinds of otherwise-common bugs, but some kinds of programs are hard to write functionally. You aren't really ready to think about this yet, but we'll come back to functional programming later in the year.</p>
-            <div class="todo">ST_This is greatly confusing.  We need to stop telling kids things like "you are not really ready for this but here it is".</div>
-            
-        </div>
 
-<div class="todo">I don't want to keep this at all. --MF, 6/27/20
-<div class="takeItFurther">
-     <!--       <div class="todo">
-            	<ul>
-					<li>What I'd like this lab to be doing is more stuff like ACRONYM that uses map, keep, combine, two or all three at a time. We ask the kids in problem A to invent more stuff like that, but they've seen only two examples. This isn't enough experience to do problem A or page 4-when-you-really…. --PG</li>
-                	<li>[This problem] asks the kids to do what we haven't successfully done. --PG</li>
-                    <li><strong>Should we eliminate this TIF entirely?</strong> --MF</li>
-                </ul>
-            </div>  -->
-            <ol type="A" start="3">        
-	<!--            <li><img class="imageRight" src="/Jan2017/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> Think of another situation where it might be useful to use <code>map</code>, <code>keep</code>, and <code>combine with</code> together. Make up a list and describe how you would use the three functions together.</li>  -->
-            <li>
-                Click the picture to load this database project:<br />                
-                <a class="run" href="/Jan2017/bjc-r/prog/3-lists/U3L4-database.xml"><img class="indent" src="/bjc-r/img/3-lists/microshaft-database.png" width="493" height="249" alt="database of name, job, salary"></a><br />
-                This is the list of employees of a small company.  <small>(Taken from <em>Structure and Interpretation of Computer Programs</em> by Abelson and Sussman. Creative Commons licensed.)</small> Each of the smaller lists contains a person's name, job title, and yearly salary.
-                <p>"This company spends more money on the big bosses than on the people who do the work," says Alyssa one day.  Is she right?  Write an expression to compute the total salaries of everyone paid less than $100,000 per year.  Then find the total for everyone paid more than $100,000 per year.</p>
-    		</li>   
-            <li>Ben suggests that the results will be more convincing in the form of a list containing that total and all the names of the people in that category (paid less than $100,000, for example). So, if there are five people in that category, your list will have six items: first the total of the salaries, and then the names of the people. Try this both for less than $100,000 and for more than $100,000.
-            <li>Find the <em>average</em> salary of people paid less than $100,000 per year.
-
+        <div class="takeItFurther">
+            <ol type="A">
+                <li>
+                    Click the picture to load this database project:<br />                
+                    <div class="sidenote">Data from <em>Structure and Interpretation of Computer Programs</em> by Abelson and Sussman. Creative Commons licensed.</div>
+                    <a class="run" href="/bjc-r/prog/3-lists/U3L2-Employee-Database.xml"><img class="indent" src="/bjc-r/img/3-lists/microshaft-database.png" width="493" height="249" alt="database of name, job, salary"></a><br />
+                    This is the list of employees of a small company. Each of the smaller lists contains a person's name, job title, and yearly salary.
+                    <p>"This company spends more money on the big bosses than on the people who do the work," says Alyssa one day.  Is she right?  Write an expression to compute the total salaries of everyone paid less than $100,000 per year.  Then find the total for everyone paid more than $100,000 per year.</p>
+                </li>   
+                <li>Ben suggests that the results will be more convincing in the form of a list containing that total and all the names of the people in that category (paid less than $100,000, for example). So, if there are five people in that category, your list will have six items: first the total of the salaries, and then the names of the people. Try this both for less than $100,000 and for more than $100,000.</li>
+                <li>Find the <em>average</em> salary of people paid less than $100,000 per year.</li>
             </ol>
-        </div></div>
+        </div>
 
 
 	</body>
