@@ -20,18 +20,21 @@
 			<ol start="1">
                 <li>If it isn't open already, open your U3L1-FractalArt project.</li>
                 <li>	
-                    Create a <code>nested triangle</code> block that takes one input, <var>size</var>, and only draws the triangle if <var>size</var> &gt; 9. (For now, leave out the code about changing colors.)
+                    Create a<code> </code>block called <code>nested triangle</code> that takes one input, <var>size</var>, and, for now, only draws one triangle, but only if <var>size</var> &gt; 9. (Leave out the code about changing colors.)
+                    <br /><img class="indent" src="/bjc-r/img/2-complexity/nested-tri-no-color-proto.png" alt="nested triangle, size: (size)" title="nested triangle, size: (size)">
+                    <div class="endnote">
+                        <a href="#hint-purple" data-toggle="collapse" title="Shouldn't it be blue?">Shouldn't it be blue?</a>
+                        <div id="hint-purple" class="collapse">
+                        When you're building a new block, it doesn't matter so much about the color. It's easier to find your blocks later if you develop consistent approach.  Right now you're using purple so that this block will stand out when you use it in a script later.
+                        </div>
+                    </div>
                     <div class="endnote">
                         <a href="#hint-nested" data-toggle="collapse" title="Click for hints about building a nested triangle block.">Click for hints about building a <code>nested triangle</code> block.</a>
                         <div id="hint-nested" class="collapse">
                             <ol type="a">
                                 <li>
-                                    Design the block with one input, <var>size</var>. <br />
-                                    <img class="indent" src="/bjc-r/img/2-complexity/nested-tri-no-color-proto.png" alt="nested triangle, size: (size)" title="nested triangle, size: (size)"><br />
-                                </li>
-                                <li>
                                     Use your first triangle script from problem the previous page as a model. But add one condition: draw the triangle only if it's big enough:<br />
-                                    <img class="indent" src="/bjc-r/img/2-complexity/triangle.png" alt="if(size>9){repeat(3){move 100 steps; turn clockwise 120 degrees}}" title="if(size>9){repeat(3){move 100 steps; turn clockwise 120 degrees}}">
+                                    <img class="indent" src="/bjc-r/img/2-complexity/triangle.png" alt="if(size&gt;9){repeat(3){move 100 steps; turn clockwise 120 degrees}}" title="if(size>9){repeat(3){move 100 steps; turn clockwise 120 degrees}}">
                                 </li>
                                 <li>Click the "Apply" button in the Block Editor so that the block appears in the palette on the left.</li>
                             </ol>
@@ -51,7 +54,7 @@
         <div class="forYouToDo">
 			<ol start="4">
                 <li>
-                    From the palette, drag a copy of <code>nested triangle</code> into the definition of <code>nested triangle</code> between the <code>move</code> and <code>turn</code> blocks.  Make its <var>size</var> input half the current value of <var>size</var>.<br />
+                    From the palette, drag  <code>nested triangle</code> into the definition of <code>nested triangle</code> between the <code>move</code> and <code>turn</code> blocks.  Make its <var>size</var> input half the current value of <var>size</var>.<br />
                     <img class="indent" src="/bjc-r/img/2-complexity/nested-tri-recur-no-color.png" alt="nested triangle, size: (size/2)" title="nested triangle, size: (size/2)">
                 </li>
                 <li>
@@ -62,24 +65,20 @@
             </ol>
 		</div>
             
-        <div class="todo">BH to review the ITITs and make solutions for them also. --MF, 6/26/20</div>
-
         <div class="ifTime">
             <ol start="6">
                 <li>Use <code>nested triangle</code> as a model to define a recursive <code>nested square</code> block.</li>
-                <div class="todo">BH, please carefully review that the following (from U7) is realistic here given what they've actually built. Images and alt/title text will need to be redone to match the images. --MF, 6/26/20</div>
                 <li>
                     In order to draw the parent triangle, the sprite must turn 120&deg; between sides.  For the fractal you just created, that turning happens <em>after</em> drawing the child, but you could turn <em>before</em> the recursive call, or split the turn, with part before and part after the recursive call. Try some modifications like these:<br />
-                    <img class="indent" src="/bjc-r/img/7-recursion/triangle-fractal-variation01.png" alt="repeat(3){move(size) steps; turn clockwise (120) degrees; triangle fractal level:(level-1) size:(size*0.5)}" title="repeat(3){move(size) steps; turn clockwise (120) degrees; triangle fractal level:(level-1) size:(size*0.5)}" />
-                    <img class="indent" src="/bjc-r/img/7-recursion/triangle-fractal-variation02.png" alt="repeat(3){move(size) steps; turn clockwise (120) degrees; triangle fractal level:(level-1) size:(size*0.5); turn clockwise(60) degrees}" title="repeat(3){move(size) steps; turn clockwise (120) degrees; triangle fractal level:(level-1) size:(size*0.5); turn clockwise(60) degrees}" />
-                    <img class="indent" src="/bjc-r/img/7-recursion/triangle-fractal-variation03.png" alt="repeat(3){move(size) steps; turn counter-clockwise (30) degrees; triangle fractal level:(level-1) size:(size*0.5); turn clockwise(150) degrees}" title="repeat(3){move(size) steps; turn counter-clockwise (30) degrees; triangle fractal level:(level-1) size:(size*0.5); turn clockwise(150) degrees}" />
+                    <img class="indent" src="/bjc-r/img/2-complexity/triangle-fractal-variation01.png" alt="repeat(3){move(size) steps; turn clockwise (120) degrees; triangle fractal level:(level-1) size:(size*0.5)}" title="repeat(3){move(size) steps; turn clockwise (120) degrees; nested triangle, size:(size/2)}" /><br />
+                    <img class="indent" src="/bjc-r/img/2-complexity/triangle-fractal-variation02.png" alt="repeat(3){move(size) steps; turn clockwise (60) degrees; triangle fractal level:(level-1) size:(size*0.5); turn clockwise(60) degrees}" title="repeat(3){move(size) steps; turn clockwise (60) degrees; nested triangle, size:(size/2); turn clockwise(60) degrees}" /><br />
+                    <img class="indent" src="/bjc-r/img/2-complexity/triangle-fractal-variation03.png" alt="repeat(3){move(size) steps; turn counter-clockwise (30) degrees; nested triangle, size:(size/2); turn clockwise(150) degrees}" title="repeat(3){move(size) steps; turn counter-clockwise (30) degrees; triangle fractal level:(level-1) size:(size*0.5); turn clockwise(150) degrees}" />
                 </li>
             </ol>
 		</div>
 
         <div class="takeItFurther">
             <ol type="A">
-                <li>What will happen if you move the recursive call to <em>after</em> the <code>turn</code> block? Try to sketch it out before you do the experiment.</li>
                 <li>Experiment with the scale factor for the <var>size</var> of the recursive calls.  A couple of interesting values are <span class="katex">\frac{<var>1</var>}{3}</span> and <span class="katex">\frac{<var>1</var>}{\sqrt{3}}</span>.</li>
                 <li>Use <code>for</code> to make an animation that cycles through different turning angle arrangements (that is, 0&deg; and 120&deg;, then 1&deg; and 119&deg;, then 2&deg; and 118&deg;, etc.).<br />
                     <img src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/RecursiveTriangleAnimation.gif" height="300" alt="Recursive Triangle Animation" title="Recursive Triangle Animation"/>
