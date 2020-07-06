@@ -3,22 +3,15 @@
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
-        <script type="text/javascript" src="/bjc-r/utilities/gifffer.min.js"></script>
-        <script type="text/javascript">window.onload = function() {Gifffer();}</script>
-        <link rel="stylesheet" type="text/css" href="/bjc-r/css/bjc-gifffer.css">
 		<title>Unit 7 Lab 2: Recursion Projects, Page 4</title>
 	</head>
 
 	<body>
 		<h2>Recursive Mondrian</h2>
         <div class="learn">
-            <p><strong>On this page,</strong> you will use recursion to create abstract art in the style of Piet Mondrian.</p>
+            <p><strong>On this page,</strong> you will use recursion to create abstract art in the style of Piet Mondrian. <img class="inline" src="/bjc-r/img/icons/tough-stuff.png" alt="Tough Stuff" title="Tough Stuff" />  </p>
         </div>
         
-        <div class="todo">
-            <p>PG: And, of course, I'd be inconsistent here if I said keep this, though I love the project. Here, too, I'd want to check the supports. I'm really not sure we've done enough to prepare students to be able to /do/ this with confidence and independence. Of course, it should be a challenge, but one that /we/ are confident they can manage. Otherwise, we're teaching them that they /can't/ program and that CS is really /not/ for them.  If we're going to do pages 2-5 here, we need to have done much more earlier (which, of course, I think we /should/ do).</p>
-        </div>
-                
         <div class="forYouToDo" id="first">
             <ol>
                 <li>Recursion is not just for fractals. <a href="https://duckduckgo.com/?q=mondrian&ia=images" target="_blank" title="Duck Duck Go: mondrian">Search for the Dutch painter Mondrian</a> to see examples of his artwork.</li>
@@ -39,7 +32,6 @@
         <div class="forYouToDo">
             <ol start="2">
                 <li>
-                	<div class="comment">PG: There's no time to fix this now, but this is <em>so</em> scaffolded that the only work the student is left to do is <em>not</em> about the recursion. The recursion is harder here, but that's what the lesson should be about. Instead, learning about recursion is sidestepped. The student chooses numbers—an exercise in fractions—but never needs even to look at the structure and does no actual programming beyond the base case, a Unit 1 task. In revision, reverse the scaffolding. Also not clear why we have the scripts with hat blocks. This is all stuff the student can do. </div> 
                     <a class="run" href="/bjc-r/prog/7-recursion/U7L2-Mondrian.xml" target="_blank"><img class="inline" src="/bjc-r/img/icons/load-save.png" alt="Click here to load this file. Then save it to your Snap! account." title="Click here to load this file. Then save it to your Snap! account."></a>
                     <p>
                         Some code is already created for you. There is an instruction to initialize the <var>colors</var> variable with a list of commands.<br />
@@ -50,6 +42,7 @@
                         There is a block for the base case, <code>rectangle</code>, and a block for the complete recursive procedure, <code>Mondrian</code>.<br />
                         <img class="indent" src="/bjc-r/img/7-recursion/rectangle-block.png" alt="rectangle, width: (400) height: (300)" title="rectangle, width: (400) height: (300)" />
                         <img class="indent" src="/bjc-r/img/7-recursion/Mondrian-block.png" alt="Mondrian, level: (5) width: (400) height: (300)" title="Mondrian, level: (5) width: (400) height: (300)" />
+                        <div class="endnote">You might prefer to have a script that starts with <code>when (r) key pressed</code> for the rectangle and another one with <code>when (m) key pressed</code> for the Mondrian. You include a <code>clear</code> and the sprite's initial position and direction.</div>
                     </p>
                     <p>There are also the two block definitions below. Read them both so you understand what they do.<br />
                         <img class="indent" src="/bjc-r/img/7-recursion/set-pen-to-paint.png" alt="set pen to paint with thickness (thickness) {
@@ -71,10 +64,7 @@
     set (flat line ends) to (false)
 }" />
                     </p>
-                </li>
-        
-                <div class="endnote">You might prefer to have a script that starts with <code>when (r) key pressed</code> for the rectangle and another one with <code>when (m) key pressed</code> for the Mondrian.</div>
-        
+                </li>        
                 <li>
                     Finish programming the base case, the <code>rectangle</code> block. Your code should
                     <ul>
@@ -83,7 +73,7 @@
                     </ul>
                     <div class="endnote">
                         <a href="#hint-paint" data-toggle="collapse" title="How do you paint?">How do you paint?</a>
-                        <div id="hint-paint" class="collapse"><p>Draw a line of color with a pen size the width of the rectangle.</p></div>
+                        <div id="hint-paint" class="collapse"><p>Draw a line of color using the width of the rectangle as the pen size.</p></div>
                         <!--<p>You learned about state transparency on <a href="/bjc-r/cur/programming/7-recursion/1-trees/1-recursive-tree.html?topic=nyc_bjc%2F7-recursion-trees-fractals.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 7 Lab 1 Page 1: Recursive Tree">Unit 7 Lab 1 Page 1: Recursive Tree</a>.</p>-->
                     </div>
                 </li>
@@ -95,6 +85,7 @@
                 <li>Start writing the code for <code>Mondrian</code> by writing its base case, which will just call <code>rectangle</code>.</li>
 				<li>
                     Now, program the code for the recursive case. Your code should  
+                    <div class="sidenoteBig">Suggestion: If you have two slightly different cases that depend on which of <var>width</var> and <var>height</var> is bigger, you might make a <code>Mondrian helper</code> block as an abstraction for the part in common.</div>                            
                     <ul>
                         <li>
                             Decide how to subdivide the rectangle. Pick a random percentage from 20% to 80% and store it in a variable; you will use it more than once.
@@ -102,9 +93,6 @@
                         <li>Split the rectangle along whichever side is bigger: the <var>width</var> or the <var>height</var>.</li>
                         <li>
                             Draw a lower-level <code>Mondrian</code> in each part.
-                            <!--<s>Subdivide the rectangle at each level into <em>two</em> rectangles. </s>
-                            <div class="endnote">For example, in level 2, <code>Mondrian</code> subdivides the rectangle into two pieces and uses level 1 <code>Mondrian</code> two times.  For level 3, <code>Mondrian</code> uses level-2 <code>Mondrian</code> two times.  Level 4 will subdivide again, creating eight rectangles, and so on.<div class="todo">Too long to read. Seems more confusing than it is. --MF, 7/5/20</div>-->
-                            <div class="endnote">If you have two slightly different cases depending on which of width and height is bigger, find the almost-the-same part and make a <code>Mondrian helper</code> block that does the common part.</div>                            
                             <div class="endnote">
                                 <p>The 20% to 80% range makes sure that each subdivision is wide enough to see.</p>
                                 <p>
@@ -117,41 +105,26 @@
                                 </p>
                                 <p><a href="#hint-buggy" data-toggle="collapse" title="Buggy code? Here are some things to consider.">Buggy code? Here are some things to consider.</a></p>
                                 <div id="hint-buggy" class="collapse">
+                                    <strong>It will be easier to think about your code if <code>rectangle</code> and <code>Mondrian</code> are state invariant.</strong> The sprite should end up in the same position and direction as it started. Check for this in each piece of code (that is, in <code>rectangle</code> and in each branch of the <code>if</code> statement inside <code>Mondrian</code>).
                                     <ul>
-                                        <li>
-                                            <strong>Make sure your code in <code>rectangle</code> and <code>Mondrian</code> is state invariant.</strong> The sprite <em>must</em> end up in the same position and direction after each piece of code (that is, at the end of <code>rectangle</code> and at the end of each branch of the <code>if</code> statement inside <code>Mondrian</code>).
-                                            <ul>
-                                                <li>if any piece of your code (such as rectangle or one piece of <code>if</code> turns at all, it needs to turn enough so that the sprite finishes pointing the same direction.</li>
-                                                <li>You can't use <code>go to x: () y: ()</code>, <code>set x to ()</code>, <code>set y to ()</code>, or <code>point in direction</code>. You must instead use blocks like <code>turn &#8635;</code>, <code>turn &#8634;</code>, and <code>move</code> so that you can undo these changes by the end of that piece of code.</li>
-                                            </ul>
-                                        </li>
-                                        <li>It might help you debug to add a <code>pause all</code> just before the second recursive call to <code>Mondrian</code> in each branch of the <code>if else</code>.</li>
+                                        <li>If any piece of your code (such as <code>rectangle</code> or one branch of an <code>if</code>) turns, the sprite should finish facing in the same direction in which it started.</li>
+                                        <li>It's harder to keep your code state invariant if you move to a particular place or turn in a particular direction, such as by using <code>go to</code>, <code>set x</code>, <code>set y</code>, or <code>point in direction</code>. Instead, use blocks like <code>turn &#8635;</code>, <code>turn &#8634;</code>, and <code>move</code> so that you can undo these changes before leaving that piece of code.</li>
                                     </ul>
                                 </div>
                                 <p><a href="#hint-specific" data-toggle="collapse" title="">Here are a few tips for specific situations.</a></p>
                                 <div id="hint-specific" class="collapse">
                                     <ul>
-                                        <li>If you have any code that looks like <code>width × (1 - percent)</code>, make sure have it set up correctly (for example, that is not the same as <code>1 - (width × percent)</code>).</li>
-                                        <li>If you rotate 90 degrees before you draw <code>Mondrian</code>, you'll have to swap <var>width</var> and <code>height</code>, which is possible but can be confusing to think through.</li>
+                                        <li>If you have two recursive calls to <code>Mondrian</code> in the same piece of code, it might help you debug to add a <code>pause all</code> just before the second one.</li>
+                                        <li>If your first recursive call moves <code>width × percent</code>, make sure the second call moves through <code>width × (1 - percent)</code>.</li>
+                                        <li>If you sometimes rotate 90 degrees before a recursive call to <code>Mondrian</code>, you may need to swap <var>width</var> and <var>height</var> in the recursive call. This is possible but can be confusing to think through.</li>
                                     </ul>
                                 </div>
                             </div>
                             When you have <code>Mondrian</code> working, it should produce pictures like this:<br />
                             <img class="indent noshadow" src="/bjc-r/img/7-recursion/mondrian-2.png" alt="Mondrian picture created recursively" title="Mondrian picture created recursively" />
                             <img class="indent noshadow" src="/bjc-r/img/7-recursion/mondrian-3.png" alt="Mondrian picture created recursively" title="Mondrian picture created recursively" />
-                            </li>
-                     </ul>
-               </li>
-            </ol>
-        </div>
-
-        <div class="todo">I want to throw the TIF out. COMBINE is obviously a better way to do this, and it's (about to be) in the U2 assessment. --MF, 7/5/20</div>
-
-		<div class="takeItFurther">
-            <ol start="7">
-            	<li>
-                	Recursion is not just for <em>commands</em> either. You'll learn about recursive <em>reporters</em> in Unit 8. For example, this block reports the factorial of a number. Can you see how it works?<br />
-            		<img class="indent" src="/bjc-r/img/7-recursion/factorial-reporter-definition.png" alt="(num)!{if(num=1){report(1)} else{report(num*(num-1)!}}" title="(num)!{if(num=1){report(1)} else{report(num*(num-1)!}}"/>
+                        </li>
+                    </ul>
                 </li>
             </ol>
         </div>
