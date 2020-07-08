@@ -7,7 +7,6 @@
 	</head>
 
     <body>
-        <div class="todo">Brian, please review the whole page including the TIF. --MF, 7/3/20</div>
         <h2>Transforming Every List Item</h2>
         <div class="learn">
         	<p>
@@ -32,17 +31,28 @@
     report (join (letter (1) of (item (1) of (list of names))) (letter (1) of (item (2) of (list of names))) )
 }" />
             </div>
+        </div>
+        <div class="forYouToDo">
+        	<ol>
+              <li>
+                 What's the difference between <code>split by (<span style="color:brown"><em>⋅</em></span>)</code> and <code>split by (word)</code>?  Try these:
+                 <img src="/bjc-r/img/3-lists/split-space.png" alt="split &quot;hello␠␠␠␠␠␠␠world&quot; by (␠)" title="split &quot;hello␠␠␠␠␠␠␠world&quot; by (␠)">&nbsp;&nbsp;&nbsp;
+                 <img src="/bjc-r/img/3-lists/split-word.png" alt="split &quot;hello␠␠␠␠␠␠␠world&quot; by word" title="split &quot;hello␠␠␠␠␠␠␠world&quot; by word">.  Remember, each brown dot represents a space you type.
+                 </li>
+              </ol>
+         </div>
+        <div class="dialogue">
             <div><span>Alphie:</span> But what about someone who goes by three names like Martin Luther King? It would just report "ML" for him.</div>
             <div><span>Gamal:</span> Oh, that's because the block only takes the first letter of items 1 and 2. We have to add in <code>letter (1) of (item (3) of (list of names))</code>. </div>
             <div><span>Betsy:</span> But what if someone has more names than that? In my aunt's family they each have five or six names...</div>
-            <div><span>Gamal:</span> Well, then we need to take <code>letter (1) of</code> <em>every</em> item in the <var>list of names</var>. That sounds like a <em>higher order function</em>. We need to apply the <code>letter (1) of</code> function to every item in the list.</div>
+            <div><span>Gamal:</span> Well, then we need to take <code>letter (1) of</code> <em>each</em> item in the <var>list of names</var>. That sounds as if what we need is a <em>higher order function</em>. Higher order functions are good at doing things with individual items in a list.</div>
             <div class="vocabFullWidth">
                 <p>A <strong>higher order function</strong> is a function that takes a function as input (or reports a function as output). </p>
             </div>
         </div>
         
         <div class="forYouToDo">
-			<ol>
+			<ol start="2">
                 <li>
                     Build and experiment with these examples of the <code>map</code> function.<br />
                     <img class="indent" src="/bjc-r/img/3-lists/map-join-s.png" alt="map (join( )(s)) over (list{block, script, Boolean})" title="map (join( )(s)) over (list{block, script, Boolean})" /><br />
@@ -54,15 +64,18 @@
         </div>
                 
         <p>
-            The <img class="inline" src="/bjc-r/img/blocks/map-new.png" alt="map 'reporter input slot' over 'list input slot'" title="map 'reporter input slot' over 'list input slot'" /> block takes two inputs: a function (a reporter with a blank input slot) and a list, and it reports a new list where every item is the result of calling the function with an item from the original list as input. For example:<br />
+            The <img class="inline" src="/bjc-r/img/blocks/map-new.png" alt="map 'reporter input slot' over 'list input slot'" title="map 'reporter input slot' over 'list input slot'" /> block takes two inputs: a function (a reporter with a blank input slot) and a list, and it reports a new list in which each item is the result of calling the function with an item from the original list as input. For example:<br />
             <img class="indent" src="/bjc-r/img/3-lists/map-example-2.png" alt="map (join( )(s)) over (list {cat, dog, bird}) reporting {cats, dogs, birds}" title="map (join( )(s)) over (list {cat, dog, bird}) reporting {cats, dogs, birds}" /><br />
             <img class="indent" src="/bjc-r/img/3-lists/map-example-3.png" alt="map (round ( )) over (list{3.14159, 87, 5.4}) reporting {3, 87, 5}" title="map (round ( )) over (list{3.14159, 87, 5.4}) reporting {3, 87, 5}" />
 		</p>
 		
 		<div class="takeNote">
-            <p><strong>You choose the function that describes the change, and <code>map</code> applies that function to each item in the input list and then reports the list of changed values.</strong></p>
+            <p><strong>You choose the function that describes the result for one input item, and <code>map</code> applies that function to each item in the input list and then reports the list of result values.</strong> If your function has <code>item 1 of</code> or <code>item 2 of</code> in it, you're probably trying to do <code>map</code>'s part of the job.</p>
             <p><code>Map</code> is a higher order function just like <code>keep</code> and <code>combine</code>. The function mapped over the list always has a blank input slot. This is where the list item goes each time the function is performed.</p>
             <div class="endnote">
+            	<div class="todo">How about this picture first thing in the hint?<br />
+                <img src="/bjc-r/img/3-lists/hof-chart.png" alt="picture of map transforming each item, keep blocking some input items so they don't appear in the result, and combine superimposing them into one icon" title="picture of map transforming each item, keep blocking some input items so they don't appear in the result, and combine superimposing them into one icon">
+                </div>
                 <p>
                     <a href="#hint-hofs-review" data-toggle="collapse" title="Here is a quick review of higher order functions.">Here is a quick review of the higher order functions <code>map</code>, <code>keep</code>, <code>combine</code>.</a>
                     <div id="hint-hofs-review" class="collapse">
@@ -85,7 +98,7 @@
             </div>
         </div>
         <div class="forYouToDo">
-			<ol start="3">
+			<ol start="4">
 				<li>If it isn't open already, open your U3L2-ContactList project.</li>
                 <li>
                     Use <code>map</code> and <code>combine</code> together to build an <code>initials from name</code> reporter that takes a name as input and reports that person's initials.<br />
@@ -154,7 +167,7 @@
                                 <a href="#hint-capital-adt" data-toggle="collapse" title="Why not use an ADT?">Why not use an ADT?</a>
                                 <div id="hint-capital-adt" class="collapse">
                                     <p>
-                                        The list inside a list shown above makes it clearest to you now as you answer this self-check item what the structure is, but a better way to program something like this would be to use an abstract data type:<br />
+                                        The list inside a list shown above makes it clearest to you now as you answer this self-check item what the structure is, but you're right, in an actual program it would be better to use an abstract data type:<br />
                                         <img class="indent" src="/bjc-r/img/3-lists/capitals-adt-reporting.png" alt="state: (Augusta) capital: (Maine)" title="state: (Augusta) capital: (Maine)" />
                                     </p>
                                 </div>
@@ -204,9 +217,6 @@
                 </li>
 			</ol>
 		</div>
-    
-    <div class="todo">Brian, I redid this with ADTs. Also, this data makes it look like programmers are poor and also it's better to go into business. :( --MF, 7/3/20</div>
-
 
         <div class="takeItFurther">
             <ol type="A">
