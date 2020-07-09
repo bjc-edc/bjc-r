@@ -31,17 +31,19 @@
     report (join (letter (1) of (item (1) of (list of names))) (letter (1) of (item (2) of (list of names))) )
 }" />
             </div>
-        </div>
-        <div class="forYouToDo">
-        	<ol>
-              <li>
-                 What's the difference between <code>split by (<span style="color:brown"><em>⋅</em></span>)</code> and <code>split by (word)</code>?  Try these:
-                 <img src="/bjc-r/img/3-lists/split-space.png" alt="split &quot;hello␠␠␠␠␠␠␠world&quot; by (␠)" title="split &quot;hello␠␠␠␠␠␠␠world&quot; by (␠)">&nbsp;&nbsp;&nbsp;
-                 <img src="/bjc-r/img/3-lists/split-word.png" alt="split &quot;hello␠␠␠␠␠␠␠world&quot; by word" title="split &quot;hello␠␠␠␠␠␠␠world&quot; by word">.  Remember, each brown dot represents a space you type.
-                 </li>
-              </ol>
-         </div>
-        <div class="dialogue">
+            <div class="endnote">
+                <a href="#hint-splitting" data-toggle="collapse" title="What's the difference between splitting with spaces and spltting with words?">What's the difference between splitting with spaces and splitting with words?</a>
+                <div id="hint-splitting" class="collapse">
+                    <p>
+                        Try it! (Each brown dot represents a space.)<br />
+                        <img class="indent" src="/bjc-r/img/3-lists/split-space.png" alt="split &quot;hello␠␠␠␠␠␠␠world&quot; by (␠)" title="split &quot;hello␠␠␠␠␠␠␠world&quot; by (␠)">
+                        <img class="indent" src="/bjc-r/img/3-lists/split-word.png" alt="split &quot;hello␠␠␠␠␠␠␠world&quot; by word" title="split &quot;hello␠␠␠␠␠␠␠world&quot; by word">
+                    </p>
+                    <p>
+                        In one case, <code>split</code> is focusing on the exact characters in the string. In the other case, it's giving you what you really want: the words in the contact's name. At a low level of abstraction, text is made of characters and you look through each of the characters. But at a higher level of abstraction (such as when you are reading), text is made up of words. Snap<em>!</em> lets you think at this higher level of abstraction.
+                    </p>
+                </div>
+            </div>
             <div><span>Alphie:</span> But what about someone who goes by three names like Martin Luther King? It would just report "ML" for him.</div>
             <div><span>Gamal:</span> Oh, that's because the block only takes the first letter of items 1 and 2. We have to add in <code>letter (1) of (item (3) of (list of names))</code>. </div>
             <div><span>Betsy:</span> But what if someone has more names than that? In my aunt's family they each have five or six names...</div>
@@ -52,7 +54,7 @@
         </div>
         
         <div class="forYouToDo">
-			<ol start="2">
+			<ol start="1">
                 <li>
                     Build and experiment with these examples of the <code>map</code> function.<br />
                     <img class="indent" src="/bjc-r/img/3-lists/map-join-s.png" alt="map (join( )(s)) over (list{block, script, Boolean})" title="map (join( )(s)) over (list{block, script, Boolean})" /><br />
@@ -73,9 +75,16 @@
             <p><strong>You choose the function that describes the result for one input item, and <code>map</code> applies that function to each item in the input list and then reports the list of result values.</strong> If your function has <code>item 1 of</code> or <code>item 2 of</code> in it, you're probably trying to do <code>map</code>'s part of the job.</p>
             <p><code>Map</code> is a higher order function just like <code>keep</code> and <code>combine</code>. The function mapped over the list always has a blank input slot. This is where the list item goes each time the function is performed.</p>
             <div class="endnote">
-            	<div class="todo">How about this picture first thing in the hint?<br />
-                <img src="/bjc-r/img/3-lists/hof-chart.png" alt="picture of map transforming each item, keep blocking some input items so they don't appear in the result, and combine superimposing them into one icon" title="picture of map transforming each item, keep blocking some input items so they don't appear in the result, and combine superimposing them into one icon">
-                </div>
+                <p>
+                    This picture shows how the three higher order functions could be used:
+                    <img class="indent" src="/bjc-r/img/3-lists/hof-chart.png" height="157px" alt="picture of map transforming each item, keep blocking some input items so they don't appear in the result, and combine superimposing them into one icon" title="picture of map transforming each item, keep blocking some input items so they don't appear in the result, and combine superimposing them into one icon"><br />
+                    <a href="#hint-shapes" data-toggle="collapse" title="See the higher order function expressions with these (imaginary) shape procedures.">See the higher order function expressions with these (imaginary) shape procedures.</a>
+                    <div id="hint-shapes" class="collapse">
+                        <img class="indent" src="/bjc-r/img/3-lists/map-list-figures.png" alt="map (shade figure ()) over (list of figures)" title="map (shade figure ()) over (list of figures)" />
+                        <img class="indent" src="/bjc-r/img/3-lists/keep-list-figures.png" alt="keep items (is () a polygon?) over (list of figures)" title="keep items (is () a polygon?) over (list of figures)" />
+                        <img class="indent" src="/bjc-r/img/3-lists/combine-list-figures.png" alt="combine (list of figures) using (overlay ())" title="combine (list of figures) using (overlay ())" />
+                    </div>
+                </p>
                 <p>
                     <a href="#hint-hofs-review" data-toggle="collapse" title="Here is a quick review of higher order functions.">Here is a quick review of the higher order functions <code>map</code>, <code>keep</code>, <code>combine</code>.</a>
                     <div id="hint-hofs-review" class="collapse">
@@ -97,8 +106,9 @@
                 </p>
             </div>
         </div>
+
         <div class="forYouToDo">
-			<ol start="4">
+			<ol start="3">
 				<li>If it isn't open already, open your U3L2-ContactList project.</li>
                 <li>
                     Use <code>map</code> and <code>combine</code> together to build an <code>initials from name</code> reporter that takes a name as input and reports that person's initials.<br />
