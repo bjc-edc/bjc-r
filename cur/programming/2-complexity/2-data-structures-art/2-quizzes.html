@@ -23,17 +23,11 @@
 			</ol>
 		</div>
         
-        <p>
-            You'll use a list to store your quiz items in a variable. You <em>could</em> just <a href="#hint-solidlist" data-toggle="collapse" title="put all the questions and their answers in a list like this">put all the questions and their answers in a list like this</a> and then use <img src="/bjc-r/img/blocks/item-empty-full-size.png" height="35" alt="item () of 'list input slot'" title="item () of 'list input slot'"> to retrieve each question and each answer using its index.
-            <div id="hint-solidlist" class="collapse"><img class="indent" src="/bjc-r/img/2-complexity/quiz-questions-list.png" alt="set (computer science quiz) to (list (What is the computer science term for looping or repetition?) (iteration) (What is the name for the abstraction in a program that can hold a value?) (variable) (What kind of variable is available only in the part of the program where it is defined?) (local variable))" title="set (computer science quiz) to (list (What is the computer science term for looping or repetition?) (iteration) (What is the name for the abstraction in a program that can hold a value?) (variable) (What kind of variable is available only in the part of the program where it is defined?) (local variable))"></div>
-            That might be ok for the first quiz item (you could use <img class="inline nopadtb" src="/bjc-r/img/2-complexity/item-1-of-csquiz.png" alt="item (1) of (computer science quiz)" title="item (1) of (computer science quiz)"> to get the first question and <img class="inline nopadtb" src="/bjc-r/img/2-complexity/item-2-of-csquiz.png" alt="item (2) of (computer science quiz)" title="item (2) of (computer science quiz)"> to get the first answer), but for a long quiz, you might leave out one answer by accident and then after that, the program will get questions and answers mixed up.
-        </p>
-        <div class="vocab">: <strong>Sublist</strong> 
-            <p>A <strong>sublist</strong> is a list as an item of another list.</p>
-        </div>
-        <p>
-            Instead, <a href="#hint-sublist" data-toggle="collapse" title="you can use a sublist for each question/answer pair">you can use a <em>sublist</em> for each question/answer pair</a>. Then you could choose just one of those lists at a time to work with.
-            <div id="hint-sublist" class="collapse">
+                <p>
+            <div class="vocab">: <strong>Sublist</strong> 
+                <p>A <strong>sublist</strong> is a list as an item of another list.</p>
+            </div>
+            You'll use a list to store your quiz items in a global variable and you use a <em>sublist</em> for each question/answer pair. Then you can choose just one pair at a time to work with.
                 <img class="indent" src="/bjc-r/img/2-complexity/quiz-questions-list-of-lists.png" alt="set (computer science quiz) to (list (list (What is the computer science term for looping or repetition?) (iteration)) (list (What is the name for the abstraction in a program that can hold a value?) (variable)) (list (What kind of variable is available only in the part of the program where it is defined?) (local variable)))" title="set (computer science quiz) to (list (list (What is the computer science term for looping or repetition?) (iteration)) (list (What is the name for the abstraction in a program that can hold a value?) (variable)) (list (What kind of variable is available only in the part of the program where it is defined?) (local variable)))">
                 <img class="indent" src="/bjc-r/img/2-complexity/item-of-item-of-script.png" alt="ask (item(1) of (item (3) of (computer science quiz))) and wait
 if (item (1) of (item (3) of (computer science quiz)) = answer) {
@@ -42,26 +36,20 @@ if (item (1) of (item (3) of (computer science quiz)) = answer) {
 if (item (1) of (item (3) of (computer science quiz)) = answer) {
     say (That's correct!) for (2) secs
 }" />
-            </div>
         </p>
-        <div class="comment">AAP.1.D.3</div>
+        <div class="comment">AAP.1.D.2, AAP.1.D.3, AAP.1.D.4</div>
         <p>
-            But with nested lists (lists with sublists) it can be hard to keep track of the input numbers for <code>item of</code>, so <a href="#hint-useabstraction" data-toggle="collapse" title="a better way is to use abstraction to organize the quiz items">a better way is to <em>use abstraction</em> to organize the quiz items</a>. 
-            <div id="hint-useabstraction" class="collapse">
-                <img class="indent" src="/bjc-r/img/2-complexity/quiz-questions-list-of-adts.png" alt="set (computer science quiz) to (list (question: (What is the computer science term for looping or repetition?) answer: (iteration)) (question: (What is the name for the abstraction in a program that can hold a value?) answer: (variable)) (question: (What kind of variable is available only in the part of the program where it is defined?) answer: (local variable)))" title="set (computer science quiz) to (list (question: (What is the computer science term for looping or repetition?) answer: (iteration)) (question: (What is the name for the abstraction in a program that can hold a value?) answer: (variable)) (question: (What kind of variable is available only in the part of the program where it is defined?) answer: (local variable)))">
-                <img class="indent" src="/bjc-r/img/2-complexity/abstracted-quiz-script.png" alt="ask (question of quiz item (item () of (computer science quiz))) and wait
+            But code like <img class="inline" src="/bjc-r/img/2-complexity/item-1-of-item-3-of.png" alt="item (1) of (item (3) of (computer science quiz))" title="item (1) of (item (3) of (computer science quiz))" /> is hard to read and understand. A better way is to <em>use abstraction</em> to organize the quiz items. The abstraction just hides the <code>list</code> and <code>item of</code> blocks, so it isn't complicated to build, but it can make your code much easier to write, read, and debug.<br />
+            <img class="indent" src="/bjc-r/img/2-complexity/quiz-questions-list-of-adts.png" alt="set (computer science quiz) to (list (question: (What is the computer science term for looping or repetition?) answer: (iteration)) (question: (What is the name for the abstraction in a program that can hold a value?) answer: (variable)) (question: (What kind of variable is available only in the part of the program where it is defined?) answer: (local variable)))" title="set (computer science quiz) to (list (question: (What is the computer science term for looping or repetition?) answer: (iteration)) (question: (What is the name for the abstraction in a program that can hold a value?) answer: (variable)) (question: (What kind of variable is available only in the part of the program where it is defined?) answer: (local variable)))">
+            <img class="indent" src="/bjc-r/img/2-complexity/abstracted-quiz-script.png" alt="ask (question of quiz item (item () of (computer science quiz))) and wait
 if (answer from quiz item (item () of (computer science quiz)) = answer) {
     say (That's correct!) for (2) secs
 }" title="ask (question of quiz item (item () of (computer science quiz))) and wait
 if (answer from quiz item (item () of (computer science quiz)) = answer) {
     say (That's correct!) for (2) secs
 }" />
-            </div>
         </p>
-        <div class="comment">AAP.1.D.2, AAP.1.D.4</div>
-        <p>
-            This abstraction just hides the <code>list</code> and <code>item of</code> blocks, so it isn't complicated to build, but it can make your code <em>much</em> easier to write, read, and debug.<br />
-        </p>
+    
         <div class="vocabFullWidth"><strong>: Data Types</strong>
             <ul>
                 <li>
@@ -79,12 +67,12 @@ if (answer from quiz item (item () of (computer science quiz)) = answer) {
         <div class="vocabFullWidth"><strong>: Abstract Data Types</strong>
             <ul>
                 <div class="comment">AAP.1.D.1</div>
+                <div class="sidenoteBig">
+                    <p>The word "abstract" is often used casually to mean something <em>harder</em> to understand or more complex, but in computer science, its meaning is almost the opposite. ADTs are things that you, the programmer, create to make your program <em>easier</em> for you and others to read, debug, and improve.</p>
+                </div>        
                 <li>
                     An <strong>abstract data type</strong> (or <strong>ADT</strong>) is a custom data type that's meaningful to your program. It's not built into the language; you develop it as you code. This is an abstraction because it hides the details inside the constructor and selectors so that the programmer who uses a <code>quiz item</code> has to think only about questions and answers, not about list indices.
                 </li>
-                <div class="endnote">
-                    <p>The word "abstract" is often used casually to mean something <em>harder</em> to understand or more complex, but in computer science, its meaning is almost the opposite. ADTs are things that you, the programmer, create to make your program <em>easier</em> for you and others to read, debug, and improve.</p>
-                </div>        
                 <li>
                     The <img class="inline" src="/bjc-r/img/2-complexity/quiz-item-constructor.png" alt="quiz item, question: () answer: ()" title="quiz item, question: () answer: ()" /> block is the <strong>constructor</strong>; it <em>constructs</em> one example of the data structure. By naming the pieces of the structure, the constructor makes it certain that every time you use it, you build the structure in the right order.<br />
                     <!--<img class="indent" src="/bjc-r/img/2-complexity/quiz-questions-constructor-definition.png" alt="quiz item, question: (question) answer: (answer) {report (list (question) (answer))}" title="quiz item, question: (question) answer: (answer) {report (list (question) (answer))}">-->
@@ -118,7 +106,7 @@ if (answer from quiz item (item () of (computer science quiz)) = answer) {
                                 <img class="indent" src="/bjc-r/img/2-complexity/create-input-name-right_arrow.png" height="125" alt="create input name right arrow" title="create input name right arrow" />
                             </li>
                             <li>Choose the data type you want for that input. (For this project, you'll use the "text" and "list" input types.)</li>
-                            <li>Click OK.</li>
+                            <li>Click "OK."</li>
                         </ol>
                     </p>
                 </div>
