@@ -22,8 +22,7 @@
         <div class="forYouToDo" id="first">
                 
             <ol>
-				<li>
-				  <div class="newProject"><span class="text">"U5L3-Data-Processing"</span><img src="/bjc-r/img/icons/new-project-called.png" alt="Start a New Project called U5L3-Crayon" title="Start a New Project called U5L3-Data-Processing" /></div></li>
+				<li><div class="newProject"><span class="text">"U5L3-Data-Processing"</span><img src="/bjc-r/img/icons/new-project-called.png" alt="Start a New Project called U5L3-Crayon" title="Start a New Project called U5L3-Data-Processing" /></div></li>
                 <li>Visit the <a href="https://think.cs.vt.edu/corgis/csv/index.html" title="CORGIS Datasets Project" target="_blank">CORGIS Datasets Project</a> and select a dataset you'd like to explore. Download the CSV file for the data you want to explore.</li>
                 <li>Open Snap<em>!</em> and drag the downloaded file into the Snap<em>!</em> window. You should see a table full of data. Look over the data (including the <em>column headings</em> in the top row) to give yourself a sense of what kind of information is included. Then click "OK" to close the window. You can still see the data in the watcher on the Snap<em>!</em> stage.</li>
             </ol>
@@ -88,12 +87,13 @@
                         <p>Notice that these suggested block names include the word "table" or "record" before the second input.  Including the expected input data type in the block name can help you avoid bugs caused by using a selector that doesn't match the input you want to use.</p>
                         <p><a href="#hint-map" data-toggle="collapse" title="Try to figure out how to report just one column, but click if you really need a hint.">Try to figure out how to report just one column, but click if you really need a hint.</a></p>
                         <div id="hint-map" class="collapse">
-                            <p><img class="inline" src="/bjc-r/img/blocks/map.png" alt="map () over ()" title="map () over ()" /> performs the same function on every item in a list.  <a href="#hint-more-map" data-toggle="collapse" title="Have I seen map before?">Have I seen <code>map</code> before?</a> <div id="hint-more-map" class="collapse"> Since a table is a list of lists (where each inner list is one record), <code>map</code> will perform the same function on every record in your dataset. You will need to determine what function to map over the dataset. You learned about <code>map</code> on <a href="/bjc-r/cur/programming/3-lists/2-contact-list/5-mapping-over-list.html?topic=nyc_bjc%2F3-lists.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 3 Lab 2 Page 5: Transforming Every List Item">Unit 3 Lab 2 Page 5: Transforming Every List Item</a>.</div></p></div>
+                            <p><img class="inline" src="/bjc-r/img/blocks/map.png" alt="map () over ()" title="map () over ()" /> performs the same function on every item in a list.  <a href="#hint-more-map" data-toggle="collapse" title="Have I seen map before?">Have I seen <code>map</code> before?</a> <div id="hint-more-map" class="collapse"> Since a table is a list of lists (where each inner list is one record), <code>map</code> will perform the same function on every record in your dataset. You will need to determine what function to map over the dataset. You learned about <code>map</code> on <a href="/bjc-r/cur/programming/3-lists/2-contact-list/5-mapping-over-list.html?topic=nyc_bjc%2F3-lists.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 3 Lab 2 Page 5: Transforming Every List Item">Unit 3 Lab 2 Page 5: Transforming Every List Item</a>.</div></p>
                         </div>
-               </li>
+                    </div>
+                </li>
                 <li>
                     <img class="inline" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> Determine one question you can answer by <strong>looking at a single column</strong> of your data set, and then build code to answer your question. You may need to build additional blocks or import them from other projects.
-                   <div class="endnote">
+                    <div class="endnote">
                        <p>
                             You can see the column number by holding your mouse pointer over the letter at the top of the column in table view.<br />
                             <img height="120" class="indent" src="/bjc-r/img/5-algorithms/column-number.png" alt="image of the top of the table view for the cars dataset with the mouse pointer over the top of the second column; the columns are now labeled A, 2 (where the pointer is), C, D, etc." title="image of the top of the table view for the cars dataset with the mouse pointer over the top of the second column; the columns are now labeled A, 2 (where the pointer is), C, D, etc." />
@@ -176,18 +176,15 @@
 
                     </div>
                 </li>
-		<li>
-		   <p> Writing specific field numbers into the code is problematic for several reasons:  It's easy to get wrong, it makes for unreadable code, and (this actually happened with the <var>cars</var> database between edits of BJC) the layout of a table might change over time.</p>
-
-		<p>Write a block<br />
-		<img class="indent" src="/bjc-r/img/5-algorithms/field-named.png" alt="field named () from record () of table ()" title="field named () from record () of table ()" /><br />
-that looks in the table <em>header</em> for the given name, finds what item number it is in the header list, and uses that as the field number to extract from the given record.  Also write<br />
-		<img class="indent" src="/bjc-r/img/5-algorithms/column-named.png" alt="column named () of table ()" title="column named () of table ()" /><br />
-It should take the full table (header and data) as input, but should report the desired column from only the data of the table (so that the result can be used directly as input to blocks such as AVERAGE OF LIST).  You may find<br />
-		<img class="indent" src="/bjc-r/img/5-algorithms/index-of.png" alt="index of () in ()" title="index of () in ()index of () in ()" /><br />
-		helpful.
-		</li>
-           </ol>
+                <li>
+                    Writing specific field numbers into the code is problematic for several reasons:  It's easy to get wrong, it makes for unreadable code, and (this actually happened with the <var>cars</var> database between edits of BJC) the layout of a table might change over time.
+                    <ul>
+                        <li>Write a block <img class="inline" src="/bjc-r/img/5-algorithms/field-named.png" alt="field named () from record () of table ()" title="field named () from record () of table ()" /> that looks for the given name in the table <em>header</em> , finds what item number it is in the header list, and uses that as the field number to extract from the given record.</li>
+                        <li>Also write <img class="inline" src="/bjc-r/img/5-algorithms/column-named.png" alt="column named () of table ()" title="column named () of table ()" />, which should take the full table (header and data) as input, but should report the desired column from only the data of the table (so that the result can be used directly as input to blocks such as AVERAGE OF LIST).</li>
+                        <li>You may it helpful to build a <img class="inline" src="/bjc-r/img/5-algorithms/index-of.png" alt="index of () in ()" title="index of () in ()index of () in ()" /> block.</li>
+                    </ul>
+                </li>
+            </ol>
         </div>
         
 
