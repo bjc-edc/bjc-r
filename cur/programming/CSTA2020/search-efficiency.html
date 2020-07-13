@@ -3,152 +3,92 @@
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
-		<title>Unit 5 Lab 1: Search Algorithms and Efficiency, Page 2</title>
+		<title>Unit 5 Lab 1: Search Algorithms and Efficiency, Abridged Versions of Pages 2-4</title>
 	</head>
 
 	<body>
-        <h2>How Many Five-Letter Words Are There?</h2>
-        <div class="todo">
-            <p>PAUL SHOULD REVIEW THIS CONTENT.</p>
-            <h3>TG and solutions need to be checked. --MF, 12/19/18</h3>
-        </div>
+        <h2>Search Algorithms and Efficiency</h2>
+        <div class="endnote">Please note, this is a adaptation of the student-facing pages and was designed for use in a brief conference session. The complete student-facing version is available on bjc.edc.org: <a href="/bjc-r/cur/programming/5-algorithms/1-searching-lists/2-how-many-five-letter-words.html?topic=nyc_bjc%2F5-algorithms.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 5 Lab 1 Page 2: How Many Five-Letter Words Are There?" target="_blank">Unit 5 Lab 1 Page 2: How Many Five-Letter Words Are There?</a>, <a href="/bjc-r/cur/programming/5-algorithms/1-searching-lists/3-spell-checker.html?topic=nyc_bjc%2F5-algorithms.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 5 Lab 1 Page 3: Is 'Seperate' Spelled Correctly?" target="_blank">Unit 5 Lab 1 Page 3: Is "Seperate" Spelled Correctly?</a>, and <a href="/bjc-r/cur/programming/5-algorithms/1-searching-lists/4-efficiency.html?topic=nyc_bjc%2F5-algorithms.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 5 Lab 1 Page 4: Exactly How Much Faster Is Binary Search?" target="_blank">Unit 5 Lab 1 Page 4: Exactly How Much Faster Is Binary Search?</a>.</div>
         <div class="learn">
-            <p><strong>On this page</strong>, you will see how long it takes to run a <em>linear search</em> algorithm. </p>
+            <p><strong>On this page</strong>, you will compare the time required for binary search and for linear search.</p>
         </div>
-        <p>On <a href="/bjc-r/cur/programming/2-complexity/3-predicates/6-solving-word-puzzle.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 2 Lab 3 Page 6: Solving a Word Puzzle">Unit 2 Lab 3 Page 6: Solving a Word Puzzle</a>, you built a <img class="inline nopadtb" src="/bjc-r/img/5-algorithms/does-word-have-number-letters.png" alt="does () have () letters?" title="does () have () letters?" /> block and used it with <code>keep</code> to find words of a specific length in a word list. But how long does a process like that take?</p>
+        <h3>Understanding Linear Search: How Many Five-Letter Words Are There? (about 5 minutes)</h3>
+        <p>Students will have built a <img class="inline nopadtb" src="/bjc-r/img/5-algorithms/does-word-have-number-letters.png" alt="does () have () letters?" title="does () have () letters?" /> block and used it with <code>keep</code> to find words of a specific length in a word list. The question here is: <strong>How long does a process like that take?</strong></p>
         
         <div class="forYouToDo" id="first">
 			<ol>
-                <li><a href="/bjc-r/prog/5-algorithms/U5L1-Spell-Checker.xml" class="run"><img class="inline" src="/bjc-r/img/icons/load-save.png" alt="Click here to load this file. Then save it to your Snap! account." title="Click here to load this file. Then save it to your Snap! account."></a> This project provides the variables <var>1,000 words</var>, <var>10,000 words</var>, and <var>100,000 words</var>, each containing a list of words.</li>
+                <li>
+                    <div class="sidenoteBig">Saving is optional for this workshop session.</div>
+                    <a href="/bjc-r/prog/5-algorithms/U5L1-Spell-Checker.xml" class="run"><img class="inline" src="/bjc-r/img/icons/load-save.png" alt="Click here to load this file. Then save it to your Snap! account." title="Click here to load this file. Then save it to your Snap! account."></a> 
+                    <div class="endnote">This project provides the variables <var>1,000 words</var>, <var>10,000 words</var>, and <var>100,000 words</var> (each containing a list of words) and a copy of the <code>does () have () letters?</code> predicate.</div>
+                </li>
 				<li>How many five-letter words are in the <var>10,000 words</var> list?</li>
-		        <div class="endnote">The <img class="inline nopadtb" src="/bjc-r/img/5-algorithms/does-word-have-number-letters.png" alt="does () have () letters?" title="does () have () letters?" /> block is included in this project.</div>
+                <div class="endnote">
+                    <a href="#hint-hints" data-toggle="collapse" title="Click for some hints.">Click for some hints.</a>
+                    <div id="hint-hints" class="collapse">
+                        <div class="sideHOMbig"><p>The blank input slot in the predicate is <em>required</em>; this is where each item from the list goes as it is checked by the predicate.</p></div>
+                        <ul>
+                            <li>
+                                You will need the <code>keep</code> block. <code>Keep</code> filters an input list according to the results of a predicate expression (a true/false question).
+                                <img class="indent" src="/bjc-r/img/5-algorithms/keep-5-letter-words-from-10000.png" alt="keep (does ( ) have (5) letters?) from (10,000 words)" title="keep (does ( ) have (5) letters?) from (10,000 words)" />
+                            </li>
+                            <li>You also need the <em>red</em> <code>length</code> <code>of</code> block that finds the number of items in a list; this is different from the <em>green</em> <code>length of</code> block that finds the number of letters in a text string.</li>
+                        </ul>
+                    </div>
+                </div>
+                        
                 <li>Use the <img class="inline" src="/bjc-r/img/5-algorithms/computation-time-of.png" alt="computation time of 'grey ring input slot'" title="computation time of 'grey ring input slot'" /> block provided in this project to determine how long it takes for the computer to answer that question.</li>
-                <div class="narrower">
+                <div class="endnote">
                     <p>The <code>computation time</code> block takes any reporter (with its inputs filled in), computes the result but ignores it, and instead reports <em>how long it took</em> to do the computation (in milliseconds).</p>
                     <img class="indent" src="/bjc-r/img/5-algorithms/computation-time-reporting.png" alt="computation time of (numbers from (1) to (1000)) reporting 27" title="computation time of (numbers from (1) to (1000)) reporting 27" />
                     <p>In this example, it took 27 milliseconds to compute the list of integers from 1 to 1000. (The report you see will depend on how fast your computer is and what other programs are running on it.)</p>
-                    <p>You can look inside <code>computation time</code> to see how it works.</p>
+                    <p>You can look inside <code>computation time</code> to see how it works: Right-click (or control-click on a mac) the block and select "edit..." from the menu that appears.</p>
                 </div>
-                <li>Click on the <code>computation time</code> block you just used to answer the previous question three more times and note the range of answers. They're not exactly the same because of other things that your computer is doing at the same time, so you should always take whatever result it gives you as <em>approximate</em>.</li>
+                <li>Click on the <code>computation time</code> expression you just used to answer the previous question three more times and note the range of answers. They're not exactly the same because of other things that your computer is doing at the same time, so you should always take whatever result it gives you as <em>approximate</em>.</li>
                 <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> How long do you think it would take to count five letter words if the list had 100,000 words?</li>
-                <li>Use <code>computation time</code> to determine how long it takes to find out how many five-letter words are in the <var>100,000 words</var> list. </li>
-            </ol>
-        </div>
-        
-		<p>Searching for all the five-letter words in a specific word list is an <em>instance</em> of a more general problem: searching for all the words of any particular length.</p>
-        <div class="vocabFullWidth">: <strong>Problem</strong> and <strong>Instance of a Problem</strong>
-            <div class="comment">AAP-4.A.1</div>
-            <ul>
-                <li>A <strong>problem</strong> is a general description of a task that may (or may not) be solved algorithmically.</li>
-                <li>An <strong>instance of a problem</strong> is one case of a problem, with specific inputs.</li>
-            </ul>
-        </div>
-        
-        <div class="forYouToDo">
-			<ol start="7">
-                <li>
-                    Suppose instead, we count the <em>seven</em> letter words. Will this take...
-                    <img class="imageRight" src="/bjc-r/img/icons/write-out-thoughts.png" alt="Write Out Your Thoughts" title="Write Out Your Thoughts" />
-                    <ol>
-                        <li>More time because seven letters is more than five letters?</li>
-                        <li>Less time because there are fewer seven letter words than five letter words?</li>
-                        <li>The same time because it's not the word length that matters; it's the size of the dictionary?</li>
-                    </ol>
-                    <div class="todo">I was thrown off by the format of this exercise and rephrased it as a question. --MF, 5/31/20</div>
-                </li>
-                <li>
-                    Experiment to find out for sure.
-                </li>
+                <li>Use <code>computation time</code> to check using the <var>100,000 words</var> list. </li>
 			</ol>
 		</div>
         <p>The only way to answer a "How many words..." problem is to check every single word in the dictionary. So if you have <strong>ten times as many</strong> words in the dictionary, it takes <strong>ten times as long</strong> to check them all. </p>
+
         <div class="vocabFullWidth">: <strong>Linear Search</strong> or <strong>Sequential Search</strong>
             <ul>
                 <li>An algorithm takes <strong>linear time</strong> if multiplying the input size by ten multiplies the time required by ten.<br /> 
                 <img class="indent noshadow" style="height:300px" src="/bjc-r/img/5-algorithms/size-vs-time.png" alt="graph of size vs. time showing a straight line through the origin and up to the right with the points for x=10,000 and x=100,000 marked" title="graph of size vs. time showing a straight line through the origin and up to the right with the points for x=10,000 and x=100,000 marked" />
                 </li>
-                <div class="comment">AAP-2.O.5</div>
                 <li>A <strong>linear search</strong> (or <strong>sequential search</strong>) algorithm checks each element of a list in order, a process which takes <em>linear time</em>.</li>
             </ul>
         </div>  
         
         
         
-        <h2>Is "Seperate" Spelled Correctly?</h2>
-        <div class="todo">
-            <p>PAUL SHOULD REVIEW THIS CONTENT.</p>
-            <h3>TG and solutions need to be checked. --MF, 12/19/18</h3>
-        </div>
-        <div class="learn">
-            <p><strong>On this page</strong>, you will use a <em>binary search</em> algorithm to search efficiently in a <em>sorted</em> list.</p>
-        </div>
-        <p>Answering this question is simple in Snap<em>!</em>, because you can just ask <img class="inline nopadtb" src="/bjc-r/img/5-algorithms/100000-words-contains-seperate.png" alt="100000-words-contains-seperate.png" title="(100,000 words) contains (seperate)" />. But <em>"simple" doesn't mean fast</em>. The <code>contains</code> block still has to look at each item in the list until it finds the one you are looking for (and says <code>true</code>) or reaches the end of the list (and says <code>false</code>). </p>
-        <p>When you are only looking for <em>one</em> thing in a list (for example, checking whether a particular word is spelled correctly) rather than finding <em>all</em> the words with some characteristic (for example, looking for all five-letter words), you can use the strategy from <a href="/bjc-r/cur/programming/5-algorithms/1-searching-lists/1-sorted-lists.html?topic=nyc_bjc%2F5-algorithms.topic&course=bjc4nyc.html&novideo&noassignment" title="Page 1: Guess My Number to make your algorithm faster.">Page 1: Guess My Number</a> to make your algorithm faster. The best strategy for that problem is a <em>binary search</em> algorithm: always guess the <em>middle</em> value. That way, you eliminate half the possibilities with each guess. We can use a similar strategy to look for a word in a word list.</p>
-        <div class="endnote">You could have written a simpler number guessing program: the computer could guess the number 1, then 2, then 3, and so on until it finds the number. That would be a <em>linear search</em> algorithm; it's easier to code, but it takes longer to run because every time it makes a wrong guess, it eliminates only that guess. With binary search, every wrong guess eliminates <em>half</em> the possibilities at once.</div>
-        <div class="vocabFullWidth">: <strong>Binary Search</strong>
-        	<div class="comment">AAP-2.P.1, AAP-2.P.2</div>
+        <h3>Understanding Binary Search: Is "Seperate" Spelled Correctly? (about 5 minutes)</h3>
+        <div class="vocabBig">: <strong>Binary Search</strong>
             <p>A <strong>binary search</strong> algorithm starts in the middle of a <em>sorted</em> list and repeatedly eliminates half the list until either the desired value is found or all elements have been eliminated.</p>
-            <div class="comment">AAP-2.O.1</div>
-            <div class="sidenoteBig">You learned about traversing a list on <a href="http://localhost/bjc-r/cur/programming/2-complexity/2-data-structures-art/3-traversing-list.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 2 Lab 2 Page 3: Checking Each Quiz Answer">Unit 2 Lab 2 Page 3: Checking Each Quiz Answer</a>.</div>
+            <!--<div class="comment">AAP-2.O.1</div>
+            <div class="sidenoteBig">You learned about traversing a list on <a href="http://localhost/bjc-r/cur/programming/2-complexity/2-data-structures-art/3-traversing-list.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 2 Lab 2 Page 3: Checking Each Quiz Answer">Unit 2 Lab 2 Page 3: Checking Each Quiz Answer</a>.</div>-->
             <p>Linear search does a <em>complete</em> traversal of the list. Binary search saves time by doing a <em>partial</em> traversal of the list.</p>
         </div>
-        <div class="endnote">The one thing that almost everyone knows about computers is that they use binary: ones and zeros. Binary search has nothing to do with that. The word "binary" just means "two," whether it's two digits or two halves.</div>
-        
-        <div class="forYouToDo" id="first">
-			<ol>
-                <li>
-                    <img class="inline" src="/bjc-r/img/icons/write-out-thoughts.png" alt="Write Out Your Thoughts" title="Write Out Your Thoughts" />
-                    Compare this <code>binary search</code> block with your code from <a href="/bjc-r/cur/programming/5-algorithms/1-searching-lists/1-sorted-lists.html?topic=nyc_bjc%2F5-algorithms.topic&course=bjc4nyc.html&novideo&noassignment" title="Page 1: Guess My Number to make your algorithm faster.">Page 1: Guess My Number</a>. What parts are the same? What parts are different?<br />
-                    <img class="indent" src="/bjc-r/img/5-algorithms/binary-search-block-definition.png" alt="binary search for (value) in (data) {
-            script variables (low) (high) (current index) (current item)
-            set (low) to (1)
-            set (high) to (length of (data))
-            repeat until ((low) > (high)) {
-                        set (current index) to (average of (low) and (high)) #comment: find the middle word
-                        set (current item) to (item (current index) of (data))
-                        if ((current item) = (value)) { report (true) }
-                        else {
-                                    if ((current item) > (value)) #comment: eliminate half the list {
-                                                set (high) to ((current index) – (1))
-                                    } else { set (low) to ((current index) + (1)) }
-                        }
-            }
-            report (false)
-}" title="binary search for (value) in (data) {
-            script variables (low) (high) (current index) (current item)
-            set (low) to (1)
-            set (high) to (length of (data))
-            repeat until ((low) > (high)) {
-                        set (current index) to (average of (low) and (high)) #comment: find the middle word
-                        set (current item) to (item (current index) of (data))
-                        if ((current item) = (value)) { report (true) }
-                        else {
-                                    if ((current item) > (value)) #comment: eliminate half the list {
-                                                set (high) to ((current index) – (1))
-                                    } else { set (low) to ((current index) + (1)) }
-                        }
-            }
-            report (false)
-}" />
-                    <div class="endnote">
-                        The <code>&gt;</code> block (as well as the <code>&lt;</code> and <code>=</code> blocks) compares words alphabetically: <br />
-                        <img class="indent" src="/bjc-r/img/5-algorithms/carrot-gt-banana-reporting.png" alt="(carrot) > (banana) reporting true" title="(carrot) > (banana) reporting true" />
-                        <img class="indent" src="/bjc-r/img/5-algorithms/apple-gt-banana-reporting.png" alt="(apple) > (banana) reporting false" title="(apple) > (banana) reporting false" />
-                    </div>
-                </li>
-				<li>Answer the question: Is "seperate" spelled correctly? by using <code>binary search</code> to look for it in the list <var>100,000 words (sorted)</var>.</li>
-				<li>Try <code>binary search</code> with some words that you know are spelled correctly and some that you know are incorrect. </li>
-				<li>Now use <code>binary search</code> to search for the same words in the unsorted <var>100,000 words</var>.</li>
+        <p>Checking spelling is simple in Snap<em>!</em> because you can just ask a dictionary: <img class="inline nopadtb" src="/bjc-r/img/5-algorithms/100000-words-contains-seperate.png" alt="100000-words-contains-seperate.png" title="(100,000 words) contains (seperate)" />. But <em>"simple" doesn't mean fast</em>. The <code>contains</code> block still has to look at each item in the list until it finds the one you are looking for (and says <code>true</code>) or reaches the end of the list (and says <code>false</code>). It is still a linear search.</p>
+        <p>When you are only looking for <em>one</em> thing in a list (for example, checking whether a particular word is spelled correctly) rather than finding <em>all</em> the words with some characteristic (for example, looking for all five-letter words), the best strategy is a <em>binary search</em> algorithm: always guess the <em>middle</em> value and then adjust your guess based on whether it was too high or too low. That way, you eliminate half the possibilities with each guess. We can use a similar strategy to look for a word in a word list.</p>
+                
+        <div class="forYouToDo">
+			<ol start="7">
+                <li>Check whether "seperate" is spelled correctly by using <img class="inline" src="/bjc-r/img/5-algorithms/binary-search.png" alt="binary search for () in 'list input slot'" title="binary search for () in 'list input slot'" /> to look for the word in the sorted list <img class="inline" src="/bjc-r/img/5-algorithms/100000-words-(sorted).png" alt="100,000 words (sorted)" title="100,000 words (sorted)" />.</li>
+				<div class="endnote">You can look inside the <code>binary search</code> block to see how it works.</div>
+                <li>Try <code>binary search</code> with some words that you know are spelled correctly and some that you know are incorrect. </li>
+                <div class="todo">What is the purpose of that problem? Is it just more practice? Is there some thinking we want to encourage perhaps by asking a follow-up question? Why keep this problem at all? Maybe change it to "Practice using <code>binary search</code>: Try it with some words that you know are spelled correctly and some that you know are incorrect." --MF, 7/13/20</div>
+                <li>Now use <code>binary search</code> to search for the same words in the unsorted list <img class="inline" src="/bjc-r/img/5-algorithms/100000-words.png" alt="100,000 words" title="100,000 words" />.</li>
                 <div class="comment">AAP-2.P.2</div>
-				<li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> Why does it work on one list but not the other?</li>
+				<li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> Why does binary searching work on one list but not the other? Consider how the binary search algorithm works.</li>
 			</ol>
 		</div>
 
-        <p>This is why <code>contains</code> works the way it does; it can't make any assumptions about the list you are searching, but if you are only looking for one thing in a sorted list you can use binary search.</p>
+        <p>The <code>contains</code> block can't make any assumptions about the ordering in list you are searching, but if you are looking for one thing in a <em>sorted</em>, list you can use binary search.</p>
         <div class="takeNote">
             <div class="comment">AAP-2.P.2</div>
             <p>
-                Two things affect whether you can use a binary search algorithm:
+                Two things affect whether you can use a binary search algorithm to make your program more efficient:
                 <ul>
                     <li>What question you are trying to answer? Are you searching for <em>one</em> thing in a list or are you finding <em>all</em> the things in the list with some characteristic?</li>
                     <li>What is the condition of your data? Are they sorted or unsorted?</li>
@@ -161,121 +101,30 @@
                     </tr>
                     <tr>
                         <th scope="col">sorted data</th>
-                        <td style="color: green">binary search</td>
-                        <td>linear search</td>
+                        <td style="color: green">can use binary search</td>
+                        <td>must use linear search</td>
                     </tr>
                     <tr>
                         <th scope="col">unsorted data</th>
-                        <td>linear search</td>
-                        <td>linear search</td>
+                        <td>must use linear search</td>
+                        <td>must use linear search</td>
                     </tr>
                 </table>
             </p>
         </div>
         <div class="endnote">If you are working with short lists, it's not so important which algorithm you use. It's when you are dealing with a lot of data that you have to think carefully about the algorithm.</div>	
-        <div class="forYouToDo">
-			<ol start="6">
-                <li>
-                    <!-- Question 1 -->
-                    <div class="assessment-data" type="multiplechoice" identifier="In order to use a binary search, the data must be..."
-                        hasinlinefeedback="true" maxchoices="1" responseIdentifier="ri1" shuffle="true">
-                        <div class="prompt">
-                            <div class="comment">AAP-2.P part b, AAP-2.P.2</div>
-                            In order to use a binary search, the data must be...
-                        </div>
-                        <div class="choice" identifier="c1">
-                            <div class="text">binary</div>
-                            <div class="feedback">
-                                All data in a computer are represented using binary (ones and zeros), but that has nothing to do with binary searches, which compare against the middle value to choose which of two halves to eliminate.
-                            </div>
-                        </div>
-                        <div class="choice" identifier="c2">
-                            <div class="text">sorted</div>
-                            <div class="feedback">
-                                Correct! If the data are sorted, then comparing to the middle value will give you good information about which half of the data to keep.
-                            </div>
-                        </div>
-                        <div class="choice" identifier="c3">
-                            <div class="text">unsorted</div>
-                            <div class="feedback">
-                                If the data are unsorted, you can't be sure that everything before or everything after the middle value can be eliminated.
-                            </div>
-                        </div>
-                        <div class="choice" identifier="c4">
-                            <div class="text">linear</div>
-                            <div class="feedback">
-                                "Linear" is the name of another search algorithm, not a property of the data.
-                            </div>
-                        </div>
-                        <div class="responseDeclaration" identifier="ri1">
-                            <div class="correctResponse" identifier="c2"></div>
-                        </div>
-                    </div>
-                    <!-- Question 2 -->
-                    <div class="assessment-data" type="multiplechoice" identifier="Which of the following questions can be answered with a binary search, assuming the data are sorted?"
-                        hasinlinefeedback="true" maxchoices="2" responseIdentifier="ri2" shuffle="true">
-                        <div class="prompt">
-                            Which of the following questions can be answered with a binary search, assuming the data are sorted? Check all that apply:
-                        </div>
-                        <div class="choice" identifier="c1">
-                            <div class="text">What is my friend Rasheed's phone number?</div>
-                            <div class="feedback">
-                                Correct! You are searching for <strong>one</strong> phone number in the list.
-                            </div>
-                        </div>
-                        <div class="choice" identifier="c2">
-                            <div class="text">Give me a list of all the Beyoncé songs.</div>
-                            <div class="feedback">
-                                We have to find <strong>all</strong> the Beyoncé songs, not just one.
-                            </div>
-                        </div>
-                        <div class="choice" identifier="c3">
-                            <div class="text">Tell me if bread is on my shopping list.</div>
-                            <div class="feedback">
-                                Correct! You are searching for <strong>one</strong> item in the list.
-                            </div>
-                        </div>
-                        <div class="choice" identifier="c4">
-                            <div class="text">Who in my contact list lives on Grand Avenue?</div>
-                            <div class="feedback">
-                                Your contact list is probably <strong>sorted by name</strong>, not by address. Also, there may be <strong>more than one</strong> person who lives on Grand Avenue.
-                            </div>
-                        </div>
-                        <div class="responseDeclaration" identifier="ri2">
-                            <div class="correctResponse" identifier="c1"></div>
-                            <div class="correctResponse" identifier="c3"></div>
-                        </div>
-                    </div>
-                </li>
-            </ol>
-		</div>
-    
-        <div class="ifTime">
-			<ol start="7">
-				<li>Build a spell-checker.</li>
-                <div class="endnote">Use <img class="inline" src="/bjc-r/img/blocks/split-by-whitespace.png" width="190" alt="split () by (whitespace)" title="split () by (whitespace)" /> to convert the input text into a list.</div>
-                <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />Should your spell-checker look through the dictionary for each word of the text or look through the text for each word of the dictionary?</li>
-			</ol>
-		</div>
+
     
     
     
         
-        <h2>Exactly How Much Faster Is Binary Search?</h2>
-        <div class="todo">
-            <p>PAUL SHOULD REVIEW THIS CONTENT.</p>
-            <h3>TG and solutions need to be checked. --MF, 12/19/18</h3>
-        </div>
-        <div class="learn">
-            <p><strong>On this page</strong>, you will compare the time required for binary search and for linear search.</p>
-            <div class="todo">TG: Students compare these two algorithms in two ways: empirically (with clock time) and by counting operations (steps).</div>
-        </div>
+        <h3>Comparing Algorithms: Exactly How Much Faster Is Binary Search? (about 10 minutes)</h3>
 
-        <div class="forYouToDo" id="first">
-			<ol>
+        <div class="forYouToDo">
+			<ol start="11">
                 <li>
                     <div class="comment">AAP-2.P.3</div>
-                    Locate the <img class="inline" src="/bjc-r/img/5-algorithms/linear-search.png" alt="linear search for () in 'list input slot'" title="linear search for () in 'list input slot'" /> block included in your project, and look inside it. Compare it to the algorithm you used to count the number of five- or seven-letter words. This block does the same computation as the <code>binary search</code> block, but it uses the linear algorithm.
+                    Locate the <img class="inline" src="/bjc-r/img/5-algorithms/linear-search.png" alt="linear search for () in 'list input slot'" title="linear search for () in 'list input slot'" /> block included in your project, and look inside it. Compare it to the binary search algorithm you used to count the number of five- or seven-letter words (starting in the middle of a sorted list and repeatedly eliminating half the list). The <code>linear search</code> block does the same computation as the <code>binary search</code> block, but it uses the linear search algorithm.
                 </li>
                 <li>
                     Use <img class="inline" src="/bjc-r/img/5-algorithms/computation-time-of.png" alt="computation time of 'grey ring input slot'" title="computation time of 'grey ring input slot'" /> to test how much time <code>linear search</code> takes to find the word "zebra" in each length list.
@@ -297,6 +146,7 @@
                             <td></td>
                         </tr>
                     </table>
+                    <div class="endnote">You can <a href="https://docs.google.com/spreadsheets/d/1iOtRz1OkfSHeM0weg04quvG7nnydNTZL3v04Na5Kxj4/edit?usp=sharing" title="Save a copy of this Linear vs. Binary Search Chart" target="_blank">save a copy of this chart</a> if you want a spreadsheet to fill out. Just start with the first empty column, "Linear Search Time," for now.</div>
                 </li>
                 <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> Look at the table. How would you describe what happens to the time as the input gets bigger?</li>
             </ol>
@@ -305,7 +155,7 @@
             The actual amount of physical time that it takes to solve a problem depends not only on your algorithm but also on how fast your computer is and what other programs you have running, etc. Therefore, computer scientists who want to measure the speed of an algorithm do it in terms of the number of <em>steps</em>. For example, what we really want to know about the efficiency of the <code>linear search</code> algorithm is how many times <var>current item</var> is compared to <var>value</var> (that is, how many times <img class="inline nopadtb" src="/bjc-r/img/5-algorithms/current-item=value.png" alt="(current item) = (value)" title="(current item) = (value)" /> is called).
         </p>
         <div class="forYouToDo">
-			<ol start="4">
+			<ol start="14">
                 <li>
                     <div class="comment">AAP-2.P.3</div>
                     Add another column to your table. Assuming "zebra" is the <em>last word</em> in each word list, how many comparisons are made by the <code>linear search</code> algorithm for each length list?
@@ -346,7 +196,7 @@
         <div class="takeNote">In this course, you are mostly working with small problems, so it doesn't matter how efficient the algorithm is. But in the real world, programmers deal with lists of billions of items, so the efficiency of an algorithm can make a huge difference. </div>
         
         <div class="forYouToDo">
-            <ol start="7">
+            <ol start="17">
                 <li>
                 	<div class="comment">AAP-2.P part a</div>
                     <div class="comment">AAP-2.P.3</div>
@@ -384,274 +234,31 @@
                         <li>Which algorithm is more efficient?</li>
                     </ol>
                 </li>
-                <li>
-                    <div class="comment">AAP-2.P part b</div>
-                    <img class="inline" src="/bjc-r/img/icons/write-out-thoughts.png" alt="Write Out Your Thoughts" title="Write Out Your Thoughts" />
-                    What are the two requirements to use a binary search?
-                </li>
             </ol>
         </div>
     
     
     
-    
-        <h2>Categorizing Algorithms</h2>
-        <div class="todo">
-            <p>PAUL SHOULD REVIEW THIS CONTENT.</p>
-            <h3>TG and solutions need to be checked. --MF, 12/19/18</h3>
-        </div>
-        <div class="learn"><strong>On this page</strong>, you will compare four algorithms and learn how they each take a different category of time to run.</div>
-        
-        <div class="forYouToDo" id="first">
-			<ol>
-				<li>
-                    Locate the <img src="/bjc-r/img/5-algorithms/25000integers.png" alt="25,000 integers starting from ()" title="25,000 integers starting from ()" /> block included in your project, and time it for various starting numbers.<br />
-                    <table class="bordered center standard" summary="table showing the number of guesses needed to find the last number in a sorted list for a list of a given length">
-                        <tr>
-                            <th scope="col">Starting Number</th>
-                            <th scope="col"><code>25,000 integers</code> Time</th>
-                        </tr>
-                        <tr>
-                            <td>1000</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>10,000</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>100,000</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1,000,000</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>10,000,000</td>
-                            <td></td>
-                        </tr>
-                    </table>
-                </li>
-                <li><img class="imageRight" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> Look at the table. How would you describe what happens to the time as the starting number gets bigger? Write a hypothesis about the pattern.</li>
-                <li>
-                    <div class="sidenoteBig">There are several different ways to sort a list, some of which you will learn about in Unit 8. This <code>sort</code> block uses an "insertion sort" algorithm.</div>
-                    Locate the <img class="inline nopadtb" src="/bjc-r/img/5-algorithms/sort.png" alt="sort 'list input slot'" title="sort 'list input slot'" /> block included in your project, and time it for each length list.<br />
-                    <table class="bordered center standard" summary="table showing the number of guesses needed to find the last number in a sorted list for a list of a given length">
-                        <tr>
-                            <th scope="col">Length of List</th>
-                            <th scope="col"><code>Sort</code> Time</th>
-                        </tr>
-                        <tr>
-                            <td>10</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>100</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1000</td>
-                            <td></td>
-                        </tr>
-                    </table>
-                </li>
-                <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" />How would you describe what happens to the time as the size of the input list gets bigger? Write a hypothesis.</li>
-			</ol>
-		</div>
-        
-        <p>You can classify algorithms by the amount of time they take to run. <!--To classify an algorithm, you look at the number of steps it takes to complete the algorithm and compare it to the size of the input. For example, <code>25,000 integers</code> takes <em>constant time:</em> computing 25,000 integers starting at seven takes as long as computing 25,000 integers starting at seven million. As a second example, <code>linear search</code> takes <em>linear time:</em> if you have ten times as many words in the dictionary, then it takes ten times as long to search through them all. As a third example, consider the <code>sort</code> algorithm you timed. It takes <em>quadratic time:</em> multiplying the input size by ten multiplies the time required by 10<sup>2</sup>. As another example, consider the <code>binary search</code> algorithm you timed. In binary search, multiplying the input size by ten <em>adds</em> a constant amount to the time required instead of multiplying by a constant amount. This is an example of <em>sublinear time</em>.--></p>
-        
-        <div class="forYouToDo">
-        <div class="vocabBig">
-            <ul>
-                <li>An algorithm takes <strong>linear time</strong> the number of steps is proportional to the input size; doubling the input size doubles the time required.</li>
-                <li>An algorithm takes <strong>sublinear time</strong> if the time grows more slowly than the size.</li>
-                <li>An algorithm takes <strong>constant time</strong> if it takes the same amount of time regardless of input size.</li>
-                <li>An algorithm takes <strong>quadratic time</strong> if the number of steps is proportional to the <em>square</em> of the input size.</li>
-            </ul>
-        </div>
-			<ol start="5">
-				<li>Look back at your table for <code>linear search</code>. Confirm that multiplying the list length by ten roughly multiplies the time taken by ten (<em>linear time</em>).<!--the search time for the <var>100,000 word list</var> is (about) ten times as long as the time for the <var>10,000 word list</var>, which is (about) ten times as long as the time for the <var>1,000 word list</var>.--></li>
-				<li>Look back at your table for <code>binary search</code>. Confirm that the search time for each word list is less than for linear search (<em>sublinear time</em>).</li>
-                <li>Look back at your table for <code>25,000 integers</code>. Confirm that it takes about the same amount of time regardless of the input (<em>constant time</em>).</li>
-				<li>Look back at your table for <code>sort</code>. Confirm that multiplying the list length by ten roughly multiplies the time taken by one hundred (<em>quadratic time</em>).<!--Confirm that the time to sort the <var>100,000 word list</var> is (about) one hundred times as long as the time for the <var>10,000 word list</var>, which is (about) one hundred times as long as the time for the <var>1,000 word list</var>.--></li>
-			</ol>
-		</div>
-        
-        <p>The difference between linear search and binary search can be very important if you're searching in a list of ten million items, but the <em>most</em> important difference in algorithm efficiency is between polynomial time (proportional to any power of the input size) and exponential time.</p>
-        
-        <div class="vocabFullWidth">
-            <ul>
-                <li>
-                    An algorithm takes <strong>polynomial time</strong> if the number of steps is less than or equal to a power of the size of the input, such as constant (<em>n</em><sup>0</sup>), sublinear, linear (<em>n</em><sup>1</sup>), quadratic (<em>n</em><sup>2</sup>), or cubic (<em>n</em><sup>3</sup>).
-                    
-                </li>
-                <li>
-                    An algorithm takes <strong>exponential time</strong> if the number of steps is less than or equal to a function like 2<sup><em>n</em></sup>, 10<sup><em>n</em></sup>, etc., which is much slower than any polynomial.
-                </li>
-            </ul>
-        </div>
-        <p>In an exponential time algorithm, just <em>adding 1</em> to the input size (<em>n</em>) of a 2<sup><em>n</em></sup> time algorithm <em>doubles</em> the number of steps! So, for example, if the input size is 20, <em>any</em> polynomial time algorithm will be fast enough, but an exponential time algorithm might take many <em>years</em> to finish.</p>
-		
-        <div class="commentBig">slow down animation, add labels, make exponential graph red, and fix weird hiccups on graphs; image also needs alt-text like what is in commented out text here. --MF, 4/2/19</div>
-        <img class="indent noshadow" src="/bjc-r/img/5-algorithms/algorithm-time-graphs.gif" alt="" title="" /><br />
-        
-        <div class="examFullWidth">
-            <ul>
-                <div class="comment">AAP-4.A.7</div>
-                <li>The term "<strong>reasonable time</strong>" describes any algorithm that runs in polynomial time. Exponential time algorithms are <em>not</em> considered reasonable. </li>
-            </ul>
-        </div>
-    
-        <div class="todo"><div class="endnote">On the Internet, many people use the word exponential to mean "happening very fast", such as clickbait-headline-example-blah or example-bleh. -some nicer version of, now you know better-</div></div>
-        
-        <!--<img class="indent noshadow" style="height:300px" src="/bjc-r/img/5-algorithms/size-vs-time.png" alt="graph of size vs. time showing a straight line through the origin and up to the right with the points for x=10,000 and x=100,000 marked" title="graph of size vs. time showing a straight line through the origin and up to the right with the points for x=10,000 and x=100,000 marked" />-->
-        
-        <div class="comment">AAP-2.M.2 text before bullets</div>
-        <p>One reason it's worth learning these categories is to avoid reinventing the wheel. For example, you've learned that if a list is sorted you can search it in sublinear time using binary search. So when you're writing a program that needs to search through a list repeatedly, it's worthwhile to sort the list before searching. Knowing about algorithms that already exist can help you construct new algorithms.</p>
-        
-        <p>All of the algorithms you've explored so far in this lab (<code>linear search</code>; <code>binary search</code>; <code>25,000 integers</code>; and <code>sort</code>) are reasonable time algorithms. The following optional activity is an example of an exponential time algorithm.</p>
         <div class="ifTime">
-			<ol start="9">
-				<p>A problem that may be familiar that requires an exponential time algorithm is computing any given element of Pascal's Triangle. In Pascal's Triangle, each number is found by adding the two numbers above it. For example, 4 + 6 = 10 and 15 + 6 = 21 as shown below. The first and last number of each row, which don't have two numbers above them are 1. <br />
-                    <img class="indent noshadow" src="/bjc-r/img/5-algorithms/pascals-triangle-numbers.jpg" alt="
-          1
-         1 1
-        1 2 1
-       1 3 3 1
-      1 4 6 4 1
-    1 5 10 10 5 1
-   1 6 15 20 15 6 1
- 1 7 21 35 35 21 7 1
-1 8 28 56 70 56 28 8 1" title="
-          1
-         1 1
-        1 2 1
-       1 3 3 1
-      1 4 6 4 1
-    1 5 10 10 5 1
-   1 6 15 20 15 6 1
- 1 7 21 35 35 21 7 1
-1 8 28 56 70 56 28 8 1" />
-                    <img class="indent" src="/bjc-r/img/5-algorithms/pascals-triangle-6-3-reporting.png" alt="pascals triangle, row: (6) position (3) reporting 10" title="pascals triangle, row: (6) position (3) reporting 10" />
-                </p>
+			<ol start="100">
                 <li>
-                    Locate the <img class="inline" src="/bjc-r/img/8-recursive-reporters/pascals-triangle.png" alt="pascals triangle, row: () position: ()" title="pascals triangle, row: () position: ()" /> block included in your project, and time it for various inputs.<br />
-                    <div class="endnote">If these take too long to run, you can stop your program; just fill in the table as far as the speed of your computer will allow.</div>
-                    <table class="bordered center" summary="table showing the number of guesses needed to find the last number in a sorted list for a list of a given length">
-                        <tr>
-                            <th scope="col" style="white-space: nowrap;">Inputs</th>
-                            <th scope="col" style="white-space: nowrap;">Pascal's Triangle Time</th>
-                        </tr>
-                        <tr>
-                            <td>5, 2</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>10, 5</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>15, 7</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>20, 10</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>25, 12</td>
-                            <td></td>
-                        </tr>
-                    </table>
-                    <div class="endnote">The <var>row</var> value is the input to <code>pascals triangle</code> that matters. (The <var>position</var> input is only given so you get a time for one of the positions near the middle of the row, which take longer to compute.)</div> 
-                    <p>These <var>row</var> inputs are very small compared to the input size for the <code>linear search</code>, <code>binary search</code>, and <code>sort</code> algorithms, and yet the time required for <code>pascals triangle</code> is much higher. Your computer probably can't do much past <var>25</var>.</p>
-                    <div class="endnote">This algorithm works by adding the two numbers above using the algorithm inside itself recursively, but there are better algorithms that compute the value a number in Pascal's Triangle in linear time.</div>
+                    <div class="sidenote">Wondering which search algorithm to use? Consider: are you searching for one thing or for all the things matching a characteristic?</div>
+                    Suppose instead of counting five letter words, we count the <em>seven</em> letter words. Will this take...
+                    <img class="imageRight" src="/bjc-r/img/icons/write-out-thoughts.png" alt="Write Out Your Thoughts" title="Write Out Your Thoughts" />
+                    <ol>
+                        <li>More time because seven letters is more than five letters?</li>
+                        <li>Less time because there are fewer seven letter words than five letter words?</li>
+                        <li>The same time because it's not the word length that matters; it's the size of the dictionary?</li>
+                    </ol>
+                </li>
+                <li>
+                    Experiment to find out for sure.
                 </li>
 			</ol>
 		</div>
-        
-        <div class="forYouToDo">
-			<ol start="10">
-                <div class="comment">AAP-4.A part a</div>
-                <li>Write a paragraph explaining the difference between algorithms that run in a reasonable time and those that do not.</li>
-				<li>
-                    This question is similar to those you will see on the AP CSP exam.
-                    <!-- Question 1 -->
-                    <div class="assessment-data" type="multiplechoice" identifier="Timing of database tasks"
-                        hasinlinefeedback="true" maxchoices="1" responseIdentifier="ri1" shuffle="true">
-                        <div class="prompt">
-                            The table below shows the computer time it takes to complete various tasks on the data of different sized towns.
-                            <p>
-                                <table class="bordered center standard" summary="hours required for various data management tasks for towns of various sizes">
-                                    <tr>
-                                        <th scope="col">Task</th>
-                                        <th scope="col">Small Town<br />(population 1,000)</th>
-                                        <th scope="col">Mid-sized Town<br />(population 10,000)</th>
-                                        <th scope="col">Large Town<br />(population 100,000)</th>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Entering Data</th>
-                                        <td>2 hours</td>
-                                        <td>20 hours</td>
-                                        <td>200 hours</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Backing up Data</th>
-                                        <td>0.5 hours</td>
-                                        <td>5 hours</td>
-                                        <td>50 hours</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Searching through Data</th>
-                                        <td>5 hours</td>
-                                        <td>15 hours</td>
-                                        <td>25 hours</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Sorting Data</th>
-                                        <td>0.01 hour</td>
-                                        <td>1 hour</td>
-                                        <td>100 hours</td>
-                                    </tr>
-                                </table>
-                            </p>
-                            Based on the information in the table, which of the following tasks is likely to take the <em><strong>longest</strong></em> amount of time when scaled up for a city of population 1,000,000.
-                        </div>
-                        <div class="choice" identifier="c1">
-                            <div class="text">Entering data</div>
-                            <div class="feedback">
-                                <!--Entering data seems to take <img class="inline noshadow nopad" src="/bjc-r/img/5-algorithms/quizlet-entering-data.jpg" alt="population/1000" title="population/1000" /> hours, so for a population of 1,000,000, it should take about 2,000 hours.-->
-                                As the population size is multiplied by 10, the time needed for entering data is also multiplied by 10, so for a population of 1,000,000, it should take about 10&times;200=2000 hours.
-                            </div>
-                        </div>
-                        <div class="choice" identifier="c2">
-                            <div class="text">Backing up data</div>
-                            <div class="feedback">
-                                <!--Backing up data seems to take about <img class="inline noshadow nopad" src="/bjc-r/img/5-algorithms/quizlet-backing-up.jpg" alt="5^((population/1000)-1)" title="5^((population/1000)-1)" /> hours, so for a population of 1,000,000, it should take about 125 hours.-->
-                                As the population size is multiplied by 10, time needed for backing up data is multiplied by 10, so for a population of 1,000,000, it should take about 10&times;50=500 hours.
-                            </div>
-                        </div>
-                        <div class="choice" identifier="c3">
-                            <div class="text">Searching through data</div>
-                            <div class="feedback">
-                                Searching through the data seems to go up by about 10 hours each time the population is multiplied by 10, so for a population of 1,000,000, it should take about 35 hours.
-                            </div>
-                        </div>
-                        <div class="choice" identifier="c4">
-                            <div class="text">Sorting data</div>
-                            <div class="feedback">
-                                Correct! <!--Sorting the data seems to go up exponentially as the the population grows. For a population of 1,000,000, it should take about 10,000 hours.-->  As the population size is multiplied by 10, the time needed for the sorting of data is multiplied by 100.  So, for a population of 1,000,000, it should take about 100&times;100=10,000 hours.
-                            </div>
-                        </div>
-                        <div class="responseDeclaration" identifier="ri1">
-                            <div class="correctResponse" identifier="c4"></div>
-                        </div>
-                    </div>
-                </li>
-            </ol>
-        </div>            
+		
+
+    
                 
 
     </body>
