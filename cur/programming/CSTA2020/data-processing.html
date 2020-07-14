@@ -53,7 +53,7 @@
                 <li>Visit the <a href="https://think.cs.vt.edu/corgis/csv/index.html" title="CORGIS Datasets Project" target="_blank">CORGIS Datasets Project</a> and select a dataset you'd like to explore. Download the CSV file for the data you want to explore.</li>
                 <li>Open Snap<em>!</em> and drag the downloaded file into the Snap<em>!</em> window. You should see a table full of data. Look over the data (including the <em>column headings</em> in the top row) to give yourself a sense of what kind of information is included. Then click "OK" to close the window. You can still see the data in the watcher on the Snap<em>!</em> stage.</li>
                 <li>
-                    <img class="inline" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> Determine one question you can answer by <strong>looking at a single column</strong> of your data set, and then build code to answer your question. You may need to build additional blocks or import them from other projects.
+                    <img class="inline" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> Determine one question you can answer by <strong>looking at a single column</strong> of your data set, and then build code to answer your question.
                    <div class="endnote">
                        <p>
                             You can see the column number by holding your mouse pointer over the letter at the top of the column in table view.<br />
@@ -81,70 +81,16 @@
             </ol>
         </div>
         
-        <div class="todo"><p>I need to redo these images and <code>code</code> statements with "record" instead of "row." --MF, 6/27/19</p><p>Maybe this shouldn't be included on this CSTA page then...? --MF, 7/13/20</p></div>
-        <div class="takeItFurther">
-            <ol type="A">
-                <li>Answer a question like "What's the model of the car with the highest MPG?" by building a <img class="inline nopadtb" src="/bjc-r/img/5-algorithms/row-with-max-of-table.png" alt="row with maximum in column () of table ()" title="row with maximum in column () of table ()" /> block. 
-                    <div class="endnote">
-                        <!--This gives away the answer. <p><a href="#hint-rowwithmax" data-toggle="collapse" title="See the row with maximum in column () of table () block in action.">See <code>row with maximum in column () of table ()</code> in action.</a></p>
-                        <div id="hint-rowwithmax" class="collapse"><img class="indent" src="/bjc-r/img/5-algorithms/row-with-max-of-table-reporting.png" alt="" title="" /></div>-->
-                        <p><a href="#hint-build" data-toggle="collapse" title="Click for a hint about how to build row with maximum in column () of table ().">Click for a hint about how to build <code>row with maximum in column () of table ()</code>.</a></p>
-                        <div id="hint-build" class="collapse">
-                            <div class="comment">BH please review the alt text on all five images. --MF, 6/26/19</div>
-                            <p>One way to build a <img class="inline nopadtb" src="/bjc-r/img/5-algorithms/maximum-of-list.png" alt="maximum of 'list input slot'" title="maximum of 'list input slot'" /> function for a simple list (that isn't a table) is shown below. You can build a <img class="inline nopadtb" src="/bjc-r/img/5-algorithms/maximum.png" alt="maximum of () and ()" title="maximum of () and ()" /> block that compares two inputs and use it with <code>combine</code> to find the maximum of a whole list.<br />
-                            <img class="indent" src="/bjc-r/img/5-algorithms/max-operator-definition.png" alt="maximum of (a) and (b) {
-    if (a &gt; b) {
-        report (a)
-    }
-    report (b)
-}" title="maximum of (a) and (b) {
-    if (a &gt; b) {
-        report (a)
-    }
-    report (b)
-}" />
-                            <img class="indent" src="/bjc-r/img/5-algorithms/max-of-list-definition.png" alt="maximum of (data) {
-    report (combine (data) using (maximum of ( ) and ( )))
-}" title="maximum of (data) {
-    report (combine (data) using (maximum of ( ) and ( )))
-}" /><br />
-                            You can use a similar approach here by first building a <img class="" src="/bjc-r/img/5-algorithms/row-with-max-between.png" alt="row with maximum in column () between row () and row ()" title="row with maximum in column () between row () and row ()" /> that compares a specific field (column) for two rows and reports the row with the higher value in the specified column.</p>
-
-                        </div>
-                        <div class="todo">Need to fix "specific field (column)" in the TIF. --MF, 6/27/19</div>
-
-                    </div>
-                </li>
-                <li>
-                    Writing specific field numbers into the code is problematic for several reasons:  It's easy to get wrong, it makes for unreadable code, and (this actually happened with the <var>cars</var> database between edits of BJC) the layout of a table might change over time.
-                    <ul>
-                        <li>Write a block <img class="inline" src="/bjc-r/img/5-algorithms/field-named.png" alt="field named () from record () of table ()" title="field named () from record () of table ()" /> that looks for the given name in the table <em>header</em> , finds what item number it is in the header list, and uses that as the field number to extract from the given record.</li>
-                        <li>Also write <img class="inline" src="/bjc-r/img/5-algorithms/column-named.png" alt="column named () of table ()" title="column named () of table ()" />, which should take the full table (header and data) as input, but should report the desired column from only the data of the table (so that the result can be used directly as input to blocks such as AVERAGE OF LIST).</li>
-                        <li>You may it helpful to build a <img class="inline" src="/bjc-r/img/5-algorithms/index-of.png" alt="index of () in ()" title="index of () in ()index of () in ()" /> block.</li>
-                    </ul>
-                </li>
-           </ol>
-        </div>
 
         <h3>Analyzing Data</h3>
         <p>
             <div class="comment">DAT-2.D.4</div>
             You can ask questions about a specific subset of your data by <em>filtering</em> the data using <code>keep</code>. Filtering is a powerful technique for finding information and recognizing patterns in data. For example, filtering can help you answer questions like "What is the average city MPG <em>for just the Subarus</em> in this dataset?"<br />
-            <img class="indent" src="/bjc-r/img/5-algorithms/average-mpg-of-subarus-reporting.png" alt="average of (column (9) of table (keep items (field (14) of record 'empty list input slot' = Subaru) from (data of table (cars))) reporting 19.49..." title="average of (column (9) of table (keep items (field (14) of record 'empty list input slot' = Subaru) from (data of table (cars))) reporting 19.49..." /><br />
+            <img class="indent" src="/bjc-r/img/5-algorithms/average-mpg-of-subarus-reporting.png" alt="average of (column (9) of table (keep items (field (14) of record 'empty list input slot' = Subaru) from (data of table (cars))) reporting 19.704..." title="average of (column (9) of table (keep items (field (14) of record 'empty list input slot' = Subaru) from (data of table (cars))) reporting 19.704..." /><br />
             Column 14 is the "Make" of the vehicle, so we <code>keep</code> all the records from <var>cars</var> for which the 14<sup>th</sup> field is "Subaru." Then, we take column 9 of those records (the "City MPG") and find their average.
         </p>
         <div class="endnote">
             <p>Notice that there are many digits in the answer above.  How many digits are given in the table for each car's MPG?  An important rule in data science is not to claim more precision in a result than is warranted by the given data, so this answer should be rounded to 19.</p>
-            <p>You might find expressions with many nested function calls easier to build by using the <code>pipe</code> function. <a href="#hint-pipe" data-toggle="collapse" title="What would this look like using pipe?">What would this look like using <code>pipe</code>?</a>
-                <div id="hint-pipe" class="collapse">
-                    <p>
-                        You can use the <code>pipe</code> function from the "Bar Charts" library to work through your data analysis one function at at time:<br />
-                       <img class="indent" src="/bjc-r/img/5-algorithms/pipe-cars-reporting.png" alt="pipe (data of table (cars)) → (keep items (field (14) of record 'list input slot' = Subaru) from 'list input slot') (column (9) of table ()) (average of ()) reporting 19.49..." title="pipe (data of table (cars)) → (keep items (field (14) of record 'list input slot' = Subaru) from 'list input slot') (column (9) of table ()) (average of ()) reporting 19.49..." /><br />
-                        The <code>pipe</code> function sends the <code>data from table (</code><var>cars</var><code>)</code> through <code>keep</code> to filter it for just the Subarus, through <code>column (9) of table</code> to get just the "City MPG" for those Subarus, and finally through <code>average</code> to get the average of those Subaru MPG values.  
-                    </p>
-                    <p>Recall that the empty input slots in each function are filled by the output of the previous function (or the starting dataset in the case of the first function): the empty slots in the <code>keep</code> function are both filled by <code>data from table (</code><var>cars</var><code>)</code>; the empty slot in <code>column (9) of table</code> is filled by the output of <code>keep</code>; and the empty slot in <code>average</code> is filled by the output of <code>column (9) of table</code>. It's like a pipe of made of pieces connected together; the data goes in one end and works through each function, computing a new value at each step.</p>
-                </div>
-            </p>
         </div>
 
         <div class="forYouToDo">
@@ -157,7 +103,7 @@
                     <img class="indent" src="/bjc-r/img/2-complexity/average-of-list.png" alt="average of list 'list input slot'" title="average of list 'list input slot'" />
                     <div class="endnote">You can look inside a block to see how it works: Right-click (or control-click on a mac) the block and select "edit..." from the menu that appears.</div>
                 </li>
-                <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> Determine one question you can answer by <strong>looking at a single column of a <em>portion</em> </strong> of your data set, and then build code to answer that question. You can nest your function or use <code>pipe</code>. (Or try both!)</li>
+                <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> Determine one question you can answer by <strong>looking at a single column of a <em>portion</em> </strong> of your data set, and then build code to answer that question.</li>
 				<div class="endnote">
                     <a href="#hint-portion" data-toggle="collapse" title="Click for example questions to ask about a portion of a single column.">Click for example questions to ask about a portion of a single column.</a>
                     <div id="hint-portion" class="collapse">
@@ -178,7 +124,6 @@
         </p>
         <div class="endnote">
             <p><code>Find first</code> is a higher order function like <code>keep</code>, <code>map</code>, and <code>combine</code>, because it takes a function (a predicate) as input. (<code>Find first</code> is like <code>item (1) of (keep)</code>.)</p>
-            <div class="todo">Images need alt/title text. --MF, 6/27/19  and new column numbers -bh</div>
             <p>
                 <a href="#hint-findfirst" data-toggle="collapse" title="Click for an example of keep vs. find first.">Click for an example of <code>keep</code> vs. <code>find first</code>.</a>
                 <div id="hint-findfirst" class="collapse">
@@ -240,7 +185,6 @@ src="/bjc-r/img/5-algorithms/group-data-of-cars-reporting.png" alt="group (data 
 			most models listed?</li>
                                 <li>How many 2010 Hyundais are in the database? (This requires looking inside one of the lists in column C, so you'd need two <code>keep</code> functions.)</li>
                             </ul>
-                            <p><code>Pipe</code> may be useful for questions that require looking inside the inner lists of the grouped data (in column C).</p>
                         </div>
                     </div>
                 </li>
@@ -250,7 +194,6 @@ src="/bjc-r/img/5-algorithms/group-data-of-cars-reporting.png" alt="group (data 
 
         <h3>Plotting Data</h3>
         <p>
-            <div class="comment">image needs alt/title text. --MF, 6/27/19</div>
             The <code>bar chart</code> function works like the <code>group</code> function, but with special features for numeric data: it allows you to select upper and lower limits of the data; you can have a range of values in one bucket, such as values 6&ndash;10, values 11&ndash;15, and so on; and it sorts the groups. For example, here is the <var>cars</var> data grouped by city MPG (column 9):<br />
             <img class="indent" src="/bjc-r/img/5-algorithms/histogram-by-mpg.png" alt="" title="" />
             <ul>
@@ -262,15 +205,31 @@ src="/bjc-r/img/5-algorithms/group-data-of-cars-reporting.png" alt="group (data 
         <div class="endnote">
             <p>The number in column A is the <em>largest</em> value included in each group.  If the values aren't all integers, the next group includes anything larger.  For example, the group numbered 15 includes values from 10.0001 (or anything more than 10) to exactly 15.</p>
         </div>
-        <p>You can plot the data from <code>bar chart</code> to visualize them:
-            <div class="comment">images need alt/title text. --MF, 6/27/19</div>
+        <p>You can plot the data from <code>bar chart</code> to visualize them:<br />
             <img class="indent" src="/bjc-r/img/5-algorithms/plot-cars-histogram.png" alt="" title="" />
             <img class="indent noshadow" src="/bjc-r/img/5-algorithms/plot-cars-histogram-stage.png" alt="" title="" />
         </p>
         <div class="forYouToDo">
 			<ol start="9">
-                <div class="vocabBig"><p>The <strong>mode</strong> of a data set is the value that appears most often in it.</p></div>
 			    <li>Plot a few bar charts of some fields from your dataset and make at least one new observation about your data.</li>
+                <div class="vocabFullWidth"><p>The <strong>mode</strong> of a data set is the value that appears most often in it.</p></div>
+			</ol>
+		</div>
+
+        <div class="ifTime">
+			<ol start="10">
+                <li>
+                    Here is a bar chart of field 11 from the <var>cars</var> data set (highway MPG) with MPG values from 5 to 50, using an interval of 3. Identify the <em>mode</em>. It will be a range of values such as 13&ndash;15 or 16&ndash;18.<br />
+                    <img class="indent" src="/bjc-r/img/5-algorithms/interval3.png" alt="" title="" />
+                    <img class="indent noshadow" src="/bjc-r/img/5-algorithms/interval3-Stage.png" alt="" title="" />
+                </li>
+                <li>
+                    Here is another bar chart with all the inputs the same as before, but with an interval of 6. Identify the mode.<br />
+                    <img class="indent" src="/bjc-r/img/5-algorithms/interval6.png" alt="" title="" />
+                    <img class="indent noshadow" src="/bjc-r/img/5-algorithms/interval6-Stage.png" alt="" title="" />
+                </li>
+                <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> How can these results both be correct?  (There's nothing wrong with the graphs.)</li>
+                <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> Why would you ever use an interval larger than 1?  If you have time, research this question.</li>
 			</ol>
 		</div>
     

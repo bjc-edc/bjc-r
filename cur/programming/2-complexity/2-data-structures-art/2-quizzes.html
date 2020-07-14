@@ -30,10 +30,10 @@
             You'll use a list to store your quiz items in a global variable and use a <em>sublist</em> for each question/answer pair. Then you can choose just one pair at a time to work with.
                 <img class="indent" src="/bjc-r/img/2-complexity/quiz-questions-list-of-lists.png" alt="set (computer science quiz) to (list (list (What is the computer science term for looping or repetition?) (iteration)) (list (What is the name for the abstraction in a program that can hold a value?) (variable)) (list (What kind of variable is available only in the part of the program where it is defined?) (local variable)))" title="set (computer science quiz) to (list (list (What is the computer science term for looping or repetition?) (iteration)) (list (What is the name for the abstraction in a program that can hold a value?) (variable)) (list (What kind of variable is available only in the part of the program where it is defined?) (local variable)))">
                 <img class="indent" src="/bjc-r/img/2-complexity/item-of-item-of-script.png" alt="ask (item(1) of (item (3) of (computer science quiz))) and wait
-if (item (1) of (item (3) of (computer science quiz)) = answer) {
+if (item (2) of (item (3) of (computer science quiz)) = answer) {
     say (That's correct!) for (2) secs
 }" title="ask (item(1) of (item (3) of (computer science quiz))) and wait
-if (item (1) of (item (3) of (computer science quiz)) = answer) {
+if (item (2) of (item (3) of (computer science quiz)) = answer) {
     say (That's correct!) for (2) secs
 }" />
         </p>
@@ -41,14 +41,15 @@ if (item (1) of (item (3) of (computer science quiz)) = answer) {
         <p>
             But code like <img class="inline" src="/bjc-r/img/2-complexity/item-1-of-item-3-of.png" alt="item (1) of (item (3) of (computer science quiz))" title="item (1) of (item (3) of (computer science quiz))" /> is hard to read and understand. A better way is to <em>use abstraction</em> to organize the quiz items. The abstraction just hides the <code>list</code> and <code>item of</code> blocks, so it isn't complicated to build, but it can make your code much easier to write, read, and debug.<br />
             <img class="indent" src="/bjc-r/img/2-complexity/quiz-questions-list-of-adts.png" alt="set (computer science quiz) to (list (question: (What is the computer science term for looping or repetition?) answer: (iteration)) (question: (What is the name for the abstraction in a program that can hold a value?) answer: (variable)) (question: (What kind of variable is available only in the part of the program where it is defined?) answer: (local variable)))" title="set (computer science quiz) to (list (question: (What is the computer science term for looping or repetition?) answer: (iteration)) (question: (What is the name for the abstraction in a program that can hold a value?) answer: (variable)) (question: (What kind of variable is available only in the part of the program where it is defined?) answer: (local variable)))">
-            <img class="indent" src="/bjc-r/img/2-complexity/abstracted-quiz-script.png" alt="ask (question of quiz item (item () of (computer science quiz))) and wait
-if (answer from quiz item (item () of (computer science quiz)) = answer) {
+            <img class="indent" src="/bjc-r/img/2-complexity/abstracted-quiz-script.png" alt="ask (question of quiz item (item (3) of (computer science quiz))) and wait
+if (answer from quiz item (item (3) of (computer science quiz)) = answer) {
     say (That's correct!) for (2) secs
-}" title="ask (question of quiz item (item () of (computer science quiz))) and wait
-if (answer from quiz item (item () of (computer science quiz)) = answer) {
+}" title="ask (question of quiz item (item (3) of (computer science quiz))) and wait
+if (answer from quiz item (item (3) of (computer science quiz)) = answer) {
     say (That's correct!) for (2) secs
 }" />
         </p>
+        <div class="todo">I would find it easier to read, btw, if it were if (answer = (answer to ...)) swapping the two inputs to =. --bh</div>
     
         <div class="vocabFullWidth"><strong>: Data Types</strong>
             <ul>
