@@ -37,6 +37,7 @@
 		<div>
 			<ul>
 				<li>You may find it helpful to try a few of the lab pages yourself before presenting them to students&mdash;perhaps one of the fractals (Triangle Fractal, Koch Snowflake, or Lévy C-Curve) and the Recursive Mondrian page.</li>
+				<li>It may help you to read <a href="https://en.wikipedia.org/wiki/Piet_Mondrian"> the Wikipedia article</a> on Mondrian before students work on that page. His tree paintings start out completely realistic and then gradually, over time, he abstracts away some of the details. The last of his tree paintings look a lot like his later abstracts.</li>
 			</ul>
 		</div>
 			  
@@ -84,20 +85,18 @@
 					<strong>Page 4: Recursive Mondrian.</strong>
 					<ul>
 						<li><strong>Learning Goal:</strong> Use recursion to create Mondrian-style pictures.</li>
-						<div class="todo">
-                        <div class="todo">We need to decide what to do with this, if anything. --MF, 7/6/20</div>
-                        <li>
-                        	<strong>Debugging:</strong> <a href="https://docs.google.com/document/d/1OWQFlia-OpksfGih-cgXfvDRiub4JUT2QZ4xs5djWvQ/edit?usp=sharing" target="_blank" title="Debugging: Mondrian Base Case">Mondrian Base Case</a>
-                        	<ul>
-                            	<li>The script presented asks students to take a careful look at a bug with coordinate positioning and state transparency. Instead of undoing the moves done by <code>rectangle</code>, the buggy script attempts to return the sprite by placing it at <span class="katex">(\frac{width}{2},\frac{height}{2})</span>. This <em>would</em> work for the base case as it is centered around the origin. However, the rectangles in <code>Mondrian</code> are generally <em>not</em> centered around the origin, and so the script does not produce the intended image.</li>
-                            </ul>
-                        </li>
-                        </div>
 						<li>
                             <strong>Tips:</strong>
                             <ul>
                                 <li>This page is quite a bit harder than most previous work, in part because we deliberately refrained from extensive scaffolding.  It may take your class longer than most pages and they may leave the first class session with their code still not working.</li>
-                                <div class="todo">Brian, you wanted to, "Tell them not to try to trace down to the base case." --MF, 7/6/20</div>
+                                <li>As with any recursion, tell the students not to try to trace the steps of the program down to the base case. Instead, they have to have faith that the recursive call will work, and make sure that the rest of the code uses it correctly, e.g., maintaining state transparency (returning the sprite to the position and direction in which it started).</li>
+                                <li>The page tells students to draw the solid colored rectangle by setting the pen size to the desired width, then moving through the desired height (or the other way around). To make that work, the sprite must be positioned in the middle of the width side, because the rotation center of the sprite is in the midpoint of the wide pen. We don't tell this to students; they should discover it for themselves if their first try doesn't work.</li>
+                                <li>There's another way to draw a solid rectangle: First draw the black border, then, with the pen up, move the sprite to inside the rectangle, then use the <code>fill</code> block. The solution file includes both approaches. If a student uses <code>fill</code> instead of following the directions in the lab, that's fine; don't make a fuss about it.
+                                  <ul>
+                                    <li>If the entire stage fills with color, they didn't pick the pen up before moving inside the rectangle.</li>
+                                  </ul>
+                                </li>
+                                <li>Problem 7 and the If There Is Time problems try to pull students out from the coding details they've been focused on, to think about the art. In particular, problem 7 is an attempt to get more-is-better students to see that a level-15 picture may <em>work</em> (if they use <code>warp</code> or turbo mode), but it doesn't look anything like a Mondrian.</li>
                            </ul>
                        </li>
 					</ul>
@@ -108,11 +107,12 @@
         
         <h3>Related Resources:</h3>
 		<div>
-        	These Wikipedia articles are too advanced for students, but you may find some of the images and background useful resources:
+        	These Wikipedia articles may be too advanced for students, but you may find some of the images and background useful resources:
               <ul>
                 <li><a href="https://en.wikipedia.org/wiki/Sierpinski_triangle" target="_blank" title="Wikipedia: Sierpinski triangle">Sierpinski triangle</a></li>
                 <li><a href="https://en.wikipedia.org/wiki/Koch_snowflake" target="_blank" title="Wikipedia: Koch snowflake">Koch snowflake</a></li>
                 <li><a href="https://en.wikipedia.org/wiki/L%C3%A9vy_C_curve" target="_blank" title="Wikipedia: Lévy C curve">Lévy C curve</a></li>
+                <li><a href="https://en.wikipedia.org/wiki/Piet_Mondrian">Piet Mondrian</a></li>
             </ul>
         </div>
 
