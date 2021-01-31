@@ -31,8 +31,8 @@ char outro[]="    </body>\n</html>\n";
 
 int main(int argc, char **argv) {
     char *class=argv[1],*secp,*inp;
-    char outname[100],searchstring[100],divtext[100],sect[8];
-    char unitnum[4]="0",h3[100],h2[100],units[300],link[300];
+    char outname[100],searchstring[100],divtext[100],sect[8],entry[100];
+    char unitnum[4]="0",h3[100],h2[100],units[300],link[300],link2[300];
     int fin,fout,findex,funit;
     int bflag,i,len,depth,first=1,firstpage=1,vocab=0,boxnum;
     char *mem,*startp,*endp,*nextp,*foop,*bazp;
@@ -52,8 +52,8 @@ int main(int argc, char **argv) {
 	secp=" Vocabulary";
 	vocab++;
     }
-    else if (!strcmp(argv[1],"exam")) secp=" AP Exam Hints";
-    else if (!strcmp(argv[1],"assessment-data")) secp=" Self-Tests";
+    else if (!strcmp(argv[1],"exam")) secp=" On the AP Exam";
+    else if (!strcmp(argv[1],"assessment-data")) secp=" Self-Check Questions";
     else secp=" Summary";
     findex=open("summaries/index-presort",O_CREAT|O_WRONLY,0744);
     (void)lseek(findex,0L,2);
@@ -63,7 +63,11 @@ int main(int argc, char **argv) {
     write(fout,secp,strlen(secp));
     write(fout,introtail,strlen(introtail));
     sprintf(searchstring,"<div class=\"%s",class);
-    sprintf(divtext,"<div class=\"%s100Width\" ",class);
+    if (!strcmp(argv[1],"assessment-data")) {
+	sprintf(divtext,"<div class=\"%s\" ",class);
+    } else {
+	sprintf(divtext,"<div class=\"%s100Width\" ",class);
+    }
     for (i=2;i<argc;i++) {		/* for each input file */
 	fin=open(argv[i],O_RDONLY);
 	secp=sect;
@@ -152,11 +156,19 @@ int main(int argc, char **argv) {
 			bazp = strstr(foop, (bflag ? "</b>" : "</strong>"));
 			foop = foop + (bflag ? 3 : 8);
 			if (*foop == ':') foop += 2;
-			(void)write(findex,foop,bazp-foop);
+			if (strncmp(foop,"bi",bazp-foop) &&
+				strncmp(foop,"t",bazp-foop)) {
+			    (void)strncpy(entry,foop,bazp-foop);
+			    entry[bazp-foop] = '\0';
+			    for(int j = 0; entry[j]; j++){
+				entry[j] = tolower(entry[j]);
+			    }
+			    (void)write(findex,entry,bazp-foop);
+			    (void)sprintf(link2," <a href=\"/bjc-r/cur/programming/summaries/%s#box%d\" title=\"/bjc-r/cur/programming/summaries/%s#box%d\">%s</a>\n%c",
+					  outname,boxnum,outname,boxnum,sect,'\0');
+			    (void)write(findex,link2,strlen(link2));
+			}
 			startp = bazp;
-			(void)sprintf(link," <a href=\"/bjc-r/cur/programming/summaries/%s#box%d\" title=\"/bjc-r/cur/programming/summaries/%s#box%d\">%s</a>\n%c",
-				      outname,boxnum,outname,boxnum,sect,'\0');
-			(void)write(findex,link,strlen(link));
 		    } else {
 			startp = endp;
 		    }
