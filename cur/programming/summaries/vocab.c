@@ -45,7 +45,7 @@ int main(int argc, char **argv) {
     strcat(outname, class);
     strcat(outname, unitnum);
     strcat(outname, ".html");
-    fp=fopen("unitnames","r");
+    fp=fopen("summaries/unitnames","r");
     (void)fread(units,300,1,fp);
     (void)fclose(fp);
     if (!strcmp(argv[1],"vocab")) {
@@ -66,7 +66,7 @@ int main(int argc, char **argv) {
     if (!strcmp(argv[1],"assessment-data")) {
 	sprintf(divtext,"<div class=\"%s\" ",class);
     } else {
-	sprintf(divtext,"<div class=\"%s100Width\" ",class);
+	sprintf(divtext,"<div class=\"%sSummary\" ",class);
     }
     for (i=2;i<argc;i++) {		/* for each input file */
 	fin=open(argv[i],O_RDONLY);
@@ -160,8 +160,10 @@ int main(int argc, char **argv) {
 				strncmp(foop,"t",bazp-foop)) {
 			    (void)strncpy(entry,foop,bazp-foop);
 			    entry[bazp-foop] = '\0';
-			    for(int j = 0; entry[j]; j++){
-				entry[j] = tolower(entry[j]);
+			    if (strncmp(entry,"Boolean",7) && islower(entry[1])) {
+				for(int j = 0; entry[j]; j++){
+				    entry[j] = tolower(entry[j]);
+				}
 			    }
 			    (void)write(findex,entry,bazp-foop);
 			    (void)sprintf(link2," <a href=\"/bjc-r/cur/programming/summaries/%s#box%d\" title=\"/bjc-r/cur/programming/summaries/%s#box%d\">%s</a>\n%c",
