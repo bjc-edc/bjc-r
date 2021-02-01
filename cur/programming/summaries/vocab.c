@@ -34,7 +34,7 @@ int main(int argc, char **argv) {
     char outname[100],searchstring[100],divtext[100],sect[8],entry[100];
     char unitnum[4]="0",h3[100],h2[100],units[300],link[300],link2[300];
     int fin,fout,findex,funit;
-    int bflag,i,len,depth,first=1,firstpage=1,vocab=0,boxnum;
+    int bflag,i,len,depth,first=1,firstpage=1,vocab=0,boxnum=0;
     char *mem,*startp,*endp,*nextp,*foop,*bazp;
     FILE *fp;
     char ch;
@@ -96,7 +96,6 @@ int main(int argc, char **argv) {
 	    (void)write(fout,h2,strlen(h2));
 	}
 	if (!strcmp(secp-2,".1")) {	/* if first page of new lab */
-	    boxnum=0;
 	    endp=strstr(mem,"<title>");
 	    foop=strstr(endp,",");
 	    sprintf(h3,"<h3>%.*s</h3>\n%c",(int)(foop-(endp+14)),endp+14,'\0');
@@ -166,7 +165,7 @@ int main(int argc, char **argv) {
 				}
 			    }
 			    (void)write(findex,entry,bazp-foop);
-			    (void)sprintf(link2," <a href=\"/bjc-r/cur/programming/summaries/%s#box%d\" title=\"/bjc-r/cur/programming/summaries/%s#box%d\">%s</a>\n%c",
+			    (void)sprintf(link2," <a href=\"/bjc-r/cur/programming/%s#box%d\" title=\"/bjc-r/cur/programming/summaries/%s#box%d\">%s</a>\n%c",
 					  outname,boxnum,outname,boxnum,sect,'\0');
 			    (void)write(findex,link2,strlen(link2));
 			}
