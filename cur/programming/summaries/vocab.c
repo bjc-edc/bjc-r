@@ -30,7 +30,7 @@ char introtail[]="</title>\n"
 char outro[]="    </body>\n</html>\n";
 
 int main(int argc, char **argv) {
-    char *class=argv[1],*secp,*inp;
+    char *class=argv[1],*topic=argv[2],*secp,*inp;
     char outname[100],searchstring[100],divtext[100],sect[8],entry[100];
     char unitnum[4]="0",h3[100],h2[100],units[300],link[300],link2[300];
     int fin,fout,findex,funit;
@@ -39,7 +39,7 @@ int main(int argc, char **argv) {
     FILE *fp;
     char ch;
 
-    unitnum[0]=argv[2][0];
+    unitnum[0]=argv[3][0];
     page_size = (size_t) sysconf (_SC_PAGESIZE);
     strcpy(outname, "summaries/");
     strcat(outname, class);
@@ -68,7 +68,7 @@ int main(int argc, char **argv) {
     } else {
 	sprintf(divtext,"<div class=\"%sSummary\" ",class);
     }
-    for (i=2;i<argc;i++) {		/* for each input file */
+    for (i=3;i<argc;i++) {		/* for each input file */
 	fin=open(argv[i],O_RDONLY);
 	secp=sect;
 	*secp++ = argv[i][0];		/* sect <- "u.l.p" from filename */
@@ -76,20 +76,21 @@ int main(int argc, char **argv) {
 	while ((ch=*inp++) != '\0') {
 	    if (ch == '/') {
 		*secp++ = '.';
+		if (*inp == '0') inp++;
 		while (isdigit(*inp)) {
 		    *secp++ = *inp++;
 		}
 	    }
 	}
 	*secp = '\0';
-	(void)sprintf(link,"<a href=\"/bjc-r/cur/programming/%s\" title=\"/bjc-r/cur/programming/%s\">%s</a>%c",
-		      argv[i],argv[i],sect,'\0');
+	(void)sprintf(link,"<a href=\"/bjc-r/cur/programming/%s%s\" title=\"/bjc-r/cur/programming/%s\">%s</a>%c",
+		      argv[i],topic,argv[i],sect,'\0');
 	len=lseek(fin,0L,2);		/* get file length */
 	mem=(char *)mmap(NULL,len,PROT_READ,MAP_SHARED,fin,0);
 	len = ((len + page_size)/page_size)*page_size;
 	if (first) {
 	    first = 0;
-	    foop=strchr(units,argv[2][0]);
+	    foop=strchr(units,argv[3][0]);
 	    endp=strchr(foop,'\n');
 	    *endp='\0';
 	    sprintf(h2,"<h2>%s</h2>\n%c",foop-5,'\0');
