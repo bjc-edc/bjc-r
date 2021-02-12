@@ -35,6 +35,7 @@ int main(int argc, char **argv) {
     char unitnum[4]="0",h3[100],h2[100],units[300],link[300],link2[300];
     int fin,fout,findex,funit;
     int bflag,i,len,depth,first=1,firstpage=1,vocab=0,boxnum=0;
+    int wordflag=1,lowerme=0;
     char *mem,*startp,*endp,*nextp,*foop,*bazp;
     FILE *fp;
     char ch;
@@ -161,8 +162,23 @@ int main(int argc, char **argv) {
 			    (void)strncpy(entry,foop,bazp-foop);
 			    entry[bazp-foop] = '\0';
 			    if (strncmp(entry,"Boolean",7) && islower(entry[1])) {
+				wordflag=1;
 				for(int j = 0; entry[j]; j++){
+				    if (wordflag && isalpha(entry[j])) {
+					lowerme = (!isupper(entry[j]) ||
+						   !isupper(entry[j+1]));
+					wordflag = 0;
+				    } else if (wordflag) {
+					lowerme = 0;
+				    } else {
+					if (!isalpha(entry[j])) {
+					    wordflag = 1;
+					    lowerme = 0;
+					}
+				    }
+				    if (lowerme) {
 				    entry[j] = tolower(entry[j]);
+				    }
 				}
 			    }
 			    (void)write(findex,entry,bazp-foop);
@@ -184,4 +200,5 @@ int main(int argc, char **argv) {
     write(fout,outro,strlen(outro));
     close(fout);
     close(findex);
+    return 0;
 }
