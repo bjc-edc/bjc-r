@@ -32,7 +32,7 @@ char outro[]="    </body>\n</html>\n";
 int main(int argc, char **argv) {
     char *class=argv[1],*topic=argv[2],*secp,*inp;
     char outname[100],searchstring[100],divtext[100],sect[8],entry[100];
-    char unitnum[4]="0",h3[100],h2[100],units[300],link[300],link2[300];
+    char unitnum[4]="0",h3[100],h2[100],units[300],link[500],link2[500];
     int fin,fout,findex,funit;
     int bflag,i,len,depth,first=1,firstpage=1,vocab=0,boxnum=0;
     int wordflag=1,lowerme=0;
@@ -84,7 +84,8 @@ int main(int argc, char **argv) {
 	    }
 	}
 	*secp = '\0';
-	(void)sprintf(link,"<a href=\"/bjc-r/cur/programming/%s%s\" title=\"/bjc-r/cur/programming/%s\">%s</a>%c",
+	(void)sprintf(link,
+"<a href=\"/bjc-r/cur/programming/%s%s\" title=\"/bjc-r/cur/programming/%s\">%s</a>%c",
 		      argv[i],topic,argv[i],sect,'\0');
 	len=lseek(fin,0L,2);		/* get file length */
 	mem=(char *)mmap(NULL,len,PROT_READ,MAP_SHARED,fin,0);
