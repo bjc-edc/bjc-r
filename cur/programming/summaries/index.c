@@ -76,8 +76,9 @@ int main(int argc, char **argv) {
 	}
 	ch = toupper(line[0]);
 
-	/* If this is a new entry, lowercase and print it, else just sect */
+	/* If this is a new entry, singularize and print it, else just sect */
 
+	initem++;
 	page = strstr(line, " <a ");
 
 	comp = compare;
@@ -93,6 +94,14 @@ int main(int argc, char **argv) {
 		    p += 5;
 		} else if (!strncmp(p, "</i>", 4)) {
 		    p += 4;
+		} else if (!strncmp(p-1, "s,", 2)) {
+		    comp--;	// this is the 's'
+		     *pr++ = *p++;
+		    if (!strncmp(p-4, "ies,", 4)) {
+			strncpy(comp-2, "y,", 2);
+		    } else {
+			*comp++ = ',';
+		    }
 		} else {
 		    *pr++ = *comp++ = *p++;
 		}
@@ -109,7 +118,7 @@ int main(int argc, char **argv) {
 		}
 	    } else {
 		while (isalpha(*p)) {
-		    *pr++ = *comp++ = tolower(*p++);
+ 		    *pr++ = *comp++ = tolower(*p++);
 		}
 	    }
  */
