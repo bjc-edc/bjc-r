@@ -19,7 +19,7 @@ char intro[]="<!DOCTYPE html>\n"
 "		<script type=\"text/javascript\" src=\"/bjc-r/utilities/gifffer.min.js\"></script>\n"
 "        <script type=\"text/javascript\">window.onload = function() {Gifffer();}</script>\n"
 "        <link rel=\"stylesheet\" type=\"text/css\" href=\"/bjc-r/css/bjc-gifffer.css\">\n"
-"		<title>Index</title>\n"
+"		<title>BJC Curriculum Index</title>\n"
 "	</head>\n"
 "\n"
 "	<body>\n"
@@ -29,8 +29,8 @@ char outro[]="</body>\n</html>\n";
 
 int main(int argc, char **argv) {
     FILE *fin,*fout;
-    char line[1000], old[1000], compare[1000], pages[1000];
-    char *page, *comp, *p;
+    char line[1000], old[1000], compare[1000], pages[1000], print[1000];
+    char *page, *comp, *p, *pr;
     int initem=0;
     char ch;
 
@@ -65,11 +65,13 @@ int main(int argc, char **argv) {
 	/* Alphabet labels for missing letters before the new one */
 
 	for (ch++; tolower(ch) < tolower(line[0]); ch++) {
-	    fprintf(fout,"\n<a name=\"%c\">&nbsp;</a>\n",
+	    fprintf(fout,
+"\n<div class=\"index-letter-target\"><a class=\"anchor\" name=\"%c\">&nbsp;</a></div>\n",
 			    toupper(ch));
 	}
 	if (tolower(ch) == tolower(line[0])) {
-	    fprintf(fout,"\n<p><a name=\"%c\">&nbsp;</a>%c</p>\n\n<ul>",
+	    fprintf(fout,
+"\n<div class=\"index-letter-target\"><p>%c<a class=\"anchor\" name=\"%c\">&nbsp;</a></p></div>\n\n<ul>",
 			    toupper(ch),toupper(ch));
 	}
 	ch = toupper(line[0]);
@@ -79,28 +81,43 @@ int main(int argc, char **argv) {
 	page = strstr(line, " <a ");
 
 	comp = compare;
+	pr = print;
 
-	for (p = line; p < page; p++) {
+	for (p = line; p < page; ) {
 	    while (!isalpha(*p)) {
-		*comp++ = *p++;
+		if (!strncmp(p, "<em>", 4)) {
+		    p += 4;
+		} else if (!strncmp(p, "<i>", 3)) {
+		    p += 3;
+		} else if (!strncmp(p, "</em>", 5)) {
+		    p += 5;
+		} else if (!strncmp(p, "</i>", 4)) {
+		    p += 4;
+		} else {
+		    *pr++ = *comp++ = *p++;
+		}
 	    }
+
+/* This is done in vocab.c!!
 	    if (isupper(*p) && isupper(*(p+1))) {   // acronym
 		while (isalpha(*p)) {
-		    *comp++ = *p++;
+		    *pr++ = *comp++ = *p++;
 		}
 	    } else if (!strncmp(p, "Boole", 5)) {
 		while (isalpha(*p)) {
-		    *comp++ = *p++;
+		    *pr++ = *comp++ = *p++;
 		}
 	    } else {
 		while (isalpha(*p)) {
-		    *comp++ = *p = tolower(*p);
-		    p++;
+		    *pr++ = *comp++ = tolower(*p++);
 		}
 	    }
+ */
+	    *pr++ = *comp++ = *p++;
 	}
 
 	*comp = '\0';
+	strcpy(pr, page);
 
 	/* make singular */
 
@@ -116,7 +133,7 @@ int main(int argc, char **argv) {
 	    if (initem) {
 		fprintf(fout,"</li>\n");
 	    }
-	    fprintf(fout,"<li>%s",line);
+	    fprintf(fout,"<li>%s",print);
 	    strcpy(pages, page);
 	    strcpy(old, compare);
 	} else if (!strstr(pages, page)) {
@@ -131,7 +148,7 @@ int main(int argc, char **argv) {
     fprintf(fout,"</li>\n</ul>\n");
     ch++;
     while (toupper(ch) <= 'Z') {
-	    fprintf(fout,"\n<p><a name=\"%c\">&nbsp;</a></p>\n",
+	    fprintf(fout,"\n<a class=\"anchor\" name=\"%c\">&nbsp;</a>\n",
 		    toupper(ch));
 	    ch++;
     }
