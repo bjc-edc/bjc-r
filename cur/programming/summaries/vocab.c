@@ -33,10 +33,11 @@ int main(int argc, char **argv) {
     char *class=argv[1],*topic=argv[2],*secp,*inp;
     char outname[100],searchstring[100],divtext[100],sect[8],entry[100];
     char unitnum[4]="0",h3[100],h2[100],units[300],link[500],link2[500];
+    char commaentry[100];
     int fin,fout,findex,funit;
     int bflag,i,len,depth,first=1,firstpage=1,vocab=0,boxnum=0;
-    int wordflag=1,lowerme=0;
-    char *mem,*startp,*endp,*nextp,*foop,*bazp;
+    int wordflag=1,lowerme=0,spanlength;
+    char *mem,*startp,*endp,*nextp,*foop,*bazp,*spacep,*spanp;
     FILE *fp;
     char ch;
 
@@ -162,7 +163,11 @@ int main(int argc, char **argv) {
 				strncmp(foop,"t",bazp-foop)) {
 			    (void)strncpy(entry,foop,bazp-foop);
 			    entry[bazp-foop] = '\0';
-			    if (strncmp(entry,"Boolean",7) && islower(entry[1])) {
+			    if (strncmp(entry,"Boolean",7) &&
+				    strncmp(entry, "Internet", 8) &&
+				    strncmp(entry, "Creative", 8) &&
+				    strncmp(entry, "Commons", 7) &&
+				    islower(entry[1])) {
 				wordflag=1;
 				for(int j = 0; entry[j]; j++){
 				    if (wordflag && isalpha(entry[j])) {
@@ -186,6 +191,41 @@ int main(int argc, char **argv) {
 			    (void)sprintf(link2," <a href=\"/bjc-r/cur/programming/%s#box%d\" title=\"/bjc-r/cur/programming/summaries/%s#box%d\">%s</a>\n%c",
 					  outname,boxnum,outname,boxnum,sect,'\0');
 			    (void)write(findex,link2,strlen(link2));
+
+			    /* maybe make a comma entry */
+			    if ((spacep = strchr(entry, ' '))) {
+				if ((spanp = strstr(entry, "<span"))) {
+				    spacep = strchr(spanp, '>');
+				    spanlength = (spacep-spanp)+9; // </span>
+				    foop += spanlength;
+				    *(spanp-1) = '\0'; // space before span
+				} else {
+				    while (strchr(spacep+1, ' ')) {
+					spacep = strchr(spacep+1, ' ');
+				    }
+				}
+				if (*(spacep+1) == '<') {
+				    *(spacep) = '\0';
+				    spacep = strchr(spacep+2,'>');
+				    *(strchr(spacep+1,'<')) = '\0';
+				    foop += 9;  // don't write nulls
+				}
+				if (*(spacep+1) == '(') {
+				    strncpy(commaentry, spacep+2,
+					    1+strchr(spacep+1,')')-spacep);
+				    *(strchr(commaentry,')')) = '\0';
+				} else {
+				    strcpy(commaentry, spacep+1);
+				    strcat(commaentry, ", ");
+				    *spacep = '\0';
+				    strcat(commaentry, entry);
+				}
+				(void)write(findex,commaentry,
+						strlen(commaentry));
+				(void)sprintf(link2," <a href=\"/bjc-r/cur/programming/%s#box%d\" title=\"/bjc-r/cur/programming/summaries/%s#box%d\">%s</a>\n%c",
+					      outname,boxnum,outname,boxnum,sect,'\0');
+				(void)write(findex,link2,strlen(link2));
+			    }
 			}
 			startp = bazp;
 		    } else {
