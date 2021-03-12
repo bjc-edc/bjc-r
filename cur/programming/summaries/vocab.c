@@ -33,7 +33,7 @@ int main(int argc, char **argv) {
     char *class=argv[1],*topic=argv[2],*secp,*inp;
     char outname[100],searchstring[100],divtext[100],sect[8],entry[100];
     char unitnum[4]="0",h3[100],h2[100],units[300],link[500],link2[500];
-    char commaentry[100];
+    char commaentry[300];
     int fin,fout,findex,funit;
     int bflag,i,len,depth,first=1,firstpage=1,vocab=0,boxnum=0;
     int wordflag=1,lowerme=0,spanlength;
@@ -108,6 +108,24 @@ int main(int argc, char **argv) {
 	    endp=mem;
 	}
 	while ((startp=strstr(endp,searchstring))!=NULL) {
+	    if (vocab) {
+		bazp = strstr(endp,"<div class=\"index-term\"");
+		while (bazp != NULL && bazp<startp) {
+		    foop = strstr(bazp,"id=")+4;
+		    if (*foop == '<') {
+			foop = strstr(foop,">")+1;
+		    }
+		    bazp = strchr(foop,'"');
+		    while (*(bazp-1) == '\\') {
+			bazp = strchr(bazp+1, '"');
+		    }
+		    sprintf(commaentry, 
+			"%.*s <a href=\"/bjc-r/cur/programming/%s#%.*s\">%s</a>\n%c",
+			(int)(bazp-foop),foop,argv[i],(int)(bazp-foop),foop,sect,'\0');
+		    (void)write(findex,commaentry,strlen(commaentry));
+		    bazp = strstr(bazp+1,"<div class=\"index-term\"");
+		}
+	    }
 	    bazp = strchr(startp,' ');
 	    bazp = strchr(bazp+1,' ');
 	    foop = strstr(startp,">");
@@ -231,14 +249,32 @@ int main(int argc, char **argv) {
 		    } else {
 			startp = endp;
 		    }
+		} // end of one relevant div
+	    }
+	} // end of one input file (page)
+	    if (vocab) {
+		bazp = strstr(endp,"<div class=\"index-term\"");
+		while (bazp != NULL) {
+		    foop = strstr(bazp,"id=")+4;
+		    if (*foop == '<') {
+			foop = strstr(foop,">")+1;
+		    }
+		    bazp = strchr(foop,'"');
+		    while (*(bazp-1) == '\\') {
+			bazp = strchr(bazp+1, '"');
+		    }
+		    sprintf(commaentry, 
+			"%.*s <a href=\"/bjc-r/cur/programming/%s#%.*s\">%s</a>\n%c",
+			(int)(bazp-foop),foop,argv[i],(int)(bazp-foop),foop,sect,'\0');
+		    (void)write(findex,commaentry,strlen(commaentry));
+		    bazp = strstr(bazp+1,"<div class=\"index-term\"");
 		}
 	    }
-	}
 	close(fin);
 	/* no more vocab boxes found in this file */
 	(void)munmap(mem,len);
-    }
-    write(fout,outro,strlen(outro));
+        } // end of one page
+    (void)write(fout,outro,strlen(outro));
     close(fout);
     close(findex);
     return 0;

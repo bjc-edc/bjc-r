@@ -30,7 +30,8 @@ char outro[]="</body>\n</html>\n";
 int main(int argc, char **argv) {
     FILE *fin,*fout;
     char line[1000], old[1000], compare[1000], pages[1000], print[1000];
-    char *page, *comp, *p, *pr;
+    char closetag[100];
+    char *page, *comp, *p, *pr, *form, *foo;
     int initem=0;
     char ch;
 
@@ -75,6 +76,7 @@ int main(int argc, char **argv) {
 			    toupper(ch),toupper(ch));
 	}
 	ch = toupper(line[0]);
+	closetag[0] = '\0';
 
 	/* If this is a new entry, singularize and print it, else just sect */
 
@@ -94,6 +96,16 @@ int main(int argc, char **argv) {
 		    p += 5;
 		} else if (!strncmp(p, "</i>", 4)) {
 		    p += 4;
+		} else if (!strncmp(p, "</", 2)) {
+		    foo = p+2;
+		    form = closetag;
+		    for (; *foo != '>'; ) {
+			*form++ = *foo++;
+		    }
+		    *form = '\0';
+		    for (; p < foo; ) {
+			*pr++ = *comp++ = *p++;
+		    }
 		} else if (!strncmp(p-1, "s,", 2)) {
 		    comp--;	// this is the 's'
 		     *pr++ = *p++;
@@ -142,7 +154,11 @@ int main(int argc, char **argv) {
 	    if (initem) {
 		fprintf(fout,"</li>\n");
 	    }
-	    fprintf(fout,"<li>%s",print);
+	    if (closetag[0]) {
+		fprintf(fout,"<li><%s>%s",closetag,print);
+	    } else {
+		fprintf(fout,"<li>%s",print);
+	    }
 	    strcpy(pages, page);
 	    strcpy(old, compare);
 	} else if (!strstr(pages, page)) {
