@@ -54,6 +54,9 @@ llab.paths.math_katex_js = "lib/katex.min.js";
 llab.paths.katex_css = "css/katex.min.css";
 
 // CSS
+// NOTE: it is strongly recommended to inline your critical CSS directly into
+// your page's HTML, as it will avoid flashes of unstyled content.
+// See https://github.com/beautyjoy/bjc-r/pull/800 for more context.
 llab.paths.css_files.push('css/3.3.7/bootstrap-compiled.min.css');
 
 
