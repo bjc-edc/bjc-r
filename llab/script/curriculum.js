@@ -346,8 +346,7 @@ llab.setupTitle = function() {
 
      // Create .full before adding stuff.
      if ($(FULL).length === 0) {
-          if ($(llab.selectors.FULL) == 0)
-              $(document.body).wrapInner('<div class="full"></div>');
+          $(document.body).wrapInner('<div class="full"></div>');
      }
 
      // If NAVSELET was inlined, remove it and re-add it.
