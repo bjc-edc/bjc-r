@@ -224,7 +224,6 @@ int main(int argc, char **argv) {
 				    }
 				} // for each letter of entry
 			    } // not capitalized name
-			} // not "bi" or "t"
 			    (void)write(findex,entry,bazp-foop);
 			if (gotopage) {
 			    (void)sprintf(link2," <a href=\"/bjc-r/cur/programming/%s\" title=\"/bjc-r/cur/programming/summaries/%s\">%s</a>\n%c",
@@ -234,6 +233,7 @@ int main(int argc, char **argv) {
 					  outname,boxnum,outname,boxnum,sect,'\0');
 			}
 			    (void)write(findex,link2,strlen(link2));
+			} // not "bi" or "t"
 
 			    /* maybe make a comma entry */
 			    if ((spacep = strchr(entry, ' '))) {
