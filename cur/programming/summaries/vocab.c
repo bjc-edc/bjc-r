@@ -10,6 +10,7 @@
 #include <sys/stat.h>
 
 size_t page_size;
+int autocoding = 0, gotopage = 0;
 
 char intro[]="<!DOCTYPE html>\n"
 "<html lang=\"en\">\n"
@@ -41,6 +42,24 @@ int main(int argc, char **argv) {
     FILE *fp;
     char ch;
 
+    if (argc < 3) {
+	fprintf(stderr,
+	    "Usage: vocab {vocab|exam|assessment-data} [-[c][p]] topicfile page...\n");
+	fprintf(stderr,
+	    "-c to include all <code> items in index\n");
+	fprintf(stderr,
+	    "-p to link directly to curriculum page in index\n");
+
+	exit(1);
+    }
+
+    if (argv[3][0] == '-') { // command line flags
+	if (strchr(argv[3], 'c') != NULL)  autocoding++;
+	if (strchr(argv[3], 'p') != NULL)  gotopage++;
+	argv++;
+	argc--;
+    }
+
     unitnum[0]=argv[3][0];
     page_size = (size_t) sysconf (_SC_PAGESIZE);
     strcpy(outname, "summaries/");
@@ -50,12 +69,12 @@ int main(int argc, char **argv) {
     fp=fopen("summaries/unitnames","r");
     (void)fread(units,300,1,fp);
     (void)fclose(fp);
-    if (!strcmp(argv[1],"vocab")) {
+    if (!strcmp(class,"vocab")) {
 	secp=" Vocabulary";
 	vocab++;
     }
-    else if (!strcmp(argv[1],"exam")) secp=" On the AP Exam";
-    else if (!strcmp(argv[1],"assessment-data")) secp=" Self-Check Questions";
+    else if (!strcmp(class,"exam")) secp=" On the AP Exam";
+    else if (!strcmp(class,"assessment-data")) secp=" Self-Check Questions";
     else secp=" Summary";
     findex=open("summaries/index-presort",O_CREAT|O_WRONLY,0744);
     (void)lseek(findex,0L,2);
@@ -65,7 +84,7 @@ int main(int argc, char **argv) {
     write(fout,secp,strlen(secp));
     write(fout,introtail,strlen(introtail));
     sprintf(searchstring,"<div class=\"%s",class);
-    if (!strcmp(argv[1],"assessment-data")) {
+    if (!strcmp(class,"assessment-data")) {
 	sprintf(divtext,"<div class=\"%s\" ",class);
     } else {
 	sprintf(divtext,"<div class=\"%sSummary\" ",class);
@@ -125,7 +144,7 @@ int main(int argc, char **argv) {
 		    (void)write(findex,commaentry,strlen(commaentry));
 		    bazp = strstr(bazp+1,"<div class=\"index-term\"");
 		}
-	    }
+	    } // if vocab
 	    bazp = strchr(startp,' ');
 	    bazp = strchr(bazp+1,' ');
 	    foop = strstr(startp,">");
@@ -172,7 +191,7 @@ int main(int argc, char **argv) {
 		    if (bazp != NULL && bazp < foop) {
 			foop = bazp;
 		    }
-		    if (foop < endp && foop != NULL) {
+		    if (foop < endp && foop != NULL) { // entry is bold
 			bflag = (foop[1] == 'b');
 			bazp = strstr(foop, (bflag ? "</b>" : "</strong>"));
 			foop = foop + (bflag ? 3 : 8);
@@ -203,11 +222,17 @@ int main(int argc, char **argv) {
 				    if (lowerme) {
 				    entry[j] = tolower(entry[j]);
 				    }
-				}
-			    }
+				} // for each letter of entry
+			    } // not capitalized name
+			} // not "bi" or "t"
 			    (void)write(findex,entry,bazp-foop);
+			if (gotopage) {
+			    (void)sprintf(link2," <a href=\"/bjc-r/cur/programming/%s\" title=\"/bjc-r/cur/programming/summaries/%s\">%s</a>\n%c",
+					  argv[i],argv[i],sect,'\0');
+			} else {
 			    (void)sprintf(link2," <a href=\"/bjc-r/cur/programming/%s#box%d\" title=\"/bjc-r/cur/programming/summaries/%s#box%d\">%s</a>\n%c",
 					  outname,boxnum,outname,boxnum,sect,'\0');
+			}
 			    (void)write(findex,link2,strlen(link2));
 
 			    /* maybe make a comma entry */
@@ -244,13 +269,13 @@ int main(int argc, char **argv) {
 					      outname,boxnum,outname,boxnum,sect,'\0');
 				(void)write(findex,link2,strlen(link2));
 			    }
-			}
+//			}
 			startp = bazp;
 		    } else {
 			startp = endp;
 		    }
 		} // end of one relevant div
-	    }
+	    } // if vocab
 	} // end of one input file (page)
 	    if (vocab) {
 		bazp = strstr(endp,"<div class=\"index-term\"");
@@ -269,7 +294,27 @@ int main(int argc, char **argv) {
 		    (void)write(findex,commaentry,strlen(commaentry));
 		    bazp = strstr(bazp+1,"<div class=\"index-term\"");
 		}
-	    }
+
+	    if (autocoding) {
+		startp = mem;
+		while ((endp = strstr(startp,"<code>")) != NULL) {
+		    endp+=6;
+		    foop = strstr(endp,"</code>");
+		    foop += 7;
+		    if (*endp >= 'A') {
+			sprintf(commaentry,
+			    "%.*s <a href=\"/bjc-r/cur/programming/%s\">%s</a>\n",
+			    (int)(foop-endp),endp,argv[i],sect);
+			for (depth=0;depth < foop-endp;depth++) {
+			    commaentry[depth] = tolower(commaentry[depth]);
+			}
+			(void)write(findex,commaentry,strlen(commaentry));
+		    }
+		    startp = foop;
+		} // while
+
+	    } // autocoding
+	    } // vocab
 	close(fin);
 	/* no more vocab boxes found in this file */
 	(void)munmap(mem,len);
