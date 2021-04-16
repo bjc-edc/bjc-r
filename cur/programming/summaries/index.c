@@ -29,7 +29,7 @@ char outro[]="</body>\n</html>\n";
 
 int main(int argc, char **argv) {
     FILE *fin,*fout;
-    char line[1000], old[1000], compare[1000], pages[1000], print[1000];
+    char line[1000], old[1000], compare[1000], pages[5000], print[1000];
     char closetag[100];
     char *page, *comp, *p, *pr, *form, *foo;
     int initem=0;
