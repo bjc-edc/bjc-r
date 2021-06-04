@@ -153,7 +153,7 @@ int main(int argc, char **argv) {
 		(void)write(fout,h3,strlen(h3));
 	    }
 	    if (vocab) {
-		sprintf(h2,"\n<a name=\"box%d\">\n%c",++boxnum,'\0');
+		sprintf(h2,"\n<a name=\"box%d\">&nbsp;</a>\n%c",++boxnum,'\0');
 		(void)write(fout,h2,strlen(h2));
 	    }
 	    (void)write(fout,divtext,strlen(divtext));
