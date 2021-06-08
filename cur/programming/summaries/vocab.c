@@ -31,7 +31,7 @@ char introtail[]="</title>\n"
 char outro[]="    </body>\n</html>\n";
 
 int main(int argc, char **argv) {
-    char *class=argv[1],*topic=argv[2],*secp,*inp;
+    char *class=argv[1],*topic=argv[2],*secp,*inp,*divtextp;
     char outname[100],searchstring[100],divtext[100],sect[8],entry[100];
     char unitnum[4]="0",h3[100],h2[100],units[300],link[500],link2[500];
     char commaentry[300];
@@ -89,6 +89,7 @@ int main(int argc, char **argv) {
     } else {
 	sprintf(divtext,"<div class=\"%sSummary\" ",class);
     }
+    divtextp=divtext+strlen(divtext);
     for (i=3;i<argc;i++) {		/* for each input file */
 	fin=open(argv[i],O_RDONLY);
 	secp=sect;
@@ -152,9 +153,14 @@ int main(int argc, char **argv) {
 		firstpage=0;
 		(void)write(fout,h3,strlen(h3));
 	    }
+/*
 	    if (vocab) {
 		sprintf(h2,"\n<a name=\"box%d\">&nbsp;</a>\n%c",++boxnum,'\0');
 		(void)write(fout,h2,strlen(h2));
+	    }
+ */
+	    if (vocab) {
+		sprintf(divtextp,"name=\"box%d\"%c",++boxnum,'\0');
 	    }
 	    (void)write(fout,divtext,strlen(divtext));
 	    if (foop > bazp) {
