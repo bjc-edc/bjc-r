@@ -140,6 +140,10 @@ int main(int argc, char **argv) {
 	    while ((*p ==' ') || (*p == ',')) {*pr++ = *comp++ = *p++;}
 	}
 
+	while (*(comp-1) == ' ') {
+	    (comp--);
+	}
+
 	*comp = '\0';
 	*pr = '\0';
 	strcpy(pr, page);
