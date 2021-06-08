@@ -80,7 +80,7 @@ int main(int argc, char **argv) {
 
 	/* If this is a new entry, singularize and print it, else just sect */
 
-	initem++;
+//	initem++;
 	page = strstr(line, " <a ");
 
 	comp = compare;
@@ -114,12 +114,15 @@ int main(int argc, char **argv) {
 		    } else {
 			*comp++ = ',';
 		    }
+		} else if (!strncmp(p, "<a", 2)) {
+		    p = page;
+		    break;
 		} else {
 		    *pr++ = *comp++ = *p++;
 		}
 	    }
 
-/* This is done in vocab.c!!
+/* This is done in vocab.c!! */
 	    if (isupper(*p) && isupper(*(p+1))) {   // acronym
 		while (isalpha(*p)) {
 		    *pr++ = *comp++ = *p++;
@@ -133,11 +136,12 @@ int main(int argc, char **argv) {
  		    *pr++ = *comp++ = tolower(*p++);
 		}
 	    }
- */
-	    *pr++ = *comp++ = *p++;
+/*  */
+	    while ((*p ==' ') || (*p == ',')) {*pr++ = *comp++ = *p++;}
 	}
 
 	*comp = '\0';
+	*pr = '\0';
 	strcpy(pr, page);
 
 	/* make singular */
@@ -159,6 +163,7 @@ int main(int argc, char **argv) {
 	    } else {
 		fprintf(fout,"<li>%s",print);
 	    }
+	initem++;
 	    strcpy(pages, page);
 	    strcpy(old, compare);
 	} else if (!strstr(pages, page)) {
