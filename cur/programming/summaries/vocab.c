@@ -153,15 +153,9 @@ int main(int argc, char **argv) {
 		firstpage=0;
 		(void)write(fout,h3,strlen(h3));
 	    }
-/*
-	    if (vocab) {
-		sprintf(h2,"\n<a name=\"box%d\">&nbsp;</a>\n%c",++boxnum,'\0');
-		(void)write(fout,h2,strlen(h2));
-	    }
- */
-	    if (vocab) {
-		sprintf(divtextp,"name=\"box%d\"%c",++boxnum,'\0');
-	    }
+//	    if (vocab) {
+//		sprintf(divtextp,"name=\"box%d\"%c",++boxnum,'\0');
+//	    }
 	    (void)write(fout,divtext,strlen(divtext));
 	    if (foop > bazp) {
 		(void)write(fout,bazp,foop+1-bazp);
@@ -171,9 +165,25 @@ int main(int argc, char **argv) {
 	    (void)write(fout,"<strong> ",9);
 	    (void)write(fout,link,strlen(link));
 	    (void)write(fout,"</strong>",9);
+/*
+	    if (vocab) {
+		sprintf(h2,"\n<a name=\"box%d\">&nbsp;</a>\n%c",++boxnum,'\0');
+		(void)write(fout,h2,strlen(h2));
+	    }
+ */
 	    startp = foop+1;
 	    depth=1;
 	    endp=nextp=startp;
+	    if (vocab) {
+		foop=strstr(startp,"\n");
+		if (foop != NULL) {
+		(void)write(fout,startp,foop-startp);
+		startp = foop+1;
+		endp=nextp=startp;
+		sprintf(h2,"\n<a name=\"box%d\">&nbsp;</a>\n%c",++boxnum,'\0');
+		(void)write(fout,h2,strlen(h2));
+		}
+	    }
 	    while (depth) {
 		endp=strstr(nextp,"</div");
 		if ((foop=strstr(nextp,"<div"))!=NULL && foop < endp) {
