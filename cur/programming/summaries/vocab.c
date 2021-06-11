@@ -176,8 +176,11 @@ int main(int argc, char **argv) {
 	    endp=nextp=startp;
 	    if (vocab) {
 		foop=strstr(startp,"\n");
+		bazp=strstr(startp,"<p>");
+		if (bazp!=NULL && bazp<foop) foop=bazp;
 		if (foop != NULL) {
 		(void)write(fout,startp,foop-startp);
+		if (foop == bazp) foop += 2;
 		startp = foop+1;
 		endp=nextp=startp;
 		sprintf(h2,"\n<a name=\"box%d\">&nbsp;</a>\n%c",++boxnum,'\0');

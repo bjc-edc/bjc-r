@@ -131,6 +131,10 @@ int main(int argc, char **argv) {
 		while (isalpha(*p)) {
 		    *pr++ = *comp++ = *p++;
 		}
+	    } else if (!strncmp(p, "I ", 2)) {
+		while (isalpha(*p)) {
+		    *pr++ = *comp++ = *p++;
+		}
 	    } else {
 		while (isalpha(*p)) {
  		    *pr++ = *comp++ = tolower(*p++);
