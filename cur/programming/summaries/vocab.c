@@ -183,7 +183,7 @@ int main(int argc, char **argv) {
 		if (foop == bazp) foop += 2;
 		startp = foop+1;
 		endp=nextp=startp;
-		sprintf(h2,"\n<a name=\"box%d\">&nbsp;</a>\n%c",++boxnum,'\0');
+		sprintf(h2,"\n<a name=\"box%d\" class=\"anchor\">&nbsp;</a>\n%c",++boxnum,'\0');
 		(void)write(fout,h2,strlen(h2));
 		}
 	    }
