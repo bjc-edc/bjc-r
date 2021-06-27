@@ -38,7 +38,7 @@ int main(int argc, char **argv) {
     int fin,fout,findex,funit;
     int bflag,i,len,depth,first=1,firstpage=1,vocab=0,boxnum=0;
     int wordflag=1,lowerme=0,spanlength;
-    char *mem,*startp,*endp,*nextp,*foop,*bazp,*spacep,*spanp;
+    char *mem,*startp,*endp,*nextp,*foop,*bazp,*spacep,*spanp,*commentp;
     FILE *fp;
     char ch;
 
@@ -109,7 +109,7 @@ int main(int argc, char **argv) {
 "<a href=\"/bjc-r/cur/programming/%s%s\" title=\"/bjc-r/cur/programming/%s\">%s</a>%c",
 		      argv[i],topic,argv[i],sect,'\0');
 	len=lseek(fin,0L,2);		/* get file length */
-	mem=(char *)mmap(NULL,len,PROT_READ,MAP_SHARED,fin,0);
+	mem=(char *)mmap(NULL,len,PROT_READ,MAP_PRIVATE,fin,0);
 	len = ((len + page_size)/page_size)*page_size;
 	if (first) {
 	    first = 0;
@@ -127,8 +127,20 @@ int main(int argc, char **argv) {
 	} else {
 	    endp=mem;
 	}
+
+	/* flush html comments */
+/*	commentp=endp;
+	while ((startp=strstr(commentp,"<!--"))!=NULL) {
+	    commentp += 4;
+	    bazp=strstr(startp+4,"-->");
+	    if (bazp != NULL) {
+		for (foop=startp+4;foop<bazp-1;foop++) *foop=' ';
+		commentp=bazp+3;
+	    }
+	}
+*/
 	while ((startp=strstr(endp,searchstring))!=NULL) {
-	    if (vocab) {
+	    if (0 && vocab) {
 		bazp = strstr(endp,"<div class=\"index-term\"");
 		while (bazp != NULL && bazp<startp) {
 		    foop = strstr(bazp,"id=")+4;
@@ -272,7 +284,7 @@ int main(int argc, char **argv) {
 				    *(strchr(spacep+1,'<')) = '\0';
 				    foop += 9;  // don't write nulls
 				}
-				if (*(spacep+1) == '(') {
+				if (*(spacep+1) == '(') { // \0x28
 				    strncpy(commaentry, spacep+2,
 					    1+strchr(spacep+1,')')-spacep);
 				    *(strchr(commaentry,')')) = '\0';
@@ -296,7 +308,7 @@ int main(int argc, char **argv) {
 		} // end of one relevant div
 	    } // if vocab
 	} // end of one input file (page)
-	    if (vocab) {
+	    if (0 && vocab) {
 		bazp = strstr(endp,"<div class=\"index-term\"");
 		while (bazp != NULL) {
 		    foop = strstr(bazp,"id=")+4;
