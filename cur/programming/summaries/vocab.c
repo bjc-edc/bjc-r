@@ -282,7 +282,7 @@ int main(int argc, char **argv) {
 				    *(spacep) = '\0';
 				    spacep = strchr(spacep+2,'>');
 				    *(strchr(spacep+1,'<')) = '\0';
-				    foop += 9;  // don't write nulls
+				    foop += 9;  // don't write nulls '
 				}
 				if (*(spacep+1) == '(') { // \0x28
 				    strncpy(commaentry, spacep+2,
@@ -300,7 +300,6 @@ int main(int argc, char **argv) {
 					      outname,boxnum,outname,boxnum,sect,'\0');
 				(void)write(findex,link2,strlen(link2));
 			    }
-//			}
 			startp = bazp;
 		    } else {
 			startp = endp;
