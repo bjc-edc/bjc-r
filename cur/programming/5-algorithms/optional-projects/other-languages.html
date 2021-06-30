@@ -8,12 +8,154 @@
 
 	<body>
 		<h2>Transitioning to Other Languages</h2>
-		<div class="learn"><strong>On this page,</strong> you will learn about other programming languages and which will be easier for you to learn now that you know Snap<em>!</em>.</div>
+		<div class="learn"><strong>On this page,</strong> you will learn about other programming languages and how to learn them now that you know Snap<em>!</em>.</div>
 
 		<p>A programming language is characterized by two things: a philosophy of programming and details of notation. Most programming languages are basically <em>sequential</em> (do this instruction, then do this, then do this). This includes Snap<em>!</em> even though you have learned some composition (nesting) of functions, which other sequential languages also include to some extent.</p>
-		<p>Learning another language of that type is basically trivial. For example, here’s the same algorithm in Snap<em>!</em>, Python, C, and JavaScript:
-			<div class="todo">Brian to choose an algorithm, have Mary review the choice, and then translate into other languages. --MF, 6/27/21</div>
+		<p>Learning another language of that type is <em>much</em> easier than learning your first one. For example, here’s the binary search function from 5.1.3:
 		</p>
+                    <img class="indent" src="/bjc-r/img/5-algorithms/binary-search-block-definition.png" alt="binary search for (value) in (data) {
+            script variables (low) (high) (current index) (current item)
+            set (low) to (1)
+            set (high) to (length of (data))
+            repeat until ((low) > (high)) {
+                        set (current index) to (average of (low) and (high)) #comment: find the middle word
+                        set (current item) to (item (current index) of (data))
+                        if ((current item) = (value)) { report (true) }
+                        else {
+                                    if ((current item) > (value)) #comment: eliminate half the list {
+                                                set (high) to ((current index) – (1))
+                                    } else { set (low) to ((current index) + (1)) }
+                        }
+            }
+            report (false)
+}" title="binary search for (value) in (data) {
+            script variables (low) (high) (current index) (current item)
+            set (low) to (1)
+            set (high) to (length of (data))
+            repeat until ((low) > (high)) {
+                        set (current index) to (average of (low) and (high)) #comment: find the middle word
+                        set (current item) to (item (current index) of (data))
+                        if ((current item) = (value)) { report (true) }
+                        else {
+                                    if ((current item) > (value)) #comment: eliminate half the list {
+                                                set (high) to ((current index) – (1))
+                                    } else { set (low) to ((current index) + (1)) }
+                        }
+            }
+            report (false)
+}" />
+
+		<p>Here's the same procedure written in Python:</p>
+		<pre>
+def binarySearch(value, data):
+	low = 0
+	high = len(data)-1
+	while (low <= high):
+		currentIndex = average(low, high)
+		currentItem = data[currentIndex]
+		if (currentItem == value):
+			return True
+		elif (currentItem > value):
+			high = currentIndex-1
+		else:
+			low = currentIndex+1
+	return False
+</pre>
+		<p>For the most part, this is line for line the same as the Snap<em>!</em> version.
+		Apart from tiny details such as <code>return</code> instead of
+		<code>report</code>, there are a few more significant differences in notation:
+			<ul>
+				<li>
+					The most annoying one: Like many (but not all!)
+					text-based languages, Python uses the character <code>=</code>
+					to set the value of a variable, like the <code>set</code>
+					block in Snap<em>!</em>.  But that's not what "=" means in
+					your math class!  The Python equivalent of the Snap<em>!</em>
+					<code>=</code> predicate is <code>==</code>.  Many, many bugs,
+					even among experienced programmers, come from this confusing
+					notation.  And it's needlessly hard to learn to program
+					when you're confronted with a statement such as <code>x=x+1</code>.
+				</li>
+				<li>
+					In Python, there's nothing like the
+					<code>script variables</code> block in Snap<em>!</em>.
+					Variables are local to procedures automatically, unless you
+					use a <code>global</code> statement to tell Python to look for
+					a variable defined outside this procedure.
+				</li>
+				<li>
+					Python uses indentation to determine the extent of control structures
+					that would be C-shaped blocks in Snap<em>!</em>.
+				</li>
+				<li>
+					As in many (but not all!) text-based languages, the first item of
+					a list is item number zero, not item one.  They have a reason
+					for this, but it's still confusing: Shouldn't the 27th item of
+					a list be item number 27?
+				</li>
+				<li>
+					In Python, you can't have a
+					space inside a variable name, like <var>current item</var> in
+					Snap<em>!</em>.  Instead, Python programmers often use
+					"camel case," so called because the capital letters in
+					the middle of a variable name are supposed to look like
+					the humps of a camel.
+				</li>
+			</ul>
+		</p>
+
+		<p>Here's the same procedure written in JavaScript:</p>
+		<pre>
+function binarySearch(value, data) {
+	var low, high, currentIndex, currentItem;
+	low = 0;
+	high = len(data)-1;
+	while (low <= high) {
+		currentIndex = average(low, high);
+		currentItem = data[currentIndex];
+		if (currentItem == value) {
+			return true;
+		} else if (currentItem > value) {
+			high = currentIndex-1;
+		} else {
+			low = currentIndex+1;
+		}
+	return false;
+}
+</pre>
+
+	<p>This doesn't look so different from the Python version, but there
+	are a few significant differences:</p>
+
+	<ul>
+		<li>
+			The <code>var</code> statement is equivalent to
+			<code>script variables</code> in Snap<em>!</em>.
+		</li>
+		<li>
+			JavaScript uses braces <code>{ }</code> to mark the extent
+			of what would be a C-shaped block in Snap<em>!</em>.  Although
+			JavaScript programmers generally indent code more or less the
+			same way Python programmers do, that's just to make it look
+			more readable to people; the indentation is ignored by JavaScript.
+		</li>
+		<li>
+			JavaScript has the same terrible <code>=</code> notation for
+			what Snap<em>!</em> calls <code>set</code> as Python does.
+			But instead of using <code>==</code> to test whether two
+			values are equal, JavaScript has <em>two</em> ways to do that:
+			<code>==</code> and <code>===</code>.  JavaScript programmers
+			often get confused about which is which.  (The one with three
+			equal signs is similar to the <code>is identical to</code>
+			block in Snap<em>!</em>.)
+		</li>
+		<li>
+			JavaScript uses the name "function" to describe all procedures,
+			including what Snap<em>!</em> calls "commands," the ones that
+			don't report a value.
+		</li>
+	</ul>
+
 		<p>You can see that the notations are different and that there are things to learn about punctuation a.k.a. <em>syntax</em> (which is the text-language-equivalent of colors and shapes). But you would be able to learn the details of one of these other languages in a few focused days and then program in that language too.</p>
 	
 		<h3>How Are These Similar Languages Different from Snap<em>!</em>?</h3>
