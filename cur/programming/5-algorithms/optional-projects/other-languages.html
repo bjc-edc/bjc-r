@@ -8,10 +8,10 @@
 
 	<body>
 		<h2>Transitioning to Other Languages</h2>
-		<div class="learn"><strong>On this page,</strong> you will learn about other programming languages and how to learn them now that you know Snap<em>!</em>.</div>
+		<div class="learn"><strong>On this page,</strong> you will learn about other programming languages and how to learn them, now that you know Snap<em>!</em>.</div>
 
-		<p>A programming language is characterized by two things: a philosophy of programming and details of notation. Most programming languages are basically <em>sequential</em> (do this instruction, then do this, then do this). This includes Snap<em>!</em> even though you have learned some composition (nesting) of functions, which other sequential languages also include to some extent.</p>
-		<p>Learning another language of that type is <em>much</em> easier than learning your first one. For example, here’s the binary search function from 5.1.3:
+		<p>A programming language is characterized by two things: a philosophy of programming and details of notation. Most programming languages are basically <em>sequential</em> (do this instruction, then do this, then do this). This includes Snap<em>!,</em> even though you have learned some composition (nesting) of functions, which other sequential languages also include to some extent.</p>
+		<p>Learning another language of the same type is <em>much</em> easier than learning your first one. For example, here’s the binary search function from 5.1.3:
 		</p>
                     <img class="indent" src="/bjc-r/img/5-algorithms/binary-search-block-definition.png" alt="binary search for (value) in (data) {
             script variables (low) (high) (current index) (current item)
@@ -48,18 +48,18 @@
 		<p>Here's the same procedure written in Python:</p>
 		<pre>
 def binarySearch(value, data):
-	low = 0
-	high = len(data)-1
-	while (low <= high):
-		currentIndex = average(low, high)
-		currentItem = data[currentIndex]
-		if (currentItem == value):
-			return True
-		elif (currentItem > value):
-			high = currentIndex-1
-		else:
-			low = currentIndex+1
-	return False
+    low = 0
+    high = len(data)-1
+    while (low <= high):
+        currentIndex = average(low, high)
+        currentItem = data[currentIndex]
+        if (currentItem == value):
+            return True
+        elif (currentItem > value):
+            high = currentIndex-1
+        else:
+            low = currentIndex+1
+    return False
 </pre>
 		<p>For the most part, this is line for line the same as the Snap<em>!</em> version.
 		Apart from tiny details such as <code>return</code> instead of
@@ -69,11 +69,10 @@ def binarySearch(value, data):
 					The most annoying one: Like many (but not all!)
 					text-based languages, Python uses the character <code>=</code>
 					to set the value of a variable, like the <code>set</code>
-					block in Snap<em>!</em>.  But that's not what "=" means in
-					your math class!  The Python equivalent of the Snap<em>!</em>
+					block in Snap<em>!</em>.  But that's not what "=" means!  The Python equivalent of the Snap<em>!</em>
 					<code>=</code> predicate is <code>==</code>.  Many, many bugs,
 					even among experienced programmers, come from this confusing
-					notation.  And it's needlessly hard to learn to program
+					notation.  And it's needlessly hard to make sense of programming
 					when you're confronted with a statement such as <code>x=x+1</code>.
 				</li>
 				<li>
@@ -84,7 +83,7 @@ def binarySearch(value, data):
 					a variable defined outside this procedure.
 				</li>
 				<li>
-					Python uses indentation to determine the extent of control structures
+					Python uses indentation (how many spaces at the beginning of each line) to determine the extent of control structures
 					that would be C-shaped blocks in Snap<em>!</em>.
 				</li>
 				<li>
@@ -107,20 +106,21 @@ def binarySearch(value, data):
 		<p>Here's the same procedure written in JavaScript:</p>
 		<pre>
 function binarySearch(value, data) {
-	var low, high, currentIndex, currentItem;
-	low = 0;
-	high = len(data)-1;
-	while (low <= high) {
-		currentIndex = average(low, high);
-		currentItem = data[currentIndex];
-		if (currentItem == value) {
-			return true;
-		} else if (currentItem > value) {
-			high = currentIndex-1;
-		} else {
-			low = currentIndex+1;
-		}
-	return false;
+    var low, high, currentIndex, currentItem;
+    low = 0;
+    high = len(data)-1;
+    while (low <= high) {
+        currentIndex = average(low, high);
+        currentItem = data[currentIndex];
+        if (currentItem == value) {
+            return true;
+        } else if (currentItem > value) {
+            high = currentIndex-1;
+        } else {
+            low = currentIndex+1;
+        }
+    }
+    return false;
 }
 </pre>
 
@@ -136,15 +136,23 @@ function binarySearch(value, data) {
 			JavaScript uses braces <code>{ }</code> to mark the extent
 			of what would be a C-shaped block in Snap<em>!</em>.  Although
 			JavaScript programmers generally indent code more or less the
-			same way Python programmers do, that's just to make it look
-			more readable to people; the indentation is ignored by JavaScript.
+			same way Python programmers do, that's just to make it
+			more readable <em>to people;</em> the indentation is ignored by JavaScript.
+			Within the braces, statements are separated by semicolons (<code>;</code>).
+			(In JavaScript, semicolons go <em>between</em> statements:
+			<code>{st;st;st}</code>, but in C, an otherwise similar language,
+			they go <em>after</em> statements: <code>{st;st;st<span style="background-color:orange">;</span>}</code>.
+			This is the sort of thing that drives students of text languages
+			crazy.  It's one of the reasons block-based languages such as
+			Snap<em>!</em> are better.)
 		</li>
 		<li>
 			JavaScript has the same terrible <code>=</code> notation for
-			what Snap<em>!</em> calls <code>set</code> as Python does.
+			Snap<em>!</em>'s <code>set</code> as Python does.
 			But instead of using <code>==</code> to test whether two
 			values are equal, JavaScript has <em>two</em> ways to do that:
-			<code>==</code> and <code>===</code>.  JavaScript programmers
+			<code>==</code> and <code>===</code>.  (That looks like a joke,
+			but alas, it isn't.)  JavaScript programmers
 			often get confused about which is which.  (The one with three
 			equal signs is similar to the <code>is identical to</code>
 			block in Snap<em>!</em>.)
@@ -156,37 +164,152 @@ function binarySearch(value, data) {
 		</li>
 	</ul>
 
-		<p>You can see that the notations are different and that there are things to learn about punctuation a.k.a. <em>syntax</em> (which is the text-language-equivalent of colors and shapes). But you would be able to learn the details of one of these other languages in a few focused days and then program in that language too.</p>
+		<p>You can see that there are things to learn about notation (<em>syntax,</em> which is the text-language equivalent of block colors and shapes). But you would be able to learn the details of one of these other languages in a few focused days and then program in that language, too.</p>
 	
-		<h3>How Are These Similar Languages Different from Snap<em>!</em>?</h3>
-		<div class="todo">Brian to design:
-			<ul>
-				<li>Correlation between 4 languages in a table</li>
-				<li>Differences: what makes the languages different from each other is stuff like in a sequence of n statements are there n semicolons or n-1 semicolons.</li>
-				<li>Categories of syntax errors</li>
-				<li>Libraries: What makes Python so popular is it’s enormous collection of libraries, which add vocabularies (words you have to learn)</li>
-			</ul>
-		</div>
+		<h3>Snap<em>!</em> Primitives in Other Languages</h3>
+		<p>
+			Central programming language features having to do with flow of control
+			(<img src="/bjc-r/img/5-algorithms/Control.png" alt="Control" title="Control" />),
+			data management
+			(<img src="/bjc-r/img/5-algorithms/Variables.png" alt="Variables" title="Variables" />
+			and <img src="/bjc-r/img/5-algorithms/Lists.png" alt="Lists" title="Lists" />),
+			and computation
+			(<img src="/bjc-r/img/5-algorithms/Operators.png" alt="Operators" title="Operators" /> and
+			a few <img src="/bjc-r/img/5-algorithms/Sensing.png" alt="Sensing" title="Sensing" /> blocks)
+			have direct equivalents in most languages.  Here are a few examples:</p>
 
-		<h3>How Can You Learn These Similar Languages?</h3>
+			<table rules="all" frame="box" width="80%">
+				<tr><th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Snap<em>!</em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th><th>Python</th><th>JavaScript</th></tr>
+
+				<tr><td><img src="/bjc-r/img/5-algorithms/for.png" alt="<code>for</code> block" title="<code>for</code> block" /></td>
+				<td><pre>for i in range (1, 10):
+    action</pre></td>
+				<td><pre>for (i=1; i <= 10; i++) {
+    action
+}</pre></td></tr>
+
+				<tr><td><img src="/bjc-r/img/5-algorithms/repeat-until.png" alt="<code>repeat until</code> block" title="<code>repeat until</code> block" /></td>
+				<td><pre>while (not condition):
+    action</pre></td>
+				<td><pre>while (not condition) {
+    action
+}</pre></td></tr>
+
+				<tr><td><img src="/bjc-r/img/5-algorithms/if-else.png" alt="<code>if/else</code> block" title="<code>if/else</code> block" /></td>
+				<td><pre>if condition:
+    action1
+else:
+    action2</pre></td>
+				<td><pre>if condition {
+    action1
+} else {
+    action2</pre></td></tr>
+
+				<tr><td><img src="/bjc-r/img/5-algorithms/reporter-if.png" alt="<code>if/else</code> reporter block" title="<code>if/else</code> reporter block" /></td>
+				<td><pre>yes if condition else no</pre></td>
+				<td><pre>(condition ? yes : no)</pre></td></tr>
+
+				<tr><td><img src="/bjc-r/img/5-algorithms/report.png" alt="<code>report</code> block" title="<code>report</code> block" /></td>
+				<td><pre>return value</pre></td>
+				<td><pre>return value</pre></td></tr>
+
+				<tr><td><img src="/bjc-r/img/5-algorithms/stop-block.png" alt="<code>stop this block</code> block" title="<code>stop this block</code> block" /></td>
+				<td><pre>return</pre></td>
+				<td><pre>return</pre></td></tr>
+
+				<tr><td><img src="/bjc-r/img/5-algorithms/function-ring.png" alt="<code>function ()</code> block in a gray ring" title="<code>function ()</code> block in a gray ring" /></td>
+				<td><pre>lambda x : someFunction(x)</pre></td>
+				<td><pre>function (x) {return someFunction(x)}</pre> &nbsp; or
+				<pre>(x) => someFunction(x)</pre></td></tr>
+
+				<tr><td><img src="/bjc-r/img/5-algorithms/times.png" alt="<code>a times b</code> block" title="<code>a times b</code> block" /></td>
+				<td><pre>a * b</pre></td>
+				<td><pre>a * b</pre></td></tr>
+
+				<tr><td><img src="/bjc-r/img/5-algorithms/power.png" alt="<code>a to the power b</code> block" title="<code>a to the power b</code> block" /></td>
+				<td><pre>a ** b</pre></td>
+				<td><pre>a ** b</pre></td></tr>
+
+				<tr><td><img src="/bjc-r/img/5-algorithms/and.png" alt="<code>a and b</code> block" title="<code>a and b</code> block" /></td>
+				<td><pre>a and b</pre></td>
+				<td><pre>a && b</pre></td></tr>
+
+				<tr><td><img src="/bjc-r/img/5-algorithms/join.png" alt="<code>join (hello) (world)</code> block" title="<code>join (hello) (world)</code> block" /></td>
+				<td><pre>" ".join("hello","world")</pre> &nbsp; or <pre>"hello " + "world"</pre></td>
+				<td><pre>"hello ".concat("world")</pre> &nbsp; or <pre>"hello " + "world"</pre></td></tr>
+
+				<tr><td><img src="/bjc-r/img/5-algorithms/set.png" alt="<code>set (foo) to (87)</code> block" title="<code>set (foo) to (87)</code> block" /></td>
+				<td><pre>foo = 87</pre></td>
+				<td><pre>foo = 87</pre></td></tr>
+
+				<tr><td><img src="/bjc-r/img/5-algorithms/change.png" alt="<code>change (foo) by (5)</code> block" title="<code>change (foo) by (5)</code> block" /></td>
+				<td><pre>foo += 5</pre></td>
+				<td><pre>foo += 5</pre></td></tr>
+
+				<tr><td><img src="/bjc-r/img/5-algorithms/list.png" alt="<code>list (John) (Paul) (George) (Ringo)</code> block" title="<code>list (John) (Paul) (George) (Ringo)</code> block" /></td>
+				<td><pre>["John", "Paul", "George", "Ringo"]</pre></td>
+				<td><pre>["John", "Paul", "George", "Ringo"]</pre></td></tr>
+
+				<tr><td><img src="/bjc-r/img/5-algorithms/item.png" alt="<code>item (1) of (value)</code> block" title="<code>item (1) of (value)</code> block" /></td>
+				<td><pre>value[0]</pre></td>
+				<td><pre>value[0]</pre></td></tr>
+
+				<tr><td><img src="/bjc-r/img/5-algorithms/bf.png" alt="<code>all but first of (value)</code> block" title="<code>all but first of (value)</code> block" /></td>
+				<td><pre>value[1:]</pre></td>
+				<td><pre>value.slice(1)</pre></td></tr>
+
+				<tr><td><img src="/bjc-r/img/5-algorithms/map.png" alt="<code>map (some function) over (value)</code> block" title="<code>map (some function) over (value)</code> block" /></td>
+				<td><pre>list(map(someFunction, value))</pre>
+				&nbsp; or <pre>[someFunction(x) for x in value]</pre></td>
+				<td><pre>value.map(someFunction))</pre></td></tr>
+
+			</table>
+
+			<p>This is just a small sample of the number of primitive commands
+			and functions in any programming language.  Luckily, you don't have
+			to memorize all of them; you can do a web search for "javascript
+			list item," for example, to learn any particular one as you need
+			it.</p>
+
+			<p>The other block categories, the ones having to do with graphics
+			or sound, don't really have analogs in other languages.  Instead,
+			just as Snap<em>!</em> has libraries, other languages also have
+			libraries to provide such capabilities.  For example, if you want
+			JavaScript equivalents to the turtle graphics blocks
+			(<code>move (n) steps</code>, etc.), you start in your search
+			engine; "JavaScript turtle graphics" will get you to
+			<a href="https://github.com/bjpop/js-turtle">https://github.com/bjpop/js-turtle</a>
+			from which you can download the file "turtle.js" to include with
+			your own JavaScript program.</p>
+
+			<p>Libraries are a little easier in Python because there's a
+			central repository of them.  So you can draw a square this way:</p>
+
+<pre>from turtle import *
+
+pendown()
+for i in range (1, 4):
+    forward(100)
+    right(90)
+</pre>
+
+
 		<div class="todo">
+		<h3>How Can You Learn These Similar Languages?</h3>
 			<ul>
 				<li><a href="https://www.w3schools.com/cpp/default.asp" title="W3Schools C++ Tutorial" target="_blank">W3Schools C++ Tutorial</a> &leftarrow; Brian, is C++ the right thing (not C); are you OK with promoting the W3Schools tutorials? Is there anything else you suggest that we promote also/instead? --MF, 6/27/21</li>
 				<li><a href="https://www.w3schools.com/python/" title="W3Schools Python Tutorial" target="_blank">W3Schools Python Tutorial</a></li>
 				<li><a href="https://www.w3schools.com/js/" title="W3Schools JavaScript Tutorial" target="_blank">W3Schools JavaScript Tutorial</a></li>
 			</ul>
+
+			I didn't do any of this.  W3schools is a little controversial.
+			Some people swear by them; others say they're full of inaccuracies.
+			I don't know enough to have an opinion.  But, anyway, kids know
+			how to learn stuff; you search the Web, or you get a book from
+			the library.  Or you take APCSA next year.
 		</div>
 
-		<h3>How Are Other Languages So Different?</h3>
-		<div class="todo">Brian to flesh out:
-			<p>
-				Here are some languages that really are different…
-				<ul>
-					<li>In LISP, all procedures are reporters, and you can have a sequence of them, but they all return values, and that's not just a notational difference.</li>
-					<li>In SmallTalk, when you say 2 + 3, what you are doing is sending the message <pre class="inline">+ 3</pre> to the object to. In Snap that would be like doing something like <code>ASK (2) FOR (() + 3)</code>.</li>
-				</ul>
-			</p>
-		</div>
+		<h3>Non-Procedural Languages</h3>
 
 
 	</body>
