@@ -7,7 +7,13 @@
 	</head>
 
 	<body>
-		<h2>Transitioning to Other Languages</h2>
+		<h2>Other Programming Languages</h2>
+
+		<div class="todo">
+		I changed the name, so as not to imply that they now know all about
+		Snap<i>!</i> and should move on.
+		</div>
+
 		<div class="learn"><strong>On this page,</strong> you will learn about other programming languages and how to learn them, now that you know Snap<em>!</em>.</div>
 
 		<p>A programming language is characterized by two things: a philosophy of programming and details of notation. Most programming languages are basically <em>sequential</em> (do this instruction, then do this, then do this). This includes Snap<em>!,</em> even though you have learned some composition (nesting) of functions, which other sequential languages also include to some extent.</p>
@@ -124,6 +130,13 @@ function binarySearch(value, data) {
 }
 </pre>
 
+	<div class="vocab">
+		<p>The <strong>syntax</strong> of a language is the notation it uses
+		(punctuation, words reserved for specific purposes, etc.).  Human
+		languages have syntax, too: nouns vs. verbs and so on.</p>
+		<p>The <strong>semantics</strong> of a language refers to the
+		meaning or purpose of each piece of syntax.</p>
+	</div>
 	<p>This doesn't look so different from the Python version, but there
 	are a few significant differences:</p>
 
@@ -259,9 +272,9 @@ else:
 				<td><pre>value.slice(1)</pre></td></tr>
 
 				<tr><td><img src="/bjc-r/img/5-algorithms/map.png" alt="<code>map (some function) over (value)</code> block" title="<code>map (some function) over (value)</code> block" /></td>
-				<td><pre>list(map(someFunction, value))</pre>
+				<td><pre>map(someFunction, value)</pre>
 				&nbsp; or <pre>[someFunction(x) for x in value]</pre></td>
-				<td><pre>value.map(someFunction))</pre></td></tr>
+				<td><pre>value.map(someFunction)</pre></td></tr>
 
 			</table>
 
@@ -280,7 +293,11 @@ else:
 			engine; "JavaScript turtle graphics" will get you to
 			<a href="https://github.com/bjpop/js-turtle">https://github.com/bjpop/js-turtle</a>
 			from which you can download the file "turtle.js" to include with
-			your own JavaScript program.</p>
+			your own JavaScript program.  (On the other hand, because
+			the main purpose of JavaScript is writing programs that will be
+			run inside a browser window, it does have built-in support for
+			the sort of graphics you see in typical browser windows:
+			scrolling text windows, form-filling, checkboxes, etc.)</p>
 
 			<p>Libraries are a little easier in Python because there's a
 			central repository of them.  So you can draw a square this way:</p>
@@ -309,8 +326,414 @@ for i in range (1, 4):
 			the library.  Or you take APCSA next year.
 		</div>
 
-		<h3>Non-Procedural Languages</h3>
+		<h3>Non-Sequential Languages</h3>
 
+		<p>In the early days, all programming languages were sequential,
+		because that's how computer hardware works, and higher level
+		languages were seen as a convenient abbreviation for machine
+		language, rather than as a source of abstraction.  Since then,
+		several types of program abstraction ("programming paradigms")
+		have been invented.
+		Most modern languages have some aspects of most of these,
+		but in this section you'll learn about languages that are
+		<em>entirely</em> based on one particular paradigm.</p>
+
+		<h4>Functional Programming</h4>
+
+		<p>Imagine if Snap<em>!</em> had only reporters and predicates, with
+		no command blocks.  To perform a computation, you'd build up an
+		expression in the scripting area, then click on it to see the result
+		in a speech balloon.  You could make script variables, but you'd give
+		them a value at the time you create them, and you couldn't then
+		<em>change</em> the value.  That would be a <em>functional
+		programming</em> language.</p>
+
+		<p>Here's the same binary search algorithm shown above, written in
+		Haskell, a purely functional language:</p>
+
+<pre>find :: Ord a => Array Int a -> a -> Maybe Int
+find arr x = uncurry (search arr x) (bounds arr)
+
+search :: Ord a => Array Int a -> a -> Int -> Int -> Maybe Int
+search arr x lo hi
+  | hi - lo + 1 == 0 = Nothing
+  | x == el = Just mid
+  | x > el = search arr x (mid+1) hi
+  | otherwise = search arr x lo (mid-1)
+  where mid = (hi + lo) `div` 2
+        el = arr ! mid</pre>
+<p><small>Source: <a href="https://exercism.io/tracks/haskell/exercises/binary-search/solutions/1a379e35bf0741109dae902f8ae1096c">exercism.io</a>, CC-BY-SA</small></p>
+
+		<p>This looks very different from the other programs you've seen,
+		but don't throw up your hands in despair.  You're <em>not</em>
+		expected to be able to learn to program in Haskell in just a few
+		days, but you can read this example with some help.</p>
+
+		<p>The two lines with <code>Ord a</code> and so on are <em>type
+		declarations.</em> Such declarations aren't a necessary part of a
+		functional language, but the main functional languages do use them.
+		The "a" on those lines is the name of a data type that's being created
+		in each declaration.  <code>Find</code> and <code>search</code> are of
+		type "function," but not any old function.  <code>Find</code> is of
+		type "function that takes as inputs an array (like a Snap<em>!</em>
+		list) of values of type
+		<code>a</code>, which has to be an Ordinal type (ones that can be
+		counted, such as integers, but not real numbers), and a single value
+		of type <code>a</code>, and returns either an integer or nothing at
+		all."  Looking at this another way, each of those lines creates an
+		abstract data type.  (The name <code>a</code> is local to
+		each function.</p>
+
+		<p><code>Find</code> is the main procedure; <code>search</code>
+		is a helper function.  The second line of the program says that
+		<code>find</code>, which takes two inputs, calls <code>search</code>
+		with those two inputs along with two more, the lowest and highest
+		indices of the array, which will be 0 and the array length minus 1.</p>
+
+		<p><code>Search</code> is where you'll really see functional programming
+		making a difference in the programming style.  The Snap<em>!</em>
+		version of the program is organized as a <code>repeat until</code>
+		loop, in which the values of the variables <var>low</var>,
+		<var>high</var>, <var>current index</var>, and
+		<var>current item</var> are changed on every repetition.  If you're
+		not allowed to change variables' values, what can you do instead?</p>
+
+		<p>The answer is that <code>search</code> calls itself recursively,
+		in the lines
+<pre>  | x > el = search arr x (mid+1) hi
+  | otherwise = search arr x lo (mid-1)</pre>
+		In the recursive calls, either
+		<var>lo</var> or <var>hi</var> has a different value.  This may seem
+		like a quibble.  Isn't that the same as changing the value?  No, it
+		isn't.  The recursive call has <em>its own local variables</em> with
+		the same names as the outer call.  You can see that this matters in a
+		case in which two recursive calls are combined, as in this program
+		to calculate Fibonacci numbers:</p>
+		<img src="/bjc-r/img/5-algorithms/fib.png">
+		<p>If you try to trace through computing <code>fib 4</code> on the
+		assumption that there's a single variable <var>n</var> shared by
+		all the recursive calls, you'll get the wrong answer.</p>
+
+		<p>The <code>where</code> in the last two lines of the program
+		is how Haskell creates script variables and gives them their
+		(unchanging) values.  The four lines that start with vertical
+		bars (<code>|</code>) are like a set of nested
+		<code>if</code>/<code>else</code> blocks:  If <var>hi</var> is
+		one less than <var>lo</var>, return nothing.  If the value you're
+		looking for is equal to <code>item <var>mid</var> of
+		<var>arr</var></code>, return the index <var>mid</var>.  (This
+		version of binary search returns the position of the value in
+		the list, if any, instead of just <code>True</code>.)  If the
+		value you want is more than the value at the midpoint, search
+		from the midpoint to the end of the list.  Otherwise, search
+		from the beginning of the list to the midpoint.</p>
+
+		<p>Even if you're convinced that functional programming is a
+		good idea (which it is, because it avoids the kind of bug
+		in which two parts of the program are using the same variable
+		for different purposes, and because functional code turns out
+		to be the easiest to parallelize for multi-processor machines),
+		why would you choose a language that <em>forces</em> you to
+		program in that style?  Well, many people don't.  You can, if
+		you're disciplined about it, program functionally in any
+		language that's functional <em>enough</em> to include higher
+		order functions, which are an important benefit of functional
+		programming.  But a purely functional language helps eliminate
+		program bugs, which is especially important when a team of
+		programmers work together on the same program.  And compilers
+		for functional languages can take advantage of the constraints
+		of functional programming to generate very efficient programs.</p>
+
+		<h4>Object Oriented Programming (OOP)</h4>
+
+		<p>Imagine if in Snap<em>!</em> you could make only sprite-local
+		procedures and variables, not global ones.  Imagine also that
+		<em>everything</em> in the language were like sprites in that
+		way.  So, for example, imagine that the number <code>3</code> had its own
+		procedures&mdash;its own <code>+</code> and so on.  Something
+		that has its own local procedures (called <em>methods</em>)
+		and its own local variables (often called <em>fields</em>,
+		depending on the language) is called an <em>object.</em></p>
+
+		<p>It would be unusable if you actually had to write a <code>+</code>
+		method for <code>3</code> and a different one for <code>4</code>.
+		But think about making clones of a sprite, as you did in the
+		Tic-Tac-Toe project.  Each clone <em>inherits</em> the methods
+		and some other attributes from its parent sprite.  Similarly,
+		<code>3</code> and <code>4</code> are <em>instances</em> of
+		the class (type of object) <code>Integer</code>, which in turn
+		inherits from the class <code>Number</code>.</p>
+
+		<p>So, what happens when you say <code>3 + 4</code>?  You are
+		sending the <em>message</em> <code>+ 4</code> to the object
+		<code>3</code>.  (In Snap<em>!</em>, the <code>broadcast</code>
+		block sends a message to all objects, and the <code>tell</code>
+		and <code>ask</code> blocks send a message to a specific object.)
+		The message <code>+ 4</code> consists of a <em>keyword,</em>
+		<code>+</code>, along with an input, <code>4</code>.</p>
+
+		<p>These days, most programming languages are sort of
+		object oriented, just as most sort of support functional
+		programming.  For example, in the translation table above,
+		the translation of the <code>map</code> block to JavaScript
+		is <code>value.map(someFunction)</code>.  <code>Map</code>
+		takes two inputs, a function and a list.  Python expresses
+		that idea as a two-input function, <code>map(someFunction,value)</code>.
+		Why does JavaScript put one of the inputs in front of the
+		function name?  The reason is that <code>map</code> isn't a
+		procedure to be called; it's the keyword of a message that
+		you can send to a list.  Their message-passing syntax is
+		<code>object.keyword(inputs)</code>.</p>
+
+		<p>But most languages don't go so far as to treat numbers
+		as objects.  In most languages, including Snap<em>!</em>,
+		<code>+</code> is a function that takes two numbers as
+		inputs.  The only widely known language that's truly
+		object oriented, in which <em>everything</em> is an object,
+		is Smalltalk, the language that introduced object oriented
+		programming to the world.</p>
+
+		<p>Here's the binary search program in Smalltalk:</p>		
+
+<pre>Array extend [
+   binSearch: val left: l right: r [
+      | iter |
+      l = r ifTrue: [^ 0].
+      iter := (r + l) // 2.
+      (self at: iter) = val ifTrue: [^iter].
+      ^ (self at: iter) < val
+         ifTrue:[self binSearch: val left: l right: iter]
+         ifFalse: [self binSearch: val left: iter right: r]
+   ]
+]</pre>
+<p><small>Source: <a href="https://stackoverflow.com/questions/67847078/binary-search-in-smalltalk">stackoverflow.com</a>, CC BY-SA</small></p>
+
+		<p>The first line of this program says that it is <code>extend</code>ing
+		the class <code>Array</code> with a new method.  The corresponding
+		message, on the second line, has three keywords, <code>binSearch:</code>,
+		<code>left:</code>, and <code>right:</code>. This is similar to the way
+		Snap<em>!</em> blocks can have title text mixed with input slots.
+		The inputs to this method are named <var>val</var>, <var>l</var>, and
+		<var>r</var>.  (Shouldn't there be an input for the array in which
+		the method will search?  No, because that array is an object, and
+		<code>binSearch</code> is a method of the array.</p>
+
+		<p>The vertical bars in the third line are the Smalltalk syntax
+		for <code>script variables</code>.  Another noteworthy piece of
+		syntax is that Smalltalk uses square brackets <code>[ ]</code>
+		the way Snap<em>!</em> uses gray rings, surrounding a piece of
+		code that can be input to a message.  Smalltalk sensibly uses
+		<code>=</code> to mean the equality test; its equivalent to
+		<code>set</code> is the two-character sequence <code>:=</code>.
+		The hat (<code>^</code>) is like <code>report</code>.
+		The double slash <code>//</code> is division with the result
+		rounded to an integer.</p>
+
+		<p>The Boolean values True and False are, of course, objects;
+		they accept messages with keywords <code>ifTrue:</code> and
+		<code>ifFalse:</code>, each of which takes a code block (in
+		square brackets, in this program) as input.  So there's no
+		need for an explicit <code>if</code> procedure.</p>
+
+		<p>The name <code>self</code> refers to the object that is
+		carrying out the method, like
+		<img src="/bjc-r/img/5-algorithms/my-self.png">
+		or <img src="/bjc-r/img/5-algorithms/obj-myself.png">
+		in Snap<em>!</em>.  The message <code>at: iter</code>, sent
+		to an array, means the same as <code>item iter of array</code>
+		in Snap<em>!</em>.  The rest of the program should now make
+		sense.</p>
+
+		<p>Why would you use an object oriented language?  Programmers'
+		opinions on this question have changed dramatically over time.  When
+		Alan Kay and his team at
+		<a href="https://en.wikipedia.org/wiki/PARC_(company)">Xerox PARC</a>
+		introduced Smalltalk, very few people got the point.  But today, there
+		are many programmers who insist that using anything <em>other</em>
+		than object oriented programming is professional malpractice.  (They
+		don't use Smalltalk, though; many use Java, the language of the
+		College Board AP Computer Science A course.)  The main thing that's
+		made OOP so popular is <em>information hiding,</em> which means that
+		one object can't directly examine another object's variables, but must
+		instead send the other object a message that it recognizes.</p>
+
+		<p>In a language for learning, such as Snap<em>!,</em> information
+		hiding isn't so important.  Programs are small, and they have just one
+		or two authors.  The people who talk about malpractice are thinking
+		about teams of 500 programmers, and all the ways they can step on each
+		others' feet unless the objects each one programs are protected from
+		each other.  That's why Snap<em>!</em> allows an object to call
+		<em>any</em> method of another object, not just a few for which the
+		other object publishes messages.  Snap<em>!</em>'s developers
+		were more interested in another of Smalltalk's central
+		ideas, namely <em>simulation.</em></p>
+
+		<p>In pre-OOP programming, there's one program running all the time,
+		and it's in charge of all the necessary computations.  That's fine if
+		you're computing a function, for example, but some programs are
+		meant to model the behavior of a complex system with many independent
+		actors, such as the disease simulation project in this unit.  The
+		simple model used in that project has only one object type, people.
+		A better model would have different kinds of people (for example,
+		those who do and those who don't follow medical advice about wearing
+		masks) and would model the disease itself, such as its ability to
+		mutate.  OOP is great at this kind of simulation, because each object
+		is responsible for its own behavior.  (Scratch, from which Snap<em>!</em>
+		inherited the idea of sprites, was originally implemented in
+		Smalltalk, whose influence is seen in such details as multi-keyword
+		block names.)</p>
+
+		<h4>Declarative Programming</h4>
+
+		<p>This section isn't going to start with "Imagine if Snap<em>!</em>..."
+		Declarative programming is a very, very different approach.  What you
+		have to imagine is that programs don't have algorithms!</p>
+
+		<p>Instead, a program consists of <em>facts</em> and <em>rules</em>
+		that you are teaching the computer.  One of the standard examples is
+		about family trees.  "Brian's mother is Tessa" is a fact, a specific
+		piece of information.
+
+<pre>mother('Brian','Tessa').</pre>
+
+		Rules are more general:  "If person A's mother is person B,
+		and person B's mother is person C, then person A's grandmother
+		is person C."  Here's how that would look in Prolog,
+		the best-known declarative language:</p>
+
+<pre>grandmother(A,C) :-
+    mother(A,B),
+    mother(B,C).</pre>
+
+		<p>What about the mother of someone's father?  Shouldn't that have
+		to be in the rule, too?  The answer is that you can have as many
+		rules as you want about grandmotherhood:</p>
+
+<pre>grandmother(A,C) :-
+    father(A,B),
+    mother(B,C).</pre>
+
+		<p>Once you've taught the computer some rules and facts, you
+		can ask questions, such as "Who is Brian's grandmother?":</p>
+
+<pre>grandmother('Brian', X)</pre>
+
+		<p>A very important difference between declarative programming
+		and the other paradigms you've seen is that a question may have
+		more than one answer!  This is very different from a function,
+		which can only report one value.  Prolog doesn't just pick one
+		answer to show you; it shows all the answers it can figure out
+		from the information it has.</p>
+
+		<p>Okay, time for binary search in Prolog:</p>
+
+<pre>contains(List , Value) :- even_division(_, [Value|_], List).
+
+contains(List, Value) :-
+    even_division(_, [Center|SecondHalf], List),
+    Center < Value, SecondHalf \= [],
+    contains(SecondHalf, Value).
+
+contains(List, Value): -
+    even_division(FirstHalf, [Center|_], List),
+    Center > Value, FirstHalf \= [],
+    contains(FirstHalf, Value).
+
+even_division(First, Second, Xs) :-
+    append(First, Second, Xs),
+    length(First,F),
+    length(Second,S),
+    S >= F, S-F =< 1.</pre>
+<p><small>Source: <a href="https://wiki.colby.edu/display/LPE/Prolog+Binary+Search">colby.edu</a></small></p>
+
+		<p>The first thing to say about this program is that it's not really a
+		good representation for how to program in Prolog.  The helper rule
+		<code>even_division</code> wants to divide a list into two equal-size
+		pieces; it ends up dividing the list into two pieces every possible
+		way, and then checks each of those divisions to find one whose two
+		pieces are the same length.  If you really wanted to do a binary
+		search in Prolog, you'd do it by using a more complicated data
+		structure that comes pre-divided into equal size pieces.  But for
+		our purposes on this page, it's best to use the same structure in
+		all the sample programs.</p>
+
+		<p>There are two important pieces of Prolog notation you haven't
+		already seen in the family tree example.  The notation
+		<code>[A|B]</code> represents a nonempty list whose first item
+		is <var>A</var> and whose all-but-first is <var>B</var>.  And the
+		underscore character <code>_</code>, used by itself, means that
+		you don't care what value goes in that slot in the program.
+		(Underscores can also be used as part of a variable name or a
+		rule name, as in the rule <code>even_division</code>.)</p>
+
+		<p>So the first rule</p>
+
+<pre>contains(List , Value) :- even_division(_, [Value|_], List).</pre>
+
+		<p>means that the given <var>Value</var> is in the <var>List</var>
+		if it happens to be the middle item of the list&mdash;that is,
+		<var>List</var> can be divided into two equal parts, you don't
+		care what's in the first part, and the second part has
+		<var>Value</var> as its first item, followed by some values you
+		don't care about.<p>
+
+		<p>The next rule handles the case in which the value is larger
+		than the middle item of the list.  It says that <var>List</var>
+		contains <var>Value</var> provided that the middle item
+		<var>Center</var> is less than <var>Value</var>, the second
+		half of <var>List</var> has items other than just <var>Center</var>,
+		and those other items (<var>SecondHalf</var>) include the desired
+		<var>Value</var>.  (The requirement that <var>SecondHalf</var>
+		isn't an empty list is there to prevent infinite loops in which
+		the program keeps dividing an empty list into two (equal size)
+		empty lists.)</p>
+
+		<p>Similarly, the third rule handles the case in which the value
+		is smaller than <var>Center</var>.</p>
+
+		<p>Why isn't there a rule saying to report False if the value
+		isn't found?  This is the mind-stretching part of declarative
+		programming.  A rule isn't a function, and it doesn't report a
+		value.  That would be an algorithm!  A rule doesn't <em>do</em>
+		anything; it's just another kind of data.  If Prolog can't
+		match the question you ask against any combination of facts and
+		rules, then you just don't get an answer at all.  That's not
+		considered an error.</p>
+
+		<p>How does a Prolog program actually work?  If there are no
+		algorithms, only data, how can any matching of queries to
+		things in its database happen?  The answer is that the language
+		itself implements a single, universal algorithm, called
+		<em>unification</em>, that will always find every answer to
+		a question you ask that can be deduced from the database,
+		provided that it doesn't get caught in an infinite loop.
+		(If unification could guarantee the impossibility of
+		infinite loops, it would solve the Halting Problem, which
+		you know can't be done.)</p>
+
+		<p>Why would you program in a declarative language?  Some
+		problems just lend themselves to a database-ish frame of
+		mind.  Think about family trees again.  There may be gaps
+		in what you know about your ancestors; an algorithm that
+		expects everyone in the database to have exactly two parents
+		in the database wouldn't work if there's missing information.
+		Similarly, if you have two mothers or two fathers, a situation
+		that's more common these days than in the past, Prolog won't
+		mind.  You just tell it two facts such as
+		<code>mother('me','mom1')</code> and <code>mother('me','mom2')</code>.
+		Also, nothing beats declarative programming for situations in
+		which a problem can have more than one answer.  Think about
+		a quadratic equation with two solutions.  In ordinary programming,
+		you can write a function that reports a list of two numbers, but
+		a list isn't a number, and can't take part in further numeric
+		computations.  It's better if you get two separate answers, each
+		of which is a number.</p>
+
+		<p>So, the overall moral of this story is that if you have the
+		urge to learn more programming languages, you'll be better off
+		learning Haskell, Smalltalk, and Prolog, rather than learning
+		a bunch of languages that are pretty much the same, such as
+		JavaScript, Python, C, Java, and so on.</p>
 
 	</body>
 </html>
