@@ -216,7 +216,8 @@ else:
 				<td><pre>if condition {
     action1
 } else {
-    action2</pre></td></tr>
+    action2
+}</pre></td></tr>
 
 				<tr><td><img src="/bjc-r/img/5-algorithms/reporter-if.png" alt="<code>if/else</code> reporter block" title="<code>if/else</code> reporter block" /></td>
 				<td><pre>yes if condition else no</pre></td>
@@ -382,7 +383,7 @@ search arr x lo hi
 		of type <code>a</code>, and returns either an integer or nothing at
 		all."  Looking at this another way, each of those lines creates an
 		abstract data type.  (The name <code>a</code> is local to
-		each function.</p>
+		each function.)</p>
 
 		<p><code>Find</code> is the main procedure; <code>search</code>
 		is a helper function.  The second line of the program says that
@@ -559,10 +560,10 @@ search arr x lo hi
 
 		<p>In a language for learning, such as Snap<em>!,</em> information
 		hiding isn't so important.  Programs are small, and they have just one
-		or two authors.  The people who talk about malpractice are thinking
+		or two authors.  (The people who talk about malpractice are thinking
 		about teams of 500 programmers, and all the ways they can step on each
 		others' feet unless the objects each one programs are protected from
-		each other.  That's why Snap<em>!</em> allows an object to call
+		each other.)  That's why Snap<em>!</em> allows an object to call
 		<em>any</em> method of another object, not just a few for which the
 		other object publishes messages.  Snap<em>!</em>'s developers
 		were more interested in another of Smalltalk's central
@@ -627,7 +628,7 @@ search arr x lo hi
 
 		<p>Okay, time for binary search in Prolog:</p>
 
-<pre>contains(List , Value) :- even_division(_, [Value|_], List).
+<pre>contains(List, Value) :- even_division(_, [Value|_], List).
 
 contains(List, Value) :-
     even_division(_, [Center|SecondHalf], List),
@@ -668,7 +669,7 @@ even_division(First, Second, Xs) :-
 
 		<p>So the first rule</p>
 
-<pre>contains(List , Value) :- even_division(_, [Value|_], List).</pre>
+<pre>contains(List, Value) :- even_division(_, [Value|_], List).</pre>
 
 		<p>means that the given <var>Value</var> is in the <var>List</var>
 		if it happens to be the middle item of the list&mdash;that is,
@@ -700,6 +701,20 @@ even_division(First, Second, Xs) :-
 		rules, then you just don't get an answer at all.  That's not
 		considered an error.</p>
 
+		<p>The use of <code>even_division</code> in this program is an
+		attempt to have it work the way binary search works, by dividing
+		the list in half at each step.  But if you just want to know if
+		a value is in a list and aren't worried about efficiency, the
+		entire program could be replaced by one rule:</p>
+
+<pre>contains(List, Value) :- append(_, [Value|_], List).</pre>
+
+		<p>This says that the list can be divided into two pieces
+		(the first of which might be empty; you don't care what's
+		in it), such that the desired value is the first item in
+		the second half of the list.  That example should give you
+		some feeling for the power of declarative programming.</p>
+
 		<p>How does a Prolog program actually work?  If there are no
 		algorithms, only data, how can any matching of queries to
 		things in its database happen?  The answer is that the language
@@ -729,11 +744,13 @@ even_division(First, Second, Xs) :-
 		computations.  It's better if you get two separate answers, each
 		of which is a number.</p>
 
-		<p>So, the overall moral of this story is that if you have the
-		urge to learn more programming languages, you'll be better off
-		learning Haskell, Smalltalk, and Prolog, rather than learning
-		a bunch of languages that are pretty much the same, such as
-		JavaScript, Python, C, Java, and so on.</p>
+		<p>So, the overall moral of this story is that if you have the urge to
+		learn more programming languages, you'll be intellectually better off
+		learning Haskell, Smalltalk, and Prolog, rather than learning a bunch
+		of languages that are pretty much all the same, such as JavaScript,
+		Python, C, Java, and so on.  (If you want a programming job this
+		summer, though, you might need to learn the language a potential
+		employer wants to use.)</p>
 
 	</body>
 </html>
