@@ -53,20 +53,21 @@
 
 		<p>Here's the same procedure written in Python:</p>
 		<pre>
-def binarySearch(value, data):
+def binary_search(value, data):
     low = 0
     high = len(data)-1
     while (low <= high):
-        currentIndex = average(low, high)
-        currentItem = data[currentIndex]
-        if (currentItem == value):
+        current_index = average(low, high)
+        current_item = data[current_index]
+        if (current_item == value):
             return True
-        elif (currentItem > value):
-            high = currentIndex-1
+        elif (current_item > value):
+            high = current_index-1
         else:
-            low = currentIndex+1
+            low = current_index+1
     return False
 </pre>
+
 		<p>For the most part, this is line for line the same as the Snap<em>!</em> version.
 		Apart from tiny details such as <code>return</code> instead of
 		<code>report</code>, there are a few more significant differences in notation:
@@ -85,7 +86,8 @@ def binarySearch(value, data):
 					In Python, there's nothing like the
 					<code>script variables</code> block in Snap<em>!</em>.
 					Variables are local to procedures automatically, unless you
-					use a <code>global</code> statement to tell Python to look for
+					use a <code>global</code> or <code>nonlocal</code>
+					statement to tell Python to look for
 					a variable defined outside this procedure.
 				</li>
 				<li>
@@ -102,9 +104,7 @@ def binarySearch(value, data):
 					In Python, you can't have a
 					space inside a variable name, like <var>current item</var> in
 					Snap<em>!</em>.  Instead, Python programmers often use
-					"camel case," so called because the capital letters in
-					the middle of a variable name are supposed to look like
-					the humps of a camel.
+					underscore characters (_) inside variable names.
 				</li>
 			</ul>
 		</p>
@@ -142,8 +142,8 @@ function binarySearch(value, data) {
 
 	<ul>
 		<li>
-			The <code>var</code> statement is equivalent to
-			<code>script variables</code> in Snap<em>!</em>.
+			The <code>var</code> statement, inside a procedure, is
+			equivalent to <code>script variables</code> in Snap<em>!</em>.
 		</li>
 		<li>
 			JavaScript uses braces <code>{ }</code> to mark the extent
@@ -175,6 +175,13 @@ function binarySearch(value, data) {
 			including what Snap<em>!</em> calls "commands," the ones that
 			don't report a value.
 		</li>
+				<li>
+					Just as in Python, you can't have a
+					space inside a variable name.  Instead, JavaScript programmers often use
+					"camel case," so called because the capital letters in
+					the middle of a variable name are supposed to look like
+					the humps of a camel.
+				</li>
 	</ul>
 
 		<p>You can see that there are things to learn about notation (<em>syntax,</em> which is the text-language equivalent of block colors and shapes). But you would be able to learn the details of one of these other languages in a few focused days and then program in that language, too.</p>
@@ -195,28 +202,28 @@ function binarySearch(value, data) {
 				<tr><th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Snap<em>!</em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th><th>Python</th><th>JavaScript</th></tr>
 
 				<tr><td><img src="/bjc-r/img/5-algorithms/for.png" alt="<code>for</code> block" title="<code>for</code> block" /></td>
-				<td><pre>for i in range (1, 10):
-    action</pre></td>
+				<td><pre>for i in range (1, 11):
+    action()</pre></td>
 				<td><pre>for (i=1; i <= 10; i++) {
-    action
+    action()
 }</pre></td></tr>
 
 				<tr><td><img src="/bjc-r/img/5-algorithms/repeat-until.png" alt="<code>repeat until</code> block" title="<code>repeat until</code> block" /></td>
 				<td><pre>while (not condition):
-    action</pre></td>
+    action()</pre></td>
 				<td><pre>while (not condition) {
-    action
+    action()
 }</pre></td></tr>
 
 				<tr><td><img src="/bjc-r/img/5-algorithms/if-else.png" alt="<code>if/else</code> block" title="<code>if/else</code> block" /></td>
 				<td><pre>if condition:
-    action1
+    action1()
 else:
-    action2</pre></td>
-				<td><pre>if condition {
-    action1
+    action2()</pre></td>
+				<td><pre>if (condition) {
+    action1()
 } else {
-    action2
+    action2()
 }</pre></td></tr>
 
 				<tr><td><img src="/bjc-r/img/5-algorithms/reporter-if.png" alt="<code>if/else</code> reporter block" title="<code>if/else</code> reporter block" /></td>
@@ -232,8 +239,10 @@ else:
 				<td><pre>return</pre></td></tr>
 
 				<tr><td><img src="/bjc-r/img/5-algorithms/function-ring.png" alt="<code>function ()</code> block in a gray ring" title="<code>function ()</code> block in a gray ring" /></td>
-				<td><pre>lambda x : someFunction(x)</pre></td>
-				<td><pre>function (x) {return someFunction(x)}</pre> &nbsp; or
+				<td><pre>lambda x : some_function(x)</pre></td>
+				<td><pre>function (x) {
+    return someFunction(x)
+}</pre> &nbsp; or
 				<pre>(x) => someFunction(x)</pre></td></tr>
 
 				<tr><td><img src="/bjc-r/img/5-algorithms/times.png" alt="<code>a times b</code> block" title="<code>a times b</code> block" /></td>
@@ -249,8 +258,8 @@ else:
 				<td><pre>a && b</pre></td></tr>
 
 				<tr><td><img src="/bjc-r/img/5-algorithms/join.png" alt="<code>join (hello) (world)</code> block" title="<code>join (hello) (world)</code> block" /></td>
-				<td><pre>" ".join("hello","world")</pre> &nbsp; or <pre>"hello " + "world"</pre></td>
-				<td><pre>"hello ".concat("world")</pre> &nbsp; or <pre>"hello " + "world"</pre></td></tr>
+				<td><pre>" ".join(["hello","world"])</pre> &nbsp; or <pre>"hello " + "world"</pre></td>
+				<td><pre>"hello " + "world"</pre></td></tr>
 
 				<tr><td><img src="/bjc-r/img/5-algorithms/set.png" alt="<code>set (foo) to (87)</code> block" title="<code>set (foo) to (87)</code> block" /></td>
 				<td><pre>foo = 87</pre></td>
@@ -273,9 +282,14 @@ else:
 				<td><pre>value.slice(1)</pre></td></tr>
 
 				<tr><td><img src="/bjc-r/img/5-algorithms/map.png" alt="<code>map (some function) over (value)</code> block" title="<code>map (some function) over (value)</code> block" /></td>
-				<td><pre>map(someFunction, value)</pre>
-				&nbsp; or <pre>[someFunction(x) for x in value]</pre></td>
+				<td><pre>list(map(some_function, value))</pre>
+				&nbsp; or <pre>[some_function(x) for x in value]</pre></td>
 				<td><pre>value.map(someFunction)</pre></td></tr>
+
+				<tr><td><img src="/bjc-r/img/5-algorithms/foreach.png" alt="<code>for each (item) of (value): action(item)</code> block" title="<code>for each (item) of (value): action(item)</code> block" /></td>
+				<td><pre>for item in value:
+    action(item)</pre></td>
+				<td><pre>value.forEach(action)</pre></td></tr>
 
 			</table>
 
@@ -306,7 +320,7 @@ else:
 <pre>from turtle import *
 
 pendown()
-for i in range (1, 4):
+for i in range (4):
     forward(100)
     right(90)
 </pre>
@@ -337,7 +351,11 @@ for i in range (1, 4):
 		have been invented.
 		Most modern languages have some aspects of most of these,
 		but in this section you'll learn about languages that are
-		<em>entirely</em> based on one particular paradigm.</p>
+		<em>entirely</em> based on one particular paradigm.
+		It's worthwhile to learn such a language because it will
+		immerse you in how things are done in that paradigm, even
+		if in real life you end up programming in a mixed-paradigm
+		language such as Snap<em>!</em>, Python, or JavaScript.</p>
 
 		<h4>Functional Programming</h4>
 
@@ -479,7 +497,7 @@ search arr x lo hi
 		the translation of the <code>map</code> block to JavaScript
 		is <code>value.map(someFunction)</code>.  <code>Map</code>
 		takes two inputs, a function and a list.  Python expresses
-		that idea as a two-input function, <code>map(someFunction,value)</code>.
+		that idea as a two-input function, <code>map(some_function,value)</code>.
 		Why does JavaScript put one of the inputs in front of the
 		function name?  The reason is that <code>map</code> isn't a
 		procedure to be called; it's the keyword of a message that
@@ -496,30 +514,36 @@ search arr x lo hi
 
 		<p>Here's the binary search program in Smalltalk:</p>		
 
-<pre>Array extend [
-   binSearch: val left: l right: r [
-      | iter |
-      l = r ifTrue: [^ 0].
-      iter := (r + l) // 2.
-      (self at: iter) = val ifTrue: [^iter].
-      ^ (self at: iter) < val
-         ifTrue:[self binSearch: val left: l right: iter]
-         ifFalse: [self binSearch: val left: iter right: r]
-   ]
-]</pre>
-<p><small>Source: <a href="https://stackoverflow.com/questions/67847078/binary-search-in-smalltalk">stackoverflow.com</a>, CC BY-SA</small></p>
+<pre>SequenceableCollection >> binaryFindIndexOf: aNumber left: leftIndex right: rightIndex
+      | iteration |
+      leftIndex = rightIndex ifTrue: [ ^ 0 ].
+      iteration := (rightIndex + leftIndex) // 2.
+      ^ (self at: iteration) = aNumber
+            ifTrue: [ iteration ]
+            ifFalse: [
+                (self at: iteration) < aNumber
+                    ifTrue: [ self binaryFindIndex: aNumber left: leftIndex right: iteration ]
+                    ifFalse: [ self binaryFindIndex: aNumber left: iteration right: rightIndex ]
+            ]</pre>
+<p><small>Source: <a href="https://stackoverflow.com/questions/67847078/binary-search-in-smalltalk">stackoverflow.com</a>, CC BY-SA</small>, and Bernat Romagosa</p>
 
-		<p>The first line of this program says that it is <code>extend</code>ing
-		the class <code>Array</code> with a new method.  The corresponding
-		message, on the second line, has three keywords, <code>binSearch:</code>,
-		<code>left:</code>, and <code>right:</code>. This is similar to the way
-		Snap<em>!</em> blocks can have title text mixed with input slots.
-		The inputs to this method are named <var>val</var>, <var>l</var>, and
-		<var>r</var>.  (Shouldn't there be an input for the array in which
-		the method will search?  No, because that array is an object, and
-		<code>binSearch</code> is a method of the array.</p>
+		<p>The first line of this program says that it is adding a new
+		method to the class <code>SequenceableCollection</code>, which
+		is a parent class of arrays, lists, and other kinds of
+		sequences of items.  The corresponding message has three
+		keywords, <code>binaryFindIndexOf:</code>, <code>left:</code>, and
+		<code>right:</code>. This is similar to the way Snap<em>!</em>
+		blocks can have title text mixed with input slots.  The inputs
+		to this method are named <var>aNumber</var> (a Smalltalk convention
+		that helps make the code self-documenting because we know what
+		kind of object it expects), <var>leftIndex</var>, and
+		<var>rightIndex</var>.  (Shouldn't there be an input for the
+		collection in
+		which the method will search?  No, because that collection is an
+		object, and <code>binaryFindIndexOf</code> is a method of the
+		collection.</p>
 
-		<p>The vertical bars in the third line are the Smalltalk syntax
+		<p>The vertical bars in the second line are the Smalltalk syntax
 		for <code>script variables</code>.  Another noteworthy piece of
 		syntax is that Smalltalk uses square brackets <code>[ ]</code>
 		the way Snap<em>!</em> uses gray rings, surrounding a piece of
@@ -536,14 +560,13 @@ search arr x lo hi
 		square brackets, in this program) as input.  So there's no
 		need for an explicit <code>if</code> procedure.</p>
 
-		<p>The name <code>self</code> refers to the object that is
-		carrying out the method, like
-		<img src="/bjc-r/img/5-algorithms/my-self.png">
-		or <img src="/bjc-r/img/5-algorithms/obj-myself.png">
-		in Snap<em>!</em>.  The message <code>at: iter</code>, sent
-		to an array, means the same as <code>item iter of array</code>
-		in Snap<em>!</em>.  The rest of the program should now make
-		sense.</p>
+		<p>The name <code>self</code> refers to the object that is carrying
+		out the method, like <img src="/bjc-r/img/5-algorithms/my-self.png">
+		or <img src="/bjc-r/img/5-algorithms/obj-myself.png"> in
+		Snap<em>!</em>.  The message <code>at: iteration</code>, sent to a
+		collection, means the same as <code>item <var>iteration</var> of
+		<var>collection</var></code> in Snap<em>!</em>.  The rest of the program should
+		now make sense.</p>
 
 		<p>Why would you use an object oriented language?  Programmers'
 		opinions on this question have changed dramatically over time.  When
@@ -558,7 +581,11 @@ search arr x lo hi
 		one object can't directly examine another object's variables, but must
 		instead send the other object a message that it recognizes.</p>
 
-		<p>In a language for learning, such as Snap<em>!,</em> information
+		<p>Ironically, hiding methods is something other languages started.
+		In Smalltalk itself, any message an object understands can be sent
+		to it by other objects.
+		In a language for learning, such as Smalltalk in its early days
+		and Snap<em>!,</em> information
 		hiding isn't so important.  Programs are small, and they have just one
 		or two authors.  (The people who talk about malpractice are thinking
 		about teams of 500 programmers, and all the ways they can step on each
@@ -650,8 +677,8 @@ even_division(First, Second, Xs) :-
 		<p>The first thing to say about this program is that it's not really a
 		good representation for how to program in Prolog.  The helper rule
 		<code>even_division</code> wants to divide a list into two equal-size
-		pieces; it ends up dividing the list into two pieces every possible
-		way, and then checks each of those divisions to find one whose two
+		pieces; it ends up dividing the list into two pieces <em>every possible
+		way,</em> and then checks each of those divisions to find one whose two
 		pieces are the same length.  If you really wanted to do a binary
 		search in Prolog, you'd do it by using a more complicated data
 		structure that comes pre-divided into equal size pieces.  But for
