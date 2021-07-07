@@ -57,11 +57,11 @@ def binary_search(value, data):
     low = 0
     high = len(data)-1
     while (low <= high):
-        current_index = average(low, high)
+        current_index = average(low, high)    # find the middle word
         current_item = data[current_index]
         if (current_item == value):
             return True
-        elif (current_item > value):
+        elif (current_item > value):          # eliminate half the list
             high = current_index-1
         else:
             low = current_index+1
@@ -73,22 +73,14 @@ def binary_search(value, data):
 		<code>report</code>, there are a few more significant differences in notation:
 			<ul>
 				<li>
-					The most annoying one: Like many (but not all!)
-					text-based languages, Python uses the character <code>=</code>
-					to set the value of a variable, like the <code>set</code>
-					block in Snap<em>!</em>.  But that's not what "=" means!  The Python equivalent of the Snap<em>!</em>
-					<code>=</code> predicate is <code>==</code>.  Many, many bugs,
-					even among experienced programmers, come from this confusing
-					notation.  And it's needlessly hard to make sense of programming
-					when you're confronted with a statement such as <code>x=x+1</code>.
-				</li>
-				<li>
-					In Python, there's nothing like the
-					<code>script variables</code> block in Snap<em>!</em>.
-					Variables are local to procedures automatically, unless you
-					use a <code>global</code> or <code>nonlocal</code>
-					statement to tell Python to look for
-					a variable defined outside this procedure.
+					In Python, there's nothing like the <code>script
+					variables</code> block in Snap<em>!</em>.  Variables are
+					local to procedures automatically, unless you use a
+					<code>global</code> or <code>nonlocal</code> statement to
+					tell Python to look for a variable defined outside this
+					procedure.  This is a good design choice, because it
+					encourages programmers to use global variables only when
+					really necessary.
 				</li>
 				<li>
 					Python uses indentation (how many spaces at the beginning of each line) to determine the extent of control structures
@@ -106,6 +98,19 @@ def binary_search(value, data):
 					Snap<em>!</em>.  Instead, Python programmers often use
 					underscore characters (_) inside variable names.
 				</li>
+				<li>
+					The most annoying one: Like many (but not all!)
+					text-based languages, Python uses the character <code>=</code>
+					to set the value of a variable, like the <code>set</code>
+					block in Snap<em>!</em>.  But that's not what "=" means!  The Python equivalent of the Snap<em>!</em>
+					<code>=</code> predicate is <code>==</code>.  Many, many bugs,
+					even among experienced programmers, come from this confusing
+					notation.  And it's needlessly hard to make sense of programming
+					when you're confronted with a statement such as <code>x=x+1</code>.
+					This design choice is inherited indirectly from Fortran, back in the
+					1950s, when computers could display only 64 different
+					characters, so there were fewer options available.
+				</li>
 			</ul>
 		</p>
 
@@ -116,11 +121,11 @@ function binarySearch(value, data) {
     low = 0;
     high = len(data)-1;
     while (low <= high) {
-        currentIndex = average(low, high);
+        currentIndex = average(low, high);    // find the middle word
         currentItem = data[currentIndex];
         if (currentItem == value) {
             return true;
-        } else if (currentItem > value) {
+        } else if (currentItem > value) {     // eliminate half the list
             high = currentIndex-1;
         } else {
             low = currentIndex+1;
@@ -156,8 +161,20 @@ function binarySearch(value, data) {
 			<code>{st;st;st}</code>, but in C, an otherwise similar language,
 			they go <em>after</em> statements: <code>{st;st;st<span style="background-color:orange">;</span>}</code>.
 			This is the sort of thing that drives students of text languages
-			crazy.  It's one of the reasons block-based languages such as
-			Snap<em>!</em> are better.)
+			crazy.  It's one of the advantages of block-based languages such as
+			Snap<em>!</em>.)
+		</li>
+		<li>
+			JavaScript uses the name "function" to describe all procedures,
+			including what Snap<em>!</em> calls "commands," the ones that
+			don't report a value.
+		</li>
+		<li>
+			Just as in Python, you can't have a
+			space inside a variable name.  Instead, JavaScript programmers often use
+			"camel case," so called because the capital letters in
+			the middle of a variable name are supposed to look like
+			the humps of a camel.
 		</li>
 		<li>
 			JavaScript has the same terrible <code>=</code> notation for
@@ -165,23 +182,11 @@ function binarySearch(value, data) {
 			But instead of using <code>==</code> to test whether two
 			values are equal, JavaScript has <em>two</em> ways to do that:
 			<code>==</code> and <code>===</code>.  (That looks like a joke,
-			but alas, it isn't.)  JavaScript programmers
+			but it isn't.)  JavaScript programmers
 			often get confused about which is which.  (The one with three
 			equal signs is similar to the <code>is identical to</code>
 			block in Snap<em>!</em>.)
 		</li>
-		<li>
-			JavaScript uses the name "function" to describe all procedures,
-			including what Snap<em>!</em> calls "commands," the ones that
-			don't report a value.
-		</li>
-				<li>
-					Just as in Python, you can't have a
-					space inside a variable name.  Instead, JavaScript programmers often use
-					"camel case," so called because the capital letters in
-					the middle of a variable name are supposed to look like
-					the humps of a camel.
-				</li>
 	</ul>
 
 		<p>You can see that there are things to learn about notation (<em>syntax,</em> which is the text-language equivalent of block colors and shapes). But you would be able to learn the details of one of these other languages in a few focused days and then program in that language, too.</p>
@@ -299,6 +304,32 @@ else:
 			list item," for example, to learn any particular one as you need
 			it.</p>
 
+			<p>By the way, look at the Python <code>join</code> in the table.
+			It has the very nice feature of allowing you to choose a separator
+			to go between the joined strings:</p>
+
+<pre>>>> " ".join(["John", "Paul", "George", "Ringo"])
+'John Paul George Ringo'
+>>> ",".join(["John", "Paul", "George", "Ringo"])
+'John,Paul,George,Ringo'</pre>
+
+			<p>In the first interaction, the string <code>" "</code> provides
+			the separator; in the second, the string <code>","</code> does.
+			That's an elegant way to extend the idea of joining strings,
+			avoiding the need to put spaces in the input strings.
+			(You could also use an empty string to get the exact effect of
+			the <code>join</code> block in Snap<em>!</em>.)</p>
+
+			<p>What do you think about using <code>+</code> to join strings?
+			It's meant as an analogy with arithmetic; you are "adding" one
+			string to another.  Using the same symbol to mean two different
+			things in different contexts is called "overloading."  It's not
+			too bad in Python, which is very strict about the distinction
+			between a number and a string of digits.  But JavaScript, like
+			Snap<em>!</em>, will automatically convert a number into a
+			string of digits if necessary, so <code>2+"3"</code> is "23"
+			even though <code>2+3</code> is 5.</p>
+
 			<p>The other block categories, the ones having to do with graphics
 			or sound, don't really have analogs in other languages.  Instead,
 			just as Snap<em>!</em> has libraries, other languages also have
@@ -377,9 +408,9 @@ search :: Ord a => Array Int a -> a -> Int -> Int -> Maybe Int
 search arr x lo hi
   | hi - lo + 1 == 0 = Nothing
   | x == el = Just mid
-  | x > el = search arr x (mid+1) hi
+  | x > el = search arr x (mid+1) hi    -- eliminate half the list
   | otherwise = search arr x lo (mid-1)
-  where mid = (hi + lo) `div` 2
+  where mid = (hi + lo) `div` 2         -- find the middle word
         el = arr ! mid</pre>
 <p><small>Source: <a href="https://exercism.io/tracks/haskell/exercises/binary-search/solutions/1a379e35bf0741109dae902f8ae1096c">exercism.io</a>, CC-BY-SA</small></p>
 
@@ -396,8 +427,8 @@ search arr x lo hi
 		type "function," but not any old function.  <code>Find</code> is of
 		type "function that takes as inputs an array (like a Snap<em>!</em>
 		list) of values of type
-		<code>a</code>, which has to be an Ordinal type (ones that can be
-		counted, such as integers, but not real numbers), and a single value
+		<code>a</code>, which has to be an Ordered type (because binary
+		search doesn't make sense otherwise), and a single value
 		of type <code>a</code>, and returns either an integer or nothing at
 		all."  Looking at this another way, each of those lines creates an
 		abstract data type.  (The name <code>a</code> is local to
@@ -491,8 +522,8 @@ search arr x lo hi
 		The message <code>+ 4</code> consists of a <em>keyword,</em>
 		<code>+</code>, along with an input, <code>4</code>.</p>
 
-		<p>These days, most programming languages are sort of
-		object oriented, just as most sort of support functional
+		<p>These days, most programming languages are <em>sort of</em>
+		object oriented, just as most <em>sort of</em> support functional
 		programming.  For example, in the translation table above,
 		the translation of the <code>map</code> block to JavaScript
 		is <code>value.map(someFunction)</code>.  <code>Map</code>
@@ -506,7 +537,7 @@ search arr x lo hi
 
 		<p>But most languages don't go so far as to treat numbers
 		as objects.  In most languages, including Snap<em>!</em>,
-		<code>+</code> is a function that takes two numbers as
+		<code>+</code> is a global function that takes two numbers as
 		inputs.  The only widely known language that's truly
 		object oriented, in which <em>everything</em> is an object,
 		is Smalltalk, the language that introduced object oriented
@@ -517,11 +548,11 @@ search arr x lo hi
 <pre>SequenceableCollection >> binaryFindIndexOf: aNumber left: leftIndex right: rightIndex
       | iteration |
       leftIndex = rightIndex ifTrue: [ ^ 0 ].
-      iteration := (rightIndex + leftIndex) // 2.
+      iteration := (rightIndex + leftIndex) // 2.  "find the middle word"
       ^ (self at: iteration) = aNumber
             ifTrue: [ iteration ]
             ifFalse: [
-                (self at: iteration) > aNumber
+                (self at: iteration) > aNumber     "eliminate half the list"
                     ifTrue: [ self binaryFindIndex: aNumber left: leftIndex right: iteration - 1 ]
                     ifFalse: [ self binaryFindIndex: aNumber left: iteration + 1 right: rightIndex ]
             ]</pre>
@@ -578,23 +609,24 @@ search arr x lo hi
 		don't use Smalltalk, though; many use Java, the language of the
 		College Board AP Computer Science A course.)  The main thing that's
 		made OOP so popular is <em>information hiding,</em> which means that
-		one object can't directly examine another object's variables, but must
-		instead send the other object a message that it recognizes.</p>
+		one object can't directly examine another object's variables or
+		call its methods, but must
+		instead send the target object a message that it accepts from
+		other kinds of objects.</p>
 
 		<p>Ironically, hiding methods is something other languages started.
-		In Smalltalk itself, any message an object understands can be sent
-		to it by other objects.
-		In a language for learning, such as Smalltalk in its early days
-		and Snap<em>!,</em> information
-		hiding isn't so important.  Programs are small, and they have just one
-		or two authors.  (The people who talk about malpractice are thinking
-		about teams of 500 programmers, and all the ways they can step on each
-		others' feet unless the objects each one programs are protected from
-		each other.)  That's why Snap<em>!</em> allows an object to call
+		In Smalltalk itself, any message an object understands can be sent to
+		it by other objects.  In a language for learning, such as Smalltalk in
+		its early days and Snap<em>!,</em> information hiding isn't so
+		important.  Programs are small, and they have just one or two authors.
+		(The people who talk about malpractice are thinking about teams of 500
+		programmers, and all the ways they can step on each others' feet
+		unless the objects each one programs are protected from each other.)
+		That's why Snap<em>!</em>, like Smalltalk, allows an object to call
 		<em>any</em> method of another object, not just a few for which the
-		other object publishes messages.  Snap<em>!</em>'s developers
-		were more interested in another of Smalltalk's central
-		ideas, namely <em>simulation.</em></p>
+		other object publishes messages.  Snap<em>!</em>'s developers were
+		more interested in one of Smalltalk's central ideas, namely
+		<em>simulation.</em></p>
 
 		<p>In pre-OOP programming, there's one program running all the time,
 		and it's in charge of all the necessary computations.  That's fine if
@@ -773,7 +805,7 @@ even_division(First, Second, Xs) :-
 
 		<p>So, the overall moral of this story is that if you have the urge to
 		learn more programming languages, you'll be intellectually better off
-		learning Haskell, Smalltalk, and Prolog, rather than learning a bunch
+		learning Haskell, Smalltalk, or Prolog, rather than learning a bunch
 		of languages that are pretty much all the same, such as JavaScript,
 		Python, C, Java, and so on.  (If you want a programming job this
 		summer, though, you might need to learn the language a potential
