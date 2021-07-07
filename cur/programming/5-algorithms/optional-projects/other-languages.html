@@ -521,9 +521,9 @@ search arr x lo hi
       ^ (self at: iteration) = aNumber
             ifTrue: [ iteration ]
             ifFalse: [
-                (self at: iteration) < aNumber
-                    ifTrue: [ self binaryFindIndex: aNumber left: leftIndex right: iteration ]
-                    ifFalse: [ self binaryFindIndex: aNumber left: iteration right: rightIndex ]
+                (self at: iteration) > aNumber
+                    ifTrue: [ self binaryFindIndex: aNumber left: leftIndex right: iteration - 1 ]
+                    ifFalse: [ self binaryFindIndex: aNumber left: iteration + 1 right: rightIndex ]
             ]</pre>
 <p><small>Source: <a href="https://stackoverflow.com/questions/67847078/binary-search-in-smalltalk">stackoverflow.com</a>, CC BY-SA</small>, and Bernat Romagosa</p>
 
@@ -651,7 +651,7 @@ search arr x lo hi
 		more than one answer!  This is very different from a function,
 		which can only report one value.  Prolog doesn't just pick one
 		answer to show you; it shows all the answers it can figure out
-		from the information it has.</p>
+		from the information it has (one at a time).</p>
 
 		<p>Okay, time for binary search in Prolog:</p>
 
@@ -746,10 +746,10 @@ even_division(First, Second, Xs) :-
 		algorithms, only data, how can any matching of queries to
 		things in its database happen?  The answer is that the language
 		itself implements a single, universal algorithm, called
-		<em>unification</em>, that will always find every answer to
+		<em>resolution,</em> that will always find every answer to
 		a question you ask that can be deduced from the database,
 		provided that it doesn't get caught in an infinite loop.
-		(If unification could guarantee the impossibility of
+		(If resolution could guarantee the impossibility of
 		infinite loops, it would solve the Halting Problem, which
 		you know can't be done.)</p>
 
