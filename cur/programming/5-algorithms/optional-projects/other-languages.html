@@ -17,7 +17,8 @@
 		<div class="learn"><strong>On this page,</strong> you will learn about other programming languages and how to learn them, now that you know Snap<em>!</em>.</div>
 
 		<p>A programming language is characterized by two things: a philosophy of programming and details of notation. Most programming languages are basically <em>sequential</em> (do this instruction, then do this, then do this). This includes Snap<em>!,</em> even though you have learned some composition (nesting) of functions, which other sequential languages also include to some extent.</p>
-		<p>Learning another language of the same type is <em>much</em> easier than learning your first one. For example, here’s the binary search function from 5.1.3:
+		<p>Learning another language of the same type is <em>much</em> easier than learning your first one. For example, here’s the binary search function from
+		<a href="/bjc-r/cur/programming/5-algorithms//1-searching-lists/3-spell-checker.html?topic=nyc_bjc%2F5-algorithms.topic&course=bjc4nyc.html&novideo&noassignment">5.1.3</a>:
 		</p>
                     <img class="indent" src="/bjc-r/img/5-algorithms/binary-search-block-definition.png" alt="binary search for (value) in (data) {
             script variables (low) (high) (current index) (current item)
@@ -337,6 +338,8 @@ else:
 			so when his users insisted, he grudgingly allowed
 			anonymous reporters that fit on one line,
 			but not longer reporters or any anonymous command scripts.
+			Python could be a really usable language if he didn't have
+			his head wedged on these issues.
 			</div>
 
 			<p>What do you think about using <code>+</code> to join strings?
@@ -696,14 +699,62 @@ search arr x lo hi
 		<p>Once you've taught the computer some rules and facts, you
 		can ask questions, such as "Who is Brian's grandmother?":</p>
 
-<pre>grandmother('Brian', X)</pre>
+<pre>?- grandmother('Brian', X)</pre>
 
 		<p>A very important difference between declarative programming
 		and the other paradigms you've seen is that a question may have
 		more than one answer!  This is very different from a function,
 		which can only report one value.  Prolog doesn't just pick one
 		answer to show you; it shows all the answers it can figure out
-		from the information it has (one at a time).</p>
+		from the information it has (one at a time).  Here's an example:</p>
+
+<pre>?- append(X,Y,[a,b,c,d]).
+<span style="background: #f7ffa0">X = [],
+Y = [a, b, c, d]</span> ;
+<span style="background: #f7c99b">X = [a],
+Y = [b, c, d]</span> ;
+<span style="background: #a5fbd9">X = [a, b],
+Y = [c, d]</span> ;
+<span style="background: #b0b6ff">X = [a, b, c],
+Y = [d]</span> ;
+<span style="background: #d1a191">X = [a, b, c, d],
+Y = []</span> ;
+<span style="background: #f9a1a0">false.</span></pre>
+
+		<p>The user has asked "what two lists can be appended together
+		to get the list <code>[a,b,c,d]</code>?"  There are five possible
+		pairs of lists that satisfy the condition.  Prolog prints the
+		first answer (in yellow above), then waits for the user to type
+		the space key or semicolon, then displays the next answer, and
+		so on.  When the user asks for a sixth answer, the result is
+		"false."</p>
+
+		<p>Wow!  Snap<em>!</em> has an
+		<img src="/bjc-r/img/5-algorithms/append.png" alt="append block"
+		title="append block" />
+		function; you can ask it questions such as
+		"what do I get if I append the list <code>[a,b]</code> and the list
+		<code>[c,d]</code>?"  But you can't "run it backward," asking
+		questions such as "What must I append to <code>[a,b]</code> in order
+		to get <code>[a,b,c,d]</code>?" let alone "What two lists can I
+		append to get <code>[a,b,c,d]</code>?"  But Prolog's <code>append</code>
+		isn't a function of two lists; it's a <em>relation</em> (you can
+		think of it a predicate function) among <em>three</em> lists, which is
+		True if the result of appending the first two inputs is the third
+		input.  There's no special magic in <code>append</code>; it could
+		be defined this way (using the name <code>appnd</code> so as not
+		to conflict with the one built into Prolog):
+
+<pre>appnd([],Z,Z).
+
+appnd([A|X],Y,[A|Z]) :- appnd(X,Y,Z).</pre>
+
+		<p>The first rule says that if you append an empty list and any
+		list <var>Z</var>, you get <var>Z</var>.  The second rule says
+		that if the first list <em>isn't</em> empty, then the first item
+		of the result must be the first item of the first list, and the
+		rest of the result must be the result of appending the rest of
+		the first list and the second list.</p>
 
 		<p>Okay, time for binary search in Prolog:</p>
 
