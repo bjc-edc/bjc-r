@@ -100,16 +100,19 @@ def binary_search(value, data):
 				</li>
 				<li>
 					The most annoying one: Like many (but not all!)
-					text-based languages, Python uses the character <code>=</code>
-					to set the value of a variable, like the <code>set</code>
-					block in Snap<em>!</em>.  But that's not what "=" means!  The Python equivalent of the Snap<em>!</em>
-					<code>=</code> predicate is <code>==</code>.  Many, many bugs,
-					even among experienced programmers, come from this confusing
-					notation.  And it's needlessly hard to make sense of programming
-					when you're confronted with a statement such as <code>x=x+1</code>.
-					This design choice is inherited indirectly from Fortran, back in the
-					1950s, when computers could display only 64 different
-					characters, so there were fewer options available.
+					text-based languages, Python uses the character
+					<code>=</code> to set the value of a variable, like the
+					<code>set</code> block in Snap<em>!</em>.  But that's not
+					what "=" <em>means!</em> The Python equivalent of the
+					Snap<em>!</em> <code>=</code> predicate is
+					<code>==</code>.  Many, many bugs, even among experienced
+					programmers, come from this confusing notation.  And it's
+					needlessly hard to make sense of programming when you're
+					confronted with a statement such as <code>x=x+1</code>.
+					This design choice is inherited indirectly from Fortran,
+					invented back in the 1950s, when computers could display
+					only 64 different characters, so there were fewer options
+					available.
 				</li>
 			</ul>
 		</p>
@@ -308,9 +311,9 @@ else:
 			It has the very nice feature of allowing you to choose a separator
 			to go between the joined strings:</p>
 
-<pre>>>> " ".join(["John", "Paul", "George", "Ringo"])
+<pre>>>> <span style="background: orange">" "</span>.join(["John", "Paul", "George", "Ringo"])
 'John Paul George Ringo'
->>> ",".join(["John", "Paul", "George", "Ringo"])
+>>> <span style="background: orange">","</span>.join(["John", "Paul", "George", "Ringo"])
 'John,Paul,George,Ringo'</pre>
 
 			<p>In the first interaction, the string <code>" "</code> provides
@@ -320,12 +323,29 @@ else:
 			(You could also use an empty string to get the exact effect of
 			the <code>join</code> block in Snap<em>!</em>.)</p>
 
+			<div class="todo">
+			On the other hand, look at the Python version of <code>map</code>.
+			Why do you have to wrap a <code>list(</code>...<code>)</code>
+			around the call to <code>map</code>?  It's because Guido van
+			Rossum, the designer of Python, hates higher order functions,
+			so when his users insisted on having them, he made it as
+			painful as possible to use them.  Python's <code>map</code>
+			doesn't return a list; it returns this strange other thing that
+			you have to convert to a list.  (He wants you to use
+			the <code>for <var>x</var> in</code> notation instead.)  Similarly, he
+			hates anonymous procedures (Snap<em>!</em> gray rings), and
+			so when his users insisted, he grudgingly allowed
+			anonymous reporters that fit on one line,
+			but not longer reporters or any anonymous command scripts.
+			</div>
+
 			<p>What do you think about using <code>+</code> to join strings?
 			It's meant as an analogy with arithmetic; you are "adding" one
 			string to another.  Using the same symbol to mean two different
 			things in different contexts is called "overloading."  It's not
 			too bad in Python, which is very strict about the distinction
-			between a number and a string of digits.  But JavaScript, like
+			between a number and a string of digits.  (<code>2+"3"</code>
+			gives an error message.)  But JavaScript, like
 			Snap<em>!</em>, will automatically convert a number into a
 			string of digits if necessary, so <code>2+"3"</code> is "23"
 			even though <code>2+3</code> is 5.</p>
@@ -378,8 +398,8 @@ for i in range (4):
 		because that's how computer hardware works, and higher level
 		languages were seen as a convenient abbreviation for machine
 		language, rather than as a source of abstraction.  Since then,
-		several types of program abstraction ("programming paradigms")
-		have been invented.
+		several types of programming language based abstraction
+		("programming paradigms") have been invented.
 		Most modern languages have some aspects of most of these,
 		but in this section you'll learn about languages that are
 		<em>entirely</em> based on one particular paradigm.
@@ -546,15 +566,15 @@ search arr x lo hi
 		<p>Here's the binary search program in Smalltalk:</p>		
 
 <pre>SequenceableCollection >> binaryFindIndexOf: aNumber left: leftIndex right: rightIndex
-      | iteration |
+      | middle |
       leftIndex = rightIndex ifTrue: [ ^ 0 ].
-      iteration := (rightIndex + leftIndex) // 2.  "find the middle word"
-      ^ (self at: iteration) = aNumber
-            ifTrue: [ iteration ]
+      middle := (rightIndex + leftIndex) // 2.  "find the middle word"
+      ^ (self at: middle) = aNumber
+            ifTrue: [ middle ]
             ifFalse: [
-                (self at: iteration) > aNumber     "eliminate half the list"
-                    ifTrue: [ self binaryFindIndex: aNumber left: leftIndex right: iteration - 1 ]
-                    ifFalse: [ self binaryFindIndex: aNumber left: iteration + 1 right: rightIndex ]
+                (self at: middle) > aNumber     "eliminate half the list"
+                    ifTrue: [ self binaryFindIndex: aNumber left: leftIndex right: middle - 1 ]
+                    ifFalse: [ self binaryFindIndex: aNumber left: middle + 1 right: rightIndex ]
             ]</pre>
 <p><small>Source: <a href="https://stackoverflow.com/questions/67847078/binary-search-in-smalltalk">stackoverflow.com</a>, CC BY-SA</small>, and Bernat Romagosa</p>
 
@@ -594,8 +614,8 @@ search arr x lo hi
 		<p>The name <code>self</code> refers to the object that is carrying
 		out the method, like <img src="/bjc-r/img/5-algorithms/my-self.png">
 		or <img src="/bjc-r/img/5-algorithms/obj-myself.png"> in
-		Snap<em>!</em>.  The message <code>at: iteration</code>, sent to a
-		collection, means the same as <code>item <var>iteration</var> of
+		Snap<em>!</em>.  The message <code>at: <var>middle</var></code>, sent to a
+		collection, means the same as <code>item <var>middle</var> of
 		<var>collection</var></code> in Snap<em>!</em>.  The rest of the program should
 		now make sense.</p>
 
@@ -625,7 +645,7 @@ search arr x lo hi
 		That's why Snap<em>!</em>, like Smalltalk, allows an object to call
 		<em>any</em> method of another object, not just a few for which the
 		other object publishes messages.  Snap<em>!</em>'s developers were
-		more interested in one of Smalltalk's central ideas, namely
+		more interested in one of Smalltalk's central ideas:
 		<em>simulation.</em></p>
 
 		<p>In pre-OOP programming, there's one program running all the time,
@@ -689,17 +709,17 @@ search arr x lo hi
 
 <pre>contains(List, Value) :- even_division(_, [Value|_], List).
 
-contains(List, Value) :-
+contains(List, Value) :-                          % eliminate first half of list
     even_division(_, [Center|SecondHalf], List),
     Center < Value, SecondHalf \= [],
     contains(SecondHalf, Value).
 
-contains(List, Value): -
+contains(List, Value) :-                          % eliminate second half of list
     even_division(FirstHalf, [Center|_], List),
     Center > Value, FirstHalf \= [],
     contains(FirstHalf, Value).
 
-even_division(First, Second, Xs) :-
+even_division(First, Second, Xs) :-               % find the middle word
     append(First, Second, Xs),
     length(First,F),
     length(Second,S),
@@ -772,7 +792,7 @@ even_division(First, Second, Xs) :-
 		(the first of which might be empty; you don't care what's
 		in it), such that the desired value is the first item in
 		the second half of the list.  That example should give you
-		some feeling for the power of declarative programming.</p>
+		some feeling for the power of the declarative programming notation.</p>
 
 		<p>How does a Prolog program actually work?  If there are no
 		algorithms, only data, how can any matching of queries to
