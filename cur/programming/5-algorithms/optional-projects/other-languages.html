@@ -735,10 +735,15 @@ Y = []</span> ;
 		<p>The user has asked "what two lists can be appended together
 		to get the list <code>[a,b,c,d]</code>?"  There are five possible
 		pairs of lists that satisfy the condition.  Prolog prints the
-		first answer (in yellow above), then waits for the user to type
+		first answer (shown in yellow above), then waits for the user to type
 		the space key or semicolon, then displays the next answer, and
 		so on.  When the user asks for a sixth answer, the result is
-		"false."</p>
+		"false," which means that Prolog can't find any more values for
+		<var>X</var> and <var>Y</var> that make the query true.  That
+		doesn't mean it's proven false; for example, if you teach Prolog
+		about your family tree and then ask questions about someone else's
+		family, Prolog won't find any information, but that doesn't mean
+		the other person really doesn't have any relatives.</p>
 
 		<p>Wow!  Snap<em>!</em> has an
 		<img src="/bjc-r/img/5-algorithms/append.png" alt="append block"
@@ -752,13 +757,13 @@ Y = []</span> ;
 		isn't a function of two lists; it's a <em>relation</em> (you can
 		think of it a predicate function) among <em>three</em> lists, which is
 		True if the result of appending the first two inputs is the third
-		input.  There's no special magic in <code>append</code>; it could
-		be defined this way (using the name <code>appnd</code> so as not
-		to conflict with the one built into Prolog):
+		input.  There's no special magic in <code>append</code>; if it
+		weren't predefined in Prolog, you could
+		define it this way:
 
-<pre>appnd([],Z,Z).
+<pre>append([],Z,Z).
 
-appnd([A|X],Y,[A|Z]) :- appnd(X,Y,Z).</pre>
+append([A|X],Y,[A|Z]) :- append(X,Y,Z).</pre>
 
 		<p>The first rule says that if you append an empty list and any
 		list <var>Z</var>, you get <var>Z</var>.  The second rule says
@@ -799,14 +804,14 @@ even_division(First, Second, Xs) :-               % find the middle word
 		our purposes on this page, it's best to use the same structure in
 		all the sample programs.</p>
 
-		<p>There are two important pieces of Prolog notation you haven't
-		already seen in the family tree example.  The notation
-		<code>[A|B]</code> represents a nonempty list whose first item
-		is <var>A</var> and whose all-but-first is <var>B</var>.  And the
-		underscore character <code>_</code>, used by itself, means that
-		you don't care what value goes in that slot in the program.
-		(Underscores can also be used as part of a variable name or a
-		rule name, as in the rule <code>even_division</code>.)</p>
+		<p>There are two important pieces of Prolog notation here that you
+		haven't already seen in the family tree example.  The notation
+		<code>[A|B]</code> represents a nonempty list whose first item is
+		<var>A</var> and whose all-but-first is <var>B</var>.  And the
+		underscore character <code>_</code>, used by itself, means that you
+		don't care what value goes in that slot in the program.  (Underscores
+		can also be used as part of a variable name or a rule name, as in the
+		rule <code>even_division</code>.)</p>
 
 		<p>So the first rule</p>
 
