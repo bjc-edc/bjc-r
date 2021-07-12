@@ -18,7 +18,7 @@
 
 		<p>A programming language is characterized by two things: a philosophy of programming and details of notation. Most programming languages are basically <em>sequential</em> (do this instruction, then do this, then do this). This includes Snap<em>!,</em> even though you have learned some composition (nesting) of functions, which other sequential languages also include to some extent.</p>
 		<p>Learning another language of the same type is <em>much</em> easier than learning your first one. For example, here’s the binary search function from
-		<a href="/bjc-r/cur/programming/5-algorithms//1-searching-lists/3-spell-checker.html?topic=nyc_bjc%2F5-algorithms.topic&course=bjc4nyc.html&novideo&noassignment">5.1.3</a>:
+		<a href="/bjc-r/cur/programming/5-algorithms//1-searching-lists/3-spell-checker.html?topic=nyc_bjc%2F5-algorithms.topic&course=bjc4nyc.html&novideo&noassignment">Lab 1</a> of this unit:
 		</p>
                     <img class="indent" src="/bjc-r/img/5-algorithms/binary-search-block-definition.png" alt="binary search for (value) in (data) {
             script variables (low) (high) (current index) (current item)
@@ -116,7 +116,7 @@ def binary_search(value, data):
 					<code>=</code> to set the value of a variable, like the
 					<code>set</code> block in Snap<em>!</em>.  But that's not
 					what "=" <em>means!</em> The Python equivalent of the
-					Snap<em>!</em> <code>=</code> predicate is
+					Snap<em>!</em> <code>=</code> predicate is called
 					<code>==</code>.  Many, many bugs, even among experienced
 					programmers, come from this confusing notation.  And it's
 					needlessly hard to make sense of programming when you're
@@ -162,8 +162,11 @@ function binarySearch(value, data) {
 
 	<ul>
 		<li>
-			The <code>var</code> statement, inside a procedure, is
-			equivalent to <code>script variables</code> in Snap<em>!</em>.
+			The <code>var</code> statement, inside a procedure, is equivalent
+			to <code>script variables</code> in Snap<em>!</em>.  (There are
+			better, more recently invented, ways to create local variables
+			in JavaScript, but they look very different and we're trying to
+			make the code as similar as possible.)
 		</li>
 		<li>
 			JavaScript uses braces <code>{ }</code> to mark the extent
@@ -353,6 +356,19 @@ else:
 			his head wedged on these issues.
 			</div>
 
+			<p>But look at the Python equivalent of <code>for</code>.  Why
+			does <code>range(1,11)</code> mean "the numbers from 1 to 10"?
+			The idea is that you're using those numbers to select items
+			from a list, but instead of numbering the items, Python numbers
+			<em>the spaces between items,</em> just as when you're using a
+			word processor it displays the cursor as a vertical line in
+			between two letters.  So <code>range(1,11)</code> means "the
+			items to the right of gap number 1 and to the left of gap
+			number 11."  You can learn to think that way, but it's not
+			obvious to a beginner.  (It's a little more intuitive if you
+			start at position 0; <code>range(0,5)</code> selects five items
+			from a list, and you can abbreviate it as <code>range(5)</code>.)</p>
+
 			<p>What do you think about using <code>+</code> to join strings?
 			It's meant as an analogy with arithmetic; you are "adding" one
 			string to another.  Using the same symbol to mean two different
@@ -377,7 +393,7 @@ else:
 			the main purpose of JavaScript is writing programs that will be
 			run inside a browser window, it does have built-in support for
 			the sort of graphics you see in typical browser windows:
-			scrolling text windows, form-filling, checkboxes, etc.)</p>
+			scrolling text boxes, form-filling, checkboxes, etc.)</p>
 
 			<p>Libraries are a little easier in Python because there's a
 			central repository of them.  So you can draw a square this way:</p>
@@ -522,7 +538,16 @@ search arr x lo hi
 		you're disciplined about it, program functionally in any
 		language that's functional <em>enough</em> to include higher
 		order functions, which are an important benefit of functional
-		programming.  But a purely functional language helps eliminate
+		programming.  (You did something like this in the Tic-Tac-Toe
+		project, not in the part that displays moves on the stage, but
+		in the part that computes the best move for the computer.
+		That computation is one function calling another: 
+		<img src="/bjc-r/img/5-algorithms/next-move.png" alt="next move for computer" title="next move for computer" />
+		calls <img src="/bjc-r/img/5-algorithms/winning-square-for-player.png" alt="winning square for player" title="winning square for player" />,
+		which calls <img src="/bjc-r/img/5-algorithms/winning-triple-for-player.png" alt="winning triple for player" title="winning triple for player" />,
+		which calls <img src="/bjc-r/img/5-algorithms/status-of-all-winning-triples.png" alt="status of all winning triples" title="status of all winning triples" />,
+		which calls <img src="/bjc-r/img/3-lists/status-of-triple.png" alt="status of triple" title="status of triple" />.)
+		But a purely functional language helps eliminate
 		program bugs, which is especially important when a team of
 		programmers work together on the same program.  And compilers
 		for functional languages can take advantage of the constraints
@@ -546,7 +571,9 @@ search arr x lo hi
 		and some other attributes from its parent sprite.  Similarly,
 		<code>3</code> and <code>4</code> are <em>instances</em> of
 		the class (type of object) <code>Integer</code>, which in turn
-		inherits from the class <code>Number</code>.</p>
+		inherits from the class <code>Number</code>.  You can think of
+		an object class as a souped-up abstract data type with methods
+		other than just its selectors.</p>
 
 		<p>So, what happens when you say <code>3 + 4</code>?  You are
 		sending the <em>message</em> <code>+ 4</code> to the object
@@ -564,8 +591,8 @@ search arr x lo hi
 		takes two inputs, a function and a list.  Python expresses
 		that idea as a two-input function, <code>map(some_function,value)</code>.
 		Why does JavaScript put one of the inputs in front of the
-		function name?  The reason is that <code>map</code> isn't a
-		procedure to be called; it's the keyword of a message that
+		function name?  The reason is that JavaScript's <code>map</code> isn't a
+		global procedure; it's the keyword of a message that
 		you can send to a list.  Their message-passing syntax is
 		<code>object.keyword(inputs)</code>.</p>
 
@@ -646,12 +673,13 @@ search arr x lo hi
 		one object can't directly examine another object's variables or
 		call its methods, but must
 		instead send the target object a message that it accepts from
-		other kinds of objects.</p>
+		other kinds of objects ("public messages").</p>
 
-		<p>Ironically, hiding methods is something other languages started.
-		In Smalltalk itself, any message an object understands can be sent to
-		it by other objects.  In a language for learning, such as Smalltalk in
-		its early days and Snap<em>!,</em> information hiding isn't so
+		<p>Ironically, information hiding isn't a necessary part of OOP.
+		In Smalltalk, any message an object understands can be sent to
+		it by other objects.  (There are no private methods.)
+		In a language for learning, such as Smalltalk in
+		its early days and Snap<em>!,</em> information hiding isn't
 		important.  Programs are small, and they have just one or two authors.
 		(The people who talk about malpractice are thinking about teams of 500
 		programmers, and all the ways they can step on each others' feet
@@ -675,7 +703,8 @@ search arr x lo hi
 		is responsible for its own behavior.  (Scratch, from which Snap<em>!</em>
 		inherited the idea of sprites, was originally implemented in
 		Smalltalk, whose influence is seen in such details as multi-keyword
-		block names.)</p>
+		block names, as well as in the organization of a program as scripts
+		that belong to a particular sprite, with no central program.)</p>
 
 		<h4>Declarative Programming</h4>
 
@@ -739,11 +768,11 @@ Y = []</span> ;
 		the space key or semicolon, then displays the next answer, and
 		so on.  When the user asks for a sixth answer, the result is
 		"false," which means that Prolog can't find any more values for
-		<var>X</var> and <var>Y</var> that make the query true.  That
+		<var>X</var> and <var>Y</var> that make the query true.  (That
 		doesn't mean it's proven false; for example, if you teach Prolog
 		about your family tree and then ask questions about someone else's
 		family, Prolog won't find any information, but that doesn't mean
-		the other person really doesn't have any relatives.</p>
+		the other person really doesn't have any relatives.)</p>
 
 		<p>Wow!  Snap<em>!</em> has an
 		<img src="/bjc-r/img/5-algorithms/append.png" alt="append block"
@@ -755,7 +784,9 @@ Y = []</span> ;
 		to get <code>[a,b,c,d]</code>?" let alone "What two lists can I
 		append to get <code>[a,b,c,d]</code>?"  But Prolog's <code>append</code>
 		isn't a function of two lists; it's a <em>relation</em> (you can
-		think of it a predicate function) among <em>three</em> lists, which is
+		think of it a predicate function, although you shouldn't forget
+		that it's not really a function, running an algorithm, at all)
+		among <em>three</em> lists, which is
 		True if the result of appending the first two inputs is the third
 		input.  There's no special magic in <code>append</code>; if it
 		weren't predefined in Prolog, you could
@@ -810,8 +841,8 @@ even_division(First, Second, Xs) :-               % find the middle word
 		<var>A</var> and whose all-but-first is <var>B</var>.  And the
 		underscore character <code>_</code>, used by itself, means that you
 		don't care what value goes in that slot in the program.  (Underscores
-		can also be used as part of a variable name or a rule name, as in the
-		rule <code>even_division</code>.)</p>
+		can also be used as part of a variable name or a relation name, as in the
+		relation <code>even_division</code>.)</p>
 
 		<p>So the first rule</p>
 
@@ -858,7 +889,7 @@ even_division(First, Second, Xs) :-               % find the middle word
 		<p>This says that the list can be divided into two pieces
 		(the first of which might be empty; you don't care what's
 		in it), such that the desired value is the first item in
-		the second half of the list.  That example should give you
+		the second piece of the list.  That example should give you
 		some feeling for the power of the declarative programming notation.</p>
 
 		<p>How does a Prolog program actually work?  If there are no
