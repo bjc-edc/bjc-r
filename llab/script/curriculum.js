@@ -21,16 +21,13 @@ llab.secondarySetUp = function() {
   // Get the topic file and step from the URL
   llab.file = llab.getQueryParameter("topic");
 
-  var params, course, cssFile, jsFile, css, js, codeElements;
+  llab.addFeedback(document.title, llab.file, llab.getQueryParameter('course'));
+  llab.addFooter();
 
-  params = llab.getURLParameters(),
-  course = params.course || '';
-
-  // FIXME -- not sure this really belongs here as well.
-  llab.addFeedback(document.title, llab.file, course);
-  llab.addFooter(); // Added by Mary Fries on 10/16/17
-
-  /* This stuff should only happen on curriculum pages */
+  // We don't have a topic file, so we should exit.
+  if (llab.file === '' || !llab.isCurriculum()) {
+    return;
+  }
 
   // fix snap links so they run snap
   $('a.run').each(function(i) {
@@ -43,11 +40,11 @@ llab.secondarySetUp = function() {
     var divcontent = this.innerHTML;
     this.innerHTML = "&nbsp;<a style='font-size: 18px;' href='#hint-ifTime".concat(i, "' data-toggle='collapse' title='If There Is Time...'><strong>If There Is Time...</strong></a><div id='hint-ifTime", i, "' class='collapse'>", divcontent, "</div>");
   });
-  ('div.takeItFurther').each(function(i) {
+  $('div.takeItFurther').each(function(i) {
     var divcontent = this.innerHTML;
     this.innerHTML = "&nbsp;<a style='font-size: 18px;' href='#hint-takeItFurther".concat(i, "' data-toggle='collapse' title='Take It Further...'><strong>Take It Further...</strong></a><div id='hint-takeItFurther", i, "' class='collapse'>", divcontent, "</div>");
   });
-  ('div.takeItTeased').each(function(i) {
+  $('div.takeItTeased').each(function(i) {
     var divcontent = this.innerHTML;
     this.innerHTML = "&nbsp;<a style='font-size: 18px;' href='#hint-takeItFurther".concat(i, "' data-toggle='collapse' title='Take It Further...'><strong>Take It Further...</strong></a><div id='hint-takeItFurther", i, "' class='collapse'>", divcontent, "</div>");
   });
@@ -62,12 +59,6 @@ llab.secondarySetUp = function() {
       function: llab.mathDisplaySetup()
     }
   ]);
-
-  // We don't have a topic file, so we should exit.
-  if (llab.file === '' || !llab.isCurriculum()) {
-    return;
-  }
-
 
   $.ajax({
     url: `${llab.rootURL}topic/${llab.file}`,
@@ -391,6 +382,7 @@ llab.canShowDevComments = function () {
 
 // Create the 'sticky' title header at the top of each page.
 llab.createTitleNav = function() {
+  console.log('TITLE NAV CALLED')
   var addToggle = "";
   if (llab.canShowDevComments()) {
     addToggle = $('<button>').addClass('imageRight btn btn-default')
@@ -488,6 +480,7 @@ llab.dropdownItem = function(text, url) {
   return item;
 };
 
+// Pages directly within a lab. Excludes 'topic' and 'course' pages.
 llab.isCurriculum = function() {
   if (llab.getQueryParameter('topic')) {
     return ![
