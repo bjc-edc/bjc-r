@@ -41,15 +41,15 @@ llab.secondarySetUp = function() {
      // making ifTime and takeItFurther DIVs hide until clicked --MF, 2/9/18
      $('div.ifTime').each(function(i) {
           var divcontent = this.innerHTML;
-		  this.innerHTML = "&nbsp;<a style='font-size: 18px;' href='#hint-ifTime".concat(i, "' data-toggle='collapse' title='If There Is Time...'><strong>If There Is Time...</strong></a><div id='hint-ifTime", i, "' class='collapse'>", divcontent, "</div>");
+         this.innerHTML = "&nbsp;<a style='font-size: 18px;' href='#hint-ifTime".concat(i, "' data-toggle='collapse' title='If There Is Time...'><strong>If There Is Time...</strong></a><div id='hint-ifTime", i, "' class='collapse'>", divcontent, "</div>");
      });
-	 $('div.takeItFurther').each(function(i) {
+     ('div.takeItFurther').each(function(i) {
           var divcontent = this.innerHTML;
-		  this.innerHTML = "&nbsp;<a style='font-size: 18px;' href='#hint-takeItFurther".concat(i, "' data-toggle='collapse' title='Take It Further...'><strong>Take It Further...</strong></a><div id='hint-takeItFurther", i, "' class='collapse'>", divcontent, "</div>");
+         this.innerHTML = "&nbsp;<a style='font-size: 18px;' href='#hint-takeItFurther".concat(i, "' data-toggle='collapse' title='Take It Further...'><strong>Take It Further...</strong></a><div id='hint-takeItFurther", i, "' class='collapse'>", divcontent, "</div>");
      });
-	 $('div.takeItTeased').each(function(i) {
+     ('div.takeItTeased').each(function(i) {
           var divcontent = this.innerHTML;
-		  this.innerHTML = "&nbsp;<a style='font-size: 18px;' href='#hint-takeItFurther".concat(i, "' data-toggle='collapse' title='Take It Further...'><strong>Take It Further...</strong></a><div id='hint-takeItFurther", i, "' class='collapse'>", divcontent, "</div>");
+         this.innerHTML = "&nbsp;<a style='font-size: 18px;' href='#hint-takeItFurther".concat(i, "' data-toggle='collapse' title='Take It Further...'><strong>Take It Further...</strong></a><div id='hint-takeItFurther", i, "' class='collapse'>", divcontent, "</div>");
      });
 
      llab.additionalSetup([
@@ -388,10 +388,13 @@ llab.toggleDevComments = function() {
     $(".todo, .comment, .commentBig").toggle();
 };
 
+llab.canShowDevComments = function () {
+     return ['localhost', '127.0.0.1'].includes(window.location.hostname);
+}
 // Create the 'sticky' title header at the top of each page.
 llab.createTitleNav = function() {
     var addToggle = "";
-    if (window.location.href.slice(0,16) == "http://localhost" || window.location.href.slice(0,32) == "http://bjc-edc-2017-18.github.io") {
+    if (llab.canShowDevComments()) {
         addToggle = $('<button>').addClass('imageRight btn btn-default')
                     .click(llab.toggleDevComments)
                     .text('Toggle developer todos/comments (red boxes)');
@@ -400,11 +403,11 @@ llab.createTitleNav = function() {
     // FIXME -- clean up!!
     var topHTML = (
         '<nav class="llab-nav navbar navbar-default navbar-fixed-top nopadtb" role="navigation">' +
-            '<div class="nav navbar-nav navbar-left">' + 
-                '<a class="site-title" rel="author" href="/bjc-r/course/bjc4nyc.html"><img src="/bjc-r/img/header-footer/bjc-logo-sm2.png" alt="BJC logo" class="pull-left"> </a>' + 
-                '<div class="navbar-title"></div>' + 
-            '</div>' + 
-            '<div class="trapezoid"></div>' + 
+            '<div class="nav navbar-nav navbar-left">' +
+                '<a class="site-title" rel="author" href="/bjc-r/course/bjc4nyc.html"><img src="/bjc-r/img/header-footer/bjc-logo-sm2.png" alt="BJC logo" class="pull-left"> </a>' +
+                '<div class="navbar-title"></div>' +
+            '</div>' +
+            '<div class="trapezoid"></div>' +
         '</nav>' +
         '<div class="title-small-screen"></div>'
         ),
@@ -496,26 +499,6 @@ llab.isCurriculum = function() {
  * they could become re-ordered. */
 llab.thisPageNum = function() {
      return llab.pageNum;
-     /// This code below needs to be removed, pending some testing
-     // January 21, 2015 (If it hasn't been removed in a long while, chuck it)
-     var path = location.pathname;
-     var urls;
-     if (path === llab.empty_curriculum_page_path) {
-          urls = llab.url_list.map(function(item) {
-               return llab.QS.parse(item)['src'];
-          });
-          path = llab.getQueryParameter('src');
-     } else {
-          var result = -1;
-          llab.url_list.forEach(function(item, idx) {
-               if (document.URL.indexOf(item) !== -1) {
-                    result = idx;
-                    return result;
-               }
-          });
-          return result;
-     }
-     return urls.indexOf(path);
 }
 
 // Create the Forward and Backward buttons, properly disabling them when needed
@@ -527,7 +510,7 @@ llab.setButtonURLs = function() {
 
      // TODO REFACTOR THIS
      var forward = $('.forwardbutton');
-          back     = $('.backbutton');
+          back = $('.backbutton');
 
      var buttonsExist = forward.length !== 0 && back.length !== 0;
 
@@ -540,15 +523,16 @@ llab.setButtonURLs = function() {
      back     = $('.backbutton');
 
      // Disable the back button
+     // TODO: switch from using `.disabled` to [disabled] in css
      var thisPage = llab.thisPageNum();
      if (thisPage === 0) {
           back.each(function(i, item) {
                $(item).addClass('disabled')
-                       .attr('href', '#');
+                       .attr('href', '#').attr('disabled', true);
           });
      } else {
           back.each(function(i, item) {
-               $(item).removeClass('disabled')
+               $(item).removeClass('disabled').removeAttr('disabled')
                        .attr('href', llab.url_list[thisPage - 1])
                        .click(llab.goBack);
           });
@@ -558,11 +542,11 @@ llab.setButtonURLs = function() {
      if (thisPage === llab.url_list.length - 1) {
           forward.each(function(i, item) {
                $(item).addClass('disabled')
-                       .attr('href', '#');
+                       .attr('href', '#').attr('disabled', true);
           });
      } else {
           forward.each(function(i, item) {
-               $(item).removeClass('disabled')
+               $(item).removeClass('disabled').removeAttr('disabled')
                        .attr('href', llab.url_list[thisPage + 1])
                        .click(llab.goForward);
           });
@@ -584,10 +568,10 @@ llab.addFeedback = function(title, topic, course) {
           return;
      }
 
-	 // Prevent Feedback Button on non Teacher Guide pages (Added by Mary Fries on 10/16/17)
-	 if (location.pathname.slice(0,25) != "/bjc-r/cur/teaching-guide") {
-		 return;
-	 }
+     // Prevent Feedback Button on non Teacher Guide pages (Added by Mary Fries on 10/16/17)
+    if (location.pathname.slice(0,25) != "/bjc-r/cur/teaching-guide") {
+        return;
+    }
 
      // TODO: Make this config
      var surveyURL = 'https://getfeedback.com/r/LRm9oI3N?PAGE=pageRep&TOPIC=topicRep&COURSE=courseRep&URL=urlRep';
@@ -630,8 +614,8 @@ llab.addFeedback = function(title, topic, course) {
 // Footer content added by Mary on 1/20/16 was moved outside of feedback function by Mary on 10/16/17
 llab.addFooter = function() {
      // NEW VERSION from EDC DEV TECH, May 2020:
-     var footer = '<footer><div class="footer wrapper margins"><div class="footer-col col1"><img class="noshadow" src="/bjc-r/img/header-footer/NSF_logo.png" alt="NSF" /></div><div class="footer-col col2"><img class="noshadow" src="/bjc-r/img/header-footer/EDC_logo.png" alt="EDC" /></div><div class="footer-col col3"><img class="noshadow" src="/bjc-r/img/header-footer/UCB_logo.png" alt="UCB" /></div><div class="footer-col col4"><p>The Beauty and Joy of Computing by University of California, Berkeley and Education Development Center, Inc. is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License. The development of this site is funded by the National Science Foundation under grant nos. 1138596 and 1441075. Any opinions, findings, and conclusions or recommendations expressed in this material are those of the author(s) and do not necessarily reflect the views of the National Science Foundation.</p></div><div class="footer-col col5"><img class="noshadow" src="/bjc-r/img/header-footer/cc_88x31.png" alt="Creative Commons Attribution" /></div></div></footer>';
-	$(document.body).append(footer);
+     var footer = '<footer><div class="footer wrapper margins"><div class="footer-col col1"><img class="noshadow" src="/bjc-r/img/header-footer/NSF_logo.png" alt="NSF" /></div><div class="footer-col col2"><img class="noshadow" src="/bjc-r/img/header-footer/EDC_logo.png" alt="EDC" /></div><div class="footer-col col3"><img class="noshadow" src="/bjc-r/img/header-footer/UCB_logo.png" alt="UCB" /></div><div class="footer-col col4"><p>The Beauty and Joy of Computing by University of California, Berkeley and Education Development Center, Inc. is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License. The development of this site is funded by the National Science Foundation under grant nos. 1138596 and 1441075. Any opinions, findings, and conclusions or recommendations expressed in this material are those of the author(s) and do not necessarily reflect the views of the National Science Foundation.</p></div><div class="footer-col col5"><img class="noshadow" src="    bjc-r/img/header-footer/cc_88x31.png" alt="Creative Commons Attribution" /></div></div></footer>';
+     (document.body).append(footer);
 }
 
 /**
@@ -663,4 +647,3 @@ llab.indicateProgress = function(numSteps, currentStep) {
 $(document).ready(function() {
      llab.secondarySetUp();
 });
-
