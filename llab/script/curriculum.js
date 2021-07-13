@@ -365,7 +365,7 @@ llab.setupTitle = function() {
   document.title = document.title.replace('snap', 'Snap!');
 
   $(document.body).css('padding-top', $('.llab-nav').height() - 100);
-  document.body.onresize = function(event) {
+  document.body.onresize = function(_event) {
     $(document.body).css('padding-top', $('.llab-nav').height() + 10);
   };
 
@@ -376,25 +376,32 @@ llab.toggleDevComments = function() {
   $(".todo, .comment, .commentBig").toggle();
 };
 
+llab.hideAllDevComments = function() {
+  $('.todo, .comment, .commentBig').hide();
+}
+
 llab.canShowDevComments = function () {
   return ['localhost', '127.0.0.1'].includes(window.location.hostname);
 }
 
 // Create the 'sticky' title header at the top of each page.
 llab.createTitleNav = function() {
-  console.log('TITLE NAV CALLED')
   var addToggle = "";
   if (llab.canShowDevComments()) {
     addToggle = $('<button>').addClass('imageRight btn btn-default')
     .click(llab.toggleDevComments)
     .text('Toggle developer todos/comments (red boxes)');
-  };
+  } else {
+    llab.hideAllDevComments();
+  }
 
   // The BJC Logo takes you to the course ToC, or the BJC index when there is no course defined.
   let navDestination = '/bjc-r';
   let logoURL = '/bjc-r/img/header-footer/bjc-logo-sm2.png';
   if (llab.getQueryParameter('course')) {
     navDestination = `/bjc-r/course/${llab.getQueryParameter('course')}`;
+  } else if (location.pathname.indexOf('/bjc-r/course/')) {
+    navDestination = location.pathname;
   }
 
   var topHTML = `
@@ -521,8 +528,7 @@ llab.setButtonURLs = function() {
   var thisPage = llab.thisPageNum();
   if (thisPage === 0) {
     back.each(function(i, item) {
-      $(item).addClass('disabled')
-      .attr('href', '#').attr('disabled', true);
+      $(item).addClass('disabled').removeAttr('href').attr('disabled', true);
     });
   } else {
     back.each(function(i, item) {
@@ -535,8 +541,7 @@ llab.setButtonURLs = function() {
   // Disable the forward button
   if (thisPage === llab.url_list.length - 1) {
     forward.each(function(i, item) {
-      $(item).addClass('disabled')
-      .attr('href', '#').attr('disabled', true);
+      $(item).addClass('disabled').removeAttr('href').attr('disabled', true);
     });
   } else {
     forward.each(function(i, item) {
