@@ -14,8 +14,8 @@ llab.url_list = [];
 var FULL = llab.selectors.FULL,
 hamburger = llab.fragments.hamburger;
 
+// TODO: secondarySetUp (until the conditional) should be called on each page.
 llab.secondarySetUp = function() {
-  // FIXME -- this needs to be called on EVERY page.
   llab.setupTitle();
 
   // Get the topic file and step from the URL
@@ -633,7 +633,7 @@ llab.addFooter = function() {
         </p>
       </div>
       <div class="footer-col col5">
-        <img class="noshadow" src="bjc-r/img/header-footer/cc_88x31.png" alt="Creative Commons Attribution" />
+        <img class="noshadow" src="/bjc-r/img/header-footer/cc_88x31.png" alt="Creative Commons Attribution" />
       </div>
     </div>
   </footer>`
