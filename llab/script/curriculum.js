@@ -155,14 +155,11 @@ llab.mathDisplaySetup = function () {
 
 // Call the KaTeX APIS to render the LaTeX code.
 llab.displayMathDivs = function () {
-  // TODO: Investigate caching of the selectors?
-  // TODO: PUT THESE CLASSES SOMEWHERE
   $('.katex, .katex-inline').each(function (idx, elm) {
-    katex.render(elm.textContent, elm, {throwOnError: false}); //Changed .innerHTML to .textContent on 1/29/16 to get > and < to work.
+    katex.render(elm.textContent, elm, {throwOnError: false});
   });
-  // TODO: PUT THESE CLASSES SOMEWHERE
   $('.katex-block').each(function (idx, elm) {
-    katex.render(elm.textContent, elm, { //Changed .innerHTML to .textContent on 1/29/16 to get > and < to work.
+    katex.render(elm.textContent, elm, {
       displayMode: true, throwOnError: false
     });
   });
@@ -391,6 +388,7 @@ llab.toggleDevComments = function() {
 llab.canShowDevComments = function () {
   return ['localhost', '127.0.0.1'].includes(window.location.hostname);
 }
+
 // Create the 'sticky' title header at the top of each page.
 llab.createTitleNav = function() {
   var addToggle = "";
@@ -402,11 +400,11 @@ llab.createTitleNav = function() {
 
   // The BJC Logo takes you to the course ToC, or the BJC index when there is no course defined.
   let navDestination = '/bjc-r';
+  let logoURL = '/bjc-r/img/header-footer/bjc-logo-sm2.png';
   if (llab.getQueryParameter('course')) {
     navDestination = `/bjc-r/course/${llab.getQueryParameter('course')}`;
   }
-  let logoURL = '/bjc-r/img/header-footer/bjc-logo-sm2.png';
-  // FIXME -- clean up!!
+
   var topHTML = `
     <nav class="llab-nav navbar navbar-default navbar-fixed-top nopadtb" role="navigation">
       <div class="nav navbar-nav navbar-left">
@@ -427,233 +425,254 @@ llab.createTitleNav = function() {
     buttons = "<a class='btn btn-default backbutton arrow'>back</a>" +
     "<a class='btn btn-default forwardbutton arrow'>next</a>";
 
-    if (topNav.length === 0) {
-      $(document.body).prepend(addToggle);
-      $(document.body).prepend(topHTML);
-      topNav = $(llab.selectors.NAVSELECT);
+  if (topNav.length === 0) {
+    $(document.body).prepend(addToggle);
+    $(document.body).prepend(topHTML);
+  }
+
+  // Don't add anything else if we don't know the step...
+  // FUTURE - We should separate the rest of this function if necessary.
+  if (!llab.isCurriculum()) {
+    return;
+  }
+
+  // TODO: selector...
+  $('.nav-btns').append(buttons);
+  if ($(llab.selectors.PROGRESS).length === 0) {
+    $(document.body).append(botHTML);
+    $('.bottom-nav').append(buttons);
+  }
+
+  llab.setButtonURLs();
+};
+
+
+// Create the navigation dropdown
+llab.buildDropdown = function() {
+  var dropdown, list_header;
+  // Container div for the whole menu (title + links)
+  dropdown = $(document.createElement("div")).attr(
+    {'class': 'dropdown inline'}
+  );
+
+  // build the list header
+  list_header = $(document.createElement("button")).attr(
+    {'class': 'navbar-toggle btn btn-default dropdown-toggle list_header',
+    'type' : 'button', 'data-toggle' : "dropdown" }
+  );
+  list_header.append(hamburger);
+
+  // Add Header to dropdown
+  dropdown.append(list_header);
+  // Insert into the top div AFTER the backbutton.
+  dropdown.insertAfter($('.navbar-default .navbar-right .backbutton'));
+};
+
+/** Build an item for the navigation dropdown
+*  Takes in TEXT and a URL and reutrns a list item to be added
+*  too an existing dropdown */
+llab.dropdownItem = function(text, url) {
+  var item, link;
+  // li container
+  item = $(document.createElement("li")).attr(
+    {'class': 'list_item', 'role' : 'presentation'}
+  );
+  if (url) {
+    link = $('<a>').attr({'href': url, 'role' : 'menuitem'});
+    link.html(text);
+    item.append(link);
+  } else {
+    item.html(text);
+  }
+
+  return item;
+};
+
+llab.isCurriculum = function() {
+  if (llab.getQueryParameter('topic')) {
+    return ![
+      llab.empty_topic_page_path, llab.topic_launch_page, llab.alt_topic_page
+    ].includes(location.pathname);
+  }
+  return false;
+}
+
+
+/* Return the index value of this page in reference to the lab.
+* Indicies are 0 based, and this excludes query parameters because
+* they could become re-ordered. */
+llab.thisPageNum = function() {
+  return llab.pageNum;
+}
+
+// Create the Forward and Backward buttons, properly disabling them when needed
+llab.setButtonURLs = function() {
+  // No dropdowns for places that don't have a step.
+  if (!llab.isCurriculum()) {
+    return;
+  }
+
+  var forward = $('.forwardbutton'), back = $('.backbutton');
+  var buttonsExist = forward.length !== 0 && back.length !== 0;
+
+  if (!buttonsExist & $(llab.selectors.NAVSELECT) !== 0) {
+    // freshly minted buttons. MMM, tasty!
+    llab.createTitleNav();
+  }
+
+  forward = $('.forwardbutton');
+  back     = $('.backbutton');
+
+  // Disable the back button
+  // TODO: switch from using `.disabled` to [disabled] in css
+  var thisPage = llab.thisPageNum();
+  if (thisPage === 0) {
+    back.each(function(i, item) {
+      $(item).addClass('disabled')
+      .attr('href', '#').attr('disabled', true);
+    });
+  } else {
+    back.each(function(i, item) {
+      $(item).removeClass('disabled').removeAttr('disabled')
+      .attr('href', llab.url_list[thisPage - 1])
+      .click(llab.goBack);
+    });
+  }
+
+  // Disable the forward button
+  if (thisPage === llab.url_list.length - 1) {
+    forward.each(function(i, item) {
+      $(item).addClass('disabled')
+      .attr('href', '#').attr('disabled', true);
+    });
+  } else {
+    forward.each(function(i, item) {
+      $(item).removeClass('disabled').removeAttr('disabled')
+      .attr('href', llab.url_list[thisPage + 1])
+      .click(llab.goForward);
+    });
+  }
+};
+
+// TODO: Update page content and push URL onto browser back button
+llab.goBack = function() {
+  location.href = llab.url_list[llab.thisPageNum() - 1];
+};
+
+llab.goForward = function() {
+  location.href = llab.url_list[llab.thisPageNum() + 1];
+};
+
+llab.addFeedback = function(title, topic, course) {
+  // Prevent Button on small devices
+  if (screen.width < 1024) {
+    return;
+  }
+
+  // Prevent Feedback Button on non Teacher Guide pages (Added by Mary Fries on 10/16/17)
+  if (location.pathname.slice(0,25) != "/bjc-r/cur/teaching-guide") {
+    return;
+  }
+
+  // TODO: Make this config
+  var surveyURL = 'https://getfeedback.com/r/LRm9oI3N?';
+  surveyURL += $.param({
+    'PAGE': title,
+    'TOPIC': topic,
+    'COURSE': course,
+    'URL': document.url
+  });
+
+  var button = $(document.createElement('button')).attr({
+    'class': 'btn btn-primary btn-xs feedback-button',
+    'type': 'button',
+    'data-toggle': "collapse",
+    'data-target': "#fdbk"
+  }).text('Feedback'),
+  innerDiv = $(document.createElement('div')).attr({
+    'id': "fdbk",
+    'class': "collapse feedback-panel panel panel-primary"
+  }),
+  feedback = $(document.createElement('div')).attr(
+    {'class' : 'page-feedback'}
+  ).append(button, innerDiv);
+
+  // Delay inserting a frame until the button is clicked.
+  // Reason 1: Performance
+  // Reason 2: GetFeedback tracks "opens" and each load is an open
+  button.click('click', function(_event) {
+    if ($('#feedback-frame').length === 0) {
+      var frame = $(document.createElement('iframe')).attr({
+        'frameborder': "0",
+        'id': 'feedback-frame',
+        'width': "300",
+        'height': "230",
+        'src': surveyURL
+      });
+      $('#fdbk').append(frame);
     }
+  });
+  $(document.body).append(feedback);
+};
 
-    // Don't add anything else if we don't know the step...
-    // FUTURE - We should separate the rest of this function if necessary.
-    if (!llab.isCurriculum()) {
-      return;
-    }
+// Footer content added by Mary on 1/20/16 was moved outside of feedback function by Mary on 10/16/17
+llab.addFooter = function() {
+  $(document.body).append(
+    `<footer>
+      <div class="footer wrapper margins">
+        <div class="footer-col col1">
+          <img class="noshadow" src="/bjc-r/img/header-footer/NSF_logo.png" alt="NSF" />
+        </div>
+        <div class="footer-col col2">
+          <img class="noshadow" src="/bjc-r/img/header-footer/EDC_logo.png" alt="EDC" />
+        </div>
+        <div class="footer-col col3">
+          <img class="noshadow" src="/bjc-r/img/header-footer/UCB_logo.png" alt="UCB" />
+        </div>
+        <div class="footer-col col4">
+          <p>The Beauty and Joy of Computing by University of California, Berkeley and Education
+          Development Center, Inc. is licensed under a Creative Commons
+          Attribution-NonCommercial-ShareAlike 4.0 International License. The development of this
+          site is funded by the National Science Foundation under grant nos. 1138596 and 1441075.
+          Any opinions, findings, and conclusions or recommendations expressed in this material are
+          those of the author(s) and do not necessarily reflect the views of the National Science
+          Foundation.
+        </p>
+      </div>
+      <div class="footer-col col5">
+        <img class="noshadow" src="bjc-r/img/header-footer/cc_88x31.png" alt="Creative Commons Attribution" />
+      </div>
+    </div>
+  </footer>`
+  );
+}
 
-    // TODO: selector...
-    $('.nav-btns').append(buttons);
-    if ($(llab.selectors.PROGRESS).length === 0) {
-      $(document.body).append(botHTML);
-      $('.bottom-nav').append(buttons);
-    }
+/**
+*  Positions an image along the bottom of the lab page, signifying progress.
+*  numSteps is the total number of steps in the lab
+*  currentStep is the number of the current step
+*  Note, these steps are 0 indexed!
+*/
+llab.indicateProgress = function(numSteps, currentStep) {
+  var progress = $(llab.selectors.PROGRESS),
+  width = progress.width(),
+  // TODO: This neeeds to be a global selector!!
+  btns = $('.bottom-nav').width(),
+  pctMargin, result; // result stores left-offset of background image.
 
-    llab.setButtonURLs();
-  };
+  /* This works as long as the buttons are on the RIGHT of the image to be
+  * moved. The image on the last step will be moved at most the % width of
+  * the buttons.
+  */
+  pctMargin = (btns / width) * 100;
+  result = currentStep /  (numSteps + 1);
+  result = result * (100 - pctMargin);
+  result = result + "% 3px";
+  // 3px == height of bottom-bar - image height == (32px - 26px)/ 2
+  progress.css("background-position", result);
+};
 
-
-  // Create the navigation dropdown
-  llab.buildDropdown = function() {
-    var dropdown, list_header;
-    // Container div for the whole menu (title + links)
-    dropdown = $(document.createElement("div")).attr(
-      {'class': 'dropdown inline'}
-    );
-
-    // build the list header
-    list_header = $(document.createElement("button")).attr(
-      {'class': 'navbar-toggle btn btn-default dropdown-toggle list_header',
-        'type' : 'button', 'data-toggle' : "dropdown" }
-    );
-    list_header.append(hamburger);
-
-    // Add Header to dropdown
-    dropdown.append(list_header);
-    // Insert into the top div AFTER the backbutton.
-    dropdown.insertAfter($('.navbar-default .navbar-right .backbutton'));
-  };
-
-      /** Build an item for the navigation dropdown
-      *  Takes in TEXT and a URL and reutrns a list item to be added
-      *  too an existing dropdown */
-      llab.dropdownItem = function(text, url) {
-        var item, link;
-        // li container
-        item = $(document.createElement("li")).attr(
-          {'class': 'list_item', 'role' : 'presentation'}
-        );
-          if (url) {
-            link = $(document.createElement("a")).attr(
-              {'href': url, 'role' : 'menuitem'}
-            );
-              link.html(text);
-              item.append(link);
-            } else {
-              item.html(text);
-            }
-
-            return item;
-          };
-
-          // FIXME
-          llab.isCurriculum = function() {
-            if (llab.getQueryParameter('topic')) {
-              return location.pathname !== llab.empty_topic_page_path &&
-              location.pathname !== llab.topic_launch_page &&
-              location.pathname !== llab.alt_topic_page;
-            }
-            return false;
-          }
-
-
-          /* Return the index value of this page in reference to the lab.
-          * Indicies are 0 based, and this excludes query parameters because
-          * they could become re-ordered. */
-          llab.thisPageNum = function() {
-            return llab.pageNum;
-          }
-
-          // Create the Forward and Backward buttons, properly disabling them when needed
-          llab.setButtonURLs = function() {
-            // No dropdowns for places that don't have a step.
-            if (!llab.isCurriculum()) {
-              return;
-            }
-
-            // TODO REFACTOR THIS
-            var forward = $('.forwardbutton'),
-            back = $('.backbutton');
-
-            var buttonsExist = forward.length !== 0 && back.length !== 0;
-
-            if (!buttonsExist & $(llab.selectors.NAVSELECT) !== 0) {
-              // freshly minted buttons. MMM, tasty!
-              llab.createTitleNav();
-            }
-
-            forward = $('.forwardbutton');
-            back     = $('.backbutton');
-
-            // Disable the back button
-            // TODO: switch from using `.disabled` to [disabled] in css
-            var thisPage = llab.thisPageNum();
-            if (thisPage === 0) {
-              back.each(function(i, item) {
-                $(item).addClass('disabled')
-                .attr('href', '#').attr('disabled', true);
-              });
-            } else {
-              back.each(function(i, item) {
-                $(item).removeClass('disabled').removeAttr('disabled')
-                .attr('href', llab.url_list[thisPage - 1])
-                .click(llab.goBack);
-              });
-            }
-
-            // Disable the forward button
-            if (thisPage === llab.url_list.length - 1) {
-              forward.each(function(i, item) {
-                $(item).addClass('disabled')
-                .attr('href', '#').attr('disabled', true);
-              });
-            } else {
-              forward.each(function(i, item) {
-                $(item).removeClass('disabled').removeAttr('disabled')
-                .attr('href', llab.url_list[thisPage + 1])
-                .click(llab.goForward);
-              });
-            }
-          };
-
-          // TODO: Update page content and push URL onto browser back button
-          llab.goBack = function() {
-            location.href = llab.url_list[llab.thisPageNum() - 1];
-          };
-
-          llab.goForward = function() {
-            location.href = llab.url_list[llab.thisPageNum() + 1];
-          };
-
-          llab.addFeedback = function(title, topic, course) {
-            // Prevent Button on small devices
-            if (screen.width < 1024) {
-              return;
-            }
-
-            // Prevent Feedback Button on non Teacher Guide pages (Added by Mary Fries on 10/16/17)
-            if (location.pathname.slice(0,25) != "/bjc-r/cur/teaching-guide") {
-              return;
-            }
-
-            // TODO: Make this config
-            var surveyURL = 'https://getfeedback.com/r/LRm9oI3N?PAGE=pageRep&TOPIC=topicRep&COURSE=courseRep&URL=urlRep';
-            surveyURL = surveyURL.replace(/pageRep/g, encodeURIComponent(title))
-            .replace(/topicRep/g, encodeURIComponent(topic))
-            .replace(/courseRep/g, encodeURIComponent(course))
-            .replace(/urlRep/g, encodeURIComponent(document.URL));
-
-            var button = $(document.createElement('button')).attr(
-              {   'class': 'btn btn-primary btn-xs feedback-button',
-              'type': 'button',
-              'data-toggle': "collapse",
-              'data-target': "#fdbk" }).text('Feedback'),
-              innerDiv = $(document.createElement('div')).attr(
-                {   'id': "fdbk",
-                'class': "collapse feedback-panel panel panel-primary"
-              }),
-              feedback = $(document.createElement('div')).attr(
-                {'class' : 'page-feedback'}).append(button, innerDiv);
-
-                // Delay inserting a frame until the button is clicked.
-                // Reason 1: Performance
-                // Reason 2: GetFeedback tracks "opens" and each load is an open
-                button.click('click', function(event) {
-                  if ($('#feedback-frame').length === 0) {
-                    var frame = $(document.createElement('iframe')).attr(
-                      {
-                        'frameborder': "0",
-                        'id': 'feedback-frame',
-                        'width': "300",
-                        'height': "230",
-                        'src': surveyURL
-                      });
-                      $('#fdbk').append(frame);
-                    }
-                  });
-                  $(document.body).append(feedback);
-                };
-
-                // Footer content added by Mary on 1/20/16 was moved outside of feedback function by Mary on 10/16/17
-                llab.addFooter = function() {
-                  // NEW VERSION from EDC DEV TECH, May 2020:
-                  var footer = '<footer><div class="footer wrapper margins"><div class="footer-col col1"><img class="noshadow" src="/bjc-r/img/header-footer/NSF_logo.png" alt="NSF" /></div><div class="footer-col col2"><img class="noshadow" src="/bjc-r/img/header-footer/EDC_logo.png" alt="EDC" /></div><div class="footer-col col3"><img class="noshadow" src="/bjc-r/img/header-footer/UCB_logo.png" alt="UCB" /></div><div class="footer-col col4"><p>The Beauty and Joy of Computing by University of California, Berkeley and Education Development Center, Inc. is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License. The development of this site is funded by the National Science Foundation under grant nos. 1138596 and 1441075. Any opinions, findings, and conclusions or recommendations expressed in this material are those of the author(s) and do not necessarily reflect the views of the National Science Foundation.</p></div><div class="footer-col col5"><img class="noshadow" src="    bjc-r/img/header-footer/cc_88x31.png" alt="Creative Commons Attribution" /></div></div></footer>';
-                  (document.body).append(footer);
-                }
-
-                /**
-                *  Positions an image along the bottom of the lab page, signifying progress.
-                *  numSteps is the total number of steps in the lab
-                *  currentStep is the number of the current step
-                *  Note, these steps are 0 indexed!
-                */
-                llab.indicateProgress = function(numSteps, currentStep) {
-                  var progress = $(llab.selectors.PROGRESS),
-                  width = progress.width(),
-                  // TODO: This neeeds to be a global selector!!
-                  btns = $('.bottom-nav').width(),
-                  pctMargin, result; // result stores left-offset of background image.
-
-                  /* This works as long as the buttons are on the RIGHT of the image to be
-                  * moved. The image on the last step will be moved at most the % width of
-                  * the buttons.
-                  */
-                  pctMargin = (btns / width) * 100;
-                  result = currentStep /  (numSteps + 1);
-                  result = result * (100 - pctMargin);
-                  result = result + "% 3px";
-                  // 3px == height of bottom-bar - image height == (32px - 26px)/ 2
-                  progress.css("background-position", result);
-                };
-
-                // Setup the nav and parse the topic file.
-                $(document).ready(function() {
-                  llab.secondarySetUp();
-                });
+// Setup the nav and parse the topic file.
+$(document).ready(function() {
+  llab.secondarySetUp();
+});
