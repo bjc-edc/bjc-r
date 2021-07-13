@@ -2,10 +2,10 @@
 *
 *  sets up a curriculum page -- either local or external.
 *
-*  Dependencies:
-*       jQuery
-*       library.js
-*       (Bootsrap) - optional, needed for looks, if missing code will still run
+*  JavaScript Dependencies:
+*   llab.js
+*   jQuery
+*   library.js
 */
 
 llab.file = "";
@@ -68,16 +68,15 @@ llab.secondarySetUp = function() {
     return;
   }
 
-  // TODO: Migrate to newer ajax call.
-  var ajaxURL = llab.rootURL + "topic/" + llab.file;
+
   $.ajax({
-    url: ajaxURL,
+    url: `${llab.rootURL}topic/${llab.file}`,
     type: "GET",
     contentType: 'text/plain; charset=UTF-8',
     dataType: "text",
     cache: true,
     success: llab.processLinks,
-    error: function(jqXHR, status, error) {
+    error: function(_jqXHR, status, error) {
       // TODO: We should push errors to Google Analytics
       console.log('Error Accessing Topic: ' + llab.file);
       console.log('Error: ' + error);
@@ -128,7 +127,7 @@ llab.codeHighlightSetup = function () {
 // Call The Functions to HighlightJS to render
 llab.highlightSyntax = function() {
   // TODO: PUT THESE CLASSES SOMEWHERE
-  $('pre code').each(function(i, block) {
+  $('pre > code').each(function(i, block) {
     // Trim the extra whitespace in HTML files.
     block.innerHTML = block.innerHTML.trim();
     if (typeof hljs !== 'undefined') {
@@ -174,7 +173,7 @@ llab.displayMathDivs = function () {
 *  and creates navigation buttons.
 *  FIXME: This should share code with llab.topic!
 */
-llab.processLinks = function(data, status, jqXHR) {
+llab.processLinks = function(data, _status, _jqXHR) {
   /* NOTE: DO NOT REMOVE THIS CONDITIONAL WITHOUT SERIOUS TESTING
   * llab.file gets reset with the ajax call.
   */
@@ -194,106 +193,106 @@ llab.processLinks = function(data, status, jqXHR) {
   topicArray = data.split("\n"),
   url = document.URL,
   // TODO: Move this to a dropdown function
-  list = $(document.createElement("ul")).attr(
-    { 'class': 'dropdown-menu dropdown-menu-right',
+  list = $(document.createElement("ul")).attr({
+    'class': 'dropdown-menu dropdown-menu-right',
     'role': 'menu',
-    'aria-labeledby': 'Topic-Navigation-Menu'}),
-    itemContent,
-    ddItem,
-    line,
-    isHidden,
-    isHeading,
-    lineClass,
-    i = 0,
-    len = topicArray.length,
-    isExternal,
-    pageCount = -1,
-    sep, urlOpen, urlClose;
+    'aria-labeledby': 'Topic-Navigation-Menu'
+  }),
+  itemContent,
+  ddItem,
+  line,
+  isHidden,
+  isHeading,
+  lineClass,
+  i = 0,
+  len = topicArray.length,
+  pageCount = -1,
+  urlOpen, urlClose;
 
-    // Prevent src, title from being added to other URLS.
-    delete params.src;
-    delete params.title;
+  // Prevent src, title from being added to other URLS.
+  delete params.src;
+  delete params.title;
 
-    for (; i < len; i += 1) {
-      line = llab.stripComments($.trim(topicArray[i]));
+  for (; i < len; i += 1) {
+    line = llab.stripComments($.trim(topicArray[i]));
 
-      sepIndex = line.indexOf(':');
-      urlOpen = line.indexOf('[');
-      urlClose = line.indexOf(']');
+    sepIndex = line.indexOf(':');
+    urlOpen = line.indexOf('[');
+    urlClose = line.indexOf(']');
 
-      // Skip is this line is hidden in URL params.
-      lineClass = $.trim(line.slice(0, sepIndex));
-      isHidden = params.hasOwnProperty('no' + lineClass);
-      if (isHidden || !line) { continue; }
+    // Skip is this line is hidden in URL params.
+    lineClass = $.trim(line.slice(0, sepIndex));
+    isHidden = params.hasOwnProperty('no' + lineClass);
+    if (isHidden || !line) { continue; }
 
-      // Line is a title; Create a link back to the main topic.
-      if (line.indexOf("title:") !== -1) {
-        url = llab.topic_launch_page + "?" + llab.QS.stringify(params);
+    // Line is a title; Create a link back to the main topic.
+    if (line.indexOf("title:") !== -1) {
+      url = llab.topic_launch_page + "?" + llab.QS.stringify(params);
 
-        itemContent = line.slice(sepIndex + 1);
-        itemContent = $.trim(itemContent);
-
-        // Create a special Title link and add a separator.
-        itemContent = llab.spanTag(itemContent, 'main-topic-link');
-        ddItem = llab.dropdownItem(itemContent, url);
-        // Note: Add to top of list!
-        list.prepend(llab.fragments.bootstrapSep);
-        list.prepend(ddItem);
-
-        continue;
-      }
-
-      // Line is a heading in a topic file, so create menu heading
-      isHeading = lineClass == 'heading';
-      if (isHeading) {
-        itemContent = line.slice(sepIndex + 1);
-        itemContent = $.trim(itemContent);
-        ddItem = llab.dropdownItem(itemContent);
-        ddItem.addClass('dropdown-header');
-        list.append(ddItem);
-      }
-
-      // If we don't have a link, skip this line.
-      hasLink = urlOpen !== -1 && urlClose !== -1;
-      if (!hasLink) { continue; }
-
-      // Grab the link title between : [
-      itemContent = line.slice(sepIndex + 1, urlOpen);
+      itemContent = line.slice(sepIndex + 1);
       itemContent = $.trim(itemContent);
-      // Grab the link betweem [ and ]
-      url = line.slice(urlOpen + 1, urlClose);
-      pageCount += 1;
-      // Content References an external resource
-      if (url.indexOf("//") !== -1) {
-      isCurrentPage = llab.getQueryParameter('src') === decodeURIComponent(url);
-      url = llab.empty_curriculum_page_path + "?" + llab.QS.stringify(
-        $.extend({}, params, {
-          src: url,
-          title: itemContent
-        }));
-      } else { // Content reference is local
-        isCurrentPage = document.URL.indexOf(url) !== -1;
-        if (url.indexOf(llab.rootURL) === -1 && url.indexOf("..") === -1) {
-          url = llab.rootURL + (url[0] === "/" ? '' : "/") + url;
-        }
-        url += url.indexOf("?") !== -1 ? "&" : "?";
-        url += llab.QS.stringify($.extend({}, params));
-      }
 
-      llab.url_list.push(url);
-
-      // Make the current step have an arrow in the dropdown menu
-      if (isCurrentPage) {
-        llab.pageNum = pageCount;
-        itemContent = llab.spanTag(itemContent, 'current-page-arrow');
-      }
-
+      // Create a special Title link and add a separator.
+      itemContent = llab.spanTag(itemContent, 'main-topic-link');
       ddItem = llab.dropdownItem(itemContent, url);
-      list.append(ddItem);
-    } // end for loop
+      // Note: Add to top of list!
+      list.prepend(llab.fragments.bootstrapSep);
+      list.prepend(ddItem);
 
-    if (course) {
-      if (course.indexOf("//") === -1) {
+      continue;
+    }
+
+    // Line is a heading in a topic file, so create menu heading
+    isHeading = lineClass == 'heading';
+    if (isHeading) {
+      itemContent = line.slice(sepIndex + 1);
+      itemContent = $.trim(itemContent);
+      ddItem = llab.dropdownItem(itemContent);
+      ddItem.addClass('dropdown-header');
+      list.append(ddItem);
+    }
+
+    // If we don't have a link, skip this line.
+    hasLink = urlOpen !== -1 && urlClose !== -1;
+    if (!hasLink) { continue; }
+
+    // Grab the link title between : [
+    itemContent = line.slice(sepIndex + 1, urlOpen);
+    itemContent = $.trim(itemContent);
+    // Grab the link betweem [ and ]
+    url = line.slice(urlOpen + 1, urlClose);
+    pageCount += 1;
+    // Content References an external resource
+    if (url.indexOf("//") !== -1) {
+    isCurrentPage = llab.getQueryParameter('src') === decodeURIComponent(url);
+    url = llab.empty_curriculum_page_path + "?" + llab.QS.stringify(
+      $.extend({}, params, {
+        src: url,
+        title: itemContent
+      }));
+    } else { // Content reference is local
+      isCurrentPage = document.URL.indexOf(url) !== -1;
+      if (url.indexOf(llab.rootURL) === -1 && url.indexOf("..") === -1) {
+        url = llab.rootURL + (url[0] === "/" ? '' : "/") + url;
+      }
+      url += url.indexOf("?") !== -1 ? "&" : "?";
+      url += llab.QS.stringify($.extend({}, params));
+    }
+
+    llab.url_list.push(url);
+
+    // Make the current step have an arrow in the dropdown menu
+    if (isCurrentPage) {
+      llab.pageNum = pageCount;
+      itemContent = llab.spanTag(itemContent, 'current-page-arrow');
+    }
+
+    ddItem = llab.dropdownItem(itemContent, url);
+    list.append(ddItem);
+  } // end for loop
+
+  if (course) {
+    if (course.indexOf("//") === -1) {
       course = llab.courses_path + course;
     }
     itemContent = llab.spanTag(llab.strings.goMain, 'course-link-list');
@@ -309,7 +308,6 @@ llab.processLinks = function(data, status, jqXHR) {
   // This is particularly important for smaller screens.
   $('.dropdown-menu').css('max-height', $(window).height() * 0.8);
   $('.dropdown-menu').css('max-width', Math.min($(window).width() * 0.8, 450));
-
 
   // FIXME -- this doesn't belong here.
   llab.indicateProgress(llab.url_list.length, llab.thisPageNum() + 1);
