@@ -1,24 +1,3 @@
-// Polyfills for older browsers
-if (!String.prototype.endsWith) {
-  Object.defineProperty(String.prototype, 'endsWith', {
-    value: function(searchString, position) {
-      var subjectString = this.toString();
-      if (position === undefined || position > subjectString.length) {
-        position = subjectString.length;
-      }
-      position -= searchString.length;
-      var lastIndex = subjectString.indexOf(searchString, position);
-      return lastIndex !== -1 && lastIndex === position;
-    }
-  });
-}
-
-
-
-/////////// FIXME -- put this in a better place.
-
-
-
 /* LLAB Loader
  * Lightweight Labs system.
  * This file is the entry point for all llab pages.
@@ -55,7 +34,11 @@ llab.paths.katex_css = "css/katex.min.css";
 
 // CSS
 llab.paths.css_files.push('css/3.3.7/bootstrap-compiled.min.css');
-
+// reference your custom CSS files, from within llab install directory.
+// Multiple CSS files is fine, include a separate push for each
+llab.paths.css_files.push('css/default.css');
+llab.paths.css_files.push('../css/bjc.css');
+llab.paths.css_files.push('../css/edcdevtech-headerfooter.css'); /* new headers & footers by EDC Dev Tech & modified by Mary, 05/2020 */
 
 /////////////////////////
 ///////////////////////// stage 0
@@ -143,6 +126,13 @@ llab.initialSetUp = function() {
     // start the process
     loadScriptsAndLinks(0);
 
+    // Add async error handling.
+    headElement.appendChild(getTag(
+        'script',
+        'https://bugs.cs10.org/js-sdk-loader/575843d153a14b45b34b91d99ea9666a.min.js',
+        'text/javascript'
+    ));
+
     function loadScriptsAndLinks(stage_num) {
         var i, tag;
 
@@ -172,7 +162,7 @@ llab.initialSetUp = function() {
         } else {
             setTimeout(function() {
                 proceedWhenComplete(stage_num);
-            }, 10);
+            }, 2);
         }
     }
 };
