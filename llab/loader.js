@@ -33,7 +33,7 @@ llab.paths.math_katex_js = "lib/katex.min.js";
 llab.paths.katex_css = "css/katex.min.css";
 
 // CSS
-llab.paths.css_files.push('css/3.3.7/bootstrap-compiled.min.css');
+llab.paths.css_files.push('css/5.0.2/bootstrap.min.css');
 // reference your custom CSS files, from within llab install directory.
 // Multiple CSS files is fine, include a separate push for each
 llab.paths.css_files.push('css/default.css');
@@ -61,7 +61,7 @@ llab.paths.stage_complete_functions[0] = function() {
 /////////////////
 ///////////////// stage 1
 llab.paths.scripts[1] = [];
-llab.paths.scripts[1].push("lib/bootstrap.min.js");
+llab.paths.scripts[1].push("lib/bootstrap.bundle.min.js");
 llab.paths.scripts[1].push("script/curriculum.js");
 llab.paths.scripts[1].push("script/course.js");
 llab.paths.scripts[1].push("script/topic.js");

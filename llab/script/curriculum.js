@@ -38,15 +38,15 @@ llab.secondarySetUp = function() {
   // making ifTime and takeItFurther DIVs hide until clicked --MF, 2/9/18
   $('div.ifTime').each(function(i) {
     var divcontent = this.innerHTML;
-    this.innerHTML = "&nbsp;<a style='font-size: 18px;' href='#hint-ifTime".concat(i, "' data-toggle='collapse' title='If There Is Time...'><strong>If There Is Time...</strong></a><div id='hint-ifTime", i, "' class='collapse'>", divcontent, "</div>");
+    this.innerHTML = "&nbsp;<a style='font-size: 18px;' href='#hint-ifTime".concat(i, "' data-bs-toggle='collapse' title='If There Is Time...'><strong>If There Is Time...</strong></a><div id='hint-ifTime", i, "' class='collapse'>", divcontent, "</div>");
   });
   $('div.takeItFurther').each(function(i) {
     var divcontent = this.innerHTML;
-    this.innerHTML = "&nbsp;<a style='font-size: 18px;' href='#hint-takeItFurther".concat(i, "' data-toggle='collapse' title='Take It Further...'><strong>Take It Further...</strong></a><div id='hint-takeItFurther", i, "' class='collapse'>", divcontent, "</div>");
+    this.innerHTML = "&nbsp;<a style='font-size: 18px;' href='#hint-takeItFurther".concat(i, "' data-bs-toggle='collapse' title='Take It Further...'><strong>Take It Further...</strong></a><div id='hint-takeItFurther", i, "' class='collapse'>", divcontent, "</div>");
   });
   $('div.takeItTeased').each(function(i) {
     var divcontent = this.innerHTML;
-    this.innerHTML = "&nbsp;<a style='font-size: 18px;' href='#hint-takeItFurther".concat(i, "' data-toggle='collapse' title='Take It Further...'><strong>Take It Further...</strong></a><div id='hint-takeItFurther", i, "' class='collapse'>", divcontent, "</div>");
+    this.innerHTML = "&nbsp;<a style='font-size: 18px;' href='#hint-takeItFurther".concat(i, "' data-bs-toggle='collapse' title='Take It Further...'><strong>Take It Further...</strong></a><div id='hint-takeItFurther", i, "' class='collapse'>", divcontent, "</div>");
   });
 
   llab.additionalSetup([
@@ -388,7 +388,7 @@ llab.canShowDevComments = function () {
 llab.createTitleNav = function() {
   var addToggle = "";
   if (llab.canShowDevComments()) {
-    addToggle = $('<button>').addClass('imageRight btn btn-default')
+    addToggle = $('<button>').addClass('imageRight btn btn-primary')
     .click(llab.toggleDevComments)
     .text('Toggle developer todos/comments (red boxes)');
   } else {
@@ -405,24 +405,32 @@ llab.createTitleNav = function() {
   }
 
   var topHTML = `
-    <nav class="llab-nav navbar navbar-default navbar-fixed-top nopadtb" role="navigation">
-      <div class="nav navbar-nav navbar-left">
-        <a class="site-title" rel="author" href="${navDestination}">
-          <img src="${logoURL}" alt="BJC logo" class="pull-left">
-        </a>
-        <div class="navbar-title"></div>
+    <nav class="llab-nav navbar navbar-expand-lg navbar-dark" role="navigation">
+      <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+          aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <div class="nav navbar-nav navbar-left">
+            <a class="site-title" rel="author" href="${navDestination}">
+              <img src="${logoURL}" alt="BJC logo" class="pull-left">
+            </a>
+            <div class="navbar-title"></div>
+          </div>
+          <div class="nav navbar-nav navbar-right">
+            <ul class="nav-btns btn-group"></ul>
+          </div>
       </div>
       <div class="trapezoid"></div>
-      <div class="nav navbar-nav navbar-right">
-        <ul class="nav-btns btn-group"></ul>
-      </div>
     </nav>
     <div class="title-small-screen"></div>
     `,
     botHTML = '<div class="full-bottom-bar"><div class="bottom-nav btn-group"></div></div>',
     topNav = $(llab.selectors.NAVSELECT),
-    buttons = "<a class='btn btn-default backbutton arrow'>back</a>" +
-    "<a class='btn btn-default forwardbutton arrow'>next</a>";
+    buttons = "<a class='btn btn-primary backbutton arrow'>back</a>" +
+    "<a class='btn btn-primary forwardbutton arrow'>next</a>";
 
   if (topNav.length === 0) {
     $(FULL).prepend(addToggle);
@@ -456,7 +464,7 @@ llab.buildDropdown = function() {
 
   // build the list header
   list_header = $(document.createElement("button")).attr(
-    {'class': 'navbar-toggle btn btn-default dropdown-toggle list_header',
+    {'class': 'navbar-toggle btn btn-primary dropdown-toggle list_header',
     'type' : 'button', 'data-toggle' : "dropdown" }
   );
   list_header.append(hamburger);
