@@ -633,7 +633,7 @@ search arr x lo hi
 		collection in
 		which the method will search?  No, because that collection is an
 		object, and <code>binaryFindIndexOf</code> is a method of the
-		collection.</p>
+		collection.)</p>
 
 		<p>The vertical bars in the second line are the Smalltalk syntax
 		for <code>script variables</code>.  Another noteworthy piece of
@@ -796,7 +796,10 @@ Y = []</span> ;
 
 append([A|X],Y,[A|Z]) :- append(X,Y,Z).</pre>
 
-		<p>The first rule says that if you append an empty list and any
+		<p>The notation
+		<code>[A|B]</code> represents a nonempty list whose first item is
+		<var>A</var> and whose all-but-first is <var>B</var>.
+		The first rule says that if you append an empty list and any
 		list <var>Z</var>, you get <var>Z</var>.  The second rule says
 		that if the first list <em>isn't</em> empty, then the first item
 		of the result must be the first item of the first list, and the
@@ -835,73 +838,190 @@ even_division(First, Second, Xs) :-               % find the middle word
 		our purposes on this page, it's best to use the same structure in
 		all the sample programs.</p>
 
-		<p>There are two important pieces of Prolog notation here that you
-		haven't already seen in the family tree example.  The notation
-		<code>[A|B]</code> represents a nonempty list whose first item is
-		<var>A</var> and whose all-but-first is <var>B</var>.  And the
-		underscore character <code>_</code>, used by itself, means that you
-		don't care what value goes in that slot in the program.  (Underscores
-		can also be used as part of a variable name or a relation name, as in the
-		relation <code>even_division</code>.)</p>
+				<p>The
+				underscore character <code>_</code>, used by itself, means that you
+				don't care what value goes in that slot in the program.  (Underscores
+				can also be used as part of a variable name or a relation name, as in the
+				relation <code>even_division</code>.)</p>
 
-		<p>So the first rule</p>
+				<p>So the first rule</p>
 
-<pre>contains(List, Value) :- even_division(_, [Value|_], List).</pre>
+		<pre>contains(List, Value) :- even_division(_, [Value|_], List).</pre>
 
-		<p>means that the given <var>Value</var> is in the <var>List</var>
-		if it happens to be the middle item of the list&mdash;that is,
-		<var>List</var> can be divided into two equal parts, you don't
-		care what's in the first part, and the second part has
-		<var>Value</var> as its first item, followed by some values you
-		don't care about.<p>
+				<p>means that the given <var>Value</var> is in the <var>List</var>
+				if it happens to be the middle item of the list&mdash;that is,
+				<var>List</var> can be divided into two equal parts, you don't
+				care what's in the first part, and the second part has
+				<var>Value</var> as its first item, followed by some values you
+				don't care about.<p>
 
-		<p>The next rule handles the case in which the value is larger
-		than the middle item of the list.  It says that <var>List</var>
-		contains <var>Value</var> provided that the middle item
-		<var>Center</var> is less than <var>Value</var>, the second
-		half of <var>List</var> has items other than just <var>Center</var>,
-		and those other items (<var>SecondHalf</var>) include the desired
-		<var>Value</var>.  (The requirement that <var>SecondHalf</var>
-		isn't an empty list is there to prevent infinite loops in which
-		the program keeps dividing an empty list into two (equal size)
-		empty lists.)</p>
+				<p>The next rule handles the case in which the value is larger
+				than the middle item of the list.  It says that <var>List</var>
+				contains <var>Value</var> provided that the middle item
+				<var>Center</var> is less than <var>Value</var>, the second
+				half of <var>List</var> has items other than just <var>Center</var>,
+				and those other items (<var>SecondHalf</var>) include the desired
+				<var>Value</var>.  (The requirement that <var>SecondHalf</var>
+				isn't an empty list is there to prevent infinite loops in which
+				the program keeps dividing an empty list into two (equal size)
+				empty lists.)</p>
 
-		<p>Similarly, the third rule handles the case in which the value
-		is smaller than <var>Center</var>.</p>
+				<p>Similarly, the third rule handles the case in which the value
+				is smaller than <var>Center</var>.</p>
 
-		<p>Why isn't there a rule saying to report False if the value
-		isn't found?  This is the mind-stretching part of declarative
-		programming.  A rule isn't a function, and it doesn't report a
-		value.  That would be an algorithm!  A rule doesn't <em>do</em>
-		anything; it's just another kind of data.  If Prolog can't
-		match the question you ask against any combination of facts and
-		rules, then you just don't get an answer at all.  That's not
-		considered an error.</p>
+				<p>Why isn't there a rule saying to report False if the value
+				isn't found?  This is the mind-stretching part of declarative
+				programming.  A rule isn't a function, and it doesn't report a
+				value.  That would be an algorithm!  A rule doesn't <em>do</em>
+				anything; it's just another kind of data.  If Prolog can't
+				match the question you ask against any combination of facts and
+				rules, then you just don't get an answer at all.  That's not
+				considered an error.</p>
 
-		<p>The use of <code>even_division</code> in this program is an
-		attempt to have it work the way binary search works, by dividing
-		the list in half at each step.  But if you just want to know if
-		a value is in a list and aren't worried about efficiency, the
-		entire program could be replaced by one rule:</p>
+				<p>The use of <code>even_division</code> in this program is an
+				attempt to have it work the way binary search works, by dividing
+				the list in half at each step.  But if you just want to know if
+				a value is in a list and aren't worried about efficiency, the
+				entire program could be replaced by one rule:</p>
 
-<pre>contains(List, Value) :- append(_, [Value|_], List).</pre>
+		<pre>contains(List, Value) :- append(_, [Value|_], List).</pre>
 
-		<p>This says that the list can be divided into two pieces
-		(the first of which might be empty; you don't care what's
-		in it), such that the desired value is the first item in
-		the second piece of the list.  That example should give you
-		some feeling for the power of the declarative programming notation.</p>
+				<p>This says that the list can be divided into two pieces
+				(the first of which might be empty; you don't care what's
+				in it), such that the desired value is the first item in
+				the second piece of the list.  That example should give you
+				some feeling for the power of the declarative programming notation.</p>
 
-		<p>How does a Prolog program actually work?  If there are no
-		algorithms, only data, how can any matching of queries to
-		things in its database happen?  The answer is that the language
-		itself implements a single, universal algorithm, called
-		<em>resolution,</em> that will always find every answer to
-		a question you ask that can be deduced from the database,
-		provided that it doesn't get caught in an infinite loop.
-		(If resolution could guarantee the impossibility of
-		infinite loops, it would solve the Halting Problem, which
-		you know can't be done.)</p>
+				<p>How does a Prolog program actually work?  If there are no
+				algorithms, only data, how can any matching of queries to
+				things in its database happen?  The answer is that the language
+				itself implements a single, universal algorithm, called
+				<em>resolution,</em> that will always find every answer to
+				a question you ask that can be deduced from the database,
+				provided that it doesn't get caught in an infinite loop.
+				(If resolution could guarantee the impossibility of
+				infinite loops, it would solve the Halting Problem, which
+				you know can't be done.)</p>
+
+		<div class="endnote">
+			<a href="#hint-resolution" data-toggle="collapse" title="Click for more details on resolution."><img class="inline" src="/bjc-r/img/icons/read-more-mini.png" alt="Read More" title="Read More" />Could you tell me more about resolution?</a>
+			<div id="hint-resolution" class="collapse">
+				<p>The Prolog database consists of facts and rules.  The
+				difference is that facts don't contain variables.  So,
+				given a query such as <code>mother('Brian',X)</code>, it's
+				pretty easy to see whether that matches a fact such as
+				<table>
+					<tr><td><code>father('Brian','Len')</code>&nbsp;</td>
+						<td>Nope, father≠mother</td></tr>
+					<tr><td><code>mother('Bob','Tessa')</code>&nbsp;</td>
+						<td>Nope, 'Bob'≠'Brian'</td></tr>
+					<tr><td><code>mother('Brian','Tessa')</code>&nbsp;</td>
+						<td>Yes, provided that X='Tessa'</td></tr>
+				</table>
+				The only subtlety is that if the same variable is used twice
+				in a query, it has to match the same text every time, so that
+				someone who says <code>mother(X,X)</code>, presumably wanting
+				to find someone who's their own mother, doesn't match every
+				fact about mothers in the database.</p>
+
+				<p>Rules are more complicated, because both the query and
+				the rule can have variables.  Consider the query
+				<code>append(X,Y,[a,b,c,d])</code> that you saw earlier.
+				If the same variable name is used twice <em>in the same query,</em>
+				or <em>in the same rule,</em> that name must match the same
+				value each time it's used.  But it's okay for a user to use
+				a variable name in a query that happens to be the same as
+				a name used in a rule; they don't have to have the same
+				value.  It's like using the same name in a <code>script
+				variables</code> block in two different scripts; they're
+				different variables despite the coincidence of the names.</p>
+
+				<p>So, when trying to match a query against a rule, the first
+				step is to systematically <em>rename</em> all the variables
+				in the rule, with unique names.  For example, the first time
+				Prolog compares a query with the rule
+				<pre>append([],Z,Z).</pre>
+				it (temporarily) changes the rule to something like
+				<pre>append([],Z.1,Z.1).</pre>
+				The next time it compares something to that rule, it'll
+				change it to
+				<pre>append([],Z.2,Z.2).</pre>
+				And so on.</p>
+
+				<p>Okay, compare the <code>append</code> query above with
+				this first rule:
+<pre>append(X,Y,[a,b,c,d]).
+append([],Z.1,Z.1).</pre>
+				This results in the following pairings:
+<pre>X = []
+Y = Z.1
+Z.1 = [a,b,c,d]</pre>
+				Combining the information in the last two of those
+				pairings gives <code>Y = [a,b,c,d]</code>, so that
+				gives both of the variables in the query values,
+				so Prolog gives the first answer.</p>
+
+				<p>That was a simple rule, in that its conclusion
+				always holds.  The other <code>append</code> rule
+				includes a condition that must be true in order for
+				the rule to apply.  After renaming, that rule says
+<pre>append([A.2|X.2],Y.2,[A.2|Z.2]) :- append(X.2,Y.2,Z.2).</pre>
+				The resolution rule for rules with conditions is
+				that first we try to match the query with the
+				<em>conclusion</em> of the rule, then if that works, we
+				take the condition of the rule as <em>a new query.</em>  In
+				this case, we are comparing
+<pre>append(X,Y,[a,b,c,d]).
+append([A.2|X.2],Y.2,[A.2|Z.2]).</pre>
+				The technical name for matching two expressions that
+				can both contain variables is <em>unification.</em>
+				Figuring out exactly how to get it right is hard,
+				but luckily, it's been done, so you don't have to.
+				Here are the results:
+<pre>X = [A.2|X.2]
+Y = Y.2
+[A.2|Z.2] = [a,b,c,d]</pre>
+				But now think about what the [...|...] notation means.
+				That last match can be expressed as the two matches
+<pre>A.2 = a
+Z.2 = [b,c,d]</pre>
+				This isn't enough to give us values for <var>X</var>
+				and <var>Y</var> in the original query with no
+				variables in the values.  But knowing that <var>A.2</var>
+				must have the value <code>a</code> is a big step
+				forward.  It tells us that <var>X</var> is a list
+				whose first item is <code>a</code>.</p>
+
+				<p>Now, <em>remembering all the pairings so far,</em>
+				we start again with the query <code>append(X.2,Y.2,Z.2)</code>.
+				Compare that with the first <code>append</code> rule:
+<pre>append(X.2,Y.2,Z.2).
+append([],Z.3,Z.3).</pre>
+				From this we learn
+<pre>X.2 = []
+Y.2 = Z.3
+Z.2 = Z.3</pre>
+				This might be dizzy-making for people, but luckily
+				computers don't get dizzy.  Here again are all the
+				matches Prolog has found for this second answer:
+<pre>X = [A.2|X.2]
+Y = Y.2
+[A.2|Z.2] = [a,b,c,d]
+A.2 = a
+Z.2 = [b,c,d]
+X.2 = []
+Y.2 = Z.3
+Z.2 = Z.3</pre>
+				You can trace through these equations to learn that
+<pre>X = [A.2|X.2] = [a|[]] = [a]
+Y = Y.2 = Z.3 = Z.2 = [b,c,d]</pre>
+				and that's the second answer.  We'll stop here, but
+				if you want you can match the query
+<pre>append(X.2,Y.2,Z.2)</pre>
+				against the second rule, and the result of that
+				against the first rule, and so on.</p>
+			</div>
+		</div>
 
 		<p>Why would you program in a declarative language?  Some
 		problems just lend themselves to a database-ish frame of
