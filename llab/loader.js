@@ -106,7 +106,7 @@ llab.thisPath = llab.getPathToThisScript();
 function getTag(name, src, type) {
     var tag = document.createElement(name);
 
-    if (src.substring(0, 2) !== "//") {
+    if (src.indexOf("//") === -1) {
         src = llab.thisPath.replace(THIS_FILE, src);
     }
 
