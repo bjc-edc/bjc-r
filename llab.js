@@ -25,9 +25,8 @@ llab.llab_path = llab.rootURL + llab.install_directory;
 
 // reference your custom CSS files, from within llab install directory.
 // Multiple CSS files is fine, include a separate push for each
-llab.paths.css_files.push('css/default.css');
-llab.paths.css_files.push('../css/bjc.css');
-llab.paths.css_files.push('../css/edcdevtech-headerfooter.css'); /* new headers & footers by EDC Dev Tech & modified by Mary, 05/2020 */
+// Add CSS files here, but things will be a bit slow.
+// llab.paths.css_files.push('css/default.css');
 
 
 // courses -- path to folder containing courses.
