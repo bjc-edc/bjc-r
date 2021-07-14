@@ -425,7 +425,7 @@ llab.createTitleNav = function() {
     "<a class='btn btn-default forwardbutton arrow'>next</a>";
 
   if (topNav.length === 0) {
-    $(document.body).prepend(addToggle);
+    $(FULL).prepend(addToggle);
     $(document.body).prepend(topHTML);
   }
 

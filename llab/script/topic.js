@@ -48,19 +48,14 @@ llab.tags = ["h1", "h2", "h3", "h4", "h5", "h6"];
 
 
 
-llab.renderFull = function(data, ignored1, ignored2) {
-    var FULL   = llab.selectors.FULL,
+llab.renderFull = function(data, _ignored1, _ignored2) {
+    var FULL = llab.selectors.FULL,
         params = llab.getURLParameters(),
-        course = params.course;
+        courseURL = llab.getQueryParameter('course');
 
-
-    if (course) {
-        if (course.indexOf("://") === -1) {
-            course = llab.courses_path + course;
-        }
-        $(FULL).append($(document.createElement("a")).attr(
-            {"class":"course_link", "href": course }
-            ).html(llab.strings.goMain));
+    if (courseURL) {
+        courseURL = llab.courses_path + courseURL;
+        $(FULL).append(`<a class='course_link pull-right' href=${courseURL}>${llab.strings.goMain}</a>`);
     }
 
     llab.file = llab.topic;
@@ -68,7 +63,6 @@ llab.renderFull = function(data, ignored1, ignored2) {
     data = data.replace(/(\r)/gm,""); // normalize line endings
     var lines = data.split("\n");
     var line;
-    var in_topic = false;
     var topic;
     var lablist;
     var item;
