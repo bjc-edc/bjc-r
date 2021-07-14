@@ -24,49 +24,49 @@ function setup_mysql() {
 	$username = "root";
 	$password = "";
 	$dbname = "Crawl_Standards_List";
-	
+
 	// make DB connection
 	global $conn;
 	$conn = new mysqli($servername, $username, $password, $dbname);
-	
+
 	// Check connection
 	if ($conn->connect_error) {
 		die("Connection failed: " . $conn->connect_error);
-	} 
-	
+	}
+
 	// Check for EU table & either create it or clear it
 	$sql = "SELECT * FROM information_schema.tables WHERE table_schema = 'Crawl_Standards_List' AND table_name = 'EUs'";
-	$result = $conn->query($sql);	
+	$result = $conn->query($sql);
 	if ($result->num_rows > 0) {
 		mysqli_query($conn, "DELETE FROM EUs");
 	} else {
 		$sql = "CREATE TABLE EUs (Filename VARCHAR(150), Standard VARCHAR(20), PageName VARCHAR(100), WholeStandard VARCHAR(300))";
-		$result = $conn->query($sql);	
+		$result = $conn->query($sql);
 	}
-	
+
 	// Check for LO table & either create it or clear it
 	$sql = "SELECT * FROM information_schema.tables WHERE table_schema = 'Crawl_Standards_List' AND table_name = 'LOs'";
-	$result = $conn->query($sql);	
+	$result = $conn->query($sql);
 	if ($result->num_rows > 0) {
 		mysqli_query($conn, "DELETE FROM LOs");
 	} else {
 		$sql = "CREATE TABLE LOs (Filename VARCHAR(150), Standard VARCHAR(20), PageName VARCHAR(100), WholeStandard VARCHAR(300))";
-		$result = $conn->query($sql);	
+		$result = $conn->query($sql);
 	}
-	
+
 	// Check for EK table & either create it or clear it
 	$sql = "SELECT * FROM information_schema.tables WHERE table_schema = 'Crawl_Standards_List' AND table_name = 'EKs'";
-	$result = $conn->query($sql);	
+	$result = $conn->query($sql);
 	if ($result->num_rows > 0) {
 		mysqli_query($conn, "DELETE FROM EKs");
 	} else {
 		$sql = "CREATE TABLE EKs (Filename VARCHAR(150), Standard VARCHAR(20), PageName VARCHAR(100), WholeStandard VARCHAR(300))";
-		$result = $conn->query($sql);	
+		$result = $conn->query($sql);
 	}
-	
+
 } // end function definition
 
-// make global definitions 
+// make global definitions
 initialize_vars();
 function initialize_vars(){
 	global $seed_url;
@@ -77,7 +77,7 @@ function initialize_vars(){
 	$crawled_urls = array();
 	global $unit;
 	$unit = "";
-	
+
 	// new standards array initialization
     global $all_covered_newEUs;
 	$all_covered_newEUs = array();
@@ -91,7 +91,7 @@ function initialize_vars(){
 	$all_newLOs = array("CRD-1.A", "CRD-1.B", "CRD-1.C", "CRD-2.A", "CRD-2.B", "CRD-2.C", "CRD-2.D", "CRD-2.E", "CRD-2.F", "CRD-2.G", "CRD-2.H", "CRD-2.I", "CRD-2.J", "DAT-1.A", "DAT-1.B", "DAT-1.C", "DAT-1.D", "DAT-2.A", "DAT-2.B", "DAT-2.C", "DAT-2.D", "DAT-2.E", "AAP-1.A", "AAP-1.B", "AAP-1.C", "AAP-1.D", "AAP-2.A", "AAP-2.B", "AAP-2.C", "AAP-2.D", "AAP-2.E", "AAP-2.F", "AAP-2.G", "AAP-2.H", "AAP-2.I", "AAP-2.J", "AAP-2.K", "AAP-2.L", "AAP-2.M", "AAP-2.N", "AAP-2.O", "AAP-2.P", "AAP-3.A", "AAP-3.B", "AAP-3.C", "AAP-3.D", "AAP-3.E", "AAP-3.F", "AAP-4.A", "AAP-4.B", "CSN-1.A", "CSN-1.B", "CSN-1.C", "CSN-1.D", "CSN-1.E", "CSN-2.A", "CSN-2.B", "CSN-2.C", "IOC-1.A", "IOC-1.B", "IOC-1.C", "IOC-1.D", "IOC-1.E", "IOC-1.F", "IOC-2.A", "IOC-2.B", "IOC-2.C");
 	global $all_newEKs;
 	$all_newEKs = array("CRD-1.A.1", "CRD-1.A.2", "CRD-1.A.3", "CRD-1.A.4", "CRD-1.A.5", "CRD-1.A.6", "CRD-1.B.1", "CRD-1.B.2", "CRD-1.C.1", "CRD-1.C.2", "CRD-2.A.1", "CRD-2.A.2", "CRD-2.B.1", "CRD-2.B.2", "CRD-2.B.3", "CRD-2.B.4", "CRD-2.B.5", "CRD-2.C.1", "CRD-2.C.2", "CRD-2.C.3", "CRD-2.C.4", "CRD-2.C.5", "CRD-2.C.6", "CRD-2.D.1", "CRD-2.D.2", "CRD-2.E.1", "CRD-2.E.2", "CRD-2.E.3", "CRD-2.E.4", "CRD-2.F.1", "CRD-2.F.2", "CRD-2.F.3", "CRD-2.F.4", "CRD-2.F.5", "CRD-2.F.6", "CRD-2.F.7", "CRD-2.G.1", "CRD-2.G.2", "CRD-2.G.3", "CRD-2.G.4", "CRD-2.G.5", "CRD-2.H.1", "CRD-2.H.2", "CRD-2.I.1", "CRD-2.I.2", "CRD-2.I.3", "CRD-2.I.4", "CRD-2.I.5", "CRD-2.J.1", "CRD-2.J.2", "CRD-2.J.3", "DAT-1.A.1", "DAT-1.A.2", "DAT-1.A.3", "DAT-1.A.4", "DAT-1.A.5", "DAT-1.A.6", "DAT-1.A.7", "DAT-1.A.8", "DAT-1.A.9", "DAT-1.A.10", "DAT-1.B.1", "DAT-1.B.2", "DAT-1.B.3", "DAT-1.C.1", "DAT-1.C.2", "DAT-1.C.3", "DAT-1.C.4", "DAT-1.C.5", "DAT-1.D.1", "DAT-1.D.2", "DAT-1.D.3", "DAT-1.D.4", "DAT-1.D.5", "DAT-1.D.6", "DAT-1.D.7", "DAT-1.D.8", "DAT-2.A.1", "DAT-2.A.2", "DAT-2.A.3", "DAT-2.A.4", "DAT-2.A.5", "DAT-2.B.1", "DAT-2.B.2", "DAT-2.B.3", "DAT-2.B.4", "DAT-2.B.5", "DAT-2.C.1", "DAT-2.C.2", "DAT-2.C.3", "DAT-2.C.4", "DAT-2.C.5", "DAT-2.C.6", "DAT-2.C.7", "DAT-2.C.8", "DAT-2.D.1", "DAT-2.D.2", "DAT-2.D.3", "DAT-2.D.4", "DAT-2.D.5", "DAT-2.D.6", "DAT-2.E.1", "DAT-2.E.2", "DAT-2.E.3", "DAT-2.E.4", "DAT-2.E.5", "AAP-1.A.1", "AAP-1.A.2", "AAP-1.A.3", "AAP-1.A.4", "AAP-1.B.1", "AAP-1.B.2", "AAP-1.C.1", "AAP-1.C.2", "AAP-1.C.3", "AAP-1.C.4", "AAP-1.D.1", "AAP-1.D.2", "AAP-1.D.3", "AAP-1.D.4", "AAP-1.D.5", "AAP-1.D.6", "AAP-1.D.7", "AAP-1.D.8", "AAP-2.A.1", "AAP-2.A.2", "AAP-2.A.3", "AAP-2.A.4", "AAP-2.B.1", "AAP-2.B.2", "AAP-2.B.3", "AAP-2.B.4", "AAP-2.B.5", "AAP-2.B.6", "AAP-2.B.7", "AAP-2.C.1", "AAP-2.C.2", "AAP-2.C.3", "AAP-2.C.4", "AAP-2.C.5", "AAP-2.D.1", "AAP-2.D.2", "AAP-2.E.1", "AAP-2.E.2", "AAP-2.E.3", "AAP-2.F.1", "AAP-2.F.2", "AAP-2.F.3", "AAP-2.F.4", "AAP-2.F.5", "AAP-2.G.1", "AAP-2.H.1", "AAP-2.H.2", "AAP-2.H.3", "AAP-2.I.1", "AAP-2.I.2", "AAP-2.J.1", "AAP-2.K.1", "AAP-2.K.2", "AAP-2.K.3", "AAP-2.K.4", "AAP-2.K.5", "AAP-2.L.1", "AAP-2.L.2", "AAP-2.L.3", "AAP-2.L.4", "AAP-2.L.5", "AAP-2.M.1", "AAP-2.M.2", "AAP-2.M.3", "AAP-2.N.1", "AAP-2.N.2", "AAP-2.O.1", "AAP-2.O.2", "AAP-2.O.3", "AAP-2.O.4", "AAP-2.O.5", "AAP-2.P.1", "AAP-2.P.2", "AAP-2.P.3", "AAP-3.A.1", "AAP-3.A.2", "AAP-3.A.3", "AAP-3.A.4", "AAP-3.A.5", "AAP-3.A.6", "AAP-3.A.7", "AAP-3.A.8", "AAP-3.A.9", "AAP-3.B.1", "AAP-3.B.2", "AAP-3.B.3", "AAP-3.B.4", "AAP-3.B.5", "AAP-3.B.6", "AAP-3.C.1", "AAP-3.C.2", "AAP-3.D.1", "AAP-3.D.2", "AAP-3.D.3", "AAP-3.D.4", "AAP-3.D.5", "AAP-3.E.1", "AAP-3.E.2", "AAP-3.F.1", "AAP-3.F.2", "AAP-3.F.3", "AAP-3.F.4", "AAP-3.F.5", "AAP-3.F.6", "AAP-3.F.7", "AAP-3.F.8", "AAP-4.A.1", "AAP-4.A.2", "AAP-4.A.3", "AAP-4.A.4", "AAP-4.A.5", "AAP-4.A.6", "AAP-4.A.7", "AAP-4.A.8", "AAP-4.A.9", "AAP-4.B.1", "AAP-4.B.2", "AAP-4.B.3", "CSN-1.A.1", "CSN-1.A.2", "CSN-1.A.3", "CSN-1.A.4", "CSN-1.A.5", "CSN-1.A.6", "CSN-1.A.7", "CSN-1.A.8", "CSN-1.B.1", "CSN-1.B.2", "CSN-1.B.3", "CSN-1.B.4", "CSN-1.B.5", "CSN-1.B.6", "CSN-1.B.7", "CSN-1.C.1", "CSN-1.C.2", "CSN-1.C.3", "CSN-1.C.4", "CSN-1.D.1", "CSN-1.D.2", "CSN-1.D.3", "CSN-1.E.1", "CSN-1.E.2", "CSN-1.E.3", "CSN-1.E.4", "CSN-1.E.5", "CSN-1.E.6", "CSN-1.E.7", "CSN-2.A.1", "CSN-2.A.2", "CSN-2.A.3", "CSN-2.B.1", "CSN-2.B.2", "CSN-2.B.3", "CSN-2.B.4", "CSN-2.C.1", "CSN-2.C.2", "CSN-2.C.3", "CSN-2.C.4", "CSN-2.C.5", "IOC-1.A.1", "IOC-1.A.2", "IOC-1.A.3", "IOC-1.A.4", "IOC-1.A.5", "IOC-1.B.1", "IOC-1.B.2", "IOC-1.B.3", "IOC-1.B.4", "IOC-1.B.5", "IOC-1.B.6", "IOC-1.C.1", "IOC-1.C.2", "IOC-1.C.3", "IOC-1.C.4", "IOC-1.C.5", "IOC-1.D.1", "IOC-1.D.2", "IOC-1.D.3", "IOC-1.E.1", "IOC-1.E.2", "IOC-1.E.3", "IOC-1.E.4", "IOC-1.E.5", "IOC-1.E.6", "IOC-1.F.1", "IOC-1.F.2", "IOC-1.F.3", "IOC-1.F.4", "IOC-1.F.5", "IOC-1.F.6", "IOC-1.F.7", "IOC-1.F.8", "IOC-1.F.9", "IOC-1.F.10", "IOC-1.F.11", "IOC-2.A.1", "IOC-2.A.2", "IOC-2.A.3", "IOC-2.A.4", "IOC-2.A.5", "IOC-2.A.6", "IOC-2.A.7", "IOC-2.A.8", "IOC-2.A.9", "IOC-2.A.10", "IOC-2.A.11", "IOC-2.A.12", "IOC-2.A.13", "IOC-2.A.14", "IOC-2.A.15", "IOC-2.B.1", "IOC-2.B.2", "IOC-2.B.3", "IOC-2.B.4", "IOC-2.B.5", "IOC-2.B.6", "IOC-2.B.7", "IOC-2.B.8", "IOC-2.B.9", "IOC-2.B.10", "IOC-2.C1", "IOC-2.C2", "IOC-2.C3", "IOC-2.C4", "IOC-2.C5", "IOC-2.C6", "IOC-2.C7");
-    
+
     // old standards array initialization
 	global $all_covered_EUs;
 	$all_covered_EUs = array();
@@ -99,7 +99,7 @@ function initialize_vars(){
 	$all_covered_LOs = array();
 	global $all_covered_EKs;
 	$all_covered_EKs = array();
-	
+
 	global $all_EUs;
 	$all_EUs = array("1.1", "1.2", "1.3", "2.1", "2.2", "2.3", "3.1", "3.2", "3.3", "4.1", "4.2", "5.1", "5.2", "5.3", "5.4", "5.5", "6.1", "6.2", "6.3", "7.1", "7.2", "7.3", "7.4", "7.5");
 	global $all_LOs;
@@ -112,7 +112,7 @@ function initialize_vars(){
 // display intro text for user
 intro_text();
 function intro_text() {
-	echo "\t\t<div class=\"sidenote\" style=\"position: fixed; top: 80px; right:20px;\">\n\t\t\t<p><a href=\"#hint-TOC\" data-toggle=\"collapse\">Table of Contents...</a></p>\n\t\t\t<div id=\"hint-TOC\" class=\"collapse\"><ul><li><a href=\"#top\">Back to Top</a></li><br /><h4>New standards:</h4><br /><h4>Old standards:</h4><li>EUs<ul><li><a href='#EU'>EUs by TG Lab Page</a></li><li><a href='#allEU'>Covered EUs</a></li><li><a href='#missingEU'>Missing EUs</a></li></ul></li><li>LOs<ul><li><a href='#LO'>LOs by TG Lab Page</a></li><li><a href='#allLO'>Covered LOs</a></li><li><a href='#missingLO'>Missing LOs</a></li></ul></li><li>EKs<ul><li><a href='#EK'>EKs by TG Lab Page</a></li><li><a href='#allEK'>Covered EKs</a></li><li><a href='#missingEK'>Missing EKs</a></li></ul></li><li><a href='#map'>Ordered EUs/LOs List for CB Map</a></li><li><a href='#ordered'>Ordered LOs/EKs List for LL</a></li><li><a href='#CTP'>CTP Lists</a></li></ul></div>\n\t\t\t<p><a href=\"#hint-Links\" data-toggle=\"collapse\">Other Links...</a></p>\n\t\t\t<div id=\"hint-Links\" class=\"collapse\"><ul><li><a href=\"https://docs.google.com/spreadsheets/d/1Iw3-TINMp_-qJ10688pfg9ACDjYAyWTWMSG_Op8sQOw/edit#gid=477558311\" target=\"_blank\">NonCorrespondenceList</a></li><li><a href=\"https://secure-media.collegeboard.org/digitalServices/pdf/ap/ap-computer-science-principles-course-and-exam-description.pdf\" target=\"_blank\">Framework</a></li><li><a href=\"https://www2.cs.duke.edu/csed/csprinciples/framework/\" target=\"_blank\">Lookup</a></li></ul></div>\n\t\t</div>\n";
+	echo "\t\t<div class=\"sidenote\" style=\"position: fixed; top: 80px; right:20px;\">\n\t\t\t<p><a href=\"#hint-TOC\" data-bs-toggle=\"collapse\">Table of Contents...</a></p>\n\t\t\t<div id=\"hint-TOC\" class=\"collapse\"><ul><li><a href=\"#top\">Back to Top</a></li><br /><h4>New standards:</h4><br /><h4>Old standards:</h4><li>EUs<ul><li><a href='#EU'>EUs by TG Lab Page</a></li><li><a href='#allEU'>Covered EUs</a></li><li><a href='#missingEU'>Missing EUs</a></li></ul></li><li>LOs<ul><li><a href='#LO'>LOs by TG Lab Page</a></li><li><a href='#allLO'>Covered LOs</a></li><li><a href='#missingLO'>Missing LOs</a></li></ul></li><li>EKs<ul><li><a href='#EK'>EKs by TG Lab Page</a></li><li><a href='#allEK'>Covered EKs</a></li><li><a href='#missingEK'>Missing EKs</a></li></ul></li><li><a href='#map'>Ordered EUs/LOs List for CB Map</a></li><li><a href='#ordered'>Ordered LOs/EKs List for LL</a></li><li><a href='#CTP'>CTP Lists</a></li></ul></div>\n\t\t\t<p><a href=\"#hint-Links\" data-bs-toggle=\"collapse\">Other Links...</a></p>\n\t\t\t<div id=\"hint-Links\" class=\"collapse\"><ul><li><a href=\"https://docs.google.com/spreadsheets/d/1Iw3-TINMp_-qJ10688pfg9ACDjYAyWTWMSG_Op8sQOw/edit#gid=477558311\" target=\"_blank\">NonCorrespondenceList</a></li><li><a href=\"https://secure-media.collegeboard.org/digitalServices/pdf/ap/ap-computer-science-principles-course-and-exam-description.pdf\" target=\"_blank\">Framework</a></li><li><a href=\"https://www2.cs.duke.edu/csed/csprinciples/framework/\" target=\"_blank\">Lookup</a></li></ul></div>\n\t\t</div>\n";
 	echo "\t\t<h3>This<a name=\"top\">&nbsp;</a>script crawls for standards on your localhost copy of the repo.</h3><p><small>Please note that:<ul><li>This crawler will catch <em>any</em> standard in our list format <em>even if it's commented out</em>;</li><li>It doesn't differentiate between rewritten copies of the same standard. (If the number of standards found to be \"Missing (determined by subtraction)\"&mdash; subtracting the number covered standards from the actual number of standards&mdash;doesn't match the \"Total Found Missing,\" then slightly rewritten copies are likely the cause.)</li></ul></small></p><hr />\n";
 }
 
@@ -121,7 +121,7 @@ crawl_for_links($seed_url);
 function crawl_for_links($input_url) {
 	// initialize local array
 	$urls = array();
-	
+
 	// check if $input_url is HTML or TOPIC page and dump links into $urls array
 	if (substr($input_url, -4) == "html") {
 		// crawl for links in HTML pages
@@ -138,49 +138,49 @@ function crawl_for_links($input_url) {
 			if (substr($line, 1, 8) == "resource" or substr($line, 1, 4) == "quiz") {
 				$urls[$line_num] = substr(strchr(substr($line, 0, stripos($line, "]")), "["), 1); 	// adds link to $urls array
 				$urls = array_values($urls);    // re-indexes $urls
-			}	
+			}
 		}
 	}
-		
+
 	// set local constants for server address and address length
 	$server = "http://".$_SERVER['HTTP_HOST'];
 	$server_len = strlen($server);
-		
+
 	// clean up $found_urls
 	foreach ($urls as $i => $found_url) {
-		
+
 		//	make internal links non-relative
 		if (substr ($found_url, 0, 6) == "/bjc-r") {
 			$urls[$i] = $server.$found_url;
 		}
-		
+
 		// remove external links
 		if (substr($urls[$i], 0, $server_len) != $server) {
 			unset($urls[$i]);
 		}
-		
-		// remove topic.html?topic= from TOPIC file URLs 
+
+		// remove topic.html?topic= from TOPIC file URLs
 		if (substr($found_url, -5) == "topic" and strstr($urls[$i], "topic.html?topic=") != "") {
 			$urls[$i] = substr($urls[$i], 0, stripos($urls[$i], "topic.html?topic=")).substr(strstr($urls[$i], "topic.html?topic="), 17, strlen($urls[$i]));
-		} elseif (strstr($found_url, "?topic=nyc_bjc") != "") { 
-		
+		} elseif (strstr($found_url, "?topic=nyc_bjc") != "") {
+
 		// remove other HTML file TOPIC suffixes
 			$urls[$i] = substr($urls[$i], 0, stripos($urls[$i], "?topic=nyc_bjc")); //cuts everything after "?topic=nyc_bjc"
 			//NOTE: TO FIX: this breaks if there is a URL of http://bjc.edc.org; why does line 56-59 not work here?
 		}
-	
+
 		// remove MISC files
 		if (ends_with($found_url, "xml") or ends_with($found_url, "pdf") or ends_with($found_url, "png") or ends_with($found_url, "pptx") or ends_with($found_url, "csv")) {
 			unset($urls[$i]);
 		}
-		
+
 		// remove Specific files
 		if (ends_with($found_url, "ap-standards.html") or ends_with($found_url, "video-list-scratch.html") or ends_with($found_url, "video-list.html") or ends_with($found_url, "updates.html")) {
 			unset($urls[$i]);
 		}
-		
+
 	} //end foreach
-	
+
 	// drop hash (#) signs
 	foreach ($urls as $i => $url){
 		if (stripos($url, "#")) {
@@ -196,7 +196,7 @@ function crawl_for_links($input_url) {
 			unset($urls[$i]);
 		}
 	}
-	
+
 	// update global lists
 	global $found_urls;
 	$found_urls = array_merge($found_urls, $urls); // adds found $urls to $found_urls
@@ -207,13 +207,13 @@ function crawl_for_links($input_url) {
 	// sort global lists
 	asort($found_urls);
 	asort($crawled_urls);
-	
+
 	// remove duplicates from global lists
 	$found_urls = array_unique($found_urls);
 	$crawled_urls = array_unique($crawled_urls);
-	
+
 	// re-index $found_urls
-	$found_urls = array_values($found_urls); 	
+	$found_urls = array_values($found_urls);
 
 	// crawl any found pages that haven't been crawled yet (recursive step)
 	foreach ($found_urls as $found_url) {
@@ -234,12 +234,12 @@ function show_crawled_urls () {
 		$html_data_from_crawled_urls = $html_data_from_crawled_urls . "\t\t\t" . $crawled_url . "<br />\n";
 	}
 }
-echo "\t\t<p><a href='#hint-target' data-toggle='collapse' title='Toggle Crawled URLs'>List of Pages Crawled...</a></p>\n\t\t<div id='hint-target' class='collapse'>\n" . $html_data_from_crawled_urls . "</div><hr />\n";
+echo "\t\t<p><a href='#hint-target' data-bs-toggle='collapse' title='Toggle Crawled URLs'>List of Pages Crawled...</a></p>\n\t\t<div id='hint-target' class='collapse'>\n" . $html_data_from_crawled_urls . "</div><hr />\n";
 
 echo "\t\t<h1>2020 Standards</h1>\n";
 
 // New LEARNING OBJECTIVES
-echo "\t\t<h2><a href='#hint-new-LOs' data-toggle='collapse' title='New LOs'>New Learning Objectives</a><a name='newLO' class='anchor'>&nbsp;</a></h2>\n";
+echo "\t\t<h2><a href='#hint-new-LOs' data-bs-toggle='collapse' title='New LOs'>New Learning Objectives</a><a name='newLO' class='anchor'>&nbsp;</a></h2>\n";
 echo "\t\t<div id='hint-new-LOs' class='collapse'>\n";
 crawl_all_urls_for_stnds ("newLO", $all_covered_newLOs);
 cleanup_stnds_list($all_covered_newLOs); // clean up list
@@ -248,7 +248,7 @@ show_and_count_missing_stnds ($all_newLOs, $all_covered_newLOs, "newLO", 7); // 
 echo "\t\t</div>\n";
 
 // New ESSENTIAL KNOWLEDGE
-echo "\t\t<h2><a href='#hint-new-EKs' data-toggle='collapse' title='New EKs'>New Essential Knowledge</a><a name='newEK' class='anchor'>&nbsp;</a></h2>\n";
+echo "\t\t<h2><a href='#hint-new-EKs' data-bs-toggle='collapse' title='New EKs'>New Essential Knowledge</a><a name='newEK' class='anchor'>&nbsp;</a></h2>\n";
 echo "\t\t<div id='hint-new-EKs' class='collapse'>\n";
 crawl_all_urls_for_stnds ("newEK", $all_covered_newEKs);
 cleanup_stnds_list($all_covered_newEKs); // clean up list
@@ -257,9 +257,9 @@ show_and_count_missing_stnds ($all_newEKs, $all_covered_newEKs, "newEK", 9); // 
 echo "\t\t</div>\n";
 
 echo "\t\t<hr />\n\t\t<h1>Old Standards</h1>\n";
-    
+
 /*// ENDURING UNDERSTANDINGS
-echo "\t\t<h2><a href='#hint-old-EUs' data-toggle='collapse' title='EUs'>Enduring Understandings</a><a name='EU' class='anchor'>&nbsp;</a></h2>\n";
+echo "\t\t<h2><a href='#hint-old-EUs' data-bs-toggle='collapse' title='EUs'>Enduring Understandings</a><a name='EU' class='anchor'>&nbsp;</a></h2>\n";
 echo "\t\t<div id='hint-old-EUs' class='collapse'>\n";
 crawl_all_urls_for_stnds ("EU", $all_covered_EUs);
 cleanup_stnds_list($all_covered_EUs); // clean up list
@@ -268,7 +268,7 @@ show_and_count_missing_stnds ($all_EUs, $all_covered_EUs, "EU", 3); // show and 
 echo "\t\t</div>\n";
 
 // LEARNING OBJECTIVES
-echo "\t\t<h2><a href='#hint-old-LOs' data-toggle='collapse' title='LOs'>Learning Objectives</a><a name='LO' class='anchor'>&nbsp;</a></h2>\n";
+echo "\t\t<h2><a href='#hint-old-LOs' data-bs-toggle='collapse' title='LOs'>Learning Objectives</a><a name='LO' class='anchor'>&nbsp;</a></h2>\n";
 echo "\t\t<div id='hint-old-LOs' class='collapse'>\n";
 crawl_all_urls_for_stnds ("LO", $all_covered_LOs);
 cleanup_stnds_list($all_covered_LOs); // clean up list
@@ -277,7 +277,7 @@ show_and_count_missing_stnds ($all_LOs, $all_covered_LOs, "LO", 5); // show and 
 echo "\t\t</div>\n";
 
 // ESSENTIAL KNOWLEDGE
-echo "\t\t<h2><a href='#hint-old-EKs' data-toggle='collapse' title='EKs'>Essential Knowledge</a><a name='EK' class='anchor'>&nbsp;</a></h2>\n";
+echo "\t\t<h2><a href='#hint-old-EKs' data-bs-toggle='collapse' title='EKs'>Essential Knowledge</a><a name='EK' class='anchor'>&nbsp;</a></h2>\n";
 echo "\t\t<div id='hint-old-EKs' class='collapse'>\n";
 crawl_all_urls_for_stnds ("EK", $all_covered_EKs);
 cleanup_stnds_list($all_covered_EKs); // clean up list
@@ -305,13 +305,13 @@ function crawl_all_urls_for_stnds($input_stnd, &$input_covered_list) {
 	   case "newLO": $stnd_length = 7; break;
 	   case "newEK": $stnd_length = 9; break; */
 	}
-	
+
 	global $crawled_urls;
 	foreach ($crawled_urls as $crawled_url) {
 		$found_standards = array(); // initialize
 		crawl_page_for_standards($crawled_url, $input_stnd); //crawl page for EUs
 		global $found_standards;
-	
+
 		// Getting TG vs. Student Pages filename
 		if (strpos($crawled_url, "/lab-pages/") >= 1) {
 			$filename = substr($crawled_url, strpos($crawled_url, "/lab-pages/") + 11);
@@ -319,7 +319,7 @@ function crawl_all_urls_for_stnds($input_stnd, &$input_covered_list) {
 			$filename_noprogramming = substr($crawled_url, strpos($crawled_url, "/programming/") + 13);
 			$filename = substr($filename_noprogramming, strpos($filename_noprogramming, "/") + 1);
 		}
-		
+
 		if (count($found_standards) >= 1){
 			//report all found standards
 			global $unit;
@@ -344,7 +344,7 @@ function crawl_all_urls_for_stnds($input_stnd, &$input_covered_list) {
 function crawl_page_for_standards($input_url, $standard) {
 	global $found_standards;
 	global $all_newEKs;
-	
+
 	// Goal: load $found_standards[$i] with all the new standards on the $input_url page
     // new version for 2020 standards
     if (substr($standard, 0, -2) == "new") {
@@ -369,7 +369,7 @@ function crawl_page_for_standards($input_url, $standard) {
 			}
 		}
 	}
-    
+
 } // end crawl_for_standards definition
 
 // define function to make standards section headers
@@ -383,7 +383,7 @@ function make_section_header ($input_unit, $input_url, $standard_type) {
 		$page_type = " Student Page ";
 	}
 	if ($input_unit != $active_unit) {
-		//echo "\t\t<h3><a href='#hint-" . $standard_type . "-" . $active_unit . "-" . substr($page_type, 1, 1) .  "' data-toggle='collapse'>" . $active_unit . $page_type . $standard_type . "s</a></h3>\n";
+		//echo "\t\t<h3><a href='#hint-" . $standard_type . "-" . $active_unit . "-" . substr($page_type, 1, 1) .  "' data-bs-toggle='collapse'>" . $active_unit . $page_type . $standard_type . "s</a></h3>\n";
 		echo "\t\t<h3>" . $active_unit . $page_type . $standard_type . "s</h3>\n";
 		//echo "\t\t<div id='#hint-" . $standard_type . "-" . $active_unit . "-" . substr($page_type, 1, 1) .  "' class='collapse'>\n";
 		return $active_unit;
@@ -395,13 +395,13 @@ function crawl_for_title($input) {
 	$html = file_get_html($input);
 	$title = $html->find('title',0);
 	return $title->plaintext;
-	
+
 } // end crawl_for_title definition
 
 /*function make_section_footer($input_unit) {
 	global $active_unit;
 	if ($input_unit != $active_unit) {
-		echo "</div>\n"; // end hidden toggle div		
+		echo "</div>\n"; // end hidden toggle div
 	}
 }*/
 
@@ -409,7 +409,7 @@ function crawl_for_title($input) {
 function cleanup_stnds_list(&$input_covered_list){
 	asort($input_covered_list);
 	$input_covered_list = array_unique($input_covered_list);
-	$input_covered_list = array_values($input_covered_list); 
+	$input_covered_list = array_values($input_covered_list);
 } // end cleanup_stnds_list definition
 
 // define function display and tally covered standards (and calc what missing should be)
@@ -438,12 +438,12 @@ function show_and_count_missing_stnds (&$input_stnd_list, $input_covered_list, $
 	}
 	echo "<br /><strong>Total Found Missing " . $input_stnd . "s: " . $missing_stnds . "</strong><br />";
 	} // end show_and_count_missing_stnds definition
-	
+
 function lastchr($input) { if (strlen($input) > 0){ return substr($input, strlen($input)-1); } }
 function re_to_AP($input) { if ($input == "re") { return "Performance Tasks"; } else { return $input; } }
 
 /*// ORDERED EUs and LOs WITH UNIT NAMES FOR COLLEGE BOARD CURRIULUM MAP
-echo "\t\t<h2><a href='#hint-map' data-toggle='collapse' title='EUs and LOs for Pasting into Map'>Ordered EUs and LOs for Pasting into College Board Curriculum Map</a><a name='map' class='anchor'>&nbsp;</a></h2>\n";
+echo "\t\t<h2><a href='#hint-map' data-bs-toggle='collapse' title='EUs and LOs for Pasting into Map'>Ordered EUs and LOs for Pasting into College Board Curriculum Map</a><a name='map' class='anchor'>&nbsp;</a></h2>\n";
 echo "\t\t<div id='hint-map' class='collapse'>\n";
 echo "\t\t<table class=\"bordered\">\n";
 $EU = "";
@@ -477,12 +477,12 @@ function populate_stnds_list ($standard, $type){
 				}
 			}
 		}
-	}	
+	}
 	return $stnd_units;
 } // end populate_stnds_list definition
 
 // ORDERED LOs and EKs WITH PAGE NAMES FOR LL SPREADSHEET
-echo "\t\t<h2><a href='#hint-spreadsheet' data-toggle='collapse' title='Ordered LOs and EKs for Pasting'>Ordered LOs and EKs for Pasting into Learning List Spreadsheet</a><a name='ordered' class='anchor'>&nbsp;</a></h2>\n";
+echo "\t\t<h2><a href='#hint-spreadsheet' data-bs-toggle='collapse' title='Ordered LOs and EKs for Pasting'>Ordered LOs and EKs for Pasting into Learning List Spreadsheet</a><a name='ordered' class='anchor'>&nbsp;</a></h2>\n";
 echo "\t\t<div id='hint-spreadsheet' class='collapse'>\n";
 echo "\t\t<table class=\"bordered\">\n";
 foreach  ($all_LOs as $LO) {
@@ -503,7 +503,7 @@ foreach  ($all_LOs as $LO) {
 echo "\t\t</table>\n\t\t</div>\n";
 
 // LIST OF LOs UNDER EACH CTP FOR LL SPREADSHEET
-echo "\t\t<h2><a href='#hint-CTPs' data-toggle='collapse' title=''>List of LOs under each CTPs for Further Work before Entry into LL Spreadsheet</a><a name='CTP' class='anchor'>&nbsp;</a></h2>\n";
+echo "\t\t<h2><a href='#hint-CTPs' data-bs-toggle='collapse' title=''>List of LOs under each CTPs for Further Work before Entry into LL Spreadsheet</a><a name='CTP' class='anchor'>&nbsp;</a></h2>\n";
 echo "\t\t<div id='hint-CTPs' class='collapse'>\n";
 echo "\t\t<table class=\"bordered\">\n";
 //global $conn;

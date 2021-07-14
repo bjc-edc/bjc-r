@@ -182,7 +182,7 @@ llab.processLinks = function(data, _status, _jqXHR) {
   url = document.URL,
   // TODO: Move this to a dropdown function
   list = $(document.createElement("ul")).attr({
-    'class': 'dropdown-menu dropdown-menu-right',
+    'class': 'dropdown-menu dropdown-menu-end',
     'role': 'menu',
     'aria-labeledby': 'Topic-Navigation-Menu'
   }),
@@ -236,7 +236,7 @@ llab.processLinks = function(data, _status, _jqXHR) {
       itemContent = line.slice(sepIndex + 1);
       itemContent = $.trim(itemContent);
       ddItem = llab.dropdownItem(itemContent);
-      ddItem.addClass('dropdown-header');
+      ddItem.addClass('dropdown-header llab-dropdown-header');
       list.append(ddItem);
     }
 
@@ -270,6 +270,7 @@ llab.processLinks = function(data, _status, _jqXHR) {
     llab.url_list.push(url);
 
     // Make the current step have an arrow in the dropdown menu
+    // TODO: SET ARIA CURRENT.
     if (isCurrentPage) {
       llab.pageNum = pageCount;
       itemContent = llab.spanTag(itemContent, 'current-page-arrow');
@@ -420,7 +421,7 @@ llab.createTitleNav = function() {
             <div class="navbar-title"></div>
           </div>
           <div class="nav navbar-nav navbar-right">
-            <ul class="nav-btns btn-group"></ul>
+            <div class="btn-group js-navButtonGroup" aria-label="Navigation Links"></div>
           </div>
       </div>
       <div class="trapezoid"></div>
@@ -429,8 +430,8 @@ llab.createTitleNav = function() {
     `,
     botHTML = '<div class="full-bottom-bar"><div class="bottom-nav btn-group"></div></div>',
     topNav = $(llab.selectors.NAVSELECT),
-    buttons = "<a class='btn btn-primary backbutton arrow'>back</a>" +
-    "<a class='btn btn-primary forwardbutton arrow'>next</a>";
+    buttons = "<a class='btn btn-outline-light llab-nav-btn js-backButton'>back</a>" +
+    "<a class='btn btn-outline-light llab-nav-btn js-forwardButton'>next</a>";
 
   if (topNav.length === 0) {
     $(FULL).prepend(addToggle);
@@ -443,8 +444,7 @@ llab.createTitleNav = function() {
     return;
   }
 
-  // TODO: selector...
-  $('.nav-btns').append(buttons);
+  $('.js-navButtonGroup').append(buttons);
   if ($(llab.selectors.PROGRESS).length === 0) {
     $(document.body).append(botHTML);
     $('.bottom-nav').append(buttons);
@@ -456,43 +456,29 @@ llab.createTitleNav = function() {
 
 // Create the navigation dropdown
 llab.buildDropdown = function() {
-  var dropdown, list_header;
-  // Container div for the whole menu (title + links)
-  dropdown = $(document.createElement("div")).attr(
-    {'class': 'dropdown inline'}
-  );
-
-  // build the list header
-  list_header = $(document.createElement("button")).attr(
-    {'class': 'navbar-toggle btn btn-primary dropdown-toggle list_header',
-    'type' : 'button', 'data-toggle' : "dropdown" }
+  var dropdown = $('<div class="dropdown btn-group">'),
+      list_header = $(document.createElement("button")).attr(
+    {'class': 'btn btn-outline-light btn-xs dropdown-toggle',
+    'type' : 'button', 'data-bs-toggle' : "dropdown" }
   );
   list_header.append(hamburger);
 
   // Add Header to dropdown
   dropdown.append(list_header);
   // Insert into the top div AFTER the backbutton.
-  dropdown.insertAfter($('.navbar-default .navbar-right .backbutton'));
+  dropdown.insertAfter($('.js-navButtonGroup > .js-backButton'));
 };
 
 /** Build an item for the navigation dropdown
 *  Takes in TEXT and a URL and reutrns a list item to be added
 *  too an existing dropdown */
 llab.dropdownItem = function(text, url) {
-  var item, link;
-  // li container
-  item = $(document.createElement("li")).attr(
-    {'class': 'list_item', 'role' : 'presentation'}
-  );
+  var content = text;
   if (url) {
-    link = $('<a>').attr({'href': url, 'role' : 'menuitem'});
-    link.html(text);
-    item.append(link);
-  } else {
-    item.html(text);
+    content = `<a href=${url}>${text}</a>`;
   }
 
-  return item;
+  return $(`<li class="dropdown-item">${content}</li>`);
 };
 
 // Pages directly within a lab. Excludes 'topic' and 'course' pages.
@@ -520,7 +506,7 @@ llab.setButtonURLs = function() {
     return;
   }
 
-  var forward = $('.forwardbutton'), back = $('.backbutton');
+  var forward = $('.js-forwardButton'), back = $('.js-backButton');
   var buttonsExist = forward.length !== 0 && back.length !== 0;
 
   if (!buttonsExist & $(llab.selectors.NAVSELECT) !== 0) {
@@ -528,8 +514,8 @@ llab.setButtonURLs = function() {
     llab.createTitleNav();
   }
 
-  forward = $('.forwardbutton');
-  back     = $('.backbutton');
+  forward = $('.js-forwardButton');
+  back     = $('.js-backButton');
 
   // Disable the back button
   // TODO: switch from using `.disabled` to [disabled] in css
@@ -592,7 +578,7 @@ llab.addFeedback = function(title, topic, course) {
   var button = $(document.createElement('button')).attr({
     'class': 'btn btn-primary btn-xs feedback-button',
     'type': 'button',
-    'data-toggle': "collapse",
+    'data-bs-toggle': "collapse",
     'data-target': "#fdbk"
   }).text('Feedback'),
   innerDiv = $(document.createElement('div')).attr({

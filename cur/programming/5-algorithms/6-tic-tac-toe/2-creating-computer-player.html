@@ -6,9 +6,9 @@
         <script type="text/javascript" src="/bjc-r/utilities/gifffer.min.js"></script>
         <script type="text/javascript">window.onload = function() {Gifffer();}</script>
         <link rel="stylesheet" type="text/css" href="/bjc-r/css/bjc-gifffer.css">
-        <title>Unit 5 Lab 6: Tic-Tac-Toe with a Computer Player, Page 2</title>        
+        <title>Unit 5 Lab 6: Tic-Tac-Toe with a Computer Player, Page 2</title>
     </head>
-    
+
     <body>
         <h2>Creating a Computer Player</h2>
         <div class="todo">
@@ -16,13 +16,13 @@
             <p>MF: Project still needs to be wrapped up and updated online</p>
             <p>Students are already familiar with broadcast from 1.2.2. --MF, 6/26/20</p>
         </div>
-        
+
 		<div class="learn">
             <p><strong>On this page</strong>, you'll make the computer play against the human player.</p>
         </div>
-        
+
         <p>The game currently allows two human players to take turns playing. But you don't really need a computer to keep track of moves for two human players. We want the human player to take turns with a computer player that will move automatically. To simplify the project, we'll assume that the human player will always move first (playing X) and that the computer is playing O.</p>
-        
+
         <h3>Have the Computer Move Randomly</h3>
         <p>For now, you'll create a computer player that moves to <em>random</em> positions on the board. (It won't be a very good player, but you'll fix that once the structure of the code for the computer's move is in place.) Once the program decides where it wants to move, you'll use <code>broadcast</code> to send a message to tell the clone with the matching <var>position number</var> to record a move. (For the human player, <code>when I am clicked</code> serves this purpose, but the computer's moves aren't prompted by the user clicking a square.)</p>
         <div class="endnote">Recall that clones are temporary copies of a sprite. You learned about them in <a href="/bjc-r/cur/programming/3-lists/1-abstraction/5-building-tic-tac-toe.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment#clones" title="Unit 3 Lab 1 Page 5: Building a Tic-Tac-Toe Board">Unit 3 Lab 1 Page 5: Building a Tic-Tac-Toe Board</a>.</div>
@@ -34,7 +34,7 @@
         </p>
         <p><code>Broadcast</code> sends out a message to all the sprites in the project. Any scripts that start with <code>when I receive</code> and have a matching message in the input slot will run.</p>
         <p>The <code>message</code> reporter reports the most recent message sent out.</p>
-       
+
 		<div class="forYouToDo" id="first">
 			<ol>
                 <li>If it isn't open already, open your U5L6-TicTacToe project.</li>
@@ -65,7 +65,7 @@
                 </li>
                 <li>
                     <div class="sidenoteBig">
-                        <a href="#hint-how-vacant" data-toggle="collapse" title="How do I know which squares are vacant?">How do I know which squares are vacant?</a>
+                        <a href="#hint-how-vacant" data-bs-toggle="collapse" title="How do I know which squares are vacant?">How do I know which squares are vacant?</a>
                         <div id="hint-how-vacant" class="collapse"><p>Look in <var>board</var>.</p></div>
                     </div>
                     <div class="todo">Overly scaffolded. --MF, 6/26/20</div>
@@ -76,7 +76,7 @@
 		</div>
 
 		<h3>Give the Computer a Simple Strategy</h3>
-		
+
 		<p>Instead of having the computer move at random, you will start to give the computer some strategy. Unlike people, all squares on the tic-tac-toe board are <em>not</em> created equal. Playing in the center (position 5) or on a corner (positions 1, 3, 7, or 9) is better than playing on an edge (positions 2, 4, 6, or 8).<br />
             <img class="indent noshadow" src="/bjc-r/img/5-algorithms/position-ranking.png" alt="Tic-tac-toe grid showing happy faces in the corners and center and sad faces on the four edges" title="Tic-tac-toe grid showing happy faces in the corners and center and sad faces on the four edges" />
         </p>
@@ -90,7 +90,7 @@
                 <li>
                     Create a <img class="inline" src="/bjc-r/img/5-algorithms/best-empty-square.png" alt="best empty square" title="best empty square" /> block that reports the best position on the board that is not yet filled. Use it as input to your <code>broadcast</code> instruction in place of <code>random</code>.
                     <div class="endnote">
-                        <a href="#hint-empty" data-toggle="collapse" title="Click for a hint about best empty square.">Click for a hint about <code>best empty square</code>.</a>
+                        <a href="#hint-empty" data-bs-toggle="collapse" title="Click for a hint about best empty square.">Click for a hint about <code>best empty square</code>.</a>
                         <div id="hint-empty" class="collapse"><img class="indent" src="/bjc-r/img/5-algorithms/empties.png" alt="list (5, 1, 3, 7, 9, 2, 4, 6, 8)" title="list (5, 1, 3, 7, 9, 2, 4, 6, 8)"></div>
                     </div>
                 </li>
@@ -98,6 +98,6 @@
                 <img class="inline" src="/bjc-r/img/icons/save-now.png" alt="Save your work" title="Save your work" />
 			</ol>
 		</div>
-   
+
     </body>
 </html>

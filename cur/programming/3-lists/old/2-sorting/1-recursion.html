@@ -17,7 +17,7 @@
             <p><strong>In this lab</strong> you will sort your contact list alphabetically by name.</p>
             <p><strong>On this page</strong> you will review the technique of <em>recursion</em>.</p>
         </div>
-        
+
         <h3>Recursive Graphics</h3>
         <div class="forYouToDo" id="first">
             <ol>
@@ -33,7 +33,7 @@
                     <p><br />
                     A <strong>top-level script</strong> is one that's in the scripting area, not inside the definition of a block.</p>
                     <p>An <strong>invocation</strong> is a use of a block. For example, <img src="/bjc-r/img/3-lists/7+8+1.png" alt="(7+8)+1"> makes two invocations of <code>+</code>. The verb form is <strong>invoke</strong>.</p>
-                </div>              
+                </div>
                 <img class="imageRight" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
                 <li>When you invoke <code>nested triangle</code> from a top-level script, how many times does <em>that invocation</em> (not counting invocations within invocations) run the purple block that invokes <code>nested triangle</code>?</li>
                 <img class="imageRight" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
@@ -47,13 +47,13 @@
                 <li>What is the purpose of the <code>if</code> block in this code? (If you're not sure, you might try editing <code>nested triangle</code> to remove it, and see what happens.)</li>
             </ol>
         </div>
-        
+
         <div class="takeNote">
             <p>A recursive <em>problem</em> (the thing you're trying to do, not the code to do it) is one in which the desired result includes a smaller version of itself, such as the green (or red or blue) fractal inside the bigger fractal.  A recursive <em>procedure</em> (the actual code) is one that calls itself inside its definition. Do you see why a recursive procedure is likely to be a good solution to a recursive problem?</p>
             <p>If a recursive procedure calls itself, and that call also calls itself, and <em>that</em> call also calls itself... the result will be an <em>infinite loop</em>, which means that the program will keep running forever (or until it runs out of memory). To avoid that bug, every recursive procedure must have a <em>base case,</em> a simple input for which the procedure can do its job without calling itself. (The base case of <code>nested triangle</code> happens when <var>size</var> ≤ 2; in that case the procedure doesn't have to do anything.)</p>
         </div>
         <img class="imageRight" src="/bjc-r/img/icons/save-mini.png" alt="Save Your Work" title="Save Your Work" />
-            
+
         <h3>Recursive Reporters</h3>
         <p>The general pattern for a recursive <em>command</em> is</p>
         <p><img src="/bjc-r/img/8-recursive-reporters/rec-command.png" alt="if (base case?) then [do something simple] else [[do something] [recursive call] [do something]]"></p>
@@ -71,13 +71,13 @@
                If you'd like to write the <code>sum of</code> block with no additional help, do it now.</span>  Otherwise, fill in the three blanks in the definition this way:
                     <ol type="a">
                         <li><strong>What should the base case test be?</strong> What's the smallest possible list of numbers? Fill in the hexagonal input slot in the <code>if</code> block.</li>
-                        <li><strong>What should your procedure report in that  case?</strong> <a href="#hint-1" data-toggle="collapse">Super big hint if you can't get it to work.</a>
+                        <li><strong>What should your procedure report in that  case?</strong> <a href="#hint-1" data-bs-toggle="collapse">Super big hint if you can't get it to work.</a>
 <div id="hint-1" class="collapse">The block is supposed to report a number.</div></li>
                         <li>
                             <strong>What should your procedure report in the recursive case?</strong> You have to find a <em>smaller, similar subproblem</em> just as you did for the triangle fractal. Generally, when writing recursive blocks with lists as input, the most common idea is to split the list into <em>its first item</em> (<img src="/bjc-r/img/3-lists/item-1-of.png" alt="item 1 of">) and <em>all the other items</em> (<img src="/bjc-r/img/3-lists/all-but-first.png" alt="all but first of">).
                             <div class="narrower"><img src="/bjc-r/img/3-lists/item-1-of.png" alt="item 1 of"> and <img src="/bjc-r/img/3-lists/all-but-first.png" alt="all but first of"> are the main <em>selectors</em> for lists.</div>
                             <ol style="list-style-type: lower-roman;">
-                                <li>What are you going to do with <code>all but first of</code> the list? <a href="#hint-2" data-toggle="collapse">You really don't need this hint.</a>
+                                <li>What are you going to do with <code>all but first of</code> the list? <a href="#hint-2" data-bs-toggle="collapse">You really don't need this hint.</a>
 <div id="hint-2" class="collapse">What makes this a <em>recursive</em> procedure?</div></li>
                                 <li>How are you going to combine the first item with the result of part (i) to get the overall result?</li>
                             </ol>
@@ -86,7 +86,7 @@
                 </li>
 </ol></div>
 
-Combining the items of a list is such a common thing to do that there's a higher order function for it.                         
+Combining the items of a list is such a common thing to do that there's a higher order function for it.
 <div class="forYouToDo"><ol start="7">
  <img class="imageRight" src="/bjc-r/img/icons/import-tools-mini.png" alt="Import Tools" title="Import Tools" />
               <li>
@@ -103,7 +103,7 @@ Combining the items of a list is such a common thing to do that there's a higher
                     <img class="indent" src="/bjc-r/img/3-lists/join.png" alt="join"> <img src="/bjc-r/img/3-lists/join-words.png" alt="join words"><br />
                     Among blocks you might write yourself, there are only two likely candidates:<br />
                     <img class="indent" src="/bjc-r/img/3-lists/max.png" alt="max"> <img src="/bjc-r/img/3-lists/min.png" alt="min"><br />
-                    <a data-toggle="collapse" href="#hint-3">Why so few?</a>
+                    <a data-bs-toggle="collapse" href="#hint-3">Why so few?</a>
                     <div id="hint-3" class="collapse">
                     	The function has to be <em>associative</em>, meaning that it doesn't matter what order you group the items in; (7&thinsp;+&thinsp;8)&thinsp;+&thinsp;1 is the same as 7&thinsp;+&thinsp;(8&thinsp;+&thinsp;1) (work it out yourself), but (7&thinsp;−&thinsp;8)&thinsp;−&thinsp;1 is different from 7&thinsp;−&thinsp;(8&thinsp;−&thinsp;1).
                     	So <img src="/bjc-r/img/3-lists/combine-minus.png" alt="combine with (-) items of (list 7 8 1)"> would be ambiguous.
@@ -111,7 +111,7 @@ Combining the items of a list is such a common thing to do that there's a higher
                 </div>
                 <li>
                     Rewrite <code>sum of</code> using <code>combine</code>.</li>
-                    <div class="endnote"><a href="#hint-4" data-toggle="collapse">So why'd you make us do it the hard way?</a>
+                    <div class="endnote"><a href="#hint-4" data-bs-toggle="collapse">So why'd you make us do it the hard way?</a>
 <div id="hint-4" class="collapse">Well, for one thing, some people find recursion more natural than higher order functions.  But also, the kinds of list reporter patterns that happen often enough in programs so that people have abstracted them into higher order functions tend to be the ones that are easiest to write recursively.  On the next page you'll write a recursive operation for which there is no higher order function, but we wanted you to start with easier examples while getting to know how to write recursive reporters.</div></div>
                 <li>
                     Build this block:<br />
@@ -126,14 +126,14 @@ Combining the items of a list is such a common thing to do that there's a higher
                 <img class="imageRight" src="/bjc-r/img/icons/save-now.png" alt="Save your work" title="Save your work" />
             </ol>
         </div>
-        
+
         <div class="takeItFurther">
         	<ol type="A">
                 <li>
                     An <strong>acronym</strong> is a "word" made up of the first letters of every capitalized word in a phrase. For example, the acronym for United States of America is USA, and SUNY is an acronym for State University of New York. Create a reporter block that takes a phrase as input and reports an acronym made of the first letters of <em>only from the capitalized words</em>. It should work like this:<br/>
                     <img class="indent"	 src="/bjc-r/img/3-lists/acronym_BJC.png" title="Beauty and Joy of Computing: BJC" alt="Beauty and Joy of Computing: BJC"  />
                     <img class="indent" src="/bjc-r/img/3-lists/acronym_NYC.png" title="New York City: NYC" alt="New York City: NYC"  /> <br />
-                    The steps below suggest <em>one</em> way: 
+                    The steps below suggest <em>one</em> way:
                     <ol style="list-style-type:lower-roman;">
                         <img class="imageRight" src="/bjc-r/img/icons/import-tools.png" alt="Import Tools" title="Import Tools" />
                         <li>The input phrase is a string of characters. Break it up into a list of words. </li>
@@ -152,7 +152,7 @@ Combining the items of a list is such a common thing to do that there's a higher
                 </li>
             </ol>
         </div>
-        
-    
+
+
     </body>
 </html>

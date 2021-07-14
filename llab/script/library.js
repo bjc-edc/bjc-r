@@ -222,9 +222,9 @@ llab.strings.goMain = 'Go to Table of Contents';
 // &#8230; is ellipsis
 llab.strings.clickNav = 'Click here to navigate&nbsp;&nbsp;';
 //
-llab.fragments.bootstrapSep = '<li class="divider list_item" role="presentation"></li>';
+llab.fragments.bootstrapSep = '<li><hr class="dropdown-divider"></li>';
 llab.fragments.bootstrapCaret = '<span class="caret"></span>';
-llab.fragments.hamburger = '<span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>';
+llab.fragments.hamburger = '<span class="navbar-toggler-icon"></span>';
 // LLAB selectors for common page elements
 llab.selectors.FULL = '.full';
 llab.selectors.NAVSELECT = '.llab-nav';

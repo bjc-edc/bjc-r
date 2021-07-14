@@ -10,12 +10,12 @@
         <a class="course_link" href="/bjc-r/topic/topic.html?topic=nyc_bjc/4-teaching-guide.topic&course=bjc4nyc_teacher.html&novideo&noassignment" title="Go to Unit 4 Teacher Guide Overview">Go to Unit 4 Teacher Guide Overview</a>
 
         <h2>Lab Page Solutions</h2>
-        
+
         <h4><strong>Lab 1: Computer Networks</strong></h4>
         <div>
 			<ul>
                 <li>
-                    <a href="#hint-Internet" data-toggle="collapse" class="collapsed expansion-menu" title="Lab 1 Page 1: What Is the Internet?">Page 1: What Is the Internet?</a>
+                    <a href="#hint-Internet" data-bs-toggle="collapse" class="collapsed expansion-menu" title="Lab 1 Page 1: What Is the Internet?">Page 1: What Is the Internet?</a>
                     <div id="hint-Internet" class="collapse">
                         <ul>
                             <li>
@@ -26,12 +26,12 @@
                     </div>
                 </li>
                 <li>
-                    <a href="#hint-redundancy" data-toggle="collapse" class="collapsed expansion-menu" title="Lab 1 Page 2: Network Redundancy">Page 2: Network Redundancy</a>
+                    <a href="#hint-redundancy" data-bs-toggle="collapse" class="collapsed expansion-menu" title="Lab 1 Page 2: Network Redundancy">Page 2: Network Redundancy</a>
                     <div id="hint-redundancy" class="collapse">
                         <ul>
                             <li>Exercise 1: The animation shows that there are many possible paths between two nodes on a network with redundancy, and if one node fails, other nodes can still communicate.  (It's worth noting that this picture is partly unrealistic with respect to the Internet.  As noted on page 1 of this lab, <em>most</em> of the computers on the Internet have just one connection, to an ISP.  If that connection fails, there's no way to route around it.  This animation is more realistic as a model of the tangle in the middle of the Internet, in which ISPs talk to each other.  But that's the part where redundancy is most important.  If your connection to your ISP fails, that's bad for you, but doesn't affect anyone else.  But if AT&amp;T can't talk to Verizon, that would be a huge problem.)</li>
                             <li>
-                                Exercise 3: 
+                                Exercise 3:
                                 <ol>
                                     <li>One way to think about this is to note that every once in a while your TV loses a frame of the video, but that's not a disaster, because your brain provides the missing continuity.  But in a data transfer, a similar glitch would tell your bank to send Amazon $100,027.95 instead of $27.95.  It's to avoid such problems that the Internet was designed for fault tolerance.  The point about the millions of computers is that your TV hardly ever glitches, but <em>someone's</em> TV glitches every second, round the clock.  And the same with computers.  Every second, someone's data is corrupted in transit, and the network protocols have to catch this and correct the problem.</li>
                                     <li>This page is about fault tolerance through redundant hardware.  But software also contributes to fault tolerance:  Error checking and correction protocols, the ability to change routing in the middle of a connection, and redundant storage of routing information are examples.</li>
@@ -42,7 +42,7 @@
                     </div>
                 </li>
 				<li>
-                    <a href="#hint-protocols" data-toggle="collapse" class="collapsed expansion-menu" title="Lab 1 Page 3: Internet Abstractions and Open Protocols">Page 3: Internet Abstractions and Open Protocols</a>
+                    <a href="#hint-protocols" data-bs-toggle="collapse" class="collapsed expansion-menu" title="Lab 1 Page 3: Internet Abstractions and Open Protocols">Page 3: Internet Abstractions and Open Protocols</a>
                     <div id="hint-protocols" class="collapse">
                         <ul>
                             <li>Exercise 1: This is an open-ended question whose answer could fill a book, but here's a fairly brief answer:  The stream of data is broken into packets (usually by TCP but maybe by IP) so that the entire stream doesn't have to be resent if an error occurs.  If it's a TCP packet, then the TCP software attaches a serial number to it, so that TCP at the receiver can reassemble the packets in the correct order.  The IP software in the user's computer combines the packet data with a packet <em>header</em> that says where the packet should go (the other computer's IP address and a <em>port</em> number to address the packet to a particular program running on that computer).  The augmented packet is sent to the user's local router, and from there to the ISP, where routing magic happens so that it arrives at the recipient computer.  That computer's IP software figures out which process should handle this packet, probably a TCP process, which does error checking, asks the sender to resend missing packets (after waiting a few minutes), and sends the reconstructed data stream to another process that knows what to do with it.</li>
@@ -65,7 +65,7 @@
         <div>
 			<ul>
                 <li>
-                    <a href="#hint-cryptography" data-toggle="collapse" class="collapsed expansion-menu" title="Lab 2 Page 1: Cryptography">Page 1: Cryptography</a>
+                    <a href="#hint-cryptography" data-bs-toggle="collapse" class="collapsed expansion-menu" title="Lab 2 Page 1: Cryptography">Page 1: Cryptography</a>
                     <div id="hint-cryptography" class="collapse">
                         <ul>
                             <li>Exercise 4: The decryption algorithm is exactly the same as the encryption algorithm, but using the negative of the original shift amount.</li>
@@ -76,15 +76,15 @@
                 </li>
 				<li><a href="http://snap.berkeley.edu/snapsource/snap.html#present:Username=bjcsolutions2020&ProjectName=U4L2p2-CaesarCipher&editMode" class="fa-external-link-alt" title="Lab 2 Page 2: Caesar Cipher Project" target="_blank">Page 2: Caesar Cipher Project</a></li>
 				<li>
-                    <a href="#hint-public-key-encryption" data-toggle="collapse" class="collapsed expansion-menu" title="Lab 2 Page 3: Public Key Encryption">Page 3: Public Key Encryption</a>
-                    <div id="hint-public-key-encryption" class="collapse">                    
+                    <a href="#hint-public-key-encryption" data-bs-toggle="collapse" class="collapsed expansion-menu" title="Lab 2 Page 3: Public Key Encryption">Page 3: Public Key Encryption</a>
+                    <div id="hint-public-key-encryption" class="collapse">
                         <ul>
                             <li>Our intention is not to require the students to understand the mathematics of any particular cryptographic function, but they should understand the general idea of a "one-way function": a function that's fast to compute, but whose <em>inverse</em> is slow (exponential time) to compute.  (Recent improvements in security have mostly come not from entirely new functions, but simply from increasing key length.  For decades the standard was 1024-bit keys, but it turns out that the NSA has the computer capacity to break those, so now 2048-bit keys are used by people who want real security.  Even the NSA won't be able to break those unless they discover a weakness in the actual mathematical function used.)  The public key enables the forward direction of the cryptographic function, but without the private key the inverse function is intractable.  Everyone trusts public key cryptography enough to bank and shop online, which would otherwise be inconceivable.</li>
                         </ul>
                     </div>
 				</li>
 				<li>
-                    <a href="#hint-who-cares" data-toggle="collapse" class="collapsed expansion-menu" title="Lab 2 Page 4: Who Cares About Encryption?">Page 4: Who Cares About Encryption?</a>
+                    <a href="#hint-who-cares" data-bs-toggle="collapse" class="collapsed expansion-menu" title="Lab 2 Page 4: Who Cares About Encryption?">Page 4: Who Cares About Encryption?</a>
                     <div id="hint-who-cares" class="collapse">
                         <ul>
                             <li>
@@ -99,7 +99,7 @@
                     </div>
 				</li>
 				<li>
-                    <a href="#hint-security-risks" data-toggle="collapse" class="collapsed expansion-menu" title="Lab 2 Page 5: Security Risks">Page 5: Security Risks</a>
+                    <a href="#hint-security-risks" data-bs-toggle="collapse" class="collapsed expansion-menu" title="Lab 2 Page 5: Security Risks">Page 5: Security Risks</a>
                     <div id="hint-security-risks" class="collapse">
                         <ul>
                             <li>Exercise 1: The broad categories of ways to get to your data are physical access (breaking into your house), "social engineering" (convincing you or some human gatekeeper to provide a password or other access&mdash;this includes phishing), and malware (criminal software that attacks your computer from the Internet).</li>
@@ -116,7 +116,7 @@
         <div>
 			<ul>
 				<li>
-                    <a href="#hint-bits" data-toggle="collapse" class="collapsed expansion-menu" title="Lab 4 Page 1: Bits">Page 1: Bits</a>
+                    <a href="#hint-bits" data-bs-toggle="collapse" class="collapsed expansion-menu" title="Lab 4 Page 1: Bits">Page 1: Bits</a>
                     <div id="hint-bits" class="collapse">
                         <ul>
                             <li>Exercise 1: No solutions are needed.</li>
@@ -132,13 +132,13 @@
                     </div>
                 </li>
 				<li>
-                    <a href="#hint-binary-sequences" data-toggle="collapse" class="collapsed expansion-menu" title="Lab 4 Page 2: Binary Sequences">Page 2: Binary Sequences</a>
+                    <a href="#hint-binary-sequences" data-bs-toggle="collapse" class="collapsed expansion-menu" title="Lab 4 Page 2: Binary Sequences">Page 2: Binary Sequences</a>
                     <div id="hint-binary-sequences" class="collapse">
                         <ul>
                             <li>Exercise 1: No solutions are needed.</li>
                             <li>
                                 Exercise 2: For the text "Beauty and Joy of Computing," the outputted bitstream would be:
-                                <p class="indent"><code class="break">010000100110010101100001011101010111010001111001001000000110000101101110011001000010000001001010011011110111100100100000011011110110011000100000010000110110111101101101011100000111010101110100011010010110111001100111</code><br /></p>                            
+                                <p class="indent"><code class="break">010000100110010101100001011101010111010001111001001000000110000101101110011001000010000001001010011011110111100100100000011011110110011000100000010000110110111101101101011100000111010101110100011010010110111001100111</code><br /></p>
                                 Students will have their own bitstream depending on their input text. They should not have quotes around the bits.
                             </li>
                             <li>Exercise 3: The original text should be reported back. If you <em>change</em> one bit, then one character will be changed. If you <em>add</em> one bit, then all of the characters encoded <em>after</em> that bit will be changed in the output. For example, "Beauty and Joy of Computing" might become <img class="inline noshadow" src="/bjc-r/img/4-internet/add-1-bit.jpg" alt="output watcher showing 'Beauty anr %7' and then unusual characters some of which cannot be entered into a web page" title="output watcher showing 'Beauty anr %7' and then unusual characters some of which cannot be entered into a web page" />.</li>
@@ -150,7 +150,7 @@
                             <li>Exercise 6: The output is <img class="inline noshadow" src="/bjc-r/img/4-internet/text-as-image-solution.jpg" alt="output watcher showing unusual characters some of which cannot be entered into a web page" title="output watcher showing unusual characters some of which cannot be entered into a web page" />. It is not meaningful as text because the binary sequence encoded was originally an image.</li>
                             <li>Exercise 7: Self-check exercises have response feedback built in.</li>
                             <li>
-                                Exercise 8 (If There Is Time): 
+                                Exercise 8 (If There Is Time):
                                 <ul>
                                     <li>Working from the inside out, the <code>translate text to binary sequence</code> block uses <code>translate text to Unicode list</code> to get a list of the Unicode numbers for the characaters in the input string. The list is helpful because it is then used with the higher order function <code>map</code> to translate these into binary using the <code>translate decimal to binary</code> function. Next, <code>map</code> and <code>pack 8-bit byte</code> take that list adds enough zeros in front of each numeral to make a full byte. Then, <code> list &rightarrow; word</code> converts those bytes into a single string, <code>join</code> wraps quotes around the whole thing so that Snap<em>!</em>doesn't remove any leading zeros, and the quoted binary sequence is reported.</li>
                                     <li>Working from the inside out, the <code>translate binary sequence to text</code> block uses <code>split binary sequence into list of bytes</code> to cut the binary sequence up into a list of bytes&mdash;one for each character. <code>Map</code> and <code>translate binary to decimal</code> then turn that into a list of Unicode values for each character. And then <code>map</code> and <code>unicode as letter</code> turn that into a list of charaters. Finally, <code>list &rightarrow; word</code> converts that into a text string, which is reported.</li>
@@ -160,7 +160,7 @@
                     </div>
                 </li>
 				<li>
-                    <a href="#hint-representing-whole-numbers" data-toggle="collapse" class="collapsed expansion-menu" title="Lab 4 Page 3: Representing Whole Numbers">Page 3: Representing Whole Numbers</a>
+                    <a href="#hint-representing-whole-numbers" data-bs-toggle="collapse" class="collapsed expansion-menu" title="Lab 4 Page 3: Representing Whole Numbers">Page 3: Representing Whole Numbers</a>
                     <div id="hint-representing-whole-numbers" class="collapse">
                         <ul>
                             <li>
@@ -176,7 +176,7 @@
                     </div>
 				</li>
 				<li>
-                    <a href="#hint-floating-point" data-toggle="collapse" class="collapsed expansion-menu" title="Lab 4 Page 4: Floating Point">Page 4: Floating Point</a>
+                    <a href="#hint-floating-point" data-bs-toggle="collapse" class="collapsed expansion-menu" title="Lab 4 Page 4: Floating Point">Page 4: Floating Point</a>
                     <div id="hint-floating-point" class="collapse">
                         <ul>
                             <li>
@@ -203,7 +203,7 @@
                     </div>
 				</li>
 				<li>
-                    <a href="#hint-binary-representation" data-toggle="collapse" class="collapsed expansion-menu" title="Lab 4 Page 5: Binary Representation">Page 5: Binary Representation</a>
+                    <a href="#hint-binary-representation" data-bs-toggle="collapse" class="collapsed expansion-menu" title="Lab 4 Page 5: Binary Representation">Page 5: Binary Representation</a>
                     <div id="hint-binary-representation" class="collapse">
                         <ul>
                             <li>
@@ -242,8 +242,8 @@
 				<li>Page 6: Data Compression (Self-check exercises have response feedback built in.)</li>
 			</ul>
 		</div>
-		
-        
+
+
         <div class="todo">
         <h3>Assignments</h3>
 		<div>
@@ -261,7 +261,7 @@
 		<div>
         <div class="todo">From OLD Lab 1 (Was Lab 2 Communication Protocols) TG page. Do we want to keep this? --MF, 5/30/20</div>
         	<ul>
-				<li>Assessment Idea: Draw a diagram showing some of the process and protocols involved in sending an HTTP request and receiving the response.</li>               
+				<li>Assessment Idea: Draw a diagram showing some of the process and protocols involved in sending an HTTP request and receiving the response.</li>
 				<li>
                 	Several pages in this lab suggest a brief reading from the <a href="http://www.bitsbook.com/wp-content/uploads/2008/12/B2B_3.pdf#page=319" target="_blank" title="APPENDIX The Internet as System and Spirit"><em>Blown to Bits</em> appendix</a> in the "If There Is Time" sections:
                     <ul>
@@ -269,7 +269,7 @@
                         <li>Page 2: Reliable Transmission on Unreliable Networks: TCP. <a href="http://www.bitsbook.com/wp-content/uploads/2008/12/B2B_3.pdf#page=324" target="_blank" title="Blown to Bits pages 306-309"><em>Blown to Bits</em> pages 306-309</a>.</li>
                         <li>Page 3: A Hierarchy of Open Protocols. <a href="http://www.bitsbook.com/wp-content/uploads/2008/12/B2B_3.pdf#page=327" target="_blank" title="Blown to Bits pages 309-312"><em>Blown to Bits</em> pages 309-312</a></li>
                         <li>Page 4: Who's in Charge of the Internet? <a href="http://www.bitsbook.com/wp-content/uploads/2008/12/B2B_3.pdf#page=330" target="_blank" title="Blown to Bits pages 312-316"><em>Blown to Bits</em> pages 312-316</a>. Ideally, this assignment will be read before the class period that covers that lab page.
-                        </li> 
+                        </li>
                     </ul>
                 </li>
         	</ul>
@@ -284,7 +284,7 @@
                     </ul>
                 </li>
             </ul>
-        </div>			
+        </div>
 
         <div>
             <div class="todo">From Lab 3 TG page. Do we want to keep this? --MF, 5/16/20</div>
@@ -315,7 +315,7 @@
         <h3>Assessment Ideas</h3>
         <h4><strong>Written Assessment Item Bank</strong></h4>
         <p>
-            Adapt this collection of assessment items to your needs. It includes several multiple choice questions similar to those on the AP CSP practice exam and several short-answer questions. 
+            Adapt this collection of assessment items to your needs. It includes several multiple choice questions similar to those on the AP CSP practice exam and several short-answer questions.
             <ul>
                 <li><a href="https://docs.google.com/document/d/1DhAORgwcM65Pxpcb_8q83PbUbF5rvduFVxH0aWKqUq4" target="_blank" title="Unit 4 Assessment Items">Unit 4 Assessment Items</a> (You will need to download this document or save it to your own account in order to edit it.) </li>
                 <li><a href="https://docs.google.com/document/d/1jD9BYzUI2FE5xT0MXI8ywreTaC4DDSwKlTg4zUm_9-A" target="_blank" title="Unit 4 Assessment Items Solutions">Unit 4 Assessment Items Solutions</a></li>
@@ -325,12 +325,8 @@
         <div class="todo">
         <h3>Assessment Options</h3>
         <div class="todo">MARY: These links all need title tags (and check future units too) --MF, 5/16/20</div>
-        <p><!--The Internet is vast and ever-evolving, so it is not an easy task to cover it in a single unit.-->  An alternative approach is a divide-and-conquer <a href="/bjc-r/cur/teaching-guide/U4/assessment/u4-collaborativeproject.html" target="_blank">Collaborative Class Project</a>. Each student, perhaps with a partner, will prepare a 5-minute presentation on a particular topic of interest, drawn from the AP CSP standards. </p>	        	
+        <p><!--The Internet is vast and ever-evolving, so it is not an easy task to cover it in a single unit.-->  An alternative approach is a divide-and-conquer <a href="/bjc-r/cur/teaching-guide/U4/assessment/u4-collaborativeproject.html" target="_blank">Collaborative Class Project</a>. Each student, perhaps with a partner, will prepare a 5-minute presentation on a particular topic of interest, drawn from the AP CSP standards. </p>
         </div>
 
 	</body>
 </html>
-
-
-
-
