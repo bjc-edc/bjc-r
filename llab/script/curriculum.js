@@ -387,6 +387,7 @@ llab.canShowDevComments = function () {
 // Create the 'sticky' title header at the top of each page.
 llab.createTitleNav = function() {
   var addToggle = "";
+
   if (llab.canShowDevComments()) {
     addToggle = $('<button>').addClass('imageRight btn btn-default')
     .click(llab.toggleDevComments)
