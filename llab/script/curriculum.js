@@ -377,22 +377,27 @@ llab.toggleDevComments = function() {
 };
 
 llab.hideAllDevComments = function() {
+  alert('HIDE ALL')
   $('.todo, .comment, .commentBig').hide();
 }
 
 llab.canShowDevComments = function () {
+  return false;
   return ['localhost', '127.0.0.1'].includes(window.location.hostname);
 }
 
 // Create the 'sticky' title header at the top of each page.
 llab.createTitleNav = function() {
   var addToggle = "";
+
   if (llab.canShowDevComments()) {
     addToggle = $('<button>').addClass('imageRight btn btn-default')
     .click(llab.toggleDevComments)
     .text('Toggle developer todos/comments (red boxes)');
   } else {
-    llab.hideAllDevComments();
+    alert('DEV COMMENTS SHOULD NOT BE SHOWN')
+    // Delay hiding until everything is ready. (Shouldn't be needed?)
+    $(window).load(llab.hideAllDevComments);
   }
 
   // The BJC Logo takes you to the course ToC, or the BJC index when there is no course defined.
