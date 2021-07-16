@@ -126,7 +126,7 @@ def binary_search(value, data):
 					programming, <code>x=3</code> is telling the reader that
 					the value of <var>x</var> <em>is</em> 3, not a command
 					to <em>change</em> the value to 3.  In other words, it
-					means <img src="/bjc-r/img/blocks/equal.png" alt='= block' title='= block' />.
+					means <img src="/bjc-r/img/5-algorithms/x-is-3.png" alt='= block' title='= block' />.
 					
 					The Python equivalent of the
 					Snap<em>!</em> <code>=</code> predicate is called
@@ -295,7 +295,7 @@ else:
 
 				<tr><td><img src="/bjc-r/img/5-algorithms/join.png" alt="<code>join (hello) (world)</code> block" title="<code>join (hello) (world)</code> block" /></td>
 				<td><pre>" ".join(["hello","world"])</pre> &nbsp; or <pre>"hello " + "world"</pre></td>
-				<td><pre>"hello " + "world"</pre></td></tr>
+				<td><pre>"hello".concat(" ","world")</pre> &nbsp; or <pre>"hello " + "world"</pre></td></tr>
 
 				<tr><td><img src="/bjc-r/img/5-algorithms/set.png" alt="<code>set (foo) to (87)</code> block" title="<code>set (foo) to (87)</code> block" /></td>
 				<td><pre>foo = 87</pre></td>
@@ -331,7 +331,7 @@ else:
 
 			<p>This is just a small sample of the number of primitive commands
 			and functions in any programming language.  Luckily, you don't have
-			to memorize all of them; you can do a web search for "javascript
+			to memorize them; you can do a web search for "javascript
 			list item," for example, to learn any particular one as you need
 			it.</p>
 
@@ -482,65 +482,10 @@ search arr x lo hi
 		<p>This looks very different from the other programs you've seen,
 		but don't throw up your hands in despair.  You're <em>not</em>
 		expected to be able to learn to program in Haskell in just a few
-		days, but you can read this example with some help.</p>
+		days, but you can read this example with some help.
+		Start with the fourth line, <code>search arr x lo hi</code>.</p>
 
-		<p>The two lines with <code>Ord a</code> and so on are <em>type
-		declarations.</em> Such declarations aren't a necessary part of a
-		functional language, but the main functional languages do use them.
-		The "a" on those lines is the name of a data type that's being created
-		in each declaration.  <code>Find</code> and <code>search</code> are of
-		type "function," but not any old function.  <code>Find</code> is of
-		type "function that takes as inputs an array (like a Snap<em>!</em>
-		list) of values of type
-		<code>a</code>, which has to be an Ordered type (because binary
-		search doesn't make sense otherwise), and a single value
-		of type <code>a</code>, and returns either an integer or nothing at
-		all."  Looking at this another way, each of those lines creates an
-		abstract data type.  (The name <code>a</code> is local to
-		each function.)</p>
-
-		<p><code>Find</code> is the main procedure; <code>search</code>
-		is a helper function.  Note that <code>find</code> takes two
-		inputs, <var>arr</var> for the array and <var>x</var> for
-		the value to be found.  <code>Search</code>, though, takes
-		<em>four</em> inputs: <var>arr</var>, <var>x</var>,
-		<var>lo</var> for the lowest array index to examine, and
-		<var>hi</var> for the highest index.  So how can
-		<code>find</code> say <code>(search arr x)</code>, calling
-		<code>search</code> with only two inputs?</p>
-
-		<p>This is part of what it means to take function-as-data
-		seriously.  When you call any Haskell function with fewer
-		inputs than it expects, it returns <em>a function</em> of
-		the remaining inputs, sort of as if when you defined<br />
-		<img src="/bjc-r/img/5-algorithms/search4.png"
-		alt="search reporter block with four inputs: arr, x, lo, hi"
-		title="search reporter block with four inputs: arr, x, lo, hi"
-		/><br />
-		you automatically also got this one:<br />
-		<img src="/bjc-r/img/5-algorithms/search2.png"
-		alt="search reporter block with two inputs: arr, x;
-		reporting an anonymous function (gray ring) that takes
-		two inputs named lo and hi, and calls the four-input search
-		with arr, x, lo, and hi"
-		title="search reporter block with two inputs: arr, x;
-		reporting an anonymous function (gray ring) that takes
-		two inputs named lo and hi, and calls the four-input search
-		with arr, x, lo, and hi" /><br />
-		and similarly for one-input and three-input versions.
-		Turning a function into a function with fewer inputs is
-		called currying it, named after Haskell Curry, a
-		mathematician who contributed to the early development
-		of lambda calculus, the mathematical basis for functional
-		programming.  So the call to <code>uncurry</code> turns
-		the two-input function back into a four-input function by
-		supplying the missing two inputs, namely
-		<code>(bounds arr)</code>, a function call that
-		reports the lowest and
-		highest indices of the array, which will be 0 and
-		the array length minus 1.</p>
-
-		<p>In <code>search</code> you'll also see functional programming
+		<p>In <code>search</code> you'll see functional programming
 		making a difference in the programming style.  The Snap<em>!</em>
 		version of the program is organized as a <code>repeat until</code>
 		loop, in which the values of the variables <var>low</var>,
@@ -577,6 +522,67 @@ search arr x lo hi
 		value you want is more than the value at the midpoint, search
 		from the midpoint to the end of the list.  Otherwise, search
 		from the beginning of the list to the midpoint.</p>
+
+		<div class="endnote">
+			<a href="#hint-haskell" data-toggle="collapse" title="Click for more details on functional programming."><img class="inline" src="/bjc-r/img/icons/read-more-mini.png" alt="Read More" title="Read More" />Could you tell me more about functional programming?</a>
+			<div id="hint-haskell" class="collapse">
+				<p>The two lines with <code>Ord a</code> and so on are <em>type
+				declarations.</em> Such declarations aren't a necessary part of a
+				functional language, but the main functional languages do use them.
+				The "a" on those lines is the name of a data type that's being created
+				in each declaration.  <code>Find</code> and <code>search</code> are of
+				type "function," but not any old function.  <code>Find</code> is of
+				type "function that takes as inputs an array (like a Snap<em>!</em>
+				list) of values of type
+				<code>a</code>, which has to be an Ordered type (because binary
+				search doesn't make sense otherwise), and a single value
+				of type <code>a</code>, and returns either an integer or nothing at
+				all."  Looking at this another way, each of those lines creates an
+				abstract data type.  (The name <code>a</code> is local to
+				each function.)</p>
+
+				<p><code>Find</code> is the main procedure; <code>search</code>
+				is a helper function.  Note that <code>find</code> takes two
+				inputs, <var>arr</var> for the array and <var>x</var> for
+				the value to be found.  <code>Search</code>, though, takes
+				<em>four</em> inputs: <var>arr</var>, <var>x</var>,
+				<var>lo</var> for the lowest array index to examine, and
+				<var>hi</var> for the highest index.  So how can
+				<code>find</code> say <code>(search arr x)</code>, calling
+				<code>search</code> with only two inputs?</p>
+
+				<p>This is part of what it means to take function-as-data
+				seriously.  When you call any Haskell function with fewer
+				inputs than it expects, it returns <em>a function</em> of
+				the remaining inputs, sort of as if when you defined<br />
+				<img src="/bjc-r/img/5-algorithms/search4.png"
+				alt="search reporter block with four inputs: arr, x, lo, hi"
+				title="search reporter block with four inputs: arr, x, lo, hi"
+				/><br />
+				you automatically also got this one:<br />
+				<img src="/bjc-r/img/5-algorithms/search2.png"
+				alt="search reporter block with two inputs: arr, x;
+				reporting an anonymous function (gray ring) that takes
+				two inputs named lo and hi, and calls the four-input search
+				with arr, x, lo, and hi"
+				title="search reporter block with two inputs: arr, x;
+				reporting an anonymous function (gray ring) that takes
+				two inputs named lo and hi, and calls the four-input search
+				with arr, x, lo, and hi" /><br />
+				and similarly for one-input and three-input versions.
+				Turning a function into a function with fewer inputs is
+				called <em>currying</em> it, named after Haskell Curry, a
+				mathematician who contributed to the early development
+				of lambda calculus, the mathematical basis for functional
+				programming.  So the call to <code>uncurry</code> turns
+				the two-input function back into a four-input function by
+				supplying the missing two inputs, namely
+				<code>(bounds arr)</code>, a function call that
+				reports the lowest and
+				highest indices of the array, which will be 0 and
+				the array length minus 1.</p>
+			</div>
+		</div>
 
 		<p>Even if you're convinced that functional programming is a
 		good idea (which it is, because it avoids the kind of bug in
@@ -771,6 +777,36 @@ search arr x lo hi
 		Smalltalk, whose influence is seen in such details as multi-keyword
 		block names, as well as in the organization of a program as scripts
 		that belong to a particular sprite, with no central program.)</p>
+
+		<div class="endnote">
+			<a href="#hint-generic" data-toggle="collapse" title="Click for more details on message passing."><img class="inline" src="/bjc-r/img/icons/read-more-mini.png" alt="Read More" title="Read More" />Could you tell me more about message passing?</a>
+			<div id="hint-generic" class="collapse">
+				<p>Object oriented programming with message passing
+				does a great job with functions of
+				one input, such as asking a list for its length.  It's a little more
+				awkward for a function like <code>+</code>, whose two inputs really
+				play mathematically similar roles.
+				Saying that <code>3</code> is the actor and
+				<code>4</code> is just an input feels peculiar.  Some languages try
+				to overcome this issue by using <em>generic functions</em> instead
+				of message passing.  That means that you could define functions
+				<code>sum(integer,integer)</code>, <code>sum(integer,float)</code>,
+				and so on, so that all the inputs help determine which method is
+				used.  When you call a function, the language looks for the best
+				fit between the methods you've defined and the classes (types) of
+				the inputs.</p>
+
+				<p>Think about Python's <code>" ".join(["hello","world"])</code>
+				notation.  This is the same <code>object.method(inputs)</code>
+				syntax that JavaScript uses, and it works well.  But it seems a
+				little strange that what you're supposed to think of as the active
+				object is the delimiter character, rather than the meaningful
+				strings you're combining.  Compare that with JavaScript's
+				<code>"hello".concat("&nbsp;","world")</code>, which makes the first
+				string the actor and other strings, including delimiters, the
+				inputs.  That seems more Smalltalk-like.</p>
+			</div>
+		</div>
 
 		<h4>Declarative Programming</h4>
 
