@@ -394,7 +394,7 @@ llab.createTitleNav = function() {
     .text('Toggle developer todos/comments (red boxes)');
   } else {
     // Delay hiding until everything is ready. (Shouldn't be needed?)
-    $(document).read(llab.hideAllDevComments);
+    $(document).ready(llab.hideAllDevComments);
   }
 
   // The BJC Logo takes you to the course ToC, or the BJC index when there is no course defined.
