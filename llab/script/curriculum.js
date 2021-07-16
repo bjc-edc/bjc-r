@@ -377,12 +377,10 @@ llab.toggleDevComments = function() {
 };
 
 llab.hideAllDevComments = function() {
-  alert('HIDE ALL')
   $('.todo, .comment, .commentBig').hide();
 }
 
 llab.canShowDevComments = function () {
-  return false;
   return ['localhost', '127.0.0.1'].includes(window.location.hostname);
 }
 
@@ -395,7 +393,6 @@ llab.createTitleNav = function() {
     .click(llab.toggleDevComments)
     .text('Toggle developer todos/comments (red boxes)');
   } else {
-    alert('DEV COMMENTS SHOULD NOT BE SHOWN')
     // Delay hiding until everything is ready. (Shouldn't be needed?)
     $(window).load(llab.hideAllDevComments);
   }
