@@ -500,12 +500,47 @@ search arr x lo hi
 		each function.)</p>
 
 		<p><code>Find</code> is the main procedure; <code>search</code>
-		is a helper function.  The second line of the program says that
-		<code>find</code>, which takes two inputs, calls <code>search</code>
-		with those two inputs along with two more, the lowest and highest
-		indices of the array, which will be 0 and the array length minus 1.</p>
+		is a helper function.  Note that <code>find</code> takes two
+		inputs, <var>arr</var> for the array and <var>x</var> for
+		the value to be found.  <code>Search</code>, though, takes
+		<em>four</em> inputs: <var>arr</var>, <var>x</var>,
+		<var>lo</var> for the lowest array index to examine, and
+		<var>hi</var> for the highest index.  So how can
+		<code>find</code> say <code>(search arr x)</code>, calling
+		<code>search</code> with only two inputs?</p>
 
-		<p><code>Search</code> is where you'll really see functional programming
+		<p>This is part of what it means to take function-as-data
+		seriously.  When you call any Haskell function with fewer
+		inputs than it expects, it returns <em>a function</em> of
+		the remaining inputs, sort of as if when you defined<br />
+		<img src="/bjc-r/img/5-algorithms/search4.png"
+		alt="search reporter block with four inputs: arr, x, lo, hi"
+		title="search reporter block with four inputs: arr, x, lo, hi"
+		/><br />
+		you automatically also got this one:<br />
+		<img src="/bjc-r/img/5-algorithms/search2.png"
+		alt="search reporter block with two inputs: arr, x;
+		reporting an anonymous function (gray ring) that takes
+		two inputs named lo and hi, and calls the four-input search
+		with arr, x, lo, and hi"
+		title="search reporter block with two inputs: arr, x;
+		reporting an anonymous function (gray ring) that takes
+		two inputs named lo and hi, and calls the four-input search
+		with arr, x, lo, and hi" /><br />
+		and similarly for one-input and three-input versions.
+		Turning a function into a function with fewer inputs is
+		called currying it, named after Haskell Curry, a
+		mathematician who contributed to the early development
+		of lambda calculus, the mathematical basis for functional
+		programming.  So the call to <code>uncurry</code> turns
+		the two-input function back into a four-input function by
+		supplying the missing two inputs, namely
+		<code>(bounds arr)</code>, a function call that
+		reports the lowest and
+		highest indices of the array, which will be 0 and
+		the array length minus 1.</p>
+
+		<p>In <code>search</code> you'll also see functional programming
 		making a difference in the programming style.  The Snap<em>!</em>
 		version of the program is organized as a <code>repeat until</code>
 		loop, in which the values of the variables <var>low</var>,
@@ -544,10 +579,10 @@ search arr x lo hi
 		from the beginning of the list to the midpoint.</p>
 
 		<p>Even if you're convinced that functional programming is a
-		good idea (which it is, because it avoids the kind of bug
-		in which two parts of the program are using the same variable
-		for different purposes, and because functional code turns out
-		to be the easiest to parallelize for multi-processor machines),
+		good idea (which it is, because it avoids the kind of bug in
+		which two parts of the program are using the same variable for
+		different purposes, and because functional code turns out to
+		be the easiest to parallelize for multi-processor machines),
 		why would you choose a language that <em>forces</em> you to
 		program in that style?  Well, many people don't.  You can, if
 		you're disciplined about it, program functionally in any
@@ -556,17 +591,31 @@ search arr x lo hi
 		programming.  (You did something like this in the Tic-Tac-Toe
 		project, not in the part that displays moves on the stage, but
 		in the part that computes the best move for the computer.
-		That computation is one function calling another: 
-		<img src="/bjc-r/img/5-algorithms/next-move.png" alt="next move for computer" title="next move for computer" />
-		calls <img src="/bjc-r/img/5-algorithms/winning-square-for-player.png" alt="winning square for player" title="winning square for player" />,
-		which calls <img src="/bjc-r/img/5-algorithms/winning-triple-for-player.png" alt="winning triple for player" title="winning triple for player" />,
-		which calls <img src="/bjc-r/img/5-algorithms/status-of-all-winning-triples.png" alt="status of all winning triples" title="status of all winning triples" />,
-		which calls <img src="/bjc-r/img/3-lists/status-of-triple.png" alt="status of triple" title="status of triple" />.)
-		But a purely functional language helps eliminate
-		program bugs, which is especially important when a team of
-		programmers work together on the same program.  And compilers
-		for functional languages can take advantage of the constraints
-		of functional programming to generate very efficient programs.</p>
+		That computation is one function calling another:  <img
+		src="/bjc-r/img/5-algorithms/next-move.png" alt="next move for
+		computer" title="next move for computer" /> calls <img
+		src="/bjc-r/img/5-algorithms/winning-square-for-player.png"
+		alt="winning square for player" title="winning square for
+		player" />, which calls <img
+		src="/bjc-r/img/5-algorithms/winning-triple-for-player.png"
+		alt="winning triple for player" title="winning triple for
+		player" />, which calls <img
+		src="/bjc-r/img/5-algorithms/status-of-all-winning-triples.png"
+		alt="status of all winning triples" title="status of all
+		winning triples" />, which calls <img
+		src="/bjc-r/img/3-lists/status-of-triple.png" alt="status of
+		triple" title="status of triple" />.)  But a purely functional
+		language helps eliminate program bugs, which is especially
+		important when a team of programmers work together on the same
+		program.  And compilers for functional languages can take
+		advantage of the constraints of functional programming to
+		generate very efficient programs.  In any case,
+		<em>learning</em> a purely functional language ensures that
+		you discover every aspect of functional programming.  For
+		example, you saw just now that we <em>can</em> curry a function
+		in Snap<em>!</em>, but you've never done it in this course,
+		because it doesn't happen automatically, so the hassle of
+		setting it up does away with the ease and power of the technique.</p>
 
 		<h4>Object Oriented Programming (OOP)</h4>
 
