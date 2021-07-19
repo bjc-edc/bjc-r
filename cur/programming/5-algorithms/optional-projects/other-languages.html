@@ -126,8 +126,7 @@ def binary_search(value, data):
 					programming, <code>x=3</code> is telling the reader that
 					the value of <var>x</var> <em>is</em> 3, not a command
 					to <em>change</em> the value to 3.  In other words, it
-					means <img src="/bjc-r/img/5-algorithms/x-is-3.png" alt='= block' title='= block' />.
-					
+					means <img src="/bjc-r/img/5-algorithms/x-is-3.png" alt='= block' title='= block' />.					
 					The Python equivalent of the
 					Snap<em>!</em> <code>=</code> predicate is called
 					<code>==</code>.  Many, many bugs, even among experienced
@@ -137,7 +136,13 @@ def binary_search(value, data):
 					This design choice is inherited indirectly from Fortran,
 					invented back in the 1950s, when computers could display
 					only 64 different characters, so there were fewer options
-					available.
+					available, but they still could have used a multi-character
+					sequence such as <code>&lt--</code>.
+					(If you have to program in a language that uses
+					<code>=</code> for assignment, learn to pronounce it
+					"gets," as in "<var>x</var> gets 3," rather than "equals,"
+					so you don't add to the confusion.  But you still pronounce
+					<code>==</code> as "equal equals.")
 				</li>
 			</ul>
 		</p>
@@ -541,6 +546,8 @@ search arr x lo hi
 				abstract data type.  (The name <code>a</code> is local to
 				each function.)</p>
 
+				<p>&nbsp;</p>
+
 				<p><code>Find</code> is the main procedure; <code>search</code>
 				is a helper function.  Note that <code>find</code> takes two
 				inputs, <var>arr</var> for the array and <var>x</var> for
@@ -732,6 +739,62 @@ search arr x lo hi
 		<var>collection</var></code> in Snap<em>!</em>.  The rest of the program should
 		now make sense.</p>
 
+		<div class="endnote">
+			<a href="#hint-generic" data-toggle="collapse" title="Click for more details on message passing."><img class="inline" src="/bjc-r/img/icons/read-more-mini.png" alt="Read More" title="Read More" />Could you tell me more about
+			object oriented programming?</a>
+			<div id="hint-generic" class="collapse">
+				<p>Object oriented programming with message passing
+				does a great job with functions of
+				one input, such as asking a list for its length.  It's a little more
+				awkward for a function like <code>+</code>, whose two inputs really
+				play mathematically similar roles.
+				Saying that <code>3</code> is the actor and
+				<code>4</code> is just an input feels peculiar.  Some languages try
+				to overcome this issue by using <em>generic functions</em> instead
+				of message passing.  That means that you could define functions
+				<code>sum(integer,integer)</code>, <code>sum(integer,float)</code>,
+				and so on, so that all the inputs help determine which method is
+				used.  When you call a function, the language looks for the best
+				fit between the methods you've defined and the classes (types) of
+				the inputs.</p>
+
+				<p>Think about Python's <code>" ".join(["hello","world"])</code>
+				notation.  This is the same <code>object.method(inputs)</code>
+				syntax that JavaScript uses, and it works well.  But it seems a
+				little strange that what you're supposed to think of as the active
+				object is the delimiter character, rather than the meaningful
+				strings you're combining.  Compare that with JavaScript's
+				<code>"hello".concat("&nbsp;","world")</code>, which makes the first
+				string the actor and other strings, including delimiters, the
+				inputs.  That seems more Smalltalk-like.</p>
+
+				<p>&nbsp;</p>
+
+				<p>Smalltalk is a <em>class/instance</em> language.  That means
+				that there's a special kind of object called a <em>class</em>
+				that contains all the methods for any object of that class.
+				For example, <code>Integer</code> is a class, and <code>3</code>
+				is an instance.  The inheritance of methods from parents
+				happens in the classes, not the instances.</p>
+
+				<p>As you know, Snap<em>!</em> takes a different approach.
+				Every object combines the features of classes and instances;
+				it can have methods and can inherit, like a class, but it's
+				a specific value, like an instance.  (For example, sprites
+				can have methods, and can inherit them, but a sprite can be
+				shown on the stage and move around, like an instance.)  This
+				approach is called <em>prototyping</em> OOP.</p>
+
+				<p>Many languages that purport to use prototyping (JavaScript,
+				for example) have a <em>special kind of object</em> called
+				a "prototype," and that's the kind of object that can have
+				methods and a parent.  If you're asking yourself "How does
+				that differ from a class?" you're right.  Snap<em>!'</em>s
+				prototyping is much simpler and more flexible.</p>
+
+			</div>
+		</div>
+
 		<p>Why would you use an object oriented language?  Programmers'
 		opinions on this question have changed dramatically over time.  When
 		Alan Kay and his team at
@@ -776,37 +839,7 @@ search arr x lo hi
 		inherited the idea of sprites, was originally implemented in
 		Smalltalk, whose influence is seen in such details as multi-keyword
 		block names, as well as in the organization of a program as scripts
-		that belong to a particular sprite, with no central program.)</p>
-
-		<div class="endnote">
-			<a href="#hint-generic" data-toggle="collapse" title="Click for more details on message passing."><img class="inline" src="/bjc-r/img/icons/read-more-mini.png" alt="Read More" title="Read More" />Could you tell me more about message passing?</a>
-			<div id="hint-generic" class="collapse">
-				<p>Object oriented programming with message passing
-				does a great job with functions of
-				one input, such as asking a list for its length.  It's a little more
-				awkward for a function like <code>+</code>, whose two inputs really
-				play mathematically similar roles.
-				Saying that <code>3</code> is the actor and
-				<code>4</code> is just an input feels peculiar.  Some languages try
-				to overcome this issue by using <em>generic functions</em> instead
-				of message passing.  That means that you could define functions
-				<code>sum(integer,integer)</code>, <code>sum(integer,float)</code>,
-				and so on, so that all the inputs help determine which method is
-				used.  When you call a function, the language looks for the best
-				fit between the methods you've defined and the classes (types) of
-				the inputs.</p>
-
-				<p>Think about Python's <code>" ".join(["hello","world"])</code>
-				notation.  This is the same <code>object.method(inputs)</code>
-				syntax that JavaScript uses, and it works well.  But it seems a
-				little strange that what you're supposed to think of as the active
-				object is the delimiter character, rather than the meaningful
-				strings you're combining.  Compare that with JavaScript's
-				<code>"hello".concat("&nbsp;","world")</code>, which makes the first
-				string the actor and other strings, including delimiters, the
-				inputs.  That seems more Smalltalk-like.</p>
-			</div>
-		</div>
+		that belong to specific sprites, with no central program.)</p>
 
 		<h4>Declarative Programming</h4>
 
@@ -844,6 +877,7 @@ search arr x lo hi
 <pre>?- grandmother('Brian', X)</pre>
 
 		<p>A very important difference between declarative programming
+		(also called <em>logic programming</em>)
 		and the other paradigms you've seen is that a question may have
 		more than one answer!  This is very different from a function,
 		which can only report one value.  Prolog doesn't just pick one
@@ -871,7 +905,7 @@ Y = []</span> ;
 		so on.  When the user asks for a sixth answer, the result is
 		"false," which means that Prolog can't find any more values for
 		<var>X</var> and <var>Y</var> that make the query true.  (That
-		doesn't mean it's proven false; for example, if you teach Prolog
+		doesn't mean it's <em>proven</em> false; for example, if you teach Prolog
 		about your family tree and then ask questions about someone else's
 		family, Prolog won't find any information, but that doesn't mean
 		the other person really doesn't have any relatives.)</p>
@@ -930,15 +964,16 @@ even_division(First, Second, Xs) :-               % find the middle word
 <p><small>Source: <a href="https://wiki.colby.edu/display/LPE/Prolog+Binary+Search">colby.edu</a></small></p>
 
 		<p>The first thing to say about this program is that it's not really a
-		good representation for how to program in Prolog.  The helper rule
+		good model of how to program in Prolog.  The helper rule
 		<code>even_division</code> wants to divide a list into two equal-size
-		pieces; it ends up dividing the list into two pieces <em>every possible
-		way,</em> and then checks each of those divisions to find one whose two
-		pieces are the same length.  If you really wanted to do a binary
-		search in Prolog, you'd do it by using a more complicated data
-		structure that comes pre-divided into equal size pieces.  But for
-		our purposes on this page, it's best to use the same structure in
-		all the sample programs.</p>
+		pieces; it ends up dividing the list into two pieces <em>every
+		possible way</em> (like the <code>append</code> example earlier), and
+		then checks each of those divisions to find one whose two pieces are
+		the same length.  If you really wanted to do a binary search in
+		Prolog, you'd do it by using a more complicated data structure that
+		comes pre-divided into equal size pieces.  But for the purpose of
+		this page, comparing languages, it's best to use the same
+		structure in all the sample	programs.</p>
 
 				<p>The
 				underscore character <code>_</code>, used by itself, means that you
@@ -1006,7 +1041,8 @@ even_division(First, Second, Xs) :-               % find the middle word
 				you know can't be done.)</p>
 
 		<div class="endnote">
-			<a href="#hint-resolution" data-toggle="collapse" title="Click for more details on resolution."><img class="inline" src="/bjc-r/img/icons/read-more-mini.png" alt="Read More" title="Read More" />Could you tell me more about resolution?</a>
+			<a href="#hint-resolution" data-toggle="collapse" title="Click for more details on resolution."><img class="inline" src="/bjc-r/img/icons/read-more-mini.png" alt="Read More" title="Read More" />Could you tell me more about
+			declarative programming?</a>
 			<div id="hint-resolution" class="collapse">
 				<p>The Prolog database consists of facts and rules.  The
 				difference is that facts don't contain variables.  So,
@@ -1151,5 +1187,12 @@ Y = Y.2 = Z.3 = Z.2 = [b,c,d]</pre>
 		summer, though, you might need to learn the language a potential
 		employer wants to use.)</p>
 
+
+		<p>And, by the way, don't think that because this page is telling you
+		about other languages it means you've learned all there is to know
+		about Snap<em>!</em>.  For example, read Sections VIII (OOP
+		with Procedures) and X (Continuations) in the
+		<a href="https://snap.berkeley.edu/snap/help/SnapManual.pdf">Snap<em>!</em>
+		Reference Manual</a>.</p>
 	</body>
 </html>
