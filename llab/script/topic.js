@@ -200,6 +200,8 @@ llab.renderFull = function(data, _ignored1, _ignored2) {
             bigIdea = false;
         }
     }
+
+    llab.setUpDevComments();
 }
 
 

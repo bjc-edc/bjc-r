@@ -372,30 +372,9 @@ llab.setupTitle = function() {
   llab.titleSet = true;
 };
 
-llab.toggleDevComments = function() {
-  $(".todo, .comment, .commentBig").toggle();
-};
-
-llab.hideAllDevComments = function() {
-  $('.todo, .comment, .commentBig').hide();
-}
-
-llab.canShowDevComments = function () {
-  return ['localhost', '127.0.0.1'].includes(window.location.hostname);
-}
-
 // Create the 'sticky' title header at the top of each page.
 llab.createTitleNav = function() {
-  var addToggle = "";
-
-  if (llab.canShowDevComments()) {
-    addToggle = $('<button>').addClass('imageRight btn btn-default')
-    .click(llab.toggleDevComments)
-    .text('Toggle developer todos/comments (red boxes)');
-  } else {
-    // Delay hiding until everything is ready. (Shouldn't be needed?)
-    $(window).load(llab.hideAllDevComments);
-  }
+  llab.setUpDevComments();
 
   // The BJC Logo takes you to the course ToC, or the BJC index when there is no course defined.
   let navDestination = '/bjc-r';
@@ -427,7 +406,6 @@ llab.createTitleNav = function() {
     "<a class='btn btn-default forwardbutton arrow'>next</a>";
 
   if (topNav.length === 0) {
-    $(FULL).prepend(addToggle);
     $(document.body).prepend(topHTML);
   }
 
