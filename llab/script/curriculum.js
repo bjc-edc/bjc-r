@@ -30,9 +30,14 @@ llab.secondarySetUp = function() {
   }
 
   // fix snap links so they run snap
-  $('a.run').each(function(i) {
+  $('a.run').each(function(_i) {
     $(this).attr('target', '_blank');
     $(this).attr('href', llab.getSnapRunURL(this.getAttribute('href')));
+  });
+
+  $('.js-run-v7').each(function(_i) {
+    $(this).attr('target', '_blank');
+    $(this).attr('href', llab.getSnapRunURL(this.getAttribute('href'), {version: 'v7'}));
   });
 
   // making ifTime and takeItFurther DIVs hide until clicked --MF, 2/9/18
