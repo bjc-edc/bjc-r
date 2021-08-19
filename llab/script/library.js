@@ -12,13 +12,14 @@ llab.loaded = llab.loaded || {};
 
 /////////////////
 llab.snapRunURLBase = "http://snap.berkeley.edu/snap/snap.html#open:";
+llab.snapRunURLBaseVersion = "http://snap.berkeley.edu/versions/VERSION/snap.html#open:";
 
 // returns the current domain with a cors proxy if needed
 
 // TODO: Support for a CORS proxy has been removed.
 // If we have a reliable enough CORS proxy, we can consider re-adding it.
 // It is expected that you host llab content in an environment where CORS is allowed.
-llab.getSnapRunURL = function(targeturl) {
+llab.getSnapRunURL = function(targeturl, options) {
     if (!targeturl) { return ''; }
 
     if (targeturl.indexOf('http') == 0 || targeturl.indexOf('//') == 0) {
@@ -28,6 +29,10 @@ llab.getSnapRunURL = function(targeturl) {
 
     // internal resource!
     var finalurl = llab.snapRunURLBase;
+    if (options && options.version) {
+        finalurl = llab.snapRunURLBaseVersion.replace('VERSION', options.version);
+    }
+
     var currdom = document.domain;
     if (currdom == "localhost") {
         currdom = 'http://' + currdom + ":" + window.location.port;
@@ -43,6 +48,34 @@ llab.getSnapRunURL = function(targeturl) {
 
     return finalurl;
 };
+
+llab.toggleDevComments = function() {
+    $(".todo, .comment, .commentBig").toggle();
+  };
+
+  llab.hideAllDevComments = function() {
+    $('.todo, .comment, .commentBig').hide();
+  }
+
+  llab.showAllDevComments = function() {
+    $('.todo, .comment, .commentBig').show();
+  }
+
+  llab.canShowDevComments = function() {
+    return ['localhost', '127.0.0.1'].includes(window.location.hostname);
+  }
+
+  llab.setUpDevComments = function() {
+    if (llab.canShowDevComments()) {
+      if ($('.js-commentBtn').length < 1) {
+        let addToggle = $('<button class="imageRight btn btn-default js-commentBtn">')
+              .click(llab.toggleDevComments)
+              .text('Toggle developer todos/comments (red boxes)');
+        $(FULL).prepend(addToggle);
+      }
+      $(window).load(llab.showAllDevComments);
+    }
+  }
 
 
 /** Returns the value of the URL parameter associated with NAME. */
