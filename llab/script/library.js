@@ -11,28 +11,15 @@ llab.loaded = llab.loaded || {};
 
 
 /////////////////
-// TODO: ALL CORS SETTINGS SHOULD BE MOVED TO THE CONFIG FILE.
-llab.CORSproxy = "https://bjcredir.herokuapp.com/";
-
-llab.CORSCompliantServers = [];
-llab.CORSCompliantServers.push("bjc.berkeley.edu");
-llab.CORSCompliantServers.push("bjc.eecs.berkeley.edu");
-llab.CORSCompliantServers.push("snap.berkeley.edu");
-llab.CORSCompliantServers.push("inst.eecs.berkeley.edu");
-llab.CORSCompliantServers.push("cs10.berkeley.edu");
-llab.CORSCompliantServers.push("localhost");
-llab.CORSCompliantServers.push("0.0.0.0");
-llab.CORSCompliantServers.push("bjc.edc.org");
-llab.CORSCompliantServers.push("bjc2.edc.org");
-llab.CORSCompliantServers.push("bjc-edc-2017-18.github.io");
-
-//// TODO: Move this to config? Or refactor?
-
-llab.snapRunURLBase = "http://snap.berkeley.edu/snapsource/snap.html#open:";
+llab.snapRunURLBase = "http://snap.berkeley.edu/snap/snap.html#open:";
+llab.snapRunURLBaseVersion = "http://snap.berkeley.edu/versions/VERSION/snap.html#open:";
 
 // returns the current domain with a cors proxy if needed
 
-llab.getSnapRunURL = function(targeturl) {
+// TODO: Support for a CORS proxy has been removed.
+// If we have a reliable enough CORS proxy, we can consider re-adding it.
+// It is expected that you host llab content in an environment where CORS is allowed.
+llab.getSnapRunURL = function(targeturl, options) {
     if (!targeturl) { return ''; }
 
     if (targeturl.indexOf('http') == 0 || targeturl.indexOf('//') == 0) {
@@ -42,11 +29,13 @@ llab.getSnapRunURL = function(targeturl) {
 
     // internal resource!
     var finalurl = llab.snapRunURLBase;
+    if (options && options.version) {
+        finalurl = llab.snapRunURLBaseVersion.replace('VERSION', options.version);
+    }
+
     var currdom = document.domain;
     if (currdom == "localhost") {
         currdom = 'http://' + currdom + ":" + window.location.port;
-    } else if (llab.CORSCompliantServers.indexOf(currdom) == -1) {
-        finalurl += llab.CORSproxy;
     } else if (targeturl.indexOf("..") != -1 || targeturl.indexOf(llab.rootURL) == -1) {
         var path = window.location.pathname;
         path = path.split("?")[0];
@@ -59,6 +48,34 @@ llab.getSnapRunURL = function(targeturl) {
 
     return finalurl;
 };
+
+llab.toggleDevComments = function() {
+    $(".todo, .comment, .commentBig").toggle();
+  };
+
+  llab.hideAllDevComments = function() {
+    $('.todo, .comment, .commentBig').hide();
+  }
+
+  llab.showAllDevComments = function() {
+    $('.todo, .comment, .commentBig').show();
+  }
+
+  llab.canShowDevComments = function() {
+    return ['localhost', '127.0.0.1'].includes(window.location.hostname);
+  }
+
+  llab.setUpDevComments = function() {
+    if (llab.canShowDevComments()) {
+      if ($('.js-commentBtn').length < 1) {
+        let addToggle = $('<button class="imageRight btn btn-default js-commentBtn">')
+              .click(llab.toggleDevComments)
+              .text('Toggle developer todos/comments (red boxes)');
+        $(FULL).prepend(addToggle);
+      }
+      $(window).load(llab.showAllDevComments);
+    }
+  }
 
 
 /** Returns the value of the URL parameter associated with NAME. */
@@ -119,6 +136,7 @@ llab.truncate = function(str, n) {
 };
 
 
+// TODO: Replace this with new URLSearchParams(window.location.search)
 /*!
     query-string
     Parse and stringify URL query strings
@@ -278,6 +296,7 @@ llab.spanTag = function(content, className) {
 }
 
 // Cool array level operations
+// TODO: Replace with native JS some/every.
 llab.any = function(A) {
     return A.reduce(function(x, y) {return x || y });
 }
