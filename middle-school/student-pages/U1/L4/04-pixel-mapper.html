@@ -8,16 +8,71 @@
 
 	<body>
 		<h2>Pixel Mapper</h2>
-		<div class="todo">In the future, we would have a histogram/pictograph showing how much red, green, and blue is in the image, building on 1.3. Thoughts? --MF, 8/26/21</div>
-		<div class="learn">In this activity, you'll apply a function to every pixel in an image and use that same process to filter a image by manipulating each of its pixels.</div>
+		<div class="todo">Pamela, what do you think about renaming this to "Applying a Function to Every Pixel"? --MF, 8/30/21</div>
 
-		<h3>Mapping over a List</h3>
-		<p>You can use the <code>map</code> block to apply a block that works on one list item to all the items in a list.</p>
+		<div class="todo">
+			<p>Other XML tasks for Mary: remove all opacity stuff. --MF, 8/25/21</p>
+		</div>
+
+		<div class="todo">
+			<p>In the future, we could have a histogram/pictograph showing how much red, green, and blue is in the image, building on 1.3.  Thoughts? --MF, 8/26/21</p>
+			<p>Also/alternatively, we could do the frequency analysis stuff from the Jens's <a href="https://youtu.be/6H8vK8Q5KeY?t=891" title="Snap<em>!</em>" target="_blank">Snap<em>!</em> 5 Data Science video</a>. --MF, 8/29/21</p>
+		</div>
+		<div class="learn">In this activity, you'll access data about the pixels, apply a function to every pixel in an image and use that same process to filter a image by manipulating each of its pixels.</div>
+
+		<h3>Selecting a Single Color</h3>
+		<p>You can use code to access information about one color of a pixel.</p>
 		<div class="forYouToDo">
 			<ol>
 				<li>If your project isn't open already, log in to Snap<em>!</em> and open your "Image Manipulation" project.</li>
 				<li>
+					You've seen how to select one pixel from a table using <code>item of</code>...<br />
+					<div class="indent">
+						<img class="inline" src="/bjc-r/middle-school/img/U1/pixels-of-costume-reporting.png" alt="'pixels of my costume' reporting a table with 3 columns and 5 visible rows. (There is a row count of 15,552 in the upper left corner; not all rows are visible). The first column includes values ranging from 111-118; the second column includes values ranging from 111-117; the third column includes values ranging from 112-122." title="'pixels of my costume' reporting a table with 3 columns and 5 visible rows. (There is a row count of 15,552 in the upper left corner; not all rows are visible). The first column includes values ranging from 111-118; the second column includes values ranging from 111-117; the third column includes values ranging from 112-122." />
+						<img class="inline" src="/bjc-r/middle-school/img/U1/item1-of-pixels.png" alt="item (1) of (pixels of my costume) reporting {220, 220, 228}" title="item (1) of (pixels of my costume) reporting {220, 220, 228}" />
+					</div>
+					<p>Now write a function that use <code>item of</code> to select just the green color value from the 85<sup>th</sup> pixel in the <code>pixels of my costume</code> table.</p>
+					<div class="endnote">
+						<a href="#hint-just-one" data-toggle="collapse" title="Click for a hint about selecting just the red color value from one pixel in a table.">Click for a hint.</a>
+						<div id="hint-just-one" class="collapse">
+							<p>Imagine you had a list of RGB color values, such as <img class="inline nopadtb" src="/bjc-r/middle-school/img/U1/list-111-111-112.png" alt="list (111) (111) (112)" title="list (111) (111) (112)" />. Consider: How could you use <code>item of</code> to select the green value? Then, recall that <code>item (85) of (pixels of my costume)</code> reports a list of RGB color values for the 85<sup>th</sup> pixel of the current costume.</p>
+						</div>
+					</div>
+				</li>
+				<li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> How would you change your code to report just the blue color value?</li> 
+			</ol>
+		</div>
+		<p>
+			The <img class="inline" src="/bjc-r/middle-school/img/U1/color-from-pixel.png" alt="color () from pixel 'list input slot'" title="color () from pixel 'list input slot'" /> block makes this job easier. Instead of having two <code>item of</code> blocks (which can be confusing), this block takes a color name and a pixel as input and it applies <code>item of</code> (with the correct input number) to the input pixel.
+		</p>
+		<div class="vocabFullWidth">: <strong>Abstraction</strong>
+			<p>Hiding the details of <em>how</em> <code>color from pixel</code> selects the correct RGB value from a pixel (so you don't have to see the extra <code>item of</code> block) is a form of <strong>abstraction</strong>.</p>
+		</div>
+		<div class="forYouToDo">
+			<ol start="4">
+				<li>
+					Click the following expression, then change the input color to "blue", and click it again. The outputs should be the same as you found before for the 85<sup>th</sup> pixel.<br />
+					<img class="indent" src="/bjc-r/middle-school/img/U1/color-green-from-pixel-item-of.png" alt="color 'green' from pixel (item (85) of (pixels of my costume)" title="color 'red' from pixel (item 1 of (pixels of my costume)" />
+				</li>
+			</ol>
+		</div>
+		<div class="ifTime">
+			<ol start="5">
+				<li>The <code>color from pixel</code> block uses the <code>item of</code> block to select the right item. To see how it works, right-click <code>color from pixel</code>, and select "edit…".</li>
+			</ol>
+		</div>
+		
+		
+		<div class="todo">I want to use the <code>draw pixel</code> block as a one-pixel segue into mapping channel edits over an image. --MF, 8/27/21</div>
+
+		
+		<h3>Mapping over a List</h3>
+		<p>You can use the <code>map</code> block to apply any block that works on one list item to all the items in a list.</p>
+		<div class="forYouToDo">
+			<ol start="6">
+				<li>
 					Click the following expression, which uses <code>map</code> to apply <code>color from pixel</code> to every pixel in the <code>pixels of costume</code> list.<br />
+					<div class="commentBig">Mary todo: redo image and alt/title text. --MF, 8/30/21</div>
 					<img class="indent" src="/bjc-r/middle-school/img/U1/image-manipulation-map-expression.png" alt="map (color ('red') from pixel 'list input slot') over (('pixels') of costume (my ('costume'))))" title="map (color ('red') from pixel 'list input slot') over (('pixels') of costume (my ('costume'))))" />
 				</li>
 				<li>Compare the output of the <code>map</code> expression to the output of <code>pixels of costume</code>.</li>
@@ -26,7 +81,7 @@
 					<div class="endnote">
 						<a href="#hint-map" data-toggle="collapse" title="Click for a description of what the map expression does.">Click for a description of what the <code>map</code> expression does.</a>
 						<div id="hint-map" class="collapse">
-							<p>Since <img class="inline" src="/bjc-r/middle-school/img/U1/color-from-pixel.png" alt="color (red) from pixel 'list input slot'" title="color (red) from pixel 'list input slot'" /> reports a single color value from the input pixel (in this case, the red value), the expression <img class="inline" src="/bjc-r/middle-school/img/U1/image-manipulation-map-expression.png" alt="map (color ('red') from pixel 'list input slot') over (('pixels') of costume (my ('costume'))))" title="map (color ('red') from pixel 'list input slot') over (('pixels') of costume (my ('costume'))))" /> reports a single color value <em>from each pixel</em> in the <code>pixels of costume</code> list (in this case, the red value of each pixel).</p>
+							<p>Since <img class="inline" src="/bjc-r/middle-school/img/U1/color-red-from-pixel.png" alt="color (red) from pixel 'list input slot'" title="color (red) from pixel 'list input slot'" /> reports a single color value from the input pixel (in this case, the red value), the expression <img class="inline" src="/bjc-r/middle-school/img/U1/image-manipulation-map-expression.png" alt="map (color ('red') from pixel 'list input slot') over (('pixels') of costume (my ('costume'))))" title="map (color ('red') from pixel 'list input slot') over (('pixels') of costume (my ('costume'))))" /> reports a single color value <em>from each pixel</em> in the <code>pixels of costume</code> list (in this case, the red value of each pixel).</p>
 							<p>
 								<a href="#hint-map-example" data-toggle="collapse" title="Click for an example of what the map expression reports.">Click for an example of what the <code>map</code> expression reports.</a>
 								<div id="hint-map-example" class="collapse">
@@ -46,7 +101,31 @@
 				</li>
 			</ol>
 		</div>
-		
+
+		<div class="vocabFullWidth">: <strong>Higher Order Function</strong>
+			<p><code>Map</code> is a <strong>higher order function</strong>. That just means that it's a function that takes a function  as input.</p>
+			<div class="endnote">
+				<p>
+					This <code>map</code> expression takes two inputs:
+					<ol>
+					    <li>The <em>function</em> <code>color from pixel</code>:  <img class="inline" src="/bjc-r/middle-school/img/U1/color-red-from-pixel.png" alt="color (red) from pixel 'list input slot'" title="color (red) from pixel 'list input slot'" /></li>
+						<li>
+							The list that is the <em>output of the function</em> <img class="inline" src="/bjc-r/middle-school/img/U1/pixels-of-costume.png" alt="pixels of my costume" title="pixels of my costume" /> <a href="#hint-pixels-list" data-toggle="collapse" title="(Click for a reminder of the output of pixels of my costume.)"> (Click for a reminder of the output.)</a>
+							<div id="hint-pixels-list" class="collapse"><img class="indent" src="/bjc-r/middle-school/img/U1/pixels-of-costume-reporting.png" alt="'pixels of my costume' reporting a table with 3 columns and 5 visible rows. (There is a row count of 15,552 in the upper left corner; not all rows are visible). The first column includes values ranging from 111-118; the second column includes values ranging from 111-117; the third column includes values ranging from 112-122." title="'pixels of my costume' reporting a table with 3 columns and 5 visible rows. (There is a row count of 15,552 in the upper left corner; not all rows are visible). The first column includes values ranging from 111-118; the second column includes values ranging from 111-117; the third column includes values ranging from 112-122." /></div>
+						</li>
+					</ol>
+				</p>
+				<img class="indent" src="/bjc-r/middle-school/img/U1/image-manipulation-map-expression.png" alt="map (color ('red') from pixel 'list input slot') over (('pixels') of costume (my ('costume'))))" title="map (color ('red') from pixel 'list input slot') over (('pixels') of costume (my ('costume'))))" />
+				<p>
+					You can tell the difference between the second input slot, which takes the <em>output</em> of a function (like most inputs do), and the first input slot, which takes a whole function itself (<em>not</em> its output) because the first input slot has a gray ring around it.<br />
+					<img class="indent" src="/bjc-r/middle-school/img/U1/gray-ring.png" alt="gray ring" title="gray ring" />
+				</p>
+				<p><code>Map</code> takes a function as input so it can apply that function to each item in the list. The empty input slot in the function (in this case, the pixel) is where each item from the list (in this case, the list of pixels) goes every time the function is applied.</p>
+			</div>
+		</div>
+
+		<div class="todo">Mary's re-review stops here. I'm not entirely sure I love the two sections above. I'll need to come back and look again. Thoughts welcome in the meantime!! The below is not worth reviewing yet. --MF, 8/30/21</div>
+
 		<h3>Playing with Filters</h3>
 		<div class="forYouToDo">
 			<ol start="4">
@@ -98,7 +177,7 @@
 			</ol>
 		</div>		
 
-		<div class="learn">In this activity, you learned how to apply a function to every element of a list using <code>map</code> and used <code>map</code> to explore several filters that transformed each pixel in the image.</div>
+		<div class="learn">In this activity, you learned how to select a single pixel out of an image or and a single color value out of a pixel, how to apply a function to every element of a list using <code>map</code> and used <code>map</code> to explore several filters that transformed each pixel in the image.</div>
 
 		
 	</body>
