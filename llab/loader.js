@@ -5,6 +5,7 @@
 
 
 var THIS_FILE = 'loader.js';
+const RELEASE_DATE = '2021-09-08';
 
 llab = {};
 llab.loaded = {};  // keys are true if that script file is loaded
@@ -18,10 +19,6 @@ llab.install_directory = "";  // to be overridden in config.js
 
 // This file must always be at the same level as the llab install directory
 llab.CONFIG_FILE_PATH = "../llab.js";
-
-// This file must always be at the same level as the llab install directory
-llab.BUILD_FILE_PATH = "./llab-complied.js";
-
 
 // ADDITIONAL LIBRARIES
 
@@ -44,6 +41,7 @@ llab.paths.css_files.push('../css/edcdevtech-headerfooter.css'); /* new headers 
 ///////////////////////// stage 0
 // Stage 0 items can be executed with no dependences.
 llab.paths.scripts[0] = [];
+// TODO: Can reasonably deprecate this file (copy config and inline here.)
 llab.paths.scripts[0].push(llab.CONFIG_FILE_PATH);
 llab.paths.scripts[0].push("lib/jquery.min.js");
 llab.paths.scripts[0].push("script/library.js");
@@ -102,7 +100,6 @@ llab.getPathToThisScript = function() {
 
 llab.thisPath = llab.getPathToThisScript();
 
-
 function getTag(name, src, type) {
     var tag = document.createElement(name);
 
@@ -111,7 +108,7 @@ function getTag(name, src, type) {
     }
 
     var link  = name === 'link' ? 'href' : 'src';
-    tag[link] = src;
+    tag[link] = `${src}?${RELEASE_DATE}`;
     tag.type  = type;
 
     return tag;
@@ -120,33 +117,20 @@ function getTag(name, src, type) {
 
 
 llab.initialSetUp = function() {
-    var headElement = document.head;
-    var tag, i, src;
-
-    // start the process
-    loadScriptsAndLinks(0);
-
-    // Add async error handling.
-    headElement.appendChild(getTag(
-        'script',
-        'https://bugs.cs10.org/js-sdk-loader/575843d153a14b45b34b91d99ea9666a.min.js',
-        'text/javascript'
-    ));
-
     function loadScriptsAndLinks(stage_num) {
-        var i, tag;
+        var tag;
 
         // load css files
         while (llab.paths.css_files.length != 0) {
             tag = getTag("link", llab.paths.css_files.shift(), "text/css");
             tag.rel = "stylesheet";
-            headElement.appendChild(tag);
+            document.head.appendChild(tag);
         }
 
         // load scripts
         llab.paths.scripts[stage_num].forEach(function(scriptfile) {
             tag = getTag("script", scriptfile, "text/javascript");
-            headElement.appendChild(tag);
+            document.head.appendChild(tag);
         });
 
         if ((stage_num + 1) < llab.paths.scripts.length) {
@@ -165,8 +149,25 @@ llab.initialSetUp = function() {
             }, 2);
         }
     }
+
+    // start the process
+    loadScriptsAndLinks(0);
+
+    let sentry = getTag(
+        'script', 'https://browser.sentry-cdn.com/6.12.0/bundle.tracing.min.js', 'text/javascript'
+    );
+    sentry.onload = llab.setupSentry;
+    document.head.appendChild(sentry);
+
 };
 
 /////////////////////
+
+llab.setupSentry = function () {
+    Sentry.init({
+        dsn:"https://575843d153a14b45b34b91d99ea9666a@bugs.cs10.org/13",
+        integrations: [new Sentry.Integrations.BrowserTracing()]
+    });
+}
 
 llab.initialSetUp();
