@@ -14,7 +14,8 @@ llab.url_list = [];
 var FULL = llab.selectors.FULL,
 hamburger = llab.fragments.hamburger;
 
-// TODO: secondarySetUp (until the conditional) should be called on each page.
+// Executed on each page load.
+// TODO: Should probably be slip into a better place.
 llab.secondarySetUp = function() {
   llab.setupTitle();
 
