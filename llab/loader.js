@@ -41,7 +41,7 @@ llab.paths.css_files.push('../css/edcdevtech-headerfooter.css'); /* new headers 
 ///////////////////////// stage 0
 // Stage 0 items can be executed with no dependences.
 llab.paths.scripts[0] = [];
-// TODO: Can reasonably deprecate this file.
+// TODO: Can reasonably deprecate this file (copy config and inline here.)
 llab.paths.scripts[0].push(llab.CONFIG_FILE_PATH);
 llab.paths.scripts[0].push("lib/jquery.min.js");
 llab.paths.scripts[0].push("script/library.js");
