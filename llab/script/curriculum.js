@@ -71,7 +71,7 @@ llab.secondarySetUp = function() {
     type: "GET",
     contentType: 'text/plain; charset=UTF-8',
     dataType: "text",
-    cache: true,
+    cache: false,
     success: llab.processLinks,
     error: function(_jqXHR, status, error) {
       // TODO: We should push errors to Google Analytics
