@@ -11,8 +11,8 @@ llab.loaded = llab.loaded || {};
 
 
 /////////////////
-llab.snapRunURLBase = "http://snap.berkeley.edu/snap/snap.html#open:";
-llab.snapRunURLBaseVersion = "http://snap.berkeley.edu/versions/VERSION/snap.html#open:";
+llab.snapRunURLBase = "https://snap.berkeley.edu/snap/snap.html#open:";
+llab.snapRunURLBaseVersion = "https://snap.berkeley.edu/versions/VERSION/snap.html#open:";
 
 // returns the current domain with a cors proxy if needed
 
