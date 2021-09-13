@@ -3,76 +3,68 @@
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+        <script src="https://www.w3schools.com/lib/w3.js"></script>
 		<title>Middle School Unit 1 Lab 4 Teacher Guide</title>
 	</head>
 
 	<body>
 		<h2>Lab 4: Image Manipulation</h2>
-		<div class="todo">I'm a bit confused about what this lab and the activities are called. Pamela, could you please clarify, and I'll change throughout? Thanks! :) --MF, 8/13/21<br>
-	I had a hard time on names too. I like "Picture of a Pixel". I like Pixel Manipulation too, except that the lab as a whole is called "Image Manipulation", so that feels too similar. We could call it "Pixel Mapper" to really put the emphasis on the map operation, but maybe we explicitly want to avoid it. Other ideas I had were "Picture Filters" "Photo Filters" "Pixel Magic" "RGB Transformations". Votes? -- PF, 8/16/21
-</div>
-		<p>PURPOSE STATEMENT</p> 
-		<div class="todo">Why do we need a say block? --PF, 8/16/21</div>
-
-		<div class="comment">We'll need a <code>say</code> block here at the end.</div>
+		<p>This lab teaches about pixels&mdash;what they are, how they make up an image on the screen, and how manipulating their red, green, and blue values can change an image. Students begin by watching a few videos demonstrating that a screen is indeed made up of tiny squares of red, green, and blue. They then view an image made up of large pixels at low resolution and increase the resolution (while shrinking the pixels) to see the pixels disappear as the image becomes more visible. Students then learn about lists and tables as they explore the RGB values of pixels in an image, explore the higher order function <code>map</code> as they select a single color value from each pixel in an image, and explore several filters that apply a transformation to each pixel of an image. </p> 
 
 		<h3>Pacing</h3>
+		<div class="comment">Pamela, what do you think of these time estimates? --MF, 8/25/21</div>
 		<p>
-			This lab is designed for X&ndash;X class periods (<strong>X&ndash;X minutes</strong>).
+			This lab is designed for 2&ndash;4 class periods (<strong>65&ndash;160 minutes</strong>).
 			<ul>
 				<li><a href="#DA" title="Daily Activity: Computing in the News">Daily Activity: Computing in the News</a> 5&ndash;15 minutes each day</li>
-				<li><a href="#A1" title="Activity 1: Picture of a Pixel">Activity 1: Picture of a Pixel</a>: X&ndash;X minutes</li>
-				<li><a href="#A2" title="Activity 2: Pixel Manipulator">Activity 2: Pixel Manipulator</a>: X&ndash;X minutes</li>
+				<li><a href="#A1" title="Activity 1: Picture of a Pixel">Activity 1: Picture of a Pixel</a>: 10&ndash;20 minutes</li>
+				<li><a href="#A2" title="Activity 2: Exploring RGB Colors">Activity 2: Exploring RGB Colors</a>: 10&ndash;20 minutes</li>
+				<li><a href="#A3" title="Activity 3: Investigating and Storing Images">Activity 3: Investigating and Storing Images</a>: 15&ndash;40 minutes</li>
+				<li><a href="#A4" title="Activity 4: Transforming Every Pixel">Activity 4: Transforming Every Pixel</a>: 20&ndash;50 minutes</li>
 			</ul>
 		</p>
 
-		<a class="back-to-top" href="#top">&uarr; Back to Top</a>
-		<h3>Daily Activity: Computing in the News.<a name="DA" class="anchor">&nbsp;</a></h3>
-		<p>Every day of BJC should begin with a 5-minute student presentation on a recent news article about computing. This helps build a foundation for considering the impacts of  computing technologies on employment, issues of bias and accessibility, and tradeoffs between public access to information and security. Read <a href="/bjc-r/cur/teaching-guide/U1/general-support/computing-in-the-news.html" title="Computing in the News" target="_blank">Computing in the News</a> for additional details and suggested news sources.</p>
-		<div>
-			<ul>
-				<li><strong>Prepare:</strong>  Assign to one student or a pair of students a recent news article about computing for them to read and then summarize for the class during the next class period.</li>
-			</ul>
-		</div>
+		<div w3-include-html="/bjc-r/utilities/includes/ms-daily-citn.txt"></div><script>w3.includeHTML();</script>
 	
 		<a class="back-to-top" href="#top">&uarr; Back to Top</a>
 		<h3>Activity 1: Picture of a Pixel.<a name="A1" class="anchor">&nbsp;</a></h3>
 		<div>
 			<ul>
 				<li><strong>Materials:</strong> <a href="/bjc-r/middle-school/student-pages/U1/L4/01-picture-of-a-pixel.html?topic=middle-school%2F1-functions-data.topic&course=middle-school-teacher.html&novideo&noassignment" title="Activity 1: Picture of a Pixel" target="_blank">Picture of a Pixel</a> student page </li>
+				<div class="sidenoteBig">
+					If your connection blocks YouTube, your students can watch the videos here: <br />
+					<ul>
+						<li><a href="http://scratch.mit.edu/discuss/youtube/T9ryMOrwVZQ" target="_blank" title="Alternative to YouTube: Zooming Into LCD Screen to View RGB Pixels">Zooming Into LCD Screen to View RGB Pixels</a></li>
+						<li><a href="http://scratch.mit.edu/discuss/youtube/UdWCUr1FDqU" target="_blank" title="Alternative to YouTube: Pixels Under The Microscope">Pixels Under The Microscope</a></li>
+					</ul>
+				</div>	
 				<li>
 					<strong>Prepare:</strong> 
 					<ul>
-						<li>The Snap<em>!</em> project for this activity has some new functionality. Take time to familiarize yourself.</li>
-						<li>
-							If your connection blocks YouTube, your students can watch the videos here: <br />
-							<ul>
-								<li><a href="http://scratch.mit.edu/discuss/youtube/T9ryMOrwVZQ" target="_blank" title="Alternative to YouTube: Zooming Into LCD Screen to View RGB Pixels">Zooming Into LCD Screen to View RGB Pixels</a></li>
-								<li><a href="http://scratch.mit.edu/discuss/youtube/UdWCUr1FDqU" target="_blank" title="Alternative to YouTube: Pixels Under The Microscope">Pixels Under The Microscope</a></li>
-							</ul>
-						</li>
+						<li>We recommend projecting the Snap<em>!</em> project and doing the doing student-facing activity as a teacher-led demonstration.</li>
+						<li>If you aren't familiar with additive and subtractive color mixing, you might appreciate this article, which is included as optional reading for students at the end of the second activity: <a href="https://www.color-meanings.com/additive-subtractive-color-mixing/" title="What Is the Difference Between Additive and Subtractive Color Mixing?" target="_blank">What Is the Difference Between Additive and Subtractive Color Mixing?</a></li>
 					</ul>
 				</li>
 				<li>
 					<strong>Learning Goals:</strong>
 					<ul>
-						<li>Learn that images are made up of pixels.</li>
+						<li>Learn that images are made up of pixels, which can be stored as lists of color values.</li>
 						<li>Learn that pixels are made up of varying levels of red, green, and blue elements.</li>
-						<li>Learn that a "white" pixel is actually made up of red/green/blue at full brightness.</li>
-						<li>When an image is made up of large blocks of solid color, it's easier to recognize at lower resolutions.</li> 
+						<li>Observe that images become more recognizable and detailed at higher resolutions.</li>
 					</ul>
 				</li>
 				<li>
 					<strong>Activity Plan:</strong>
 					<ul>
-						<li>Students read about RGB Colors and experiment with photos with varying resolutions.</li>
+						<li>Students watch several videos demonstrating that screens are made up of pixels. (5&ndash;10 minutes)</li>
+						<li>The class then experiments in Snap<em>!</em> with photos at various resolutions. Show a mystery image at lowest resolution, gradually increase the resolution until students begin guessing the image, and keep track of the resolution at which students successfully guess the picture. Then repeat the process for another mystery image. (5&ndash;10 minutes)</li>
 					</ul>
 				</li>
 				<li>
 					<strong>Tips:</strong>
 					<ul>
-						<li>We recommend doing this activity as a teacher-led demonstration where you control the project on a projector, ask students for their guesses and thoughts, and keep track on a chalkboard of the resolution at which students successfully guess pictures.
-						<li>This activity was developed based on the <a href="https://youtu.be/6H8vK8Q5KeY?t=891" title="Snap<em>!</em>" target="_blank">Snap<em>!</em> 5 Data Science video</a> by Snap<em>!</em> designer, Jens Mönig.</li>
+						<li>There are two videos included in the student-facing activity. The first is quite short (about 20 seconds), but the second is longer (almost 12 minutes). It is not necessary to watch the entirety of the second video; the first three minutes will suffice.</li>
+						<li>This activity was inspired by the <a href="https://youtu.be/6H8vK8Q5KeY?t=891" title="Snap<em>!</em>" target="_blank">Snap<em>!</em> 5 Data Science video</a> by Snap<em>!</em> creator, Jens Mönig.</li>
 					</ul>
 				</li>
 				<li>
@@ -85,41 +77,141 @@
 		</div>
 	
 		<a class="back-to-top" href="#top">&uarr; Back to Top</a>
-		<h3>Activity 2: Pixel Manipulator.<a name="A2" class="anchor">&nbsp;</a></h3>
+		<h3>Activity 2: Exploring RGB Colors.<a name="A2" class="anchor">&nbsp;</a></h3>
 		<div>
 			<ul>
-				<li>
-					<strong>Materials:</strong> 
-					<ul>
-    					<li><a href="/bjc-r/middle-school/student-pages/U1/L4/02-pixel-manipulator.html?topic=middle-school%2F1-functions-data.topic&course=middle-school-teacher.html&novideo&noassignment" title="Activity 2: Pixel Manipulator" target="_blank">Pixel Manipulator</a> student page </li>
-						<li><a href="https://docs.google.com/presentation/d/1trMqawwYxVIUzDWW5srWlkToRzVXoZXKjNBuCpYoxP4/edit#slide=id.p" title="Image Manipulation Google slides" target="_blank">Image Manipulation</a> Google slides</li>
-					</ul>
-				</li>	
+				<li><strong>Materials:</strong> <a href="/bjc-r/middle-school/student-pages/U1/L4/02-exploring-rgb-colors.html?topic=middle-school%2F1-functions-data.topic&course=middle-school-teacher.html&novideo&noassignment" title="Activity 2: Exploring RGB Colors" target="_blank">Exploring RGB Colors</a> student page </li>
 				<li>
 					<strong>Prepare:</strong> 
 					<ul>
-						<li>You may wish to teach this activity through the slide deck. Review them and decide.</li>
+						<li>If you haven't already, you may wish to review the optional reading at the end of the student-page: <a href="https://www.color-meanings.com/additive-subtractive-color-mixing/" title="What Is the Difference Between Additive and Subtractive Color Mixing?" target="_blank">What Is the Difference Between Additive and Subtractive Color Mixing?</a></li>
 					</ul>
 				</li>
 				<li>
 					<strong>Learning Goals:</strong>
 					<ul>
-						<li>Explore various Snap<em>!</em> costumes.</li>
-						<li>Learn how images are stored in Snap<em>!</em> as table (lists of lists).</li>
-						<li>Create more complex expressions by nesting functions.</li>
-						<div class="todo">map? (not an intro to map, abstract it as transform?), inequalities intro, reporter IF</div>
+						<li>Learn that different colors can be created by adjusting RGB values.</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Activity Plan (10&ndash;20 minutes):</strong>
+					<ul>
+						<li>Students explore RGB colors by using several Snap<em>!</em> blocks: 
+							<ul>
+							    <li><img class="inline" src="/bjc-r/middle-school/img/U1/lab04/rgb-pixel.png" alt="RGB pixel, red: (85) green: (170) blue: (255)" title="RGB pixel, red: (85) green: (170) blue: (255)" />, which take three integers from 0 to 255 as input and reports a <em>list</em> of the those three color values.</li>
+								<li><img class="inline" src="/bjc-r/middle-school/img/U1/lab04/draw-pixel.png" alt="draw pixel 'list input slot'" title="draw pixel 'list input slot'" />, which takes a list of RGB values (such as the output of <code>RGB pixel</code>) as input and draws a large model of a pixel with those values.</li>
+								<li>
+									<code>paint color from pixel</code>, which takes two inputs, a list of RGB color values (such as the output of <code>RGB pixel</code>) and a resolution (selected from a dropdown menu), and paints a grid of pixels with those color values at the specified resolution. At higher resolutions, the pixels will blend into a single RGB color.<br />
+									<img class="indent" src="/bjc-r/middle-school/img/U1/lab04/paint-color-from-pixel-rgb-pixel.png" alt="paint color from pixel (RGB pixel, red: (85) green: (170) blue: (255))" title="paint color from pixel (RGB pixel, red: (85) green: (170) blue: (255))" />
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+				<!--<li>
+					<strong>Tips:</strong>
+					<ul>
+						<li></li>
+					</ul>
+				</li>-->
+				<li>
+					<strong>Standards:</strong>
+					<ul>
+						<li><strong>2-DA-07:</strong> Represent data using multiple encoding schemes.</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	
+		<a class="back-to-top" href="#top">&uarr; Back to Top</a>
+		<h3>Activity 3: Investigating and Storing Images.<a name="A3" class="anchor">&nbsp;</a></h3>
+		<div>
+			<ul>
+				<li>
+					<strong>Materials:</strong> 
+					<div class="sidenoteBig">We created <a href="https://docs.google.com/presentation/d/1trMqawwYxVIUzDWW5srWlkToRzVXoZXKjNBuCpYoxP4/edit#slide=id.p" title="Lab 3 Google slides" target="_blank">Google slides</a> for this activity, but they are not up to date with the current version of the lab.</div>
+					<ul>
+    					<li><a href="/bjc-r/middle-school/student-pages/U1/L4/03-investigating-and-storing-images.html?topic=middle-school%2F1-functions-data.topic&course=middle-school-teacher.html&novideo&noassignment" title="Activity 3: Investigating and Storing Images" target="_blank">Investigating and Storing Images</a> student page </li>
+					</ul>
+				</li>	
+				<li>
+					<strong>Prepare:</strong> 
+					<ul>
+						<li>You may wish to teach this activity through the slide deck. Review them and decide. (Please note that the activity pages have been developed further since the slides were created.)</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Learning Goals:</strong>
+					<ul>
+						<li>Explore various Snap<em>!</em> costumes and their pixels.</li>
+						<li>Learn that images are stored as tables (lists of lists), in which each row is one pixel.</li>
+						<li>Use <code>item of</code> to select a single pixel from a list.</li>
+						<li>Understand a chain of functional results by discussing how the output of one function serves as the input to another function.</li>
 					</ul>
 				</li>
 				<li>
 					<strong>Activity Plan:</strong>
 					<ul>
-						<li>Students explore various functions that manipulate an image pixel by pixel.</li>
+						<li>Students learn about Snap<em>!</em> costumes and zoom in on an image of their choosing to see the RGB values of each pixel. (5&ndash;10 minutes)</li>
+						<li>Optionally, students may add their own image to the Snap<em>!</em> project. (5&ndash;10 minutes)</li>
+						<li>Students see how the pixels in images are stored as rows in a table, select a specific pixel from an image, and discuss how the output of one function becomes the input to another function. (10&ndash;20 minutes)</li>
+						<div class="todo">For the future... <li>The class watches the <a href="" title="" target="_blank">Domain and Range</a> video. (5&ndash;10 minutes)</li></div>
 					</ul>
 				</li>
 				<li>
 					<strong>Tips:</strong>
 					<ul>
-						<li></li>
+						<li>The "If There is Time" activity invites students to add their own images to the Snap<em>!</em> project either by taking a picture with a webcam or dragging an image file into the "Costumes" tab in Snap<em>!</em>. If your class (or any given student or group of students) has extra time, this can be a fun way to personalize the project and learn new Snap<em>!</em> features, but as with any "If There Is Time" extension, it's not necessary for understanding the learning goals of this page.</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Standards:</strong>
+					<ul>
+						<li><strong>2-DA-07:</strong> Represent data using multiple encoding schemes.</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	
+		<a class="back-to-top" href="#top">&uarr; Back to Top</a>
+		<h3>Activity 4: Transforming Every Pixel.<a name="A4" class="anchor">&nbsp;</a></h3>
+		<div>
+			<ul>
+				<li><strong>Materials:</strong> <a href="/bjc-r/middle-school/student-pages/U1/L4/04-pixel-mapper.html?topic=middle-school%2F1-functions-data.topic&course=middle-school-teacher.html&novideo&noassignment" title="Activity 4: Transforming Every Pixel" target="_blank">Transforming Every Pixel</a> student page </li>
+				<li>
+					<strong>Prepare:</strong> 
+					<ul>
+						<li>If you aren't familiar and comfortable with the higher order function <code>map</code>, you may want to work through the activity on your own before supporting students through this activity. There is additional information about the <code>map</code> function in the section on "Higher Order List Operations and Rings" in  the <a href="https://snap.berkeley.edu/snap/help/SnapManual.pdf" title="Snap! Reference Manual" target="_blank">Snap<em>!</em> Reference Manual</a>.</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Learning Goals:</strong>
+					<ul>
+						<li>Learn how to select a item out of a list and a single cell out of a table.</li>
+						<li>Use <code>map</code> to apply functions to every element in a list.</li>
+						<li>Read more complex expressions with nesting functions.</li>
+						<li>Explore several image filters that transform each pixel in an image.</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Activity Plan:</strong>
+					<ul>
+						<li>Student use functions to select a specific color value from a pixel. (5&ndash;10 minutes)</li>
+						<li>Students learn about the <code>map</code> higher order function and use it to select only the red pixels from an image. (5&ndash;10 minutes)</li>
+						<li>Students explore several mystery filters that manipulate an image pixel by pixel (10&ndash;30 minutes)</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Tips:</strong>
+					<ul>
+						<li>There are several sets of optional, extension activities on this page:
+							<ul>
+    							<li>The first "If There is Time" invites students to take a look at the code behind the <code>color from pixel</code> block. This code uses predicates and reporters, which aren't introduced until Unit 2. It's not recommended to teach this content now, but, being a fairly readable block of code, is offered as a preview of what is to come.</li>
+								<li>The second set of "If There is Time" prompt invites students to adjust the inputs to Mystery Filter #1 to achieve other goals. </li>
+								<li>The third "If There is Time" set asks a deeper question about multiplying zero by a percentage.</li>
+								<li>There is also a "Take It Further" prompt that invites students to create additional image filters of their own design.</li>
+							</ul>
+						</li>
 					</ul>
 				</li>
 				<li>
