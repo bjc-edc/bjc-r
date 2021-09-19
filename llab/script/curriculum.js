@@ -43,8 +43,22 @@ llab.secondarySetUp = function() {
 
   // making ifTime and takeItFurther DIVs hide until clicked --MF, 2/9/18
   $('div.ifTime').each(function(i) {
-    var divcontent = this.innerHTML;
-    this.innerHTML = "&nbsp;<a style='font-size: 18px;' href='#hint-ifTime".concat(i, "' data-toggle='collapse' title='If There Is Time...'><strong>If There Is Time...</strong></a><div id='hint-ifTime", i, "' class='collapse'>", divcontent, "</div>");
+    let isVisible = Array.from(this.classList).indexOf('show') > -1;
+    let id = `hint-ifTime-${i}`;
+    this.innerHTML = `
+    <a style='font-size: 18px;' href='#${id}' data-toggle='collapse'
+      role="button" aria-controls="#${id}" aria-expanded=${isVisible}>
+      <strong>If There Is Time...</strong>
+    </a>
+    <div id='${id}' class='collapse'>
+      ${this.innerHTML}
+    </div>`;
+    // Use class "ifTime show" to show by default.
+    // BS3 uses the 'in' class to show content, TODO: update this for v5.
+    if (isVisible) {
+      $(`#${id}`).addClass('in');
+      $(this).removeClass('show');
+    }
   });
   $('div.takeItFurther').each(function(i) {
     var divcontent = this.innerHTML;
