@@ -3,51 +3,159 @@
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
-		<title>Unit 1 Lab 5: Storing and Securing Data, Activity 4</title>
+		<title>Unit 1 Lab 5: Storing and Securing Data, Activity 5</title>
 	</head>
 
 	<body>
-		<h3>Programming a Caesar Cipher</h3>
-
-
-        <div class="forYouToDo">
-            <ol start="4">
-                <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> Describe an algorithm for decoding a message that was created with a shift cipher.</li>
-            </ol>
-        </div>
-
-
-        <div class="todo">
-			Add to TG
-        	<ol type="A">
-            	<li>
-                    A simple substitution cipher is relatively easy to break because some letters are used more frequently than others.
-                    <ul>
-                        <li>Read about Al-Kindi, the Arabic philosopher and mathematician who first described the frequency analysis method of code-breaking, in "Breaking Substitution Ciphers" (<a href="http://www.bitsbook.com/wp-content/uploads/2008/12/B2B_3.pdf#page=185" target="_blank" title="Breaking Substitution Ciphers"><em>Blown to Bits</em> pages 166-169</a>).</li>
-                        <li>This method is still useful today, even with better  cryptography tools: <a href="http://www.forbes.com/sites/thomasbrewster/2015/09/03/microsoft-dumb-attacks-cracks-next-gen-cryptography/" target="_blank" title="How A 1200-Year-Old Hacking Technique Can Already Crack Tomorrow's Encrypted Vaults">How a 1200-year-old Hacking Technique Can Already Crack Tomorrow's Encrypted Vaults (Forbes, 9/3/15)</a></li>
-                    </ul>
-                </li>
-                <li>Read "Secret Keys and One-Time Pads" (<a href="http://www.bitsbook.com/wp-content/uploads/2008/12/B2B_3.pdf#page=187" target="_blank" title="Secret Keys and One-Time Pads"><em>Blown to Bits</em> pages 169-173</a>) to learn about Vigenère ciphers and methods used during World War 2 and the Cold War.</li>
-            </ol>
-        </div>
-
-
-        <div class="learn"><strong>On this page,</strong> you will program a shift cipher procedure to encrypt/decrypt text.</div>
-        <p>
-            Computers store keyboard characters (capital and small letters, punctuation marks, space, digits, symbols, and so on) as numbers called Unicode. This table shows the Unicode for some of the keyboard characters:<br />
+		<h2>Programming a Caesar Cipher</h2>
+		<div class="learn">
+			In this activity, you will write a program to encode and decode messages using a Caesar (shift) cipher.<br />
+			<img class="indent" src="/bjc-r/middle-school/img/U1/lab05/message-i-love-bjc-shifted-by-3-reporting.png" alt="message ('I love BJC!') shifted by (3) reporting 'L#oryh#EMF$'" title="message ('I love BJC!') shifted by (3) reporting 'L#oryh#EMF$'" />
+			<img class="indent" src="/bjc-r/middle-school/img/U1/lab05/decoding-i-love-bjc-reporting.png" alt="message ('L#oryh#EMF$') shifted by (-3) reporting 'I love BJC!'" title="message ('L#oryh#EMF$') shifted by (-3) reporting 'I love BJC!'" />
+		</div>
+		
+		<!--<div class="learn">
+            <p><strong>In this lab,</strong> you will learn about security risks on the Internet and how data can be encoded to protect it.</p>
+            <p><strong>On this page,</strong> you will experiment with different ways of encoding and decoding a message and learn a simple method of symmetric encryption.</p>
+        </div>-->
+        <h3>Exploring Unicode</h3>
+		<p>To shift the letters in a message, you need a way to add the shift value to each letter. Computers store characters (letters, digits, symbols, etc.) as numbers called Unicode. So you can change the characters of a message into Unicode, add to make the shift, and then change the Unicode back into letters.</p>
+		<p>
+			This table shows the Unicode for some familiar characters:<br />
             <img class="indent noshadow" src="/bjc-r/img/4-internet/img_CaesarCipher/Mary_CharacterTable.jpeg" height="330px" alt="Unicode Table"/>
         </p>
 
         <p>
             The <code>unicode of</code> block reports the number that is used for a particular character:<br />
-            <img class="indent" src="/bjc-r/img/4-internet/img_CaesarCipher/SnapUnicode1.png" height="52" alt="unicode of (a) reporting '97'" title="unicode of (a) reporting '97'" /><br />
+			<img class="indent" src="/bjc-r/middle-school/img/U1/lab05/unicode-B-reporting.png" alt="unicode of (B) reporting '66'" title="unicode of (B) reporting '66'" />
+		</p>
+		<p>
             The <code>unicode as letter</code> block reports the character that a given Unicode number represents:<br />
-            <img class="indent" src="/bjc-r/img/4-internet/img_CaesarCipher/SnapUnicode2.png" height="52"  alt="unicode (65) as letter reporting 'A'" title="unicode (65) as letter reporting 'A'" />
+			<img class="indent" src="/bjc-r/middle-school/img/U1/lab05/unicode-66-reporting.png" alt="unicode (66) as letter reporting 'B'" title="unicode (66) as letter reporting 'B'" />
         </p>
 
         <div class="forYouToDo" id="second">
             <ol>
-                <li>Experiment with the <code>unicode of</code> and <code>unicode as letter</code> blocks. Try changing a word into Unicode, telling the Unicode to a friend, and then having them change it back into a word.</li>
+				<li>Open this <a class="js-run-v7 snap-project" href="/bjc-r/middle-school/prog/caesar-cipher.xml" title="Caesar Cipher project" target="_blank">Caesar Cipher project</a>, and save it to your account.</li>
+                <li>Experiment with the <code>unicode of</code> and <code>unicode as letter</code> blocks. Write down the Unicode numbers for one word, give them to another student, and translate someone else's Unicode back into a word.</li>
+			</ol>
+		</div>
+		
+		
+		<h3>Working with Lists</h3>
+		<p>
+			If you type more than one character into the input slot of <code>unicode of</code>, it will report a list of the Unicode characters of those letters:<br />
+			<img class="indent" src="/bjc-r/middle-school/img/U1/lab05/unicode-BJC-reporting.png" alt="unicode of (BJC) reporting the list {66, 74, 67}" title="unicode of (BJC) reporting the list {66, 74, 67}" />
+		</p>
+		<p>
+			You can shift all the letters in that list at once by using the list as the input to the <img class="inline-block" src="/bjc-r/img/blocks/plus.png" alt="() + ()" title="() + ()" /> block:<br />
+			<img class="indent" src="/bjc-r/middle-school/img/U1/lab05/unicode-BJC+3-reporting.png" alt="(unicode of (BJC)) + (3) reporting the list {69, 77, 70}" title="(unicode of (BJC)) + (3) reporting the list {69, 77, 70}" />
+		</p>
+		<p>
+			The <code>unicode as letter</code> block can also accept a list as input. It will report a list of the characters for those Unicode numbers:<br />
+			<img class="indent" src="/bjc-r/middle-school/img/U1/lab05/unicode(unicode-BJC+3)as-letter-reporting.png" alt="unicode (unicode of (BJC) + 3) as letter reporting the list {B, J, C}" title="unicode (unicode of (BJC) + 3) as letter reporting the list {B, J, C}" />
+			<!--<img class="indent" src="/bjc-r/middle-school/img/U1/lab05/unicode(list)as-letter-reporting.png" alt="unicode (list (69, 77, 70)) as letter reporting the list {B, J, C}" title="unicode (list (69, 77, 70)) as letter reporting the list {B, J, C}" />-->
+		</p>
+		<div class="forYouToDo">
+			<ol start="3">
+				<li>Use the Unicode blocks to encode and decode a word:
+					<ol>
+						<li>Type a whole word into <code>unicode of</code>.</li>
+						<li>Use the <img class="inline-block" src="/bjc-r/img/blocks/plus.png" alt="() + ()" title="() + ()" /> block to shift the values.</li>
+						<li>Use <code>unicode as letter</code> to translate the shifted Unicode back into characters.</li>
+						<li>Then give your encoded message to another student. If they want a challenge, don't give them the shift value. If they don't want that challenge today, give them your shift value too.</li>
+						<li>Use the same Snap<em>!</em> blocks to decode someone else's encoded message.
+							<!--<div class="endnote">
+								<p><a href="#hint-decoding" data-toggle="collapse" title="Click here for a hint about decoding someone's message with Snap!.">Click here for a hint.</a></p>
+								<div id="hint-decoding" class="collapse">
+									<p>You can decode a message the same way as you encoded it; you just have to shift in the opposite direction. If the original shift added 5, you need to add -5 to get the original message back.</p>
+								</div>
+							</div>-->
+						</li>
+					</ol>
+				</li>
+				<li>
+					<img class="imageRight" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
+					Discuss how you decoded the message you received, and listen to how other people decoded their message. 
+					<ul>
+						<li>What parts of the process were the same and what parts were different?</li>
+						<li>What could you need to change to make a general process that will work for all mesages and shift values?</li>
+					</ul>
+				</li>
+				<li>
+					<div class="sidenoteBig">You learned how to create a new block that takes inputs on the <a href="/bjc-r/middle-school/student-pages/U1/L2/02-refining-the-story.html?topic=middle-school%2F1-functions-data.topic&course=middle-school.html" title="Unit 1 Lab 2 Page 2: Refining the Story" target="_blank">Refining the Story</a> page of the Super Short Stories lab.</div>
+					Create a block that takes a message and a shift value as input and reports the same message shifted by that value.<br />
+					<img class="indent" src="/bjc-r/middle-school/img/U1/lab05/message-shifted-by.png" alt="message () shifted by ()" title="message () shifted by ()" /> 
+					<div class="endnote" style="clear: right;">
+					<p><a href="#hint-new-block" data-toggle="collapse" title="Click for a reminder about how to create a new block.">Click for a reminder about how to create a new block.</a></p>
+					<div id="hint-new-block" class="collapse">
+						<p>
+						</p>
+					</div>
+					<p><a href="#hint-local-vars" data-toggle="collapse" title="Click for a reminder about how to create and use local variables.">Click for a reminder about how to create and use local variables.</a></p>
+					<div id="hint-local-vars" class="collapse">
+						<p>
+						</p>
+					</div>
+					</div>
+				</li>
+				<li>Test it your block by encoding and decoding a few messages, and fix any problems.</li>
+			</ol>
+		</div>
+		<h3><code>Join</code>ing Elements of a List</h3>
+		<p>So, you can use <code>unicode of</code> to change a string of text into Unicode, and you can use <code>unicode of letter</code> to change a list of Unicode back into a list of characters, but you don't want your program to output a list of characters, you want it to output the translated message as a string of text.</p>
+				
+		
+		<div class="sidenoteBig">You used <code>join</code> in the <a href="/bjc-r/middle-school/student-pages/U1/L2/02-refining-the-story.html?topic=middle-school%2F1-functions-data.topic&course=middle-school.html" title="Unit 1 Lab 2 Activity 2: Refining the Story" target="_blank">Refining the Story</a> activity of the Super Short Stories Lab.</div>
+		<p>
+			You have used <img class="inline-block" src="/bjc-r/img/blocks/join()().png" alt="join" title="join" /> to join text or characters into a single string of text.<br />
+			<img class="indent" src="/bjc-r/middle-school/img/U1/lab02/join-random-animal-s.png" alt="join (random animal) (s)" title="join (random animal) (s)" />
+		</p>
+		<p>The <code>join</code> block looks like it only takes one or more individual items as input, but it can also take a list as input and join all the elements.
+			
+			; you could type them in, or you could drag in blocks that report things you want to join together. But <code>unicode as letter</code> reports a single list with all the characters you'll want to join inside. So you need a way to combine all the characters in the list using join...</p>
+
+		
+		<h3>How to <code>Combine</code> Elements of a List</h3>
+		<p>You can use <img class="inline" src="/bjc-r/img/blocks/combine.png" alt="combine 'list input slot' using 'reporter input slot'" title="combine 'list input slot' using 'reporter input slot'" /> to apply the <code>join</code> function to all the elements in a list.</p>
+		
+		
+		<p> The <img class="inline" src="/bjc-r/img/blocks/combine.png" alt="combine 'list input slot' using 'reporter input slot'" title="combine 'list input slot' using 'reporter input slot'" /> block takes two inputs: a list and an operation <em>with two inputs</em>, and it reports the result of combining all the elements in the input list using the input operation. For example, the expression below reports: 0 + 1 + 2.<br />
+            <img class="indent" src="/bjc-r/img/3-lists/combine-simple-example.png" alt="combine (list {0, 1, 2}) with (()+()) reporting 3" title="combine (list {0, 1, 2}) with (()+()) reporting 3" />
+        </p>
+        
+        <div class="takeNote">
+            <p><strong>You choose the operation, and <code>combine</code> performs that operation by <em>combining</em> all the items in the input list and then reports the result.</strong></p>
+            <p>Notice that the function used to <em>combine</em> the list items always has two blank input slots. The <code>keep</code> block only needs one blank in its input function, but with <code>combine</code>, two are required.</p>
+        </div>
+        <div class="endnote">
+            <p><code>Combine</code> is a <em>higher order function</em>; it is a function that takes a function as input. You've seen another higher order function already: <code>keep</code> (in <a href="/bjc-r/cur/programming/2-complexity/3-predicates/5-keeping-list-items.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Keeping Items from a List">Unit 2 Lab 3</a>).</p>
+            <p>
+                Unlike <code>keep</code>, the <code>combine</code> function is only used with a few input functions.
+                <a href="#hint-which-functions" data-toggle="collapse" title="Which functions?">Which functions?</a>
+                <div id="hint-which-functions" class="collapse">
+                    <p>
+                        <code>Combine</code> is mostly used with <em>only these functions</em>:<br />
+                        <img class="indent" src="/bjc-r/img/3-lists/plus.png" alt="+" title="+" /> <img src="/bjc-r/img/3-lists/times.png" alt="&times;" title="&times;" /><br />
+                        <img class="indent" src="/bjc-r/img/3-lists/and-block.png" alt="and" title="and" /> <img src="/bjc-r/img/3-lists/or-block.png" alt="or" title="or" /><br />
+                        <img class="indent" src="/bjc-r/img/3-lists/join.png" alt="join" title="join" /> <img src="/bjc-r/img/3-lists/join-words.png" alt="join words" title="join words" /><br />
+                        and the <img class="inline" src="/bjc-r/img/3-lists/maximum.png" alt="maximum of () ()" title="maximum of () ()" /> and <img class="inline" src="/bjc-r/img/3-lists/minimum.png" alt="minimum of () ()" title="minimum of () ()" /> blocks you've just written yourself.
+                    </p>
+                    <p>
+                        <a data-toggle="collapse" href="#hint-3">Why so few?</a>
+                        <div id="hint-3" class="collapse">
+                            The function has to be <em>associative</em>, meaning that it can't matter what order you group the items in. For example, addition is associative: (7&thinsp;+&thinsp;8)&thinsp;+&thinsp;1 is the same as 7&thinsp;+&thinsp;(8&thinsp;+&thinsp;1) (work it out yourself), but subtraction is not: (7&thinsp;−&thinsp;8)&thinsp;−&thinsp;1 is different from 7&thinsp;−&thinsp;(8&thinsp;−&thinsp;1).
+                            So expressions like <img src="/bjc-r/img/3-lists/combine-minus.png" alt="combine with (-) items of (list 7 8 1)"> would be ambiguous.
+                        </div>
+                    </p>
+                </div>
+            </p>
+        </div>
+
+		<h3>Putting It All Together</h3>
+		<div class="forYouToDo">
+			<ol>
+				<li>Try changing a word into Unicode, telling the Unicode to a friend, and then having them change it back into a word.</li>
                 <li>On paper, use a shift cipher to encrypt and decrypt a short message  to get a feel for how this cipher works.</li>
                 <li>Write a shift cipher procedure that works for <em>any input text</em> and <em>any shift value</em>.</li>
                 <div class="endnote">
@@ -116,7 +224,25 @@
             </ol>
         </div>
 
+		<div class="forYouToDo">
+            <ol>
+                <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> Describe an algorithm for decoding a message that was created with a shift cipher.</li>
+            </ol>
+        </div>
 
+        <div class="todo">
+			Add to TG
+        	<ol type="A">
+            	<li>
+                    A simple substitution cipher is relatively easy to break because some letters are used more frequently than others.
+                    <ul>
+                        <li>Read about Al-Kindi, the Arabic philosopher and mathematician who first described the frequency analysis method of code-breaking, in "Breaking Substitution Ciphers" (<a href="http://www.bitsbook.com/wp-content/uploads/2008/12/B2B_3.pdf#page=185" target="_blank" title="Breaking Substitution Ciphers"><em>Blown to Bits</em> pages 166-169</a>).</li>
+                        <li>This method is still useful today, even with better  cryptography tools: <a href="http://www.forbes.com/sites/thomasbrewster/2015/09/03/microsoft-dumb-attacks-cracks-next-gen-cryptography/" target="_blank" title="How A 1200-Year-Old Hacking Technique Can Already Crack Tomorrow's Encrypted Vaults">How a 1200-year-old Hacking Technique Can Already Crack Tomorrow's Encrypted Vaults (Forbes, 9/3/15)</a></li>
+                    </ul>
+                </li>
+                <li>Read "Secret Keys and One-Time Pads" (<a href="http://www.bitsbook.com/wp-content/uploads/2008/12/B2B_3.pdf#page=187" target="_blank" title="Secret Keys and One-Time Pads"><em>Blown to Bits</em> pages 169-173</a>) to learn about Vigenère ciphers and methods used during World War 2 and the Cold War.</li>
+            </ol>
+        </div>
 
 
 		<div class="learn"></div>
