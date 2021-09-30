@@ -8,7 +8,112 @@
 
 	<body>
 		<h2>L33t Text</h2>
-		<div class="learn"></div>
+		<div class="learn">In this activity, you’ll make a text transforming block from scratch.</div>
+		<div class="forYouToDo">
+			<ol>
+				<div class="todo">You can either start from the Texting Time project, or start again from the starter project. (same with next page)</div>
+				<li>Open your "Texting Time" project, if it isn't open already.</li>
+			</ol>
+		</div>
+		
+		<h3>Make a New Stylized Text Block</h3>
+		<p>To show you how a text transforming block actually works, we'll make a block to transform text messages into l33t text, a kind of writing that replaces the letter "e" with the number 3.</p>
+		<div class="forYouToDo">
+			<ol>
+				<li>
+					Click <img class="" src="/bjc-r/img/1-introduction/make-a-block.png" alt="" title="" />in the palette. In the dialog that pops up, type the block name "l33t" and select "Reporter" as the type. Like all the other text styling blocks we used, this one will take in a value and report a value back. You should see a block editor like this one:<br />
+					<img class="" src="/bjc-r/middle-school/img/U1/lab05/" alt="" title="" />
+				</li>
+				<li>This block needs to take a single input, the text message to transform. Click the + sign at the end of the block header and select "Input name" in the dialog that pops up. Type "text" for the input name.</li>
+				<li>
+					The first step in transforming the text input is to split it into pieces to process. Since this style of writing cares about individual letters, we need to split by letter. Drag in the split block. Replace the default "hello world" with the text input by dragging it from the block header, and select "letter" from the dropdown.<br />
+					<img class="" src="/bjc-r/middle-school/img/U1/lab05/" alt="" title="" />
+				</li>
+			</ol>
+		</div>
+		<p>
+			The split block will turn the text into a list of letters, one row for each letter in the message. For example, here's how it would process the message "hey":<br />
+			<img class="" src="/bjc-r/middle-school/img/U1/lab05/" alt="" title="" />
+		</p>
+		<div class="forYouToDo">
+			<ol>
+				<li>
+					The next step is to use a map block, to turn that list of letters into a list of transformed letters. Drag the map block into the editor, and drag the split block onto the list icon.<br />
+					<img class="" src="/bjc-r/middle-school/img/U1/lab05/" alt="" title="" />
+				</li>
+			</ol>
+		</div>
+
+
+
+		<p>
+			Now we need to figure out what to put in the first slot. For the example message of "hey", this is what we'd want to happen:
+			<div class="bordered-table two-col">
+				<div class="header">original</div>
+					<div class="header">mapped</div>
+				<div>h</div>
+					<div>h</div>
+				<div>e</div>
+					<div>3</div>
+				<div>y</div>
+					<div>y</div>
+			</div>
+		</p>
+		<p>We can describe that mapping with a simple conditional: If the letter is e, then it should be mapped to 3, otherwise the letter stays the same.</p>
+		<div class="forYouToDo">
+			<ol start="3">
+				<li>
+					Drag an if-then-else block into the empty slot of the map block:<br />
+					<img class="" src="/bjc-r/middle-school/img/U1/lab05/" alt="" title="" />
+				</li>
+				<li>
+					Drag an = block into the if slot. Keep the first slot empty, since that will get automatically filled in with the current letter being mapped, and type "e" in the second slot.<br />
+					<img class="" src="/bjc-r/middle-school/img/U1/lab05/" alt="" title="" />
+				</li>
+				<li>
+					Now type an "e" in the then slot, and leave the else empty. Any empty slot in a map will be assumed to be the current value being transformed. (In this case, the current letter).<br />
+					<img class="" src="/bjc-r/middle-school/img/U1/lab05/" alt="" title="" />
+				</li>
+			</ol>
+		</div>
+		<p>We're almost done! We now have a list of transformed letters. This block should report back a string, however. Fortunately, it's easy to turn a list into a string.</p>
+		<div class="forYouToDo">
+			<ol start="6">
+				<li>
+					Drag the join block into the editor. By default, it has two slots filled in with strings. Remove the second slot and fill the first one with your map block.<br />
+					<img class="" src="/bjc-r/middle-school/img/U1/lab05/" alt="" title="" />
+				</li>
+				<li>
+					Finally, drag that join block into the report slot. Your l33t block is complete!<br />
+					<img class="" src="/bjc-r/middle-school/img/U1/lab05/" alt="" title="" />
+				</li>
+				<li>Of course, we need to make sure it actually works. Drag a few l33t blocks into the scripts tab and try out some messages. You can also try them inside the draw conversation block, to see them in all their iPhone SMS glory. </li>
+			</ol>
+		</div>
+
+	
+		<h3>Make up Your Own Style!</h3>
+		<p>
+			What other blocks could you make like this one? Here are some ideas:
+			<ul>
+				<li>Replace a different letter than "e"</li>
+				<li>Replace more letters, by nesting more if's inside the original if.</li>
+				<li>Replacing a letter with an emoji.</li>
+				<li>Replacing a letter with multiple letters.</li>
+			</ul>
+		</p>
+		<div class="forYouToDo">
+			<ol start="9">
+				<li>
+					To easily make a new block that is similar to l33t, you don't need to code all of that from scratch. Instead, just right-click on the block name and select "duplicate block definition". That'll bring up the block editor again: <br />
+					<img class="" src="/bjc-r/middle-school/img/U1/lab05/" alt="" title="" /><br />
+					You'll want to click "l33t" to change the name, and delete the "(2)" at the end.
+				</li>
+				<li>Now you can change what's in the if-then-else to make your own styling block.</li>
+				<li>Once you're done, try out your new block, use it in a conversation, and share your work with your classmates!</li>
+			</ol>
+		</div>
+
 
 
 		<div class="learn"></div>
