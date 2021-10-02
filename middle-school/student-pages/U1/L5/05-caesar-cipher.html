@@ -16,9 +16,11 @@
 		
         <h3>Exploring Unicode</h3>
 		<p>To shift the letters in a message, you need a way to add the shift value to each letter. Computers store characters (letters, digits, symbols, etc.) as numbers called <a href="https://home.unicode.org/" title="Unicode" target="_blank">Unicode</a>. So, you can change the characters of a message into Unicode, add (to make the shift), and then change the Unicode back into letters.</p>
+		<div class="comment">Hm, I'm not sure how much to nitpick this, since I know we're trying to simplify. When a computer program uses a UTF encoding, then it stores characters in binary according to the Unicode standard which defines code-points for thousands of characters. "Unicode number" is ambiguous as a pharase (since it could describe a number which can be typed in Unicode), "Unicode code-point" is the correct phrase. It might be interesting to note that humans are the ones that decide those code-points, so you can't just guess it - a computer or language has to store the entire table of Unicode code-points for all 150K characters. There are also encodings besides UTF/Unicode, some of which are relatively popular in other countries (like Japan), since Unicode emerged from English-based ASCII. -PF 10/1/21</div>
 		<p>
 			This table shows the Unicode for some familiar characters:<br />
             <img class="indent noshadow" src="/bjc-r/img/4-internet/img_CaesarCipher/Mary_CharacterTable.jpeg" height="330px" alt="Unicode Table"/>
+              <div class="comment">Another nitpick, which you can glaze over as needed for MS. Unicode code-points are technically written with U+ a hexadecimal number. So technically the codepoint is U+0041 for "A", and what you see in this table is the decimal numeral for that codepoint. And apparently snap returns the decimal numeral, for convenience. Yeah, probably should glaze over this point for MS, now that I write it out. -PF 10/1/21</div>
         </p>
 
         <p>
@@ -41,6 +43,7 @@
 		<h3>Working with Lists</h3>
 		<p>
 			If you type more than one character into the input slot of <code>unicode of</code>, it will report a list of the Unicode characters of those letters:<br />
+                        <div class="comment">"characters" here should either be code-points (or numbers if you stick with that)</div>
 			<img class="indent" src="/bjc-r/middle-school/img/U1/lab05/unicode-BJC-reporting.png" alt="unicode of (BJC) reporting the list {66, 74, 67}" title="unicode of (BJC) reporting the list {66, 74, 67}" />
 		</p>
 		<p>
@@ -55,6 +58,7 @@
 			Finally, the <code>join</code> block can accept a list as input too. It will join all the letters from a list into a single string of text:<br />
 			<img class="indent" src="/bjc-r/middle-school/img/U1/lab05/join-unicode(unicode-BJC+3)as-letter-reporting.png" alt="join( unicode (unicode of (BJC) + 3) as letter) reporting 'EMF'" title="join( unicode (unicode of (BJC) + 3) as letter) reporting 'EMF'" />
 		</p>
+                <div class="comment">I'm definitely curious whether MS students can follow the deep nesting here. I showed to my partner (a software engineer) and he was able to grok it, but said he'd prefer a piping flow versus a nesting flow. I don't think we used the pipe block yet, but it'd be very interesting pedagogically to see if that'd be a better learning experience for flows like this one. -PF 10/1/21</div>
 		<div class="forYouToDo">
 			<ol start="3">
 				<li>
@@ -74,6 +78,7 @@
 										</ol>
 									</p>
 								</div>
+								<div class="comment">I like this hint approach!-PF 10/1/21</div>
 								<p><a href="#hint-characters" data-toggle="collapse" title="Why are there characters like = ? @ # ^ * { or ~ ?">Why are there characters like <strong>= ? @ # ^ * { </strong> or <strong>~</strong> ?</a></p>
 								<div id="hint-characters" class="collapse">
 									<p>
@@ -108,6 +113,7 @@
 			<ol start="4">
 				<li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />How could you use Snap<em>!</em> to help you decode a message that was created with a simple substitution cipher <em>without knowing the key</em>?</li>
 			</ol>
+                        <div class="comment">Similar comment here as in prev activity: we may want to give teachers some ideas in the teacher guide. - PF 10/1/21</div>
 		</div>
 		
 
@@ -142,6 +148,7 @@
 						</div>
 						<p><a href="#hint-local-vars" data-toggle="collapse" title="Click for a reminder about how to create and use local variables.">Click for a reminder about how to create and use local variables.</a></p>
 						<div id="hint-local-vars" class="collapse">
+                                                        <div class="comment">"local variables" seems to me like a superset of parameters and local script variables, but this is only about params, plus I worry they won't know the terminology to click this. What if the prompt was "how to take in different inputs?" or something referencing "input". -PF 10/1/21</div>
 							<p>
 								<ol style="list-style-type: lower-roman;">
 									<li>
@@ -160,6 +167,7 @@
 				</li>
 				<li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />How can you use this same <code>message shifted by</code> block to <em>decode</em> a message?</li>
 				<li>Test it your block by encoding and decoding a few messages, and fix any problems.</li>
+				<div class="comment">It might help teachers out to just screenshot the solution in the teacher guide (in addition to linking to the project). -PF 10/1/21</div>
 			</ol>
 		</div>
 
@@ -180,6 +188,7 @@
 							<img class="indent" src="/bjc-r/middle-school/img/U1/lab05/input-type-shift-value-number.png" alt="" title="" /><br />
 						</div>
 						<p>You can learn more about the shape of input slots and how they tell Snap<em>!</em> and the programmer what kind of inputs are expected in <a href="/bjc-r/middle-school/student-pages/U1/L5/03-hex-rgb-colors.html?topic=middle-school%2F1-functions-data.topic&course=middle-school.html" title="Unit 1 Lab 5 Activity 3: Hexadecimal Numerals and RGB Colors - more about the shape of input slots behind the link 'Why do the input slots to binary of hex and hex of binary have different shapes?'" target="_blank">Activity 3: Hexadecimal Numerals and RGB Colors</a> behind the link "Why do the input slots to <code>binary of hex</code> and <code>hex of binary</code> have different shapes?" in the yellow box near the middle of page.</p>
+<div class="comment">Since hex is an optional activity (last you mentioned), it might be nice if that showed up in a non-optional activity? Or maybe its not optional now anyway? Thatd be fine too. -PF 10/1/21</div>
 					</div>
 				</li>
 			</ol>
@@ -197,6 +206,7 @@
 					</ul>
 				</li>
 				<li>Read "Secret Keys and One-Time Pads" (<a href="http://www.bitsbook.com/wp-content/uploads/2008/12/B2B_3.pdf#page=187" target="_blank" title="Secret Keys and One-Time Pads"><em>Blown to Bits</em> pages 169-173</a>) to learn about Vigenère ciphers and methods used during World War 2 and the Cold War.</li>
+ 				<div class="comment">Shameless plug: I made a fun interactive for my article on vigenere for CSP. https://www.khanacademy.org/computing/computers-and-internet/xcae6f4a7ff015e7d:online-data-security/xcae6f4a7ff015e7d:data-encryption-techniques/a/symmetric-encryption-techniques [No worries if KA links not allowed] - PF 10/1/21</div>
             </ol>
 		</div>
 
