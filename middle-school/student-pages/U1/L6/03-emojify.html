@@ -14,8 +14,7 @@
 			<ol>
 				<li>Open your "Texting Time" project, if it isn't open already, and find the <img class="inline nopadtb" src="/bjc-r/middle-school/img/U1/lab06/emojify-word.png" alt="emojify word ()" title="emojify word ()" /> block in the palette. The <code>emojify</code> block you've used already takes a sentence as input and uses <code>emojify word</code> to process each word.</li>
 				<li>
-					<div class="commentBig">Is cloud intended to be not-converted? - PF<p>Yes. I wanted some words that don't convert, but maybe that makes more sense after they've seen the list, so I cut it. --MF, 10/26/21</p></div>
-					 The <code>emojify word</code> block takes a single word as input. If that word has a matching emoji inside the block's code, it reports that emoji. Otherwise, it just reports the input word. Try the following inputs in the <code>emojify word</code> block:
+					The <code>emojify word</code> block takes a single word as input. If that word has a matching emoji inside the block's code, it reports that emoji. Otherwise, it just reports the input word. Try the following inputs in the <code>emojify word</code> block:
 					<ol>
 						<li>sun</li>
 						<li>rain</li>
@@ -63,21 +62,9 @@
 					<ol>
 						<li>What will <code>emojify word (cat)</code> report?</li>
 						<li>What will <code>emojify word (cow)</code> report?</li>
-						<li>How could you change the code inside <code>emojify word</code> to make <code>emojify word (cow)</code> report an emoji of a cow?</li>
+						<li>How could you change the code to make <code>emojify word (cow)</code> report an emoji of a cow? (You'll have a chance to add word/emoji pairs soon!)</li>
 					</ol>
 				</li>
-				<div class="endnote">
-					<p><a href="#hint-add-pairs" data-toggle="collapse" title="Click for hints about adding more word/emoji pairs to the EMOJIFY WORD block.">Click for hints about adding more word/emoji pairs.</a></p>
-					<div id="hint-add-pairs" class="collapse">
-						<p>
-							<ol type="i">
-								<li>Add an input slot for a new pair by clicking the right-facing triangle at the end of the outer <code>list</code> block (the list of lists). You should see a new input slot appear at the end of the list.</li>
-								<li>Duplicate one of the nested word/emoji pair lists by right-clicking it and selecting "duplicate." Then drag the duplicated block into the new input slot.</li>
-								<li>Type the new word and emoji in the input slots of the new list. You can paste emojis from <a href="https://emojifinder.org/" title="emojifinder.org" target="_blank">emojifinder.org</a> or <a href="https://emojipedia.org/" title="emojipedia.org" target="_blank">emojipedia.org</a>. </li>
-							</ol>
-						</p>
-					</div>
-				</div>
 			</ol>
 		</div>
 	
@@ -98,6 +85,10 @@
 }" title="emoji from pair (pair...) otherwise (word) {
 	if (is (pair) a (list)?) then (item (2) of (pair)) else (word)
 }" />
+					<div class="endnote">
+						<p><a href="#hint-is-a" data-toggle="collapse" title="">What does <img class="" src="/bjc-r/img/blocks/is-a-list.png" alt="What does IS () A (LIST)? do?" title="What does IS () A (LIST)? do?" /> do?</a></p>
+						<div id="hint-is-a" class="collapse"><p>The <code>is () a ()?</code> predicate takes two inputs, the first can be anything, and the second is the name of a type of value (number, text, list, etc.). If the first input is of the type selected in the second input, the block will report true; otherwise, it will report false. In this case, if the <var>pair</var> is a list, it will report true, and if not, it will report false.</p></div>
+						</div>
 					<ol>
 						<li>
 							What are the possible inputs for the word/emoji <var>pair</var>? (Think about how this block is being used.)
@@ -161,10 +152,40 @@
 					Create help text for <code>emojify</code> that describes the input and output.
 					<div class="endnote">You learned how to add help text by attaching a comment to the hat block in <a href="/bjc-r/middle-school/student-pages/U1/L6/01-texting-time.html?topic=middle-school%2F1-functions-data.topic&course=middle-school-teacher.html&novideo&noassignment" title="Unit 1 Lab 6 Activity 1: Texting Time">Unit 1 Lab 6 Activity 1: Texting Time</a>.</div>
 				</li>
+				<li>
+					<img class="imageRight" src="/bjc-r/img/icons/save-now.png" alt="Now Is a Good Time to Save" title="Now Is a Good Time to Save" />
+					Change the code inside <code>emojify word</code> to make <code>emojify</code> translate a word of your choosing into an emoji of your choosing. Test your work in <code>emojify word</code> first, and then by trying a sentence with that word as input to <code>emojify</code>.
+				</li>
+				<div class="endnote">
+					<p><a href="#hint-add-pairs" data-toggle="collapse" title="Click for hints about adding more word/emoji pairs to the EMOJIFY WORD block.">Click for hints about adding more word/emoji pairs to the <code>emojify word</code> block.</a></p>
+					<div id="hint-add-pairs" class="collapse">
+						<p>
+							<ol type="i">
+								<li>
+									Add an input slot for a new pair by clicking the right-facing triangle at the end of the outer <code>list</code> block (the list of lists). You should see a new input slot appear at the end of the list.
+									<img class="indent" src="/bjc-r/middle-school/img/U1/lab06/emojify-word-definition.png" alt="emojify (word) {
+	script variables (word emoji pair)
+	set (word emoji pair) to (find first item ((item (1) of 'list input slot') = lowercase (word)) in ('list of 19 two-item lists, each containing a word, such as love, and an emoji, such as ❤️'))
+	report (if (is (word emoji pair) a ('list')?) then (item (2) of (word emoji pair)) else (word))
+}" title="emojify (word) {
+	script variables (word emoji pair)
+	set (word emoji pair) to (find first item ((item (1) of 'list input slot') = lowercase (word)) in ('list of 19 two-item lists, each containing a word, such as love, and an emoji, such as ❤️'))
+	report (if (is (word emoji pair) a ('list')?) then (item (2) of (word emoji pair)) else (word))
+}" />								</li>
+								<li>Duplicate one of the nested word/emoji pair lists by right-clicking it and selecting "duplicate." Then drag the duplicated <code>list</code> block into the new input slot.</li>
+								<li>Type the new word and emoji in the input slots of the new list. You can paste emojis from <a href="https://emojifinder.org/" title="emojifinder.org" target="_blank">emojifinder.org</a> or <a href="https://emojipedia.org/" title="emojipedia.org" target="_blank">emojipedia.org</a>. </li>
+							</ol>
+						</p>
+					</div>
+				</div>
+			</ol>
+		</div>
+		<div class="ifTime show">
+			<ol start="11">
+				<li>Add more word/emoji pairs and try them out!</li>
 			</ol>
 		</div>
 		
-<div class="commentBig">It feels like a little of a downer to end the activity on documentation. I think it'd be nice to end it on adding more emojis, which you have as a possible exploration earlier. You could move it down here, so activity could end with a 💥!-PF</div>
 
 		<div class="learn">In this activity, you reviewed the <code>map</code>, <code>join</code>, <code>split</code>, and <code>if</code> blocks, you learned about a new block <img class="notabtb" src="/bjc-r/img/blocks/find-first.png" alt="find first item 'predicate input slot' in 'list input slot'" title="find first item 'predicate input slot' in 'list input slot'" /> that uses a predicate to check for an item in a list, you added a word/emoji pair to the list, and you interpreted new blocks containing new blocks.</div>
 

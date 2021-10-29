@@ -14,12 +14,13 @@
 
 		<h3>Pacing</h3>
 		<p>
-			This lab is designed for 3&ndash;4 class periods <!--(<strong>130&ndash;180 minutes</strong>).-->
+			This lab is designed for 3&ndash;8 class periods <!--(<strong>130&ndash;180 minutes</strong>).-->
 			<ul>
 				<li><a href="#DA" title="Daily Activity: Computing in the News">Daily Activity: Computing in the News</a> 5&ndash;15 minutes each day</li>
 				<li><a href="#A1" title="Texting Time">Activity 1: Texting Time</a>: 20&ndash;115 minutes</li>
 				<li><a href="#A2" title="L33t Text">Activity 2: L33t Text</a>: 25&ndash;90 minutes</li>
-				<li>Two additional activities forthcoming...</li><!--<li>(Optional) <a href="#A3" title="Emojify">Activity 3: Emojify</a>: X&ndash;X minutes</li>
+				<li>(Optional) <a href="#A3" title="Emojify">Activity 3: Emojify</a>: 35&ndash;75 minutes</li>
+				<li>One additional activity forthcoming...</li><!--
 				<li><a href="#A4" title="Emoji Deep Dive">Activity 4: Emoji Deep Dive</a>: X&ndash;X minutes</li>-->
 			</ul>
 		</p>
@@ -107,6 +108,15 @@
 									<li>The <code>shorthand</code> block removes all of the vowels from the text.</li>
 								</ul>
 							</li>
+							<li>
+								Sample help text. (Again, students may word things differently, but it is nice to describe inputs and outputs.)<ul>
+									<li><code>lowercase</code>: This block takes a string of text as input and reports the same text but with all of the uppercase letters changed to lowercase.</li>
+									<li><code>songify</code>: This block takes a string of text as input and reports the same text but with random music emojis added to the start and end of the text.</li>
+									<li><code>emojify</code>: This block takes a string of text as input and reports the same text but with particular words replaced by corresponding emojis.</li>
+									<li><code>clapify</code>: This block takes a string of text as input and reports the same text but with clap emoji inserted between each of the letters.</li>
+									<li><code>shorthand</code>: This block takes a string of text as input and reports the same text but with all of the vowels removed.</li>
+								</ul>
+							</li>
 						</ul>
 					</div>
 				</li>
@@ -161,18 +171,54 @@
 					<a href="#hint-solutions-A2" data-toggle="collapse" title="Activity 2 Solutions"><strong>Solutions</strong></a>
 					<div id="hint-solutions-A2" class="collapse">
 						<p>
-							The following are examples for the case of changing the letter "e" to a "3". Students may have correct code that looks different.
 							<ul>
-								<li><img class="inline" src="/bjc-r/middle-school/img/U1/lab06/change-e-to-3-solution.png" alt="change e to 3 for letter (letter) {
-		report (if (letter = e) then (3) else (letter))
-	}" title="change e to 3 for letter (letter) {
-		report (if (letter = e) then (3) else (letter))
-	}" /></li>
-								<li><img class="inline" src="/bjc-r/middle-school/img/U1/lab06/l33t-solution.png" alt="l33t (text) {
-		report (join (map (change e to 3 for letter ()) over (split (text) by (letter))))
-	}" title="l33t (text) {
-		report (join (map (change e to 3 for letter ()) over (split (text) by (letter))))
-	}" /></li>
+								<li>
+									The following are examples for the case of changing the letter "e" to a "3". Students may have correct code that looks different.
+									<ul>
+										<li><img class="inline" src="/bjc-r/middle-school/img/U1/lab06/change-e-to-3-solution.png" alt="change e to 3 for letter (letter) {
+				report (if (letter = e) then (3) else (letter))
+			}" title="change e to 3 for letter (letter) {
+				report (if (letter = e) then (3) else (letter))
+			}" /></li>
+										<li><img class="inline" src="/bjc-r/middle-school/img/U1/lab06/l33t-solution.png" alt="l33t (text) {
+				report (join (map (change e to 3 for letter ()) over (split (text) by (letter))))
+			}" title="l33t (text) {
+				report (join (map (change e to 3 for letter ()) over (split (text) by (letter))))
+			}" /></li>
+									</ul>
+								</li>
+								<li>
+									An additional letter-changing function:<br />
+									<img class="indent" src="/bjc-r/middle-school/img/U1/lab06/change-s-to-5-solution.png" alt="change s to 5 for letter (letter) {
+				report (if (letter = s) then (5) else (letter))
+			}" title="change s to 5 for letter (letter) {
+				report (if (letter = s) then (5) else (letter))
+			}" />
+								</li>
+								<li>
+									Replacing a letter with an emoji:<br />
+									<img class="indent" src="/bjc-r/middle-school/img/U1/lab06/change-k-to-key-solution.png" alt="change k to 🔑 for letter (letter) {
+				report (if (letter = k) then (🔑) else (letter))
+			}" title="change k to 🔑 for letter (letter) {
+				report (if (letter = k) then (🔑) else (letter))
+			}" />
+								</li>
+								<li>
+									Replacing a letter with multiple letters:<br />
+									<img class="indent" src="/bjc-r/middle-school/img/U1/lab06/change-x-to-ks-solution.png" alt="change x to ks for letter (letter) {
+				report (if (letter = x) then (ks) else (letter))
+			}" title="change x to ks for letter (letter) {
+				report (if (letter = x) then (ks) else (letter))
+			}" />
+								</li>
+								<li>
+									Replacing multiple letters at once by nesting multiple letter-changing functions:<br />
+									<img class="indent" src="/bjc-r/middle-school/img/U1/lab06/l33t-nested-solution.png" alt="l33t (text) {
+				report (join (map (change s to 5 for letter ()) over (map (change e to 3 for letter ()) over (split (text) by (letter)))))
+			}" title="l33t (text) {
+				report (join (map (change s to 5 for letter ()) over (map (change e to 3 for letter ()) over (split (text) by (letter)))))
+			}" />
+								</li>
 							</ul>
 						</p>
 					</div>
@@ -180,24 +226,106 @@
 			</ul>
 		</div>
 
-		<div class="endnote">Two additional activities ("Emojify," in which students analyze the <code>emojify</code> block and the blocks it uses, and "Emoji Deep Dive," in which students consider issues of bias in emojis  and design an emoji) will be available soon.</div>
+		<a class="back-to-top" href="#top">&uarr; Back to Top</a>
+		<h3>Activity 3: Emojify.<a name="A3" class="anchor">&nbsp;</a></h3>
+		<div class="todo">
+			<p>Pamela, given our new helper block setup, I didn't see a good way to integrate this project extension, but if you do, please LMK. --MF, 10/28/21</p>
+			You can change emojify to generate random emojis by changing: <img class="" src="/bjc-r/middle-school/img/U1/lab06/item-2-of-word-emoji-pair.png" alt="" title="" /> to: <img class="" src="/bjc-r/middle-school/img/U1/lab06/item-random-of-all-but-first-of-word-emoji-pair.png" alt="" title="" /> Then you can add additional emojis to each list, and it will pick randomly from them.
+		</div>
+		<div>
+			<ul>				
+				<li>
+					<strong>Materials:</strong> <a href="/bjc-r/middle-school/student-pages/U1/L6/03-emojify.html?topic=middle-school%2F1-functions-data.topic&course=middle-school-teacher.html&novideo&noassignment" title="Activity 3: Emojify" target="_blank">Emojify</a> student page
+					<div class="comment">OLD: <a href="https://docs.google.com/document/d/17nP6GrZCilc2jLDNe4QAU5bU5ph7EaKcMV0IK7jGsA8/edit#heading=h.kck2l6av9eau" title="Emojify Google Doc" target="_blank">Emojify Google Doc</a></div>
+				</li>
+				<li>
+					<strong>Prepare:</strong> 
+					<ul>
+						<li>This activity is optional, review it and decide whether you will use it with your students.</li>
+						<li>If you opt to use this activity, read through the student page and the links with optional reading, and be sure you understand how the <code>emojify</code>, <code>emojify word</code>, <code>emoji from pair</code>, and <code>find first</code> blocks work before leading this activity with students.</li>
+						<li>Consider how you plan to run this activity. You could have students work through the page in pairs or small groups discussing as they go. You could work through the whole page together as a class. Or you would have students work in pairs or groups and then bring the class together periodically for discussions to make sure they understand each block before moving on.</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Learning Goals:</strong>
+					<ul>
+						<li>Analyze a set of three nested functions: <code>emojify</code>, <code>emojify word</code>, and <code>emoji from pair</code>.</li>
+						<li>Understand how the <code>find first</code> higher order function works both on a list and on a list of lists.</li>
+						<li>Review use of the <code>if then else</code> block.</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Activity Plan:</strong>
+					<ul>
+						<li>Using <code>Find First</code> to Make <code>Emojify Word</code>. Students learn the functionality of the <code>find first</code> block and analyze it's use in <code>emojify word</code> to search a list of lists. (10&ndash;20 minutes)</li>
+						<li>Using <code>If Then Else</code> to Make <code>Emoji from Pair</code>. Students learn the <code>is () a ()? </code> block and review the <code>if then else</code> and <code>item  of</code> blocks as they analyze the <code>emoji from pair</code> block used by <code>emojify word</code>. (5&ndash;10 minutes)</li>
+						<li>Using <code>Emojify Word</code> to Make <code>Emojify</code>. Students review <code>map</code>, <code>join</code>, and <code>split</code> as they analyze how the <code>emojify</code> block uses <code>emojify word</code>. After a discussion, they write a description and help text for the block, and then edit <code>emojify word</code> to add one or more word/emoji pairs of their choosing. (10&ndash;25 minutes)</li>
+					</ul>
+				</li>
+				<div class="todo">
+					<p>Pamela, I'm leaving this out for now since it uses the old, pre-helper version of the blocks. If we determine that people need it, we can rewrite it accordingly. --MF, 10/28/21</p>
+					<li>
+						<strong>Tips:</strong>
+						<ul>
+							<li>If students struggle to understand the code in the <code>emojify</code>, you may find it helpful to use this <a href="https://snap.berkeley.edu/snap/snap.html#present:Username=pamelafox-ucb&ProjectName=Emojify Deep Dive&editMode" title="Emojify Breakdown project" target="_blank">Emojify Breakdown project</a>. Students can click each of the expressions to see what they output, understanding the individual blocks then nested blocks until the whole <code>emojify block</code> makes sense. You may opt to give this directly to students or to work through it together as a class.</li>
+						</ul>
+					</li>
+				</div>
+				<li>
+					<strong>Standards:</strong>
+					<ul>
+						<li><strong>2-AP-13:</strong> Decompose problems and subproblems into parts to facilitate the design, implementation, and review of programs.</li>
+						<li><strong>2-AP-19:</strong> Document programs in order to make them easier to follow, test, and debug.</li>
+					</ul>
+				</li>
+				<div class="todo">Mary still has to write solutions...</div>
+				<div class="todo">
+					<ul>
+						<li>The <code>emojify</code> block is a reporter block, so it uses a <code>report</code> block to send back a computed value to the main program.</li>
+						<li>The <code>report</code> block has a nested <code>join</code> block. A <code>join</code> block joins together multiple strings of text into one long string of text.</li>
+						<li>The <code>join</code> block has a nested <code>map</code> block. A <code>map</code> block performs the same operation on every item in a list and reports a new list containing those results. The first input is the operation, the second input is the list.</li>
+						<li>The first input to the <code>map</code> block is another <code>join</code> block that joins the result of calling the <code>emojify word</code> block with a space character.</li>
+						<li>The second input to <code>map</code> is the <code>split</code> block that splits the input text into a bunch of words.</li>
+					</ul>
+				</div>
+				<li>
+					<a href="#hint-solutions-A3" data-toggle="collapse" title="Activity 3 Solutions"><strong>Solutions</strong></a>
+					<div id="hint-solutions-A3" class="collapse">
+						<ul>
+							<li>
+								Write a paragraph describing how the <code>emojify</code> block works. Example paragraph: <br />
+								<ul>
+									<li>A description of the input and how it is used in the code</li>
+									<li>A review of what <code>emojify word</code> does</li>
+									<li>A description of how <code>join</code>, <code>map</code>, and <code>split</code> blocks are used</li>
+									<li>A description of what is reported</li>
+								</ul>
+							</li>
+							<li>
+								Create help text for <code>emojify</code> that describes the input and output. Example help text: <br />
+							</li>
+							<li>
+								Change the code inside <code>emojify word</code> to make <code>emojify</code> translate a word of your choosing into an emoji of your choosing:<br />
+								<img class="" src="/bjc-r/middle-school/img/U1/lab06/" alt="" title="" />
+							</li>
+						</ul>
+					</div>
+				</li>
+			</ul>
+		</div>
+
+		<div class="endnote">One additional activity ("Emoji Deep Dive," in which students consider issues of bias in emojis  and design an emoji) will be available soon.</div>
 
 
 		<!--<a class="back-to-top" href="#top">&uarr; Back to Top</a>
-		<h3>Activity 3: Emojify.<a name="A3" class="anchor">&nbsp;</a></h3>
-		<div class="todo">
-Teacher's Resources (LINKS IN <a href="https://docs.google.com/document/d/1QuTEL_B3tHSpkJhKFdw0ZzWzk4f0Nb8Mfc1pepFeE_M/edit#" title="" target="_blank">Original Google Doc</a>)
-Lesson Plan
-Activity: Emojify
-[5-20 minutes] Read or watch TED talk
-		</div>
-
+		<h3>Activity 4: Emoji Deep Dive.<a name="A4" class="anchor">&nbsp;</a></h3>
 <div class="todo">
 Teacher's Resources (LINKS IN <a href="https://docs.google.com/document/d/17nP6GrZCilc2jLDNe4QAU5bU5ph7EaKcMV0IK7jGsA8/edit#" title="" target="_blank">Original Google Doc</a>)
 Lesson Plan
-[15 minutes] (Optional) Understanding the emojify block
-[10 minutes] Add more emojis
+Activity: Emojify
+[5-20 minutes] Read or watch TED talk<br /><br />
 
+Lesson Plan
 [5 minutes] A Brief History of Emojis
 [15 minutes] (Optional) Video: How emoji replaced QWERTY as the world's most popular keyword
 [10 minutes] (Optional) Video: Language of the Future.
@@ -212,89 +340,8 @@ Video: How emoji replaced QWERTY as the world's most popular keyword
 Video: How to draw an emoji (Follow along)
 https://www.wired.com/story/guide-emoji/
 
-Project extensions:
-	You can change emojify to generate random emojis by changing:
-
-<img class="" src="/bjc-r/middle-school/img/U1/lab06/item-2-of-word-emoji-pair.png" alt="" title="" />
-
-to:
-	<img class="" src="/bjc-r/middle-school/img/U1/lab06/item-random-of-all-but-first-of-word-emoji-pair.png" alt="" title="" />
-
-Then you can add additional emojis to each list, and it will pick randomly from them.
-
-
-</div>
-<div class="todo">
-
-<p>
-							<ul>
-								<li>The <code>emojify</code> block is a reporter block, so it uses a <code>report</code> block to send back a computed value to the main program.</li>
-								<li>The <code>report</code> block has a nested <code>join</code> block. A <code>join</code> block joins together multiple strings of text into one long string of text.</li>
-								<li>The <code>join</code> block has a nested <code>map</code> block. A <code>map</code> block performs the same operation on every item in a list and reports a new list containing those results. The first input is the operation, the second input is the list.</li>
-								<li>The first input to the <code>map</code> block is another <code>join</code> block that joins the result of calling the <code>emojify word</code> block with a space character.</li>
-								<li>The second input to <code>map</code> is the <code>split</code> block that splits the input text into a bunch of words.</li>
-							</ul>
-						</p>
-
-
-</div>
-		<div>
-			<ul>				
-				<li>
-					<strong>Materials:</strong> <a href="/bjc-r/middle-school/student-pages/U1/L6/03-emojify.html?topic=middle-school%2F1-functions-data.topic&course=middle-school-teacher.html&novideo&noassignment" title="Activity 3: Emojify" target="_blank">Emojify</a> student page
-					<div class="comment">OLD: <a href="https://docs.google.com/document/d/17nP6GrZCilc2jLDNe4QAU5bU5ph7EaKcMV0IK7jGsA8/edit#heading=h.kck2l6av9eau" title="Emojify Google Doc" target="_blank">Emojify Google Doc</a></div>
-				</li>
-				<li>
-					<strong>Prepare:</strong> 
-					<ul>
-						<li>This activity is optional, review it and decide whether you will use it with your students.</li>
-						<li>If you opt to use this unit, read through the student page and the links with optional reading first. Be sure you understand how the <code>emojify</code>, <code>emojify word</code>, <code>emoji from pair</code>, and <code>find first</code> blocks work before leading this activity with students.</li>
-						<li>Consider how you plan to run this activity. You could have students work through the page in pairs or small groups discussing as they go. You could work through the whole page together as a class. Or you would have them work in pairs or groups and then bring the class together periodically for discussions to make sure they understand each block before moving on.</li>
-					</ul>
-				</li>
-				<li>
-					<strong>Learning Goals:</strong>
-					<ul>
-						<li>Analyze a set of three nested functions: <code>emojify</code>, <code>emojify word</code>, and <code>emoji from pair</code>.</li>
-						<li>Understand how the <code>find first</code> higher order function works both on a list and on a list of lists.</li>
-						<li>Review the use of the <code>if then else</code> block.</li>
-					</ul>
-				</li>
-				<li>
-					<strong>Activity Plan:</strong>
-					<ul>
-						<li>Read or watch TED talk (5&ndash;20 minutes)</li>
-						<li>Using <code>Find First</code> to Make <code>Emojify Word</code></li>
-						<li>Using <code>If Then Else</code> to Make <code>Emoji from Pair</code></li>
-						<li>Using <code>Emojify Word</code> to Make <code>Emojify</code></li>
-					</ul>
-				</li>
-				<li>
-					<strong>Tips:</strong>
-					<ul>
-						<li>If students struggle to understand the code in the <code>emojify</code>, you may find it helpful to use this <a href="https://snap.berkeley.edu/snap/snap.html#present:Username=pamelafox-ucb&ProjectName=Emojify Deep Dive&editMode" title="Emojify Breakdown project" target="_blank">Emojify Breakdown project</a>. Students can click each of the expressions to see what they output, understanding the individual blocks then nested blocks until the whole <code>emojify block</code> makes sense. You may opt to give this directly to students or to work through it together as a class.</li>
-					</ul>
-				</li>
-				<li>
-					<strong>Standards:</strong>
-					<ul>
-						<li><strong>2-AP-13:</strong> Decompose problems and subproblems into parts to facilitate the design, implementation, and review of programs.</li>
-						<li><strong>2-AP-19:</strong> Document programs in order to make them easier to follow, test, and debug.</li>
-					</ul>
-				</li>
-				<li>
-					<a href="#hint-solutions-A3" data-toggle="collapse" title="Activity 3 Solutions"><strong>Solutions</strong></a>
-					<div id="hint-solutions-A3" class="collapse">
-						<ul>
-							<li></li>
-						</ul>
-					</div>
-				</li>
-			</ul>
 		</div>
 
-		<a class="back-to-top" href="#top">&uarr; Back to Top</a>
-		<h3>Activity 4: Emoji Deep Dive.<a name="A4" class="anchor">&nbsp;</a></h3>
 		<div>
 			<ul>
 				<li>
@@ -310,13 +357,14 @@ Then you can add additional emojis to each list, and it will pick randomly from 
 				<li>
 					<strong>Learning Goals:</strong>
 					<ul>
-						<li></li>
+						<li>Consider issues of bias in emojis</li>
+						<li>Design an emoji</li>
 					</ul>
 				</li>
 				<li>
 					<strong>Activity Plan:</strong>
 					<ul>
-						<li></li>
+						<li>Read or watch TED talk (5&ndash;20 minutes)</li>
 					</ul>
 				</li>
 				<li>
