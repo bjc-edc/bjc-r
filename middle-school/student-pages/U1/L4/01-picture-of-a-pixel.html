@@ -3,60 +3,82 @@
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<script type="text/javascript" src="/bjc-r/utilities/gifffer.min.js"></script>
+		<script type="text/javascript">window.onload = function() {Gifffer();}</script>
+		<link rel="stylesheet" type="text/css" href="/bjc-r/css/bjc-gifffer.css">
 		<title>Unit 1 Lab 4: Image Manipulation, Activity 1</title>
 	</head>
 
 	<body>
 		<h2>Picture of a Pixel</h2>
-		<div class="learn">In this activity, you'll see how pixels can bring a picture to life.</div>
+		<div class="todo">Mary: remove the unused blocks and then hide everything except the <em>five</em> they will be using: <code>draw picture</code>, <code>rgb pixel</code>, <code>draw pixel</code>, <code>paint color from pixel</code>, and <code>paint color</code>. --MF, 9/9/21 (Need to figure out how to hide blocks. --MF, 9/12/21)</div>
+
+		<div class="learn">In this activity, you'll see how pixels make up an image.</div>
 
 		<h3>What's a Pixel?</h3>
-		<p>You're looking at some sort of computer screen right now, right? That screen is made up of thousands, if not millions, of pixels!</p>
+		<p>The screen you're looking at is made up of thousands, if not millions, of <em>pixels</em>. Each pixel is made up of red, green, and blue light, and the screen combines pixels with different amounts of each of those three colors to make all the different colors on a screen.</p>
 		<p>
-			Each pixel is made up of red, green, and blue light, and the screen combines them in different amounts to make different colors. Here's a pixel with all colors equally bright:<br />
-			<img class="indent" src="/bjc-r/middle-school/img/U1/pixel.png" alt="square made up of three horizontal rectangles each of a solid color: red, green, and blue" title="square made up of three horizontal rectangles each of a solid color: red, green, and blue" />
+			Here's what a white pixel looks like up close:<br />
+			<div class="vocabBig">
+				<p>A <strong>pixel</strong> (short for <strong>pic</strong>ture <strong>el</strong>ement) is the smallest programmable unit of color on a screen.</p>
+			</div>
+			<img class="indent" src="/bjc-r/middle-school/img/U1/lab04/pixel.png" alt="square made up of three horizontal rectangles each of a solid color: red, green, and blue" title="square made up of three horizontal rectangles each of a solid color: red, green, and blue" />
 		</p>
-		<p>Incredibly, that's the combination used to make the color white!</p>
 		<div class="forYouToDo">
 			<ol>
-				<li>Don't believe it? Watch this <a href="https://www.youtube.com/watch?v=T9ryMOrwVZQ" title="video of someone zooming out from a screen" target="_blank">video of someone zooming out from a screen</a> or this <a href="https://www.youtube.com/watch?v=UdWCUr1FDqU" title="video of an iPhone under a microscope" target="_blank">video of an iPhone under a microscope</a>.</li>
+				<li>Don't believe it? Watch this <a href="https://www.youtube.com/watch?v=T9ryMOrwVZQ" title="video of someone zooming out from a screen" target="_blank">video of someone zooming out from a screen</a> or this <a href="https://www.youtube.com/watch?v=UdWCUr1FDqU" title="video of an iPhone under a microscope" target="_blank">video of an iPhone under a microscope</a> (you don't have to watch the whole video; the first three minutes are most important).</li>
 			</ol>
 		</div>
-		
-		
+
+
 		<h3>Building Pictures from Pixels</h3>
-		<p>When a computer draws a picture, it's actually drawing it pixel by pixel, activating the appropriate red, green, and blue components of each pixel in the monitor to replicate the picture.</p>
+		<p>When a computer draws a picture, it's actually drawing it pixel by pixel, activating the appropriate red, green, and blue components of each pixel in the screen to replicate the picture.</p>
 		<div class="forYouToDo">
 			<ol start="2">
-				<li>Open this <a href="https://snap.berkeley.edu/snapsource/snap.html#open:/bjc-r/middle-school/prog/picture-of-a-pixel.xml&editMode&noRun" title="Picture of a Pixel project" target="_blank">Picture of a Pixel</a> project, in which you can see for yourselves with how monitors build pictures from pixels.</li>
+				<li>Open this <a class="js-run-v7 snap-project" href="/bjc-r/middle-school/prog/picture-of-a-pixel.xml&editMode&noRun" title="Picture of a Pixel project" target="_blank">Picture of a Pixel</a> project, in which you can see for yourselves with how monitors build pictures from pixels, and save it to your Snap<em>!</em> account.</li>
 			</ol>
 		</div>
-		
 		<p>
 			The project has a single command block:<br />
-			<img class="indent" src="/bjc-r/middle-school/img/U1/draw-picture.png" alt="draw picture ('mystery1') with resolution: ('8')" title="draw picture ('mystery1') with resolution: ('8')" />
+			<div class="vocab">
+				<p><strong>Resolution</strong> is the level of detail in an image.</p>
+			</div>
+			<img class="indent" src="/bjc-r/middle-school/img/U1/lab04/draw-picture.png" alt="draw picture ('mystery1') with resolution: ('8')" title="draw picture ('mystery1') with resolution: ('8')" />
 		</p>
-		<div class="todo">
-			<p>Michael, why are <var>var tags</var> in italics now? --MF, 8/13/21</p>
-		</div>
-		<p>The <code>draw picture</code> block takes two inputs, <var>picture</var> and <var>resolution</var> (the number of pixels across). Both inputs are dropdowns, so you can easily change their values.</p>
+		<p>The <code>draw picture</code> block takes two inputs, the name of a picture and a resolution (the number of pixels wide that the resulting image will be). Both inputs are dropdown menus, so you can click them to select a different value.</p>
 		<div class="forYouToDo">
 			<ol start="3">
-				<li>Start with the first picture and  the low resolution of 8, and click the block. The command will paint the picture on the stage, but only use 8 pixels in each row. Can you recognize the picture at this point? Does it look anything like a normal picture?</li>
-				<li>Keep increasing the resolution and clicking the block. Try to guess the contents of the picture and keep track of when you guess it correctly.</li>
+				<li>Start with the "mystery1" picture and the lowest resolution (8), and click the block. The command will paint an eight-pixel wide image of the "mystery1" picture on the stage. You probably can't recognize the picture yet.</li>
+				<li>Keep increasing the resolution and clicking the block. Try setting the resolution to 16, then 24, then 32, then 48, then 64, then 96, and finally 128. At what resolution are you able to recognize the image?</li>
 			</ol>
 		</div>
-		<p>Eventually, with enough pixels across, the picture should become quite clear.</p>
-		<div class="forYouToDo">
-			<div class="todo">Can we devise any way that students won't just automatically go to the highest resolution--a slider perhaps? Hmm... --MF, 8/13/21<br>I don't see a great way, thus am recommending as teacher-led in teacher guide. -PF
+		<p>
+			Eventually, with enough pixels across, the picture should become quite clear. Here's an example: <br />
+			<div class="sidenoteBig">Click the image for an animation.</div>
+			<img class="indent" data-gifffer="/bjc-r/middle-school/img/U1/lab04/turtle-pixel-animation.gif" alt="pixelated image of a sea turtle becoming increasingly more clear. The image starts at resolution 8, then goes to 16, 24, 32, 48, 64, 96, and finally 128." title="pixelated image of a sea turtle becoming increasingly more clear. The image starts at resolution 8, then goes to 16, 24, 32, 48, 64, 96, and finally 128." />
+			<div class="endnote">
+				<a href="#hint-dark" data-toggle="collapse" title="Why does the higher resolution image look dark?">Why does the higher resolution image look dark?</a>
+				<div id="hint-dark" class="collapse">
+					<p>OK, these aren't <em>really</em> pixels. These are <em>models</em> of pixels created to show you how pixels combine to make images. Each of these "fake pixels" can only be <em>at most</em> one third as bright as a real pixel because each part of one of these fake pixels is displayed on your screen by real pixels that each only include a third (one color) that real pixel's total possible brightness.</p>
+				</div>
 			</div>
+		</p>
+		<div class="forYouToDo">
 			<ol start="5">
-				<li>Try doing the same with other mystery pictures by changing the input to the <var>picture</var> input slot. Are some of them easier to guess at low resolution than others? Do you notice any patterns with the RGB (red, green, blue) contents of the pixels and how they eventually change?</li>
+				<li>
+					Reset the resolution to 8 and try doing the same thing with some of the other mystery pictures.
+					<img class="imageRight" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
+					<ol>
+						<li>Are some of the pictures easier to guess at low resolution than others?</li>
+						<li>Do you notice any patterns with the RGB (red, green, blue) contents of the pixels and how they eventually change?</li>
+						<li>What do you notice about the relationship between image resolution and how long it takes for the computer to draw the image?</li>
+					</ol>
+				</li>
 			</ol>
 		</div>
 
-		<div class="learn">In this activity, you learned that images are made up of pixels that are tiny squares with different amounts of red, green, and blue.</div>
+		<div class="learn">In this activity, you learned that images are made up of pixels (tiny squares with different amounts of red, green, and blue), that resolution controls the number of pixels used to make up an image, and that higher resolution images are more detailed and more recognizable.</div>
 
-		
+
 	</body>
 </html>

@@ -8,10 +8,157 @@
 
 	<body>
 		<h2>L33t Text</h2>
-		<div class="learn"></div>
+		<div class="learn">
+			In this activity, you’ll make your own text processing block by using a new block that tells the program to report specific things in specific cases:<br /> 
+			<img class="indent" src="/bjc-r/img/blocks/reporter-if.png" alt="if 'predicate input slot' then () else ()" title="if 'predicate input slot' then () else ()" />
+		</div>
+		
+		
+		<h3>What is L33t?</h3>
+		<p>In the 1980s, the Internet was mostly text-based. Similarly to how today we use emojis 🦊 🚲 and abbreviations (like LMK or LOL) to embellish messages, early Internet users used a modified spelling called <em>leet</em> where certain letters were replaced with numbers that look similar (such as replacing "s" with "5" or "e" with "3").</p>
+		<p>
+			For example, can you read this text?<br />
+			<pre class="indent">1 w4nt t0 g0 t0 5ch001 34rly t0d4y.</pre>
+		</p>
+                <div class="comment">Feels like this is missing what they're starting- i.e. a leet text processing block. All my rewords sucked tho - PF <p>I'm not entirely sure what you meant, but I added an introductory sentence to this paragraph. --MF, 10/24/21</p></div>
+		<p>You're going to create a clock that turns regular text into l33t. You'll start by building a block that converts just one specific letter to a number (such as just changing "e" to "3").<br />
+			<img class="indent" src="/bjc-r/middle-school/img/U1/lab06/l33t-change-e-to-3-reporting.png" alt="l33t (I have dance class at eight on Tuesday.) reporting 'I hav3 danc3 class at 3ight on Tu3sday.'" title="l33t (I have dance class at eight on Tuesday.) reporting 'I hav3 danc3 class at 3ight on Tu3sday.'" />
+		</p>
+		<p>
+			Your block will need to need to:
+			<ul>
+				<li>Split the input text into a list of letters by using <img class="inline" src="/bjc-r/img/blocks/split-by-letter.png" alt="split () by (letter)" title="split () by (letter)" />.</li>
+				<li>Apply a letter-changing function to every matching letter by using <img class="inline" src="/bjc-r/img/blocks/map.png" alt="map 'reporter input slot' over 'list input slot'" title="map 'reporter input slot' over 'list input slot'" />.</li>
+				<li>Join the modified list of letters back into a single text string by using <img class="inline" src="/bjc-r/img/blocks/join.png" alt="join () ()" title="join () ()" />.</li>
+			</ul>
+		</p>
+		<p>You've already learned how to use <code>map</code> to apply a function to every item in a list, and how to use <code>join</code> to join elements of a list into a single text string. The missing ingredient is a letter-changing function.</p>
 
+		<h3>Creating a Letter-Changing Function</h3>
+		<div class="forYouToDo">
+			<ol>
+				<li>Open your "Texting Time" project, if it isn't open already.</li>
+				<li>
+					Decide which letter of the alphabet you want to change into a number, and create a new <code>change for letter</code> block that takes one input called <var>letter</var>. This block will decide whether to change one letter at a time. For example if you were changing "e" to "3", your new block would look like this:<br />
+					<div class="commentBig">Pamela, what do you think of this block name (<code>change e to 3 for letter</code>)? Any suggestions to improve it? --MF, 10/15/21 <br>Seems okay, other possibilities '3 if letter %letter = e' 'replace e with 3 for letter'. I think this is best. -PF<p>Do you mean that you think what we have already is best? ;) --MF, 10/24/21</p></div>
+					<img class="indent" src="/bjc-r/middle-school/img/U1/lab06/change-e-to-3-starter.png" alt="change e to 3 for letter (letter) hat block with report () attached" title="change e to 3 for letter (letter) hat block with report () attached" />
+					<div class="endnote">
+						If you need a reminder about how to create a new block with inputs, review <a href="/bjc-r/middle-school/student-pages/U1/L5/05-caesar-cipher.html?topic=middle-school%2F1-functions-data.topic&course=middle-school.html#creating-block-inputs" title="Unit 1 Lab 5 Activity 5: Programming a Caesar Cipher">Unit 1 Lab 5 Activity 5: Programming a Caesar Cipher</a>.
+					</div>
+<div class="comment">I know it sucks on our end to repeat content, but I feel like its a lot of clicks and searching to find the part that says how to make a new block. Could we just repeat the two reminders here? - PF<p>Well, it's not that much of a pain, but I didn't do it because this links to a page that was already a reminder, and I figured that this was weaning them off just a bit more. I don't mind putting it in though if you think a significant enough number of kids will still need it. Also, I wonder about creating something like the high school "Crash course" but as a "reminder guide" for sparks. I'm not sure what else would go in it, but I suspect we'll identify some things... --MF, 10/24/21</p></div>
+				</li>
+			</ol>
+		</div>
+		<p>
+			You can use the <img class="inline nopadtb" src="/bjc-r/img/blocks/reporter-if.png" alt="if 'predicate input slot' then () else ()" title="if 'predicate input slot' then () else ()" /> block to decide which thing to report. The <code>if then else</code> block takes three inputs:
+			<ul>
+				<li>
+				A <em>predicate</em> (a hexagon-shaped testing function that reports either true or false). For example:
+				<img class="inline nopadtb" src="/bjc-r/middle-school/img/U1/lab06/letter=e.png" alt="(letter) = (e)" title="(letter) = (e)" />
+				</li>
+				<li>An output to report if the predicate is true.</li>
+				<li>An output to report if the predicate is false.</li>
+			</ul>
+		</p>
+		<div class="vocabFullWidth"><strong>: Predicate</strong> and <strong>Conditional</strong>
+			<p>
+                A <strong>predicate</strong> is a hexagon-shaped reporter that asks a true/false question such as these examples:<br />
+                <img class="indent" src="/bjc-r/img/2-complexity/8-gt-7-reporting-true.png" alt="8 > 7 reporting true" title="8 > 7 reporting true" />
+                <img class="indent" src="/bjc-r/img/2-complexity/6-gt-7-reporting-false.png" alt="6 > 7 reporting false" title="6 > 7 reporting false" />
+            </p>
+			<p>
+				A <strong>conditional</strong> is a block that controls the code based on a true/false condition (the predicate). The <img class="inline nopadtb" src="/bjc-r/img/blocks/reporter-if.png" alt="if 'predicate input slot' then () else ()" title="if 'predicate input slot' then () else ()" /> block is an example of a conditional.
+			</p>
+		</div>
+		<div class="forYouToDo">
+			<ol start="3">
+				<li>Use <code>if then else</code> to write code for your <code>change for letter</code> block that will test whether the input letter matches the letter you want to change into a number, and if it does, reports the number, and if it doesn't, reports the input letter without changing it.</li>
+				<li>
+					Test your <code>change for letter</code> block with your chosen letter and with other letters.<br />
+					<img class="indent" src="/bjc-r/middle-school/img/U1/lab06/change-e-to-3-(l)-reporting.png" alt="change e to 3 (l) reporting 'l'" title="change e to 3 (l) reporting 'l'" />
+					<img class="indent" src="/bjc-r/middle-school/img/U1/lab06/change-e-to-3-(e)-reporting.png" alt="change e to 3 (e) reporting '3'" title="change e to 3 (e) reporting '3'" />
+					<img class="indent" src="/bjc-r/middle-school/img/U1/lab06/change-e-to-3-(t)-reporting.png" alt="change e to 3 (t) reporting 't'" title="change e to 3 (t) reporting 't'" />
+				</li>
+			</ol>
+		</div>
 
-		<div class="learn"></div>
+		<h3><code>Map</code>ping the Letter-Changing Function Over All the Letters</h3>
+		<div class="forYouToDo">
+			<ol start="5">
+				<li>
+					<img class="imageRight" src="/bjc-r/middle-school/img/U1/lab06/l33t-text-starter.png" alt="l33t (text) hat block with report () attached" title="l33t (text) hat block with report () attached" />
+					Now, create another new block called <code>l33t</code> that takes one input called <var>text</var>, splits that input text into a list of letters, applies your letter-changing function to every item in the list, and joins the letters back together.
+				</li>
+				<div class="endnote">
+					<p>
+						Click below for support with:
+						<ul>
+							<li><a href="#hint-split" data-toggle="collapse" title="Click for a reminder about how to split the input text into a list of letters.">Splitting the input text into a list of letters.</a></li>
+							<div id="hint-split" class="collapse">
+								<p>
+									The <img class="inline" src="/bjc-r/img/blocks/split-by.png" alt="split () by ()" title="split () by ()" /> block takes two inputs: a string of text and a character by which to split up the text into a list. For example:<br />
+									<div class="borderless-table two-col">
+										<div>
+											<img class="indent" src="/bjc-r/middle-school/img/U1/lab06/split-hello-world-by-letter-reporting.png" alt="split ('Hello world!') by (letter) reporting the list {H, e, l, l, o, , w, o, r, l, d, !}" title="split ('Hello world!') by (letter) reporting the list {H, e, l, l, o, , w, o, r, l, d, !}" />
+										</div>
+										<div>
+											<p><img class="indent" src="/bjc-r/middle-school/img/U1/lab06/split-hello-world-by-word-reporting.png" alt="split ('Hello world!') by (word) reporting the list {Hello, world!}" title="split ('Hello world!') by (word) reporting the list {Hello, world!}" /></p>
+											<p><img class="indent" src="/bjc-r/middle-school/img/U1/lab06/split-hello-world-by-o-reporting.png" alt="split ('Hello world!') by ('o') reporting the list {Hell, w,  rld!}" title="split ('Hello world!') by ('o') reporting the list {Hell, w,  rld!}" /></p>
+										</div>
+									</div>
+								</p>
+							</div>
+							<li><a href="#hint-map" data-toggle="collapse" title="Click for a reminder about how to apply a function to every item in a list.">Applying a function to every item in a list.</a></li>
+							<div id="hint-map" class="collapse">
+								<p>You learned to use <img class="inline" src="/bjc-r/img/blocks/map.png" alt="map 'reporter input slot' over 'list input slot'" title="map 'reporter input slot' over 'list input slot'" /> to apply any block that works on one list item to every list item in <a href="/bjc-r/middle-school/student-pages/U1/L4/04-pixel-mapper.html?topic=middle-school%2F1-functions-data.topic&course=middle-school-teacher.html&novideo&noassignment#map" title="Unit 1 Lab 4 Activity 4: Transforming Every Pixel">Unit 1 Lab 4 Activity 4: Transforming Every Pixel</a>.</p>
+								<p>Recall that <code>map</code> takes two inputs: a function with an empty input slot where each item from the list goes every time the function is applied, and a list of items to apply that function to.</p>
+								<div class="todo">Maybe add an example image from the 1.4.4 page (once it has examples). --MF, 10/15/21</div>
+							</div>
+							<li><a href="#hint-join" data-toggle="collapse" title="Click for a reminder about how to join items in a list into a single text string.">Joining items in a list into a single text string.</a></li>
+							<div id="hint-join" class="collapse">
+								<p>You learned to use <img class="inline nopadtb" src="/bjc-r/img/blocks/join.png" alt="join () ()" title="join () ()" /> in <a href="/bjc-r/middle-school/student-pages/U1/L2/03-creating-editing-blocks.html?topic=middle-school%2F1-functions-data.topic&course=middle-school-teacher.html&novideo&noassignment" title="Unit 1 Lab 2 Activity 3: Creating and Editing Blocks">Unit 1 Lab 2 Activity 3: Creating and Editing Blocks</a>. It merges two or more  strings of text into one (without a space). As you saw in <a href="/bjc-r/middle-school/student-pages/U1/L5/05-caesar-cipher.html?topic=middle-school%2F1-functions-data.topic&course=middle-school-teacher.html&novideo&noassignment" title="Unit 1 Lab 5 Activity 5: Programming a Caesar Cipher" target="_blank">Unit 1 Lab 5 Activity 5: Programming a Caesar Cipher</a>, <code>join</code> can accept a single list as input.</p></div>
+						</ul>
+					</p>
+				</div>
+				<li>
+					Test your <code>l33t</code> block for different words and phrases. It should report the exact same word or phrase as the input except that the one letter you choose should be replaced by the number you chose to replace it.<br />
+					<img class="indent" src="/bjc-r/middle-school/img/U1/lab06/l33t-change-e-to-3-reporting.png" alt="l33t (I have dance class at eight on Tuesday.) reporting 'I hav3 danc3 class at 3ight on Tu3sday.'" title="l33t (I have dance class at eight on Tuesday.) reporting 'I hav3 danc3 class at 3ight on Tu3sday.'" />
+				</li>
+			</ol>
+		</div>
+		<div class="ifTime show">
+			<ol start="7">
+				<li>
+					Create additional letter-changing functions and try them in your <code>l33t</code> block. For example: <br />
+					<img class="indent" src="/bjc-r/middle-school/img/U1/lab06/change-s-to-5.png" alt="change s to 5 for letter ()" title="change s to 5 for letter ()" />
+					<span class="" style="font-size:1.5em;">→</span> 
+					<img class="indent" src="/bjc-r/middle-school/img/U1/lab06/l33t-change-s-to-5-reporting.png" alt="l33t (I have dance class at eight on Tuesday.) reporting 'I have dance cla55 at eight on Tue5day.'" title="l33t (I have dance class at eight on Tuesday.) reporting 'I have dance cla55 at eight on Tue5day.'" />
+				</li>
+				<div class="endnote">
+					<h4><strong>Duplicating a Block</strong></h4>
+					<p>To easily make a new block that is similar to your letter-changing function (such as <code>change e to 3 for letter</code>), you don't need to start all over again. Instead, just right-click on the block name <em>in the palette on the left</em> and select "duplicate".</p>
+					<p>That will create a new block (such as <code>change e to 3 for letter (2)</code>) and open it for you in the block editor. You can click the "(2)" in the hat block to change the name. Then create the code for your new block.</p>
+				</div>
+				<li>
+					Here are some other ideas for ways to extend your project:
+					<ul>
+						<li>Replace a letter with an emoji.</li>
+						<li>
+							Replace a letter with multiple letters. For example: <br />
+							<img class="indent" src="/bjc-r/middle-school/img/U1/lab06/change-x-to-ks.png" alt="change x to ks for letter ()" title="change x to ks for letter ()" />
+							<span class="" style="font-size:1.5em;">→</span> <br />
+							<img class="indent" src="/bjc-r/middle-school/img/U1/lab06/l33t-change-x-to-ks-reporting.png" alt="l33t (The fox is in the box.) reporting 'The foks is in the boks.'" title="l33t (The fox is in the box.) reporting 'The foks is in the boks.'" />
+						</li>
+						<li>Replace multiple letters at once by <em>nesting</em> multiple letter-changing functions.</li>
+					</ul>
+<div class="commentBig">I'm sure teachers would love if we put solutions
+for all these in teachers guide - especially the last one, that seems the obvious thing to try immediately. - PF<p>Agreed. Will do. --MF, 10/24/21</p></div>
+				</li>
+				<!--<li>Once you're done, try out your new block, use it in a conversation, and share your work with your classmates!</li>-->
+			</ol>
+	</div>
+		
+	<div class="learn">In this activity, you learned how to use the conditional <code>if then else</code> together with a predicate and the <code>map</code> block to test each item in a list.</div>
 
 		
 	</body>
