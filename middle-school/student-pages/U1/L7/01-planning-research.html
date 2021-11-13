@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unit 1 Lab 7: Dealing with Data Dos, Activity 1</title>
+	</head>
+
+	<body>
+		<h2>Planning Your Research</h2>
+		<div class="todo">For U2, need to teach <code>length of list</code> and <code>/</code>.</div>
+		<div class="learn">
+			<p><strong>In this lab,</strong> you will design a more sophisticated research question on a topic that interests you, and you will create tools to gather data and analyze the results.</p>
+			<p><strong>In this activity,</strong> you will...</p>
+		</div>
+
+		<h3>Designing Your Research Plan</h3>
+		<p>
+			In <a href="/bjc-r/middle-school/student-pages/U1/L3/01-gathering-data.html?topic=middle-school%2F1-functions-data.topic&course=middle-school.html" title="Unit 1 Lab 3: Dealing with Data">Unit 1 Lab 3: Dealing with Data</a>, you created a survey with one question and created a pictograph of the results.	
+			<!--<img class="indent noshadow" style="height:200px;" src="/bjc-r/middle-school/img/U1/lab03/pictograph.png" alt="pictograph with ice cream cones; the vertical axis is labeled 'Number of students' and the categories along on the horizontal axis are 'MintChip' showing three ice cream cones, 'Vanilla' showing four ice cream cones,  and 'Orange' showing one ice cream cone" title="pictograph with ice cream cones; the vertical axis is labeled 'Number of students' and the categories along on the horizontal axis are 'MintChip' showing three ice cream cones, 'Vanilla' showing four ice cream cones,  and 'Orange' showing one ice cream cone" />-->
+			You've learned a lot since then, and you are now prepared to create a survey with <em>multiple</em> questions and to use Snap<em>!</em> to process the results for you.
+		</p>
+
+		<div class="forYouToDo">
+			<ol>
+				<div class="todo">Make a little worksheet to go along with this.</div>
+				<li>
+					Decide on a research question that you can investigate by surveying your classmates on a topic that interests you. 
+					<div class="takeNote">For everyone's privacy, don't choose a research question that will require asking for identifying information that would tell you who answered what on the survey such as name, address, phone number, birthday, student ID number, Snap<em>!</em> username, etc.</div>
+					<div class="endnote">
+						<p>Since <a href="/bjc-r/middle-school/student-pages/U1/L3/01-gathering-data.html?topic=middle-school%2F1-functions-data.topic&course=middle-school.html" title="Unit 1 Lab 3 Activity 1: Gathering Data">Lab 3</a>, you have developed stronger Snap<em>!</em> skills; so you can research a topic that will require multiple survey questions to investigate <em>and</em> you can use Snap<em>!</em> to do math for you. Here are some ideas:
+							<ul>
+								<li>How many favorite musical artist do people have?</li>
+								<li>How long have people practiced their favorite sports?</li>
+								<li>Do students do more extracurricular activities at certain age?</li>
+								<li>How long does it take people to get to school?</li>
+							</ul>
+						</p>
+					</div>
+				</li>
+				<div class="sidenoteBig">Remember, your survey should be anonymous; it should not collect any personal information.</div>
+				<li>
+					Design a survey to answer your question. Your survey should:
+					<ol>
+						<li>Have more than one question</li>
+						<li>Take numbers as responses to at least one question</li>
+					</ol>
+				</li>
+			</ol>
+		</div>
+		
+		<h3>Setting Up Your Survey</h3>
+		<div class="forYouToDo">
+            <ol start="3">
+				<div class="sidenote">What is "Dos"? The word "dos" means "two" in Spanish.</div>
+				<div class="vocab">
+					<p>A <strong>variable</strong> is like a box that can store a value, such as a word, a number, or a list.</p>
+				</div>
+				<li>
+					Open this <a class="js-run-v7 snap-project" href="/bjc-r/middle-school/prog/U1/lab07/data-dos.xml" title="Data Dos - Snap! project" target="_blank">Data Dos</a> project, and save it to your account. It includes the following script at the top:<br />
+					<img class="indent" src="/bjc-r/middle-school/img/U1/lab07/initialize-survey.png" alt="if (is survey (my survey) not set up?) {
+	set (my survey) to (make survey with questions ())
+}" title="if (is survey (my survey) not set up?) {
+	set (my survey) to (make survey with questions ())
+}" /><br />
+					This script:
+					<ul>
+    					<li>Contains a variable called <img class="inline nopadtb" src="/bjc-r/middle-school/img/U1/lab07/my-survey.png" alt="my survey" title="my survey" /> to store survey questions and responses</li>
+						<li>Checks whether <var>my survey</var> is already set up so it doesn't erase a survey you've already started </li>
+						<li>If <var>my survey</var> is not set up, the script sets up the table with the questions as the first row</li>
+					</ul>
+					<div class="endnote">
+						<p><a href="#hint-not-set-up" data-toggle="collapse" title="How does is 'survey not set up?' work?">How does <img class="inline" src="/bjc-r/middle-school/img/U1/lab07/is-survey-not-set-up.png" alt="is survey () not set up?" title="is survey () not set up?" /> work?</a></p>
+						<div id="hint-not-set-up" class="collapse">
+							<p>
+								<img class="indent" src="/bjc-r/middle-school/img/U1/lab07/is-survey-not-set-up-definition.png" alt="is survey (survey) not set up? {
+	report ((not (is (survey) a ('list')?)) or (is (survey) empty?))
+}" title="is survey (survey) not set up? {
+	report ((not (is (survey) a ('list')?)) or (is (survey) empty?))
+}" /><br />
+								<!--The variable <var>my survey</var> will hold a list of lists, so if <var>my survey</var> is <em>not</em> a list, then it hasn't been set up, and so <code>is survey (my survey) not set up?</code> should report true. But it's possible that <var>my survey</var> <em>has</em> been set up as a list of lists and then emptied of all it's data (using a <code>reset survey</code> block), so if <var>my survey</var> is an <em>empty</em> list, then <code>is survey (my survey) not set up?</code> should report true in that case too. The <code>or</code> block checks both conditions.-->
+								The expression <code>is survey (my survey) not set up?</code> takes a list as input and reports true if either of the following are true:
+								<ul>
+									<li>The value stored in <var>my survey</var> is <em>not</em> a list</li>
+									<li>The value stored in <var>my survey</var> is an <em>empty</em> list</li>
+								</ul>
+							</p>
+						</div>
+						<p><a href="#hint-make-survey" data-toggle="collapse" title="How does 'make survey with questions' work?">How does <img class="inline" src="/bjc-r/middle-school/img/U1/lab07/make-survey.png" alt="make survey with questions ()" title="make survey with questions ()" /> work?</a></p>
+						<div id="hint-make-survey" class="collapse">
+							<p>
+								<img class="indent" src="/bjc-r/middle-school/img/U1/lab07/make-survey-definition.png" alt="make survey with questions (questions) {
+	report (list (questions))
+}" title="make survey with questions (questions) {
+	report (list (questions))
+}" /><br />
+								This block takes a set of questions as input and reports a list containing one item: the list of questions. So, it sets up the table for the survey data as a list where the first row is the list of questions.
+							</p>
+							<p>Like the <img class="inline nopadtb" src="/bjc-r/img/blocks/join.png" alt="join () ()" title="join () ()" /> and <img class="inline nopadtb" src="/bjc-r/img/blocks/list-full-size.png" alt="list ()" title="list ()" /> blocks, you can add an input slot to <img class="inline nopadtb" src="/bjc-r/middle-school/img/U1/lab07/make-survey.png" alt="make survey with questions ()" title="make survey with questions ()" /> by clicking the right-facing triangle at the end (▸).</p>
+						</div>
+					</div>
+				</li>
+				<li>Add your survey questions to the <code>make survey with questions</code> block, and run the script to set up your survey.</li>
+				<div class="endnote">
+					If you want to reset your survey at any point, use the <img class="" src="/bjc-r/middle-school/img/U1/lab07/reset-survey.png" alt="reset survey 'list input slot'" title="reset survey 'list input slot'" />. <a href="#hint-reset" data-toggle="collapse" title="How does reset survey work?">How does <code>reset survey</code> work?</a>
+					<div id="hint-reset" class="collapse">
+						<p>
+							<img class="indent" src="/bjc-r/middle-school/img/U1/lab07/reset-survey-definition.png" alt="reset survey (survey) {
+	if (ask ('Are you sure?') = 'yes'){
+		delete ('all') of (survey)
+	} else {
+		say ('Survey not changed.') for (2) secs
+	}
+}" title="reset survey (survey) {
+	if (ask ('Are you sure?') = 'yes'){
+		delete ('all') of (survey)
+	} else {
+		say ('Survey not changed.') for (2) secs
+	}
+}" /><br />
+							The <code>reset survey</code> block takes a survey as input. If the response to "Are you sure" is "yes," then all items in the survey are deleted. Otherwise (that is, if there is any other response to the question), the sprite says "Survey not changed."
+						</p>
+					</div>
+				</div>
+			</ol>
+		</div>
+
+		<div class="learn">
+            <p>In this activity, you...</p>
+        </div>
+        
+
+	</body>
+</html>
