@@ -81,11 +81,14 @@
 		<h3>Adding New Responses to Your Table</h3>
 		<p>The <code>questions only</code> block will report a list of the questions from the survey, and <img class="inline" src="/bjc-r/img/blocks/map.png" alt="map 'reporter input slot' over 'list input slot'" title="map 'reporter input slot' over 'list input slot'" /> will allow you to apply <code>ask</code> to every question in the list.</p>
 		<div class="endnote">You learned about the <code>map</code> block in <a href="/bjc-r/middle-school/student-pages/U1/L4/04-pixel-mapper.html?topic=middle-school%2F1-functions-data.topic&course=middle-school.html" title="Unit 1 Lab 4 Activity 4: Transforming Every Pixel">Lab 4 Activity 4: Transforming Every Pixel</a>.</div>
+               <div class="comment">Hmm, flow feels off to me. What about something that connects it more with the last Q of the last part? Like "The missing tool is the map block, which can apply an action to each item in a list. In this case, the action is ask'ing the user, and the list are the questions reported from [questions only]." Maybe that feels too obvious though? -PF 11/27</div>
 		
 		<div class="forYouToDo">
             <ol start="5">
 				<li>
 					Write the code to make <img class="inline" src="/bjc-r/middle-school/img/U1/lab07/new-response.png" alt="new response for 'list input slot'" title="new response for 'list input slot'" /> take survey data as input, ask the user each question in the survey, and report a list of the user's responses. Test the block, and make sure it works before moving on to the next step: adding the user responses to the survey.<br />
+<div class="comment">The input parameter for new response is named survey data, I think it should just be survey now, for consistency with others? (survey data sounds like all but first row to me).-PF 11/27</div>
+<div class="comment">Do you say "write code" for Snap? Snapping blocks doesn't feel like writing to me, but if its standard wording, thats fine. -PF 11/27</div> 
 					<img class="indent" src="/bjc-r/middle-school/img/U1/lab07/new-response-reporting.png" alt="new response for (my survey) reporting the list {soccer, 3}" title="new response for (my survey) reporting the list {soccer, 3}" />
 					<div class="endnote">
 						<p><a href="#hint-new-response" data-toggle="collapse" title="Click for a hint about building the new response block.">Click for a hint about building <code>new response</code>.</a></p>
@@ -96,6 +99,8 @@
 		</div>
 		
 		<p>The <code>new response</code> block reports the user's data, but it doesn't send it anywhere. The <img class="inline nopadtb" src="/bjc-r/img/blocks/add.png" alt="add () to 'list input slot'" title="add () to 'list input slot'" /> block will take data and add it the end of a list.<br />
+<div class="comment">I was surprised to have to find this in the palette, since so much has been in the scripts tab. That also makes me wonder if we should point out explicitly that both ask and add-to are built-in Snap blocks available in any project? -PF 11/27</div>
+<div class="comment">Also: will students know how to duplicate the my survey variable or drag it from the side? I think this might be our first time using a global var so we might need to point it out, the first time they need to do it? (Probably up higher or even a previous page, just realized now! -PF 11/27</div>
 			<img class="indent" src="/bjc-r/middle-school/img/U1/lab07/my-survey-sports-2-rows.png" alt="'my survey' watcher: a table with three rows and two columns. Row 1 column 1 has the text: 'Favorite sport?' and row 1 column 2 has the text: 'Years played?' Row 2 as the values 'soccer' and '4'. Row 3 as the values 'basketball' and '3'." title="'my survey' watcher: a table with three rows and two columns. Row 1 column 1 has the text: 'Favorite sport?' and row 1 column 2 has the text: 'Years played?' Row 2 as the values 'soccer' and '4'. Row 3 as the values 'basketball' and '3'." />
 			<span style="font-size:50px;">&rightarrow;</span>
 			<img src="/bjc-r/middle-school/img/U1/lab07/my-survey-sports-3-rows.png" alt="'my survey' watcher: a table with three rows and two columns. Row 1 column 1 has the text: 'Favorite sport?' and row 1 column 2 has the text: 'Years played?' Row 2 as the values 'soccer' and '4'. Row 3 as the values 'basketball' and '3'. Row 4 as the values 'soccer' and '5'." title="'my survey' watcher: a table with three rows and two columns. Row 1 column 1 has the text: 'Favorite sport?' and row 1 column 2 has the text: 'Years played?' Row 2 as the values 'soccer' and '4'. Row 3 as the values 'basketball' and '3'. Row 4 as the values 'soccer' and '5'." />
@@ -120,12 +125,14 @@
 							<li>Using <code>reset survey</code> and then running the survey setup script again</li>
 							<li>Using <img class="inline nopadtb" src="/bjc-r/img/blocks/delete.png" alt="delete () from 'list input slot'" title="delete () from 'list input slot'" /> to remove the testing rows one at a time until only the row of questions is left. (The <code>delete</code> block takes a position number and a list as input and removes the item from the list at the specified position number.)</li>
 						</ul>
+                                                <div class="comment">Would it be too weird to screenshot delete 2? I worry that theyre going to delete 1 and byebye questions! Or we should at least put in bold to not delete row 1. -PF 11/27</div>
 					</div>
 				</li>
 				<li>Collect data from several people using your code to input their responses into your survey.</li>
 				<div class="todo">
 					Should we have them look at the watcher in <a href="http://localhost/bjc-r/cur/programming/2-complexity/2-data-structures-art/2-quizzes.html?topic=nyc_bjc/2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment">list view</a> so they can see what the structure behind the table is? It seems hard to explain and doesn't always perform as expected...
 					<p>"Snap<em>!</em> has two different views for data in tables. You can switch which view you see by right-clicking (or control-clicking) on the <var>my survey</var> watcher on the stage."</p>
+                                    Eh, its pretty finicky to use, took me a while to even get my mouse in the right spot to get the option, and then even harder to switch back. I think the table view still looks like a 2D list to me, though the pretend lettering of A/B/C (versus 1/2/3) feels a little trying-to-hard-to-be-a-spreadsheet. But I still think I'd vote for just sticking to table view. Could mention in TG? -PF 11/27 
 				</div>
 			</ol>
 		</div>
