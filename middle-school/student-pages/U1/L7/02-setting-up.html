@@ -14,23 +14,21 @@
 		<div class="forYouToDo">
             <ol>
 				<div class="sidenote"><strong>What is "Dos"?</strong> <p>The word "dos" means "two" in Spanish.</p></div>
-				<div class="todo">XML not linked yet.</div>
 				<li>
 					Open this <a class="js-run-v7 snap-project" href="/bjc-r/middle-school/prog/U1/lab07/data-dos.xml" title="Data Dos - Snap! project" target="_blank">Data Dos</a> project, and save it to your account. It includes the following script at the top:<br />
-					<img class="indent" src="/bjc-r/middle-school/img/U1/lab07/initialize-survey.png" alt="if (is survey (my survey) not set up?) {
+					<img class="indent" src="/bjc-r/middle-school/img/U1/lab07/initialize-survey.png" alt="if (survey (my survey) is not set up?) {
 	set (my survey) to (make survey with questions ())
-}" title="if (is survey (my survey) not set up?) {
+}" title="if (survey (my survey) is not set up?) {
 	set (my survey) to (make survey with questions ())
 }" /> 
-   <div class="commentBig">The "is" next to "if" is really throwing me off. We could drop the "is" or replace with "the"?? "if is" just doesn't roll off the english tongue. -PF 11/27</div>
 				</li>
 			</ol>
 		</div>
 		<div class="vocabBig">
-			<p>A <strong>variable</strong> is like a box that can store a value, such as a word, a number, or a list.</p>
-                        <div class="todo">I assume we're purposefully avoiding saying it's a global variable, to reduce unnecessary cognitive load? And how about saying "labeled box"? I actually have a blog post from way back which discussed all the metaphors for variables, and KA went with labeled boxes- https://cs-blog.khanacademy.org/2013/09/teaching-variables-analogies-and.html -PF 11/27</div>
-			<p>A <strong>table</strong> is a list of lists (a list with lists inside it).</p>
-                        <div class="todo">Is table part of Snap parlance? A table in most other programming realms would *not* simply be a 2d list, since a table typically has a very defined schema (columns/types), versus just a 2d list where the first row happens to be headers. If table is specific to this project, I'd be wary of giving it the same terminological weight as "variable" which is both a Snap term and programming term. -PF</div>
+			<p>A <strong>variable</strong> is like a labeled box that can store a value, such as a word, a number, or a list.</p>
+                        <div class="todo">I assume we're purposefully avoiding saying it's a global variable, to reduce unnecessary cognitive load? And how about saying "labeled box"? I actually have a blog post from way back which discussed all the metaphors for variables, and KA went with labeled boxes- https://cs-blog.khanacademy.org/2013/09/teaching-variables-analogies-and.html -PF 11/27<p>Add "labeled" in CSP? --MF, 11/30/21</p></div>
+			<p>In Snap<em>!</em>, a <strong>table</strong> is a list of lists (a list with lists inside it).</p>
+                        <div class="todo">Is table part of Snap parlance? A table in most other programming realms would *not* simply be a 2d list, since a table typically has a very defined schema (columns/types), versus just a 2d list where the first row happens to be headers. If table is specific to this project, I'd be wary of giving it the same terminological weight as "variable" which is both a Snap term and programming term. -PF<p>Add "in Snap<em>!</em>" in CSP? --MF, 11/30/21</p></div>
 		</div>
 		<p>
 			This script:
@@ -41,16 +39,15 @@
 			</ul>
 		</p>
 		<div class="endnote" style="clear: both;">
-			<p><a href="#hint-not-set-up" data-toggle="collapse" title="How does is 'survey not set up?' work?">How does <img class="inline" src="/bjc-r/middle-school/img/U1/lab07/is-survey-not-set-up.png" alt="is survey () not set up?" title="is survey () not set up?" /> work?</a></p>
+			<p><a href="#hint-not-set-up" data-toggle="collapse" title="How does is 'survey not set up?' work?">How does <img class="inline" src="/bjc-r/middle-school/img/U1/lab07/is-survey-not-set-up.png" alt="survey () is not set up?" title="survey () is not set up?" /> work?</a></p>
 			<div id="hint-not-set-up" class="collapse">
 				<p>
-					<img class="indent" src="/bjc-r/middle-school/img/U1/lab07/is-survey-not-set-up-definition.png" alt="is survey (survey) not set up? {
+					<img class="indent" src="/bjc-r/middle-school/img/U1/lab07/is-survey-not-set-up-definition.png" alt="survey () is not set up? {
 report ((not (is (survey) a ('list')?)) or (is (survey) empty?))
-}" title="is survey (survey) not set up? {
+}" title="survey () is not set up? {
 report ((not (is (survey) a ('list')?)) or (is (survey) empty?))
 }" /><br />
-					<!--The variable <var>my survey</var> will hold a list of lists, so if <var>my survey</var> is <em>not</em> a list, then it hasn't been set up, and so <code>is survey (my survey) not set up?</code> should report true. But it's possible that <var>my survey</var> <em>has</em> been set up as a list of lists and then emptied of all it's data (using a <code>reset survey</code> block), so if <var>my survey</var> is an <em>empty</em> list, then <code>is survey (my survey) not set up?</code> should report true in that case too. The <code>or</code> block checks both conditions.-->
-					The <code>is survey (my survey) not set up?</code> block takes a list as input and reports true if <em>either</em> of the following are true:
+					The <code>survey () is not set up?</code> block takes a list as input and reports true if <em>either</em> of the following are true:
 					<ul>
 						<li>The value stored in <var>my survey</var> is <em>not</em> a list</li>
 						<li>The value stored in <var>my survey</var> is an <em>empty</em> list</li>
@@ -93,6 +90,7 @@ report (list (questions))
 }" />
 						</p>
 						<p>The <code>reset survey</code> block takes a survey as input. If the response to "Are you sure" is "yes," then everything in the survey is deleted. Otherwise (that is, if there is any other response to the question), the sprite says "Survey not changed."</p>
+						<p>You'll need to drag the <img class="inline nopadtb" src="/bjc-r/middle-school/img/U1/lab07/my-survey.png" alt="my survey" title="my survey" /> variable out of the palette on the left and into the empty input slot.</p>
 					</div>
 				</div>
 			</ol>
