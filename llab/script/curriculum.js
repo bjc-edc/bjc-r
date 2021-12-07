@@ -41,14 +41,32 @@ llab.secondarySetUp = function() {
     $(this).attr('href', llab.getSnapRunURL(this.getAttribute('href'), {version: 'v7'}));
   });
 
-  // making ifTime and takeItFurther DIVs hide until clicked --MF, 2/9/18
-  $('div.ifTime').each(function(i) {
-    let isVisible = Array.from(this.classList).indexOf('show') > -1;
-    let id = `hint-ifTime-${i}`;
+  const  optionalContent = {
+    'ifTime': 'If There Is Time…',
+    'takeItFurther': 'Take It Further…',
+    'takeItTeased': 'Take It Further…',
+  };
+
+  // Return the name of the class on element if it is a class in optionalContent
+  function lookupClassName(optionalContent, classList) {
+    for (let key in optionalContent) {
+      if (classList.includes(key)) {
+        return key;
+      }
+    }
+    return null;
+  }
+
+  let classSelector = `div.${Object.keys(optionalContent).join(',div.')}`;
+  $(classSelector).each(function(i) {
+    let classList = Array.from(this.classList);
+    let isVisible = classList.indexOf('show') > -1;
+    let contentType = lookupClassName(optionalContent, classList);
+    let id = `hint-${contentType}-${i}`;
     this.innerHTML = `
     <a style='font-size: 18px;' href='#${id}' data-toggle='collapse'
       role="button" aria-controls="#${id}" aria-expanded=${isVisible}>
-      <strong>If There Is Time...</strong>
+      <strong>${optionalContent[contentType]}</strong>
     </a>
     <div id='${id}' class='collapse'>
       ${this.innerHTML}
@@ -59,14 +77,6 @@ llab.secondarySetUp = function() {
       $(`#${id}`).addClass('in');
       $(this).removeClass('show');
     }
-  });
-  $('div.takeItFurther').each(function(i) {
-    var divcontent = this.innerHTML;
-    this.innerHTML = "&nbsp;<a style='font-size: 18px;' href='#hint-takeItFurther".concat(i, "' data-toggle='collapse' title='Take It Further...'><strong>Take It Further...</strong></a><div id='hint-takeItFurther", i, "' class='collapse'>", divcontent, "</div>");
-  });
-  $('div.takeItTeased').each(function(i) {
-    var divcontent = this.innerHTML;
-    this.innerHTML = "&nbsp;<a style='font-size: 18px;' href='#hint-takeItFurther".concat(i, "' data-toggle='collapse' title='Take It Further...'><strong>Take It Further...</strong></a><div id='hint-takeItFurther", i, "' class='collapse'>", divcontent, "</div>");
   });
 
   llab.additionalSetup([
