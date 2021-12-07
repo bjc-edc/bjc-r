@@ -4,21 +4,40 @@
  */
 
 
-var THIS_FILE = 'loader.js';
-const RELEASE_DATE = '2021-09-08';
+const THIS_FILE = 'loader.js';
+const RELEASE_DATE = '2021-12-07';
 
-llab = {};
-llab.loaded = {};  // keys are true if that script file is loaded
-llab.paths  = {};
-llab.paths.stage_complete_functions = [];
-llab.paths.scripts = []; // holds the scripts to load, in stages below
-llab.paths.css_files = [];
-llab.rootURL = "";  // to be overridden in config.js
-llab.install_directory = "";  // to be overridden in config.js
+// Basic llab shape.
+// TODO: We should separate this out a little more...
+llab = {
+    loaded: {},
+    paths: {
+        stage_complete_functions: [],
+        scripts: [],
+        css_files: []
+    },
+    rootURL: '',
+    install_directory: '',
+    CONFIG_FILE_PATH: '../llab.js' // currently unsed.
+};
 
-
-// This file must always be at the same level as the llab install directory
-llab.CONFIG_FILE_PATH = "../llab.js";
+/*
+ ***********************
+ ******** CONFIG *******
+ ***********************
+ See ../llab.js for more explanations.
+ */
+llab.rootURL = "/bjc-r/";
+llab.install_directory = "llab/";
+llab.llab_path = llab.rootURL + llab.install_directory;
+llab.courses_path = llab.rootURL + "course/";
+llab.topics_path = llab.rootURL + "topic/";
+llab.topic_launch_page = llab.llab_path + "html/topic.html";
+llab.alt_topic_page = llab.rootURL + "topic/topic.html";
+llab.empty_curriculum_page_path = llab.llab_path + "html/empty-curriculum-page.html";
+// google analytics tokens
+llab.GACode = 'UA-57857730-3';
+llab.GAurl  = document.hostname;
 
 // ADDITIONAL LIBRARIES
 
@@ -41,13 +60,11 @@ llab.paths.css_files.push('../css/edcdevtech-headerfooter.css'); /* new headers 
 ///////////////////////// stage 0
 // Stage 0 items can be executed with no dependences.
 llab.paths.scripts[0] = [];
-// TODO: Can reasonably deprecate this file (copy config and inline here.)
-llab.paths.scripts[0].push(llab.CONFIG_FILE_PATH);
 llab.paths.scripts[0].push("lib/jquery.min.js");
 llab.paths.scripts[0].push("script/library.js");
 llab.paths.scripts[0].push("script/quiz/multiplechoice.js");
 
-llab.loaded['config'] = false;
+llab.loaded['config'] = true;
 llab.loaded['library'] = false;
 llab.loaded['multiplechoice'] = false
 llab.paths.stage_complete_functions[0] = function() {
