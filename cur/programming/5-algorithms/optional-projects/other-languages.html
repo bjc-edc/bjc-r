@@ -3,33 +3,32 @@
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
-		<title>Unit 5 Optional Project</title>
+		<title>Unit 5 Optional Project: Other Programming Languages</title>
 	</head>
 
 	<body>
-		<h2>Other Programming Languages</h2>
+		<h2>Sequential Languages</h2>
+		<div class="todo">Hi Brian, I'm in-progress here, but I've done the first page of the to-be-optional-lab. A few over-arching notes: I've hidden a lot of the details behind clicks. I've also changed a lot of the &lt;code&gt; tags to images both 1) so that it's more clear that they are from Snap<em>!</em> (I also changed the other-languages &lt;code&gt; to &lt;pre&gt;) and also 2) so the page has more visual elements and doesn't feel like an impossible wall of text only for "smart kids"/"real CS kids" etc. --MF, 12/20/21</div>
 
-		<div class="todo">
-		I changed the name, so as not to imply that they now know all about
-		Snap<i>!</i> and should move on.
+	<div class="learn"><strong>On this page,</strong> you will learn about other programming languages and how to learn them, now that you know Snap<em>!</em>.</div>
+
+		<p>A programming language is characterized by two things: a philosophy of programming and details of notation. Most modern programming languages are <em>multi-paradigm</em> but basically <em>sequential</em>. This includes Snap<em>!,</em> even though you have learned some composition (nesting) of functions (functional programming) and some ideas about sprites as objects (object-oriented programming).</p>
+		<div class="vocabFullWidth">
+			<div class="sidenote">You learned about reporters and commands on <a href="/bjc-r/cur/programming/1-introduction/2-gossip-and-greet/4-making-a-new-block.html?topic=nyc_bjc/1-intro-loops.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 1 Lab 2 Page 4: Making Your Own Block">Unit 1 Lab 2 Page 4: Making Your Own Block</a> and about predicates on <a href="/bjc-r/cur/programming/2-complexity/1-variables-games/2-checking-player-guess.html?topic=nyc_bjc/2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 2 Lab 1 Page 2: Checking the Player's Guess">Unit 2 Lab 1 Page 2: Checking the Player's Guess</a>.</div>
+			<p>
+				<strong>Multi-paradigm</strong> languages take ideas from several different approaches to programming style. Here are a few approaches you have seen in Snap<em>!</em>:
+				<ul>
+					<li><strong>Sequential</strong> programming, where operations are performed in order one at a time</li>
+					<li><strong>Functional</strong> programming, where computation is achieved by composing functions (<em>reporter</em> and <em>predicate</em> blocks) together rather than sequencing (i.e., ordering) <em>command</em> blocks.</li>
+					<li><strong>Object-Oriented</strong> programming, code is organized around objects (such as sprites), which may contain their own data or code, rather than around functions or sequenced instructions.</li>
+				</ul>
+			</p>
+			<p style="clear: both; height: 0px;"></p>
 		</div>
-
-		<div class="learn"><strong>On this page,</strong> you will learn about other programming languages and how to learn them, now that you know Snap<em>!</em>.</div>
-
-		<h3>Sequential Languages</h3>
-
-		<p>A programming language is characterized by two things: a philosophy of programming and details of notation.
-		Most modern programming languages, including Snap<em>!,</em> are
-		<em>multiparadigm,</em> which means that they take ideas from
-		several different approaches to programming style.  Nevertheless,
-		most are basically <em>sequential</em> (do this instruction, then
-		do this, then do this). This includes Snap<em>!,</em> even though
-		you have learned some composition (nesting) of functions and
-		some ideas about sprites as objects.</p>
-		<p>Learning another language of the same type is <em>much</em> easier than learning your first one. For example, here’s the binary search function from
-		<a href="/bjc-r/cur/programming/5-algorithms//1-searching-lists/3-spell-checker.html?topic=nyc_bjc%2F5-algorithms.topic&course=bjc4nyc.html&novideo&noassignment">Lab 1</a> of this unit:
-		</p>
-                    <img class="indent" src="/bjc-r/img/5-algorithms/binary-search-block-definition.png" alt="binary search for (value) in (data) {
+		<p>
+			Learning another language of the same type is <em>much</em> easier than learning your first one. For example, here’s the binary search function from
+		<a href="/bjc-r/cur/programming/5-algorithms//1-searching-lists/3-spell-checker.html?topic=nyc_bjc%2F5-algorithms.topic&course=bjc4nyc.html&novideo&noassignment">Lab 1</a> of this unit:<br />
+			<img class="indent" src="/bjc-r/img/5-algorithms/binary-search-block-definition.png" alt="binary search for (value) in (data) {
             script variables (low) (high) (current index) (current item)
             set (low) to (1)
             set (high) to (length of (data))
@@ -60,11 +59,12 @@
             }
             report (false)
 }" />
+		</p>
 
-		<h4>Python</h4>
+		<h3>Python</h3>
 
 		<p>Here's the same procedure written in Python:</p>
-		<pre>
+		<pre class="indent">
 def binary_search(value, data):
     low = 0
     high = len(data)-1
@@ -80,84 +80,47 @@ def binary_search(value, data):
     return False
 </pre>
 
-		<p>For the most part, this is line for line the same as the Snap<em>!</em> version.
-		Apart from tiny details such as <code>return</code> instead of
-		<code>report</code>, there are a few more significant differences in notation:
+		<div class="pseudop">For the most part, this is line-for-line the same as the Snap<em>!</em> version. Apart from tiny details such as <pre class="inline">return</pre> instead of <img class="inline nopadtb" src="/bjc-r/img/blocks/report.png" alt="report" title="report" />, there are several more significant differences in notation. <a href="#hint-python-differences" data-toggle="collapse" title="Click to read about some of the differences in notation between Snap! and Python.">Click to read about some of them.</a></div>
+		<div class="todo">I hinted these details because they are both super overwhelming and superfluous to the big idea that "You can basically already read Python." --MF, 12/20/21</div>
+		<div id="hint-python-differences" class="collapse">
 			<ul>
 				<li>
-					In Python, there's nothing like the <code>script
-					variables</code> block in Snap<em>!</em>.  Variables are
-					local to procedures automatically, unless you use a
-					<code>global</code> or <code>nonlocal</code> statement to
-					tell Python to look for a variable defined outside this
-					procedure.  This is a good design choice, because it
-					encourages programmers to use global variables only when
-					really necessary.
+					<div class="sidenoteBig">You learned about the <code>script variables</code> block and local variables on <a href="/bjc-r/cur/programming/2-complexity/1-variables-games/1-number-guessing-game.html?topic=nyc_bjc/2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 2 Lab 1 Page 1: Starting a Number Guessing Game">Unit 2 Lab 1 Page 1: Starting a Number Guessing Game</a>.</div>
+					In Python, there's nothing like the <img class="inline nopadtb" src="/bjc-r/img/blocks/script-variables(a).png" alt="script variables (a)" title="script variables (a)" /> block.  Variables are local to procedures automatically and will only be global if you use a 
+					<pre class="inline">global</pre> or <pre class="inline">nonlocal</pre> statement.  This encourages programmers to use global variables only when really necessary.
+					<div class="todo">Brian, could you please add "which is good because..." to the end of that sentence? If we are going to argue that it's good, we should say why. --MF, 12/20/21</div>
 				</li>
+				<li>Python uses indentation (how many spaces at the beginning of each line) to determine the extent of control structures that would be C-shaped blocks in Snap<em>!</em>. <div class="todo">The phrase "extent of control structures" is unclear, and I'm not confident that "C-shaped" will be clear either as we don't use it (much? at all?) in the curriculum. Please work to make this more accessible. Perhaps add some images? I didn't have a good idea in the moment, so I'm passing it back to you. --MF, 12/20/21</div></li>
+				<li>As in many text-based languages, the first item of a list is item number zero, not item one.  <div class="todo"><p><s>They have a reason for this, but it's still confusing: Shouldn't the 27th item of a list be item number 27?</s></p>It would be more helpful to read the reason for this than a complaint about why it's confusing. Also it might be nice to see a side-by-side visual comparison here if you can think of something simple. --MF, 12/20/21</div></li>
 				<li>
-					Python uses indentation (how many spaces at the beginning of each line) to determine the extent of control structures
-					that would be C-shaped blocks in Snap<em>!</em>.
+					In Snap<em>!,</em> the nesting of blocks is visually obvious, so there's no confusion about whether you meant <img src="/bjc-r/img/5-algorithms/plus-first.png" alt="3*(4+5)" title="3*(4+5)" /> or <img src="/bjc-r/img/5-algorithms/times-first.png" alt="(3*4)+5" title="(3*4)+5" />. But text languages have to use order of operations and allow the use of parentheses if you want some other order. For example:
+					<ul>
+						<div class="commentBig">Would this example be improved by switching to an example with non-commutative operations? --MF, 12/20/21</div>
+						<li><img src="/bjc-r/img/5-algorithms/times-first.png" alt="(3*4)+5" title="(3*4)+5" /> could be written as <pre class="inline">3*4+5</pre></li>
+						<li>But <img src="/bjc-r/img/5-algorithms/plus-first.png" alt="3*(4+5)" title="3*(4+5)" /> would need to be written as <pre class="inline">3*(4+5)</pre>.</li>
+					</ul>
 				</li>
+				<li> In Python, you can't have a space inside a variable name, like <img class="inline nopadtb" src="/bjc-r/img/5-algorithms/current-item.png" alt="current item" title="current item" />.  Instead, Python programmers often use underscore characters ( _ ) inside variable names (such as in <pre class="inline">current_item</pre>).</li>
 				<li>
-					As in many (but not all!) text-based languages, the first item of
-					a list is item number zero, not item one.  They have a reason
-					for this, but it's still confusing: Shouldn't the 27th item of
-					a list be item number 27?
+					Like many text-based languages, Python uses the character <pre class="inline">=</pre> to set the value of a variable, like <img class="inline nopadtb" src="/bjc-r/img/blocks/set-empty.png" alt=" set () to ()" title="set () to ()" />.  That can be confusing because usually writing <span class="katex">x=3</span> means that the value of <em>x</em> <em>is</em> 3, not that the value of <em>x</em> should be <em>changed</em> to 3. Outside of languages like Python, <span class="katex">x=3</span> means something like <img src="/bjc-r/img/5-algorithms/x-is-3.png" alt="(x) = (3)" title="(x) = (3)" />, but in Python, that predicate expression (that reports true when <span class="katex">x=3</span>) is written <pre class="inline">x == 3</pre>.  This notation is the cause of many bugs, even among experienced programmers. Consider trying to read code that says <pre class="inline">x = x+1</pre> instead of <img class="inline nopadtb" src="/bjc-r/img/5-algorithms/set-x-to-x+1.png" alt="set (x) to (x + 1)" title="set (x) to (x + 1)" /> or <img class="inline nopadtb" src="/bjc-r/img/5-algorithms/change-x-by-1.png" alt="change (x) by (1)" title="change (x) by (1)" />. 
+					<div class="endnote">
+						<strong>Why does Python use = like this?</strong>
+						<p>This design choice is inherited indirectly from Fortran, a programming language invented back in the 1950s when computers could display only 64 different characters so there were fewer options available but they still could have used a multi-character sequence such as 
+						<pre class="inline">&lt--</pre> or <pre class="inline">==</pre>.</p>
+						<strong>How can I make this easier for myself?</strong>
+						<div class="pseudop">If you find yourself programming in a language that uses <pre class="inline">=</pre> for assignment, you can train yourself to pronounce <pre class="inline">=</pre> as "gets" or "becomes" as in "<em>x</em> gets 3" or "<em>x</em> becomes 3" rather than as "<em>x</em> equals 3."</div>
+					</div>
 				</li>
-				<li>
-					In Snap<em>!,</em> the nesting of blocks is visually
-					apparent, so there's no ambiguity about whether you
-					meant
-					<img src="/bjc-r/img/5-algorithms/plus-first.png" alt="3*(4+5)" title="3*(4+5)" />
-					or
-					<img src="/bjc-r/img/5-algorithms/times-first.png" alt="(3*4)+5" title="(3*4)+5" />.
-					But text languages have to use the order-of-operations rules
-					that you learned in elementary school, and allow the use
-					of parentheses if you want some other order.
-				</li>
-				<li>
-					In Python, you can't have a
-					space inside a variable name, like <var>current item</var> in
-					Snap<em>!</em>.  Instead, Python programmers often use
-					underscore characters (_) inside variable names.
-				</li>
-				<li>
-					The most annoying one: Like many (but not all!)
-					text-based languages, Python uses the character
-					<code>=</code> to set the value of a variable, like the
-					<code>set</code> block in Snap<em>!</em>.  But that's not
-					what "=" <em>means!</em>  In every context other than
-					programming, <code>x=3</code> is telling the reader that
-					the value of <var>x</var> <em>is</em> 3, not a command
-					to <em>change</em> the value to 3.  In other words, it
-					means <img src="/bjc-r/img/5-algorithms/x-is-3.png" alt='= block' title='= block' />.					
-					The Python equivalent of the
-					Snap<em>!</em> <code>=</code> predicate is called
-					<code>==</code>.  Many, many bugs, even among experienced
-					programmers, come from this confusing notation.  And it's
-					needlessly hard to make sense of programming when you're
-					confronted with a statement such as <code>x=x+1</code>.
-					This design choice is inherited indirectly from Fortran,
-					invented back in the 1950s, when computers could display
-					only 64 different characters, so there were fewer options
-					available, but they still could have used a multi-character
-					sequence such as <code>&lt--</code>.
-					(If you have to program in a language that uses
-					<code>=</code> for assignment, learn to pronounce it
-					"gets," as in "<var>x</var> gets 3," rather than "equals,"
-					so you don't add to the confusion.  But you still pronounce
-					<code>==</code> as "equal equals.")
-
-					<div class="todo">I want a gold star for not putting "have to" in italics.</div>
-
-				</li>
+					<div class="todo">I want a gold star for not putting "have to" in italics. <h1>⭐️</h1></div>
 			</ul>
-		</p>
+		</div>
 
-		<h4>JavaScript</h4>
+		<div class="todo">Can we please offer them a super quick taste of Python programming in a <a href="https://www.w3schools.com/python/trypython.asp?filename=demo_oper" target="_blank">little windowlet</a> as a FTYD? Then maybe also we could recommend a easy-to-setup compiler as an ITIT or TIF for those kids who want to explore further. Same comment for <a href="https://www.w3schools.com/js/tryit.asp?filename=tryjs_oper" target="_blank">JS</a>. Any other FYTD exercises you can think of for this lab would be great for breaking up the page and increasing engagement. Maybe something like "read this python and answer a multiple choice question about it" (a.k.a., "Look! You really can read some python/JS already!"). --MF, 12/20/21</div>
 
-		<p>Here's the same procedure written in JavaScript:</p>
-		<pre>
+		<h3>JavaScript</h3>
+
+		<p>Here's the same binary search procedure written in JavaScript:</p>
+		<pre class="indent">
 function binarySearch(value, data) {
     var low, high, currentIndex, currentItem;
     low = 0;
@@ -177,66 +140,30 @@ function binarySearch(value, data) {
 }
 </pre>
 
-	<div class="vocab">
-		<p>The <strong>syntax</strong> of a language is the notation it uses
-		(punctuation, words reserved for specific purposes, etc.).  Human
-		languages have syntax, too: nouns vs. verbs and so on.</p>
-		<p>The <strong>semantics</strong> of a language refers to the
-		meaning or purpose of each piece of syntax.</p>
-	</div>
-	<p>This doesn't look so different from the Python version, but there
-	are a few significant differences:</p>
+		<p>This doesn't look so different from the Python version, but there are a few significant differences. <a href="#hint-JS-differences" data-toggle="collapse" title="Click to read about some of the differences in notation between JavaScript and Python.">Click to read about them.</a></p>
+		<div id="hint-JS-differences" class="collapse">
+			<ul>
+				<li>The <pre class="inline">var</pre> statement, inside a procedure, is equivalent to <img class="inline nopadtb" src="/bjc-r/img/blocks/script-variables(a).png" alt="script variables (a)" title="script variables (a)" />.  There are better ways to create local variables in JavaScript, but they look different from Snap<em>!</em>.</li>
+				<li>JavaScript uses braces <pre class="inline">{ }</pre> 
+				to mark the extent of what would be a C-shaped block in Snap<em>!</em>.  Although JavaScript programmers generally indent code more or less the same way Python programmers do, in JavaScript, the indenting doesn't matter to the computer but is just to make it more readable to people.</li>
+				<li>Within the braces, statements are separated by semicolons (<pre class="inline">;</pre>). (In JavaScript, semicolons go <em>between</em> statements: <pre class="inline">{statement; statement; statement}</pre>, but in the C programming language, which is otherwise quite similar, the semicolons go <em>after</em> statements: <pre class="inline">{statement; statement ; statement<span style="background-color:orange">;</span>}</pre>.<div class="todo"><p>Again, I think we need to explain or (ideally) find another word for "extent." --MF, 12/20/21</p><p>Also, I cut this: This is the sort of thing that drives students of text languages crazy.  It's one of the advantages of block-based languages such as Snap<em>!</em>. This isn't the place for a soap-box. --MF, 12/20/21</p></div></li>
+				<li>JavaScript uses the name "function" to describe <em>all</em> procedures, including what Snap<em>!</em> calls "commands," the ones that don't report a value.</li>
+				<li>Just as in Python, you can't have a space inside a variable name in JavaScript.  Instead, JavaScript programmers often use "camel case," so called because the capital letters in the middle of a variable name are supposed to look like the humps of a camel. For example, <pre class="inline">currentItem</pre> instead of <img class="inline nopadtb" src="/bjc-r/img/5-algorithms/current-item.png" alt="current item" title="current item" />.
+				</li>
+				<li>JavaScript also the <code>=</code> notation instead of <img class="inline nopadtb" src="/bjc-r/img/blocks/set-empty.png" alt=" set () to ()" title="set () to ()" /> like Python does. But instead of using <pre class="inline">==</pre> to test whether two values are equal, JavaScript has <em>two</em> ways to do that: <pre class="inline">==</pre>, which is like <img class="inline nopadtb" src="/bjc-r/img/5-algorithms/x-is-3.png" alt="(x) = (3)" title="(x) = (3)" />, and <pre class="inline">===</pre>, which is like <img class="inline nopadtb" src="/bjc-r/img/5-algorithms/is-x-identical-to-3.png" alt="is (x) identical to (3)?" title="is (x) identical to (3)?" />. </li>
+			</ul>
+		</div>
 
-	<ul>
-		<li>
-			The <code>var</code> statement, inside a procedure, is equivalent
-			to <code>script variables</code> in Snap<em>!</em>.  (There are
-			better, more recently invented, ways to create local variables
-			in JavaScript, but they look very different and we're trying to
-			make the code as similar as possible.)
-		</li>
-		<li>
-			JavaScript uses braces <code>{ }</code> to mark the extent
-			of what would be a C-shaped block in Snap<em>!</em>.  Although
-			JavaScript programmers generally indent code more or less the
-			same way Python programmers do, that's just to make it
-			more readable <em>to people;</em> the indentation is ignored by JavaScript.
-			Within the braces, statements are separated by semicolons (<code>;</code>).
-			(In JavaScript, semicolons go <em>between</em> statements:
-			<code>{st;st;st}</code>, but in C, an otherwise similar language,
-			they go <em>after</em> statements: <code>{st;st;st<span style="background-color:orange">;</span>}</code>.
-			This is the sort of thing that drives students of text languages
-			crazy.  It's one of the advantages of block-based languages such as
-			Snap<em>!</em>.)
-		</li>
-		<li>
-			JavaScript uses the name "function" to describe all procedures,
-			including what Snap<em>!</em> calls "commands," the ones that
-			don't report a value.
-		</li>
-		<li>
-			Just as in Python, you can't have a
-			space inside a variable name.  Instead, JavaScript programmers often use
-			"camel case," so called because the capital letters in
-			the middle of a variable name are supposed to look like
-			the humps of a camel.
-		</li>
-		<li>
-			JavaScript has the same terrible <code>=</code> notation for
-			Snap<em>!'</em>s <code>set</code> as Python does.
-			But instead of using <code>==</code> to test whether two
-			values are equal, JavaScript has <em>two</em> ways to do that:
-			<code>==</code> and <code>===</code>.  (That looks like a joke,
-			but it isn't.)  JavaScript programmers
-			often get confused about which is which.  (The one with three
-			equal signs is similar to the <code>is identical to</code>
-			block in Snap<em>!</em>.)
-		</li>
-	</ul>
+		<p>There are things to learn about notation (<em>syntax,</em> which is the text-language equivalent of block colors and shapes). But you would be able to learn the details of one of these other languages <em>much</em> more quickly than you learned Snap<em>!</em> because you already know how to program in a sequential langauge.</p>
+		<div class="vocabFullWidth">
+			<p>The <strong>syntax</strong> of a language is the notation it uses (punctuation, words reserved for specific purposes, etc.).  Human languages have syntax, too: nouns vs. verbs and so on.</p>
+			<p>The <strong>semantics</strong> of a language refers to the meaning or purpose of each piece of syntax.</p>
+			<div class="todo">I'm not sure why this is on the page. Semantics is not mentioned anywhere else. --MF, 12/20/21</div>
 
-		<p>You can see that there are things to learn about notation (<em>syntax,</em> which is the text-language equivalent of block colors and shapes). But you would be able to learn the details of one of these other languages in a few focused days and then program in that language, too.</p>
-	
-		<h4>Snap<em>!</em> Primitives in Other Languages</h4>
+		</div>
+
+		<div class="todo"><h1>Mary's real progress with reviewing stops here.</h1><hr /><h1>PAGE BREAK</h1><hr />I think the following should be it's own page. --MF, 12/20/21</div>
+		<h2>Snap<em>!</em> Primitives in Other Sequential Languages</h2>
 		<p>
 			Central programming language features having to do with flow of control
 			(<img src="/bjc-r/img/5-algorithms/Control.png" alt="Control" title="Control" />),
@@ -343,17 +270,14 @@ else:
 
 			</table>
 
-			<p>This is just a small sample of the number of primitive commands
-			and functions in any programming language.  Luckily, you don't have
-			to memorize them; you can do a web search for "javascript
-			list item," for example, to learn any particular one as you need
-			it.</p>
+			<p>This is just a small sample of the number of primitive commands and functions in any programming language.  Luckily, you don't have to memorize them; you can do a <a href="https://duckduckgo.com/?q=javascript+list+item" title="web search for 'javascript list item'" target="_blank">web search for "javascript list item,"</a> for example, to learn any particular one as you need it.</p>
 
-			<p>By the way, look at the Python <code>join</code> in the table.
+			<div class="todo">I haven't done a super close read, but I'm anticipating hinting most of the rest of this page. Except maybe Libraries... --MF, 12/20/21</div>
+	<p>By the way, look at the Python <code>join</code> in the table.
 			It has the very nice feature of allowing you to choose a separator
 			to go between the joined strings:</p>
 
-<pre>>>> <span style="background: orange">" "</span>.join(["John", "Paul", "George", "Ringo"])
+<pre class="indent">>>> <span style="background: orange">" "</span>.join(["John", "Paul", "George", "Ringo"])
 'John Paul George Ringo'
 >>> <span style="background: orange">","</span>.join(["John", "Paul", "George", "Ringo"])
 'John,Paul,George,Ringo'</pre>
@@ -445,43 +369,24 @@ for i in range (4):
 				<li><a href="https://www.w3schools.com/js/" title="W3Schools JavaScript Tutorial" target="_blank">W3Schools JavaScript Tutorial</a></li>
 			</ul>
 
-			I didn't do any of this.  W3schools is a little controversial.
-			Some people swear by them; others say they're full of inaccuracies.
-			I don't know enough to have an opinion.  But, anyway, kids know
-			how to learn stuff; you search the Web, or you get a book from
-			the library.  Or you take APCSA next year.
+			I didn't do any of this.  W3schools is a little controversial. Some people swear by them; others say they're full of inaccuracies. I don't know enough to have an opinion.  But, anyway, kids know how to learn stuff; you search the Web, or you get a book from the library.  Or you take APCSA next year.
+			<p>The kids who could learn programing without us "know how to learn stuff." I'm not convinced that it has to be W3, but I think it would be lovely to (and perhaps even a shame not to) end this page with some "next steps" for kids to explore on their own time. --MF, 12/20/21</p>
 		</div>
 
-		<h3>Non-Sequential Languages</h3>
+		<div class="todo"><hr /> <h1>PAGE BREAK</h1><hr /></div>
+		<h2>Non-Sequential Languages</h2>
+		<div class="learn"></div>
 
-		<p>In the early days, all programming languages were sequential,
-		because that's how computer hardware works, and higher level
-		languages were seen as a convenient abbreviation for machine
-		language, rather than as a source of abstraction.  Since then,
-		several types of programming language based abstraction
-		("programming paradigms") have been invented.
-		Most modern languages have some aspects of most of these,
-		but in this section you'll learn about languages that are
-		<em>entirely</em> based on one particular paradigm.
-		It's worthwhile to learn such a language because it will
-		immerse you in how things are done in that paradigm, even
-		if in real life you end up programming in a mixed-paradigm
-		language such as Snap<em>!</em>, Python, or JavaScript.</p>
+		<p>In the early days, all programming languages were sequential, because that's how computer hardware works, and higher level languages were seen as a convenient abbreviation for machine language, rather than as a source of abstraction.  Since then, several types of programming language based abstraction ("programming paradigms") have been invented. Most modern languages have some aspects of most of these, but in this section you'll learn about languages that are
+		<em>entirely</em> based on one particular paradigm. It's worthwhile to learn such a language because it will immerse you in how things are done in that paradigm, even if in real life you end up programming in a mixed-paradigm language such as Snap<em>!</em>, Python, or JavaScript.</p>
 
-		<h4>Functional Programming in Haskell</h4>
+		<h3>Functional Programming in Haskell</h3>
 
-		<p>Imagine if Snap<em>!</em> had only reporters and predicates, with
-		no command blocks.  To perform a computation, you'd build up an
-		expression in the scripting area, then click on it to see the result
-		in a speech balloon.  You could make script variables, but you'd give
-		them a value at the time you create them, and you couldn't then
-		<em>change</em> the value.  That would be a <em>functional
-		programming</em> language.</p>
+		<p>Imagine if Snap<em>!</em> had only reporters and predicates, with no command blocks.  To perform a computation, you'd build up an expression in the scripting area, then click on it to see the result in a speech balloon.  You could make script variables, but you'd give them a value at the time you create them, and you couldn't then <em>change</em> the value.  That would be a <em>functional programming</em> language.</p>
 
-		<p>Here's the same binary search algorithm shown above, written in
-		Haskell, a purely functional language:</p>
+		<p>Here's the same binary search algorithm shown above, written in Haskell, a purely functional language:</p>
 
-<pre>find :: Ord a => Array Int a -> a -> Maybe Int
+<pre class="indent">find :: Ord a => Array Int a -> a -> Maybe Int
 find arr x = uncurry (search arr x) (bounds arr)
 
 search :: Ord a => Array Int a -> a -> Int -> Int -> Maybe Int
@@ -510,18 +415,15 @@ search arr x lo hi
 		<var>current item</var> are changed on every repetition.  If you're
 		not allowed to change variables' values, what can you do instead?</p>
 
-		<p>The answer is that <code>search</code> calls itself recursively,
+		<p>
+			The answer is that <code>search</code> calls itself recursively,
 		in the lines
-<pre>  | x > el = search arr x (mid+1) hi
+			<pre class="indent">  | x > el = search arr x (mid+1) hi
   | otherwise = search arr x lo (mid-1)</pre>
-		In the recursive calls, either
-		<var>lo</var> or <var>hi</var> has a different value.  This may seem
-		like a quibble.  Isn't that the same as changing the value?  No, it
-		isn't.  The recursive call has <em>its own local variables</em> with
-		the same names as the outer call.  You can see that this matters in a
-		case in which two recursive calls are combined, as in this program
-		to calculate Fibonacci numbers:</p>
-		<img src="/bjc-r/img/5-algorithms/fib.png">
+			In the recursive calls, either <var>lo</var> or <var>hi</var> has a different value.  This may seem like a quibble.  Isn't that the same as changing the value?  No, it isn't.  The recursive call has <em>its own local variables</em> with the same names as the outer call.  You can see that this matters in a case in which two recursive calls are combined, as in this program to calculate Fibonacci numbers:<br />
+			<div class="commentBig">Why does this have text-language-style names for the function and variable? Please remake with snap-style naming, update all the text references, and add alt/title text to the image. --MF, 12/20/21</div>
+			<img class="indent" src="/bjc-r/img/5-algorithms/fib.png">
+		</p>
 		<p>If you try to trace through computing <code>fib 4</code> on the
 		assumption that there's a single variable <var>n</var> shared by
 		all the recursive calls, you'll get the wrong answer.</p>
@@ -647,7 +549,7 @@ search arr x lo hi
 		[Can't say this because currying is in the hinted yellow box.] -->
 		</p>
 
-		<h4>Object Oriented Programming (OOP) in Smalltalk</h4>
+		<h3>Object Oriented Programming (OOP) in Smalltalk</h4>
 
 		<p>Imagine if in Snap<em>!</em> you could make only sprite-local
 		procedures and variables, not global ones.  Imagine also that
