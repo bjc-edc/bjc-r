@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unit 1 Lab 7: Dealing with Data Dos, Activity 2</title>
+	</head>
+
+	<body>
+		<h2>Setting Up Your Survey</h2>
+		<div class="learn">
+            <p>In this activity, you will begin creating your survey in Snap<em>!</em> by adding your questions.</p>
+        </div>
+		<div class="forYouToDo">
+            <ol>
+				<div class="sidenote"><strong>What is "Dos"?</strong> <p>The word "dos" means "two" in Spanish.</p></div>
+				<li>
+					Open this <a class="js-run-v7 snap-project" href="/bjc-r/middle-school/prog/U1/lab07/data-dos.xml" title="Data Dos - Snap! project" target="_blank">Data Dos</a> project, and save it to your account. It includes the following script at the top:<br />
+					<img class="indent" src="/bjc-r/middle-school/img/U1/lab07/initialize-survey.png" alt="if (survey (my survey) is not set up?) {
+	set (my survey) to (make survey with questions ())
+}" title="if (survey (my survey) is not set up?) {
+	set (my survey) to (make survey with questions ())
+}" /> 
+				</li>
+			</ol>
+		</div>
+		<div class="vocabBig">
+			<p>A <strong>variable</strong> is like a labeled box that can store a value, such as a word, a number, or a list.</p>
+			<p>In Snap<em>!</em>, a <strong>table</strong> is a list of lists (a list with lists inside it).</p>
+		</div>
+		<p>
+			This script:
+			<ul>
+				<li>Uses a variable called <img class="inline nopadtb" src="/bjc-r/middle-school/img/U1/lab07/my-survey.png" alt="my survey" title="my survey" /> to store survey questions and responses</li>
+				<li>Checks whether <var>my survey</var> is already set up so it doesn't erase a survey you've already started </li>
+				<li>Sets up a <em>table</em> with the questions as the first row if <var>my survey</var> is <em>not</em> set up</li>
+			</ul>
+		</p>
+		<div class="endnote" style="clear: both;">
+			<p><a href="#hint-not-set-up" data-toggle="collapse" title="How does is 'survey not set up?' work?">How does <img class="inline" src="/bjc-r/middle-school/img/U1/lab07/is-survey-not-set-up.png" alt="survey () is not set up?" title="survey () is not set up?" /> work?</a></p>
+			<div id="hint-not-set-up" class="collapse">
+				<p>
+					<img class="indent" src="/bjc-r/middle-school/img/U1/lab07/is-survey-not-set-up-definition.png" alt="survey () is not set up? {
+report ((not (is (survey) a ('list')?)) or (is (survey) empty?))
+}" title="survey () is not set up? {
+report ((not (is (survey) a ('list')?)) or (is (survey) empty?))
+}" /><br />
+					The <code>survey () is not set up?</code> block takes a list as input and reports true if <em>either</em> of the following are true:
+					<ul>
+						<li>The value stored in <var>my survey</var> is <em>not</em> a list</li>
+						<li>The value stored in <var>my survey</var> is an <em>empty</em> list</li>
+					</ul>
+				</p>
+			</div>
+			<p><a href="#hint-make-survey" data-toggle="collapse" title="How does 'make survey with questions' work?">How does <img class="inline" src="/bjc-r/middle-school/img/U1/lab07/make-survey.png" alt="make survey with questions ()" title="make survey with questions ()" /> work?</a></p>
+			<div id="hint-make-survey" class="collapse">
+				<p>
+					<img class="indent" src="/bjc-r/middle-school/img/U1/lab07/make-survey-definition.png" alt="make survey with questions (questions) {
+report (list (questions))
+}" title="make survey with questions (questions) {
+report (list (questions))
+}" /><br />
+					The <code>make survey with questions</code> block takes a set of questions as input and reports a list containing one item: the list of questions. So, it sets up a table for the survey data as a list with one row containing the list of questions.
+				</p>
+				<p>Like the <img class="inline nopadtb" src="/bjc-r/img/blocks/join.png" alt="join () ()" title="join () ()" /> and <img class="inline nopadtb" src="/bjc-r/img/blocks/list-full-size.png" alt="list ()" title="list ()" /> blocks, you can add an input slot to <img class="inline nopadtb" src="/bjc-r/middle-school/img/U1/lab07/make-survey.png" alt="make survey with questions ()" title="make survey with questions ()" /> by clicking the right-facing triangle at the end (▸).</p>
+			</div>
+		</div>
+
+		<div class="forYouToDo">
+			<ol start="2">
+				<li>Add your survey questions to the <code>make survey with questions</code> block, and run the script to set up your survey.</li>
+				<div class="endnote">
+					If you want to reset your survey at any point, use the <img class="" src="/bjc-r/middle-school/img/U1/lab07/reset-survey.png" alt="reset survey 'list input slot'" title="reset survey 'list input slot'" />. <a href="#hint-reset" data-toggle="collapse" title="How does reset survey work?">How does <code>reset survey</code> work?</a>
+					<div id="hint-reset" class="collapse">
+						<p>
+							<img class="indent" src="/bjc-r/middle-school/img/U1/lab07/reset-survey-definition.png" alt="reset survey (survey) {
+	if (ask ('Are you sure?') = 'yes'){
+		delete ('all') of (survey)
+	} else {
+		say ('Survey not changed.') for (2) secs
+	}
+}" title="reset survey (survey) {
+	if (ask ('Are you sure?') = 'yes'){
+		delete ('all') of (survey)
+	} else {
+		say ('Survey not changed.') for (2) secs
+	}
+}" />
+						</p>
+						<p>The <code>reset survey</code> block takes a survey as input. If the response to "Are you sure" is "yes," then everything in the survey is deleted. Otherwise (that is, if there is any other response to the question), the sprite says "Survey not changed."</p>
+						<p>You'll need to drag the <img class="inline nopadtb" src="/bjc-r/middle-school/img/U1/lab07/my-survey.png" alt="my survey" title="my survey" /> variable out of the palette on the left and into the empty input slot.</p>
+					</div>
+				</div>
+				<li><img class="inline" src="/bjc-r/img/icons/save-now.png" alt="Now Is a Good Time to Save" title="Now Is a Good Time to Save" /></li>
+			</ol>
+		</div>
+
+		<p>
+			<div class="vocab">
+				<p>A <strong>watcher</strong> is a window that lets you see what value is stored in a variable.</p>
+			</div>
+			On the Snap<em>!</em> stage, you will see your questions appear as the first row of a table in a <em>watcher</em> for the <code>my survey</code> variable. As you add responses to your survey, they will appear as additional rows in the table.<br />
+			<img class="indent" src="/bjc-r/middle-school/img/U1/lab07/my-survey-watcher-questions-only.png" alt="'my survey' watcher: a table with one row and two columns. Row 1 column 1 has the text: 'How many years have you been playing music?' and row 1 column 2 has the text: 'How many hours do you listen to music each day?'" title="'my survey' watcher: a table with one row and two columns. Row 1 column 1 has the text: 'How many years have you been playing music?' and row 1 column 2 has the text: 'How many hours do you listen to music each day?'" />
+			<div class="endnote">
+				<p>
+					You can expand the "watcher" by clicking and dragging its lower right corner.<br />
+					<img class="indent" src="/bjc-r/middle-school/img/U1/lab07/watcher-corner-expand.png" alt="my survey watcher with mouse pointer over expansion drag area in lower right corner" title="my survey watcher with mouse pointer over expansion drag area in lower right corner" />
+				</p>
+				<p>
+					You can expand a column by clicking and dragging column headers at the top (the letter will turn into a number that you can drag it to the right).<br />
+					<img class="indent" src="/bjc-r/middle-school/img/U1/lab07/watcher-column-expand.png" alt="my survey watcher with mouse pointer exactly between two column headers 'A' and 'B' indicating column expansion drag area" title="my survey watcher with mouse pointer exactly between two column headers 'A' and 'B' indicating column expansion drag area" />
+				</p>
+			</div>
+
+		</p>
+		
+		<div class="learn">
+            <p>In this activity, you set up a survey to use for data collection.</p>
+        </div>
+        
+
+	</body>
+</html>
