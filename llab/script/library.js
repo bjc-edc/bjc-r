@@ -36,7 +36,7 @@ llab.getSnapRunURL = function(targeturl, options) {
     var currdom = document.domain;
     if (currdom == "localhost") {
         currdom = 'http://' + currdom + ":" + window.location.port;
-        finalurl = finalurl.replace('https://snap', 'http://extensions.snap');
+        // finalurl = finalurl.replace('https://snap', 'http://extensions.snap');
     } else if (targeturl.indexOf("..") != -1 || targeturl.indexOf(llab.rootURL) == -1) {
         var path = window.location.pathname;
         path = path.split("?")[0];
