@@ -28,7 +28,8 @@
 		<p>
 			Learning another language of the same type is <em>much</em> easier than learning your first one. For example, here’s the binary search function from
 		<a href="/bjc-r/cur/programming/5-algorithms//1-searching-lists/3-spell-checker.html?topic=nyc_bjc%2F5-algorithms.topic&course=bjc4nyc.html&novideo&noassignment">Lab 1</a> of this unit:<br />
-			<img class="indent" src="/bjc-r/img/5-algorithms/binary-search-block-definition.png" alt="binary search for (value) in (data) {
+
+		<img class="indent" src="/bjc-r/img/5-algorithms/binary-search-block-definition.png" alt="binary search for (value) in (data) {
             script variables (low) (high) (current index) (current item)
             set (low) to (1)
             set (high) to (length of (data))
@@ -80,42 +81,57 @@ def binary_search(value, data):
     return False
 </pre>
 
-		<div class="pseudop">For the most part, this is line-for-line the same as the Snap<em>!</em> version. Apart from tiny details such as <pre class="inline">return</pre> instead of <img class="inline nopadtb" src="/bjc-r/img/blocks/report.png" alt="report" title="report" />, there are several more significant differences in notation. <a href="#hint-python-differences" data-toggle="collapse" title="Click to read about some of the differences in notation between Snap! and Python.">Click to read about some of them.</a></div>
-		<div class="todo">I hinted these details because they are both super overwhelming and superfluous to the big idea that "You can basically already read Python." --MF, 12/20/21</div>
+<div class="pseudop">For the most part, this is line-for-line the same as the Snap<em>!</em> version, apart from tiny details such as <pre class="inline">return</pre> instead of <img class="inline nopadtb" src="/bjc-r/img/blocks/report.png" alt="report" title="report" />. There are also several more significant differences in notation. 	<div class="sidenoteBig"><a href="#hint-python-differences" data-toggle="collapse" title="Click to read about some of the differences in notation between Snap! and Python.">Click to read about some of them.</a></div></div>
+<div class="todo">I hinted these details because they are both super overwhelming and superfluous to the big idea that "You can basically already read Python." --MF, 12/20/21 <br /><br />
+I put the hint in a yellow box because I didn't catch the link as it was. -bh 2/8/22<br /><br />
+I went along with hinting it all, reluctantly.  It seems to me that without this list, the page gives too much the impression that all languages are basically the same modulo punctuation.  It really matters, for example, that in Python variables are local by default.  (Also, how do I make the next paragraph come after the yellow box instead of overlapping it?) -bh 2/18/22</div>
 		<div id="hint-python-differences" class="collapse">
 			<ul>
 				<li>
 					<div class="sidenoteBig">You learned about the <code>script variables</code> block and local variables on <a href="/bjc-r/cur/programming/2-complexity/1-variables-games/1-number-guessing-game.html?topic=nyc_bjc/2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 2 Lab 1 Page 1: Starting a Number Guessing Game">Unit 2 Lab 1 Page 1: Starting a Number Guessing Game</a>.</div>
 					In Python, there's nothing like the <img class="inline nopadtb" src="/bjc-r/img/blocks/script-variables(a).png" alt="script variables (a)" title="script variables (a)" /> block.  Variables are local to procedures automatically and will only be global if you use a 
-					<pre class="inline">global</pre> or <pre class="inline">nonlocal</pre> statement.  This encourages programmers to use global variables only when really necessary.
-					<div class="todo">Brian, could you please add "which is good because..." to the end of that sentence? If we are going to argue that it's good, we should say why. --MF, 12/20/21</div>
+					<pre class="inline">global</pre> or <pre class="inline">nonlocal</pre> statement.  This encourages programmers to use global variables only when really necessary.  (You learned why global variables are sometimes necessary but otherwise best avoided on page <a href="/bjc-r/cur/programming/2-complexity/1-variables-games/4-keeping-score.html?topic=nyc_bjc/2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="/bjc-r/cur/programming/2-complexity/1-variables-games/4-keeping-score.html">2.1.4</a>.)
+					<div class="todo">Brian, could you please add "which is good because..." to the end of that sentence? If we are going to argue that it's good, we should say why. --MF, 12/20/21<br /><br />
+					Is what I did okay? -bh 2/8/22</div>
 				</li>
-				<li>Python uses indentation (how many spaces at the beginning of each line) to determine the extent of control structures that would be C-shaped blocks in Snap<em>!</em>. <div class="todo">The phrase "extent of control structures" is unclear, and I'm not confident that "C-shaped" will be clear either as we don't use it (much? at all?) in the curriculum. Please work to make this more accessible. Perhaps add some images? I didn't have a good idea in the moment, so I'm passing it back to you. --MF, 12/20/21</div></li>
-				<li>As in many text-based languages, the first item of a list is item number zero, not item one.  <div class="todo"><p><s>They have a reason for this, but it's still confusing: Shouldn't the 27th item of a list be item number 27?</s></p>It would be more helpful to read the reason for this than a complaint about why it's confusing. Also it might be nice to see a side-by-side visual comparison here if you can think of something simple. --MF, 12/20/21</div></li>
+				<li>Snap<em>!</em> gives a visual indicator of which instructions are and aren't part of a loop or conditional with <em>C-shaped blocks</em> that vividly clarify the extent of the loop or conditional:<br />
+				
+<img class="indent" src="/bjc-r/img/5-algorithms/snap-python-indent.png" alt="if (current_item > value):
+    high = current_index-1" title="if (current_item > value):
+    high = current_index-1" /><br />
+Python uses indentation (how many spaces at the beginning of each line) for
+				the same purpose:
+<pre class="indent">if (current_item > value):
+    high = current_index-1</pre>
+Python is unique among popular languages in making the amount of spacing significant in this way.</li>
+				<li>As in many text-based languages, the first item of a list is item number zero, not item one. They have a reason for this, but it's still confusing: Shouldn't the 27th item of a list be item number 27? <div class="todo"><p><s>They have a reason for this, but it's still confusing: Shouldn't the 27th item of a list be item number 27?</s></p>It would be more helpful to read the reason for this than a complaint about why it's confusing. Also it might be nice to see a side-by-side visual comparison here if you can think of something simple. --MF, 12/20/21<br />
+				Are you sure you want me to teach about array pointer arithmetic?  "If they start from zero they can add four times the index to the address of the beginning of the array to get the address of this item."  I think it's much more useful to point out that it's an idiotic design decision regardless of their stupid reason.  Or, no, let's be fair, it wasn't stupid when K&R made this choice in C, a system programming language that's all about pointers and addressing.  The stupidity was in all the languages after C that made the same decision without the good reason. -bh 2/18/22</div></li>
 				<li>
 					In Snap<em>!,</em> the nesting of blocks is visually obvious, so there's no confusion about whether you meant <img src="/bjc-r/img/5-algorithms/plus-first.png" alt="3*(4+5)" title="3*(4+5)" /> or <img src="/bjc-r/img/5-algorithms/times-first.png" alt="(3*4)+5" title="(3*4)+5" />. But text languages have to use order of operations and allow the use of parentheses if you want some other order. For example:
 					<ul>
-						<div class="commentBig">Would this example be improved by switching to an example with non-commutative operations? --MF, 12/20/21</div>
+						<div class="commentBig">Would this example be improved by switching to an example with non-commutative operations? --MF, 12/20/21<br />
+						No.  The values are still different! -bh 2/18/22</div>
 						<li><img src="/bjc-r/img/5-algorithms/times-first.png" alt="(3*4)+5" title="(3*4)+5" /> could be written as <pre class="inline">3*4+5</pre></li>
 						<li>But <img src="/bjc-r/img/5-algorithms/plus-first.png" alt="3*(4+5)" title="3*(4+5)" /> would need to be written as <pre class="inline">3*(4+5)</pre>.</li>
 					</ul>
 				</li>
 				<li> In Python, you can't have a space inside a variable name, like <img class="inline nopadtb" src="/bjc-r/img/5-algorithms/current-item.png" alt="current item" title="current item" />.  Instead, Python programmers often use underscore characters ( _ ) inside variable names (such as in <pre class="inline">current_item</pre>).</li>
 				<li>
-					Like many text-based languages, Python uses the character <pre class="inline">=</pre> to set the value of a variable, like <img class="inline nopadtb" src="/bjc-r/img/blocks/set-empty.png" alt=" set () to ()" title="set () to ()" />.  That can be confusing because usually writing <span class="katex">x=3</span> means that the value of <em>x</em> <em>is</em> 3, not that the value of <em>x</em> should be <em>changed</em> to 3. Outside of languages like Python, <span class="katex">x=3</span> means something like <img src="/bjc-r/img/5-algorithms/x-is-3.png" alt="(x) = (3)" title="(x) = (3)" />, but in Python, that predicate expression (that reports true when <span class="katex">x=3</span>) is written <pre class="inline">x == 3</pre>.  This notation is the cause of many bugs, even among experienced programmers. Consider trying to read code that says <pre class="inline">x = x+1</pre> instead of <img class="inline nopadtb" src="/bjc-r/img/5-algorithms/set-x-to-x+1.png" alt="set (x) to (x + 1)" title="set (x) to (x + 1)" /> or <img class="inline nopadtb" src="/bjc-r/img/5-algorithms/change-x-by-1.png" alt="change (x) by (1)" title="change (x) by (1)" />. 
+					Like many text-based languages, Python uses the character <pre class="inline">=</pre> to set the value of a variable, like <img class="inline nopadtb" src="/bjc-r/img/blocks/set-empty.png" alt=" set () to ()" title="set () to ()" />.  That can be confusing because usually writing <span class="katex">x=3</span> means that the value of <em>x</em> <em>is</em> 3, not that the value of <em>x</em> should be <em>changed</em> to 3. Outside of languages like Python, <span class="katex">x=3</span> means something like <img src="/bjc-r/img/5-algorithms/x-is-3.png" alt="(x) = (3)" title="(x) = (3)" />, but in Python, that predicate expression (reporting true when <span class="katex">x=3</span>) is written <pre class="inline">x == 3</pre>.  This notation is the cause of many bugs, even among experienced programmers. Consider trying to read code that says <pre class="inline">x = x+1</pre> instead of <img class="inline nopadtb" src="/bjc-r/img/5-algorithms/set-x-to-x+1.png" alt="set (x) to (x + 1)" title="set (x) to (x + 1)" /> or <img class="inline nopadtb" src="/bjc-r/img/5-algorithms/change-x-by-1.png" alt="change (x) by (1)" title="change (x) by (1)" />. 
 					<div class="endnote">
 						<strong>Why does Python use = like this?</strong>
-						<p>This design choice is inherited indirectly from Fortran, a programming language invented back in the 1950s when computers could display only 64 different characters so there were fewer options available but they still could have used a multi-character sequence such as 
-						<pre class="inline">&lt--</pre> or <pre class="inline">==</pre>.</p>
+<div class="comment">Why is there a line break before the pre? -bh</div>
+						<p>This design choice is inherited indirectly from Fortran, a programming language invented back in the 1950s when computers could display only 64 different characters, so there were fewer options available.  But they still could have used a multi-character sequence such as <pre class="inline">&lt;--</pre>.</p>
 						<strong>How can I make this easier for myself?</strong>
-						<div class="pseudop">If you find yourself programming in a language that uses <pre class="inline">=</pre> for assignment, you can train yourself to pronounce <pre class="inline">=</pre> as "gets" or "becomes" as in "<em>x</em> gets 3" or "<em>x</em> becomes 3" rather than as "<em>x</em> equals 3."</div>
+						<div class="pseudop">If you find yourself programming in a language that uses <pre class="inline">=</pre> for assignment, you can train yourself to pronounce <pre class="inline">=</pre> as "gets" or "becomes" as in "<em>x</em> gets 3" or "<em>x</em> becomes 3" rather than as "<em>x</em> equals 3."  But you still pronounce <pre class="inline">==</pre> as "equal equal."</div>
 					</div>
 				</li>
 					<div class="todo">I want a gold star for not putting "have to" in italics. <h1>⭐️</h1></div>
 			</ul>
 		</div>
 
-		<div class="todo">Can we please offer them a super quick taste of Python programming in a <a href="https://www.w3schools.com/python/trypython.asp?filename=demo_oper" target="_blank">little windowlet</a> as a FTYD? Then maybe also we could recommend a easy-to-setup compiler as an ITIT or TIF for those kids who want to explore further. Same comment for <a href="https://www.w3schools.com/js/tryit.asp?filename=tryjs_oper" target="_blank">JS</a>. Any other FYTD exercises you can think of for this lab would be great for breaking up the page and increasing engagement. Maybe something like "read this python and answer a multiple choice question about it" (a.k.a., "Look! You really can read some python/JS already!"). --MF, 12/20/21</div>
+		<div class="todo">Can we please offer them a super quick taste of Python programming in a <a href="https://www.w3schools.com/python/trypython.asp?filename=demo_oper" target="_blank">little windowlet</a> as a FTYD? Then maybe also we could recommend a easy-to-setup compiler as an ITIT or TIF for those kids who want to explore further. Same comment for <a href="https://www.w3schools.com/js/tryit.asp?filename=tryjs_oper" target="_blank">JS</a>. Any other FYTD exercises you can think of for this lab would be great for breaking up the page and increasing engagement. Maybe something like "read this python and answer a multiple choice question about it" (a.k.a., "Look! You really can read some python/JS already!"). --MF, 12/20/21<br /><br />
+		Umm sure go for it. -bh 2/18/22</div>
 
 		<h3>JavaScript</h3>
 
@@ -140,17 +156,20 @@ function binarySearch(value, data) {
 }
 </pre>
 
-		<p>This doesn't look so different from the Python version, but there are a few significant differences. <a href="#hint-JS-differences" data-toggle="collapse" title="Click to read about some of the differences in notation between JavaScript and Python.">Click to read about them.</a></p>
+		<p>This doesn't look so different from the Python version, but there are a few significant differences. <div class="sidenoteBig"><a href="#hint-JS-differences" data-toggle="collapse" title="Click to read about some of the differences in notation between JavaScript and Python.">Click to read about them.</a></div></p>
 		<div id="hint-JS-differences" class="collapse">
 			<ul>
 				<li>The <pre class="inline">var</pre> statement, inside a procedure, is equivalent to <img class="inline nopadtb" src="/bjc-r/img/blocks/script-variables(a).png" alt="script variables (a)" title="script variables (a)" />.  There are better ways to create local variables in JavaScript, but they look different from Snap<em>!</em>.</li>
 				<li>JavaScript uses braces <pre class="inline">{ }</pre> 
-				to mark the extent of what would be a C-shaped block in Snap<em>!</em>.  Although JavaScript programmers generally indent code more or less the same way Python programmers do, in JavaScript, the indenting doesn't matter to the computer but is just to make it more readable to people.</li>
-				<li>Within the braces, statements are separated by semicolons (<pre class="inline">;</pre>). (In JavaScript, semicolons go <em>between</em> statements: <pre class="inline">{statement; statement; statement}</pre>, but in the C programming language, which is otherwise quite similar, the semicolons go <em>after</em> statements: <pre class="inline">{statement; statement ; statement<span style="background-color:orange">;</span>}</pre>.<div class="todo"><p>Again, I think we need to explain or (ideally) find another word for "extent." --MF, 12/20/21</p><p>Also, I cut this: This is the sort of thing that drives students of text languages crazy.  It's one of the advantages of block-based languages such as Snap<em>!</em>. This isn't the place for a soap-box. --MF, 12/20/21</p></div></li>
+				to mark the extent of what would be a C-shaped block in Snap<em>!</em>.  Although JavaScript programmers generally indent code more or less the same way Python programmers do, in JavaScript, the indenting doesn't matter to the computer but is just to make it more readable to people.
+<div class="comment">Another bogus line break here.</div>
+				<p>Within the braces, statements are separated by semicolons (<pre class="inline">;</pre>). (In JavaScript, semicolons go <em>between</em> statements: <pre class="inline">{statement; statement; statement}</pre>, but in the C programming language, which is otherwise quite similar, the semicolons go <em>after</em> statements: <pre class="inline">{statement; statement; statement<span style="background-color:orange">;</span>}</pre>.<div class="todo"><p>Again, I think we need to explain or (ideally) find another word for "extent." --MF, 12/20/21</p><p>Also, I cut this: This is the sort of thing that drives students of text languages crazy.  It's one of the advantages of block-based languages such as Snap<em>!</em>. This isn't the place for a soap-box. --MF, 12/20/21<br /><br />
+				  I disagree.  I think one of the main points of showing students other languages is precisely to point out why Snap<i>!</i> is better than those other ones, to overcome any feeling they might still have that they're being given a kiddie language.  I didn't put it back because I don't want to have an edit war about it, but please let's discuss it.<br /><br />
+				  Also, I hate how pre does line breaks.  Can't we pretty please go back to using code? -bh 2/18/22</p></div></p></li>
 				<li>JavaScript uses the name "function" to describe <em>all</em> procedures, including what Snap<em>!</em> calls "commands," the ones that don't report a value.</li>
 				<li>Just as in Python, you can't have a space inside a variable name in JavaScript.  Instead, JavaScript programmers often use "camel case," so called because the capital letters in the middle of a variable name are supposed to look like the humps of a camel. For example, <pre class="inline">currentItem</pre> instead of <img class="inline nopadtb" src="/bjc-r/img/5-algorithms/current-item.png" alt="current item" title="current item" />.
 				</li>
-				<li>JavaScript also the <code>=</code> notation instead of <img class="inline nopadtb" src="/bjc-r/img/blocks/set-empty.png" alt=" set () to ()" title="set () to ()" /> like Python does. But instead of using <pre class="inline">==</pre> to test whether two values are equal, JavaScript has <em>two</em> ways to do that: <pre class="inline">==</pre>, which is like <img class="inline nopadtb" src="/bjc-r/img/5-algorithms/x-is-3.png" alt="(x) = (3)" title="(x) = (3)" />, and <pre class="inline">===</pre>, which is like <img class="inline nopadtb" src="/bjc-r/img/5-algorithms/is-x-identical-to-3.png" alt="is (x) identical to (3)?" title="is (x) identical to (3)?" />. </li>
+				<li>JavaScript, like Python, uses the <code>=</code> notation instead of <img class="inline nopadtb" src="/bjc-r/img/blocks/set-empty.png" alt=" set () to ()" title="set () to ()" />. But instead of using <pre class="inline">==</pre> to test whether two values are equal, JavaScript has <em>two</em> ways to do that: <pre class="inline">==</pre>, which is like <img class="inline nopadtb" src="/bjc-r/img/5-algorithms/x-is-3.png" alt="(x) = (3)" title="(x) = (3)" />, and <pre class="inline">===</pre>, which is like <img class="inline nopadtb" src="/bjc-r/img/5-algorithms/is-x-identical-to-3.png" alt="is (x) identical to (3)?" title="is (x) identical to (3)?" />. </li>
 			</ul>
 		</div>
 
