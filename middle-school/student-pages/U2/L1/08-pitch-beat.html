@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unit 2 Lab 1: Song Player, Activity 8</title>
+	</head>
+
+	<body>
+		<h2>Songs with Pitches <em>and</em> Beats</h2>
+		
+		<div class="learn">In this activity, you will learn to store and play songs with both pitch and length of each note.</div>
+		<p>
+			So far, you've been using a <code>play song</code> block that only lets you control the pitch of each note (by giving it a list of pitches as input). The number of beats was the same based on whatever you typed into the <code>play ♪</code> block inside your <code>play song</code> block (for example, 0.5 in the image below).<br />
+			<img class="indent" src="/bjc-r/middle-school/img/U2/lab01/play-song-definition.png" alt="play song (pitches) {
+	for each (pitche) in (pitches) {
+		play ♪ pitch: (pitch) beats: (0.5)
+	}
+}" title="" />
+		</p>
+		<p>
+			You can use a table to store both pieces of data for each note and then use the <code>play song with pitches and beats</code> block, which expects music data <em>in a table</em>.<br />
+			<img class="indent" src="/bjc-r/middle-school/img/U2/lab01/set-mario-beats.png" alt="set ('Mario Theme (with beats)') to (list (♪ pitch: (76) beats: (0.25)) (♪ pitch: (76) beats: (0.25)) (♪ pitch: (0) beats: (0.25)) (♪ pitch: (76) beats: (0.25)) (♪ pitch: (0) beats: (0.25)) (♪ pitch: (72) beats: (0.25)) (♪ pitch: (76) beats: (0.25)) (♪ pitch: (0) beats: (0.25)) (♪ pitch: (79) beats: (0.25)) (♪ pitch: (0) beats: (0.75)) (♪ pitch: (67) beats: (0.25)))" title="set ('Mario Theme (with beats)') to (list (♪ pitch: (76) beats: (0.25)) (♪ pitch: (76) beats: (0.25)) (♪ pitch: (0) beats: (0.25)) (♪ pitch: (76) beats: (0.25)) (♪ pitch: (0) beats: (0.25)) (♪ pitch: (72) beats: (0.25)) (♪ pitch: (76) beats: (0.25)) (♪ pitch: (0) beats: (0.25)) (♪ pitch: (79) beats: (0.25)) (♪ pitch: (0) beats: (0.75)) (♪ pitch: (67) beats: (0.25)))" />
+			<img class="indent noshadow" src="/bjc-r/middle-school/img/U2/lab01/mario-beats-watcher.png" alt="watcher for the 'Mario Theme (with beats)' variable showing a table with two columns and eleven rows. The rows contain the value pairs: (76, 0.25), (76, 0.25), (0, 0.25), (76, 0.25), (0, 0.25), (72, 0.25), (76, 0.25), (0, 0.25), (79, 0.25), (0, 0.75), (67, 0.25)" title="watcher for the 'Mario Theme (with beats)' variable showing a table with two columns and eleven rows. The rows contain the value pairs: (76, 0.25), (76, 0.25), (0, 0.25), (76, 0.25), (0, 0.25), (72, 0.25), (76, 0.25), (0, 0.25), (79, 0.25), (0, 0.75), (67, 0.25)" />
+			<img class="indent" src="/bjc-r/middle-school/img/U2/lab01/play-song-beats-mario.png" alt="play song with pitches and beats ('Mario Theme (with beats)')" title="play song with pitches and beats ('Mario Theme (with beats)')" />
+		</p>
+		<div class="todo">Pamela, I'm leaning toward dropping the <code>play ♪</code> block. Not only is it easily confused with the <code>play ♪ pitch: () beats: ()</code> block (which I've been calling <code>play ♪</code>), but also, it obscures understanding of what's going with the processing of the table. What do you think of that and the following yellow box? --MF, 2/24/22</div>
+		<div class="endnote">
+			<p><a href="#hint-play-beats" data-toggle="collapse" title="How does the PLAY SONG WITH PITCHES AND BEATS block work?">How does the <code>play song with pitches and beats</code> block work?</a></p>
+			<div id="hint-play-beats" class="collapse">
+				<p>
+					This block takes a table of pitch and beat values as input, and for each note in the song, it plays the pitch and beat values for that note:<br />
+					<img class="indent" src="/bjc-r/middle-school/img/U2/lab01/play-song-beats-definition.png" alt="play song with pitches and beats (song) {
+	for each (♪) in (song) {
+		play ♪ pitch: (pitch from ♪ (♪)) beats: (beats from ♪ (♪))
+	}
+}" title="play song with pitches and beats (song) {
+	for each (♪) in (song) {
+		play ♪ pitch: (pitch from ♪ (♪)) beats: (beats from ♪ (♪))
+	}
+}" />
+				</p>
+				<p>
+					The data about each note is loaded in to the table using the <code>♪ pitch beats</code> block, which takes a pitch and number of beats as input and reports a list with those two values:<br />
+					<img class="indent" src="/bjc-r/middle-school/img/U2/lab01/note-pitch-beats-definition.png" alt="♪ pitch: (pitch) beats: (beats) {
+		report (list (pitch) (beats))
+	}" title="♪ pitch: (pitch) beats: (beats) {
+		report (list (pitch) (beats))
+	}" />
+					<img class="indent" src="/bjc-r/middle-school/img/U2/lab01/note-pitch-beats-reporting.png" alt="♪ pitch: (64) beats: (0.25) reporting the list 64, 0.25" title="♪ pitch: (64) beats: (0.25) reporting the list 64, 0.25" />
+				</p>
+				<p>
+					Each note (<var>♪</var>) in the song now has both pitch and beat information, and <code>play ♪</code> needs to receive those data in separate input slots. The <img class="inline nopadtb" src="/bjc-r/middle-school/img/U2/lab01/pitch.png" alt="pitch from ♪" title="pitch from ♪" /> and <img class="inline nopadtb" src="/bjc-r/middle-school/img/U2/lab01/beats.png" alt="beats from ♪" title="beats from ♪" /> blocks each take a note (<var>♪</var>) as input and report only one piece of information to the <code>play ♪</code> block.<br />
+					<img class="indent" src="/bjc-r/middle-school/img/U2/lab01/pitch-definition.png" alt="pitch (♪) {
+		report (item (1) of (♪))
+	}" title="pitch (♪) {
+		report (item (1) of (♪))
+	}" />
+					<img class="indent" src="/bjc-r/middle-school/img/U2/lab01/beats-definition.png" alt="beats (♪) {
+		report (item (2) of (♪))
+	}" title="beats (♪) {
+		report (item (2) of (♪))
+	}" />
+				</p>
+			</div>
+		</div>
+		<div class="todo">I need to fix the input type for the BEATS selector in all the XML files. --MF, 2/24/22</div>
+
+		<div class="forYouToDo">
+			<ol>
+				<li>Open one of your Snap<em>!</em> song projects from this lab.</li>
+				<li>
+					<div class="sidenote">You learned how to create a global variable in <a href="/bjc-r/middle-school/student-pages/U2/L1/06-storing-songs.html?topic=middle-school%2F2-sequencing-iteration.topic&course=middle-school.html" title="Unit 2 Lab 1 Activity 6: Storing Songs">Unit 2 Lab 1 Activity 6: Storing Songs</a>.</div>
+					Create a new global variable to store a song with both pitch and beat information.</li>
+				<li>
+					Use the <img class="inline nopadtb" src="/bjc-r/middle-school/img/U2/lab01/note-pitch-beats.png" alt="♪ pitch: () beats: ()" title="♪ pitch: () beats: ()" /> reporter to input each note in your list.
+					<img class="indent" src="/bjc-r/middle-school/img/U2/lab01/set-mario-beats.png" alt="set ('Mario Theme (with beats)') to (list (♪ pitch: (76) beats: (0.25)) (♪ pitch: (76) beats: (0.25)) (♪ pitch: (0) beats: (0.25)) (♪ pitch: (76) beats: (0.25)) (♪ pitch: (0) beats: (0.25)) (♪ pitch: (72) beats: (0.25)) (♪ pitch: (76) beats: (0.25)) (♪ pitch: (0) beats: (0.25)) (♪ pitch: (79) beats: (0.25)) (♪ pitch: (0) beats: (0.75)) (♪ pitch: (67) beats: (0.25)))" title="set ('Mario Theme (with beats)') to (list (♪ pitch: (76) beats: (0.25)) (♪ pitch: (76) beats: (0.25)) (♪ pitch: (0) beats: (0.25)) (♪ pitch: (76) beats: (0.25)) (♪ pitch: (0) beats: (0.25)) (♪ pitch: (72) beats: (0.25)) (♪ pitch: (76) beats: (0.25)) (♪ pitch: (0) beats: (0.25)) (♪ pitch: (79) beats: (0.25)) (♪ pitch: (0) beats: (0.75)) (♪ pitch: (67) beats: (0.25)))" />
+				</li>
+				<li>Play your song by dragging your new variable (with both pitch and beat data) into the input slot of the <code>play song with pitches and beats</code>, and clicking it.</li>
+				<li>Fix any problems with your project.</li>
+				<div class="todo">MARY: add save icons to the last few pages. --MF, 2/24/22</div>
+
+			</ol>
+		</div>
+		<div class="ifTime show">
+			<ol start="6">
+				<li>Build another song with pitch and beat information in another global variable, and try playing that.</li>
+			</ol>
+		</div>
+		
+
+		<div class="todo">Now the real challenge: have them MAP over this. Give the mario mapping example. --MF, 2/24/22</div>
+
+		<p></p>
+		<div class="forYouToDo">
+			<ol start="7">
+				<li></li>
+				<li></li>
+				<li></li>
+			</ol>
+		</div>
+		
+
+	
+		
+
+		<div class="learn"></div>
+	
+	
+		
+	</body>
+</html>
