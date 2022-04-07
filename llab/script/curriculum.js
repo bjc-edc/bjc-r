@@ -36,7 +36,7 @@ llab.secondarySetUp = function() {
     $(this).attr('href', llab.getSnapRunURL(this.getAttribute('href')));
   });
 
-  $('.js-run-v7').each(function(_i) {
+  $('.js-run').each(function(_i) {
     $(this).attr('target', '_blank');
     $(this).attr('href', llab.getSnapRunURL(this.getAttribute('href'), {version: 'v7'}));
   });
@@ -640,9 +640,9 @@ llab.addFooter = function() {
         <div class="footer-col col4">
           <p>The Beauty and Joy of Computing by University of California, Berkeley and Education
           Development Center, Inc. is licensed under a Creative Commons
-          Attribution-NonCommercial-ShareAlike 4.0 International License. The development of this 
-          site has been funded by the National Science Foundation under grant nos. 1138596, 1441075, 
-          and 1837280; the U.S. Department of Education under grant number S411C200074; and the 
+          Attribution-NonCommercial-ShareAlike 4.0 International License. The development of this
+          site has been funded by the National Science Foundation under grant nos. 1138596, 1441075,
+          and 1837280; the U.S. Department of Education under grant number S411C200074; and the
           Hopper-Dean Foundation.
           Any opinions, findings, and conclusions or recommendations expressed in this material are
           those of the author(s) and do not necessarily reflect the views of the National Science
