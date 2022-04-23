@@ -13,12 +13,16 @@
             <p>BH: Move ITIT 5 to FYTD 4, old FYTD 4 to 5, so we can /end/ with the climactic orange box!</p>
             <p>MF: The pedagogy here is killing me. Here draw a square with recursion or functionally. WHY?!?!? Don't torture students. Give them a problem where this technique really matters.</p>
         </div>
+		<div class="learn">
+            <p><strong>On this page,</strong> you will build two other higher order functions you've learned in this course: <code>keep</code> and <code>combine</code>.</p>
+        </div>
         
         <p>We want a block that takes a list of numbers as input, and reports a list of just the <strong>even</strong> numbers from the input. </p>
         <p>
             You already know how to write this block using the <code>keep</code> higher-order function, but here's what it looks like using recursion:<br />
             <div class="todo">Can we please come up with CS exercises that aren't "do this pointless thing to learn something that seemingly has no point"? There must be some reason we want to teach this--some context in which it would be useful; Let's show that. --MF, 9/26/18</div>
-            <img class="indent" src="/bjc-r/img/8-recursive-reporters/evens.png" alt="evens (numbers){if(empty? (numbers)){return(empty list)} else{if((item(1) of (numbers)) mod (2)=0){report(item(1) of (numbers) in front of (evens (all but first of (numbers))))} else{report(evens(all but first of (numbers)))}}}" title="evens (numbers){if(empty? (numbers)){return(empty list)} else{if((item(1) of (numbers)) mod (2)=0){report(item(1) of (numbers) in front of (evens (all but first of (numbers))))} else{report(evens(all but first of (numbers)))}}}" />
+			<div class="comment">This image needs to be rebuilt. --MF, 4/22/22</div>
+			<img class="indent" src="/bjc-r/img/8-recursive-reporters/evens.png" alt="evens (numbers){if(empty? (numbers)){return(empty list)} else{if((item(1) of (numbers)) mod (2)=0){report(item(1) of (numbers) in front of (evens (all but first of (numbers))))} else{report(evens(all but first of (numbers)))}}}" title="evens (numbers){if(empty? (numbers)){return(empty list)} else{if((item(1) of (numbers)) mod (2)=0){report(item(1) of (numbers) in front of (evens (all but first of (numbers))))} else{report(evens(all but first of (numbers)))}}}" />
         </p>
         <p>Here there are <em>three </em>possible cases to consider, not just the usual base case or recursive case. There's still a base case, namely an empty input list, in which case we report an empty list. But there are <em>two </em>recursive cases, depending on whether or not the first item of the list is even. (There has to be a first item, if we're not in the base case.) The green Operators blocks above take the remainder on dividing the first number by 2, and see if that remainder is 0, in which case the number is even.</p>
         <p>If the first number is even, then we want to include that number in the result. So we report that number <code>in front of</code> the recursive call on the rest of the numbers. If the first number isn't even, then we <em>don't </em>want to include it in the result, so we simply report the value reported by the recursive call.</p>
@@ -41,14 +45,17 @@
                 <li>Generalize the pattern to make a <code>keep</code> block.</li>
                 <div class="takeNote">
                 	If you didn't work through the <code>combine</code> block page in<a href="/bjc-r/cur/programming/5-algorithms/old/3-timing-experiments/1-comparing-algorithms.html" title="Comparing Algorithms"> Unit 5 Lab 3 Page 1: Comparing Algorithms</a>, you'll probably want to get a sense of how that block works before starting the next problem.
-    
+					<div class="todo">References and links to “Unit 5 Lab 3 Page 1: Comparing Algorithms” which exists but is not part of the curriculum anymore. --Michelle via MF, 4/22/22</div>
+
 				</div>
 				<li>Write the <code>combine</code> block. <strong>Note:</strong> The base case will be a list with one item, not an empty list.
                 </li>
             </ol>
         </div>
         
-        <div class="takeNote">Building <code>map</code>, <code>keep</code>, and <code>combine</code> is a major accomplishment. Yet each of these blocks just generalizes a simple pattern. Some people think that higher order functions are <strong><em>way too hard and scary</em></strong> for students to use, let alone build. But you just did!</div>
+        <div class="takeNote">Building <code>map</code>, <code>keep</code>, and <code>combine</code> is a major accomplishment. Yet each of these blocks just generalizes a simple pattern. Some people think that higher order functions are <strong><em>way too hard and scary</em></strong> for students to use, let alone <em>build</em>. But you just did!
+		<div class="todo">References and links to “Unit 5 Lab 3 Page 1: Comparing Algorithms” which exists but is not part of the curriculum anymore. --Michelle via MF, 4/22/22<ul><li>I agree. Could we adapt to something like the first sentence and then just "Congratulations! You've finished BJC!" --MF, 4/22/22</li></ul></div>
+		</div>
         
         <div class="ifTime">
             <ol start="5">
