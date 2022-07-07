@@ -23,7 +23,7 @@ llab.getSnapRunURL = function(targeturl, options) {
     if (!targeturl) { return ''; }
 
     if (targeturl.indexOf('http') == 0 || targeturl.indexOf('//') == 0) {
-        // pointing to some non-local resource...  do nothing!!
+        // pointing to some non-local resource... do nothing!!
         return targeturl;
     }
 

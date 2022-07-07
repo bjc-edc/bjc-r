@@ -57,6 +57,17 @@ To contribute:
 
 Of course, submitting issues is always welcome and encouraged! These issues can be bugs, questions, improvements or anything you'd like to share.
 
+## UC Berkeley Deployment Process (March 2022)
+
+The repo's `master` branch should always be in a directly deployable state. The files can be put on a web server inside a folder served at `/bjc-r` without modification. Each time we want to deploy the curriculum, we create a [Release](https://github.com/bjc-edc/bjc-r/releases). (Releases show in git as a tag when you check out the code.)
+
+1. ssh into user@abbenay.cs.berkeley.edu
+2. Your home directory should be `~/bjc` (`/home/bh/public_html/bjc/`
+3. `cd bjc-r`
+4. `git fetch`
+5. Look at the latest releases, should be at the bottom of the output.
+6. `git checkout [tag name]`, e.g. `git checkoutout 2022-03-15`
+
 ## License
 [CC-BY-NC-SA 3.0][cc]
 
