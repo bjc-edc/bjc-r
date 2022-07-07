@@ -8,40 +8,69 @@
 
 	<body>
 		<h2>Song <code>Map</code>per</h2>
-		<div class="todo">
-			<img class="indent" src="/bjc-r/middle-school/img/U2/lab01/play-song-map-mary-lamb.png" alt="" title="" />
-		</div>		
+		<div class="todo">MARY TODO: add a reminder about how the blank in the functional input to MAP works. --MF, 2/27/22</div>
+		<div class="learn">In this activity, you will use the <code>map</code> block to transpose (shift) all the pitches in your song.</div>
 		<div class="todo">
 			<p>Pamela, I debated whether to teach the ADT first so they can traverse a 2D list or to show them how to use MAP to transpose first. I went with MAP first and letting 2D lists/ADTs be a later optional page (perhaps not even to be written now or perhaps just a "Take It Further" on the last page) since the goal of the course is functional, and MAP would align with that. There is no real need to teach ADTs although the context does naturally inspire it. --MF, 2/12/22</p>
 		</div>
-		<p>Another advantage of using a list to store your notes rather than a long set of <code>play ♪</code> blocks is that you can use higher order functions to process your list.</p>
-		<p>In music, notes are part of a scale, and a song can be played higher up a scale or lower down a scale. So if someone naturally has a deep voice, they can sing Twinkle, Twinkle at an octave lower than usual, or if someone has a high voice, they can sing at an octave higher than usual.</p>
-		<p>Each octave is 12 notes higher than the previous octave, since there are 12 notes in a scale. So we can add 12 to each note to find the higher version of the note, or subtract 12 to find the lower.</p>
-		<p>This is a perfect opportunity to use the <code>map</code> block. It's a block that operates on lists, applying an operation to each item in a list, and reporting back a list with the transformed items.</p>
+		<div class="todo"><p>When transposing a song, it's	especially important not to call MIDI note numbers "pitch."  The actual pitches are in a geometric progression, not a linear one, and when you transpose by <i>n</i> steps you're actually <em>multiplying</em> the pitches by <span class="katex">(\sqrt[12]{2})^n</span>. --bh 3/3/22</p><p>I agree to rename the variable for next year. --MF, 3/6/22</p></div>
+		<p>
+			Another advantage of using a list to store your notes is that you can use higher order functions to process your list. You can use <code>map</code> to play a song higher or lower than the original pitches.<br />
+			<img class="indent" src="/bjc-r/middle-school/img/U2/lab01/map-plus-3-over-notes-list.png" alt="map (( ) + (3)) over (list ((64) (62) (60) (62) (64) (64) (64))) reporting the list 67, 65, 63, 65, 67, 67, 67" title="map (( ) + (3)) over (list ((64) (62) (60) (62) (64) (64) (64))) reporting the list 67, 65, 63, 65, 67, 67, 67" />
+		</p>
+		<p>
+			If you store the list of pitches in a variable, you can use <code>play song</code> together with <code>map</code> to play the same song several times in different ways.<br />
+			<a class="js-run snap-project" href="/bjc-r/middle-school/prog/U2/lab01/sample-song-player-mary-lamb-map.xml" title="Sample Song Player: Mary Had a Little Lamb MAP example - Snap! project" target="_blank">
+				<img class="indent" src="/bjc-r/middle-school/img/U2/lab01/mary-lamb-map-script.png" alt="set ('Mary Had a Little Lamb') to list ((64) (62) (60) (62) (64) (64) (64))
+play song (Mary Had a Little Lamb)
+play song (map (( ) + (3)) over (Mary Had a Little Lamb))" title="set ('Mary Had a Little Lamb') to list ((64) (62) (60) (62) (64) (64) (64))
+play song (Mary Had a Little Lamb)
+play song (map (( ) + (3)) over (Mary Had a Little Lamb))" />
+			</a>
+		</p>
 		<div class="forYouToDo">
-			<ol start="1">
-				<li>Drag the <code>map</code> block into the main area. Drag one of your note sequence lists into the list icon on the block, so the <code>map</code> block knows what list it's transforming.</li>
+			<ol>
 				<li>
-					Now the question is, how do you want to transform each note? You can put any operation in the first blank, anything that reports a value. I suggest either a <code>+</code> block or <code>-</code> block. Leave one of the blanks empty and put 12 in the other blank. Something like this:<br />
-					<img class="" src="/bjc-r/middle-school/img/U1/lab06/" alt="" title="" />
+					<img class="imageRight" src="/bjc-r/img/icons/headphones-mini.png" alt="Set Up Your Headphones or Speakers" title="Set Up Your Headphones or Speakers" />
+					Open this <a class="js-run snap-project" href="/bjc-r/middle-school/prog/U2/lab01/sample-song-player-mary-lamb-map.xml" title="Sample Song Player: Mary Had a Little Lamb MAP example - Snap! project" target="_blank">Mary Had a Little Lamb <code>map</code> example</a>. Click each block to: set the variable, play the song, and then play the transposed (shifted) song.
 				</li>
-				<li>Finally, drag this whole map block into one of the play line blocks. Click the block to hear what happens. Change the + to a -, or change the amount being added/subtracted, and click again to hear the difference. Try it with your other songs too!</li>
+				<li>Try changing the <em>shift</em> (the second input to the <code>+</code> function in the <code>map</code> block) from 3 to some other integer. (You can make it any integer&mdash;positive or negative&mdash;but if it's too high or low, you won't be able to hear the song).</li>
 			</ol>
 		</div>
-		
-		<div class="todo"><hr /><h1>New Page? Or a "Take It Further"?</h1><hr /></div>
-		<h2>Coordinating Data</h2>
-		
-		<div class="todo">Maybe do transpose before the ADT and then let the ADT stuff be optional pages because it gets complex with the transpose mixed in.</div>
-		<p>You've used the <code>for each</code> block to traverse a list and to <code>play ♪</code> for each note in a list, but it would be nice to be able to control the number of <var>beats</var> for which each note plays.</p>
-		<p>You can use the <code>note beat</code> block to store a bunch of notes and beats together and 
-	
+		<div class="comment">Do they know the word "apply" in this sense? -bh<p>See 1.4.4. --MF, 3/6/22</p></div>
+		<p>The <code>map</code> block takes two inputs: a function (in this case <img class="inline nopadtb" src="/bjc-r/middle-school/img/U2/lab01/plus-3.png" alt="( ) + (3)" title="( ) + (3)" />) and a list, applies the function to each item in the list, and reports a new list of the results.</p>
 
-		
+		<div class="vocabFullWidth">
+			<p>Recall, a function that takes a function as input (like <code>map</code>) is called a <strong>higher order function</strong>.</p>
+		</div>
+		<div class="forYouToDo">
+			<ol start="3">
+				<li>
+					Open this <a class="js-run snap-project" href="/bjc-r/middle-school/prog/U2/lab01/sample-song-player-twinkle-twinkle-map.xml" title="Sample Song Player: Twinkle Twinkle Little Star MAP example - Snap! project" target="_blank">Twinkle Twinkle Little Star <code>map</code> example</a>, and play the song.<br />
+				</li>
+				<div class="endnote">Remember, you can turn on Visible Stepping (<img class="inline nopadtb" src="/bjc-r/img/2-complexity/visible-stepping.png" alt="Visible Stepping button with two footprints" title="Visible Stepping button with two footprints" />) to see which block is running as it runs.</div>
+				<li>Modify this song by adding additional <code>play song</code> blocks, changing the shift values in the <code>map</code> blocks, or changing the pitches in the song.</li>
+				<li><img class="inline" src="/bjc-r/img/icons/save-now.png" alt="Now Is a Good Time to Save" title="Now Is a Good Time to Save" /></li>
+			</ol>
+		</div>
+		<div class="ifTime show">
+			<ol start="6">
+				<li>
+					<img class="imageRight" src="/bjc-r/img/icons/save-mini.png" alt="Now Is a Good Time to Save" title="Now Is a Good Time to Save" />
+			  <div class="todo">"Your latest project" should be more specific. -bh 3/3/22</div>
+					Open your latest project in Snap<em>!</em>, and use <code>map</code> and <code>play song</code> together with one of the variables that you used to store your pitches to make your song more complex.
+				</li>
+				<li>Add additional variables to store different verses, and create more interesting music.</li>
+<div class="todo">I'm not sure what this bullet ("additional variables") is suggesting I do. Add more verses? -pf 3/6/22<p>Better? --MF, 3/7/22</p></div>
+				<li>
+					In this activity, you changed the pitches by adding or subtracting, but you could also multiply or divide. Try it and see what happens!
+					<div class="endnote">You can pull the <code>map</code> block out of the <code>play song with pitches and beats</code> block temporarily and then click it to see what values it reports.</div>
+				</li>
+			</ol>
+		</div>
 
-		<div class="learn"></div>
-	
-	
-		
+		<div class="learn">In this activity, you used the higher order function <code>map</code> to transpose  lists of pitches stored in variables and create more complex music.</div>
+
+
 	</body>
 </html>
