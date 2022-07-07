@@ -38,7 +38,7 @@ llab.secondarySetUp = function() {
 
   $('.js-run').each(function(_i) {
     $(this).attr('target', '_blank');
-    $(this).attr('href', llab.getSnapRunURL(this.getAttribute('href'), {version: 'v7'}));
+    $(this).attr('href', llab.getSnapRunURL(this.getAttribute('href'))); // {version: 'v7'}
   });
 
   const  optionalContent = {
