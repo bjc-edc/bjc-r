@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+        <script src="https://www.w3schools.com/lib/w3.js"></script>
+		<title>Middle School Unit 2 Lab 1 Teacher Guide</title>
+	</head>
+
+	<body>
+		<h2>Lab 1: Song Player</h2>
+		<p>After Unit 1 introduced programming in the functional style (using procedures that report values rather than change variables' values, and using procedures themselves as data), Unit 2 introduces imperative programming (using procedures that produce effects&mdash;sounds, movement on the Stage, and other changes to the state of the program). Lab 1 uses the sequential nature of music as a context for learning about iteration (repetition), visible stepping (a Snap<em>!</em> debugging tool), creating command blocks (blocks with effects), exploring the command versions of blocks of which students have already used reporter versions: <code>if else</code> and <code>ask and wait</code> (and its pair <code>answer</code>), and list traversal. Along the way, students review use of the higher order function <code>map</code> and gain informal experience with the abstract data type, <var>♪</var> (pronounced "note"), which contains both a pitch and a beat for any note in a song.</p>
+		<div class="endnote">
+            <p>This curriculum focuses on giving students an engaging, strong foundation in programming without formalizing all ideas presented. Students don't need to learn this, but teachers may find it useful to know that an <strong>abstract data type (ADT)</strong> is a custom data type that's meaningful within a program.</p>
+			<p>An ADT is not built into the language (like common data types such as "number", "text", or "list"); the programmer develops it as they code. An abstract data type may include a constructor (such as <img class="inline" src="/bjc-r/sparks/img/U2/lab01/note-pitch-beats.png" alt="♪ pitch: () beats: ()" title="♪ pitch: () beats: ()" />), which constructs one instance of the data structure, and one or more selectors (such as <img class="inline" src="/bjc-r/sparks/img/U2/lab01/pitch.png" alt="pitch from ♪" title="pitch from ♪" /> and <img class="inline" src="/bjc-r/sparks/img/U2/lab01/beats.png" alt="beats from ♪" title="beats from ♪" />), which each select one piece of the data structure. The constructor and selector(s) together implement the abstract data type. </p>
+			<p>You can learn more about the ADT used in this project in <a href="/bjc-r/sparks/student-pages/U2/L1/08-pitch-beat.html?topic=middle-school%2F2-sequencing-iteration.topic&course=middle-school.html" title="Activity 9: Mapping over Pitches and Beats">Activity 9: <code>Map</code>ping over Pitches and Beats</a> in the box labeled "How does the <code>play song with pitches and beats</code> block work?"</p>
+		</div>
+		<p>This lab can be presented without <em>any</em> formal teaching. Students can work directly from the activity pages with the teacher walking around asking and answering questions. If you choose to bring the class together to present or discuss some idea, consider waiting until after students have gained some hands on experience and perhaps even constructively struggled with the concept first.</p>
+
+		<h3>Pacing</h3>
+		<p>
+			This lab is designed for 3&ndash;10 class periods (<strong>125&ndash;440 minutes</strong>).
+			<ul>
+				<li><a href="#A1" title="Activity 1: Playing Notes">Activity 1: Playing Notes</a>: 10&ndash;20 minutes</li>
+				<li><a href="#A2" title="Activity 2: Visualizing Loops">Activity 2: Visualizing Loops</a>: 10&ndash;20 minutes</li>
+				<li><a href="#A3" title="Activity 3: Programming Styles">Activity 3: Programming Styles</a>: 15&ndash;40 minutes</li>
+				<li><a href="#A4" title="Activity 4: Mystery Song Game">Activity 4: Mystery Song Game</a>: 10&ndash;50 minutes</li>
+				<li><a href="#A5" title="Activity 5: Beat Repeat">Activity 5: Beat Repeat</a>: 20&ndash;40 minutes</li>
+				<li><a href="#A6" title="Activity 6: Storing Songs">Activity 6: Storing Songs</a>: 10&ndash;30 minutes</li>
+				<li><a href="#A7" title="Activity 7: Song Mapper">Activity 7: Song <code>Map</code>per</a>: 10&ndash;50 minutes</li>
+				<li><a href="#A8" title="Activity 8: Songs with Pitches and Beats">Activity 8: Songs with Pitches <em>and</em> Beats</a>: 10&ndash;50 minutes</li>
+				<li>(Optional) <a href="#A9" title="Activity 9: Mapping over Pitches and Beats">Activity 9: <code>Map</code>ping over Pitches and Beats</a>: 15&ndash;60 minutes</li>
+			</ul>
+		</p>
+
+		<div w3-include-html="/bjc-r/utilities/includes/ms-daily-citn.txt"></div><script>w3.includeHTML();</script>
+
+		<a class="back-to-top" href="#top">&uarr; Back to Top</a>
+		<h3>Activity 1: Playing Notes.<a name="A1" class="anchor">&nbsp;</a></h3>
+		<div>
+			<ul>
+				<li><strong>Materials:</strong> <a href="/bjc-r/sparks/student-pages/U2/L1/01-playing-notes.html?topic=middle-school%2F2-sequencing-iteration.topic&course=middle-school.html" title="Activity 1: Playing Notes" target="_blank">Playing Notes</a> student page </li>
+				<li>
+					<strong>Prepare:</strong>
+					<ul>
+						<li>Students will need headphones or speakers for this lab. If you have both options available, consider the pros and cons for your classroom of sharing creations (speakers) vs. a quieter classroom (headphones).</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Learning Goals:</strong>
+					<ul>
+						<li>Play a musical note using a command blocks.</li>
+						<li>Play a song by sequencing several command blocks together.</li>
+						<li>Gain informal experience with iteration.</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Activity Plan:</strong>
+					<ul>
+						<li>Students explore a variety of sound blocks and use them to create a simple song. They are offered the opportunity to explore iteration by using the <code>repeat</code> block before it's formally introduced. (10-20 minutes)</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Tips:</strong>
+					<ul>
+						<li>You may wish to reserve time for students to present their songs to small groups or the class.</li>
+					</ul>
+				</li>
+				<li><strong>Standards:</strong> None covered.</li>
+				<li><strong>Solutions:</strong> The example songs on the student activity page serve as model submissions.</li>
+			</ul>
+		</div>
+
+		<a class="back-to-top" href="#top">&uarr; Back to Top</a>
+		<h3>Activity 2: Visualizing Loops.<a name="A2" class="anchor">&nbsp;</a></h3>
+		<div>
+			<ul>
+				<li><strong>Materials:</strong> <a href="/bjc-r/sparks/student-pages/U2/L1/02-visualizing-loops.html?topic=middle-school%2F2-sequencing-iteration.topic&course=middle-school.html" title="Activity 2: Visualizing Loops" target="_blank">Visualizing Loops</a> student page </li>
+				<li>
+					<strong>Prepare:</strong>
+					<ul>
+						<li>Before students begin working on this page, you may wish to project the <a class="js-run snap-project" href="/bjc-r/sparks/prog/U2/lab01/sample-song-player-fur-elise.xml" title="Sample Song Player - Snap! project" target="_blank">Für Elise Example Song</a> and play it with Visible Stepping turned on (<img class="inline nopadtb" src="/bjc-r/img/2-complexity/visible-stepping.png" alt="Visible Stepping button with two footprints" title="Visible Stepping button with two footprints" />) to offer students a visual preview of this Snap<em>!</em> feature as well as of nesting loops.</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Learning Goals:</strong>
+					<ul>
+						<li>Use the Snap<em>!</em> debugging tool Visible Stepping.</li>
+						<li>Use and nest loops to control the sequence of commands.</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Activity Plan:</strong>
+					<ul>
+						<li>Using Visible Stepping: Students explore and discuss Snap<em>!</em>'s Visible Stepping tool and try it out with their own Snap<em>!</em> song project. (5-10 minutes)</li>
+						<li>Looping Your Song: Students use the <code>repeat</code> and <code>forever</code> blocks to loop one or more pieces of their song and even explore nesting one <code>repeat</code> block inside another like the example provided on the activity page. (5-10 minutes)</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Tips:</strong>
+					<ul>
+						<li>When learning the <code>forever</code> block, there is always a chance that some student will struggle to stop the loop. As the text on the student activity page describes, they can either click the red stop sign (<img src="/bjc-r/img/1-introduction/stop_button.png" alt="red stop button" title="red stop button"/>) to stop all scripts or click the script that is running to stop it.</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Standards:</strong>
+					<ul>
+						<li><strong>2-AP-12:</strong> Design and iteratively develop programs that combine control structures, including nested loops and compound conditionals.</li>
+					</ul>
+				</li>
+				<li><strong>Solutions:</strong> The example song on the student activity page serves as a model submission.</li>
+			</ul>
+		</div>
+
+		<a class="back-to-top" href="#top">&uarr; Back to Top</a>
+		<h3>Activity 3: Programming Styles.<a name="A3" class="anchor">&nbsp;</a></h3>
+		<div>
+			<ul>
+				<li><strong>Materials:</strong> <a href="/bjc-r/sparks/student-pages/U2/L1/03-programming-styles.html?topic=middle-school%2F2-sequencing-iteration.topic&course=middle-school.html" title="Activity 3: Programming Styles" target="_blank">Programming Styles</a> student page </li>
+				<li>
+					<strong>Prepare:</strong>
+					<ul>
+						<li>This is the primary page where students learn the difference between functional and imperative programming. If the distinction is still unclear to you, review the student-facing activity page before offering it to students.</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Learning Goals:</strong>
+					<ul>
+						<li>Understand the difference between reporters and commands in Snap<em>!</em>.</li>
+						<li>Understand the difference between functional and imperative programming styles.</li>
+						<li>Create a command block.</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Activity Plan:</strong>
+					<ul>
+						<li>Commands Versus Reporters: Students learn about functional programming, which uses primarily reporters, and imperative programming, which uses commands. (5-10 minutes)</li>
+						<li>Creating a Command Block: Mirroring their first experience creating a reporter block in <a href="/bjc-r/sparks/student-pages/U1/L2/02-refining-the-story.html?topic=middle-school%2F1-functions-data.topic&course=middle-school.html" title="Unit 1 Lab 2 Activity 2: Refining the Story">Unit 1 Lab 2 Activity 2: Refining the Story</a>, students create their first command block, <code>mystery song</code>, which hides the code for a song so the user can guess what it is. (10-20 minutes)</li>
+						<li>Optionally, students can create additional command blocks with different mystery songs. This activity can serve as differentiation either for students moving through the material more quickly or for those in need of extra practice. (5-10 minutes, if used)</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Tips:</strong>
+					<ul>
+						<li>You may wish to wrap up class with either or both:
+							<ul>
+								<li>A brief review discussion of the three types of blocks presented on this page: reporters, predicates (a special type of reporter), and commands</li>
+								<li>An opportunity for several students to play their mystery song for the class to guess</li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+				<li><strong>Standards:</strong> None covered.</li>
+				<li><strong>Solutions:</strong> No example solution is necessary. Students should create a <code>mystery song</code> block that plays a song when run.</li>
+			</ul>
+		</div>
+
+		<a class="back-to-top" href="#top">&uarr; Back to Top</a>
+		<h3>Activity 4: Mystery Song Game.<a name="A4" class="anchor">&nbsp;</a></h3>
+		<div>
+			<ul>
+				<li><strong>Materials:</strong> <a href="/bjc-r/sparks/student-pages/U2/L1/04-mystery-song-game.html?topic=middle-school%2F2-sequencing-iteration.topic&course=middle-school.html" title="Activity 4: Mystery Song Game" target="_blank">Mystery Song Game</a> student page </li>
+				<li>
+					<strong>Prepare:</strong>
+					<ul>
+						<li>You may wish to review the hidden text before exercise 1 on the student activity page about the difference between the reporter <code>if then else</code> and the command <code>if else</code> and about the difference between the reporter <code>ask</code> and the built-in pair <code>ask</code> and <code>wait and answer</code>.</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Learning Goals:</strong>
+					<ul>
+						<li>Use a conditional together with a predicate to test whether the user's answer is correct.</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Activity Plan:</strong>
+					<ul>
+						<li>Students read about the reporter versions of the <code>if</code> and <code>ask</code> blocks and then learn about the command versions of these blocks. They create a script to play a mystery song, accept a guess from the user, and confirm whether the user's guess is correct. (10-20 minutes)</li>
+						<li>Optionally, students can add additional <code>if else</code> blocks to offer users credit for alternative spellings. This is a good differentiation task for students moving through the material more quickly. (5-10 minutes, if used)</li>
+						<li>Optionally, students can take on a more challenging exercise: randomly choosing which mystery song to play. This is minimal guidance provided for this exercise, and it is suggested for a more intrepid programmer. (10-20 minutes, if used)</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Tips:</strong>
+					<ul>
+						<li>You may wish to wrap up class with either or both:
+							<ul>
+								<li>A brief review discussion of the new blocks: <code>if else</code> and the pair <code>ask</code> and <code>wait and answer</code></li>
+								<li>An opportunity for several students to play their mystery song for the class to guess</li>
+							</ul>
+						</li>
+						<li>You may wish to end class with a review discussion of the new command blocks.</li>
+					</ul>
+				</li>
+				<li><strong>Standards:</strong> None covered.</li>
+				<li>
+					<strong><a href="#hint-solutions-A4" data-toggle="collapse" title="Activity 4 Solutions">Solutions</a></strong>
+					<div id="hint-solutions-A4" class="collapse">
+						<ul>
+							<li>
+								<div class="comment">alt/title text needed --MF, 2/28/22</div>
+								The following example solution is hidden behind a series of links on the student-facing activity page:<br />
+								<img class="indent" src="/bjc-r/sparks/img/U2/lab01/ask-if-example.png" alt="" title="" />
+							</li>
+						</ul>
+					</div>
+					<div class="todo">In the future, we should include a sample solution to the TIF too. --MF, 2/28/22</div>
+				</li>
+			</ul>
+		</div>
+
+		<a class="back-to-top" href="#top">&uarr; Back to Top</a>
+		<h3>Activity 5: Beat Repeat.<a name="A5" class="anchor">&nbsp;</a></h3>
+		<div>
+			<ul>
+				<li><strong>Materials:</strong> <a href="/bjc-r/sparks/student-pages/U2/L1/05-beat-repeat.html?topic=middle-school%2F2-sequencing-iteration.topic&course=middle-school.html" title="Activity 5: Beat Repeat" target="_blank">Beat Repeat</a> student page </li>
+				<li>
+					<strong>Prepare:</strong>
+					<ul>
+						<li>If you are not fluent with the <code>for each</code> block, you may wish to review (and perhaps even work through) this page before introducing it to students.</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Learning Goals:</strong>
+					<ul>
+						<li>Use the <code>for each</code> block to traverse a list.</li>
+						<li>Create a block to generalize the list traversal code.</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Activity Plan:</strong>
+					<ul>
+						<li>Using <code>For Each</code> to Traverse a List: Students learn about list traversal using <code>for each</code> and create a script to traverse a list of pitches and play each pitch in the song. (10-20 minutes)</li>
+						<li>Using <code>For Each</code> to Play <em>Any</em> List of Pitches: Students generalize their script to accept any list of pitches as input and play each pitch in the song. They then create program documentation for their new block. (10-20 minutes)</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Tips:</strong>
+					<ul>
+						<li>This page includes a number of short animations that demonstrate building the script with <code>for each</code>. Alternatively, you could demonstrate this for the class.</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Standards:</strong>
+					<ul>
+						<li><strong>2-AP-14:</strong> Create procedures with parameters to organize code and make it easier to reuse.</li>
+						<li><strong>2-AP-19:</strong> Document programs in order to make them easier to follow, test, and debug. </li>
+					</ul>
+				</li>
+				<div class="todo">Need a pic of the play song block definition with the hat block attached. (That also needs to be added to all the example projects after this page.) --MF, 2/28/22</div>
+				<!--<li>
+					<strong>Solutions:</strong>
+					<ul>
+						<li></li>
+					</ul>
+				</li>-->
+			</ul>
+		</div>
+
+		<a class="back-to-top" href="#top">&uarr; Back to Top</a>
+		<h3>Activity 6: Storing Songs.<a name="A6" class="anchor">&nbsp;</a></h3>
+		<div>
+			<ul>
+				<li><strong>Materials:</strong> <a href="/bjc-r/sparks/student-pages/U2/L1/06-storing-songs.html?topic=middle-school%2F2-sequencing-iteration.topic&course=middle-school.html" title="Activity 6: Storing Songs" target="_blank">Storing Songs</a> student page </li>
+				<li>
+					<strong>Prepare:</strong>
+					<ul>
+						<li>Consider (or investigate) how well your students remember the concept of a local variable and whether additional review (behind what is included on this page) would support a deeper understanding of the distinction between local and global variables.</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Learning Goals:</strong>
+					<ul>
+						<li>Create a global variable, and use it to store a list.</li>
+						<li>Use Snap<em>!</em> <em>watchers</em> to view or hide the contents of a global variable.</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Activity Plan:</strong>
+					<ul>
+						<li>Students review the concept of a variable first introduced in Unit 1 Lab 2 (in <a href="/bjc-r/sparks/student-pages/U1/L2/03-creating-editing-blocks.html?topic=middle-school%2F1-functions-data.topic&course=middle-school.html" title="Unit 1 Lab 2 Activity 3: Creating and Editing Blocks">Activity 3: Creating and Editing Blocks</a>) with local variables, learn to use a <em>global</em> variable to store data that must be accessible anywhere in their program, and to show or hide the Snap<em>!</em> variable watcher on the Snap<em>!</em> stage. (10–20 minutes)</li>
+						<li>Optionally, students can use multiple variables to store pieces of a song and play them various times to create a more complex piece of music. (5-10 minutes, if used)</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Tips:</strong>
+					<ul>
+						<li>Again, you may wish to offer time for students to share their creations in small groups or with the whole class.</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Standards:</strong>
+					<ul>
+						<li><strong>2-AP-11:</strong> Create clearly named variables that represent different data types and perform operations on their values.</li>
+					</ul>
+				</li>
+				<li><strong>Solutions:</strong> The images on this activity page serve as example solutions.</li>
+			</ul>
+		</div>
+
+		<a class="back-to-top" href="#top">&uarr; Back to Top</a>
+		<h3>Activity 7: Song <code>Map</code>per.<a name="A7" class="anchor">&nbsp;</a></h3>
+		<div>
+			<ul>
+				<li><strong>Materials:</strong> <a href="/bjc-r/sparks/student-pages/U2/L1/07-song-mapper.html?topic=middle-school%2F2-sequencing-iteration.topic&course=middle-school.html" title="Activity 7: Song Mapper" target="_blank">Song <code>Map</code>per</a> student page </li>
+				<li>
+					<strong>Prepare:</strong>
+					<ul>
+						<li>Understanding the topics in Activities 7 and 8 are critical to using the optional activity, Activity 9: <code>Map</code>ping over Pitches and Beats. As students work through this current activity, be mindful of whether you feel they are developing sufficient understanding to undertake more advanced content in that upcoming activity.</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Learning Goals:</strong>
+					<ul>
+						<li>Use the higher order function <code>map</code> to shift the pitches in a song and create more complex music.</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Activity Plan:</strong>
+					<ul>
+						<li>Students explore several examples of using <code>map</code> to transpose a list of pitches by changing the shift value, adding additional <code>play song</code> blocks, and/or changing the original pitches to create a new melody. (10-20 minutes)</li>
+						<li>Optionally, students can use the <code>map</code> block with one of the songs they've already created, add additional variables to their project, and/or explore with other mathematical functions to the <code>map</code> block (5–30 minutes, if used)</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Tips:</strong>
+					<ul>
+						<li>This may be a particularly fun activity for sharing student work. Students may even share suggestions and co-create a song remix as a group.</li>
+					</ul>
+				</li>
+				<li><strong>Standards:</strong> None covered.</li>
+				<li><strong>Solutions:</strong> The example songs on the student activity page serve as model submissions.</li>
+			</ul>
+		</div>
+
+		<a class="back-to-top" href="#top">&uarr; Back to Top</a>
+		<h3>Activity 8: Songs with Pitches <em>and</em> Beats.<a name="A8" class="anchor">&nbsp;</a></h3>
+		<div>
+			<ul>
+				<li><strong>Materials:</strong> <a href="/bjc-r/sparks/student-pages/U2/L1/08-pitch-beat.html?topic=middle-school%2F2-sequencing-iteration.topic&course=middle-school.html" title="Activity 8: Songs with Pitches and Beats" target="_blank">Songs with Pitches <em>and</em> Beats</a> student page </li>
+				<li>
+					<strong>Prepare:</strong>
+					<ul>
+						<li>Understanding the topics in Activities 7 and 8 are critical to using the optional activity, Activity 9: <code>Map</code>ping over Pitches and Beats. As students work through this current activity, be mindful of whether you feel they are developing sufficient understanding to undertake more advanced content in that upcoming activity.</li>
+						<li>Before students begin this activity, may find it helpful to read the text before the exercises on this page, particularly the text hidden behind several levels of links just before exercise 1 found by clicking "How does the <code>play song with pitches and beats</code> block work?".</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Learning Goals:</strong>
+					<ul>
+						<li>Store a table (list of lists) in a global variable.</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Activity Plan:</strong>
+					<ul>
+						<li>Students learn how to store both the pitch and beat data for a song by using a table. A table is a list of lists, and each item in this table is note, which consists of a list containing its pitch value and beat length. They create a new global variable for their table and use the <code>♪ pitch beats</code> block to construct each row in the table. You may opt to discuss the content hidden behind the "How does the <code>play song with pitches and beats</code> block work?" link. (10-40 minutes)</li>
+						<li>Optionally, students can create an additional global variable to store a second song with both pitch and beat data. (5-10 minutes, if used)</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Tips:</strong>
+					<ul>
+						<li>The optional creation of an additional song offered at the end of the student activity page is a good differentiation activity both/either for students moving more quickly through the materials and for those who need extra practice with the ideas of the page.</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Standards:</strong>
+					<ul>
+						<li><strong>2-AP-11:</strong> Create clearly named variables that represent different data types and perform operations on their values.</li>
+					</ul>
+				</li>
+				<li><strong>Solutions:</strong> The images on this activity page serve as an example solution.</li>
+			</ul>
+		</div>
+
+		<a class="back-to-top" href="#top">&uarr; Back to Top</a>
+		<h3>Activity 9: <code>Map</code>ping over Pitches and Beats.<a name="A9" class="anchor">&nbsp;</a></h3>
+		<div>
+			<ul>
+				<li><strong>Materials:</strong> <a href="/bjc-r/sparks/student-pages/U2/L1/09-map-pitch-beat.html?topic=middle-school%2F2-sequencing-iteration.topic&course=middle-school.html" title="Activity 9: Mapping over Pitches and Beats" target="_blank"><code>Map</code>ping over Pitches and Beats</a> student page </li>
+				<li>
+					<strong>Prepare:</strong>
+					<ul>
+						<li>This is the most challenging activity in the lab, and so it is optional; but it is also a natural extension of the activities so far. If your students are interested and prepared enough for tougher activity, read through this page before offering it to students so you are prepared to support them as they work through it.</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Learning Goals:</strong>
+					<ul>
+						<li>Use the higher order function <code>map</code> to shift the pitches in a song stored as a table with both pitch and beat information about each note.</li>
+						<li>Use an abstract data type (the <code>♪ pitch beats</code> constructor and the <code>pitch from ♪</code> and <code>beats from ♪</code> selectors) to create the input function for the <code>map</code> block.</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Activity Plan:</strong>
+					<ul>
+						<li>Students first read a detailed passage describing code for mapping over a table of song data. (5-10 minutes)</li>
+						<li>They then reread and discuss the passage with a partner (5-10 minutes) before building their own version and using it to create a more complex song with the same musical sequence repeated a different pitches. (5-10 minutes)</li>
+						<li>Optionally, students who may be skeptical that this complex process is necessary are invited to investigate their own approach, and students are invited to try adjusting the beats instead of only the pitches in their song. (5-30 minutes)</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Tips:</strong>
+					<ul>
+						<li>After students complete the activity page, consider doing one or more of the following:
+							<ul>
+								<li>Discussing how this map function works (reviewing the ideas presenting in the pre-exercise reading) to check for and improve student understanding (perhaps having several students explain it in their own words would be valuable)</li>
+								<li>Allowing several students share their creations</li>
+								<li>Invite students to co-create a song remix as a group</li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Standards:</strong>
+					<ul>
+						<li><strong>2-AP-13:</strong> Decompose problems and subproblems into parts to facilitate the design, implementation, and review of programs.</li>
+					</ul>
+				</li>
+				<li><strong>Solutions:</strong> The example song on the student activity page serves as a model submission.</li>
+			</ul>
+		</div>
+
+		<!--<h3>Assignments</h3>
+		<div>
+			<ul>
+				<li>...</li>
+			</ul>
+		</div>
+
+
+		<h3>Solutions</h3>
+		<div>
+			<ul>
+				<li>...</li>
+			</ul>
+		</div>-->
+
+		<h3>Correlation with CSTA Standards<a name="Standards" class="anchor">&nbsp;</a></h3>
+		<div class="Standards">
+			<ul>
+				<li><strong>2-AP-11: Create clearly named variables that represent different data types and perform operations on their values.</strong> A variable is like a container with a name, in which the contents may change, but the name (identifier) does not. When planning and developing programs, students should decide when and how to declare and name new variables. Students should use naming conventions to improve program readability. Examples of operations include adding points to the score, combining user input with words to make a sentence, changing the size of a picture, or adding a name to a list of people. </li>
+				<li><strong>2-AP-12: Design and iteratively develop programs that combine control structures, including nested loops and compound conditionals.</strong> Control structures can be combined in many ways. Nested loops are loops placed within loops. Compound conditionals combine two or more conditions in a logical relationship (e.g., using AND, OR, and NOT), and nesting conditionals within one another allows the result of one conditional to lead to another. For example, when programming an interactive story, students could use a compound conditional within a loop to unlock a door only if a character has a key AND is touching the door. </li>
+				<li><strong>2-AP-13: Decompose problems and subproblems into parts to facilitate the design, implementation, and review of programs.</strong> Students should break down problems into subproblems, which can be further broken down to smaller parts. Decomposition facilitates aspects of program development by allowing students to focus on one piece at a time (e.g., getting input from the user, processing the data, and displaying the result to the user). Decomposition also enables different students to work on different parts at the same time. For example, animations can be decomposed into multiple scenes, which can be developed independently.</li>
+				<li><strong>2-AP-14: Create procedures with parameters to organize code and make it easier to reuse.</strong> Students should create procedures and/or functions that are used multiple times within a program to repeat groups of instructions. These procedures can be generalized by defining parameters that create different outputs for a wide range of inputs. For example, a procedure to draw a circle involves many instructions, but all of them can be invoked with one instruction, such as “drawCircle.” By adding a radius parameter, the user can easily draw circles of different sizes.</li>
+				<li><strong>2-AP-19: Document programs in order to make them easier to follow, test, and debug.</strong> Documentation allows creators and others to more easily use and understand a program. Students should provide documentation for end users that explains their artifacts and how they function. For example, students could provide a project overview and clear user instructions. They should also incorporate comments in their product and communicate their process using design documents, flowcharts, and presentations.</li>
+			</ul>
+		</div>
+
+	</body>
+</html>

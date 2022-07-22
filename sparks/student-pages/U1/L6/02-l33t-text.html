@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unit 1 Lab 6: Texting Tricks, Activity 2</title>
+	</head>
+
+	<body>
+		<h2>L33t Text</h2>
+		<div class="learn">
+			In this activity, you’ll make your own text processing block by using a new block that tells the program to report specific things in specific cases:<br /> 
+			<img class="indent" src="/bjc-r/img/blocks/reporter-if.png" alt="if 'predicate input slot' then () else ()" title="if 'predicate input slot' then () else ()" />
+		</div>
+		
+		
+		<h3>What is L33t?</h3>
+		<p>In the 1980s, the Internet was mostly text-based. Similarly to how today we use emojis 🦊 🚲 and abbreviations (like LMK or LOL) to embellish messages, early Internet users (and some gamers today) used a modified spelling called <em>leet</em> (meaning, "elite") where certain letters are replaced with numbers that look similar (such as replacing "s" with "5" or "e" with "3").</p>
+		<p>
+			For example, can you read this text?<br />
+			<pre class="indent">1 w4nt t0 g0 t0 5ch001 34rly t0d4y.</pre>
+		</p>
+		<p>You're going to build a <code>l33t</code> block that converts just one specific letter to a number (such as just changing "e" to "3").<br />
+			<img class="indent" src="/bjc-r/sparks/img/U1/lab06/l33t-change-e-to-3-reporting.png" alt="l33t (I have dance class at eight on Tuesday.) reporting 'I hav3 danc3 class at 3ight on Tu3sday.'" title="l33t (I have dance class at eight on Tuesday.) reporting 'I hav3 danc3 class at 3ight on Tu3sday.'" />
+		</p>
+		<p>
+			Your block will need to need to:
+			<ul>
+				<li>Split the input text into a list of letters by using <img class="inline" src="/bjc-r/img/blocks/split-by-letter.png" alt="split () by (letter)" title="split () by (letter)" />.</li>
+				<li>Apply a letter-changing function to every matching letter by using <img class="inline" src="/bjc-r/img/blocks/map.png" alt="map 'reporter input slot' over 'list input slot'" title="map 'reporter input slot' over 'list input slot'" />.</li>
+				<li>Join the modified list of letters back into a single text string by using <img class="inline" src="/bjc-r/img/blocks/join.png" alt="join () ()" title="join () ()" />.</li>
+			</ul>
+		</p>
+		<p>You've already learned how to use <code>map</code> to apply a function to every item in a list, and how to use <code>join</code> to join elements of a list into a single text string. The missing ingredient is a letter-changing function.</p>
+
+		<h3>Creating a Letter-Changing Function</h3>
+		<div class="forYouToDo">
+			<ol>
+				<li>Open your "Texting Time" project, if it isn't open already.</li>
+				<li>
+					Decide which letter of the alphabet you want to change into a number, and create a new <code>change for letter</code> block that takes one input called <var>letter</var>. This block will decide whether to change one letter at a time. For example, if you were changing "e" to "3", your new block would look like this:<br />
+					<img class="indent" src="/bjc-r/sparks/img/U1/lab06/change-e-to-3-starter.png" alt="change e to 3 for letter (letter) hat block with report () attached" title="change e to 3 for letter (letter) hat block with report () attached" />
+					<div class="endnote" style="clear: right;">
+						<p><a href="#hint-new-block" data-toggle="collapse" title="Click for a reminder about how to create a new block.">Click for a reminder about how to create a new block.</a></p>
+						<div id="hint-new-block" class="collapse">
+							<p>
+								<ol style="list-style-type: lower-roman;">
+									<li>Right-click (or control-click on a Mac) in an empty spot in the Scripts area and choose "make a block..."</li>
+									<li>Choose the color for your block.</li>
+									<li>Type the title text for your block (for example, "change e to 3 for letter").</li>
+									<li>Select the shape for your block.</li>
+									<li>Click "OK."</li>
+								</ol>
+							</p>
+						</div>
+						<p><a href="#hint-local-vars" data-toggle="collapse" title="Click for a reminder about how make a block take an input.">Click for a reminder about how make a block take an input.</a></p>
+						<div id="hint-local-vars" class="collapse">
+							<p>
+								<ol style="list-style-type: lower-roman;">
+									<li>Hold your mouse pointer at the point in the text text of the hat block in the block editor where you want the input slot to appear, and click the plus sign that appears.</li>
+									<li>Type the name of the variable you want to add (such as <code>letter</code>), and press "OK."</li>
+									<li>To use this new local variable in your code, drag off a copy from the hat block, drop it into your code.</li>
+								</ol>
+							</p>
+						</div>
+					</div>
+				</li>
+			</ol>
+		</div>
+		<p>
+			You can use the <img class="inline nopadtb" src="/bjc-r/img/blocks/reporter-if.png" alt="if 'predicate input slot' then () else ()" title="if 'predicate input slot' then () else ()" /> block to decide which thing to report. The <code>if then else</code> block takes three inputs:
+			<ul>
+				<li>
+				A <em>predicate</em> (a hexagon-shaped testing function that reports either true or false). For example:
+				<img class="inline nopadtb" src="/bjc-r/sparks/img/U1/lab06/letter=e.png" alt="(letter) = (e)" title="(letter) = (e)" />
+				</li>
+				<li>An output to report if the predicate is true.</li>
+				<li>An output to report if the predicate is false.</li>
+			</ul>
+		</p>
+		<div class="vocabFullWidth"><strong>: Predicate</strong> and <strong>Conditional</strong>
+			<p>
+                A <strong>predicate</strong> is a hexagon-shaped reporter that asks a true/false question such as these examples:<br />
+                <img class="indent" src="/bjc-r/img/2-complexity/8-gt-7-reporting-true.png" alt="8 > 7 reporting true" title="8 > 7 reporting true" />
+                <img class="indent" src="/bjc-r/img/2-complexity/6-gt-7-reporting-false.png" alt="6 > 7 reporting false" title="6 > 7 reporting false" />
+            </p>
+			<p>
+				A <strong>conditional</strong> is a block that controls the code based on a true/false condition (the predicate). The <img class="inline nopadtb" src="/bjc-r/img/blocks/reporter-if.png" alt="if 'predicate input slot' then () else ()" title="if 'predicate input slot' then () else ()" /> block is an example of a conditional.
+			</p>
+		</div>
+		<div class="forYouToDo">
+			<ol start="3">
+				<li>Use <code>if then else</code> to write code for your <code>change for letter</code> block that will test whether the input letter matches the letter you want to change into a number, and if it does, reports the number, and if it doesn't, reports the input letter without changing it.</li>
+				<li>
+					Test your <code>change for letter</code> block with your chosen letter and with other letters.<br />
+					<img class="indent" src="/bjc-r/sparks/img/U1/lab06/change-e-to-3-(l)-reporting.png" alt="change e to 3 (l) reporting 'l'" title="change e to 3 (l) reporting 'l'" />
+					<img class="indent" src="/bjc-r/sparks/img/U1/lab06/change-e-to-3-(e)-reporting.png" alt="change e to 3 (e) reporting '3'" title="change e to 3 (e) reporting '3'" />
+					<img class="indent" src="/bjc-r/sparks/img/U1/lab06/change-e-to-3-(t)-reporting.png" alt="change e to 3 (t) reporting 't'" title="change e to 3 (t) reporting 't'" />
+				</li>
+			</ol>
+		</div>
+
+		<h3><code>Map</code>ping the Letter-Changing Function Over All the Letters</h3>
+		<div class="forYouToDo">
+			<ol start="5">
+				<li>
+					<img class="imageRight" src="/bjc-r/sparks/img/U1/lab06/l33t-text-starter.png" alt="l33t (text) hat block with report () attached" title="l33t (text) hat block with report () attached" />
+					Now, create another new block called <code>l33t</code> that takes one input called <var>text</var>, splits that input text into a list of letters, applies your letter-changing function to every item in the list, and joins the letters back together.
+				</li>
+				<div class="endnote">
+					<p>
+						Click below for support with:
+						<ul>
+							<li><a href="#hint-split" data-toggle="collapse" title="Click for a reminder about how to split the input text into a list of letters.">Splitting the input text into a list of letters.</a></li>
+							<div id="hint-split" class="collapse">
+								<p>
+									The <img class="inline" src="/bjc-r/img/blocks/split-by.png" alt="split () by ()" title="split () by ()" /> block takes two inputs: a string of text and a character by which to split up the text into a list. For example:<br />
+									<div class="borderless-table two-col">
+										<div>
+											<img class="indent" src="/bjc-r/sparks/img/U1/lab06/split-hello-world-by-letter-reporting.png" alt="split ('Hello world!') by (letter) reporting the list {H, e, l, l, o, , w, o, r, l, d, !}" title="split ('Hello world!') by (letter) reporting the list {H, e, l, l, o, , w, o, r, l, d, !}" />
+										</div>
+										<div>
+											<p><img class="indent" src="/bjc-r/sparks/img/U1/lab06/split-hello-world-by-word-reporting.png" alt="split ('Hello world!') by (word) reporting the list {Hello, world!}" title="split ('Hello world!') by (word) reporting the list {Hello, world!}" /></p>
+											<p><img class="indent" src="/bjc-r/sparks/img/U1/lab06/split-hello-world-by-o-reporting.png" alt="split ('Hello world!') by ('o') reporting the list {Hell, w,  rld!}" title="split ('Hello world!') by ('o') reporting the list {Hell, w,  rld!}" /></p>
+										</div>
+									</div>
+								</p>
+							</div>
+							<li><a href="#hint-map" data-toggle="collapse" title="Click for a reminder about how to apply a function to every item in a list.">Applying a function to every item in a list.</a></li>
+							<div id="hint-map" class="collapse">
+								<p>You learned to use <img class="inline" src="/bjc-r/img/blocks/map.png" alt="map 'reporter input slot' over 'list input slot'" title="map 'reporter input slot' over 'list input slot'" /> to apply any block that works on one list item to every list item in <a href="/bjc-r/sparks/student-pages/U1/L4/04-pixel-mapper.html?topic=middle-school%2F1-functions-data.topic&course=middle-school-teacher.html&novideo&noassignment#map" title="Unit 1 Lab 4 Activity 4: Transforming Every Pixel">Unit 1 Lab 4 Activity 4: Transforming Every Pixel</a>.</p>
+								<p>Recall that <code>map</code> takes two inputs: a function with an empty input slot where each item from the list goes every time the function is applied, and a list of items to apply that function to.</p>
+								<div class="todo">Maybe add an example image from the 1.4.4 page (once it has examples). --MF, 10/15/21</div>
+							</div>
+							<li><a href="#hint-join" data-toggle="collapse" title="Click for a reminder about how to join items in a list into a single text string.">Joining items in a list into a single text string.</a></li>
+							<div id="hint-join" class="collapse">
+								<p>You learned to use <img class="inline nopadtb" src="/bjc-r/img/blocks/join.png" alt="join () ()" title="join () ()" /> in <a href="/bjc-r/sparks/student-pages/U1/L2/03-creating-editing-blocks.html?topic=middle-school%2F1-functions-data.topic&course=middle-school-teacher.html&novideo&noassignment" title="Unit 1 Lab 2 Activity 3: Creating and Editing Blocks">Unit 1 Lab 2 Activity 3: Creating and Editing Blocks</a>. It merges two or more  strings of text into one (without a space). As you saw in <a href="/bjc-r/sparks/student-pages/U1/L5/05-caesar-cipher.html?topic=middle-school%2F1-functions-data.topic&course=middle-school-teacher.html&novideo&noassignment" title="Unit 1 Lab 5 Activity 5: Programming a Caesar Cipher" target="_blank">Unit 1 Lab 5 Activity 5: Programming a Caesar Cipher</a>, <code>join</code> can accept a single list as input.</p></div>
+						</ul>
+					</p>
+				</div>
+				<li>
+					Test your <code>l33t</code> block for different words and phrases. It should report the exact same word or phrase as the input except that the one letter you choose should be replaced by the number you chose to replace it.<br />
+					<img class="indent" src="/bjc-r/sparks/img/U1/lab06/l33t-change-e-to-3-reporting.png" alt="l33t (I have dance class at eight on Tuesday.) reporting 'I hav3 danc3 class at 3ight on Tu3sday.'" title="l33t (I have dance class at eight on Tuesday.) reporting 'I hav3 danc3 class at 3ight on Tu3sday.'" />
+				</li>
+			</ol>
+		</div>
+		<div class="ifTime show">
+			<ol start="7">
+				<li>
+					Create additional letter-changing functions and try them in your <code>l33t</code> block. For example: <br />
+					<img class="indent" src="/bjc-r/sparks/img/U1/lab06/change-s-to-5.png" alt="change s to 5 for letter ()" title="change s to 5 for letter ()" />
+					<span class="" style="font-size:1.5em;">→</span> 
+					<img class="indent" src="/bjc-r/sparks/img/U1/lab06/l33t-change-s-to-5-reporting.png" alt="l33t (I have dance class at eight on Tuesday.) reporting 'I have dance cla55 at eight on Tue5day.'" title="l33t (I have dance class at eight on Tuesday.) reporting 'I have dance cla55 at eight on Tue5day.'" />
+				</li>
+				<div class="endnote">
+					<h4><strong>Duplicating a Block</strong></h4>
+					<p>To easily make a new block that is similar to your letter-changing function (such as <code>change e to 3 for letter</code>), you don't need to start all over again. Instead, just right-click on the block name <em>in the palette on the left</em> and select "duplicate".</p>
+					<p>That will create a new block (such as <code>change e to 3 for letter (2)</code>) and open it for you in the block editor. You can click the text in the hat block to change the name. Then create the code for your new block.</p>
+				</div>
+				<li>
+					Here are some other ideas for ways to extend your project:
+					<ul>
+						<li>Replace a letter with an emoji.</li>
+						<li>
+							Replace a letter with multiple letters. For example: <br />
+							<img class="indent" src="/bjc-r/sparks/img/U1/lab06/change-x-to-ks.png" alt="change x to ks for letter ()" title="change x to ks for letter ()" />
+							<span class="" style="font-size:1.5em;">→</span> <br />
+							<img class="indent" src="/bjc-r/sparks/img/U1/lab06/l33t-change-x-to-ks-reporting.png" alt="l33t (The fox is in the box.) reporting 'The foks is in the boks.'" title="l33t (The fox is in the box.) reporting 'The foks is in the boks.'" />
+						</li>
+						<li>Replace multiple letters at once by <em>nesting</em> multiple letter-changing functions.</li>
+					</ul>
+				</li>
+			</ol>
+		</div>
+
+		<div class="learn">In this activity, you learned how to use the conditional <code>if then else</code> together with a predicate and the <code>map</code> block to test each item in a list.</div>
+
+		
+	</body>
+</html>
