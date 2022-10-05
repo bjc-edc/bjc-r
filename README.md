@@ -1,4 +1,4 @@
-# bjc-r
+# bjc-r 
 
 The Beauty and Joy of Computing labs resource repository.
 
