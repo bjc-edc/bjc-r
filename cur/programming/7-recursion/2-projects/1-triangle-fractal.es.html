@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+    <title>Unidad 7 Lab 2: Proyectos de Recursividad, Pagina 1</title>
+</head>
+
+<body>
+    <h2>Fractal Triangular</h2>
+    <div class="todo">
+        <p>PG: Change. The follow-up that leads to competency (abstraction of the principles so that kids can do new
+            things of /their/ invention) is the "if there is time" and embedded non-triangles (squares, pentagons,
+            hexagons). I feel like we're moving from thing to thing without building kids' ability to be independent.
+            The TIF is about animation, not actual extension of the ideas kids are already dealing with. Yes, A is about
+            varying the angle, a worthy thing, but our LAB is about recursion, and kids are not reapplying THAT idea
+            here at all.</p>
+        <p>We need to add pink boxes to this whole unit. --MF, 4/3/19</p>
+    </div>
+    <div class="sidenote">Esta figura se llama "<a href="https://duckduckgo.com/?q=Sierpinski+gasket&iax=1&ia=images"
+            target="_blank">Sierpinski (sher-PIN-ski) gasket</a>." </div>
+    <p>
+        <img class="indent noshadow" src="/bjc-r/img/7-recursion/triangle-fractal.gif"
+            alt="triangle fractal animation levels 1 to 8" title="triangle fractal animation levels 1 to 8" />
+    </p>
+    <div class="forYouToDo" id="first">
+        <ol>
+            <div class="newProject"><span class="text">"U7L2-TriangleFractal"</span><img
+                    src="/bjc-r/img/icons/new-project-called.es.png" alt="Create a new project called U7L2-TriangleFractal"
+                    title="Create a new project called U7L2-TriangleFractal" /></div>
+            <li>
+                Primero, escriba un bloque que tome un <var>size</var> como entrada y dibuje un triángulo
+                equilátero.<br />
+                <img class="indent" src="/bjc-r/img/7-recursion/triangle-size-40.es.png" alt="triangle size: (40)"
+                    title="triangle size: (40)" />
+                <img class="indent" src="/bjc-r/img/7-recursion/triangle-size-40-drawing.jpg"
+                    alt="triangle size: (40) drawing" title="triangle size: (40) drawing" />
+            </li>
+
+        </ol>
+    </div>
+
+    <h3>Haciendo Crecer el Triángulo en el Fractal</h3>
+    <p>
+        <code>triangle</code> es el caso base. Puedes modificarlo, o crear un nuevo bloque con <var>level</var> y
+        Entradas de <var>size</var> como <code>tree</code>:<br />
+        <img class="indent" src="/bjc-r/img/7-recursion/tri-frac-1-head.es.png"
+            alt="triangle fractal level: (level #) size: (size #)"
+            title="triangle fractal level: (level #) size: (size #)" />
+    </p>
+    <p>
+        Si el nivel es 1, deberíamos ver solo el triángulo:<br />
+        <img class="indent noshadow" src="/bjc-r/img/7-recursion/tri-frac-1-level-1.es.png"
+            alt="Triangle fractal level 1 drawing: basic triangle"
+            title="Triangle fractal level 1 drawing: basic triangle" />
+    </p>
+    <div class="comment">Paul, do you not like my click-for-comment on principle? --bh</div>
+    <p>
+        De lo contrario, un niño de la mitad del tamaño brota al final de cada lado del padre. En el nivel 2, debería verse así:<br />
+        <img class="indent noshadow" src="/bjc-r/img/7-recursion/tri-frac-1-level-2.es.png"
+            alt="Triangle fractal level 2 drawing: triangle with 3 smaller triangles on its vertices"
+            title="Triangle fractal level 2 drawing: triangle with 3 smaller triangles on its vertices" />
+    </p>
+    <p>
+        Y en el nivel 3, deberías ver esto:<br />
+        <img class="indent noshadow" src="/bjc-r/img/7-recursion/tri-frac-1-level-3.es.png"
+            alt="Triangle fractal level 3 drawing: triangle with 3 smaller triangles on its vertices each of which in turn have 3 smaller triangles on their vertices"
+            title="Triangle fractal level 3 drawing: triangle with 3 smaller triangles on its vertices each of which in turn have 3 smaller triangles on their vertices" />
+    </p>
+
+    <div class="forYouToDo">
+        <ol start="2">
+            <li><img class="imageRight" src="/bjc-r/img/icons/talk-with-your-partner.es.png" alt="Talk with Your Partner"
+                    title="Talk with Your Partner" />
+                Escribe el código para <code>triangle fractal</code>.</li>
+                <li>Usando un bloque <code>warp</code> (para ahorrar tiempo) pruebe con un número de nivel grande, como 8 o 9.</li>
+                <div class="nota final">
+                    El bloque <code>warp</code> (en la paleta de control amarilla) hace que los scripts que contiene se ejecuten más
+                    rápido al
+                    no permitir que se ejecuten otros scripts ni actualizar la pantalla hasta que finalice.<br />
+                <img class="indent" src="/bjc-r/img/7-recursion/tri-frac-1-in-warp.es.png"
+                    alt="warp{triangle fractal level:(9) size:(100)}"
+                    title="warp{triangle fractal level:(9) size:(100)}" />
+            </div>
+        </ol>
+    </div>
+
+    <div class="ifTime">
+        <p>Para dibujar el triángulo padre, el sprite debe girar 120°; entre lados. Para el fractal solo
+        creado, ese giro ocurre <em>después</em> de dibujar al niño, pero podría girar <em>antes</em> del
+        llamada recursiva, o dividir el turno, con una parte antes y una parte después de la llamada recursiva.</p>
+        <ol start="4">
+            <li>
+                Pruebe algunas modificaciones como estas:<br />
+                <img class="indent" src="/bjc-r/img/7-recursion/triangle-fractal-variation01.es.png"
+                    alt="repeat(3){move(size) steps; turn clockwise (120) degrees; triangle fractal level:(level-1) size:(size*0.5)}"
+                    title="repeat(3){move(size) steps; turn clockwise (120) degrees; triangle fractal level:(level-1) size:(size*0.5)}" />
+                <img class="indent" src="/bjc-r/img/7-recursion/triangle-fractal-variation02.es.png"
+                    alt="repeat(3){move(size) steps; turn clockwise (120) degrees; triangle fractal level:(level-1) size:(size*0.5); turn clockwise(60) degrees}"
+                    title="repeat(3){move(size) steps; turn clockwise (120) degrees; triangle fractal level:(level-1) size:(size*0.5); turn clockwise(60) degrees}" />
+                <img class="indent" src="/bjc-r/img/7-recursion/triangle-fractal-variation03.es.png"
+                    alt="repeat(3){move(size) steps; turn counter-clockwise (30) degrees; triangle fractal level:(level-1) size:(size*0.5); turn clockwise(150) degrees}"
+                    title="repeat(3){move(size) steps; turn counter-clockwise (30) degrees; triangle fractal level:(level-1) size:(size*0.5); turn clockwise(150) degrees}" />
+            </li>
+        </ol>
+    </div>
+    <div class="takeItFurther">
+        <ol type="A">
+            <li>Use <code>for</code> to make an animation that cycles through different turning angle arrangements (that
+                is, 0&deg; and 120&deg;, then 1&deg; and 119&deg;, then 2&deg; and 118&deg;, etc.).</li>
+            <li>Experiment with the scale factor for the <var>size</var> of the recursive calls. A couple of interesting
+                values are <span class="katex">\frac{<var>1</var>}{3}</span> and <span
+                    class="katex">\frac{<var>1</var>}{\sqrt{3}}</span>.</li>
+        </ol>
+    </div>
+
+    <!--<div class="todo">
+            <div class="takeItFurther">
+                <ol type="A">
+                    <div class="todo">I want to drop this first one. I don't think it's particularly valuable or clear. The image doesn't look like that. If we want to keep it, I'd rather be direct and ask them to draw what we want them to draw. --MF</div>
+                    <li>
+                        <p>
+                            Your finished product should have produced a shape sort of like this:<br />
+                            <img class="indent" src="/bjc-r/img/6-recursion/fourtri.es.png" width="300" height="297" alt="four triangles">
+                        </p>
+                        <p>but with lots of small line segments instead of the grey parts. This should suggest an alternate way to make the shape: Level 1 is a triangle, level 2 is three level-1 versions arrayed around an empty triangle, etc. Write the code for that and compare the two results.</p>
+                    </li>
+                    <div class="todo">I couldn't get the fractal in this second problem right without help from Brian, and it turned out to be that I was being too logical. In the problems above, the smaller triangles were half-size. I assumed that to be the case here (though perhaps I should have assumed third-size)&mdash;especially because the very next problem specifies <span class="katex">\frac{size}{\sqrt{3}}</span>, so obviously that's not what would we want here (but it turns out that's the only factor that gives the level 8 image below.) --MF</div>
+                    <li>
+                        <p>
+                            Okay, no hints this time. Level 1 is an equilateral triangle. Here are levels 2 and 3:<br />
+                            <img class="indent" src="/bjc-r/img/6-recursion/tri-frac-2-level-2.es.png" width="332" height="278" alt="fractal level 2"><img src="/bjc-r/img/6-recursion/tri-frac-2-level-3.es.png" width="332" height="278" alt="fractal level 3">
+                        </p>
+                        <p>
+                            And here's level 8:<br />
+                            <img class="indent" src="/bjc-r/img/6-recursion/tri-frac-2-level-8.es.png" width="332" height="278" alt="fractal level 8">
+                        </p>
+                        <p>If you compare the level 2 picture with the one from the previous page, you'll see that the basic idea is the same: Stick little triangles at the corners of big ones. But they're stuck together slightly differently.</p>
+                    </li>
+                    <div class="todo">After Brian corrected me on the <span class="katex">\frac{size}{\sqrt{3}}</span> thing on the problem above and my misinterpretation of the instruction "turn 30 degrees left after drawing each side and before the recursive call" on the problem below to mean that the <code>turn left</code> block should have an input of 30, I now have two identical scripts for these two seemingly separate problems. --MF</div>
+                    <li>This time, instead of balancing the smaller triangles symmetrically on the corners of the bigger triangle, turn 30 degrees left after drawing each side and before the recursive call, and use <span class="katex">\frac{size}{\sqrt{3}}</span> as the size in the recursive call. Then make a level-10 fractal inside a <code>warp</code> block.  (Find it in the Control palette.)</li>
+                </ol>
+            </div>
+        </div>-->
+
+
+</body>
+
+</html>
