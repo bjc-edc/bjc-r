@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unit 3 Lab 3: Three Key List Operations, Page 2</title>
+    </head>
+    
+    <body>
+		
+        <h2>The <code>Map</code> Block & Music</h2> 
+                <img class="imageRight" src="/bjc-r/img/icons/import-tools.es.png" alt="Import Tools" title="Import Tools" />
+        
+        <div class="forYouToDo" id="first">
+        <ol><li>Try these:<br />
+            <img class="indent" src="/bjc-r/img/3-lists/map-example-1.es.png" alt="map (( )-(1)) over (list (96) (-100) (4.7)) reporting" title="map (( )-(1)) over (list (96) (-100) (4.7)) reporting" /><br />
+            <img class="indent" src="/bjc-r/img/3-lists/map-example-2.es.png" alt="map (join ( ) (s)) over (list (cat) (dog) (bird)) reporting" title="map (join ( ) (s)) over (list (cat) (dog) (bird)) reporting" /><br />
+            <img class="indent" src="/bjc-r/img/3-lists/map-example-3.es.png" alt="map (round ( )) over (list (3.14159) (87) (5.4)) reporting" title="map (round ( )) over (list (3.14159) (87) (5.4)) reporting" /><br />
+       </li></ol></div>
+		
+        
+	<h3>Transformations of Music</h3>
+        
+        <div class="forYouToDo" id="first">
+            <ol>
+                <img class="imageRight" src="/bjc-r/img/icons/headphones.es.png" alt="Set Up Your Headphones or Speakers" title="Set Up Your Headphones or Speakers" />
+      <!--  		<li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner-mini.es.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
+Discuss what <code>map</code> does in this script: <img class="inline" src="/bjc-r/img/3-lists/compare-play-note-3.es.png" alt="for each (note) of (map (_ + 5) over (list (60) (64) (67) (72) (60))) (play note (note) for (1) beats)" title="for each (note) of (map (_ + 5) over (list (60) (64) (67) (72) (60))) (play note (note) for (1) beats)"></li>    -->
+                <li><ol type="a"><li><a class="run" href="/bjc-r/prog/3-lists/old/U3L2-PlayNotes.xml">Open this project</a>. It contains two musical scales (a major scale and an Egyptian scale) and a song (Twinkle Twinkle Little Star). Each is just a sound reporter that reports a list of notes. (Click on one of them.)</li>
+					<div class="sidenote">You may wish to set the tempo to something like <var>240</var>.</div>
+                <li>Try this (note the empty input slot in the <code>play</code> block; you have to erase the 60 you'll find there):<br />
+                <img src="/bjc-r/img/2-complexity/twinkle.es.png" alt="for each (item) of (twinkle twinkle little star) [play note ( ) for (0.5) beats]"></li>
+                <li>Also try this:<br />
+                <img src="/bjc-r/img/2-complexity/twinkle2.es.png" alt="for each (item) of (twinkle twinkle little star) [play note (item) for (0.5) beats]"></li></ol>
+                An empty input slot in the script inside a <code>for each</code> block means the same thing as dragging the <var>item</var> variable into that slot.
+                </li>
+                
+                <li>To <em>transpose</em> a melody, you shift each note up or down in pitch by the same amount.
+                <ol type="a"><li>
+                Create a <code>transpose</code> reporter that takes a list of note pitches and a shift number as input, and uses <code>map</code> to report a list with each note shifted up (or down if the shift number is negative) as many pitches as the input indicates. For example, this block will report the notes <var>{65, 69, 72, 77, 65}</var>: <br />
+                <img src="/bjc-r/img/2-complexity/transpose-example.es.png" alt="transpose (list (60) (64) (67) (72) (60)) by (5)"></li>
+                <li>Try playing the result reported by your <code>transpose by</code> block with several different shift numbers.</li>
+                <li>
+                	Use your <code>transpose by</code> block to hear what it does to each of the two scales and the song. For example, try: <br />
+   <img src="/bjc-r/img/2-complexity/twinkle-transposed.es.png"  alt="for each (item) of (transpose (twinkle twinkle little star) by (7)) [play note ( ) for (0.5) beats]">             </li></ol>
+                </li>
+                <li>To <em>invert</em> a melody means to make a new melody in which each increase in pitch becomes a decrease, and vice versa.  So, the result of inverting the notes <var>{60, 64, 67, 72, 60}</var> would be <var>{60, 56, 53, 48, 60}</var>.  (From 60 to 64 is a move up by 4, so in the result we move <em>down</em> by 4 to get 56, and so on.)
+			</ol>
+		</div>
+        
+        <div class="takeItFurther">
+        <ol start="A">
+        <li>Can you tell what this block of code does?  Build it and listen to the inverted version of the song "Twinkle Twinkle Little Star".<br />
+        <img class="indent" src="/bjc-r/img/2-complexity/Map-Music_img/invertCode.es.png" height="175" alt=""/><br />
+        </li>
+        <li>Wikipedia defines a <em><strong>round</strong></em> (also called a perpetual canon) as " a musical composition, in which a minimum of three voices sing exactly the same melody at the unison (and may continue repeating it indefinitely), but with each voice beginning at different times so that different parts of the melody coincide in the different voices, but nevertheless fit harmoniously together".  Study the following block of code and identify what each part of the code does.  Then build this block and try it on the song "Twinkle Twinkle Little Star" with an appropriate delay value.<br />
+        
+        <img class="indent" src="/bjc-r/img/2-complexity/Map-Music_img/roundCode.es.png" height="250" alt=""/>
+       <br />
+       <li>A song like "Row Row Row Your Boat" might be more suitable for a <strong><em>round</em></strong>.  Open <a class="run" href="/bjc-r/prog/2-complexity/Music Row Row Row.xml">this file</a>, study it and create a version of the <code>round</code> block that will accomodate the <var>pitch</var> and <var>length</var> parameters of each note of the song.</li>
+       </li>
+        </ol>
+        </div>
+</body>
+</html>

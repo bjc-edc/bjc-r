@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unidad 3 Laboratorio 2: Lista de contactos, página 1</title>
+    </head>
+
+    <body>
+		<h2>Crear el ADT de Contacto</h2>
+        <div class="learn">
+        	<p><strong>En esta práctica de laboratorio,</strong> desarrollará una aplicación de base de datos de lista de contactos como la de su teléfono.</p>
+        	<p><strong>En esta página,</strong> desarrollará un <strong>Tipo de datos abstractos</strong> para almacenar y acceder a <em>datos de contacto</em> (nombre, dirección, número de teléfono, etc.). </p>
+        </div>
+
+        <div class="takeNote">
+            <h4><strong>Preservar la Privacidad</strong></h4>
+            <p>Los proyectos Snap<em>!</em>no son seguros. No utilices tu información personal ni la de tus compañeros.</p>
+        </div>
+        <h3>Configuración de la Lista de Contactos</h3>
+        <div class="forYouToDo" id="first">
+            <ol>
+				<li>
+                    <a class="run" href="/bjc-r/prog/3-lists/U3L2-ContactList.xml"><img class="inline" src="/bjc-r/img/icons/load-save.es.png" alt="Haga clic aquí para cargar este archivo. ¡Luego guárdalo en tu Snap! cuenta." title="Haga clic aquí para cargar este archivo. ¡Luego guárdalo en tu Snap! cuenta."></a>
+                </li>
+                <li>Cree una variable global de <var>lista de contactos</var>.</li>
+                <li>Inicialice la <var>lista de contactos</var> como una lista vacía.</li>
+            </ol>
+		</div>
+        <div class="takeNote">
+            <h4><strong>¿Por qué mundial?</strong></h4>
+            <strong>Varias secuencias de comandos</strong> en todo el proyecto <strong>utilizarán esta variable</strong>, por lo que no debe adjuntarse a una sola secuencia de comandos como una variable de secuencia de comandos local.
+        </div>
+
+
+        <h3>Creando el ADT</h3>
+        <div class="dialogue">
+            <div class="stagedir">Betsy y Gamal planean crear una lista de contactos en Snap<em>!</em>.</div>
+            <div><span>Betsy:</span> Necesitamos una forma de agregar un contacto a nuestra <var>lista de contactos</var>.</div>
+            <div><span>Gamal:</span> Cada contacto será una lista que con el nombre de una persona, número de teléfono, dirección, correo electrónico, o lo que sea que escribamos.</div>
+            <div><span>Betsy:</span> <a href="/bjc-r/cur/programming/2-complexity/2-data-structures-art/2-quizzes.es.html?topic=nyc_bjc%2F2-conditionals-abstraction.es.topic&course=bjc4nyc.es.html&novideo&noassignment" title="En la Unidad 2, creamos un tipo de datos abstractos de elementos de prueba">En la Unidad 2, creamos un <code>elemento de prueba</code> tipo de datos abstractos</a> para almacenar las preguntas y respuestas en una lista de elementos de prueba. Aquí, podemos crear un tipo de datos abstractos <code>contact</code> para almacenar los datos de cada contacto en nuestra lista de contactos.</div>
+            <div><span>Gamal:</span> Sí. En este proyecto, necesitaremos un constructor <code>contact</code> y luego selectores para acceder al <code>name</code>, <code>address</code> y <code>phone number</code> para cualquier contacto dado.</div>
+		</div>
+
+        <div class="forYouToDo">
+            <ol start="4">
+                <li>
+                    <div class="sidenoteBig">
+                        <strong>Atajo:</strong> puedes pegar el siguiente texto en la ventana "Crear un bloque" para construir el bloque más rápidamente.
+                        <p style="margin-left:25px;"><code>contacto con nombre: %nombre dirección: %dirección teléfono: %teléfono</code></p>
+                        Los signos de porcentaje (%) hacen que esas palabras se conviertan en variables de entrada.
+                    </div>
+                    Cree un <code>contacto</code> <em>constructor</em> que acepte tres datos como entrada: el <var>nombre</var> del contacto, el <var>número de teléfono</var> y <var>dirección</var>. <br />
+                    <img class="indent" src="/bjc-r/img/3-lists/contact-constructor-untyped.es.png" alt="contacto con nombre: () dirección: () teléfono: ()" title="contact with name: () address: () phone: ()" /><br />
+                    Debe informar un contacto completo (una lista de los tres elementos):<br />
+					<img class="indent" src="/bjc-r/img/3-lists/contact-constructor-reporting.es.png" alt="contacto con nombre: (Betsy) dirección: (123 Main St. #4, New York, NY 10001) teléfono: (212-555-1234) informa {Betsy Anderson; 123 Main St. #4, Nueva York, NY 10001; 212-555-1234}" title="contact with name: (Betsy Anderson) address: (123 Main St. #4, New York, NY 10001) phone: (212-555-1234) reporting {Betsy Anderson; 123 Main St. #4, New York, NY 10001; 212-555-1234}" /><br />
+                </li>
+                <li>
+                    Escriba los bloques <em>selector</em> para recuperar el <code>nombre del contacto</code>, <code>dirección del contacto</code> o <code>teléfono del contacto</code>.
+                    <img class="indent" src="/bjc-r/img/3-lists/contact-constructor-in-name-selector.es.png" alt="nombre de contacto (bloque de contacto con entradas) informes" title="contact name (contact block with inputs) reporting "><br />
+                    <img class="indent" src="/bjc-r/img/3-lists/contact-constructor-in-address-selector.es.png" alt="dirección de contacto (bloque de contacto con entradas) informes" title="contact address (contact block with inputs) reporting "><br />
+                    <img class="indent" src="/bjc-r/img/3-lists/contact-constructor-in-phone-selector.es.png" alt="teléfono de contacto (bloque de contacto con entradas) informes" title="contact phone (contact block with inputs) reporting ">
+                    <div class="takeNote">
+                        <div class="sidenote">Aprendió sobre tipos de entrada y tipos de salida (dominio y rango) en<a href="/bjc-r/cur/programming/2-complexity/3-predicates/1-what-is-predicate.es.html?topic=nyc_bjc%2F2-conditionals-abstraction.es.topic&course=bjc4nyc.es.html&novideo&noassignment" title="Unit 2 Lab 3 Page 1: What's a Predicate?">Unidad 2 Laboratorio 3 Página 1: ¿Qué es un predicado?</a>.</div>
+                        <p>Es importante asegurarse de que sus entradas a una función coincidan con el tipo de entrada esperado. Por ejemplo, el tipo de entrada de <code>dirección de contacto</code> coincide con el tipo de salida de <code>contact</code>; ambos son del tipo "contacto".</p>
+                        <p>Si llama a <code>dirección de contacto</code> con una entrada que no coincide, como una <em>lista</em> de contactos (por ejemplo, la variable <var>lista de contactos</var> o el resultado de ejecutar <code>mantener</code> y tener un subconjunto de esa lista), no funcionará. Eso puede sonar obvio, pero de hecho, los programadores principiantes cometen errores como ese todo el tiempo; tienes que aprender a pensar en los tipos de entrada y salida de tus funciones cada vez que escribes o usas una.</p>
+                        <p>Eso también es cierto acerca de las entradas al constructor <code>contact</code>; no puede poner algo que no sea un nombre en la entrada de nombre para <code>contact</code>.</p>
+                    </div>
+                    <div class="endnote">
+                        <p>
+                            Es algo artificial usar el constructor como entrada para un selector; estas imágenes son solo ejemplos para mostrar lo que los selectores deberían poder hacer cuando se les da un contacto como entrada. En <em>su</em> programa, los selectores tomarán un elemento de la lista de contactos como entrada y generarán la parte correcta de ese contacto, así:<br />
+                            <img class="indent" src="/bjc-r/img/3-lists/address-from-contact-item-1-of-contact-list-reporting.es.png" alt="dirección del contacto (elemento (1) de (lista de contactos)) que informa '123 Main St. #4, New York, NY 10001'" title="address from contact (item (1) of (contact list)) reporting '123 Main St. #4, New York, NY 10001'" />
+                        </p>
+                    </div>
+                </li>
+		        <li>
+                    Declare tipos de entrada para cada selector para que sea obvio que esperan una lista (un contacto completo) como entrada.<br />
+                    <img class="indent" src="/bjc-r/img/3-lists/name-selector.es.png" alt="nombre del contacto: ()" title="name from contact: ()" />
+                    <img class="indent" src="/bjc-r/img/3-lists/address-selector.es.png" alt="dirección de contacto: ()" title="address from contact: ()" />
+                    <img class="indent" src="/bjc-r/img/3-lists/phone-selector.es.png" alt="telefono de contacto: ()" title="phone from contact: ()" />
+                    <div class="endnote"> Aprendió a especificar un tipo de entrada en<a href="/bjc-r/cur/programming/2-complexity/2-data-structures-art/2-quizzes.es.html?topic=nyc_bjc%2F2-conditionals-abstraction.es.topic&course=bjc4nyc.es.html&novideo&noassignment#input-type" title="Unit 2 Lab 2 Page 2: Planning a Quiz App">Unidad 2 Laboratorio 2 Página 2: Planificación de una aplicación de prueba</a>.</div>
+                </li>
+                <li>
+                    Pruebe sus bloques juntos y depure cualquier problema.
+                    <ol>
+                        <li>Primero, coloque el constructor (con valores de entrada) dentro de cada selector (como se muestra arriba) para probar que cada uno de ellos informe la información correcta.</li>
+                        <li>
+                            Luego, use el constructor <code>contact</code> para <code>agregar</code> algunos contactos a su lista de contactos.
+                            <div class="endnote">
+                                Puedes usar estos ejemplos o crear los tuyos propios:
+                                <table class="bordered" summary="three example contacts">
+                                    <tr>
+                                        <th scope="col">nombre</th>
+                                        <th scope="col">dirección</th>
+                                        <th scope="col">telefono</th>
+                                    </tr>
+                                    <tr>
+                                        <td style="white-space: nowrap;">Betsy Anderson</td>
+                                        <td style="white-space: nowrap;">123 Main St. #4, Nueva York, NY 10001</td>
+                                        <td style="white-space: nowrap;">212-555-1234</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="white-space: nowrap;">Alphie Preston</td>
+                                        <td style="white-space: nowrap;">149 E. 16th Ave., Sunnyvale, CA 94089</td>
+                                        <td style="white-space: nowrap;">408-555-6789</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="white-space: nowrap;">Gamal Abdel</td>
+                                        <td style="white-space: nowrap;">369 Center St., Boston, MA 02130</td>
+                                        <td style="white-space: nowrap;">617-555-1098</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </li>
+                        <li>Observe cómo aparecen sus contactos en la lista. </li>
+						<div class="endnote">
+                        Si no recuerda la vista de tabla y la vista de lista,
+						volver a visitar <a href="/bjc-r/cur/programming/2-complexity/2-data-structures-art/2-quizzes.es.html#two-views?topic=nyc_bjc%2F2-conditionals-abstraction.es.topic&course=bjc4nyc.es.html&novideo&noassignment">pagina 2.2.2</a>.
+						</div>
+						<li>
+                            Prueba a seleccionar el <code>nombre</code>, <code>dirección</code> o <code>teléfono</code> de un contacto de tu lista.<br />
+                            <img class="indent" src="/bjc-r/img/3-lists/name-from-contact-random-reporting.es.png" alt="nombre del contacto: (elemento (aleatorio) de (lista de contactos)) informando a Alphie Preston" title="name from contact: (item (random) of (contact list)) reporting Alphie Preston" />
+                        </li>
+                        <img class="imageRight" src="/bjc-r/img/icons/save-mini.es.png" alt="Guarda tu Trabajo" title="Save Your Work" />
+                        <li><strong>Depurar</strong> cualquier problema.</li>
+                    </ol>
+                </li>
+                <div class="comment">AAP-1.D parte b</div>
+                <li>
+                    <img class="inline" src="/bjc-r/img/icons/write-out-thoughts.es.png" alt="Escriba sus pensamientos" title="Write Out Your Thoughts" />
+                    Escriba cómo el uso de un tipo de datos abstracto ayuda a gestionar la complejidad de su programa.
+                </li>
+            </ol>
+        </div>
+
+
+	</body>
+</html>

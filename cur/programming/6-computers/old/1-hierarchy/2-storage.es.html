@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Lab 1: Computer Abstraction Hierarchy, Page 2</title>
+	</head>
+
+	<body>
+		<h2>Data Storage and Protection</h2>
+		<div class="todo">
+        <p><strong>Why this?</strong> We need to cover the standards under 3.3.1 that are listed below.</p>
+        <p><strong>Why here?</strong> Data storage flows (or should flow, we hope) nicely from the basics of computer hardware and should (especially if we keep the content here copied from Binary Sequences) flow into data processing. As those pages come together, it will be easier to see how well this story will work.</p>
+        <p><strong>Note:</strong> I split the remaining content from Binary Sequences into the next two pages: Storing Integers and Floating Point. I'm not intent on them being in Lab 1, but I wanted us to consider the posibility that they fit here.</p>
+        </div>
+		<div class="todo">
+            <p>3.3 There are trade offs when representing information as digital data.</p>
+            <p>3.3.1 Analyze how data representation, storage, security, and transmission of data involve computational manipulation of information. [P4]</p>
+            <p>3.3.1A Digital data representations involve trade offs related to storage, security, and privacy concerns.</p>
+            <p>3.3.1B Security concerns engender tradeoffs in storing and transmitting information.</p>
+            <div class="comment">Might move 3.3.1C-E to a separate page.</div>
+            <p>√ 3.3.1C There are trade offs in using lossy and lossless compression techniques for storing and transmitting data.</p>
+            <p>√ 3.3.1D Lossless data compression reduces the number of bits stored or transmitted but allows complete reconstruction of the original data.</p>
+            <p>√ 3.3.1E Lossy data compression can significantly reduce the number of bits stored or transmitted at the cost of being able to reconstruct only an approximation of the original data.</p>
+            <p>3.3.1F Security and privacy concerns arise with data containing personal information.</p>
+            <p>3.3.1G Data is stored in many formats depending on its characteristics (e.g., size and intended use)</p>
+            <p>3.3.1H The choice of storage media affects both the methods and costs of manipulating the data it contains.</p>
+            <p>3.3.1I Reading data and updating data have different storage requirements.</p>
+        </div>
+
+		<div class="learn">
+        	<p><strong>On this page,</strong>...</p>
+        </div>
+
+        <div class="comment">This section came from the <a href="/bjc-r/cur/programming/6-computers/old/1-number-representation/2-binary-sequences.es.html?topic=nyc_bjc%2F6-how-computers-work.es.topic&course=bjc4nyc.es.html&novideo&noassignment">Binary Sequences</a> page. </div>
+
+		<p>All data is stored in sequences of binary (ones and zeros), and how any binary sequence is interpreted depends on how it will be used. Binary sequences are used to represent instructions to the computer and various types of data depending on the context.</p>
+        <p>Computers store information in binary using <strong>bits</strong> and <strong>bytes</strong>. A bit is a "0" or "1". A byte is eight bits grouped together like 10001001. </p>
+		<!--<div class="endnote">Bytes have 8 places, so the left-most place is 2<sup>7</sup> (or 128). <!--Practice what you've learned: What is 10001001<sub>2</sub> in base 10?- -></div>-->
+        <div class="vocabFullWidth"><strong>: Binary Sequence</strong>
+            <p><em>Every</em> kind of information in the computer—whether it is a number, text, list, or an instruction to perform—is stored as a sequence of 0s and 1s (a <strong>binary sequence</strong>). So, for a program to work, the computer needs to be told how to interpret any such sequence of 0s and 1s.</p>
+        </div>
+
+        <div class="sidenote">If your connection blocks YouTube, <a href="http://scratch.mit.edu/discuss/youtube/ZhEf7e4kopM" target="_blank">watch the video here</a>.</div>
+		<img class="imageRight" src="/bjc-r/img/icons/headphones-mini.es.png" alt="Set Up Your Headphones or Speakers" title="Set Up Your Headphones or Speakers" />
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/ZhEf7e4kopM?rel=0" frameborder="0" allowfullscreen class="indent"></iframe>
+		<div class="vocabFullWidth">
+            <ul>
+                <li><strong>bit</strong> &ndash; a single unit of data that can only have one of two values (such as a 1 or 0)</li>
+                <li><strong>bit rate</strong> &ndash; the amount of data (measured in bits) that can be sent in a specific amount of time</li>
+                <li><strong>bandwidth</strong> &ndash; the transmission capacity of a system (measured by bit rate)</li>
+                <li><strong>latency</strong> &ndash; time between the transmission and the receipt of a message</li>
+            </ul>
+        </div>
+
+		<p>As computers become more powerful, they are capable of handling more information. We used to measure computer memory in <em>kilobytes</em>; one kilobyte is 2<sup>10</sup> (1,024) bytes, which is about 10<sup>3</sup>, so we call it a "kilo". These days, your computer memory is likely to be measured in <em>megabytes</em>. One megabyte is 2<sup>20</sup> (about 1 million) bytes.</p>
+        <p>Your hard drive space is likely to be measured in gigabytes, terabytes, or even petabytes. One <em>gigabyte</em> is 2<sup>30</sup> (about 1 billion) bytes, one <em>terabyte</em> is 2<sup>40</sup> (about 1 trillion) bytes, and one <em>petabyte</em> is 2<sup>50</sup> (about 1 quadrillion) bytes.</p>
+
+        <p>
+            Here's a BJC video about data size measurement from University of California, Berkeley.<br />
+            <img class="imageRight" src="/bjc-r/img/icons/headphones.es.png" alt="Set Up Your Headphones or Speakers" title="Set Up Your Headphones or Speakers" />
+        </p>
+        <div class="sidenote">If your connection blocks YouTube, <a href="http://scratch.mit.edu/discuss/youtube/9x1hMBT3hkU" target="_blank">watch the video here</a>.</div>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/9x1hMBT3hkU?rel=0" frameborder="0" allowfullscreen class="indent"></iframe><br />
+
+        <div class="endnote">
+            <table class="byte indent">
+                <tr>
+                    <td><strong>measure</strong></td>
+                    <td style="width:300px;"><strong>amount</strong></td>
+                    <td style="width:300px;"><strong>example</strong></td>
+                </tr>
+                <tr>
+                    <td>bit</td>
+                    <td>either a 1 or a 0</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>byte</td>
+                    <td>8 bits</td>
+                    <td>11011001</td>
+                </tr>
+                <tr>
+                    <td>kilobyte</td>
+                    <td>2<sup>10</sup> (1,024) bytes</td>
+                    <td>a couple of paragraphs</td>
+                </tr>
+                <tr>
+                    <td>megabyte</td>
+                    <td>2<sup>20</sup> (1,048,576) bytes</td>
+                    <td>about 1 book</td>
+                </tr>
+                <tr>
+                    <td>gigabyte</td>
+                    <td>2<sup>30</sup> (1,073,741,824) bytes</td>
+                    <td>a little more than 1 CD</td>
+                </tr>
+                <tr>
+                    <td>terabyte</td>
+                    <td>2<sup>40</sup> (1,099,511,627,776) bytes</td>
+                    <td>about 1,500 CDs</td>
+                </tr>
+                <tr>
+                    <td>petabyte</td>
+                    <td>2<sup>50</sup> (1,125,899,906,842,624) bytes</td>
+					<td>about 20 million filing cabinets of text</td>
+                </tr>
+            </table>
+        </div>
+
+
+        <h3>Cloud Storage</h3>
+        <p>Locally (on your computer), the binary sequences that make up data are temporarily stored in RAM and are stored long-term on your hard drive, but they can also be stored in <strong>the cloud</strong>. "The cloud" just means "on the Internet." You have been using the cloud throughout this whole course! All of your Snap<em>!</em> projects are stored in the cloud; they aren't on your local computer. That's why you have to log in to access your projects. Similarly, if you use Google Drive or Dropbox, all of those files are stored in the cloud. And if you use a web-based email service (like Gmail or Yahoo), your emails are stored in the cloud. <p>
+            Here's a BJC video about storage for big data from University of California, Berkeley.<br />
+            <img class="imageRight" src="/bjc-r/img/icons/headphones.es.png" alt="Set Up Your Headphones or Speakers" title="Set Up Your Headphones or Speakers" />
+        </p>
+        <div class="sidenote">If your connection blocks YouTube, <a href="http://scratch.mit.edu/discuss/youtube/OGglaiZihZA" target="_blank">watch the video here</a>.</div>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/OGglaiZihZA?rel=0&end=282" frameborder="0" allowfullscreen class="indent"></iframe><br />
+
+        <div class="forYouToDo" id="first">
+			<ol>
+				<li>
+                	These questions are similar to those you will see on the AP CSP exam.
+                    <!-- Question 1 -->
+                    <div class="assessment-data" type="multiplechoice" identifier="cloud computing"
+                        hasinlinefeedback="true" maxchoices="1" responseIdentifier="ri1" shuffle="true">
+                        <div class="prompt">Which of the following is <em><strong>not</strong></em> an advantage of storing data using <em>cloud computing</em>?</div>
+                        <div class="choice" identifier="c1">
+                            <div class="text">Prevents loss of data due malfunction of user’s personal computer.</div>
+                            <div class="feedback">This is a main advantage of cloud computing.</div>
+                        </div>
+                        <div class="choice" identifier="c2">
+                            <div class="text">Easy to scale up from individual use to implementation by large companies.</div>
+                            <div class="feedback">This is a main advantage of cloud computing.</div>
+                        </div>
+                        <div class="choice" identifier="c3">
+                            <div class="text">Has potential to be environmentally friendly due to many users efficiently sharing large systems and resources.</div>
+                            <div class="feedback">This is a main potential advantage of cloud computing.</div>
+                        </div>
+                        <div class="choice" identifier="c4">
+                            <div class="text">Improved security and privacy over storing data on a personal computer.</div>
+                            <div class="feedback">Correct, there are no security or privacy guarantees that come with cloud computing.</div>
+                        </div>
+                        <div class="responseDeclaration" identifier="ri1">
+                            <div class="correctResponse" identifier="c4"></div>
+                        </div>
+                    </div>
+                </li>
+			</ol>
+		</div>
+
+
+
+
+        <div class="todo">Consider doing a page break here.</div>
+		<h3>Data Compression</h3>
+        <p>
+            Here's a BJC video about data compression from University of California, Berkeley.<br />
+            <img class="imageRight" src="/bjc-r/img/icons/headphones.es.png" alt="Set Up Your Headphones or Speakers" title="Set Up Your Headphones or Speakers" />
+        </p>
+        <div class="sidenote">If your connection blocks YouTube, <a href="http://scratch.mit.edu/discuss/youtube/OGglaiZihZA" target="_blank">watch the video here</a>. (This is the end of the same video shown above.)</div>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/OGglaiZihZA?rel=0&start=283" frameborder="0" allowfullscreen class="indent"></iframe><br />
+
+        <p>
+            Data compression is used to store data more compactly, but it can reduce quality. Here are some extreme examples:<br />
+            <img class="indent noshadow" src="/bjc-r/img/6-computers/bjc-logo-original.es.png" alt="BJC logo uncompressed" title="BJC logo uncompressed" />
+            <img class="indent noshadow" src="/bjc-r/img/6-computers/bjc-logo-compressed.jpg" alt="BJC logo JPG compressed" title="BJC logo JPG compressed" />
+            <img class="indent noshadow" src="/bjc-r/img/6-computers/bjc-logo-compressed.gif" alt="BJC logo GIF compressed" title="BJC logo GIF compressed" />
+            <div class="sidenote">JPG is pronounced "jay-peg." According to its creator, GIF is correctly pronounced "jif," like the brand of peanut butter, but it is more commonly pronounced with a hard G, like in the word "gap."</div>
+            <ul>
+                <li>The first is a PNG, a lossless compression method. This is how we store the original BJC logo.</li>
+                <li>The second is a JPG, a lossy compression method. Notice the blurry artifacts around the letters.</li>
+                <li>The third is a GIF, another lossy compression method. Notice the artifacts in the letter C; the range of colors has been limited significantly.</li>
+            </ul>
+            <p>Both JPG and GIF are commonly used on the Internet to reduce the amount of time it takes to load each image so that webpages load quickly even on slow connections. The examples above are extremely compressed to show the kinds of artifacts that can occur with each form of lossy compression.</p>
+        </p>
+
+        <div class="vocabFullWidth"><strong>: Lossy vs. Lossless</strong>
+            <p><strong>Lossless</strong> compression (like PNG) is <em>reversible</em> (there is no loss in quality); you can reconstruct the original data. It works by removing redundant data.</p>
+            <p><strong>Lossy</strong> compression (like GIF or JPG) is <em>not</em> fully reversible; you can only reconstruct an <em>approximation</em> of the original data. It works by removing irrelevant data (details that people aren't likely to notice).</p>
+            <p>There are trade-offs with each technique: lossless compression maintains the original data but might not be able to compress the data much or at all; lossy compression often results in a smaller file but may have artifacts (quality issues from the compression).</p>
+		</div>
+
+        <div class="forYouToDo">
+			<ol start="2">
+				<li><strong>Observe different video compression rates. </strong>Go to a video site (like <a href="http://vimeo.com" target="_blank">vimeo.com</a> or <a href="http://youtube.com" target="_blank">youtube.com</a>), start watching a video, and experiment with different video qualities in the settings menu (<img class="" src="/bjc-r/img/6-computers/video-setting.es.png" alt="settings" title="settings" />) at the bottom right of the video.<br />
+                <img class="indent" src="/bjc-r/img/6-computers/video-setting-vimeo.es.png" alt="video quality settings on Vimeo" title="video quality settings on Vimeo" />
+                <img class="indent" src="/bjc-r/img/6-computers/video-setting-youtube.es.png" alt="video quality settings on YouTube" title="video quality settings on YouTube" />
+                </li>
+			</ol>
+		</div>
+
+
+
+
+	</body>
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unidad 7 Laboratorio 1: Árboles en un bosque, página 2</title>
+	</head>
+
+	<body>
+		<h2>El caso base</h2>
+        <div class="todo">
+            <p>PG: Change. I also really dispute leading people down the garden path. This is a common error, but we should not mandate it. If we're going to be didactic, we should not didact in the wrong direction.</p>
+            <p>I agree with Paul. This is not good pedagogy. I'd be find to have Alpha, Betsy, and Gamal run into and discuss this bug, but it's not ok to handhold kids into doing the wrong thing. --MF, 4/3/19</p>
+        </div>
+
+        <div class="sidenote">Un script que se contiene a sí mismo es <em>recursivo</em> .</div>
+        <p>
+            Parecía tener sentido reemplazar todas las secuencias de comandos de árbol numeradas similares con una única secuencia de comandos recursiva con la misma estructura:<br />
+            <img src="/bjc-r/img/7-recursion/tree-2-script.es.png" height="267" alt="tree2 size:(size#){move(size) steps; turn counterclockwise (25) degrees; tree 1 size:(size*0.65); turn clockwise(25) degrees; turn clockwise(35) degrees; tree 1 size:(size*0.85); turn counterclockwise (35); move(-1*size) steps}" title="tree2 size:(size#){move(size) steps; turn counterclockwise (25) degrees; tree 1 size:(size*0.65); turn clockwise(25) degrees; turn clockwise(35) degrees; tree 1 size:(size*0.85); turn counterclockwise (35); move(-1*size) steps}">&nbsp;
+            <img src="/bjc-r/img/7-recursion/tree-3-script.es.png" height="267" alt="tree 3 size:(size#){move(size) steps; turn counterclockwise (25) degrees; tree 2 size:(size*0.65); turn clockwise(25) degrees; turn clockwise(35) degrees; tree 2 size:(size*0.85); turn counterclockwise (35); move(-1*size) steps}" title="tree 3 size:(size#){move(size) steps; turn counterclockwise (25) degrees; tree 2 size:(size*0.65); turn clockwise(25) degrees; turn clockwise(35) degrees; tree 2 size:(size*0.85); turn counterclockwise (35); move(-1*size) steps}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ... &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <img src="/bjc-r/img/7-recursion/recursiveTree-wo-base.es.png" height="267"  alt="tree level:(level#) size:(size#){move(size) steps; turn counterclockwise (25) degrees; tree level:(level-1) size:(size*0.65); turn clockwise(25) degrees; turn clockwise(35) degrees; tree level:(level-1) size:(size*0.85); turn counterclockwise (35); move(-1*size) steps}" title="tree level:(level#) size:(size#){move(size) steps; turn counterclockwise (25) degrees; tree level:(level-1) size:(size*0.65); turn clockwise(25) degrees; turn clockwise(35) degrees; tree level:(level-1) size:(size*0.85); turn counterclockwise (35); move(-1*size) steps}" >
+        </p>
+        <!-- 	<p>We first tried to build the recursive tree by using the same script as for <code>tree2</code>, <code>tree3</code>, etc. and replacing the call to a lower-level tree with a call to <code>tree</code> itself but with a lower level input, like this:<br />
+        <img class="indent" src="/bjc-r/img/6-recursion/tree-recursive-call.es.png" alt="tree level: (level - 1) size: (size × 0.65)" title="tree level: (level - 1) size: (size × 0.65)" />
+        </p>    -->
+        <p>
+            Pero no funcionó:<br />
+            <!--<img class="indent" src="/bjc-r/img/6-recursion/tree-nobase.es.png" alt="buggy tree block definition" title="buggy tree block definition" />  -->
+            <img class="indent" src="/bjc-r/img/7-recursion/treebug.gif" alt="Tree drawing never terminates, stuck at a single branch" title="Tree drawing never terminates, stuck at a single branch" />
+        </p>
+        <div class="dialogue">
+        	<div>
+                <span>Betsy:</span>  <strong>¡Aaarghhh! ¿Qué está yendo mal?!!</strong>
+            </div>
+        	<div>
+                <span>Alphie:</span> ¡Nunca se detiene!
+            </div>
+        	<div>
+                <span>Gamal:</span> Después de girar a la izquierda, debería formar un árbol más pequeño, pero luego <em>se supone</em> para terminar y girar a la derecha y hacer un árbol, allí también.
+			</div>
+        	<div>
+                <span>Betsy:</span> Oh, <em>cierto</em>, Gamal! No va <em>bien</em>!
+            </div>
+        	<div>
+                <span>Gamal:</span> Sí, en cada llamada recursiva a <code>árbol</code>, el sprite dibuja ramas izquierdas cada vez más pequeñas hasta que parece estar girando en un solo lugar. Nunca dibuja una rama derecha para terminar el árbol en el que está trabajando.
+			</div>
+        	<div>
+                <span>Alphie:</span> Lo entiendo. el original numerado <code>árbol 1</code>, <code>árbol 2</code>, etc. bloques <em>no son</em> todos iguales. El primero, <code>árbol 1</code>,es diferente; simplemente dibuja una línea, <em>sin ramas</em>, y vuelve a poner el sprite donde empezó.
+                <p>
+                	<em>Alphie señala el <code>árbol 1</code> código y a la figura que dibuja.</em><br />
+                	<img class="indent" src="/bjc-r/img/7-recursion/tree1.es.png" alt="tree 1 size:(size#){move(size) steps; move(-1*size) steps}" title="tree 1 size:(size#){move(size) steps; move(-1*size) steps}"  />
+                    <img class="indent" src="/bjc-r/img/7-recursion/tree-level1.es.png" alt="tree1 result: Trunk of tree drawn" title="tree1 result: Trunk of tree drawn"  />
+                </p>
+            </div>
+        	<div>
+                <span>Betsy:</span> <strong>¡Así que nuestra recursivo <code>árbol</code> bloque tiene que hacer algo <em>diferente</em> cuando el <var>nivel = 1</var>!</strong>
+            </div>
+        	<div>
+                <span>Gamal:</span> ¡Sí! Tiene que dibujar solo una línea sin agregar otra rama.
+            </div>
+
+			<div class="takeNote">Esta versión diferente para el nivel más bajo de un script recursivo se denomina <strong>caso base</strong>.</div>
+
+            <div>
+                <span>Betsy:</span> Pensemos en un árbol simple para descubrir cómo debe funcionar este "caso base". Veamos el<code> árbol 3</code> con tamaño 40.<br />
+                <img src="/bjc-r/img/7-recursion/tree-3-script.es.png" alt="tree 3 size:(size#){move(size) steps; turn counterclockwise (25) degrees; tree 2 size:(size*0.65); turn clockwise(25) degrees; turn clockwise(35) degrees; tree 2 size:(size*0.85); turn counterclockwise (35); move(-1*size) steps}" title="tree 3 size:(size#){move(size) steps; turn counterclockwise (25) degrees; tree 2 size:(size*0.65); turn clockwise(25) degrees; turn clockwise(35) degrees; tree 2 size:(size*0.85); turn counterclockwise (35); move(-1*size) steps}">
+                <img class="indent" src="/bjc-r/img/7-recursion/tree3-call.es.png" alt="clear; point in direction (0); pen down; tree 3 size:(40)" title="clear; point in direction (0); pen down; tree 3 size:(40)"  />
+            </div>
+            <div><span>Alphie:</span> Bien, después de despejar el escenario, apuntar hacia arriba y dejar el bolígrafo, el sprite se moverá 40 pasos y luego girará 25.&deg; izquierda. Y luego llamará <code>árbol 2</code> con un tamaño más pequeño.</div>
+            <div><span>Betsy:</span> Corecto. Y<code>árbol 2</code>, que es casi lo mismo, se moverá, girará y luego llamará <code>árbol 1</code>, quw <em>simplemente dibuja una línea y vuelve</em>. Entonces, <code>árbol 2</code> le dice al sprite que gire a la derecha 60&deg; y dibuja otro pequeño <code>árbol 1</code> y....</div>
+            <div> <span>Gamal:</span> Si, y porque <code>árbol 1</code> acaba, <em>eso permite <code>árbol 2</code> que acabe!</em> Entonces, se verá así cuando <code>árbol 2</code> acabe:</div>
+            <div class="stagedir"><img src="/bjc-r/img/7-recursion/tree3-drawing-partial.jpg" height="100" alt="drawing of tree 3 after the first tree 2 is called" title="drawing of tree 3 after the first tree 2 is called" /></div>
+            <div><span>Alphie:</span> Sí. Y luego el <code>árbol 3</code> el guion gira a la derecha 60&deg; y usa todo el script <code>árbol 2</code> nuevamente para crear el otro lado. Luego retrocederá 35&deg;. y retroceder hasta el principio.</div>
+            <div class="stagedir"><img src="/bjc-r/img/7-recursion/tree3-drawing-complete.jpg" alt="drawing of tree3 after the second tree 2 is called" title="drawing of tree 3 after the second tree 2 is called" /></div>
+            <div><span>Betsy:</span> Así es como <code>árbol 3</code> se acaba. hora, sobre ese "caso base" para el script <code>árbol</code> recursivo... El caso base es el nivel más bajo de la recursividad, así que es como el <code>árbol 1</code>. </div>
+            <div><span>Alphie:</span> Sí, el <code>árbol 1</code> solo dibuja una línea y no intenta hacer otro árbol.</div>
+            <div><span>Betsy:</span> Por lo tanto, necesitamos nuestro bloque <em>recursivo</em> <code>árbol</code> para dibujar una línea en el nivel 1 en lugar de hacer más árboles pequeños para siempre.</div>
+		</div>
+
+		<div class="forYouToDo" id="first">
+            <ol>
+                <li>
+                    Corrija su bloque recursivo <code>árbol</code> para que incluya un caso base para evitar que el script se llame a sí mismo para siempre. Aquí hay dos formas en que podrías hacer eso, y hay más. Usa lo que tenga más sentido para ti.<br />
+                <img src="/bjc-r/img/7-recursion/logic-inside-recursive-tree-v1.es.png" width="405" height="363" alt="if(level=1){move(size) steps; move(-1*size) steps}else{...Build more branches...}" title="if(level=1){move(size) steps; move(-1*size) steps}else{...Build more branches...}">  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <img src="/bjc-r/img/7-recursion/logic-inside-recursive-tree-v2.es.png" width="405" height="339" alt="move(size) steps; if(level>1){...Build more branches...}; move(-1*size) steps" title="move(size) steps; if(level>1){...Build more branches...}; move(-1*size) steps"></li>
+                <li>
+                	Ejecute <code>nivel de árbol: 9 tamaño: 50</code>. Si ahora funciona correctamente, debería obtener un resultado como este:<br />
+					<img class="indent" src="/bjc-r/img/7-recursion/tree-level9.jpg" alt="Tree with trunk and 8 levels of branches" title="Tree with trunk and 8 levels of branches"/>
+                </li>
+                <li>El tiempo que lleva dibujar el árbol aumenta <em>muy</em> rápidamente con la cantidad de niveles, por lo que no recomendamos probar 20 niveles. Pero intente medir el tiempo del nivel 8 al nivel 12.</li>
+            </ol>
+		</div>
+
+        <div class="takeItFurther">
+            <ol type="A">
+            	<li><strong>Analizar:</strong> <code>árbol 1</code> produce solo un palo. ¿Cuántos palos (ramas) <em>nuevos</em> produce el <code>árbol 2</code>? Entonces, ¿cuántos <em>nuevos</em> produce el <code>árbol 3</code>? ¿Por <code>árbol 4</code>? Calcule cuántas ramitas nuevas se agregan en el nivel 10. Ahora puede ver por qué llevaría mucho tiempo dibujar el nivel 20.</li>
+            </ol>
+        </div>
+
+        <div class="takeNote">
+        	<img class="imageRight" src="/bjc-r/img/icons/take-turns-speaking-mini.gif" alt="Take turns speaking" title="Take turns speaking">
+            <p><em>Los scripts recursivos</em> se llaman a sí mismos. Para que se detengan, debe haber algún caso especial en el que <em>no</em> se llamen a sí mismos. Lo llamamos el <strong>caso base</strong>, una versión más simple del script que <em>no llama al bloque en sí mismo</em>.</p>
+            <p>Por lo general, hay un <em>condicional</em> (como <code>if-else</code>) con dos casos: un <em>caso base</em> para el nivel más bajo que detiene la recurrencia para siempre y un <strong>caso recursivo</strong> que llama al propio script una y otra vez en niveles inferiores hasta que llega al caso base.</p>
+            <p>Cuando un script <em>sigue</em> llamándose recursivamente a sí mismo para siempre (como cuando el sprite estaba dando vueltas en un solo lugar), eso es un error, y decimos que el programa está atascado en un <strong>bucle infinito</strong>.</p>
+        </div>
+
+        <div class="forYouToDo">
+            <ol start="4">
+      <!--          <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.es.png" alt="Talk with Your Partner" title="Talk with Your Partner" />Look at your corrected recursive <code>tree</code> script. Identify the <em>base case</em> and the <em>recursive case</em>, and discuss how recursion works in this script. </li>    -->
+                <li>
+                    Agrega una variable global <var>count</var>, incrementada primero en el bloque <code>árbol</code>, para registrar el número de veces que se llama a <code>árbol</code> cuando se ejecutan diferentes niveles. Haz una mesa. ¿Qué patrón encuentras?
+                    <table class="center bordered" summary="table showing the number of times that TREE runs (this number is labeled 'count') for a TREE of a given level">
+                        <tr>
+                            <th scope="col" style="font-weight:normal;"><var>level</var></th>
+                            <th scope="col" style="font-weight:normal;"><var>count</var></th>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>3</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>7</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>?</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>etc.</td>
+                            <td>etc.</td>
+                        </tr>
+                    </table>
+                </li>
+                <div class="endnote">Este es un ejemplo de crecimiento exponencial. Se considera que este tipo de crecimiento para un algoritmo toma <em>un tiempo irrazonable</em> como vio en <a href="/bjc-r/cur/programming/5-algorithms/old/3-timing-experiments/3-classifying-algorithms.es.html?topic=nyc_bjc%2F5-algorithms.es.topic&course=bjc4nyc.es.html&novideo&noassignment" title="Classifying Algorithms">Unidad 5 Práctica de laboratorio 3: Algoritmos de clasificación</a>. Es por eso que sugerimos <em>contra</em> probar 20 niveles. </div>
+            </ol>
+        </div>
+
+
+	</body>
+</html>

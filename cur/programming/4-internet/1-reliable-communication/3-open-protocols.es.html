@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unidad 4 Laboratorio 1: Redes informáticas, página 3</title>
+	</head>
+    
+    <body>
+        <h2>Abstracciones de Internet y protocolos abiertos</h2>
+        <div class="learn">
+            <p><strong>En esta página,</strong> aprenderá sobre los estándares de comunicación utilizados en Internet y cómo funcionan juntos.</p>
+        </div>
+        <div class="vocabBig">
+            <div class="todo">CSN-1.B.3, CSN-1.C.1</div>
+            <ul>
+                <li>Un <strong>protocolo</strong> es un conjunto de reglas que especifican el comportamiento de un sistema.</li>
+                <li>Una <strong>dirección IP</strong> es un número único asignado a cada dispositivo en una red informática.</li>
+                <li>Un <strong>paquete</strong> es una pequeña porción de cualquier tipo de datos (texto, números, listas, etc.) y metadatos (información sobre los datos) que se transmite a través de Internet como un flujo de datos.</li>
+                <li><strong>La conmutación de paquetes</strong> significa que Internet envía breves ráfagas de información, no largas cadenas continuas.</li>
+            </ul>
+        </div>
+        <p>Hay miles de millones de dispositivos conectados a Internet y cientos de diferentes tipos de dispositivos: computadoras portátiles, tabletas, teléfonos, refrigeradores inteligentes, lectores de tarjetas de crédito portátiles, etc. ¿Cómo saben todos cómo encontrar y hablar entre sí? Los <em>protocolos</em> (estándares de comunicación) garantizan que la variedad de dispositivos interactúen entre sí sin problemas.</p>
+        <p>Cada dispositivo en Internet tiene una <em>dirección de Protocolo de Internet (PI)</em> única (o más de una, si es un enrutador), como una dirección postal o de correo electrónico. El <em>Protocolo de Internet</em> especifica cómo un enrutador maneja una solicitud de una dirección IP diferente. Cada enrutador conoce el diseño de su vecindario específico de Internet y sabe de qué manera enviar cada mensaje para acercarlo un poco más a su destino. El hecho de que cada router no tenga que conocer las direcciones de Internet completa mejora la escalabilidad.</p>
+        <p>Cuando transmite datos a través de Internet, el programa IP de su computadora divide los datos en <em>paquetes</em> que envía individualmente. Este proceso es lo que hace que Internet sea una red de <em>conmutación de paquetes</em>.</p>
+        <div class="comment">CSN-1.C.2, CSN-1.C.3</div>
+        <p>Internet es bastante confiable, pero de vez en cuando se pierde un paquete y los dispositivos en Internet deben tolerar estas fallas. Una forma de tolerar las fallas es no preocuparse (si pierde un cuadro de video, no importa). Otra forma (llamada <em>PCT</em> por Protocolo de control de transmisión) es seguir enviando paquetes hasta que se reconozca que se recibieron correctamente. Dado que los paquetes pueden viajar por diferentes caminos, pueden llegar desordenados; ya pesar de la redundancia de Internet, es posible que algunos no lleguen. PCT garantiza una transmisión de datos <em>confiable</em> haciendo un seguimiento de los paquetes que se han recibido correctamente, reenviando los que se han perdido o dañado y especificando el orden para reensamblar los datos en el otro extremo. </p>
+        <div class="vocabFullWidth">
+            <p>
+                <strong>PCT/PI</strong> es un par de protocolos que proporcionan una abstracción:
+                <ul>
+                    <li><strong>PI</strong> (Protocolo de Internet) le permite a su computadora fingir que tiene una conexión <em>directa</em> a otra computadora. Los enrutadores en cada punto de conexión en Internet ejecutan PI, que transmite paquetes de una dirección PI a otra.</li>
+                    <li><strong>PCT</strong> (Protocolo de control de transmisión) le permite a su computadora fingir que tiene una conexión <em>confiable</em> con la otra computadora. Las computadoras (incluidos los servidores) en los dos puntos finales de una comunicación ejecutan PCT, lo que garantiza que los datos lleguen con éxito..</li>
+                </ul>
+            </p>
+        </div>
+    
+        <div class="forYouToDo">
+			<ol>
+				<div class="comment">CSN-1.C</div>
+                <li>
+                    <img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.es.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
+                    Describir cómo se envían los datos a través de Internet a través de paquetes.
+                    <img class="inline" src="/bjc-r/img/icons/write-out-thoughts.es.png" alt="Write Out Your Thoughts" title="Write Out Your Thoughts" />
+                </li>
+			</ol>
+		</div>
+    
+        <h3>Jerarquía de abstracción de Internet</h3>
+        <div class="comment">CSN-1.D.2 (under "Application Layer Protocols")</div>
+		<div class="sidenoteBig">
+            <div class="todo">CSN-1.C-4</div>
+            <h4>Protocolos de ejemplo para cada capa:</h4>
+            <p><strong>Capa de aplicación:</strong> los navegadores usan HTTP (protocolo de transferencia de hipertexto) para interpretar las instrucciones HTML para formatear páginas web. SND (Sistema de nombres de dominio) convierte nombres de host fáciles de usar (como edc.org o berkeley.edu) en direcciones PI. Su aplicación de correo electrónico puede usar PSTC (Protocolo simple de transferencia de correo) para enviar e PAMI (Protocolo de acceso a mensajes de Internet) para leer el correo electrónico.</p>
+            <p><strong>Capa de transporte:</strong> PCT (Protocolo de control de transmisión) <em>simula</em> una conexión confiable a largo plazo entre dos computadoras al mostrar los datos solo una vez que han llegado todos los paquetes. Cuando la velocidad es más importante que la precisión, como en la transmisión de video en tiempo real, las personas usan PDU (Protocolo de datagramas de usuario).</p>
+            <p><strong>Capa de Internet:</strong> cada dispositivo en Internet necesita una dirección PI para que otros dispositivos puedan encontrarlo. Los enrutadores utilizan protocolos de capa de Internet para detectar y solucionar la congestión de la red.</p>
+            <p><strong>Hardware de interfaz de red:</strong> puede conectarse a Internet con un cable <em>Ethernet</em> o quizás con una antena de radio <em>WiFi</em> dentro de la carcasa de su computadora. Cualquiera conecta las computadoras a un enrutador de red local que luego se conecta a un proveedor de servicios de Internet (PSI). Los teléfonos móviles utilizan una conexión <em>celular</em> de mayor alcance con un operador de telefonía.</p>
+        </div>
+        <p>¡Hay <em>muchos</em> de protocolos! Internet se diseñó con varias capas de <em>abstracción</em> que clasifican los protocolos según la parte del proceso que admiten. Esta <em>jerarquía de abstracciones</em> gestiona la complejidad de Internet ocultando los detalles de los niveles inferiores del sistema: </p>	
+        <div>
+            <ul>
+                <li><strong>Los protocolos de capa de aplicación</strong> (como HTTP) son el nivel más alto de abstracción porque <em> administran cómo se interpretan y muestran los datos</em> a los usuarios. Estos protocolos <em>dan significado a los bits</em> enviados por protocolos de nivel inferior; Las computadoras del usuario y del servidor deben estar de acuerdo con el significado de los bits, y los protocolos de aplicación lo ofrecen.</li>
+                <li><strong>Los protocolos de la capa de transporte</strong> (como TCP) gestionan la <em>desglose de un mensaje en paquetes</em> para ser transmitidos por protocolos de nivel inferior y también la <em>reconstrucción del mensaje a partir de los paquetes</em > a su llegada.</li>
+                <li><strong>Los protocolos de capa de Internet</strong> (como PI) <em>gestionan las rutas por las que viajan los paquetes de datos</em> a través de las redes. Estos protocolos proporcionan una abstracción de Internet como una gran red, aunque la realidad física en el nivel inferior es una de muchas subredes.</li>
+                <li><strong>Hardware de interfaz de red</strong> (protocolos de capa de enlace como WiFi): gestiona la conexión entre un dispositivo de Internet y su red local. Estos protocolos locales son los menos abstractos porque tratan directamente con su hardware físico.</li>
+            </ul>
+		</div>
+        
+        <div class="comment">CSN-1.B.4 (paragraph about "open standards")</div>
+        <div class="takeNote">Todos estos son <em>estándares abiertos</em>: cualquiera puede buscar un protocolo y codificar con él para crear nuevo hardware o software sin el permiso de nadie. Internet es probablemente el artefacto más grande y complicado de la historia humana y depende de la <em>cooperación</em>. A pesar de los intentos de algunos gobiernos de censurar la red, el panorama general es de un fuerte espíritu cooperativo.</div>
+		<div class="endnote">
+        	<a href="#hint-open" data-toggle="collapse" title="Why care about open standards?">¿Por qué preocuparse por los estándares abiertos??</a>
+            <div id="hint-open" class="collapse">
+                <ul>
+                    <li>Su teléfono celular T-Mobile puede comunicarse con el teléfono Verizon de su amigo.</li>
+                    <li>Puede enviar un correo electrónico a alguien en un país que se considera enemigo de su país (desde EE. UU. hasta Irán, por ejemplo).</li>
+                    <li>Un ingeniero de Microsoft puede leer una página web en Apple aunque sus empresas sean competidoras.</li>
+                </ul>
+                <p>Antes de Internet, había varios protocolos de red diferentes que eran secretos que pertenecían a fabricantes particulares. Entonces, si tuviera una marca particular de computadora o enrutador, solo podría comunicarse con otras computadoras de la misma marca.</p>
+            </div>
+		</div>
+        
+        <div class="forYouToDo">
+            <ol start="2">
+                <li>
+                    <img class="imageRight" src="/bjc-r/img/icons/talk-with-your-partner.es.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> Explique cómo cada uno de estos protocolos es una abstracción. ¿Qué detalles esconde cada uno?
+                    <ul>
+                        <li>HTTP (protocolo de transferencia de hipertexto): el protocolo que utiliza su navegador para <em>acceder a una página web HTML</em></li>
+                        <li>TCP (Protocolo de control de transmisión): el protocolo que <em>garantiza una transmisión confiable</em> de datos</li>
+						<li>IP (Protocolo de Internet): el protocolo de direccionamiento jerárquico que <em>administra el enrutamiento</em> de datos entre computadoras</li>
+                    </ul>
+                </li>
+                <div class="comment">CSN-1.B</div>
+                <li>Localice sus descripciones de cómo las personas se conectan a Internet (de la página 1), cómo se conectan los dispositivos dentro de una red (de la página 2), cómo y por qué Internet es tolerante a fallas (de la página 2) y cómo funciona TCP/IP ( de la página 3). Combine sus descripciones en un documento breve sobre cómo funciona Internet.</li>
+            </ol>
+        </div>
+    
+        <div class="ifTime">
+            <ol start="4">
+        		<li>Lee <a href="http://www.bitsbook.com/wp-content/uploads/2008/12/B2B_3.pdf#page=319" target="_blank" title="Blown to Bits: The Internet as System
+and Spirit "><em>Volado en pedazos</em> páginas 301-316</a>.</li>
+            </ol>
+        </div>
+        
+
+	</body>
+</html>
