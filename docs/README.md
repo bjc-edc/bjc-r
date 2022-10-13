@@ -1,9 +1,5 @@
 # Authorship
 
-## TODO: This page needs major updates.
-
-## [Translating](./translating.md)
-
 ## Hierarchy:
 
 * Course
@@ -25,10 +21,10 @@ There are a few tips for keeping a consistent tone with labs.
 * If you introduce a new (CS) word be sure the meaning is clear!
 * More to come! :-)
 
-Despite the state of this document, proper punctuation, spelling and grammar
+Despite the state of this document, proper punctuation, spelling and grammar 
 should most definitely be followed! Also, typing liek dis is prolly no good, ok?
 ## Features
-There are a number of CSS features and things that make labs cool. We will
+There are a number of CSS features and things that make labs cool. We will 
 update this soon to describe how to use them.
 
 * Inline Images
@@ -58,9 +54,9 @@ Basic Directories:
 * `topic`    -- Contains 'topics' or the idea of a lab.
 
 For `cur`, `img`, and `prog` the structure below is followed.
-There is some basic breakdown of topics, but not everything is exact. If
+There is some basic breakdown of topics, but not everything is exact. If 
 something fits multiple categories put it where it 'most' applies OR with the
-other resources for that lab. These folders may have subfolders as well.
+other resources for that lab. These folders may have subfolders as well. 
 
 __*Avoid organizing based on lab number or name!*__
 
