@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+    <title>Unidad 8 Lab 4: Algunos Simples, Página 1</title>
+</head>
+
+<body>
+    <h2>Caminando por una Lista</h2>
+    <div class="todo">BH: suggests putting this lab after the Social Implications, so that it is the last thing in the
+        course. </div>
+    <div class="todo">AC: Still thinks that this unit should start with this lab. Indeed, it should come much earlier in
+        the program. Oh well\dots </div>
+    <div class="todo"><strong>Fundamental Concern:</strong> The idea seems important for this unit, but I don't buy the
+        "you should build this some other way that isn't as efficient because we said so" approach. Find some reasonable
+        examples of where this is useful or don't teach it. <code>Map</code> is the obvious choice for #1. I haven't
+        decided how I feel about #2, but we give them most of the answer here at the end of the year, so what's the
+        point? --MF, 9/26/18</div>
+    <div class="todo">
+        <p>PG: Whole lab: I basically agree with Al here. Stuff like this should come way earlier in the year, and come
+            up from time to time (in sensible contexts) so that kids actually learn how to do them.</p>
+        <p>MF: The idea seems important for this unit, but I don't buy the "you should build this some other way that
+            isn't as efficient because we said so" approach. Find some reasonable examples of where this is useful or
+            don't teach it.</p>
+    </div>
+    <div class="sidenote">Es una gran simplificación decir que agregar "s" siempre forma el plural. Si hiciste el
+        proyecto opcional en Plurales y
+        te gusta, puedes usar tu trabajo del bloque <code>plural</code> que hiciste en <a
+            href="/bjc-r/cur/programming/2-complexity/optional-projects/5-plurals2.es.html"
+            title="Modeling Language: Plurals, Part 2">Unidad 2</a>.</div>
+
+    <p>
+        Aquí está el bloque <code>plurals</code> del laboratorio 1. Toma una <em>lista de palabras</em> como entrada e
+        informa
+        una lista de los plurales de esas palabras. Aunque hay una manera de construir este bloque usando
+        <code>map</code>, tenga paciencia con nosotros:
+        hay una buena razón para investigar esta versión recursiva.<br />
+    <div class="comment">Redo the image with plain prototype labels. --MF, 9/26/18</div>
+    <img class="indent" src="/bjc-r/img/8-recursive-reporters/plurals.es.png"
+        alt="plurals (words){if(empty?(words)){report(list{})}else{report(join(item(1) of (words) (s) in front of (plurals(all but first of(words))))}}"
+        title="plurals (words){if(empty?(words)){report(list{})}else{report(join(item(1) of (words) (s) in front of (plurals(all but first of(words))))}}" />
+    </p>
+    <div class="takeNote">
+        <p>La gran idea aquí es que puede dividir una lista en su primer elemento y el resto de los elementos, forman el
+            plural del primero, y hacer una llamada recursiva para el resto. El bloque <code>delante de</code> puede
+            parecer extraño al principio, con sus entradas asimétricas (un elemento, una lista), pero pone el plural del
+            primero palabra y los plurales del resto de las palabras juntas.</p>
+        <p>Este patrón de código se puede usar para crear muchos reporteros recursivos útiles que tienen un caso base
+            simple y un llamada recursiva simple.</p>
+    </div>
+    <div class="forYouToDo" id="first">
+        <p><strong>Haz los siguientes ejercicios usando recursividad, no funciones de orden superior.</strong></p>
+        <ol>
+            <li>
+                <div class="sidenote">Intente modificar el código de <code>plurals</code>.</div>Haga un
+                <code>squares</code>
+                bloque que toma una lista de números como entrada y reporta una lista de los cuadrados de los números.
+                <p><img class="indent" src="/bjc-r/img/8-reporteros-recursivos/cuadrados-ex.es.png"
+                        alt="cuadrados(lista{7,8,1}) informes {49,64,1}"
+                        title="cuadrados(lista{7,8,1}) informando {49,64,1}" />
+                </p>
+            </li>
+            <li>
+                Cree un bloque <code>exaggerate</code> que tome una oración como entrada e informe una oración en la que
+                cada número en la entrada se duplica, "bueno" se reemplaza por "excelente", "malo" se reemplaza por
+                "terrible"
+                "me gusta" se reemplaza por "amor", y "no me gusta" se reemplaza por "odio".
+                <p><img class="indent" src="/bjc-r/img/8-reporteros-recursivos/ex-ex.es.png"
+                        alt="exagerar(Me comí 6 palitos muy buenos), informando que comí 12 palitos muy buenos"
+                        title="exagerar(Me comí 6 palitos muy buenos), informando que comí 12 palitos muy buenos" />
+                </p>
+                <p>Para hacer esto, use una función de "wrapper" que transforma la oración en una lista de palabras y
+                    viceversa
+                    de nuevo:</p>
+                <p><img class="indent" src="/bjc-r/img/8-reporteros-recursivos/exagerar.es.png"
+                        alt="exagerar(oración){informe(lista->oración(exagerar lista de palabras(oración->lista(oración))))}"
+                        title="exagerar(oración){informe(lista->oración(exagerar lista de palabras(oración->lista(oración))))}" />
+                </p>
+                <div class="sidenote">¿Qué debe hacer la función auxiliar con las otras palabras?</div>
+                <p>También querrá una función de ayuda <code>exaggerate word</code> que funcione en una sola palabra,
+                    buscando
+                    para palabras y tipos específicos para exagerar.</p>
+            </li>
+        </ol>
+    </div>
+
+    <div class="todo">AC suggestion: include both iterative and recursive solutions in this lab.</div>
+
+</body>
+
+</html>

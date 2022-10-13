@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<script type="text/javascript" src="/bjc-r/utilities/gifffer.min.js"></script>
+        <script type="text/javascript">window.onload = function() {Gifffer();}</script>
+        <link rel="stylesheet" type="text/css" href="/bjc-r/css/bjc-gifffer.css">
+        <title>Unidad 3 Laboratorio 1: Lidiando con la Complejidad, Página 3</title>
+    </head>
+    
+    <body>
+        <h2>Usando la abstracción para anidar triángulos</h2>
+        <div class="learn">
+            <p><strong>En esta página,</strong> usará la abstracción para anidar su script triangular dentro de sí mismo a medida que aprende sobre <em>recursion</em>.</p>
+        </div>
+        <p>¿Te resulta incómodo todo ese copiar y pegar guiones de triángulos? Conoces una mejor manera: <em>abstracción</em>. En la Unidad 1, usó un<code>molinillo</code>bloque para implementar los programas similares<code>asterisco</code> y <code>polígono</code> en lugar de copiar el código. Aquí, también puede usar un bloque para administrar la abstracción. Pero en este caso, queremos el código similar (un triángulo más pequeño) <em>anidado dentro</em>, por lo que en realidad usaremos el mismo bloque dentro de sí mismo, un proceso llamado <em>recursión</em>.</p>
+        
+		<div class="forYouToDo">
+			<ol start="1">
+                <li>Si aún no está abierto, abra su proyecto U3L1-FractalArt.</li>
+                <li>	
+                    Crear un<code> </code>bloque llamado <code>triángulo anidado</code>que toma una entrada, <var>talla</var>, y, por ahora, solo dibuja un triángulo, pero solo si <var>talla</var> &gt; 9. (Omita el código sobre el cambio de colores.)
+                    <br /><img class="indent" src="/bjc-r/img/2-complexity/nested-tri-no-color-proto.es.png" alt="nested triangle, size: (size)" title="nested triangle, size: (size)">
+                    <div class="endnote">
+                        <p><a href="#hint-purple" data-toggle="collapse" title="¿No debería ser azul?">¿No debería ser azul?</a></p>
+                        <div id="hint-purple" class="collapse">
+                            <p>Cuando está construyendo un nuevo bloque, puede usar cualquier color que desee. Este bloque es de color púrpura para que se destaque cuando lo use en un guión más adelante.</p>
+                        </div>
+                        <p><a href="#hint-nested" data-toggle="collapse" title="Haz clic para obtener sugerencias sobre cómo construir un bloque triángulo anidado.">Haz clic para obtener sugerencias sobre cómo construir un bloque <code>triángulo anidado</code>.</a></p>
+                        <div id="hint-nested" class="collapse">
+                            <ol type="a">
+                                <li>
+                                    Usa tu primer guión triangular de la página anterior como modelo. Pero agrega una condición: dibuja el triángulo solo si es lo suficientemente grande:<br />
+                                    <img class="indent" src="/bjc-r/img/2-complexity/triangle.es.png" alt="if(size&gt;9){repeat(3){move 100 steps; turn clockwise 120 degrees}}" title="if(size>9){repeat(3){move 100 steps; turn clockwise 120 degrees}}">
+                                </li>
+                                <li>Haga clic en el botón "Aplicar" en el Editor de Bloques para que el bloque aparezca en la paleta de la izquierda.</li>
+                            </ol>
+                        </div>
+                    </div>
+                </li>
+                <li>Pruebe su bloque dando al menos las entradas 9, 18, 20 y 100 para asegurarse de que funciona como espera.</li>
+            </ol>
+        </div>
+        
+        <p>Hasta ahora, este es solo un procedimiento de triángulo, pero a continuación lo hará recursivo.</p>
+        <div class="vocabFullWidth">
+            <p>Llamar a un procedimiento desde dentro de sí mismo se llama <strong>recursión</strong>.</p>
+        </div>
+        <p>En la página anterior, arrastraste una copia de la secuencia de comandos triangular entre los bloques <code>mover</code> y <code>girar</code>. Puedes hacer algo similar con tu bloque <code>triángulo anidado</code>.</p>
+        
+        <div class="forYouToDo">
+			<ol start="4">
+                <li>
+                    Desde la paleta, arrastre  <code>triángulo anidado</code> en la definición de <code>triángulo anidado</code> entre los <code>mover</code> y <code>girar</code> bloques. Haz su <var>tamaño</var> introduzca la mitad del valor actual de <var>talla</var>.<br />
+                    <img class="indent" src="/bjc-r/img/2-complexity/nested-tri-recur-no-color.es.png" alt="nested triangle, size: (size/2)" title="nested triangle, size: (size/2)">
+                </li>
+                <li>
+                    Vuelva a probar su bloque con al menos las entradas 9, 18, 20 y 100 para asegurarse de que funciona como espera. 
+                    <div class="endnote">Tu estas usando <code>triángulo anidado</code> en su propia definición; esto lo convierte en un procedimiento recursivo. La recursividad es una de las técnicas más poderosas en informática y aprenderá más sobre ella en proyectos posteriores.</div>
+                </li>
+                <img class="inline" src="/bjc-r/img/icons/save-now.es.png" alt="Save your work" title="Save your work" />
+            </ol>
+		</div>
+            
+        <div class="ifTime">
+            <ol start="6">
+                <li>Utilice <code>triángulo anidado</code> como modelo para definir un bloque recursivo <code>cuadrado anidado</code>.</li>
+                <li>
+                    Para dibujar el triángulo principal, el sprite debe girar 120&deg; entre lados. Para el fractal que acabas de crear, ese giro ocurre <em>después</em> de dibujar al niño, pero podrías girar <em>antes</em> de la llamada recursiva, o dividir el giro, con una parte antes y una parte después del llamada recursiva. Pruebe algunas modificaciones como estas:<br />
+                    <img class="indent" src="/bjc-r/img/2-complexity/triangle-fractal-variation01.es.png" alt="repeat(3){move(size) steps; turn clockwise (120) degrees; triangle fractal level:(level-1) size:(size*0.5)}" title="repeat(3){move(size) steps; turn clockwise (120) degrees; nested triangle, size:(size/2)}" /><br />
+                    <img class="indent" src="/bjc-r/img/2-complexity/triangle-fractal-variation02.es.png" alt="repeat(3){move(size) steps; turn clockwise (60) degrees; triangle fractal level:(level-1) size:(size*0.5); turn clockwise(60) degrees}" title="repeat(3){move(size) steps; turn clockwise (60) degrees; nested triangle, size:(size/2); turn clockwise(60) degrees}" /><br />
+                    <img class="indent" src="/bjc-r/img/2-complexity/triangle-fractal-variation03.es.png" alt="repeat(3){move(size) steps; turn counter-clockwise (30) degrees; nested triangle, size:(size/2); turn clockwise(150) degrees}" title="repeat(3){move(size) steps; turn counter-clockwise (30) degrees; triangle fractal level:(level-1) size:(size*0.5); turn clockwise(150) degrees}" />
+                </li>
+            </ol>
+		</div>
+
+        <div class="takeItFurther">
+            <ol type="A">
+                <li>Experimente con el factor de escala para el <var>tamaño</var> de las llamadas recursivas. Un par de valores interesantes son <span class="katex">\frac{<var>1</var>}{3}</span> y <span class="katex">\frac{<var>1</var>}{\sqrt{3}}</span>.</li>
+                <li>Use <code>para</code> para hacer una animación que pase por diferentes arreglos de ángulo de giro (es decir, 0&deg; y 120&deg;, luego 1&deg; y 119&deg;, luego 2&deg; y 118&deg;, etc. .).<br />
+                    <img src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/RecursiveTriangleAnimation.gif" height="300" alt="Recursive Triangle Animation" title="Recursive Triangle Animation"/>
+                    <img src="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/RecursiveSquareAnimation.gif" height="300" alt="Recursive Square Animation" title="Recursive Square Animation"/>                  
+                </li>
+            </ol>
+        </div>
+
+
+    </body>
+</html>
