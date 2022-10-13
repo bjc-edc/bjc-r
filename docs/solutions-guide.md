@@ -31,7 +31,8 @@ This guide will serve as a reference for authoring lab solutions and for other <
 ***
 
 #### Resources For Good Style
-These aren't <span class="snap">snap</span>  or BJC specific, but the principles are good.
+These aren't <span class="snap">snap</span> or BJC specific, but the principles are good.
+
 ##### _The Zen of Python_
 obtained by typing `import this` in a Python interpreter.
 ```
