@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+
+        <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+        <script type="text/javascript" src="/bjc-r/utilities/gifffer.min.js"></script>
+        <script type="text/javascript">window.onload = function() {Gifffer();}</script>
+        <link rel="stylesheet" type="text/css" href="/bjc-r/css/bjc-gifffer.css">
+		<title>Unidad 5 Lab 3: Transformando datos en información, Página 3</title>
+    </head>
+
+    <body>
+        <h2>Importando y accediendo a los datos</h2>
+        <div class="learn">
+            <div class="comment">DAT-2.D.1, DAT-2.C.1</div>
+            <p>Los ordenadores pueden ser &uacute;tiles en el procesamiento de datos para obtener informaci&oacute;n, pero tu capacidad de procesar datos depende tanto de tus capacidades como de las herramientas que tengas disponibles.</p>
+            <p><strong>En esta p&aacute;gina, </strong>contruir&aacute;s varias herramientas (espec&iacute;ficamente, selectores) para ayudarte a responder las preguntas sobre los datos que te interesan.</p>
+            <div class="endnote">Aprendiste acerca de selectores en <a href="/bjc-r/cur/programming/2-complexity/2-data-structures-art/2-quizzes.es.html?topic=nyc_bjc%2F2-conditionals-abstraction.es.topic&amp;course=bjc4nyc.es.html&amp;novideo&amp;noassignment" title="Unit 2 Lab 2 Page 2: Planning a Quiz App">Unidad 2 Laboratorio 2 P&aacute;gina 2: Planeando una App para ex&aacute;menes</a>.</div>
+        </div>
+
+
+        <div class="forYouToDo" id="first">
+
+            <ol>
+				<li>
+<div class="newProject"><span class="text">"U3L4-Procesamiento-de-datos"</span><img src="/bjc-r/img/icons/new-project-called.es.png" alt="Start a New Project called U1L2-Crayon" title="Start a New Project called U3L4-Data-Processing"></div></li>
+                <li>Visita <a href="https://think.cs.vt.edu/corgis/csv/index.html" title="CORGIS Datasets Project" target="_blank">CORGIS Datasets Project</a> y selecciona un conjunto de datos que te gustar&iacute;a explorar. Descarga el archivo CSV para los datos que quieres explorar.</li>
+                <li>Abre Snap<em>!</em> y arrastra el archivo descargado dentro de la ventana de Snap<em>!</em>. Debes ver una tabla llena de datos. Mira los datos (incluyedo los <em>encabezados de columnas</em> en la fila superior) para darte una idea de qu&eacute; tipo de informaci&oacute;n est&aacute; incluida. Luego da clic en"OK" para cerrar la ventana. Todav&iacute;a puedes ver los datos en el visor del escenario de Snap<em>!</em>.</li>
+            </ol>
+        </div>
+
+        <div class="comment">DAT-2.D.5</div>
+        <p>
+            <img class="imageRight" src="/bjc-r/img/5-algorithms/correlation-positive-trend.es.png" alt="a graph with a bunch of data points, in which they generally follow a straight line from top left to bottom right" title="a graph with a bunch of data points, in which they generally follow a straight line from top left to bottom right">Es posible que est&eacute;s familiarizado con las tablas de las aplicaciones de hojas de c&aacute;lculo (tales como Hojas de c&aacute;lculo de Google, Numbers de Apple , o Microsoft Excel) que almacenan datos tabulares en diferentes formatos de archivo. Las hojas de c&aacute;lculo ayudan a organizar la informaci&oacute;n de manera eficiente y pueden encontrar tendencias en los datos de manera autom&aacute;tica (como la l&iacute;nea que se muestra a la derecha). CSV es un formato de hoja de c&aacute;lculo abierto que funciona en cualquiera de estas aplicaciones y en Snap<em>!</em>.
+        </p>
+        <div class="endnote">
+            <a href="#hint-CSV" data-toggle="collapse" title="What does CSV stand for">&iquest;Qu&eacute; significa CSV ?</a>
+            <div id="hint-CSV" class="collapse">
+                CSV significa "valores separados por comas". Los archivos CSV son tablas de datos almacenados con comas entre cada elemento de una fila y saltos de l&iacute;nea entre cada fila de la tabla. (Puedes ver las comas y los saltos de l&iacute;nea de un CSV abri&eacute;ndolo en un editor de texto.)
+            </div>
+        </div>
+
+
+        <div class="forYouToDo">
+			<ol start="4">
+                <li>Experimenta con diferentes entradas al elemento () del bloque 'ranura de entrada de la lista' para acceder a diferentes filas del conjunto de datos.</li>
+                <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.es.png" alt="Habla con tu compañero" title="Habla con tu compañero">&iquest;C&oacute;mo es que la primera posici&oacute;n de tu conjunto de datos (<span style="font-family: monospace;">art&iacute;culo</span><code> (1) de</code>) difiere de los dem&aacute;s elementos?</li>
+                <li>Localiza el <img class="inline" src="/bjc-r/img/blocks/all-but-first-full-size.es.png" alt="all but first of 'list input slot'" title="all but first of 'list input slot'"> bloque y determina qu&eacute; hace con tus datos.</li>
+                <li>
+                    Construye los selectores:
+
+
+<ol>
+                        <li><img class="inline" src="/bjc-r/img/5-algorithms/headings-of-table.es.png" alt="headings of table ()" title="headings of table ()"> que reporta s&oacute;lo los encabezados en una tabla</li>
+                        <li><img class="inline" src="/bjc-r/img/5-algorithms/data-of-table.es.png" alt="data of table ()" title="data of table ()"> que reporta s&oacute;lo los datos (no los encabezados)</li>
+                    </ol>
+                </li>
+            </ol>
+        </div>
+
+        <div class="endnote">
+            <p>Una tabla es representada en Snap<em>!</em> como una lista de listas. Si das un clic derecho (o control-clic en una Mac) en una tabla, puedes cambiarte a "vista de lista"y ver como los datos (y encabezados de columnas) son almacenados. <a href="#hint-views" data-toggle="collapse" title="See examples of table view and list view.">Ve ejemplos en vista de tabla y en vista de lista.</a></p>
+            <div id="hint-views" class="collapse" style="text-align:center;">
+                <div style="display: inline-grid; grid-template-columns: auto auto; text-align:center;">
+                    <div><strong>Vista de tabla&nbsp; <br></strong></div>
+                    <div><strong>Vista de lista<br></strong></div>
+                    <div style="padding-right: 50px;"><img class="indent" src="/bjc-r/img/5-algorithms/cars-table-view.es.png" alt="report of cars dataset displayed as a table with columns and rows; the first row is the label of each column; the remaining rows each contain the data for a single record" title="report of cars dataset displayed as a table with columns and rows; the first row is the label of each column; the remaining rows each contain the data for a single record"></div>
+                    <div style="padding-left: 50px;"><img class="indent" src="/bjc-r/img/5-algorithms/cars-list-view.es.png" alt="report of cars dataset displayed as a list of lists; the first list contains the labels for each of the columns shown in the table view; the remaining lists each contain the data for a single record" title="report of cars dataset displayed as a list of lists; the first list contains the labels for each of the columns shown in the table view; the remaining lists each contain the data for a single record"></div>
+                </div>
+            </div>
+        </div><strong>Vocabulario: Registros, campos</strong><strong></strong>, y<strong>Columnas</strong>
+            <div class="vocabFullWidth">
+<ul>
+                <li>Un <strong>registro</strong> es una fila de un conjunto de datos (distinta de la primera fila, que contiene los t&iacute;tulos de las columnas). Un registro &uacute;nico puede ser los datos de un estudiante de su escuela, los datos de un terremoto que ocurri&oacute;, los datos de un hospital en los EE.UU., o los datos de un contacto en tu lista de contactos. En otras palabras, un registro es un segmento horizontal del conjunto de datos.</li>
+                <li>Un <strong>campo</strong> es un elemento de un registro en un conjunto de datos. Puede ser el maestro de una persona, la magnitud de un terremoto en Los &Aacute;ngeles la semana pasada, el propietario de un hospital en Chicago, o el n&uacute;mero de tel&eacute;fono de una persona en tu lista de contactos.</li>
+                <li>Una <strong>columna</strong> es una lista que contiene los datos de un campo para todos los registros de un conjunto de datos. Una columna podr&iacute;a ser el profesor de un sal&oacute;n de clases para <em>cada</em> estudiante en tu escuela, la magnitud de <em>cada</em> terremoto en el conjunto de datos, el propietario de <em>cada</em> hospital en los EE.UU.,o el n&uacute;mero de tel&eacute;fono de <em>cada</em> persona en tu lista de contactos. En otras palabras, una columna es un segmento vertical del conjunto de datos.</li>
+            </ul>
+            <img class="indent" data-gifffer="/bjc-r/img/5-algorithms/cars-table-view-parts.gif" alt="three frame animation of the report of cars dataset displayed as a table with columns and rows; in the first frame, the fourth row of the table is highlighted and labeled 'record (row)'; in the second frame, the third column of the table is highlighted and labeled 'column'; in the third frame, the cell in the fourth row and third column is hightlighted and labeled 'field'" title="three frame animation of the report of cars dataset displayed as a table with columns and rows; in the first frame, the fourth row of the table is highlighted and labeled 'record (row)'; in the second frame, the third column of the table is highlighted and labeled 'column'; in the third frame, the cell in the fourth row and third column is hightlighted and labeled 'field'">
+        </div>
+
+        <div class="forYouToDo">
+			<ol start="8">
+                <li>Construye <img class="inline nopadtb" src="/bjc-r/img/5-algorithms/record-of-table.es.png" alt="record () of table ()" title="record () of table ()">y <img class="inline nopadtb" src="/bjc-r/img/5-algorithms/field-of-record.es.png" alt="field () of record ()" title="field () of record ()"> bloques&nbsp; para facilitar pensar en la estructura de la tabla. </li>
+				<li>
+                    <img class="inline" src="/bjc-r/img/icons/talk-with-your-partner-mini.es.png" alt="Habla con tu compañero" title="Habla con tu compañero"> Construye <img class="inline nopadtb" src="/bjc-r/img/5-algorithms/column-of-table.es.png" alt="column () of table ()" title="column () of table ()"> para reportar s&oacute;lo una columna de tu conjunto de datos.
+                    <div class="endnote">
+                        <p><code>Registro</code> y <code>columna</code> son <em>selectores</em> para una <code>tabla</code> tipo de datos del resumen. No necesitamos un <em>constructor</em> para este tipo de datos abstractos porque estamos importando los datos de Internet, pero los selectores ser&aacute;n &uacute;tiles. (<code>campo</code> es un selector para <code>registro</code>, que es, en s&iacute; mismo, un tipo de datos abstractos.)</p>
+                        <p>Observa que estos nombres de bloque sugeridos incluyen la palabra "tabla" o "registro" antes de la segunda entrada. Incluir el tipo de datos de entrada esperado en el nombre del bloque puede ayudarte a evitar errores causados por el uso de un selector que no coincide con la entrada que quieres usar.</p>
+                        <p><a href="#hint-map" data-toggle="collapse" title="Try to figure out how to report just one column, but click if you really need a hint.">Intenta averiguar c&oacute;mo reportar s&oacute;lo una columna, pero haz clic si realmente necesitas una pista.</a></p>
+                        <div id="hint-map" class="collapse">
+                            <p><img class="inline" src="/bjc-r/img/blocks/map.es.png" alt="map () over ()" title="map () over ()"> realiza la misma funci&oacute;n en cada elemento de una lista. Dado que una tabla es una lista de listas (donde cada lista interna es un registro), <code>mapear<span style="font-family: serif;"></span></code> realizar&aacute; la misma funci&oacute;n en cada registro de tu conjunto de datos. Tendr&aacute;s que determinar qu&eacute; funci&oacute;n asignar sobre el conjunto de datos. Aprendiste acerca de <code>mapear</code> en <a href="/bjc-r/cur/programming/3-lists/2-contact-list/5-mapping-over-list.es.html?topic=nyc_bjc%2F3-lists.es.topic&amp;course=bjc4nyc.es.html&amp;novideo&amp;noassignment" title="Unit 3 Lab 2 Page 5: Transforming Every List Item">Unidad 3 Laboratorio 2 P&aacute;gina 5: Transformando cada elemento de la lista</a>.</p>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <img class="inline" src="/bjc-r/img/icons/talk-with-your-partner-mini.es.png" alt="Habla con tu compañero" title="Habla con tu compañero"> Determina una pregunta que puedes responder <strong>mirando una sola columna</strong> de tu conjunto de datos, y luego construye el c&oacute;digo para responder a tu pregunta. Puede que necesites construir bloques adicionales o importarlos de otros proyectos.
+                    <div class="endnote">
+                        <p>
+                            Puedes ver el n&uacute;mero de la columna manteniendo el puntero del mouse sobre la letra en la parte superior de la columna en la vista de tabla.<br>
+                            <img class="indent" src="/bjc-r/img/5-algorithms/column-number.es.png" alt="image of the top of the table view for the cars dataset with the mouse pointer over the top of the second column; the columns are now labeled A, 2 (where the pointer is), C, D, etc." title="image of the top of the table view for the cars dataset with the mouse pointer over the top of the second column; the columns are now labeled A, 2 (where the pointer is), C, D, etc.">
+                        </p>
+                        <p>Es posible que necesites utilizar <code>mapear</code>, <code>mantener</code>, o <code>combinar</code> para responder tu pregunta. <a href="#hint-HOFs" data-toggle="collapse" title="Click to see where you learned about these higher order functions.">Da clic para ver d&oacute;nde aprendiste sobre estas funciones de orden superior.</a></p>
+                        <div id="hint-HOFs" class="collapse">
+                            <ul>
+                                <li>Aprendiste acerca de <code>mapear</code> en <a href="/bjc-r/cur/programming/3-lists/2-contact-list/5-mapping-over-list.es.html?topic=nyc_bjc%2F3-lists.es.topic&amp;course=bjc4nyc.es.html&amp;novideo&amp;noassignment" title="Unit 3 Lab 2 Page 5: Transforming Every List Item">Unidad 3 Laboratorio 2 P&aacute;gina 5: Transformando cada elemento de la lista</a>.</li>
+                                <li>Aprendiste acerca de <span style="font-family: monospace;">mantener</span><code></code> en <a href="/bjc-r/cur/programming/2-complexity/3-predicates/5-keeping-list-items.es.html?topic=nyc_bjc%2F2-conditionals-abstraction.es.topic&amp;course=bjc4nyc.es.html&amp;novideo&amp;noassignment" title="Unit 2 Lab 3 Page 5: Keeping Items from a List">Unidad 2 Laboratorio 3 P&aacute;gina 5: <code>Manteniendo</code> los elementos de la lista</a> .</li>
+                                <li>Aprendiste acerca de <code>combinar</code> em <a href="/bjc-r/cur/programming/2-complexity/4-making-computers-do-math/3-other-math-reporters.es.html?topic=nyc_bjc%2F2-conditionals-abstraction.es.topic&amp;course=bjc4nyc.es.html&amp;novideo&amp;noassignment" title="Unit 2 Lab 4 Page 3: Other Mathematical Reporters">Unidad 2 Laboratorio 4 P&aacute;gina 3: Otros reportes matem&aacute;ticos</a>.</li>
+                            </ul>
+                        </div>
+                        <p><a href="#hint-questions" data-toggle="collapse" title="Click for example questions to ask about a single column.">Da clic para ver ejemplo de preguntas para preguntar sobre una sola columna.</a></p>
+                        <div id="hint-questions" class="collapse">
+                            <ul>
+                                <li>&iquest;Cu&aacute;l es el promedio de MPG que los autos en esta base de datos obtienen en la ciudad? (Necesitas un bloque de <code>promedio</code> .)</li>
+                                <li>&iquest;Cu&aacute;l es el a&ntilde;o del auto m&aacute;s antiguo en esta base de datos? (Necesitas un bloque de <code>minimo</code>.)</li>
+                                <li>&iquest;Cu&aacute;ntos autos en este conjunto de datos tienen transmisi&oacute;n manual? </li>
+                            </ul>
+                            <p>Observa que todos estos ejemplos s&oacute;lo requieren datos de una columna. Si quieres hacer una pregunta que requiera mirar otra columna (por ejemplo, "&iquest;Cu&aacute;l es el modelo de coche con la mayor MPG?"), a continuaci&oacute;n puedes hacer la actividad "Si queda tiempo".</p>
+                        </div>
+                    </div>
+                </li>
+            </ol>
+        </div>
+
+        <h3>Desaf&iacute;os en la recolecci&oacute;n de datos</h3>
+
+        <div class="comment">DAT-2.C.3, DAT-2.C.2 all bullets</div>
+        <p>Los investigadores a menudo se enfrentan a desaf&iacute;os con los datos antes de comenzar el an&aacute;lisis. Imagina que est&aacute;s combinando datos de diferentes pa&iacute;ses sobre distancias entre ciudades, y descubres que los datos de distancia de los EE.UU. se miden en millas, pero los datos de distancia de Europa se miden en kil&oacute;metros; para hacer comparaciones significativas, necesitas datos <em>uniformes</em> (todos en millas o todos en kilometros). Otro ejemplo: si utilizas una encuesta en l&iacute;nea para recolectar datos, la forma en que los participantes abrevian, escriben mal o escriben en may&uacute;sculas sus datos puede variar. Los datos tambi&eacute;n pueden estar incompletos (si algunas personas no completaron la encuesta) o no ser v&aacute;lidos (si algunas personas cometieron errores).</p>
+        <div class="vocabFullWidth">
+            <div class="comment">DAT-2.C.4, DAT-2.E.2</div>
+            <p><strong>Limpiando datos </strong>es el proceso de hacer los datos uniformes <em>sin cambiar su significado</em> (como el reemplazo de abreviaturas, ortograf&iacute;a y may&uacute;sculas por la palabra deseada o la conversi&oacute;n de millas a kil&oacute;metros). Los programadores pueden utilizar programas para filtrar y limpiar los datos digitales, obteniendo as&iacute; una mayor visi&oacute;n y conocimiento.</p>
+        </div>
+
+        <div class="comment">DAT-2.C.5</div>
+        <p>Imagina que lees en las noticias que las personas que comen mucho br&oacute;coli tienen menos probabilidades de contraer c&aacute;ncer. TLa conclusi&oacute;n de que el br&oacute;coli previene el c&aacute;ncer podr&iacute;a ser el resultado del <em>sesgo</em>. Podr&iacute;a ser que las personas que comen mucho br&oacute;coli tienden a ser las mismas personas que tambi&eacute;n hacen mucho ejercicio, y en realidad es el ejercicio lo que hace la diferencia. En la investigaci&oacute;n, el t&eacute;rmino "sesgo" no tiene que significar prejuicio; se trata de las razones por las que los datos podr&iacute;an no significar lo que parecen significar.</p>
+        <p>La gente a veces piensa que la manera de superar el sesgo es usar una muestra m&aacute;s grande (preguntando a m&aacute;s personas si comen br&oacute;coli y tienen c&aacute;ncer). Pero si la muestra m&aacute;s grande tiene el mismo problema (las personas que hacen m&aacute;s ejercicio tambi&eacute;n comen m&aacute;s br&oacute;coli), entonces una muestra m&aacute;s grande no eliminar&aacute; el sesgo.</p>
+
+        <div class="forYouToDo">
+			<ol start="11">
+				<div class="comment">DAT-2.C</div>
+                <li><img class="inline" src="/bjc-r/img/icons/write-out-thoughts.es.png" alt="Escribe tus pensamientos" title="Escribe tus pensamientos">Explica los posibles retos sobre los datos que podr&iacute;as enfrentar si fueras a recolectar tus propios datos para responder a una pregunta como la que investigaste en el problema anterior.</li>
+			</ol>
+		</div>
+
+
+        <div class="todo">
+<p>I need to redo these images and <code>code</code> statements with "record" instead of "row." --MF, 6/27/19</p></div>
+        <div class="takeItFurther">
+            <ol type="A">
+                <li>Responde la pregunta "&iquest;Cu&aacute;l es el modelo de auto con mayor MPG?" construyendo un <img class="inline nopadtb" src="/bjc-r/img/5-algorithms/row-with-max-of-table.es.png" alt="row with maximum in column () of table ()" title="row with maximum in column () of table ()"> bloque.
+
+
+<div class="endnote">
+                        <!--This gives away the answer. <p><a href="#hint-rowwithmax" data-toggle="collapse" title="See the row with maximum in column () of table () block in action.">See <code>row with maximum in column () of table ()</code> in action.</a></p>
+                        <div id="hint-rowwithmax" class="collapse"><img class="indent" src="/bjc-r/img/5-algorithms/row-with-max-of-table-reporting.es.png" alt="" title="" /></div>-->
+                        <p><a href="#hint-build" data-toggle="collapse" title="Click for a hint about how to build row with maximum in column () of table ().">Da clic aqu&iacute; para obtener una pista sobre c&oacute;mo construir una <code>fila con el m&aacute;ximo en columna () de una tabla ()</code>.</a></p>
+                        <div id="hint-build" class="collapse">
+                            <div class="comment">BH please review the alt text on all five images. --MF, 6/26/19</div>
+                            <p>A continuaci&oacute;n se muestra una forma de construir un m&aacute;ximo de funci&oacute;n de 'ranura de entrada de lista' para una lista simple (que no es una tabla). Puedes construir un&nbsp; <img class="inline nopadtb" src="/bjc-r/img/5-algorithms/maximum.es.png" alt="maximum of () and ()" title="maximum of () and ()"> bloque que compare dos entradas y utilizarlo con combinar para encontrar el m&aacute;ximo de una lista entera.<br>
+                            <img class="indent" src="/bjc-r/img/5-algorithms/max-operator-definition.es.png" alt="maximum of (a) and (b) {
+    if (a &gt; b) {
+        report (a)
+    }
+    report (b)
+}" title="maximum of (a) and (b) {
+    if (a &gt; b) {
+        report (a)
+    }
+    report (b)
+}">
+                            <img class="indent" src="/bjc-r/img/5-algorithms/max-of-list-definition.es.png" alt="maximum of (data) {
+    report (combine (data) using (maximum of ( ) and ( )))
+}" title="maximum of (data) {
+    report (combine (data) using (maximum of ( ) and ( )))
+}"><br>&nbsp;
+                            Puedes utilizar un enfoque similar aqu&iacute; construyendo un <img class="" src="/bjc-r/img/5-algorithms/row-with-max-between.es.png" alt="row with maximum in column () between row () and row ()" title="row with maximum in column () between row () and row ()"> que compare un campo en espec&iacute;fico (columna) para dos l&iacute;neas e informa de la l&iacute;nea con el valor m&aacute;s alto en la columna espec&iacute;fica.</p>
+
+                        </div>
+                        <div class="todo">Need to fix "specific field (column)" in the TIF. --MF, 6/27/19</div>
+
+                    </div>
+                </li>
+                <li>Construye un bloque similar utilizando <code>minimo<span style="font-family: serif;"> </span></code>and y responde la pregunta, "&iquest;Qu&eacute; marca de veh&iacute;culo tiene menos autos en esta base de datos?"</li>
+            </ol>
+        </div>
+</body></html>
