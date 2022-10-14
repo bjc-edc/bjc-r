@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Middle School Unit 1 Lab 5 Teacher Guide</title>
+	</head>
+
+	<body>
+		<h2>Lab 5: Storing and Securing Data</h2>
+		<p>Having learned that images are stored as lists of pixels, which are themselves lists, students now dig deeper to understand how computers store that data as bits. In activities 1-3, students explore mathematical functions in Snap<em>!</em>, learn about binary representation (and optionally also hexadecimal), and learn that computers use binary to store data in on/off electrical signals. In activities 4 and 5, students encode and decode messages and learn about substitution ciphers both offline and in Snap<em>!</em>.</p>
+
+		<div class="todo">
+			Next time around, we should add content to cover (maybe an extra page like 1.6.4, Emoji Deep Dive):
+			<p><strong>2-NI-05: Explain how physical and digital security measures protect electronic information.</strong> Information that is stored online is vulnerable to unwanted access. Examples of physical security measures to protect data include keeping passwords hidden, locking doors, making backup copies on external storage devices, and erasing a storage device before it is reused. Examples of digital security measures include secure router admin passwords, firewalls that limit access to private networks, and the use of a protocol such as HTTPS to ensure secure data transmission.</p>
+			<p><strong>2-IC-23: Describe tradeoffs between allowing information to be public and keeping information private and secure.</strong> Sharing information online can help establish, maintain, and strengthen connections between people. For example, it allows artists and designers to display their talents and reach a broad audience. However, security attacks often start with personal information that is publicly available online. Social engineering is based on tricking people into revealing sensitive information and can be thwarted by being wary of attacks, such as phishing and spoofing.</p>
+			--MF, 10/23/21
+		</div>
+
+
+		<h3>Pacing</h3>
+		<p>
+			This lab is designed for 3&ndash;11 class periods (<strong>115&ndash;470 minutes</strong>).
+			<ul>
+				<li><a href="#DA" title="Daily Activity: Computing in the News">Daily Activity: Computing in the News</a> 5&ndash;15 minutes each day</li>
+				<li><a href="#A1" title="Activity 1: Numbers and Computers">Activity 1: Numbers and Computers</a>: 10&ndash;65 minutes</li>
+				<li><a href="#A2" title="Activity 2: Bits and Electricity">Activity 2: Bits and Electricity</a>: 15&ndash;50 minutes</li>
+				<li>(Optional) <a href="#A3" title="Activity 3: Hexadecimal Numerals and RGB Colors">Activity 3: Hexadecimal Numerals and RGB Colors</a>: 20&ndash;55 minutes</li>
+				<li><a href="#A4" title="Activity 4: Secret Messages">Activity 4: Secret Messages</a>: 55&ndash;125 minutes</li>
+				<li><a href="#A5" title="Activity 5: Programming a Caesar Cipher">Activity 5: Programming a Caesar Cipher</a>: 20&ndash;85 minutes</li>
+			</ul>
+		</p>
+
+		<a class="back-to-top" href="#top">&uarr; Back to Top</a>
+		<h3>Daily Activity: Computing in the News.<a name="DA" class="anchor">&nbsp;</a></h3>
+		<p>Every day of BJC should begin with a 5-minute student presentation on a recent news article about computing. This helps build a foundation for considering the impacts of  computing technologies on employment, issues of bias and accessibility, and tradeoffs between public access to information and security. Read <a href="/bjc-r/cur/teaching-guide/U1/general-support/computing-in-the-news.html" title="Computing in the News" target="_blank">Computing in the News</a> for additional details and suggested news sources.</p>
+		<div>
+			<ul>
+				<li><strong>Prepare:</strong>  Assign to one student or a pair of students a recent news article about computing for them to read and then summarize for the class during the next class period.</li>
+			</ul>
+		</div>
+
+		<a class="back-to-top" href="#top">&uarr; Back to Top</a>
+		<h3>Activity 1: Numbers and Computers.<a name="A1" class="anchor">&nbsp;</a></h3>
+		<div>
+			<ul>
+				<div class="comment">OLD: <a href="https://docs.google.com/document/d/1UAcChyjYURkjvARKlR8d1Pd8JCHRx8iQCrij-LZ5XVI/edit#heading=h.vr0qyanrjxwz" title="Activity 1: Numbers, Bits, and Electricity Google Doc" target="_blank">Numbers, Bits, and Electricity Google Doc</a></div>
+				<li><strong>Materials:</strong> <a href="/bjc-r/middle-school/student-pages/U1/L5/01-numbers-computers.html?topic=middle-school%2F1-functions-data.topic&course=middle-school-teacher.html&novideo&noassignment" title="Activity 1: Numbers in Computers" target="_blank">Numbers in Computers</a> student page</li>
+				<li>
+					<strong>Prepare:</strong>
+					<ul>
+						<li>Review the <a href="https://csunplugged.org/en/topics/binary-numbers/unit-plan/how-binary-digits-work/" title="CS Unplugged: How binary digits work" target="_blank">CS Unplugged: How binary digits work</a> activity and consider whether you'd like to use it with your class.</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Learning Goals:</strong>
+					<ul>
+						<li>Explore mathematical operations in Snap<em>!</em> using complex expressions with nesting functions.</li>
+						<li>Understand that in a mathematical expression in Snap<em>!</em>, the blocks themselves serve the role of the parentheses.</li>
+						<li>Understand the basics of reading binary numerals.</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Activity Plan:</strong>
+					<ul>
+						<li>Optionally, spend one class period working through the <a href="https://csunplugged.org/en/topics/binary-numbers/unit-plan/how-binary-digits-work/" title="CS Unplugged: How binary digits work" target="_blank">CS Unplugged: How binary digits work</a> activity. (approximately 45 minutes, if used)</li>
+						<li>Crunching Numbers: Students build and run several arithmetic operations in Snap<em>!</em>. (5&ndash;10 minutes)</li>
+						<li>Numbers Systems for Humans vs. Machines: Students learn the basic distinction between decimal and binary notation of numbers and convert from decimal to binary. (5&ndash;10 minutes)</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Tips:</strong>
+					<ul>
+						<li>If you opt not to use the CS Unplugged activity and then later decide that your students would benefit from a deeper treatment of binary representation, you can also cover it after this activity.</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Standards:</strong>
+					<ul>
+						<li><strong>2-DA-07:</strong> Represent data using multiple encoding schemes.</li>
+					</ul>
+				</li>
+				<li>
+					<a href="#hint-solutions-A1" data-toggle="collapse" title="Activity 1 Solutions"><strong>Solutions</strong></a>
+					<div id="hint-solutions-A1" class="collapse">
+						<ul>
+							<li>5 × (7 + 4) = 55</li>
+							<li>(11 – (48 / 6)) × 9 = 27</li>
+							<li>(2 × (10^2)) + (3 × (10^1)) + (9 × (10^0)) = 239</li>
+							<li>(1 × (2^3)) + (0 × (2^2)) + (1 × (2^1)) + (0 × (2^0)) = 10</li>
+							<li>In the number 2,405, there is a 2 in the thousands place, a 4 in the hundreds place, a 0 in the tens place, and a 5 in the ones place. So, 2,405 = (2 × 1000) + (4 × 100) + (0 × 10) + (5 × 1)</li>
+							<li>The binary numeral 100111 is (1 × 32) + (0 × 16) + (0 × 8) + (1 × 4) + (1 × 2) + (1 × 1) = 32 + 4 + 2 + 1 = 39.</li>
+						</ul>
+					</div>
+				</li>
+			</ul>
+		</div>
+
+		<a class="back-to-top" href="#top">&uarr; Back to Top</a>
+		<h3>Activity 2: Bits and Electricity.<a name="A2" class="anchor">&nbsp;</a></h3>
+		<div>
+			<ul>
+				<li>
+					<strong>Materials:</strong>
+					<ul>
+						<li><a href="/bjc-r/middle-school/student-pages/U1/L5/02-bits-electricity.html?topic=middle-school%2F1-functions-data.topic&course=middle-school-teacher.html&novideo&noassignment" title="Activity 2: Bits and Electricity" target="_blank">Bits and Electricity</a> student page</li>
+						<li>
+							Optional Game: Binary Bingo
+							<ul>
+								<li><a href="https://drive.google.com/file/d/1jXFZPzBYKl6dsKDbXIavkLI8hBZYHdPk/view?usp=sharing" title="Binary Bingo cards" target="_blank">Binary Bingo cards</a></li>
+								<li><a class="js-run snap-project" href="/bjc-r/middle-school/prog/U1/lab05/bingo-caller.xml" title="Bingo caller Snap<em>!</em> project" target="_blank">Bingo caller Snap<em>!</em> project</a></li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Prepare:</strong>
+					<ul>
+						<li>Review the optional Binary Bingo game and consider whether you'd like to use it with your class. If so, print out enough <a href="https://drive.google.com/file/d/1jXFZPzBYKl6dsKDbXIavkLI8hBZYHdPk/view?usp=sharing" title="Binary Bingo cards" target="_blank">Binary Bingo cards</a> for each student or pair.</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Learning Goals:</strong>
+					<ul>
+						<li>Deepen understanding of binary representation.</li>
+						<li>Appreciate that computers store binary as electrical signals on capacitors.</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Activity Plan:</strong>
+					<ul>
+						<li>Storing Numbers in Bits: Students use a <img class="inline" src="/bjc-r/middle-school/img/U1/lab05/bin-of-dec.png" alt="binary of decimal ()" title="binary of decimal ()" /> block to discuss several questions about binary representation designed to deepen understanding. (5&ndash;10 minutes)</li>
+						<li>Storing Bits as Electricity: Students use a <img class="inline" src="/bjc-r/middle-school/img/U1/lab05/elec-of-bin.png" alt="electric of binary ()" title="electric of binary ()" /> block to visualize how binary numerals are stored as electric signals on capacitors (10&ndash;20 minutes)</li>
+						<li>Optionally, wrap up your treatment of binary with "Binary Bingo." Call numbers using the <a class="js-run snap-project" href="/bjc-r/middle-school/prog/U1/lab05/bingo-caller.xml" title="Bingo caller Snap<em>!</em> project" target="_blank">Bingo caller Snap<em>!</em> project</a>. Students can convert numbers using the <code>binary of decimal</code> block. (approximately 20 minutes, if used)</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Tips:</strong>
+					<ul>
+						<li>
+							For additional resources on binary...
+							<ul>
+    							<li>Review this page of the BJC high school curriculum: <a href="/bjc-r/cur/programming/4-internet/4-representation-compression/5-binary.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc.html&novideo&noassignment" title="Binary Representation" target="_blank">Binary Representation</a>.</li>
+								<li>Watch these videos from a former edX version of BJC: <a href="https://www.youtube.com/watch?v=SqhbDWVOLvk" title="Abstraction: Numbers" target="_blank">Abstraction: Numbers</a> and <a href="https://www.youtube.com/watch?v=rVIq_bol1Es" title="Abstraction: Base Conversion" target="_blank">Abstraction: Base Conversion</a>.</li>
+							</ul>
+						</li>
+						<li>
+							If you have time after students answer the questions on the student activity page in their pairs, you may wish to discuss the various "Talk with Your Partner" questions as a class:
+							<ul>
+								<li>
+									After the "Storing Numbers in Bits" section:
+									<ul>
+										<li>Can you find a number that's the same in decimal and binary?</li>
+										<li>Can you get a result that's all 1s? Hint: Start by trying to get just one 1, then two 1s, etc.</li>
+										<li>Can you get a result that's 11110000? You may need a calculator and/or a teacher to figure this one out.</li>
+									</ul>
+								</li>
+								<li>
+									After the "Storing Bits as Electricity" section:
+									<ul>
+										<li>What numbers result in no capacitors charged at all?</li>
+										<li>What numbers make all the capacitors light up with charge?</li>
+										<li>What's a number that charges every capacitor but one?</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Standards:</strong>
+					<ul>
+						<li><strong>2-DA-07:</strong> Represent data using multiple encoding schemes.</li>
+					</ul>
+				</li>
+				<li>
+					<a href="#hint-solutions-A2" data-toggle="collapse" title="Activity 2 Solutions"><strong>Solutions</strong></a>
+					<div id="hint-solutions-A2" class="collapse">
+						<ul>
+							<li>
+								Can you find a number that's the same in decimal and binary?
+								<ul>
+									<li>0 and 1 are the only numbers that are the same.</li>
+								</ul>
+							</li>
+							<li>
+								Can you get a result that's all ones?
+								<ul>
+									<li>
+										Every decimal that is one less than a power of 2 is all ones. For example:
+										<ul>
+											<li>1<sub>10</sub> = 1<sub>2</sub> = (2 - 1)<sub>10</sub></li>
+											<li>3<sub>10</sub> = 11<sub>2</sub> = (4 - 1)<sub>10</sub></li>
+											<li>7<sub>10</sub> = 111<sub>2</sub> = (8 - 1)<sub>10</sub></li>
+											<li>etc.</li>
+										</ul>
+										That's because in binary, powers of 2 are always a one followed by a bunch of zeros, so the number just before is all ones. It's analogous to 9, 99, 999, etc. in decimal; the number that is all nines is always one less than the power of 10.
+									</li>
+								</ul>
+							</li>
+							<li>
+								Can you get a result that's 11110000?
+								<ul>
+									<li>
+										<p>An easy way is to type "11110000 in decimal" in Google, and it will calculate it for you!</p>
+										To manually calculate it, write out the powers of 2 under each bit in the number:
+										<div class="indent bordered-table" style="width:500px; grid-template-columns: auto auto auto auto auto auto auto auto;">
+											<div>1</div>
+											<div>1</div>
+											<div>1</div>
+											<div>1</div>
+											<div>0</div>
+											<div>0</div>
+											<div>0</div>
+											<div>0</div>
+											<div>128</div>
+											<div>64</div>
+											<div>32</div>
+											<div>16</div>
+											<div>8</div>
+											<div>4</div>
+											<div>2</div>
+											<div>1</div>
+										</div>
+										Then add up the powers that have a 1 in that place: 128 + 64 + 32 + 16 = 240
+									</li>
+								</ul>
+							</li>
+							<li>
+								What numbers result in no capacitors charged at all?
+								<ul>
+									<li>Only the number 0 results in no capacitors charged. Every other number would need at least one capacitor charged.</li>
+								</ul>
+							</li>
+							<li>
+								What numbers make all the capacitors light up with charge?
+								<ul>
+									<li>This is the same as the question about making numbers with all ones from the previous section. Any decimal number that's one less than a power of 2 will result in a row of charged capacitors.</li>
+								</ul>
+							</li>
+							<li>
+								What's a decimal numeral that charges every capacitor but one?
+								<ul>
+									<li>
+										There are lots of numbers that can answer this question! Here are some early ones:
+										<div class="indent bordered-table two-col" style="width:200px; text-align:center;">
+											<div class="header">Decimal</div>
+												<div class="header">Binary</div>
+											<div>2</div>
+												<div>10</div>
+											<div>5</div>
+												<div>101</div>
+											<div>6</div>
+												<div>110</div>
+										</div>
+										There's not a pattern to all the answers, so students can play with different decimal values until they find ones with a matching capacitor pattern, or they can write out binary sequences with only one 0 and then work out the decimal equivalent.
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</li>
+			</ul>
+		</div>
+
+		<a class="back-to-top" href="#top">&uarr; Back to Top</a>
+		<h3>Activity 3: Hexadecimal Numerals and RGB Colors.<a name="A3" class="anchor">&nbsp;</a></h3>
+		<div>
+			<ul>
+				<li><strong>Materials:</strong> <a href="/bjc-r/middle-school/student-pages/U1/L5/03-hex-rgb-colors.html?topic=middle-school%2F1-functions-data.topic&course=middle-school.html" title="Activity 3: Hexadecimal Numerals and RGB Colors" target="_blank">Hexadecimal Numerals and RGB Colors</a> student page</li>
+				<li>
+					<strong>Prepare:</strong>
+					<ul>
+						<li>This activity is optional, review it and decide whether you will use it with your students.</li>
+						<li>If you are not familiar with hexadecimal, carefully read and work through the exercises on the student activity page before class.</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Learning Goals:</strong>
+					<ul>
+						<li>Understand the basics of reading hexadecimal numerals.</li>
+						<li>Appreciate how RGB colors are written with hexadecimal.</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Activity Plan:</strong>
+					<ul>
+						<li>An Easier Computer Number System to Type: Building on their understanding of binary representation students learn about hexadecimal number representation and convert several hex numbers to decimal. (10&ndash;20 minutes)</li>
+						<li>Hexadecimal vs. Binary. Students learn about the relationship between binary and hex and watch an animation of a counter counting in binary, decimal, and hexadecimal. Optionally, you may choose to have students write out their observations about the counter and/or translate decimal into hex. (5&ndash;20 minutes)</li>
+						<li>Hexadecimal and RGB Colors. Students learn about RGB color values can be represented with hex and translate several RGB colors into hex. (5&ndash;15 minutes)</li>
+
+					</ul>
+				</li>
+				<li>
+					<strong>Tips:</strong>
+					<ul>
+						<li>For additional resources on hexadecimal, review these former pages of the BJC high school curriculum: <a href="/bjc-r/cur/programming/4-internet/4-representation-compression/old/6-hexadecimal.html" title="Hexadecimal Representation" target="_blank">Hexadecimal Representation</a> and <a href="/bjc-r/cur/programming/4-internet/4-representation-compression/old/7-more-hex.html" title="More About Hexadecimal" target="_blank">More About Hexadecimal</a>.</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Standards:</strong>
+					<ul>
+						<li><strong>2-DA-07:</strong> Represent data using multiple encoding schemes.</li>
+					</ul>
+				</li>
+				<li>
+					<a href="#hint-solutions-A3" data-toggle="collapse" title="Activity 3 Solutions"><strong>Solutions</strong></a>
+					<div id="hint-solutions-A3" class="collapse">
+						<ul>
+							<li>
+								Find the decimal representation for these hexadecimal numerals:
+								<ul>
+									<li>C0<sub>16</sub> = 192</li>
+									<li>96<sub>16</sub> = 150</li>
+									<li>3F<sub>16</sub> = 63</li>
+								</ul>
+							</li>
+							<li>
+								Find the hexadecimal representation for these decimal numerals:
+								<ul>
+									<li>47 = 2F<sub>16</sub></li>
+									<li>185 = B9<sub>16</sub></li>
+									<li>290 = 112<sub>16</sub></li>
+								</ul>
+							</li>
+							<li>Represent these colors in hex notation:
+								<ol>
+									<li><span style="color:#0A78FF;">(10,120,255)= 0A78FF</span></li>
+									<li><span style="color:#DC0ADC;">(220, 10, 220) = DC0ADC</span></li>
+									<li><span style="color:#3CFF3C;">(60, 255, 60) = 3CFF3C</span></li>
+								</ol>
+							</li>
+						</ul>
+					</div>
+				</li>
+			</ul>
+		</div>
+
+		<a class="back-to-top" href="#top">&uarr; Back to Top</a>
+		<h3>Activity 4: Secret Messages.<a name="A4" class="anchor">&nbsp;</a></h3>
+		<div>
+			<ul>
+				<li><strong>Materials:</strong> <a href="/bjc-r/middle-school/student-pages/U1/L5/04-secret-messages.html?topic=middle-school%2F1-functions-data.topic&course=middle-school.html" title="Activity 4: Secret Messages" target="_blank">Secret Messages</a> student page</li>
+				<li>
+					<strong>Prepare:</strong>
+					<ul>
+						<li>Note that this entire activity is offline.</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Learning Goals:</strong>
+					<ul>
+						<li>Encode and decode messages using the Caesar cipher and a more general simple using substitution cipher. </li>
+					</ul>
+				</li>
+				<li>
+					<strong>Activity Plan:</strong>
+					<ul>
+						<li>Creating an Encoding Scheme: Students begin with an offline activity of creating message encoding schemes and attempting to decode someone else's encoded message. (20&ndash;40 minutes)</li>
+						<li>Caesar Cipher: Students decode and encode secret messages using a Caesar cipher, discuss decoding Caesar ciphers, and brainstorm about stronger encoding schemes. (25&ndash;55 minutes)</li>
+						<li>Other Simple Substitution Ciphers: Students decode and encode messages using more general simple substitution ciphers, and optionally, discuss decoding simple substitution cipher without knowing the key and brainstorm further about stronger encoding schemes. (10&ndash;30 minutes)</li>
+					</ul>
+				</li><li>
+					<strong>Standards:</strong>
+					<ul>
+						<li><strong>2-NI-06:</strong> Apply multiple methods of encryption to model the secure transmission of information.</li>
+					</ul>
+				</li>
+				<li>
+					<a href="#hint-solutions-A4" data-toggle="collapse" title="Activity 4 Solutions"><strong>Solutions</strong></a>
+					<div id="hint-solutions-A4" class="collapse">
+						<ul>
+							<li>FDHVDU'V PHVVDJHV ZHUHQ'W YHUB VHFXUH. &rightarrow; CAESAR'S MESSAGES WEREN'T VERY SECURE.</li>
+							<li>SZH NZFWO JZF XLVP L MPEEPC NTASPC? &rightarrow; HOW COULD YOU MAKE A BETTER CIPHER?</li>
+							<li>YRJFUCH NI SIOL WFUMMGUNYM BIQ SIO XYWIXYX NBCM GYMMUAY. &rightarrow; EXPLAIN TO YOUR CLASSMATES HOW YOU DECODED THIS MESSAGE.</li>
+							<li>VTXOUNA PNU UPAK MI VNPVW. &rightarrow; CIPHERS ARE EASY TO CRACK.</li>
+							<li>
+							There are two prompts on the student-facing page asking students to consider how to decode a message without knowing know the shift (in the case of a Caesar/shift cipher) or the key (in the case of the more general simple substitution cipher). Here are a few common approaches:
+							<ul>
+								<li>Brute force: Try every possible shift. That's just 26 different shifts to try for the Caesar Cipher. That may feel like a lot if you're doing it by hand, but with a computer, that's very doable. (For the modern encryption methods used on computers, there are 340,000,000,000,000,000,000,000,000,000,000,000,000 keys, so it'd take a computer trillions of years to try every possible shift key!)</li>
+								<li>Known text: If you had any idea about what the message contained, it'd be easier to narrow down possible shift keys. For example, if you knew an encoded letter started with "Dear", you'd just have to figure out what shift key resulted in the encoded version of that. You might also notice the same encoded word show up multiple times and suspect it's a common word like "the", and use that to figure out the likely shift key. Even for a simple substitution cipher, this approach can be helpful since knowing three or four letters may help you guess other words leading to more known letters.</li>
+								<li>Frequency analysis: Some letters are much more frequent than others in the English language ("E" is the most common). If the encoded text is very long, you could analyze which letters are the most frequent, and then make an educated guess about their decrypted identity. For example, if you saw "W" the most often, you might guess it was the encryption of "E", and so on.</li>
+							</ul>
+						</li>
+						<li>An If There Is Time prompt asks students how to make the encryption more secure. A shift/Caesar cipher is one of the least secure ciphers, since every letter is shifted by the same amount (once you've cracked one letter, you've cracked them all!), and there are only a relatively small number of possible shift keys (26). To make a more secure cipher, you ideally want an encryption technique that changes different letters in different ways and that has many possible keys. An example is the Vigenère Cipher, from the 1500, which used multi-word phrases as shift keys, and then swapped out letters according to a table created from that shift key. The Vigenère cipher was eventually cracked, especially as computers came about that were able to quickly analyze possible shift keys and decryptions. Modern encryption techniques use shift keys that are 128 bits long and require applying a complex sequence of mathematical operations for <em>every</em> bit in the key.</li>
+						</ul>
+					</div>
+				</li>
+			</ul>
+		</div>
+
+		<a class="back-to-top" href="#top">&uarr; Back to Top</a>
+		<h3>Activity 5: Programming a Caesar Cipher.<a name="A5" class="anchor">&nbsp;</a></h3>
+		<div>
+			<ul>
+				<li><strong>Materials:</strong> <a href="/bjc-r/middle-school/student-pages/U1/L5/05-caesar-cipher.html?topic=middle-school%2F1-functions-data.topic&course=middle-school.html" title="Activity 5: Programming a Caesar Cipher" target="_blank">Programming a Caesar Cipher</a> student page </li>
+				<li>
+					<strong>Prepare:</strong>
+					<ul>
+						<li>If you expect some students to complete the If There Is Time exercises and you aren't familiar with Snap<em>!</em> input slots, you may wish to read the brief text behind the link "Why do the input slots to <code>binary of hex</code> and <code>hex of binary</code> have different shapes?" in the yellow box near the middle of <a href="/bjc-r/middle-school/student-pages/U1/L5/03-hex-rgb-colors.html?topic=middle-school%2F1-functions-data.topic&course=middle-school.html" title="Activity 3: Hexadecimal Numerals and RGB Colors" target="_blank">Activity 3: Hexadecimal Numerals and RGB Colors</a>.</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Learning Goals:</strong>
+					<ul>
+						<li>Learn about Unicode and how to use the Unicode blocks in Snap<em>!</em>.</li>
+						<li>Learn how to use lists as inputs to blocks that do not appear to take lists as inputs.</li>
+						<li>Practice nesting functions.</li>
+						<li>Review creating a custom block with inputs.</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Activity Plan:</strong>
+					<ul>
+						<li>Exploring Unicode: Students learn about Unicode and encode/decode the letters of a word one at a time. (5&ndash;10 minutes)</li>
+						<li>Working with Lists: Students learn that the <code>unicode of</code>, <code>+</code>, and <code>unicode as letter</code> blocks can each accept a <em>list</em> as input (not just single values) and that they will report a new list with the results of performing that function on all elements of the list. Students then nest these blocks to encode/decode whole words and/or sentences at a time.  (5&ndash;20 minutes)</li>
+						<li>Generalizing the Process: In small groups or as a class, students discuss how encoding and decoding compare, how these processes varied for each person's message and shift value, and how to generalize the process. Lastly, they create a custom block that generalizes the process. (10&ndash;45 minutes)</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Tips:</strong>
+					<ul>
+						<li>
+							Here are a few common mistakes when making the <code>message shifted by</code> block:
+							<ul>
+    							<li>Using a command block instead of a reporter block. In this case, the block editor won't open with a <code>report</code> block.</li>
+								<li>Not removing the second default argument of the <code>join</code> block. Outputs may have the word "world" appended to the end.</li>
+								<li>Nesting the blocks in correctly. You might have students go back and start with converting a specific message into Unicode (and testing that), then adding an outer block to shift (and testing that), then shifting back (and testing), then <code>join</code>ing (and testing), and then finally creating a reporter, adding that code (testing once more), and finally adding the local variables.</li>
+							</ul>
+						</li>
+						<li>
+							There are several opportunities for small group or class discussions. Regardless of which discussion format you use, ensure that your students to consider these questions.
+							<ul>
+								<li>(If There is Time&mdash;optional) How could you use Snap! to help you decode a message that was created with a simple substitution cipher <em>without knowing the key</em>?</li>
+								<li>
+									Discuss how you decoded the message you received, and listen to how other people decoded the messages they received.
+									<ul>
+									    <li>How did the process of encoding the message compare to the process of decoding the message?</li>
+										<li>What parts of the encoding/decoding process were the same for everyone and what parts were different?</li>
+										<li>How could make a general process that will work for all messages and all shift values?</li>
+									</ul>
+								</li>
+								<li>How can you use this same block to decode a message?</li>
+							</ul>
+						</li>
+						<li>You may opt have some or all students explore the If There is Time or Take It Further exercises. Take It Further exercises are generally more involved than the For You to Do or If There Is Time exercises. </li>
+					</ul>
+				</li>
+				<li>
+					<strong>Standards:</strong>
+					<ul>
+						<li><strong>2-NI-06:</strong> Apply multiple methods of encryption to model the secure transmission of information.</li>
+						<li><strong>2-DA-07:</strong> Represent data using multiple encoding schemes.</li>
+					</ul>
+				</li>
+				<li>
+					<p><a href="#hint-solutions-A5" data-toggle="collapse" title=""><strong>Solutions</strong></a></p>
+					<div id="hint-solutions-A5" class="collapse">
+						<ul>
+							<li>
+								<a class="js-run snap-project" href="/bjc-r/middle-school/prog/U1/lab05/caesar-cipher-solution.xml" title="Caesar Cipher project solution" target="_blank">Caesar Cipher project solution</a><br />
+								<img class="indent" src="/bjc-r/middle-school/img/U1/lab05/message-shifted-by-solution.png" alt="message (message) shift by (shift value): {
+	report (join input list: (unicode ((unicode of (message))+(shift value)) as letter))
+}" title="message (message) shift by (shift value): {
+	report (join input list: (unicode ((unicode of (message))+(shift value)) as letter))
+}" />
+							</li>
+						</ul>
+					</div>
+				</li>
+			</ul>
+		</div>
+
+
+		<!--<h3>Assignments</h3>
+		<div>
+			<ul>
+				<li>...</li>
+			</ul>
+		</div>
+
+
+		<h3>Solutions</h3>
+		<div>
+			<ul>
+				<li>...</li>
+			</ul>
+		</div>-->
+
+		<h3>Correlation with CSTA Standards<a name="Standards" class="anchor">&nbsp;</a></h3>
+		<div class="Standards">
+			<ul>
+				<li><strong>2-NI-06: Apply multiple methods of encryption to model the secure transmission of information.</strong> Encryption can be as simple as letter substitution or as complicated as modern methods used to secure networks and the Internet. Students should encode and decode messages using a variety of encryption methods, and they should understand the different levels of complexity used to hide or secure information. For example, students could secure messages using methods such as Caesar cyphers or steganography (i.e., hiding messages inside a picture or other data). They can also model more complicated methods, such as public key encryption, through unplugged activities.</li>
+				<li><strong>2-DA-07: Represent data using multiple encoding schemes.</strong> Data representations occur at multiple levels of abstraction, from the physical storage of bits to the arrangement of information into organized formats (e.g., tables). Students should represent the same data in multiple ways. For example, students could represent the same color using binary, RGB values, hex codes (low-level representations), as well as forms understandable by people, including words, symbols, and digital displays of the color (high-level representations).</li>
+			</ul>
+		</div>
+
+	</body>
+</html>

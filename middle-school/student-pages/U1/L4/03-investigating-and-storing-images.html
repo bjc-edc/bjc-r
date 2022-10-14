@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unit 1 Lab 4: Image Manipulation, Activity 3</title>
+	</head>
+
+	<body>
+		<h2>Investigating and Storing Images</h2>
+		<div class="todo">
+			<p>There is something not quite right about the pixel X/Y calculation, and I posted in channel about that. Students haven't noticed so far but someone will point it out soon, I'm sure.  - Pamela 9/10/21</p>
+			<p>The <code>use costume</code> block does not appear to be in this project. Also, the image of it below needs to be resized. --MF, 4/11/22</p>
+			<p>Also, we need to resize all of the images in thie lab going forward (and perhaps those coming from other labs as well.) --MF, 4/11/22</p>
+		</div>
+
+		<div class="learn">In this activity, you'll get a close-up look at the pixels in an image and see how the pixels are stored and how to access them.</div>
+		<p>As you've discovered, the images on a screen are made up of pixels (tiny squares of color). Using a few powerful blocks, you can transform the pixels in a picture to make fun filters.</p>
+
+		<h3>Checking Out Some Pixels</h3>
+		<div class="forYouToDo">
+			<ol>
+				<li>Open this <a class="js-run snap-project" href="/bjc-r/middle-school/prog/U1/lab04/image-filters.xml&editMode&noRun" title="Image Filters - Snap! project" target="_blank">Image Filters</a> project, and save it to your account.</li>
+				<li>
+					This <code>use costume</code> block switches the <em>sprite costume</em> (the image shown on the stage). Choose a costume from the dropdown menu, and click the block. Try a few different costumes until you find one you like.<br />
+					<img class="indent" src="/bjc-r/middle-school/img/U1/lab04/use-costume-parrots.png" alt="use costume ('parrots')" title="use costume ('parrots')" />
+				</li>
+				<div class="comment">All images used as costumes were either taken by Pamela or from Pixabay and appear to be public domain.</div>
+				<li>
+					Now move your mouse to the stage where the image appears, and hover over the image. A grid of pixels will appear in the corner, showing you the pixel under your cursor plus the pixels around it (zoomed in). Explore the image with your mouse pointer. Do any of the pixels surprise you?<br />
+					<div class="sidenoteBig">
+						<p>The three <strong>RGB</strong> values show the amount of red, green, and blue in the pixel under the mouse pointer. </p>
+						<p>The <strong>XY</strong> values are the horizontal (<em>x</em>) and vertical (<em>y</em>) positions of the mouse pointer.</p>
+						<p><strong>Pixel Number</strong> identifies the number of the pixel under the mouse pointer. (The pixels are numbered starting from the top left corner, going across the first row of pixels, and then moving down to each of the following rows.)</p>
+					</div>
+					<img class="indent" src="/bjc-r/middle-school/img/U1/lab04/pixel-grid-stage.png" alt="image of Snap! stage with a photo of two colorful parrots in the bottom right corner. In the upper left corner there is a 9 by 9 grid of squares of various colors representing a zoomed in portion of the parrot picture. Beside the grid are four lines of text: 'Center Pixel', 'RGB: 229,111,94', 'X Y: 21,55', and 'Pixel Number: 8085'." title="image of Snap! stage with a photo of two colorful parrots in the bottom right corner. In the upper left corner there is a 9 by 9 grid of squares of various colors representing a zoomed in portion of the parrot picture. Beside the grid are four lines of text: 'Center Pixel', 'RGB: 229,111,94', 'X Y: 21,55', and 'Pixel Number: 8085'." />
+				</li>
+			</ol>
+		</div>
+		<div class="vocabFullWidth"><strong>: Sprites</strong> and <strong>Costumes</strong>
+			<p>
+				A <strong>sprite</strong> is an object that has scripts and a costume and can even move around on the stage.
+				<div class="endnote">
+					<div class="todo">Mary, this image still needs an update. --MF, 9/13/21</div>
+					<p>This project has two sprites: the Image sprite (in the center of the stage), and the PixelGrid sprite (in the top left). The Image sprite has the code you'll be playing with, and the PixelGrid sprite has the code that makes the grid of pixels.</p>
+					<p><a href="#hint-stage-sprites" data-toggle="collapse" title="Click for an image of the stage and the sprites.">Click for an image of the stage and the sprites.</a></p>
+					<div id="hint-stage-sprites" class="collapse"><img class="indent" src="/bjc-r/middle-school/img/U1/lab04/image-manipulation-stage-sprites.jpg" alt="image of Snap! stage with two sprites: the parrot photo and the grid of pixels. Below the stage is a row of several buttons (new sprite, edit sprite, new sprite from webcam, and delete sprite), and below that are two sprite buttons: 'Image', which has a small picture of the parrots; and 'PixelGrid', which shows no image." title="image of Snap! stage with two sprites: the parrot photo and the grid of pixels. Below the stage is a row of several buttons (new sprite, edit sprite, new sprite from webcam, and delete sprite), and below that are two sprite buttons: 'Image', which has a small picture of the parrots; and 'PixelGrid', which shows no image." /></div>
+				</div>
+			</p>
+			<p>
+				A <strong>costume</strong> is picture that can be "worn" by a sprite.
+				<div class="endnote">Each sprite has a current costume and perhaps other possible costumes. The <code>use costume</code> block switches the Image sprite's current costume to the costume selected in the dropdown menu. </div>
+			</p>
+		</div>
+
+
+		<h3>Try Your Own Image</h3>
+		<p>These are optional extra steps for anyone who has access to a webcam or has a own photo of their own.</p>
+		<div class="ifTime show">
+			<ol start="4">
+				<div class="comment">Does it raise privacy issues for UCB if we have students saving photos of themselves in Snap? --MF, 8/14/21</div>
+				<li>
+					Click the "Costumes" tab between the "Scripts" and "Sounds" tabs.<br />
+					<img class="indent" src="/bjc-r/middle-school/img/U1/lab04/costumes-tab.png" alt="image of zoomed in portion of Snap! window near the center top showing the three tabs above the Scripts area, labeled: 'Scripts,' 'Costumes,' and 'Sounds'" title="image of zoomed in portion of Snap! window near the center top showing the three tabs above the Scripts area, labeled: 'Scripts,' 'Costumes,' and 'Sounds'" />
+				</li>
+				<li>
+					<p>If you have a webcam, click the camera icon (<img class="inline" src="/bjc-r/img/sys/camera.png" alt="camera button" title="camera button" />). The browser may ask you for permission and then give you a way to snap a photo. Say cheese! Alternatively, if you have a photo on your computer, drag it into the "Costumes" area.</p>
+					<img class="indent" src="/bjc-r/middle-school/img/U1/lab04/camera-allow.png" alt="screenshot of browser message requesting camera access for snap.berkeley.edu. Click 'Allow.'" title="screenshot of browser message requesting camera access for snap.berkeley.edu. Click 'Allow.'" />
+					<img class="indent" src="/bjc-r/middle-school/img/U1/lab04/camera-pamela.png" alt="camera snapshot of a person making a silly face" title="camera snapshot of a person making a silly face" />
+				</li>
+				<li>You can right click on any costume to rename it.</li>
+				<li>Now, you can go back to the "Scripts" tab, select your new costume in the <code>use costume</code> block, and inspect its pixels. Perhaps you'll discover your eye color isn't exactly as "blue", "green", "brown", or "gray" in this picture as you thought it was. 😉</li>
+			</ol>
+		</div>
+
+
+		<h3>How Are Pixels Stored?</h3>
+		<p>Computers store pixels as a <em>list</em> of RGB values (as you've seen) and store images as a <em>table</em> of pixels (a list of lists).</p>
+		<div class="forYouToDo">
+			<ol start="8">
+				<li>
+					Click the <code>pixels of my costume</code> block. It reports a (very long) <em>table</em> of pixel values. <br />
+					<img class="indent" src="/bjc-r/middle-school/img/U1/lab04/pixels-of-costume-reporting.png" alt="'pixels of my costume' reporting a table with 3 columns and 5 visible rows. (There is a row count of 15,552 in the upper left corner; not all rows are visible). The first column includes values ranging from 111-118; the second column includes values ranging from 111-117; the third column includes values ranging from 112-122." title="'pixels of my costume' reporting a table with 3 columns and 5 visible rows. (There is a row count of 15,552 in the upper left corner; not all rows are visible). The first column includes values ranging from 111-118; the second column includes values ranging from 111-117; the third column includes values ranging from 112-122." />
+				</li>
+			</ol>
+		</div>
+
+		<div class="vocabFullWidth">: <strong>Table</strong>
+			<p>A list is an ordered sequence of items, and a <strong>table</strong> is an ordered sequence of lists. So, <em>a table is a list of lists</em>. Each row in a table is another smaller list.
+				<div class="endnote">
+					<p>The output of the <code>pixels of my costume</code> block is a table with three columns. Each row is one pixel from the image (each with red, green, and blue values), so the three columns in the table are the amount of red, green, and blue in each pixel of the image.</p>
+					<div class="todo">Once day, a picture might be nice inside this hint. --MF, 9/13/21</div>
+					<a href="#hint-table" data-toggle="collapse" title="instructions for viewing a table as a list of lists">Click for instructions for viewing a table as a list of lists.</a>
+					<div id="hint-table" class="collapse">
+						<p>Click the <code>pixels of my costume</code> block, and then right-click the table that appears and select "list view...". You will see the exact same data displayed as a list of lists. (You can right-click the over-arching list and select "table view..." to see the data as a table again.)</p>
+					</div>
+				</div>
+			</p>
+		</div>
+
+		<h3>Selecting One Item from a List</h3>
+		<p>
+			Because a table is a list, you can use the <img class="inline" src="/bjc-r/img/blocks/item.png" alt="item () of 'list input slot'" title="item () of 'list input slot'" /> block to select one row of RGB values from the table (that is, one pixel from the list). You have seen <code>item of</code> select a random item from a list: <br />
+			<img class="indent" src="/bjc-r/middle-school/img/U1/lab02/random-job-block-editor.png" alt="random job: {report (item (random) of (list (artist) (computer programmer) (cashier) (musician) (landscaper) (nurse) (plumber)))}" title="random job: {report (item (random) of (list (artist) (computer programmer) (cashier) (musician) (landscaper) (nurse) (plumber)))}" />
+		</p>
+		<p>
+			Since each item in the output of the <code>pixels of my costume</code> block is one pixel, you can use <code>item of</code> to retrieve the list of color values for one pixel at at time.
+		</p>
+
+		<div class="forYouToDo">
+			<ol start="9">
+				<li>
+					The expression below reports the very first pixel from the table. Click it to see a list of the RGB values for the very first pixel in the costume (the pixel in the top left corner).<br />
+					<img class="indent" src="/bjc-r/middle-school/img/U1/lab04/item1-of-pixels.png" alt="item (1) of (pixels of my costume) reporting {220, 220, 228}" title="item (1) of (pixels of my costume) reporting {220, 220, 228}" />
+					<div class="endnote">The output of the expression <code>item (1) of (pixels of my costume)</code> is a list of three values: the amount of red, green, and blue in the first pixel of the costume.</div>
+				</li>
+				<li>Move your mouse over the image on the stage again. Choose any pixel and write down it's pixel number and RGB value.</li>
+				<li>
+					Change the first input to the expression <code>item (1) of (pixels of my costume)</code> (that is, change the "1") to the pixel number you wrote down, and run that code again. The output should match the RGB value you wrote down.
+					<ul>
+						<img class="imageRight" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
+						<li>What does the <code>item of</code> block do?</li>
+						<li>What is the output of <code>pixels of my costume</code> that becomes the input to <code>item of</code>?</li>
+						<li>Describe why the expression <code>item of (pixels of my costume)</code> reports what it does.</li>
+					</ul>
+				</li>
+			</ol>
+		</div>
+
+		<div class="learn">In this activity, you learned about sprites and costumes, saw how pixels are stored as lists of color values and images are stored as tables of pixels, and learned how to use <code>item of</code> to select one item from a list.</div>
+
+
+	</body>
+</html>

@@ -1,40 +1,41 @@
 # bjc-r
 
-The Beauty and Joy of Computing labs repository.
+The Beauty and Joy of Computing labs resource repository.
 
 ## Cloning this Repo
+We use a project called "llab" to be able to display the lab content nicely. It's contained in the "submodule" `llab` which somewhat changes the way you need to work with `git`.
 
-All content for BJC Labs lives inside this repository.
+(As an aside, if you're interested, you should definitely [check out llab][llab].)
 
-```sh
-git clone git@github.com:bjc-edc/bjc-r
+`git clone --recursive`
+
+OR
+```
+git submodule init
+git submodule update
 ```
 
-## The Awkward Forking History:
-
-There are *two* primary `bjc-r` repositories.
-
-* This repo (`bjc-edc/bjc-r`) contains the high school AP CSP course, Middle School, and spanish translations of curricula
-* `cs10/bjc-r` is ued primary for CS10 at UC Berkeley. [https://cs10.org/bjc-r][cs10]
-* `beautyjoy/bjc-r` currently does not exist, but will become a mirror of the bjc-edc/bjc-r repository.
+To update the repo you should do this:
+```
+git pull
+git submodule update
+```
 
 ## Viewing the Site
+The main "production" server for labs is hosted at Berkeley, [here][main].
 
-This repo lives on the following two domains:
-
-* [https://bjc.berkeley.edu/bjc-r][berkeley]
-* [https://bjc.edc.org/bjc-r][edc]
+We also sometimes use CS10 students as lab rats, and you can view beta labs on 
+the CS10 [site][cs10].
 
 However, the repository is setup so that any fork can be run using GitHub pages.
 The main BJC repo can be viewed in a live state, [here](gh), or you can use your own fork by visiting the following url: `http://[username].github.io/bjc-r/`, where you replace `[username]` with your GitHub account name.
 
-## Running Your Own (Lcoal) Server
+## Running Your Own Server
 While GitHub pages are convenient, you'll likely want to run your own web server
-to make viewing changes much more quick and easy. In order to view the labs, you'll need to have an Apache server running on your machine. Here are some simple instructions for a couple different platforms.
+to make debugging changes much more quick and easy. In order to view the labs, you'll need to have an Apache server running on your machine. Here are some simple instructions for a couple different platforms.
 
 __No matter the platform, you should server files from `/bjc-r/` at the root of your server.__
-
-### macOS and Unix
+### Mac OS X and Unix
 The easiest way to setup a server is to use a simple, built-in Python server.
 1. `cd` into one level above the `bjc-r` directory.
 2. In a separate window run `python -m SimpleHTTPServer` (for Python 2) or `python3 -m http.server` for Python 3.
@@ -42,13 +43,10 @@ The easiest way to setup a server is to use a simple, built-in Python server.
 4. That's it! :)
 
 ### Windows
-Windows guide coming...sometime. However, the Python solution should work as well, provided you install Python.
+Windows guide coming...sometime. However, the Python solution should work as well.
 
 ## Contributing
-
-### [Review the Contributing and Authorship Guide][contributing].
-
-However, for the most part, all you need to do is write some HTML.
+A basic guide on writing labs is, [here][authorship]. However, for the most part, all you need to do is write some HTML.
 To contribute:
 1. Create your own fork of `bjc-r`.
 2. Optionally: Create a new branch for your feature.
@@ -76,10 +74,11 @@ The repo's `master` branch should always be in a directly deployable state. The 
 ![CC_IMG][cc_img]
 
 <!-- Links for the doc -->
-[contributing]: docs/README.md
-[cc]: https://creativecommons.org/licenses/by-nc-sa/3.0/
-[cc_img]: https://i.creativecommons.org/l/by-nc-sa/3.0/88x31.png
-[cs10]: https://cs10.org/bjc-r
+[authorship]: authorship.md
+[cc]: http://creativecommons.org/licenses/by-nc-sa/3.0/
+[cc_img]: http://i.creativecommons.org/l/by-nc-sa/3.0/88x31.png
+[cs10]: http://cs10.berkeley.edu/labs
+[llab]: http://github.com/beautyjoy/llab
 [localhost]: http://localhost:8000/bjc-r
-[berkeley]: https://bjc.berkeley.edu/bjc-r/
-[edc]: https://bjc.edc.org/bjc-r
+[main]: http://bjc.eecs.berkeley.edu/bjc-r/
+
