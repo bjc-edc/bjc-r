@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
@@ -13,20 +13,20 @@
             <p>BH: But FYTD 1c is kinda TIFfy.  And, I think Church actually proved it before Turing, but we should check.  And, bring back his picture!</p>
             <p>MF: I want to review this page just because the idea deserves it</p>
         </div>
-        
+
         <div class="learn">
             <p><strong>En esta página,</strong> considerará un problema que <em>no puede</em> tener una respuesta.</p>
         </div>
-        
+
         <p>En este punto del curso, has experimentado la frustración de depurar un programa. Sería genial si hubiera un programa de depuración de propósito general que pudiera leer cualquier código y determinar si había errores. Desafortunadamente, podemos usar prueba por contradicción (como hicieron Alphie, Betsy y Gamal en la página anterior) para demostrar que esto no se puede hacer.</p>
         <p>Primero, asumiremos que es posible escribir una función para determinar si hay <em>bucles infinitos</em> en un programa (situaciones en las que una función se ejecuta para siempre sin devolver un valor). Luego, utilizaremos esa función en un programa especialmente diseñado para crear una contradicción (una incompatibilidad lógica) para demostrar que la suposición es incorrecta&mdash;<strong>no puede existir un programa de depuración de uso general</strong>. "Este programa tiene errores" es un <em>problema indecidible</em>; nunca se puede construir un algoritmo que siempre lo resuelva correctamente para cada programa.</p>
         <div class="vocabFullWidth">
             <p>Un <strong>bucle infinito</strong> es una secuencia de instrucciones de computadora que se repite para siempre.</p>
-            <p>Un <strong>problema irresolubles</strong> es uno para el que nunca se puede escribir un algoritmo para encontrar la solución.</p> 
+            <p>Un <strong>problema irresolubles</strong> es uno para el que nunca se puede escribir un algoritmo para encontrar la solución.</p>
             <p>Un <strong>problema indecidible</strong> es uno para el que nunca se puede escribir un algoritmo que siempre dé una <em> decisión verdadero/falso</em> correcta para cada valor de entrada. Los problemas indecidible son una subcategoría de problemas irresolubles que incluyen solo problemas que deberían tener una respuesta sí/no (como: ¿mi código tiene un error?).</p>
         </div>
-        
-        
+
+
         <h3>Suponiendo que una función <code>detener?</code> Existe</h3>
         <h4><strong>Haciendo la suposición</strong></h4>
         <p>
@@ -34,15 +34,15 @@
             Primero, <em>asumimos</em> que existe una función llamada <code>detener?</code> que determina si dado un reportador reportará un valor en un tiempo finito. (Si es así, decimos que el reportador <em>se detiene.</em>) Se necesitan dos entradas: una función y un valor de entrada para esa función. Este reporta <code>verdadero</code> si la función reportaria un valor cuando se le da esa entrada; y reporta <code>falso</code> si la función se ejecutaría para siempre (en un bucle infinito).<br />
             <img class="indent" src="/bjc-r/img/5-algorithms/halts.es.png" alt="detener? (función) (entrada)" title="detener? (función) (entrada)" />
         </p>
-        
+
         <p>Por ejemplo, la función <code>redondear</code> no se ejecutará para siempre cuando se le dé la entrada <var>7.5</var>; reportara 8.</p>
         <div class="sidenote">El circulo gris alrededor de la función de entrada significa que el código de <code>detener?</code> tratará la función de entrada como datos en lugar de ejecutarla.</div>
         <p class="indent"><img class="inline" src="/bjc-r/img/5-algorithms/halts-reporting.es.png" alt="detener?(redondear())(7.5) reporta verdadero" title="detener?(redondear())(7.5) reporta verdadero" /> porque <img class="inline" src="/bjc-r/img/5-algorithms/round(7-5).es.png" alt="redondear(7.5)" title="redondear (7.5)" /> reporta un valor.</p>
 
         <p>Por otro lado, imagine que tenemos una función que se atascará en un bucle infinito cuando se le dé la entrada <var>foo</var>; nunca reportara (nunca se detendra).</p>
         <p class="indent"><img class="inline" src="/bjc-r/img/5-algorithms/halts-reporting-false.es.png" alt="detener?(programa con un bucle infinito ())(foo) reporta falso" title="detener?(programa con un bucle infinito ())(foo) reporta falso" /> porque <img class="inline" src="/bjc-r/img/5-algorithms/program-with-loop(foo).es.png" alt="programa con un bucle infinito (foo)" title="programa con un bucle infinito (foo)" /> bucles infinitamente.</p>
-        
-        
+
+
         <h4><strong>Revisión del plan para la prueba</strong></h4>
         <p>Usaremos prueba por contradicción para mostrar que la siguiente pregunta <em>no se puede</em> responder<em>en general</em>:</p>
         <p class="center"><strong>¿Un determinado programa de computadora, dada una determinada entrada, reportara un resultado en un tiempo finito?</strong></p>
@@ -51,26 +51,26 @@
             <p>Tenga en cuenta que <code>detener?</code> siempre debe reportar un resultado, incluso si el programa que está probando no lo hace. Esto se debe a que estamos <em>asumiendo</em> (una suposición que mostraremos es falsa) que <code>detener?</code> siempre funciona&mdash;que siempre reporta una respuesta.</p>
         </div>
 		<p><em>podemos</em> responder esta pregunta para algunas funciones <em>específicas</em>, pero estamos tratando de determinar si podemos idear una prueba <em>general</em> que nos dirá si <em>cualquier</em> función particular reportara un valor para <em>cualquier</em> entrada específica.</p>
-        
+
         <div class="endnote">
 			<a href="#hint-general" data-toggle="collapse" title="Qué significa responder la pregunta para funciones específicas?">¿Qué significa responder la pregunta para funciones <em>específicas</em>?</a>
             <div id="hint-general" class="collapse">
                 <p>
                     La parte "en general" es importante. Por supuesto, podemos responder la pregunta para ciertos programas particulares. Éste se detiene (reporta un valor) para <em>cualquier</em> entrada:<br />
-                    <img class="indent" src="/bjc-r/img/5-algorithms/three-fn.es.png" alt="tres(x): reportar (3)" title="tres(x): reportar (3)" /> 
+                    <img class="indent" src="/bjc-r/img/5-algorithms/three-fn.es.png" alt="tres(x): reportar (3)" title="tres(x): reportar (3)" />
                 </p>
-                <p> 
+                <p>
                     Este <em>nunca</em> se detiene para cualquier entrada:<br />
-                    <img class="indent" src="/bjc-r/img/5-algorithms/loop-fn.es.png" width="158" alt="bucle(x): por siempre (esperar 1 segs)" title="bucle(x): por siempre (esperar 1 segs)" /> 
+                    <img class="indent" src="/bjc-r/img/5-algorithms/loop-fn.es.png" width="158" alt="bucle(x): por siempre (esperar 1 segs)" title="bucle(x): por siempre (esperar 1 segs)" />
                 </p>
                 <p>
                     Y este se detiene <em>a veces</em>&mdash;para cualquier entrada excepto 87:<br />
-                    <img class="indent" src="/bjc-r/img/5-algorithms/weird-fn.es.png" width="158" alt="extraño(x): si (x = 87) (por siempre (esperar 1 segs)) sino (reportar (3))" title="extraño(x): si (x = 87) (por siempre (esperar 1 segs)) sino (reportar (3))" /> 
+                    <img class="indent" src="/bjc-r/img/5-algorithms/weird-fn.es.png" width="158" alt="extraño(x): si (x = 87) (por siempre (esperar 1 segs)) sino (reportar (3))" title="extraño(x): si (x = 87) (por siempre (esperar 1 segs)) sino (reportar (3))" />
                 </p>
                 <p>Recuerde: la pregunta es si podemos idear una prueba que nos dirá si <em>cualquier</em> función particular reportará un valor para <em>cualquier</em> entrada específica.</p>
 			</div>
 		</div>
-        
+
 		<div class="forYouToDo" id="first">
 			<ol>
 				<li>
@@ -83,10 +83,10 @@
                 </li>
 			</ol>
 		</div>
-		
+
 
         <h3>Mostrando cómo esto crea una contradicción</h3>
-        
+
 		<h4><strong>Construyendo un programa para el cual <code>detener?</code> no funcionará</strong></h4>
 		<p>
             Para demostrar que no puede existir tal función, necesitamos crear una contradicción. Necesitamos demostrar que tiene que haber al menos una función y una entrada a esa función para la cual <code>detener?</code> no funciona de la manera que asumimos. Por lo tanto, podemos hacer un bloque, <code>probar</code>, específicamente con el propósito de romper <code>detener?</code>:<br />
@@ -99,12 +99,12 @@
         </p>
         <p>El bloque <code>por siempre</code> en este script crea un bucle infinito. Si el código de <code>prueba</code> termina en esta parte de la declaración <code>si</code>, nunca reportara nada. Entonces, entonces si <code>prueba</code> se detendrá <em>el mismo</em> depende de la salida del predicado <code>detener?</code> en la declaración <code>si</code> dentro de él.</p>
         <p>La expresion <img class="inline" src="/bjc-r/img/5-algorithms/halts-reporter-reporter.es.png" alt="detener? (reportador) (reportador)" title="detener? (reportador) (reportador)" /> pregunta qué sucederá si llamamos a la función de entrada (<var>reportar</var>) con <em>el mismo</em> como su propia entrada. Esto es similar a cuando Betsy hizo una declaración sobre la declaración que estaba haciendo, cuando dijo: "La declaración que estoy haciendo <em>en este momento</em> es falsa". </p>
-        
+
         <div class="endnote">
             <img class="inline" src="/bjc-r/img/icons/tough-stuff-mini.es.png" alt="Cosas difíciles" title="Cosas difíciles" />
             Este <em>es</em> desafiante. ¡Quedate con eso! Estamos <em>creando una contradicción</em> para demostrar que la función <code>detener?</code> llamada dentro de <code>prueba</code> no puede existir.
         </div>
-        
+
         <h4><strong>Utilizando autorreferencia para conducir a la contradicción</strong></h4>
         <p>
             Para hacer que la situación sea <em>exactamente</em> como lo que dijo Betsy ("La declaración que estoy haciendo <em>en este momento</em> es falsa"), llamaremos a <code>prueba</code> dentro de <em>sí mismo</em>:<br />
@@ -116,7 +116,7 @@
         <p>Entonces, al igual que en los ejemplos anteriores,</p>
         <p class="indent"><img class="inline" src="/bjc-r/img/5-algorithms/halts-tester-tester-reporting-true.es.png" alt="detener (prueba) (prueba) reportando verdadero" title="detener (prueba) (prueba) reportando verdadero" /> significaría que <img class="inline" src="/bjc-r/img/5-algorithms/testertester.es.png" alt="tester(tester())" title="prueba(prueba())" /> devuelve un valor.</p>
         <p class="indent"><img class="inline" src="/bjc-r/img/5-algorithms/halts-tester-tester-reporting-false.es.png" alt="detener (prueba) (prueba) reportando falso" title="detener (prueba) (prueba) reportando falso" /> significaría que <img class="inline" src="/bjc-r/img/5-algorithms/testertester.es.png" alt="prueba(prueba())" title="prueba(prueba())" /> bucles infinitamente.</p>
-                
+
         <h4><strong>Entendiendo la contradicción</strong></h4>
         <p>
             Cuando llamamos <img class="inline" src="/bjc-r/img/5-algorithms/testertester.es.png" alt="prueba(prueba())" title="prueba(prueba())" />, nos encontramos con la contradicción. Para ver cómo, mire hacia atrás en la definición de <code>prueba</code>:<br />
@@ -130,11 +130,11 @@
             </ol>
 		</p>
         <div class="endnote">No importa <em>qué</em> valor <code>prueba</code> reporta, solo que reporta <em>algún</em> valor, pero <em>sí</em> importa qué valor reporta <code>detener</code>.</div>
-        
+
         <div class="takeNote">
             <p>No importa qué <code>detener?</code> reporta, siempre estará en desacuerdo consigo mismo en un programa como este. <strong>Esta contradicción (esta imposibilidad lógica) significa que la suposición de que es posible escribir <code>detener?</code> tiene que estar equivocada</strong>. Esto no es solo un reclamo sobre lo que sucederá en Snap<em>!</em>. El lenguaje que use para explorar un problema computacional puede afectar la claridad o la legibilidad de su código, pero no si existe una solución a un problema. Incluso con los avances en computación cuántica, nunca podremos crear un programa de depuración de propósito general. Este famoso ejemplo se conoce como el <em>problema de detención</em> y el hecho de que el problema de detención no sea decidible es el <em>Teorema de detención</em>.</p>
 		</div>
-        
+
         <div class="forYouToDo">
             <ol start="2">
                 <li>
@@ -151,13 +151,13 @@
                 <li>Escriba un párrafo que explique la diferencia entre un problema que <em>no se puede</em> resolver (como el problema de detención) y un problema que lleva un tiempo irrazonable.</li>
             </ol>
         </div>
-        
+
         <div class="endnote">
             <h4><strong>¿Quién probó primero el teorema de la detención?</strong></h4>
             <p>Alan Turing (1912-1954) fue uno de los fundadores de la informática. Es conocido por dos logros. Primero, hizo una contribución masiva para ganar la Segunda Guerra Mundial al inventar una teoría matemática y el hardware informático correspondiente para descifrar los mensajes codificados generados por la máquina alemana Enigma. En segundo lugar, junto con su colega Alonzo Church, Turing fue uno de los fundadores de la <em>informática teórica</em>: demostrando cómo las computadoras <em>deben</em> funcionar independientemente de la tecnología futura. A pesar de su trabajo en el Problema de detención, demostró que <em> hay cálculos que nunca se pueden hacer </em>, sin importar cuán grandes y rápidas sean las computadoras.</p>
             <p>Cuando Turing hizo este trabajo, no había computadoras programables; la gente tenia que volver a cablear máquinas físicas para resolver cada nuevo problema. Con potentes lenguajes de programación (como Snap<em>!</em>), podemos ver y comprender la esencia de la prueba de Turing mucho más fácilmente porque podemos usar funciones como entradas para otras funciones, como has visto con <code>mapear</code>, <code>mantener</code> y <code>combinar</code>. Esta prueba fue aún más difícil para Turing porque tuvo que inventar la idea de un programa de computadora que se pueda representar como datos dentro de la computadora.</p>
         </div>
-                
-        
+
+
 	</body>
 </html>
