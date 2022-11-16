@@ -18,15 +18,15 @@ hamburger = llab.fragments.hamburger;
 const DISCLOURSE_HEADINGS = {
   'ifTime': {
     en: 'If There Is Time…',
-    es: 'SPANISH IF TIME TODO'
+    es: 'Si hay tiempo…'
   },
   'takeItFurther': {
     en: 'Take It Further…',
-    es: 'SPANISH TAKE IT FURTHER TODO'
+    es: 'Llevándolo más allá'
   },
   'takeItTeased': {
     en: 'Take It Further…',
-    es: 'SPANISH TAKE IT FURTHER TODO'
+    es: 'Llevándolo más allá'
   }
 };
 
