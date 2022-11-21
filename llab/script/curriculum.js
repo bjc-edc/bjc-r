@@ -14,6 +14,26 @@ llab.url_list = [];
 var FULL = llab.selectors.FULL,
 hamburger = llab.fragments.hamburger;
 
+
+const DISCLOURSE_HEADINGS = {
+  'ifTime': {
+    en: 'If There Is Time…',
+    es: 'Si hay tiempo…'
+  },
+  'takeItFurther': {
+    en: 'Take It Further…',
+    es: 'Llevándolo más allá'
+  },
+  'takeItTeased': {
+    en: 'Take It Further…',
+    es: 'Llevándolo más allá'
+  }
+};
+
+llab.disclourseBoxHeading = (key, lang) => {
+  return DISCLOURSE_HEADINGS[key][lang];
+};
+
 // Executed on each page load.
 // TODO: Should probably be slip into a better place.
 llab.secondarySetUp = function() {
@@ -41,12 +61,6 @@ llab.secondarySetUp = function() {
     $(this).attr('href', llab.getSnapRunURL(this.getAttribute('href'))); // {version: 'v7'}
   });
 
-  const  optionalContent = {
-    'ifTime': 'If There Is Time…',
-    'takeItFurther': 'Take It Further…',
-    'takeItTeased': 'Take It Further…',
-  };
-
   // Return the name of the class on element if it is a class in optionalContent
   function lookupClassName(optionalContent, classList) {
     for (let key in optionalContent) {
@@ -57,16 +71,17 @@ llab.secondarySetUp = function() {
     return null;
   }
 
-  let classSelector = `div.${Object.keys(optionalContent).join(',div.')}`;
+  let classSelector = `div.${Object.keys(DISCLOURSE_HEADINGS).join(',div.')}`;
+  let pageLanguage = $("html").attr('lang');
   $(classSelector).each(function(i) {
     let classList = Array.from(this.classList);
     let isVisible = classList.indexOf('show') > -1;
-    let contentType = lookupClassName(optionalContent, classList);
+    let contentType = lookupClassName(DISCLOURSE_HEADINGS, classList);
     let id = `hint-${contentType}-${i}`;
     this.innerHTML = `
     <a style='font-size: 18px;' href='#${id}' data-toggle='collapse'
       role="button" aria-controls="#${id}" aria-expanded=${isVisible}>
-      <strong>${optionalContent[contentType]}</strong>
+      <strong>${llab.disclourseBoxHeading(contentType, pageLanguage)}</strong>
     </a>
     <div id='${id}' class='collapse'>
       ${this.innerHTML}
