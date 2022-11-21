@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
 		<title>Unit 3 Lab 5: Data Part I</title>
     </head>
-    
+
     <body>
     	<h2>GPS Forensics: Clustering</h2>
         <div class="todo">
@@ -28,15 +28,15 @@ Feedback
                 <li>a way to determine if a point belongs to a cluster or not.</li>
             </ol>
         </div>
-        
-        
+
+
         <h3>Measuring Distance</h3>
         <p>To determine how close points are to each other we use a <em>distance metric</em>, some way of measuring distance.  A common metric is Euclidean Distance <code>d</code>, which accurate for <a href="" target="_blank">flat surfaces</a> and found using the by the Pythagorean Formula.</p>
         <div class="sidenoteBig">Disclaimer: GPS coordiates are used on the Earth, which is not a flat surface! But for coordinates all in a small, mostly flat area, Euclidean distance does well enough.</div>
         <p>Given two points <code>P</code> and <code>Q</code>, each with coordinates <code>P<sub>lat</sub></code> and <code>P<sub>long</sub></code> and <code>Q<sub>lat</sub></code> and <code>Q<sub>long</sub></code>, the distance is calculated by the Pythagorean Formula: <span class="katex-block">distance(P,Q)=\sqrt{(P_lat-Q_lat)^2+(P_long-Q_long)^2}</span><br />
             <!--<img class="indent noshadow" src="/bjc-r/img/equations/euclidean-distance-gps.es.png" alt="Forumla for Euclidean Distance">-->
             <div class="comment">Please replace with a better grid with lat and long marked and these distances marked. Rebuild from something in TTA or use GSP.</div>
-            
+
             <img class="indent" src="/bjc-r/img/3-lists/distance-metric.es.png" alt="distance metric" title="distance metric" />
         </p>
         <div class="forYouToDo" id="first">
@@ -49,8 +49,8 @@ Feedback
                 </li>
             </ol>
         </div>
-        
-        
+
+
         <div class="comment">Do we like my word, "Clustership"? --MF</div>
         <h3>Determining Clustership</h3>
         <p>A cluster is a set of points, and we'll use our distance metric to compare the point in question (lets call it <code>p1<sub>outside?</sub></code>) with the points that are in the cluster. That will give you a list of distances (as many as there are points in the cluster), so you'll need to use that list to figure out if <code>p1<sub>outside?</sub></code> should be considered a member of the cluster.</p>
@@ -64,7 +64,7 @@ Feedback
 			and<br />
             <img class="indent" src="/bjc-r/img/data/distance-1-2-to-cluster.es.png" alt="distance from (1,2) to cluster ((4,6), (40,60)) showing 5" />
        	</p>
-      
+
 		<p>Before you use your two new blocks, let's first take a look at the data by extending the previously introduced (<a class="run" href="/bjc-r/prog/data/clustering.xml">visualization code</a>):</p>
         <img class="indent" src="/bjc-r/img/data/clustering-visualization.es.png" alt="visualizing clusters">
         <p>As the comments already indicate, you need to add the pre-processed coordinates as lists (points) of lists (coordinates). If you followed the recommendation under pre-processing, you have these in a text editor and need to copy and paste them into the CLUSTER DATA list. In the next line, we start by defining three cluster center points that we eye-balled from the data. Then, in the following line, we set our minimum distance for a point belonging to a cluster to 50.</p>
