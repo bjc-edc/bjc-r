@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unidad 4 Laboratorio 4: Representación y compresión de datos, página 6</title>
+	</head>
+
+	<body>
+		<h2>Compresión de datos</h2>
+
+        <div class="learn"><strong>En esta página,</strong> aprendes sobre diferentes <em>algoritmos de compresión de datos</em>.</div>
+        <div class="comment">DAT-1.D.1</div>
+        <p>El tamaño de los datos (el número de bits necesarios para almacenarlos) afecta al tiempo que se tarda en enviar esos datos a través de Internet. Entonces, la gente usa <em>compresión de datos</em> algoritmos para reducir el tamaño de imágenes, sonidos, películas y algunos otros tipos de datos.</p>
+
+        <div class="comment">DAT-1.D.3</div>
+        <p>
+            La cantidad de reducción de tamaño depende de dos cosas:
+            <ol>
+                <li>la cantidad de redundancia en los datos originales</li>
+                <li>el algoritmo de compresión aplicado</li>
+            </ol>
+        </p>
+
+        <p>Hay dos grandes categorías de algoritmos de compresión de datos: <em>Sin perdidas</em> y <em>con perdidas,</em> dependiendo de si se pierde información.</p>
+        <div class="vocabFullWidth">: <strong>Compresión sin pérdidas</strong>
+            <p><strong>Datos sin pérdidas&nbsp;compresión</strong> los algoritmos (como PNG) son reversibles (no hay pérdida de calidad); Puede reconstruir los datos originales. </p>
+        </div>
+
+        <div class="comment">DAT-1.D.4</div>
+        <p>La compresión sin pérdidas funciona por <em>eliminación de datos redundantes</em>. Estos algoritmos pueden <em>usualmente</em> reducir el número de bits necesarios para almacenar o transmitir los datos, garantizando al mismo tiempo que los datos originales se puedan reconstruir perfectamente.</p>
+
+        <img class="imageRight" src="/bjc-r/img/6-computers/bjc-logo-original.es.png" alt="BJC logo uncompressed" title="BJC logo uncompressed" />
+        <p>La codificación de longitud de ejecución es un ejemplo de compresión sin pérdidas. Considere los 158 píxeles en la fila superior del logotipo de BJC (a la derecha). Los primeros 60 píxeles son blancos. Luego vienen cinco píxeles de naranja amarillento (la rebanada superior de la "b"). Y el resto de esa fila es blanca.</p>
+        <p class="indent">...<img src="/bjc-r/img/6-computers/top-row-of-pixels-in-bjc-logo.es.png" alt="top-row-of-pixels-in-bjc-logo: 4 white, 6 yellow-orange, 3 white" title="top-row-of-pixels-in-bjc-logo: 4 white, 6 yellow-orange, 3 white">...</p>
+        <p>En lugar de almacenar los 158 píxeles individualmente, podríamos comprimirlos con <em>codificación de longitud de ejecución</em> y solo almacena seis valores (tres números y tres colores):</p>
+
+        <table class="byte indent" width="30%" summary="run length encoding for top row of BJC logo">
+            <tr>
+                <th width="47%" scope="col">pixel count</th>
+                <th width="53%" scope="col">color code</th>
+            </tr>
+            <tr>
+                <td>60</td>
+                <td>FFFFFF</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td bgcolor="E5A84A">E5A84A</td>
+            </tr>
+            <tr>
+                <td>93</td>
+                <td>FFFFFF</td>
+            </tr>
+        </table>
+
+        <div class="comment">DAT-1.D.2</div>
+        <p>Esos seis valores (60, FFFFFF, 5, E5A84A, 93, FFFFFF) se pueden reconstruir en toda esa primera fila de la imagen (158 píxeles). Por lo tanto, menos bits no significa necesariamente menos información.</p>
+        <div class="vocabFullWidth">: <strong>Compresión con pérdida</strong>
+            <p><strong>Datos con pérdida&nbsp;compresión</strong> los algoritmos <em>no</em> son totalmente reversible; Sólo puede reconstruir una <em>aproximación</em> de los datos originales.</p>
+        </div>
+        <div class="comment">DAT-1.D.5</div>
+        <p>La compresión con pérdida funciona eliminando detalles que es probable que las personas no noten. El algoritmo de compresión con pérdida más utilizado para imágenes se llama JPEG (o JPG, ambos pronunciados "jay peg" para "Joint Photographic Experts Group", el comité que lo inventó). JPEG funciona preservando la mayor parte de la información de brillo para cada píxel (ya que los ojos humanos son sensibles a eso) y realizando una especie de proceso de promedio de la información de color (porque los ojos humanos no son tan buenos para distinguir el color, especialmente los colores cercanos al blanco).</p>
+        <p>
+            A continuación se muestra una imagen original sin comprimir de guijarros en un estanque y un JPEG altamente comprimido de la misma imagen. ¿Puedes decir cuál es cuál?<br />
+            <img class="indent" src="/bjc-r/img/6-computers/pond.bmp" alt="pond pebbles" title="pond pebbles" />
+            <img src="/bjc-r/img/6-computers/pond.jpg" alt="pond pebbles" title="pond pebbles" />
+        </p>
+
+        <p>Probablemente <em>puede</em> dígale cuál es cuál, especialmente si buscó bordes afilados o manchas muy brillantes. Pero el archivo comprimido usa 1/30 del espacio utilizado por el original, y aún se podría decir que es una imagen de rocas. Por lo tanto, para muchos propósitos, la versión comprimida sería lo suficientemente buena. Los algoritmos con pérdida generalmente le permiten<em>controlar el grado de precisión</em>, y, en general, las personas seleccionan configuraciones de compresión menos extremas, por lo que el archivo comprimido se parece mucho más al original que a este ejemplo.</p>
+
+        <div class="endnote">
+            <p><a href="#hint-sizes" data-toggle="collapse" title="What size is this file when encoded in different formats?">¿Qué tamaño tiene este archivo cuando se codifica en diferentes formatos?</a></p>
+            <div id="hint-sizes" class="collapse">
+                Aquí están los tamaños de la imagen de guijarros del estanque en cuatro formatos diferentes:
+                <table class="byte indent" width="56%" summary="compression factors example">
+                    <tr>
+                        <th scope="col">formato</th>
+                        <th scope="col">tamaño</th>
+                    </tr>
+                    <tr>
+                        <td style="text-align: left;">BMP codificando cada píxel individualmente (mostrado arriba)</td>
+                        <td>148 kB</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: left;">PNG</td>
+                        <td>106 kB</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: left;">JPEG con la menor compresión</td>
+                        <td>94 kB</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: left;">JPEG con la mayor compresión (se muestra arriba))</td>
+                        <td>5 kB</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <p>El formato MP3, que es casi seguro que usa para archivos de música portátiles, es un formato de compresión con pérdida. Tiende a enfatizar las frecuencias altas, por lo que las personas acostumbradas a la música MP3 encuentran versiones sin comprimir de la misma música boomy (bassy).</p>
+        <h3>¿Cuál es el mejor?</h3>
+        <p>
+            Ambos tipos de compresión de datos existen porque cada uno es útil en ciertas circunstancias.:
+            <ul>
+                <div class="comment">DAT-1.D.7</div>
+                <li>La compresión sin pérdidas es una buena opción cuando hay transiciones muy nítidas entre colores (como en los logotipos) <em>o</em>cuando es esencial poder recrear datos originales con precisión (como el código de un programa o el texto de un libro).</li>
+                <div class="comment">DAT-1.D.6, DAT-1.D.8</div>
+                <li>La compresión con pérdida es una buena opción cuando los datos no requieren precisión (como imágenes, sonido o películas, que las personas ni siquiera notan que se han comprimido)<em>y</em> cuando la reducción del número de bits almacenados o transmitidos es lo más importante.</li>
+            </ul>
+        </p>
+
+        <div class="forYouToDo">
+			<ol>
+				<li>
+                    Estas preguntas son similares a las que verá en el examen AP CSP.
+                    <!-- Question 1 -->
+                    <div class="assessment-data" type="multiplechoice" identifier="Which is NOT an explanation of low image quality?" hasinlinefeedback="true" maxchoices="1" responseIdentifier="ri1" shuffle="false">
+                        <div class="prompt">Un estudiante de cine graba una película en su teléfono inteligente y luego guarda una copia en su computadora. Se da cuenta de que la copia guardada es de una calidad de imagen mucho menor que la original. ¿Cuál de los siguientes podría <strong>NO</strong>  ser una posible explicación para la menor calidad de imagen?</div>
+                        <div class="choice" identifier="c1">
+                            <div class="text">La película se guardó usando menos bits por segundo (una velocidad de bits más baja) que la película original.</div>
+                            <div class="feedback">Esto es probablemente lo que sucedió. ¿Cuál NO podría ser una posible explicación?</div>
+                        </div>
+                        <div class="choice" identifier="c2">
+                            <div class="text">La copia del archivo de película se corrompió de alguna manera en el proceso de guardado.</div>
+                            <div class="feedback">Esto es posible; sin embargo, si el archivo está dañado, es poco probable que tenga un impacto negativo constante en la calidad de la imagen. </div>
+                        </div>
+                        <div class="choice" identifier="c3">
+                            <div class="text">La película se guardó utilizando una técnica de compresión con pérdida.</div>
+                            <div class="feedback">Esto es muy probable. ¿Cuál NO podría ser una posible explicación?</div>
+                        </div>
+                        <div class="choice" identifier="c4">
+                            <div class="text">Cada vez que se guarda un archivo de una computadora a otra, siempre se pierde cierta información.</div>
+                            <div class="feedback">Correcto. Es posible hacer duplicados exactos de información digital sin ninguna pérdida.</div>
+                        </div>
+                        <div class="responseDeclaration" identifier="ri1">
+                            <div class="correctResponse" identifier="c4"></div>
+                        </div>
+                    </div>
+
+                    <!-- Question 2 -->
+                    <div class="assessment-data" type="multiplechoice" identifier="Which are examples of lossless transformation?"
+                        hasinlinefeedback="true" maxchoices="2" responseIdentifier="ri2" shuffle="true">
+                        <div class="prompt">Un artista visual está procesando una imagen digital. ¿Cuál de las siguientes opciones describe un<strong>Lossless</strong> transformación de la que se puede recuperar la imagen original? <em>Elige dos respuestas.</em></div>
+                        <div class="choice" identifier="c1">
+                            <div class="text">Crear el negativo de una imagen, donde los colores se invierten (las áreas oscuras aparecen claras).</div>
+                            <div class="feedback">Correcto. Esta transformación es reversible y es un ejemplo de una transformación sin pérdidas..</div>
+                        </div>
+                        <div class="choice" identifier="c2">
+                            <div class="text">Desenfoque de los bordes de una imagen.</div>
+                            <div class="feedback">El desenfoque mezcla los colores en los bordes de la imagen y una vez que los colores se han mezclado, es imposible recuperar los valores RGB originales de los píxeles involucrados.</div>
+                        </div>
+                        <div class="choice" identifier="c3">
+                            <div class="text">Creación de una copia en escala de grises de una imagen.</div>
+                            <div class="feedback">La escala de grises de una imagen reemplaza cada valor RGB con su promedio y una vez que las cantidades de rojo, verde y azul se han promediado juntas, es imposible recuperar los valores RGB originales de los píxeles.</div>
+                        </div>
+                        <div class="choice" identifier="c4">
+                            <div class="text">Creación de una copia volteada verticalmente de la imagen.</div>
+                            <div class="feedback">Correcto. Esta transformación es reversible y es un ejemplo de una transformación sin pérdidas.</div>
+                        </div>
+                        <div class="responseDeclaration" identifier="ri2">
+                            <div class="correctResponse" identifier="c1"></div>
+                            <div class="correctResponse" identifier="c4"></div>
+                        </div>
+                    </div>
+
+                    <!-- Question 3 -->
+					<div class="comment">DAT-1.D</div>
+                    <div class="assessment-data" type="multiplechoice" identifier="Which are examples of lossless transformation?"
+                        hasinlinefeedback="true" maxchoices="2" responseIdentifier="ri3" shuffle="true">
+                        <div class="prompt">
+                            Para cuál de los siguientes tipos de datos <em>con perdida</em> compresión estar bien? Marque tantos como aplique.
+                        </div>
+                        <div class="choice" identifier="c1">
+                            <div class="text">El código HTML de esta página web.</div>
+                            <div class="feedback">
+                                ¿Estarías feliz si algunas de las palabras de la página desaparecieran?
+                            </div>
+                        </div>
+                        <div class="choice" identifier="c2">
+                            <div class="text">Imagen del escritorio del equipo.</div>
+                            <div class="feedback">
+                                Correcto. La imagen podría tener algunos píxeles incorrectos y aún se vería bien.
+                            </div>
+                        </div>
+                        <div class="choice" identifier="c3">
+                            <div class="text">Una película de acción en vivo en Netflix.</div>
+                            <div class="feedback">
+                                Correcto. La película podría tener algunos fotogramas corruptos y aún se vería bien.
+                            </div>
+                        </div>
+                        <div class="choice" identifier="c4">
+                            <div class="text">Una caricatura en Netflix.</div>
+                            <div class="feedback">
+                                En realidad, los marcos dañados son más notables en una caricatura, que tiene áreas sólidas separadas por bordes afilados. (Afortunadamente, utilizando técnicas como la codificación de longitud de ejecución, es relativamente fácil obtener una versión sin pérdidas y altamente comprimida de una caricatura).
+                            </div>
+                        </div>
+                        <div class="choice" identifier="c5">
+                            <div class="text">Un libro digital, para ser leído en un ordenador.</div>
+                            <div class="feedback">
+                                Los libros digitales no se almacenan como imágenes, sino como texto. Cualquier error será notable, como caracteres galimatías en la página.
+                            </div>
+                        </div>
+                        <!-- Response ID
+                             Make sure each ID is unique, again!
+                             Keep these classes the same for multiple choice problems
+                         -->
+                        <div class="responseDeclaration" identifier="ri3">
+                            <div class="correctResponse" identifier="c2"></div>
+                            <div class="correctResponse" identifier="c3"></div>
+                        </div>
+                    </div>
+
+                </li>
+			</ol>
+		</div>
+
+
+	</body>
+</html>
