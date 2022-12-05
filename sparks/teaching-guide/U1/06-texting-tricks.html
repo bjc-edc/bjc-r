@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Sparks Unit 1 Lab 6 Teacher Guide</title>
+	</head>
+
+	<body>
+		<h2>Lab 6: Texting Tricks</h2>
+		<p>At this point, students have learned a variety of functional programming techniques. In Lab 1, they nested blocks to use the output of one block as the input to another. In Lab 2, they used lists to store a selection of possible words, used <code>join</code> to add an "s" to the end of a word, and created new blocks that accept inputs. In Lab 4, they learned how images are stored as a list of lists (a list of pixels each containing a list of color values), and they used the higher-order function <code>map</code> to select a single color value from every pixel in a list. In Lab 5, they nested a more complex series of blocks to encode and decode messages.</p>
+		<p>Here in Lab 6, students extend their growing facility with functional programming to create and analyze code with nested functions. They learn several new blocks: the relatively simple <code>split</code> block, which students use to divide a text string into a list of letters; the <code>if then else</code> block, which they use to make decisions based on a predicate (testing function); and the higher-order function <code>find first</code>, which identifies the first list item that passes a predicate test.</p>
+		<p><img class="imageRight" src="/bjc-r/sparks/img/U1/lab06/emojify-i-love-rain-reporting.png" alt="emojify ('I love rain) reporting 'I ❤️ ☔️ '" title="emojify ('I love rain) reporting 'I ❤️ ☔️ '" />These more advanced concepts are developed in the playful context of embellishing text with emojis and alternate spellings used in texting and on the Internet, and the lab culminates with a non-programming opportunity to consider issues of bias in the range of emojis available and with students designing an emoji of their own.</p> 
+
+		<h3>Pacing</h3>
+		<p>
+			This lab is designed for 2&ndash;11 class periods (<strong>70&ndash;460 minutes</strong>).
+			<ul>
+				<li><a href="#DA" title="Daily Activity: Computing in the News">Daily Activity: Computing in the News</a> 5&ndash;15 minutes each day</li>
+				<li><a href="#A1" title="Texting Time">Activity 1: Texting Time</a>: 20&ndash;115 minutes</li>
+				<li><a href="#A2" title="L33t Text">Activity 2: L33t Text</a>: 25&ndash;90 minutes</li>
+				<li>(Optional) <a href="#A3" title="Emojify">Activity 3: Emojify</a>: 35&ndash;75 minutes</li>
+				<li><a href="#A4" title="Emoji Deep Dive">Activity 4: Emoji Deep Dive</a>: 15&ndash;90 minutes</li>
+			</ul>
+		</p>
+
+		<a class="back-to-top" href="#top">&uarr; Back to Top</a>
+		<h3>Daily Activity: Computing in the News.<a name="DA" class="anchor">&nbsp;</a></h3>
+		<p>Every day of BJC should begin with a 5-minute student presentation on a recent news article about computing. This helps build a foundation for considering the impacts of  computing technologies on employment, issues of bias and accessibility, and tradeoffs between public access to information and security. Read <a href="/bjc-r/cur/teaching-guide/U1/general-support/computing-in-the-news.html" title="Computing in the News" target="_blank">Computing in the News</a> for additional details and suggested news sources.</p>
+		<div>
+			<ul>
+				<li><strong>Prepare:</strong>  Assign to one student or a pair of students a recent news article about computing for them to read and then summarize for the class during the next class period.</li>
+			</ul>
+		</div>
+
+		<a class="back-to-top" href="#top">&uarr; Back to Top</a>
+		<h3>Activity 1: Texting Time.<a name="A1" class="anchor">&nbsp;</a></h3>
+		<div>
+			<ul>
+				<li>
+					<strong>Materials:</strong> <a href="/bjc-r/sparks/student-pages/U1/L6/01-texting-time.html?topic=sparks%2F1-functions-data.topic&course=middle-school-teacher.html&novideo&noassignment" title="Activity: Texting Time" target="_blank">Activity: Texting Time</a> student page 
+					<div class="comment">OLD: <a href="https://docs.google.com/document/d/1QuTEL_B3tHSpkJhKFdw0ZzWzk4f0Nb8Mfc1pepFeE_M/edit#" title="Texting Time & L33t Text" target="_blank">Texting Time and L33t Text</a></div>
+				</li>
+				<li>
+					<strong>Prepare:</strong> 
+					<ul>
+						<li>If you aren't familiar with using comments to create block help text in Snap<em>!</em>, you may wish to create the "Adding Program Documentation" section of the student-facing activity page before class.</li>
+						<li>Review the slides, and consider how you plan to lead the post-activity discussion.</li>
+						<li>There are a number of optional "If There Is Time" exercises on this page. Consider whether you plan to use some or all of them with all students or just with those students who are moving more quickly through the materials or express additional interest.</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Learning Goals:</strong>
+					<ul>
+						<li>Determine what several blocks do and write descriptions of them.</li>
+						<li>Create block help text using Snap<em>!</em> comments.</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Activity Plan:</strong>
+					<ul>
+						<div class="comment">Mary: give teachers the worksheet. --MF, 10/19/21</div>
+						<li>Styling Your Text Messages: Students experiment with several text processing blocks and write descriptions of what they do. You may choose to have students write their descriptions on paper or on the computer; later they will refine their descriptions as they write "help text" for one or more of the blocks. (10&ndash;25 minutes)</li>
+						<li>Adding Program Documentation: Students learn about program documentation, how to use comments in Snap<em>!</em>, and how to use comments to create help text for blocks.  (10&ndash;30 minutes)</li>
+						<li>Export Text Messages: Students export the output of their text processing blocks so they can paste the results outside of Snap<em>!</em>. (Optional: 5&ndash;10 minutes, if used)</li>
+						<li>Draw a Conversation: Students use a <code>draw convo with messages</code> block to create a simulation of a text conversation on the Snap<em>!</em> stage. (Optional: 5&ndash;10 minutes, if used)</li>
+						<li>
+							<a href="https://docs.google.com/presentation/d/1lExLC1NH1pN185Y5pnprqQd7khyRJnhuXffnVe-z0IA/edit#slide=id.gde44b43ed5_0_0" title="Post-activity Slides and Discussion" target="_blank">Post-activity Slides and Discussion</a>: After students have completed the For You To Do prompts on the student-facing activity page, use these slides to guide a class discussion. (Optional: 5&ndash;40 minutes) You may wish to:
+							<ul>
+								<li>Do a Show &amp; Tell where students share the conversation they drew.</li>
+								<li>Review block nesting (e.g., when/whether nesting order matters, how many blocks can be nested).</li>
+								<li>Discuss the equity issues of software used in different languages and by people of different cultures.</li>
+							</ul>
+						</li>
+								
+					</ul>
+				</li>
+				<!--<li>
+					<strong>Tips:</strong>
+					<ul>
+						<li></li>
+					</ul>
+				</li>-->
+				<li>
+					<strong>Standards:</strong>
+					<ul>
+						<li><strong>2-AP-19:</strong> Document programs in order to make them easier to follow, test, and debug. </li>
+					</ul>
+				</li>
+				<li>
+					<a href="#hint-solutions-A1" data-toggle="collapse" title="Activity 1 Solutions"><strong>Solutions</strong></a>
+					<div id="hint-solutions-A1" class="collapse">
+						<ul>
+							<li> 
+								Nest blocks to get target output strings. (Students may nest blocks differently and still get the correct output.)
+								<ul>
+									<li><img class="inline" src="/bjc-r/sparks/img/U1/lab06/just-do-it-solution.png" alt="clapify (uppercase (just do it)) reporting 'J👏🏽U👏🏽S👏🏽T👏🏽 👏🏽D👏🏽O👏🏽 👏🏽I👏🏽T👏🏽'" title="clapify (uppercase (just do it)) reporting 'J👏🏽U👏🏽S👏🏽T👏🏽 👏🏽D👏🏽O👏🏽 👏🏽I👏🏽T👏🏽'" /></li>
+									<li><img class="inline" src="/bjc-r/sparks/img/U1/lab06/oh-mister-sun-solution.png" alt="songify (emojify (Oh Mister Golden Sun - please come out and play)) reporting '🎶 oh mister golden ☀️ - please come out and play  🎶'" title="songify (emojify (Oh Mister Golden Sun - please come out and play)) reporting '🎶 oh mister golden ☀️ - please come out and play  🎶'" /></li>
+								</ul>
+							</li>
+							<li>
+								Sample block descriptions. (Students may word things differently and still have a correct description.)
+								<ul>
+									<li>The <code>songify</code> block adds random music emojis at the start and end of the text.</li>
+									<li>The <code>emojify</code> block replaces particular words with corresponding emojis and leaves the rest of the text unchanged.</li>
+									<li>The <code>clapify</code> block inserts a clap emoji between each of the letters in the text.</li>
+									<li>The <code>shorthand</code> block removes all of the vowels from the text.</li>
+								</ul>
+							</li>
+							<li>
+								Sample help text. (Again, students may word things differently, but it is nice to describe inputs and outputs.)<ul>
+									<li><code>lowercase</code>: This block takes a string of text as input and reports the same text but with all of the uppercase letters changed to lowercase.</li>
+									<li><code>songify</code>: This block takes a string of text as input and reports the same text but with random music emojis added to the start and end of the text.</li>
+									<li><code>emojify</code>: This block takes a string of text as input and reports the same text but with particular words replaced by corresponding emojis.</li>
+									<li><code>clapify</code>: This block takes a string of text as input and reports the same text but with clap emoji inserted between each of the letters.</li>
+									<li><code>shorthand</code>: This block takes a string of text as input and reports the same text but with all of the vowels removed.</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</li>
+			</ul>
+		</div>
+
+		<a class="back-to-top" href="#top">&uarr; Back to Top</a>
+		<h3>Activity 2: L33t Text.<a name="A2" class="anchor">&nbsp;</a></h3>
+		<div>
+			<ul>
+				<li>
+					<strong>Materials:</strong> <a href="/bjc-r/sparks/student-pages/U1/L6/02-l33t-text.html?topic=sparks%2F1-functions-data.topic&course=middle-school-teacher.html&novideo&noassignment" title="Activity 2: L33t Text" target="_blank">L33t Text</a> student page
+					<div class="comment">OLD: <a href="https://docs.google.com/document/d/1QuTEL_B3tHSpkJhKFdw0ZzWzk4f0Nb8Mfc1pepFeE_M/edit#" title="Texting Time & L33t Text" target="_blank">Texting Time and L33t Text</a></div>
+				</li>
+				<li>
+					<strong>Prepare:</strong> 
+					<ul>
+						<li>There is a good deal of reading on this page, you may wish to walk through that content together as a class.</li>
+						<li>If you are not familiar with using the <code>if</code> reporter, you may want to review that section of the student page.</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Learning Goals:</strong>
+					<ul>
+						<li>Use a conditional (<code>if then else</code>) together with a predicate to control which letters are <code>map</code>ped to numbers.</li>
+						<li>Practice creating blocks with inputs.</li>
+						<li>Practice with the <code>split</code>, <code>map</code>, and <code>join</code> blocks.</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Activity Plan:</strong>
+					<ul>
+						<li>What is L33t? Students learn about leet, a modified spelling system created in the 1980s, and what it will take to build a block that converts text into leet. Consider whether reading this as a class or in small groups might be more effective for your students than reading individually would be. (5&ndash;10 minutes)</li>
+						<li>Creating a Letter-Changing Function. Students use the reporter form of the <code>if</code> conditional together with a predicate to create a function that takes one letter as input and if the letter the target for their change (such as "e"), then it reports the replacement character (such as "3"), and otherwise reports the input letter. (10&ndash;20 minutes)</li>
+						<li><code>Map</code>ping the Letter-Changing Function Over All the Letters. Students use their <code>change letter</code> block together with <code>split</code>, <code>map</code>, and <code>join</code> to create a block that takes a word or phrase as input and reports the same word or phrase with all instances of one letter replaced by a number. This section includes several optional extension activities. (10&ndash;40 minutes)</li>
+						<li>Post-activity Show &amp; Tell. You may wish to have students share the their <code>l33t</code> blocks, any project extensions they completed, and any ideas for project extensions they have. (Optional: 10&ndash;20 minutes)</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Tips:</strong>
+					<ul>
+						<li>You may wish to read and perhaps even share the <a href="https://en.wikipedia.org/wiki/Leet" title="Wikipedia article on leet" target="_blank">Wikipedia article on leet</a>, but be aware that it contains a paragraph on the leet words for pornography toward the end.</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Standards:</strong>
+					<ul>
+						<li><strong>2-AP-13:</strong> Decompose problems and subproblems into parts to facilitate the design, implementation, and review of programs. </li>
+					</ul>
+				</li>
+				<li>
+					<a href="#hint-solutions-A2" data-toggle="collapse" title="Activity 2 Solutions"><strong>Solutions</strong></a>
+					<div id="hint-solutions-A2" class="collapse">
+						<p>
+							<ul>
+								<li>
+									The following are examples for the case of changing the letter "e" to a "3". Students may have correct code that looks different.
+									<ul>
+										<li><img class="inline" src="/bjc-r/sparks/img/U1/lab06/change-e-to-3-solution.png" alt="change e to 3 for letter (letter) {
+				report (if (letter = e) then (3) else (letter))
+			}" title="change e to 3 for letter (letter) {
+				report (if (letter = e) then (3) else (letter))
+			}" /></li>
+										<li><img class="inline" src="/bjc-r/sparks/img/U1/lab06/l33t-solution.png" alt="l33t (text) {
+				report (join (map (change e to 3 for letter ()) over (split (text) by (letter))))
+			}" title="l33t (text) {
+				report (join (map (change e to 3 for letter ()) over (split (text) by (letter))))
+			}" /></li>
+									</ul>
+								</li>
+								<li>
+									An additional letter-changing function:<br />
+									<img class="indent" src="/bjc-r/sparks/img/U1/lab06/change-s-to-5-solution.png" alt="change s to 5 for letter (letter) {
+				report (if (letter = s) then (5) else (letter))
+			}" title="change s to 5 for letter (letter) {
+				report (if (letter = s) then (5) else (letter))
+			}" />
+								</li>
+								<li>
+									Replacing a letter with an emoji:<br />
+									<img class="indent" src="/bjc-r/sparks/img/U1/lab06/change-k-to-key-solution.png" alt="change k to 🔑 for letter (letter) {
+				report (if (letter = k) then (🔑) else (letter))
+			}" title="change k to 🔑 for letter (letter) {
+				report (if (letter = k) then (🔑) else (letter))
+			}" />
+								</li>
+								<li>
+									Replacing a letter with multiple letters:<br />
+									<img class="indent" src="/bjc-r/sparks/img/U1/lab06/change-x-to-ks-solution.png" alt="change x to ks for letter (letter) {
+				report (if (letter = x) then (ks) else (letter))
+			}" title="change x to ks for letter (letter) {
+				report (if (letter = x) then (ks) else (letter))
+			}" />
+								</li>
+								<li>
+									Replacing multiple letters at once by nesting multiple letter-changing functions:<br />
+									<img class="indent" src="/bjc-r/sparks/img/U1/lab06/l33t-nested-solution.png" alt="l33t (text) {
+				report (join (map (change s to 5 for letter ()) over (map (change e to 3 for letter ()) over (split (text) by (letter)))))
+			}" title="l33t (text) {
+				report (join (map (change s to 5 for letter ()) over (map (change e to 3 for letter ()) over (split (text) by (letter)))))
+			}" />
+								</li>
+							</ul>
+						</p>
+					</div>
+				</li>							
+			</ul>
+		</div>
+
+		<a class="back-to-top" href="#top">&uarr; Back to Top</a>
+		<h3>Activity 3: Emojify.<a name="A3" class="anchor">&nbsp;</a></h3>
+		<div class="todo">
+			<p>Pamela, given our new helper block setup, I didn't see a good way to integrate this project extension, but if you do, please LMK. --MF, 10/28/21</p>
+			You can change emojify to generate random emojis by changing: <img class="" src="/bjc-r/sparks/img/U1/lab06/item-2-of-word-emoji-pair.png" alt="" title="" /> to: <img class="" src="/bjc-r/sparks/img/U1/lab06/item-random-of-all-but-first-of-word-emoji-pair.png" alt="" title="" /> Then you can add additional emojis to each list, and it will pick randomly from them.
+			<p>We'll consider adding this next year (also need to add <code>all but first</code> to XML) to do this. --MF, 11/2/21<br />
+				<img class="" src="/bjc-r/sparks/img/U1/lab06/emojify_word_extension.png" alt="emoji from pair (pair) otherwise (word) {
+	report (if (is (pair) in ('list')?) then (item ('random') of (all but first of (pair))) else (word))
+}" title="emoji from pair (pair) otherwise (word) {
+	report (if (is (pair) in ('list')?) then (item ('random') of (all but first of (pair))) else (word))
+}" />
+			</p>
+		</div>
+		<div>
+			<ul>				
+				<li>
+					<strong>Materials:</strong> <a href="/bjc-r/sparks/student-pages/U1/L6/03-emojify.html?topic=sparks%2F1-functions-data.topic&course=middle-school-teacher.html&novideo&noassignment" title="Activity 3: Emojify" target="_blank">Emojify</a> student page
+					<div class="comment">OLD: <a href="https://docs.google.com/document/d/17nP6GrZCilc2jLDNe4QAU5bU5ph7EaKcMV0IK7jGsA8/edit#heading=h.kck2l6av9eau" title="Emojify Google Doc" target="_blank">Emojify Google Doc</a></div>
+				</li>
+				<li>
+					<strong>Prepare:</strong> 
+					<ul>
+						<li>This activity is optional, review it and decide whether you will use it with your students.</li>
+						<li>If you opt to use this activity, read through the student page and the links with optional reading, and be sure you understand how the <code>emojify</code>, <code>emojify word</code>, <code>emoji from pair</code>, and <code>find first</code> blocks work before leading this activity with students.</li>
+						<li>Consider how you plan to run this activity. You could have students work through the page in pairs or small groups discussing as they go. You could work through the whole page together as a class. Or you would have students work in pairs or groups and then bring the class together periodically for discussions to make sure they understand each block before moving on.</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Learning Goals:</strong>
+					<ul>
+						<li>Analyze a set of three nested functions: <code>emojify</code>, <code>emojify word</code>, and <code>emoji from pair</code>.</li>
+						<li>Understand how the <code>find first</code> higher-order function works both on a list and on a list of lists.</li>
+						<li>Review use of the <code>if then else</code> block.</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Activity Plan:</strong>
+					<ul>
+						<li>Using <code>Find First</code> to Make <code>Emojify Word</code>. Students learn the functionality of the <code>find first</code> block and analyze it's use in <code>emojify word</code> to search a list of lists. (10&ndash;20 minutes)</li>
+						<li>Using <code>If Then Else</code> to Make <code>Emoji from Pair</code>. Students learn the <code>is () a ()? </code> block and review the <code>if then else</code> and <code>item  of</code> blocks as they analyze the <code>emoji from pair</code> block used by <code>emojify word</code>. (5&ndash;10 minutes)</li>
+						<li>Using <code>Emojify Word</code> to Make <code>Emojify</code>. Students review <code>map</code>, <code>join</code>, and <code>split</code> as they analyze how the <code>emojify</code> block uses <code>emojify word</code>. After a discussion, they write a description and help text for the block, and then edit <code>emojify word</code> to add one or more word/emoji pairs of their choosing. (10&ndash;25 minutes)</li>
+					</ul>
+				</li>
+				<div class="todo">
+					<p>Pamela, I'm leaving this out for now since it uses the old, pre-helper version of the blocks. If we determine that people need it, we can rewrite it accordingly. --MF, 10/28/21</p>
+					<li>
+						<strong>Tips:</strong>
+						<ul>
+							<li>If students struggle to understand the code in the <code>emojify</code>, you may find it helpful to use this <a href="https://snap.berkeley.edu/snap/snap.html#present:Username=pamelafox-ucb&ProjectName=Emojify Deep Dive&editMode" title="Emojify Breakdown project" target="_blank">Emojify Breakdown project</a>. Students can click each of the expressions to see what they output, understanding the individual blocks then nested blocks until the whole <code>emojify block</code> makes sense. You may opt to give this directly to students or to work through it together as a class.</li>
+						</ul>
+					</li>
+				</div>
+				<li>
+					<strong>Standards:</strong>
+					<ul>
+						<li><strong>2-AP-13:</strong> Decompose problems and subproblems into parts to facilitate the design, implementation, and review of programs.</li>
+						<li><strong>2-AP-19:</strong> Document programs in order to make them easier to follow, test, and debug.</li>
+					</ul>
+				</li>
+				<li>
+					<a href="#hint-solutions-A3" data-toggle="collapse" title="Activity 3 Solutions"><strong>Solutions</strong></a>
+					<div id="hint-solutions-A3" class="collapse">
+						<ul>
+							<li>
+								Write a paragraph describing how the <code>emojify</code> block works. Example paragraph:
+								<p class="indent">The <code>emojify</code> block takes a sentence (more precisely, a string of text) as input. It splits that input sentence into a list of words. Then it applies the <code>emojify word</code> block, which searches for a matching emoji for any input word, to each word in the list (and adds a space after it). Finally, it joins all the list items (both words and emojis) back into a sentence (string of text), which is reported by the block (that is, it is the output).</p>
+							</li>
+							<li>
+								Create help text for <code>emojify</code> that describes the input and output. Example help text: 
+								<p class="indent">This block takes a sentence as input and it reports back the same sentence but with particular words replaced by corresponding emojis.</p>
+							</li>
+							<li>
+								Change the code inside <code>emojify word</code> to make <code>emojify</code> translate a word of your choosing into an emoji of your choosing. Example addition of a cookie/🍪 pair:<br />
+								<img class="indent" src="/bjc-r/sparks/img/U1/lab06/emojify-word-solution.png" alt="emojify (word) {
+	script variables (word emoji pair)
+	set (word emoji pair) to (find first item ((item (1) of 'list input slot') = lowercase (word)) in ('list of 20 two-item lists, each containing a word, such as love, and an emoji, such as ❤️; this list has one additional list: cookie, 🍪 as an example student response'))
+	report (if (is (word emoji pair) a ('list')?) then (item (2) of (word emoji pair)) else (word))
+}" title="emojify (word) {
+	script variables (word emoji pair)
+	set (word emoji pair) to (find first item ((item (1) of 'list input slot') = lowercase (word)) in ('list of 20 two-item lists, each containing a word, such as love, and an emoji, such as ❤️; this list has one additional list: cookie, 🍪 as an example student response'))
+	report (if (is (word emoji pair) a ('list')?) then (item (2) of (word emoji pair)) else (word))
+}" />
+							</li>
+						</ul>
+					</div>
+				</li>
+			</ul>
+		</div>
+
+		<a class="back-to-top" href="#top">&uarr; Back to Top</a>
+		<h3>Activity 4: Emoji Deep Dive.<a name="A4" class="anchor">&nbsp;</a></h3>
+		<div>
+			<ul>
+				<li>
+					<strong>Materials:</strong> <a href="/bjc-r/sparks/student-pages/U1/L6/04-emoji-deep-dive.html?topic=sparks%2F1-functions-data.topic&course=middle-school.html" title="Activity: Emoji Deep Dive" target="_blank">Activity: Emoji Deep Dive</a> student page 
+					<div class="comment">OLD: <a href="https://docs.google.com/document/d/17nP6GrZCilc2jLDNe4QAU5bU5ph7EaKcMV0IK7jGsA8/edit#heading=h.kck2l6av9eau" title="Emojify Google Doc" target="_blank">Emojify Google Doc</a></div>
+				</li>
+				<li>
+					<strong>Prepare:</strong> 
+					<ul>
+						<li>Review the optional videos and determine if you want to use them with students.</li>
+						<li>Students will need paper and various implements for drawing (pencils and erasers, pens, colored pencils, etc.)</li>
+						<li>There are two optional worksheet pages: <a href="https://docs.google.com/document/d/190yVNU5b2PCJGTNpYU7FY4FztQ71P7M_OLjeHmhkxXA/edit#" title="Lab 4 Worksheet: Emoji Analysis and Emoji Design" target="_blank"> Emoji Analysis and Emoji Design</a>. Consider whether you want to use either of these worksheets with students.</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Learning Goals:</strong>
+					<ul>
+						<li>Appreciate the history of emojis</li>
+						<li>Consider issues of bias in emojis</li>
+						<li>Design a new emoji and consider its potential meaning and use</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Activity Plan:</strong>
+					<ul>
+						<li>A Brief History of Emojis. Students read a quick introduction to the creation of emojis. You may opt to have students read this individually, in small groups, or as a class. (&lt;5 minutes)</li>
+						<li>
+							(Optional) Watch one or more videos included on the student activity page (10&ndash;25 minutes):
+							<ul>
+								<li><a href="https://www.youtube.com/watch?v=Dzlek8nMrc8" title="TEDx Talk: Language of the Future" target="_blank">TEDx Talk: Language of the Future</a> on the cultural aspects of emojis and the importance of emojis in text-based conversations by entrepreneur, attorney, inventor and speaker Tracey Pickett  (10:37)</li>
+								<li><a href="https://www.youtube.com/watch?v=bsZBziJVzNA" title="TEDx Talk: How emoji replaced QWERTY as the world's most popular keyword" target="_blank">TEDx Talk: How emoji replaced QWERTY as the world's most popular keyword</a> covering history and issues of bias in emojis by professional emoji historian Jeremy Burge (14:07)</li>
+							</ul>
+						</li>
+						<li>Analyzing Emojis. Students choose a word/emoji pair from <code>emojify word</code> (it may be a pair they added, or one they want to add), and discuss the assumptions of the emoji and alternate meanings of the word and emoji. You may choose to bring the class together for a discussion, and you may consider extending the prompts into a <a href="https://docs.google.com/document/d/190yVNU5b2PCJGTNpYU7FY4FztQ71P7M_OLjeHmhkxXA/edit#heading=h.mtnv7jn0y1be" title="Lab 4 Worksheet: Emoji Analysis" target="_blank">writing activity</a>. (5&ndash;20 minutes)</li>
+						<li>Designing an Emoji. Students reflect on and then <a href="https://docs.google.com/document/d/190yVNU5b2PCJGTNpYU7FY4FztQ71P7M_OLjeHmhkxXA/edit#heading=h.6ek647pod3c5" title="Lab 4 Worksheet: Emoji Design" target="_blank">design</a>, discuss, and share an emoji they think the world needs. Depending on student interest, you may choose to extend the sharing into a whole-class discussion about students' designs, their meaning, and potential use. (10&ndash;40 minutes)</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Tips:</strong>
+					<ul>
+						<li>This activity is a chance for socially oriented and artistically inclined students to shine and for students to bring their own cultures and experiences to the classroom. Make room for their voices.</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Standards:</strong>
+					<ul>
+						<li><strong>2-IC-21:</strong> Discuss issues of bias and accessibility in the design of existing technologies.</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+		
+
+	<!--<h3>Assignments</h3>
+		<div>
+			<ul>
+				<li>...</li>
+			</ul>
+		</div>
+
+			
+		<h3>Solutions</h3>
+		<div>
+			<ul>
+				<li>...</li>
+			</ul>
+		</div>-->
+			
+		<h3>Feedback</h3>
+		<p>Your feedback is critical to the success of this pilot. Please let us know how each lab went. For this lab, you might provide feedback such as:
+			<ul>
+				<li>How has the computing in the news been going with your students?</li>
+				<li>How engaging did students find the emoji/texting context?</li>
+				<li>Did it seem like your students understand how the <code>emojify</code> block worked?</li>
+				<li>How did your students connect to questioning emojis for bias and designing one of their own?</li>
+			</ul>
+		</p>
+		<div class="btn btn-primary"><a href="http://bjc.link/msfeedback" style="color: #FFF;" title="Submit Feedback" target="_blank">Submit Feedback</a></div>
+
+
+		<h3>Correlation with CSTA Standards<a name="Standards" class="anchor">&nbsp;</a></h3>
+		<div class="Standards">
+			<ul>
+				<li><strong>2-AP-13: Decompose problems and subproblems into parts to facilitate the design, implementation, and review of programs.</strong> Students should break down problems into subproblems, which can be further broken down to smaller parts. Decomposition facilitates aspects of program development by allowing students to focus on one piece at a time (e.g., getting input from the user, processing the data, and displaying the result to the user). Decomposition also enables different students to work on different parts at the same time. For example, animations can be decomposed into multiple scenes, which can be developed independently.</li>
+				<li><strong>2-AP-19: Document programs in order to make them easier to follow, test, and debug.</strong> Documentation allows creators and others to more easily use and understand a program. Students should provide documentation for end users that explains their artifacts and how they function. For example, students could provide a project overview and clear user instructions. They should also incorporate comments in their product and communicate their process using design documents, flowcharts, and presentations.</li>
+				<li><strong>2-IC-21: Discuss issues of bias and accessibility in the design of existing technologies.</strong> Students should test and discuss the usability of various technology tools (e.g., apps, games, and devices) with the teacher's guidance. For example, facial recognition software that works better for lighter skin tones was likely developed with a homogeneous testing group and could be improved by sampling a more diverse population. When discussing accessibility, students may notice that allowing a user to change font sizes and colors will not only make an interface usable for people with low vision but also benefits users in various situations, such as in bright daylight or a dark room.</li>
+			</ul>
+		</div>			
+
+	</body>
+</html>
