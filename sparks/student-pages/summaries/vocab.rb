@@ -34,7 +34,9 @@ class Vocab
 	end
 
 	def listLines(file)
+		f = File.open(file)
 		@listLines = File.readlines(file)
+		f.close
 	end
 
 
@@ -99,7 +101,7 @@ class Vocab
 
 	#might need to save index of line when i find the /div/ attribute
 	#might be better to have other function to handle that bigger parsing of the whole file #with io.foreach
-	def parse_vocab(file, str, i)
+	def parse_vocab(file, str, i=0)
 		if is_vocab_word(file, str, i)
 			currLine = str
 			tempIndex = i
@@ -126,9 +128,6 @@ class Vocab
 			currLine(@listLines[tempIndex])
 			currIndex(@currIndex + tempIndex - 1)
 			headerUnit = add_vocab_unit_to_header(headerList, @currUnit)
-			puts headerList
-			puts headerUnit
-			puts @currUnit
 			vocab = vocabList.join("\n")
 			add_vocab_to_file("#{headerUnit}\n#{vocab}")
 		end
