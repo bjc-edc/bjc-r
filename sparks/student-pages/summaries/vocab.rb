@@ -4,6 +4,7 @@ require 'rio'
 class Vocab
 	
 	def initialize(path)
+		@parentDir = path
 		@currFile = nil
 		@currIndex = 0
 		@currPath = path
@@ -11,6 +12,7 @@ class Vocab
 		@currFile = nil
 		@currLine = ''
 		@listLines = []
+		@isNewFile = true
 	end
 
 	def currUnit(str)
@@ -34,16 +36,22 @@ class Vocab
 	end
 
 	def listLines(file)
-		f = File.open(file)
 		@listLines = File.readlines(file)
-		f.close
 	end
 
+	def currPath(path)
+		@currPath = path
+	end
+
+	def isNewFile(boolean)
+		@isNewFile = boolean
+	end
 
 	def read_file(file)
 		listLines(file)
 		currIndex(0)
 		currFile(file)
+		isNewFile(true)
 		@listLines.each do |line|
 			currLine(line)
 			parse_unit(line)
@@ -57,13 +65,14 @@ class Vocab
 		#pattern = /((\s?\w+\s?)+[:,\!](\s?\w+\s?)+)+\d+/
 		pattern1 = /<title>.+<\/title>/
 		pattern2 = /<\/?\w+>/
-		if (str == nil or @currUnit != nil)
+		if (str == nil or not(@isNewFile))
 			nil
 		elsif str.match(pattern1)
 			#add_to_file("Units.txt", str.match(pattern).to_s)
 			match = str.match(pattern1).to_s
 			newStr = match.split(pattern2)
 			currUnit(newStr.join)
+			isNewFile(false)
 		else
 			nil
 		end
@@ -166,7 +175,7 @@ class Vocab
 
 	def add_vocab_to_file(vocab)
 		result = "#{vocab} \n\n"
-		add_content_to_file('vocab.txt', result)
+		add_content_to_file("#{@parentDir}/summaries/vocab.txt", result)
 	end
 
 	def get_url(file)
