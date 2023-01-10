@@ -3,12 +3,59 @@ require_relative 'main'
 
 class Tests
 	@type = 'testing'
-	def initialize(n)
-		@testName = n
+	def initialize()
 	end
 
 	def get_testName()
 		@testName
+	end
+
+	def allMain()
+	end
+
+	def allVocab()
+		v = Vocab.new(Dir.getwd())
+		test1()
+		test2()
+		test3()
+		test4()
+		test5()
+		test6()
+		test7()
+	end
+
+	def getFolderTest()
+		m = Main.new(Dir.getwd())
+		unitNamePattern = /U1/
+		m.getFolder(unitNamePattern, "C:/Users/I560638/bjc-r/sparks/student-pages")
+	end	
+
+	def parse_topicsFileTest()
+		m = Main.new("C:/Users/I560638/bjc-r/sparks/student-pages")
+		m.parse_topicsFile('topics.txt')
+	end
+
+	def isTopicTest()
+		v = Vocab.new(Dir.getwd())
+		main = Main.new(Dir.getwd())
+		#strList = File.readlines('testTopics.topic')
+		str = 'title: Unit 1: Functions and Data
+
+			{		
+		
+			heading:  Lab 1: Introduction to Snap<em>!</em>
+			raw-html: <img class="imageRight" src="/bjc-r/sparks/img/U1/lab01/say-hello-fancy-with-inputs-repornéih hóu ᕼย𝕒Ｎ" />
+			'
+		strList = str.split(/\n/)
+		strList.each do |line|
+			bool = main.isTopic(line)
+			puts "#{bool} --- #{line}\n"
+		end
+	end
+
+	def parse_topicPageTest()
+		main = Main.new(Dir.getwd())
+		main.parse_topicPage('testTopics.topic')
 	end
 
 	def test1()
