@@ -1,5 +1,7 @@
 require 'fileutils'
+require 'rio'
 require_relative 'vocab'
+
 
 class Main
 
@@ -11,54 +13,174 @@ class Main
 		@topicLinks = []
 		@currentLine = nil
 		@currDir = dir
-		@listUnitsDir = list_subdir(dir)
+		@listUnitsDir = []
 		@listLabsDir = []
+		@vocab = Vocab.new(@parentDir)
 	end
 
-	def currDir(cwd)
-		@currDir = cwd
-	end
-
-	def currFile(file)
-		@currFile = file
-	end
-
-	def main(cwd)
-		list_labs(@listUnitsDir)
-	end
-
-	def list_subdir(cwd)
+	#Returns list of all FOLDERS (directories) in current working directory (cwd)
+	def list_folders(folder)
 		Dir.glob('*').select {|f| File.directory? f}
 	end
 
-	def parse_files()
-		Dir.glob('*').select {|f| File.file? f}
+	#Returns list of all FILES in current working directory (cwd)
+	#Input is the file type or ext you want -- Enter '*' for all file types
+	def list_files(fileType)
+		Dir.glob("*#{fileType}").select {|f| File.file? f}
 	end
 
-	def list_labs(cwd)
-		for unit in cwd
-			Dir.chdir(unit)
-			@listLabsDir.push(list_subdir(unit))
+	def isCorrectFileType(fileType, fileName)
+		File.exists?("#{fileName}#{fileType}") & File.file?(fileName)
+	end
+
+	def parseFolder(folder)
+	end
+
+	def parse_allTopicPages(folder)
+		filesList = list_files('.topic')
+		filesList.each do |file|
+			if isTopicPageFile(file)
+				parse_rawTopicPage(file)
+			end
 		end
-		Dir.chdir(cwd)
 	end
-
-	def parse_labs(currDir)
-		for lab in currDir
+	
+	def isTopicPageFile(file)
+		unwantedFilesPattern = /teaching-guide/
+		filename = File.basename(file)
+		if (filename.match(unwantedFilesPattern))
+			false
+		else
+			true
 		end
 	end
 
-	def list_file_content(file)
-		file = File.open(file)
-		file_data = file.read
-		file_data.split
+	#ignore 'raw-html: '
+	#ignore Summary/Summaries: 
+	def parse_rawTopicPage(file)
+		allLines = File.readlines(file)
+		topicURLPattern = /\/bjc-r.+\.\w+/
+		headerPattern = /((heading:.+)|(title:.+))/
+		allLines.each do |line|
+			if isTopic(line)
+				if (line.match(headerPattern))
+					header = removeHTML(line.match(headerPattern).to_s)
+					add_content_to_file('topics.txt', "#{header}\n")
+				else
+					wholeLine = removeHTML(line.to_s.split(/.+:/).join)
+					labName = wholeLine.match(/(\w+\s?((\!|\?|\.|-)\s?)?)+/).to_s
+					topicURL = line.match(topicURLPattern).to_s
+					add_content_to_file('topics.txt', "#{labName} ----- #{topicURL}\n")
+				end
+			end
+		end
+		add_content_to_file('topics.txt', "\n")
 	end
 
-	def read_file(file)
-		currIndex = 0
-		currFile = file
-		File.foreach(file) do |line|
-			something?
+	def isTopic(arg)
+		str = arg.force_encoding("BINARY")
+		kludges = ['raw-html',
+			'Summaries',
+			'Summary',
+			'//',
+			]
+		topicLine = /(\s+)?(\w+)+(\s+)?/
+		bool = true
+		kludges.each do |item|
+			i = item.force_encoding("BINARY")
+			if (str.match(i) or not(str.match(topicLine)))
+				bool = false
+			end
+		end
+		bool
+	end
+
+	def add_content_to_file(filename, data)
+		if File.exist?(filename)
+			File.write(filename, data, mode: "a")
+		else
+			File.new(filename, "w")
+			File.write(filename, data)
+		end	
+	end	
+
+	def removeHTML(str)
+		htmlTagPattern = /<\/?\w+>/
+		if str.match(htmlTagPattern)
+			newStr = str.split(htmlTagPattern)
+			newStr.join
+		else
+			str
+		end
+	end
+
+	def isFileALab(file, labName)
+		fileAsString = rio(file)
+		file.include?(labName)
+	end
+
+	#not using
+	def parse_labNameFromFile(labFile)
+		fileName = File.basename(labFile)
+		nameMatch = fileName.match(/([a-zA-Z]-?)+/)
+		labName = nameMatch.to_s.join(' ')
+	end
+
+
+	def findLabFile(labName, folder)
+		listLabs = list_files('.html')
+		listLabs.each do |file|
+			if (file.match(labName.downcase))
+				return file
+			end
+		end
+	end
+
+	def parse_topicsFile(topicsFile)
+		f = File.open(topicsFile, 'r')
+		labNamePattern = /-----/
+		unitNamePattern = /title: /
+		labTopicPattern = /heading: /
+		unitNum = ''
+		unitFolder = ''
+		labFolder = ''
+		labName = ''
+		labNum = ''
+		f.each do |line|
+			if line.match(labNamePattern)
+				labNameMatch = line.match(/(\w+\s?((\!|\?|\.|-)\s?)?)+/).to_s
+				labNameList = labNameMatch.split(/[\!\?\.\-\s]+/)
+				labName = labNameList.join("-")
+				labFile = findLabFile(labName, Dir.getwd())
+				puts labName
+				puts "end"
+				@vocab.read_file(labFile)
+				#pass to function that will open correct file
+			elsif line.match(labTopicPattern)
+				labNum = line.match(/\d+/).to_s
+				puts labNum
+				labFolder = getFolder(labNum, unitFolder)
+				Dir.chdir(labFolder)	
+				#change lab folder
+			elsif line.match(unitNamePattern)
+				unitNum = line.match(/\d+/).to_s
+				unitFolder = getFolder(unitNum, @parentDir)
+				Dir.chdir(unitFolder)
+								
+				#change unit folder
+			
+			end
+		end
+	end
+
+	def getFolder(strPattern, parentFolder)
+		
+		Dir.chdir(parentFolder)
+		foldersList = list_folders(parentFolder)
+		foldersList.each do |folder|
+			if File.basename(folder).match(strPattern)
+				return "#{parentFolder}/#{folder}"
+			end
 		end
 	end
 
@@ -82,4 +204,19 @@ class Main
 	def iter_start_at(file)
 		'hello'
 	end
+
+	#Setters and Getters
+
+	def currDir(cwd)
+		@currDir = cwd
+	end
+
+	def currFile(file)
+		@currFile = file
+	end
+
+	def main(cwd)
+		list_labs(@listUnitsDir)
+	end
+
 end
