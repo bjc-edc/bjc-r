@@ -61,16 +61,19 @@ class Main
 		allLines = File.readlines(file)
 		topicURLPattern = /\/bjc-r.+\.\w+/
 		headerPattern = /((heading:.+)|(title:.+))/
+		labNum = 1
 		allLines.each do |line|
 			if isTopic(line)
 				if (line.match(headerPattern))
 					header = removeHTML(line.match(headerPattern).to_s)
 					add_content_to_file('topics.txt', "#{header}\n")
+					labNum = 1
 				else
 					wholeLine = removeHTML(line.to_s.split(/.+:/).join)
 					labName = wholeLine.match(/(\w+\s?((\!|\?|\.|-)\s?)?)+/).to_s
 					topicURL = line.match(topicURLPattern).to_s
-					add_content_to_file('topics.txt', "#{labName} ----- #{topicURL}\n")
+					add_content_to_file('topics.txt', "#{labNum} #{labName} ----- #{topicURL}\n")
+					labNum += 1
 				end
 			end
 		end
@@ -127,12 +130,16 @@ class Main
 	end
 
 
-	def findLabFile(labName, folder)
+	def findLabFile(lab, folder)
 		listLabs = list_files('.html')
-		listLabs.each do |file|
-			if (file.match(labName.downcase))
-				return file
+		i = 0
+		labNum = lab.match(/\d+/).to_s
+		while i < listLabs.size
+			if (listLabs[i].match(labNum))
+				return listLabs[i]
+				break
 			end
+			i += 1
 		end
 	end
 
@@ -148,25 +155,25 @@ class Main
 		labNum = ''
 		f.each do |line|
 			if line.match(labNamePattern)
-				labNameMatch = line.match(/(\w+\s?((\!|\?|\.|-)\s?)?)+/).to_s
-				labNameList = labNameMatch.split(/[\!\?\.\-\s]+/)
-				labName = labNameList.join("-")
-				labFile = findLabFile(labName, Dir.getwd())
-				puts labName
-				puts "end"
+				#labNameMatch = line.match(/(\w+\s?((\!|\?|\.|-)\s?)?)+/).to_s
+				#labNameList = labNameMatch.split(/[\!\?\.\-\s]+/)
+				#labName = labNameList.join("-")
+				labNum = line.match(/\d+\s+/).to_s
+				labFile = findLabFile(labNum, Dir.getwd())
+				
 				@vocab.read_file(labFile)
 				#pass to function that will open correct file
 			elsif line.match(labTopicPattern)
 				labNum = line.match(/\d+/).to_s
-				puts labNum
 				labFolder = getFolder(labNum, unitFolder)
-				Dir.chdir(labFolder)	
+				Dir.chdir(labFolder)
+					
 				#change lab folder
 			elsif line.match(unitNamePattern)
 				unitNum = line.match(/\d+/).to_s
 				unitFolder = getFolder(unitNum, @parentDir)
 				Dir.chdir(unitFolder)
-								
+				
 				#change unit folder
 			
 			end
@@ -174,7 +181,6 @@ class Main
 	end
 
 	def getFolder(strPattern, parentFolder)
-		
 		Dir.chdir(parentFolder)
 		foldersList = list_folders(parentFolder)
 		foldersList.each do |folder|

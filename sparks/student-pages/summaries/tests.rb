@@ -55,7 +55,7 @@ class Tests
 
 	def parse_topicPageTest()
 		main = Main.new(Dir.getwd())
-		main.parse_topicPage('testTopics.topic')
+		main.parse_rawTopicPage('testTopics.topic')
 	end
 
 	def test1()
