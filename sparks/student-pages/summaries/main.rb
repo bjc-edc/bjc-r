@@ -4,9 +4,9 @@ require_relative 'vocab'
 
 
 class Main
-
-	def initialize(dir)
+	def initialize(dir, topicFolder)
 		@parentDir = dir
+		@topicFolder = topicFolder
 		@currFile = nil
 		@currIndex = 0
 		@currUnit = nil
@@ -33,10 +33,15 @@ class Main
 		File.exists?("#{fileName}#{fileType}") & File.file?(fileName)
 	end
 
-	def parseFolder(folder)
+	def Main()
+		parse_allTopicPages(@topicFolder)
+		parse_topicsFile("#{@parentDir}/summaries/topics.txt")
 	end
 
+
+	#make sure im in topic folder and then enter correct sub folder depending on class
 	def parse_allTopicPages(folder)
+		Dir.chdir(@topicFolder)
 		filesList = list_files('.topic')
 		filesList.each do |file|
 			if isTopicPageFile(file)
@@ -63,21 +68,39 @@ class Main
 		headerPattern = /((heading:.+)|(title:.+))/
 		labNum = 1
 		allLines.each do |line|
+			if isComment(line)
+				line = removeComment(line)
+			end
 			if isTopic(line)
 				if (line.match(headerPattern))
 					header = removeHTML(line.match(headerPattern).to_s)
-					add_content_to_file('topics.txt', "#{header}\n")
+					add_content_to_file("#{@parentDir}/summaries/topics.txt", "#{header}\n")
 					labNum = 1
 				else
 					wholeLine = removeHTML(line.to_s.split(/.+:/).join)
 					labName = wholeLine.match(/(\w+\s?((\!|\?|\.|-)\s?)?)+/).to_s
 					topicURL = line.match(topicURLPattern).to_s
-					add_content_to_file('topics.txt', "#{labNum} #{labName} ----- #{topicURL}\n")
+					add_content_to_file("#{@parentDir}/summaries/topics.txt", "#{labNum} #{labName} ----- #{topicURL}\n")
 					labNum += 1
 				end
 			end
 		end
-		add_content_to_file('topics.txt', "\n")
+		add_content_to_file("#{@parentDir}/summaries/topics.txt", "\n")
+	end
+
+	def isComment(arg)
+		str = arg.force_encoding("BINARY")
+		if str.match(/\/\//)
+			true
+		else
+			false
+		end
+	end
+
+	def removeComment(arg)
+		str = arg.force_encoding("BINARY")
+		strList = arg.split(/\/\/.+/)
+		strList.join
 	end
 
 	def isTopic(arg)
@@ -85,7 +108,6 @@ class Main
 		kludges = ['raw-html',
 			'Summaries',
 			'Summary',
-			'//',
 			]
 		topicLine = /(\s+)?(\w+)+(\s+)?/
 		bool = true
@@ -144,6 +166,8 @@ class Main
 	end
 
 	def parse_topicsFile(topicsFile)
+		#make sure i am in summaries directory first
+		Dir.chdir(@parentDir)
 		f = File.open(topicsFile, 'r')
 		labNamePattern = /-----/
 		unitNamePattern = /title: /
@@ -178,6 +202,7 @@ class Main
 			
 			end
 		end
+		@vocab.add_HTML_end()
 	end
 
 	def getFolder(strPattern, parentFolder)
