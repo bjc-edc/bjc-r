@@ -46,6 +46,7 @@ class Main
 		filesList.each do |file|
 			if isTopicPageFile(file)
 				parse_rawTopicPage(file)
+				addSummariesToTopic(file)
 			end
 		end
 	end
@@ -58,6 +59,17 @@ class Main
 		else
 			true
 		end
+	end
+
+	def addSummariesToTopic(topicFile)
+		linkMatch = @parentDir.match(/\/bjc-r.+/).to_s
+		link = "[#{linkMatch}]"
+		dataList = ["heading: Unit #{@unitNum} Review",
+			"resource: Vocabulary [#{link}/vocab#{@unitNum}.html]",
+			"resource: On the AP Exam [#{link}/exam#{@unitNum}.html]",
+			"resource: Self-Check Questions [#{link}/assessment-data#{@unitNum}.html]"]
+		data = dataList.join("\n")
+		add_content_to_file("#{@topicFolder}/#{topicFile}", data)
 	end
 
 	#ignore 'raw-html: '
@@ -85,7 +97,7 @@ class Main
 				end
 			end
 		end
-		add_content_to_file("#{@parentDir}/summaries/topics.txt", "\n")
+		add_content_to_file("#{@parentDir}/summaries/topics.txt", "END OF UNIT\n")
 	end
 
 	def isComment(arg)
@@ -197,12 +209,19 @@ class Main
 				unitNum = line.match(/\d+/).to_s
 				unitFolder = getFolder(unitNum, @parentDir)
 				Dir.chdir(unitFolder)
-				
 				#change unit folder
-			
+			elsif(isEndofTopicPage(line))
+				@vocab.add_HTML_end()
 			end
 		end
-		@vocab.add_HTML_end()
+	end
+
+	def isEndofTopicPage(line)
+		if line.match(/END OF UNIT/)
+			return true
+		else
+			return false
+		end
 	end
 
 	def getFolder(strPattern, parentFolder)
