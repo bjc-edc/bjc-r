@@ -130,6 +130,8 @@ class Vocab
 		File.write(@vocabFileName, ending, mode: "a")
 	end
 
+	
+
 	def add_content_to_file(filename, data)
 		lab = @currLab
 		if File.exist?(filename)
