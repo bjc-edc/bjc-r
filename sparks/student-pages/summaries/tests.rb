@@ -24,6 +24,16 @@ class Tests
 		test7()
 	end
 
+	def mainTest()
+		m = Main.new("C:/Users/I560638/bjc-r/sparks/student-pages", "C:/Users/I560638/bjc-r/topic/sparks")
+		m.Main()
+	end
+
+	def crawl_allTopicPages()
+		m = Main.new("C:/Users/I560638/bjc-r/sparks/student-pages", "C:/Users/I560638/bjc-r/topic/sparks")
+		m.parse_allTopicPages("C:/Users/I560638/bjc-r/topic/sparks")
+	end
+	
 	def getFolderTest()
 		m = Main.new(Dir.getwd())
 		unitNamePattern = /U1/
@@ -31,7 +41,7 @@ class Tests
 	end	
 
 	def parse_topicsFileTest()
-		m = Main.new("C:/Users/I560638/bjc-r/sparks/student-pages")
+		m = Main.new("C:/Users/I560638/bjc-r/sparks/student-pages", "C:/Users/I560638/bjc-r/topic/sparks")
 		m.parse_topicsFile('topics.txt')
 	end
 

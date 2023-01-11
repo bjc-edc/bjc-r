@@ -12,7 +12,11 @@ class Vocab
 		@currFile = nil
 		@currLine = ''
 		@listLines = []
-		@isNewFile = true
+		@isNewUnit = true
+		@currUnitNum = 0
+		@currLab = ''
+		@vocabFileName = ''
+		@pastFileUnit = nil
 	end
 
 	def currUnit(str)
@@ -43,15 +47,35 @@ class Vocab
 		@currPath = path
 	end
 
-	def isNewFile(boolean)
-		@isNewFile = boolean
+	def isNewUnit(boolean)
+		@isNewUnit = boolean
+	end
+
+	def currUnitNum(num)
+		@currUnitNum = num
+	end
+
+	def vocabFileName(name)
+		@vocabFileName = name
+	end
+
+	def currLab()
+		if @currUnit != nil
+			labMatch = @currUnit.match(/Lab.+,/)
+			labList =  labMatch.to_s.split(/,/)
+			@currLab = labList.join
+		end
+	end
+
+	def pastFileUnit(unit)
+		@pastFileUnit = unit
 	end
 
 	def read_file(file)
 		listLines(file)
 		currIndex(0)
 		currFile(file)
-		isNewFile(true)
+		isNewUnit(true)
 		@listLines.each do |line|
 			currLine(line)
 			parse_unit(line)
@@ -61,29 +85,61 @@ class Vocab
 		puts "Completed:  #{@currUnit}"
 	end
 
+
 	def parse_unit(str)
 		#pattern = /((\s?\w+\s?)+[:,\!](\s?\w+\s?)+)+\d+/
 		pattern1 = /<title>.+<\/title>/
 		pattern2 = /<\/?\w+>/
-		if (str == nil or not(@isNewFile))
+		if (str == nil or not(@isNewUnit))
 			nil
 		elsif str.match(pattern1)
 			#add_to_file("Units.txt", str.match(pattern).to_s)
 			match = str.match(pattern1).to_s
 			newStr = match.split(pattern2)
 			currUnit(newStr.join)
-			isNewFile(false)
+			currUnitNum(@currUnit.match(/\d+/).to_s)
+			vocabFileName("vocab#{@currUnitNum}.html")
+			isNewUnit(false)
 		else
 			nil
 		end
 	end
 
+	def createNewVocabFile(fileName)
+		i = 0
+		if not(File.exist?(fileName))
+			File.new(fileName, "w")
+		end
+		linesList =  rio(@currFile).lines[0..15] 
+		while (linesList[i].match(/<body>/) == nil)
+			if linesList[i].match(/<title>/)
+				puts linesList[i]
+				File.write(fileName, "<title>Unit #{@currUnitNum} Vocabulary</title>\n", mode: "a")
+			else
+				puts linesList[i]
+				File.write(fileName, "#{linesList[i]}\n", mode: "a")
+			end
+			i += 1
+		end
+		File.write(fileName, "<h2>#{@currUnit}</h2>\n", mode: "a")
+		File.write(fileName, "<h3>#{currLab()}</h3>\n", mode: "a")
+	end
+
+	def add_HTML_end()
+		ending = "</body>\n</html>"
+		File.write(@vocabFileName, ending, mode: "a")
+	end
+
 	def add_content_to_file(filename, data)
+		lab = @currLab
 		if File.exist?(filename)
+			if lab != currLab()
+				File.write(filename, "<h3>#{currLab()}</h3>\n", mode: "a")
+			end
 			File.write(filename, data, mode: "a")
 		else
-			File.new(filename, "w")
-			File.write(filename, data)
+			createNewVocabFile(filename)
+			File.write(filename, data, mode: "a")
 		end	
 	end	
 
@@ -143,9 +199,13 @@ class Vocab
 	end
 
 	def parse_vocab_header(str)
+		newStr1 = str
 		if str.match(/vocabFullWidth/)
-			newStr = str.to_s
-			headerList = newStr.split(/:/)
+			if str.match(/<!--.+-->/)
+				newStr1 = str.gsub(/<!--.+-->/, "")
+			end
+			newStr2 = newStr1.to_s
+			headerList = newStr2.split(/:/)
 			headerList
 		else
 			[]
@@ -164,7 +224,8 @@ class Vocab
 
 	def add_vocab_unit_to_header(lst, unit)
 		unitNum = return_vocab_unit(unit)
-		lst.join(" #{unitNum}:")
+		withlink = " <a href=\"#{get_url(@currFile)}\">#{unitNum}</a>"
+		unitSeriesNum = lst.join(" #{withlink}:")
 	end
 
 	#need something to call this function and parse_unit
@@ -175,13 +236,14 @@ class Vocab
 
 	def add_vocab_to_file(vocab)
 		result = "#{vocab} \n\n"
-		add_content_to_file("#{@parentDir}/summaries/vocab.txt", result)
+		add_content_to_file("#{@parentDir}/summaries/#{@vocabFileName}", result)
 	end
 
 	def get_url(file)
-		current = Dir.getwd().match(/bjc-r.+/)
-		result = 'https://bjc.berkeley.edu/' + current
-		add_content_to_file('urlLinks.txt', result)
+		current = Dir.getwd()
+		result = "https://bjc.berkeley.edu/#{current}/#{file}"
+		result = "#{result}"
+		#add_content_to_file('urlLinks.txt', result)
 	end
 
 end
