@@ -4,19 +4,36 @@ require_relative 'vocab'
 
 
 class Main
-	def initialize(dir, topicFolder)
-		@parentDir = dir
-		@topicFolder = topicFolder
-		@currFile = nil
-		@currIndex = 0
+	def initialize(dirPath, topicFolderPath)
+		@parentDir = dirPath
+		@topicFolder = topicFolderPath
+		@unitNum = ''
 		@currUnit = nil
-		@topicLinks = []
-		@currentLine = nil
-		@currDir = dir
-		@listUnitsDir = []
-		@listLabsDir = []
 		@vocab = Vocab.new(@parentDir)
+		@classStr = ''
+		@subClassStr = ''
+		@labFileName = ''
 	end
+
+	#Extracts the folder class name and subfolder. For example with Sparks, 
+	#classStr = 'sparks' and subclassStr = 'student-pages'
+	def parse_class()
+		path = @parentDir
+		pattern = /bjc-r\\(\w+.?)+(\\summaries)$/
+		pathMatch = path.match(pattern).to_s
+		pathList = pathMatch.split("\\")
+		classStr(pathList[1])
+		subClassStr(pathList[2])
+	end
+
+	#Main/primary function to be called, will call and create all other functions and classes. 
+	#This function will parse the topic pages, parse all labs and units, and create summary pages
+	def Main()
+		parse_class()
+		parse_allTopicPages(@topicFolder)
+		parse_topicsFile("#{@parentDir}/summaries/topics.txt")
+	end
+
 
 	#Returns list of all FOLDERS (directories) in current working directory (cwd)
 	def list_folders(folder)
@@ -29,28 +46,26 @@ class Main
 		Dir.glob("*#{fileType}").select {|f| File.file? f}
 	end
 
+	#Returns true if input (fileName) is a file and not a folder 
+	#and is the correct extension type (fileType)
 	def isCorrectFileType(fileType, fileName)
 		File.exists?("#{fileName}#{fileType}") & File.file?(fileName)
 	end
 
-	def Main()
-		parse_allTopicPages(@topicFolder)
-		parse_topicsFile("#{@parentDir}/summaries/topics.txt")
-	end
-
-
-	#make sure im in topic folder and then enter correct sub folder depending on class
+	#Input is the folder path of the topic folder you want to parse
+	#Based on all the parsed topic pages, summaries will be generated
 	def parse_allTopicPages(folder)
 		Dir.chdir(@topicFolder)
 		filesList = list_files('.topic')
 		filesList.each do |file|
 			if isTopicPageFile(file)
 				parse_rawTopicPage(file)
-				addSummariesToTopic(file)
+				
 			end
 		end
 	end
 	
+	#Returns true if the file is a valid topic page
 	def isTopicPageFile(file)
 		unwantedFilesPattern = /teaching-guide/
 		filename = File.basename(file)
@@ -61,19 +76,21 @@ class Main
 		end
 	end
 
+	#Adds the summary content and links to the topic.topic file
 	def addSummariesToTopic(topicFile)
 		linkMatch = @parentDir.match(/\/bjc-r.+/).to_s
-		link = "[#{linkMatch}]"
+		linkMatchWithoutBracket = linkMatch.split(/]/)
+		link = "[#{linkMatchWithoutBracket}]"
 		dataList = ["heading: Unit #{@unitNum} Review",
-			"resource: Vocabulary [#{link}/vocab#{@unitNum}.html]",
-			"resource: On the AP Exam [#{link}/exam#{@unitNum}.html]",
-			"resource: Self-Check Questions [#{link}/assessment-data#{@unitNum}.html]"]
+			"resource: Vocabulary #{link}/vocab#{@unitNum}.html]",
+			"resource: On the AP Exam #{link}/exam#{@unitNum}.html]",
+			"resource: Self-Check Questions #{link}/assessment-data#{@unitNum}.html]"]
 		data = dataList.join("\n")
 		add_content_to_file("#{@topicFolder}/#{topicFile}", data)
 	end
 
-	#ignore 'raw-html: '
-	#ignore Summary/Summaries: 
+	#Parses through the data of the topic page and generates and adds content to a topics.txt
+	#file that will be parsed later on to generate summaries 
 	def parse_rawTopicPage(file)
 		allLines = File.readlines(file)
 		topicURLPattern = /\/bjc-r.+\.\w+/
@@ -88,6 +105,10 @@ class Main
 					header = removeHTML(line.match(headerPattern).to_s)
 					add_content_to_file("#{@parentDir}/summaries/topics.txt", "#{header}\n")
 					labNum = 1
+				elsif line.match(/}/)
+					#end of topic.topic file
+					addSummariesToTopic(file)
+					break
 				else
 					wholeLine = removeHTML(line.to_s.split(/.+:/).join)
 					labName = wholeLine.match(/(\w+\s?((\!|\?|\.|-)\s?)?)+/).to_s
@@ -100,6 +121,7 @@ class Main
 		add_content_to_file("#{@parentDir}/summaries/topics.txt", "END OF UNIT\n")
 	end
 
+	#Returns true if there is a comment in the topics.topic page
 	def isComment(arg)
 		str = arg.force_encoding("BINARY")
 		if str.match(/\/\//)
@@ -109,17 +131,23 @@ class Main
 		end
 	end
 
+	#Removes the part of the string that is commented out in topics.topic which will then be added
+	#to the new topics.txt file
 	def removeComment(arg)
 		str = arg.force_encoding("BINARY")
 		strList = arg.split(/\/\/.+/)
 		strList.join
 	end
 
+	#Returns true if the string/line is a valid topic. Ignores the lines that start with the kludges.
 	def isTopic(arg)
 		str = arg.force_encoding("BINARY")
 		kludges = ['raw-html',
-			'Summaries',
+			'heading: Unit',
 			'Summary',
+			'resource: Vocabulary',
+			'resource: On the AP Exam',
+			'resource: Self-Check Questions'
 			]
 		topicLine = /(\s+)?(\w+)+(\s+)?/
 		bool = true
@@ -170,6 +198,7 @@ class Main
 		labNum = lab.match(/\d+/).to_s
 		while i < listLabs.size
 			if (listLabs[i].match(labNum))
+				labFileName(listLabs[i])
 				return listLabs[i]
 				break
 			end
@@ -184,7 +213,6 @@ class Main
 		labNamePattern = /-----/
 		unitNamePattern = /title: /
 		labTopicPattern = /heading: /
-		unitNum = ''
 		unitFolder = ''
 		labFolder = ''
 		labName = ''
@@ -196,7 +224,7 @@ class Main
 				#labName = labNameList.join("-")
 				labNum = line.match(/\d+\s+/).to_s
 				labFile = findLabFile(labNum, Dir.getwd())
-				
+				puts line
 				@vocab.read_file(labFile)
 				#pass to function that will open correct file
 			elsif line.match(labTopicPattern)
@@ -206,11 +234,13 @@ class Main
 					
 				#change lab folder
 			elsif line.match(unitNamePattern)
-				unitNum = line.match(/\d+/).to_s
-				unitFolder = getFolder(unitNum, @parentDir)
+				unitNum(line.match(/\d+/).to_s)
+				puts @unitNum
+				unitFolder = getFolder(@unitNum, @parentDir)
 				Dir.chdir(unitFolder)
 				#change unit folder
 			elsif(isEndofTopicPage(line))
+				puts line
 				@vocab.add_HTML_end()
 			end
 		end
@@ -244,29 +274,42 @@ class Main
 		end
 	end
 
-	def parse_topic_links(file)
-		if @currLine.match(/<div class="topic_link">/)
+#p array.map { |x| x == 4 ? 'Z' : x }
+
+# => [1, 2, 3, 'Z']
+
+	def parse_topic_links(fileName, line)
+		Dir.chdir(@topicFolderPath)
+		fileContents = []
+		rio(fileName) > fileContents
+		lineLink = line.match(/[.+]/).to_s
+		contentIndex = fileContents.index(lineLink)
+		fileContents.each do |item|
+			if item.match(lineMatch)
+				addStr = "#{lineLink}?topic=#{@classStr}%2F#{@unitNum}-#{fileName}.topic&course=#{@classStr}.html]"
+				newLink = fileContents.gsub("lineLink", addStr)
+			#elsif lineMatch and isSummary
+			end	
 		end
-		pattern = /"\/bjc-r[^\s]+"/
-		str.match(pattern)
 	end
 
-	def iter_start_at(file)
-		'hello'
-	end
 
 	#Setters and Getters
 
-	def currDir(cwd)
-		@currDir = cwd
+	def classStr(str)
+		@classStr = str
 	end
 
-	def currFile(file)
-		@currFile = file
+	def subClassStr(str)
+		@subClassStr = str
 	end
 
-	def main(cwd)
-		list_labs(@listUnitsDir)
+	def unitNum(str)
+		@unitNum = str
+	end
+
+	def labFileName(str)
+		@labFileName = str
 	end
 
 end

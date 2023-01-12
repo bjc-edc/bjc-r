@@ -126,11 +126,12 @@ class Vocab
 	end
 
 	def add_HTML_end()
+		Dir.chdir("#{@parentDir}/summaries")
 		ending = "</body>\n</html>"
 		File.write(@vocabFileName, ending, mode: "a")
 	end
 
-	
+
 
 	def add_content_to_file(filename, data)
 		lab = @currLab
