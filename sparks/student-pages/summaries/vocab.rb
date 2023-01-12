@@ -82,7 +82,7 @@ class Vocab
 			parse_vocab(file, @currline, @currIndex)
 			currIndex(@currIndex + 1)
 		end
-		puts "Completed:  #{@currUnit}"
+		#puts "Completed:  #{@currUnit}"
 	end
 
 
@@ -113,10 +113,8 @@ class Vocab
 		linesList =  rio(@currFile).lines[0..15] 
 		while (linesList[i].match(/<body>/) == nil)
 			if linesList[i].match(/<title>/)
-				puts linesList[i]
 				File.write(fileName, "<title>Unit #{@currUnitNum} Vocabulary</title>\n", mode: "a")
 			else
-				puts linesList[i]
 				File.write(fileName, "#{linesList[i]}\n", mode: "a")
 			end
 			i += 1
@@ -174,24 +172,27 @@ class Vocab
 			currLine = str
 			tempIndex = i
 			vocabList = []
-			#end_html_tag_pattern = /<(\/)?((p)|(div)|(ul))>/
 			isEnd = false
 			headerList = []
+			divStartTagNum = 0
+			divEndTagNum = 0
 			until (isEnd == true or tempIndex >= @listLines.size)
-				#if return_vocab_str(currLine)
-				#	vocabList.push(return_vocab_str(currLine))
-				#end
-				#vocabList.push(return_vocab_str(@currLine))
-				if currLine.match(/<\/div>/)
+				if (divEndTagNum > 0 and divEndTagNum >= divStartTagNum)
 					isEnd = true
-				end
-				if (parse_vocab_header(currLine) != [])
-					headerList = parse_vocab_header(currLine)
 				else
-					vocabList.push(currLine)
+					if currLine.match(/<div/)
+						divStartTagNum += 1
+					elsif (currLine.match(/<\/div>/))
+						divEndTagNum += 1
+					end
+					if (parse_vocab_header(currLine) != [])
+						headerList = parse_vocab_header(currLine)
+					else
+						vocabList.push(currLine)
+					end
+					tempIndex = tempIndex + 1
+					currLine = @listLines[tempIndex]
 				end
-				tempIndex = tempIndex + 1
-				currLine = @listLines[tempIndex]
 			end
 			currLine(@listLines[tempIndex])
 			currIndex(@currIndex + tempIndex - 1)

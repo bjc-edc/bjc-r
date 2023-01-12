@@ -79,14 +79,15 @@ class Main
 	#Adds the summary content and links to the topic.topic file
 	def addSummariesToTopic(topicFile)
 		linkMatch = @parentDir.match(/\/bjc-r.+/).to_s
-		linkMatchWithoutBracket = linkMatch.split(/]/)
-		link = "[#{linkMatchWithoutBracket}]"
+		linkMatchWithoutBracket = linkMatch.split(/\]/)
+		link = "#{linkMatchWithoutBracket.join}"
 		dataList = ["heading: Unit #{@unitNum} Review",
-			"resource: Vocabulary #{link}/vocab#{@unitNum}.html]",
-			"resource: On the AP Exam #{link}/exam#{@unitNum}.html]",
-			"resource: Self-Check Questions #{link}/assessment-data#{@unitNum}.html]"]
+			"resource: Vocabulary [#{link}/summaries/vocab#{@unitNum}.html]",
+			"resource: On the AP Exam [#{link}/summaries/exam#{@unitNum}.html]",
+			"resource: Self-Check Questions [#{link}/summaries/assessment-data#{@unitNum}.html]",
+			"}"]
 		data = dataList.join("\n")
-		add_content_to_file("#{@topicFolder}/#{topicFile}", data)
+		#add_content_to_file("#{@topicFolder}/#{topicFile}", data)
 	end
 
 	#Parses through the data of the topic page and generates and adds content to a topics.txt
@@ -96,28 +97,39 @@ class Main
 		topicURLPattern = /\/bjc-r.+\.\w+/
 		headerPattern = /((heading:.+)|(title:.+))/
 		labNum = 1
-		allLines.each do |line|
+		index = 0
+		allLines.each do |oldline|
+			line = oldline
 			if isComment(line)
-				line = removeComment(line)
+				line = removeComment(oldline)
 			end
-			if isTopic(line)
-				if (line.match(headerPattern))
-					header = removeHTML(line.match(headerPattern).to_s)
-					add_content_to_file("#{@parentDir}/summaries/topics.txt", "#{header}\n")
-					labNum = 1
-				elsif line.match(/}/)
-					#end of topic.topic file
-					addSummariesToTopic(file)
-					break
-				else
-					wholeLine = removeHTML(line.to_s.split(/.+:/).join)
-					labName = wholeLine.match(/(\w+\s?((\!|\?|\.|-)\s?)?)+/).to_s
-					topicURL = line.match(topicURLPattern).to_s
-					add_content_to_file("#{@parentDir}/summaries/topics.txt", "#{labNum} #{labName} ----- #{topicURL}\n")
-					labNum += 1
+			if line.match(/\}/)
+				puts 'reached'
+				allLines[index] = addSummariesToTopic(file)
+			else
+				if isTopic(line)
+					if (line.match(headerPattern))
+						if line.match(/title:/)
+							unitNum(line.match(/\d+/).to_s)
+						end
+						header = removeHTML(line.match(headerPattern).to_s)
+						add_content_to_file("#{@parentDir}/summaries/topics.txt", "#{header}\n")
+						labNum = 1
+					#elsif line.match(/}/)
+						#end of topic.topic file
+						
+					else
+						wholeLine = removeHTML(line.to_s.split(/.+:/).join)
+						labName = wholeLine.match(/(\w+\s?((\!|\?|\.|-)\s?)?)+/).to_s
+						topicURL = line.match(topicURLPattern).to_s
+						add_content_to_file("#{@parentDir}/summaries/topics.txt", "#{labNum} #{labName} ----- #{topicURL}\n")
+						labNum += 1
+					end
 				end
 			end
+		index += 1
 		end
+		File.write(file, allLines.join)
 		add_content_to_file("#{@parentDir}/summaries/topics.txt", "END OF UNIT\n")
 	end
 
@@ -224,7 +236,6 @@ class Main
 				#labName = labNameList.join("-")
 				labNum = line.match(/\d+\s+/).to_s
 				labFile = findLabFile(labNum, Dir.getwd())
-				puts line
 				@vocab.read_file(labFile)
 				#pass to function that will open correct file
 			elsif line.match(labTopicPattern)
@@ -235,12 +246,10 @@ class Main
 				#change lab folder
 			elsif line.match(unitNamePattern)
 				unitNum(line.match(/\d+/).to_s)
-				puts @unitNum
 				unitFolder = getFolder(@unitNum, @parentDir)
 				Dir.chdir(unitFolder)
 				#change unit folder
 			elsif(isEndofTopicPage(line))
-				puts line
 				@vocab.add_HTML_end()
 			end
 		end
