@@ -82,7 +82,7 @@ class Vocab
 			parse_vocab(file, @currline, @currIndex)
 			currIndex(@currIndex + 1)
 		end
-		#puts "Completed:  #{@currUnit}"
+		puts "Completed:  #{@currUnit}"
 	end
 
 
@@ -178,8 +178,6 @@ class Vocab
 			divEndTagNum = 0
 			until (isEnd == true or tempIndex >= @listLines.size)
 				if (divEndTagNum > 0 and divEndTagNum >= divStartTagNum)
-					puts divEndTagNum
-					puts divStartTagNum
 					isEnd = true
 				else
 					if currLine.match(/<div/) and currLine.match(/<\/div>/)
@@ -249,8 +247,9 @@ class Vocab
 	end
 
 	def get_url(file)
-		current = Dir.getwd()
-		result = "https://bjc.berkeley.edu/#{current}/#{file}"
+		localPath = Dir.getwd()
+		linkPath = localPath.match(/bjc-r.+/).to_s
+		result = "https://bjc.berkeley.edu/#{linkPath}/#{file}"
 		result = "#{result}"
 		#add_content_to_file('urlLinks.txt', result)
 	end
