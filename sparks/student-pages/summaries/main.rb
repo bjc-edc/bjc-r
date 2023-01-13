@@ -4,7 +4,7 @@ require_relative 'vocab'
 
 
 class Main
-	def initialize(dirPath, topicFolderPath)
+	def initialize(dirPath, topicFolderPath, language='en')
 		@parentDir = dirPath
 		@topicFolder = topicFolderPath
 		@unitNum = ''
@@ -13,10 +13,12 @@ class Main
 		@classStr = ''
 		@subClassStr = ''
 		@labFileName = ''
+		@language = language
 	end
 
 	#Extracts the folder class name and subfolder. For example with Sparks, 
-	#classStr = 'sparks' and subclassStr = 'student-pages'
+	#classStr = 'sparks' and subclassStr = 'student-pages'. For CSP, 
+	#classStr = 'cur' and subclassStr = 'programming'
 	def parse_class()
 		path = @parentDir
 		pattern = /bjc-r\\(\w+.?)+(\\summaries)$/
@@ -31,7 +33,7 @@ class Main
 	def Main()
 		parse_class()
 		parse_allTopicPages(@topicFolder)
-		parse_topicsFile("#{@parentDir}/summaries/topics.txt")
+		parse_units("#{@parentDir}/summaries/topics.txt")
 	end
 
 
@@ -56,11 +58,10 @@ class Main
 	#Based on all the parsed topic pages, summaries will be generated
 	def parse_allTopicPages(folder)
 		Dir.chdir(@topicFolder)
-		filesList = list_files('.topic')
+		filesList = list_files(".topic")	
 		filesList.each do |file|
-			if isTopicPageFile(file)
+			if isTopicPageFile(file) and fileLanguage(file) == @language
 				parse_rawTopicPage(file)
-				
 			end
 		end
 	end
@@ -71,8 +72,10 @@ class Main
 		filename = File.basename(file)
 		if (filename.match(unwantedFilesPattern))
 			false
-		else
+		elsif (filename.match(/\d+/) and fileLanguage(file) == @language)
 			true
+		else
+			false
 		end
 	end
 
@@ -114,9 +117,6 @@ class Main
 						header = removeHTML(line.match(headerPattern).to_s)
 						add_content_to_file("#{@parentDir}/summaries/topics.txt", "#{header}\n")
 						labNum = 1
-					#elsif line.match(/}/)
-						#end of topic.topic file
-						
 					else
 						wholeLine = removeHTML(line.to_s.split(/.+:/).join)
 						labName = wholeLine.match(/(\w+\s?((\!|\?|\.|-)\s?)?)+/).to_s
@@ -208,7 +208,7 @@ class Main
 		i = 0
 		labNum = lab.match(/\d+/).to_s
 		while i < listLabs.size
-			if (listLabs[i].match(labNum))
+			if (listLabs[i].match(labNum) and fileLanguage(listLabs[i]) == @language)
 				labFileName(listLabs[i])
 				return listLabs[i]
 				break
@@ -217,13 +217,18 @@ class Main
 		end
 	end
 
-	def parse_topicsFile(topicsFile)
+	#Inputs is the topics.txt file that is created earlier from the .topic file.
+	#Reads each line from the topics.txt file and finds that unit, lab, and html
+	#file it corresponds with. Once the html file is found, it calls the vocab
+	#function to began to create or add onto the vocab pages
+	def parse_units(topicsFile)
 		#make sure i am in summaries directory first
 		Dir.chdir(@parentDir)
 		f = File.open(topicsFile, 'r')
 		labNamePattern = /-----/
 		unitNamePattern = /title: /
 		labTopicPattern = /heading: /
+		endUnitPattern = /END OF UNIT/
 		unitFolder = ''
 		labFolder = ''
 		labName = ''
@@ -238,10 +243,13 @@ class Main
 				@vocab.read_file(labFile)
 				#pass to function that will open correct file
 			elsif line.match(labTopicPattern)
-				labNum = line.match(/\d+/).to_s
+				if line.match(/Optional Project:/)
+					labNum = /optional-project/
+				else
+					labNum = line.match(/\d+/).to_s
+				end
 				labFolder = getFolder(labNum, unitFolder)
 				Dir.chdir(labFolder)
-					
 				#change lab folder
 			elsif line.match(unitNamePattern)
 				unitNum(line.match(/\d+/).to_s)
@@ -266,17 +274,17 @@ class Main
 		Dir.chdir(parentFolder)
 		foldersList = list_folders(parentFolder)
 		foldersList.each do |folder|
-			if File.basename(folder).match(strPattern)
+			if File.basename(folder).match(/^#{strPattern}/)
 				return "#{parentFolder}/#{folder}"
 			end
 		end
 	end
 
-	def fileLanguage(file)
-		file_name = File.basename(file)
-		if /\w+\.html/.match?(file)
-			lang = /\w+\.html/.match(file).to_s
-			return lang.split[0]
+	def fileLanguage(fileName)
+		if fileName.match(/\.\w\w\.\w+/) != nil
+			langMatch = fileName.match(/\w+\.\w+/).to_s
+			lang = langMatch.match(/\w+/).to_s
+			return lang
 		else
 			return "en"
 		end

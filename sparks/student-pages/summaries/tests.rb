@@ -31,13 +31,24 @@ class Tests
 	end
 
 
+	def languageTest()
+		m = Main.new("C:/Users/I560638/bjc-r/TESTING/1-introduction/1-building-an-app", "C:/Users/I560638/bjc-r/topic/nyc_bjc")
+		puts m.fileLanguage("1-creating-a-snap-account.es.html")
+		puts m.fileLanguage("1-creating-a-snap-account.html")
+	end
+
 	def mainCSP()
-		m = Main.new("C:/Users/I560638/bjc-r/TESTING", "C:/Users/I560638/bjc-r/topic/nyc_bjc")
+		m = Main.new("C:/Users/I560638/bjc-r/TESTING", "C:/Users/I560638/bjc-r/topic/nyc_bjc", "en")
+		m.Main()
+	end
+
+	def mainCSPSpanish()
+		m = Main.new("C:/Users/I560638/bjc-r/TESTING", "C:/Users/I560638/bjc-r/TESTING/nyc_bjc", 'es')
 		m.Main()
 	end
 
 	def mainTest()
-		m = Main.new("C:/Users/I560638/bjc-r/sparks/student-pages", "C:/Users/I560638/bjc-r/topic/sparks")
+		m = Main.new("C:/Users/I560638/bjc-r/sparks/student-pages", "C:/Users/I560638/bjc-r/TESTING/nyc_bjc")
 		m.Main()
 	end
 
@@ -54,7 +65,7 @@ class Tests
 
 	def parse_topicsFileTest()
 		m = Main.new("C:/Users/I560638/bjc-r/sparks/student-pages", "C:/Users/I560638/bjc-r/topic/sparks")
-		m.parse_topicsFile('topics.txt')
+		m.parse_units('topics.txt')
 	end
 
 	def isTopicTest()
