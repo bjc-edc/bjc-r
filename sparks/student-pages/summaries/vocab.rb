@@ -108,7 +108,7 @@ class Vocab
 	def createNewVocabFile(fileName)
 		i = 0
 		if not(File.exist?(fileName))
-			File.new(fileName, "w")
+			File.new(@vocabFileName, "w")
 		end
 		linesList =  rio(@currFile).lines[0..15] 
 		while (linesList[i].match(/<body>/) == nil)
@@ -178,11 +178,16 @@ class Vocab
 			divEndTagNum = 0
 			until (isEnd == true or tempIndex >= @listLines.size)
 				if (divEndTagNum > 0 and divEndTagNum >= divStartTagNum)
+					puts divEndTagNum
+					puts divStartTagNum
 					isEnd = true
 				else
-					if currLine.match(/<div/)
+					if currLine.match(/<div/) and currLine.match(/<\/div>/)
 						divStartTagNum += 1
-					elsif (currLine.match(/<\/div>/))
+						divEndTagNum += 1
+					elsif currLine.match(/<div/)
+						divStartTagNum += 1
+					elsif currLine.match(/<\/div>/)
 						divEndTagNum += 1
 					end
 					if (parse_vocab_header(currLine) != [])

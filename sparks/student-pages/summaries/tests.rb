@@ -1,5 +1,6 @@
 require_relative 'vocab'
 require_relative 'main'
+require 'rio'
 
 class Tests
 	@type = 'testing'
@@ -11,6 +12,11 @@ class Tests
 	end
 
 	def allMain()
+	end
+
+	def parse_vocab()
+		v = Vocab.new(Dir.getwd())
+		v.read_file('testpage.html')
 	end
 
 	def allVocab()
