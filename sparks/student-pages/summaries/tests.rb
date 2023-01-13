@@ -30,6 +30,12 @@ class Tests
 		test7()
 	end
 
+
+	def mainCSP()
+		m = Main.new("C:/Users/I560638/bjc-r/TESTING", "C:/Users/I560638/bjc-r/topic/nyc_bjc")
+		m.Main()
+	end
+
 	def mainTest()
 		m = Main.new("C:/Users/I560638/bjc-r/sparks/student-pages", "C:/Users/I560638/bjc-r/topic/sparks")
 		m.Main()
