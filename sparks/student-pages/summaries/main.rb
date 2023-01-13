@@ -104,7 +104,6 @@ class Main
 				line = removeComment(oldline)
 			end
 			if line.match(/\}/)
-				puts 'reached'
 				allLines[index] = addSummariesToTopic(file)
 			else
 				if isTopic(line)
