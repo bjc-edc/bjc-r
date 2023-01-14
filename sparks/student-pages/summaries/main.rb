@@ -16,6 +16,7 @@ class Main
 		@language = language
 	end
 
+
 	#Extracts the folder class name and subfolder. For example with Sparks, 
 	#classStr = 'sparks' and subclassStr = 'student-pages'. For CSP, 
 	#classStr = 'cur' and subclassStr = 'programming'
@@ -34,6 +35,7 @@ class Main
 		parse_class()
 		parse_allTopicPages(@topicFolder)
 		parse_units("#{@parentDir}/summaries/topics.txt")
+		puts "All units complete"
 	end
 
 
@@ -217,6 +219,27 @@ class Main
 		end
 	end
 
+	def localPath()
+		parentDir = @parentDir.match(/.+bjc-r/).to_s
+		local = parentDir.split(/\/bjc-r/)
+		local.join
+	end
+
+	def extractTopicLink(line)
+		labNamePattern = /----- /
+		linkMatch = line.split(labNamePattern)
+		link = linkMatch[1]
+		lab = link.match(/(\w+-?)+\.html/).to_s
+	end
+
+	def extractTopicLinkFolder(line)
+		labNamePattern = /----- /
+		linkMatch = line.split(labNamePattern)
+		link = linkMatch[1].split(/(\w+-?)+\.html/)
+		folder = "#{localPath()}#{link[0]}"
+		Dir.chdir(folder)
+	end
+
 	#Inputs is the topics.txt file that is created earlier from the .topic file.
 	#Reads each line from the topics.txt file and finds that unit, lab, and html
 	#file it corresponds with. Once the html file is found, it calls the vocab
@@ -235,21 +258,21 @@ class Main
 		labNum = ''
 		f.each do |line|
 			if line.match(labNamePattern)
-				#labNameMatch = line.match(/(\w+\s?((\!|\?|\.|-)\s?)?)+/).to_s
-				#labNameList = labNameMatch.split(/[\!\?\.\-\s]+/)
-				#labName = labNameList.join("-")
-				labNum = line.match(/\d+\s+/).to_s
-				labFile = findLabFile(labNum, Dir.getwd())
+				
+				#labNum = line.match(/\d+\s+/).to_s
+				#labFile = findLabFile(labNum, Dir.getwd())
+				labFile = extractTopicLink(line)
+				extractTopicLinkFolder(line)
 				@vocab.read_file(labFile)
 				#pass to function that will open correct file
 			elsif line.match(labTopicPattern)
-				if line.match(/Optional Project:/)
-					labNum = /optional-project/
-				else
-					labNum = line.match(/\d+/).to_s
-				end
-				labFolder = getFolder(labNum, unitFolder)
-				Dir.chdir(labFolder)
+				#if line.match(/^(heading: [a-zA-Z]+)/)
+				#	labNum = /optional-project/
+				#else
+				#	labNum = line.match(/\d+/).to_s
+				#end
+				#labFolder = getFolder(labNum, unitFolder)
+				#Dir.chdir(labFolder)
 				#change lab folder
 			elsif line.match(unitNamePattern)
 				unitNum(line.match(/\d+/).to_s)
