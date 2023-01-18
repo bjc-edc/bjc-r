@@ -212,7 +212,12 @@ class Vocab
 				newStr1 = str.gsub(/<!--.+-->/, "")
 			end
 			newStr2 = newStr1.to_s
-			headerList = newStr2.split(/:/)
+			if (newStr2.match(/<div class="vocabFullWidth">.+/))
+				headerList = newStr2.split(/:/)
+			else
+				headerList = []
+				headerList.push(str)
+			end
 			headerList
 		else
 			[]
@@ -232,7 +237,13 @@ class Vocab
 	def add_vocab_unit_to_header(lst, unit)
 		unitNum = return_vocab_unit(unit)
 		withlink = " <a href=\"#{get_url(@currFile)}\">#{unitNum}</a>"
-		unitSeriesNum = lst.join(" #{withlink}:")
+		if lst.size > 1
+			unitSeriesNum = lst.join(" #{withlink}:")
+		else
+			unitSeriesNum = lst
+			unitSeriesNum.push(" #{withlink}:")
+			unitSeriesNum.join
+		end
 	end
 
 	#need something to call this function and parse_unit

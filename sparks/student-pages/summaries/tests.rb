@@ -48,7 +48,7 @@ class Tests
 	end
 
 	def mainTest()
-		m = Main.new("C:/Users/I560638/bjc-r/sparks/student-pages", "C:/Users/I560638/bjc-r/TESTING/nyc_bjc")
+		m = Main.new("C:/Users/I560638/bjc-r/sparks/student-pages", "C:/Users/I560638/bjc-r/topic/sparks")
 		m.Main()
 	end
 
