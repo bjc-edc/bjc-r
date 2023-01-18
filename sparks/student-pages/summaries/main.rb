@@ -237,7 +237,9 @@ class Main
 		linkMatch = line.split(labNamePattern)
 		link = linkMatch[1].split(/(\w+-?)+\.html/)
 		folder = "#{localPath()}#{link[0]}"
-		Dir.chdir(folder)
+		if link.size > 1
+			Dir.chdir(folder)
+		end
 	end
 
 	#Inputs is the topics.txt file that is created earlier from the .topic file.
@@ -262,8 +264,10 @@ class Main
 				#labNum = line.match(/\d+\s+/).to_s
 				#labFile = findLabFile(labNum, Dir.getwd())
 				labFile = extractTopicLink(line)
-				extractTopicLinkFolder(line)
-				@vocab.read_file(labFile)
+				if labFile != ""
+					extractTopicLinkFolder(line)
+					@vocab.read_file(labFile)
+				end
 				#pass to function that will open correct file
 			elsif line.match(labTopicPattern)
 				#if line.match(/^(heading: [a-zA-Z]+)/)
@@ -297,7 +301,8 @@ class Main
 		Dir.chdir(parentFolder)
 		foldersList = list_folders(parentFolder)
 		foldersList.each do |folder|
-			if File.basename(folder).match(/^#{strPattern}/)
+			if File.basename(folder).match(/#{strPattern}/)
+				#if File.basename(folder).match(/^#{strPattern}/)
 				return "#{parentFolder}/#{folder}"
 			end
 		end
@@ -326,7 +331,7 @@ class Main
 		fileContents.each do |item|
 			if item.match(lineMatch)
 				addStr = "#{lineLink}?topic=#{@classStr}%2F#{@unitNum}-#{fileName}.topic&course=#{@classStr}.html]"
-				newLink = fileContents.gsub("lineLink", addStr)
+				newLink = fileContents.gsub("#{lineLink}", addStr)
 			#elsif lineMatch and isSummary
 			end	
 		end
