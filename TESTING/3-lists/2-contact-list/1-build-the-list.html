@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unit 3 Lab 2: Contact List, Page 1</title>
+    </head> 
+    
+    <body>
+		<h2>Creating the Contact ADT</h2>
+        <div class="learn">
+        	<p><strong>In this lab,</strong> you will develop a Contact List database application like the one on your phone.</p>
+        	<p><strong>On this page,</strong> you will develop an <strong>Abstract Data Type</strong> to store and access <em>contact data</em> (name, address, phone number, etc.). </p>
+        </div>
+                
+        <div class="takeNote">
+            <h4><strong>Preserve Privacy</strong></h4>
+            <p>Snap<em>!</em> projects are not secure. Do not use your or your classmates' personal information.</p>
+        </div>
+        <h3>Setting Up the Contact List</h3>
+        <div class="forYouToDo" id="first">
+            <ol>
+				<li>
+                    <a class="run" href="/bjc-r/prog/3-lists/U3L2-ContactList.xml"><img class="inline" src="/bjc-r/img/icons/load-save.png" alt="Click here to load this file. Then save it to your Snap! account." title="Click here to load this file. Then save it to your Snap! account."></a>
+                </li>
+                <li>Create a global <var>contact list</var> variable.</li>
+                <li>Initialize <var>contact list</var> as an empty list.</li>
+            </ol>
+		</div>
+        <div class="takeNote">
+            <h4><strong>Why global?</strong></h4>
+            <strong>Multiple scripts</strong> across the project <strong>will use this variable</strong>, so it shouldn't be attached to just one script like a local, script variable.
+        </div>
+
+
+        <h3>Creating the ADT</h3>
+        <div class="dialogue">
+            <div class="stagedir">Betsy and Gamal are planning to build a Contact List in Snap<em>!</em>.</div>
+            <div><span>Betsy:</span> We need a way to add a contact to our <var>contact list</var>.</div>
+            <div><span>Gamal:</span> Each contact will be a list that with the a person's name, phone number, address, email, or whatever we write.</div>
+            <div><span>Betsy:</span> <a href="/bjc-r/cur/programming/2-complexity/2-data-structures-art/2-quizzes.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="In Unit 2, we created a quiz item abstract data type">In Unit 2, we created a <code>quiz item</code> abstract data type</a> to store the questions and answers in a list of quiz items. Here, we can make a <code>contact</code> abstract data type to store the data for each contact in our list of contacts.</div>
+            <div><span>Gamal:</span> Yeah. In this project, we'll need a <code>contact</code> constructor and then selectors to access the <code>name</code>, <code>address</code>, and <code>phone number</code> for any given contact.</div>
+		</div>
+        
+        <div class="forYouToDo">
+            <ol start="4">
+                <li>
+                    <div class="sidenoteBig">
+                        <strong>Shortcut:</strong> You could paste the following text into the "Make a block" window to build the block more quickly.
+                        <p style="margin-left:25px;"><code>contact with name: %name address: %address phone: %phone</code></p>
+                        The percent (%) signs make those words become input variables.
+                    </div>
+                    Create a <code>contact</code> <em>constructor</em> that accepts three pieces of data as input: the contact's <var>name</var>, <var>phone number</var>, and <var>address</var>. <br />
+                    <img class="indent" src="/bjc-r/img/3-lists/contact-constructor-untyped.png" alt="contact with name: () address: () phone: ()" title="contact with name: () address: () phone: ()" /><br />
+                    It should report one whole contact (a list of the three items):<br />
+					<img class="indent" src="/bjc-r/img/3-lists/contact-constructor-reporting.png" alt="contact with name: (Betsy) address: (123 Main St. #4, New York, NY 10001) phone: (212-555-1234) reporting {Betsy Anderson; 123 Main St. #4, New York, NY 10001; 212-555-1234}" title="contact with name: (Betsy Anderson) address: (123 Main St. #4, New York, NY 10001) phone: (212-555-1234) reporting {Betsy Anderson; 123 Main St. #4, New York, NY 10001; 212-555-1234}" /><br />
+                </li>
+                <li>
+                    Write the <em>selector</em> blocks to retrieve the <code>name from contact</code>, <code>address from contact</code>, or <code>phone from contact</code>.
+                    <img class="indent" src="/bjc-r/img/3-lists/contact-constructor-in-name-selector.png" alt="contact name (contact block with inputs) reporting " title="contact name (contact block with inputs) reporting "><br />
+                    <img class="indent" src="/bjc-r/img/3-lists/contact-constructor-in-address-selector.png" alt="contact address (contact block with inputs) reporting " title="contact address (contact block with inputs) reporting "><br />
+                    <img class="indent" src="/bjc-r/img/3-lists/contact-constructor-in-phone-selector.png" alt="contact phone (contact block with inputs) reporting " title="contact phone (contact block with inputs) reporting ">
+                    <div class="takeNote">
+                        <div class="sidenote">You learned about input types and output types (domain and range) on <a href="/bjc-r/cur/programming/2-complexity/3-predicates/1-what-is-predicate.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 2 Lab 3 Page 1: What's a Predicate?">Unit 2 Lab 3 Page 1: What's a Predicate?</a>.</div>
+                        <p>It's important to make sure that your inputs to a function match the expected input type. For example, the input type of <code>address from contact</code> matches the output type of <code>contact</code>; they are both of type "contact."</p>
+                        <p>If you call <code>address from contact</code> with an input that doesn't match, such as a <em>list</em> of contacts (for example, the <var>contact list</var> variable or the result of running <code>keep</code> and having a subset of that list), it's not going to work. That may sound obvious, but in fact, beginning programmers make mistakes like that all the time; you have to teach yourself to think about the input  and output types of your functions every time you write or use one. </p>
+                        <p>That's also true about the inputs to the <code>contact</code> constructor; you can't put something that isn't a name in the name input for <code>contact</code>.</p>
+                    </div>
+                    <div class="endnote">
+                        <p>
+                            It's somewhat artificial to use the constructor as the input to a selector; these images are just examples to show what the selectors should be able to do when given a contact as input. In <em>your</em> program, the selectors will take an item from the contact list as input and output the correct piece of that contact, like this:<br />
+                            <img class="indent" src="/bjc-r/img/3-lists/address-from-contact-item-1-of-contact-list-reporting.png" alt="address from contact (item (1) of (contact list)) reporting '123 Main St. #4, New York, NY 10001'" title="address from contact (item (1) of (contact list)) reporting '123 Main St. #4, New York, NY 10001'" />
+                        </p>
+                    </div>
+                </li>
+		        <li>
+                    Declare input types for each selector to make it obvious that they expect a list (one whole contact) as input.<br />
+                    <img class="indent" src="/bjc-r/img/3-lists/name-selector.png" alt="name from contact: ()" title="name from contact: ()" />
+                    <img class="indent" src="/bjc-r/img/3-lists/address-selector.png" alt="address from contact: ()" title="address from contact: ()" />
+                    <img class="indent" src="/bjc-r/img/3-lists/phone-selector.png" alt="phone from contact: ()" title="phone from contact: ()" />
+                    <div class="endnote"> You learned about Specifying an Input Type on <a href="/bjc-r/cur/programming/2-complexity/2-data-structures-art/2-quizzes.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment#input-type" title="Unit 2 Lab 2 Page 2: Planning a Quiz App">Unit 2 Lab 2 Page 2: Planning a Quiz App</a>.</div>
+                </li>
+                <li>
+                    Test your blocks together, and debug any problems.
+                    <ol>
+                        <li>First, put the constructor (with input values) inside each selector (as shown above) to test that they each report the correct piece of data.</li>
+                        <li>
+                            Then, use the <code>contact</code> constructor to <code>add</code> a few contacts to your contact list.
+                            <div class="endnote">
+                                You can use these examples or make up your own:
+                                <table class="bordered" summary="three example contacts">
+                                    <tr>
+                                        <th scope="col">name</th>
+                                        <th scope="col">address</th>
+                                        <th scope="col">phone</th>
+                                    </tr>
+                                    <tr>
+                                        <td style="white-space: nowrap;">Betsy Anderson</td>
+                                        <td style="white-space: nowrap;">123 Main St. #4, New York, NY 10001</td>
+                                        <td style="white-space: nowrap;">212-555-1234</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="white-space: nowrap;">Alphie Preston</td>
+                                        <td style="white-space: nowrap;">149 E. 16th Ave., Sunnyvale, CA 94089</td>
+                                        <td style="white-space: nowrap;">408-555-6789</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="white-space: nowrap;">Gamal Abdel</td>
+                                        <td style="white-space: nowrap;">369 Center St., Boston, MA 02130</td>
+                                        <td style="white-space: nowrap;">617-555-1098</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </li>
+                        <li>Notice how your contacts appear in the list. </li>
+						<div class="endnote">
+						If you don't remember about table view and list view,
+						revisit <a href="/bjc-r/cur/programming/2-complexity/2-data-structures-art/2-quizzes.html#two-views?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment">page 2.2.2</a>.
+						</div>
+						<li>
+                            Try selecting the <code>name</code>, <code>address</code>, or <code>phone</code> from a contact in your list<br />
+                            <img class="indent" src="/bjc-r/img/3-lists/name-from-contact-random-reporting.png" alt="name from contact: (item (random) of (contact list)) reporting Alphie Preston" title="name from contact: (item (random) of (contact list)) reporting Alphie Preston" />
+                        </li>
+                        <img class="imageRight" src="/bjc-r/img/icons/save-mini.png" alt="Save Your Work" title="Save Your Work" />
+                        <li><strong>Debug</strong> any problems.</li>
+                    </ol>
+                </li>
+                <div class="comment">AAP-1.D part b</div>
+                <li>
+                    <img class="inline" src="/bjc-r/img/icons/write-out-thoughts.png" alt="Write Out Your Thoughts" title="Write Out Your Thoughts" />
+                    Write down how the use of an abstract data type helps manage complexity in your program.
+                </li>
+            </ol>
+        </div>
+        
+
+	</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unit 5 Lab 3: Timing Experiments, Page 6</title>
+	</head>
+
+	<body>
+    	<h2>Linear Time</h2>
+		
+<div class="todo">BK: Removing this page from the lab for this cycle. Linear time is now discussed in the page on classifying algorithms. Of note, the "list between" function on this page is not the same one seen in the other pages of this lab, and will need regenerated graphics.</div>
+        
+<p> In a previous lesson, you saw that the data-plots for some reporters looked close to a non-horizontal line.   One of these is <code>list between</code>&#8212;it reports the list of integers between its two inputs.</p> 
+
+<p><img  src="/bjc-r/img/5-algorithms/listbetween.png" alt="list between 11 and 16" title="list between11 and 16" /></p>
+        
+<div class="forYouToDo">
+    <ol>
+        <li>Make a list of the average time for <code>list between</code> using inputs from 200 to 10000, using a sacle factor of, say, 1.5.</li>
+        
+ <p><img  src="/bjc-r/img/5-algorithms/listbetweenlist.png" alt="timing list between 200 and 1000" title="timing list between 200 and 1000" /></p>        
+       
+        <li><img class="imageRight" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> Make a data-plot of your list.  Are your points close to a line?  
+</li>
+        <li>Look carefully at the data in your list.  The inputs increase by a constant scale factor.  If you used 1.5, they look something like this
+      
+      <table class="additiontable center">
+                <tr>
+                    <td>200, </td>
+                    <td>300, </td>
+                    <td>450, </td>
+                    <td>675, </td>
+                    <td>1012.5, </td>
+                    <td>1518.75, </td>
+                    <td>2278.125, </td>
+                    <td>3417.1875, </td>
+                    <td>5125.78125, </td>
+                    <td>7688.671875</td>
+                </tr> 
+ </table>  
+        
+       How do the outputs (the average times) change? <div class="sidenote">What is an approximate equation for your data-plot? </div> Look for something close to regularity in the data. </li>
+       
+       <li>  Try a different scale factor&#8212;if you chose 1.5, try 2 or 1.1.  Perform the same experiment.  Do the average times change in any regular (or close to regular) way?
+       
+       
+       
+      
+    </ol>
+</div> 
+         
+<div class="dialogue">
+            <div><span>Alphie:</span> Why is the plot of average times close to a line?</div>   
+           	<div><span>Betsy: </span> Think about the equation for a line, something like <span class="katex">y = 3x </span>.</div>
+            <div><span>Alphie: </span> Well, lines have equations like <span class="katex">y = 3x +5</span></div>
+            <div><span>Betsy: </span> Yeah, but the <span class="katex">+5</span> won't matter for huge inputs.  It's just noise.</div>
+			<div><span>Alphie: </span> OK.  But I repeat, "Why is the plot of average times close to a line?" </div>
+            <div class="stagedir">
+                They think. 
+            </div>	
+             <div><span>Betsy: </span> Say, for example, that the average time is 3 times the  input.  The if the input is doubled, from, say, 7 to 14, what happens to the output?</div>
+             <div><span>Alphie: </span>  It's doubled.   And  if the input is multiplied by 1.5, from, say, 200 to 350, what happens to the output?</div>
+            
+            <div><span>Betsy: </span> Yup&#8212;it gets multiplied by 1.5 </div>
+ <div class="sidenote"><img class="imageRight" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />Explain Alphie's claim, "if the output scales with the input, the graph of the data will lie along a line."  </div>           
+            <div><span>Alphie: </span>  And I remember from Algebra class that if the output scales with the input, the graph of the data will lie along a line.</div>
+            
+            <div><span>Betsy: </span>  OK, so we observed that this scaling thing happens for <code>average time</code>.  But <em>why</em> does it happen?  I guess we better look at what the reporter does.</div>
+            
+        </div>         
+        
+ <div class="takeNote">  <a name="" class="anchor">Ways to Think About It</a>   
+ 
+
+ 
+<p>Suppose you call  <img  src="/bjc-r/img/5-algorithms/listbetween1116.png" alt="timing list between 11 and 16" title="timing list between 11 and 16" />.  Ther reporter has to insert six numbers (11, 12, 13, 14, 15, and 16) into the empty list.  Now increase the upper limit to 32.  The reporter now needs to insert the integers from 11 to 32 into the empty list, and there are  12 of them (count them if you are skeptical).  </p>
+
+<div class="sidenote">Well, the data-plot <em> approximates</em> a line.  Why do you think it's approximate?  </div>
+
+<p>And  if you call <code>list between</code> with inputs 11 and 64, how many numbers does it need to insert? If you scale the upper limit by 2, the average time for the output gets scaled by 2. And, in general,  if you scale the upper limit by some number, the average time for the output gets scaled by the same number.  By Alphie's last comment, the graph is line.  </p>
+
+<p>Computer scientists (cleverly) call these algorithms <em>linear-time</em> algorithms.  Linear-time algorithms are also much sought-after in computer science, and for many problems, they are the fastest algorithms you can find.</p>
+
+
+    
+</div>
+ 
+      
+
+	</body>
+</html>

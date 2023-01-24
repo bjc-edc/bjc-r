@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unidad 3 Laboratorio 3: Tic-Tac-Toe, Pagina 2</title>
+    </head>
+
+    <body>
+        <h2>Detección de victorias y empates</h2>
+        <div class="todo">
+	        <p>I made some edits to include the word "possible" more. I'm not sure I didn't make it more confusing. Need to look again another day. --MF, 6/13/18</p>
+        </div>
+        <div class="todo">
+            <p>PG: I haven't thought deeply (haven't even read carefully!) but would want to check carefully to make sure this is /developmentally/ helpful. Maybe it already is.</p>
+            <p>BH: Super important:  Make the empty squares have the square number.</p>
+        </div>
+
+        <div class="learn">
+            <p><strong>En esta página</strong>, programará su proyecto Tic Tac Toe para detectar y reportar victorias y empates.</p>
+        </div>
+
+        <h3>Almacenamiento de todas las formas de ganar</h3>
+		<p>
+            Para programar una forma de detectar una ganancia, necesitamos determinar qué cuenta como una ganancia. Guardaremos cada posible triple ganador como una lista de tres números de posición (un <em>triple</em>). Por ejemplo, este triple ganador podría representarse como <img src="/bjc-r/img/3-lists/{3,5,7}.es.png" alt="list{3, 5, 7}" title= "list{3, 5, 7}"> porque la ganancia está en las posiciones 3<sup>rd</sup>, 5<sup>th</sup> y 7<sup>th</sup>:<br />
+            <img class="indent noshadow" src="/bjc-r/img/3-lists/winning-combo-357.es.png" alt="diagonal win bottom left to top right" title="diagonal win bottom left to top right"><br />
+        </p>
+
+        <div class="forYouToDo" id="first">
+			<ol>
+                <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.es.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
+                    <ol>
+                        <li>¿Cuántos triples ganadores son posibles? </li>
+                        <li>Anota cada uno de los posibles triples ganadores.</li>
+                    </ol>
+                </li>
+            </ol>
+        </div>
+
+        <p>A continuación, crearemos una lista para almacenar todos los posibles triples ganadores para que podamos compararla con el estado actual del juego almacenado por <var>tablero</var>.</p>
+
+        <div class="forYouToDo">
+			<ol start="2">
+	            <li>Abre tu proyecto <strong>U3L2-TicTacToe</strong> si aún no está abierto.</li>
+                <img class="imageRight" src="/bjc-r/img/icons/save-mini.es.png" alt="Save Your Work" title="Save Your Work" />
+                <li>
+                    Cree un reportero que genere una lista de todos los posibles triples ganadores. Se verá algo como esto:<br />
+                    <img class="indent" src="/bjc-r/img/3-lists/winning-triples.es.png" alt="winning triples partial block definition showing a list with at least two lists inside it: {1,2,3} and {2,5,8}" title="winning triples partial block definition showing a list with at least two lists inside it: {1,2,3} and {2,5,8}"/>
+                </li>
+            </ol>
+        </div>
+
+        <h3>Comprobación de una forma de ganar</h3>
+        <p>Necesitamos una forma de averiguar si realmente ha ocurrido un triple ganador. Podemos usar <code>map</code> para verificar cada posición en un triple para ver si algún jugador ha ganado con ese triple. </p>
+
+        <div class="endnote">
+            <p>Aprendiste sobre <code>map</code> en <a href="/bjc-r/cur/programming/3-lists/2-contact-list/5-mapping-over-list.es.html?topic=nyc_bjc% 2F3-lists.topic&course=bjc4nyc.es.html&novideo&noassignment" title="Unidad 3 Práctica de laboratorio 2, página 5: Transformación de todos los elementos de la lista">Unidad 3 Práctica de laboratorio 2, página 5: Transformación de todos los elementos de la lista</a>.</p>
+            <p>
+                <code>Map</code> aplica la función del anillo gris a cada elemento de la lista de entrada e informa una lista de todos los resultados.<br />
+                <img class="indent" src="/bjc-r/img/3-lists/map-example-2.es.png" alt="map (join( )(s)) over (list {cat, dog, bird}) reporting {cats, dogs, birds}" title="map (join( )(s)) over (list {cat, dog, bird}) reporting {cats, dogs, birds}" />
+            </p>
+            <p>Recuerde que la ranura de entrada en blanco en la función dentro del anillo gris es donde va un elemento de la lista cada vez que se realiza la función.</p>
+        </div>
+
+        <div class="forYouToDo">
+			<ol start="4">
+                <li>Haz clic en <img src="/bjc-r/img/1-introduction/green-flag_button.es.png" alt="botón de bandera verde" title="botón de bandera verde" /> para comenzar un nuevo juego. Juega un juego, <em>dejando deliberadamente que <strong>x</strong> gane</em>. </li>
+                <li>
+                    Luego construya esta expresión y vea lo que informa:<br />
+                    <img class="indent" src="/bjc-r/img/3-lists/map-item-board.es.png" alt="map (item ( ) of (board)) over (list{1, 2, 3})" title="map (item ( ) of (board)) over (list{1, 2, 3})"><br />
+                    <div class="endnote">
+                        <a href="#hint-map-item" data-toggle="collapse" title="How does map work here?">How does <code>map</code> work here?</a>
+                        <div id="hint-map-item" class="collapse">
+                            <p>Esta expresión <code>map</code> funciona de la misma manera que el ejemplo anterior de <code>join</code>, pero es un poco más complejo de pensar. Como antes, <code>map</code> inserta cada elemento de la lista en el espacio en blanco de la función dentro del anillo gris e informa una lista de los resultados.</p>
+                            <p>Pero aquí, la función en el anillo gris es <code>elemento () de (</code><var>tablero</var><code>)</code>, por lo que <code>map</code> comprueba elementos 1, 2 y 3 de la lista almacenada en la variable <var>tablero</var>, y reporta una lista de lo que está en esas tres posiciones (X, O o Vacío).</p>
+                            <p>
+                            	Si no puede ver lo que hay dentro de la variable <var>tablero</var>, asegúrese de que su casilla esté marcada en la paleta Variables y expanda su observador para ver los elementos de la lista como se muestra en la imagen a continuación.<br />
+                                <img class="indent noshadow" src="/bjc-r/img/3-lists/ttt-board-var.es.png" alt="picture of: watcher of board variable showing {X, O, Empty, Empty, X, Empty, Empty, Empty, O}; and Tic Tac Toe game with X in upper left and center and O in upper middle and lower right" title="picture of: watcher of board variable showing {X, O, Empty, Empty, X, Empty, Empty, Empty, O}; and Tic Tac Toe game with X in upper left and center and O in upper middle and lower right" />
+                                <img class="indent" src="/bjc-r/img/3-lists/map-item-board-reporting.es.png" alt="map (item ( ) of (board)) over (list{1, 2, 3}) reporting {X, Empty, Empty}" title="map (item ( ) of (board)) over (list{1, 2, 3}) reporting {X, Empty, Empty}"><br />
+							</p>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.es.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
+                    ¿Qué te dice el resultado de esa expresión sobre el estado del juego?
+                </li>
+                <li>Si <code>{1, 2, 3}</code> no es el triple en el que <strong>x</strong> ganó el juego, reemplace la lista en la expresión <code>map</code> con el ganando el triple y haga clic en la expresión de nuevo.</li>
+                <li>
+                	Usa esta idea para hacer un bloque <img src="/bjc-r/img/3-lists/status-of-triple.es.png" alt="status of triple ( )" title="status of triple ( )"> eso toma un posible triple ganador (un triple como <img src="/bjc-r/img/3-lists/{1,2,3}.es.png" alt="list{1, 2, 3}" title= "list{1, 2, 3}">) como entrada e informa una lista de lo que está en esas tres posiciones (X, O o Vacío).
+                     <div class="endnote">Aprendió a especificar el tipo de entrada de lista (<img class="inline" src="/bjc-r/img/3-lists/list_input_slot.es.png" alt="tipo de entrada de lista: rectángulo con dos rectángulos naranjas más pequeños dentro" title="tipo de entrada de lista: rectángulo con dos rectángulos naranjas más pequeños dentro">) en <a href="/bjc-r/cur/programming/2-complexity/2-data-structures- art/2-quizzes.es.html?topic=nyc_bjc%2F2-conditionals-abstraction.es.topic&course=bjc4nyc.es.html&novideo&noassignment" title="Unidad 2 Práctica de laboratorio 2 Página 2: Planificación de una aplicación de prueba">Unidad 2 Práctica de laboratorio 2 Página 2: Planificación de una prueba aplicación</a>.</div>
+                </li>
+                <li>
+                    <img class="imageRight" src="/bjc-r/img/icons/save-mini.es.png" alt="Save Your Work" title="Save Your Work" />
+                    Juega otro juego en el que el jugador O gane y prueba tu bloque <code>status of triple</code> con el triple ganador. Solucione cualquier error.
+                </li>
+            </ol>
+        </div>
+
+        <h3>Comprobando todas las formas de ganar</h3>
+        <p>Acabas de construir un bloque que marcará un triple para mostrar si algún jugador ha elegido los tres cuadrados. Ahora, construirá un bloque, <code>estado de todos los triples ganadores</code> para realizar la misma verificación para <em>todos</em> los triples que hacen una ganancia. Luego, usará ese bloque para verificar si alguno de los triples ganadores en realidad contiene tres movimientos del mismo jugador.</p>
+        <p>
+        	Por ejemplo, el jugador O ha ganado este juego y el bloque <code>status of all winner triples</code> contiene el estado de cada triple. La computadora puede usar este bloque para buscar un triple ganador que tenga todo X o todo O.<br />
+	        <img class="indent noshadow" src="/bjc-r/img/3-lists/status-of-all-board.es.png" alt="Tic Tac Toe game where Player O has won down the middle column. In row one, there is X, O, and X. In row two, there is X, O, and an empty square. In row three, there is an empty square, O, and an empty square." title="Tic Tac Toe game where Player O has won down the middle column. In row one, there is X, O, and X. In row two, there is X, O, and an empty square. In row three, there is an empty square, O, and an empty square." />
+	        <img class="indent noshadow" src="/bjc-r/img/3-lists/status-of-all-reporting.es.png" alt="The status of all winning triples block is reporting a list of lists (a table). There are three columns and eight rows, and each cell contains either a X, an O, or Empty. There is text to the right of each row listing the corresponding triple and where it appears on the board (such as 1, 5, 9 being the top-left to bottom-right diagonal). The triple in which Player O has won this game (2, 5, 8) shows O, O, O in the table. That is the only row with either all O or all X." title="The status of all winning triples block is reporting a list of lists (a table). There are three columns and eight rows, and each cell contains either a X, an O, or Empty. There is text to the right of each row listing the corresponding triple and where it appears on the board (such as 1, 5, 9 being the top-left to bottom-right diagonal). The triple in which Player O has won this game (2, 5, 8) shows O, O, O in the table. That is the only row with either all O or all X." />
+        </p>
+        <div class="endnote">El orden de sus triples y/o la numeración de las posiciones en su proyecto pueden ser diferentes. Esto está bien siempre que su proyecto funcione.</div>
+        <div class="forYouToDo">
+			<ol start="10">
+                <li>Use <code>map</code> junto con algunos de los otros bloques que ha creado para construir el bloque <code>estado de todos los triples ganadores</code>. Debe informar el estado de todos los triples ganadores como una lista de listas, como se muestra arriba.</li>
+	            <div class="endnote">
+                    <a href="#hint-status-all" data-toggle="collapse" title="Click for a hint on how to use map.">Haga clic para obtener una sugerencia sobre cómo usar <code>map</code>.</a>
+                    <div id="hint-status-all" class="collapse">Cuando uses <code>map</code> piensa:
+                        <ol>
+                            <li>¿Cuál es la función que está realizando? Eso va en el anillo gris.</li>
+                            <li>¿En qué datos estás realizando esa función? Esa es la lista sobre la que está mapeando.</li>
+                        </ol>
+                        Aquí, desea conocer el estado de cada triple ganador.
+                    </div>
+                </div>
+                <div class="sidenoteBig">
+                	<a href="#hint-won" data-toggle="collapse" title="Click for a hint on building won?.">Haga clic para obtener una pista sobre el edificio <code>won?</code>.</a>
+					<div id="hint-won" class="collapse">
+                    	<p>Póngalo en palabras: ¿Qué es lo que quiere comprobar?</p>
+                        <p>¿Hay algún bloque que pueda ser útil para eso?</p>
+                        <p>
+                            <a href="#hint-won-contains" data-toggle="collapse" title="Click for another hint.">Haga clic para obtener otra pista.</a>
+                            <div id="hint-won-contains" class="collapse"><img src="/bjc-r/img/3-lists/contains.es.png" alt="( ) contains ( )" title="( ) contains ( )" /></div>
+                        </p>
+                    </div>
+                </div>
+                <li>Ahora haga un bloque <img src="/bjc-r/img/3-lists/wonQ.es.png" alt="won? ( )" title="won? ( )"> que tome la letra <strong>X</strong> o <strong>O</strong> como entrada y reporta <code>true</code> si y solo si ese jugador ha ganado el juego. </li>
+                <img class="imageRight" src="/bjc-r/img/icons/save-mini.es.png" alt="Save Your Work" title="Save Your Work" />
+                <li>Modifique su programa para que cuando un jugador gane el juego, el programa <em>notifique</em> a los jugadores.</li>
+                <li>Juega el juego varias veces para comprobar que funciona y corregir cualquier error. Asegúrese de dejar que cada jugador gane al menos una vez.</li>
+            </ol>
+        </div>
+
+        <h3>Comprobación de lazos</h3>
+        <p>La definición de un juego empatado es que no hay más casillas vacías y ningún jugador ha ganado.</p>
+
+        <div class="forYouToDo">
+			<ol start="14">
+				<div class="todo">
+                    <p>This hint won't work when we change "Empty" to numbers. -bh</p>
+                    <p>I don't want to do that until we need it--in U5. --MF, 6/8/18</p>
+                    <p>One reason to do it from the beginning is that as it is now, the student has to remember where in the program it assumes &quot;Empty,&quot; otherwise the project won't work. --bh</p>
+                </div>
+                <li>
+                    <div class="sidenoteBig">
+                        <a href="#hint-tie-contains" data-toggle="collapse" title="Hint">Haga clic para obtener una pista sobre la verificación de empates.</a>
+                        <div id="hint-tie-contains" class="collapse"><img src="/bjc-r/img/3-lists/contains.es.png" alt="( ) contains ( )" title="( ) contains ( )" /></div>
+					</div>
+                    Desarrolle una forma de determinar si el juego ha empatado y, de ser así, haga que el programa notifique a los jugadores.
+                </li>
+                <li>Juegue un par de juegos para probar la función de verificación de empates y corrija cualquier error.</li>
+                <div class="sidenoteBig">
+                    <p>Puedes trabajar en este proyecto más en <a href="/bjc-r/cur/programming/5-algorithms/optional-projects/tic-tac-toe/1-review.es.html?topic=nyc_bjc%2F5-algorithms.es.topic&course=bjc4nyc.es.html&novideo&noassignment" title="Unit 5 Optional Project: Tic-Tac-Toe">Unidad 5 Projecto Opcional: Tic-Tac-Toe</a>.</p>
+                </div>
+                <li>
+                	¿Por qué es importante el orden de las pruebas (para victorias o empates)?
+					<img src="/bjc-r/img/icons/talk-with-your-partner-mini.es.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
+				</li>
+                <li><img class="inline" src="/bjc-r/img/icons/save-use-later.es.png" alt="Save. You will use this later." title="Save. You will use this later." /></li>
+			</ol>
+		</div>
+
+		<div class="ifTime">
+			<ol start="18">
+				<li>Hay muchas pequeñas mejoras que podrías hacer. Por un lado, cuando un jugador gana, es posible que desee evitar más movimientos. ¿Qué más le gustaría cambiar o mejorar?</li>
+			</ol>
+		</div>
+
+        <div class="takeItFurther">
+			<img class="imageRight" src="/bjc-r/img/icons/tough-stuff-mini.es.png" alt="Tough Stuff" title="Tough Stuff" />
+            <ol type="A">
+                <li>Su programa puede ser más inteligente a la hora de detectar vínculos. Si solo hay un cuadrado vacío en el tablero y llenar ese cuadrado con el jugador cuyo turno es el siguiente no causaría una victoria, entonces el juego ya está empatado. El desafío aquí es que tendrás que probar para ganar en un tablero que no es el <var>tablero</var> actual.</li>
+                <li>En lugar de que el sprite diga algo como "X gana", sería más satisfactorio para los jugadores dibujar una línea gruesa a través de los tres cuadrados que generan una ganancia. Esto es un poco complicado porque cuando sabes que hay una victoria, ya no sabes qué triple la activó. Asegúrese de que su código permanezca legible para otro programador.</li>
+            </ol>
+        </div>
+
+
+	</body>
+</html>

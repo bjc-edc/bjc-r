@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unit 4 Lab 4: Data Representation and Compression, Page 5</title>
+		<script type="text/javascript" src="/bjc-r/utilities/gifffer.min.js"></script>
+        <script type="text/javascript">window.onload = function() {Gifffer();}</script>
+        <link rel="stylesheet" type="text/css" href="/bjc-r/css/bjc-gifffer.css">
+    </head>
+    
+    <body>
+    	<h2>Binary Representation</h2>        
+        
+        <p>We've looked at how the number of bits used to represent an integer affects how big it can be. Now we turn to the specific way a single-word  integer is encoded as bits.</p>
+        <div class="vocab">: <strong>Bit</strong>
+            <div class="todo">DAT-1.A.3</div>
+            <p>The word "bit" is an abbreviation for <em><strong>bi</strong>nary digi<strong>t</strong>.</em></p>
+        </div> 
+            
+        <div class="comment">DAT-1.C.1</div>
+        <p>People generally use base ten (decimal) digits to write numbers. Computers use base two (binary).</p>
+		
+        <div class="comment">DAT-1.C.3</div>
+		<p>
+            In <strong>base 10</strong>, there are ten digits (0-9), and each place is worth <em>ten</em> times as much as the place to its right. <br />
+          <img class="indent noshadow" src="/bjc-r/img/4-internet/decimal-places.jpg" alt="place values in decimal 3761: 3 1000's 7 100's 6 10's 1 1's" title="place values in decimal 3761: 3 1000's 7 100's 6 10's 1 1's" />
+        </p>
+        <div class="comment">DAT-1.C.2</div>
+        <p>
+            In <strong>binary, base 2</strong>, there are only two digits (0 and 1), and each place is worth <em>two</em> times the place to its right.<br />
+            <img class="indent noshadow" src="/bjc-r/img/4-internet/binary-places.jpg" alt="place values in binary 1101: 1 8's 1 4's 0 2's 1 1's" title="place values in binary 1101: 1 8's 1 4's 0 2's 1 1's" />
+        </p>
+        <div class="endnote">The subscript 2 on 1101<sub>2</sub> means the 1101 is in base 2. Numbers are normally written in base 10, so a subscript 10 is only used when needed for clarity.</div>
+        
+        <h3>Reading Binary</h3>
+        <div class="comment">DAT-1.C.5</div>
+        <p>In <strong>base 10</strong> notation, each place value represents a <strong>power of ten</strong>: the units place (10<sup>0</sup> = 1), the tens place (10<sup>1</sup> = 10), the hundreds place (10<sup>2</sup> = 100), the thousands place (10<sup>3</sup> = 1000), etc. So, for example:</p>
+        <p class="center"> 9827  &nbsp; = &nbsp; 9 &times;  10<sup>3</sup> &nbsp;+&nbsp; 8 &times;  10<sup>2</sup> &nbsp;+&nbsp; 2 &times;  10<sup>1</sup> &nbsp;+&nbsp; 7 &times;  10<sup>0</sup></p>
+        <div class="comment">DAT-1.C.4</div>
+        <p>
+            <img class="imageRight" src="/bjc-r/img/4-internet/binary-places(18).jpg" alt="place values in binary 10010: 1 16's 0 8's 0 4's 1 2's 0 1's" title="place values in binary 10010: 1 16's 0 8's 0 4's 1 2's 0 1's" />
+            <strong>Base 2</strong> uses the same idea but with <strong>powers of two</strong> instead of powers of ten. Binary place values represent the units place (2<sup>0</sup> = 1), the twos place (2<sup>1</sup> = 2), the fours place (2<sup>2</sup> = 4), the eights place (2<sup>3</sup> = 8), the sixteens place (2<sup>4</sup> = 16), etc. So, for example:
+        </p>
+        <p align="center">10010<sub>2</sub> &nbsp; = &nbsp; <strong>1 &times; 2<sup>4</sup></strong>	 &nbsp;+&nbsp; 0 &times; 2<sup>3</sup> &nbsp;+&nbsp; 0 &times; 2<sup>2</sup> &nbsp;+&nbsp; <strong>1 &times; 2<sup>1</sup></strong> &nbsp;+&nbsp; 0 &times; 2<sup>0</sup> &nbsp; = &nbsp; 16 &nbsp;+&nbsp; 2 &nbsp; = &nbsp; 18<sub>10</sub></p>
+
+        
+        <div class="takeNote">
+            <p>To translate from binary (for example, 101101<sub>2</sub>) to base 10, <strong>first, write the number out on paper. Then write out the binary place values</strong> by <em>doubling left from the units place</em>:</p>
+            <div class="sidenoteBig">101101<sub>2</sub> has only six digits, so we don't need powers of two to the left of that.</div>
+            <div class="commentBig">Instead of the big blue arrow that nobody understands, let's use five small blue arrows between the cells of the second row.</div>
+            <table class="byte indent" summary="translation process from binary to base 10">
+                <tr>
+                    <th scope="col">1</th>
+                    <th scope="col" style="font-weight:normal;">0</th>
+                    <th scope="col">1</th>
+                    <th scope="col">1</th>
+                    <th scope="col" style="font-weight:normal;">0</th>
+                    <th scope="col">1</th>
+                </tr>
+                <tr>
+                    <td><strong>32</strong></td>
+                    <td>16</td>
+                    <td><strong>8</strong></td>
+                    <td><strong>4</strong></td>
+                    <td>2</td>
+                    <td><strong>1</strong></td>
+                </tr>
+                <tr>
+                    <td class="noborder" colspan="6">
+                    	<img class="indent noshadow" src="/bjc-r/img/8-recursive-reporters/r-to-l.png" alt="right-to-left arrow" title="right-to-left arrow" />
+                    </td>
+                </tr>
+            </table>
+			<p>This means that this number is, in base  10,  32 + 8 + 4 + 1 = 45.   So, 101101<sub>2</sub> = 45<sub>10</sub>.</p>
+        </div>
+        
+		<div class="forYouToDo">
+            <ol start="1">
+                <div class="comment">DAT-1.C part a</div>
+                <li>
+                    Translate these binary representations into base 10 notation:
+                      <ol>
+                    	<li>101<sub>2</sub></li>
+                        <li>111<sub>2</sub></li>
+                        <li>1010011<sub>2</sub></li>
+                        <li>1000000000<sub>2</sub></li>
+                    </ol>
+                </li>
+			</ol>
+		</div>
+
+		<h3>Writing Binary</h3>
+        <div class="takeNote">
+			<p>To translate from base 10 (like 89<sub>10</sub>) to base 2, <strong>first write out the binary place values</strong> by <em>doubling left from the units place</em> until you get to a value larger than your number (128 for this example). <strong>Then think</strong>, "I can take out a 64, so I write a 1 there, and there's 25 left (89&nbsp;−&nbsp;64). I have 0 thirty-twos, because I only have 25. But I can take out 16, and there's 9 left. So, 8 and 1 are the last nonzero bits.</p>
+      <!--      <div class="sidenoteBig">Either way you are converting (and between any bases), always write the place values right-to-left (just as with units, tens, hundreds, etc.), and always write the number itself left-to-right.</div>  -->
+            <div class="todo">Mary, this is a sloppy use of tables when I probably should be using some kind of CSS. Fix later. --MF, 12/8/17  There is a commented out, incorrect sidenote here. -bh</div>
+            <table class="remainders indent" summary="list of remainders after each step of process">
+            	<tr>
+                    <td>
+                        <s>89</s><br />
+                        <s>25</s><br />
+                        <s>9</s><br />
+                        <s>1</s><br />
+                        0
+                    </td>
+                </tr>
+            </table>
+            <table class="byte indent" summary="translation process from base 10 to base 2">
+                <tr>
+					<td class="noborder" colspan="8">
+						<img class="indent noshadow" src="/bjc-r/img/8-recursive-reporters/r-to-l.png" alt="right-to-left arrow" title="right-to-left arrow" />
+					</td>
+                </tr>
+                <tr>
+                    <th scope="col" style="font-weight:normal;">128</th>
+                    <th scope="col">64</th>
+                    <th scope="col" style="font-weight:normal;">32</th>
+                    <th scope="col">16</th>
+                    <th scope="col">8</th>
+                    <th scope="col" style="font-weight:normal;">4</th>
+                    <th scope="col" style="font-weight:normal;">2</th>
+                    <th scope="col">1</th>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td><strong>1</strong></td>
+                    <td>0</td>
+                    <td><strong>1</strong></td>
+                    <td><strong>1</strong></td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td><strong>1</strong></td>
+                </tr>
+            </table><br clear="all" />
+            <div class="todo">I'm confused about why the arrow is going from right to left. Will that confuse students? Most of the work happens going left to right. Maybe there should be another arrow below the table that goes the other way... --MF, 2/12/18  It may be left over from when we were using the correct algorithm, which does go right to left. -bh</div>
+            <p>Now, read the number off: 1011001<sub>2</sub> = 89<sub>10</sub>.</p>
+		</div>
+        
+        <p>
+            Here's a more precise description of this <em>algorithm</em>  to find the base 2 representation of any positive integer:
+            <ol type="a">
+                <li>First, find the largest power of two that is less than the number.</li>
+                <li>Then, subtract that power of 2 from the number, keep the new number, and record a 1 in the place for that power of 2.</li>
+                <!--                <div class="sidenote">You could <a href="/bjc-r/cur/programming/6-computers/1-number-representation/5-binary-counter.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc.html&novideo&noassignment">create a program</a> based on an algorithm like this.</div>   -->
+                <div class="comment">There is <a href="/bjc-r/cur/programming/4-internet/4-representation-compression/5b-binary-alternate.html" target="_blank">Another Algorithm for Converting to Binary</a>.<br />(Change from a "comment" to a "sidenote" when page is complete.) --MF, 11/20/17</div>
+                <li>
+                    Then, determine if the next largest power of 2 that is less than the new number, and:
+                    <ul>
+                        <li>If it does, subtract that power of 2 from the number, keep the new number, and record a 1 in the place for that power of 2.</li>
+                        <li>If it doesn't, keep the same number, and record a 0 for that power of 2.</li>
+                    </ul>
+                    Repeat this whole step with the next largest power of 2 until you have a bit (1 or 0) for all the remaining places down to and including the ones place (by which point you should have nothing left of the original number).
+                </li>
+            </ol>
+        </p>
+		<p>The string of ones and zeros you have recorded is the binary representation of your original number.</p>
+
+		<div class="forYouToDo">
+            <ol start="2">
+                <div class="comment">DAT-1.C part a</div>
+                <li>
+                    Represent these base 10 numerals in binary (base 2):
+                      <ol>
+                        <li>63</li>
+                        <li>64</li>
+                        <li>65</li>
+                        <li>129</li>
+                        <li>128</li>
+                        <li>127</li>
+                    </ol>
+                </li>
+                <li>
+                    <div class="comment">DAT-1.C part b</div>
+                    Put these numbers in ascending order without converting them to decimal notation:
+                    <ul>
+                        <li>1011001<sub>2</sub></li>
+                        <li>11001<sub>2</sub></li>
+                        <li>100001<sub>2</sub></li>
+                        <li>101011<sub>2</sub></li>
+                    </ul>
+                </li>
+                <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />What was your algorithm for comparing these numbers?</li>
+                <li>
+                    This question is similar to those you will see on the AP CSP exam.
+                    <!-- Question 1 -->
+                    <div class="assessment-data" type="multiplechoice" identifier="Which explains the 0?"
+                        hasinlinefeedback="true" maxchoices="1" responseIdentifier="ri1" shuffle="false">
+                        <div class="prompt">A particular program uses 4 bits to represent whole numbers. When that program adds the numbers 9 and 7, the result is given as 0. Identify the best explanation of the result.</div>
+                        <div class="choice" identifier="c1">
+                            <div class="text">Data was corrupted during the operation due to a technical glitch.</div>
+                            <div class="feedback">While data corruption is possible, it is not a likely explanation for the recurrence of the result as one can demonstrate with repeated attempts to add 9 and 7.</div>
+                        </div>
+                        <div class="choice" identifier="c2">
+                            <div class="text">The result was due to a round-off error.</div>
+                            <div class="feedback">There is no rounding done here.</div>
+                        </div>
+                        <div class="choice" identifier="c3">
+                            <div class="text">The result was due to an overflow error.</div>
+                            <div class="feedback">Correct. 9+7=16, which is beyond the capacity of 4 bits to express.  0=(0000)<sub>2</sub> is the first and 15=(1111)<sub>2</sub> is the last integer expressible in a 4-bit system. 16=(10000)<sub>2</sub> leads to an overflow.</div>
+                        </div>
+                        <div class="choice" identifier="c4">
+                            <div class="text">A floating-point representation was used to approximate the result.</div>
+                            <div class="feedback">0 is not an approximation of 16.</div>
+                        </div>
+                        <div class="responseDeclaration" identifier="ri1">
+                            <div class="correctResponse" identifier="c3"></div>
+                        </div>
+                    </div>
+                </li>
+            </ol>
+        </div>
+	
+    
+	</body>
+</html>

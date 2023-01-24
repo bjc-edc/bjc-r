@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+        <script type="text/javascript" src="/bjc-r/utilities/gifffer.min.js"></script>
+        <script type="text/javascript">window.onload = function() {Gifffer();}</script>
+        <link rel="stylesheet" type="text/css" href="/bjc-r/css/bjc-gifffer.css">
+		<title>Unit 5 Lab 3: Turning Data into Information, Page 3</title>
+    </head>
+
+    <body>
+        <h2>Importing and Accessing Data</h2>                
+        <div class="learn">
+            <div class="comment">DAT-2.D.1, DAT-2.C.1</div>
+            <p>Computers can be useful in processing data to gain information, but your ability process data depends both on your capabilities and the tools you have available.</p>
+            <p><strong>On this page</strong>, you will build various tools (specifically, selectors) to help you answer questions about data that interests you.</p>
+            <div class="endnote">You learned about selectors on <a href="/bjc-r/cur/programming/2-complexity/2-data-structures-art/2-quizzes.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 2 Lab 2 Page 2: Planning a Quiz App">Unit 2 Lab 2 Page 2: Planning a Quiz App</a>.</div>
+        </div>
+        
+ 
+        <div class="forYouToDo" id="first">
+                
+            <ol>
+				<li><div class="newProject"><span class="text">"U5L3-Data-Processing"</span><img src="/bjc-r/img/icons/new-project-called.png" alt="Start a New Project called U5L3-Crayon" title="Start a New Project called U5L3-Data-Processing" /></div></li>
+                <li>Visit the <a href="https://think.cs.vt.edu/corgis/csv/index.html" title="CORGIS Datasets Project" target="_blank">CORGIS Datasets Project</a> and select a dataset you'd like to explore. Download the CSV file for the data you want to explore.</li>
+                <li>Open Snap<em>!</em> and drag the downloaded file into the Snap<em>!</em> window. You should see a table full of data. Look over the data (including the <em>column headings</em> in the top row) to give yourself a sense of what kind of information is included. Then click "OK" to close the window. You can still see the data in the watcher on the Snap<em>!</em> stage.</li>
+            </ol>
+        </div>
+        
+        <div class="comment">DAT-2.D.5</div>
+        <p>
+            <img class="imageRight" src="/bjc-r/img/5-algorithms/correlation-positive-trend.png" alt="a graph with a bunch of data points, in which they generally follow a straight line from top left to bottom right" title="a graph with a bunch of data points, in which they generally follow a straight line from top left to bottom right" />
+            You may be familiar with tables from spreadsheet applications (such as Google Sheets, Apple Numbers, or Microsoft Excel) which store tabular data in different file formats. Spreadsheet programs help efficiently organize information, and they can find trends in data automatically (such as the line shown at right). CSV is an open spreadsheet format that works in any of these applications and in Snap<em>!</em>.
+        </p>
+        <div class="endnote">
+            <a href="#hint-CSV" data-toggle="collapse" title="What does CSV stand for">What does CSV stand for?</a>
+            <div id="hint-CSV" class="collapse">
+                CSV stands for "comma separated values." CSV files are tables of data stored with commas between each item in a row and line breaks between each row in the table. (You can see the commas and line breaks of a CSV by opening it in a text editor.)
+            </div>
+        </div>
+		<p>Although spreadsheets are a common kind of data, they aren't the only kind. Consider the list of words that you used in Lab 1 to check spelling. It's not a <em>list of lists</em> with two dimensions of data (rows and columns); it's just a <em>list</em> with one dimension of data. "Spreadsheet" refers to two-dimensional data organized in rows and columns. "Dataset" is the more general term for <em>any</em> collection of data, including simple, one-dimensional lists; spreadsheets (two-dimensional lists of lists); and more complicated datasets such as spreadsheets with multiple tabs. </p>
+        
+        <div class="forYouToDo">
+			<ol start="4">
+                <li>Experiment with different inputs to the <img class="inline nopadtb" src="/bjc-r/img/blocks/item.png" alt="item () of 'list input slot'" title="item () of 'list input slot'" /> block to access different rows in the dataset.</li>
+                <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> How does the first item of your data set (<code>item (1) of</code>) differ from the other items?</li>
+                <li>Locate the <img class="inline" src="/bjc-r/img/blocks/all-but-first.png" alt="all but first of 'list input slot'" title="all but first of 'list input slot'" /> block and determine what it does with your data.</li>
+                <li>
+                    Build selectors:
+                    <ol>
+                        <li><img class="inline" src="/bjc-r/img/5-algorithms/headings-of-table.png" alt="headings of table ()" title="headings of table ()" /> that reports just the headings in a table</li>
+                        <li><img class="inline" src="/bjc-r/img/5-algorithms/data-of-table.png" alt="data of table ()" title="data of table ()" /> that reports just the data (not the headings)</li>
+                    </ol>
+                </li>
+            </ol>
+        </div>
+        
+        <div class="endnote">
+            <p>A table is represented in Snap<em>!</em> as a list of lists. If you right-click (or control-click on a Mac) a table, you can switch to "list view" and see how the data (and column headings) are stored. <a href="#hint-views" data-toggle="collapse" title="See examples of table view and list view.">See examples of table view and list view.</a></p>
+            <div id="hint-views" class="collapse" style="text-align:center;">
+                <div style="display: inline-grid; grid-template-columns: auto auto; text-align:center;">
+                    <div><strong>Table View</strong></div>
+                    <div><strong>List View</strong></div>
+                    <div style="padding-right: 50px;"><img class="indent" src="/bjc-r/img/5-algorithms/cars-table-view.png" alt="report of cars dataset displayed as a table with columns and rows; the first row is the label of each column; the remaining rows each contain the data for a single record" title="report of cars dataset displayed as a table with columns and rows; the first row is the label of each column; the remaining rows each contain the data for a single record" /></div>
+                    <div style="padding-left: 50px;"><img class="indent" src="/bjc-r/img/5-algorithms/cars-list-view.png" alt="report of cars dataset displayed as a list of lists; the first list contains the labels for each of the columns shown in the table view; the remaining lists each contain the data for a single record" title="report of cars dataset displayed as a list of lists; the first list contains the labels for each of the columns shown in the table view; the remaining lists each contain the data for a single record" /></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="vocabFullWidth">: <strong>Records</strong>, <strong>Fields</strong>, and <strong>Columns</strong>
+            <ul>
+                <li>A <strong>record</strong> is one row in a dataset (other than the first row, which contains the column headings). A single record might be the data for one student in your school, the data for one earthquake that happened, the data for one hospital in the U.S, or the data for one contact in your contact list. In other words, a record is a horizontal slice of the dataset.</li>
+                <li>A <strong>field</strong> is one item of a record in a dataset. It might be one person's homeroom teacher, the magnitude of an earthquake in Los Angeles last week, the owner of one hospital in Chicago, or the phone number of one person in your contact list.</li>
+                <li>A <strong>column</strong> is a list containing the data from one field for all records in a dataset. A column might be the homeroom teacher for <em>every</em> student in your school, the magnitude of <em>every</em> earthquake in the dataset, the owner of <em>every</em> hospital in the U.S., or the phone number of <em>every</em> person in your contact list. In other words, a column is a vertical slice of the dataset.</li>
+            </ul>
+            <img height="231" class="indent" data-gifffer="/bjc-r/img/5-algorithms/cars-table-view-parts.gif" alt="three frame animation of the report of cars dataset displayed as a table with columns and rows; in the first frame, the fourth row of the table is highlighted and labeled 'record (row)'; in the second frame, the third column of the table is highlighted and labeled 'column'; in the third frame, the cell in the fourth row and third column is highlighted and labeled 'field'" title="three frame animation of the report of cars dataset displayed as a table with columns and rows; in the first frame, the fourth row of the table is highlighted and labeled 'record (row)'; in the second frame, the third column of the table is highlighted and labeled 'column'; in the third frame, the cell in the fourth row and third column is hightlighted and labeled 'field'" />
+        </div>        
+        
+        <div class="forYouToDo">
+			<ol start="8">
+                <li>Build <img class="inline nopadtb" src="/bjc-r/img/5-algorithms/record-of-table.png" alt="record () of table ()" title="record () of table ()" /> and <img class="inline nopadtb" src="/bjc-r/img/5-algorithms/field-of-record.png" alt="field () of record ()" title="field () of record ()" /> blocks to make it easier to think about the structure of the table. </li>
+				<li>
+                    <img class="inline" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> Build <img class="inline nopadtb" src="/bjc-r/img/5-algorithms/column-of-table.png" alt="column () of table ()" title="column () of table ()" /> to report just one column of your dataset.
+                    <div class="endnote">
+                        <p><code>Record</code> and <code>column</code> are <em>selectors</em> for a <code>table</code> abstract data type. We don't need a <em>constructor</em> for this abstract data type because we are importing the data from the Internet, but the selectors will be useful. (<code>Field</code> is a selector for <code>record</code>, which is, itself, an abstract data type.)</p>
+                        <p>Notice that these suggested block names include the word "table" or "record" before the second input.  Including the expected input data type in the block name can help you avoid bugs caused by using a selector that doesn't match the input you want to use.</p>
+                        <p><a href="#hint-map" data-toggle="collapse" title="Try to figure out how to report just one column, but click if you really need a hint.">Try to figure out how to report just one column, but click if you really need a hint.</a></p>
+                        <div id="hint-map" class="collapse">
+                            <p><img class="inline" src="/bjc-r/img/blocks/map.png" alt="map () over ()" title="map () over ()" /> performs the same function on every item in a list.  <a href="#hint-more-map" data-toggle="collapse" title="Have I seen map before?">Have I seen <code>map</code> before?</a> <div id="hint-more-map" class="collapse"> Since a table is a list of lists (where each inner list is one record), <code>map</code> will perform the same function on every record in your dataset. You will need to determine what function to map over the dataset. You learned about <code>map</code> on <a href="/bjc-r/cur/programming/3-lists/2-contact-list/5-mapping-over-list.html?topic=nyc_bjc%2F3-lists.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 3 Lab 2 Page 5: Transforming Every List Item">Unit 3 Lab 2 Page 5: Transforming Every List Item</a>.</div></p>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <img class="inline" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> Determine one question you can answer by <strong>looking at a single column</strong> of your data set, and then build code to answer your question. You may need to build additional blocks or import them from other projects.
+                    <div class="endnote">
+                       <p>
+                            You can see the column number by holding your mouse pointer over the letter at the top of the column in table view.<br />
+                            <img height="120" class="indent" src="/bjc-r/img/5-algorithms/column-number.png" alt="image of the top of the table view for the cars dataset with the mouse pointer over the top of the second column; the columns are now labeled A, 2 (where the pointer is), C, D, etc." title="image of the top of the table view for the cars dataset with the mouse pointer over the top of the second column; the columns are now labeled A, 2 (where the pointer is), C, D, etc." />
+                        </p>
+                        <p>You may need to use <code>map</code>, <code>keep</code>, or <code>combine</code> to answer your question. <a href="#hint-HOFs" data-toggle="collapse" title="Click to see where you learned about these higher order functions.">Click to see where you learned about these higher order functions.</a></p>
+                        <div id="hint-HOFs" class="collapse">
+                            <ul>
+                                <li>You learned about <code>map</code> on <a href="/bjc-r/cur/programming/3-lists/2-contact-list/5-mapping-over-list.html?topic=nyc_bjc%2F3-lists.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 3 Lab 2 Page 5: Transforming Every List Item">Unit 3 Lab 2 Page 5: Transforming Every List Item</a>.</li>
+                                <li>You learned about <code>keep</code> on <a href="/bjc-r/cur/programming/2-complexity/3-predicates/5-keeping-list-items.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 2 Lab 3 Page 5: Keeping Items from a List">Unit 2 Lab 3 Page 5: <code>Keep</code>ing Items from a List</a> .</li>
+                                <li>You learned about <code>combine</code> on <a href="/bjc-r/cur/programming/2-complexity/4-making-computers-do-math/3-other-math-reporters.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 2 Lab 4 Page 3: Other Mathematical Reporters">Unit 2 Lab 4 Page 3: Other Mathematical Reporters</a>.</li>
+                            </ul>
+                        </div>
+                        <p><a href="#hint-questions" data-toggle="collapse" title="Click for example questions to ask about a single column.">Click for example questions to ask about a single column.</a></p>
+                        <div id="hint-questions" class="collapse">
+                            <ul>
+                                <li>What's the average MPG that cars in this database get in the city? (You'd need an <code>average</code> block.)</li>
+                                <li>What's the year of the oldest car in this dataset? (You'd need a <code>minimum</code> block.)</li>
+                                <li>How many cars in this dataset have manual transmission? </li>
+                            </ul>
+                            <p>Notice that all of these examples only require data from one column. If you want to ask a question that requires looking at another column (for example, "What's the model of the car with the highest MPG?"), you can do the Take It Further Activity below.</p>
+                        </div>
+                    </div>
+                </li>
+            </ol>
+        </div>
+        
+        <h3>Challenges in Collecting Data</h3>
+        <div class="todo">This section <em>looks</em> long. We should do another pass to trim it down. --MF, 4/4/20</div>
+        
+        <div class="comment">DAT-2.C.3, DAT-2.C.2 all bullets</div>
+        <p>Researchers often face challenges with data before they even begin analysis. Suppose you are combining data from different countries about distances between cities, and you discover that the distance data from the U.S. is measured in miles, but the distance data from Europe is measured in kilometers; to make meaningful comparisons, you need <em>uniform</em> data (all in miles or all in kilometers). As another example, if you use an online survey to collect data, the way participants abbreviate, spell, or capitalize their entries may vary. Data may also be incomplete (if some people didn't complete the survey) or invalid (if some people made mistakes).</p>
+        <div class="vocabFullWidth">
+            <div class="comment">DAT-2.C.4, DAT-2.E.2</div>
+            <p><strong>Cleaning data</strong> is the process of making the data uniform <em>without changing its meaning</em> (such as replacing abbreviations, spellings, and capitalizations with the intended word or converting miles to kilometers). Programmers can use programs to filter and clean digital data, thereby gaining insight and knowledge.</p>
+        </div>
+
+        <div class="comment">DAT-2.C.5</div>
+        <p>Imagine you read in the news that people who eat a lot of broccoli are less likely to get cancer. The conclusion that broccoli prevents cancer could be a result of <em>bias</em>. It could be that people who eat a lot of broccoli tend to be the same people who also get a lot of exercise, and it's actually the exercise that makes the difference. In research, the term "bias" doesn't have to mean prejudice; it's about reasons the data might not mean what they seem to mean.</p>
+        <p>People sometimes think that the way to overcome bias is to use a bigger sample (asking more people if they eat broccoli and have cancer). But if the bigger sample has the same problem (people getting more exercise also eat more broccoli), then a bigger sample won't eliminate the bias.</p>
+
+        <div class="forYouToDo">
+			<ol start="11">
+				<div class="comment">DAT-2.C</div>
+                <li><img class="inline" src="/bjc-r/img/icons/write-out-thoughts.png" alt="Write Out Your Thoughts" title="Write Out Your Thoughts" />Describe possible challenges about the data you might face if you were going to collect your own data to answer a question like the one you investigated in the previous problem.</li>
+			</ol>
+		</div>
+		
+
+        <div class="todo"><p>I need to redo these images and <code>code</code> statements with "record" instead of "row." --MF, 6/27/19</p></div>
+        <div class="takeItFurther">
+            <ol type="A">
+                <li>Answer a question like "What's the model of the car with the highest MPG?" by building a <img class="inline nopadtb" src="/bjc-r/img/5-algorithms/row-with-max-of-table.png" alt="row with maximum in column () of table ()" title="row with maximum in column () of table ()" /> block. 
+                    <div class="endnote">
+                        <!--This gives away the answer. <p><a href="#hint-rowwithmax" data-toggle="collapse" title="See the row with maximum in column () of table () block in action.">See <code>row with maximum in column () of table ()</code> in action.</a></p>
+                        <div id="hint-rowwithmax" class="collapse"><img class="indent" src="/bjc-r/img/5-algorithms/row-with-max-of-table-reporting.png" alt="" title="" /></div>-->
+                        <p><a href="#hint-build" data-toggle="collapse" title="Click for a hint about how to build row with maximum in column () of table ().">Click for a hint about how to build <code>row with maximum in column () of table ()</code>.</a></p>
+                        <div id="hint-build" class="collapse">
+                            <div class="comment">BH please review the alt text on all five images. --MF, 6/26/19</div>
+                            <p>One way to build a <img class="inline nopadtb" src="/bjc-r/img/5-algorithms/maximum-of-list.png" alt="maximum of 'list input slot'" title="maximum of 'list input slot'" /> function for a simple list (that isn't a table) is shown below. You can build a <img class="inline nopadtb" src="/bjc-r/img/5-algorithms/maximum.png" alt="maximum of () and ()" title="maximum of () and ()" /> block that compares two inputs and use it with <code>combine</code> to find the maximum of a whole list.<br />
+                            <img class="indent" src="/bjc-r/img/5-algorithms/max-operator-definition.png" alt="maximum of (a) and (b) {
+    if (a &gt; b) {
+        report (a)
+    }
+    report (b)
+}" title="maximum of (a) and (b) {
+    if (a &gt; b) {
+        report (a)
+    }
+    report (b)
+}" />
+                            <img class="indent" src="/bjc-r/img/5-algorithms/max-of-list-definition.png" alt="maximum of (data) {
+    report (combine (data) using (maximum of ( ) and ( )))
+}" title="maximum of (data) {
+    report (combine (data) using (maximum of ( ) and ( )))
+}" /><br />
+                            You can use a similar approach here by first building a <img class="" src="/bjc-r/img/5-algorithms/row-with-max-between.png" alt="row with maximum in column () between row () and row ()" title="row with maximum in column () between row () and row ()" /> that compares a specific field (column) for two rows and reports the row with the higher value in the specified column.</p>
+
+                        </div>
+                        <div class="todo">Need to fix "specific field (column)" in the TIF. --MF, 6/27/19</div>
+
+                    </div>
+                </li>
+                <li>
+                    Writing specific field numbers into the code is problematic for several reasons:  It's easy to get wrong, it makes for unreadable code, and (this actually happened with the <var>cars</var> database between edits of BJC) the layout of a table might change over time.
+                    <ul>
+                        <li>Write a block <img class="inline" src="/bjc-r/img/5-algorithms/field-named.png" alt="field named () from record () of table ()" title="field named () from record () of table ()" /> that looks for the given name in the table <em>header</em> , finds what item number it is in the header list, and uses that as the field number to extract from the given record.</li>
+                        <li>Also write <img class="inline" src="/bjc-r/img/5-algorithms/column-named.png" alt="column named () of table ()" title="column named () of table ()" />, which should take the full table (header and data) as input, but should report the desired column from only the data of the table (so that the result can be used directly as input to blocks such as AVERAGE OF LIST).</li>
+                        <li>You may find <img class="inline" src="/bjc-r/img/5-algorithms/index-of.png" alt="index of () in ()" title="index of () in ()index of () in ()" /> helpful.</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+        
+
+    </body>
+</html>

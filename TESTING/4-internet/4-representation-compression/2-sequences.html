@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unit 4 Lab 4: Data Representation and Compression, Page 2</title>
+	</head>
+
+	<body>
+		<h2>Binary Sequences</h2>
+        <div class="todo">
+            <p>MF: lightly clean up to make the text more concise</p>
+        </div>
+        
+		<div class="todo">
+            In case someone wants to do more with the project one day:
+            <ul>
+                <li>The color version of the project (<a class="run" href="/bjc-r/prog/6-computers/U6L1-TranslatingBinary_color.xml" target="_blank">U6L1-TranslatingBinary_color.xml</a>) breaks Snap<em>!</em> because of an unresolved bug (<a href="https://github.com/jmoenig/Snap--Build-Your-Own-Blocks/issues/1873" target="_blank">#1873</a>). </li>
+                <li>The PHP script that I used to get the binary sequences for images is here: <a href="http://localhost/bjc-r/utilities/colorreader.php" target="_blank">http://localhost/bjc-r/utilities/colorreader.php</a>. Edit the $im variable initialization (currently line 9) to change the path of the color file exported into a binary sequence, and edit the $imbw initialization (currently line 59) to change the B&amp;W file. It would be amazing to incorporate this into the project, but that would require being able to handle uploaded images or images with an existing URL, and I haven't thought through that possibility yet. --MF, 11/30/17</li>
+            </ul>
+        </div>
+		
+        <div class="learn">
+            <p><strong>On this page,</strong> you will learn more about how information is represented inside the computer as sequences of bits.</p>
+		</div>
+		
+        <div class="sidenote">In many programming languages there's a convention that every text string ends with a <em>null</em> byte, in which all eight bits are zero, a code that's reserved for this purpose. So our "<code>Welcome...</code>" string might actually occupy 44 bytes.</div>
+        <p>So far we've been working with small chunks of data, from Boolean values (one bit) to characters (eight bits). But of course some information in your computer or smartphone is much bigger than that. For starters, characters aren't generally used one at a time; they're used in <em>text strings</em> such as "<code>Welcome to the Beauty and Joy of Computing.</code>" These 43 characters occupy 43 bytes of computer memory. But the real champion users of space are media files: pictures, sounds (mostly music), and video.</p>
+        <p>If we could see inside the memory's bits, a section of the memory might look something like this:</p>
+		<div class="blockquote">
+        	<code class="break">01000001001000000111001101101101011000010111001001110100001000000111000001101000011011110110111001100101001011000010000001101100011010010110101101100101001000000111100101101111011101010111001000100000011011000110000101110000011101000110111101110000001000000110111101110010001000000110010001100101011100110110101101110100011011110111000000100000011000110110111101101101011100000111010101110100011001010111001000101100001000000110001101100001011011100<!--010000001110011011101000110111101110010011001010010000001101110011101010110110101100010011001010111001001110011001011000010000001110000011010010110001101110100011101010111001001100101011100110010110000100000011101000110010101111000011101000010110000100000011011010111010101110011011010010110001100101100001000000110000101101100011011000010000001101011011010010110111001100100011100110010000001101111011001100010000001110100011010000110100101101110011001110111001100101110001000000100001001110101011101000010000001110100011010000110010100100000011110100110100101101100011011000110100101101111011011100010000001101100011011110110001101100001011101000110100101101111011011100111001100100000011010010110111001110011011010010110010001100101001000000110100101110100011100110010000001101101011001010110110101101111011100100111100100100000011001000110111101101110001001110111010000100000011000110110111101101110011101000110000101101001011011100010000001110000011010010110001101110100011101010111001001100101011100110010000001101111011100100010000001100101011101100110010101101110001000000110111001110101011011010110001001100101011100100111001100101110001000000100010101100001011000110110100000100000011011000110111101100011011000010111010001101001011011110110111000100000011010000110111101101100011001000111001100100000011000010010000001100010011010010111010000100000011011110110011000100000011101000110100001100001011101000010000001101001011011100110011001101111011100100110110101100001011101000110100101101111011011100010110000100000011000010111000001110000011100100110111101110000011100100110100101100001011101000110010101101100011110010010000001100011011000010110110001101100011001010110010000100000011000010010000000100010011000100110100101110100001011000010001000100000011101110110100001101001011000110110100000100000011010010111001100100000011010100111010101110011011101000010000000100010010011110110111000100010001000000--></code>
+        </div>
+        <div class="vocab">
+            <p>A <strong>binary sequence</strong> (also called a <em>bitstream</em>) is a string of ones and zeros. </p>
+        </div>       
+        <p>That shows just 449 bits. A 16GB cell phone has 16 gigabytes (about 16 billion bytes) of storage with each byte containing 8 bits. That's 128,000,000,000 bits. Printed on paper as ones and zeros, the 16GB phone's memory would take nearly 40,000,000 pages. The information in storage—whether it is a text message, a photograph, a song, a computer program, or a list of phone numbers—all looks the same, like a sequence of bits that are either On or Off (one or zero), a <em>binary sequence</em>.</p>
+        
+        <div class="endnote">
+            <p><a href="#hint-size-table" data-toggle="collapse" title="How much information fits in a gigbyte?">How much information fits in a gigabyte?</a></p>
+            <div id="hint-size-table" class="collapse">
+                <p>Here are a few rough examples of what kind of data would fit in how much memory:</p>
+                <table class="byte indent" summary="table of common data sizes">
+                    <tr>
+                        <th scope="col">name</th>
+                        <th scope="col" style="width:300px;">amount</th>
+                        <th scope="col" style="width:300px;">example</th>
+                    </tr>
+                    <tr>
+                        <td>bit</td>
+                        <td>either a 1 or a 0</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>byte</td>
+                        <td>8 bits</td>
+                        <td>11011001</td>
+                    </tr>
+                    <tr>
+                        <td>kilobyte</td>
+                        <td>2<sup>10</sup> (1,024) bytes</td>
+                        <td>a couple of paragraphs</td>
+                    </tr>
+                    <tr>
+                        <td>megabyte</td>
+                        <td>2<sup>20</sup> (1,048,576) bytes</td>
+                        <td>about 1 book</td>
+                    </tr>
+                    <tr>
+                        <td>gigabyte</td>
+                        <td>2<sup>30</sup> (1,073,741,824) bytes</td>
+                        <td>a little more than 1 CD</td>
+                    </tr>
+                    <tr>
+                        <td>terabyte</td>
+                        <td>2<sup>40</sup> (1,099,511,627,776) bytes</td>
+                        <td>about 1,500 CDs</td>
+                    </tr>
+                    <tr>
+                        <td>petabyte</td>
+                        <td>2<sup>50</sup> (1,125,899,906,842,624) bytes</td>
+                        <td>about 20 million filing cabinets of text</td>
+                    </tr>
+                    <tr>
+                        <td>exabyte</td>
+                        <td>2<sup>60</sup> (1,152,921,504,606,846,976) bytes</td>
+                        <td>about 20% of all the words ever spoken by humankind</td>
+                    </tr>
+                </table>
+                <p>As we write this in 2017, it's common to have a terabyte disk drive on your desk. Web services deal with petabytes or exabytes of data.</p>
+                <p><a href="#hint-target" data-toggle="collapse" title="Where do these prefixes like 'tera-' and 'peta-' come from?">Where do these prefixes like "tera-" and "peta-" come from?</a></p>
+                <div id="hint-target" class="collapse">
+                    <p>When we write big numbers, we put commas every three digits (counting from the right). Each group of three has a name: thousand, million, billion, and so on. So, the number 1,234,567,890 is pronounced "one billion, 234 million, 567 thousand, 890." Those group names ("thousand" and so on) also have prefix names used in metric measurements:</p>
+                    <table class="byte indent" width="600px" summary="table of number prefixes">
+                        <tr>
+                            <th scope="col">prefix</th>
+                            <th scope="col">amount</th>
+                            <th scope="col">amount as numeral</th>
+                        </tr>
+                        <tr>
+                            <td>kilo-</td>
+                            <td>thousand</td>
+                            <td>1,000</td>
+                        </tr>
+                        <tr>
+                            <td>mega-</td>
+                            <td>million</td>
+                            <td>1,000,000</td>
+                        </tr>
+                        <tr>
+                            <td>giga-</td>
+                            <td>billion</td>
+                            <td>1,000,000,000</td>
+                        </tr>
+                        <tr>
+                            <td>tera-</td>
+                            <td>trillion<br /><small>(a million million)</small></td>
+                            <td>1,000,000,000,000</td>
+                        </tr>
+                        <tr>
+                            <td>peta-</td>
+                            <td>quadrillion</td>
+                            <td>1,000,000,000,000,000</td>
+                        </tr>
+                        <tr>
+                            <td>exa-</td>
+                            <td>quintillion<br /><small>(a billion billion)</small></td>
+                            <td>1,000,000,000,000,000,000</td>
+                        </tr>
+                    </table>
+                    <p>Digits for groupings smaller than one (fractions) have metric prefixes too:</p>
+                    <table class="byte indent" width="600px" summary="table of fractional number prefixes">
+                        <tr>
+                            <th scope="col">prefix</th>
+                            <th scope="col">amount</th>
+                            <th scope="col">amount as fraction</th>
+                        </tr>
+                        <tr>
+                            <td>milli-</td>
+                            <td>thousandth</td>
+                            <td>1/1,000</td>
+                        </tr>
+                        <tr>
+                            <td>micro-</td>
+                            <td>millionth</td>
+                            <td>1/1,000,000</td>
+                        </tr>
+                        <tr>
+                            <td>nano-</td>
+                            <td>billionth</td>
+                            <td>1/1,000,000,000</td>
+                        </tr>
+                        <tr>
+                            <td>pico-</td>
+                            <td>trillionth</td>
+                            <td>1/1,000,000,000,000</td>
+                        </tr>
+                        <tr>
+                            <td>femto-</td>
+                            <td>quadrillionth</td>
+                            <td>1/1,000,000,000,000,000</td>
+                        </tr>
+                        <tr>
+                            <td>atto-</td>
+                            <td>quintillionth</td>
+                            <td>1/1,000,000,000,000,000,000</td>
+                        </tr>
+                    </table>
+                    The fractional names are used to measure times in the computer, such as a nanosecond memory access time, or distances between wires on a chip, which are measured in nanometers.
+                </div>
+            </div>
+        </div>
+                    
+        <div class="comment">DAT-1.A.6</div>
+        <p>"Binary sequence" is a very broad category, and often, several layers of abstraction are built on it. For example, you can include a picture in an email or text message, in which case, the <em>message</em> includes a <em>picture</em>, which is a kind of <em>file</em>, which is a kind of <em>binary sequence</em>.</p>
+
+        <div class="forYouToDo" id="first">
+			<ol>
+				<li>
+                    <div class="todo">
+                        <p>It's unclear what to do here. It might be better to give them some strings to translate. --MF, 6/1/20</p>
+                        <p>Brian has more or less convinced Mary to change the block names from "convert decimal to binary" to "convert number to binary" and vice versa AND they both agreed to drop the recursion inside the <code>convert number to binary</code> block. The starter project, solutions, and references to it in the page will all need edits. We haven't decided if changes are needed on the Binary Representation page. --MF, 6/5/20</p>
+                    </div>
+<a class="run" href="/bjc-r/prog/4-internet/U4L4-TranslatingBinary.xml" target="_blank"><img class="inline" src="/bjc-r/img/icons/load-save.png" alt="Click here to load this file. Then save it to your Snap! account." title="Click here to load this file. Then save it to your Snap! account."></a>
+                    <p>
+                        Take a look at these 3 custom blocks that you will use to explore binary sequences:
+                        <ul>
+                            <li>
+                                A reporter that accepts a string of text as input and translates that text into a binary sequence:<br />
+                                <img class="indent" src="/bjc-r/img/6-computers/translate-text-to-binary.png" alt="translate text () to binary sequence" title="translate text () to binary sequence" />
+                            </li>
+                            <li>
+                            	A reporter that accepts a binary sequence as input and translates it into text:<br />
+                                <img class="indent" src="/bjc-r/img/6-computers/translate-binary-to-text.png" alt="translate binary sequence () to text" title="translate binary sequence () to text" />
+                            </li>
+                            <li>
+                            	<div class="sidenoteBig">You can use the second and third inputs to control where the block breaks the sequence to start a new line and also how large the image is drawn.</div>
+                                A command block that accepts a binary sequence as input and draws a black and white image on the stage where each 0 in the sequence becomes a white "pixel" and each 1 becomes a black "pixel." <br />
+                                <img class="indent" src="/bjc-r/img/6-computers/translate-binary-to-image.png" alt="translate binary sequence () to B&W image that is () pixels wide and scaled by factor of ()" title="translate binary sequence () to B&W image that is () pixels wide and scaled by factor of ()" />
+                            </li>
+                        </ul>
+                    </p>
+                </li>
+				<li>
+                	Translate a short text string into a binary sequence. 
+                	<ul>
+                        <div class="sidenote">The quotes tell Snap<em>!</em> that the binary sequence should be saved "as is." Without some text at the beginning, Snap<em>!</em> will think your binary sequence is a number, and it would remove any zeros at the front, which would change the interpretation of where each byte begins and ends.</div>
+                        <li>
+                            Find the <code>set (</code><var>output</var><code>) to...</code> instruction and <strong>change the input text</strong> to a short text string of your choosing. The reported binary sequence will be stored in the <var>output</var> variable with quotes around it.<br />
+							<img class="indent" src="/bjc-r/img/6-computers/set-output-to-translate-text.png" alt="set (output) to (translate text (Beauty and Joy of Computing) to binary sequence)" title="set (output) to (translate text (Beauty and Joy of Computing) to binary sequence)" />
+						</li>
+                        <li>
+                            Access the output by right-clicking (or control-clicking) on the OUTPUT watcher on the stage and choosing "export..." The binary sequence will download as a text file. Copy the binary sequence out of the file, but not the quotes.<br />
+                            <img class="indent" src="/bjc-r/img/6-computers/exporting-output-watcher.png" alt="image of output watcher on stage storing a binary sequence with the drop-down menu open and  'export...' option selected" title="image of output watcher on stage storing a binary sequence with the drop-down menu open and  'export...' option selected" />
+                        </li>
+                    </ul>
+                </li>
+                <div class="endnote">
+                    Even Snap<em>!</em> has bugs. When you paste this data into Snap<em>!</em>, it may extend beyond the edges of the box. Developers are working to fix this.<br />
+                    <img class="indent" src="/bjc-r/img/6-computers/binary-sequences-bug.png" alt="image of output pasted into block and extending past the edges of the block" title="image of output pasted into block and extending past the edges of the block" />
+                </div>
+				<li>
+                    Paste the outputted binary sequence into the <code>translate binary sequence to text</code> block and run it. (It may take a moment to report.)
+                    <ul>
+                        <li>Is your original text reported back? (If not, you may have included the quotes or lost a bit or two while copying.)</li>
+                        <li>
+                            Once you've gotten your original text to report back, try making some changes.
+                            <ul>
+                                <li>What happens if you change one bit?</li>
+                                <li>What happens if you add a bit somewhere in the middle of the sequence?</li>
+                                <li>What happens if you add a bit at the beginning?</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <div class="comment">DAT-1.A</div>
+                <li>Go back to the exported output.txt file and copy your original binary sequence again (without the quotes). Paste it into the <code>translate binary sequence to B&amp;W image</code> block and run the block. You are not likely to see anything meaningful. Why not?</li>
+                <li>
+                    Try this binary sequence in <code>translate binary sequence to B&amp;W image</code> with the second input set to <var>14</var> pixels wide:<br />
+                    <p class="indent"><code class="break">00000110000000000001000110000000010000000000001100100110000011111111000001100111100000010010110011000111001111100000100110110000000001000000000000110000000000111000000011000100011000010000000100000110000110000000111111000000</code><br /></p>
+                    You see should something like the BJC logo:<br />
+                    <img class="indent" src="/bjc-r/img/web/bjc-logo.png" alt="Beauty and Joy of Computing logo: a 'b,' a 'j,' and a 'c' looking like two eyes and a nose with a smile below" title="Beauty and Joy of Computing logo: a 'b,' a 'j,' and a 'c' looking like two eyes and a nose with a smile below" /> 
+                </li>
+                <div class="comment">DAT-1.A</div>
+                <li>What do you get if you translate that same binary sequence into text? Why?</li>
+			</ol>
+		</div>
+        	
+        <div class="comment">DAT-1.A.8, DAT-1.A.9, DAT-1.A.10</div>
+        <div class="vocabBig">
+            <p><strong>Analog</strong> data have values that change smoothly, unlike digital data which change in discrete intervals.</p>
+            <p><strong>Sampling</strong> means measuring values, called <strong>samples</strong>, of an analog signal at regular intervals.</p>
+	    <p>The <strong>sampling rate</strong> is the number of samples measured per second.</p>
+        </div>
+        <p>Not all data are naturally digital.  (That is, they may not be individual values that can be represented in the form of binary sequences.)  Some real-world values (such as the pitch and volume of music, the colors of a painting, or the position of a sprinter during a race) change smoothly over time or position; they are <em>analog</em>. When analog data are encoded digitally (as bits on a computer), their values are approximated. This is an example of abstraction. The continuously changing air pressure of a sound, for example, is <em>sampled</em> (measured) thousands of times a second, and the samples are stored as bits.</p>
+        <div class="endnote">
+            <a href="#hint-analog" data-toggle="collapse" title="More examples, please.">More examples, please.</a>
+            <div id="hint-analog" class="collapse">
+ 	            A text is a finite number of characters, each of which comes from a finite alphabet. So a book without pictures is naturally digital. When a piece of music is written down, there are a finite number of possible notes, so there's a finite "alphabet" of symbols such as &#x266B; or &#x1d122;, and the piece of music uses only finitely many of them. So the <em>score,</em> the written notation for the music, is naturally digital. But the actual sound of words being read or music being played includes much more information (such as they way someone says the words, their accent, or the way each instrument sounds). So speech and musical performance are <em>not</em> naturally digital.
+            </div>
+        </div>
+
+        <div class="takeNote" style="clear: right;">
+            <p>So if pictures, music, and words all look the same in memory—all binary sequences—how can the computer tell what any chunk of memory actually is? For example, should the sequence 01000001 be interpreted as the number 65, the letter A, a rather dark shade of red, or something else?</p>
+            <div class="comment">DAT-1.A.7</div>
+            <p>The meaning of a sequence of bits depends on the context in which it is used. What exactly do we mean by "context"? How does a programming language know whether to interpret a bit sequence as an integer, a picture, a string of characters, an instruction, or something else? There's always <em>another</em> bit sequence somewhere that encodes the <strong>data type</strong> of the bit sequence.</p>
+        </div>
+        
+        <div class="comment">AAP-1.A.3 first sentence</div>
+        <p>
+            But different languages use data types differently. In high-level languages, that data type code is attached to <em>the value itself.</em>  In lower-level languages, when you make a variable, you have to say what type of value it will contain, and the data type is attached to the <em>variable</em>, so you can't get exact answers when the values are integers and <em>also</em> be able to handle non-integer values of the same variable. So instead of seeing <br />
+            <img class="indent" src="/bjc-r/img/4-internet/varfoo.png" alt="script variables (foo)" title="script variables (foo)" /><br />
+            you see things like<br />
+            <img class="indent" src="/bjc-r/img/4-internet/intfoo.png" alt="integer (foo)" title="integer (foo)" />
+        </p>
+        <div class="comment">AAP-1.A.4</div>
+        <p>Snap<em>!</em> has strengths that many programming languages do not, and it's very likely that your <em>next</em> year's computer science class will use one of those other languages. If that's the case, you'll have to make sure that the data type you declare for a variable matches what you are going to put in it. </p>
+        
+        <div class="forYouToDo">
+			<ol start="7">
+				<li>
+                    This question is similar to those you will see on the AP CSP exam.
+					<!-- Question 1 -->
+                    <div class="assessment-data" type="multiplechoice" identifier="How many more items to identify with one extra bit?"
+                        hasinlinefeedback="true" maxchoices="1" responseIdentifier="ri1" shuffle="true">
+                        <div class="prompt">A particular online retail company uses 9-bit binary sequences to identify each unique product for sale. Expecting to increase the number of products it sells, the company is planning to switch to 10-bit binary sequences. Which of the statements below best describes the consequence of using 10-bit sequences instead of 9-bit sequences?</div>
+                        <div class="choice" identifier="c1">
+                            <div class="text">Two more products can be identified uniquely. </div>
+                            <div class="feedback">Compute how many products can be identified before and after the change.</div>
+                        </div>
+                        <div class="choice" identifier="c2">
+                            <div class="text">Ten more products can be identified uniquely.</div>
+                            <div class="feedback">Compute how many products can be identified before and after the change.</div>
+                        </div>
+                        <div class="choice" identifier="c3">
+                            <div class="text">Twice as many products can be identified uniquely.</div>
+                            <div class="feedback">Correct. Before 2<sup>9</sup>=512 products could identified and now 2<sup>10</sup>=1024 products can be identified.</div>
+                        </div>
+                        <div class="choice" identifier="c4">
+                            <div class="text">Ten times as many products can be identified uniquely.</div>
+                            <div class="feedback">Compute how many products can be identified before and after the change.</div>
+                        </div>
+                        <div class="responseDeclaration" identifier="ri1">
+                            <div class="correctResponse" identifier="c3"></div>
+                        </div>
+                    </div>
+                </li>
+			</ol>
+		</div>
+        
+        <div class="ifTime">
+			<ol start="8">
+				<li>
+                	Look inside the <code>translate text to binary sequence</code> and <code>translate binary sequence to text</code> reporters. <strong>Describe how these two reporters work.</strong> There are several custom blocks inside:
+                    <ul>
+                        <li><code>pack 8-bit byte</code> takes a binary sequence of 8 bits or less and add enough zeros to the front to make a whole byte. How is this used?</li>
+                        <li><code>translate text to Unicode list</code> takes a text string and outputs a list of each character's Unicode value. Why is a list output helpful here?</li>
+                    </ul>
+    			</li>
+			</ol>
+		</div>
+		
+      
+    </body>
+</html>

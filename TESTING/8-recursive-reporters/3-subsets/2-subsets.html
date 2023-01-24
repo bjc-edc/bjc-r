@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+        <title>Unit 8 Lab 3: Subsets, Page 2</title>
+    </head>
+
+    <body>
+    	<h2>Listing the Subsets</h2>
+        <div class="learn">
+            <p><strong>On this page,</strong> you will learn how to generalize the ice cream solution to list the subsets of <em>any</em> set.</p>
+        </div>
+        
+		<p>Given a set of things, a <em>subset </em> contains zero or more of its elements, without duplicates. As was true for ice cream bowls, order doesn't matter.</p>
+        
+        <div class="sidenote">{Banana, Apple} is the same subset as {Apple, Banana}.</div>
+        
+        <p>For example, given the set {Apple, Orange, Banana} there are one-element subsets like {Banana} and two-element subsets like {Apple, Banana}. The original set {Apple, Orange, Banana} counts, and so does the <em>empty set </em>{} with zero elements.</p>
+        <div class="forYouToDo" id="first">
+            <ol>
+                <li>Write down all the subsets of {Apple, Orange, Banana}. How many are there?</li>
+                <li>Write down all the subsets of {Pretzel, Apple, Orange, Banana}. Try to do this with as little work as possible.</li>
+                <div class="todo">Add a question that gets at how 2 is just an augmentation of 1. --MF, 6/17/20
+                <img class="imageRight" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />Describe how you did it.</div>
+
+                <li>
+                    <div class="todo">MARY Note to self: this is hard. for example, in base case (subsets of empty list), you have to report a list containing the empty list. Add a question that gets at the base case. </div>
+                    Now create a <code>subsets</code> block that takes a list as input and reports a <em>list of lists</em> in which each item is a subset of the original input list. The order in which the subsets appear in the output list doesn't matter, but each subset must appear exactly once. The result might look like this:<br />
+                    <img class="indent" src="/bjc-r/img/8-recursive-reporters/subset-example.png" alt="subsets(list{Apple, Orange, Banana}) reporting {{},{Banana}, {Orange}, {Banana, Orange},{Apple}, {Apple, Banana}, {Apple, Orange}, {Apple, Orange, Banana}}" title="subsets(list{Apple, Orange, Banana}) reporting {{},{Banana}, {Orange}, {Banana, Orange},{Apple}, {Apple, Banana}, {Apple, Orange}, {Apple, Orange, Banana}}" />
+                    <div class="endnote">
+                        <p>If you're stuck after trying as many ideas as you can think of, <a href="#hint-subsets" data-toggle="collapse" title="click here for some help building subsets">click here for some help</a>.</p>
+                        <div id="hint-subsets" class="collapse">
+                            <ul>
+                                <li>How many subsets does the empty set {} have?</li>
+                                <li>What should <code>subsets</code> report in the base case? This is a hard part to get right!</li>
+                                <li>How many subsets of {Pretzel, Apple, Orange, Banana} contain Pretzel? How many don't?</li>
+                                <li>Describe "the subsets of {Pretzel, Apple, Orange, Banana} that don't contain Pretzel" without using the words &quot;don't contain.&quot;</li>
+                                <li>
+                                    Here's one version of what the code might look like, with many spaces to fill&hellip;<br />
+                                    <img class="indent" src="/bjc-r/img/8-recursive-reporters/subsets-framework.png" alt="subsets(set){if(){report()}else{...; report(append()())}}" title="subsets(set){if(){report()}else{...; report(append()())}}"/>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+            </ol>
+        </div>
+    
+        <div class="todo">The following is all from a second page and needs to be properly integrated by Mary. --MF, 6/17/20</div>
+        
+        
+        <h3>Subsets and Efficiency</h3>
+        <div class="todo">
+            <p>MF: Scrap. Fold into the Subsets OP at the end.</p>
+			<p>If we keep this image anywhere (the image behind the hint), it needs to be rebuilt. --MF, 4/22/22</p>
+        </div>
+        
+        <p>
+            <a href="#hint-solution" data-toggle="collapse" title="Here is one solution for the subsets block">Here is one solution for the <code>subsets</code> block.</a>
+            <div id="hint-solution" class="collapse">
+                <img class="indent" src="/bjc-r/img/8-recursive-reporters/subset-slow.png" alt="subsets(set){if(empty?(set)){report(list{})}else{report(append(subsets(all but first of(set)))(map(item(1) of (set) in front of ()) over(subsets(all but first of(set)))))}}" title="subsets(set){if(empty?(set)){report(list{})}else{report(append(subsets(all but first of(set)))(map(item(1) of (set) in front of ()) over(subsets(all but first of(set)))))}}" />
+            </div>
+        </p>
+        
+        <p>This solution for <code>subsets</code> makes the same recursive call twice, an inefficiency that can be corrected.</p>
+        <div class="forYouToDo">
+            <ol start="4">
+                <li>Using a <code>count</code> variable to count how many recursive calls are made to find the 64 subsets of a six-element list.</li>
+                <li>Figure out how to reduce the number of recursive calls by avoiding redundant calls.</li>
+            </ol>
+        </div>
+    </body>
+</html>

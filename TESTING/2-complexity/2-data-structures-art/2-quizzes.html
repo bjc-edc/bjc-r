@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+        <script type="text/javascript" src="/bjc-r/utilities/gifffer.min.js"></script>
+        <script type="text/javascript">window.onload = function() {Gifffer();}</script>
+        <link rel="stylesheet" type="text/css" href="/bjc-r/css/bjc-gifffer.css">
+        <title>Unit 2 Lab 2: Making Lists, Page 2</title>
+    </head> 
+
+	<body>
+        <h2>Planning a Quiz App</h2>
+        <div class="learn">
+            <p><strong>On this page,</strong> you will begin to develop a quiz app by creating an <em>abstract data type</em> to pair the questions with their answers.</p>
+        </div>
+        
+        <div class="forYouToDo" id="first">
+			<ol>
+                <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />Decide what type of quiz you would like to build, and write three to five questions and their correct answers.</li>
+                <li><img class="inline" src="/bjc-r/img/icons/take-turns-speaking-mini.gif" alt="Take turns speaking" title="Take turns speaking">Read the following section. (Don't build these in Snap<em>!</em>. You'll build your own quiz later on the page.)</li>
+			</ol>
+		</div>
+        
+        <p>
+            <div class="vocab">: <strong>Sublist</strong> 
+                <p>A <strong>sublist</strong> is a list used as an item of another list.</p>
+				<p>(The word sublist is also used to refer to some subset of a list.)</p>
+            </div>
+            You'll use a list to store your quiz items in a global variable and use a <em>sublist</em> for each question/answer pair. Then you can choose just one pair at a time to work with.
+                <img class="indent" src="/bjc-r/img/2-complexity/quiz-questions-list-of-lists.png" alt="set (computer science quiz) to (list (list (What is the computer science term for looping or repetition?) (iteration)) (list (What is the name for the abstraction in a program that can hold a value?) (variable)) (list (What kind of variable is available only in the part of the program where it is defined?) (local variable)))" title="set (computer science quiz) to (list (list (What is the computer science term for looping or repetition?) (iteration)) (list (What is the name for the abstraction in a program that can hold a value?) (variable)) (list (What kind of variable is available only in the part of the program where it is defined?) (local variable)))">
+                <img class="indent" src="/bjc-r/img/2-complexity/item-of-item-of-script.png" alt="ask (item(1) of (item (3) of (computer science quiz))) and wait
+if (item (2) of (item (3) of (computer science quiz)) = answer) {
+    say (That's correct!) for (2) secs
+}" title="ask (item(1) of (item (3) of (computer science quiz))) and wait
+if (item (2) of (item (3) of (computer science quiz)) = answer) {
+    say (That's correct!) for (2) secs
+}" />
+        </p>
+        <div class="comment">AAP.1.D.2, AAP.1.D.3, AAP.1.D.4</div>
+        <p>
+            But code like <img class="inline" src="/bjc-r/img/2-complexity/item-1-of-item-3-of.png" alt="item (1) of (item (3) of (computer science quiz))" title="item (1) of (item (3) of (computer science quiz))" /> is hard to read and understand. A better way is to <em>use abstraction</em> to organize the quiz items. The abstraction just hides the <code>list</code> and <code>item of</code> blocks, so it isn't complicated to build, but it can make your code much easier to write, read, and debug.<br />
+            <img class="indent" src="/bjc-r/img/2-complexity/quiz-questions-list-of-adts.png" alt="set (computer science quiz) to (list (question: (What is the computer science term for looping or repetition?) answer: (iteration)) (question: (What is the name for the abstraction in a program that can hold a value?) answer: (variable)) (question: (What kind of variable is available only in the part of the program where it is defined?) answer: (local variable)))" title="set (computer science quiz) to (list (question: (What is the computer science term for looping or repetition?) answer: (iteration)) (question: (What is the name for the abstraction in a program that can hold a value?) answer: (variable)) (question: (What kind of variable is available only in the part of the program where it is defined?) answer: (local variable)))">
+            <img class="indent" src="/bjc-r/img/2-complexity/abstracted-quiz-script.png" alt="ask (question of quiz item (item (3) of (computer science quiz))) and wait
+if (answer = answer from quiz item (item (3) of (computer science quiz))) {
+    say (That's correct!) for (2) secs
+}" title="ask (question of quiz item (item (3) of (computer science quiz))) and wait
+if (answer = answer from quiz item (item (3) of (computer science quiz))) {
+    say (That's correct!) for (2) secs
+}" />
+        </p>
+    
+        <div class="vocabFullWidth"><strong>: Data Types</strong>
+            <ul>
+                <li>
+                    A <strong>data type</strong> is what kind of data something is (number, text string, list, etc.). For example, <em>number</em> is the data type for the first input to <img src="/bjc-r/img/blocks/item.png" height="35" alt="item (1) of ()" title="item (1) of ()"> and <em>list</em> is the the data type for its second input.
+                </li>
+                <div class="comment">AAP-1.A.3 second sentence</div>
+                <li>
+                    Each programming language provides some <strong>primitive data types</strong> (data types that are built-in). For example, Snap<em>!</em> provides numbers, text (words and sentences), Booleans (true or false), lists, and some you haven't yet used as data (such as sprites and costumes). <a href="#hint-primitive" data-toggle="collapse" title="This menu shows all of Snap!'s primitive types.">This menu shows all of Snap<em>!</em>'s primitive types.</a>
+                    <div id="hint-primitive" class="collapse">
+                    <img class="indent" src="/bjc-r/img/2-complexity/isa-menu.png" alt="primitive types: number, text, Boolean, list, sprite, command, reporter, predicate" title="primitive types: number, text, Boolean, list, sprite, command, reporter, predicate"/>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="vocabFullWidth"><strong>: Abstract Data Types</strong>
+            <ul>
+                <div class="comment">AAP.1.D.1</div>
+                <div class="sidenoteBig">
+                    <p>The word "abstract" is often used casually to mean something <em>harder</em> to understand or more complex, but in computer science, its meaning is almost the opposite. ADTs are things that you, the programmer, create to make your program <em>easier</em> for you and others to read, debug, and improve.</p>
+                </div>        
+                <li>
+                    An <strong>abstract data type (ADT)</strong> is a custom data type that's meaningful to your program. It's not built into the language; you develop it as you code. This is an abstraction because it hides the details inside the constructor and selectors so that the programmer who uses a <code>quiz item</code> has to think only about questions and answers, not about list indices.
+                </li>
+                <li>
+                    The <img class="inline" src="/bjc-r/img/2-complexity/quiz-item-constructor.png" alt="quiz item, question: () answer: ()" title="quiz item, question: () answer: ()" /> block is the <strong>constructor</strong>; it <em>constructs</em> one example of the data structure. By naming the pieces of the structure, the constructor makes it certain that every time you use it, you build the structure in the right order.<br />
+                    <!--<img class="indent" src="/bjc-r/img/2-complexity/quiz-questions-constructor-definition.png" alt="quiz item, question: (question) answer: (answer) {report (list (question) (answer))}" title="quiz item, question: (question) answer: (answer) {report (list (question) (answer))}">-->
+                </li>
+                <li>
+                    The <img class="inline" src="/bjc-r/img/2-complexity/question-selector.png" alt="question from quiz item: ()" title="question from quiz item: ()"/> and <img class="inline" src="/bjc-r/img/2-complexity/answer-selector.png" alt="answer from quiz item: ()" title="answer from quiz item: ()"/> blocks are the <strong>selectors</strong>; they each <em>select</em> one piece of the data structure.<br />
+                    <!--<img class="indent" src="/bjc-r/img/2-complexity/question-definition.png" alt="question from quiz item: (quiz item) {report (item (1) of (quiz item)}" title="question from quiz item: (quiz item) {report (item (1) of (quiz item)}" />
+                    <img class="indent" src="/bjc-r/img/2-complexity/answer-definition.png" alt="answer from quiz item: (quiz item) {report (item (2) of (quiz item)}" title="answer from quiz item: (quiz item) {report (item (2) of (quiz item)}" />-->
+                </li>
+                </ul>
+                The constructor and selector together implement the <code>quiz item</code> <em>abstract data type</em>. 
+                <ul>
+                <div class="comment">DAT-1.A.5</div>
+                <li><strong>Data abstraction</strong> is the creation and use of abstract data types in a program.</li>
+            </ul>
+        </div>
+        
+        <div class="forYouToDo">
+            <ol start="3">
+                <li><div class="newProject"><span class="text">"U2L2-Quiz"</span><img src="/bjc-r/img/icons/new-project-called.png" alt="Start a New Project called U2L2-Quiz" title="Start a New Project called U2L2-Quiz" /><a  name="input-type">&nbsp;</a></div></li>
+                <div class="comment">AAP-1.D</div>
+                <li>Build the custom <code>quiz item</code> abstract data type (both the constructor and the two selectors).</li>
+                <div class="narrower">
+                    <h4><strong>Specifying an Input Type</strong></h4>
+                    <p>Your selectors expect a quiz item, i.e., a list, as input.  You can make your blocks <em>show</em> what type of data they expect. It's not necessary in Snap<em>!</em> but, like assigning a color to a block, it can be a helpful reminder of what the block does and what type of input it expects. You've already seen input slots of several shapes, indicating different expected data types. </p>
+                    <p>
+                        In the Block Editor while creating a selector, click on a plus sign to enter an input name.  Then...
+                        <ol style="list-style-type:lower-alpha">
+                            <li>
+                                Click on the arrow to the right of the input name:<br />
+                                <img class="indent" src="/bjc-r/img/2-complexity/create-input-name-right_arrow.png" height="125" alt="create input name right arrow" title="create input name right arrow" />
+                            </li>
+                            <li>Choose the data type you want for that input. (For this project, you'll use the "text" and "list" input types.)</li>
+                            <li>Click "OK."</li>
+                        </ol>
+                    </p>
+                </div>
+                <li>
+				Create a global variable to store your quiz items and initialize it as a list of items, using your constructor where appropriate.</li>						<a id="two-views">
+						<a id="two-views"> </a>
+                        <div class="narrower">
+                            Snap<em>!</em> has two different views for lists within lists. You can switch which view you see by right-clicking (or control-clicking) on the <var>quiz</var> watcher (or whatever you called the variable) on the stage.
+                            
+                            <div class="endnote">
+                                If you don't see the watcher on the stage, make sure the checkbox beside the <var>quiz</var> variable in the Variables palette is checked.
+                                <img class="inlinde" src="/bjc-r/img/2-complexity/quiz-watcher.png" alt="quiz watcher checked" title="quiz watcher checked" />
+                            </div>
+                            <ul style="list-style-type: disc;">
+                                <li>
+                                    <strong>Table View</strong> for <var>computer science quiz</var> Watcher (your quiz will be different):<br />
+                                    <img class="indent" src="/bjc-r/img/2-complexity/csquiz-big.png" alt="cs quiz watcher with first column expanded" title="cs quiz watcher with first column expanded" />
+									<div class="endnote">
+									<a href="#table-hint" data-toggle="collapse" title="">My watcher is too narrow.</a>
+						            <div id="table-hint" class="collapse">
+									At first the watcher will look like this:<br />
+                                    <img class="indent" src="/bjc-r/img/2-complexity/csquiz-small.png" alt="cs quiz watcher at initial size" title="cs quiz watcher at initial size" /><br />
+									Drag out the resize handle at the lower right to get this:<br />
+                                    <img class="indent" src="/bjc-r/img/2-complexity/csquiz-med.png" alt="cs quiz watcher resized" title="cs quiz watcher resized" /><br />
+									Then hover your mouse over the letter A near the top.  It will turn into a digit 1.  Grab it and drag it to the right:<br />
+                                    <img class="indent" src="/bjc-r/img/2-complexity/csquiz-big.png" alt="cs quiz watcher with first column expanded" title="cs quiz watcher with first column expanded" />
+									</div>
+									</div>
+                                </li>
+                                <li>
+                                    <strong>List View</strong> for <var>computer science quiz</var> Watcher:<br />
+                                    <img class="indent" src="/bjc-r/img/2-complexity/csquiz-list.png" alt="cs quiz watcher, list view" title="cs quiz watcher, list view" />
+                                </li>
+                            </ul>
+                        </div>
+
+						<div class="vocabFullWidth">: <strong>Table</strong>
+						<p>A <strong>table</strong> is a two-dimensional
+						data structure with rows and columns.  If you've
+						used a <em>spreadsheet</em> program, what it
+						displays is a table.</p>
+						<p>In Snap<em>!</em>, a table is implemented as
+						a list of lists, in which each sublist is one
+						row of the table.</p>
+						</div>
+
+                <img class="imageRight" src="/bjc-r/img/icons/save-now.png" alt="Save your work" title="Save your work" />
+                <li>Test both the selectors for different items in your list of quiz items, and debug any problems.</li>
+                <li>
+                    <!-- Question 1-->
+                    <div class="assessment-data" type="multiplechoice" identifier="capitals" hasinlinefeedback="true" maxchoices="8" responseIdentifier="ri1" shuffle="true">
+                        <div class="prompt">
+                            <p>
+                                Imagine you make a variable <var>capitals</var> and use <code>set</code> to give this list of lists a name: <br />
+                                <img class="indent" src="/bjc-r/img/3-lists/check1capitals.png" alt="set (capitals) to {{Augusta, Maine}, {Boise, Idaho}, {Columbia, South Carolina}, {Des Moines, Iowa}}" title="set (capitals) to {{Augusta, Maine}, {Boise, Idaho}, {Columbia, South Carolina}, {Des Moines, Iowa}}"><br />
+                                Which of the following statements are <strong>true</strong>?<br />
+                                <br />
+                                Choose <strong>all</strong> that apply.
+                            </p>
+                        </div>
+                        <div class="choice" identifier="c1">
+                            <div class="text">
+                                <img border="0" src="/bjc-r/img/3-lists/check1capitalsc1.png" alt="item (1) of (capitals)" title="item (1) of (capitals)"> reports a <strong>list</strong> with two items: "Augusta" and "Maine".
+                            </div>
+                            <div class="feedback">
+                                Correct.
+                            </div>
+                        </div>
+                        <div class="choice" identifier="c2">
+                            <div class="text">
+                                <img border="0" src="/bjc-r/img/3-lists/check1capitalsc2.png" alt="item (1) of (item (1) of (capitals))" title="item (1) of (item (1) of (capitals))"> reports the word "Augusta".
+                            </div>
+                            <div class="feedback">
+                                Correct.
+                            </div>
+                        </div>
+                        <div class="choice" identifier="c3">
+                            <div class="text">
+                                <img border="0" src="/bjc-r/img/3-lists/check1capitalsc3.png" alt="item (last) of (item (2) of (capitals))" title="item (last) of (item (2) of (capitals))"> reports the word "Iowa".
+                            </div>
+                            <div class="feedback">
+                                No. What is item 2 of "capitals"? 
+                            </div>
+                        </div>
+                        <div class="choice" identifier="c4">
+                            <div class="text">
+                                <img border="0" src="/bjc-r/img/3-lists/check1capitalsc4.png" alt="(length) of (capitals)" title="(length) of (capitals)"> reports the number 8.
+                            </div>
+                            <div class="feedback">
+                                No. Each of the small lists is a single item in the list "capitals" .
+                            </div>
+                        </div>
+                        <div class="choice" identifier="c5">
+                            <div class="text">
+                                <img border="0" src="/bjc-r/img/3-lists/check1capitalsc5.png" alt="all but first of (item (last) of (capitals))" title="all but first of (item (last) of (capitals))"> reports a <strong>list</strong> with one item: "Iowa".
+                            </div>
+                            <div class="feedback">
+                                Correct. 
+                            </div>
+                        </div>
+                        <div class="choice" identifier="c6">
+                            <div class="text">
+                                <img border="0" src="/bjc-r/img/3-lists/check1capitalsc6.png" alt="item (3) of (capitals)" title="item (3) of (capitals))"> reports the string "Boise".
+                            </div>
+                            <div class="feedback">
+                                The items of <var>capitals</var> are lists. 
+                            </div>
+                        </div>
+                        <div class="choice" identifier="c7">
+                            <div class="text">
+                                <img border="0" src="/bjc-r/img/3-lists/check1capitalsc7.png" alt="item (last) of (all but first of (capitals))" title="item (last) of (all but first of (capitals))"> reports the string "Iowa".
+                            </div>
+                            <div class="feedback">
+                                The items of <code>all but first of (capitals)</code> are lists. 
+                            </div>
+                        </div>
+                        <div class="choice" identifier="c8">
+                            <div class="text">
+                                <img border="0" src="/bjc-r/img/3-lists/check1capitalsc8.png" alt="(length) of (item (1) of (capitals))" title="(length) of (item (1) of (capitals))"> reports the number 2.
+                            </div>
+                            <div class="feedback">
+                                Correct. 
+                            </div>
+                        </div>
+                        <div class="responseDeclaration" identifier="ri1">
+                            <div class="correctResponse" identifier="c1"></div>
+                            <div class="correctResponse" identifier="c2"></div>
+                            <div class="correctResponse" identifier="c5"></div>
+                            <div class="correctResponse" identifier="c8"></div>
+                        </div>
+                    </div>
+                </li>
+            </ol>
+        </div>
+    
+
+	</body>
+</html>

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+        <script type="text/javascript" src="/bjc-r/utilities/gifffer.min.js"></script>
+        <script type="text/javascript">window.onload = function() {Gifffer();}</script>
+        <link rel="stylesheet" type="text/css" href="/bjc-r/css/bjc-gifffer.css">
+        <title>Unit 2 Lab 2: Making Lists, Page 3</title>
+    </head> 
+
+	<body>
+        <h2>Checking Each Quiz Answer</h2>
+        <div class="learn">
+            <p>
+                <strong>On this page,</strong> you will complete your quiz app by using a new block that loops through a list:<br />
+                <img class="indent" src="/bjc-r/img/2-complexity/for-each-(item)-of().png" height="68" alt="for-each-(item)-of(){}" title="for-each-(item)-of(){}">
+            </p>
+        </div>
+        
+        <div class="todo">This should be an FYTD. Is is everywhere else. --MF, 5/30/20</div>
+        <p>If it's not already open, open your project U2L2-Quiz.</p>
+
+        
+        <div class="dialogue"> <a name="seta" class="anchor">&nbsp;</a>
+            <div class="stagedir">
+                The students are considering how to use their abstract data type as they develop the code for their project. 
+            </div>
+            <div><span>Alphie:</span> We can use our <img class="" src="/bjc-r/img/2-complexity/question-selector.png" alt="question from quiz item: ()" title="question from quiz item: ()"/> and <img class="" src="/bjc-r/img/2-complexity/answer-selector.png" alt="answer from quiz item: ()" title="answer from quiz item: ()"/> selectors to get the question and answer for quiz item in our list. But how do we get the quiz item <em>out</em> of the list in the first place?</div>
+            <div>
+                <span>Gamal:</span> Maybe we can use <code>item of</code> inside a <code>for</code> loop and use the index from the <code>for</code> loop as the first input to <code>item of</code>, like this:<br />
+                <img class="indent" src="/bjc-r/img/2-complexity/for-with-item-of.png" alt="for (i) = (1) to (4) {
+    ask (question from (item (i) of (computer science quiz))) and wait
+}" title="for (i) = (1) to (4) {
+    ask (question from (item (i) of (computer science quiz))) and wait
+}" />
+            </div>
+            <div class="vocabFullWidth">
+                <p>Using the result from <code>item</code> as the input to <code>address from contact</code> is called <strong>composition</strong> of functions.</p>
+            </div>
+            <div>
+                <span>Betsy:</span> Yeah, we could, but that's a little hard to read with that index variable, <var>i</var>, to keep track of. And if we add more questions, we'll have to update that number 4 that tells us when to end the loop. I bet we can use <code>for each</code> to <em>traverse</em> the list.
+            </div>
+            <div class="stagedir">
+                Betsy drags <code>for each</code> into the scripting area.<br />
+                <img src="/bjc-r/img/2-complexity/for-each-(item)-of().png" height="68" alt="for each (item) of 'list input slot' {}" title="for each (item) of 'list input slot' {}">
+            </div>
+            <div>
+                <span>Gamal:</span> We could even rename <var>item</var> something logical like <var>quiz item</var>. Then the code inside will run once for each quiz item in our list.
+            </div>
+        </div>
+
+        <div class="vocabFullWidth">: <strong>Traversing a List</strong>
+            <div class="comment">AAP-2.O.2</div>
+            <p><strong>Traversing</strong> a list means looking at each item of the list. <code>For each</code> is iterative. That is, it's repetitive, like <code>for</code>, which can also traverse a list. But unlike <code>for</code>, <code>for each</code> traverses the list <em>without using index numbers</em>.</p>
+        </div>
+
+        <div class="forYouToDo">
+            <ol>
+                <div class="comment">AAP-2.K part a, AAP-2.O part a</div>
+                <li>Use <code>for each</code> to <em>traverse</em> your list, asking each quiz question, checking each answer, and letting the user know if they are right or wrong on each item.</li>
+                <li>Take your quiz a few times as a user would, and work out any problems with the code. Then, give your quiz to a friend.</li>
+            </ol>
+        </div>
+        
+        <div class="ifTime">
+            <ol start="3">
+                <li>If the user is wrong, don't just let them know, but tell them the right answer too.</li>
+                <li>Use a script variable to keep track of the player's score and report it at the end of the quiz.</li>
+            </ol>
+        </div>
+        
+        <div class="forYouToDo" id="first">
+			<ol start="5">
+                <div class="comment">AAP-2.K part b</div>
+				<li>
+                    <!-- Question 1-->
+                    <div class="assessment-data" type="multiplechoice" identifier="abe" hasinlinefeedback="true" maxchoices="2" responseIdentifier="ri1" shuffle="true">
+                        <div class="prompt">
+                            <p>
+                                Which of the scripts below will produce the following sprite behavior?<br />
+                                <img class="indent noshadow" src="/bjc-r/img/3-lists/abelincoln.gif" alt="sprite saying Abraham then Lincoln" title="sprite saying Abraham then Lincoln"><br />
+                                (When you run the script, though, it actually says Abraham Lincoln <em>only once</em>.)
+                            </p>
+                            <p>
+                                Choose <strong>all</strong> that apply.
+                            </p>
+                        </div>
+                        <div class="choice" identifier="c1">
+                            <div class="text">
+                                <img border="0" src="/bjc-r/img/3-lists/check1abec1.png" alt="for each (item) of {Abraham, Lincoln} [say (item) for (1) secs]" title="for each (item) of {Abraham, Lincoln} [say (item) for (1) secs]">
+                            </div>
+                            <div class="feedback">
+                                Correct.
+                            </div>
+                        </div>
+                        <div class="choice" identifier="c2">
+                            <div class="text">
+                                <img border="0" src="/bjc-r/img/3-lists/check1abec2.png" alt="say {Abraham, Lincoln} for (2) secs" title="say {Abraham, Lincoln} for (2) secs">
+                            </div>
+                            <div class="feedback">
+                                No, when a sprite says a list, we see a visual representation of the list.
+                            </div>
+                        </div>
+                        <div class="choice" identifier="c3">
+                            <div class="text">
+                                <img border="0" src="/bjc-r/img/3-lists/check1abec3.png" alt="say (item (1) of {Abraham Lincoln, George Washington, Barack Obama}) for (2) secs" title="say (item (1) of {Abraham Lincoln, George Washington, Barack Obama}) for (2) secs">
+                            </div>
+                            <div class="feedback">
+                                No, this says "Abraham Lincoln" all at once, not in two separate speech balloons. 
+                            </div>
+                        </div>
+                        <div class="choice" identifier="c4">
+                            <div class="text">
+                                <img border="0" src="/bjc-r/img/3-lists/check1abec4.png" alt="say (item (1) of {Abraham, George, Barack} for (1) secs, then say (item (1) of {Lincoln, Washington, Obama} for (1) secs" title="say (item (1) of {Abraham, George, Barack} for (1) secs, then say (item (1) of {Lincoln, Washington, Obama} for (1) secs">
+                            </div>
+                            <div class="feedback">
+                                Correct. 
+                            </div>
+                        </div>
+                        <div class="responseDeclaration" identifier="ri1">
+                            <div class="correctResponse" identifier="c1"></div>
+                            <div class="correctResponse" identifier="c4"></div>
+                        </div>
+                    </div>
+        
+                </li>
+			</ol>
+		</div>
+		
+
+        
+        <div class="examFullWidth AP-only">
+            <div class="comment">AAP-2.O.3</div>
+            <div class="pseudop">
+                <div class="sidenote">The procedure <pre class="inline">goto()</pre> isn't built in to the AP's language so it is written in lower case like other programmer-defined procedures.</div>
+                The script 
+                <img class="inline" src="/bjc-r/img/2-complexity/example-for-each-point.png" alt="for each (point) of (my drawing) (go to (point))" title="for each (point) of (my drawing) (go to (point))" />
+                would be written as
+                <div class="pre-container"><pre class="inline">FOR EACH point IN myDrawing
+{
+    goto(point)
+}</pre></div> or <img class="inline" src="/bjc-r/img/2-complexity/for-each-blocktran.png" alt="FOR EACH point IN myDrawing
+{
+    goto(point)
+}" title="FOR EACH point IN myDrawing
+{
+    goto(point)
+}" />.
+            </div>
+        </div>
+
+        <div class="forYouToDo">
+			<p>These questions are similar to those you will see on the AP CSP exam.</p>
+			<ol start="6">
+                <li>
+                    <!-- Question 2 -->
+                    <div class="assessment-data" type="multiplechoice" identifier="FOR EACH positive and square over 4"
+                        hasinlinefeedback="true" maxchoices="1" responseIdentifier="ri2" shuffle="false">
+                        <div class="prompt">
+                            <div class="comment">AAP-2.O part b</div>
+                            <pre>inputList ← [3, -1, 2, 10, -5]
+
+FOR EACH item IN inputList
+{	
+  IF(item &gt; 0  AND  item * item &gt; 4)
+  {
+    DISPLAY(item)
+  }
+}
+</pre><br />
+                            What will be displayed as a result of running the code segment given?
+                        </div>
+                        <div class="choice" identifier="c1">
+                            <div class="text">9, 1, 4, 100, 25</div>
+                            <div class="feedback">
+                                What does the <pre class="inline">IF</pre> instruction test? What does the <pre class="inline">DISPLAY</pre> instruction in this code display?
+                            </div>
+                        </div>
+                        <div class="choice" identifier="c2">
+                            <div class="text">9, 100</div>
+                            <div class="feedback">
+                                What does the <pre class="inline">DISPLAY</pre> instruction in this code display?
+                            </div>
+                        </div>
+                        <div class="choice" identifier="c3">
+                            <div class="text">3, 2, 10</div>
+                            <div class="feedback">
+                                Is 2 * 2 &gt; 4 ?
+                            </div>
+                        </div>
+                        <div class="choice" identifier="c4">
+                            <div class="text">3, 10</div>
+                            <div class="feedback">
+                                Correct! 
+                            </div>
+                        </div>
+                        <div class="responseDeclaration" identifier="ri2">
+                            <div class="correctResponse" identifier="c4"></div>
+                        </div>
+                    </div>
+				</li>
+				<li>
+                    <!-- Question 3 -->
+                    <div class="assessment-data" type="multiplechoice" identifier="Mystery Procedure"
+                        hasinlinefeedback="true" maxchoices="1" responseIdentifier="ri3" shuffle="true">
+                        <div class="prompt">
+                            <pre>PROCEDURE Mystery(numberList, targetNumber)
+{
+  counter ← 0
+  FOR EACH number IN numberList
+  {
+    IF(number &gt; targetNumber)
+    {
+      counter ← counter + 1
+    }
+  }
+  RETURN(counter)
+}
+myMathGrades ← [100, 80, 90, 80, 60, 100, 50, 100]
+Mystery(myMathGrades, 60)
+</pre><br /> What will be returned if the code above is run?
+                        </div>
+                        <div class="choice" identifier="c1">
+                            <div class="text">[100, 80, 90, 80, 100, 100]</div>
+                            <div class="feedback">
+                                What <em>type</em> of value does the procedure return?
+                            </div>
+                        </div>
+                        <div class="choice" identifier="c2">
+                            <div class="text">7</div>
+                            <div class="feedback">
+                                Is 60 &gt; 60 ?
+                            </div>
+                        </div>
+                        <div class="choice" identifier="c3">
+                            <div class="text">6</div>
+                            <div class="feedback">
+                                Correct!
+                            </div>
+                        </div>
+                        <div class="choice" identifier="c4">
+                            <div class="text">60</div>
+                            <div class="feedback">
+                                What is the procedure doing?
+                            </div>
+                        </div>
+                        <div class="responseDeclaration" identifier="ri3">
+                            <div class="correctResponse" identifier="c3"></div>
+                        </div>
+                    </div>	
+                </li>
+            </ol>
+        </div>
+
+        <div class="takeItFurther">
+            <ol type="A">
+                <li>
+                    Before telling the user the right answer, give them three tries to get it right.
+                </li>
+                <li>
+                    Users might give answers that are close enough but not exactly the answer you expected. For example, someone might answer "What kind of variable is available only in the part of the program where it is defined?" with "a local variable," "local variable," or just "local," or the same possibilities for "script variable." So your <code>question answer</code> ADT could take a <em>list</em> of keywords in the second slot and accept any answer that includes any of the keywords (so in this case, the list would be {local, script} and would accept "a local one"). Use <img class="inline" src="/bjc-r/img/blocks/contains-empty.png" alt="'list input slot' contains ()" title="'list input slot' contains ()" /> to adapt your code.
+                </li>
+            </ol>
+        </div>
+            
+
+	</body>
+</html>
