@@ -30,6 +30,10 @@ class Tests
 		test7()
 	end
 
+	def assessDataTest()
+		sc = SelfCheck.new("C:/Users/I560638/bjc-r/TESTING/2-gossip-and-greet/2-customizing.html")
+	end
+		
 
 	def languageTest()
 		m = Main.new("C:/Users/I560638/bjc-r/TESTING/1-introduction/1-building-an-app", "C:/Users/I560638/bjc-r/topic/nyc_bjc")

@@ -1,5 +1,6 @@
 require 'fileutils'
 require 'rio'
+require_relative 'selfcheck'
 
 class Vocab
 	
@@ -17,6 +18,16 @@ class Vocab
 		@currLab = ''
 		@vocabFileName = ''
 		@pastFileUnit = nil
+		@selfcheck = SelfCheck.new(path)
+		@currUnitName = nil
+	end
+
+	def currUnitName(name)
+		@currUnitName = name
+	end
+
+	def selfcheck()
+		@selfcheck
 	end
 
 	def currUnit(str)
@@ -75,11 +86,15 @@ class Vocab
 		listLines(file)
 		currIndex(0)
 		currFile(file)
+		@selfcheck.currFile(file)
+		@selfcheck.currIndex(0)
+		@selfcheck.listLines(file)
 		isNewUnit(true)
 		@listLines.each do |line|
 			currLine(line)
 			parse_unit(line)
 			parse_vocab(file, @currline, @currIndex)
+			@selfcheck.parse_assessmentData(line, @currIndex)
 			currIndex(@currIndex + 1)
 		end
 		puts "Completed:  #{@currUnit}"
@@ -99,6 +114,9 @@ class Vocab
 			currUnit(newStr.join)
 			currUnitNum(@currUnit.match(/\d+/).to_s)
 			vocabFileName("vocab#{@currUnitNum}.html")
+			@selfcheck.currUnit(@currUnit)
+			@selfcheck.currUnitNum(@currUnitNum)
+			@selfcheck.assessmentFileName("assess-data#{@currUnitNum}.html")
 			isNewUnit(false)
 		else
 			nil
