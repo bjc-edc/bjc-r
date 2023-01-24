@@ -67,7 +67,11 @@ class SelfCheck
 
     def is_Assessment_Data(line)
 		if line.match(/<div class="assessment-data"/)
+            assessmentFileName("assess-data#{@currUnitNum}.html")
 			return true
+        elsif line.match(/<div class="examFullWidth"/)
+            assessmentFileName("exam#{@currUnitNum}.html")
+            return true
 		else
 			return false
 		end
@@ -156,14 +160,11 @@ class SelfCheck
 
     
 	def parse_header(str)
-		newStr1 = str
+		newStr = str
 		if str.match(/class="assessment-data"/)
-			if str.match(/<!--.+-->/)
-				newStr1 = str.gsub(/<!--.+-->/, "")
-			end
-			newStr2 = newStr1.to_s
+			newStr
             headerList = []
-			if (newStr2.match(/<div class="assessment-data".+>/))
+			if (newStr.match(/<div class="assessment-data".+>/))
 				headerList.push(str)
 			end
 			headerList

@@ -91,7 +91,7 @@ class Main
 		dataList = ["heading: Unit #{@unitNum} Review",
 			"resource: Vocabulary [#{link}/summaries/vocab#{@unitNum}.html]",
 			"resource: On the AP Exam [#{link}/summaries/exam#{@unitNum}.html]",
-			"resource: Self-Check Questions [#{link}/summaries/assessment-data#{@unitNum}.html]",
+			"resource: Self-Check Questions [#{link}/summaries/assess-data#{@unitNum}.html]",
 			"}"]
 		data = dataList.join("\n")
 		#add_content_to_file("#{@topicFolder}/#{topicFile}", data)
