@@ -116,7 +116,7 @@ class Vocab
 			vocabFileName("vocab#{@currUnitNum}.html")
 			@selfcheck.currUnit(@currUnit)
 			@selfcheck.currUnitNum(@currUnitNum)
-			@selfcheck.assessmentFileName("assess-data#{@currUnitNum}.html")
+			#@selfcheck.assessmentFileName("assess-data#{@currUnitNum}.html")
 			isNewUnit(false)
 		else
 			nil
