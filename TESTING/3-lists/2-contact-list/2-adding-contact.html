@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unit 3 Lab 2: Contact List, Page 2</title>
+        <script type="text/javascript">
+			window.hinttext='<br /><img class="indent" src="/bjc-r/img/3-lists/ask-name-definition.png" alt="ask name block definition" title="ask name block definition" />';
+        </script>
+    </head> 
+    
+    <body>
+    	<h2>Adding Contact Data</h2>
+		<div class="learn">
+        	<p>
+                <strong>On this page,</strong> you will develop code for  "Add Contact" and "Clear List" buttons in your contact list program. <!--develop:
+                <ul>
+                    <li>An <strong>"Add Contact" button</strong> for adding each new contact using the <code>contact</code> constructor</li>
+                    <li>A <strong>"Clear List" button</strong> for emptying the <var>contact list</var> while debugging</li>
+                </ul>-->
+            </p>
+        </div>
+        
+        
+        <div class="forYouToDo" id="first">
+			<ol>
+				<li>If it isn't open already, open your U3L2-ContactList project.</li>
+                <li>
+                    Develop the "Add Contact" button for the user.
+                    <ol>
+                        <div class="comment">CRD-2.C</div>
+                        <li>Looking at the previous page, write down the questions your program is going to ask the user. The answers to these questions will be the program <em>input</em>.</li>
+                        <div class="vocabFullWidth"><strong>: Input</strong> and <strong>Output</strong>
+                            <div class="comment">CRD-2.C.1, CRD-2.C.4, CRD-2.C.6, CRD-2.D.1, CRD-2.D.2</div>
+                            <p>We use "input" loosely to mean the empty boxes in a block that get filled with values.  But <strong>input</strong> also means information entered into a program by the user, as in the <code>ask and wait</code> block.  Program input can also come from data tables, sounds, pictures, video, or other programs.</p>
+                            <p>Similarly, program <strong>output</strong> means any data sent from your program to the user or to any device.  Typically, the output depends on the input.</p>
+                        </div>
+                        <li>Make the script ask the user for contact data and then add that data to the <var>contact list</var> using the <code>contact</code> constructor.</li>
+                        <div class="narrower">
+                            <h4><strong>Collecting Data from the User</strong></h4>
+                            <p>
+                                You'll want to ask the user for each piece of data (contact name, address, and phone number) separately.
+								<ul>
+                                    <li>
+                                        <strong>You <em>could</em> use several <code>ask</code> and <code>answer</code> blocks together with script variables</strong> to request and then store each piece of user input until you are ready to report them all together using <code>contact</code>.<br />
+                                        <img class="indent" src="/bjc-r/img/3-lists/contact-constructor-with-variables.png" alt="contact with name: (name) address: (address) phone: (phone)" title="contact with name: (name) address: (address) phone: (phone)" />
+                                    </li>
+                                    <li>
+                                        <strong><em>Another way</em> that makes for cleaner code is to use <em>abstraction</em>: create helper blocks</strong> (such as <img src="/bjc-r/img/3-lists/ask-name.png" alt="ask name" title="ask name" /> and <img src="/bjc-r/img/3-lists/ask-phone.png" alt="ask phone" title="ask phone" />) that each ask the user for one piece of data and report their answer to the <code>contact</code> constructor.<br />
+                                        <img class="indent" src="/bjc-r/img/3-lists/contact-constructor-with-helpers.png" alt="contact with name: (ask name) address: (ask address) phone: (ask phone)" title="contact with name: (ask name) address: (ask address) phone: (ask phone)" /><br />
+                                        Each of these helper blocks will <code>ask</code> the user a specific question (like, "What is the contact's address?") and then report the user's <code>answer</code>.
+                                    </li>
+								</ul>
+                                <div class="endnote">
+                                    <p>
+                                    	You could first build a more general <img class="" src="/bjc-r/img/3-lists/answer-to-prompt.png" alt="answer to prompt ()" title="answer to prompt ()" /> helper block (yet another abstraction) to use in the other helper blocks instead of rewriting the <code>ask</code> and <code>answer</code> script every time. <!--<br />
+                                    	<a href="#hint-1" data-toggle="collapse" class="collapsed">Click here for a hint.</a>-->
+                                    </p>
+                                    <!--<div id="hint-1" class="collapse">
+                                    	<img class="indent" src="/bjc-r/img/3-lists/ask-name-definition.png" alt="ask name block definition" title="ask name block definition" />
+                                    </div>-->
+                                </div>
+                            </p>
+                        </div>
+                        <li><strong>Test and debug. </strong>Add a few made-up people to your <var>contact list</var>. Make sure everything works.</li>
+                  </ol>
+              </li>
+                <div class="endnote">
+					<p>
+						You can use these examples or make up your own:
+						<table class="bordered" summary="three example contacts">
+                        	<tr>
+                            	<th scope="col">name</th>
+                            	<th scope="col">address</th>
+                            	<th scope="col">phone</th>
+                            </tr>
+                        	<tr>
+                            	<td style="white-space: nowrap;">Betsy Anderson</td>
+								<td style="white-space: nowrap;">123 Main St. #4, New York, NY 10001</td>
+                            	<td style="white-space: nowrap;">212-555-1234</td>
+                            </tr>
+                        	<tr>
+                            	<td style="white-space: nowrap;">Alphie Preston</td>
+                            	<td style="white-space: nowrap;">149 E. 16th Ave., Sunnyvale, CA 94089</td>
+                            	<td style="white-space: nowrap;">408-555-6789</td>
+                            </tr>
+                        	<tr>
+                            	<td style="white-space: nowrap;">Gamal Abdel</td>
+                            	<td style="white-space: nowrap;">369 Center St., Boston, MA 02130</td>
+                            	<td style="white-space: nowrap;">617-555-1098</td>
+                            </tr>
+                        </table>
+					</p>
+				</div>
+				<li>
+                    Develop a "Clear List" button that resets the <var>contact list</var> to an empty list, which is essential while programming whenever you change the structure of the ADT. 
+                    <ol>
+                        <li>
+                            Make the script ask the user for confirmation (so the user won't accidentally delete their list).
+                            <div class="endnote">For example, clicking, "Clear List" might <code>ask</code> the user, "Enter c to clear the list, or enter anything else to cancel."</div>
+                        </li>
+                        <li><strong>Debug.</strong> Make sure this feature behaves as expected for either user choice.</li>
+                    </ol>
+                </li>
+                <img class="imageRight" src="/bjc-r/img/icons/save-now.png" alt="Save your work" title="Save your work" />
+            </ol>
+        </div>
+
+		<div class="takeNote">Most of the programs you've written have one script that's in charge, using loop blocks to keep running either forever or just for a long time.  This project is different: Nothing happens until you click a button (recall from Unit 1 that this is called an <em>event</em>), which starts a script that just runs briefly, to do whatever action the button requires.  This kind of program structure is called <strong>event-driven</strong> programming.</div>
+		<div class="ifTime">
+			<ol start="4">
+				<li>The sprites' questions might be covered up by the <var>contact list</var> watcher on the stage. Use <code>hide variable</code> and <code>show variable</code> to hide the <var>contact list</var> watcher until the end of each sprite's script.</li>
+			</ol>
+		</div>
+
+		<div class="takeItFurther">
+			<p>
+                In this activity, you're going to refine the handling of people's names.  When you look up a particular person, you want to see their name as you've been seeing it on this page, first name first: "Alphie Preston."  But suppose you want to <em>sort</em> your contacts.  Typically that's done by <em>last</em> name, so the list would look something like
+				<ul>
+                    <li>Abdel, Gamal</li>
+                    <li>Anderson, Betsy</li>
+                    <li>Preston, Alphie</li>
+                </ul>
+			    So you need to be able to show a name first name first for ordinary display, but last name first for sorting.
+            </p>
+			<p>
+				<strong>Before you begin,</strong> save your project again, under the name U3L2-TIF.  This will keep your work on these problems separate from the regular problems.
+			</p>
+
+			<ol type="A">
+				<li>The first step is to <strong>create an abstract data
+                type</strong> for names.  You'll need a constructor that takes first name and last name as inputs, and reports a list of them to represent the name part of a contact.</li>
+				<li><strong>Reading a name:</strong> The next step is to modify the program you wrote above so that it asks separately for the first name and the last name, constructs a name (that is, a list) using the constructor you just wrote, and uses that list as the name input to the <code>contact with name</code> block.  This is an abstract data type (name) inside another abstract data type (contact).</li>
+				<li><strong>Writing a name:</strong> Your <code>name from contact</code> block will now report a list, as it should.  But some other parts of the program, such as the part that displays a contact to the user, want to display the name as a text string: "Betsy Anderson."  The part that sorts the contact list also wants a string: "Anderson, Betsy."  Write two blocks <img class="inline" src="/bjc-r/img/3-lists/name-display-form-from-contact.png" alt="name, display form, from contact 'list input slot" title="name, display form, from contact 'list input slot" /> and <img class="inline" src="/bjc-r/img/3-lists/name-sort-form-from-contact.png" alt="name, sort form, from contact 'list input slot" title="name, sort form, from contact 'list input slot" /> that join the two parts of the name with a space and/or a comma as needed.</li>
+            </ol>
+            <div class="takeNote">This three-step process (create an ADT, use it to read values of that type, use it to write values of that type) is very common in programming.  You'll follow the same three steps again in the Take It Further on page 4.</div>
+            <p><strong>Save your work.</strong>  On page 4 you're going to find a contact by letting the user enter any part of the name, and display the entire contact.  Use the name abstraction you've just created when you do that.</p>
+        </div>
+		
+    </body>
+</html>

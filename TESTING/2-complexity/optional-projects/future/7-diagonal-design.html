@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+        <script type="text/javascript" src="/bjc-r/utilities/gifffer.min.js"></script>
+        <script type="text/javascript">window.onload = function() {Gifffer();}</script>
+        <link rel="stylesheet" type="text/css" href="/bjc-r/css/bjc-gifffer.css">
+		<title>Unit 2 Lab 2: Making Art by Using Data Structures, Page XX</title>
+	</head>
+   
+    <body>
+        <h2>Diagonal Design</h2>
+		<div class="todo">
+			I changed the title here but not on the topic page etc. Also changed pink box etc. -bh
+            <p>I'm fine with it in sentiment, but I find the language a little awkward. --MF, 5/31/19</p>
+		</div>
+        <div class="todo">
+            <p>Teacher feedback from 2017-2018: the Mandala lab being a leap in reasoning --MF, 3/6/19</p>
+        </div>
+        <div class="todo">
+            <p>PG: "On this page, you vill create a design called (by somebody) a 'mandala,' vether you vant to or not, and ve von't tell you why!" The design is beautiful, but we need to think what is to be /learned/ and we need to make that clear to the student."You can also save and use coordinates that are produced by /your program/." And "mandala" is not what this is called. Period. There are mandalas, this bears a resemblance and /could/ be called a mandala, but this is not "called a mandala."  TIF B is a callout to "cultures" but I'm not sure it can feel genuine.</p>
+            <p>BH: Flush TIF B, add a (new first) TIF about eliminating the redundant segment drawing.</p>
+            <p>MF: SCRAP.feels more like an optional project; is it needed? The debugging block is nice, as is the re-use of POLYGON, but it seems like an optional project</p>
+	        <p>BH: I think the technique of remembering where you've been is useful to keep, that's why I like it.</p>
+        </div>
+
+        <div class="todo">Need to replace problem decomposition with modularity per AAP-3.B.2 and AAP-3.B.2. See vocab box on <a href="/bjc-r/cur/programming/3-lists/2-contact-list/4-looking-up-data.html?topic=nyc_bjc%2F3-lists.topic&course=bjc4nyc.html&novideo&noassignment">3.2.4, Selecting Specific Data</a>. (Appears on pages U2 furture OP Diagonal Design (mandala); 3.1.4, brick wall; 2.OP.4, plurals 1; and TG for 2.2 and 2.OP) --MF, 4/9/19</div>
+
+        
+		<div class="learn">
+			<strong>On this page,</strong> you will create a complex design using the technique of a procedure remembering what it's done.
+        </div>
+        
+        <div class="forYouToDo" id="first">
+            <ol>
+				<li>
+                    <img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> 
+                    Before you open Snap<em>!</em>, figure out a possible algorithm for drawing this design:<br />
+                    <img class="indent" src="/bjc-r/img/2-complexity/Mandala_img/10-gon-with-diagonals.png" height="200" alt="10-gon-with-diagonals" title="10-gon-with-diagonals" />
+                </li>
+            </ol>
+        </div>
+
+        <div class="dialogue"> <a name="mandala" class="anchor">&nbsp;</a>
+            <div>
+                <span> Alphie:</span> The <em>outside</em> of the design is a 10-sided polygon. We already created a block to draw a polygon, but connecting the vertices will be a pain. <br />                
+            </div>
+            <div class="stagedir">
+                Alphie opens their polygon project.<br />
+                <div class="comment">I'm not confident that this is what their polygon code will look like. Maybe that's ok... ? --MF, 3/25/19</div>
+                <img class="indent" src="/bjc-r/img/2-complexity/polygonCode.png" height="180" alt="polygon, sides:(number of sides#) side length:(length#){repeat(number of sides){move(length) steps; turn clockwise(360/number of sides) degrees}}" title="polygon, sides:(number of sides#) side length:(length#){repeat(number of sides){move(length) steps; turn clockwise(360/number of sides) degrees}}" />
+            </div>
+            <div class="comment">These italics are confusing in terms of intent and not helping with the reading. --MF, 3/25/19</div>
+            <div><span>Betsy:</span> So let's make our <code>polygon</code> block  store each vertex as a <code>point</code> <em>while</em> it draws the polygon. We  listed  points as <em>we</em> clicked on them. This is the same, but with the <em>program</em> generating the points.</div>
+            <div class="todo">I wonder if it would help to use the term ADT in the previous sentence somewhere. --MF, 3/25/19</div>
+            <div><span> Gamal:</span> Right! Set up a empty list variable first, and then use <img src="/bjc-r/img/3-lists/add()to().png" height="44" alt="add() to ()" title="add() to ()" /> inside the <code>polygon</code> block.</div>
+            <div class="todo">No reason to use an image rather than just <code>add</code> here. --MF, 3/25/19  Maybe it's a reminder that they're using lists? -bh</div>
+            <div><span>Alphie:</span> Global variable or a  script variable?</div>
+            <div><span> Gamal:</span> Well, we need to use it inside <code>polygon</code> <em>and</em> in the script that draws the design, so I'd make it global so multiple scripts can access it.</div>
+            <div><span> Betsy:</span> I have an idea for the part of the program that actually draws the diagonals.</div>
+            <div class="stagedir">
+			<div class="comment">Technically, a side of a polygon isn't a diagonal. -bh<p>Yes, but isn't this referring to the line segments inside, which are diagonals? --MF, 5/31/19</p></div>
+            Betsy sketches this: <img src="/bjc-r/img/2-complexity/Mandala_img/Stage2.png" height="160" alt="Stage 2 of Mandala" title="Stage 2 of Mandala" />
+            </div>
+            <div><span> Gamal:</span> Smart! We'll draw all the diagonals from <em>one</em> vertex as a subproblem.</div>
+            <div><span> Alphie:</span> Perfect! Pick <em>one</em> vertex and use <code>for each</code> to connect <em>just that one</em> to each other vertex.  After that, it's easy! We can use that block on <em>each</em> vertex.</div>
+        </div>
+        
+        <div class="vocabFullWidth">
+            <p><strong>Problem decomposition</strong> is the process of solving a complex problem by building small tools and combining them to make bigger ones. </p>
+        </div>
+		
+        <div class="forYouToDo">
+            <ol start="2">
+                <li>Now build your own program to draw <img src="/bjc-r/img/2-complexity/Mandala_img/10-gon-with-diagonals.png" height="100" alt="10-gon with diagonals" title="10-gon with diagonals" /> by decomposing the problem into manageable small parts.</li>
+            </ol> 
+		</div>
+        
+        <div class="takeItFurther">
+            <ol type="A">
+				<li>
+					The program draws every diagonal twice.  Improve it so that each diagonal is drawn only once.
+				</li>
+                <li>
+					Modify your program to draw diagrams with any number of sides:<br />
+                    <img class="indent" src="/bjc-r/img/2-complexity/Mandala_img/Mandala4b.png" height="200" alt="Denser Mandala" title="Denser Mandala" />
+                </li>
+				<li>The ten-sided diagram has a point in the center where several diagonals meet.  Is this true for any number of sides?  If not, for which designs is it true?</li>
+            </ol>
+        </div>
+		<div class="ifTime">
+			<ol start="3">
+				<li>Adapt your program to make bigger designs:<br />
+                    <img class="indent" src="/bjc-r/img/2-complexity/Mandala_img/Mandala2.png" height="200" alt="Four Mandalas" title="Four Mandalas" />
+                    <img class="indent" src="/bjc-r/img/2-complexity/Mandala_img/Mandala3b.png" height="200" alt="Mandala Ring" title="Mandala Ring"/>
+                    <img class="indent" src="/bjc-r/img/2-complexity/Mandala_img/ColorMandala3.png" height="200" alt="Colored Mandala Ring" title="Colored Mandala Ring" />
+                    <img class="indent" src="/bjc-r/img/2-complexity/Mandala_img/ColorMandala2.png" height="200" alt="Colored Four Mandalas" title="Colored Four Mandalas" />
+				</li>
+			</ol>
+		</div>
+    </body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unit 4 Lab 2: Cybersecurity, Page 2</title>
+	</head>
+
+	<body>
+        <h2>Caesar Cipher Project</h2>
+        <div class="todo">Brian, I added "initials part deux" as an ITIT on this page. See below. Is it too much for an ITIT? Should it be a TIF? I can't decide. If you like it, please add it to the solutions file and <em>only then</em> cut this comment. If you don't, please revise it or cut it. --MF, 7/4/20</div>
+
+        <div class="learn"><strong>On this page,</strong> you will program a shift cipher procedure to encrypt/decrypt text.</div>
+        <p>
+            Computers store keyboard characters (capital and small letters, punctuation marks, space, digits, symbols, and so on) as numbers called Unicode. This table shows the Unicode for some of the keyboard characters:<br />
+            <img class="indent noshadow" src="/bjc-r/img/4-internet/img_CaesarCipher/Mary_CharacterTable.jpeg" height="330px" alt="Unicode Table"/>
+        </p>
+        
+        <p>
+            The <code>unicode of</code> block reports the number that is used for a particular character:<br />
+            <img class="indent" src="/bjc-r/img/4-internet/img_CaesarCipher/SnapUnicode1.png" height="52" alt="unicode of (a) reporting '97'" title="unicode of (a) reporting '97'" /><br />
+            The <code>unicode as letter</code> block reports the character that a given Unicode number represents:<br /> 
+            <img class="indent" src="/bjc-r/img/4-internet/img_CaesarCipher/SnapUnicode2.png" height="52"  alt="unicode (65) as letter reporting 'A'" title="unicode (65) as letter reporting 'A'" />
+        </p>
+        
+        <div class="forYouToDo" id="second">
+            <ol>
+                <li>Experiment with the <code>unicode of</code> and <code>unicode as letter</code> blocks. Try changing a word into Unicode, telling the Unicode to a friend, and then having them change it back into a word.</li>
+                <li>On paper, use a shift cipher to encrypt and decrypt a short message  to get a feel for how this cipher works.</li> 
+                <li>Write a Caesar cipher procedure that works for <em>any input text</em> and <em>any shift value</em>.</li>
+                <div class="endnote">
+                    <p><a href="#hint-characters" data-toggle="collapse" title="Why do we see characters like = ? @ # ^ * { or ~ ?">Why do we see characters like <strong>= ? @ # ^ * { </strong> or <strong>~</strong> ?</a></p>
+                    <div id="hint-characters" class="collapse">
+                        <p>You can safely assume that shifting any set of text characters a reasonable distance will result in a set of printable characters, which may include non-alphanumeric (not letter or digit) characters.</p>
+                        <p>For example, if we use a shift of 4 to encrypt:</p>
+                        <p class="indent"><em><strong>Invasion of Normandy is on 6 June 1944</strong></em></p>
+                        <p>it becomes:</p>
+                        <p class="indent"><em><strong>Mrzewmsr$sj$Rsvqerh}$mw$sr$:$Nyri$5=88</strong></em></p>
+                        <p>
+                            <ul>
+                                <li>Which character in ciphertext (the coded version) represents a space in the plaintext?</li>
+                                <li>In this code, 1 becomes 5 and 4 becomes 8, clearly showing the shift of 4. What does 9 become?</li>
+                            </ul>
+                        </p>
+                    </div>
+                    <p><a href="#hint-missing" data-toggle="collapse" title="What if your decrypted text is missing some letters?">What if your decrypted text is missing some letters?</a></p>
+                    <div id="hint-missing" class="collapse">
+                        <p>If you copy your encrypted message with a method other than by using copy and paste (for example, by writing it by hand or typing it into a phone), some characters may disappear from your message. This is because some of the Unicode characters after 126 are printing characters that symbolize things like "delete." These characters won't get displayed in Snap<em>!</em>, so you can't copy them by hand, but if you use copy and paste, Snap<em>!</em> knows they are there. In Take It Further exercise A, you can develop a method of encryption that avoids this problem.</p>
+                    </div>
+                </div>
+                <li>Now test your work. Agree with your partner on a shift value for the encryption.  Then use your program to encrypt a secret message and e-mail it to your partner.  Then let your partner decrypt your message by using the program to reverse the shift.</li>
+                <div class="endnote">
+                	You can extract the encrypted messages from the Snap<em>!</em> interface by right-clicking on the variable that holds the encrypted message and selecting the “Export” option which will download a text file to your computer which then you can copy/paste.<br />
+                	<img class="indent" src="/bjc-r/img/4-internet/img_CaesarCipher/Export.png" width="350" alt="export option" title="export option"/>
+                </div>
+            </ol>
+		</div>
+    
+        <div class="ifTime">
+			<ol start="5">
+                <li>
+                    Improve your <code>initials</code> block from your U3L2-ContactList project so that it will find the initials for a person with a hyphenated name like Alexandria Ocasio-Cortez.<br />
+                    <img class="indent" src="/bjc-r/img/4-internet/initials-reporting-aoc.png" alt="initials of (Alexandria Ocasio-Cortez) reporting AOC" title="initials of (Alexandria Ocasio-Cortez) reporting AOC" />
+                    <div class="endnote">
+                        <a href="#hint-initials" data-toggle="collapse" title="Click for some hints about improving your initials block.">Click for some hints.</a>
+                        <div id="hint-initials" class="collapse">
+                            There are several ways you could solve this problem. Both of the following ways require higher order functions. (You can review the higher order functions <code>map</code>, <code>keep</code>, and <code>combine</code> on <a href="/bjc-r/cur/programming/3-lists/2-contact-list/5-mapping-over-list.html?topic=nyc_bjc%2F3-lists.topic&course=bjc4nyc.html&novideo&noassignment#HOFreview" title="Unit 3 Lab 2 Page 5: Transforming Every List Item">Unit 3 Lab 2 Page 5: Transforming Every List Item</a>.) 
+                            <ul>
+                                <li>
+                                    One way is to use the <code>unicode</code> block to select all the capital letters rather than splitting by word breaks.  
+                                    <ul>
+                                        <li>If you want to use Unicode, you'll probably want to build or import a block like <code>is between?</code> from your U2L4-MathLibrary project to check which Unicode values are capital letters. (You learned about exporting and importing blocks on <a href="/bjc-r/cur/programming/2-complexity/4-making-computers-do-math/2-math-predicates.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 2 Lab 4 Page 2: Making a Mathematical Library">Unit 2 Lab 4 Page 2: Making a Mathematical Library</a>.)</li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    Another way is to use the <code>split</code> block to check for hyphens as well as to check for spaces between words.
+                                    <ul>
+                                        <li>If you want to use <code>split</code>, note that the second input to <code>split</code> can be the character you want to use as the word separator. (You learned about <code>split</code> on <a href="/bjc-r/cur/programming/3-lists/2-contact-list/5-mapping-over-list.html?topic=nyc_bjc%2F3-lists.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 3 Lab 2 Page 5: Transforming Every List Item">Unit 3 Lab 2 Page 5: Transforming Every List Item</a>.)</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+			</ol>
+		</div>
+		
+    
+        <div class="takeItFurther">
+			<ol type="A">
+                <li>Implement a version of the Caesar Cipher that not only shifts the characters but also wraps them around the alphabet when the end of the alphabet is reached.  You may wish to restrict your alphabet to the set of printable characters shown above in the Unicode table.</li>
+                <li>Do some research on other types of ciphers used historically. Especially read about the Vigenere Cipher which was used extensively in communicating sensitive information during World War 2.</li>
+                <li>Create your own encryption/decryption scheme and implement it in Snap<em>!</em>.</li>
+            </ol>
+        </div>
+
+	</body>
+</html>

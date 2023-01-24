@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unit 6 Lab 1: Computer Abstraction Hierarchy, Page 5</title>
+	</head>
+    <body>
+        <h2>The Software Domain: Operating Systems</h2>
+        <div class="todo">
+            <p>MF: lightly clean up to make the text more concise</p>    
+        </div>
+        
+        <div class="learn"><strong>On this page</strong>, you'll learn about the software that directly manages the computer's hardware, the <em>operating system.</em></div>   
+        <p>Your computer came with an <em>operating system</em> (OS) installed. Operating systems are the underlying programs that your apps interact with to communicate with the computer. For computers with keyboards, it's probably Linux, macOS, or Windows. For phones and tablets, it's probably Android or iOS. </p>
+        <p>
+            Roughly speaking, the operating system handles the basic tasks that your applications depend on, including:
+			<ul>
+                <li>the window system, which allows more than one window to be open on your screen</li>
+                <li>the file manager, that displays the contents of folders and lets you select files to read or manipulate</li>
+                <li>communications with external devices like your keyboard or printer</li>
+                <li>utilities such as a simple text editor or a calculator</li>
+			</ul>
+        </p>
+
+        <div class="takeNote">In a computer, there are many  applications and operating system tasks all wanting to run at once. Every operating system has a <em>kernel</em> that manages when all these processes run.</div>
+                
+        <div class="endnote">
+            <h3>The Kernel</h3>
+            <p>
+                The <em>kernel</em> deals directly with hardware (keyboard, mouse, microphone, camera, hard drives, memory, printer, speakers, screen, etc.). So the kernel is generally written in a low level language so it can control that hardware. It handles several important tasks:
+                <ul>
+                    <li><strong>Scheduling.</strong> The kernel has access to the time clock that's built into the hardware and lets each program run for a small amount of time (typically about 1/10 second) and then switches to the next program in line.</li>
+                    <li><strong>Security.</strong> Those many application programs may have bugs or malicious code. The kernel, which has access to the <em>memory</em> where programs and data are stored, ensures that each program is assigned a separate location in memory and doesn't interfere with other programs. The kernel also controls which data files a program can use based on <em>file protection</em> settings that users or applications specify for each file.</li>
+                    <li><strong>Input and output.</strong> Many devices can be attached to your computer. The kernel knows how the computer's hardware reads or writes to each device. Only the kernel is allowed direct access to these devices, and it carries out authorized transfers of information for the applications.</li>
+                </ul>
+            </p>
+            <p>These days, OS kernels are remarkably similar. Of the five systems listed earlier (Linux, macOS, Windows, Android, and iOS), four of them (all but Windows) are based on variants of a single kernel, called Unix.</p>        
+            <p><a href="#hint-unix" data-toggle="collapse" title="Read more about Unix">Read more about Unix.</a></p>
+            <div id="hint-unix" class="collapse">
+                <div class="comment">This still needs editing. If we find a way to cut this back, more students will actually read it. --MF, 11/8/17</div>
+                <p>("Unix" is a trademark, currently owned by The Open Group, and not all of the variants discussed here are authorized to use that name, but they all provide essentially the same program interface.) Unix was created around 1970 by Ken Thompson and Dennis Ritchie at AT&amp;T Bell Laboratories.</p>
+                <p>Prior to Unix, almost everyone thought that an operating system had to be developed for a particular computer architecture, and had to be written in the machine language of that computer, the very low-level instructions that the hardware understands directly. The  first version of Unix was also written in the machine language of a particular computer, the Digital Equipment Corporation PDP-7. But the Unix developers knew that the PDP-7 wasn't the only computer in the world, and better ones would come along, so they wanted to make Unix <em>portable,</em> meaning that it could be brought to a new computer architecture without a complete rewrite.  So in 1972 Dennis Ritchie invented the C programming language for that purpose.  C is similar to other languages available at the time, but with one added feature: a C programmer can read or write any individual byte of the program's memory by knowing its <em>address,</em> a number that distinguishes it from other bytes.  (You can see that this feature is quite the opposite from high level abstraction.  It is useful only to a programmer who's thinking in detail about what's where in the computer's memory.) Unix was then rewritten in C.</p>
+                <p>Because of its portability, Unix spread quickly to many computer architectures. Researchers at Berkeley developed a version, based on the AT&amp;T version, with <em>virtual memory,</em> the ability to run a program that's only partly in the computer's main memory, with the rest kept on a disk. This Berkeley version is an ancestor of Apple's operating systems, macOS (since macOS 10.0) and iOS. (An Apple computer doesn't behave anything like a Unix computer, but the differences are almost all in application-level programs, not in the kernel.) Android, Google's operating system for cell phones and tablets, is based on Linux, a complete rewrite of Unix originally written by Linus Torvalds, who was, at the time, a computer science student in Finland.</p>
+                <p>The application-level programs that were part of the original Unix package have, in most systems, been replaced with rewritten programs from the Free Software Foundation's GNU (an acronym for Gnu's Not Unix) package.</p>
+            </div>
+        </div>
+        
+		<div class="ifTime" type="first">
+            <ol>
+            	<li>
+                    Explore the programs running on your computer right now.
+                    <ol>
+                        <li>Find out how to list all the programs that are running right now on your computer, and collect such a program list in a text file.</li>
+                        <li>Count how many of them are programs <em>you</em> asked the computer to run.</li>
+                        <li>Of the rest, can you figure out from the names what they do?</li>
+                        <li>Which ones are part of the operating system (not the OS kernel)?</li>
+                        <li>See if you can figure out the purpose of some oddly-named ones by doing a web search.</li>
+                    </ol>
+                </li>
+            </ol>
+        </div>
+        
+        
+    </body>
+</html>

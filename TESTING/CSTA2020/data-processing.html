@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+        <script type="text/javascript" src="/bjc-r/utilities/gifffer.min.js"></script>
+        <script type="text/javascript">window.onload = function() {Gifffer();}</script>
+        <link rel="stylesheet" type="text/css" href="/bjc-r/css/bjc-gifffer.css">
+		<title>Unit 5 Lab 3: Turning Data into Information, Abridged Versions of Pages 3-5</title>
+    </head>
+
+    <body>
+        <h2>Data Processing</h2>
+        <div class="endnote">Please note, this is a adaptation of the student-facing pages and was designed for use in a brief conference session. The complete student-facing version is available on bjc.edc.org: <a href="/bjc-r/cur/programming/5-algorithms/3-turning-data-information/3-importing-data.html?topic=nyc_bjc%2F5-algorithms.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 5 Lab 3 Page 3: Importing and Accessing Data" target="_blank">Unit 5 Lab 3 Page 3: Importing and Accessing Data</a>, <a href="/bjc-r/cur/programming/5-algorithms/3-turning-data-information/4-filtering-data.html?topic=nyc_bjc%2F5-algorithms.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 5 Lab 3 Page 4: Analyzing Data" target="_blank">Unit 5 Lab 3 Page 4: Analyzing Data</a>, <a href="/bjc-r/cur/programming/5-algorithms/3-turning-data-information/5-visualizing-data.html?topic=nyc_bjc%2F5-algorithms.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 5 Lab 3 Page 5: Visualizing Data" target="_blank">Unit 5 Lab 3 Page 5: Visualizing Data</a>.</div>
+        
+        <div class="learn">
+            <p><strong>On this page</strong>, you will answer questions about data that interests you.</p>
+        </div>
+        
+        <h3>Importing and Accessing Data</h3>
+        <div class="forYouToDo" id="first">
+            <ol>
+				<li>
+                    <div class="sidenoteBig">Saving is optional for this workshop session.</div>
+                    <a href="/bjc-r/prog/5-algorithms/U5L3-Data-Processing.xml" class="run"><img class="inline" src="/bjc-r/img/icons/load-save.png" alt="Click here to load this file. Then save it to your Snap! account." title="Click here to load this file. Then save it to your Snap! account."></a> 
+                    <div class="endnote">The project includes number of selectors that students actually build themselves. Here are the first five:
+                        <ul>
+                            <li><img class="inline" src="/bjc-r/img/5-algorithms/headings-of-table.png" alt="headings of table ()" title="headings of table ()" /> takes a table as input and reports just the row of headings from a table</li>
+                            <li><img class="inline" src="/bjc-r/img/5-algorithms/data-of-table.png" alt="data of table ()" title="data of table ()" /> takes a table as input and reports all the rows of data (but <em>not</em> the headings) from the table</li>
+                            <li><img class="inline" src="/bjc-r/img/5-algorithms/record-of-table.png" alt="record () of table ()" title="record () of table ()" /> takes a table of data and a record (row) number as input and reports that record from the data</li>
+                            <li><img class="inline" src="/bjc-r/img/5-algorithms/field-of-record.png" alt="field () of record ()" title="field () of record ()" /> takes a <em>single record</em> (row) of a table of data and a field number as input and reports that field (item) from the record</li>
+                            <li><img class="inline" src="/bjc-r/img/5-algorithms/column-of-table.png" alt="column () of table ()" title="column () of table ()" /> takes a table of data and a column number as input and reports that column from the data</li>
+                        </ul>
+                        <p>Notice that these block names include the word "table" or "record" before the second input.  These expected input data types can help you avoid bugs caused by using an input that does not match that the selector expects to receive.</p>
+                        <img height="231" class="indent" data-gifffer="/bjc-r/img/5-algorithms/cars-table-view-parts.gif" alt="three frame animation of the report of cars dataset displayed as a table with columns and rows; in the first frame, the fourth row of the table is highlighted and labeled 'record (row)'; in the second frame, the third column of the table is highlighted and labeled 'column'; in the third frame, the cell in the fourth row and third column is highlighted and labeled 'field'" title="three frame animation of the report of cars dataset displayed as a table with columns and rows; in the first frame, the fourth row of the table is highlighted and labeled 'record (row)'; in the second frame, the third column of the table is highlighted and labeled 'column'; in the third frame, the cell in the fourth row and third column is hightlighted and labeled 'field'" />
+                        <p>A table is represented in Snap<em>!</em> as a list of lists. If you right-click (or control-click on a Mac) a table, you can switch to "list view" and see how the data (and column headings) are stored. <a href="#hint-views" data-toggle="collapse" title="See examples of table view and list view.">See examples of table view and list view.</a></p>
+                        <div id="hint-views" class="collapse" style="text-align:center;">
+                            <div style="display: inline-grid; grid-template-columns: auto auto; text-align:center;">
+                                <div><strong>Table View</strong></div>
+                                <div><strong>List View</strong></div>
+                                <div style="padding-right: 50px;"><img class="indent" src="/bjc-r/img/5-algorithms/cars-table-view.png" alt="report of cars dataset displayed as a table with columns and rows; the first row is the label of each column; the remaining rows each contain the data for a single record" title="report of cars dataset displayed as a table with columns and rows; the first row is the label of each column; the remaining rows each contain the data for a single record" /></div>
+                                <div style="padding-left: 50px;"><img class="indent" src="/bjc-r/img/5-algorithms/cars-list-view.png" alt="report of cars dataset displayed as a list of lists; the first list contains the labels for each of the columns shown in the table view; the remaining lists each contain the data for a single record" title="report of cars dataset displayed as a list of lists; the first list contains the labels for each of the columns shown in the table view; the remaining lists each contain the data for a single record" /></div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <div class="sidenoteBig">
+                    <a href="#hint-CSV" data-toggle="collapse" title="What does CSV stand for">What does CSV stand for?</a>
+                    <div id="hint-CSV" class="collapse">
+                        CSV stands for "comma separated values." CSV files are tables of data stored with commas between each item in a row and line breaks between each row in the table.
+                    </div>
+                </div>
+                <li>Visit the <a href="https://think.cs.vt.edu/corgis/csv/index.html" title="CORGIS Datasets Project" target="_blank">CORGIS Datasets Project</a> and select a dataset you'd like to explore. Download the CSV file for the data you want to explore.</li>
+                <li>Open Snap<em>!</em> and drag the downloaded file into the Snap<em>!</em> window. You should see a table full of data. Look over the data (including the <em>column headings</em> in the top row) to give yourself a sense of what kind of information is included. Then click "OK" to close the window. You can still see the data in the watcher on the Snap<em>!</em> stage.</li>
+                <li>
+                    <img class="inline" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> Determine one question you can answer by <strong>looking at a single column</strong> of your data set, and then build code to answer your question.
+                   <div class="endnote">
+                       <p>
+                            You can see the column number by holding your mouse pointer over the letter at the top of the column in table view.<br />
+                            <img height="120" class="indent" src="/bjc-r/img/5-algorithms/column-number.png" alt="image of the top of the table view for the cars dataset with the mouse pointer over the top of the second column; the columns are now labeled A, 2 (where the pointer is), C, D, etc." title="image of the top of the table view for the cars dataset with the mouse pointer over the top of the second column; the columns are now labeled A, 2 (where the pointer is), C, D, etc." />
+                        </p>
+                        <p>You may need to use <code>map</code>, <code>keep</code>, or <code>combine</code> to answer your question. <a href="#hint-HOFs" data-toggle="collapse" title="Click to see where you learned about these higher order functions.">Click to see where you learned about these higher order functions.</a></p>
+                        <div id="hint-HOFs" class="collapse">
+                            <ul>
+                                <li>You learned about <code>map</code> on <a href="/bjc-r/cur/programming/3-lists/2-contact-list/5-mapping-over-list.html?topic=nyc_bjc%2F3-lists.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 3 Lab 2 Page 5: Transforming Every List Item">Unit 3 Lab 2 Page 5: Transforming Every List Item</a>.</li>
+                                <li>You learned about <code>keep</code> on <a href="/bjc-r/cur/programming/2-complexity/3-predicates/5-keeping-list-items.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 2 Lab 3 Page 5: Keeping Items from a List">Unit 2 Lab 3 Page 5: <code>Keep</code>ing Items from a List</a> .</li>
+                                <li>You learned about <code>combine</code> on <a href="/bjc-r/cur/programming/2-complexity/4-making-computers-do-math/3-other-math-reporters.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 2 Lab 4 Page 3: Other Mathematical Reporters">Unit 2 Lab 4 Page 3: Other Mathematical Reporters</a>.</li>
+                            </ul>
+                        </div>
+                        <p><a href="#hint-questions" data-toggle="collapse" title="Click for example questions to ask about a single column.">Click for example questions to ask about a single column.</a></p>
+                        <div id="hint-questions" class="collapse">
+                            <ul>
+                                <li>What's the average MPG that cars in this database get in the city? (You'd need an <code>average</code> block.)</li>
+                                <li>What's the year of the oldest car in this dataset? (You'd need a <code>minimum</code> block.)</li>
+                                <li>How many cars in this dataset have manual transmission? </li>
+                            </ul>
+                            <p>Notice that all of these examples only require data from one column. If you want to ask a question that requires looking at another column (for example, "What's the model of the car with the highest MPG?"), you can do the Take It Further Activity below.</p>
+                        </div>
+                    </div>
+                </li>
+            </ol>
+        </div>
+        
+
+        <h3>Analyzing Data</h3>
+        <p>
+            <div class="comment">DAT-2.D.4</div>
+            You can ask questions about a specific subset of your data by <em>filtering</em> the data using <code>keep</code>. Filtering is a powerful technique for finding information and recognizing patterns in data. For example, filtering can help you answer questions like "What is the average city MPG <em>for just the Subarus</em> in this dataset?"<br />
+            <img class="indent" src="/bjc-r/img/5-algorithms/average-mpg-of-subarus-reporting.png" alt="average of (column (9) of table (keep items (field (14) of record 'empty list input slot' = Subaru) from (data of table (cars))) reporting 19.704..." title="average of (column (9) of table (keep items (field (14) of record 'empty list input slot' = Subaru) from (data of table (cars))) reporting 19.704..." /><br />
+            Column 14 is the "Make" of the vehicle, so we <code>keep</code> all the records from <var>cars</var> for which the 14<sup>th</sup> field is "Subaru." Then, we take column 9 of those records (the "City MPG") and find their average.
+        </p>
+        <div class="endnote">
+            <p>Notice that there are many digits in the answer above.  How many digits are given in the table for each car's MPG?  An important rule in data science is not to claim more precision in a result than is warranted by the given data, so this answer should be rounded to 19.</p>
+        </div>
+
+        <div class="forYouToDo">
+			<ol start="5">
+                <li>
+                    In addition to the <code>headings</code>, <code>data</code>, <code>record</code>, <code>field</code>, <code>column</code> blocks described in problem 1  above, your project also includes the following four mathematical blocks that students import from their work in <a href="/bjc-r/cur/programming/2-complexity/4-making-computers-do-math/2-math-predicates.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 2 Lab 4 Page 2: Making a Mathematical Library">Unit 2 Lab 4 Page 2: Making a Mathematical Library</a>. Test them each with a simple list like <img class="inline" src="/bjc-r/img/5-algorithms/list-1-2-3-4.png" alt="{1, 2, 3, 4}" title="{1, 2, 3, 4}" /> to make sure they behave as you expect.<br />
+                    <img class="indent" src="/bjc-r/img/2-complexity/maximum-of-list.png" alt="maximum of list 'list input slot'" title="maximum of list 'list input slot'" />
+                    <img class="indent" src="/bjc-r/img/2-complexity/minimum-of-list.png" alt="minimum of list 'list input slot'" title="minimum of list 'list input slot'" />
+                    <img class="indent" src="/bjc-r/img/2-complexity/sum-of-list.png" alt="sum of list 'list input slot'" title="sum of list 'list input slot'" />
+                    <img class="indent" src="/bjc-r/img/2-complexity/average-of-list.png" alt="average of list 'list input slot'" title="average of list 'list input slot'" />
+                    <div class="endnote">You can look inside a block to see how it works: Right-click (or control-click on a mac) the block and select "edit..." from the menu that appears.</div>
+                </li>
+                <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> Determine one question you can answer by <strong>looking at a single column of a <em>portion</em> </strong> of your data set, and then build code to answer that question.</li>
+				<div class="endnote">
+                    <a href="#hint-portion" data-toggle="collapse" title="Click for example questions to ask about a portion of a single column.">Click for example questions to ask about a portion of a single column.</a>
+                    <div id="hint-portion" class="collapse">
+                        <ul>
+                            <li>What's the average MPG that <em>Volvos</em> in this database get in the city? (You'd need <code>average</code>.)</li>
+                            <li>What's the year of the oldest <em>Honda</em> in this dataset? (You'd need <code>minimum</code>.)</li>
+                            <li>How many <em>2009</em> cars in this dataset have manual transmission? </li>
+                        </ul>
+                        <p>Notice that the column you use to filter the data (such as year) doesn't have to be the column you are asking about (such as transmission).</p>
+                        <!--NOT NEEDED IF WE KEEP IMPORTING IN #2 ABOVE
+                        <p>You built <code>average</code> on <a href="/bjc-r/cur/programming/2-complexity/4-making-computers-do-math/3-other-math-reporters.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 2 Lab 4 Page 3: Other Mathematical Reporters">Unit 2 Lab 4 Page 3: Other Mathematical Reporters</a>.</p>-->
+                    </div>
+                </div>
+			</ol>
+		</div>
+        <p>
+            Sometimes, you want to keep a subset of your data (such as "Which cars were made in 2010?"), but other times, you just want one item that matches your requirement, often because what you really want to know is whether <em>any</em> items match, and as soon as you find one, the answer is &quot;yes&quot; (such as "Were any electric cars made in 2010?"). Snap<em>!</em> has a higher order function <img class="inline nopadtb" src="/bjc-r/img/blocks/find-first.png" alt="find first item () in 'list input slot'" title="find first item () in 'list input slot'" /> that works similarly to <code>keep</code>, but it reports only the first item that's found, so it can be faster. 
+        </p>
+        <div class="endnote">
+            <p><code>Find first</code> is a higher order function like <code>keep</code>, <code>map</code>, and <code>combine</code>, because it takes a function (a predicate) as input. (<code>Find first</code> is like <code>item (1) of (keep)</code>.)</p>
+            <p>
+                <a href="#hint-findfirst" data-toggle="collapse" title="Click for an example of keep vs. find first.">Click for an example of <code>keep</code> vs. <code>find first</code>.</a>
+                <div id="hint-findfirst" class="collapse">
+                    <img class="inline" src="/bjc-r/img/5-algorithms/keep-cars-2010.png" alt="" title="" />
+                    <img class="inline" src="/bjc-r/img/5-algorithms/find-first-car-2010.png" alt="" title="" />
+                </div>
+            </p>
+        </div>
+    
+        <div class="comment">DAT-2.D.6</div>
+        <p>You can access or change data to create new information by using:
+            <ul>
+                <li><code>Map</code> to transform every element of a data set (such as doubling every element in a list, or extracting the parent’s email from every student record)</li>
+                <li><code>Keep</code> or <code>find first</code> to filter a data set (such as keeping only the positive numbers from a list, or keeping only students who signed up for band from a database of all  students)</li>
+                <li><code>Combine</code> to combine or compare data in some way (such as adding up a list of numbers, or finding the student who has the highest GPA) </li>
+                <li>Visualization tools to present the data set in a chart, graph, or other visual representation (such as by using <code>bar chart</code>, which you will learn on the next page)</li>
+            </ul>
+        </p>
+            
+        <div class="forYouToDo">
+			<ol start="7">
+                <div class="comment">DAT-2.D</div>
+                <img class="imageRight" src="/bjc-r/img/icons/save-now.png" alt="Save your work" title="Save your work" />
+                <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> Ask and answer a question that you can answer by looking at a single column of a portion of your data set and <strong>examining just the first matching item</strong>. Build code to answer your question.</li>
+            </ol>
+		</div>
+
+
+        <h3>Grouping Data</h3>
+        <p>
+            <div class="vocab">
+                <div class="todo">DAT-2.E.3 classifying only</div>
+                <p><strong>Classifying data</strong> is extracting groups of data with a common characteristic.</p>
+            </div>
+            Another thing that's often done in data science is <em>grouping</em> (or <em>classifying</em>) data. For example, here is the <var>cars</var> data grouped by vehicle make (column 14):<br />
+            <img class="indent"
+src="/bjc-r/img/5-algorithms/group-data-of-cars-reporting.png" alt="group (data of table (cars)) by field (14) by intervals of ( )) reporting a table with three columns; column A contains each make of car from the original data set; column B shows the total number of cars in the original data set that are of that make; column C shows a picture of a list in each row of the table." title="group (data of table (cars)) by field (14) by intervals of ( )) reporting a table with three columns; column A contains each make of car from the original data set; column B shows the total number of cars in the original data set that are of that make; column C shows a picture of a list in each row of the table." /><br />
+            <ul>
+                <li>Column A shows all of the vehicle makes (field 14 of each record).</li>
+                <li>Column B shows the total number of vehicles of each make.</li>
+                <li>Column C contains a list of all the data from <var>cars</var> for the vehicles of that Make (such as all the data for the Acuras or all the data for the Nissans). If you double-click one of the lists in column C, another table will open showing the data for all cars of that make. </li>
+            </ul>  
+        </p>
+        <div class="endnote">
+            <p>The <code>by intervals of</code> input to <code>group</code> should be left empty when, as in this example, the field on which you're grouping is text rather than numbers. Later on this page you'll see how to use intervals in graphing.</p>
+        </div>
+                
+        
+        <div class="forYouToDo">
+			<ol start="8">
+                <li>
+                    <img class="inline" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> Determine one question you can answer by <strong>grouping</strong> your data, and build code to answer it.
+                    <div class="endnote">
+                        <a href="#hint-grouping" data-toggle="collapse" title="Click for example questions for which grouping is helpful.">Click for example questions for which grouping is helpful.</a>
+                        <div id="hint-grouping" class="collapse">
+                            <ul>
+                                <li>How many Toyotas are in the database?</li>
+                                <li>Which brand in the table has the
+			most models listed?</li>
+                                <li>How many 2010 Hyundais are in the database? (This requires looking inside one of the lists in column C, so you'd need two <code>keep</code> functions.)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+			</ol>
+		</div>
+    
+
+        <h3>Plotting Data</h3>
+        <p>
+            The <code>bar chart</code> function works like the <code>group</code> function, but with special features for numeric data: it allows you to select upper and lower limits of the data; you can have a range of values in one bucket, such as values 6&ndash;10, values 11&ndash;15, and so on; and it sorts the groups. For example, here is the <var>cars</var> data grouped by city MPG (column 9):<br />
+            <img class="indent" src="/bjc-r/img/5-algorithms/histogram-by-mpg.png" alt="" title="" />
+            <ul>
+                <li>Now, Column A shows city MPG (field 9 of each record) grouped into intervals of 5 and sorted.</li>
+                <li>As before, Column B shows the total number of vehicles within each MPG range (0&ndash;5, 6&ndash;10, 11&ndash;15, etc.)</li>
+                <li>As before, Column C contains a list of all the data from cars within that MPG range (such as all the data for the 879 cars that get between 21 and 25 MPG in the city).</li>
+            </ul>
+        </p>
+        <div class="endnote">
+            <p>The number in column A is the <em>largest</em> value included in each group.  If the values aren't all integers, the next group includes anything larger.  For example, the group numbered 15 includes values from 10.0001 (or anything more than 10) to exactly 15.</p>
+        </div>
+        <p>You can plot the data from <code>bar chart</code> to visualize them:<br />
+            <img class="indent" src="/bjc-r/img/5-algorithms/plot-cars-histogram.png" alt="" title="" />
+            <img class="indent noshadow" src="/bjc-r/img/5-algorithms/plot-cars-histogram-stage.png" alt="" title="" />
+        </p>
+        <div class="forYouToDo">
+			<ol start="9">
+			    <li>Plot a few bar charts of some fields from your dataset and make at least one new observation about your data.</li>
+                <div class="vocabFullWidth"><p>The <strong>mode</strong> of a data set is the value that appears most often in it.</p></div>
+			</ol>
+		</div>
+
+        <div class="ifTime">
+			<ol start="10">
+                <li>
+                    Here is a bar chart of field 11 from the <var>cars</var> data set (highway MPG) with MPG values from 5 to 50, using an interval of 3. Identify the <em>mode</em>. It will be a range of values such as 13&ndash;15 or 16&ndash;18.<br />
+                    <img class="indent" src="/bjc-r/img/5-algorithms/interval3.png" alt="" title="" />
+                    <img class="indent noshadow" src="/bjc-r/img/5-algorithms/interval3-Stage.png" alt="" title="" />
+                </li>
+                <li>
+                    Here is another bar chart with all the inputs the same as before, but with an interval of 6. Identify the mode.<br />
+                    <img class="indent" src="/bjc-r/img/5-algorithms/interval6.png" alt="" title="" />
+                    <img class="indent noshadow" src="/bjc-r/img/5-algorithms/interval6-Stage.png" alt="" title="" />
+                </li>
+                <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> How can these results both be correct?  (There's nothing wrong with the graphs.)</li>
+                <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> Why would you ever use an interval larger than 1?  If you have time, research this question.</li>
+			</ol>
+		</div>
+    
+
+    </body>
+</html>
+

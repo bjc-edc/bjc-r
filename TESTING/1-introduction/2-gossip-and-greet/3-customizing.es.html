@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+        <script type="text/javascript" src="/bjc-r/utilities/gifffer.min.js"></script>
+		<script type="text/javascript">window.onload = function() {Gifffer();}</script>
+        <link rel="stylesheet" type="text/css" href="/bjc-r/css/bjc-gifffer.css">
+		<title>Unidad 1 Lab 2: Conversando, Página 3</title>
+	</head>
+
+	<body>
+        <h2>Personalizando y buscando errores (Debugeo)</h2>
+        <div class="todo">
+            <p><strong>Paul please note:</strong> Brian and I have agreed to drop costuming from 1.1 entirely (cutting the first part of <a href="/bjc-r/cur/programming/1-introduction/1-building-an-app/2-start-your-first-snap-app.es.html?topic=nyc_bjc%2F1-intro-loops.es.topic&course=bjc4nyc.es.html&novideo&noassignment">page 2</a> and starting with problem 3b) and just giving them the costumes in a starter project on page 1.1.1. Then we'd teach adding costumes here (as shown below) before they write code to let the user change the costume in <a href="/bjc-r/cur/programming/2-complexity/1-variables-games/5-choosing-avatar.es.html?topic=nyc_bjc%2F2-conditionals-abstraction.es.topic&course=bjc4nyc.es.html&novideo&noassignment">2.1.5</a>. Thoughts? --MF, 4/17/19</p>
+        </div>
+        <div class="learn">
+			<p><strong>En esta página</strong> tú vas a editar las listas de palabras usadas por los personajes y a continuación identificar cualquier posible problema.</p>
+        </div>
+
+        <div class="forYouToDo" id="first">
+			<ol>
+                <li>
+           	    Abre el proyecto U1L2-Gossip.  Edita los siguientes tres bloques reporteros para cambiar las frases que usa el programa. (Sigue las instrucciones en el recuadro a continuación.) Sé creativo y divertido, pero serio.<br />
+                    <img class="indent" src="/bjc-r/img/1-introduction/who.es.png" alt="bloque quién" title="bloque quién" />
+                    <img class="inline" src="/bjc-r/img/1-introduction/does-what.es.png" alt="bloque qué hace" title="bloque qué hace" />
+                    <img class="inline" src="/bjc-r/img/1-introduction/who2.es.png" alt="bloque quién2" title="bloque quién 2" />
+                    <div class="narrower">
+                        <h4><strong>¿Cómo editar un bloque?</strong></h4>
+                        <ol type="a">
+                            <li><strong>Encuentra el bloque</strong> en el área de trabajo o en la paleta de comandos a la derecha.</li>
+                            <li><strong>Haz Clic derecho</strong> (o control-clic) en el bloque y selecciona la opción  "editar..."</li>
+                            <li><strong>Realiza los cambios</strong> al código interno del bloque. (Las instrucciones ya se encuentra dentro de los bloques.)</li>
+                            <li><strong>Presiona "Aceptar"</strong> al encontrate seguro de tus cambios. (O bien haz clic en "Cancelar" en el caso que no desees hacer los cambios.)</li>
+                        </ol>
+                        <div class="endnote">
+                            <a href="#hint-edit-block" data-toggle="collapse" title="Click for a video of these steps of how to edit a block.">Haz clic para reproducir una animación con los pasos a seguir para editar un bloque.</a>
+                            <div id="hint-edit-block" class="collapse">
+                                <div style="display:block;">
+                                    <img src="/bjc-r/img/1-introduction/U1ImageVideoAddendum_img/U1L2P2-EditABlock.gif" alt="How to edit a block" title="How to edit a block"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ol>
+        </div>
+        <div class="endnote">
+            <a href="#hint-report" data-toggle="collapse" title="Why do these blocks use report? Why not just use say?">¿Porqué estos bloques usan <img class="inline nopadtb" src="/bjc-r/img/blocks/report.es.png" alt="report ()" title="report ()" />? ¿Porqué no usar solamente <img class="" src="/bjc-r/img/blocks/say-empty-full-size.es.png" alt="say ()" title="say ()" />?</a>
+            <div id="hint-report" class="collapse">
+                <p>Los bloques <code>reportar</code> y <code>decir</code> tienen diferentes funcionalidades. <code>Reportar</code> traslada un mensaje a la computadora, y este mensaje puede llevar una entrada a otro bloque, por ejemplo al bloque <code>unir</code> dentro del bloque <code>gossip</code>. <code>Decir</code> únicamente presenta el valor el pantalla mediante una burbuja de texto.</p>
+            </div>
+        </div>
+
+        <div class="vocabFullWidth">: <strong>Listas</strong>, <strong>Cadenas</strong>, y <strong>Concatenación</strong>
+            <ul>
+                <div class="comment">AAP-1.C.1 first sentence</div>
+                <li>
+                    Una <strong>lista</strong> es un conjunto ordenado de elementos. Ya has visto una en el siguiente ejemplo:<br />
+                    <img class="indent" src="/bjc-r/img/1-introduction/list-from-who.es.png" alt="list{Senora, Ms. C, my cat, Hannah, Jake}" title="list{Senora, Ms. C, my cat, Hannah, Jake}" />
+                </li>
+                <div class="comment">AAP-2.D.1, AAP-2.D.2</div>
+                <li>Los elementos en esta lista son <em>cadenas</em>. Una <strong>cadena</strong> es una secuencia de caracteres (letras, digitos, signos de puntuación, etc.). Una <strong>sub-cadena</strong> es sub-conjunto de una cadena existente. Por ejemplo: "Hanna," "anna", y "nnah" son cada una de ellas sub-cadenas de la cadena madre "Hannah." (Toma en cuenta que la cadena vacía, y la cadena original, son también sub-cadenas de la cadena madre.)</li>
+                <li><strong>Concatenar</strong> cadenas significa hacer más grande una cadena mediante la conexión de dos o más cadenas. En Snap<em>!</em>, el bloque <img class="inline nopadtb" src="/bjc-r/img/blocks/join()().es.png" alt="join () ()" title="join () ()" /> es utilizado para concatenar cadenas.</li>
+            </ul>
+        </div>
+
+        <div class="forYouToDo">
+            <ol start="2">
+                <div class="vocabBig">
+                    <p>El proceso de probar, buscar problemas y arreglarlos es llamado <strong>debugging (depuración)</strong>. Utilizaremos también el término en Inglés (debugging), que viene de la palabra "bug" o "bicho" y representa la acción de buscar bichos o errores en nuestro programa.</p>
+                </div>
+                <li>
+                	Debes asegurarte que tú programa funciona. Prueba cada bloque de forma individual y también el programa completo en su conjunto. En el caso que algo no funcione, no debes seguir adelante hasta resolverlo.</li>
+                <img class="inline" src="/bjc-r/img/icons/save-now.es.png" alt="Ahora es un buen momento para guardar" title="Ahora es un buen momento para guardar tu trabajo" />
+                <li>
+                    <!-- Question 1 -->
+                    <div class="assessment-data" type="multiplechoice" identifier="Which of the following sentences could be reported by gossip?"
+						hasinlinefeedback="true" maxchoices="4" responseIdentifier="ri1" shuffle="true">
+						<div class="prompt">
+        					<div class="comment">AAP-2.D</div>
+							¿Cuál o cuáles de las siguientes cadenas representa un posible resultado de ejecutar el código <code>gossip</code>?<br />
+                            <img class="indent" src="/bjc-r/img/1-introduction/gossip-definition.es.png" alt="gossip: (report (join (who) ( ) (does what) ( ) (who)))" title="gossip: (report (join (who) ( ) (does what) ( ) (who)))" />
+			                <div class="endnote">
+                                Toma como referencia las siguientes definiciones:<br >
+                                <img class="indent" src="/bjc-r/img/1-introduction/who-block-definition.es.png" height="77px" alt="who reporter block definition: report (item (random) of (list (Señora) (Ms. C) (my cat) (Hannah) (Jake)))" title="who reporter block definition: report (item (random) of (list (Señora) (Ms. C) (my cat) (Hannah) (Jake)))" />
+                                <img class="indent" src="/bjc-r/img/1-introduction/does-what-block-definition.es.png" height="89px" alt="does what reporter block definition: report (item (random) of (list (listened to) (loves) (ran away from) (helped) (is in a band with)))" title="does what reporter block definition: report (item (random) of (list (listened to) (loves) (ran away from) (helped) (is in a band with)))" />
+                            </div>
+						</div>
+						<div class="choice" identifier="c1">
+							<div class="text">Señora and Ms. C helped.</div>
+							<div class="feedback">
+								Es correcto que existen dos personas (dos "who"s) y únicamente una acción (un "does what"), pero no se encuentran en el orden correcto. Toma en cuenta también que la palabra "and" no aparece en ningún lugar en el programa.
+							</div>
+						</div>
+						<div class="choice" identifier="c2">
+							<div class="text">Señora ran away from my cat.</div>
+							<div class="feedback">
+								¡Respuesta correcta! La respuesta sigue el patrón: "who," "does what," "who."
+							</div>
+						</div>
+						<div class="choice" identifier="c3">
+							<div class="text">Hannah listened to Hannah.</div>
+							<div class="feedback">
+								¡Respuesta correcta! La respuesta sigue el patrón: "who," "does what," "who."
+							</div>
+						</div>
+						<div class="choice" identifier="c4">
+							<div class="text">Jake helped.</div>
+							<div class="feedback">
+								La cadena no contiene la segunda sub-cadena generada por "who."
+							</div>
+						</div>
+						<div class="responseDeclaration" identifier="ri1">
+							<div class="correctResponse" identifier="c2"></div>
+							<div class="correctResponse" identifier="c3"></div>
+						</div>
+					</div>
+				</li>
+                <li>
+                    Cambia el disfraz o avatar de los personajes (sprites) a tú gusto.
+                    <div class="comment">This currently duplicates some content on <a href="/bjc-r/cur/programming/1-introduction/1-building-an-app/2-start-your-first-snap-app.es.html?topic=nyc_bjc%2F1-intro-loops.es.topic&course=bjc4nyc.es.html&novideo&noassignment">1.1.2</a>. We need to decide where costumes really belong. --MF, 4/17/19</div>
+                    <div class="narrower">
+                        <h4><strong>Agregando un disfraz</strong></h4>
+                        <ol type="a">
+                            <li>En el área de personajes, selecciona el personaje al que deseas cambiar su difraz.</li>
+                            <li>Selecciona la opción "Disfraces..." que se encuentra en el menú: Archivo (<img src="/bjc-r/img/1-introduction/file_button.es.png" style="height:1.5em;" alt="File button" title="File button"/>).</li>
+                            <li>Selecciona uno de los disfraces.</li>
+                            <li>Haz clic en "Importar."</li>
+                            <li>Haz clic en "Cancelar" para cerrar la ventana.</li>
+                        </ol>
+                    </div>
+                    <div class="endnote">Es posible utilizar una fotografía o imagen digital al arrastrar la imagen a la ventana del editor Snap<i>!</i>.</div>
+                </li>
+                <li>
+                    Arregla cualquier inconveniente con el disfraz de los personajes.
+                    <div class="narrower">
+                        <h4><strong>Ajustando los disfraces</strong></h4>
+
+                        <ul>
+                            <li>Para cambiar el tamaño del personaje se utiliza el bloque <img class="inline nopadtb" src="/bjc-r/img/blocks/set-size-empty.es.png" alt="set size to ( ) %" title="set size to ( ) %" />.</li>
+                            <li>Para cambiar la ubicación del personaje se utiliza el bloque <img class="inline nopadtb" src="/bjc-r/img/blocks/go-to-x-y-full-size.es.png" alt="go to x: () y: ()" title="go to x: () y: ()" />.</li>
+                            <li>
+                                Para cambiar la dirección a la que apunta el personaje se utiliza el bloque:<br />
+                                <img class="indent" src="/bjc-r/img/1-introduction/point-in-direction-menu-showing.es.png" alt="point in direction (270) with menu open showing right left, up, down, random" title="point in direction (270) with menu open showing right left, up, down, random" /><br>
+                            </li>
+                        </ul>
+                    </div>
+                    <!--<div class="endnote">You may also want to adjust the rotation style of your sprite using the buttons near the upper left corner of your scripting area.<br />
+                        <img class="indent" src="/bjc-r/img/1-introduction/U1ImageVideoAddendum_img/U1L5-Rotate1.es.png"  height="100" alt="can rotate button" title="can rotate button" />
+                        <img src="/bjc-r/img/1-introduction/U1ImageVideoAddendum_img/U1L5p2-puppyrotate1.gif"  height="100" alt="rotating puppy" title="rotating puppy"/><br />
+                        <img class="indent" src="/bjc-r/img/1-introduction/U1ImageVideoAddendum_img/U1L5-Rotate2.es.png"  height="100" alt="only face left/right button" title="only face left/right button"/>
+                        <img src="/bjc-r/img/1-introduction/U1ImageVideoAddendum_img/U1L5p2-puppyrotate2.gif" height="100" alt="left/right facing puppy" title="left/right facing puppy"/><br />
+                        <img class="indent" src="/bjc-r/img/1-introduction/U1ImageVideoAddendum_img/U1L5-Rotate3.es.png"  height="100" alt="don't rotate button" title="don't rotate button"/>
+                        <img src="/bjc-r/img/1-introduction/U1ImageVideoAddendum_img/U1L5p2-puppyrotate3.es.png"  height="95" alt="non-rotating puppy" title="non-rotating puppy"/>
+                    </div>-->
+                </li>
+			</ol>
+		</div>
+
+        <div class="ifTime">
+			<ol start="6">
+                <li>
+                    Cambia el fondo del escenario.<br />
+                    <div class="narrowblue">
+                        <h4><strong>Agregando un fondo al escenario</strong></h4>
+                        <div class="endnote">Cambiar el fondo del escenario es similar a las acciones necesarias para cambiar el disfraz de un personaje.</div>
+                        <ol type="a">
+                        <li>En el área de personajes selecciona el elemento <strong>Stage</strong></li>
+                            <li>Procede a seleccionar la opción "Fondos de escenario..." en el menú: Archivo (<img src="/bjc-r/img/1-introduction/file_button.es.png" style="height:1.5em;" alt="File button" title="File button"/>) </li>
+                            <li>Selecciona una imagen de fondo disponible.</li>
+                            <li>Haz clic en "Importar."</li>
+                            <li>Haz clic en "Cancelar" para cerrar la ventana.</li>
+                        </ol>
+                    </div>
+                </li>
+            </ol>
+        </div>
+
+
+	</body>
+</html>
