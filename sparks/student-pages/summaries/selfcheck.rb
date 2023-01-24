@@ -161,16 +161,11 @@ class SelfCheck
     
 	def parse_header(str)
 		newStr = str
-		if str.match(/class="assessment-data"/)
-			newStr
-            headerList = []
-			if (newStr.match(/<div class="assessment-data".+>/))
-				headerList.push(str)
-			end
-			headerList
-		else
-			[]
-		end
+        headerList = []
+		if str.match(/class="assessment-data"/) or str.match(/class="examFullWidth"/)
+            headerList.push(str)
+        end
+        headerList
     end
 
     def add_unit_to_header(lst, unit)
