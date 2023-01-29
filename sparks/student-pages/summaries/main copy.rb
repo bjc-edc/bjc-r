@@ -15,7 +15,7 @@ class Main
 		@subClassStr = ''
 		@labFileName = ''
 		@language = language
-		#@selfcheck = @vocab.selfcheck()
+		@selfcheck = @vocab.selfcheck()
 	end
 
 
@@ -284,13 +284,13 @@ class Main
 				unitNum(line.match(/\d+/).to_s)
 				unitName = line.match(/Unit.+/)
 				@vocab.currUnitName(unitName.to_s)
-				#@selfcheck.currUnitName(unitName.to_s)
+				@selfcheck.currUnitName(unitName.to_s)
 				unitFolder = getFolder(@unitNum, @parentDir)
 				Dir.chdir(unitFolder)
 				#change unit folder
 			elsif(isEndofTopicPage(line))
 				@vocab.add_HTML_end()
-				#@selfcheck.add_HTML_end()
+				@selfcheck.add_HTML_end()
 			end
 		end
 	end
