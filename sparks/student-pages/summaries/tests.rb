@@ -1,10 +1,30 @@
 require_relative 'vocab'
 require_relative 'main'
 require 'rio'
+require 'open-uri'
+require 'nokogiri'
 
 class Tests
 	@type = 'testing'
 	def initialize()
+	end
+
+	def nokogiriTest()
+		doc = File.open("testpage.html") { |f| Nokogiri::HTML(f) }
+		div = doc.xpath("//div[@class = 'vocabFullWidth']")
+		vocab = div
+		#Nokogiri::XML::DocumentFragment.parse(div.to_s)
+		title = doc.xpath("//title")
+		classname = vocab.at_css "div"
+		children = classname.children()
+		output = children.before('<id="ZZZZZZZZZZZZZZZZZZZ">')
+		#attr(key, value = nil) { |node| ... }
+		vocab.each do |node|
+			children = node.children()
+			children.before('<a href="ZZZZZZZZZZZZZZZZZZZ">')
+		end
+		puts vocab
+		#puts classname
 	end
 
 	def get_testName()

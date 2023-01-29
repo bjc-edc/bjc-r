@@ -18,7 +18,7 @@ class Vocab
 		@currLab = ''
 		@vocabFileName = ''
 		@pastFileUnit = nil
-		#@selfcheck = SelfCheck.new(path)
+		@selfcheck = SelfCheck.new(path)
 		@currUnitName = nil
 	end
 
@@ -27,7 +27,7 @@ class Vocab
 	end
 
 	def selfcheck()
-		#@selfcheck
+		@selfcheck
 	end
 
 	def currUnit(str)
@@ -86,34 +86,40 @@ class Vocab
 		listLines(file)
 		currIndex(0)
 		currFile(file)
-		#@selfcheck.currFile(file)
-		#@selfcheck.currIndex(0)
-		#@selfcheck.listLines(file)
+		@selfcheck.currFile(file)
+		@selfcheck.currIndex(0)
+		@selfcheck.listLines(file)
 		isNewUnit(true)
-		parse_unit(file)
-		parse_vocab(file)
-		#@selfcheck.parse_assessmentData(line, @currIndex)
+		@listLines.each do |line|
+			currLine(line)
+			parse_unit(line)
+			parse_vocab(file, @currline, @currIndex)
+			@selfcheck.parse_assessmentData(line, @currIndex)
+			currIndex(@currIndex + 1)
+		end
 		puts "Completed:  #{@currUnit}"
 	end
 
 
-	def parse_unit(file)
-		doc = File.open(file) { |f| Nokogiri::HTML(f) }
-		title = doc.xpath("//title")
-		str = title.to_s
-		pattern = /<\/?\w+>/
+	def parse_unit(str)
+		#pattern = /((\s?\w+\s?)+[:,\!](\s?\w+\s?)+)+\d+/
+		pattern1 = /<title>.+<\/title>/
+		pattern2 = /<\/?\w+>/
 		if (str == nil or not(@isNewUnit))
 			nil
-		else
+		elsif str.match(pattern1)
 			#add_to_file("Units.txt", str.match(pattern).to_s)
-			newStr = str.split(pattern)
+			match = str.match(pattern1).to_s
+			newStr = match.split(pattern2)
 			currUnit(newStr.join)
 			currUnitNum(@currUnit.match(/\d+/).to_s)
 			vocabFileName("vocab#{@currUnitNum}.html")
-			#@selfcheck.currUnit(@currUnit)
-			#@selfcheck.currUnitNum(@currUnitNum)
+			@selfcheck.currUnit(@currUnit)
+			@selfcheck.currUnitNum(@currUnitNum)
 			#@selfcheck.assessmentFileName("assess-data#{@currUnitNum}.html")
 			isNewUnit(false)
+		else
+			nil
 		end
 	end
 
@@ -156,20 +162,64 @@ class Vocab
 		end	
 	end	
 
+	#CHange - instead needs to match that class attribute and theeeen
+	#iterate through all the new lines and save them to the vocab.rb file 
+	def is_vocab_word(file, str, i)
+		if /vocabFullWidth/.match(str)
+			true
+		else
+			false
+		end
+	end
 
+#	def parse_vocab(str)
+#		currLine = str
+#		vocabList = []
+#		until currLine.match?(/((<\/div>)|(<\/ul>))/)
+#			str_match = str.match(/<strong>.+<\/strong>/)
+#			word = word.to_s.split(/<\/?strong>/)[1]
+#			str_match2 = str.split(/<\/?\w+>/)
+#			defn = str_match2.join()
+#		end
+#	end
 
 	#might need to save index of line when i find the /div/ attribute
 	#might be better to have other function to handle that bigger parsing of the whole file #with io.foreach
-	def parse_vocab(file)
-		doc = File.open(file) { |f| Nokogiri::HTML(f) }
-		vocabSet = doc.xpath("//div[@class = 'vocabFullWidth']")
-		#header = parse_vocab_header(doc.xpath(""))
-		vocabSet.each do |node|
-			child = node.children()
-			child.before(add_vocab_unit_to_header())
-		end
-		if not(vocabSet.empty?())
-			add_vocab_to_file(vocabSet.to_s)
+	def parse_vocab(file, str, i=0)
+		if is_vocab_word(file, str, i)
+			currLine = str
+			tempIndex = i
+			vocabList = []
+			isEnd = false
+			headerList = []
+			divStartTagNum = 0
+			divEndTagNum = 0
+			until (isEnd == true or tempIndex >= @listLines.size)
+				if (divEndTagNum > 0 and divEndTagNum >= divStartTagNum)
+					isEnd = true
+				else
+					if currLine.match(/<div/) and currLine.match(/<\/div>/)
+						divStartTagNum += 1
+						divEndTagNum += 1
+					elsif currLine.match(/<div/)
+						divStartTagNum += 1
+					elsif currLine.match(/<\/div>/)
+						divEndTagNum += 1
+					end
+					if (parse_vocab_header(currLine) != [])
+						headerList = parse_vocab_header(currLine)
+					else
+						vocabList.push(currLine)
+					end
+					tempIndex = tempIndex + 1
+					currLine = @listLines[tempIndex]
+				end
+			end
+			currLine(@listLines[tempIndex])
+			currIndex(@currIndex + tempIndex - 1)
+			headerUnit = add_vocab_unit_to_header(headerList, @currUnit)
+			vocab = vocabList.join("\n")
+			add_vocab_to_file("#{headerUnit}\n#{vocab}")
 		end
 	end
 
@@ -190,20 +240,28 @@ class Vocab
 		else
 			[]
 		end
-
+		#if str.match(/:(\s\w+)+/) && str.match?(/vocabFullWidth/)
+		#	str.match(/:(\s\w+)+/)
+		#elsif str.match(/<p>((\w+\s?)+[\.\?\!\?\,:"'\(\)\-]?\s?)+/)
+		#	str.match(/((\w+\s?)+[\.\?\!\?\,:"'\(\)\-]?\s?)+/)
+		#elsif str.match(/<p>(/w+/s?)+[\.\?\!]/)
+		#elsif str.match(/<li>.+<\/li>/)
+		#	str_match = str.split(/<\/?\w+>/)
+		#	str_match.join()
+		#else
+		#	nil
 	end
 
-	def add_vocab_unit_to_header()
-		unitNum = return_vocab_unit(@currUnit)
-		link = " <a href=\"#{get_url(@currFile)}\">#{unitNum}</a>"
-		return link
-		#if lst.size > 1
-		#	unitSeriesNum = lst.join(" #{withlink}:")
-		#else
-		#	unitSeriesNum = lst
-		#	unitSeriesNum.push(" #{withlink}:")
-		#	unitSeriesNum.join
-		#end
+	def add_vocab_unit_to_header(lst, unit)
+		unitNum = return_vocab_unit(unit)
+		withlink = " <a href=\"#{get_url(@currFile)}\">#{unitNum}</a>"
+		if lst.size > 1
+			unitSeriesNum = lst.join(" #{withlink}:")
+		else
+			unitSeriesNum = lst
+			unitSeriesNum.push(" #{withlink}:")
+			unitSeriesNum.join
+		end
 	end
 
 	#need something to call this function and parse_unit
