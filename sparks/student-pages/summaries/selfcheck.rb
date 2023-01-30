@@ -17,7 +17,16 @@ class SelfCheck
 		@vocabFileName = ''
 		@pastFileUnit = nil
         @assessmentFileName = nil
+        @examFileName = nil
         @currUnitName = nil
+    end
+
+    def isNewUnit(boolean)
+        @isNewUnit = boolean
+    end
+
+    def examFileName(name)
+        @examFileName = name
     end
 
     def currUnitName(name)
@@ -65,61 +74,61 @@ class SelfCheck
         @assessmentFileName = name
     end
 
-    def is_Assessment_Data(line)
-		if line.match(/<div class="assessment-data"/)
-            assessmentFileName("assess-data#{@currUnitNum}.html")
-			return true
-        elsif line.match(/<div class="examFullWidth"/)
-            assessmentFileName("exam#{@currUnitNum}.html")
-            return true
+	def read_file(file)
+		currFile(file)
+		isNewUnit(true)
+		parse_unit(file)
+		parse_assessmentData(file)
+        parse_examData(file)
+	end
+
+    def parse_unit(file)
+		doc = File.open(file) { |f| Nokogiri::HTML(f) }
+		title = doc.xpath("//title")
+		str = title.to_s
+		pattern = /<\/?\w+>/
+		if (str == nil or not(@isNewUnit))
+			nil
 		else
-			return false
+			newStr = str.split(pattern)
+			currUnit(newStr.join)
+			currUnitNum(@currUnit.match(/\d+/).to_s)
+			assessmentFileName("assessment-data#{@currUnitNum}.html")
+            examFileName("exam#{@currUnitNum}.html")
+			isNewUnit(false)
+            puts @parentPath
 		end
 	end
 
-	def parse_assessmentData(str, i=0)
-		if is_Assessment_Data(str)
-			#parse through whole div tag and add all lines
-			#also need to add the unit.lab.page to assessment data file
-			#create assessment data file if not created
-            currLine = str
-            tempIndex = i
-            assessmentList = []
-            isEnd = false
-            headerList = []
-            divStartTagNum = 0
-            divEndTagNum = 0
-            until (isEnd == true or tempIndex >= @listLines.size)
-                if (divEndTagNum > 0 and divEndTagNum >= divStartTagNum)
-                    isEnd = true
-                else
-                    if currLine.match(/<div/) and currLine.match(/<\/div>/) and not(currLine.match(/<!--<div/))
-                        divStartTagNum += 1
-                        divEndTagNum += 1
-                    elsif currLine.match(/<div/) and not(currLine.match(/<!--<div/))
-                        divStartTagNum += 1
-                    elsif currLine.match(/<\/div>/) and not(currLine.match(/<\/div>-->/))
-                        divEndTagNum += 1
-                    end
-                    if (parse_header(currLine) != [])
-                        headerList = parse_header(currLine)
-                    else
-                        assessmentList.push(currLine)
-                    end
-                    tempIndex = tempIndex + 1
-                    currLine = @listLines[tempIndex]
-                end
-            end
-            currLine(@listLines[tempIndex])
-            currIndex(@currIndex + tempIndex - 1)
-            headerUnit = add_unit_to_header(headerList, @currUnit)
-            questions = assessmentList.join("\n")
-            add_assessment_to_file("#{headerUnit}\n#{questions}")
-        end
-    end
+
+	def parse_assessmentData(file)
+		doc = File.open(file) { |f| Nokogiri::HTML(f) }
+		selfcheckSet = doc.xpath("//div[@class = 'assessment-data']")
+		#header = parse_vocab_header(doc.xpath(""))
+		selfcheckSet.each do |node|
+			child = node.children()
+			child.before(add_unit_to_header())
+		end
+		if not(selfcheckSet.empty?())
+			add_assessment_to_file(selfcheckSet.to_s)
+		end
+	end
+        
+    def parse_examData(file)
+		doc = File.open(file) { |f| Nokogiri::HTML(f) }
+		examSet = doc.xpath("//div[@class = 'examFullWidth']")
+		#header = parse_vocab_header(doc.xpath(""))
+		examSet.each do |node|
+			child = node.children()
+			child.before(add_unit_to_header())
+		end
+		if not(examSet.empty?())
+			add_exam_to_file(examSet.to_s)
+		end
+	end
         
 
-    def createAssessmentDataFile(fileName)
+    def createAssessmentDataFile(fileName, type)
 		i = 0
 		if not(File.exist?(fileName))
 			File.new(fileName, "w")
@@ -127,7 +136,7 @@ class SelfCheck
 		linesList =  rio(@currFile).lines[0..15] 
 		while (linesList[i].match(/<body>/) == nil)
 			if linesList[i].match(/<title>/)
-				File.write(fileName, "<title>Unit #{@currUnitNum} Self-Check Questions</title>\n", mode: "a")
+				File.write(fileName, "<title>Unit #{@currUnitNum} #{type} Questions</title>\n", mode: "a")
 			else
 				File.write(fileName, "#{linesList[i]}\n", mode: "a")
 			end
@@ -141,11 +150,12 @@ class SelfCheck
 		Dir.chdir("#{@parentPath}/summaries")
 		ending = "</body>\n</html>"
 		File.write(@assessmentFileName, ending, mode: "a")
+        File.write(@examFileName, ending, mode: "a")
         #does examFileName exist?
         #File.write(@examFileName, ending, mode: "a")
 	end
 
-    def add_content_to_file(filename, data)
+    def add_content_to_file(filename, data, type)
 		lab = @currLab
 		if File.exist?(filename)
 			if lab != currLab()
@@ -153,27 +163,16 @@ class SelfCheck
 			end
 			File.write(filename, data, mode: "a")
 		else
-			createAssessmentDataFile(filename)
+			createAssessmentDataFile(filename, type)
 			File.write(filename, data, mode: "a")
 		end	
 	end	
 
-    
-	def parse_header(str)
-		newStr = str
-        headerList = []
-		if str.match(/class="assessment-data"/) or str.match(/class="examFullWidth"/)
-            headerList.push(str)
-        end
-        headerList
-    end
 
-    def add_unit_to_header(lst, unit)
-		unitNum = return_unit(unit)
-		withlink = " <a href=\"#{get_url(@currFile)}\">#{unitNum}</a>"
-        unitSeriesNum = lst
-        unitSeriesNum.push(" #{withlink}:")
-        unitSeriesNum.join
+    def add_unit_to_header()
+		unitNum = return_unit(@currUnit)
+		link = " <a href=\"#{get_url(@currFile)}\">#{unitNum}</a>"
+        return link
 	end
 
 	#need something to call this function and parse_unit
@@ -184,7 +183,12 @@ class SelfCheck
 
 	def add_assessment_to_file(assessment)
 		result = "#{assessment} \n\n"
-		add_content_to_file("#{@parentPath}/summaries/#{@assessmentFileName}", result)
+		add_content_to_file("#{@parentPath}/summaries/#{@assessmentFileName}", result, "Self-Check")
+	end
+
+    def add_exam_to_file(exam)
+		result = "#{exam} \n\n"
+		add_content_to_file("#{@parentPath}/summaries/#{@examFileName}", result, "Exam")
 	end
 
 	def get_url(file)

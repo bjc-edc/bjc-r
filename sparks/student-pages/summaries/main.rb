@@ -15,7 +15,7 @@ class Main
 		@subClassStr = ''
 		@labFileName = ''
 		@language = language
-		#@selfcheck = @vocab.selfcheck()
+		@selfcheck = SelfCheck.new(@parentDir)
 	end
 
 
@@ -269,6 +269,7 @@ class Main
 				if labFile != ""
 					extractTopicLinkFolder(line)
 					@vocab.read_file(labFile)
+					@selfcheck.read_file(labFile)
 				end
 				#pass to function that will open correct file
 			elsif line.match(labTopicPattern)
