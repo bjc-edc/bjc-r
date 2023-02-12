@@ -20,7 +20,8 @@ class Vocab
 		@pastFileUnit = nil
 		#@selfcheck = SelfCheck.new(path)
 		@currUnitName = nil
-		@vocabWords = []
+		@vocabList = []
+		@vocabDict = {}
 	end
 
 	def currUnitName(name)
@@ -168,31 +169,26 @@ class Vocab
 		vocabSet.each do |node|
 			child = node.children()
 			child.before(add_vocab_unit_to_header())
-			
+			save_vocab_word(node)			
 		end
 		if not(vocabSet.empty?())
 			add_vocab_to_file(vocabSet.to_s)
 		end
 	end
 
+	def get_vocab_word(nodeSet)
+		save_vocab_word(nodeSet.xpath("//li//strong"))
+		save_vocab_word(nodeSet.xpath("//p//strong"))
+	end
+
 	def save_vocab_word(nodeSet)
-		puts nodeSet
-		puts nodeSet.inner_text()
-		puts nodeSet.inner_html("//strong")
-		puts nodeSet.splice(0)
-		puts nodeSet.splice(1)
-		puts nodeSet.splice(2)
-		puts nodeSet.last()
-		puts nodeSet.text()
-		puts nodeSet.to_a()
 		nodeSet.each do |node|
-			puts node.content()
-			puts node.description()
-			puts node.elem?()
-			puts node.elements()
-			puts node.element_children()
-			puts node.inner_text()
-			puts node.text()
+			if not(vocab.include?(node.text))
+				@vocabList.push(node.text())
+				@vocabDict[node.text()] = [get_url()]
+			elsif @vocabDict[node.text].last() != get_url()
+				@vocabDict[node.text()].append(get_url)
+			end
 		end
 	end
 
