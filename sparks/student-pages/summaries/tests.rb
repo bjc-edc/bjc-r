@@ -22,10 +22,53 @@ class Tests
 		vocab.each do |node|
 			children = node.children()
 			children.before('<a href="ZZZZZZZZZZZZZZZZZZZ">')
+			save_vocab_word(children)
 		end
-		puts vocab
+		#puts vocab
 		#puts classname
 	end
+
+	def save_vocab_word(nodeSet)
+		vocab = []
+		#puts "nodeset = #{nodeSet}"
+		#puts "nodeSet.inner_text() = #{nodeSet.inner_text()}"
+		#puts "nodeSet.inner_html('//strong') = #{nodeSet.inner_html('//strong')}"
+		#puts "nodeSet.slice(0) = #{nodeSet.slice(0)}"
+		#puts "nodeSet.slice(1) = #{nodeSet.slice(1)}"
+		#puts "nodeSet.slice(2) = #{nodeSet.slice(2)}"
+		#puts "nodeSet.last() = #{nodeSet.last()}"
+		#puts "nodeSet.text() = #{nodeSet.text()}"
+		#puts "nodeSet.to_a() = #{nodeSet.to_a()}"
+		#puts nodeSet.xpath("//div[@class = 'vocabFullWidth']//strong")
+		nodeSet.xpath("//li//strong").each do |word|
+			if not(vocab.include?(word.text))
+				vocab.push(word.text())
+			end
+		end
+		nodeSet.xpath("//p//strong").each do |word|
+			if not(vocab.include?(word.text))
+				vocab.push(word.text())
+			end
+		end
+		puts vocab.length
+		#n = nodeSet.children()
+		#nodeSet.each do |node|
+			#node.elements().each do |n|
+			#	puts n.xpath("//strong")
+			#end
+			#puts node.xpath("//strong")
+			#puts "node.child() = #{node.child()}"
+			#puts node.content()
+			#puts node.description()
+			#puts node.elem?()
+			#puts node.elements()
+			#puts node.element_children()
+			#puts node.inner_text()
+			#puts node.text()
+		#end
+	end
+
+	
 
 	def get_testName()
 		@testName

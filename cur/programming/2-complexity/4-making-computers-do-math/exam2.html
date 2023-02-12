@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+
+		<meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+        <script src="/bjc-r/llab/loader.js"></script>
+
+<title>Unit 2 Exam Questions</title>
+    </head>
+
+
+
+<h2></h2>
+<h3>Lab 4: Making Computers Do Math</h3>
+<div class="examFullWidth"> <a href="https://bjc.berkeley.edu/bjc-r/cur/programming/2-complexity/4-making-computers-do-math/1-mod-operator.html">2.4.1</a>
+            <div class="pseudop">
+                <div class="sidenote">Different programming languages have different ways of handling negative inputs to the mod function. So you won't see any negative numbers used with mod on the exam.</div>
+                <strong>The <code>mod</code> operator:</strong> The expression <img class="inline nopadtb" src="/bjc-r/img/1-introduction/17-mod-5.png" alt="(17) mod (5)" title="(17) mod (5)"> would be written as <pre class="inline">17 MOD 5</pre> on the exam. If you see an expression with variables as input to <code>mod</code>, such as <pre class="inline">a MOD b</pre>, you can assume that <var>a</var> is zero or positive, and <var>b</var> is strictly positive (because you can't divide by 0).
+            </div>
+            <div class="comment">AAP-2.B.5, AAP-2.C.1, AAP-2.C.2, AAP-2.C.3, AAP-2.C.4</div>
+            <div class="pseudop">On the exam, you may see these four arithmetic operators: <pre class="inline">+</pre>,  <pre class="inline">-</pre>,  <pre class="inline">*</pre>, <pre class="inline">/</pre> (plus, minus, times, divide) as well as <pre class="inline">MOD</pre>. Arithmetic operators are part of most programming languages.  (Most text languages use <pre class="inline">*</pre> rather than <pre class="inline">×</pre> for multiplication because <pre class="inline">&amp;times</pre> isn't on most keyboards, and because it looks too much like the letter x.)</div>
+            <div class="comment">AAP-2.L.2</div>
+            <div class="pseudop">
+<strong>Order of operations:</strong> In a block language, the nesting of blocks determines the order of operations.  For example, in <img class="inline nopadtb" src="/bjc-r/img/6-computers/3-times(5+4).png" alt="3 × (5 + 4)" title="3 × (5 + 4)"> you can <em>see</em> that the <code>+</code> block is an input to the <code>×</code> block, so the expression means 3×(5+4). Similarly, <img class="inline nopadtb" src="/bjc-r/img/6-computers/(3-times-5)+4.png" alt="(3 × 5) + 4" title="(3 × 5) + 4">  means (3×5)+4. In Snap<em>!</em>, it's as if there are parentheses around <em>every</em> operation.  But in text languages, you can write <pre class="inline">3 * 4 + 5</pre> 
+            without parentheses, so they need the rules you learn in math class (multiplication before addition, and so on). The <code>mod</code> operator is like multiplication and division; it happens <em>before</em> addition and subtraction. So for example, <pre class="inline">7 + 5 MOD 2 - 6</pre> means <pre class="inline">7 + 1 - 6</pre>, which is, of course, 2.</div>
+        </div><div class="examFullWidth"> <a href="https://bjc.berkeley.edu/bjc-r/cur/programming/2-complexity/4-making-computers-do-math/1-mod-operator.html">2.4.1</a>
+            <div class="comment">AAP-2.H.2</div>
+            <div class="sidenote">
+                <div class="pseudop">The procedures <pre class="inline">move()</pre> and <pre class="inline">turn_clockwise()</pre> aren't built in to the AP's language so they are written in lower case like other programmer-defined procedures.</div>
+            </div>
+            <div class="pseudop">
+                The conditional expression 
+                <img class="inline" src="/bjc-r/img/2-complexity/if-example-preview-fractal-art.png" alt="if (size &gt; 15) {repeat (4) {move (size) steps, turn clockwise (90) degrees}}" title="if (size &gt; 15) {repeat (4) {move (size) steps, turn clockwise (90) degrees}}"> 
+                would be written as 
+                <div class="pre-container">
+<pre class="inline">
+IF(size &gt; 15)
+{
+    REPEAT 4 TIMES
+    {
+        move(size)
+        turn_clockwise(90)
+    }
+}</pre>
+                </div>
+                or 
+                <img class="inline" src="/bjc-r/img/2-complexity/if-blocktran.png" alt="IF(size &gt; 15)
+{
+    REPEAT 4 TIMES
+    {
+        move(size)
+        turn clockwise(90)
+    }
+}" title="IF(size &gt; 15)
+{
+    REPEAT 4 TIMES
+    {
+        move(size)
+        turn clockwise(90)
+    }
+}">
+            </div> 
+            <p>As in Snap<em>!</em>, if the condition <code>(</code><var>size</var><code>) &gt; 15</code> is <code>true</code>, the code inside the <code>if</code> statement runs; if the condition is <code>false</code>, the code does not run.</p>
+        </div><div class="examFullWidth"> <a href="https://bjc.berkeley.edu/bjc-r/cur/programming/2-complexity/4-making-computers-do-math/3-other-math-reporters.html">2.4.3</a>
+            <div class="comment">AAP-3.C.2</div>
+            <div class="sidenote">You saw the procedure definition for a command in <a href="/bjc-r/cur/programming/1-introduction/3-drawing/4-modify-your-pinwheel.html?topic=nyc_bjc%2F1-intro-loops.topic&amp;course=bjc4nyc.html&amp;novideo&amp;noassignment" title="Unit 1 Lab 3 Page 4: Modify Your Pinwheel" target="_blank">Unit 1 Lab 3 Page 4: Modify Your Pinwheel</a>.</div>
+            <div class="pseudop">
+                The definition for a reporter looks much like the definition for a command except that it includes a <pre class="inline">RETURN</pre> (like <code>report</code>). For example, this definition<br>
+                <div class="sidenote">
+                    <p>In many languages (including Snap<em>!</em>) variables must be <em>declared</em> in some way (in Snap<em>!</em>, you can click the "Make a variable" button or use the <code>script variables</code> block). But the AP's language doesn't include variable declarations, so you won't see them on the exam. </p>
+                </div>
+                <img class="indent" src="/bjc-r/img/3-lists/square-roots-definition.png" alt="square roots of (number) {script variables (positive root), set (positive root) to ((sqrt) of (number))), report (list (positive root) ((-1) × positive root))" title="square roots of (number) {script variables (positive root), set (positive root) to ((sqrt) of (number))), report (list (positive root) ((-1) × positive root))"><br>
+                would be written as  
+                <div class="pre-container"><pre class="inline">
+PROCEDURE squareRoots(number)
+{
+    positiveRoot &amp;leftarrow; sqrt(number)
+    RETURN([positiveRoot, -1 * positiveRoot])
+}</pre></div>
+                    or <img src="/bjc-r/img/3-lists/square-roots-definition-blocktran.png" alt="square roots of (number) {script variables (positive root), set (positive root) to ((sqrt) of (number))), report (list (positive root) (() - positive root))" title="square roots of (number) {script variables (positive root), set (positive root) to ((sqrt) of (number))), report (list (positive root) (() - positive root))">
+                <div class="comment">AAP-3.A.7</div>
+                <div class="pseudop">As with <code>report</code> in Snap<em>!</em>, when a <pre class="inline">RETURN</pre> statement is executed, the flow of control returns to the place in your code where the procedure was called, and the procedure returns the value of the expression inside the <pre class="inline">RETURN</pre> command or <code>report</code> block.</div>
+                <div class="endnote">
+                    <div class="pseudop">Also, the procedure <pre class="inline">sqrt</pre> isn't built in to the AP's language so it is written in lower case like other programmer-defined procedures.</div>
+                </div>
+            </div>
+        </div><div class="examFullWidth"> <a href="https://bjc.berkeley.edu/bjc-r/cur/programming/2-complexity/4-making-computers-do-math/3-other-math-reporters.html">2.4.3</a>
+            <div class="comment">AAP-2.H.3</div>
+            <div class="pseudop">The conditional expression <img class="inline" src="/bjc-r/img/2-complexity/ge-ifelse-no-hat.png" alt="if (a &gt; b) {
+    report true
+} else {
+    report (a = b)
+}" title="if (a &gt; b) {
+    report true
+} else {
+    report (a = b)
+}"> would be written as <div class="pre-container"><pre class="inline">IF(a &gt; b)
+{
+    RETURN(true)
+}
+ELSE
+{
+    RETURN(a = b)
+}</pre></div> or <img class="inline" src="/bjc-r/img/2-complexity/if-else-blocktran.png" alt="IF(a &gt; b)
+{
+    RETURN(true)
+}
+ELSE
+{
+    RETURN(a = b)
+}" title="IF(a &gt; b)
+{
+    RETURN(true)
+}
+ELSE
+{
+    RETURN(a = b)
+}">
+</div>
+            <div class="pseudop">As in Snap<em>!</em>, if the condition <pre class="inline">a &gt; b</pre> is true, the code in first block of statements runs; if it is false, the code in second block of statements runs.</div>
+        </div><div class="examFullWidth"> <a href="https://bjc.berkeley.edu/bjc-r/cur/programming/2-complexity/4-making-computers-do-math/1-mod-operator.html">2.4.1</a>
+            <div class="pseudop">
+                <div class="sidenote">Different programming languages have different ways of handling negative inputs to the mod function. So you won't see any negative numbers used with mod on the exam.</div>
+                <strong>The <code>mod</code> operator:</strong> The expression <img class="inline nopadtb" src="/bjc-r/img/1-introduction/17-mod-5.png" alt="(17) mod (5)" title="(17) mod (5)"> would be written as <pre class="inline">17 MOD 5</pre> on the exam. If you see an expression with variables as input to <code>mod</code>, such as <pre class="inline">a MOD b</pre>, you can assume that <var>a</var> is zero or positive, and <var>b</var> is strictly positive (because you can't divide by 0).
+            </div>
+            <div class="comment">AAP-2.B.5, AAP-2.C.1, AAP-2.C.2, AAP-2.C.3, AAP-2.C.4</div>
+            <div class="pseudop">On the exam, you may see these four arithmetic operators: <pre class="inline">+</pre>,  <pre class="inline">-</pre>,  <pre class="inline">*</pre>, <pre class="inline">/</pre> (plus, minus, times, divide) as well as <pre class="inline">MOD</pre>. Arithmetic operators are part of most programming languages.  (Most text languages use <pre class="inline">*</pre> rather than <pre class="inline">×</pre> for multiplication because <pre class="inline">&amp;times</pre> isn't on most keyboards, and because it looks too much like the letter x.)</div>
+            <div class="comment">AAP-2.L.2</div>
+            <div class="pseudop">
+<strong>Order of operations:</strong> In a block language, the nesting of blocks determines the order of operations.  For example, in <img class="inline nopadtb" src="/bjc-r/img/6-computers/3-times(5+4).png" alt="3 × (5 + 4)" title="3 × (5 + 4)"> you can <em>see</em> that the <code>+</code> block is an input to the <code>×</code> block, so the expression means 3×(5+4). Similarly, <img class="inline nopadtb" src="/bjc-r/img/6-computers/(3-times-5)+4.png" alt="(3 × 5) + 4" title="(3 × 5) + 4">  means (3×5)+4. In Snap<em>!</em>, it's as if there are parentheses around <em>every</em> operation.  But in text languages, you can write <pre class="inline">3 * 4 + 5</pre> 
+            without parentheses, so they need the rules you learn in math class (multiplication before addition, and so on). The <code>mod</code> operator is like multiplication and division; it happens <em>before</em> addition and subtraction. So for example, <pre class="inline">7 + 5 MOD 2 - 6</pre> means <pre class="inline">7 + 1 - 6</pre>, which is, of course, 2.</div>
+        </div><div class="examFullWidth"> <a href="https://bjc.berkeley.edu/bjc-r/cur/programming/2-complexity/4-making-computers-do-math/1-mod-operator.html">2.4.1</a>
+            <div class="comment">AAP-2.H.2</div>
+            <div class="sidenote">
+                <div class="pseudop">The procedures <pre class="inline">move()</pre> and <pre class="inline">turn_clockwise()</pre> aren't built in to the AP's language so they are written in lower case like other programmer-defined procedures.</div>
+            </div>
+            <div class="pseudop">
+                The conditional expression 
+                <img class="inline" src="/bjc-r/img/2-complexity/if-example-preview-fractal-art.png" alt="if (size &gt; 15) {repeat (4) {move (size) steps, turn clockwise (90) degrees}}" title="if (size &gt; 15) {repeat (4) {move (size) steps, turn clockwise (90) degrees}}"> 
+                would be written as 
+                <div class="pre-container">
+<pre class="inline">
+IF(size &gt; 15)
+{
+    REPEAT 4 TIMES
+    {
+        move(size)
+        turn_clockwise(90)
+    }
+}</pre>
+                </div>
+                or 
+                <img class="inline" src="/bjc-r/img/2-complexity/if-blocktran.png" alt="IF(size &gt; 15)
+{
+    REPEAT 4 TIMES
+    {
+        move(size)
+        turn clockwise(90)
+    }
+}" title="IF(size &gt; 15)
+{
+    REPEAT 4 TIMES
+    {
+        move(size)
+        turn clockwise(90)
+    }
+}">
+            </div> 
+            <p>As in Snap<em>!</em>, if the condition <code>(</code><var>size</var><code>) &gt; 15</code> is <code>true</code>, the code inside the <code>if</code> statement runs; if the condition is <code>false</code>, the code does not run.</p>
+        </div><div class="examFullWidth"> <a href="https://bjc.berkeley.edu/bjc-r/cur/programming/2-complexity/4-making-computers-do-math/3-other-math-reporters.html">2.4.3</a>
+            <div class="comment">AAP-3.C.2</div>
+            <div class="sidenote">You saw the procedure definition for a command in <a href="/bjc-r/cur/programming/1-introduction/3-drawing/4-modify-your-pinwheel.html?topic=nyc_bjc%2F1-intro-loops.topic&amp;course=bjc4nyc.html&amp;novideo&amp;noassignment" title="Unit 1 Lab 3 Page 4: Modify Your Pinwheel" target="_blank">Unit 1 Lab 3 Page 4: Modify Your Pinwheel</a>.</div>
+            <div class="pseudop">
+                The definition for a reporter looks much like the definition for a command except that it includes a <pre class="inline">RETURN</pre> (like <code>report</code>). For example, this definition<br>
+                <div class="sidenote">
+                    <p>In many languages (including Snap<em>!</em>) variables must be <em>declared</em> in some way (in Snap<em>!</em>, you can click the "Make a variable" button or use the <code>script variables</code> block). But the AP's language doesn't include variable declarations, so you won't see them on the exam. </p>
+                </div>
+                <img class="indent" src="/bjc-r/img/3-lists/square-roots-definition.png" alt="square roots of (number) {script variables (positive root), set (positive root) to ((sqrt) of (number))), report (list (positive root) ((-1) × positive root))" title="square roots of (number) {script variables (positive root), set (positive root) to ((sqrt) of (number))), report (list (positive root) ((-1) × positive root))"><br>
+                would be written as  
+                <div class="pre-container"><pre class="inline">
+PROCEDURE squareRoots(number)
+{
+    positiveRoot &amp;leftarrow; sqrt(number)
+    RETURN([positiveRoot, -1 * positiveRoot])
+}</pre></div>
+                    or <img src="/bjc-r/img/3-lists/square-roots-definition-blocktran.png" alt="square roots of (number) {script variables (positive root), set (positive root) to ((sqrt) of (number))), report (list (positive root) (() - positive root))" title="square roots of (number) {script variables (positive root), set (positive root) to ((sqrt) of (number))), report (list (positive root) (() - positive root))">
+                <div class="comment">AAP-3.A.7</div>
+                <div class="pseudop">As with <code>report</code> in Snap<em>!</em>, when a <pre class="inline">RETURN</pre> statement is executed, the flow of control returns to the place in your code where the procedure was called, and the procedure returns the value of the expression inside the <pre class="inline">RETURN</pre> command or <code>report</code> block.</div>
+                <div class="endnote">
+                    <div class="pseudop">Also, the procedure <pre class="inline">sqrt</pre> isn't built in to the AP's language so it is written in lower case like other programmer-defined procedures.</div>
+                </div>
+            </div>
+        </div><div class="examFullWidth"> <a href="https://bjc.berkeley.edu/bjc-r/cur/programming/2-complexity/4-making-computers-do-math/3-other-math-reporters.html">2.4.3</a>
+            <div class="comment">AAP-2.H.3</div>
+            <div class="pseudop">The conditional expression <img class="inline" src="/bjc-r/img/2-complexity/ge-ifelse-no-hat.png" alt="if (a &gt; b) {
+    report true
+} else {
+    report (a = b)
+}" title="if (a &gt; b) {
+    report true
+} else {
+    report (a = b)
+}"> would be written as <div class="pre-container"><pre class="inline">IF(a &gt; b)
+{
+    RETURN(true)
+}
+ELSE
+{
+    RETURN(a = b)
+}</pre></div> or <img class="inline" src="/bjc-r/img/2-complexity/if-else-blocktran.png" alt="IF(a &gt; b)
+{
+    RETURN(true)
+}
+ELSE
+{
+    RETURN(a = b)
+}" title="IF(a &gt; b)
+{
+    RETURN(true)
+}
+ELSE
+{
+    RETURN(a = b)
+}">
+</div>
+            <div class="pseudop">As in Snap<em>!</em>, if the condition <pre class="inline">a &gt; b</pre> is true, the code in first block of statements runs; if it is false, the code in second block of statements runs.</div>
+        </div><div class="examFullWidth"> <a href="https://bjc.berkeley.edu/bjc-r/cur/programming/2-complexity/4-making-computers-do-math/1-mod-operator.html">2.4.1</a>
+            <div class="pseudop">
+                <div class="sidenote">Different programming languages have different ways of handling negative inputs to the mod function. So you won't see any negative numbers used with mod on the exam.</div>
+                <strong>The <code>mod</code> operator:</strong> The expression <img class="inline nopadtb" src="/bjc-r/img/1-introduction/17-mod-5.png" alt="(17) mod (5)" title="(17) mod (5)"> would be written as <pre class="inline">17 MOD 5</pre> on the exam. If you see an expression with variables as input to <code>mod</code>, such as <pre class="inline">a MOD b</pre>, you can assume that <var>a</var> is zero or positive, and <var>b</var> is strictly positive (because you can't divide by 0).
+            </div>
+            <div class="comment">AAP-2.B.5, AAP-2.C.1, AAP-2.C.2, AAP-2.C.3, AAP-2.C.4</div>
+            <div class="pseudop">On the exam, you may see these four arithmetic operators: <pre class="inline">+</pre>,  <pre class="inline">-</pre>,  <pre class="inline">*</pre>, <pre class="inline">/</pre> (plus, minus, times, divide) as well as <pre class="inline">MOD</pre>. Arithmetic operators are part of most programming languages.  (Most text languages use <pre class="inline">*</pre> rather than <pre class="inline">×</pre> for multiplication because <pre class="inline">&amp;times</pre> isn't on most keyboards, and because it looks too much like the letter x.)</div>
+            <div class="comment">AAP-2.L.2</div>
+            <div class="pseudop">
+<strong>Order of operations:</strong> In a block language, the nesting of blocks determines the order of operations.  For example, in <img class="inline nopadtb" src="/bjc-r/img/6-computers/3-times(5+4).png" alt="3 × (5 + 4)" title="3 × (5 + 4)"> you can <em>see</em> that the <code>+</code> block is an input to the <code>×</code> block, so the expression means 3×(5+4). Similarly, <img class="inline nopadtb" src="/bjc-r/img/6-computers/(3-times-5)+4.png" alt="(3 × 5) + 4" title="(3 × 5) + 4">  means (3×5)+4. In Snap<em>!</em>, it's as if there are parentheses around <em>every</em> operation.  But in text languages, you can write <pre class="inline">3 * 4 + 5</pre> 
+            without parentheses, so they need the rules you learn in math class (multiplication before addition, and so on). The <code>mod</code> operator is like multiplication and division; it happens <em>before</em> addition and subtraction. So for example, <pre class="inline">7 + 5 MOD 2 - 6</pre> means <pre class="inline">7 + 1 - 6</pre>, which is, of course, 2.</div>
+        </div><div class="examFullWidth"> <a href="https://bjc.berkeley.edu/bjc-r/cur/programming/2-complexity/4-making-computers-do-math/1-mod-operator.html">2.4.1</a>
+            <div class="comment">AAP-2.H.2</div>
+            <div class="sidenote">
+                <div class="pseudop">The procedures <pre class="inline">move()</pre> and <pre class="inline">turn_clockwise()</pre> aren't built in to the AP's language so they are written in lower case like other programmer-defined procedures.</div>
+            </div>
+            <div class="pseudop">
+                The conditional expression 
+                <img class="inline" src="/bjc-r/img/2-complexity/if-example-preview-fractal-art.png" alt="if (size &gt; 15) {repeat (4) {move (size) steps, turn clockwise (90) degrees}}" title="if (size &gt; 15) {repeat (4) {move (size) steps, turn clockwise (90) degrees}}"> 
+                would be written as 
+                <div class="pre-container">
+<pre class="inline">
+IF(size &gt; 15)
+{
+    REPEAT 4 TIMES
+    {
+        move(size)
+        turn_clockwise(90)
+    }
+}</pre>
+                </div>
+                or 
+                <img class="inline" src="/bjc-r/img/2-complexity/if-blocktran.png" alt="IF(size &gt; 15)
+{
+    REPEAT 4 TIMES
+    {
+        move(size)
+        turn clockwise(90)
+    }
+}" title="IF(size &gt; 15)
+{
+    REPEAT 4 TIMES
+    {
+        move(size)
+        turn clockwise(90)
+    }
+}">
+            </div> 
+            <p>As in Snap<em>!</em>, if the condition <code>(</code><var>size</var><code>) &gt; 15</code> is <code>true</code>, the code inside the <code>if</code> statement runs; if the condition is <code>false</code>, the code does not run.</p>
+        </div><div class="examFullWidth"> <a href="https://bjc.berkeley.edu/bjc-r/cur/programming/2-complexity/4-making-computers-do-math/3-other-math-reporters.html">2.4.3</a>
+            <div class="comment">AAP-3.C.2</div>
+            <div class="sidenote">You saw the procedure definition for a command in <a href="/bjc-r/cur/programming/1-introduction/3-drawing/4-modify-your-pinwheel.html?topic=nyc_bjc%2F1-intro-loops.topic&amp;course=bjc4nyc.html&amp;novideo&amp;noassignment" title="Unit 1 Lab 3 Page 4: Modify Your Pinwheel" target="_blank">Unit 1 Lab 3 Page 4: Modify Your Pinwheel</a>.</div>
+            <div class="pseudop">
+                The definition for a reporter looks much like the definition for a command except that it includes a <pre class="inline">RETURN</pre> (like <code>report</code>). For example, this definition<br>
+                <div class="sidenote">
+                    <p>In many languages (including Snap<em>!</em>) variables must be <em>declared</em> in some way (in Snap<em>!</em>, you can click the "Make a variable" button or use the <code>script variables</code> block). But the AP's language doesn't include variable declarations, so you won't see them on the exam. </p>
+                </div>
+                <img class="indent" src="/bjc-r/img/3-lists/square-roots-definition.png" alt="square roots of (number) {script variables (positive root), set (positive root) to ((sqrt) of (number))), report (list (positive root) ((-1) × positive root))" title="square roots of (number) {script variables (positive root), set (positive root) to ((sqrt) of (number))), report (list (positive root) ((-1) × positive root))"><br>
+                would be written as  
+                <div class="pre-container"><pre class="inline">
+PROCEDURE squareRoots(number)
+{
+    positiveRoot &amp;leftarrow; sqrt(number)
+    RETURN([positiveRoot, -1 * positiveRoot])
+}</pre></div>
+                    or <img src="/bjc-r/img/3-lists/square-roots-definition-blocktran.png" alt="square roots of (number) {script variables (positive root), set (positive root) to ((sqrt) of (number))), report (list (positive root) (() - positive root))" title="square roots of (number) {script variables (positive root), set (positive root) to ((sqrt) of (number))), report (list (positive root) (() - positive root))">
+                <div class="comment">AAP-3.A.7</div>
+                <div class="pseudop">As with <code>report</code> in Snap<em>!</em>, when a <pre class="inline">RETURN</pre> statement is executed, the flow of control returns to the place in your code where the procedure was called, and the procedure returns the value of the expression inside the <pre class="inline">RETURN</pre> command or <code>report</code> block.</div>
+                <div class="endnote">
+                    <div class="pseudop">Also, the procedure <pre class="inline">sqrt</pre> isn't built in to the AP's language so it is written in lower case like other programmer-defined procedures.</div>
+                </div>
+            </div>
+        </div><div class="examFullWidth"> <a href="https://bjc.berkeley.edu/bjc-r/cur/programming/2-complexity/4-making-computers-do-math/3-other-math-reporters.html">2.4.3</a>
+            <div class="comment">AAP-2.H.3</div>
+            <div class="pseudop">The conditional expression <img class="inline" src="/bjc-r/img/2-complexity/ge-ifelse-no-hat.png" alt="if (a &gt; b) {
+    report true
+} else {
+    report (a = b)
+}" title="if (a &gt; b) {
+    report true
+} else {
+    report (a = b)
+}"> would be written as <div class="pre-container"><pre class="inline">IF(a &gt; b)
+{
+    RETURN(true)
+}
+ELSE
+{
+    RETURN(a = b)
+}</pre></div> or <img class="inline" src="/bjc-r/img/2-complexity/if-else-blocktran.png" alt="IF(a &gt; b)
+{
+    RETURN(true)
+}
+ELSE
+{
+    RETURN(a = b)
+}" title="IF(a &gt; b)
+{
+    RETURN(true)
+}
+ELSE
+{
+    RETURN(a = b)
+}">
+</div>
+            <div class="pseudop">As in Snap<em>!</em>, if the condition <pre class="inline">a &gt; b</pre> is true, the code in first block of statements runs; if it is false, the code in second block of statements runs.</div>
+        </div>

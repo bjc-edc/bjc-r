@@ -96,7 +96,6 @@ class SelfCheck
 			assessmentFileName("assessment-data#{@currUnitNum}.html")
             examFileName("exam#{@currUnitNum}.html")
 			isNewUnit(false)
-            puts @parentPath
 		end
 	end
 
