@@ -21,7 +21,7 @@ by doing the following in the irb terminal:
 >>> myMain = Main.new(classFolder, topicsFolder)
 the classFolder and topicsFolder inputs should be the paths as strings
 you can also run one of the tests by:
->>> t = Main.new()
+>>> t = Tests.new()
 >>> t.NameOfTestFunction
 NameOfTestFunction being one of the functions in the tests.rb file
 

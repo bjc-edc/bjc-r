@@ -4,8 +4,9 @@ require_relative 'selfcheck'
 
 class Vocab
 	
-	def initialize(path)
+	def initialize(path, language="en")
 		@parentDir = path
+		@language = language
 		@currFile = nil
 		@currIndex = 0
 		@currPath = path
@@ -22,6 +23,12 @@ class Vocab
 		@currUnitName = nil
 		@vocabList = []
 		@vocabDict = {}
+		@unit = nil
+	end
+
+	def unit()
+		temp = @currUnitName.match(/[A-Za-z]+/)
+		@unit = temp.to_s
 	end
 
 	def currUnitName(name)
@@ -111,11 +118,20 @@ class Vocab
 			newStr = str.split(pattern)
 			currUnit(newStr.join)
 			currUnitNum(@currUnit.match(/\d+/).to_s)
-			vocabFileName("vocab#{@currUnitNum}.html")
+			unit()
+			vocabFileName("vocab#{@currUnitNum}.#{@language}.html")
 			#@selfcheck.currUnit(@currUnit)
 			#@selfcheck.currUnitNum(@currUnitNum)
 			#@selfcheck.assessmentFileName("assess-data#{@currUnitNum}.html")
 			isNewUnit(false)
+		end
+	end
+
+	def vocabLanguage()
+		if @language == "en"
+			return "Vocabulary"
+		elsif @language == "es"
+			return "Lexico"
 		end
 	end
 
@@ -127,7 +143,7 @@ class Vocab
 		linesList =  rio(@currFile).lines[0..15] 
 		while (linesList[i].match(/<body>/) == nil)
 			if linesList[i].match(/<title>/)
-				File.write(fileName, "<title>Unit #{@currUnitNum} Vocabulary</title>\n", mode: "a")
+				File.write(fileName, "<title>#{@unit} #{@currUnitNum} #{vocabLanguage()}</title>\n", mode: "a")
 			else
 				File.write(fileName, "#{linesList[i]}\n", mode: "a")
 			end
@@ -138,11 +154,10 @@ class Vocab
 	end
 
 	def add_HTML_end()
-		Dir.chdir("#{@parentDir}/summaries")
+		Dir.chdir("#{@parentDir}/review")
 		ending = "</body>\n</html>"
 		File.write(@vocabFileName, ending, mode: "a")
 	end
-
 
 
 	def add_content_to_file(filename, data)
@@ -169,11 +184,11 @@ class Vocab
 		vocabSet.each do |node|
 			child = node.children()
 			child.before(add_vocab_unit_to_header())
-			save_vocab_word(node)			
+			#save_vocab_word(node)			
 		end
-		if not(vocabSet.empty?())
-			add_vocab_to_file(vocabSet.to_s)
-		end
+		#if not(vocabSet.empty?())
+		add_vocab_to_file(vocabSet.to_s)
+		#end
 	end
 
 	def get_vocab_word(nodeSet)
@@ -183,12 +198,12 @@ class Vocab
 
 	def save_vocab_word(nodeSet)
 		nodeSet.each do |node|
-			if not(vocab.include?(node.text))
-				@vocabList.push(node.text())
-				@vocabDict[node.text()] = [get_url()]
-			elsif @vocabDict[node.text].last() != get_url()
-				@vocabDict[node.text()].append(get_url)
-			end
+			#if not(@vocabList.include?(node.text()))
+			#	@vocabList.push(node.text())
+			#	@vocabDict[node.text()] = [get_url()]
+			#elsif @vocabDict[node.text].last() != get_url()
+			#	@vocabDict[node.text()].append(get_url)
+			#end
 		end
 	end
 
@@ -233,13 +248,24 @@ class Vocab
 
 	def add_vocab_to_file(vocab)
 		result = "#{vocab} \n\n"
-		add_content_to_file("#{@parentDir}/summaries/#{@vocabFileName}", result)
+		file = "#{@parentDir}/review/#{@vocabFileName}"
+		if File.exists?(file)
+			doc = File.open(file) { |f| Nokogiri::HTML(f) }
+			vocabSet = doc.xpath("//div[@class = 'vocabFullWidth']")
+			if not(vocab.to_s.match(vocabSet.to_s))
+				add_content_to_file(file, vocab)
+			end
+		else
+			add_content_to_file(file, vocab)
+			puts @vocabFileName
+		end
 	end
 
 	def get_url(file)
 		localPath = Dir.getwd()
 		linkPath = localPath.match(/bjc-r.+/).to_s
-		result = "https://bjc.berkeley.edu/#{linkPath}/#{file}"
+		result = "/#{linkPath}/#{file}"
+		#https://bjc.berkeley.edu
 		result = "#{result}"
 		#add_content_to_file('urlLinks.txt', result)
 	end
