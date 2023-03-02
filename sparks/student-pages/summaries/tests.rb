@@ -1,5 +1,6 @@
 require_relative 'vocab'
 require_relative 'main'
+require_relative 'selfcheck'
 require 'rio'
 require 'open-uri'
 require 'nokogiri'
@@ -7,6 +8,14 @@ require 'nokogiri'
 class Tests
 	@type = 'testing'
 	def initialize()
+	end
+
+	def nokoTest()
+		doc = File.open("1-intro-loops.topic") { |f| Nokogiri::HTML(f) }
+		div = doc.xpath("//div[@class = 'vocabFullWidth']")
+		#vocab = div
+		#Nokogiri::XML::DocumentFragment.parse(div.to_s)
+		title = doc.xpath("title")
 	end
 
 	def nokogiriTest()
@@ -105,7 +114,7 @@ class Tests
 	end
 
 	def mainCSP()
-		m = Main.new("C:/Users/I560638/bjc-r/TESTING", "C:/Users/I560638/bjc-r/topic/nyc_bjc", "en")
+		m = Main.new("C:/Users/I560638/bjc-r/TESTING", "C:/Users/I560638/bjc-r/TESTING/nyc_bjc", "en")
 		m.Main()
 	end
 

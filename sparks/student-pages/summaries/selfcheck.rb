@@ -3,7 +3,7 @@ require 'rio'
 
 class SelfCheck
 
-    def initialize(path)
+    def initialize(path, language)
         @parentPath = path
 		@currIndex = 0
         @currFile
@@ -19,6 +19,7 @@ class SelfCheck
         @assessmentFileName = nil
         @examFileName = nil
         @currUnitName = nil
+		@language = language
     end
 
     def isNewUnit(boolean)
@@ -93,8 +94,8 @@ class SelfCheck
 			newStr = str.split(pattern)
 			currUnit(newStr.join)
 			currUnitNum(@currUnit.match(/\d+/).to_s)
-			assessmentFileName("assessment-data#{@currUnitNum}.html")
-            examFileName("exam#{@currUnitNum}.html")
+			assessmentFileName("selfcheck#{@currUnitNum}.#{@language}.html")
+            examFileName("exam#{@currUnitNum}.#{@language}.html")
 			isNewUnit(false)
 		end
 	end
@@ -146,7 +147,7 @@ class SelfCheck
 	end
 
 	def add_HTML_end()
-		Dir.chdir("#{@parentPath}/summaries")
+		Dir.chdir("#{@parentPath}/review")
 		ending = "</body>\n</html>"
 		File.write(@assessmentFileName, ending, mode: "a")
         File.write(@examFileName, ending, mode: "a")
@@ -182,18 +183,19 @@ class SelfCheck
 
 	def add_assessment_to_file(assessment)
 		result = "#{assessment} \n\n"
-		add_content_to_file("#{@parentPath}/summaries/#{@assessmentFileName}", result, "Self-Check")
+		add_content_to_file("#{@parentPath}/review/#{@assessmentFileName}", result, "Self-Check")
 	end
 
     def add_exam_to_file(exam)
 		result = "#{exam} \n\n"
-		add_content_to_file("#{@parentPath}/summaries/#{@examFileName}", result, "Exam")
+		add_content_to_file("#{@parentPath}/review/#{@examFileName}", result, "Exam")
 	end
 
 	def get_url(file)
 		localPath = Dir.getwd()
 		linkPath = localPath.match(/bjc-r.+/).to_s
-		result = "https://bjc.berkeley.edu/#{linkPath}/#{file}"
+		result = "/#{linkPath}/#{file}"
+		#https://bjc.berkeley.edu
 		result = "#{result}"
 		#add_content_to_file('urlLinks.txt', result)
 	end
