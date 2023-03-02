@@ -10,21 +10,20 @@ class Main
 		@topicFolder = topicFolderPath
 		@unitNum = ''
 		@currUnit = nil
-		@vocab = Vocab.new(@parentDir)
+		@vocab = Vocab.new(@parentDir, language)
 		@classStr = ''
 		@subClassStr = ''
 		@labFileName = ''
 		@language = language
-		@selfcheck = SelfCheck.new(@parentDir)
+		@selfcheck = SelfCheck.new(@parentDir, language)
 	end
-
 
 	#Extracts the folder class name and subfolder. For example with Sparks, 
 	#classStr = 'sparks' and subclassStr = 'student-pages'. For CSP, 
 	#classStr = 'cur' and subclassStr = 'programming'
 	def parse_class()
 		path = @parentDir
-		pattern = /bjc-r\\(\w+.?)+(\\summaries)$/
+		pattern = /bjc-r\\(\w+.?)+(\\review)$/
 		pathMatch = path.match(pattern).to_s
 		pathList = pathMatch.split("\\")
 		classStr(pathList[1])
@@ -36,10 +35,17 @@ class Main
 	def Main()
 		parse_class()
 		parse_allTopicPages(@topicFolder)
-		parse_units("#{@parentDir}/summaries/topics.txt")
+		parse_units("#{@parentDir}/review/topics.txt")
 		puts "All units complete"
 	end
 
+	def createNewReviewFolder
+		if Dir.exist?("#{@parentDir}/review")
+			Dir.remove_dir("#{@parentDir}/review")
+		else
+			Dir.mkdir("#{@parentDir}/review")
+		end
+	end
 
 	#Returns list of all FOLDERS (directories) in current working directory (cwd)
 	def list_folders(folder)
@@ -65,6 +71,7 @@ class Main
 		filesList = list_files(".topic")	
 		filesList.each do |file|
 			if isTopicPageFile(file) and fileLanguage(file) == @language
+				puts file
 				parse_rawTopicPage(file)
 			end
 		end
@@ -88,44 +95,70 @@ class Main
 		linkMatch = @parentDir.match(/\/bjc-r.+/).to_s
 		linkMatchWithoutBracket = linkMatch.split(/\]/)
 		link = "#{linkMatchWithoutBracket.join}"
-		dataList = ["heading: Unit #{@unitNum} Review",
-			"resource: Vocabulary [#{link}/summaries/vocab#{@unitNum}.html]",
-			"resource: On the AP Exam [#{link}/summaries/exam#{@unitNum}.html]",
-			"resource: Self-Check Questions [#{link}/summaries/assess-data#{@unitNum}.html]",
-			"}"]
+		if @language == "en"
+			dataList = ["heading: Unit #{@unitNum} Review",
+				"resource: Vocabulary [#{link}/review/vocab#{@unitNum}.#{@language}.html]",
+				"resource: On the AP Exam [#{link}/review/exam#{@unitNum}.#{@language}.html]",
+				"resource: Self-Check Questions [#{link}/review/selfcheck#{@unitNum}.#{@language}.html]",
+				"}"]
+		else 
+			dataList = ["heading: Unitad #{@unitNum} Revision",
+				"resource: Lexico [#{link}/review/vocab#{@unitNum}.#{@language}.html]",
+				"resource: En El Examen AP[#{link}/review/exam#{@unitNum}.#{@language}.html]",
+				"resource: Preguntas de Autocomprobacion [#{link}/review/selfcheck#{@unitNum}.#{@language}.html]",
+				"}"]
+		end
 		data = dataList.join("\n")
 		#add_content_to_file("#{@topicFolder}/#{topicFile}", data)
+	end
+
+	def isSummary(line)
+		if line != nil and @currUnit != nil and line.match(@currUnit)
+			return true
+		else 
+			return false
+		end
 	end
 
 	#Parses through the data of the topic page and generates and adds content to a topics.txt
 	#file that will be parsed later on to generate summaries 
 	def parse_rawTopicPage(file)
+		currUnit(nil)
 		allLines = File.readlines(file)
 		topicURLPattern = /\/bjc-r.+\.\w+/
 		headerPattern = /((heading:.+)|(title:.+))/
 		labNum = 1
 		index = 0
+		if allLines[0].match(/title: [A-Za-z]+/)
+			temp = allLines[0].match(/title: [A-Za-z]+\s?/).to_s
+			currUnit(temp.split(/title: /)[1])
+		end
+		summaryExists = false
 		allLines.each do |oldline|
 			line = oldline
+			if index > 1 and isSummary(line)
+				summaryExists = true
+			end
 			if isComment(line)
 				line = removeComment(oldline)
 			end
-			if line.match(/\}/)
+			if line.match(/\}/) and (not(summaryExists))
 				allLines[index] = addSummariesToTopic(file)
+				summaryExists = true
 			else
-				if isTopic(line)
+				if isTopic(line) 
 					if (line.match(headerPattern))
 						if line.match(/title:/)
 							unitNum(line.match(/\d+/).to_s)
 						end
 						header = removeHTML(line.match(headerPattern).to_s)
-						add_content_to_file("#{@parentDir}/summaries/topics.txt", "#{header}\n")
+						add_content_to_file("#{@parentDir}/review/topics.txt", "#{header}\n")
 						labNum = 1
 					else
 						wholeLine = removeHTML(line.to_s.split(/.+:/).join)
 						labName = wholeLine.match(/(\w+\s?((\!|\?|\.|-)\s?)?)+/).to_s
 						topicURL = line.match(topicURLPattern).to_s
-						add_content_to_file("#{@parentDir}/summaries/topics.txt", "#{labNum} #{labName} ----- #{topicURL}\n")
+						add_content_to_file("#{@parentDir}/review/topics.txt", "#{labNum} #{labName} ----- #{topicURL}\n")
 						labNum += 1
 					end
 				end
@@ -133,7 +166,7 @@ class Main
 		index += 1
 		end
 		File.write(file, allLines.join)
-		add_content_to_file("#{@parentDir}/summaries/topics.txt", "END OF UNIT\n")
+		add_content_to_file("#{@parentDir}/review/topics.txt", "END OF UNIT\n")
 	end
 
 	#Returns true if there is a comment in the topics.topic page
@@ -159,7 +192,7 @@ class Main
 		str = arg.force_encoding("BINARY")
 		kludges = ['raw-html',
 			'heading: Unit',
-			'Summary',
+			'Review',
 			'resource: Vocabulary',
 			'resource: On the AP Exam',
 			'resource: Self-Check Questions'
@@ -231,13 +264,13 @@ class Main
 		labNamePattern = /----- /
 		linkMatch = line.split(labNamePattern)
 		link = linkMatch[1]
-		lab = link.match(/(\w+-?)+\.html/).to_s
+		lab = link.match(/(\w+-?)+\.\w+\.html/).to_s
 	end
 
 	def extractTopicLinkFolder(line)
 		labNamePattern = /----- /
 		linkMatch = line.split(labNamePattern)
-		link = linkMatch[1].split(/(\w+-?)+\.html/)
+		link = linkMatch[1].split(/(\w+-?)+\.\w+\.html/)
 		folder = "#{localPath()}#{link[0]}"
 		if link.size > 1
 			Dir.chdir(folder)
@@ -290,7 +323,7 @@ class Main
 				Dir.chdir(unitFolder)
 				#change unit folder
 			elsif(isEndofTopicPage(line))
-				@vocab.add_HTML_end()
+				#@vocab.add_HTML_end()
 				#@selfcheck.add_HTML_end()
 			end
 		end
@@ -361,6 +394,10 @@ class Main
 
 	def labFileName(str)
 		@labFileName = str
+	end
+
+	def currUnit(str)
+		@currUnit = str
 	end
 
 end
