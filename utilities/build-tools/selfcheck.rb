@@ -5,20 +5,14 @@ class SelfCheck
 
     def initialize(path, language)
         @parentPath = path
-		@currIndex = 0
         @currFile
-		@currPath = path
 		@currUnit = nil
-		@currLine = ''
-		@listLines = []
 		@isNewUnit = true
 		@currUnitNum = 0
 		@currLab = ''
 		@vocabFileName = ''
-		@pastFileUnit = nil
-        @assessmentFileName = nil
+        @selfCheckFileName = nil
         @examFileName = nil
-        @currUnitName = nil
 		@language = language
     end
 
@@ -30,21 +24,6 @@ class SelfCheck
         @examFileName = name
     end
 
-    def currUnitName(name)
-        @currUnitName = name
-    end
-
-    def currIndex(i)
-        @currIndex = i
-    end
-
-    def listLines(file)
-		@listLines = File.readlines(file)
-	end
-
-    def currLine(str)
-        @currLine = str
-    end
 
     def currFile(file)
         @currFile = file
@@ -58,9 +37,6 @@ class SelfCheck
 		end
 	end
 
-    def currPath(path)
-        @currPath = path
-    end
 
     def currUnit(unit)
         @currUnit = unit
@@ -71,8 +47,8 @@ class SelfCheck
         @currUnitNum = num
     end
 
-    def assessmentFileName(name)
-        @assessmentFileName = name
+    def selfCheckFileName(name)
+        @selfCheckFileName = name
     end
 
 	def read_file(file)
@@ -94,7 +70,7 @@ class SelfCheck
 			newStr = str.split(pattern)
 			currUnit(newStr.join)
 			currUnitNum(@currUnit.match(/\d+/).to_s)
-			assessmentFileName("selfcheck#{@currUnitNum}.#{@language}.html")
+			selfCheckFileName("selfcheck#{@currUnitNum}.#{@language}.html")
             examFileName("exam#{@currUnitNum}.#{@language}.html")
 			isNewUnit(false)
 		end
@@ -142,14 +118,14 @@ class SelfCheck
 			end
 			i += 1
 		end
-		File.write(fileName, "<h2>#{@currUnitName}</h2>\n", mode: "a")
+		File.write(fileName, "<h2>#{@currUnit}</h2>\n", mode: "a")
 		File.write(fileName, "<h3>#{currLab()}</h3>\n", mode: "a")
 	end
 
 	def add_HTML_end()
 		Dir.chdir("#{@parentPath}/review")
 		ending = "</body>\n</html>"
-		File.write(@assessmentFileName, ending, mode: "a")
+		File.write(@selfCheckFileName, ending, mode: "a")
         File.write(@examFileName, ending, mode: "a")
         #does examFileName exist?
         #File.write(@examFileName, ending, mode: "a")
@@ -183,7 +159,7 @@ class SelfCheck
 
 	def add_assessment_to_file(assessment)
 		result = "#{assessment} \n\n"
-		add_content_to_file("#{@parentPath}/review/#{@assessmentFileName}", result, "Self-Check")
+		add_content_to_file("#{@parentPath}/review/#{@selfCheckFileName}", result, "Self-Check")
 	end
 
     def add_exam_to_file(exam)
