@@ -7,23 +7,14 @@ class Vocab
 	def initialize(path, language="en")
 		@parentDir = path
 		@language = language
-		@currFile = nil
-		@currIndex = 0
-		@currPath = path
 		@currUnit = nil
 		@currFile = nil
-		@currLine = ''
-		@listLines = []
 		@isNewUnit = true
 		@currUnitNum = 0
 		@currLab = ''
 		@vocabFileName = ''
-		@pastFileUnit = nil
-		#@selfcheck = SelfCheck.new(path)
-		@currUnitName = nil
 		@vocabList = []
 		@vocabDict = {}
-		@unit = nil
 		@labPath = ''
 	end
 
@@ -32,13 +23,10 @@ class Vocab
 	end
 
 	def unit()
-		temp = @currUnitName.match(/[A-Za-z]+/)
-		@unit = temp.to_s
+		temp = @currUnit.match(/[A-Za-z]+/)
+		return temp.to_s
 	end
 
-	def currUnitName(name)
-		@currUnitName = name
-	end
 
 	def selfcheck()
 		#@selfcheck
@@ -52,25 +40,11 @@ class Vocab
 		@currFile = file
 	end
 
-	def currIndex(i)
-		@currIndex = i
-	end
 
 	def currFile(file)
 		@currFile = file
 	end
 
-	def currLine(line)
-		@currline = line
-	end
-
-	def listLines(file)
-		@listLines = File.readlines(file)
-	end
-
-	def currPath(path)
-		@currPath = path
-	end
 
 	def isNewUnit(boolean)
 		@isNewUnit = boolean
@@ -92,12 +66,8 @@ class Vocab
 		end
 	end
 
-	def pastFileUnit(unit)
-		@pastFileUnit = unit
-	end
 
 	def read_file(file)
-		listLines(file)
 		currIndex(0)
 		currFile(file)
 		isNewUnit(true)
@@ -142,7 +112,7 @@ class Vocab
 		linesList =  rio("#{filePath}/#{@currFile}").lines[0..30] 
 		while (not(linesList[i].match(/<body>/)) and i < 30)
 			if linesList[i].match(/<title>/)
-				File.write(fileName, "<title>#{@unit} #{@currUnitNum} #{vocabLanguage()}</title>\n", mode: "a")
+				File.write(fileName, "<title>#{unit()} #{@currUnitNum} #{vocabLanguage()}</title>\n", mode: "a")
 			else
 				File.write(fileName, "#{linesList[i]}\n", mode: "a")
 			end
