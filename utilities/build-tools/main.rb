@@ -21,20 +21,20 @@ class Main
 	#Extracts the folder class name and subfolder. For example with Sparks, 
 	#classStr = 'sparks' and subclassStr = 'student-pages'. For CSP, 
 	#classStr = 'cur' and subclassStr = 'programming'
-	def parse_class()
-		path = @parentDir
-		pattern = /bjc-r\\(\w+.?)+(\\review)$/
-		pathMatch = path.match(pattern).to_s
-		pathList = pathMatch.split("\\")
-		classStr(pathList[1])
-		subClassStr(pathList[2])
-	end
+	#def parse_class()
+	#	path = @parentDir
+	#	pattern = /bjc-r\\(\w+.?)+(\\review)$/
+	#	pathMatch = path.match(pattern).to_s
+	#	pathList = pathMatch.split("\\")
+	#	classStr(pathList[1])
+	#	subClassStr(pathList[2])
+	#end
 
 	#Main/primary function to be called, will call and create all other functions and classes. 
 	#This function will parse the topic pages, parse all labs and units, and create summary pages
 	def Main()
 		createNewReviewFolder()
-		parse_class()
+		#parse_class()
 		parse_allTopicPages(@topicFolder)
 		parse_units("#{@parentDir}/review/topics.txt")
 		puts "All units complete"
@@ -101,7 +101,7 @@ class Main
 				"resource: Self-Check Questions [#{link}/review/selfcheck#{@unitNum}.#{@language}.html]",
 				"}"]
 		else 
-			dataList = ["heading: Unitad #{@unitNum} Revision",
+			dataList = ["heading: Unidad #{@unitNum} Revision",
 				"resource: Lexico [#{link}/review/vocab#{@unitNum}.#{@language}.html]",
 				"resource: En El Examen AP[#{link}/review/exam#{@unitNum}.#{@language}.html]",
 				"resource: Preguntas de Autocomprobacion [#{link}/review/selfcheck#{@unitNum}.#{@language}.html]",
@@ -112,6 +112,7 @@ class Main
 	end
 
 	def isSummary(line)
+		puts @currUnit
 		if line != nil and @currUnit != nil and line.match(@currUnit)
 			return true
 		else 
@@ -129,7 +130,7 @@ class Main
 		labNum = 1
 		index = 0
 		if allLines[0].match(/title: [A-Za-z]+/)
-			temp = allLines[0].match(/title: [A-Za-z]+\s?/).to_s
+			temp = allLines[0].match(/title: [A-Za-z]+\s?\d+/).to_s
 			currUnit(temp.split(/title: /)[1])
 		end
 		summaryExists = false
@@ -162,7 +163,7 @@ class Main
 					end
 				end
 			end
-		index += 1
+			index += 1
 		end
 		File.write(file, allLines.join)
 		add_content_to_file("#{@parentDir}/review/topics.txt", "END OF UNIT\n")
@@ -187,6 +188,8 @@ class Main
 	end
 
 	#Returns true if the string/line is a valid topic. Ignores the lines that start with the kludges.
+	#The kludges being the lines we want to avoid and NOT add to our topic.txt page. The topic.txt 
+	#page should only have what we need to find the correct file, lab, and unit
 	def isTopic(arg)
 		str = arg.force_encoding("BINARY")
 		kludges = ['raw-html',
@@ -194,8 +197,11 @@ class Main
 			'Review',
 			'resource: Vocabulary',
 			'resource: On the AP Exam',
-			'resource: Self-Check Questions'
-			]
+			'resource: Self-Check Questions',
+			'heading: Unidad',
+			'resource: Lexico',
+			'resource: En El Examen AP',
+			'resource: Preguntas de Autocomprobacion']
 		topicLine = /(\s+)?(\w+)+(\s+)?/
 		bool = true
 		kludges.each do |item|
@@ -309,17 +315,21 @@ class Main
 		labNum = ''
 		f.each do |line|
 			if line.match(labNamePattern) != nil
+
 				#labNum = line.match(/\d+\s+/).to_s
 				#labFile = findLabFile(labNum, Dir.getwd())
+
 				labFile = extractTopicLink(line)
-				#puts labFile
 				if labFile != ""
 					extractTopicLinkFolder(line)
+					puts Dir.getwd()
+					@vocab.labPath(Dir.getwd())
 					@vocab.read_file(labFile)
-					@selfcheck.read_file(labFile)
+					#@selfcheck.read_file(labFile)
 				end
+
 				#pass to function that will open correct file
-			elsif line.match(labTopicPattern)
+			#elsif line.match(labTopicPattern)
 				#if line.match(/^(heading: [a-zA-Z]+)/)
 				#	labNum = /optional-project/
 				#else
@@ -328,17 +338,19 @@ class Main
 				#labFolder = getFolder(labNum, unitFolder)
 				#Dir.chdir(labFolder)
 				#change lab folder
+
 			elsif line.match(unitNamePattern)
 				unitNum(line.match(/\d+/).to_s)
 				unitName = line.match(/Unit.+/)
 				@vocab.currUnitName(unitName.to_s)
 				#@selfcheck.currUnitName(unitName.to_s)
-				unitFolder = getFolder(@unitNum, @parentDir)
-				Dir.chdir(unitFolder)
+
+				#unitFolder = getFolder(@unitNum, @parentDir)
+				#Dir.chdir(unitFolder)
 				#change unit folder
 			elsif(isEndofTopicPage(line))
 				@vocab.add_HTML_end()
-				@selfcheck.add_HTML_end()
+				#@selfcheck.add_HTML_end()
 			end
 		end
 	end
@@ -356,7 +368,9 @@ class Main
 		foldersList = list_folders(parentFolder)
 		foldersList.each do |folder|
 			if File.basename(folder).match(/#{strPattern}/)
+
 				#if File.basename(folder).match(/^#{strPattern}/)
+
 				return "#{parentFolder}/#{folder}"
 			end
 		end

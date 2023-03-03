@@ -24,6 +24,11 @@ class Vocab
 		@vocabList = []
 		@vocabDict = {}
 		@unit = nil
+		@labPath = ''
+	end
+
+	def labPath(arg)
+		@labPath = arg
 	end
 
 	def unit()
@@ -95,13 +100,9 @@ class Vocab
 		listLines(file)
 		currIndex(0)
 		currFile(file)
-		#@selfcheck.currFile(file)
-		#@selfcheck.currIndex(0)
-		#@selfcheck.listLines(file)
 		isNewUnit(true)
 		parse_unit(file)
 		parse_vocab(file)
-		#@selfcheck.parse_assessmentData(line, @currIndex)
 		puts "Completed:  #{@currUnit}"
 	end
 
@@ -114,15 +115,11 @@ class Vocab
 		if (str == nil or not(@isNewUnit))
 			nil
 		else
-			#add_to_file("Units.txt", str.match(pattern).to_s)
 			newStr = str.split(pattern)
 			currUnit(newStr.join)
 			currUnitNum(@currUnit.match(/\d+/).to_s)
 			unit()
 			vocabFileName("vocab#{@currUnitNum}.#{@language}.html")
-			#@selfcheck.currUnit(@currUnit)
-			#@selfcheck.currUnitNum(@currUnitNum)
-			#@selfcheck.assessmentFileName("assess-data#{@currUnitNum}.html")
 			isNewUnit(false)
 		end
 	end
@@ -137,10 +134,12 @@ class Vocab
 
 	def createNewVocabFile(fileName)
 		i = 0
+		filePath = Dir.getwd()
 		if not(File.exist?(fileName))
+			Dir.chdir("#{@parentDir}/review")
 			File.new(@vocabFileName, "w")
 		end
-		linesList =  rio(@currFile).lines[0..30] 
+		linesList =  rio("#{filePath}/#{@currFile}").lines[0..30] 
 		while (not(linesList[i].match(/<body>/)) and i < 30)
 			if linesList[i].match(/<title>/)
 				File.write(fileName, "<title>#{@unit} #{@currUnitNum} #{vocabLanguage()}</title>\n", mode: "a")
@@ -148,10 +147,10 @@ class Vocab
 				File.write(fileName, "#{linesList[i]}\n", mode: "a")
 			end
 			i += 1
-			puts linesList[i]
 		end
 		File.write(fileName, "<h2>#{@currUnit}</h2>\n", mode: "a")
 		File.write(fileName, "<h3>#{currLab()}</h3>\n", mode: "a")
+		Dir.chdir(@labPath)
 	end
 
 	def add_HTML_end()
@@ -165,7 +164,7 @@ class Vocab
 		lab = @currLab
 		if File.exist?(filename)
 			if lab != currLab()
-				File.write(filename, "<h3>#{currLab()}</h3>\n", mode: "a")
+				File.write(filename, "<h3>#{currLab()}</h3>", mode: "a")
 			end
 			File.write(filename, data, mode: "a")
 		else
