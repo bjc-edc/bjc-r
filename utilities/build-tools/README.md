@@ -8,12 +8,15 @@ to run and open ruby terminal
 >>> irb
 to open a specific ruby file
 >>> irb file.rb
-to open a specific ruby file in interative mode
+to open a specific ruby file in interative mode. There may be an issue with one of the ruby gems if you run this line in gitbash.
 >>>irb -r ./tests.rb
 
 Next, you will need to install the 'rio' module.
 If you have windows, you can enter the following 
-in the ruby terminal (irb): gem install rio
+in the ruby terminal 
+>>>(irb): gem install rio
+>>>(irb): gem install fileutils
+>>>(irb): gem install nokogiri
 
 Everything runs from main.rb using the main function
 To call the main function, first create a main class instance
@@ -27,4 +30,5 @@ NameOfTestFunction being one of the functions in the tests.rb file
 
 Once the summary pages have generated go to parent directory of bjc-r
 then load the localhost
->>>python3 -m http.server
+>>>python -m http.server
+S

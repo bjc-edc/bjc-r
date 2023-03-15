@@ -8,13 +8,13 @@ class Main
 	def initialize(dirPath, topicFolderPath, language='en')
 		@parentDir = dirPath
 		@topicFolder = topicFolderPath
-		@unitNum = ''
+		@language = language
 		@currUnit = nil
-		@vocab = Vocab.new(@parentDir, language)
+		@unitNum = ''
 		@classStr = ''
 		@subClassStr = ''
 		@labFileName = ''
-		@language = language
+		@vocab = Vocab.new(@parentDir, language)
 		@selfcheck = SelfCheck.new(@parentDir, language)
 	end
 
@@ -428,4 +428,5 @@ class Main
 		@currUnit = str
 	end
 
+	
 end
