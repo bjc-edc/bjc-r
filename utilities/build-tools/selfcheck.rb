@@ -12,6 +12,7 @@ class SelfCheck
 		@currLab = ''
 		@vocabFileName = ''
         @selfCheckFileName = nil
+		@currUnitName = nil
         @examFileName = nil
 		@language = language
     end
@@ -45,6 +46,10 @@ class SelfCheck
 
     def currUnitNum(num)
         @currUnitNum = num
+    end
+
+	def currUnitName(str)
+        @currUnitName = str
     end
 
     def selfCheckFileName(name)
@@ -97,6 +102,7 @@ class SelfCheck
 		examSet.each do |node|
 			child = node.children()
 			child.before(add_unit_to_header())
+			#node.content.gsub(/\n\n/, "\n")
 		end
 		if not(examSet.empty?())
 			add_exam_to_file(examSet.to_s)
@@ -133,6 +139,9 @@ class SelfCheck
 
     def add_content_to_file(filename, data, type)
 		lab = @currLab
+		data = data.gsub(/&amp;/, "&")
+		data.delete!("\n\n\\")
+		#data = data.gsub(/\n(\s+)?\n/, "\n")
 		if File.exist?(filename)
 			if lab != currLab()
 				File.write(filename, "<h3>#{currLab()}</h3>\n", mode: "a")
@@ -158,12 +167,12 @@ class SelfCheck
 	end
 
 	def add_assessment_to_file(assessment)
-		result = "#{assessment} \n\n"
+		result = assessment
 		add_content_to_file("#{@parentPath}/review/#{@selfCheckFileName}", result, "Self-Check")
 	end
 
     def add_exam_to_file(exam)
-		result = "#{exam} \n\n"
+		result = exam
 		add_content_to_file("#{@parentPath}/review/#{@examFileName}", result, "Exam")
 	end
 
