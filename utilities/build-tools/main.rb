@@ -325,7 +325,7 @@ class Main
 					puts Dir.getwd()
 					@vocab.labPath(Dir.getwd())
 					@vocab.read_file(labFile)
-					#@selfcheck.read_file(labFile)
+					@selfcheck.read_file(labFile)
 				end
 
 				#pass to function that will open correct file
@@ -343,14 +343,14 @@ class Main
 				unitNum(line.match(/\d+/).to_s)
 				unitName = line.match(/Unit.+/)
 				@vocab.currUnitName(unitName.to_s)
-				#@selfcheck.currUnitName(unitName.to_s)
+				@selfcheck.currUnitName(unitName.to_s)
 
 				#unitFolder = getFolder(@unitNum, @parentDir)
 				#Dir.chdir(unitFolder)
 				#change unit folder
 			elsif(isEndofTopicPage(line))
 				@vocab.add_HTML_end()
-				#@selfcheck.add_HTML_end()
+				@selfcheck.add_HTML_end()
 			end
 		end
 	end
