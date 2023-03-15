@@ -131,7 +131,9 @@ class Vocab
 	def add_HTML_end()
 		Dir.chdir("#{@parentDir}/review")
 		ending = "</body>\n</html>"
-		File.write(@vocabFileName, ending, mode: "a")
+		if File.exist?(@vocabFileName)
+			File.write(@vocabFileName, ending, mode: "a")
+		end
 	end
 
 
