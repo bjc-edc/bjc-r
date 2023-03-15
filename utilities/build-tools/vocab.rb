@@ -246,9 +246,11 @@ class Vocab
 	end
 
 	def add_vocab_to_file(vocab)
-		result = vocab
-		file = "#{@parentDir}/review/#{@vocabFileName}"
-		add_content_to_file(file, vocab)
+		if vocab != ''
+			result = vocab
+			file = "#{@parentDir}/review/#{@vocabFileName}"
+			add_content_to_file(file, vocab)
+		end
 		#if File.exists?(file)
 		#	doc = File.open(file) { |f| Nokogiri::HTML(f) }
 		#	vocabSet = doc.xpath("//div[@class = 'vocabFullWidth']").to_s
