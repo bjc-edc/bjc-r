@@ -112,7 +112,6 @@ class Main
 	end
 
 	def isSummary(line)
-		puts @currUnit
 		if line != nil and @currUnit != nil and line.match(@currUnit)
 			return true
 		else 
@@ -322,7 +321,6 @@ class Main
 				labFile = extractTopicLink(line)
 				if labFile != ""
 					extractTopicLinkFolder(line)
-					puts Dir.getwd()
 					@vocab.labPath(Dir.getwd())
 					@vocab.read_file(labFile)
 					@selfcheck.read_file(labFile)
