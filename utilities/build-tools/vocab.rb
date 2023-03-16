@@ -78,6 +78,7 @@ class Vocab
 		isNewUnit(true)
 		parse_unit(file)
 		parse_vocab(file)
+		puts @vocabList
 		puts "Completed:  #{@currUnit}"
 	end
 
@@ -163,7 +164,7 @@ class Vocab
 		vocabSet1.each do |node|
 			child = node.children()
 			child.before(add_vocab_unit_to_header())
-			#save_vocab_word(node)			
+			get_vocab_word(node)			
 		end
 		add_vocab_to_file(vocabSet1.to_s)
 		vocabSet2 = doc.xpath("//div[@class = 'vocabBig']")
@@ -171,7 +172,7 @@ class Vocab
 			child = node.children()
 			changeToVocabFullWidth(vocabSet2, node['class'])
 			child.before(add_vocab_unit_to_header())
-			#save_vocab_word(node)			
+			get_vocab_word(node)			
 		end
 		add_vocab_to_file(vocabSet2.to_s)
 		vocabSet3 = doc.xpath("//div[@class = 'vocab']")
@@ -179,7 +180,7 @@ class Vocab
 			child = node.children()
 			changeToVocabFullWidth(vocabSet3, node['class'])
 			child.before(add_vocab_unit_to_header())
-			#save_vocab_word(node)			
+			get_vocab_word(node)			
 		end
 		add_vocab_to_file(vocabSet3.to_s)
 		#if not(vocabSet.empty?())
@@ -195,18 +196,20 @@ class Vocab
 	end
 
 	def get_vocab_word(nodeSet)
-		save_vocab_word(nodeSet.xpath("//li//strong"))
-		save_vocab_word(nodeSet.xpath("//p//strong"))
+		#save_vocab_word(nodeSet.xpath(".//li//strong"))
+		save_vocab_word(nodeSet.xpath(".//li//strong"))
+		save_vocab_word(nodeSet.xpath(".//p//strong"))
 	end
 
 	def save_vocab_word(nodeSet)
-		nodeSet.each do |node|
-			#if not(@vocabList.include?(node.text()))
-			#	@vocabList.push(node.text())
-			#	@vocabDict[node.text()] = [get_url()]
-			#elsif @vocabDict[node.text].last() != get_url()
-			#	@vocabDict[node.text()].append(get_url)
-			#end
+		nodeSet.each do |n|
+			node = n.text() 
+			if not(@vocabList.include?(node.to_s()))
+				@vocabList.push(node.to_s())
+				@vocabDict[node.to_s()] = [get_url(@currFile)]
+			elsif @vocabDict[node.to_s()].last() != get_url(@currFile)
+				@vocabDict[node.to_s()].append(get_url(@currFile))
+			end
 		end
 	end
 
