@@ -36,13 +36,17 @@ __No matter the platform, you should server files from `/bjc-r/` at the root of 
 
 ### macOS and Unix
 The easiest way to setup a server is to use a simple, built-in Python server.
-1. `cd` into one level above the `bjc-r` directory.
-2. In a separate window run `python -m SimpleHTTPServer` (for Python 2) or `python3 -m http.server` for Python 3.
+1. `cd bjc-r` -- Ensure your current directory is at the root of `bjc-r/`
+2. Execute `python3 utilities/server.py`
+  2.1 This **must** be run from within bjc-r.
+  2.2 Press Control-C to end the server.
 3. Navigate to [http://localhost:8000/bjc-r][localhost] in a browser.
 4. That's it! :)
 
+This server requires Python 3.
+
 ### Windows
-Windows guide coming...sometime. However, the Python solution should work as well, provided you install Python.
+Windows guide coming...sometime. However, the Python solution should work as well, provided you install Python 3.
 
 ## Contributing
 

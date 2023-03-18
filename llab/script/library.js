@@ -33,10 +33,10 @@ llab.getSnapRunURL = function(targeturl, options) {
         finalurl = llab.snapRunURLBaseVersion.replace('VERSION', options.version);
     }
 
-    var currdom = location.host;
+    // Compare host w/o port number, but include it in the URL that is built.
+    var currdom = location.hostname;
     if (currdom == "localhost") {
         currdom = location.origin;
-        // finalurl = finalurl.replace('https://snap', 'http://extensions.snap');
     } else if (targeturl.indexOf("..") != -1 || targeturl.indexOf(llab.rootURL) == -1) {
         var path = window.location.pathname;
         path = path.split("?")[0];
@@ -44,6 +44,10 @@ llab.getSnapRunURL = function(targeturl, options) {
         currdom = window.location.protocol + '//' + currdom + path;
     } else {
         finalurl += window.location.protocol + '//';
+    }
+    // Address CORS/https issues.
+    if (location.protocol == 'http:') {
+        finalurl = finalurl.replace('https://snap', 'http://extensions.snap');
     }
     finalurl = finalurl + currdom + targeturl;
 
