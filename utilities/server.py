@@ -15,14 +15,17 @@ class BJCServer(SimpleHTTPRequestHandler):
         self.send_header('Vary', 'Origin')
         SimpleHTTPRequestHandler.end_headers(self)
 
-# if __name__ == '__main__':
-#     test(BJCServer, HTTPServer, port=PORT)
+def https_server():
+    # TODO: This is currently very slow to serve files.
+    # Generate cert.pem with the following command:
+    # openssl req -new -x509 -keyout cert.pem -out cert.pem -days 365 -nodes
+    context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+    context.load_cert_chain("utilities/cert.pem")
+    server_address = ("localhost", PORT)
+    handler = BJCServer
+    with socketserver.TCPServer(server_address, handler) as httpd:
+        httpd.socket = context.wrap_socket(httpd.socket, server_side=True)
+        httpd.serve_forever()
 
-context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
-
-context.load_cert_chain("utilities/cert.pem") # PUT YOUR cert.pem HERE
-server_address = ("localhost", PORT)
-handler = BJCServer
-with socketserver.TCPServer(server_address, handler) as httpd:
-    httpd.socket = context.wrap_socket(httpd.socket, server_side=True)
-    httpd.serve_forever()
+if __name__ == '__main__':
+    test(BJCServer, HTTPServer, port=PORT)
