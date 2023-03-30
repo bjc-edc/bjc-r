@@ -18,6 +18,13 @@ class Vocab
 		@vocabDict = {}
 		@labPath = ''
 		@currUnitName = nil
+		@index = Index.new(@parentDir, @language)
+	end
+
+	def doIndex()
+		@index.vocabDict(@vocabDict)
+		@index.vocabList(@vocabList)
+		@index.addIndex()
 	end
 
 	def currUnitName(str)
@@ -206,9 +213,9 @@ class Vocab
 			node = n.text() 
 			if not(@vocabList.include?(node.to_s()))
 				@vocabList.push(node.to_s())
-				@vocabDict[node.to_s()] = [get_url(@currFile)]
-			elsif @vocabDict[node.to_s()].last() != get_url(@currFile)
-				@vocabDict[node.to_s()].append(get_url(@currFile))
+				@vocabDict[node.to_s()] = [add_vocab_unit_to_header()]
+			elsif @vocabDict[node.to_s()].last() != add_vocab_unit_to_header()
+				@vocabDict[node.to_s()].append(add_vocab_unit_to_header())
 			end
 		end
 	end

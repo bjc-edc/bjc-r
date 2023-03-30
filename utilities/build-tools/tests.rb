@@ -1,6 +1,7 @@
 require_relative 'vocab'
 require_relative 'main'
 require_relative 'selfcheck'
+require_relative 'index'
 require 'rio'
 require 'open-uri'
 require 'nokogiri'
@@ -9,6 +10,21 @@ class Tests
 	@type = 'testing'
 	def initialize()
 	end
+
+	def nokoIndex()
+		ind = Index.new("C:/Users/I560638/bjc-r/TESTING",  "en")
+		list = ['words', 'w', 'o', 'r', 'd', 's']
+		dict = {}
+		i = 0
+		list.each do |item|
+			dict[item] = "#{i}"
+			i += 1
+		end
+		ind.vocabDict(dict)
+		ind.vocabList(list)
+		ind.main()
+	end
+
 
 	def nokoTest()
 		doc = File.open("1-intro-loops.topic") { |f| Nokogiri::HTML(f) }
