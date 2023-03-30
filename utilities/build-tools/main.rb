@@ -37,6 +37,7 @@ class Main
 		#parse_class()
 		parse_allTopicPages(@topicFolder)
 		parse_units("#{@parentDir}/review/topics.txt")
+		@vocab.doIndex()
 		puts "All units complete"
 	end
 
