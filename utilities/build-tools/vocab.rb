@@ -24,7 +24,7 @@ class Vocab
 	def doIndex()
 		@index.vocabDict(@vocabDict)
 		@index.vocabList(@vocabList)
-		@index.addIndex()
+		@index.main()
 	end
 
 	def currUnitName(str)
@@ -85,7 +85,6 @@ class Vocab
 		isNewUnit(true)
 		parse_unit(file)
 		parse_vocab(file)
-		puts @vocabList
 		puts "Completed:  #{@currUnit}"
 	end
 
@@ -204,13 +203,14 @@ class Vocab
 
 	def get_vocab_word(nodeSet)
 		#save_vocab_word(nodeSet.xpath(".//li//strong"))
+		save_vocab_word(nodeSet.xpath(".//div//strong"))
 		save_vocab_word(nodeSet.xpath(".//li//strong"))
 		save_vocab_word(nodeSet.xpath(".//p//strong"))
 	end
 
 	def save_vocab_word(nodeSet)
 		nodeSet.each do |n|
-			node = n.text() 
+			node = n.text().capitalize 
 			if not(@vocabList.include?(node.to_s()))
 				@vocabList.push(node.to_s())
 				@vocabDict[node.to_s()] = [add_vocab_unit_to_header()]
