@@ -43,9 +43,15 @@ class Main
 
 	def createNewReviewFolder()
 		if Dir.exist?("#{@parentDir}/review")
-			FileUtils.remove_dir("#{@parentDir}/review")
+			Dir.chdir("#{@parentDir}/review")
+			File.delete("topics.txt")
+			files = list_files("#{@language}.html")
+			files.each do |file|
+				File.delete(file)
+			end
+		else 
+			Dir.mkdir("#{@parentDir}/review")
 		end
-		Dir.mkdir("#{@parentDir}/review")
 	end
 
 	#Returns list of all FOLDERS (directories) in current working directory (cwd)
@@ -103,8 +109,8 @@ class Main
 				"}"]
 		else 
 			dataList = ["heading: Unidad #{@unitNum} Revision",
-				"resource: Lexico [#{link}/review/vocab#{@unitNum}.#{@language}.html]",
-				"resource: En El Examen AP[#{link}/review/exam#{@unitNum}.#{@language}.html]",
+				"resource: Vocabulario [#{link}/review/vocab#{@unitNum}.#{@language}.html]",
+				"resource: En el examen AP[#{link}/review/exam#{@unitNum}.#{@language}.html]",
 				"resource: Preguntas de Autocomprobacion [#{link}/review/selfcheck#{@unitNum}.#{@language}.html]",
 				"}"]
 		end
@@ -199,8 +205,8 @@ class Main
 			'resource: On the AP Exam',
 			'resource: Self-Check Questions',
 			'heading: Unidad',
-			'resource: Lexico',
-			'resource: En El Examen AP',
+			'resource: Vocabulario',
+			'resource: En el examen AP',
 			'resource: Preguntas de Autocomprobacion']
 		topicLine = /(\s+)?(\w+)+(\s+)?/
 		bool = true
