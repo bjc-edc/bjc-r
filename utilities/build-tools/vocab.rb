@@ -110,7 +110,7 @@ class Vocab
 		if @language == "en"
 			return "Vocabulary"
 		elsif @language == "es"
-			return "Lexico"
+			return "Vocabulario"
 		end
 	end
 
@@ -210,12 +210,15 @@ class Vocab
 
 	def save_vocab_word(nodeSet)
 		nodeSet.each do |n|
-			node = n.text().capitalize 
-			if not(@vocabList.include?(node.to_s()))
-				@vocabList.push(node.to_s())
-				@vocabDict[node.to_s()] = [add_vocab_unit_to_header()]
-			elsif @vocabDict[node.to_s()].last() != add_vocab_unit_to_header()
-				@vocabDict[node.to_s()].append(add_vocab_unit_to_header())
+			kludges = ["T", "Bi", "Pi", "T"]
+			node = n.text().capitalize
+			if not(kludges.include?(node.to_s()))
+				if not(@vocabList.include?(node.to_s()))
+					@vocabList.push(node.to_s())
+					@vocabDict[node.to_s()] = [add_vocab_unit_to_header()]
+				elsif @vocabDict[node.to_s()].last() != add_vocab_unit_to_header()
+					@vocabDict[node.to_s()].append(add_vocab_unit_to_header())
+				end
 			end
 		end
 	end
