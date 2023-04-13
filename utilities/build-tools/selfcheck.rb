@@ -61,11 +61,13 @@ class SelfCheck
     end
 
 	def read_file(file)
-		currFile(file)
-		isNewUnit(true)
-		parse_unit(file)
-		parse_assessmentData(file)
-        parse_examData(file)
+		if File.exist?(file)
+			currFile(file)
+			isNewUnit(true)
+			parse_unit(file)
+			parse_assessmentData(file)
+			parse_examData(file)
+		end
 	end
 
     def parse_unit(file)

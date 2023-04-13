@@ -81,11 +81,13 @@ class Vocab
 
 
 	def read_file(file)
-		currFile(file)
-		isNewUnit(true)
-		parse_unit(file)
-		parse_vocab(file)
-		puts "Completed:  #{@currUnit}"
+		if File.exist?(file)
+			currFile(file)
+			isNewUnit(true)
+			parse_unit(file)
+			parse_vocab(file)
+			puts "Completed:  #{@currUnit}"
+		end
 	end
 
 

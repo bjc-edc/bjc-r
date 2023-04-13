@@ -22,7 +22,11 @@ class Index
     end
 
     def getAlphabet()
-        alphabet = ('a'..'z').to_a
+        if @language == "es"
+            alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "ñ", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
+        else
+            alphabet = ('a'..'z').to_a
+        end
     end
 
     def generateAlphaOrder()
@@ -46,7 +50,6 @@ class Index
         while i < sorted.length
             if sorted[i] != nil and sorted[i] != ""
                 vocab = sorted[i].gsub(": ", "")
-                puts vocab
                 if usedLetters.empty? or not(usedLetters.include?(vocab[0].downcase))
                     usedLetters.push(vocab[0].downcase)
                     File.write(fileName, "\n<div class=\"index-letter-target\"><p>#{vocab[0].upcase}<a class=\"anchor\" name=\"#{vocab[0].upcase}\">&nbsp;</a></p></div>\n", mode: "a")
