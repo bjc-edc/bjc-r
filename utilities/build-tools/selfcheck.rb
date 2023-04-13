@@ -25,6 +25,10 @@ class SelfCheck
         @examFileName = name
     end
 
+	def unit()
+		temp = @currUnit.match(/[A-Za-z]+/)
+		return temp.to_s
+	end
 
     def currFile(file)
         @currFile = file
@@ -118,7 +122,16 @@ class SelfCheck
 		linesList =  rio(@currFile).lines[0..15] 
 		while (linesList[i].match(/<body>/) == nil)
 			if linesList[i].match(/<title>/)
-				File.write(fileName, "<title>Unit #{@currUnitNum} #{type} Questions</title>\n", mode: "a")
+				if @language == "en"
+					File.write(fileName, "<title>Unit #{@currUnitNum} #{type} Questions</title>\n", mode: "a")
+				else 
+					if type == "Self-Check"
+						translatedType = "Preguntas de Autocomprobacion"
+					else
+						translatedType = "Examen AP"
+					end
+					File.write(fileName, "<title>Unidad #{@currUnitNum} #{translatedType} </title>\n", mode: "a")
+				end
 			else
 				File.write(fileName, "#{linesList[i]}\n", mode: "a")
 			end
