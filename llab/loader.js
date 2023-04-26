@@ -189,19 +189,6 @@ llab.setupSentry = function () {
       integrations: [new Sentry.Integrations.BrowserTracing()]
     });
   });
-
-  // create hanlder to log when an image fails to load
-  $(document).on('error', 'img', function(event) {
-    var $img = $(event.currentTarget);
-    Sentry.withScope(function(scope) {
-      scope.setTag("img-src", $img.attr("src"));
-      scope.setTag("img-alt", $img.attr("alt"));
-      scope.setTag("img-id", $img.attr("id"));
-      scope.setTag("img-class", $img.attr("class"));
-      Sentry.captureMessage('Image failed to load');
-    });
-  });
-
 }
 
 llab.initialSetUp();
