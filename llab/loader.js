@@ -171,7 +171,7 @@ llab.initialSetUp = function() {
     loadScriptsAndLinks(0);
 
     let sentry = getTag(
-        'script', 'https://browser.sentry-cdn.com/6.12.0/bundle.tracing.min.js', 'text/javascript'
+        'script', 'https://js.sentry-cdn.com/f55a4cd65a8b48fd99e8247c6a5e6c2d.min.js', 'text/javascript'
     );
     sentry.onload = llab.setupSentry;
     document.head.appendChild(sentry);
@@ -181,10 +181,27 @@ llab.initialSetUp = function() {
 /////////////////////
 
 llab.setupSentry = function () {
+  Sentry.onLoad(function() {
     Sentry.init({
-        dsn:"https://575843d153a14b45b34b91d99ea9666a@bugs.cs10.org/13",
-        integrations: [new Sentry.Integrations.BrowserTracing()]
+      // No need to configure DSN here, it is already configured in the loader script
+      // You can add any additional configuration here
+      sampleRate: 0.5,
+      integrations: [new Sentry.Integrations.BrowserTracing()]
     });
+  });
+
+  // create hanlder to log when an image fails to load
+  $(document).on('error', 'img', function(event) {
+    var $img = $(event.currentTarget);
+    Sentry.withScope(function(scope) {
+      scope.setTag("img-src", $img.attr("src"));
+      scope.setTag("img-alt", $img.attr("alt"));
+      scope.setTag("img-id", $img.attr("id"));
+      scope.setTag("img-class", $img.attr("class"));
+      Sentry.captureMessage('Image failed to load');
+    });
+  });
+
 }
 
 llab.initialSetUp();
