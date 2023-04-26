@@ -688,7 +688,7 @@ llab.addTransitionLinks = function() {
     }).done(function() {
       let link = $(document.createElement('a')).attr({
         'href': location.href.replaceAll('.es.', '.'),
-        'class': 'btn btn-primary btn-xs',
+        'class': 'btn btn-default btn-xs imageRight',
         'role': 'button',
         'style': 'margin-left: 10px;'
       }).text('Switch to English');
@@ -700,10 +700,10 @@ llab.addTransitionLinks = function() {
     }).done(function() {
       let link = $(document.createElement('a')).attr({
         'href': location.href.replaceAll('.html', '.es.html').replaceAll('.topic', '.es.topic'),
-        'class': 'btn btn-primary btn-xs',
+        'class': 'btn btn-default btn-xs imageRight',
         'role': 'button',
         'style': 'margin-left: 10px;'
-      }).text('Switch to Español');
+      }).text('Cambiar a Español');
       $('.full').append(link);
     }).fail(function() {});
    }
