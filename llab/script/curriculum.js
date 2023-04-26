@@ -342,6 +342,8 @@ llab.processLinks = function(data, _status, _jqXHR) {
   $('.dropdown-menu').css('max-height', $(window).height() * 0.8);
   $('.dropdown-menu').css('max-width', Math.min($(window).width() * 0.8, 450));
 
+  llab.addTransitionLinks();
+
   // FIXME -- this doesn't belong here.
   llab.indicateProgress(llab.url_list.length, llab.thisPageNum() + 1);
 
@@ -357,13 +359,11 @@ llab.addFrame = function() {
     {'src': source, 'class': 'content-embed'}
   );
 
-  var conent = $(document.createElement('div'));
-  conent.append(
-    '<a href=' + source + ' target="_blank">Open page in new window</a><br />'
-  );
-  conent.append(frame);
+  let content = $(document.createElement('div'));
+  content.append(`<a href="${source}" target=_blank>Open page in new window</a><br />`);
+  content.append(frame);
 
-  $(FULL).append(conent);
+  $(FULL).append(content);
 };
 
 // Setup the entire page title. This includes creating any HTML elements.
@@ -546,7 +546,7 @@ llab.setButtonURLs = function() {
   }
 
   forward = $('.forwardbutton');
-  back     = $('.backbutton');
+  back = $('.backbutton');
 
   // Disable the back button
   // TODO: switch from using `.disabled` to [disabled] in css
@@ -670,6 +670,44 @@ llab.addFooter = function() {
     </div>
   </footer>`
   );
+}
+
+// Show a link 'switch to espanol' or 'switch to english' depending on the current language
+llab.addTransitionLinks = function() {
+  let topicFile = llab.file;
+  let currentPage = location.pathname.split('/').pop();
+  console.log(currentPage);
+  // extract the language from the file name
+  // make an ajax call to get the file name in the other language
+  // if the file exists, add a link to it
+  let langMatcher = currentPage.match(/\.(es)\./);
+  let lang = langMatcher ? langMatcher[1] : 'en';
+  if (lang === 'es') {
+    $.ajax({
+      url: location.pathname.replaceAll('.es.', '.'),
+    }).done(function() {
+      let link = $(document.createElement('a')).attr({
+        'href': location.href.replaceAll('.es.', '.'),
+        'class': 'btn btn-primary btn-xs',
+        'role': 'button',
+        'style': 'margin-left: 10px;'
+      }).text('Switch to English');
+      $('.full').append(link);
+    }).fail(function() {});
+  } else if (lang === 'en') {
+    $.ajax({
+      url: location.pathname.replaceAll('.html', '.es.html')
+    }).done(function() {
+      let link = $(document.createElement('a')).attr({
+        'href': location.href.replaceAll('.html', '.es.html').replaceAll('.topic', '.es.topic'),
+        'class': 'btn btn-primary btn-xs',
+        'role': 'button',
+        'style': 'margin-left: 10px;'
+      }).text('Switch to Español');
+      $('.full').append(link);
+    }).fail(function() {});
+   }
+  console.log(lang);
 }
 
 /**
