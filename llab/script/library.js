@@ -33,7 +33,6 @@ llab.getSnapRunURL = function(targeturl, options) {
         finalurl = llab.snapRunURLBaseVersion.replace('VERSION', options.version);
     }
 
-    // Compare host w/o port number, but include it in the URL that is built.
     var currdom = location.hostname;
     if (currdom == "localhost") {
         currdom = location.origin;
@@ -107,17 +106,19 @@ llab.stripComments = function(line) {
  * To make use of this code, the two ga() functions need to be called
  * on each page that is loaded, which means this file must be loaded.
  */
-llab.GAfun = function(i,s,o,g,r,a,m) { i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m) };
-
 llab.GA = function() {
-    llab.GAfun(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    let ga_url = `https://www.googletagmanager.com/gtag/js?id=${llab.GACode}`;
+    document.head.appendChild(getTag('script', ga_url, 'text/javascript'));
 };
 
 // GA Function Calls -- these do the real work!:
 if (llab.GACode) {
     llab.GA();
-    ga('create', llab.GACode, llab.GAUrl);
-    ga('send', 'pageview');
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', llab.GACode);
 }
 
 /** Truncate a STR to an output of N chars.
