@@ -7,7 +7,7 @@
 	</head>
 
 	<body>
-		<h2>Creating Hot Spots</h2>
+		<h2>Creating Click Areas</h2>
 		<div class="todo">Make a worksheet for this page.</div>
 		<div class="todo">
 			<ul>
@@ -17,10 +17,11 @@
 			</ul>
 		</div>
 
-		<div class="learn">In this activity, you will learn how to make things happen when the user clicks certain parts of the stage background.</div>
+		<div class="learn">In this activity, you will decide which parts of the stage background will respond to user clicks.</div>
 		<p>
-			<img class="imageRight noshadow" src="/bjc-r/img/1-introduction/xy-grid.png" alt="Snap! coordinate plane with labels" title="Snap! coordinate plane with labels" />
-			There are many reasons to use clicks on the background to run code. Clicking on part of a virtual poster might show additional information. In a game, clicking part of a map could move you there.
+			<img class="imageRight noshadow" src="/bjc-r/sparks/img/U2/lab02/xy-grid-say-positions.png" alt="Snap! coordinate plane with labels" title="Snap! coordinate plane with labels" />
+			There are many reasons to use clicks on the stage background to run code. Clicking on part of a virtual poster might show additional information. In a game, clicking part of a map could move you there.
+
 		</p>
 		<p>
 			Locations on the Snap<em>!</em> stage are described using <em>x</em> and <em>y</em> coordinates. The <em>x</em> coordinate tells you the horizontal position. The <em>y</em> coordinate tells you the vertical position. <!--The center of the stage is (0, 0). The first number in parentheses is the <em>x</em> coordinate and the second number is the <em>y</em> coordinate.  At the left edge of the stage, <em>x</em> = -240; at the right edge, <em>x</em> = 240; and the bottom and top of the stage are <em>y</em> = -180 and <em>y</em> = 180.--> <br />
@@ -30,25 +31,76 @@
 			<img class="indent" src="/bjc-r/sparks/img/U2/lab02/mouse-checkboxes.png" alt="screenshot of checkboxes next to 'x position' and 'y position' reporters in 'Sensing' palette" title="screenshot of checkboxes next to 'x position' and 'y position' reporters in 'Sensing' palette" />
 			<img class="indent noshadow" src="/bjc-r/sparks/img/U2/lab02/mouse-watchers.png" alt="screenshot of 'x position' and 'y position' reporters appearing on Snap! stage" title="screenshot of 'x position' and 'y position' reporters appearing on Snap! stage" />
 		</p>
+		<div class="endnote">
+			<p>The picture of the coordinate axes shown on the right is a Snap<em>!</em> stage background. You can add it to your project by clicking the "Stage" icon in the lower right corner of the Snap<em>!</em> window, selecting "Backgrounds..." from the Snap<em>!</em> File menu (<img class="inline" src="/bjc-r/img/1-introduction/file_button.png" alt="File menu button" title="File menu button"/>), and selecting and importing the "XY Grid."</p>
+		</div>
 		
-		<h3 style="clear: right;">Revisiting Your Plan and Choosing Your Click-Areas</h3>
+		<h3 style="clear: right;">Choosing Your Click Areas</h3>
 		<div class="forYouToDo">
 			<ol>
 				<li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> Review your project plan. Where on the background would it make sense for the user to click? What will happen when they click there? </li>
-				<li>Click the checkboxes next to the <code>x position</code> and <code>y position</code> reporters the in the "Sensing" palette. Watch the values of the <code>x position</code> and <code>y position</code> of the mouse as you move it around the stage. </li>
-				<li>For each place on the stage background that you want the user to be able to click, write down the maximum and minimum <em>x</em> and <em>y</em> values where the user will be able to click. This rectangle will be your "hot spot" (or click-area).</li>
-				<div class="vocabFullWidth"><p>A <strong>hot spot</strong> is a special area of the screen, where a user's click causes the computer to do something. In this project, your hot spot will be a rectangle defined by a maximum and minnimum horizontal position and a maximum and minnimum vertical position.</p></div>
+				<li>
+					Determine the coordinates of each click area you want to create. For each click area, write down the maximum and minimum <em>x</em> and the maximum and minimum <em>y</em> coordinates. For example:
+					
+					<img class="indent noshadow" src="/bjc-r/sparks/img/U2/lab02/click-area-chart.jpg" alt="Chart with 5 columns: Click Area, Maximum x, Minimum x, Maximum y, and Minimum y. The Click Area column includes a list of planets, and the other four columns include numbers cooresponding to the maximum and minimum x and the maximum and minimum y coordinates for each click area." title="Chart with 5 columns: Click Area, Maximum x, Minimum x, Maximum y, and Minimum y. The Click Area column includes a list of planets, and the other four columns include numbers cooresponding to the maximum and minimum x and the maximum and minimum y coordinates for each click area." />
+					<div class="narrower">
+						<h4><strong>Ways to Figure Out Snap<em>!</em> Coordinates</strong></h4>
+						<ul>
+							<li><em>Click the checkboxes</em> next to the <code>x position</code> and <code>y position</code> reporters the in the "Sensing" palette (shown above). </li>
+							<li><em>Add the "XY Grid" stage background</em> to your project (import the "XY Grid" stage background; instructions above).</li>
+							<li>
+								<em>Create a script</em> that makes the sprite say the <em>x</em> and <em>y</em> mouse positions.
+								<div class="endnote">
+									<a href="#hint-follow-script-1" data-toggle="collapse" title="Click for a hint about making the sprite say the x and y positions.">Click for a hint.</a>
+									<div id="hint-follow-script-1" class="collapse">
+										<p>The sprite should continuously go to the mouse position and say a list of the <em>x</em> and <em>y</em> positions. <a href="#hint-follow-script-2" data-toggle="collapse" title="Click for an example of code that makes the sprite say the x and y positions.">Click for an example of this code.</a></p>
+										<div id="hint-follow-script-2" class="collapse">
+											<img class="indent" src="/bjc-r/sparks/img/U2/lab02/forever-say-position.png" alt="forever {
+	go to x: (x position) y: (y position)
+	say (list (mouse x) (mouse y))
+}" title="forever {
+	go to x: (x position) y: (y position)
+	say (list (mouse x) (mouse y))
+}" /><br />
+											You should be able to drag this image directly into your Snap<em>!</em> project window. If that doesn't work, right-click and save/download it, and then find and drag the downloaded file into your Snap<em>!</em> project window. 
+										</div>
+									</div>
+								</div>
+							</li>
+							<li><em>Use more than one of these methods</em> at the same time.</li>
+						</ul>
+					</div>
+				</li>
 			</ol>
 		</div>
+		<div class="learn">In this activity, you figured out the maximum and minimum <em>x</em> and <em>y</em> coodinates for the click areas of your interactive project.</div>
+
+		<div class="todo"><h1>Consider a Page Break Here.</h1> </div>
 		
 				
-		<h3>Setting Up Your Click-Areas</h3>
-		<div class="sidenote">You learned about predicates in <a href="/bjc-r/sparks/student-pages/U1/L6/02-l33t-text.html?topic=sparks%2F1-functions-data.topic&course=sparks.html" title="Unit 1 Lab 6 Activity 2: L33t Text" target="_blank">Unit 1 Lab 6 Activity 2: L33t Text</a>.</div>
+		<h3>Setting Up Your Click Areas</h3>
+		<div class="learn">In this activity, you will make things happen when the user clicks certain parts of the stage background.</div>
+		<div class="vocab">
+			<p>
+                A <strong>predicate</strong> is a hexagon-shaped reporter that asks a true/false question.
+            </p>
+			<!--<p>
+				A <strong>conditional</strong> is a block that controls the code based on a true/false condition (the predicate). The <img class="inline nopadtb" src="/bjc-r/img/blocks/reporter-if.png" alt="if 'predicate input slot' then () else ()" title="if 'predicate input slot' then () else ()" /> block is an example of a conditional.
+			</p>-->
+			<div class="endnote">You learned about predicates in <a href="/bjc-r/sparks/student-pages/U1/L6/02-l33t-text.html?topic=sparks%2F1-functions-data.topic&course=sparks.html" title="Unit 1 Lab 6 Activity 2: L33t Text" target="_blank">Unit 1 Lab 6 Activity 2: L33t Text</a>.</div>
+		</div>
+
 		<p>
-			When the user clicks the stage, your program will check whether the mouse is within your hot spot. You can use the <img class="inline" src="/bjc-r/img/blocks/mouse-x.png" alt="mouse x" title="mouse x" /> and <img class="inline" src="/bjc-r/img/blocks/mouse-y.png" alt="mouse y" title="mouse y" /> blocks in the "Sensing" palette together with <img class="inline" src="/bjc-r/img/blocks/greater-than.png" alt=">" title=">" /> or <img class="inline" src="/bjc-r/img/blocks/less-than.png" alt="<" title="<" /> to build a predicate that checks. If you click the right-facing triangle in an inequality block, can can compare multiple values in the same block. <br />
+			When the user clicks the stage, your program will check whether the mouse is within your hot spot. 
+			You can use the <img class="inline" src="/bjc-r/img/blocks/mouse-x.png" alt="mouse x" title="mouse x" /> and <img class="inline" src="/bjc-r/img/blocks/mouse-y.png" alt="mouse y" title="mouse y" /> blocks in the "Sensing" palette together with <img class="inline" src="/bjc-r/img/blocks/greater-than.png" alt=">" title=">" /> or <img class="inline" src="/bjc-r/img/blocks/less-than.png" alt="<" title="<" /> to build a <em>predicate</em> that checks. 
+		</p>
+		<p>
+			If you click the right-facing triangle in an inequality block, can can compare multiple values in the same block. <br />
 			<img class="indent" src="/bjc-r/sparks/img/U2/lab02/greater-than-arrowhead-circled.png" alt="> block with a circle around the right-facing triangle" title="> block with a circle around the right-facing triangle" />
-			<span class="indent" style="font-size:20px;">&rightarrow;</span>
-			<img class="indent" src="/bjc-r/img/blocks/greater-than-expanded.png" alt="() > () > ()" title="() > () > ()" />
+			<span class="" style="font-size:20px;">&rightarrow;</span>
+			<img class="" src="/bjc-r/img/blocks/greater-than-expanded.png" alt="() > () > ()" title="() > () > ()" /><br />
+			For example, the following block checks whether :
+			<img class="indent" src="/bjc-r/sparks/img/U2/lab02/example-predicate.png" alt="" title="" />
 		</p>
 
 		<div class="forYouToDo">
@@ -64,7 +116,19 @@
 				<li>Decide what you want to happen when you click each click area (play a sound-teach importing or have we in animation?, say something, do an animation or type soemthing on the stage-need to distinguish from SAY)</li>
 			</ol>
 		</div>
-		<p>Then they create and debug their on-click script</p>
+		
+		<div class="todo">
+<li>
+                        <strong>Sending messages:</strong> The <code>broadcast</code> block sends a message to <em>all</em> the sprites. To set the message, click the down arrow and select "new..."<br />
+                        <img class="indent" src="/bjc-r/img/blocks/broadcast-open.png" alt="broadcast block with menu open showing one option: new..." title="broadcast block with menu open showing one option: new..." />
+                        <img class="indent" src="/bjc-r/img/ref-guide/broadcast-game-ready-to-start.png" alt="broadcast (game ready to start)" title="broadcast (game ready to start)" />
+                        <br />
+                        Once that message has been sent out, any scripts in your project that begin with the <code>when I receive</code> hat block with that same message will run: <br />
+                        <img class="indent" src="/bjc-r/img/ref-guide/when-i-receive-showing-game-ready.png" alt="when I receive (game ready to start)" title="when I receive (game ready to start)" />
+            </li>		
+		</div>
+
+	<p>Then they create and debug their on-click script</p>
 		<p>hat blocks stuff comes in here</p>
 		<p>test and share with a friend</p>
 		
@@ -72,7 +136,7 @@
 
 
 
-		<div class="learn">In this activity, you learned how to create hot spots that use clicking differnt parts of the Snap<em>!</em> stage as events that tell the computer to do something.</div>
+		<div class="learn">In this activity, you created hot spots that use clicking differnt parts of the Snap<em>!</em> stage as events that tell the computer to do something.</div>
 
 
 	</body>
