@@ -36,11 +36,10 @@ llab.topic_launch_page = llab.llab_path + "html/topic.html";
 llab.alt_topic_page = llab.rootURL + "topic/topic.html";
 llab.empty_curriculum_page_path = llab.llab_path + "html/empty-curriculum-page.html";
 // google analytics tokens
-llab.GACode = 'UA-57857730-3';
-llab.GAurl  = document.hostname;
+llab.GACode = 'G-JCCWWYDEJW';
+llab.GAurl = document.hostname;
 
 // ADDITIONAL LIBRARIES
-
 // Syntax Highlighting support
 llab.paths.syntax_highlights = "//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js";
 llab.paths.syntax_highlighting_css = "css/tomorrow-night-blue.css";
