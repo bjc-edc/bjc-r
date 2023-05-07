@@ -79,20 +79,23 @@ llab.secondarySetUp = function() {
     let contentType = lookupClassName(DISCLOURSE_HEADINGS, classList);
     let id = `hint-${contentType}-${i}`;
     this.innerHTML = `
-    <a style='font-size: 18px;' href='#${id}' data-toggle='collapse'
-      role="button" aria-controls="#${id}" aria-expanded=${isVisible}>
-      <strong>${llab.disclourseBoxHeading(contentType, pageLanguage)}</strong>
-    </a>
-    <div id='${id}' class='collapse'>
-      ${this.innerHTML}
-    </div>`;
+      <a style='font-size: 18px;' href='#${id}' data-toggle='collapse'
+        role="button" aria-controls="#${id}" aria-expanded=${isVisible}>
+        <strong>${llab.disclourseBoxHeading(contentType, pageLanguage)}</strong>
+      </a>
+      <div id='${id}' class='collapse'>
+        ${this.innerHTML}
+      </div>`;
     // Use class "ifTime show" to show by default.
     // BS3 uses the 'in' class to show content, TODO: update this for v5.
     if (isVisible) {
       $(`#${id}`).addClass('in');
       $(this).removeClass('show');
     }
+
   });
+
+  llab.setupSnapImages();
 
   llab.additionalSetup([
     {  // TODO: PUT THESE CLASSES SOMEWHERE
@@ -701,7 +704,17 @@ llab.addTransitionLinks = function() {
 }
 
 llab.setupSnapImages = () => {
-
+  $('img.js-runInSnap').each((_idx, elm) => {
+    // debugger;
+    let $img = $(elm);
+    $img.wrap("<div class='embededImage'></div>")
+    let $open = $('<a>').attr({
+      href: `http://localhost:8000/snap/snap/snap.html#open:${encodeURIComponent($img.attr('src'))}`,
+      class: 'openInSnap',
+      target: '_blank'
+    }).text('Open In Snap!');
+    $open.insertAfter($img);
+  });
 };
 
 /**

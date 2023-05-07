@@ -14,10 +14,6 @@ llab.loaded = llab.loaded || {};
 llab.snapRunURLBase = "https://snap.berkeley.edu/snap/snap.html#open:";
 llab.snapRunURLBaseVersion = "https://snap.berkeley.edu/versions/VERSION/snap.html#open:";
 
-// returns the current domain with a cors proxy if needed
-
-// TODO: Support for a CORS proxy has been removed.
-// If we have a reliable enough CORS proxy, we can consider re-adding it.
 // It is expected that you host llab content in an environment where CORS is allowed.
 llab.getSnapRunURL = function(targeturl, options) {
     if (!targeturl) { return ''; }
@@ -28,26 +24,25 @@ llab.getSnapRunURL = function(targeturl, options) {
     }
 
     // internal resource!
-    var finalurl = llab.snapRunURLBase;
+    let snapURL = llab.snapRunURLBase;
     if (options && options.version) {
-        finalurl = llab.snapRunURLBaseVersion.replace('VERSION', options.version);
+        snapURL = llab.snapRunURLBaseVersion.replace('VERSION', options.version);
+    }
+    if (location.protocol == 'http:') {
+        snapURL = snapURL.replace('https://snap', 'http://extensions.snap');
     }
 
-    var currdom = location.hostname;
-    if (currdom == "localhost") {
-        currdom = 'http://' + currdom + ":" + window.location.port;
-        // finalurl = finalurl.replace('https://snap', 'http://extensions.snap');
-    } else if (targeturl.indexOf("..") != -1 || targeturl.indexOf(llab.rootURL) == -1) {
-        var path = window.location.pathname;
+    let origin = location.origin;
+    // Resolve relative URLs to the full path.
+    // TODO: Consider adapting: new URL("../g", "http://a/b/c/d;p?q").href
+    if (targeturl.indexOf("..") != -1 || targeturl.indexOf(llab.rootURL) == -1) {
+        let path = location.pathname;
         path = path.split("?")[0];
         path = path.substring(0, path.lastIndexOf("/") + 1);
-        currdom = window.location.protocol + '//' + currdom + path;
-    } else {
-        finalurl += window.location.protocol + '//';
+        origin += path;
     }
-    finalurl = finalurl + currdom + targeturl;
 
-    return finalurl;
+    return `${snapURL}${origin}${targeturl}`;
 };
 
 llab.toggleDevComments = function() {
