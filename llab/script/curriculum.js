@@ -441,10 +441,10 @@ llab.createTitleNav = function() {
         </a>
         <div class="navbar-title"></div>
       </div>
-      <div class="trapezoid"></div>
       <div class="nav navbar-nav navbar-right">
         <ul class="nav-btns btn-group"></ul>
       </div>
+      <div class="trapezoid"></div>
     </nav>
     <div class="title-small-screen"></div>
     `,
@@ -684,35 +684,27 @@ llab.addTransitionLinks = function() {
   let langMatcher = currentPage.match(/\.(es)\./);
   let lang = langMatcher ? langMatcher[1] : 'en', new_url, btn_text;
   if (lang === 'es') {
-    new_url = location.pathname.replaceAll('.es.', '.');
+    new_url = location.href.replaceAll('.es.', '.');
     btn_text = 'Switch to English';
   } else if (lang === 'en') {
     new_url = location.href.replaceAll('.html', '.es.html').replaceAll('.topic', '.es.topic');
     btn_text = 'Cambiar a Español';
    }
-   $.ajax({
-      url: new_url
-    }).done(function() {
-      let link = $(document.createElement('a')).attr({
-        'href': new_url,
-        'class': 'btn btn-default btn-xs imageRight',
-        'role': 'button',
-        'style': 'margin-left: 10px;'
-      }).text(btn_text);
-      $('.full').append(link);
-    });
+   fetch(new_url).then((response) => {
+      if (!response.ok) { return; }
+      let link = `<a href="${new_url}" class="btn btn-default imageRight" role="button">
+          ${btn_text}
+        </a>`;
+      $('.full').prepend(link);
+   }).catch(() => {});
 }
 
 llab.setupSnapImages = () => {
   $('img.js-runInSnap').each((_idx, elm) => {
-    // debugger;
     let $img = $(elm);
-    $img.wrap("<div class='embededImage'></div>")
-    let $open = $('<a>').attr({
-      href: `http://localhost:8000/snap/snap/snap.html#open:${encodeURIComponent($img.attr('src'))}`,
-      class: 'openInSnap',
-      target: '_blank'
-    }).text('Open In Snap!');
+    $img.wrap("<div class='embededImage'></div>");
+    let openURL = llab.getSnapRunURL(encodeURIComponent($img.attr('src')));
+    let $open = $(`<a href="${openURL}" class="openInSnap" target="_blank">Open In Snap!</a>`);
     $open.insertAfter($img);
   });
 };
