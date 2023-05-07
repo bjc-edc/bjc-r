@@ -674,41 +674,35 @@ llab.addFooter = function() {
 
 // Show a link 'switch to espanol' or 'switch to english' depending on the current language
 llab.addTransitionLinks = function() {
-  let topicFile = llab.file;
   let currentPage = location.pathname.split('/').pop();
-  console.log(currentPage);
   // extract the language from the file name
   // make an ajax call to get the file name in the other language
   // if the file exists, add a link to it
   let langMatcher = currentPage.match(/\.(es)\./);
-  let lang = langMatcher ? langMatcher[1] : 'en';
+  let lang = langMatcher ? langMatcher[1] : 'en', new_url, btn_text;
   if (lang === 'es') {
-    $.ajax({
-      url: location.pathname.replaceAll('.es.', '.'),
-    }).done(function() {
-      let link = $(document.createElement('a')).attr({
-        'href': location.href.replaceAll('.es.', '.'),
-        'class': 'btn btn-default btn-xs imageRight',
-        'role': 'button',
-        'style': 'margin-left: 10px;'
-      }).text('Switch to English');
-      $('.full').append(link);
-    }).fail(function() {});
+    new_url = location.pathname.replaceAll('.es.', '.');
+    btn_text = 'Switch to English';
   } else if (lang === 'en') {
-    $.ajax({
-      url: location.pathname.replaceAll('.html', '.es.html')
+    new_url = location.href.replaceAll('.html', '.es.html').replaceAll('.topic', '.es.topic');
+    btn_text = 'Cambiar a Español';
+   }
+   $.ajax({
+      url: new_url
     }).done(function() {
       let link = $(document.createElement('a')).attr({
-        'href': location.href.replaceAll('.html', '.es.html').replaceAll('.topic', '.es.topic'),
+        'href': new_url,
         'class': 'btn btn-default btn-xs imageRight',
         'role': 'button',
         'style': 'margin-left: 10px;'
-      }).text('Cambiar a Español');
+      }).text(btn_text);
       $('.full').append(link);
-    }).fail(function() {});
-   }
-  console.log(lang);
+    });
 }
+
+llab.setupSnapImages = () => {
+
+};
 
 /**
 *  Positions an image along the bottom of the lab page, signifying progress.
