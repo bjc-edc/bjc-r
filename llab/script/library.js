@@ -47,31 +47,31 @@ llab.getSnapRunURL = function(targeturl, options) {
 
 llab.toggleDevComments = function() {
     $(".todo, .comment, .commentBig").toggle();
-  };
+};
 
-  llab.hideAllDevComments = function() {
+llab.hideAllDevComments = function() {
     $('.todo, .comment, .commentBig').hide();
-  }
+}
 
-  llab.showAllDevComments = function() {
+llab.showAllDevComments = function() {
     $('.todo, .comment, .commentBig').show();
-  }
+}
 
-  llab.canShowDevComments = function() {
+llab.canShowDevComments = function() {
     return ['localhost', '127.0.0.1'].includes(window.location.hostname);
-  }
+}
 
-  llab.setUpDevComments = function() {
+llab.setUpDevComments = function() {
     if (llab.canShowDevComments()) {
-      if ($('.js-commentBtn').length < 1) {
-        let addToggle = $('<button class="imageRight btn btn-default js-commentBtn">')
-              .click(llab.toggleDevComments)
-              .text('Toggle developer todos/comments (red boxes)');
-        $(FULL).prepend(addToggle);
-      }
-      $(window).load(llab.showAllDevComments);
+        if ($('.js-commentBtn').length < 1) {
+            let addToggle = $('<button class="imageRight btn btn-default js-commentBtn">')
+                .click(llab.toggleDevComments)
+                .text('Toggle developer todos/comments (red boxes)');
+            $(FULL).prepend(addToggle);
+        }
+        $(window).load(llab.showAllDevComments);
     }
-  }
+}
 
 
 /** Returns the value of the URL parameter associated with NAME. */
