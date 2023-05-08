@@ -28,7 +28,7 @@ This repo lives on the following two domains:
 However, the repository is setup so that any fork can be run using GitHub pages.
 The main BJC repo can be viewed in a live state, [here](gh), or you can use your own fork by visiting the following url: `http://[username].github.io/bjc-r/`, where you replace `[username]` with your GitHub account name.
 
-## Running Your Own (Lcoal) Server
+## Running Your Own (Local) Server
 While GitHub pages are convenient, you'll likely want to run your own web server
 to make viewing changes much more quick and easy. In order to view the labs, you'll need to have an Apache server running on your machine. Here are some simple instructions for a couple different platforms.
 
