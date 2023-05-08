@@ -28,7 +28,7 @@ This repo lives on the following two domains:
 However, the repository is setup so that any fork can be run using GitHub pages.
 The main BJC repo can be viewed in a live state, [here](gh), or you can use your own fork by visiting the following url: `http://[username].github.io/bjc-r/`, where you replace `[username]` with your GitHub account name.
 
-## Running Your Own (Lcoal) Server
+## Running Your Own (Local) Server
 While GitHub pages are convenient, you'll likely want to run your own web server
 to make viewing changes much more quick and easy. In order to view the labs, you'll need to have an Apache server running on your machine. Here are some simple instructions for a couple different platforms.
 
@@ -36,13 +36,17 @@ __No matter the platform, you should server files from `/bjc-r/` at the root of 
 
 ### macOS and Unix
 The easiest way to setup a server is to use a simple, built-in Python server.
-1. `cd` into one level above the `bjc-r` directory.
-2. In a separate window run `python -m SimpleHTTPServer` (for Python 2) or `python3 -m http.server` for Python 3.
+1. `cd bjc-r` -- Ensure your current directory is at the root of `bjc-r/`
+2. Execute `python3 utilities/server.py`
+  2.1 This **must** be run from within bjc-r.
+  2.2 Press Control-C to end the server.
 3. Navigate to [http://localhost:8000/bjc-r][localhost] in a browser.
 4. That's it! :)
 
+This server requires Python 3.
+
 ### Windows
-Windows guide coming...sometime. However, the Python solution should work as well, provided you install Python.
+Windows guide coming...sometime. However, the Python solution should work as well, provided you install Python 3.
 
 ## Contributing
 
