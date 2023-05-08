@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unit 2 Lab 2: Graphics and Animation, Activity 14</title>
+	</head>
+
+	<body>
+		<h2>Broadcasting a Click Message</h2>
+		<div class="learn">In this activity, you will use messages to tell other parts of your program what to do when the user clicks your click area.</div>
+		<p>
+			<img class="imageRight" src="/bjc-r/sparks/img/U2/lab02/stage-icon.png" alt="screenshot of lower left corner of Snap! window showing the stage icon and two sprite icons" title="screenshot of lower left corner of Snap! window showing the stage icon and two sprite icons" />
+			Since your project will react to clicks on the stage, you'll need to create code for the stage. You can find the stage scripts by clicking the "Stage" icon in the lower left corner of the Snap<em>!</em> window. (You can return to your sprite code by clicking a sprite icon.)
+		</p>
+		<p>The code for the stage controls only the stage (such as its background). The code for each sprite controls only that sprite (such as its costume or movement). If you want clicking the stage to make a sprite do something, then you need to make the stage talk to the sprite.</p>
+		<p>
+			In Snap<em>!</em>, <em>messages</em> let one part of your program talk to another part of your program. The <code>broadcast</code> block sends a message to every part of your project. You can set the message to anything that will help you remember what it means. Here's an example: <br />
+			<img class="indent" src="/bjc-r/img/ref-guide/broadcast-game-ready-to-start.png" alt="broadcast (game ready to start)" title="broadcast (game ready to start)" />
+		</p>
+		<p>
+			Once the message has been sent, any scripts in your project that begin with the <code>when I receive</code> block with that same message will run: <br />
+			<img class="indent" src="/bjc-r/img/ref-guide/when-i-receive-showing-game-ready.png" alt="when I receive (game ready to start)" title="when I receive (game ready to start)" />
+		</p>
+	
+		<div class="forYouToDo">
+			<ol>
+				<li>Create a script for your stage that broadcasts a message when the stage is clicked.</li>
+				<div class="endnote">
+					To set the message, click the down arrow and select "new..."<br />
+					<img class="indent" src="/bjc-r/img/blocks/broadcast-open.png" alt="broadcast block with menu open showing one option: new..." title="broadcast block with menu open showing one option: new..." />
+				</div>
+				<li>
+					Create a script that responds to that message. You'll need to decide:
+					<ul>
+						<li>Which sprite will respond to the message</li>
+						<li>Whether the stage or the sprite will check if the mouse is in your click area</li>
+						<div class="endnote">
+							You could either have the stage broadcast a <em>general</em> message (such as "stage clicked") and then <em>have the sprite check</em> if where the mouse was, or you could <em>have the stage check</em> where the mouse was and then broadcast a <em>specific</em> message (such as "Jupiter clicked").
+							<p><a href="#hint-general" data-toggle="collapse" title="Click for an example of broadcasting a general message and having the sprite check the mouse.">Click for an example of broadcasting a general message and having the sprite check the mouse.</a></p>
+							<div id="hint-general" class="collapse">
+								<p><em>Note: This project has the sprite go to a specific location and say something. What will yours do?</em></p>
+								<p>
+									Stage script:<br />
+									<img class="indent" src="/bjc-r/sparks/img/U2/lab02/general-message-stage-script.png" alt="when I am (clicked)
+broadcast ('poster click')" title="when I am (clicked)
+broadcast ('poster click')" /><br />
+									Sprite script:<br />
+									<img class="indent" src="/bjc-r/sparks/img/U2/lab02/general-message-sprite-script.png" alt="when I receive ('poster click')
+if ((-240 < mouse x < -80) and (180 > mouse y > 40)) {
+	go to x: (-145) y: (80)
+	say ('Mercury is...')
+}, if ((-80 < mouse x < 80) and (180 > mouse y > 40)) {
+	go to x: (0) y: (80)
+	say ('Unlike other planets, Venus...')
+}..." title="when I receive ('poster click')
+if ((-240 < mouse x < -80) and (180 > mouse y > 40)) {
+	go to x: (-145) y: (80)
+	say ('Mercury is...')
+}, if ((-80 < mouse x < 80) and (180 > mouse y > 40)) {
+	go to x: (0) y: (80)
+	say ('Unlike other planets, Venus...')
+}..." />
+								</p>
+							</div>
+							<p><a href="#hint-specific" data-toggle="collapse" title="Click for an example of having the stage check the mouse and broadcasting a specific message.">Click for an example of having the stage check the mouse and broadcasting a specific message.</a></p>
+							<div id="hint-specific" class="collapse">
+								<p><em>Note: This project has the sprite go to a specific location and say something. What will yours do?</em></p>
+								Stage script:<br />
+								<img class="indent" src="/bjc-r/sparks/img/U2/lab02/specific-message-stage-script.png" alt="when I am (clicked)
+if ((-240 < mouse x < -80) and (180 > mouse y > 40)) {broadcast (Mercury)}
+if ((-80 < mouse x < 80) and (180 > mouse y > 40)){broadcast (Venus)}..." title="when I am (clicked)
+if ((-240 < mouse x < -80) and (180 > mouse y > 40)) {broadcast (Mercury)}
+if ((-80 < mouse x < 80) and (180 > mouse y > 40)){broadcast (Venus)}..." /><br />
+								Sprite scripts:<br />
+								<img class="indent" src="/bjc-r/sparks/img/U2/lab02/specific-message-sprite-script1.png" alt="when I receive ('Mercury')
+go to x: (-140) y: (80)
+say ('Mercury...')" title="when I receive ('Mercury')
+go to x: (-140) y: (80)
+say ('Mercury...')" />
+								<img class="indent" src="/bjc-r/sparks/img/U2/lab02/specific-message-sprite-script2.png" alt="when I receive ('Venus')
+go to x: (0) y: (80)
+say ('Unlike other planets, Venus...')" title="when I receive ('Venus')
+go to x: (0) y: (80)
+say ('Unlike other planets, Venus...')" />
+							</div>
+						</div>
+					</ul>
+				</li>
+				<li>Check that your project does what you want when you click the click area and that it doesn't do it when you click somewhere else.</li>
+				<li><img class="inline" src="/bjc-r/img/icons/save-now.png" alt="Now Is a Good Time to Save" title="Now Is a Good Time to Save" /></li>
+			</ol>
+		</div>
+		
+		<div class="ifTime">
+			<ol start="5">
+				<li>Set up more messages and code to respond to other click areas.</li>
+			</ol>
+		</div>
+		
+
+
+		<div class="learn">In this activity, you created click areas that use clicking different parts of the Snap<em>!</em> stage as events that tell the computer to do something.</div>
+
+
+	</body>
+</html>
