@@ -1,4 +1,6 @@
 image_file=$2
 xml_file=$1
-url_encode=$(jq -rn --arg x "$(cat $xml_file)" '$x|@uri')
-exiftool -Comment="Data	Payload	Embedded${url_encoded}Data	Payload	Embedded" $image_file
+xml_data=$(cat $xml_file)
+url_encoded=$(jq -rn --arg x "$xml_data" '$x|@uri')
+snap_marker="Data	Payload	Embedded"
+exiftool -Comment="${snap_marker}${url_encoded}${snap_marker}" $image_file
