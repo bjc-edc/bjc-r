@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unidad 6 Lab 1: Jerarquía de Abstracción Computacional, página 6</title>
+	</head>
+    <body>
+        <h2>El dominio digital: Arquitectura</h2>
+        <div class="todo">
+            <p>MF: lightly clean up to make the text more concise</p>
+		</div>
+
+        <div class="learn"><strong>En esta página</strong>, cambiamos de software a hardware, comenzando con la <em>arquitectura</em>, que es esencialmente el hardware como se ve para el software.</div>
+
+		<p>El software en una computadora sería inútil sin el <em>hardware</em> de la computadora: el circuito real dentro de la caja. Así como hay capas de abstracción para el software, los diseñadores de hardware también piensan en capas de abstracción.</p>
+		<img class="imageRight noshadow" src="/bjc-r/img/6-computers/hardware-abstraction-mini.es.png" alt="diagrama simplificado de la jerarquía de abstracción computacional que muestra tres niveles de abstracción decreciente: dominio de software, dominio digital y dominio analógico; hay una línea divisoria entre los dominios de software y digital etiquetada como 'barrera de abstracción del programa' y una línea divisoria entre los dominios analógico y digital etiquetada como 'barrera de abstracción digital;' hay una flecha vertical de dos puntas a la derecha que indica que los elementos enumerados primero en la lista tienen un 'alto nivel de abstracción' y los que están más abajo en la lista tienen un 'bajo nivel de abstracción'" title="diagrama simplificado de la jerarquía de abstracción computacional que muestra tres niveles de abstracción decreciente: dominio de software, dominio digital y dominio analógico; hay una línea divisoria entre los dominios de software y digital etiquetada como 'barrera de abstracción del programa' y una línea divisoria entre los dominios analógico y digital etiquetada como 'barrera de abstracción digital;' hay una flecha vertical de dos puntas a la derecha que indica que los elementos enumerados primero en la lista tienen un 'alto nivel de abstracción' y los que están más abajo en la lista tienen un 'bajo nivel de abstracción'" />
+        <p>Todos hablan de computadoras representando todos los datos utilizando solo dos valores, 0 y 1. Pero en realidad no es así como funcionan los circuitos electrónicos. Los diseñadores de computadoras pueden trabajar <em>como si</em> los circuitos estuvieran apagados (0) o encendidos (1) debido a la <strong>abstracción digital</strong>, la abstracción más importante en hardware. Por encima de ese nivel de abstracción, hay cuatro niveles más detallados, llamados <strong>dominio digital</strong>. Debajo de la abstracción digital, los diseñadores trabajan en el <strong>dominio analógico</strong>, en el que un cable en un circuito puede tener cualquier valor de voltaje, no solo dos valores.</p>
+        <p>En las siguientes cuatro páginas, exploraremos cuatro niveles del dominio digital.</p>
+
+        <div class="endnote">
+            <h3>La computadora del programa almacenado</h3>
+            <p>Como verá en el Laboratorio 3, ha habido máquinas para realizar cálculos durante miles de años. Pero la computadora moderna, <em>programable</em> tuvo sus raíces en el trabajo de Charles Babbage a principios de 1800.</p>
+            <p>Babbage era principalmente un matemático, pero contribuyó a campos tan variados como la astronomía y la economía. Babbage vivió hace unos 150 años de 1791-1871. La electricidad como fuente de energía era desconocida. La máquina de vapor entró en uso generalizado en la época en que nació. La maquinaria más precisa de su tiempo era el mecanismo de relojería -engranajes.</p>
+
+            <h4><strong>Máquina diferencial</strong></h4>
+            <p>La primera computadora de Babbage fue la Máquina Diferencial. Utilizó engranajes para diseñar una máquina compleja que calcularía e imprimiría tablas de números (como las tablas de registro o funciones trigonométricas que puede tener en la parte posterior un libro de texto de matemáticas). Pero estos engranajes debían ser tan precisos que cada uno tenía que ser hecho a mano. El proyecto se volvió tan costoso que el gobierno dejó de financiarlo y Babbage nunca terminó una versión a gran escala.</p>
+            <div class="comment">Bad Mary. ;) We need a CSS solution for this instead of using tables. --MF, 12/4/17</div>
+            <table class="indent">
+                <tr>
+                    <td>
+                        <img src="/bjc-r/img/6-computers/babbage-difference-engine.jpg" height="200px" alt="La máquina diferencial en el Museo de Ciencias de Londres: la imagen muestra un gran dispositivo mecánico con muchos engranajes y una gran manivela al lado." title="La máquina diferencial en el Museo de Ciencias de Londres: la imagen muestra un gran dispositivo mecánico con muchos engranajes y una gran manivela al lado." /><br />
+                        <small>La máquina diferencial en el Museo de Ciencias de Londres</small><br />
+                        <small><small>
+                            Imagen del usuario geni de Wikimedia. Copyright 2008. License: GFDL, CC BY-SA.
+                        </small></small>
+                    </td>
+                    <td>
+                        <img src="/bjc-r/img/6-computers/closeup-difference-eng.jpg" height="200px" alt="Un primer plano que muestra los engranajes de la máquina diferencial más claramente" title="Un primer plano que muestra los engranajes de la máquina diferencial más claramente" /><br />
+                        <small>Un primer plano que muestra los engranajes de la máquina diferencial más claramente</small><br />
+                        <small><small>
+                            Imagen de Carsten Ullrich. Copyright 2005. License: CC-BY-SA-2.5.
+                        </small></small>
+                    </td>
+                </tr>
+            </table>
+
+            <p>
+                <a href="#hint-difference" data-toggle="collapse" title="Aprende más sobre la historia de la máquina diferencial">Aprende más sobre la historia de la máquina diferencial.</a>
+                <div id="hint-difference" class="collapse">
+                    <p>En la época de Babbage, tales tablas numéricas fueron calculadas a mano por matemáticos humanos, y fueron escritas a mano para imprimir. Tanto el cálculo como la copia para imprenta eran propensos a errores, y se necesitaban tablas precisas para fines que iban desde la ingeniería hasta la navegación.</p>
+                    <p>Babbage construyó una primer máquina diferencial pequeño en 1822. Este primer esfuerzo demostró que una máquina diferencial era posible, pero no tenía la precisión (número de dígitos en cada número) para ser práctico. En 1823, el gobierno británico financió a Babbage para construir una versión más grande. Desafortunadamente, los metalúrgicos en su día no podían producir engranajes muy precisos en grandes cantidades; cada uno tenía que ser hecho a mano. Entonces gastó diez veces su presupuesto aprobado para cuando el gobierno canceló el proyecto en 1842.</p>
+                    <p>En 1991, el Museo de Ciencias de Londres completó una máquina diferencial siguiendo el diseño original de Babbage utilizando engranajes hechos por procesos modernos pero con el nivel de precisión que estaba disponible para Babbage. Esto demostró que, en principio, Babbage podría haber completado una máquina en funcional, con suficiente tiempo y dinero.</p>
+                </div>
+            </p>
+
+            <h4><strong>La máquina analítica</strong></h4>
+            <p>
+            	La máquina diferencial podría usarse para calcular muchas funciones diferentes configurando manualmente la posición de inicio de varios engranajes. Pero tenía <strong>sólo un algoritmo</strong>: el construido en el diseño de hardware. En 1833, Babbage comenzó a trabajar en la máquina analítica, que se basaba en la idea general de la máquina diferencial, pero <strong>podía llevar a cabo instrucciones</strong> en un lenguaje de programación primitivo preparado en tarjetas perforadas.<br />
+                <div class="sidenote">
+                    <small>Tarjetas perforadas utilizadas para programar la máquina analítica</small><br />
+                    <small><small>Karoly Lorentey.  Copyright 2004.  License: CC-BY.</small></small>
+                </div>
+                <img class="indent" src="/bjc-r/img/6-computers/punched-cards-analytical-engine.jpg" height="300px" alt="Tarjetas perforadas utilizadas para programar la máquina analítica" title="Tarjetas perforadas utilizadas para programar la máquina analítica" />
+            </p>
+            <p>En estos días, estamos rodeados de computadoras programables, y tener software parece obvio ahora. Pero no era obvio, y antes de Babbage, todos los algoritmos se implementaron directamente en el hardware.</p>
+            <p>Entonces, hace 150 años, Babbage creó planes para lo que es esencialmente una computadora moderna, aunque no tenía dispositivos electrónicos disponibles. Su idea fundamental para el hardware era completamente mecánica, pero resultó que no le fue posible construirlo con la tecnología de su tiempo. No obtuvimos computadoras <em>utilizables</em> hasta que hubo una tecnología fundamental lo suficientemente pequeña, económica y lo suficientemente rápida como para soportar la abstracción del software. aprenderá sobre esta tecnología, transistores, Pronto.</p>
+        </div>
+
+		<div class="takeNote">La abstracción del <em>software</em> (un programa almacenado en la memoria de la computadora) es lo que hace que una computadora sea utilizable para más de un propósito.</div>
+
+        <div class="endnote">
+            <p>
+                <a href="#hint-analytical" data-toggle="collapse" title="Aprende más sobre la máquina analítica">Aprende más sobre la máquina analítica.</a>
+                <div id="hint-analytical" class="collapse">
+                    <p>La máquina analítica, al igual que las computadoras modernas, tenía un procesador aritmético (llamado "molino") y una memoria separada (el "almacén") con capacidad para 1,000 números, cada uno con hasta 40 dígitos.  <!--(In modern terms, this is comparable to 20,000 bytes, since a byte can hold two digits, with four bits needed for each.)-->  El molino hacía aritmética en decimal (con dígitos 0-9 igualmente espaciados alrededor de cada engranaje); el uso de "unos y ceros" en computación llegó más tarde.</p>
+                    <p>El lenguaje de programación utilizado en la máquina analítica incluía condicionales y bucles, que es todo lo que se necesita para representar cualquier algoritmo. (Podría hacer bubles porque podría avanzar o retroceder a través de las tarjetas perforadas que contienen el programa).</p>
+                    <p>Por desgracia, Babbage podo construir solo una pequeña parte de la máquina analítica, lo que habría requerido aún más trabajo en metal que la máquina diferencial. Sus notas sobre el diseño no estaban completas, por lo que nadie ha construido nunca un modelo funcional, aunque hay simulaciones disponibles en la Web (consulte el problema Llevar más allá a continuación). Lamentablemente, en los primeros días de las computadoras electrónicas, el trabajo de Babbage no era ampliamente conocido, y la gente terminó reinventando muchas de sus ideas.</p>
+                </div>
+            </p>
+            <p>
+            	<a href="#hint-ada" data-toggle="collapse" title="Learn about Ada, Countess Lovelace's invention of symbolic computing">Aprenda sobre Ada, Condesa de Lovelace y su invención de la computación simbólica.</a>
+				<div id="hint-ada" class="collapse">
+                    <p>Aunque su diseño era muy versátil, Babbage estaba principalmente interesado en imprimir tablas de números. Fue su colaborador Augusta Ada King-Noel, condesa de Lovelace, quien primero reconoció que los números en la computadora de Babbage podían usarse no solo como cantidades sino también como notas musicales, caracteres de texto, etc.</p>
+                    <img class="indent" height="300px" src="/bjc-r/img/6-computers/ada-lovelace.jpg" alt="Ada, Condesa de Lovelace" title="Ada, Condesa de Lovelace" />
+                    <div class="sidenote">
+                    	<small>Imagen por Alfred Edward Chalon, Science &amp; Society Picture Library, Public Domain, via Wikimedia.</small>
+                    </div>
+                    <p>Gran parte de lo que sabemos hoy sobre el diseño de Babbage proviene de las extensas notas de Ada Lovelace sobre su diseño. Sus notas incluyeron el primer programa <em>publicado</em> para la máquina analítica, por lo que es ampliamente considerada "la primera programadora", aunque es casi seguro que el mismo Babbage escribió varios programas de ejemplo mientras diseñaba la máquina.</p>
+                    <p>Independientemente de si ella fue realmente la primera programadora, los historiadores coinciden en que hizo algo más importante: inventó la idea de la computación <em>simbólica</em> (incluyendo texto, imágenes, música, etc.) en oposición a la computación numérica. Esta idea pavimento el camino para todas las formas en que se usan las computadoras hoy en día, desde películas por demanda hasta programas interactivos de voz como Siri y Alexa.</p>
+                </div>
+            </p>
+        </div>
+
+        <h3>¿Qué es una arquitectura?</h3>
+        <p>La máquina analítica (descrito anteriormente) fue la primera arquitectura de computadora programable. El procesador en la computadora que está utilizando hoy comprende un solo idioma, su propio <em>lenguaje de máquina</em>&mdash;no Java, ni C, ni Snap <em>!</em>, ni Python, ni ninguna otra cosa. Programas escritos en esos otros idiomas primero deben traducirse al lenguaje de máquina.</p>
+		<p>La parte más importante de la arquitectura es el lenguaje de máquina, el conjunto de instrucciones de nivel ultra bajo que comprende el hardware. Este lenguaje es como un contrato entre el hardware y el software: el hardware promete comprender un conjunto de instrucciones, y el software compila programas de lenguaje amigable para los humanos en esas instrucciones.</p>
+		<div class="vocabFullWidth">
+			<p><strong>Lenguaje de máquina</strong> es el lenguaje de programación de más bajo nivel; es entendido directamente por el hardware de la computadora.</p>
+            <p><strong>Arquitectura</strong> es una abstracción, una especificación del lenguaje de máquina. También indica cómo se conecta el procesador a la memoria. No especifica la circuitería; La misma arquitectura se puede construir como circuitería de muchas maneras diferentes.</p>
+        </div>
+        <p>Una parte importante de una arquitectura es la cantidad de cables que conectan el procesador y la memoria. Esto se llama el <em>ancho</em> de la arquitectura, medido en <em>bits</em> (número de cables). Una computadora más ancha puede procesar más datos en una sola instrucción.</p>
+
+        <div class="endnote">
+            <a href="#hint-machine-language" data-toggle="collapse" title="¿Cómo se ve el lenguaje de máquina??">¿Cómo se ve el lenguaje de máquina??</a>
+            <div id="hint-machine-language" class="collapse">
+                <p>
+                	Considere la instrucción de Snap <em>!</em> <img class="inline nopad" src="/bjc-r/img/6-computers/set-c-to-a+b.es.png" alt="asignar a (c) el valor (a + b)" title="asignar a (c) el valor (a + b)" />.  En un lenguaje de nivel mas bajo como C o Java, la misma idea se escribiría como:<br />
+                    <pre >c = a+b;</pre>
+                    Ese simple comando podría traducirse a <em>six</em> instrucciones de lenguaje de máquina (ligeramente simplificadas aquí):<br />
+                    <pre>movq    _c, %rcx
+movq    _b, %rdx
+movq    _a, %rsi
+movl    (%rsi), %edi
+addl    (%rdx), %edi
+movl    %edi, (%rcx)</pre>
+                    Esta notación, llamada <em>lenguaje ensamblador</em>, es un equivalente línea por línea a los códigos de instrucción numéricos reales, pero es un poco más legible.
+                </p>
+                <a href="#hint-assembly" data-toggle="collapse" title="¿Qué significa ese código?">¿Qué significa ese código?</a>
+				<div id="hint-assembly" class="collapse">
+					<p>Las primeras tres instrucciones cargan las <em>direcciones</em> de las tres variables en registros dentro del procesador. Los nombres con signos de porcentaje, como <code>%rcx</code>, se refieren a registros específicos del procesador. <code>Movq</code> es el nombre de una instrucción de lenguaje de máquina. (Abrevia "move quote", que dice mover un valor constante a un registro. Note que <var>a</var> es una variable, pero <em>la dirección de</em> <var>a</var> es un valor constante: la variable no se mueve en la memoria de la computadora.)</p>
+					<p>La siguiente instrucción, <code>movl</code> ("move long"), dice mover una palabra de un lugar a otro. Poniendo un nombre de registro entre paréntesis, como <code>(% rsi)</code>, significa usar la ubicación de memoria cuya dirección está en el registro. En este caso, dado que el tercer <code>movq</code> coloca la dirección de <var>a</var> en el registro <code>%rsi</code>, el primer <code>movl</code> dice mover la variable <var>a</var> de la memoria a un registro del procesador.  Luego, la instrucción <code>addl</code> dice agregar la variable <var>b</var> en ese mismo registro. Finalmente, el valor en el registro <code>%edi</code> se mueve a la ubicación de memoria que contiene la variable <var>c</var>.</p>
+                </div>
+                <p>¡No querrás tener que programar en este lenguaje! Y <em>no</em> tiene que hacerlo; Las arquitecturas modernas están diseñadas para compiladores, no para programadores humanos de lenguaje máquina.</p>
+            </div>
+        </div>
+
+
+        <div class="endnote">
+			Aprende sobre:
+            <ul>
+                <li>
+                    <a href="#hint-architecture" data-toggle="collapse" title="Arquitectura de PC/Mac">Arquitectura de PC/Mac</a>
+                    <div id="hint-architecture" class="collapse">
+                      <div class="comment" style="color:grey">This has a lot of numbers in it which make it harder to read, but more importantly it's so abstract and doesn't really talk about anything familiar, which given the hint title "PC/Mac" I was expecting. Needs some work. --MF, 11/8/17</div>
+                      <p>La mayoría de los procesadores de computadora (la parte que lleva a cabo las instrucciones) en computadoras de escritorio o portátiles utilizan una arquitectura llamada "x86" que fue diseñada por Intel, un fabricante de chips. El primer procesador que usó esa arquitectura se llamó 8086, lanzado en 1978. (La razón del nombre x86 es que las primeras versiones mejoradas se llamaron 80286, 80486, y así sucesivamente). El 8086 original era una arquitectura de 16 bits; desde entonces se han desarrollado versiones de 32 bits (desde 1985) y 64 bits (desde 2003). Incluso con todos los refinamientos de la arquitectura, los nuevos procesadores x86 son casi siempre <em>compatibles con versiones anteriores,</em> lo que significa que las versiones actuales seguirán ejecutando programas escritos para el 8086 original.</p>
+                      <p>¿Por qué la arquitectura x86 llegó a gobernar el mundo? La respuesta breve es que IBM lo usó en su PC original, y todos los fabricantes de PC posteriores siguieron su ejemplo porque podían ejecutar software compatible con IBM sin modificaciones. Pero, ¿por qué IBM eligió el x86? Podría decirse que habia mejores arquitecturas competidoras disponibles, como el Motorola 68000 y el propio 801 de IBM. Los diseñadores de PC discutieron sobre qué usar, pero al final, lo que marcó la diferencia fue la larga historia de IBM de trabajar con Intel.</p>
+                      <p>El Apple Macintosh usó originalmente la arquitectura Motorola 68000, y en 1994 Apple diseñó su propia arquitectura PowerPC en un proyecto conjunto con IBM y Motorola, pero en 2006 ellos también cambiaron al x86, porque Intel sigue produciendo versiones más nuevas y más rápidas del x86 más a menudo de lo que otras compañías podrían mantener el ritmo.</p>
+                    </div>
+                </li>
+                <li>
+                    <a href="#hint-architecture-phone" data-toggle="collapse" title="arquitectura de teléfonos inteligentes">arquitectura de teléfonos inteligentes</a>
+                    <div id="hint-architecture-phone" class="collapse">
+                        <p>Todo lo relacionado con la arquitectura de los teléfonos inteligentes está determinado por el pequeño tamaño del espacio dentro de la carcasa. La altura y el ancho del teléfono están limitados por el tamaño de los bolsillos frontales de las personas. <em>(No guardes tu teléfono en el bolsillo trasero de tu pantalón. Eso es realmente malo tanto para el teléfono como para tu espalda).</em> La profundidad de adelante hacia atrás de un teléfono podría ser mucho mayor de lo que es, pero por alguna razón, los fabricantes de teléfonos compiten por la delgadez de sus teléfonos, lo que les da a los diseñadores aún menos espacio en el interior.</p>
+                        <p>Como resultado, muchos componentes que estarían separados del chip del procesador en una computadora son, en cambio, parte del mismo chip en un teléfono. Estos componentes pueden incluir parte o la totalidad de un módem celular, un módem WiFi, un procesador de gráficos (otro procesador que se especializa en aritmética paralela en listas de números), memoria, un receptor GPS para encontrar la ubicación física de su teléfono, circuitos para administrar el agotamiento de la energía  y recarga de la batería, y más. En estos días, es probable que el chip incluya dos, cuatro o incluso ocho copias de la CPU real, para hacer sistemas multinúcleo. Esta colección de componentes se denomina <em>sistema en un chip,</em>o SoC.</p>
+                        <p>Intel creó un SoC de baja potencia basado en x86 (es decir, la misma arquitectura utilizada en las PC) llamado Atom, que se usó en algunos teléfonos Motorola y en otros fabricados por compañías de las que nunca has oído hablar. Fue hecho para soportar teléfonos Android, Linux y Windows.</p>
+                        <p>Pero la gran mayoría de los teléfonos usan la arquitectura ARM, que (a diferencia del x86) fue diseñada desde el principio para ser una arquitectura de bajo consumo de energia. El acrónimo significa máquina avanzada RISC. Está disponible en configuraciones de 32 bits y 64 bits.</p>
+                        <div class="endnote">
+                            <a href="#hint-risc" data-toggle="collapse" title="¿Qué es un RISC?">¿Qué es un RISC?</a>
+                            <div id="hint-risc" class="collapse">
+                                <p>El nombre significa Computadora con conjunto de instrucciones reducido, a diferencia de las arquitecturas CISC (Computadora con conjunto de instrucciones complejas), incluida la x86. El <em>conjunto de instrucciones</em> de una arquitectura es, como se podría adivinar por el nombre, el conjunto de instrucciones que entiende el procesador. Un RISC tiene menos instrucciones que un CISC, pero también es más simple en otros aspectos. Por ejemplo, un CISC generalmente tiene más <em>modos de direccionamiento</em> en sus instrucciones. En la arquitectura x86, la instrucción <code>add</code> puede agregar dos registros del procesador, o un registro y un valor de la memoria de la computadora, o un valor constante incorporado en la instrucción misma. La instrucción <code>add</code> de una arquitectura RISC simplemente sabe cómo agregar dos registros (quizás colocando el resultado en un tercer registro), y hay instrucciones separadas <code>load</code> y <code>store</code> que copian valores de la memoria a un registro o al revés. Además, en una arquitectura RISC, todas las instrucciones tienen la misma longitud (digamos, 32 bits) mientras que en una arquitectura CISC, las longitudes de las instrucciones pueden variar. Estas diferencias son importantes porque un RISC puede cargar la siguiente instrucción antes de que termine con la instrucción anterior, y un RISC nunca tiene más de una referencia de datos de memoria por instrucción.</p>
+                                <p>Entonces, ¿por qué no usan una arquitectura RISC en las PC? Hubo un tiempo en que Apple usaba un procesador RISC llamado PowerPC en sus computadoras Macintosh, pero la gran mayoría de las computadoras vendidas son PC, no Macs, y como resultado Intel gasta grandes sumas de dinero en construir circuitos cada vez más rápidos implementando la arquitectura x86. La moraleja se trata de la interacción entre diferentes niveles de abstracción: una mejor arquitectura puede ser superada mediante un mejor diseño de circuito o una mejor tecnología para agrupar componentes en un circuito integrado.</p>
+                            </div>
+                        </div>
+                        <p>La compañía que diseñó el ARM, llamada ARM Holdings, en realidad no construye procesadores. Licencian el diseño de arquitectura o un diseño de circuito real a otras compañías que integran procesadores ARM en SoC. Las principales empresas que construyen chips de procesador basados en ARM incluyen a Apple, Broadcom, Qualcomm y Samsung. Los fabricantes de teléfonos inteligentes compran chips de una de estas empresas.</p>
+                    </div>
+                </li>
+                <li>
+                    <a href="#hint-architecture-iot" data-toggle="collapse" title="arquitectura integrada e Internet de las cosas">Arquitectura integrada e Internet de las cosas"</a>
+                    <div id="hint-architecture-iot" class="collapse">
+                        <p>Puede comprar termostatos con computadoras en ellos, refrigeradores con computadoras en ellos, juguetes de animales de peluche con computadoras en ellos, más y más cosas, a medida que pasa el tiempo. Los automóviles modernos tienen <em>varias</em> computadoras en ellos, principalmente por razones de seguridad; no querrás que los frenos fallen porque el reproductor de DVD tiene un problema. La meta, según lo descrito por los investigadores en computación, es "polvo inteligente", lo que significa que muchas computadoras podrían estar flotando alrededor de un edificio sin ser vistas. ¿De qué sirve una computadora inadvertida? Esta es una tecnología clásica de doble uso. El uso beneficioso del que todos hablan es la respuesta de emergencia a los desastres; Sería de gran ayuda para el departamento de bomberos saber, desde el exterior, qué habitaciones de un edificio tienen personas. Pero otro uso de esta tecnología sería espiar.</p>
+                        <p class="indent">
+                            <img src="/bjc-r/img/6-computers/freescale_scmimx6d-sm.jpg" alt="Chip Freescale SCM-i.MX6D, más pequeño que un centavo" title="Chip Freescale SCM-i.MX6D, más pequeño que un centavo"><br />
+                            <small><small>Chip NXP Freescale SCM-i.MX6D</small></small>
+                        </p>
+                        <p>Para la computación integrada, los criterios de diseño principales son tamaño pequeño y bajo consumo de energía. El chip en la imagen de arriba se basa en la arquitectura ARM, como la mayoría de los teléfonos celulares. Esto es en realidad un chip de sistemas integrados <em>grande</em>; la MCU Kinetis KL02 (unidad de microcontrolador) cabe en un cuadrado de 2 milímetros, menos de 1/10 de pulgada. Esto todavía es demasiado grande para flotar en el aire como el polvo, pero imagínalo en un recipiente pegajoso y arrojado a la pared.</p>
+                        <p>Algún día, el espionaje será aún más efectivo (junto con, esperamos, tratamiento para enfermedades del cerebro): <a href="https://www.engadget.com/2017/05/17/arm-targets-your-brain-with-new-implantable-chips/" target="_blank"title="ARM apunta a tu cerebro con nuevos chips implantables">ARM apunta a tu cerebro con nuevos chips implantables</a> (Engadget, 5/17/2017).</p>
+                        <p>Intel fabricó un chip compatible con x86 del tamaño de un botón en 2015, pero anunció en 2017 que se descontinuaría, dejando solo a los procesadores basados en ARM y PowerPC compitiendo en este mercado.</p>
+                    </div>
+                </li>
+                <li>
+                    <a href="#hint-architecture-hobby" data-toggle="collapse" title="arquitectura de la computadora de aficionados">Arquitectura de la computadora de aficionados</a>
+                    <div id="hint-architecture-hobby" class="collapse">
+                        <p>En cierto sentido, <em>cualquier</em> arquitectura puede ser una arquitectura aficionada. Incluso en los días de las computadoras de un millón de dólares, había aficionados al software que encontraban formas de ingresar a los laboratorios de computación de la universidad, a menudo haciéndose útiles allí. Hoy en día, hay computadoras mucho más potentes que son lo suficientemente baratas como para que los aficionados estén dispuestos a desarmarlas. Pero hay algunas arquitecturas de computadora <em>específicamente</em> destinadas a los aficionados.</p>
+                        <div class="comment">We DO NOT yet have permissions for this image. --MF, 12/4/17</div>
+                        <img class="imageRight" src="/bjc-r/img/6-computers/arduino.jpg" alt="Placa Arduino" title="Placa Arduino" />
+                        <p>Por mucho, la computadora más popular específicamente para los aficionados es el Arduino. Es una placa de circuito, no solo un procesador. Alrededor de los bordes del tablero hay conectores. En el borde corto a la izquierda de la imagen se encuentra la entrada de alimentación, que puede conectarse a una fuente de alimentación conectada a la pared o a una batería para un dispositivo móvil como un robot, y un conector USB utilizado principalmente para descargar programas de una computadora de escritorio o portátil. En los bordes largos hay conectores para cables individuales conectados a sensores remotos (para luz, calor, estar cerca de una pared, tocar otro objeto, etc.) o actuadores (motores paso a paso, luces, zumbadores, etc.).</p>
+                        <p>Un aspecto importante del diseño de Arduino es que es <em>libre</em> ("libre como en libertad"). Cualquiera puede hacer e incluso vender copias del Arduino. Esto es bueno porque mantiene el precio bajo (la placa básica Arduino Uno cuesta $22) y fomenta la innovación, pero también significa que puede haber placas incompatibles similares a Arduino. (El nombre "Arduino" es una marca comercial que solo se puede utilizar con licencia de Arduino AG).</p>
+                        <p>El procesador en la mayoría de los modelos Arduino es un sistema RISC de ocho bits con memoria incluida en el chip, llamado AVR, de una compañía llamada Atmel. Fue diseñado por dos (entonces) estudiantes en Noruega, llamados Alf-Egil Bogen y Vegard Wollan. Aunque oficialmente "AVR" no significa nada, se cree ampliamente que proviene de  "Alf y Vegard RISC". Hay varias versiones del procesador AVR, con diferentes velocidades, capacidades de memoria y, por supuesto, precios; Hay varios modelos Arduino que utilizan los diferentes procesadores.</p>
+                        <p>A diferencia de la mayoría de las computadoras ("arquitectura de von Neumann"), el AVR ("arquitectura de Harvard") separa la memoria del programa de la memoria de datos. (En realidad, tiene <em>tres</em> tipos de memoria, una para el programa en ejecución, otra para datos a corto plazo y otra para datos a largo plazo). La maquina analítica de Babbage también fue diseñada con una memoria de programa separada de su memoria de datos.</p>
+                        <div class="endnote">
+                            <a href="#hint-Harvard" data-toggle="collapse" title="¿Por qué querrías más de un tipo de memoria?">¿Por qué querrías más de un tipo de memoria?</a>
+                            <div id="hint-Harvard" class="collapse">
+                                <p>
+                                    En realidad, hay dos problemas de diseño diferentes en funcionamiento en esta arquitectura. Uno está en el dominio analógico, que tiene que ver con el tipo de circuito físico utilizado. Existen <em>muchas</em> tecnologías de memoria, que varían en costo, velocidad y <em>volatilidad:</em> la memoria volátil pierde la información almacenada cuando el dispositivo está apagado, mientras que la memoria no volátil retiene la información. Así es como se usa la memoria en los chips AVR:
+                                    <ul>
+                                        <li>
+                                            <strong>EEPROM</strong> (512 Bytes–4kBytes) es no volátil y se usa para datos a muy largo plazo, como un archivo en el disco de una computadora, excepto que solo hay una pequeña cantidad disponible. Los programas en Arduino deben solicitar explícitamente el uso de esta memoria, con una biblioteca EEPROM.
+                                            <ul>
+                                                <li>El nombre significa Memoria de solo lectura programable y borrable eléctricamente, que suena como una contradicción en terminos. En los primeros días de las computadoras basadas en transistores, había dos tipos de memoria, volátil (memoria de acceso aleatorio o RAM) y no volátil (memoria de solo lectura o ROM). Los valores almacenados en las primeras  ROM tenian que ser incorporados por el fabricante del chip de memoria, por lo que era costoso fabricar uno nuevo. Luego vino la memoria programable de solo lectura (PROM), que era de solo lectura una vez instalada en una computadora, pero que podía programarse, solo una vez, usando una máquina que solo era algo costosa. Luego vino EPROM, PROM borrable, que podría borrarse en su totalidad al iluminarlo con una luz ultravioleta brillante, y luego reprogramarse como una PROM. Finalmente, había PROM borrable eléctricamente, que podría borrarse mientras estaba instalado en una computadora, esencialmente equivalente a RAM, excepto que el borrado es mucho más lento que reescribir una palabra de RAM, por lo que se usa solo para valores que no van a cambiar a menudo</li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <strong>SRAM</strong> (1k–4kBytes): Esta memoria puede perder sus valores cuando la máquina está apagada; en otras palabras, es volátil. Se utiliza para datos temporales, como las variables de script en un script Snap <em>!</em>.
+                                            <ul>
+                                                <li>El nombre significa memoria estática de acceso aleatorio. La parte de "Acceso aleatorio" lo diferencia del almacenamiento de cinta magnética utilizado en computadoras muy antiguas, en la que tomaba mucho tiempo llegar de un extremo a otro de la cinta, por lo que solo era práctico escribir o leer datos en secuencia. Actualmente toda la memoria de la computadora es de acceso aleatorio, y el nombre "RAM" realmente significa "grabable", en lugar de solo lectura. La parte "Estática" del nombre significa que, aunque la memoria requiere energía para retener su valor, <em>no</em> requiere una actualización periódica como lo hace la memoria regular ("Dinámica") principal de la computadora. ("Actualizar" significa que cada cierto tiempo, la computadora tiene que leer el valor de cada palabra de memoria y reescribir el mismo valor, o de lo contrario se desvanece. Este es un buen ejemplo de circuitos de computadora cuyo trabajo es mantener la <em>abstracción digital</em> en la cual un valor es cero o uno, y no existe tal cosa como "desvanecimiento" o "valores intermedios". ) La RAM estática es más rápida pero más cara que la RAM dinámica; Es por eso que DRAM se utiliza para las memorias muy grandes (varios gigabytes) de las computadoras de escritorio o portátiles.</li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            memoria <strong>Flash</strong> (16k–256kBytes): Esta es la memoria principal, utilizada para programas y datos. Probablemente le resulte familiar la memoria flash porque se usa para las memorias USB que funcionan como almacenamiento externo portátil. Técnicamente es un tipo de EEPROM, pero con una implementación física diferente que lo hace mucho más barato (por lo que puede haber más en el Arduino), pero más complicado de usar, lo que requiere un circuito de control especial para mantener la abstracción digital.
+                                            <ul>
+                                                <li>"Más complicado" significa, por ejemplo, que cambiar un valor de bit de 1 a 0 es fácil, pero cambiarlo de 0 a 1 es un proceso mucho más lento que implica borrar un gran bloque de memoria <em>todos</em> a 1 bits y luego reescribiendo los valores de los bits que no quería cambiar.</li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </p>
+                                <p>Entonces, es por eso que hay físicamente diferentes tipos de memoria en los chips AVR, pero nada de eso explica completamente la arquitectura de Harvard, en la cual la memoria se divide en <em>programa</em> y <em>datos,</em> independientemente de cuánto tiempo deben sobrevivir los datos. La razón principal para tener dos circuitos de interfaz de memoria diferentes es que le permite al procesador leer una instrucción de programa y un valor de datos <em>al mismo tiempo.</em> En principio, esto puede hacer que el procesador sea el doble de rápido, aunque en la práctica toda esa ganancia de velocidad no se encuentra.</p>
+                                <p>Para comprender el beneficio de la lectura simultánea de instrucción  y de datos, debes comprender que los procesadores a menudo se diseñan utilizando una idea llamada <em> Segmentación (pipelining). </em>La metáfora estándar es sobre lavar la ropa, cuando tienes más de una carga. Lavas la primera carga, mientras que la secadora no hace nada; despues <em> lavas la segunda carga mientras se seca la primera carga,</em> y así sucesivamente hasta la última carga. De manera similar, el procesador en una computadora incluye circuitería para decodificar una instrucción y circuitería para hacer aritmética. Si el procesador hace una cosa a la vez, en cualquier momento el circuito de decodificación de instrucciones o el circuito aritmético no está haciendo nada. Pero si puede leer la siguiente instrucción al mismo tiempo que se lleva a cabo la anterior, todo el procesador se mantiene ocupado.</p>
+                                <p>Esta fue una explicación larga, pero todavía está muy simplificada. Por un lado, también es posible utilizar la segmentación en una arquitectura von Neumann. Y por otro lado, una arquitectura Harvard <em>pura</em> no permitiría que una computadora cargue programas para que se ejecute. Por lo tanto, se utilizan varios compromisos en la práctica.</p>
+                            </div>
+                        </div>
+                        <p>Desde entonces, Atmel ha introducido una línea de procesadores de 32 bits compatibles con ARM, y Arduino tiene placas que usan ese procesador pero son compatibles con el diseño de los conectores en los bordes.</p>
+                        <p>Una cosa que ha contribuido a la popularidad del Arduino entre los aficionados es la disponibilidad de <em>complementos, </em> que son placas de circuito auxiliar que se conectan a los conectores del borde lateral y tienen los mismos conectores en su lado superior. Los complementos agregan funciones al sistema. Algunos ejemplos son los complementos de control de motores, de Bluetooth para comunicarse con teléfonos celulares, los complementos de RFID para leer las etiquetas de productos que se encuentran dentro del embalaje de muchos productos, etc. Tanto la compañía Arduino como otros venden complementos.</p>
+                        <div class="sidenote">
+                            <small>Pila de placas Arduino</small><br />
+                            <small><small>Imagen del usuario de Wikimedia Marlon J. Manrique, CC-BY-SA 2.0.</small></small>
+                        </div>
+						<img class="indent" src="/bjc-r/img/6-computers/arduino-shields.jpg" width="250px" alt="pila de placas Arduino" title="pila de placas Arduino" />
+                        <p>Una arquitectura de aficionados completamente diferente es la <em>Raspberry Pi.</em> Fue diseñada para usarse como una computadora de escritorio o portátil, pero con más acceso a su electrónica. Utiliza un procesador compatible con ARM, como la mayoría de los teléfonos celulares, pero en lugar de ejecutar el software del sistema operativo del teléfono como Android, ejecuta sistemas operativos de computadora "reales". Se envía con Linux, pero la gente ha ejecutado Windows en él.</p>
+                        <p>Lo principal que lo hace emocionante es que es económico: los diferentes modelos varían en precio desde $5 hasta $35. El precio incluye solo la placa de circuito, como en la imagen, sin teclado, pantalla, mouse, adaptador de corriente o estuche. El gasto principal en los kit computadoras es la pantalla, por lo que el Pi está diseñado para conectarse a su televisor. Puedes comprar kits que incluyen un estuche mínimo, un teclado y otros complementos importantes por alrededor de $20. También puedes comprar estuches elegantes para que se vea como cualquier otra computadora, con una pantalla, por cientos de dólares.</p>
+                        <p>Debido a que el Pi está destinado para uso educativo, viene con software, algunos de los cuales son gratuitos para cualquier persona, pero otros generalmente cuestan dinero para computadoras que no son Pi. Un ejemplo importante es Mathematica, que cuesta más de $200 para los estudiantes (su precio más barato), pero se incluye gratis en el Pi.</p>
+                        <p>Al igual que el Arduino, el Pi admite placas de circuito adicionales con elementos como sensores y módulos de comunicación inalámbrica.</p>
+                        <div class="sidenote">
+                            <small>Placa Raspberry Pi</small><br />
+                            <small><small>Imagen de Evan Amos, vía Wikimedia, dominio público.</small></small>
+                        </div>
+						<img  class="indent" src="/bjc-r/img/6-computers/raspberry-pi.jpg" width="250px" alt="Placa Raspberry Pi" title="Placa Raspberry Pi" />
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="endnote">
+        	<a href="#hint-architecture-general" data-toggle="collapse" title="Aprender más acerca de sobre la arquitectura de computadoras en general">Aprender más acerca de sobre la arquitectura de computadoras en general.</a>
+            <div id="hint-architecture-general" class="collapse">
+                <div class="todo" style="color:grey">This needs some heavy edits. For example, perhaps the whole third paragraph, "One recent 64-bit x86..." could be cut. --MF, 11/8/17 </div>
+                <h4>La jerarquía de memoria</h4>
+                <p>Por un costo determinado de circuito hardware, <strong>cuanto más grande es la memoria, más lento funciona.</strong> Por esta razón, las computadoras no solo tienen una gran cantidad de memoria. Habrá un pequeño número de <em>registros</em> dentro del procesador, generalmente entre 8 y 16 de ellos. El "tamaño" (número de bits) de un registro de datos es igual al ancho de la arquitectura.</p>
+                <p>La memoria principal de la computadora, en estos días, se mide en GB (gigabytes o miles de millones de bytes). Una memoria de ese tamaño no puede ser lo suficientemente rápida como para llevarle el paso a un procesador moderno. Afortunadamente, los programas de computadora generalmente tienen <em>localidad de referencia</em>, lo que significa que si el programa acaba de usar una ubicación de memoria particular, probablemente usará una ubicación cercana a continuación. Por lo tanto, un programa completo puede ser muy grande, pero en el transcurso de un segundo más o menos solo se necesitará una pequeña parte. Por lo tanto, las computadoras modernas están diseñadas con una o más memorias <em>caché</em>, mucho más pequeñas y, por lo tanto, más rápidas, entre el procesador y la memoria principal. El procesador se asegura de que la memoria utilizada más recientemente se copie en la memoria caché.</p>
+                <p>Un procesador x86 de 64 bits reciente tiene un caché de primer nivel (L1) de 64 KB (miles de bytes) dentro del chip del procesador, un caché L2 más grande pero más lento de 256 KB, también dentro del procesador, y un caché L3 de hasta 2 MB (megabytes, millones de bytes) fuera del procesador. Cada nivel de caché tiene una copia de las partes usadas más recientemente del siguiente nivel hacia afuera: el caché L1 copia parte del caché L2, que copia parte del caché L3, que copia parte de la memoria principal. El procesador puede acceder a los datos en el caché L1 casi tan rápido como sus registros internos, y cada nivel externo es un poco más lento. El hardware en el procesador maneja toda esta complejidad, de modo que los programadores pueden escribir programas como si el procesador estuviera directamente conectado a la memoria principal.</p>
+                <h4>Segundo abastecimiento</h4>
+                <p>Intel otorga licencias a otros fabricantes de chips para construir procesadores que usen la misma arquitectura que los procesadores de Intel. ¿Por qué hacen eso? ¿No ganarían más dinero si la gente tuviera que comprarle a Intel? La razón es que los fabricantes de computadoras, como Dell, Apple y Lenovo, no construirán sus sistemas alrededor de una arquitectura que solo esté disponible en una compañía. No les preocupa que Intel vaya a la quiebra; La preocupación es que puede haber una demanda mayor de la esperada para un procesador en particular, e Intel puede no ser capaz de completar los pedidos a tiempo. Pero si ese procesador también está disponible en otras compañías como AMD y Cyrix, un retraso en Intel no se convertirá en un retraso en Dell. Esos otros fabricantes de chips pueden no usar el mismo circuito que la versión Intel, siempre y cuando se comporten de la misma manera a nivel de arquitectura.</p>
+            </div>
+        </div>
+
+
+        <div class="takeItFurther">
+            <ol type="A">
+                <li>
+                    Aprender lo suficiente sobre la Maquina analítica para poder escribir incluso un programa <em>simple</em> para ella es una tarea bastante grande. No lo intente hasta después del examen AP, pero si está interesado, hay muchos recursos en línea disponibles aquí:
+                    <ul>
+                        <li><a href="http://www.fourmilab.ch/babbage/contents.html" title="La Tabla de Contenidos de la Máquina Analítica" target="_blank">La Tabla de Contenidos de la Máquina Analítica</a></li>
+                        <li><a href="http://www.fourmilab.ch/babbage/emulator.html" title="Emulador web de la Máquina Analítica" target="_blank">Emulador web de la Máquina Analítica</a></li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+
+
+    </body>
+</html>

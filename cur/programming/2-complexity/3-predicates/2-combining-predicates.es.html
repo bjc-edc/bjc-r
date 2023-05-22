@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<script type="text/javascript" src="/bjc-r/utilities/gifffer.min.js"></script>
+        <script type="text/javascript">window.onload = function() {Gifffer();}</script>
+        <link rel="stylesheet" type="text/css" href="/bjc-r/css/bjc-gifffer.css">
+		<title>Unidad 2 Laboratorio 3: Tomar decisiones, Página 2</title>
+	</head>
+
+	<body>
+        <h2>Combinar predicados</h2>
+        <div class="learn">En esta página, combinarás predicados usando funciones booleanas para escribir en el escenario en tres colores.</div>
+
+        <h3>Funciones booleanas</h3>
+        <p>
+            En el nivel más bajo, los circuitos de la computadora están hechos de cables, y cada cable está encendido o apagado. Entonces, las únicas operaciones que se pueden realizar en ese nivel más bajo son aquellas que <em>opera en valores de un solo bit</em> (solo unos y ceros, es decir, solo encendidos y apagados). Estas son llamadas <em>funciones lógicas (o booleanas)</em>. (Son predicados, porque su rango es booleano, pero estos son especiales porque su <em>dominio</em> también es booleano.) Hay tres funciones booleanas en la paleta Operadores:<br />
+            <img class="indent" src="/bjc-r/img/prog/Booleans.es.png" alt="and, or, not blocks" title="and, or, not blocks" /><br />
+            <div class="comment">AAP-2.F.5, AAP-2.F.1</div>
+            Ten en cuenta que tanto los bloques como las ranuras de entrada en los bloques son hexagonales. Las funciones booleanas toman valores booleanos (<code>Verdadero</code> o <code>Falso</code>) como entradas y reportan un nuevo valor booleano como salida. When you use Boolean functions in a program, though, the inputs will usually be expressions such as <img src="/bjc-r/img/2-complexity/var=3.es.png" alt="variable = 3" title="variable = 3" />.
+        </p>
+        <div class="forYouToDo">
+			<ol>
+                <li>
+                    Experimenta con diferentes valores de entrada en los tres bloques y toma notas sobre los resultados que te dan.
+                    <div class="endnote">
+                        <p>En lugar de arrastrar un bloque <code>verdadero</code> o <code>falso</code> a la ranura de entrada de los bloques <code>y</code>, <code>o</code>, o <code>no</code>, puedes hacerle clic en la ranura de entrada vacía para controlar el interruptor de <code>verdarero</code>/<code>falso</code>: <img class="inline" src="/bjc-r/img/2-complexity/true-and-false.es.png" alt="(verdadero) y (falso)" title="(Verdadero) y (falso)" /></p>
+                    </div>
+                </li>
+            </ol>
+        </div>
+
+        <p>
+            Los bloques <code>y</code> y <code>no</code> funcionan exactamente de la manera que esperarías de los significados de esas palabras en español:
+            <ul>
+                <div class="comment">AAP-2.F.3</div>
+                <li><img src="/bjc-r/img/2-complexity/true-and-true.es.png" alt="(verdader) y (verdadero)" title="(verdadero) y (verdadero)" /> reporta <code>verdadero</code>, y cualquier otra combinación de informes de entradas diría <code>falso</code>.</li>
+                <div class="comment">AAP-2.F.2</div>
+                <li><img src="/bjc-r/img/blocks/not.es.png" alt="no ()" title="no ()" />reporta lo contrario de cualquier valor de entrada que utilice.</li>
+            </ul>
+            <div class="comment">AAP-2.F.4</div>
+            Pero <code>o</code> es un poco diferente en informática. En español, la palabra "o" tiene dos significados diferentes:
+            <ul>
+                <li><strong>Cualquiera pero no los dos:</strong> como "Veamos si mañana llueve o hace sol". En informática, esto se llama <em>o exclusivo</em> porque una opción excluye a la otra.</li>
+                <li><strong>Cualquiera o los dos:</strong> como "Pregúntale a tu maestro si tienes alguna pregunta o si necesitas ayuda". Esto se llama <em>o inclusivo</em> porque es posible incluir las dos opciones.</li>
+            </ul>
+        </p>
+
+        <div class="forYouToDo">
+			<ol start="2">
+                <li>Experimenta. ¿El bloque <img src="/bjc-r/img/blocks/or.es.png" alt="() o ()" title="() o ()" /> implementa un <code>o</code> <em>exclusivo</em> o <em>inclusivo</em>?</li>
+            </ol>
+        </div>
+
+        <div class="examFullWidth">
+            <div class="comment">AAP-2.F.1</div>
+            <div class="pseudop">Los bloques <img src="/bjc-r/img/blocks/and-full-size.es.png" alt="() y ()" title="() y ()" />, <img src="/bjc-r/img/blocks/or.es.png" alt="() o ()" title="() o ()" />, y <img src="/bjc-r/img/blocks/not.es.png" alt="no ()" title="not ()" /> aparecerán en inglés como <pre class="inline">AND</pre>, <pre class="inline">OR</pre> y <pre class="inline">NOT</pre> y funcionarán exactamente de la misma manera que lo hacen en Snap<em>!</em>.</div>
+        </div>
+
+        <div class="forYouToDo">
+			<ol start="3">
+                <li>Crea los bloques <img class="inline" src="/bjc-r/img/blocks/less-than-or-equal.es.png" alt="less than or equal" title="less than or equal" />, <img class="inline" src="/bjc-r/img/blocks/greater-than-or-equal.es.png" alt="mayor o igual a" title="mayor o igual a" /> y <img class="inline" src="/bjc-r/img/2-complexity/not-equal.es.png" alt="() distinto a ()" title="() distinto a ()" />.
+                    (Puedes copiar los caracteres &le;, &ge; y &ne; de esta página y pegarlos en la ventana de Snap<i>!</i> llamada Crear bloque).
+				</li>
+                <li>
+                    Vas a crear un predicado que indica si una entrada está entre otras dos entradas y pruébelo con varios casos diferentes.<br />
+                    <div class="sidenote">Puedes decidir si <code>entre</code> incluirá los números de las dos entradas o no.</div>
+                    <img class="indent" src="/bjc-r/img/2-complexity/number-between-two-others(with-result-false).es.png" alt="¿El número (3.8) está entre (3.9) y (4.7) ? reporta falso" title="¿El número (3.8) está entre (3.9) y (4.7) ? reporta falso">
+                    <img class="indent" src="/bjc-r/img/2-complexity/word-between-two-others(with-result-true).es.png" alt="¿ (manzana) está entre (mango) y (martes) ? reporta verdadero" title="¿ (manzana) está entre (mango) y (martes) ? reporta verdadero">
+                    <div class="narrower">
+                        <h4><strong>Hacer un predicado</strong></h4>
+                        <ul>
+                            <li>
+                                Elige el <em>predicado</em> con la forma hexagonal.<br />
+
+                                <img class="indent" src="/bjc-r/img/2-complexity/make-predicate.es.png" alt="Crear un bloque de diálogo que destaque el botón Predicado" title="Crear un bloque de diálogo que destaque el botón Predicado" />
+                            </li>
+                            <li>Debes usar el bloque <img class="nopadtb" src="/bjc-r/img/blocks/report.es.png" alt="reportar()" title="reportar()" /> para reportar el resultado de los reporteros (incluyendo predicados).</li>
+                        </ul>
+                    </div>
+                    <!--<p><img class="indent" data-gifffer="/bjc-r/img/2-complexity/defining-even-predicate.gif" alt="defining a predicate block" title="defining a predicate block" /></p>-->
+                </li>
+                <li>
+                    Usa <code>entre</code> para crear un guion que te permita escribir en el escenario en tres colores (dependiendo de la altura del escenario), usando el ratón.<br />
+                    <div class="endnote">
+                        <a href="#hint-three-colors" data-toggle="collapse" title="Haz clic para ver un ejemplo de escritura en el escenario en tres colores.">Haz clic para ver un ejemplo de escritura en el escenario en tres colores.</a>
+                        <div id="hint-three-colors" class="collapse">
+                            <img class="indent" data-gifffer="/bjc-r/img/2-complexity/U2ImageVideoAddendum_img/tri-color-bjc.gif" alt="utilizar el ratón para escribir en tres colores en el escenario" title="utilizar el ratón para escribir en tres colores en el escenario" />
+                        </div>
+                    </div>
+                </li>
+                <li>
+                	<div class="comment">AAP-2.E parte b</div>
+                    <!-- Question 6 -->
+                    <div class="assessment-data" type="multiplechoice" identifier="What's equivalent to num less than or equal to 23?"
+                        hasinlinefeedback="true" maxchoices="2" responseIdentifier="ri1" shuffle="false">
+                        <div class="prompt">
+                            No hay un bloque ≤ incorporado en Snap<em>!</em>. Supongamos que quisiéramos construir uno. ¿Cuáles <em><strong>dos</strong></em> de las siguientes expresiones booleanas son equivalentes a la expresión <img class="inline" src="/bjc-r/img/2-complexity/num-le-23.es.png" alt="núm menor o igual a predicado 23" title="núm menor o igual a predicado 23" />?
+                        </div>
+                        <div class="choice" identifier="c1">
+                            <div class="text"><img class="inline" src="/bjc-r/img/2-complexity/num-le-23-opt-1.es.png" alt="(num < 23) y (num = 23)" title="(num < 23) y (num = 23)" /></div>
+                            <div class="feedback">
+                                ¿Puede <var>num</var> ser menor que 23 e igual a 23 al mismo tiempo?
+                            </div>
+                        </div>
+                        <div class="choice" identifier="c2">
+                            <div class="text"><img class="inline" src="/bjc-r/img/2-complexity/num-le-23-opt-2.es.png" alt="(núm < 23) o (núm = 23)" title="(núm < 23) o (núm = 23)" /></div>
+                            <div class="feedback">
+                                ¡Correcto! Esta imagen muestra una expresión que reportará <code>verdadero</code> si <var>núm</var> es menor o igual a 23.
+                            </div>
+                        </div>
+                        <div class="choice" identifier="c3">
+                            <div class="text"><img class="inline" src="/bjc-r/img/2-complexity/num-le-23-opt-3.es.png" alt="no (núm > 23)" title="no (núm > 23)" /></div>
+                            <div class="feedback">
+                                ¡Correcto! Si <var>núm</var> <strong>no</strong> es mayor que 23, entonces es menor que 23 o igual a 23.
+                            </div>
+                        </div>
+                        <div class="choice" identifier="c4">
+                            <div class="text"><img class="inline" src="/bjc-r/img/2-complexity/num-le-23-opt-4.es.png" alt="no (núm > 22)" title="no (núm > 22)" /></div>
+                            <div class="feedback">
+                                Imagina que el valor de <var>núm</var> es 22.5. ¿Esta expresión y la expresión dada en la pregunta reportarán la misma respuesta?
+                            </div>
+                        </div>
+                        <div class="responseDeclaration" identifier="ri1">
+                            <div class="correctResponse" identifier="c2"></div>
+                            <div class="correctResponse" identifier="c3"></div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                	<div class="comment">AAP-2.F parte b</div>
+                    <!-- Question 2 -->
+                    <div class="assessment-data" type="multiplechoice" identifier="Which expression will report TRUE?"
+                        hasinlinefeedback="true" maxchoices="1" responseIdentifier="ri2" shuffle="false">
+                        <div class="prompt">
+                            ¿Cuál de las siguientes expresiones reportará <code>verdadero</code>?
+                            <ol style="list-style:upper-roman;">
+                            	<li><img class="inline" src="/bjc-r/img/6-computers/boolean-quiz-a.es.png" alt="(T y F) y (no (T y F))" title="(T y F) y (no (T y F))" /></li>
+                            	<li><img class="inline" src="/bjc-r/img/6-computers/boolean-quiz-b.es.png" alt="(no (T o F)) o (T o F)" title="(no (T o F)) o (T o F)" /></li>
+                            </ol>
+                        </div>
+                        <div class="choice" identifier="c1">
+                            <div class="text">Solamente I</div>
+                            <div class="feedback"></div>
+                        </div>
+                        <div class="choice" identifier="c2">
+                            <div class="text">Solamente II</div>
+                            <div class="feedback"></div>
+                        </div>
+                        <div class="choice" identifier="c3">
+                            <div class="text">I y II</div>
+                            <div class="feedback"></div>
+                        </div>
+                        <div class="choice" identifier="c4">
+                            <div class="text">Ni I ni II</div>
+                            <div class="feedback"></div>
+                        </div>
+                        <div class="responseDeclaration" identifier="ri2">
+                            <div class="correctResponse" identifier="c2"></div>
+                        </div>
+                    </div>
+                </li>
+            </ol>
+        </div>
+
+		<div class="takeItFurther">
+            <div class="todo">
+                <div class="comment">Brian, OK, I went a little over the top here, but some teachers might like to dig in too. Please review this table carefully; it would be easy to get something wrong. --MF, 1/14/20</div>
+                TG (para la clave de respuestas): i) La función <code>y</code> se puede representar como VFFF; ii-v) Las respuestas variarán para las partes ii y iii. La tabla siguiente muestra un listado de los 16 (parte iv) operadores booleanos de dos entradas posibles y su utilidad. El objetivo es que los estudiantes <em>reflexionen acerca de la utilidad</em>&mdash; no que categoricen correctamente cada una de las funciones ni que aprendan la lógica de cada una de ellas. A menos que tengan conocimientos de lógica o ciencias de la computación, incluso (como profesor con la clave de respuestas) es posible que encuentres que alguna de estas requiere mayor reflexión.
+                <table class="bordered standard" summary="tabla con los 16 operadores booleanos de dos entradas y explicaciones acerca de su utilidad">
+                    <tr>
+                        <th scope="col">&nbsp;</th>
+                        <th scope="col">Útil?</th>
+                        <th scope="col">Por qué?</th>
+                    </tr>
+                    <tr>
+                        <th scope="col">VVVV</th>
+                        <td>no</td>
+                        <td>siempre reporta <code>verdadero</code></td>
+                    </tr>
+                    <tr>
+                        <th scope="col">VVVF</th>
+                        <td>si</td>
+                        <td>equivalente a <código>o</code></td>
+                    </tr>
+                    <tr>
+                        <th scope="col">VVFV</th>
+                        <td>si</td>
+                        <td>equivalente a <a href="https://en.wikipedia.org/wiki/Converse_implication" title="converse implication" target="_blank">implicación inversa</a> (falso solo cuando la primera entrada es falsa pero la segunda entrada es verdadera; que la segunda entrada sea verdadera implica que la primera entrada debe ser verdadera)</td>
+                    </tr>
+                    <tr>
+                        <th scope="col">VVFF</th>
+                        <td>no</td>
+                        <td>informa el valor de la primera entrada independientemente de la segunda entrada, entonces podrías solo usar la primera entrada como predicado en lugar de construir esta función de predicados</td>
+                    </tr>
+                    <tr>
+                        <th scope="col">VFVV</th>
+                        <td>si</td>
+                        <td>equivalente a <a href="https://en.wikipedia.org/wiki/Material_conditional" title="implicación" target="_blank">implicación</a> (falso solo cuando la primera entrada es verdadera pero la segunda entrada es falsa; si la primera entrada es verdadera implica que la segunda entrada debe tambien ser verdad)</td>
+                    </tr>
+                    <tr>
+                        <th scope="col">VFVF</th>
+                        <td>no</td>
+                        <td>informa el valor de la segunda entrada independientemente de la primera entrada, entonces podrías solo usar la segunda entrada como predicado en lugar de construir esta función de predicados</td>
+                    </tr>
+                    <tr>
+                        <th scope="col">VFFV</th>
+                        <td>si</td>
+                        <td>comprueba si dos entradas son iguales (equivalente a  <code>=</code> y a <a href="https://en.wikipedia.org/wiki/XNOR_gate" title="XNOR" target="_blank">XNOR</a>, NO O exclusiva)</td>
+                    </tr>
+                    <tr>
+                        <th scope="col">VFFF</th>
+                        <td>si</td>
+                        <td>equivalente a <code>y</code></td>
+                    </tr>
+                    <tr>
+                        <th scope="col">FVVV</th>
+                        <td>si</td>
+                        <td>equivalente a <a href="https://en.wikipedia.org/wiki/NAND_gate" title="NAND" target="_blank">NAND</a> (eso es, <code>no (y)</code>)</td>
+                    </tr>
+                    <tr>
+                        <th scope="col">FVVF</th>
+                        <td>si</td>
+                        <td>comprueba si dos entradas son diferentes (equivalente a <code>no(=)</code> y <a href="https://en.wikipedia.org/wiki/XOR_gate" title="XOR" target="_blank">XOR</a>, o exclusiva)</td>
+                    </tr>
+                    <tr>
+                        <th scope="col">FVFV</th>
+                        <td>no</td>
+                        <td>informa el valor del opuesto de la segunda entrada independientemente de la primera entrada, entonces podrías solo usar el opuesto de la segunda entrada como predicado en lugar de construir esta función de predicados</td>
+                    </tr>
+                    <tr>
+                        <th scope="col">FVFF</th>
+                        <td>si</td>
+                        <td>equivalente a <a href="https://en.wikipedia.org/wiki/Material_nonimplication" title="nonimplication" target="_blank">no implicación</a> (verdadero solo cuando la primera entrada es verdadera pero la segunda entrada es falsa; si la primera entrada es verdadera esto implica que la segunda entrada es falsa)</td>
+                    </tr>
+                    <tr>
+                        <th scope="col">FFVV</th>
+                        <td>no</td>
+                        <td>informa el valor del opuesto de la primera entrada independientemente de la segunda entrada, entonces podrías solo usar el opuesto de la primera entrada como predicado en lugar de construir esta función de predicados</td>
+                    </tr>
+                    <tr>
+                        <th scope="col">FFVF</th>
+                        <td>si</td>
+                        <td>equivalente a <a href="https://en.wikipedia.org/wiki/Converse_nonimplication" title="no implicación opuesta" target="_blank">no implicación opuesta</a> (verdadero solo cuando la primera entrada es falsa pero la segunda entrada es verdadera; la segunda entrada siendo verdadera implica que la primera entrada debe ser falsa)</td>
+                    </tr>
+                    <tr>
+                        <th scope="col">FFFV</th>
+                        <td>si</td>
+                        <td>equivalente a <a href="https://en.wikipedia.org/wiki/NOR_gate" title="NOR" target="_blank">NOR</a> (eso es, <code>no(o)</code>)</td>
+                    </tr>
+                    <tr>
+                        <th scope="col">FFFF</th>
+                        <td>no</td>
+                        <td>siempre informa <code>falso</code></td>
+                    </tr>
+                </table>
+                vi) Hay 256 operadores booleanos de tres entradas porque hay ocho combinaciones de entradas para un operador booleano de tres entradas y cada una de esas combinaciones pueden reportar uno de dos valores (V or F): <span class="katex">2^8=256</span>. (Para comparación, hay 16 operadores booleanos de dos entradas porque hay cuatro combinaciones de entradas para un operador de dos entradas y cada uno puede reportar uno de dos valores (V or F): <span class="katex">2^4=16</span>.)
+            </div>
+            <ol type="A">
+                <li>
+                    Debido a que solo hay dos valores booleanos (<code>verdadero</code> y <code>falso</code>), solo hay cuatro combinaciones de entradas para un operador booleano de dos entradas. Aquí están las cuatro combinaciones que se muestran con el operador<code>o</code>:<br />
+                    <img class="indent" src="/bjc-r/img/2-complexity/or-t-t.es.png" alt="o (verdadero) (verdadero)"><br />
+                    <img class="indent" src="/bjc-r/img/2-complexity/or-t-f.es.png" alt="o (verdarero) (falso)"><br />
+                    <img class="indent" src="/bjc-r/img/2-complexity/or-f-t.es.png" alt="o (falso) (verdarero)"><br />
+                    <img class="indent" src="/bjc-r/img/2-complexity/or-f-f.es.png" alt="o (falso) (falso)">
+                    <ol style="list-style-type: lower-roman">
+                        <li>Con <code>o</code>, las cuatro combinaciones reportan <code>verdadero</code>, <code>verdadero</code>, <code>falso</code> y <code>falso</code>, en ese orden. (Comprueba por ti mismo que eso sea cierto.) De esta forma, puedes representar la función <code>o</code> como VVVF  (usando V y F como abreviaturas de<code>verdadero</code> y <code>falso</code>). ¿Cuáles son las cuatro letras para la función <code>y</code>? (Utiliza el mismo orden de las entradas: VV, VF, FV, y FF como se muestra arriba con <code>o</code>.) </li>
+                        <li>
+                            Inventa otra combinación de cuatro letras (como VFVF) y construye una función de predicado con ese comportamiento. Describe cómo se comporta la función.
+                            <div class="endnote">
+                                <a href="#hint-TFTF" data-toggle="collapse" title="Haz clic para ver un ejemplo que meustra y describe el comportamiento de VFVF.">Haz clic para ver un ejemplo que meustra y describe el comportamiento de VFVF.</a>
+                                <div id="hint-TFTF" class="collapse">
+                                    <img class="indent" src="/bjc-r/img/2-complexity/TFTF-TT-reporting.es.png" alt="(verdadero) VFVF (verdadero) reporta verdadero" title="(verdadero) TFTF (verdadero) reporta verdadero" /><br />
+                                    <img class="indent" src="/bjc-r/img/2-complexity/TFTF-TF-reporting.es.png" alt="(verdadero) VFVF (falso) reporta verdadero" title="(verdadero) VFVF (falso) reporta verdadero" /><br />
+                                    <img class="indent" src="/bjc-r/img/2-complexity/TFTF-FT-reporting.es.png" alt="(falso) VFVF (verdadero) reporta verdadero" title="(falso) VFVF (verdadero) reporta verdadero" /><br />
+                                    <img class="indent" src="/bjc-r/img/2-complexity/TFTF-FF-reporting.es.png" alt="(falso) VFVF (falso) reporta false" title="(falso) VFVF (falso) reporta falso" />
+                                    La función VFVF informa verdadero siempre que la segunda entrada sea verdadera, sin importar cuál sea la primera entrada. No es una función útil porque podría usar la segunda entrada como predicado en lugar de construir esta función de predicados.
+                                </div>
+                            </div>
+                        </li>
+                        <li>Haz lo mismo con otra combinación de cuatro letras.</li>
+                        <li>¿Cuántos posibles operadores booleanos de dos entradas hay?</li>
+                        <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.es.png" alt="Habla con tu compañero" title="Habla con tu compañero" />Obviamente, VVVF (la función <code>o</code>) es útil, pero VVVV no es útil (¿por qué no?). ¿Cuál de los posibles operadores booleanos de dos entradas crees que sería útil? Discute por qué.</li>
+                        <li>¿Cuántos operadores booleanos de <em>tres</em> entradas hay?</li>
+                    </ol>
+                </li>
+            </ol>
+        </div>
+	</body>
+</html>
