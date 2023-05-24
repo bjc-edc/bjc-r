@@ -1,8 +1,10 @@
 require 'fileutils'
 require 'rio'
 require 'nokogiri'
+require 'twitter_cldr'
 require_relative 'vocab'
 require_relative 'main'
+
 
 class Index
 
@@ -29,44 +31,101 @@ class Index
         end
     end
 
-    def generateAlphaOrder()
+    def generateAlphaOrder(usedLetters, output)
         fileName = "index.#{@language}.html"
         alphabet = getAlphabet()
         File.write(fileName, "\n<div class=\"index-letter-link\">\n", mode: "a")
-        i = 0
-        while alphabet.length > i
-            File.write(fileName, "<a href=\"##{alphabet[i].upcase}\">#{alphabet[i].upcase}</a>&nbsp;\n", mode: "a")
-            i += 1
+        #i = 0
+        #while alphabet.length > i
+        #    File.write(fileName, "<a href=\"##{alphabet[i].upcase}\">#{alphabet[i].upcase}</a>&nbsp;\n", mode: "a")
+        #    i += 1
+        #end
+        linksUnusedLetters(usedLetters).each do |letter|
+            File.write(fileName, letter, mode: "a")
         end
         File.write(fileName, "\n<\/div>\n<div>\n", mode: "a")
+        File.write(fileName, output, mode: "a")
     end
+
+    def isNonEngChar(vocab, usedLetters)
+        collator = TwitterCldr::Collation::Collator.new(@language)
+        return (collator.compare(vocab[0].upcase, usedLetters[-1].upcase)).abs() == 1
+        #return usedLetters.localize(@language).compare(usedLetters[-1], vocab[0]).abs() == 1
+    end
+    
+    #alphabet and letter are lowercase and returned vocab word is upper and then lowercase
+    def castCharToEng(vocab, usedLetters)
+        collator = TwitterCldr::Collation::Collator.new(@language)
+        if isNonEngChar(vocab, usedLetters)
+            letter = vocab[0].downcase
+            alpha = getAlphabet().push(letter).localize(@language).sort.to_a
+            newLetter = alpha[alpha.index(letter) + 1]
+            return newLetter.upcase + vocab[1..]
+        else
+            return vocab
+        end
+    end
+
+    def linksUnusedLetters(usedLetters)
+        unused = getAlphabet().map{|letter| usedLetters.include?(letter) }
+        links = []
+        #link = (fileName, "<a href=\"##{alphabet[i].upcase}\">#{alphabet[i].upcase}</a>&nbsp;\n", mode: "a")
+        i = 0
+        while i < unused.length
+            newBool = unused[i]
+            j = i
+            letter = getAlphabet()[i]
+            while !newBool and j > 0
+                j -= 1
+                newBool = unused[j]
+            end
+            newLetter = getAlphabet()[j]
+            links.append("<a href=\"##{newLetter.upcase}\">#{letter.upcase}</a>&nbsp;\n")
+            i += 1
+        end 
+        return links    
+    end
+
 
     def addIndex()
         fileName = "index.#{@language}.html"
-        sorted = @vocabList.sort
+        #FastGettext.locale = @language
+        #TwitterCldr.locale 
+        sorted = @vocabList.localize(@language).sort.to_a
+        alphabet = getAlphabet() 
         i = 0
         usedLetters = []
-        File.write(fileName, "<ul style=\"list-style-type:square\">\n", mode: "a")
+        output = "<ul style=\"list-style-type:square\">\n"
+        #File.write(fileName, "<ul style=\"list-style-type:square\">\n", mode: "a")
         while i < sorted.length
-            if sorted[i] != nil and sorted[i] != ""
+            if sorted[i] != nil and sorted[i] != "" and alphabet.include?(sorted[i][0].downcase)
                 vocab = sorted[i].gsub(": ", "")
-                if usedLetters.empty? or not(usedLetters.include?(vocab[0].downcase))
-                    usedLetters.push(vocab[0].downcase)
-                    File.write(fileName, "\n<div class=\"index-letter-target\"><p>#{vocab[0].upcase}<a class=\"anchor\" name=\"#{vocab[0].upcase}\">&nbsp;</a></p></div>\n", mode: "a")
+                letter = vocab[0]
+                if !usedLetters.empty? && isNonEngChar(vocab, usedLetters)
+                    vocab = castCharToEng(vocab, usedLetters)
+                    letter = vocab[0]
                 end
-                values = @vocabDict[sorted[i]]
-                outputLinks = ''
-                j = 0
-                while j < values.length
-                    outputLinks += values[j]
-                    j += 1
+                if usedLetters.empty? or not(usedLetters.include?(letter.downcase))
+                    usedLetters.push(letter.downcase)
+                    output += "\n<div class=\"index-letter-target\"><p>#{letter.upcase}<a class=\"anchor\" name=\"#{vocab[0].upcase}\">&nbsp;</a></p></div>\n"
+                    #File.write(fileName, "\n<div class=\"index-letter-target\"><p>#{letter.upcase}<a class=\"anchor\" name=\"#{vocab[0].upcase}\">&nbsp;</a></p></div>\n", mode: "a")
                 end
-                File.write(fileName, "<li>#{vocab}, #{outputLinks}</li>\n", mode: "a")
                 
+                #values = @vocabDict[sorted[i]]
+                #@vocabDict[sorted[i]].map{|elem| ", #{elem}"}.join()
+                list = @vocabDict[sorted[i]]
+                outputLinks =  list.map{|elem| (list.index(elem) == list.length - 1)  ? " #{elem}" : " ,#{elem}" }.join()
+
+                #File.write(fileName, "<li>#{vocab}#{outputLinks}</li>\n", mode: "a")
+               # File.write(fileName, "<li>#{vocab}#{outputLinks}</li>\n", mode: "a")
+                output += "<li>#{vocab}#{outputLinks}</li>\n"
             end
             i += 1
         end
-        File.write(fileName, '</ul>', mode: "a")
+        #File.write(fileName, '</ul>', mode: "a")
+        output += '</ul>'
+        #linksUnusedLetters(usedLetters)
+        generateAlphaOrder(usedLetters, output)
     end
     
     def main()
@@ -74,7 +133,7 @@ class Index
         Dir.chdir(filePath)
         files = Dir.glob("*html").select {|f| File.file? f}
         createNewIndexFile(files[0], filePath)
-        generateAlphaOrder()
+        #generateAlphaOrder()
         addIndex()
         add_HTML_end()
     end
