@@ -127,6 +127,15 @@ class Index
         #linksUnusedLetters(usedLetters)
         generateAlphaOrder(usedLetters, output)
     end
+
+    def moveFile()
+        src = "#{@parentDir}/review/index.#{@language}.html"
+        dst = "#{@parentDir}/index.#{@language}.html"
+        if File.exist?(dst)
+            File.delete(dst)
+        end
+        FileUtils.copy_file(src, dst)
+    end
     
     def main()
         filePath = "#{@parentDir}/review"
@@ -136,6 +145,7 @@ class Index
         #generateAlphaOrder()
         addIndex()
         add_HTML_end()
+        moveFile()
     end
 
     def createNewIndexFile(copyFile, filePath)

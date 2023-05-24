@@ -25,6 +25,14 @@ class SelfCheck
         @examFileName = name
     end
 
+	def getExamFileName()
+        return @examFileName
+    end
+
+	def getSelfCheckFileName()
+        return @selfCheckFileName
+    end
+
 	def unit()
 		temp = @currUnit.match(/[A-Za-z]+/)
 		return temp.to_s

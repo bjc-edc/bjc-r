@@ -71,6 +71,10 @@ class Vocab
 		@vocabFileName = name
 	end
 
+	def getVocabFileName()
+		return @vocabFileName
+	end
+
 	def currLab()
 		if @currUnit != nil
 			labMatch = @currUnit.match(/Lab.+,/)
