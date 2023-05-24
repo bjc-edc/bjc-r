@@ -45,6 +45,13 @@ class Main
 		parse_units("#{@parentDir}/review/topics.txt")
 		@vocab.doIndex()
 		puts "All units complete"
+		clear()
+	end
+
+	def clear()
+		if !@testingFolder
+			deleteReviewFolder()
+		end
 	end
 
 	def testingFolderPrompt()
@@ -66,14 +73,21 @@ class Main
 		end
 	end
 
+	def deleteReviewFolder()
+		Dir.chdir("#{@parentDir}/review")
+		if File.exist?("topics.txt")
+			File.delete("topics.txt")
+		end
+		files = list_files("#{@language}.html")
+		files.each do |file|
+			File.delete(file)
+		end
+	end
+
+
 	def createNewReviewFolder()
 		if Dir.exist?("#{@parentDir}/review")
-			Dir.chdir("#{@parentDir}/review")
-			File.delete("topics.txt")
-			files = list_files("#{@language}.html")
-			files.each do |file|
-				File.delete(file)
-			end
+			deleteReviewFolder()
 		else 
 			Dir.mkdir("#{@parentDir}/review")
 		end
@@ -328,6 +342,23 @@ class Main
 		#end
 	end
 
+	def copyFiles()
+		list = ["#{@vocab.getVocabFileName}", "#{@selfcheck.getSelfCheckFileName}", "#{@selfcheck.getExamFileName}"]
+		FileUtils.cd("..")
+		#src = "#{@parentDir}/review/#{@vocab}"
+		#dst = "#{Dir.getwd}/#{@vocab.getVocabFileName}"
+		list.each do |file|
+			src = "#{@parentDir}/review/#{file}"
+			dst = "#{Dir.getwd}/#{file}"
+			if File.exist?(dst)
+				File.delete(dst)
+			end
+			if File.exist?(src)
+				FileUtils.copy_file(src, dst)
+			end
+		end
+	end
+
 	#Inputs is the topics.txt file that is created earlier from the .topic file.
 	#Reads each line from the topics.txt file and finds that unit, lab, and html
 	#file it corresponds with. Once the html file is found, it calls the vocab
@@ -344,7 +375,13 @@ class Main
 		labFolder = ''
 		labName = ''
 		labNum = ''
+		i = 0
 		f.each do |line|
+			if line.match(endUnitPattern)
+				currentPath = Dir.getwd
+				copyFiles()
+				FileUtils.cd(currentPath)
+			end
 			if line.match(labNamePattern) != nil
 
 				#labNum = line.match(/\d+\s+/).to_s
@@ -382,6 +419,7 @@ class Main
 				@vocab.add_HTML_end()
 				@selfcheck.add_HTML_end()
 			end
+			i += 1
 		end
 	end
 
@@ -456,6 +494,10 @@ class Main
 
 	def currUnit(str)
 		@currUnit = str
+	end
+
+	def parentDir()
+		return @parentDir
 	end
 
 	
