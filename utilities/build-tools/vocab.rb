@@ -204,23 +204,88 @@ class Vocab
 	end
 
 	def get_vocab_word(nodeSet)
-		#save_vocab_word(nodeSet.xpath(".//li//strong"))
-		save_vocab_word(nodeSet.xpath(".//div//strong"))
-		save_vocab_word(nodeSet.xpath(".//li//strong"))
-		save_vocab_word(nodeSet.xpath(".//p//strong"))
+		#extract_vocab_word(nodeSet.xpath(".//li//strong"))
+		extract_vocab_word(nodeSet.xpath(".//div//strong"))
+		extract_vocab_word(nodeSet.xpath(".//li//strong"))
+		extract_vocab_word(nodeSet.xpath(".//p//strong"))
 	end
 
-	def save_vocab_word(nodeSet)
+	def vocabExists?(list, word)
+		cases = ["downcase", "upcase", "capitalize"]
+		#return ((cases.map{|item| eval(word + item)}).map{|vocab| list.include?(vocab)}).any?
+		return (list.include?(word) or list.include?(word.upcase) or list.include?(word.downcase) or list.include?(word.capitalize))
+	end
+
+	def findVocab(word)
+		list = @vocabList
+		cases = ["downcase", "upcase", "capitalize"]
+		if list.include?(word)
+			return word
+		else
+			vocab = (cases.map{|item| word.method(item).call()}).map{|vocab| list.include?(vocab) ? vocab : nil}
+			return vocab.find { |item| item != nil }
+		end
+	end
+
+	def separateVocab(str)
+		vocab = str
+		if not(str.scan(/\(\w+\)/).empty?)
+			saveVocabWord(str.scan(/\(\w+\)/)[0][1..-2])
+		end
+		if not(str.scan(/ or /).empty?) 
+			iterateVocab(str.split(" or "))
+		elsif not(str.scan(/ o /).empty?) 
+			iterateVocab(str.split(" o "))
+		end
+		if str.split(" ").length > 1
+			list = str.split(" ")
+			saveVocabWord("#{list[-1]}, #{list[0..-2].join(" ")}")
+		end
+	end
+
+	def iterateVocab(list)
+		list.each do |vocab|
+			if !(vocab.match?(/^(\s+)/)) and vocab != "" and !(vocab.match?(/\(/))
+				saveVocabWord(vocab)
+			end
+		end
+	end
+
+	def removeArticles(vocab)
+        vList = vocab.split(" ")
+        articles = ["el", "la", "las", "los", "the"]
+        plurals = articles.map{|word| word.capitalize}
+        #keep = []
+        #vList.map{|word| articles.include?(word) or plural.include?(word) ? keep.append(vList.index(word))}
+        if articles.include?(vList[0]) or plurals.include?(vList[0])
+            vList = vList[1..]
+            vList.include?(",") ? vList[..vList.index(",")] : vList
+            return vList.join(" ")
+        elsif articles.include?(vList[-1]) or plurals.include?(vList[-1])
+            vList = vList[..-1]
+            vList.include?(",") ? vList[..vList.index(",")] : vList
+            return vList.join(" ")
+        else
+            return vocab
+        end
+    end
+
+	def extract_vocab_word(nodeSet)
 		nodeSet.each do |n|
-			kludges = ["T", "Bi", "Pi", "T"]
-			node = n.text().capitalize
-			if not(kludges.include?(node.to_s()))
-				if not(@vocabList.include?(node.to_s()))
-					@vocabList.push(node.to_s())
-					@vocabDict[node.to_s()] = [add_vocab_unit_to_header()]
-				elsif @vocabDict[node.to_s()].last() != add_vocab_unit_to_header()
-					@vocabDict[node.to_s()].append(add_vocab_unit_to_header())
-				end
+			node = removeArticles(n.text().gsub(/(\s+)$/, '').to_s)
+			saveVocabWord(node)
+			separateVocab(node)
+		end
+	end
+
+	def saveVocabWord(vocab)
+		kludges = ["T", "BI", "PI", "T"]
+		if not(kludges.include?(vocab.upcase))
+			if !vocabExists?(@vocabList, vocab)
+				@vocabList.push(vocab)
+				@vocabDict[vocab] = [add_vocab_unit_to_index()]
+			elsif @vocabDict[findVocab(vocab)].last() != add_vocab_unit_to_index()
+				@vocabDict[findVocab(vocab)].append(add_vocab_unit_to_index())
 			end
 		end
 	end
@@ -243,6 +308,12 @@ class Vocab
 			[]
 		end
 
+	end
+
+	def add_vocab_unit_to_index()
+		unitNum = return_vocab_unit(@currUnit)
+		link = " <a href=\"#{get_url(@vocabFileName)}\">#{unitNum}</a>"
+		return link
 	end
 
 	def add_vocab_unit_to_header()

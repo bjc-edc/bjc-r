@@ -5,6 +5,7 @@ require_relative 'index'
 require 'rio'
 require 'open-uri'
 require 'nokogiri'
+require 'twitter_cldr'
 
 class Tests
 	@type = 'testing'

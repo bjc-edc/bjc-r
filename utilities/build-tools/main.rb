@@ -16,6 +16,11 @@ class Main
 		@labFileName = ''
 		@vocab = Vocab.new(@parentDir, language)
 		@selfcheck = SelfCheck.new(@parentDir, language)
+		@testingFolder = true
+	end
+
+	def testingFolder(bool)
+		@testingFolder = bool
 	end
 
 	#Extracts the folder class name and subfolder. For example with Sparks, 
@@ -33,12 +38,32 @@ class Main
 	#Main/primary function to be called, will call and create all other functions and classes. 
 	#This function will parse the topic pages, parse all labs and units, and create summary pages
 	def Main()
+		testingFolderPrompt()
 		createNewReviewFolder()
 		#parse_class()
 		parse_allTopicPages(@topicFolder)
 		parse_units("#{@parentDir}/review/topics.txt")
 		@vocab.doIndex()
 		puts "All units complete"
+	end
+
+	def testingFolderPrompt()
+		prompt = "> "
+		puts "Would you like to have a consolidated review folder (for testing purposes)? \n Type Y/N"
+		print prompt
+		while user_input = gets.chomp # loop while getting user input
+			case user_input
+			when ("Y" or "Y".downcase)
+				testingFolder(true)
+				break
+			when ("N" or "N".downcase)
+				testingFolder(false)
+				break
+			else
+			  puts "Please type either Y/N"
+			  print prompt # print the prompt, so the user knows to re-enter input
+			end
+		end
 	end
 
 	def createNewReviewFolder()
