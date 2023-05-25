@@ -233,22 +233,27 @@ class Vocab
 
 	def separateVocab(str)
 		vocab = str
-		if not(str.scan(/\(\w+\)/).empty?)
+		if not(str.scan(/\(\w+\)/).empty?) #looking for strings in parathesis such as: (API), (AI)
 			saveVocabWord(str.scan(/\(\w+\)/)[0][1..-2])
 		end
-		if not(str.scan(/ or /).empty?) 
+		if not(str.scan(/ or /).empty?) #looking for strings with "or" in them: antivirus or antimalware
 			iterateVocab(str.split(" or "))
-		elsif not(str.scan(/ o /).empty?) 
+		elsif not(str.scan(/ o /).empty?) #looking for string with "or" in them in spanish
 			iterateVocab(str.split(" o "))
 		end
-		if str.split(" ").length > 1
+		if str.split(" ").length > 1 #looking for strings with multiple words: articial intelligence
 			list = str.split(" ")
 			saveVocabWord("#{list[-1]}, #{list[0..-2].join(" ")}")
 		end
 	end
 
 	def iterateVocab(list)
-		list.each do |vocab|
+		str = list.join(" ")
+		vList = list
+		if str.match(/^((?!(\(.*\))).)*/) #str has parethesis with multiple words
+			vList = str.match(/^((?!(\(.*\))).)*/).to_s.split(" ")
+		end
+		vList.each do |vocab|
 			if !(vocab.match?(/^(\s+)/)) and vocab != "" and !(vocab.match?(/\(/))
 				saveVocabWord(vocab)
 			end
@@ -316,7 +321,10 @@ class Vocab
 
 	def add_vocab_unit_to_index()
 		unitNum = return_vocab_unit(@currUnit)
+		currentDir = Dir.getwd()
+		FileUtils.cd("..")
 		link = " <a href=\"#{get_url(@vocabFileName)}\">#{unitNum}</a>"
+		FileUtils.cd(currentDir)
 		return link
 	end
 
