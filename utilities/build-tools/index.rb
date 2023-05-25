@@ -48,11 +48,18 @@ class Index
     end
 
     def isNonEngChar(vocab, usedLetters)
-        collator = TwitterCldr::Collation::Collator.new(@language)
-        return (collator.compare(vocab[0].upcase, usedLetters[-1].upcase)).abs() == 1
+        return !(isCapital?(vocab[0]) or isLowercase?(vocab[0]))
         #return usedLetters.localize(@language).compare(usedLetters[-1], vocab[0]).abs() == 1
     end
     
+    def isCapital?(char)
+        return (char.bytes[0] >= 65 and char.bytes[0] <= 90)
+    end
+
+    def isLowercase?(char)
+        return (char.bytes[0] >= 97 and char.bytes[0] <= 122)
+    end
+
     #alphabet and letter are lowercase and returned vocab word is upper and then lowercase
     def castCharToEng(vocab, usedLetters)
         collator = TwitterCldr::Collation::Collator.new(@language)
@@ -60,6 +67,9 @@ class Index
             letter = vocab[0].downcase
             alpha = getAlphabet().push(letter).localize(@language).sort.to_a
             newLetter = alpha[alpha.index(letter) + 1]
+            if isCapital?(vocab[0])
+                newLeter = newLetter.upcase
+            end
             return newLetter.upcase + vocab[1..]
         else
             return vocab
@@ -88,43 +98,32 @@ class Index
 
 
     def addIndex()
-        fileName = "index.#{@language}.html"
-        #FastGettext.locale = @language
-        #TwitterCldr.locale 
-        sorted = @vocabList.localize(@language).sort.to_a
         alphabet = getAlphabet() 
+        filtered = @vocabList.filter {|item| item != nil && item != "" && alphabet.include?(item[0].downcase)}  
+        sorted = filtered.localize(@language).sort.to_a
         i = 0
         usedLetters = []
         output = "<ul style=\"list-style-type:square\">\n"
-        #File.write(fileName, "<ul style=\"list-style-type:square\">\n", mode: "a")
         while i < sorted.length
-            if sorted[i] != nil and sorted[i] != "" and alphabet.include?(sorted[i][0].downcase)
-                vocab = sorted[i].gsub(": ", "")
-                letter = vocab[0]
-                if !usedLetters.empty? && isNonEngChar(vocab, usedLetters)
-                    vocab = castCharToEng(vocab, usedLetters)
-                    letter = vocab[0]
-                end
-                if usedLetters.empty? or not(usedLetters.include?(letter.downcase))
-                    usedLetters.push(letter.downcase)
-                    output += "\n<div class=\"index-letter-target\"><p>#{letter.upcase}<a class=\"anchor\" name=\"#{vocab[0].upcase}\">&nbsp;</a></p></div>\n"
-                    #File.write(fileName, "\n<div class=\"index-letter-target\"><p>#{letter.upcase}<a class=\"anchor\" name=\"#{vocab[0].upcase}\">&nbsp;</a></p></div>\n", mode: "a")
-                end
-                
-                #values = @vocabDict[sorted[i]]
-                #@vocabDict[sorted[i]].map{|elem| ", #{elem}"}.join()
-                list = @vocabDict[sorted[i]]
-                outputLinks =  list.map{|elem| (list.index(elem) == list.length - 1)  ? " #{elem}" : " ,#{elem}" }.join()
-
-                #File.write(fileName, "<li>#{vocab}#{outputLinks}</li>\n", mode: "a")
-               # File.write(fileName, "<li>#{vocab}#{outputLinks}</li>\n", mode: "a")
-                output += "<li>#{vocab}#{outputLinks}</li>\n"
+            vocab = sorted[i].gsub(": ", "")
+            if !keepCapitalized?(vocab)
+                vocab = vocab.downcase
             end
+            letter = vocab[0]
+            if !usedLetters.empty? && isNonEngChar(vocab, usedLetters)
+                vocab = castCharToEng(vocab, usedLetters)
+                letter = vocab[0]
+            end
+            if usedLetters.empty? or not(usedLetters.include?(letter.downcase))
+                usedLetters.push(letter.downcase)
+                output += "\n<div class=\"index-letter-target\"><p>#{letter.upcase}<a class=\"anchor\" name=\"#{letter.upcase}\">&nbsp;</a></p></div>\n"
+            end            
+            list = @vocabDict[sorted[i]]
+            outputLinks =  list.map{|elem| (list.index(elem) == list.length - 1 && list.length > 1)  ? ", #{elem}" : " #{elem}" }.join()
+            output += "<li>#{vocab}#{outputLinks}</li>\n"
             i += 1
         end
-        #File.write(fileName, '</ul>', mode: "a")
         output += '</ul>'
-        #linksUnusedLetters(usedLetters)
         generateAlphaOrder(usedLetters, output)
     end
 
@@ -171,4 +170,15 @@ class Index
 		end
 	end
 
+    def keepCapitalized?(vocab)
+        capitals = ["Moore's", "IP", "DDoS", "SSL", "TLS", "TCP", "IA", "IPA", "PCT", "PI", "AI", "ADT", "API", "Creative Commons", "ISPs"]
+        capitals.each do |item|
+            if vocab.match?(item) #and (vocab == item or vocab.match?("#{item}\s") or vocab.match?("\s#{item}"))
+                return true
+            elsif vocab.match?(/\(.+\)/)
+                return true
+            end
+        end
+        return false
+    end
 end

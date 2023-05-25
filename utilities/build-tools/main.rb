@@ -60,14 +60,14 @@ class Main
 		print prompt
 		while user_input = gets.chomp # loop while getting user input
 			case user_input
-			when ("Y" or "Y".downcase)
+			when "Y", "Y".downcase
 				testingFolder(true)
 				break
-			when ("N" or "N".downcase)
+			when "N", "N".downcase
 				testingFolder(false)
 				break
 			else
-			  puts "Please type either Y/N"
+			  puts "Unsupported input. Please type either Y/N"
 			  print prompt # print the prompt, so the user knows to re-enter input
 			end
 		end
