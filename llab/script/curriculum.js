@@ -79,20 +79,23 @@ llab.secondarySetUp = function() {
     let contentType = lookupClassName(DISCLOURSE_HEADINGS, classList);
     let id = `hint-${contentType}-${i}`;
     this.innerHTML = `
-    <a style='font-size: 18px;' href='#${id}' data-toggle='collapse'
-      role="button" aria-controls="#${id}" aria-expanded=${isVisible}>
-      <strong>${llab.disclourseBoxHeading(contentType, pageLanguage)}</strong>
-    </a>
-    <div id='${id}' class='collapse'>
-      ${this.innerHTML}
-    </div>`;
+      <a style='font-size: 18px;' href='#${id}' data-toggle='collapse'
+        role="button" aria-controls="#${id}" aria-expanded=${isVisible}>
+        <strong>${llab.disclourseBoxHeading(contentType, pageLanguage)}</strong>
+      </a>
+      <div id='${id}' class='collapse'>
+        ${this.innerHTML}
+      </div>`;
     // Use class "ifTime show" to show by default.
     // BS3 uses the 'in' class to show content, TODO: update this for v5.
     if (isVisible) {
       $(`#${id}`).addClass('in');
       $(this).removeClass('show');
     }
+
   });
+
+  llab.setupSnapImages();
 
   llab.additionalSetup([
     {  // TODO: PUT THESE CLASSES SOMEWHERE
@@ -342,6 +345,8 @@ llab.processLinks = function(data, _status, _jqXHR) {
   $('.dropdown-menu').css('max-height', $(window).height() * 0.8);
   $('.dropdown-menu').css('max-width', Math.min($(window).width() * 0.8, 450));
 
+  llab.addTransitionLinks();
+
   // FIXME -- this doesn't belong here.
   llab.indicateProgress(llab.url_list.length, llab.thisPageNum() + 1);
 
@@ -357,13 +362,11 @@ llab.addFrame = function() {
     {'src': source, 'class': 'content-embed'}
   );
 
-  var conent = $(document.createElement('div'));
-  conent.append(
-    '<a href=' + source + ' target="_blank">Open page in new window</a><br />'
-  );
-  conent.append(frame);
+  let content = $(document.createElement('div'));
+  content.append(`<a href="${source}" target=_blank>Open page in new window</a><br />`);
+  content.append(frame);
 
-  $(FULL).append(conent);
+  $(FULL).append(content);
 };
 
 // Setup the entire page title. This includes creating any HTML elements.
@@ -438,10 +441,10 @@ llab.createTitleNav = function() {
         </a>
         <div class="navbar-title"></div>
       </div>
-      <div class="trapezoid"></div>
       <div class="nav navbar-nav navbar-right">
         <ul class="nav-btns btn-group"></ul>
       </div>
+      <div class="trapezoid"></div>
     </nav>
     <div class="title-small-screen"></div>
     `,
@@ -546,7 +549,7 @@ llab.setButtonURLs = function() {
   }
 
   forward = $('.forwardbutton');
-  back     = $('.backbutton');
+  back = $('.backbutton');
 
   // Disable the back button
   // TODO: switch from using `.disabled` to [disabled] in css
@@ -671,6 +674,40 @@ llab.addFooter = function() {
   </footer>`
   );
 }
+
+// Show a link 'switch to espanol' or 'switch to english' depending on the current language
+llab.addTransitionLinks = function() {
+  let currentPage = location.pathname.split('/').pop();
+  // extract the language from the file name
+  // make an ajax call to get the file name in the other language
+  // if the file exists, add a link to it
+  let langMatcher = currentPage.match(/\.(es)\./);
+  let lang = langMatcher ? langMatcher[1] : 'en', new_url, btn_text;
+  if (lang === 'es') {
+    new_url = location.href.replaceAll('.es.', '.');
+    btn_text = 'Switch to English';
+  } else if (lang === 'en') {
+    new_url = location.href.replaceAll('.html', '.es.html').replaceAll('.topic', '.es.topic');
+    btn_text = 'Cambiar a Español';
+   }
+   fetch(new_url).then((response) => {
+      if (!response.ok) { return; }
+      let link = `<a href="${new_url}" class="btn btn-default imageRight" role="button">
+          ${btn_text}
+        </a>`;
+      $('.full').prepend(link);
+   }).catch(() => {});
+}
+
+llab.setupSnapImages = () => {
+  $('img.js-runInSnap').each((_idx, elm) => {
+    let $img = $(elm);
+    $img.wrap("<div class='embededImage'></div>");
+    let openURL = llab.getSnapRunURL(encodeURIComponent($img.attr('src')));
+    let $open = $(`<a href="${openURL}" class="openInSnap" target="_blank">Open In Snap!</a>`);
+    $open.insertAfter($img);
+  });
+};
 
 /**
 *  Positions an image along the bottom of the lab page, signifying progress.
