@@ -5,7 +5,7 @@
 
 
 const THIS_FILE = 'loader.js';
-const RELEASE_DATE = '2021-12-07';
+const RELEASE_DATE = '2023-05-08';
 
 // Basic llab shape.
 // TODO: We should separate this out a little more...
@@ -36,11 +36,10 @@ llab.topic_launch_page = llab.llab_path + "html/topic.html";
 llab.alt_topic_page = llab.rootURL + "topic/topic.html";
 llab.empty_curriculum_page_path = llab.llab_path + "html/empty-curriculum-page.html";
 // google analytics tokens
-llab.GACode = 'UA-57857730-3';
-llab.GAurl  = document.hostname;
+llab.GACode = 'G-JCCWWYDEJW';
+llab.GAurl = document.hostname;
 
 // ADDITIONAL LIBRARIES
-
 // Syntax Highlighting support
 llab.paths.syntax_highlights = "//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js";
 llab.paths.syntax_highlighting_css = "css/tomorrow-night-blue.css";
@@ -171,7 +170,7 @@ llab.initialSetUp = function() {
     loadScriptsAndLinks(0);
 
     let sentry = getTag(
-        'script', 'https://browser.sentry-cdn.com/6.12.0/bundle.tracing.min.js', 'text/javascript'
+        'script', 'https://js.sentry-cdn.com/f55a4cd65a8b48fd99e8247c6a5e6c2d.min.js', 'text/javascript'
     );
     sentry.onload = llab.setupSentry;
     document.head.appendChild(sentry);
@@ -181,10 +180,14 @@ llab.initialSetUp = function() {
 /////////////////////
 
 llab.setupSentry = function () {
+  Sentry.onLoad(function() {
     Sentry.init({
-        dsn:"https://575843d153a14b45b34b91d99ea9666a@bugs.cs10.org/13",
-        integrations: [new Sentry.Integrations.BrowserTracing()]
+      // No need to configure DSN here, it is already configured in the loader script
+      // You can add any additional configuration here
+      sampleRate: 0.5,
+      integrations: [new Sentry.Integrations.BrowserTracing()]
     });
+  });
 }
 
 llab.initialSetUp();

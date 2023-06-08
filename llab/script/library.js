@@ -14,10 +14,6 @@ llab.loaded = llab.loaded || {};
 llab.snapRunURLBase = "https://snap.berkeley.edu/snap/snap.html#open:";
 llab.snapRunURLBaseVersion = "https://snap.berkeley.edu/versions/VERSION/snap.html#open:";
 
-// returns the current domain with a cors proxy if needed
-
-// TODO: Support for a CORS proxy has been removed.
-// If we have a reliable enough CORS proxy, we can consider re-adding it.
 // It is expected that you host llab content in an environment where CORS is allowed.
 llab.getSnapRunURL = function(targeturl, options) {
     if (!targeturl) { return ''; }
@@ -28,55 +24,54 @@ llab.getSnapRunURL = function(targeturl, options) {
     }
 
     // internal resource!
-    var finalurl = llab.snapRunURLBase;
+    let snapURL = llab.snapRunURLBase;
     if (options && options.version) {
-        finalurl = llab.snapRunURLBaseVersion.replace('VERSION', options.version);
+        snapURL = llab.snapRunURLBaseVersion.replace('VERSION', options.version);
+    }
+    if (location.protocol == 'http:') {
+        snapURL = snapURL.replace('https://snap', 'http://extensions.snap');
     }
 
-    var currdom = document.domain;
-    if (currdom == "localhost") {
-        currdom = 'http://' + currdom + ":" + window.location.port;
-        // finalurl = finalurl.replace('https://snap', 'http://extensions.snap');
-    } else if (targeturl.indexOf("..") != -1 || targeturl.indexOf(llab.rootURL) == -1) {
-        var path = window.location.pathname;
+    let origin = location.origin;
+    // Resolve relative URLs to the full path.
+    // TODO: Consider adapting: new URL("../g", "http://a/b/c/d;p?q").href
+    if (targeturl.indexOf("..") != -1 || targeturl.indexOf(llab.rootURL) == -1) {
+        let path = location.pathname;
         path = path.split("?")[0];
         path = path.substring(0, path.lastIndexOf("/") + 1);
-        currdom = window.location.protocol + '//' + currdom + path;
-    } else {
-        finalurl += window.location.protocol + '//';
+        origin += path;
     }
-    finalurl = finalurl + currdom + targeturl;
 
-    return finalurl;
+    return `${snapURL}${origin}${targeturl}`;
 };
 
 llab.toggleDevComments = function() {
     $(".todo, .comment, .commentBig").toggle();
-  };
+};
 
-  llab.hideAllDevComments = function() {
+llab.hideAllDevComments = function() {
     $('.todo, .comment, .commentBig').hide();
-  }
+}
 
-  llab.showAllDevComments = function() {
+llab.showAllDevComments = function() {
     $('.todo, .comment, .commentBig').show();
-  }
+}
 
-  llab.canShowDevComments = function() {
+llab.canShowDevComments = function() {
     return ['localhost', '127.0.0.1'].includes(window.location.hostname);
-  }
+}
 
-  llab.setUpDevComments = function() {
+llab.setUpDevComments = function() {
     if (llab.canShowDevComments()) {
-      if ($('.js-commentBtn').length < 1) {
-        let addToggle = $('<button class="imageRight btn btn-default js-commentBtn">')
-              .click(llab.toggleDevComments)
-              .text('Toggle developer todos/comments (red boxes)');
-        $(FULL).prepend(addToggle);
-      }
-      $(window).load(llab.showAllDevComments);
+        if ($('.js-commentBtn').length < 1) {
+            let addToggle = $('<button class="imageRight btn btn-default js-commentBtn">')
+                .click(llab.toggleDevComments)
+                .text('Toggle developer todos/comments (red boxes)');
+            $(FULL).prepend(addToggle);
+        }
+        $(window).load(llab.showAllDevComments);
     }
-  }
+}
 
 
 /** Returns the value of the URL parameter associated with NAME. */
@@ -103,17 +98,19 @@ llab.stripComments = function(line) {
  * To make use of this code, the two ga() functions need to be called
  * on each page that is loaded, which means this file must be loaded.
  */
-llab.GAfun = function(i,s,o,g,r,a,m) { i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m) };
-
 llab.GA = function() {
-    llab.GAfun(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    let ga_url = `https://www.googletagmanager.com/gtag/js?id=${llab.GACode}`;
+    document.head.appendChild(getTag('script', ga_url, 'text/javascript'));
 };
 
 // GA Function Calls -- these do the real work!:
 if (llab.GACode) {
     llab.GA();
-    ga('create', llab.GACode, llab.GAUrl);
-    ga('send', 'pageview');
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', llab.GACode);
 }
 
 /** Truncate a STR to an output of N chars.
