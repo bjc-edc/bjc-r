@@ -2,18 +2,18 @@ require 'fileutils'
 require 'rio'
 require 'nokogiri'
 require 'twitter_cldr'
+
 require_relative 'vocab'
 require_relative 'main'
 require_relative 'atwork'
 
 class Index
-
     def initialize(path, language="en")
-		@parentDir = path
-		@language = language
+        @parentDir = path
+        @language = language
         @vocabList = []
-		@vocabDict = {}
-	end
+        @vocabDict = {}
+    end
 
     def vocabList(list)
         @vocabList = list
@@ -51,7 +51,6 @@ class Index
         return !(isCapital?(vocab[0]) or isLowercase?(vocab[0]))
         #return usedLetters.localize(@language).compare(usedLetters[-1], vocab[0]).abs() == 1
     end
-    
     def isCapital?(char)
         return (char.bytes[0] >= 65 and char.bytes[0] <= 90)
     end
@@ -60,7 +59,7 @@ class Index
         return (char.bytes[0] >= 97 and char.bytes[0] <= 122)
     end
 
-    #alphabet and letter are lowercase and returned vocab word is upper and then lowercase
+    # alphabet and letter are lowercase and returned vocab word is upper and then lowercase
     def castCharToEng(vocab, usedLetters)
         collator = TwitterCldr::Collation::Collator.new(@language)
         if isNonEngChar(vocab, usedLetters)
@@ -92,14 +91,14 @@ class Index
             newLetter = getAlphabet()[j]
             links.append("<a href=\"##{newLetter.upcase}\">#{letter.upcase}</a>&nbsp;\n")
             i += 1
-        end 
-        return links    
+        end
+        return links
     end
 
 
     def addIndex()
-        alphabet = getAlphabet() 
-        filtered = @vocabList.filter {|item| item != nil && item != "" && alphabet.include?(item[0].downcase)}  
+        alphabet = getAlphabet()
+        filtered = @vocabList.filter {|item| item != nil && item != "" && alphabet.include?(item[0].downcase)}
         sorted = filtered.localize(@language).sort.to_a
         i = 0
         usedLetters = []
@@ -117,7 +116,7 @@ class Index
             if usedLetters.empty? or not(usedLetters.include?(letter.downcase))
                 usedLetters.push(letter.downcase)
                 output += "\n<div class=\"index-letter-target\"><p>#{letter.upcase}<a class=\"anchor\" name=\"#{letter.upcase}\">&nbsp;</a></p></div>\n"
-            end            
+            end
             list = @vocabDict[sorted[i]]
             outputLinks =  list.map{|elem| (list.index(elem) == list.length - 1 && list.length > 1)  ? ", #{elem}" : " #{elem}" }.join()
             output += "<li>#{vocab}#{outputLinks}</li>\n"
@@ -135,7 +134,6 @@ class Index
         end
         FileUtils.copy_file(src, dst)
     end
-    
     def main()
         filePath = "#{@parentDir}/review"
         Dir.chdir(filePath)
@@ -148,27 +146,27 @@ class Index
     end
 
     def createNewIndexFile(copyFile, filePath)
-    	i = 0
+        i = 0
         fileName = "index.#{@language}.html"
         File.new(fileName, "a")
-		linesList =  rio("#{filePath}/#{copyFile}").lines[0..20]
-		while (not(linesList[i].match(/<\/head>/)) and i < 20)
-			if linesList[i].match(/<title>/)
-				File.write(fileName, "<title>BJC Curriculum Index</title>", mode: "a")
-			else
-				File.write(fileName, "#{linesList[i]}", mode: "a")
-			end
-			i += 1
-		end
+        linesList =  rio("#{filePath}/#{copyFile}").lines[0..20]
+        while (not(linesList[i].match(/<\/head>/)) and i < 20)
+            if linesList[i].match(/<title>/)
+                File.write(fileName, "<title>BJC Curriculum Index</title>", mode: "a")
+            else
+                File.write(fileName, "#{linesList[i]}", mode: "a")
+            end
+            i += 1
+        end
         File.write(fileName, "\n</head>\n<body>\n", mode:"a")
     end
-    
+
     def add_HTML_end()
-		ending = "</div>\n</body>\n</html>"
-		if File.exist?("index.#{@language}.html")
-			File.write("index.#{@language}.html", ending, mode: "a")
-		end
-	end
+        ending = "</div>\n</body>\n</html>"
+        if File.exist?("index.#{@language}.html")
+            File.write("index.#{@language}.html", ending, mode: "a")
+        end
+    end
 
     def keepCapitalized?(vocab)
         capitals = ["Moore's", "IP", "DDoS", "SSL", "TLS", "TCP", "IA", "IPA", "PCT", "PI", "AI", "ADT", "API", "Creative Commons", "ISPs"]
