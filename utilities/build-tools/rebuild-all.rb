@@ -6,7 +6,7 @@
 
 require_relative 'main'
 
-puts "Rebuilding all Index/summaries from: #{ENV['PWD']}"
+puts "Rebuilding all index/summaries from: #{ENV['PWD']}"
 
 enRunner = Main.new(root: ENV['PWD'], cur_dir: "programming", topic_dir: "nyc_bjc", language: "en")
 enRunner.Main
