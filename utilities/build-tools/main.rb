@@ -3,11 +3,17 @@ require 'rio'
 require_relative 'vocab'
 require_relative 'selfcheck'
 
+VALID_LANGUAGES = ['en', 'es', 'de']
 
 class Main
-	def initialize(dirPath, topicFolderPath, language='en')
-		@parentDir = dirPath
-		@topicFolder = topicFolderPath
+	def initialize(root: "", cur_dir: "", topic_dir: '', language='en')
+		raise "`root` must end with \"bjc-r/\" folder" unless root.match(/bjc-r\/$/)
+		raise "`cur_dir` should NOT include \"bjc-r/\" folder" if cur_dir.match(/bjc-r\/$/)
+		raise "`topic_dir` should NOT include \"bjc-r/\" folder" if topic_dir.match(/bjc-r\/$/)
+
+		@rootDir = root
+		@parentDir = "#{@rootDir}/cur/#{cur_dir}/"
+		@topicFolder = "#{@rootDir}/topic/#{topic_dir}/"
 		@language = language
 		@currUnit = nil
 		@unitNum = ''
@@ -23,8 +29,8 @@ class Main
 		@testingFolder = bool
 	end
 
-	#Extracts the folder class name and subfolder. For example with Sparks, 
-	#classStr = 'sparks' and subclassStr = 'student-pages'. For CSP, 
+	#Extracts the folder class name and subfolder. For example with Sparks,
+	#classStr = 'sparks' and subclassStr = 'student-pages'. For CSP,
 	#classStr = 'cur' and subclassStr = 'programming'
 	#def parse_class()
 	#	path = @parentDir
@@ -35,7 +41,7 @@ class Main
 	#	subClassStr(pathList[2])
 	#end
 
-	#Main/primary function to be called, will call and create all other functions and classes. 
+	#Main/primary function to be called, will call and create all other functions and classes.
 	#This function will parse the topic pages, parse all labs and units, and create summary pages
 	def Main()
 		testingFolderPrompt()
@@ -88,7 +94,7 @@ class Main
 	def createNewReviewFolder()
 		if Dir.exist?("#{@parentDir}/review")
 			deleteReviewFolder()
-		else 
+		else
 			Dir.mkdir("#{@parentDir}/review")
 		end
 	end
@@ -104,7 +110,7 @@ class Main
 		Dir.glob("*#{fileType}").select {|f| File.file? f}
 	end
 
-	#Returns true if input (fileName) is a file and not a folder 
+	#Returns true if input (fileName) is a file and not a folder
 	#and is the correct extension type (fileType)
 	def isCorrectFileType(fileType, fileName)
 		File.exists?("#{fileName}#{fileType}") & File.file?(fileName)
@@ -114,14 +120,14 @@ class Main
 	#Based on all the parsed topic pages, summaries will be generated
 	def parse_allTopicPages(folder)
 		Dir.chdir(@topicFolder)
-		filesList = list_files(".topic")	
+		filesList = list_files(".topic")
 		filesList.each do |file|
 			if isTopicPageFile(file) and fileLanguage(file) == @language
 				parse_rawTopicPage(file)
 			end
 		end
 	end
-	
+
 	#Returns true if the file is a valid topic page
 	def isTopicPageFile(file)
 		unwantedFilesPattern = /teaching-guide/
@@ -146,7 +152,7 @@ class Main
 				"resource: On the AP Exam [#{link}/review/exam#{@unitNum}.#{@language}.html]",
 				"resource: Self-Check Questions [#{link}/review/selfcheck#{@unitNum}.#{@language}.html]",
 				"}"]
-		else 
+		else
 			dataList = ["heading: Unidad #{@unitNum} Revision",
 				"resource: Vocabulario [#{link}/review/vocab#{@unitNum}.#{@language}.html]",
 				"resource: En el examen AP[#{link}/review/exam#{@unitNum}.#{@language}.html]",
@@ -160,13 +166,13 @@ class Main
 	def isSummary(line)
 		if line != nil and @currUnit != nil and line.match(@currUnit)
 			return true
-		else 
+		else
 			return false
 		end
 	end
 
 	#Parses through the data of the topic page and generates and adds content to a topics.txt
-	#file that will be parsed later on to generate summaries 
+	#file that will be parsed later on to generate summaries
 	def parse_rawTopicPage(file)
 		currUnit(nil)
 		allLines = File.readlines(file)
@@ -191,7 +197,7 @@ class Main
 				allLines[index] = addSummariesToTopic(file)
 				summaryExists = true
 			else
-				if isTopic(line) 
+				if isTopic(line)
 					if (line.match(headerPattern))
 						if line.match(/title:/)
 							unitNum(line.match(/\d+/).to_s)
@@ -233,7 +239,7 @@ class Main
 	end
 
 	#Returns true if the string/line is a valid topic. Ignores the lines that start with the kludges.
-	#The kludges being the lines we want to avoid and NOT add to our topic.txt page. The topic.txt 
+	#The kludges being the lines we want to avoid and NOT add to our topic.txt page. The topic.txt
 	#page should only have what we need to find the correct file, lab, and unit
 	def isTopic(arg)
 		str = arg.force_encoding("BINARY")
@@ -264,8 +270,8 @@ class Main
 		else
 			File.new(filename, "w")
 			File.write(filename, data)
-		end	
-	end	
+		end
+	end
 
 	def removeHTML(str)
 		htmlTagPattern = /<\/?\w+>/
@@ -322,7 +328,7 @@ class Main
 			lab = link.match(/(\w+-?)+\.html/)
 		end
 		#folder = "#{localPath()}#{link[0]}"
-		#link = 
+		#link =
 		#Dir.chdir(folder)
 		return lab.to_s
 		#lab = link.match(/(\w+-?)+\.\w+\.html/).to_s
@@ -454,10 +460,9 @@ class Main
 		end
 	end
 
-#p array.map { |x| x == 4 ? 'Z' : x }
+	#p array.map { |x| x == 4 ? 'Z' : x }
 
-# => [1, 2, 3, 'Z']
-
+	# => [1, 2, 3, 'Z']
 	def parse_topic_links(fileName, line)
 		Dir.chdir(@topicFolderPath)
 		fileContents = []
@@ -469,7 +474,7 @@ class Main
 				addStr = "#{lineLink}?topic=#{@classStr}%2F#{@unitNum}-#{fileName}.topic&course=#{@classStr}.html]"
 				newLink = fileContents.gsub("#{lineLink}", addStr)
 			#elsif lineMatch and isSummary
-			end	
+			end
 		end
 	end
 
@@ -500,5 +505,4 @@ class Main
 		return @parentDir
 	end
 
-	
 end
