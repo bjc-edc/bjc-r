@@ -141,7 +141,7 @@ class Main
 		end
 	end
 
-	#Adds the summary content and links to the topic.topic file
+	# Adds the summary content and links to the topic.topic file
 	def addSummariesToTopic(topicFile)
 		linkMatch = @parentDir.match(/\/bjc-r.+/).to_s
 		linkMatchWithoutBracket = linkMatch.split(/\]/)
@@ -160,7 +160,7 @@ class Main
 				"}"]
 		end
 		data = dataList.join("\n")
-		#add_content_to_file("#{@topicFolder}/#{topicFile}", data)
+		# add_content_to_file("#{@topicFolder}/#{topicFile}", data)
 	end
 
 	def isSummary(line)
@@ -460,8 +460,7 @@ class Main
 		end
 	end
 
-	#p array.map { |x| x == 4 ? 'Z' : x }
-
+	# p array.map { |x| x == 4 ? 'Z' : x }
 	# => [1, 2, 3, 'Z']
 	def parse_topic_links(fileName, line)
 		Dir.chdir(@topicFolderPath)

@@ -2,6 +2,7 @@ require 'fileutils'
 require 'rio'
 require 'nokogiri'
 require 'twitter_cldr'
+
 require_relative 'vocab'
 require_relative 'main'
 
@@ -50,7 +51,6 @@ class Index
         return !(isCapital?(vocab[0]) or isLowercase?(vocab[0]))
         #return usedLetters.localize(@language).compare(usedLetters[-1], vocab[0]).abs() == 1
     end
-
     def isCapital?(char)
         return (char.bytes[0] >= 65 and char.bytes[0] <= 90)
     end
@@ -134,7 +134,6 @@ class Index
         end
         FileUtils.copy_file(src, dst)
     end
-
     def main()
         filePath = "#{@parentDir}/review"
         Dir.chdir(filePath)
