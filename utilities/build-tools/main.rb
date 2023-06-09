@@ -147,20 +147,21 @@ class Main
 		linkMatchWithoutBracket = linkMatch.split(/\]/)
 		link = "#{linkMatchWithoutBracket.join}"
 		if @language == "en"
-			dataList = ["heading: Unit #{@unitNum} Review",
-				"	resource: Vocabulary [#{link}/review/vocab#{@unitNum}.#{@language}.html]",
-				"	resource: On the AP Exam [#{link}/review/exam#{@unitNum}.#{@language}.html]",
-				"	resource: Self-Check Questions [#{link}/review/selfcheck#{@unitNum}.#{@language}.html]",
-				"}"]
+			topic_content = <<~TOPIC
+			heading: Unit #{@unitNum} Review
+					resource: Vocabulary [#{link}/review/vocab#{@unitNum}.html]
+					resource: On the AP Exam [#{link}/review/exam#{@unitNum}.html]
+					resource: Self-Check Questions [#{link}/review/selfcheck#{@unitNum}.html]
+			TOPIC
 		else
-			dataList = ["heading: Unidad #{@unitNum} Revision",
-				"	resource: Vocabulario [#{link}/review/vocab#{@unitNum}.#{@language}.html]",
-				"	resource: En el examen AP[#{link}/review/exam#{@unitNum}.#{@language}.html]",
-				"	resource: Preguntas de Autocomprobacion [#{link}/review/selfcheck#{@unitNum}.#{@language}.html]",
-				"}"]
+			topic_content = <<~TOPIC
+			heading: Unidad #{@unitNum} Revision
+					resource: Vocabulario [#{link}/review/vocab#{@unitNum}.#{@language}.html]
+					resource: En el examen AP[#{link}/review/exam#{@unitNum}.#{@language}.html]
+					resource: Preguntas de Autocomprobacion [#{link}/review/selfcheck#{@unitNum}.#{@language}.html]
+			TOPIC
 		end
-		data = dataList.join("\n")
-		# add_content_to_file("#{@topicFolder}/#{topicFile}", data)
+		# add_content_to_topic_file("#{@topicFolder}/#{topicFile}", topic_content)
 	end
 
 	def isSummary(line)
