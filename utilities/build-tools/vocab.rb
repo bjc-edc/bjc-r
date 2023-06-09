@@ -1,10 +1,11 @@
 require 'fileutils'
 require 'rio'
 require 'nokogiri'
+
+require_relative 'index'
 require_relative 'selfcheck'
 
 class Vocab
-	
 	def initialize(path, language="en")
 		@parentDir = path
 		@language = language
@@ -127,7 +128,7 @@ class Vocab
 			Dir.chdir("#{@parentDir}/review")
 			File.new(@vocabFileName, "w")
 		end
-		linesList =  rio("#{filePath}/#{@currFile}").lines[0..30] 
+		linesList =  rio("#{filePath}/#{@currFile}").lines[0..30]
 		while (not(linesList[i].match(/<body>/)) and i < 30)
 			if linesList[i].match(/<title>/)
 				File.write(fileName, "<title>#{unit()} #{@currUnitNum} #{vocabLanguage()}</title>\n", mode: "a")
@@ -155,15 +156,15 @@ class Vocab
 		data = data.gsub(/&amp;/, "&")
 		data.delete!("\n\n\\")
 		if File.exist?(filename)
-			if lab != currLab() 
+			if lab != currLab()
 				File.write(filename, "<h3>#{currLab()}</h3>", mode: "a")
 			end
 			File.write(filename, data, mode: "a")
 		else
 			createNewVocabFile(filename)
 			File.write(filename, data, mode: "a")
-		end	
-	end	
+		end
+	end
 
 
 
@@ -176,7 +177,7 @@ class Vocab
 		vocabSet1.each do |node|
 			child = node.children()
 			child.before(add_vocab_unit_to_header())
-			get_vocab_word(node)			
+			get_vocab_word(node)
 		end
 		add_vocab_to_file(vocabSet1.to_s)
 		vocabSet2 = doc.xpath("//div[@class = 'vocabBig']")
@@ -184,7 +185,7 @@ class Vocab
 			child = node.children()
 			changeToVocabFullWidth(vocabSet2, node['class'])
 			child.before(add_vocab_unit_to_header())
-			get_vocab_word(node)			
+			get_vocab_word(node)
 		end
 		add_vocab_to_file(vocabSet2.to_s)
 		vocabSet3 = doc.xpath("//div[@class = 'vocab']")
@@ -192,11 +193,11 @@ class Vocab
 			child = node.children()
 			changeToVocabFullWidth(vocabSet3, node['class'])
 			child.before(add_vocab_unit_to_header())
-			get_vocab_word(node)			
+			get_vocab_word(node)
 		end
 		add_vocab_to_file(vocabSet3.to_s)
 		#if not(vocabSet.empty?())
-		
+
 		#end
 	end
 
@@ -316,7 +317,6 @@ class Vocab
 		else
 			[]
 		end
-
 	end
 
 	def add_vocab_unit_to_index()

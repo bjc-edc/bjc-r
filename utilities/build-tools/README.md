@@ -63,11 +63,11 @@
     3.2.2 :002 > myMain.main()
 
     Example for running english CSP:
-    3.2.2 :001 > engCSP = Main.new(root: "C:/Users/I560638/bjc-r/", cur_dir: 'programming' topic_dir: "nyc_bjc", "en")
-    3.2.2 :002 > engCSP.main()
+    3.2.2 :001 > enCSP = Main.new(root: "C:/Users/I560638/bjc-r/", cur_dir: 'programming' topic_dir: "nyc_bjc")
+    3.2.2 :002 > enCSP.main()
 
      Example for running spanish CSP:
-    3.2.2 :001 > esCSP = Main.new(root: "C:/Users/I560638/bjc-r/", cur_dir: "programming", topic_dir: "nyc_bjc", "es")
+    3.2.2 :001 > esCSP = Main.new(root: "C:/Users/I560638/bjc-r/", cur_dir: "programming", topic_dir: "nyc_bjc", langauge: "es")
     3.2.2 :002 > esCSP.main()
 
 

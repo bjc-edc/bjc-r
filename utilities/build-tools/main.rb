@@ -6,8 +6,8 @@ require_relative 'selfcheck'
 VALID_LANGUAGES = ['en', 'es', 'de']
 
 class Main
-	def initialize(root: "", cur_dir: "", topic_dir: '', language='en')
-		raise "`root` must end with \"bjc-r/\" folder" unless root.match(/bjc-r\/$/)
+	def initialize(root: '', cur_dir: 'programming', topic_dir: 'nyc_bjc', language: 'en')
+		raise "`root` must end with \"bjc-r\" folder" unless root.match(/bjc-r\/?$/)
 		raise "`cur_dir` should NOT include \"bjc-r/\" folder" if cur_dir.match(/bjc-r\/$/)
 		raise "`topic_dir` should NOT include \"bjc-r/\" folder" if topic_dir.match(/bjc-r\/$/)
 
@@ -41,8 +41,8 @@ class Main
 	#	subClassStr(pathList[2])
 	#end
 
-	#Main/primary function to be called, will call and create all other functions and classes.
-	#This function will parse the topic pages, parse all labs and units, and create summary pages
+	# Main/primary function to be called, will call and create all other functions and classes.
+	# This function will parse the topic pages, parse all labs and units, and create summary pages
 	def Main()
 		testingFolderPrompt()
 		createNewReviewFolder()
@@ -101,13 +101,13 @@ class Main
 
 	#Returns list of all FOLDERS (directories) in current working directory (cwd)
 	def list_folders(folder)
-		Dir.glob('*').select {|f| File.directory? f}
+		Dir.glob('*').select { |f| File.directory?(f) }
 	end
 
 	#Returns list of all FILES in current working directory (cwd)
 	#Input is the file type or ext you want -- Enter '*' for all file types
 	def list_files(fileType)
-		Dir.glob("*#{fileType}").select {|f| File.file? f}
+		Dir.glob("*#{fileType}").select { |f| File.file?(f) }
 	end
 
 	#Returns true if input (fileName) is a file and not a folder
@@ -148,15 +148,15 @@ class Main
 		link = "#{linkMatchWithoutBracket.join}"
 		if @language == "en"
 			dataList = ["heading: Unit #{@unitNum} Review",
-				"resource: Vocabulary [#{link}/review/vocab#{@unitNum}.#{@language}.html]",
-				"resource: On the AP Exam [#{link}/review/exam#{@unitNum}.#{@language}.html]",
-				"resource: Self-Check Questions [#{link}/review/selfcheck#{@unitNum}.#{@language}.html]",
+				"	resource: Vocabulary [#{link}/review/vocab#{@unitNum}.#{@language}.html]",
+				"	resource: On the AP Exam [#{link}/review/exam#{@unitNum}.#{@language}.html]",
+				"	resource: Self-Check Questions [#{link}/review/selfcheck#{@unitNum}.#{@language}.html]",
 				"}"]
 		else
 			dataList = ["heading: Unidad #{@unitNum} Revision",
-				"resource: Vocabulario [#{link}/review/vocab#{@unitNum}.#{@language}.html]",
-				"resource: En el examen AP[#{link}/review/exam#{@unitNum}.#{@language}.html]",
-				"resource: Preguntas de Autocomprobacion [#{link}/review/selfcheck#{@unitNum}.#{@language}.html]",
+				"	resource: Vocabulario [#{link}/review/vocab#{@unitNum}.#{@language}.html]",
+				"	resource: En el examen AP[#{link}/review/exam#{@unitNum}.#{@language}.html]",
+				"	resource: Preguntas de Autocomprobacion [#{link}/review/selfcheck#{@unitNum}.#{@language}.html]",
 				"}"]
 		end
 		data = dataList.join("\n")
