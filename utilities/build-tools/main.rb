@@ -4,6 +4,7 @@ require 'rio'
 
 require_relative 'vocab'
 require_relative 'selfcheck'
+require_relative 'atwork'
 
 VALID_LANGUAGES = %w[en es de]
 
@@ -27,12 +28,27 @@ class Main
     @labFileName = ''
     @vocab = Vocab.new(@parentDir, language)
     @selfcheck = SelfCheck.new(@parentDir, language)
+    @atwork = AtWork.new(@parentDir, language)
     @testingFolder = true
   end
 
   def testingFolder(bool)
     @testingFolder = bool
   end
+
+	# Main/primary function to be called, will call and create all other functions and classes.
+	# This function will parse the topic pages, parse all labs and units, and create summary pages
+	def Main()
+		testingFolderPrompt()
+		createNewReviewFolder()
+		#parse_class()
+		parse_allTopicPages(@topicFolder)
+		parse_units("#{@parentDir}/review/topics.txt")
+		@vocab.doIndex()
+		puts "All units complete"
+		@atwork.moveFile()
+		clear()
+	end
 
   # Extracts the folder class name and subfolder. For example with Sparks,
   # classStr = 'sparks' and subclassStr = 'student-pages'. For CSP,
@@ -45,19 +61,6 @@ class Main
   #	classStr(pathList[1])
   #	subClassStr(pathList[2])
   # end
-
-  # Main/primary function to be called, will call and create all other functions and classes.
-  # This function will parse the topic pages, parse all labs and units, and create summary pages
-  def Main
-    testingFolderPrompt
-    createNewReviewFolder
-    # parse_class()
-    parse_allTopicPages(@topicFolder)
-    parse_units("#{@parentDir}/review/topics.txt")
-    @vocab.doIndex
-    puts 'All units complete'
-    clear
-  end
 
   def clear
     return if @testingFolder
@@ -381,43 +384,45 @@ class Main
         FileUtils.cd(currentPath)
       end
       if !line.match(labNamePattern).nil?
-
         # labNum = line.match(/\d+\s+/).to_s
         # labFile = findLabFile(labNum, Dir.getwd())
 
         labFile = extractTopicLink(line)
-        if labFile != ''
-          extractTopicLinkFolder(line)
-          @vocab.labPath(Dir.getwd)
-          @vocab.read_file(labFile)
-          @selfcheck.read_file(labFile)
+				if labFile != ""
+					extractTopicLinkFolder(line)
+					@vocab.labPath(Dir.getwd())
+					@vocab.read_file(labFile)
+					@selfcheck.read_file(labFile)
+					@atwork.read_file(labFile)
+				end
+
+        # pass to function that will open correct file
+        # elsif line.match(labTopicPattern)
+        # if line.match(/^(heading: [a-zA-Z]+)/)
+        #	labNum = /optional-project/
+        # else
+        #	labNum = line.match(/\d+/).to_s
+        # end
+        # labFolder = getFolder(labNum, unitFolder)
+        # Dir.chdir(labFolder)
+        # change lab folder
+
+        elsif line.match(unitNamePattern)
+          unitNum(line.match(/\d+/).to_s)
+          unitName = line.match(/Unit.+/)
+          @vocab.currUnitName(unitName.to_s)
+          @selfcheck.currUnitName(unitName.to_s)
+          @atwork.currUnitName(unitName.to_s)
+          #unitFolder = getFolder(@unitNum, @parentDir)
+          #Dir.chdir(unitFolder)
+          #change unit folder
+        elsif(isEndofTopicPage(line))
+          @vocab.add_HTML_end()
+          @selfcheck.add_HTML_end()
+          @atwork.add_HTML_end()
         end
-
-      # pass to function that will open correct file
-      # elsif line.match(labTopicPattern)
-      # if line.match(/^(heading: [a-zA-Z]+)/)
-      #	labNum = /optional-project/
-      # else
-      #	labNum = line.match(/\d+/).to_s
-      # end
-      # labFolder = getFolder(labNum, unitFolder)
-      # Dir.chdir(labFolder)
-      # change lab folder
-
-      elsif line.match(unitNamePattern)
-        unitNum(line.match(/\d+/).to_s)
-        unitName = line.match(/Unit.+/)
-        @vocab.currUnitName(unitName.to_s)
-        @selfcheck.currUnitName(unitName.to_s)
-
-      # unitFolder = getFolder(@unitNum, @parentDir)
-      # Dir.chdir(unitFolder)
-      # change unit folder
-      elsif isEndofTopicPage(line)
-        @vocab.add_HTML_end
-        @selfcheck.add_HTML_end
+        i += 1
       end
-      i += 1
     end
   end
 
