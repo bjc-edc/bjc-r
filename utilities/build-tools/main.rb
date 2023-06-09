@@ -2,6 +2,7 @@ require 'fileutils'
 require 'rio'
 require_relative 'vocab'
 require_relative 'selfcheck'
+require_relative 'atwork'
 
 
 class Main
@@ -16,6 +17,7 @@ class Main
 		@labFileName = ''
 		@vocab = Vocab.new(@parentDir, language)
 		@selfcheck = SelfCheck.new(@parentDir, language)
+		@atwork = AtWork.new(@parentDir, language)
 		@testingFolder = true
 	end
 
@@ -45,6 +47,7 @@ class Main
 		parse_units("#{@parentDir}/review/topics.txt")
 		@vocab.doIndex()
 		puts "All units complete"
+		@atwork.moveFile()
 		clear()
 	end
 
@@ -393,6 +396,7 @@ class Main
 					@vocab.labPath(Dir.getwd())
 					@vocab.read_file(labFile)
 					@selfcheck.read_file(labFile)
+					@atwork.read_file(labFile)
 				end
 
 				#pass to function that will open correct file
@@ -411,13 +415,14 @@ class Main
 				unitName = line.match(/Unit.+/)
 				@vocab.currUnitName(unitName.to_s)
 				@selfcheck.currUnitName(unitName.to_s)
-
+				@atwork.currUnitName(unitName.to_s)
 				#unitFolder = getFolder(@unitNum, @parentDir)
 				#Dir.chdir(unitFolder)
 				#change unit folder
 			elsif(isEndofTopicPage(line))
 				@vocab.add_HTML_end()
 				@selfcheck.add_HTML_end()
+				@atwork.add_HTML_end()
 			end
 			i += 1
 		end
