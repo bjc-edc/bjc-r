@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unidad 4 Laboratorio 2: Ciberseguridad, Página 2</title>
+	</head>
+
+	<body>
+        <h2>Proyecto de Cifrado César</h2>
+        <div class="todo">Brian, I added "initials part deux" as an ITIT on this page. See below. Is it too much for an ITIT? Should it be a TIF? I can't decide. If you like it, please add it to the solutions file and <em>only then</em> cut this comment. If you don't, please revise it or cut it. --MF, 7/4/20</div>
+
+        <div class="learn"><strong>En esta página,</strong> programará un procedimiento de cifrado por turnos para cifrar/descifrar texto.</div>
+        <p>
+            Las computadoras almacenan los caracteres del teclado (letras mayúsculas y minúsculas, signos de puntuación, espacios, dígitos, símbolos, etc.) como números llamados Unicode. Esta tabla muestra el Unicode para algunos de los caracteres del teclado:<br />
+            <img class="indent noshadow" src="/bjc-r/img/4-internet/img_CaesarCipher/Mary_CharacterTable.jpeg" height="330px" alt="Unicode Tabla"/>
+        </p>
+
+        <p>
+            El bloque <code>unicode de</code> informa el número que se usa para un carácter en particular:<br />
+            <img class="indent" src="/bjc-r/img/4-internet/img_CaesarCipher/SnapUnicode1.es.png" height="52" alt="unicode de (a) informando '97'" title="unicode de (a) informando '97'" /><br />
+            El bloque <code>unicode como letra</code> informa el carácter que representa un número Unicode determinado:<br />
+            <img class="indent" src="/bjc-r/img/4-internet/img_CaesarCipher/SnapUnicode2.es.png" height="52"  alt="Unicode (65) como letra que informa 'A'" title="Unicode (65) como letra que informa 'A'" />
+        </p>
+
+        <div class="forYouToDo" id="second">
+            <ol>
+                <li>Experimente con los bloques <code>unicode de</code> y <code>unicode como letra</code>. Intente cambiar una palabra a Unicode, dígaselo a un amigo y luego pídale que lo vuelva a convertir en una palabra.</li>
+                <li>En el papel, use un cifrado de desplazamiento para cifrar y descifrar un mensaje corto para tener una idea de cómo funciona este cifrado.</li>
+                <li>Escriba un procedimiento de cifrado César que funcione para <em>cualquier texto de entrada</em> y <em>cualquier valor de cambio</em>.</li>
+                <div class="endnote">
+                    <p><a href="#hint-characters" data-toggle="collapse" title="¿Por qué vemos caracteres como = ? @ # ^ * { o ~ ?">¿Por qué vemos caracteres como <strong>= ? @ # ^ * { </strong> o <strong>~</strong> ?</a></p>
+                    <div id="hint-characters" class="collapse">
+                        <p>Puede suponer con seguridad que desplazar cualquier conjunto de caracteres de texto a una distancia razonable dará como resultado un conjunto de caracteres imprimibles, que pueden incluir caracteres no alfanuméricos (ni letras ni dígitos).</p>
+                        <p>Por ejemplo, si usamos un turno de 4 para cifrar:</p>
+                        <p class="indent"><em><strong>La invasión de Normandía es el 6 de junio de 1944.</strong></em></p>
+                        <p>se vuelve:</p>
+                        <p class="indent"><em><strong>Mrzewmsr$sj$Rsvqerh}$mw$sr$:$Nyri$5=88</strong></em></p>
+                        <p>
+                            <ul>
+                                <li>¿Qué carácter en el texto cifrado (la versión codificada) representa un espacio en el texto sin formato?</li>
+                                <li>En este código, 1 se convierte en 5 y 4 se convierte en 8, mostrando claramente el cambio de 4. ¿En qué se convierte 9?</li>
+                            </ul>
+                        </p>
+                    </div>
+                    <p><a href="#hint-missing" data-toggle="collapse" title="¿Qué sucede si al texto descifrado le faltan algunas letras?">¿Qué sucede si al texto descifrado le faltan algunas letras?</a></p>
+                    <div id="hint-missing" class="collapse">
+                        <p>Si copia su mensaje encriptado con un método que no sea copiar y pegar (por ejemplo, escribiéndolo a mano o en un teléfono), algunos caracteres pueden desaparecer de su mensaje. Esto se debe a que algunos de los caracteres Unicode después del 126 son caracteres de impresión que simbolizan cosas como "eliminar". Estos caracteres no se mostrarán en Snap<em>!</em>, por lo que no puedes copiarlos a mano, pero si usas copiar y pegar, Snap<em>!</em> sabe que están ahí. En el ejercicio A de Llévalo más lejos A, puede desarrollar un método de encriptación que evite este problema.</p>
+                    </div>
+                </div>
+                <li>Ahora prueba tu trabajo. Acuerde con su socio un valor de cambio para el cifrado. Luego use su programa para encriptar un mensaje secreto y enviarlo por correo electrónico a su socio. Luego, deje que su compañero descifre su mensaje usando el programa para invertir el cambio.</li>
+                <div class="endnote">
+                	Puede extraer los mensajes cifrados de la interfaz Snap<em>!</em> haciendo clic derecho en la variable que contiene el mensaje cifrado y seleccionando la opción "Exportar" que descargará un archivo de texto a su computadora que luego podrá copiar/pegar.<br />
+                	<img class="indent" src="/bjc-r/img/4-internet/img_CaesarCipher/Export.es.png" width="350" alt="opción de exportación" title="opción de exportación"/>
+                </div>
+            </ol>
+		</div>
+
+        <div class="ifTime">
+			<ol start="5">
+                <li>
+                    Mejore su bloque <code>iniciales</code> de su proyecto U3L2-Lista de contactos para que encuentre las iniciales de una persona con un nombre con guión como Alexandria Ocasio-Cortez.<br />
+                    <img class="indent" src="/bjc-r/img/4-internet/initials-reporting-aoc.es.png" alt="iniciales de (Alexandria Ocasio-Cortez) informando AOC" title="iniciales de (Alexandria Ocasio-Cortez) informando AOC" />
+                    <div class="endnote">
+                        <a href="#hint-initials" data-toggle="collapse" title="Haga clic para obtener algunos consejos sobre cómo mejorar su bloque de iniciales.">Haga clic para obtener algunos consejos.</a>
+                        <div id="hint-initials" class="collapse">
+                            Hay varias formas de resolver este problema. Las dos formas siguientes requieren funciones de orden superior. (Puede revisar las funciones de orden superior <code>mapa</code>, <code>mantener</code> y <code>combinar</code> en<a href="/bjc-r/cur/programming/3-lists/2-contact-list/5-mapping-over-list.es.html?topic=nyc_bjc%2F3-lists.es.topic&course=bjc4nyc.es.html&novideo&noassignment#HOFreview" title="Unidad 3 Laboratorio 2 Página 5: Transformar cada Elemento de la Lista">Unidad 3 Laboratorio 2 Página 5: Transformar cada Elemento de la Lista</a>.)
+                            <ul>
+                                <li>
+                                    Una forma es utilizar el bloque <code>unicode</code> para seleccionar todas las letras mayúsculas en lugar de dividir por saltos de palabra.
+                                    <ul>
+                                        <li>Si quiere usar Unicode, probablemente querrá construir o importar un bloque como <code>está entre?</code> de su proyecto U2L4-MathLibrary para verificar qué valores Unicode son letras mayúsculas. (Aprendió sobre exportar e importar bloques en <a href="/bjc-r/cur/programming/2-complexity/4-making-computers-do-math/2-math-predicates.es.html?topic=nyc_bjc%2F2-conditionals-abstraction.es.topic&course=bjc4nyc.es.html&novideo&noassignment" title="Unidad 2 Laboratorio 4 Página 2: Hacer una Biblioteca Matemática">Unidad 2 Laboratorio 4 Página 2: Hacer una biblioteca matemática</a>.)</li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    Otra forma es usar el bloque<código>split</code> para comprobar si hay guiones, así como para comprobar si hay espacios entre palabras.
+                                    <ul>
+                                        <li>Si desea utilizar <code>split</code>, tenga en cuenta que la segunda entrada para <code>split</code> puede ser el carácter que desea utilizar como separador de palabras. (Aprendiste sobre <code>split</code> en <a href="/bjc-r/cur/programming/3-lists/2-contact-list/5-mapping-over-list.es.html?topic=nyc_bjc%2F3-lists.es.topic&course=bjc4nyc.es.html&novideo&noassignment" title="Unidad 3 Laboratorio 2 Página 5: Transformar cada elemento de la lista">Unidad 3 Laboratorio 2 Página 5: Transformar cada elemento de la lista</a>.)</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+			</ol>
+		</div>
+
+
+        <div class="takeItFurther">
+			<ol type="A">
+                <li>Implemente una versión del cifrado César que no solo cambie los caracteres, sino que también los envuelva alrededor del alfabeto cuando se alcance el final del alfabeto. Es posible que desee restringir su alfabeto al conjunto de caracteres imprimibles que se muestra arriba en la tabla Unicode.</li>
+                <li>Investigue un poco sobre otros tipos de cifrados utilizados históricamente. Lea especialmente sobre el Cifrado Vigenere, que se usó ampliamente para comunicar información confidencial durante la Segunda Guerra Mundial.</li>
+                <li>Cree su propio esquema de cifrado/descifrado e impleméntelo en Snap<em>!</em>.</li>
+            </ol>
+        </div>
+
+	</body>
+</html>

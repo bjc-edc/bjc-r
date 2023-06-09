@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unidad 4 Laboratorio 4: Representación y compresión de datos, página 4</title>
+	</head>
+
+	<body>
+		<h2>Floating Point</h2>
+        <div class="todo">
+            <p>BH: Keep... But promote TIF A to a FYTD.</p>
+            <p>MF: lightly clean up to make the text more concise; do we really need to teach to this depth?</p>
+        </div>
+
+        <div class="todo">Do we really need to teach this content to this depth? I think we could do justice to these ideas without as much text and detail. --MF, 9/26/18</div>
+
+        <div class="learn">
+        	<p><strong>En esta página,</strong> Aprenderá cómo los equipos almacenan números que no son enteros.</p>
+        </div>
+
+        <p>La forma en que las computadoras almacenan números que no son enteros se llama <em>punto flotante</em>.</p>
+        <div class="vocabFullWidth">
+            <p>Notación científica (como 2.350.000 = 2,35 &times; 10<sup>6</sup>) utiliza potencias de diez para representar valores muy grandes o muy pequeños. <strong>Punto flotante</strong> es la misma idea pero con poderes de dos.</p></div>
+
+        <div class="endnote">
+            <a href="#hint-float" data-toggle="collapse" title="Where did that funny name come from?">¿De dónde viene ese divertido nombre?</a>
+            <div id="hint-float" class="collapse">Este nombre no obvio se usa porque solía haber un <em>punto fijo</em> notación no entera con un<em>fijo</em> número de dígitos después del decimal <em>punto.</em> Por ejemplo, se utilizó una notación de punto fijo con dos dígitos después del punto decimal para representar una cantidad de dinero en dólares y centavos: $ 82.47. Pero las computadoras de hoy en día siempre usan coma flotante para valores no enteros.</div>
+        </div>
+        <p>
+            <div class="comment">AAP-1.A.4</div>
+            En Snap<em>!</em>, Puede almacenar cualquier tipo de datos en una variable (número, cadena de texto, lista, disfraz, <code>elemento de prueba</code>, etc.). Pero en algunos idiomas, debe declarar qué tipo de datos almacenarán sus variables. Si tienes una colección de valores, es obvio que necesitarás una lista para almacenarla. Pero no siempre es obvio cuál es la mejor manera de representar un valor en un programa de computadora. Por ejemplo, la forma más sencilla de representar una cantidad de dinero es en <em>punto flotante</em> porque permite decimales. Pero si usa coma flotante para almacenar un valor como 3.20, es probable que se muestre al usuario como 3.2, y las personas rara vez escriben dinero de esta manera. En su lugar, aunque es más esfuerzo de programación, puede optar por crear un tipo de datos abstracto <code>dinero, dólares: () centavos: ()</code> con dos entradas enteras para que pueda controlar cómo se muestra el valor.
+        </p>
+
+    	<div class="takeNote">
+            <div class="comment">DAT-1.B.3</div>
+            <p>El punto flotante permite a las computadoras almacenar números muy grandes y también decimales, pero el formato todavía tiene un número específico de bits, y eso limita el rango de valores de coma flotante y operaciones matemáticas al igual que con los enteros. Sin embargo, con el coma flotante, los valores que exceden la limitación pueden resultar en <em>redondear</em> errores en su lugar.</p>
+        </div>
+
+
+        <div class="forYouToDo" id="first">
+			<ol>
+				<li>Por ejemplo, probar<img src="/bjc-r/img/4-internet/one-third.es.png" alt="(1)/(3)" title="(1)/(3)"> una vez con bignums encendidos y una vez con bignums apagado.</li>
+            </ol>
+        </div>
+
+		<p>La representación decimal de 1/3 es 0.33333... Tiene infinitos dígitos, por lo que lo más cerca que puedes estar en coma flotante no es <em>exactamente</em> ⅓; se corta después de un tiempo porque su computadora no tiene suficiente memoria.</p>
+        <p>Los errores de redondeo pueden dar lugar a algunos resultados bastante poco intuitivos...</p>
+
+
+         <div class="commentBig">AC:  This is maddening.  If you enter 2/10 + 4/10, it adds the fractions and reports the reduced fraction.  If you enter 76/10 + 87/10, it gives a decimal approximation.  What's the logic behind these choices?  I'm missing something.<br />
+    Al, I think you must have switched between bignums-on and bignums-off between trials. With bignums on I get correct exact rational answers for both. --bh</div>
+        <div class="forYouToDo">
+			<ol start="2">
+				<li>
+                Prueba <img class="inline" src="/bjc-r/img/4-internet/0.2+0.4.es.png" alt="(0.2) + (0.4)" title="(0.2) + (0.4)" /> y luego pruebe <img class="inline" src="/bjc-r/img/4-internet/7.6+8.7.es.png" alt="(7.6) + (8.7)" title="(7.6) + (8.7)" />.</li>
+            </ol>
+        </div>
+        <p>Esto no es un error en Snap<em>!</em>, que informa correctamente el resultado calculado por el hardware de coma flotante.</p>
+		<div class="endnote">
+        	<a href="#hint-roundoff" data-toggle="collapse" title="How can such simple computations get wrong results?">¿Cómo pueden estos cálculos simples obtener resultados incorrectos?</a>
+            <div id="hint-roundoff" class="collapse">Estos resultados parecen sorprendentes porque un valor fraccionario como 0.2 se puede representar exactamente. <em>en decimal</em> (a diferencia del ejemplo de 1/3). Pero <em>en binario,</em>sólo las fracciones cuyo denominador es una potencia de 2 pueden ser representadas exactamente. Así que 2/16 se puede representar exactamente, pero 2/10 no puede. La representación binaria de coma flotante de 0.2 es un poco demasiado grande, al igual que la representación binaria de 0.4. La adición de dos valores ligeramente demasiado grandes produce un error lo suficientemente grande como para llegar al siguiente valor representable más alto.</div>
+        </div>
+		<p>No importa cuán bueno sea el hardware, es probable que ciertos tipos de cálculos den errores graves en el punto flotante. Un ejemplo simple es restar dos números que son casi iguales en valor. La respuesta correcta será cercana a cero, y si está lo suficientemente cerca, lo hará <em>desbordar</em> y se podría informar un cero exacto.</p>
+		<div class="endnote">
+			<a href="#hint-killer" data-toggle="collapse" title="Floating point errors can be very expensive and can even kill people">Los errores de coma flotante pueden ser muy costosos e incluso pueden matar personas.</a>
+            <div id="hint-killer" class="collapse">
+            <div class="todo">Brian wants to add links to these references. --MF, 10/16/19</div>
+            <p>Un ejemplo notorio es el destino del cohete Ariane lanzado el 4 de junio de 1996 (Agencia Espacial Europea 1996). En el 37º segundo de vuelo, el sistema de referencia inercial intentó convertir un número de coma flotante de 64 bits en un número de 16 bits, pero en su lugar desencadenó un error de desbordamiento que fue interpretado por el sistema de guía como datos de vuelo, haciendo que el cohete se desviara de su curso y fuera destruido.</p>
+            <p>El sistema de defensa antimisiles Patriot utilizado durante la Guerra del Golfo también se volvió ineficaz debido a un error de redondeo (Skeel 1992, U.S. GAO 1992). El sistema utilizaba un registro de tiempo entero que se incrementaba a intervalos de 0,1 s. Sin embargo, los enteros se convirtieron a números decimales multiplicando por la aproximación binaria de 0.1, 0.000110011001100110011001100<sub>2</sub> = 209715/2097152.</p>
+            <p>Como resultado, después de 100 horas (3.6 &times; 10<sup>6</sup> ticks), un error de</p>
+			<p class="indent"><span class="katex">(\frac{1}{10}-\frac{209715}{2097152})(3600\times100\times10)=\frac{5625}{16384} \approx 0.3433 \text{ segundos}</span></p>
+            <p>se había acumulado. Esta discrepancia hizo que el sistema Patriot se reciclara continuamente en lugar de apuntar adecuadamente. Como resultado, un misil Scud iraquí no pudo ser atacado y se le permitió detonar en un cuartel, matando a 28 personas.</p>
+            <p><small>De <em>Conversión analógica y digital</em>, por contribuidores de Wikibooks, <a href="https://en.wikibooks.org/wiki/Analog_and_Digital_Conversion/Fixed_Wordlength_Effects" title="Analog and Digital Conversion/Fixed Wordlength Effects" target="_blank">https://en.wikibooks.org/wiki/Analog_and_Digital_Conversion/Fixed_Wordlength_Effects</a></small></p>
+            </div>
+		</div>
+
+        <p>Aritmética informática en <em>numero enteros</em> es sencillo. O bien se obtiene un resultado entero exactamente correcto o, si el resultado no encaja en la representación entera (no bignum), se obtiene un<em>error de desbordamiento</em> y el resultado es, por lo general, convertido a representación de coma flotante (¡como 30! fue).</p>
+        <p>Por el contrario, la aritmética informática en <em>números de punto flotante</em> es difícil acertar exactamente. Antes de 1985, cada modelo de computadora tenía un formato de coma flotante ligeramente diferente, y todos ellos obtuvieron respuestas incorrectas a ciertos problemas. Esta situación fue resuelta por el<a href="https://en.wikipedia.org/wiki/IEEE_floating_point" target="_blank" title="IEEE 754">IEEE 754 floating point standard</a>, que ahora es utilizado por todos los fabricantes de computadoras y se ha mejorado varias veces desde que se creó en 1985.</p>
+
+		<div class="endnote">
+            <a href="#hint-alternatives" data-toggle="collapse" title="There are alternatives to floating point">Existen alternativas al coma flotante.</a>
+			<div id="hint-alternatives" class="collapse">
+                Si los errores sutiles en el cálculo de coma flotante resultan ser inaceptables en una aplicación en particular, el software puede usar representaciones alternativas:
+                <ul>
+                    <li><strong>Racionales exactos.</strong>
+                    Se pueden usar dos bignums, uno para el numerador y otro para el denominador, para representar exactamente cualquier valor fraccionario..</li>
+                    <li><strong>Decimal codificado binario.</strong> Un dígito decimal se puede representar en cuatro bits, con algunas combinaciones de cuatro bits sobrantes para un signo menos y un punto decimal. Se puede usar una secuencia de dígitos decimales de cualquier longitud para crear bignums decimales, que representan exactamente cualquier valor fraccionario que tome un número finito de dígitos decimales. Esto evitaría el problema de 0.2 + 0.4, pero no funcionaría para problemas que involucran 1/3.</li>
+                    <li><strong>Punto flotante decimal.</strong> Si la notación decimal codificada binaria se extiende con un código de cuatro bits para "veces diez a la potencia", los números en notación científica (base 10) se pueden representar exactamente.</li>
+                </ul>
+            </div>
+        </div>
+
+
+        <p>
+        	Con bignums desactivado, cuando un resultado es demasiado grande para ser un entero, se convierte en coma flotante.<br />
+        	<img class="indent" src="/bjc-r/img/4-internet/bang30.es.png" alt="(30) ! reporting 2.6525285981219103e+32" title="(30) ! reporting 2.6525285981219103e+32" />
+        </p>
+
+        <div class ="forYouToDo">
+            <ol start="3">
+                <li>
+                    ¡Prueba 200! de nuevo con bignums apagados.<br />
+                    <img src="/bjc-r/img/4-internet/200bang-fixnum.es.png" alt="((200) !) reporting infinity" title="((200) !) reporting infinity" />
+                </li>
+            </ol>
+        </div>
+
+        <p><strong>Qué pasa?</strong> ¡Aunque 200! es muy grande, no es "infinito". Este informe se debe a la limitación de tamaño del formato de coma flotante. Si el resultado de un cálculo es mayor que el rango de números que se pueden almacenar, entonces la computadora devuelve un código especial que los lenguajes imprimen como Infinity o ∞.</p>
+
+        <div class="endnote">
+            En coma flotante, hay códigos especiales para el infinito, &ndash;infinito (más pequeño que cualquier valor finito), y "No es un número", que es la notificación utilizada para cálculos ilegales como 0/0.<br />
+          <img class="indent" src="/bjc-r/img/4-internet/zero-div-zero-reporting-NaN.es.png" alt="(0) / (0) reporting NaN" title="(0) / (0) reporting NaN" />
+        </div>
+
+        <div class="takeItFurther">
+            <ol type="A">
+                <li>Imagina un<em>decimal</em> representación de coma flotante con un dígito significativo y un rango de exponentes de 10<sup>-2</sup> hasta 10<sup>2</sup>.  El número positivo más pequeño representable en esta notación es 0.01(1×10<sup>-2</sup>) y el más grande es 900 (9×10<sup>2</sup>).  Esboce una recta numérica de 0 a 1000 y marque todos los valores positivos representables en esta notación. ¿Qué puede decir sobre el espaciado de los valores? ¿Cuántos valores fraccionarios son representables? ¿Cuántos valores enteros inferiores a 1000 no son representables? ¿Cuáles son las fortalezas y debilidades de esta elección de valores representables? (El coma flotante real tiene muchos más valores representables, por supuesto, pero la forma en que están espaciados en la recta numérica es similar a esto).</li>
+            </ol>
+        </div>
+
+        <p><strong>¿Cómo sabe un lenguaje de programación si interpretar una secuencia de bits como un entero, un punto flotante, una cadena de texto de caracteres Unicode, una instrucción o algo más?</strong> <div class = "comment"> ¿Explica esto mi lamento anterior? Si es así, ¿podemos subirlo?
+        <br />
+        No, lo siento. La codificación de tipos funciona bien. En el modo bignum obtienes respuestas correctas. En no bignum (punto flotante), el problema es que en <em>binario</em> floating point, 1/10 is an infinite fraction, like 1/3 in decimal. So roundoff errors are possible. --bh</div>Los lenguajes de programación difieren en cómo lo hacen, pero siempre hay algunos <em>extra</em> secuencia de bits que codifica el <em>tipo de datos</em> de cualquier secuencia de bits que le diga al ordenador cómo interpretarla.</p>
+		<div class="takeNote">En el nivel más bajo de abstracción de software, <em>todo</em> en un ordenador se representa como una secuencia binaria. Por ejemplo:
+        	<ul>
+            	<li>Un valor booleano es un solo bit, 0 para <code>falso</code> y 1 para <code>verdadero</code>.</li>
+                <li>Una cadena de texto es una secuencia de códigos de caracteres Unicode, cada uno de los cuales se almacena como un entero separado.</li>
+                <li>Las listas y los bloques también son secuencias binarias.</li>
+            </ul>
+		</div>
+
+        <div class="endnote">
+            <a href="#hint-data-types" data-toggle="collapse" title="But different languages use data types differently">Pero los diferentes lenguajes usan tipos de datos de manera diferente..</a>
+            <div id="hint-data-types" class="collapse">
+                <p>
+                    En lenguajes bien diseñados (aquellos basados en Scheme, por ejemplo), ese código de tipo de datos se adjunta al valor en sí. En otros idiomas, cuando se crea una variable, hay que decir qué tipo de valor contendrá, y el tipo de datos se adjunta a la <em>variable</em>, por lo que no puede obtener respuestas exactas cuando los valores son enteros y también poder manejar valores no enteros de la misma variable. Así que en lugar de ver:<br />
+                    <img class="indent" src="/bjc-r/img/4-internet/varfoo.es.png" alt="script variables (foo)" title="script variables (foo)"><br />
+                    ves cosas como:<br />
+                	<img class="indent" src="/bjc-r/img/4-internet/intfoo.es.png" alt="integer (foo)" title="integer (foo)"><br />
+                    En un idioma con <em>escritura dinámica</em> (donde no tiene que declarar los tipos de variables) es tan fácil hacer una lista cuyos elementos son de diferentes tipos de datos como lo es hacer una cuyos elementos sean todos del mismo tipo (todos los enteros o todas las cadenas de caracteres, etc.)
+                </p>
+                <p>Snap<em>!</em> tiene fortalezas que muchos lenguajes de programación no tienen, y es muy probable que su <em>próximo</em> la clase de informática usará uno de esos otros idiomas.</p>
+            </div>
+        </div>
+
+        <div class="forYouToDo">
+			<ol start="4">
+				<li><div class="comment">DAT-1.B</div><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.es.png" alt="Talk with Your Partner" title="Talk with Your Partner" />¿Cuáles son algunas de las consecuencias de usar un número fijo de bits para representar números?</li>
+			</ol>
+		</div>
+
+
+	</body>
+</html>
