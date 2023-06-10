@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'fileutils'
 require 'rio'
 require 'nokogiri'
@@ -22,17 +24,17 @@ class Index
   end
 
   def getAlphabet
-    alphabet = if @language == 'es'
-                 %w[a b c d e f g h i j k l m n ñ o p q r
-                    s t u v w x y z]
-               else
-                 ('a'..'z').to_a
-               end
+    if @language == 'es'
+      %w[a b c d e f g h i j k l m n ñ o p q r
+         s t u v w x y z]
+    else
+      ('a'..'z').to_a
+    end
   end
 
   def generateAlphaOrder(usedLetters, output)
     fileName = "index.#{@language}.html"
-    alphabet = getAlphabet
+    getAlphabet
     File.write(fileName, "\n<div class=\"index-letter-link\">\n", mode: 'a')
     # i = 0
     # while alphabet.length > i
@@ -61,13 +63,13 @@ class Index
 
   # alphabet and letter are lowercase and returned vocab word is upper and then lowercase
   def castCharToEng(vocab, usedLetters)
-    collator = TwitterCldr::Collation::Collator.new(@language)
+    TwitterCldr::Collation::Collator.new(@language)
     return vocab unless isNonEngChar(vocab, usedLetters)
 
     letter = vocab[0].downcase
     alpha = getAlphabet.push(letter).localize(@language).sort.to_a
     newLetter = alpha[alpha.index(letter) + 1]
-    newLeter = newLetter.upcase if isCapital?(vocab[0])
+    newLetter.upcase if isCapital?(vocab[0])
     newLetter.upcase + vocab[1..]
   end
 
@@ -80,7 +82,7 @@ class Index
       newBool = unused[i]
       j = i
       letter = getAlphabet[i]
-      while !newBool and j > 0
+      while !newBool && j.positive?
         j -= 1
         newBool = unused[j]
       end
@@ -106,7 +108,7 @@ class Index
         vocab = castCharToEng(vocab, usedLetters)
         letter = vocab[0]
       end
-      if usedLetters.empty? or !usedLetters.include?(letter.downcase)
+      if usedLetters.empty? || !usedLetters.include?(letter.downcase)
         usedLetters.push(letter.downcase)
         output += "\n<div class=\"index-letter-target\"><p>#{letter.upcase}<a class=\"anchor\" name=\"#{letter.upcase}\">&nbsp;</a></p></div>\n"
       end
@@ -144,11 +146,11 @@ class Index
     fileName = "index.#{@language}.html"
     File.new(fileName, 'a')
     linesList = rio("#{filePath}/#{copyFile}").lines[0..20]
-    while !linesList[i].match(%r{</head>}) and i < 20
+    while !linesList[i].match(%r{</head>}) && (i < 20)
       if linesList[i].match(/<title>/)
         File.write(fileName, '<title>BJC Curriculum Index</title>', mode: 'a')
       else
-        File.write(fileName, "#{linesList[i]}", mode: 'a')
+        File.write(fileName, (linesList[i]).to_s, mode: 'a')
       end
       i += 1
     end

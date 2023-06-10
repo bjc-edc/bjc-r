@@ -1,4 +1,5 @@
 #! /usr/bin/env ruby
+# frozen_string_literal: true
 
 ## This script will rebuild *all* index/summary pages in bjc-r/
 ## Run from the **root** of bjc-r/

@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 require 'fileutils'
 require 'rio'
 require_relative 'vocab'
 require_relative 'selfcheck'
 
-VALID_LANGUAGES = %w[en es de]
+VALID_LANGUAGES = %w[en es de].freeze
 
 class Main
   def initialize(root: '', cur_dir: 'programming', topic_dir: 'nyc_bjc', language: 'en')
@@ -64,7 +66,7 @@ class Main
     prompt = '> '
     puts "Would you like to have a consolidated review folder (for testing purposes)? \n Type Y/N"
     print prompt
-    while user_input = gets.chomp # loop while getting user input
+    while (user_input = gets.chomp) # loop while getting user input
       case user_input
       when 'Y', 'Y'.downcase
         testingFolder(true)
@@ -119,7 +121,7 @@ class Main
     Dir.chdir(@topicFolder)
     filesList = list_files('.topic')
     filesList.each do |file|
-      parse_rawTopicPage(file) if isTopicPageFile(file) and fileLanguage(file) == @language
+      parse_rawTopicPage(file) if isTopicPageFile(file) && (fileLanguage(file) == @language)
     end
   end
 
@@ -129,7 +131,7 @@ class Main
     filename = File.basename(file)
     if filename.match(unwantedFilesPattern)
       false
-    elsif filename.match(/\d+/) and fileLanguage(file) == @language
+    elsif filename.match(/\d+/) && (fileLanguage(file) == @language)
       true
     else
       false
@@ -140,27 +142,27 @@ class Main
   def addSummariesToTopic(_topicFile)
     linkMatch = @parentDir.match(%r{/bjc-r.+}).to_s
     linkMatchWithoutBracket = linkMatch.split(/\]/)
-    link = "#{linkMatchWithoutBracket.join}"
-    topic_content = if @language == 'en'
-                      <<~TOPIC
-                        heading: Unit #{@unitNum} Review
-                        		resource: Vocabulary [#{link}/review/vocab#{@unitNum}.html]
-                        		resource: On the AP Exam [#{link}/review/exam#{@unitNum}.html]
-                        		resource: Self-Check Questions [#{link}/review/selfcheck#{@unitNum}.html]
-                      TOPIC
-                    else
-                      <<~TOPIC
-                        heading: Unidad #{@unitNum} Revision
-                        		resource: Vocabulario [#{link}/review/vocab#{@unitNum}.#{@language}.html]
-                        		resource: En el examen AP[#{link}/review/exam#{@unitNum}.#{@language}.html]
-                        		resource: Preguntas de Autocomprobacion [#{link}/review/selfcheck#{@unitNum}.#{@language}.html]
-                      TOPIC
-                    end
+    link = linkMatchWithoutBracket.join.to_s
+    if @language == 'en'
+      <<~TOPIC
+        heading: Unit #{@unitNum} Review
+        		resource: Vocabulary [#{link}/review/vocab#{@unitNum}.html]
+        		resource: On the AP Exam [#{link}/review/exam#{@unitNum}.html]
+        		resource: Self-Check Questions [#{link}/review/selfcheck#{@unitNum}.html]
+      TOPIC
+    else
+      <<~TOPIC
+        heading: Unidad #{@unitNum} Revision
+        		resource: Vocabulario [#{link}/review/vocab#{@unitNum}.#{@language}.html]
+        		resource: En el examen AP[#{link}/review/exam#{@unitNum}.#{@language}.html]
+        		resource: Preguntas de Autocomprobacion [#{link}/review/selfcheck#{@unitNum}.#{@language}.html]
+      TOPIC
+    end
     # add_content_to_topic_file("#{@topicFolder}/#{topicFile}", topic_content)
   end
 
   def isSummary(line)
-    return true if !line.nil? and !@currUnit.nil? and line.match(@currUnit)
+    return true if !line.nil? && !@currUnit.nil? && line.match(@currUnit)
 
     false
   end
@@ -181,9 +183,9 @@ class Main
     summaryExists = false
     allLines.each do |oldline|
       line = oldline
-      summaryExists = true if index > 1 and isSummary(line)
+      summaryExists = true if (index > 1) && isSummary(line)
       line = removeComment(oldline) if isComment(line)
-      if line.match(/\}/) and !summaryExists
+      if line.match(/\}/) && !summaryExists
         allLines[index] = addSummariesToTopic(file)
         summaryExists = true
       elsif isTopic(line)
@@ -219,7 +221,7 @@ class Main
   # Removes the part of the string that is commented out in topics.topic which will then be added
   # to the new topics.txt file
   def removeComment(arg)
-    str = arg.force_encoding('BINARY')
+    arg.force_encoding('BINARY')
     strList = arg.split(%r{//.+})
     strList.join
   end
@@ -243,7 +245,7 @@ class Main
     bool = true
     kludges.each do |item|
       i = item.force_encoding('BINARY')
-      bool = false if str.match(i) or !str.match(topicLine)
+      bool = false if str.match(i) || !str.match(topicLine)
     end
     bool
   end
@@ -268,7 +270,7 @@ class Main
   end
 
   def isFileALab(file, labName)
-    fileAsString = rio(file)
+    rio(file)
     file.include?(labName)
   end
 
@@ -276,7 +278,7 @@ class Main
   def parse_labNameFromFile(labFile)
     fileName = File.basename(labFile)
     nameMatch = fileName.match(/([a-zA-Z]-?)+/)
-    labName = nameMatch.to_s.join(' ')
+    nameMatch.to_s.join(' ')
   end
 
   def findLabFile(lab, _folder)
@@ -284,7 +286,7 @@ class Main
     i = 0
     labNum = lab.match(/\d+/).to_s
     while i < listLabs.size
-      if listLabs[i].match(labNum) and fileLanguage(listLabs[i]) == @language
+      if listLabs[i].match(labNum) && (fileLanguage(listLabs[i]) == @language)
         labFileName(listLabs[i])
         return listLabs[i]
         break
@@ -332,7 +334,7 @@ class Main
   end
 
   def copyFiles
-    list = ["#{@vocab.getVocabFileName}", "#{@selfcheck.getSelfCheckFileName}", "#{@selfcheck.getExamFileName}"]
+    list = [@vocab.getVocabFileName.to_s, @selfcheck.getSelfCheckFileName.to_s, @selfcheck.getExamFileName.to_s]
     FileUtils.cd('..')
     # src = "#{@parentDir}/review/#{@vocab}"
     # dst = "#{Dir.getwd}/#{@vocab.getVocabFileName}"
@@ -354,12 +356,7 @@ class Main
     f = File.open(topicsFile, 'r')
     labNamePattern = /-----/
     unitNamePattern = /title: /
-    labTopicPattern = /heading: /
     endUnitPattern = /END OF UNIT/
-    unitFolder = ''
-    labFolder = ''
-    labName = ''
-    labNum = ''
     i = 0
     f.each do |line|
       if line.match(endUnitPattern)
@@ -442,12 +439,12 @@ class Main
     fileContents = []
     rio(fileName)
     lineLink = line.match(/[.+]/).to_s
-    contentIndex = fileContents.index(lineLink)
+    fileContents.index(lineLink)
     fileContents.each do |item|
       next unless item.match(lineMatch)
 
       addStr = "#{lineLink}?topic=#{@classStr}%2F#{@unitNum}-#{fileName}.topic&course=#{@classStr}.html]"
-      newLink = fileContents.gsub("#{lineLink}", addStr)
+      fileContents.gsub(lineLink.to_s, addStr)
       # elsif lineMatch and isSummary
     end
   end
