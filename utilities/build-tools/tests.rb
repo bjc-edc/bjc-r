@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require 'rio'
 require 'open-uri'
 require 'nokogiri'
@@ -20,7 +18,7 @@ class Tests
     dict = {}
     i = 0
     list.each do |item|
-      dict[item] = i.to_s
+      dict[item] = "#{i}"
       i += 1
     end
     ind.vocabDict(dict)
@@ -30,10 +28,10 @@ class Tests
 
   def nokoTest
     doc = File.open('1-intro-loops.topic') { |f| Nokogiri::HTML(f) }
-    doc.xpath("//div[@class = 'vocabFullWidth']")
+    div = doc.xpath("//div[@class = 'vocabFullWidth']")
     # vocab = div
     # Nokogiri::XML::DocumentFragment.parse(div.to_s)
-    doc.xpath('title')
+    title = doc.xpath('title')
   end
 
   def nokogiriTest
@@ -41,10 +39,10 @@ class Tests
     div = doc.xpath("//div[@class = 'vocabFullWidth']")
     vocab = div
     # Nokogiri::XML::DocumentFragment.parse(div.to_s)
-    doc.xpath('//title')
+    title = doc.xpath('//title')
     classname = vocab.at_css 'div'
     children = classname.children
-    children.before('<id="ZZZZZZZZZZZZZZZZZZZ">')
+    output = children.before('<id="ZZZZZZZZZZZZZZZZZZZ">')
     # attr(key, value = nil) { |node| ... }
     vocab.each do |node|
       children = node.children
@@ -103,7 +101,7 @@ class Tests
   end
 
   def allVocab
-    Vocab.new(Dir.getwd)
+    v = Vocab.new(Dir.getwd)
     test1
     test2
     test3
@@ -114,7 +112,7 @@ class Tests
   end
 
   def assessDataTest
-    SelfCheck.new('C:/Users/I560638/bjc-r/TESTING/2-gossip-and-greet/2-customizing.html')
+    sc = SelfCheck.new('C:/Users/I560638/bjc-r/TESTING/2-gossip-and-greet/2-customizing.html')
   end
 
   def languageTest
@@ -156,7 +154,7 @@ class Tests
   end
 
   def isTopicTest
-    Vocab.new(Dir.getwd)
+    v = Vocab.new(Dir.getwd)
     main = Main.new(Dir.getwd)
     # strList = File.readlines('testTopics.topic')
     str = 'title: Unit 1: Functions and Data

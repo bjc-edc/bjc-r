@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require 'fileutils'
 require 'rio'
 
@@ -81,7 +79,7 @@ class SelfCheck
     title = doc.xpath('//title')
     str = title.to_s
     pattern = %r{</?\w+>}
-    if str.nil? || !@isNewUnit
+    if str.nil? or !@isNewUnit
       nil
     else
       newStr = str.split(pattern)
@@ -164,10 +162,11 @@ class SelfCheck
     # data = data.gsub(/\n(\s+)?\n/, "\n")
     if File.exist?(filename)
       File.write(filename, "<h3>#{currLab}</h3>\n", mode: 'a') if lab != currLab
+      File.write(filename, data, mode: 'a')
     else
       createAssessmentDataFile(filename, type)
+      File.write(filename, data, mode: 'a')
     end
-    File.write(filename, data, mode: 'a')
   end
 
   def add_unit_to_header
@@ -196,7 +195,7 @@ class SelfCheck
     linkPath = localPath.match(/bjc-r.+/).to_s
     result = "/#{linkPath}/#{file}"
     # https://bjc.berkeley.edu
-    result.to_s
+    result = "#{result}"
     # add_content_to_file('urlLinks.txt', result)
   end
 end
