@@ -1,11 +1,14 @@
 require 'fileutils'
 require 'rio'
+
 require_relative 'vocab'
 require_relative 'selfcheck'
 
 VALID_LANGUAGES = %w[en es de]
 
 class Main
+	attr_accessor :skip_test_prompt
+
   def initialize(root: '', cur_dir: 'programming', topic_dir: 'nyc_bjc', language: 'en')
     raise '`root` must end with "bjc-r" folder' unless root.match(%r{bjc-r/?$})
     raise '`cur_dir` should NOT include "bjc-r/" folder' if cur_dir.match(%r{bjc-r/$})
@@ -61,15 +64,19 @@ class Main
   end
 
   def testingFolderPrompt
+		if @skip_test_prompt
+			testingFolder(false)
+			return
+		end
     prompt = '> '
     puts "Would you like to have a consolidated review folder (for testing purposes)? \n Type Y/N"
     print prompt
     while user_input = gets.chomp # loop while getting user input
-      case user_input
-      when 'Y', 'Y'.downcase
+      case user_input[0]
+      when 'Y', 'y'
         testingFolder(true)
         break
-      when 'N', 'N'.downcase
+      when 'N', 'n'
         testingFolder(false)
         break
       else

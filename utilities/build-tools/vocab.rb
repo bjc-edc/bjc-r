@@ -88,7 +88,7 @@ class Vocab
     isNewUnit(true)
     parse_unit(file)
     parse_vocab(file)
-    puts "Completed:  #{@currUnit}"
+    puts "Completed: #{@currUnit}"
   end
 
   def parse_unit(file)
