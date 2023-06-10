@@ -1,11 +1,12 @@
-require_relative 'vocab'
-require_relative 'main'
-require_relative 'selfcheck'
-require_relative 'index'
 require 'rio'
 require 'open-uri'
 require 'nokogiri'
 require 'twitter_cldr'
+
+require_relative 'vocab'
+require_relative 'main'
+require_relative 'selfcheck'
+require_relative 'index'
 
 class Tests
   @type = 'testing'
@@ -196,11 +197,8 @@ class Tests
   def test4
     v = Vocab.new(Dir.getwd)
     str = '<div class="vocabFullWidth"><!--<strong>: Reporters</strong> and <strong>Inputs</strong>-->'
-    if v.parse_vocab_header(str)
-      true
-    else
-      false
-    end
+
+    v.parse_vocab_header(str)
   end
 
   def test5
