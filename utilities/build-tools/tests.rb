@@ -112,23 +112,24 @@ class Tests
   end
 
   def assessDataTest
-    sc = SelfCheck.new('C:/Users/I560638/bjc-r/TESTING/2-gossip-and-greet/2-customizing.html')
+    sc = SelfCheck.new('C:/Users/I560638/bjc-r/cur/programming/2-gossip-and-greet/2-customizing.html')
   end
 
+  # TODO: `Main` function calls need to be updated.
   def languageTest
-    m = Main.new('C:/Users/I560638/bjc-r/TESTING/1-introduction/1-building-an-app',
+    m = Main.new('C:/Users/I560638/bjc-r/cur/programming/1-introduction/1-building-an-app',
                  'C:/Users/I560638/bjc-r/topic/nyc_bjc')
     puts m.fileLanguage('1-creating-a-snap-account.es.html')
     puts m.fileLanguage('1-creating-a-snap-account.html')
   end
 
   def mainCSP
-    m = Main.new('C:/Users/I560638/bjc-r/TESTING', 'C:/Users/I560638/bjc-r/TESTING/nyc_bjc', 'en')
+    m = Main.new('C:/Users/I560638/bjc-r/TESTING', 'C:/Users/I560638/bjc-r/cur/programming/nyc_bjc', 'en')
     m.Main()
   end
 
   def mainCSPSpanish
-    m = Main.new('C:/Users/I560638/bjc-r/TESTING', 'C:/Users/I560638/bjc-r/TESTING/nyc_bjc', 'es')
+    m = Main.new('C:/Users/I560638/bjc-r/TESTING', 'C:/Users/I560638/bjc-r/cur/programming/', 'es')
     m.Main()
   end
 
@@ -158,11 +159,9 @@ class Tests
     main = Main.new(Dir.getwd)
     # strList = File.readlines('testTopics.topic')
     str = 'title: Unit 1: Functions and Data
-
 			{
-
 			heading:  Lab 1: Introduction to Snap<em>!</em>
-			raw-html: <img class="imageRight" src="/bjc-r/sparks/img/U1/lab01/say-hello-fancy-with-inputs-repornéih hóu ᕼย𝕒Ｎ" />
+        raw-html: <img class="imageRight" src="/bjc-r/sparks/img/U1/lab01/say-hello-fancy-with-inputs-repornéih hóu ᕼย𝕒Ｎ" />
 			'
     strList = str.split(/\n/)
     strList.each do |line|

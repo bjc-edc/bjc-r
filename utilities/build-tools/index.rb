@@ -2,6 +2,7 @@ require 'fileutils'
 require 'rio'
 require 'nokogiri'
 require 'twitter_cldr'
+
 require_relative 'vocab'
 require_relative 'main'
 
@@ -9,6 +10,7 @@ class Index
   def initialize(path, language = 'en')
     @parentDir = path
     @language = language
+    @language_ext = language == 'en' ? '' : ".#{language}"
     @vocabList = []
     @vocabDict = {}
   end
@@ -31,7 +33,7 @@ class Index
   end
 
   def generateAlphaOrder(usedLetters, output)
-    fileName = "index.#{@language}.html"
+    fileName = "index#{@language_ext}.html"
     alphabet = getAlphabet
     File.write(fileName, "\n<div class=\"index-letter-link\">\n", mode: 'a')
     # i = 0
@@ -122,8 +124,8 @@ class Index
   end
 
   def moveFile
-    src = "#{@parentDir}/review/index.#{@language}.html"
-    dst = "#{@parentDir}/index.#{@language}.html"
+    src = "#{@parentDir}/review/index#{@language_ext}.html"
+    dst = "#{@parentDir}/index#{@language_ext}.html"
     File.delete(dst) if File.exist?(dst)
     FileUtils.copy_file(src, dst)
   end
@@ -141,7 +143,7 @@ class Index
 
   def createNewIndexFile(copyFile, filePath)
     i = 0
-    fileName = "index.#{@language}.html"
+    fileName = "index#{@language_ext}.html"
     File.new(fileName, 'a')
     linesList = rio("#{filePath}/#{copyFile}").lines[0..20]
     while !linesList[i].match(%r{</head>}) and i < 20
@@ -157,9 +159,9 @@ class Index
 
   def add_HTML_end
     ending = "</div>\n</body>\n</html>"
-    return unless File.exist?("index.#{@language}.html")
+    return unless File.exist?("index#{@language_ext}.html")
 
-    File.write("index.#{@language}.html", ending, mode: 'a')
+    File.write("index#{@language_ext}.html", ending, mode: 'a')
   end
 
   def keepCapitalized?(vocab)

@@ -7,7 +7,7 @@ require_relative 'selfcheck'
 VALID_LANGUAGES = %w[en es de]
 
 class Main
-	attr_accessor :skip_test_prompt
+  attr_accessor :skip_test_prompt
 
   def initialize(root: '', cur_dir: 'programming', topic_dir: 'nyc_bjc', language: 'en')
     raise '`root` must end with "bjc-r" folder' unless root.match(%r{bjc-r/?$})
@@ -18,6 +18,7 @@ class Main
     @parentDir = "#{@rootDir}/cur/#{cur_dir}/"
     @topicFolder = "#{@rootDir}/topic/#{topic_dir}/"
     @language = language
+    @language_ext = language == 'en' ? '' : '.#'
     @currUnit = nil
     @unitNum = ''
     @classStr = ''
@@ -64,10 +65,10 @@ class Main
   end
 
   def testingFolderPrompt
-		if @skip_test_prompt
-			testingFolder(false)
-			return
-		end
+    if @skip_test_prompt
+      testingFolder(false)
+      return
+    end
     prompt = '> '
     puts "Would you like to have a consolidated review folder (for testing purposes)? \n Type Y/N"
     print prompt
@@ -158,9 +159,9 @@ class Main
                     else
                       <<~TOPIC
                         heading: Unidad #{@unitNum} Revision
-                        		resource: Vocabulario [#{link}/review/vocab#{@unitNum}.#{@language}.html]
-                        		resource: En el examen AP[#{link}/review/exam#{@unitNum}.#{@language}.html]
-                        		resource: Preguntas de Autocomprobacion [#{link}/review/selfcheck#{@unitNum}.#{@language}.html]
+                        		resource: Vocabulario [#{link}/review/vocab#{@unitNum}#{@language_ext}.html]
+                        		resource: En el examen AP[#{link}/review/exam#{@unitNum}#{@language_ext}.html]
+                        		resource: Preguntas de Autocomprobacion [#{link}/review/selfcheck#{@unitNum}#{@language_ext}.html]
                       TOPIC
                     end
     # add_content_to_topic_file("#{@topicFolder}/#{topicFile}", topic_content)
@@ -441,9 +442,6 @@ class Main
     langMatch.match(/\w+$/).to_s
   end
 
-  # p array.map { |x| x == 4 ? 'Z' : x }
-
-  # => [1, 2, 3, 'Z']
   def parse_topic_links(fileName, line)
     Dir.chdir(@topicFolderPath)
     fileContents = []

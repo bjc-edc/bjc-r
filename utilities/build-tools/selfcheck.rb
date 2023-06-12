@@ -85,8 +85,8 @@ class SelfCheck
       newStr = str.split(pattern)
       currUnit(newStr.join)
       currUnitNum(@currUnit.match(/\d+/).to_s)
-      selfCheckFileName("selfcheck#{@currUnitNum}.#{@language}.html")
-      examFileName("exam#{@currUnitNum}.#{@language}.html")
+      selfCheckFileName("selfcheck#{@currUnitNum}#{@language_ext}.html")
+      examFileName("exam#{@currUnitNum}#{@language_ext}.html")
       isNewUnit(false)
     end
   end
