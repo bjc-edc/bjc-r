@@ -181,7 +181,7 @@ class SelfCheck
   end
 
   def destination_dir
-    "#{@parentDir}/#{@currUnit}/review"
+    "#{@parentPath}/review"
   end
 
   def add_assessment_to_file(assessment)

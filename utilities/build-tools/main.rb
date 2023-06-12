@@ -1,3 +1,4 @@
+require 'pry'
 require 'fileutils'
 require 'rio'
 
@@ -9,13 +10,13 @@ VALID_LANGUAGES = %w[en es de]
 class Main
   attr_accessor :skip_test_prompt
 
-  def initialize(root: '', cur_dir: 'programming', topic_dir: 'nyc_bjc', language: 'en')
+  def initialize(root: '', content: 'cur/programming', topic_dir: 'nyc_bjc', language: 'en')
     raise '`root` must end with "bjc-r" folder' unless root.match(%r{bjc-r/?$})
-    raise '`cur_dir` should NOT include "bjc-r/" folder' if cur_dir.match(%r{bjc-r/$})
+    raise '`content` should NOT include "bjc-r/" folder' if content.match(%r{bjc-r/$})
     raise '`topic_dir` should NOT include "bjc-r/" folder' if topic_dir.match(%r{bjc-r/$})
 
     @rootDir = root
-    @parentDir = "#{@rootDir}/cur/#{cur_dir}/"
+    @parentDir = "#{@rootDir}/#{content}/"
     @topicFolder = "#{@rootDir}/topic/#{topic_dir}/"
     @language = language
     @language_ext = language == 'en' ? '' : '.#'
@@ -122,7 +123,7 @@ class Main
   end
 
   def destination_dir
-    "#{@parentDir}/#{@currUnit}/review"
+    "#{@parentDir}/review"
   end
 
   # Input is the folder path of the topic folder you want to parse

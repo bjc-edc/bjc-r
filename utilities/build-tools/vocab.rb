@@ -117,7 +117,7 @@ class Vocab
   end
 
   def destination_dir
-    "#{@parentDir}/#{@unitName}/review"
+    "#{@parentDir}/review"
   end
 
   def createNewVocabFile(fileName)
