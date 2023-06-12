@@ -102,7 +102,7 @@ class Vocab
       newStr = str.split(pattern)
       currUnit(newStr.join)
       currUnitNum(@currUnit.match(/\d+/).to_s)
-      unit
+      # unit
       vocabFileName("vocab#{@currUnitNum}#{@language_ext}.html")
       isNewUnit(false)
     end
@@ -116,11 +116,15 @@ class Vocab
     end
   end
 
+  def destination_dir
+    "#{@parentDir}/#{@unitName}/review"
+  end
+
   def createNewVocabFile(fileName)
     i = 0
     filePath = Dir.getwd
     unless File.exist?(fileName)
-      Dir.chdir("#{@parentDir}/review")
+      Dir.chdir(destination_dir)
       File.new(@vocabFileName, 'w')
     end
     linesList = rio("#{filePath}/#{@currFile}").lines[0..30]

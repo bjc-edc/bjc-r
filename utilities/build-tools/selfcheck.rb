@@ -180,14 +180,16 @@ class SelfCheck
     list.join('.')
   end
 
+  def destination_dir
+    "#{@parentDir}/#{@currUnit}/review"
+  end
+
   def add_assessment_to_file(assessment)
-    result = assessment
-    add_content_to_file("#{@parentPath}/review/#{@selfCheckFileName}", result, 'Self-Check')
+    add_content_to_file("#{destination_dir}/#{@selfCheckFileName}", assessment, 'Self-Check')
   end
 
   def add_exam_to_file(exam)
-    result = exam
-    add_content_to_file("#{@parentPath}/review/#{@examFileName}", result, 'Exam')
+    add_content_to_file("#{destination_dir}/#{@examFileName}", exam, 'Exam')
   end
 
   def get_url(file)
@@ -195,7 +197,6 @@ class SelfCheck
     linkPath = localPath.match(/bjc-r.+/).to_s
     result = "/#{linkPath}/#{file}"
     # https://bjc.berkeley.edu
-    result = "#{result}"
     # add_content_to_file('urlLinks.txt', result)
   end
 end

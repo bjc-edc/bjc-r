@@ -97,10 +97,10 @@ class Main
   end
 
   def createNewReviewFolder
-    if Dir.exist?("#{@parentDir}/review")
+    if Dir.exist?(destination_dir)
       deleteReviewFolder
     else
-      Dir.mkdir("#{@parentDir}/review")
+      Dir.mkdir(destination_dir)
     end
   end
 
@@ -119,6 +119,10 @@ class Main
   # and is the correct extension type (fileType)
   def isCorrectFileType(fileType, fileName)
     File.exist?("#{fileName}#{fileType}") & File.file?(fileName)
+  end
+
+  def destination_dir
+    "#{@parentDir}/#{@currUnit}/review"
   end
 
   # Input is the folder path of the topic folder you want to parse
@@ -340,7 +344,7 @@ class Main
   end
 
   def copyFiles
-    list = ["#{@vocab.getVocabFileName}", "#{@selfcheck.getSelfCheckFileName}", "#{@selfcheck.getExamFileName}"]
+    list = [@vocab.getVocabFileName, @selfcheck.getSelfCheckFileName, @selfcheck.getExamFileName]
     FileUtils.cd('..')
     # src = "#{@parentDir}/review/#{@vocab}"
     # dst = "#{Dir.getwd}/#{@vocab.getVocabFileName}"
