@@ -11,9 +11,7 @@
 llab.file = "";
 llab.url_list = [];
 
-var FULL = llab.selectors.FULL,
-hamburger = llab.fragments.hamburger;
-
+var FULL = llab.selectors.FULL;
 
 const TRANSLATIONS = {
   'ifTime': {
@@ -41,8 +39,9 @@ const TRANSLATIONS = {
   }
 };
 
-llab.t = (key, lang) => {
-  lang ||= 'en';
+// very loosely mirror the Rails API
+llab.translate = (key, lang) => {
+  lang ||= llab.pageLang();
   let options = TRANSLATIONS[key];
   if (!options) { return 'UNKNOWN'; }
   let result = options[lang];
@@ -51,6 +50,18 @@ llab.t = (key, lang) => {
   }
   return result;
 };
+let t = llab.translate;
+
+llab.pageLang = () => {
+  let pageLanguage = $("html").attr('lang');
+  if (!pageLanguage) {
+    let altLang = location.pathname.match(/(\.\w\w).html/)
+    if (altLang) {
+      pageLanguage = altLang;
+    }
+  }
+  return pageLanguage || 'en';
+}
 
 // Executed on each page load.
 // TODO: Should probably be slip into a better place.
@@ -90,7 +101,6 @@ llab.secondarySetUp = function() {
   }
 
   let classSelector = `div.${Object.keys(TRANSLATIONS).join(',div.')}`;
-  let pageLanguage = $("html").attr('lang');
   $(classSelector).each(function(i) {
     let classList = Array.from(this.classList);
     let isVisible = classList.indexOf('show') > -1;
@@ -99,7 +109,7 @@ llab.secondarySetUp = function() {
     this.innerHTML = `
       <a style='font-size: 18px;' href='#${id}' data-toggle='collapse'
         role="button" aria-controls="#${id}" aria-expanded=${isVisible}>
-        <strong>${llab.t(contentType, pageLanguage)}</strong>
+        <strong>${t(contentType)}</strong>
       </a>
       <div id='${id}' class='collapse'>
         ${this.innerHTML}
@@ -468,9 +478,7 @@ llab.createTitleNav = function() {
     `,
     botHTML = '<div class="full-bottom-bar"><div class="bottom-nav btn-group"></div></div>',
     topNav = $(llab.selectors.NAVSELECT),
-    buttons = `
-    <a class='btn btn-default backbutton arrow' aria-label="${backText}">←</a>
-    <a class='btn btn-default forwardbutton arrow' aria-label="${nextText}">→</a>`;
+    buttons = `<a class='btn btn-default backbutton arrow' aria-label="${t('backText')}">←</a><a class='btn btn-default forwardbutton arrow' aria-label="${t('nextText')}">→</a>`;
 
   if (topNav.length === 0) {
     $(document.body).prepend(topHTML);
@@ -503,10 +511,10 @@ llab.buildDropdown = function() {
 
   // build the list header
   list_header = $(document.createElement("button")).attr(
-    {'class': 'navbar-toggle btn btn-default dropdown-toggle list_header',
+    {'class': 'navbar-toggle btn dropdown-toggle list_header btn-default',
     'type' : 'button', 'data-toggle' : "dropdown" }
   );
-  list_header.append(hamburger);
+  list_header.append(llab.fragments.hamburger);
 
   // Add Header to dropdown
   dropdown.append(list_header);
