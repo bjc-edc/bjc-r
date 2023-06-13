@@ -127,9 +127,9 @@ class Index
   def format_and_move_file
     src = "#{@parentDir}/review/index#{@language_ext}.html"
     dst = "#{@parentDir}/index#{@language_ext}.html"
-    html = Nokogiri.HTML5(File.read(src))
+    html = Nokogiri.HTML(File.read(src))
     File.delete(dst) if File.exist?(dst)
-    File.write(dst, html.serialize, mode: 'w')
+    File.write(dst, html.to_html(indent: 2), mode: 'w')
   end
 
   def main

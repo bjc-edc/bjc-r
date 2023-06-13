@@ -158,7 +158,7 @@ class SelfCheck
   end
 
   def reread_and_reformat(file_path)
-    File.write(file_path, Nokogiri.HTML5(File.read(file_path)).serialize, mode: 'w')
+    File.write(file_path, Nokogiri.HTML(File.read(file_path)).to_html(indent: 2), mode: 'w')
   end
 
   def add_content_to_file(filename, data, type)
