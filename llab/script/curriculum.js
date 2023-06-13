@@ -11,28 +11,57 @@
 llab.file = "";
 llab.url_list = [];
 
-var FULL = llab.selectors.FULL,
-hamburger = llab.fragments.hamburger;
+var FULL = llab.selectors.FULL;
 
-
-const DISCLOURSE_HEADINGS = {
+const TRANSLATIONS = {
   'ifTime': {
     en: 'If There Is Time…',
-    es: 'Si hay tiempo…'
+    es: 'Si hay tiempo…',
   },
   'takeItFurther': {
     en: 'Take It Further…',
-    es: 'Llevándolo más allá'
+    es: 'Llevándolo más allá',
   },
   'takeItTeased': {
     en: 'Take It Further…',
-    es: 'Llevándolo más allá'
+    es: 'Llevándolo más allá',
+  },
+  'backText': {
+    en: 'previous page',
+    es: 'previous page',
+  },
+  'nextText': {
+    en: 'next page',
+    es: 'next page',
+  },
+  'selfCheckTitle': {
+
   }
 };
 
-llab.disclourseBoxHeading = (key, lang) => {
-  return DISCLOURSE_HEADINGS[key][lang];
+// very loosely mirror the Rails API
+llab.translate = (key, lang) => {
+  lang ||= llab.pageLang();
+  let options = TRANSLATIONS[key];
+  if (!options) { return 'UNKNOWN'; }
+  let result = options[lang];
+  if (!result) {
+    return options['en'] || 'UNKOWN';
+  }
+  return result;
 };
+let t = llab.translate;
+
+llab.pageLang = () => {
+  let pageLanguage = $("html").attr('lang');
+  if (!pageLanguage) {
+    let altLang = location.pathname.match(/(\.\w\w).html/)
+    if (altLang) {
+      pageLanguage = altLang;
+    }
+  }
+  return pageLanguage || 'en';
+}
 
 // Executed on each page load.
 // TODO: Should probably be slip into a better place.
@@ -71,17 +100,16 @@ llab.secondarySetUp = function() {
     return null;
   }
 
-  let classSelector = `div.${Object.keys(DISCLOURSE_HEADINGS).join(',div.')}`;
-  let pageLanguage = $("html").attr('lang');
+  let classSelector = `div.${Object.keys(TRANSLATIONS).join(',div.')}`;
   $(classSelector).each(function(i) {
     let classList = Array.from(this.classList);
     let isVisible = classList.indexOf('show') > -1;
-    let contentType = lookupClassName(DISCLOURSE_HEADINGS, classList);
+    let contentType = lookupClassName(TRANSLATIONS, classList);
     let id = `hint-${contentType}-${i}`;
     this.innerHTML = `
       <a style='font-size: 18px;' href='#${id}' data-toggle='collapse'
         role="button" aria-controls="#${id}" aria-expanded=${isVisible}>
-        <strong>${llab.disclourseBoxHeading(contentType, pageLanguage)}</strong>
+        <strong>${t(contentType)}</strong>
       </a>
       <div id='${id}' class='collapse'>
         ${this.innerHTML}
@@ -450,8 +478,7 @@ llab.createTitleNav = function() {
     `,
     botHTML = '<div class="full-bottom-bar"><div class="bottom-nav btn-group"></div></div>',
     topNav = $(llab.selectors.NAVSELECT),
-    buttons = "<a class='btn btn-default backbutton arrow'>back</a>" +
-    "<a class='btn btn-default forwardbutton arrow'>next</a>";
+    buttons = `<a class='btn btn-default backbutton arrow' aria-label="${t('backText')}">←</a><a class='btn btn-default forwardbutton arrow' aria-label="${t('nextText')}">→</a>`;
 
   if (topNav.length === 0) {
     $(document.body).prepend(topHTML);
@@ -484,10 +511,10 @@ llab.buildDropdown = function() {
 
   // build the list header
   list_header = $(document.createElement("button")).attr(
-    {'class': 'navbar-toggle btn btn-default dropdown-toggle list_header',
+    {'class': 'navbar-toggle btn dropdown-toggle list_header btn-default',
     'type' : 'button', 'data-toggle' : "dropdown" }
   );
-  list_header.append(hamburger);
+  list_header.append(llab.fragments.hamburger);
 
   // Add Header to dropdown
   dropdown.append(list_header);
