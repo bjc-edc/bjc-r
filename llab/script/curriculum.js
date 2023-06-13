@@ -55,15 +55,21 @@ const TRANSLATIONS = {
 };
 
 // very loosely mirror the Rails API
-// TODO-MB: Handle Text replacements
 llab.translate = (key, replacements, lang) => {
+  replacements ||= {};
   lang ||= llab.pageLang();
-  let options = TRANSLATIONS[key];
-  if (!options) { return key; }
-  let result = options[lang];
+  let dictionary = TRANSLATIONS[key];
+  if (!dictionary) { return key; }
+  let result = dictionary[lang];
   if (!result) {
-    return options['en'] || key;
+    result = dictionary['en'] || key;
   }
+  if (Array.isArray(replacements)) {
+    replacements = Object.assign({}, replacements);
+  }
+  Object.keys(replacements).forEach((key) => {
+    result = result.replaceAll(`%${key}`, replacements[key]);
+  })
   return result;
 };
 let t = llab.translate;
