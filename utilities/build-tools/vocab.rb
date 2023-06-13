@@ -151,6 +151,7 @@ class Vocab
   end
 
   def reread_and_reformat(file_path)
+    binding.pry
     File.write(file_path, Nokogiri.HTML5(File.read(file_path)).serialize, mode: 'w')
   end
 
