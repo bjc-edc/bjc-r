@@ -416,9 +416,9 @@ class Main
         #Dir.chdir(unitFolder)
         #change unit folder
       elsif(isEndofTopicPage(line))
-        @vocab.add_HTML_end()
-        @selfcheck.add_HTML_end()
-        @atwork.add_HTML_end()
+        @vocab.add_HTML_end
+        @selfcheck.add_HTML_end
+        @atwork.add_HTML_end
       end
       i += 1
     end
