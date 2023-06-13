@@ -9,6 +9,7 @@ require_relative 'atwork'
 VALID_LANGUAGES = %w[en es de]
 
 class Main
+  attr_reader :parentDir
   attr_accessor :skip_test_prompt
 
   def initialize(root: '', content: 'cur/programming', topic_dir: 'nyc_bjc', language: 'en')
@@ -38,15 +39,15 @@ class Main
 
 	# Main/primary function to be called, will call and create all other functions and classes.
 	# This function will parse the topic pages, parse all labs and units, and create summary pages
-	def Main()
+	def Main
 		testingFolderPrompt()
 		createNewReviewFolder()
 		#parse_class()
 		parse_allTopicPages(@topicFolder)
 		parse_units("#{@parentDir}/review/topics.txt")
 		@vocab.doIndex()
-		puts "All units complete"
 		@atwork.moveFile()
+		puts "All units complete"
 		clear()
 	end
 
@@ -395,7 +396,6 @@ class Main
 					@selfcheck.read_file(labFile)
 					@atwork.read_file(labFile)
 				end
-
         # pass to function that will open correct file
         # elsif line.match(labTopicPattern)
         # if line.match(/^(heading: [a-zA-Z]+)/)
@@ -406,23 +406,21 @@ class Main
         # labFolder = getFolder(labNum, unitFolder)
         # Dir.chdir(labFolder)
         # change lab folder
-
-        elsif line.match(unitNamePattern)
-          unitNum(line.match(/\d+/).to_s)
-          unitName = line.match(/Unit.+/)
-          @vocab.currUnitName(unitName.to_s)
-          @selfcheck.currUnitName(unitName.to_s)
-          @atwork.currUnitName(unitName.to_s)
-          #unitFolder = getFolder(@unitNum, @parentDir)
-          #Dir.chdir(unitFolder)
-          #change unit folder
-        elsif(isEndofTopicPage(line))
-          @vocab.add_HTML_end()
-          @selfcheck.add_HTML_end()
-          @atwork.add_HTML_end()
-        end
-        i += 1
+      elsif line.match(unitNamePattern)
+        unitNum(line.match(/\d+/).to_s)
+        unitName = line.match(/Unit.+/)
+        @vocab.currUnitName(unitName.to_s)
+        @selfcheck.currUnitName(unitName.to_s)
+        @atwork.currUnitName(unitName.to_s)
+        #unitFolder = getFolder(@unitNum, @parentDir)
+        #Dir.chdir(unitFolder)
+        #change unit folder
+      elsif(isEndofTopicPage(line))
+        @vocab.add_HTML_end()
+        @selfcheck.add_HTML_end()
+        @atwork.add_HTML_end()
       end
+      i += 1
     end
   end
 
@@ -488,6 +486,4 @@ class Main
   def currUnit(str)
     @currUnit = str
   end
-
-  attr_reader :parentDir
 end

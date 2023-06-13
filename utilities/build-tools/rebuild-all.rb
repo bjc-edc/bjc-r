@@ -19,8 +19,8 @@ esRunner = Main.new(root: ENV['PWD'], content: 'cur/programming', topic_dir: 'ny
 esRunner.skip_test_prompt = true
 esRunner.Main
 
-puts
-puts "Rebuilding Sparks"
-esRunner = Main.new(root: ENV['PWD'], content: 'sparks/student-pages', topic_dir: 'sparks')
-esRunner.skip_test_prompt = true
-esRunner.Main
+# puts
+# puts "Rebuilding Sparks"
+# sparks = Main.new(root: ENV['PWD'], content: 'sparks/student-pages', topic_dir: 'sparks')
+# sparks.skip_test_prompt = true
+# sparks.Main
