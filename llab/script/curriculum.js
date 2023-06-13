@@ -35,18 +35,34 @@ const TRANSLATIONS = {
     es: 'next page',
   },
   'selfCheckTitle': {
-
+    en: 'Self-Check Question',
+    es: 'Autoevaluación',
+  },
+  'Try Again': {
+    es: 'Intentarlo de nuevo',
+  },
+  'Check Answer': {
+    es: 'Comprobar respuesta',
+  },
+  'successMessage': {
+    en: 'You have successfully completed this question!',
+    es: '¡Has completado la pregunta correctamente!',
+  },
+  'attemptMessage': {
+    en: 'This is your %ordinal attempt.',
+    es: 'Este es tu intento n.º %number.',
   }
 };
 
 // very loosely mirror the Rails API
-llab.translate = (key, lang) => {
+// TODO-MB: Handle Text replacements
+llab.translate = (key, replacements, lang) => {
   lang ||= llab.pageLang();
   let options = TRANSLATIONS[key];
-  if (!options) { return 'UNKNOWN'; }
+  if (!options) { return key; }
   let result = options[lang];
   if (!result) {
-    return options['en'] || 'UNKOWN';
+    return options['en'] || key;
   }
   return result;
 };

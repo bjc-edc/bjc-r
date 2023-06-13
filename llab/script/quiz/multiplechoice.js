@@ -111,18 +111,20 @@ MC.prototype.tryAgain = function(e) {
     this.render();
 };
 
+
 /**
  * Render the MC
  * Nate: plan is to have the mc-single-template.body in the html currently, and pull
  * pieces from the data model (that the author makes) into the template
  */
 MC.prototype.render = function() {
+    let t = llab.translate;
     var i, type, choiceHTML;
     if (!this.previouslyRendered) {
         //$('.MultipleChoice').html(pageTemplate);
 
         /* set the question type title */
-        this.multipleChoice.find('.questionType').html(/*'Question ' + (this.num + 1)*/ 'Self-Check Question'); /* This line edited by Mary Fries on 4/14/19 so that For You To Do problem numbers and quiz numbers don't conflict. */
+        this.multipleChoice.find('.questionType').html(t('selfCheckTitle'));
     }
 
     /* render the prompt */
