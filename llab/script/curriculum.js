@@ -15,23 +15,41 @@ var FULL = llab.selectors.FULL,
 hamburger = llab.fragments.hamburger;
 
 
-const DISCLOURSE_HEADINGS = {
+const TRANSLATIONS = {
   'ifTime': {
     en: 'If There Is Time…',
-    es: 'Si hay tiempo…'
+    es: 'Si hay tiempo…',
   },
   'takeItFurther': {
     en: 'Take It Further…',
-    es: 'Llevándolo más allá'
+    es: 'Llevándolo más allá',
   },
   'takeItTeased': {
     en: 'Take It Further…',
-    es: 'Llevándolo más allá'
+    es: 'Llevándolo más allá',
+  },
+  'backText': {
+    en: 'previous page',
+    es: 'previous page',
+  },
+  'nextText': {
+    en: 'next page',
+    es: 'next page',
+  },
+  'selfCheckTitle': {
+
   }
 };
 
-llab.disclourseBoxHeading = (key, lang) => {
-  return DISCLOURSE_HEADINGS[key][lang];
+llab.t = (key, lang) => {
+  lang ||= 'en';
+  let options = TRANSLATIONS[key];
+  if (!options) { return 'UNKNOWN'; }
+  let result = options[lang];
+  if (!result) {
+    return options['en'] || 'UNKOWN';
+  }
+  return result;
 };
 
 // Executed on each page load.
@@ -71,17 +89,17 @@ llab.secondarySetUp = function() {
     return null;
   }
 
-  let classSelector = `div.${Object.keys(DISCLOURSE_HEADINGS).join(',div.')}`;
+  let classSelector = `div.${Object.keys(TRANSLATIONS).join(',div.')}`;
   let pageLanguage = $("html").attr('lang');
   $(classSelector).each(function(i) {
     let classList = Array.from(this.classList);
     let isVisible = classList.indexOf('show') > -1;
-    let contentType = lookupClassName(DISCLOURSE_HEADINGS, classList);
+    let contentType = lookupClassName(TRANSLATIONS, classList);
     let id = `hint-${contentType}-${i}`;
     this.innerHTML = `
       <a style='font-size: 18px;' href='#${id}' data-toggle='collapse'
         role="button" aria-controls="#${id}" aria-expanded=${isVisible}>
-        <strong>${llab.disclourseBoxHeading(contentType, pageLanguage)}</strong>
+        <strong>${llab.t(contentType, pageLanguage)}</strong>
       </a>
       <div id='${id}' class='collapse'>
         ${this.innerHTML}
@@ -450,8 +468,9 @@ llab.createTitleNav = function() {
     `,
     botHTML = '<div class="full-bottom-bar"><div class="bottom-nav btn-group"></div></div>',
     topNav = $(llab.selectors.NAVSELECT),
-    buttons = "<a class='btn btn-default backbutton arrow'>back</a>" +
-    "<a class='btn btn-default forwardbutton arrow'>next</a>";
+    buttons = `
+    <a class='btn btn-default backbutton arrow' aria-label="${backText}">←</a>
+    <a class='btn btn-default forwardbutton arrow' aria-label="${nextText}">→</a>`;
 
   if (topNav.length === 0) {
     $(document.body).prepend(topHTML);
