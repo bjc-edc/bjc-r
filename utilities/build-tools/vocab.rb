@@ -147,6 +147,11 @@ class Vocab
     return unless File.exist?(@vocabFileName)
 
     File.write(@vocabFileName, ending, mode: 'a')
+    reread_and_reformat(@vocabFileName)
+  end
+
+  def reread_and_reformat(file_path)
+    File.write(file_path, Nokogiri.HTML5(File.read(file_path)).serialize, mode: 'w')
   end
 
   def add_content_to_file(filename, data)
@@ -358,7 +363,7 @@ class Vocab
     linkPath = localPath.match(/bjc-r.+/).to_s
     result = "/#{linkPath}/#{file}"
     # https://bjc.berkeley.edu
-    result = "#{result}"
+    # result = "#{result}"
     # add_content_to_file('urlLinks.txt', result)
   end
 end

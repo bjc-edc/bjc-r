@@ -146,13 +146,19 @@ class SelfCheck
   def add_HTML_end
     Dir.chdir("#{@parentPath}/review")
     ending = "</body>\n</html>"
-    File.write(@selfCheckFileName, ending, mode: 'a') if File.exist?(@selfCheckFileName)
+    if File.exist?(@selfCheckFileName)
+      File.write(@selfCheckFileName, ending, mode: 'a')
+      reread_and_reformat(@selfCheckFileName)
+    end
+
     return unless File.exist?(@examFileName)
 
     File.write(@examFileName, ending, mode: 'a')
+    reread_and_reformat(@examFileName)
+  end
 
-    # does examFileName exist?
-    # File.write(@examFileName, ending, mode: "a")
+  def reread_and_reformat(file_path)
+    File.write(file_path, Nokogiri.HTML5(File.read(file_path)).serialize, mode: 'w')
   end
 
   def add_content_to_file(filename, data, type)

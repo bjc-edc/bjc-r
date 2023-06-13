@@ -123,11 +123,12 @@ class Index
     generateAlphaOrder(usedLetters, output)
   end
 
-  def moveFile
+  def format_and_move_file
     src = "#{@parentDir}/review/index#{@language_ext}.html"
     dst = "#{@parentDir}/index#{@language_ext}.html"
+    html = Nokogiri.HTML5(File.read(src))
     File.delete(dst) if File.exist?(dst)
-    FileUtils.copy_file(src, dst)
+    File.write(dst, html.serialize, mode: 'w')
   end
 
   def main
@@ -138,7 +139,7 @@ class Index
     # generateAlphaOrder()
     addIndex
     add_HTML_end
-    moveFile
+    format_and_move_file
   end
 
   def createNewIndexFile(copyFile, filePath)
@@ -164,6 +165,7 @@ class Index
     File.write("index#{@language_ext}.html", ending, mode: 'a')
   end
 
+  # TODO-MB: Borrow ActiveSupport Inflections API
   def keepCapitalized?(vocab)
     capitals = ["Moore's", 'IP', 'DDoS', 'SSL', 'TLS', 'TCP', 'IA', 'IPA', 'PCT', 'PI', 'AI', 'ADT', 'API',
                 'Creative Commons', 'ISPs']
