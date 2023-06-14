@@ -35,19 +35,41 @@ const TRANSLATIONS = {
     es: 'next page',
   },
   'selfCheckTitle': {
-
+    en: 'Self-Check Question',
+    es: 'Autoevaluación',
+  },
+  'Try Again': {
+    es: 'Intentarlo de nuevo',
+  },
+  'Check Answer': {
+    es: 'Comprobar respuesta',
+  },
+  'successMessage': {
+    en: 'You have successfully completed this question!',
+    es: '¡Has completado la pregunta correctamente!',
+  },
+  'attemptMessage': {
+    en: 'This is your %ordinal attempt.',
+    es: 'Este es tu intento n.º %number.',
   }
 };
 
 // very loosely mirror the Rails API
-llab.translate = (key, lang) => {
+llab.translate = (key, replacements, lang) => {
+  replacements ||= {};
   lang ||= llab.pageLang();
-  let options = TRANSLATIONS[key];
-  if (!options) { return 'UNKNOWN'; }
-  let result = options[lang];
+  let dictionary = TRANSLATIONS[key];
+  if (!dictionary) { return key; }
+  let result = dictionary[lang];
   if (!result) {
-    return options['en'] || 'UNKOWN';
+    result = dictionary['en'] || key;
   }
+  if (Array.isArray(replacements)) {
+    replacements = Object.assign({}, replacements);
+  }
+  Object.keys(replacements).forEach((key) => {
+    result = result.replaceAll(`%${key}`, replacements[key]);
+  })
   return result;
 };
 let t = llab.translate;
@@ -453,7 +475,7 @@ llab.createTitleNav = function() {
   llab.setUpDevComments();
 
   // The BJC Logo takes you to the course ToC, or the BJC index when there is no course defined.
-  let navDestination = '/bjc-r';
+  let navDestination = '/bjc-r/';
   let logoURL = '/bjc-r/img/header-footer/bjc-logo-sm2.png';
   if (llab.getQueryParameter('course')) {
     navDestination = `/bjc-r/course/${llab.getQueryParameter('course')}`;
@@ -464,7 +486,7 @@ llab.createTitleNav = function() {
   var topHTML = `
     <nav class="llab-nav navbar navbar-default navbar-fixed-top nopadtb" role="navigation">
       <div class="nav navbar-nav navbar-left">
-        <a class="site-title" rel="author" href="${navDestination}">
+        <a class="site-title" rel="author" href="${navDestination}" aria-label="Go to Index">
           <img src="${logoURL}" alt="BJC logo" class="pull-left">
         </a>
         <div class="navbar-title"></div>
