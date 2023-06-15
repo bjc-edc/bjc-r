@@ -7,6 +7,8 @@ require_relative 'vocab'
 require_relative 'main'
 require_relative 'atwork'
 
+FILE_NAME = 'vocab-index'
+
 class Index
     def initialize(path, language="en")
         @parentDir = path
@@ -18,6 +20,10 @@ class Index
     def language_ext
 		@language_ext ||= @language == 'en' ? '' : ".#{@language}"
 	end
+
+    def index_filename
+        "#{FILE_NAME}#{language_ext}.html"
+    end
 
     def vocabList(list)
         @vocabList = list
@@ -36,19 +42,18 @@ class Index
     end
 
     def generateAlphaOrder(usedLetters, output)
-        fileName = "index.#{@language}.html"
         alphabet = getAlphabet()
-        File.write(fileName, "\n<div class=\"index-letter-link\">\n", mode: "a")
+        File.write(index_filename, "\n<div class=\"index-letter-link\">\n", mode: "a")
         #i = 0
         #while alphabet.length > i
-        #    File.write(fileName, "<a href=\"##{alphabet[i].upcase}\">#{alphabet[i].upcase}</a>&nbsp;\n", mode: "a")
+        #    File.write(index_filename, "<a href=\"##{alphabet[i].upcase}\">#{alphabet[i].upcase}</a>&nbsp;\n", mode: "a")
         #    i += 1
         #end
         linksUnusedLetters(usedLetters).each do |letter|
-            File.write(fileName, letter, mode: "a")
+            File.write(index_filename, letter, mode: "a")
         end
-        File.write(fileName, "\n<\/div>\n<div>\n", mode: "a")
-        File.write(fileName, output, mode: "a")
+        File.write(index_filename, "\n<\/div>\n<div>\n", mode: "a")
+        File.write(index_filename, output, mode: "a")
     end
 
     def isNonEngChar(vocab, usedLetters)
@@ -131,8 +136,8 @@ class Index
     end
 
     def moveFile()
-        src = "#{@parentDir}/review/index.#{@language}.html"
-        dst = "#{@parentDir}/index.#{@language}.html"
+        src = "#{@parentDir}/review/#{index_filename}"
+        dst = "#{@parentDir}/#{index_filename}"
         if File.exist?(dst)
             File.delete(dst)
         end
@@ -151,24 +156,23 @@ class Index
 
     def createNewIndexFile(copyFile, filePath)
         i = 0
-        fileName = "index.#{@language}.html"
-        File.new(fileName, "a")
+        File.new(index_filename, "a")
         linesList =  rio("#{filePath}/#{copyFile}").lines[0..20]
         while (not(linesList[i].match(/<\/head>/)) and i < 20)
             if linesList[i].match(/<title>/)
-                File.write(fileName, "<title>BJC Curriculum Index</title>", mode: "a")
+                File.write(index_filename, "<title>BJC Curriculum Index</title>", mode: "a")
             else
-                File.write(fileName, "#{linesList[i]}", mode: "a")
+                File.write(index_filename, "#{linesList[i]}", mode: "a")
             end
             i += 1
         end
-        File.write(fileName, "\n</head>\n<body>\n", mode:"a")
+        File.write(index_filename, "\n</head>\n<body>\n", mode:"a")
     end
 
     def add_HTML_end()
         ending = "</div>\n</body>\n</html>"
-        if File.exist?("index.#{@language}.html")
-            File.write("index.#{@language}.html", ending, mode: "a")
+        if File.exist?(index_filename)
+            File.write(index_filename, ending, mode: "a")
         end
     end
 

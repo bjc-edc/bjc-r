@@ -5,6 +5,8 @@ require_relative 'selfcheck'
 require_relative 'atwork'
 
 VALID_LANGUAGES = ['en', 'es', 'de']
+# TODO: Replace the review/ folder with this
+TEMP_FOLDER = 'summaries~'
 
 class Main
 	def initialize(root: '', cur_dir: 'programming', topic_dir: 'nyc_bjc', language: 'en')
@@ -91,7 +93,8 @@ class Main
 		if File.exist?("topics.txt")
 			File.delete("topics.txt")
 		end
-		files = list_files("#{@language}.html")
+		# TODO: should filter en/es separately.
+		files = list_files("#{language_ext}.html")
 		files.each do |file|
 			File.delete(file)
 		end
@@ -156,16 +159,16 @@ class Main
 		if @language == "en"
 			topic_content = <<~TOPIC
 			heading: Unit #{@unitNum} Review
-					resource: Vocabulary [#{link}/review/vocab#{@unitNum}.html]
-					resource: On the AP Exam [#{link}/review/exam#{@unitNum}.html]
-					resource: Self-Check Questions [#{link}/review/selfcheck#{@unitNum}.html]
+					resource: Vocabulary [#{link}/vocab#{@unitNum}.html]
+					resource: On the AP Exam [#{link}/exam#{@unitNum}.html]
+					resource: Self-Check Questions [#{link}/selfcheck#{@unitNum}.html]
 			TOPIC
 		else
 			topic_content = <<~TOPIC
 			heading: Unidad #{@unitNum} Revision
-					resource: Vocabulario [#{link}/review/vocab#{@unitNum}.#{@language}.html]
-					resource: En el examen AP[#{link}/review/exam#{@unitNum}.#{@language}.html]
-					resource: Preguntas de Autocomprobacion [#{link}/review/selfcheck#{@unitNum}.#{@language}.html]
+					resource: Vocabulario [#{link}/vocab#{@unitNum}#{language_ext}.html]
+					resource: En el examen AP[#{link}/exam#{@unitNum}#{language_ext}.html]
+					resource: Preguntas de Autocomprobacion [#{link}/selfcheck#{@unitNum}#{language_ext}.html]
 			TOPIC
 		end
 		# add_content_to_topic_file("#{@topicFolder}/#{topicFile}", topic_content)

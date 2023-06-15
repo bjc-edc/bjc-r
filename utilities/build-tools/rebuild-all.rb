@@ -6,10 +6,13 @@
 
 require_relative 'main'
 
-puts "Rebuilding all index/summaries from: #{ENV['PWD']}"
+ROOT = '/bjc-r'
+path = ENV['PWD']
+path = path.sub(/#{ROOT}\/.*$/, ROOT)
+puts "Rebuilding all index/summaries from: #{path}"
 
-enRunner = Main.new(root: ENV['PWD'], cur_dir: "cur/programming", topic_dir: "nyc_bjc", language: "en")
-enRunner.Main
+en_Runner = Main.new(root: path, cur_dir: "cur/programming", topic_dir: "nyc_bjc", language: "en")
+en_Runner.Main
 
-esRunner = Main.new(root: ENV['PWD'], cur_dir: "cur/programming", topic_dir: "nyc_bjc", language: "es")
-esRunner.Main
+es_Runner = Main.new(root: path, cur_dir: "cur/programming", topic_dir: "nyc_bjc", language: "es")
+es_Runner.Main

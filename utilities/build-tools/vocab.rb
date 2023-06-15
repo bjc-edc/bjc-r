@@ -116,7 +116,7 @@ class Vocab
 			currUnit(newStr.join)
 			currUnitNum(@currUnit.match(/\d+/).to_s)
 			unit()
-			vocabFileName("vocab#{@currUnitNum}.#{@language}.html")
+			vocabFileName("vocab#{@currUnitNum}#{@language_ext}.html")
 			boxNum(0)
 			isNewUnit(false)
 		end
