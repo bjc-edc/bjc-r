@@ -75,4 +75,3 @@ function buildQuestion(qdata, location, questionNum, fetched)  {
     question.loadContent();
     question.render();
 }
-
