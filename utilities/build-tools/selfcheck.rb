@@ -17,6 +17,10 @@ class SelfCheck
 		@language = language
     end
 
+		def language_ext
+			@language_ext ||= @language == 'en' ? '' : ".#{@language}"
+		end
+
     def isNewUnit(boolean)
         @isNewUnit = boolean
     end
@@ -108,7 +112,7 @@ class SelfCheck
 			add_assessment_to_file(selfcheckSet.to_s)
 		end
 	end
-        
+
     def parse_examData(file)
 		doc = File.open(file) { |f| Nokogiri::HTML(f) }
 		examSet = doc.xpath("//div[@class = 'examFullWidth']")
@@ -122,19 +126,19 @@ class SelfCheck
 			add_exam_to_file(examSet.to_s)
 		end
 	end
-        
+
 
     def createAssessmentDataFile(fileName, type)
 		i = 0
 		if not(File.exist?(fileName))
 			File.new(fileName, "w")
 		end
-		linesList =  rio(@currFile).lines[0..15] 
+		linesList =  rio(@currFile).lines[0..15]
 		while (linesList[i].match(/<body>/) == nil)
 			if linesList[i].match(/<title>/)
 				if @language == "en"
 					File.write(fileName, "<title>Unit #{@currUnitNum} #{type} Questions</title>\n", mode: "a")
-				else 
+				else
 					if type == "Self-Check"
 						translatedType = "Preguntas de Autocomprobacion"
 					else
@@ -177,8 +181,8 @@ class SelfCheck
 		else
 			createAssessmentDataFile(filename, type)
 			File.write(filename, data, mode: "a")
-		end	
-	end	
+		end
+	end
 
 
     def add_unit_to_header()

@@ -23,6 +23,10 @@ class Vocab
     @boxNum = 0
   end
 
+	def language_ext
+		@language_ext ||= @language == 'en' ? '' : ".#{@language}"
+	end
+
 	def doIndex()
 		@index.vocabDict(@vocabDict)
 		@index.vocabList(@vocabList)
@@ -42,7 +46,6 @@ class Vocab
 		return temp.to_s
 	end
 
-
 	def selfcheck()
 		#@selfcheck
 	end
@@ -55,11 +58,9 @@ class Vocab
 		@currFile = file
 	end
 
-
 	def currFile(file)
 		@currFile = file
 	end
-
 
 	def isNewUnit(boolean)
 		@isNewUnit = boolean
@@ -75,6 +76,7 @@ class Vocab
 
   def currLab
     return if @currUnit.nil?
+	end
 
 	def vocabFileName(name)
 		@vocabFileName = name
@@ -98,7 +100,7 @@ class Vocab
 			isNewUnit(true)
 			parse_unit(file)
 			parse_vocab(file)
-			puts "Completed:  #{@currUnit}"
+			puts "Completed: #{@currUnit}"
 		end
 	end
 

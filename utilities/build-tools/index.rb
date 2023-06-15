@@ -15,6 +15,10 @@ class Index
         @vocabDict = {}
     end
 
+    def language_ext
+		@language_ext ||= @language == 'en' ? '' : ".#{@language}"
+	end
+
     def vocabList(list)
         @vocabList = list
     end

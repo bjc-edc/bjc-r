@@ -13,7 +13,7 @@ class Main
 		raise "`topic_dir` should NOT include \"bjc-r/\" folder" if topic_dir.match(/bjc-r\/$/)
 
 		@rootDir = root
-		@parentDir = "#{@rootDir}/cur/#{cur_dir}/"
+		@parentDir = "#{@rootDir}/#{cur_dir}/"
 		@topicFolder = "#{@rootDir}/topic/#{topic_dir}/"
 		@language = language
 		@currUnit = nil
@@ -25,6 +25,10 @@ class Main
 		@selfcheck = SelfCheck.new(@parentDir, language)
 		@atwork = AtWork.new(@parentDir, language)
 		@testingFolder = true
+	end
+
+	def language_ext
+		@language_ext ||= @language == 'en' ? '' : ".#{@language}"
 	end
 
 	def testingFolder(bool)
