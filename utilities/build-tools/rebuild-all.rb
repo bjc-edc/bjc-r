@@ -11,8 +11,10 @@ path = ENV['PWD']
 path = path.sub(/#{ROOT}\/.*$/, ROOT)
 puts "Rebuilding all index/summaries from: #{path}"
 
-en_Runner = Main.new(root: path, cur_dir: "cur/programming", topic_dir: "nyc_bjc", language: "en")
-en_Runner.Main
+en_runner = Main.new(root: path, cur_dir: "cur/programming", topic_dir: "nyc_bjc", language: "en")
+en_runner.skip_test_prompt = true
+en_runner.Main
 
-es_Runner = Main.new(root: path, cur_dir: "cur/programming", topic_dir: "nyc_bjc", language: "es")
-es_Runner.Main
+es_runner = Main.new(root: path, cur_dir: "cur/programming", topic_dir: "nyc_bjc", language: "es")
+es_runner.skip_test_prompt = true
+es_runner.Main

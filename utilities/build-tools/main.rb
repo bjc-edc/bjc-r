@@ -9,6 +9,8 @@ VALID_LANGUAGES = ['en', 'es', 'de']
 TEMP_FOLDER = 'summaries~'
 
 class Main
+	attr_accessor :skip_test_prompt
+
 	def initialize(root: '', cur_dir: 'programming', topic_dir: 'nyc_bjc', language: 'en')
 		raise "`root` must end with \"bjc-r\" folder" unless root.match(/bjc-r\/?$/)
 		raise "`cur_dir` should NOT include \"bjc-r/\" folder" if cur_dir.match(/bjc-r\/$/)
@@ -70,6 +72,10 @@ class Main
 	end
 
 	def testingFolderPrompt()
+		if @skip_test_prompt
+      testingFolder(false)
+      return
+    end
 		prompt = "> "
 		puts "Would you like to have a consolidated review folder (for testing purposes)? \n Type Y/N"
 		print prompt
