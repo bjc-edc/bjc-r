@@ -13,6 +13,7 @@ class SelfCheck
     @currUnitName = nil
     @examFileName = nil
     @language = language
+    @language_ext = language == 'en' ? '' : ".#{@language}"
   end
 
   def isNewUnit(boolean)

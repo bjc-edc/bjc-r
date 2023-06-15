@@ -187,8 +187,8 @@ class AtWork
 	end
 
     def moveFile()
-        src = "#{@parentDir}/review/atwork.#{@language}.html"
-        dst = "#{@parentDir}/atwork.#{@language}.html"
+        src = "#{@parentDir}/review/atwork#{@language_ext}.html"
+        dst = "#{@parentDir}/atwork#{@language_ext}.html"
         if File.exist?(dst)
             File.delete(dst)
         end

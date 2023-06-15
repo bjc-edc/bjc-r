@@ -9,6 +9,7 @@ class Vocab
   def initialize(path, language = 'en')
     @parentDir = path
     @language = language
+    @language_ext = language == 'en' ? '' : ".#{@language}"
     @currUnit = nil
     @currFile = nil
     @isNewUnit = true

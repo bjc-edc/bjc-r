@@ -21,7 +21,7 @@ class Main
     @parentDir = "#{@rootDir}/#{content}/"
     @topicFolder = "#{@rootDir}/topic/#{topic_dir}/"
     @language = language
-    @language_ext = language == 'en' ? '' : ".#{language}"
+    @language_ext = language == 'en' ? '' : ".#{@language}"
     @currUnit = nil
     @unitNum = ''
     @classStr = ''
@@ -135,6 +135,7 @@ class Main
   def parse_allTopicPages(_folder)
     Dir.chdir(@topicFolder)
     filesList = list_files('.topic')
+    filesList.sort!
     filesList.each do |file|
       parse_rawTopicPage(file) if isTopicPageFile(file) and fileLanguage(file) == @language
     end
