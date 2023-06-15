@@ -3,10 +3,11 @@ require 'rio'
 require 'nokogiri'
 
 class AtWork
-	
+
 	def initialize(path, language="en")
 		@parentDir = path
 		@language = language
+		@language_ext = language == 'en' ? '' : ".#{language}"
 		@currUnit = nil
 		@currFile = nil
 		@isNewUnit = true
@@ -81,7 +82,7 @@ class AtWork
 			currUnit(newStr.join)
 			currUnitNum(@currUnit.match(/\d+/).to_s)
 			unit()
-			atworkFileName("atwork.#{@language}.html")
+			atworkFileName("atwork#{@language_ext}.html")
 			isNewUnit(false)
 		end
 	end
@@ -119,7 +120,7 @@ class AtWork
 
 	def add_content_to_file(filename, data)
         currentDir = Dir.getwd()
-        linesList =  rio(@currFile).lines[0..15] 
+        linesList =  rio(@currFile).lines[0..15]
         puts currentDir
         puts @parentDir
 		Dir.chdir("#{@parentDir}/review")
@@ -133,8 +134,8 @@ class AtWork
 			createNewFile(filename, linesList)
 			File.write(filename, data, mode: "a")
 		end
-        FileUtils.cd(currentDir)	
-	end	
+        FileUtils.cd(currentDir)
+	end
 
 	def parse_atWork(file)
 		doc = File.open(file) { |f| Nokogiri::HTML(f) }
@@ -146,7 +147,7 @@ class AtWork
         if not(atWorkSet.empty?())
 			add_to_file(atWorkSet.to_s)
 		end
-		
+
 	end
 
 	def add_unit_to_atwork()

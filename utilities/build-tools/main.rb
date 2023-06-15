@@ -21,7 +21,7 @@ class Main
     @parentDir = "#{@rootDir}/#{content}/"
     @topicFolder = "#{@rootDir}/topic/#{topic_dir}/"
     @language = language
-    @language_ext = language == 'en' ? '' : '.#'
+    @language_ext = language == 'en' ? '' : ".#{language}"
     @currUnit = nil
     @unitNum = ''
     @classStr = ''
