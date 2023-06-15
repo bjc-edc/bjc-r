@@ -6,21 +6,22 @@ require_relative 'index'
 require_relative 'selfcheck'
 
 class Vocab
-	def initialize(path, language="en")
-		@parentDir = path
-		@language = language
-		@currUnit = nil
-		@currFile = nil
-		@isNewUnit = true
-		@currUnitNum = 0
-		@currLab = ''
-		@vocabFileName = ''
-		@vocabList = []
-		@vocabDict = {}
-		@labPath = ''
-		@currUnitName = nil
-		@index = Index.new(@parentDir, @language)
-	end
+  def initialize(path, language = 'en')
+    @parentDir = path
+    @language = language
+    @currUnit = nil
+    @currFile = nil
+    @isNewUnit = true
+    @currUnitNum = 0
+    @currLab = ''
+    @vocabFileName = ''
+    @vocabList = []
+    @vocabDict = {}
+    @labPath = ''
+    @currUnitName = nil
+    @index = Index.new(@parentDir, @language)
+    @boxNum = 0
+  end
 
 	def doIndex()
 		@index.vocabDict(@vocabDict)
@@ -68,6 +69,13 @@ class Vocab
 		@currUnitNum = num
 	end
 
+  def boxNum(num)
+    @boxNum = num
+  end
+
+  def currLab
+    return if @currUnit.nil?
+
 	def vocabFileName(name)
 		@vocabFileName = name
 	end
@@ -84,7 +92,6 @@ class Vocab
 		end
 	end
 
-
 	def read_file(file)
 		if File.exist?(file)
 			currFile(file)
@@ -94,7 +101,6 @@ class Vocab
 			puts "Completed:  #{@currUnit}"
 		end
 	end
-
 
 	def parse_unit(file)
 		doc = File.open(file) { |f| Nokogiri::HTML(f) }
@@ -109,6 +115,7 @@ class Vocab
 			currUnitNum(@currUnit.match(/\d+/).to_s)
 			unit()
 			vocabFileName("vocab#{@currUnitNum}.#{@language}.html")
+			boxNum(0)
 			isNewUnit(false)
 		end
 	end
@@ -330,8 +337,8 @@ class Vocab
 
 	def add_vocab_unit_to_header()
 		unitNum = return_vocab_unit(@currUnit)
-		link = " <a href=\"#{get_url(@currFile)}\">#{unitNum}</a>"
-		return link
+		"<a href=\"#{get_url(@currFile)}\">#{unitNum}</a>
+		<a name=\"box#{@boxNum}\" class=\"anchor\">&nbsp;</a>"
 		#if lst.size > 1
 		#	unitSeriesNum = lst.join(" #{withlink}:")
 		#else
