@@ -20,6 +20,7 @@ class Vocab
     @labPath = ''
     @currUnitName = nil
     @index = Index.new(@parentDir, @language)
+    @boxNum = 0
   end
 
   def doIndex
@@ -73,6 +74,10 @@ class Vocab
     @vocabFileName
   end
 
+  def boxNum(num)
+    @boxNum = num
+  end
+
   def currLab
     return if @currUnit.nil?
 
@@ -104,6 +109,7 @@ class Vocab
       currUnitNum(@currUnit.match(/\d+/).to_s)
       # unit
       vocabFileName("vocab#{@currUnitNum}#{@language_ext}.html")
+      boxNum(0)
       isNewUnit(false)
     end
   end
@@ -323,7 +329,8 @@ class Vocab
 
   def add_vocab_unit_to_header
     unitNum = return_vocab_unit(@currUnit)
-    " <a href=\"#{get_url(@currFile)}\">#{unitNum}</a>"
+    " <a href=\"#{get_url(@currFile)}\">#{unitNum}</a>
+      <a name=\"box#{@boxNum}\" class=\"anchor\">&nbsp;</a>"
 
     # if lst.size > 1
     #	unitSeriesNum = lst.join(" #{withlink}:")
