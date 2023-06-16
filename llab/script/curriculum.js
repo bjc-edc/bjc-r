@@ -491,7 +491,7 @@ llab.createTitleNav = function() {
   let logoURL = '/bjc-r/img/header-footer/bjc-logo-sm2.png';
   if (llab.getQueryParameter('course')) {
     navDestination = `/bjc-r/course/${llab.getQueryParameter('course')}`;
-  } else if (location.pathname.indexOf('/bjc-r/course/')) {
+  } else if (location.pathname.indexOf('/bjc-r/course/') == 0) {
     navDestination = location.pathname;
   }
 
@@ -737,6 +737,7 @@ llab.addFooter = function() {
 }
 
 // Show a link 'switch to espanol' or 'switch to english' depending on the current language
+// TODO: Move this to a dropdown menu in the navbar with a globe icon
 llab.addTransitionLinks = function() {
   if (!llab.canShowDevComments()) {
     return;
