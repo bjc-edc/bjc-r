@@ -84,24 +84,26 @@ MC.prototype.getChoiceByIdentifier = function(identifier) {
     return null;
 };
 
-MC.prototype.displayNumberAttempts = function(part1, part2, states) {
-    var nextAttemptNum = states.length + 1;
-    var nextAttemptString = "";
-    // TODO: Make this switch / case and refactor to a function (for clarity)
-    if (llab.pageLang() != 'en') {
-        nextAttemptString = nextAttemptNum.toString();
-    } else if (Math.floor(nextAttemptNum / 10) == 1) {
-        nextAttemptString = nextAttemptNum + "th";
-    } else if (nextAttemptNum % 10 == 1) {
-        nextAttemptString = nextAttemptNum + "st";
-    } else if (nextAttemptNum % 10 == 2) {
-        nextAttemptString = nextAttemptNum + "nd";
-    } else if (nextAttemptNum % 10 == 3) {
-        nextAttemptString = nextAttemptNum + "rd";
+llab.numToOrdinal = (number) => {
+    if (Math.floor(number / 10) == 1) {
+        return `${number}th`;
+    } else if (number % 10 == 1) {
+        return `${number}st`;
+    } else if (number % 10 == 2) {
+        return `${number}nd`;
+    } else if (number % 10 == 3) {
+        return `${number}rd`;
     } else {
-        nextAttemptString = nextAttemptNum + "th";
+        return `${number}th`;
     }
-    this.multipleChoice.find('.numberAttemptsDiv').html(part1 + " " + nextAttemptString + " " + part2 + ".");
+}
+
+MC.prototype.displayNumberAttempts = function(states) {
+    let count = states.length + 1, t = llab.t;
+    this.multipleChoice.find('.numberAttemptsDiv').html(t(
+        'attemptMessage',
+        { number: count, ordinal: llab.numToOrdinal(count) }
+    ));
 };
 
 MC.prototype.tryAgain = function(e) {
@@ -120,11 +122,10 @@ MC.prototype.tryAgain = function(e) {
  * pieces from the data model (that the author makes) into the template
  */
 MC.prototype.render = function() {
-    let t = llab.translate;
-    var i, type, choiceHTML, question_id;
+    let t = llab.translate,
+        type = 'radio';
+    var i, choiceHTML, choice_id, optId;
     if (!this.previouslyRendered) {
-        //$('.MultipleChoice').html(pageTemplate);
-
         /* set the question type title */
         this.multipleChoice.find('.questionType').html(t('selfCheckTitle'));
     }
@@ -147,31 +148,27 @@ MC.prototype.render = function() {
         this.choices.shuffle();
     }
 
-    /* set variable whether this multiplechoice should be rendered with radio buttons or checkboxes */
-    if (this.properties.maxChoices == 1) {
-        type = 'radio';
-    } else {
+    if (this.properties.maxChoices != 1) {
         type = 'checkbox';
     }
 
-    /* render the choices */
     for (i = 0; i < this.choices.length; i++) {
-        question_id = this.removeSpace(this.choices[i].identifier);
+        optId = this.choices[i].identifier;
+        choice_id = `q-${this.num}-${this.removeSpace(optId)}`;
         choiceHTML = `
         <table><tbody>
             <tr class="table-middle">
                 <td class="table-middle">
                     <input type="${type}" class="${type}" name="radiobutton"
-                    id="${question_id}" value="${question_id}" />
+                    id="${choice_id}" value="${this.removeSpace(optId)}" />
                 </td>
                 <td class="table-middle">
-                    <label id="choicetext:${question_id}" for="${question_id}">
+                    <label id="choicetext-${choice_id}" for="${choice_id}">
                         ${this.choices[i].text}
                     </label>
                 </td>
                 <td class="table-middle">
-                    <div id="feedback_${question_id}" name="feedbacks">
-                    </div>
+                    <div id="feedback_${choice_id}" name="feedbacks"></div>
                 </td>
             </tr>
         </tbody></table>`;
@@ -179,13 +176,11 @@ MC.prototype.render = function() {
         this.multipleChoice.find('.radiobuttondiv').append(choiceHTML);
 
         // TODO -- explain this...
-        $(`#${question_id}`).bind('click', {
-            myQuestion: this
-        }, function(args) {
+        $(`#${choice_id}`).bind('click', { myQuestion: this }, function(args) {
             args.data.myQuestion.enableCheckAnswerButton('true');
         });
-        if (this.selectedInSavedState(this.choices[i].identifier)) {
-            $(`#${question_id}`).attr('checked', true);
+        if (this.selectedInSavedState(optId)) {
+            $(`#${choice_id}`).attr('checked', true);
         }
 
         this.multipleChoice.find(".checkAnswerButton").bind('click', {
@@ -202,7 +197,7 @@ MC.prototype.render = function() {
     }
 
     this.multipleChoice.find('.tryAgainButton').addClass('disabled');
-    this.enableCheckAnswerButton('true'); // ? Why not pass a boolean?
+    this.enableCheckAnswerButton('true');
     this.clearFeedbackDiv();
 
     if (this.correctResponse.length < 1) {
@@ -212,7 +207,7 @@ MC.prototype.render = function() {
         this.multipleChoice.find(".checkAnswerButton").innerHTML = t("Save Answer");
         this.multipleChoice.find(".tryAgainButton").innerHTML = t("Edit Answer");
     } else {
-        this.displayNumberAttempts(t("This is your"), t("attempt"), this.attempts);
+        this.displayNumberAttempts( this.attempts);
     };
 
     if (this.states.length > 0) {
@@ -224,9 +219,9 @@ MC.prototype.render = function() {
         if (latestState.isCorrect) {
             this.multipleChoice.find('.tryAgainButton').addClass('disabled');
         }
-
     }
-    //turn this flag on so that the step does not shuffle again during this visit
+
+    // flag so that the we do not shuffle again during this visit
     this.previouslyRendered = true;
     this.interaction.remove();
     //this.node.view.eventManager.fire('contentRenderComplete', this.node.id, this.node);
@@ -235,9 +230,7 @@ MC.prototype.render = function() {
 /**
  * Determine if challenge question is enabled
  */
-MC.prototype.isChallengeEnabled = function() {
-    return false;
-};
+MC.prototype.isChallengeEnabled = () => false;
 
 /**
  * Determine if scoring is enabled
@@ -247,8 +240,6 @@ MC.prototype.isChallengeScoringEnabled = function() {
 
     if (this.properties.attempts != null) {
         var scores = this.properties.attempts.scores;
-
-        //check if there are scores
         result = challengeScoringEnabled(scores);
     }
 
@@ -277,17 +268,6 @@ MC.prototype.selectedInSavedState = function(choiceId) {
 };
 
 /**
- * If prototype 'shuffle' for array is not found, create it
- * TODO: Move this to a generic place for LLAB (library?)
- */
-if (!Array.shuffle) {
-    Array.prototype.shuffle = function() {
-        var rnd, tmp, i;
-        for (i = this.length; i; rnd = parseInt(Math.random() * i), tmp = this[--i], this[i] = this[rnd], this[rnd] = tmp) {}
-    };
-}
-
-/**
  * Returns true if the choice with the given id is correct, false otherwise.
  */
 MC.prototype.isCorrect = function(id) {
@@ -310,7 +290,6 @@ MC.prototype.isCorrect = function(id) {
  * Checks Answer and updates display with correctness and feedback
  * Disables "Check Answer" button and enables "Try Again" button
  */
-// FIXME --- CACHE THE $ SELECTORS!!
 MC.prototype.checkAnswer = function() {
     if (this.multipleChoice.find('.checkAnswerButton').hasClass('disabled')) {
         return;
@@ -323,39 +302,31 @@ MC.prototype.checkAnswer = function() {
     var inputbuttons = this.multipleChoice.find('.radiobuttondiv')[0].getElementsByTagName('input');
     var mcState = {};
     var isCorrect = true;
-    var i, checked, choiceIdentifier, choice;
+    var i, checked, choiceIdentifier, choice, fullId;
 
     this.enableRadioButtons(false);
-    // disable radiobuttons
     this.multipleChoice.find('.checkAnswerButton').addClass('disabled');
-    // disable checkAnswerButton
     this.multipleChoice.find('.tryAgainButton').removeClass('disabled');
-    // show try again button
     for (i = 0; i < inputbuttons.length; i++) {
         checked = inputbuttons[i].checked;
-        choiceIdentifier = inputbuttons[i].getAttribute('id');
+        choiceIdentifier = inputbuttons[i].getAttribute('value');
+        fullId = inputbuttons[i].getAttribute('id')
         // identifier of the choice that was selected
         // use the identifier to get the correctness and feedback
         choice = this.getChoiceByIdentifier(choiceIdentifier);
         if (checked) {
             if (choice) {
-                this.multipleChoice.find('#feedback_' + choiceIdentifier).html(choice.feedback);
-
-                var choiceTextDiv = this.multipleChoice.find(".choicetext:" + choiceIdentifier);
+                this.multipleChoice.find('#feedback_' + fullId).html(choice.feedback);
+                var choiceTextDiv = this.multipleChoice.find("#choicetext-" + fullId);
                 if (this.isCorrect(choice.identifier)) {
                     choiceTextDiv.attr("class", "correct");
                 } else {
                     choiceTextDiv.attr("class", "incorrect");
                     isCorrect = false;
                 }
-
                 mcState.identifier = choice.identifier;
-
-                //add the human readable value of the choice chosen
                 mcState.text = choice.text;
             } else {
-                // FIXME -- we shouldn't do this
-                // However if critical we should track the events
                 alert('error retrieving choice by choiceIdentifier');
             }
         } else {
@@ -371,17 +342,15 @@ MC.prototype.checkAnswer = function() {
     outerdiv.removeClass('panel-primary');
     outerdiv.removeClass('panel-success');
     outerdiv.removeClass('panel-danger');
-    if (isCorrect) { //the student answered correctly
+    if (isCorrect) {
         outerdiv.addClass('panel-success');
-        //get the congratulations message and display it
         this.multipleChoice.find('.resultMessageDiv').html(this.getResultMessage(isCorrect));
-        // disable checkAnswerButton
         this.multipleChoice.find('.checkAnswerButton').addClass('disabled');
     } else {
         outerdiv.addClass('panel-danger');
     }
 
-    //push the state object into this mc object's own copy of states
+    // push the state object into this mc object's own copy of states
     this.states.push(mcState);
     return false;
 };
@@ -404,12 +373,10 @@ MC.prototype.enforceMaxChoices = function(inputs) {
 
         if (countChecked > maxChoices) {
             //this.node.view.notificationManager.notify('You have selected too many. Please select only ' + maxChoices + ' choices.',3);
-            //maxChoices = 3;
             alert('You have selected too many. Please select only ' + maxChoices + ' choices.');
             return false;
         } else if (countChecked < maxChoices) {
             //this.node.view.notificationManager.notify('You have not selected enough. Please select ' + maxChoices + ' choices.',3);
-            //maxChoices = 3;
             alert('You have not selected enough. Please select ' + maxChoices + ' choices.');
             return false;
         }
@@ -432,7 +399,6 @@ MC.prototype.getResultMessage = function(isCorrect) {
     if (isCorrect) {
         return t("successMessage");
     }
-
     return '';
 };
 
@@ -487,12 +453,8 @@ MC.prototype.clearFeedbackDiv = function() {
     }
 };
 
-MC.prototype.postRender = function() {
-    //  var thetitle = document.title;
-};
+MC.prototype.postRender = function() {};
 
-
-// BEAUTIOUS
 MC.prototype.getTemplate = function() {
     let t = llab.translate;
     return `
@@ -529,6 +491,14 @@ MC.prototype.getTemplate = function() {
 };
 
 
+/**
+ * If prototype 'shuffle' for array is not found, create it
+ */
+if (!Array.shuffle) {
+    Array.prototype.shuffle = function() {
+        var rnd, tmp, i;
+        for (i = this.length; i; rnd = parseInt(Math.random() * i), tmp = this[--i], this[i] = this[rnd], this[rnd] = tmp) {}
+    };
+}
 
-// file is loaded, baby
 llab.loaded['multiplechoice'] = true;

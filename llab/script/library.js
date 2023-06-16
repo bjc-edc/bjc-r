@@ -45,21 +45,51 @@ llab.getSnapRunURL = function(targeturl, options) {
     return `${snapURL}${origin}${targeturl}`;
 };
 
+llab.pageLang = () => {
+    if (llab.CURRENT_PAGE_LANG) {
+        return llab.CURRENT_PAGE_LANG;
+    }
+
+    let pageLanguage = $("html").attr('lang');
+    if (!pageLanguage) {
+      let altLang = location.pathname.match(/(\.\w\w).html/);
+      if (altLang) {
+        pageLanguage = altLang;
+      }
+    }
+    llab.CURRENT_PAGE_LANG = pageLanguage || 'en';
+    return llab.CURRENT_PAGE_LANG;
+}
+
+// very loosely mirror the Rails API
+llab.translate = (key, replacements, lang) => {
+    replacements ||= {};
+    lang ||= llab.pageLang();
+    let dictionary = llab.TRANSLATIONS[key];
+    if (!dictionary) { return key; }
+    let result = dictionary[lang];
+    if (result !== '' && !result) {
+      result = dictionary['en'] || key;
+    }
+    if (Array.isArray(replacements)) {
+      replacements = Object.assign({}, replacements);
+    }
+    Object.keys(replacements).forEach((key) => {
+      result = result.replaceAll(`%${key}`, replacements[key]);
+    })
+    return result;
+};
+llab.t = llab.translate;
+
 llab.toggleDevComments = function() {
     $(".todo, .comment, .commentBig").toggle();
 };
-
-llab.hideAllDevComments = function() {
-    $('.todo, .comment, .commentBig').hide();
-}
 
 llab.showAllDevComments = function() {
     $('.todo, .comment, .commentBig').show();
 }
 
-llab.canShowDevComments = function() {
-    return ['localhost', '127.0.0.1'].includes(window.location.hostname);
-}
+llab.canShowDevComments = llab.isLocalEnvironment;
 
 llab.setUpDevComments = function() {
     if (llab.canShowDevComments()) {
@@ -288,12 +318,10 @@ llab.eraseCookie = function(name) {
     createCookie(name,"",-1);
 }
 
-
 llab.spanTag = function(content, className) {
     return '<span class="' + className + '">' + content + '</span>'
 }
 
-// Cool array level operations
 // TODO: Replace with native JS some/every.
 llab.any = function(A) {
     return A.reduce(function(x, y) {return x || y });
