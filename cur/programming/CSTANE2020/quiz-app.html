@@ -1,168 +1,259 @@
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
 <html lang="en">
-    <head>
-        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-        <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
-        <script type="text/javascript" src="/bjc-r/utilities/gifffer.min.js"></script>
-        <script type="text/javascript">window.onload = function() {Gifffer();}</script>
-        <link rel="stylesheet" type="text/css" href="/bjc-r/css/bjc-gifffer.css">
-        <title>Unit 2 Lab 2: Making Lists, Abridged Versions of Pages 2-3</title>
-    </head> 
+<head>
+  <meta name="generator" content=
+  "HTML Tidy for Mac OS X (vers 31 October 2006 - Apple Inc. build 10443), see www.w3.org">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <script type="text/javascript" src="/bjc-r/llab/loader.js">
+</script>
+  <script type="text/javascript" src="/bjc-r/utilities/gifffer.min.js">
+</script>
+  <script type="text/javascript">
+window.onload = function() {Gifffer();}
+  </script>
+  <link rel="stylesheet" type="text/css" href="/bjc-r/css/bjc-gifffer.css">
 
-	<body>
-        <h2>Building a Quiz App</h2>
-        <div class="endnote">Please note, this is a adaptation of the student-facing pages and was designed for use in a brief conference session. The complete student-facing version is available on bjc.edc.org: <a href="https://bjc.edc.org/bjc-r/cur/programming/2-complexity/2-data-structures-art/2-quizzes.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 2 Lab 2 Page 2: Planning a Quiz App" target="_blank">Unit 2 Lab 2 Page 2: Planning a Quiz App</a> and <a href="https://bjc.edc.org/bjc-r/cur/programming/2-complexity/2-data-structures-art/3-traversing-list.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 2 Lab 2 Page 3: Checking Each Quiz Answer" target="_blank">Unit 2 Lab 2 Page 3: Checking Each Quiz Answer</a>.</div>
+  <title>Unit 2 Lab 2: Making Lists, Abridged Versions of Pages 2-3</title>
+</head>
 
-        <div class="learn">
-            <p><strong>On this page,</strong> you will develop a quiz app by creating an <em>abstract data type</em> to pair the questions with their answers and by using a new block that loops through a list:<br />
-                <img class="indent" src="/bjc-r/img/2-complexity/for-each-(item)-of().png" height="68" alt="for-each-(item)-of(){}" title="for-each-(item)-of(){}">
-            </p>
+<body>
+  <h2>Building a Quiz App</h2>
+
+  <div class="endnote">
+    Please note, this is a adaptation of the student-facing pages and was designed for use in a brief conference
+    session. The complete student-facing version is available on bjc.edc.org: <a href=
+    "https://bjc.edc.org/bjc-r/cur/programming/2-complexity/2-data-structures-art/2-quizzes.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&amp;course=bjc4nyc.html&amp;novideo&amp;noassignment"
+    title="Unit 2 Lab 2 Page 2: Planning a Quiz App" target="_blank">Unit 2 Lab 2 Page 2: Planning a Quiz App</a> and
+    <a href=
+    "https://bjc.edc.org/bjc-r/cur/programming/2-complexity/2-data-structures-art/3-traversing-list.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&amp;course=bjc4nyc.html&amp;novideo&amp;noassignment"
+    title="Unit 2 Lab 2 Page 3: Checking Each Quiz Answer" target="_blank">Unit 2 Lab 2 Page 3: Checking Each Quiz
+    Answer</a>.
+  </div>
+
+  <div class="learn">
+    <p><strong>On this page,</strong> you will develop a quiz app by creating an <em>abstract data type</em> to pair
+    the questions with their answers and by using a new block that loops through a list:<br>
+    <img class="indent" src="/bjc-r/img/2-complexity/for-each-(item)-of().png" height="68" alt="for-each-(item)-of(){}"
+    title="for-each-(item)-of(){}"></p>
+  </div>
+
+  <div class="vocab">
+    : <strong>Sublist</strong>
+
+    <p>A <strong>sublist</strong> is a list as an item of another list.</p>
+  </div>You'll use a list to store your quiz items in a global variable and use a <em>sublist</em> for each
+  question/answer pair. Then you can choose just one pair at a time to work with. <img class="indent" src=
+  "/bjc-r/img/2-complexity/quiz-questions-list-of-lists.png" alt=
+  "set (computer science quiz) to (list (list (What is the computer science term for looping or repetition?) (iteration)) (list (What is the name for the abstraction in a program that can hold a value?) (variable)) (list (What kind of variable is available only in the part of the program where it is defined?) (local variable)))"
+  title=
+  "set (computer science quiz) to (list (list (What is the computer science term for looping or repetition?) (iteration)) (list (What is the name for the abstraction in a program that can hold a value?) (variable)) (list (What kind of variable is available only in the part of the program where it is defined?) (local variable)))">
+   <img class="indent" src="/bjc-r/img/2-complexity/item-of-item-of-script.png" alt=
+  "ask (item(1) of (item (3) of (computer science quiz))) and wait if (item (2) of (item (3) of (computer science quiz)) = answer) { say (That's correct!) for (2) secs }"
+  title=
+  "ask (item(1) of (item (3) of (computer science quiz))) and wait if (item (2) of (item (3) of (computer science quiz)) = answer) { say (That's correct!) for (2) secs }">
+
+  <div class="comment">
+    AAP.1.D.2, AAP.1.D.3, AAP.1.D.4
+  </div>
+
+  <p>But code like <img class="inline" src="/bjc-r/img/2-complexity/item-1-of-item-3-of.png" alt=
+  "item (1) of (item (3) of (computer science quiz))" title="item (1) of (item (3) of (computer science quiz))"> is
+  hard to read and understand. A better way is to <em>use abstraction</em> to organize the quiz items. The abstraction
+  just hides the <code>list</code> and <code>item of</code> blocks, so it isn't complicated to build, but it can make
+  your code much easier to write, read, and debug.<br>
+  <img class="indent" src="/bjc-r/img/2-complexity/quiz-questions-list-of-adts.png" alt=
+  "set (computer science quiz) to (list (question: (What is the computer science term for looping or repetition?) answer: (iteration)) (question: (What is the name for the abstraction in a program that can hold a value?) answer: (variable)) (question: (What kind of variable is available only in the part of the program where it is defined?) answer: (local variable)))"
+  title=
+  "set (computer science quiz) to (list (question: (What is the computer science term for looping or repetition?) answer: (iteration)) (question: (What is the name for the abstraction in a program that can hold a value?) answer: (variable)) (question: (What kind of variable is available only in the part of the program where it is defined?) answer: (local variable)))">
+   <img class="indent" src="/bjc-r/img/2-complexity/abstracted-quiz-script.png" alt=
+  "ask (question of quiz item (item (3) of (computer science quiz))) and wait if (answer from quiz item (item (3) of (computer science quiz)) = answer) { say (That's correct!) for (2) secs }"
+  title=
+  "ask (question of quiz item (item (3) of (computer science quiz))) and wait if (answer from quiz item (item (3) of (computer science quiz)) = answer) { say (That's correct!) for (2) secs }"></p>
+
+  <div class="vocabFullWidth">
+    <ul>
+      <li>A <strong>data type</strong> is what kind of data something is (number, text string, list, etc.). For
+      example, <em>number</em> is the data type for the first input to <img src="/bjc-r/img/blocks/item.png" height=
+      "35" alt="item (1) of ()" title="item (1) of ()"> and <em>list</em> is the the data type for its second
+      input.</li>
+
+      <li>An <strong>abstract data type</strong> (or <strong>ADT</strong>) is a custom data type that's meaningful to
+      your program. It's not built into the language; you develop it as you code. This is an abstraction because it
+      hides the details inside the constructor and selectors so that the programmer who uses a <code>quiz item</code>
+      has to think only about questions and answers, not about list indices.</li>
+
+      <li>The <img class="inline" src="/bjc-r/img/2-complexity/quiz-item-constructor.png" alt=
+      "quiz item, question: () answer: ()" title="quiz item, question: () answer: ()"> block is the
+      <strong>constructor</strong>; it <em>constructs</em> one example of the data structure. By naming the pieces of
+      the structure, the constructor makes it certain that every time you use it, you build the structure in the right
+      order.<br></li>
+
+      <li>The <img class="inline" src="/bjc-r/img/2-complexity/question-selector.png" alt="question from quiz item: ()"
+      title="question from quiz item: ()"> and <img class="inline" src="/bjc-r/img/2-complexity/answer-selector.png"
+      alt="answer from quiz item: ()" title="answer from quiz item: ()"> blocks are the <strong>selectors</strong>;
+      they each <em>select</em> one piece of the data structure.<br></li>
+    </ul>
+  </div>
+
+  <div class="forYouToDo">
+    <ol start="1">
+      <li>
+        <a href="/bjc-r/prog/CSTA/CSTANE-2020-Quiz-App.xml" class="run">Click here to load a starter project in
+        Snap<em>!</em></a> It contains:
+
+        <ul>
+          <li>A partially written <em>constructor</em> that you will finish</li>
+
+          <li>Two selectors—one already written as an example and one for you to write</li>
+
+          <li>A global variable, <var>computer science quiz</var> to store the quiz items</li>
+
+          <li>A script that sets that global variable to contain a list of quiz items (this script will only work after
+          the constructor and selectors have been built)</li>
+        </ul>
+
+        <div class="endnote">
+          <h4><strong>Yellow Is for Optional Reading</strong></h4>In the full version of this project, students create
+          the constructor, selectors, and global variable themselves, and they write their own quiz questions on a
+          topic of their choosing.
         </div>
-        
-        <p>
-            <div class="vocab">: <strong>Sublist</strong> 
-                <p>A <strong>sublist</strong> is a list as an item of another list.</p>
-            </div>
-            You'll use a list to store your quiz items in a global variable and use a <em>sublist</em> for each question/answer pair. Then you can choose just one pair at a time to work with.
-                <img class="indent" src="/bjc-r/img/2-complexity/quiz-questions-list-of-lists.png" alt="set (computer science quiz) to (list (list (What is the computer science term for looping or repetition?) (iteration)) (list (What is the name for the abstraction in a program that can hold a value?) (variable)) (list (What kind of variable is available only in the part of the program where it is defined?) (local variable)))" title="set (computer science quiz) to (list (list (What is the computer science term for looping or repetition?) (iteration)) (list (What is the name for the abstraction in a program that can hold a value?) (variable)) (list (What kind of variable is available only in the part of the program where it is defined?) (local variable)))">
-                <img class="indent" src="/bjc-r/img/2-complexity/item-of-item-of-script.png" alt="ask (item(1) of (item (3) of (computer science quiz))) and wait
-if (item (2) of (item (3) of (computer science quiz)) = answer) {
-    say (That's correct!) for (2) secs
-}" title="ask (item(1) of (item (3) of (computer science quiz))) and wait
-if (item (2) of (item (3) of (computer science quiz)) = answer) {
-    say (That's correct!) for (2) secs
-}" />
-        </p>
-        <div class="comment">AAP.1.D.2, AAP.1.D.3, AAP.1.D.4</div>
-        <p>
-            But code like <img class="inline" src="/bjc-r/img/2-complexity/item-1-of-item-3-of.png" alt="item (1) of (item (3) of (computer science quiz))" title="item (1) of (item (3) of (computer science quiz))" /> is hard to read and understand. A better way is to <em>use abstraction</em> to organize the quiz items. The abstraction just hides the <code>list</code> and <code>item of</code> blocks, so it isn't complicated to build, but it can make your code much easier to write, read, and debug.<br />
-            <img class="indent" src="/bjc-r/img/2-complexity/quiz-questions-list-of-adts.png" alt="set (computer science quiz) to (list (question: (What is the computer science term for looping or repetition?) answer: (iteration)) (question: (What is the name for the abstraction in a program that can hold a value?) answer: (variable)) (question: (What kind of variable is available only in the part of the program where it is defined?) answer: (local variable)))" title="set (computer science quiz) to (list (question: (What is the computer science term for looping or repetition?) answer: (iteration)) (question: (What is the name for the abstraction in a program that can hold a value?) answer: (variable)) (question: (What kind of variable is available only in the part of the program where it is defined?) answer: (local variable)))">
-            <img class="indent" src="/bjc-r/img/2-complexity/abstracted-quiz-script.png" alt="ask (question of quiz item (item (3) of (computer science quiz))) and wait
-if (answer from quiz item (item (3) of (computer science quiz)) = answer) {
-    say (That's correct!) for (2) secs
-}" title="ask (question of quiz item (item (3) of (computer science quiz))) and wait
-if (answer from quiz item (item (3) of (computer science quiz)) = answer) {
-    say (That's correct!) for (2) secs
-}" />
-        </p>
+      </li>
 
-        <div class="vocabFullWidth">
+      <li>Finish building the custom <code>quiz item</code> abstract data type (both the constructor and the two
+      selectors).<br>
+        <img class="indent" src="/bjc-r/img/2-complexity/quiz-item-constructor.png" alt=
+        "quiz item, question: () answer: ()" title="quiz item, question: () answer: ()"><br>
+        <img class="indent" src="/bjc-r/img/2-complexity/question-selector.png" alt="question from quiz item: ()"
+        title="question from quiz item: ()"> <img class="indent" src="/bjc-r/img/2-complexity/answer-selector.png" alt=
+        "answer from quiz item: ()" title="answer from quiz item: ()">
+
+        <div class="endnote">
+          <a href="#hint-constructor-selector" data-toggle="collapse" title=
+          "Need a hint about building the constructor and selector?">Need a hint?</a>
+
+          <div id="hint-constructor-selector" class="collapse">
             <ul>
-                <li>
-                    A <strong>data type</strong> is what kind of data something is (number, text string, list, etc.). For example, <em>number</em> is the data type for the first input to <img src="/bjc-r/img/blocks/item.png" height="35" alt="item (1) of ()" title="item (1) of ()"> and <em>list</em> is the the data type for its second input.
-                </li>
-                <li>
-                    An <strong>abstract data type</strong> (or <strong>ADT</strong>) is a custom data type that's meaningful to your program. It's not built into the language; you develop it as you code. This is an abstraction because it hides the details inside the constructor and selectors so that the programmer who uses a <code>quiz item</code> has to think only about questions and answers, not about list indices.
-                </li>
-                <li>
-                    The <img class="inline" src="/bjc-r/img/2-complexity/quiz-item-constructor.png" alt="quiz item, question: () answer: ()" title="quiz item, question: () answer: ()" /> block is the <strong>constructor</strong>; it <em>constructs</em> one example of the data structure. By naming the pieces of the structure, the constructor makes it certain that every time you use it, you build the structure in the right order.<br />
-                </li>
-                <li>
-                    The <img class="inline" src="/bjc-r/img/2-complexity/question-selector.png" alt="question from quiz item: ()" title="question from quiz item: ()"/> and <img class="inline" src="/bjc-r/img/2-complexity/answer-selector.png" alt="answer from quiz item: ()" title="answer from quiz item: ()"/> blocks are the <strong>selectors</strong>; they each <em>select</em> one piece of the data structure.<br />
-                </li>
+              <li>The <code>quiz item</code> constructor should report a <em>list</em> containing the
+              <var>question</var> and <var>answer</var>.</li>
+
+              <li>The <code>question from quiz item</code> and <code>answer from quiz item</code> selectors should each
+              report the correct <em>item of</em> the input list.</li>
             </ul>
+          </div>
         </div>
-        
-        <div class="forYouToDo">
-            <ol start="1">
-                <li>
-                    <a href="/bjc-r/prog/CSTA/CSTANE-2020-Quiz-App.xml" class="run">Click here to load a starter project in Snap<em>!</em></a> It contains:
-                    <ul>
-                        <li>A partially written <em>constructor</em> that you will finish</li>
-                        <li>Two selectors&mdash;one already written as an example and one for you to write</li>
-                        <li>A global variable, <var>computer science quiz</var> to store the quiz items</li>
-                        <li>A script that sets that global variable to contain a list of quiz items (this script will only work after the constructor and selectors have been built)</li>
-                    </ul>
-                    <div class="endnote">
-                        <h4><strong>Yellow Is for Optional Reading</strong></h4>
-                        In the full version of this project, students create the constructor, selectors, and global variable themselves, and they write their own quiz questions on a topic of their choosing.
-                    </div>
-                </li>
-                <li>
-                    Finish building the custom <code>quiz item</code> abstract data type (both the constructor and the two selectors).<br />
-                    <img class="indent" src="/bjc-r/img/2-complexity/quiz-item-constructor.png" alt="quiz item, question: () answer: ()" title="quiz item, question: () answer: ()" /><br />
-                    <img class="indent" src="/bjc-r/img/2-complexity/question-selector.png" alt="question from quiz item: ()" title="question from quiz item: ()"/>
-                    <img class="indent" src="/bjc-r/img/2-complexity/answer-selector.png" alt="answer from quiz item: ()" title="answer from quiz item: ()"/>
-                    <div class="endnote">
-                        <a href="#hint-constructor-selector" data-toggle="collapse" title="Need a hint about building the constructor and selector?">Need a hint?</a>
-                        <div id="hint-constructor-selector" class="collapse">
-                            <ul>
-                                <li>The <code>quiz item</code> constructor should report a <em>list</em> containing the <var>question</var> and <var>answer</var>.</li>
-                                <li>The <code>question from quiz item</code> and <code>answer from quiz item</code> selectors should each report the correct <em>item of</em> the input list.</li>
-                            </ul>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    Test your abstract data type (the constructor and both selectors), and debug any problems.
-                    <div class="endnote">
-                        <div class="comment">This might be nice on the student page. --MF, 10/24/20</div>
-                        <ul>
-                            <li>Test the <code>quiz item</code> constructor by typing a question/answer pair into the input slots and then checking that clicking that block makes it report a list containing two items: the question and the answer.</li>
-                            <li>Test each selector (<code>question</code> and <code>answer</code>) by using that constructor with inputs as the input to each selector and making sure that the correct item is selected.</li>
-                        </ul>
-                    </div>
-                </li>
-            </ol>
-        </div>
-        
-        <h3>Checking Each Quiz Answer</h3>
-        <div class="endnote">Assign each character to a volunteer and read through this skit together.</div>
-        <div class="dialogue"> <a name="seta" class="anchor">&nbsp;</a>
-            <div class="stagedir">
-                The students are considering how to use their abstract data type as they develop the code for their project. 
-            </div>
-            <div><span>Alphie:</span> We can use our <img class="" src="/bjc-r/img/2-complexity/question-selector.png" alt="question from quiz item: ()" title="question from quiz item: ()"/> and <img class="" src="/bjc-r/img/2-complexity/answer-selector.png" alt="answer from quiz item: ()" title="answer from quiz item: ()"/> selectors to get the question and answer for quiz item in our list. But how do we get the quiz item <em>out</em> of the list in the first place?</div>
-            <div>
-                <span>Gamal:</span> Maybe we can use <code>item of</code> inside a <code>for</code> loop and use the index from the <code>for</code> loop as the first input to <code>item of</code>, like this:<br />
-                <img class="indent" src="/bjc-r/img/2-complexity/for-with-item-of.png" alt="for (i) = (1) to (4) {
-    ask (question from (item (i) of (computer science quiz))) and wait
-}" title="for (i) = (1) to (4) {
-    ask (question from (item (i) of (computer science quiz))) and wait
-}" />
-            </div>
-            <div>
-                <span>Betsy:</span> Yeah, we could, but that's a little hard to read with that index variable, <var>i</var>, to keep track of. And if we add more questions, we'll have to update that number 4 that tells us when to end the loop. I bet we can use <code>for each</code> to <em>traverse</em> the list.
-            </div>
-            <div class="stagedir">
-                Betsy drags <code>for each</code> into the scripting area.<br />
-                <img src="/bjc-r/img/2-complexity/for-each-(item)-of().png" height="68" alt="for each (item) of 'list input slot' {}" title="for each (item) of 'list input slot' {}">
-            </div>
-            <div>
-                <span>Gamal:</span> We could even rename <var>item</var> something logical like <var>quiz item</var>. Then the code inside will run once for each quiz item in our list.
-            </div>
-        </div>
+      </li>
 
-        <div class="vocabFullWidth">: <strong>Traversing a List</strong>
-            <p><strong>Traversing</strong> a list means looking at each item of the list. <code>For each</code> is iterative. That is, it's repetitive, like <code>for</code>, which can also traverse a list. But unlike <code>for</code>, <code>for each</code> traverses the list <em>without using index numbers</em>.</p>
-        </div>
+      <li>Test your abstract data type (the constructor and both selectors), and debug any problems.
 
-        <div class="forYouToDo">
-            <ol start="5">
-                <li>Use <code>for each</code> to <em>traverse</em> the list stored in the <var>computer science quiz</var> variable: asking each quiz question, checking each answer, and letting the user know if they are right or wrong on each item.</li>
-                <li>Take your quiz a few times as a user would, and work out any problems with the code. Then, give your quiz to a friend.</li>
-            </ol>
-        </div>
-        
-        <div class="endnote">Students can click links like those below to access extension activities.</div>
-        <div class="ifTime">
-            <ol start="7">
-                <li>If the user is wrong, don't just let them know, but tell them the right answer too.</li>
-                <li>Use a script variable to keep track of the player's score and report it at the end of the quiz.</li>
-            </ol>
-        </div>
-		      
-        <div class="takeItFurther">
-            <ol type="A">
-                <li>
-                    Before telling the user the right answer, give them three tries to get it right.
-                </li>
-                <li>
-                    Users might give answers that are close enough but not exactly the answer you expected. For example, someone might answer "What kind of variable is available only in the part of the program where it is defined?" with "a local variable," "local variable," or just "local," or the same possibilities for "script variable." So your <code>question answer</code> ADT could take a <em>list</em> of keywords in the second slot and accept any answer that includes any of the keywords (so in this case, the list would be {local, script} and would accept "a local one"). Use <img class="inline" src="/bjc-r/img/blocks/contains-empty.png" alt="() contains ()" title="() contains ()" /> to adapt your code.
-                </li>
-            </ol>
-        </div>
-            
+        <div class="endnote">
+          <div class="comment">
+            This might be nice on the student page. --MF, 10/24/20
+          </div>
 
-	</body>
+          <ul>
+            <li>Test the <code>quiz item</code> constructor by typing a question/answer pair into the input slots and
+            then checking that clicking that block makes it report a list containing two items: the question and the
+            answer.</li>
+
+            <li>Test each selector (<code>question</code> and <code>answer</code>) by using that constructor with
+            inputs as the input to each selector and making sure that the correct item is selected.</li>
+          </ul>
+        </div>
+      </li>
+    </ol>
+  </div>
+
+  <h3>Checking Each Quiz Answer</h3>
+
+  <div class="endnote">
+    Assign each character to a volunteer and read through this skit together.
+  </div>
+
+  <div class="dialogue">
+    <a name="seta" class="anchor" id="seta">&nbsp;</a>
+
+    <div class="stagedir">
+      The students are considering how to use their abstract data type as they develop the code for their project.
+    </div>
+
+    <div>
+      <span>Alphie:</span> We can use our <img class="" src="/bjc-r/img/2-complexity/question-selector.png" alt=
+      "question from quiz item: ()" title="question from quiz item: ()"> and <img class="" src=
+      "/bjc-r/img/2-complexity/answer-selector.png" alt="answer from quiz item: ()" title="answer from quiz item: ()">
+      selectors to get the question and answer for quiz item in our list. But how do we get the quiz item <em>out</em>
+      of the list in the first place?
+    </div>
+
+    <div>
+      <span>Gamal:</span> Maybe we can use <code>item of</code> inside a <code>for</code> loop and use the index from
+      the <code>for</code> loop as the first input to <code>item of</code>, like this:<br>
+      <img class="indent" src="/bjc-r/img/2-complexity/for-with-item-of.png" alt=
+      "for (i) = (1) to (4) { ask (question from (item (i) of (computer science quiz))) and wait }" title=
+      "for (i) = (1) to (4) { ask (question from (item (i) of (computer science quiz))) and wait }">
+    </div>
+
+    <div>
+      <span>Betsy:</span> Yeah, we could, but that's a little hard to read with that index variable, <var>i</var>, to
+      keep track of. And if we add more questions, we'll have to update that number 4 that tells us when to end the
+      loop. I bet we can use <code>for each</code> to <em>traverse</em> the list.
+    </div>
+
+    <div class="stagedir">
+      Betsy drags <code>for each</code> into the scripting area.<br>
+      <img src="/bjc-r/img/2-complexity/for-each-(item)-of().png" height="68" alt=
+      "for each (item) of 'list input slot' {}" title="for each (item) of 'list input slot' {}">
+    </div>
+
+    <div>
+      <span>Gamal:</span> We could even rename <var>item</var> something logical like <var>quiz item</var>. Then the
+      code inside will run once for each quiz item in our list.
+    </div>
+  </div>
+
+  <div class="vocabFullWidth">
+    : <strong>Traversing a List</strong>
+
+    <p><strong>Traversing</strong> a list means looking at each item of the list. <code>For each</code> is iterative.
+    That is, it's repetitive, like <code>for</code>, which can also traverse a list. But unlike <code>for</code>,
+    <code>for each</code> traverses the list <em>without using index numbers</em>.</p>
+  </div>
+
+  <div class="forYouToDo">
+    <ol start="5">
+      <li>Use <code>for each</code> to <em>traverse</em> the list stored in the <var>computer science quiz</var>
+      variable: asking each quiz question, checking each answer, and letting the user know if they are right or wrong
+      on each item.</li>
+
+      <li>Take your quiz a few times as a user would, and work out any problems with the code. Then, give your quiz to
+      a friend.</li>
+    </ol>
+  </div>
+
+  <div class="endnote">
+    Students can click links like those below to access extension activities.
+  </div>
+
+  <div class="ifTime">
+    <ol start="7">
+      <li>If the user is wrong, don't just let them know, but tell them the right answer too.</li>
+
+      <li>Use a script variable to keep track of the player's score and report it at the end of the quiz.</li>
+    </ol>
+  </div>
+
+  <div class="takeItFurther">
+    <ol type="A">
+      <li>Before telling the user the right answer, give them three tries to get it right.</li>
+
+      <li>Users might give answers that are close enough but not exactly the answer you expected. For example, someone
+      might answer "What kind of variable is available only in the part of the program where it is defined?" with "a
+      local variable," "local variable," or just "local," or the same possibilities for "script variable." So your
+      <code>question answer</code> ADT could take a <em>list</em> of keywords in the second slot and accept any answer
+      that includes any of the keywords (so in this case, the list would be {local, script} and would accept "a local
+      one"). Use <img class="inline" src="/bjc-r/img/blocks/contains-empty.png" alt="() contains ()" title=
+      "() contains ()"> to adapt your code.</li>
+    </ol>
+  </div>
+</body>
 </html>
