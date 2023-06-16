@@ -70,18 +70,8 @@ llab.secondarySetUp = function() {
   // Get the topic file and step from the URL
   llab.file = llab.getQueryParameter("topic");
 
-  // We don't have a topic file, so we should exit.
-  if (llab.file === '' || !llab.isCurriculum()) {
-    return;
-  }
-
   // fix snap links so they run snap
-  $('a.run').each(function(_i) {
-    $(this).attr('target', '_blank');
-    $(this).attr('href', llab.getSnapRunURL(this.getAttribute('href')));
-  });
-
-  $('.js-run').each(function(_i) {
+  $('.js-run, a.run').each(function(_i) {
     $(this).attr('target', '_blank');
     $(this).attr('href', llab.getSnapRunURL(this.getAttribute('href'))); // {version: 'v7'}
   });
@@ -130,6 +120,13 @@ llab.secondarySetUp = function() {
     }
   ]);
 
+  llab.addFeedback(document.title, llab.file, llab.getQueryParameter('course'));
+
+  // We don't have a topic file, so we should exit.
+  if (llab.file === '' || !llab.isCurriculum()) {
+    return;
+  }
+
   $.ajax({
     url: `${llab.topics_path}/${llab.file}`,
     type: "GET",
@@ -144,7 +141,6 @@ llab.secondarySetUp = function() {
     }
   });
 
-  llab.addFeedback(document.title, llab.file, llab.getQueryParameter('course'));
 }; // close secondarysetup();
 
 
