@@ -1,4 +1,5 @@
 #! /usr/bin/env ruby
+# frozen_string_literal: true
 
 ## This script will rebuild *all* index/summary pages in bjc-r/
 ## Run from the **root** of bjc-r/
@@ -6,21 +7,23 @@
 
 require_relative 'main'
 
-puts "Rebuilding all index/summaries from: #{ENV['PWD']}"
-puts
-puts "Rebuilding English CSP"
-enRunner = Main.new(root: ENV['PWD'], content: 'cur/programming', topic_dir: 'nyc_bjc', language: 'en')
-enRunner.skip_test_prompt = true
-enRunner.Main
+ROOT = '/bjc-r'
+path = ENV['PWD']
+path = path.sub(%r{#{ROOT}/.*$}, ROOT)
+puts "Rebuilding all index/summaries from: #{path}"
 
 puts
-puts "Rebuilding Espanol CSP"
-esRunner = Main.new(root: ENV['PWD'], content: 'cur/programming', topic_dir: 'nyc_bjc', language: 'es')
-esRunner.skip_test_prompt = true
-esRunner.Main
+puts 'Rebuilding English CSP'
+en_runner = Main.new(root: path, cur_dir: 'cur/programming', topic_dir: 'nyc_bjc', language: 'en')
+en_runner.skip_test_prompt = false
+en_runner.Main
 
-# puts
-# puts "Rebuilding Sparks"
-# sparks = Main.new(root: ENV['PWD'], content: 'sparks/student-pages', topic_dir: 'sparks')
-# sparks.skip_test_prompt = true
-# sparks.Main
+puts
+puts 'Rebuilding Espanol CSP'
+es_runner = Main.new(root: path, cur_dir: 'cur/programming', topic_dir: 'nyc_bjc', language: 'es')
+es_runner.skip_test_prompt = false
+es_runner.Main
+
+puts '*' * 80
+puts 'WARNING: DO NOT COMMIT THESE UPDATES UNTIL THIS IS REMOVED'
+puts '*' * 80
