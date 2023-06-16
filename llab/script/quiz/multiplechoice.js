@@ -120,11 +120,10 @@ MC.prototype.tryAgain = function(e) {
  * pieces from the data model (that the author makes) into the template
  */
 MC.prototype.render = function() {
-    let t = llab.translate;
-    var i, type, choiceHTML, question_id;
+    let t = llab.translate,
+        type = 'radio';
+    var i, choiceHTML, question_id;
     if (!this.previouslyRendered) {
-        //$('.MultipleChoice').html(pageTemplate);
-
         /* set the question type title */
         this.multipleChoice.find('.questionType').html(t('selfCheckTitle'));
     }
@@ -147,13 +146,11 @@ MC.prototype.render = function() {
         this.choices.shuffle();
     }
 
-    /* set variable whether this multiplechoice should be rendered with radio buttons or checkboxes */
-    if (this.properties.maxChoices == 1) {
-        type = 'radio';
-    } else {
+    if (this.properties.maxChoices != 1) {
         type = 'checkbox';
     }
 
+    console.log(this);
     /* render the choices */
     for (i = 0; i < this.choices.length; i++) {
         question_id = this.removeSpace(this.choices[i].identifier);
@@ -202,7 +199,7 @@ MC.prototype.render = function() {
     }
 
     this.multipleChoice.find('.tryAgainButton').addClass('disabled');
-    this.enableCheckAnswerButton('true'); // ? Why not pass a boolean?
+    this.enableCheckAnswerButton('true');
     this.clearFeedbackDiv();
 
     if (this.correctResponse.length < 1) {
@@ -224,9 +221,9 @@ MC.prototype.render = function() {
         if (latestState.isCorrect) {
             this.multipleChoice.find('.tryAgainButton').addClass('disabled');
         }
-
     }
-    //turn this flag on so that the step does not shuffle again during this visit
+
+    // flag so that the we do not shuffle again during this visit
     this.previouslyRendered = true;
     this.interaction.remove();
     //this.node.view.eventManager.fire('contentRenderComplete', this.node.id, this.node);
@@ -247,8 +244,6 @@ MC.prototype.isChallengeScoringEnabled = function() {
 
     if (this.properties.attempts != null) {
         var scores = this.properties.attempts.scores;
-
-        //check if there are scores
         result = challengeScoringEnabled(scores);
     }
 
@@ -276,16 +271,6 @@ MC.prototype.selectedInSavedState = function(choiceId) {
     return false;
 };
 
-/**
- * If prototype 'shuffle' for array is not found, create it
- * TODO: Move this to a generic place for LLAB (library?)
- */
-if (!Array.shuffle) {
-    Array.prototype.shuffle = function() {
-        var rnd, tmp, i;
-        for (i = this.length; i; rnd = parseInt(Math.random() * i), tmp = this[--i], this[i] = this[rnd], this[rnd] = tmp) {}
-    };
-}
 
 /**
  * Returns true if the choice with the given id is correct, false otherwise.
@@ -350,12 +335,8 @@ MC.prototype.checkAnswer = function() {
                 }
 
                 mcState.identifier = choice.identifier;
-
-                //add the human readable value of the choice chosen
                 mcState.text = choice.text;
             } else {
-                // FIXME -- we shouldn't do this
-                // However if critical we should track the events
                 alert('error retrieving choice by choiceIdentifier');
             }
         } else {
@@ -404,12 +385,10 @@ MC.prototype.enforceMaxChoices = function(inputs) {
 
         if (countChecked > maxChoices) {
             //this.node.view.notificationManager.notify('You have selected too many. Please select only ' + maxChoices + ' choices.',3);
-            //maxChoices = 3;
             alert('You have selected too many. Please select only ' + maxChoices + ' choices.');
             return false;
         } else if (countChecked < maxChoices) {
             //this.node.view.notificationManager.notify('You have not selected enough. Please select ' + maxChoices + ' choices.',3);
-            //maxChoices = 3;
             alert('You have not selected enough. Please select ' + maxChoices + ' choices.');
             return false;
         }
@@ -432,7 +411,6 @@ MC.prototype.getResultMessage = function(isCorrect) {
     if (isCorrect) {
         return t("successMessage");
     }
-
     return '';
 };
 
@@ -487,12 +465,8 @@ MC.prototype.clearFeedbackDiv = function() {
     }
 };
 
-MC.prototype.postRender = function() {
-    //  var thetitle = document.title;
-};
+MC.prototype.postRender = function() {};
 
-
-// BEAUTIOUS
 MC.prototype.getTemplate = function() {
     let t = llab.translate;
     return `
@@ -529,6 +503,14 @@ MC.prototype.getTemplate = function() {
 };
 
 
+/**
+ * If prototype 'shuffle' for array is not found, create it
+ */
+if (!Array.shuffle) {
+    Array.prototype.shuffle = function() {
+        var rnd, tmp, i;
+        for (i = this.length; i; rnd = parseInt(Math.random() * i), tmp = this[--i], this[i] = this[rnd], this[rnd] = tmp) {}
+    };
+}
 
-// file is loaded, baby
 llab.loaded['multiplechoice'] = true;

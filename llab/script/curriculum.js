@@ -19,7 +19,7 @@ const TOGGLE_HEADINGS = [
   'takeItTeased',
 ];
 
-const TRANSLATIONS = {
+llab.TRANSLATIONS = {
   'ifTime': {
     en: 'If There Is Time…',
     es: 'Si hay tiempo…',
@@ -54,7 +54,7 @@ const TRANSLATIONS = {
     en: 'You have successfully completed this question!',
     es: '¡Has completado la pregunta correctamente!',
   },
-  'attemptMessage': {
+  'attemptMessage': { // TODO: This is not currently used. MCQ needs refactoring.
     en: 'This is your %ordinal attempt.',
     es: 'Este es tu intento n.º %number.',
   },
@@ -66,41 +66,10 @@ const TRANSLATIONS = {
   }
 };
 
-// very loosely mirror the Rails API
-llab.translate = (key, replacements, lang) => {
-  replacements ||= {};
-  lang ||= llab.pageLang();
-  let dictionary = TRANSLATIONS[key];
-  if (!dictionary) { return key; }
-  let result = dictionary[lang];
-  if (result !== '' && !result) {
-    result = dictionary['en'] || key;
-  }
-  if (Array.isArray(replacements)) {
-    replacements = Object.assign({}, replacements);
-  }
-  Object.keys(replacements).forEach((key) => {
-    result = result.replaceAll(`%${key}`, replacements[key]);
-  })
-  return result;
-};
-let t = llab.translate;
-
-// TODO: Cache this result somewhere?
-llab.pageLang = () => {
-  let pageLanguage = $("html").attr('lang');
-  if (!pageLanguage) {
-    let altLang = location.pathname.match(/(\.\w\w).html/);
-    if (altLang) {
-      pageLanguage = altLang;
-    }
-  }
-  return pageLanguage || 'en';
-}
-
-// Executed on each page load.
+// Executed on *every* page load.
 // TODO: Should probably be slip into a better place.
 llab.secondarySetUp = function() {
+  let t = llab.translate;
   llab.setupTitle();
 
   // Get the topic file and step from the URL
@@ -156,28 +125,29 @@ llab.secondarySetUp = function() {
   llab.setupSnapImages();
 
   llab.additionalSetup([
-    {  // TODO: PUT THESE CLASSES SOMEWHERE
+    {
       trigger: 'pre code',
-      function: llab.codeHighlightSetup()
+      libName: 'highlights', // should match llab.optionalLibs
+      function: llab.codeHighlightSetup
     },
-    {   // TODO: PUT THESE CLASSES SOMEWHERE
+    {
       trigger: '.katex, .katex-inline, .katex-block',
-      function: llab.mathDisplaySetup()
+      libName: 'katex',
+      function: llab.mathDisplaySetup
     }
   ]);
 
   $.ajax({
-    url: `${llab.rootURL}topic/${llab.file}`,
+    url: `${llab.topics_path}/${llab.file}`,
     type: "GET",
     contentType: 'text/plain; charset=UTF-8',
     dataType: "text",
     cache: false,
     success: llab.processLinks,
-    error: function(_jqXHR, status, error) {
-      // TODO: We should push errors to Google Analytics
-      console.log('Error Accessing Topic: ' + llab.file);
-      console.log('Error: ' + error);
-      console.log('Status: ' + status);
+    error: (_jqXHR, _status, error) => {
+      if (Sentry) {
+        Sentry.captureException(error);
+      }
     }
   });
 
@@ -196,7 +166,7 @@ llab.additionalSetup = function(triggers) {
   var items;
   triggers.forEach(function (obj) {
     if (obj.trigger && obj.function) {
-      items = $(trigger);
+      items = $(obj.trigger);
       if (items.length) {
         Function.call(null, obj.function);
       }
@@ -208,22 +178,29 @@ llab.additionalSetup = function(triggers) {
 *  TODO: Abstract this away into its own function
 */
 llab.codeHighlightSetup = function () {
-  var cssFile, jsFile, css, js;
-  cssFile = llab.paths.syntax_highlighting_css;
-  jsFile  = llab.paths.syntax_highlights;
-  css = getTag('link', cssFile, 'text/css');
-  css.rel = "stylesheet";
-  js = getTag('script', jsFile, 'text/javascript');
-  // onload function
-  $(js).attr({'onload': 'llab.highlightSyntax()'});
-  // Using $ to append to head causes onload not to be fired...
+  let css, js, highlights = llab.optionalLibs.highlights;
+  css = llab.styleTag(highlights.css);
+  js = llab.scriptTag(highlights.js);
+  js.onload = llab.highlightSyntax;
+
+  document.head.appendChild(css);
+  document.head.appendChild(js);
+}
+
+/** Import the required JS and CSS for LaTeX Code.
+*/
+llab.mathDisplaySetup = function () {
+  var css, js, katex = llab.optionalLibs.katex;
+  css = llab.styleTag(katex.css);
+  js = llab.scriptTag(katex.js);
+  js.onload = llab.displayMathDivs;
+
   document.head.appendChild(css);
   document.head.appendChild(js);
 }
 
 // Call The Functions to HighlightJS to render
 llab.highlightSyntax = function() {
-  // TODO: PUT THESE CLASSES SOMEWHERE
   $('pre > code').each(function(i, block) {
     // Trim the extra whitespace in HTML files.
     block.innerHTML = block.innerHTML.trim();
@@ -231,23 +208,6 @@ llab.highlightSyntax = function() {
       hljs.highlightBlock(block);
     }
   });
-}
-
-/** Import the required JS and CSS for LaTeX Code.
-*  TODO: Abstract this away into its own function
-*/
-llab.mathDisplaySetup = function () {
-  var cssFile, jsFile, css, js;
-  cssFile = llab.paths.katex_css;
-  jsFile  = llab.paths.math_katex_js;
-  css = getTag('link', cssFile, 'text/css');
-  css.rel = "stylesheet";
-  js = getTag('script', jsFile, 'text/javascript');
-  // onload function
-  $(js).attr({'onload': 'llab.displayMathDivs()'});
-  // Using $ to append to head causes onload not to be fired...
-  document.head.appendChild(css);
-  document.head.appendChild(js);
 }
 
 // Call the KaTeX APIS to render the LaTeX code.
@@ -449,7 +409,6 @@ llab.setupTitle = function() {
 
   // Create the header section and nav buttons
   llab.createTitleNav();
-  llab.addTransitionLinks();
 
   var titleText = llab.getQueryParameter("title");
   if (titleText !== '') {
@@ -482,19 +441,20 @@ llab.createTitleNav = function() {
   llab.setUpDevComments();
 
   // The BJC Logo takes you to the course ToC, or the BJC index when there is no course defined.
-  let navDestination = '/bjc-r/';
-  let logoURL = '/bjc-r/img/header-footer/bjc-logo-sm2.png';
+  let t = llab.t,
+      navURL = '/bjc-r/',
+      logoURL = '/bjc-r/img/header-footer/bjc-logo-sm2.png';
   if (llab.getQueryParameter('course')) {
-    navDestination = `/bjc-r/course/${llab.getQueryParameter('course')}`;
+    navURL = `/bjc-r/course/${llab.getQueryParameter('course')}`;
   } else if (location.pathname.indexOf('/bjc-r/course/') == 0) {
-    navDestination = location.pathname;
+    navURL = location.pathname;
   }
 
   var topHTML = `
     <nav class="llab-nav navbar navbar-default navbar-fixed-top nopadtb" role="navigation">
       <div class="nav navbar-nav navbar-left">
-        <a class="site-title" rel="author" href="${navDestination}" aria-label="Go to Index">
-          <img src="${logoURL}" alt="BJC logo" class="pull-left">
+        <a class="site-title" rel="author" href="${navURL}" aria-label="${t('Go to Index')}">
+          <img src="${logoURL}" alt="${t('BJC logo')}" class="pull-left">
         </a>
         <div class="navbar-title"></div>
       </div>
@@ -513,13 +473,14 @@ llab.createTitleNav = function() {
     $(document.body).prepend(topHTML);
   }
 
+  llab.addTransitionLinks();
+
   // Don't add anything else if we don't know the step...
   // FUTURE - We should separate the rest of this function if necessary.
   if (!llab.isCurriculum()) {
     return;
   }
 
-  // TODO: selector...
   $('.nav-btns').append(buttons);
   if ($(llab.selectors.PROGRESS).length === 0) {
     $(document.body).append(botHTML);
@@ -697,7 +658,6 @@ llab.addFeedback = function(title, topic, course) {
   $(document.body).append(feedback);
 };
 
-// Footer content added by Mary on 1/20/16 was moved outside of feedback function by Mary on 10/16/17
 llab.addFooter = function() {
   $(document.body).append(
     `<footer>
