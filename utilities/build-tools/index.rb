@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'fileutils'
 require 'rio'
 require 'nokogiri'
@@ -7,13 +9,22 @@ require_relative 'vocab'
 require_relative 'main'
 require_relative 'atwork'
 
+FILE_NAME = 'vocab-index'
+
 class Index
   def initialize(path, language = 'en')
     @parentDir = path
     @language = language
-    @language_ext = language == 'en' ? '' : ".#{language}"
     @vocabList = []
     @vocabDict = {}
+  end
+
+  def language_ext
+    @language_ext ||= @language == 'en' ? '' : ".#{@language}"
+  end
+
+  def index_filename
+    "#{FILE_NAME}#{language_ext}.html"
   end
 
   def vocabList(list)
@@ -25,28 +36,27 @@ class Index
   end
 
   def getAlphabet
-    alphabet = if @language == 'es'
-                 %w[a b c d e f g h i j k l m n ñ o p q r
-                    s t u v w x y z]
-               else
-                 ('a'..'z').to_a
-               end
+    if @language == 'es'
+      %w[a b c d e f g h i j k l m n ñ o p q r
+         s t u v w x y z]
+    else
+      ('a'..'z').to_a
+    end
   end
 
   def generateAlphaOrder(usedLetters, output)
-    fileName = "index#{@language_ext}.html"
-    alphabet = getAlphabet
-    File.write(fileName, "\n<div class=\"index-letter-link\">\n", mode: 'a')
+    getAlphabet
+    File.write(index_filename, "\n<div class=\"index-letter-link\">\n", mode: 'a')
     # i = 0
     # while alphabet.length > i
-    #    File.write(fileName, "<a href=\"##{alphabet[i].upcase}\">#{alphabet[i].upcase}</a>&nbsp;\n", mode: "a")
+    #    File.write(index_filename, "<a href=\"##{alphabet[i].upcase}\">#{alphabet[i].upcase}</a>&nbsp;\n", mode: "a")
     #    i += 1
     # end
     linksUnusedLetters(usedLetters).each do |letter|
-      File.write(fileName, letter, mode: 'a')
+      File.write(index_filename, letter, mode: 'a')
     end
-    File.write(fileName, "\n<\/div>\n<div>\n", mode: 'a')
-    File.write(fileName, output, mode: 'a')
+    File.write(index_filename, "\n<\/div>\n<div>\n", mode: 'a')
+    File.write(index_filename, output, mode: 'a')
   end
 
   def isNonEngChar(vocab, _usedLetters)
@@ -64,13 +74,13 @@ class Index
 
   # alphabet and letter are lowercase and returned vocab word is upper and then lowercase
   def castCharToEng(vocab, usedLetters)
-    collator = TwitterCldr::Collation::Collator.new(@language)
+    TwitterCldr::Collation::Collator.new(@language)
     return vocab unless isNonEngChar(vocab, usedLetters)
 
     letter = vocab[0].downcase
     alpha = getAlphabet.push(letter).localize(@language).sort.to_a
     newLetter = alpha[alpha.index(letter) + 1]
-    newLeter = newLetter.upcase if isCapital?(vocab[0])
+    newLetter.upcase if isCapital?(vocab[0])
     newLetter.upcase + vocab[1..]
   end
 
@@ -83,7 +93,7 @@ class Index
       newBool = unused[i]
       j = i
       letter = getAlphabet[i]
-      while !newBool and j > 0
+      while !newBool && j.positive?
         j -= 1
         newBool = unused[j]
       end
@@ -109,7 +119,7 @@ class Index
         vocab = castCharToEng(vocab, usedLetters)
         letter = vocab[0]
       end
-      if usedLetters.empty? or !usedLetters.include?(letter.downcase)
+      if usedLetters.empty? || !usedLetters.include?(letter.downcase)
         usedLetters.push(letter.downcase)
         output += "\n<div class=\"index-letter-target\"><p>#{letter.upcase}<a class=\"anchor\" name=\"#{letter.upcase}\">&nbsp;</a></p></div>\n"
       end
@@ -124,12 +134,11 @@ class Index
     generateAlphaOrder(usedLetters, output)
   end
 
-  def format_and_move_file
-    src = "#{@parentDir}/review/index#{@language_ext}.html"
-    dst = "#{@parentDir}/index#{@language_ext}.html"
-    html = Nokogiri.HTML(File.read(src))
+  def moveFile
+    src = "#{@parentDir}/review/#{index_filename}"
+    dst = "#{@parentDir}/#{index_filename}"
     File.delete(dst) if File.exist?(dst)
-    File.write(dst, html.to_html(indent: 2), mode: 'w')
+    FileUtils.copy_file(src, dst)
   end
 
   def main
@@ -140,33 +149,31 @@ class Index
     # generateAlphaOrder()
     addIndex
     add_HTML_end
-    format_and_move_file
+    moveFile
   end
 
   def createNewIndexFile(copyFile, filePath)
     i = 0
-    fileName = "index#{@language_ext}.html"
-    File.new(fileName, 'a')
+    File.new(index_filename, 'a')
     linesList = rio("#{filePath}/#{copyFile}").lines[0..20]
-    while !linesList[i].match(%r{</head>}) and i < 20
+    while !linesList[i].match(%r{</head>}) && (i < 20)
       if linesList[i].match(/<title>/)
-        File.write(fileName, '<title>BJC Curriculum Index</title>', mode: 'a')
+        File.write(index_filename, '<title>BJC Curriculum Index</title>', mode: 'a')
       else
-        File.write(fileName, "#{linesList[i]}", mode: 'a')
+        File.write(index_filename, (linesList[i]).to_s, mode: 'a')
       end
       i += 1
     end
-    File.write(fileName, "\n</head>\n<body>\n", mode: 'a')
+    File.write(index_filename, "\n</head>\n<body>\n", mode: 'a')
   end
 
   def add_HTML_end
     ending = "</div>\n</body>\n</html>"
-    return unless File.exist?("index#{@language_ext}.html")
+    return unless File.exist?(index_filename)
 
-    File.write("index#{@language_ext}.html", ending, mode: 'a')
+    File.write(index_filename, ending, mode: 'a')
   end
 
-  # TODO-MB: Borrow ActiveSupport Inflections API
   def keepCapitalized?(vocab)
     capitals = ["Moore's", 'IP', 'DDoS', 'SSL', 'TLS', 'TCP', 'IA', 'IPA', 'PCT', 'PI', 'AI', 'ADT', 'API',
                 'Creative Commons', 'ISPs']

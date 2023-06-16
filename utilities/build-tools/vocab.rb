@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'fileutils'
 require 'rio'
 require 'nokogiri'
@@ -21,6 +23,10 @@ class Vocab
     @currUnitName = nil
     @index = Index.new(@parentDir, @language)
     @boxNum = 0
+  end
+
+  def language_ext
+    @language_ext ||= @language == 'en' ? '' : ".#{@language}"
   end
 
   def doIndex
@@ -66,16 +72,20 @@ class Vocab
     @currUnitNum = num
   end
 
+  def boxNum(num)
+    @boxNum = num
+  end
+
+  def currLab
+    return if @currUnit.nil?
+  end
+
   def vocabFileName(name)
     @vocabFileName = name
   end
 
   def getVocabFileName
     @vocabFileName
-  end
-
-  def boxNum(num)
-    @boxNum = num
   end
 
   def currLab
@@ -101,13 +111,13 @@ class Vocab
     title = doc.xpath('//title')
     str = title.to_s
     pattern = %r{</?\w+>}
-    if str.nil? or !@isNewUnit
+    if str.nil? || !@isNewUnit
       nil
     else
       newStr = str.split(pattern)
       currUnit(newStr.join)
       currUnitNum(@currUnit.match(/\d+/).to_s)
-      # unit
+      unit
       vocabFileName("vocab#{@currUnitNum}#{@language_ext}.html")
       boxNum(0)
       isNewUnit(false)
@@ -122,19 +132,15 @@ class Vocab
     end
   end
 
-  def destination_dir
-    "#{@parentDir}/review"
-  end
-
   def createNewVocabFile(fileName)
     i = 0
     filePath = Dir.getwd
     unless File.exist?(fileName)
-      Dir.chdir(destination_dir)
+      Dir.chdir("#{@parentDir}/review")
       File.new(@vocabFileName, 'w')
     end
     linesList = rio("#{filePath}/#{@currFile}").lines[0..30]
-    while !linesList[i].match(/<body>/) and i < 30
+    while !linesList[i].match(/<body>/) && (i < 30)
       if linesList[i].match(/<title>/)
         File.write(fileName, "<title>#{unit} #{@currUnitNum} #{vocabLanguage}</title>\n", mode: 'a')
       else
@@ -153,11 +159,6 @@ class Vocab
     return unless File.exist?(@vocabFileName)
 
     File.write(@vocabFileName, ending, mode: 'a')
-    reread_and_reformat(@vocabFileName)
-  end
-
-  def reread_and_reformat(file_path)
-    File.write(file_path, Nokogiri.HTML(File.read(file_path)).to_html(indent: 2), mode: 'w')
   end
 
   def add_content_to_file(filename, data)
@@ -166,11 +167,10 @@ class Vocab
     data.delete!("\n\n\\")
     if File.exist?(filename)
       File.write(filename, "<h3>#{currLab}</h3>", mode: 'a') if lab != currLab
-      File.write(filename, data, mode: 'a')
     else
       createNewVocabFile(filename)
-      File.write(filename, data, mode: 'a')
     end
+    File.write(filename, data, mode: 'a')
   end
 
   # might need to save index of line when i find the /div/ attribute
@@ -221,7 +221,6 @@ class Vocab
   end
 
   def vocabExists?(list, word)
-    cases = %w[downcase upcase capitalize]
     # return ((cases.map{|item| eval(word + item)}).map{|vocab| list.include?(vocab)}).any?
     (list.include?(word) or list.include?(word.upcase) or list.include?(word.downcase) or list.include?(word.capitalize))
   end
@@ -236,7 +235,6 @@ class Vocab
   end
 
   def separateVocab(str)
-    vocab = str
     unless str.scan(/\(\w+\)/).empty? # looking for strings in parathesis such as: (API), (AI)
       saveVocabWord(str.scan(/\(\w+\)/)[0][1..-2])
     end
@@ -258,21 +256,21 @@ class Vocab
       vList = str.match(/^((?!(\(.*\))).)*/).to_s.split(' ')
     end
     vList.each do |vocab|
-      saveVocabWord(vocab) if !vocab.match?(/^(\s+)/) and vocab != '' and !vocab.match?(/\(/)
+      saveVocabWord(vocab) if !vocab.match?(/^(\s+)/) && (vocab != '') && !vocab.match?(/\(/)
     end
   end
 
   def removeArticles(vocab)
     vList = vocab.split(' ')
     articles = %w[el la las los the]
-    plurals = articles.map { |word| word.capitalize }
+    plurals = articles.map(&:capitalize)
     # keep = []
     # vList.map{|word| articles.include?(word) or plural.include?(word) ? keep.append(vList.index(word))}
-    if articles.include?(vList[0]) or plurals.include?(vList[0])
+    if articles.include?(vList[0]) || plurals.include?(vList[0])
       vList = vList[1..]
       vList.include?(',') ? vList[..vList.index(',')] : vList
       vList.join(' ')
-    elsif articles.include?(vList[-1]) or plurals.include?(vList[-1])
+    elsif articles.include?(vList[-1]) || plurals.include?(vList[-1])
       vList = vList[..-1]
       vList.include?(',') ? vList[..vList.index(',')] : vList
       vList.join(' ')
@@ -329,9 +327,8 @@ class Vocab
 
   def add_vocab_unit_to_header
     unitNum = return_vocab_unit(@currUnit)
-    " <a href=\"#{get_url(@currFile)}\">#{unitNum}</a>
-      <a name=\"box#{@boxNum}\" class=\"anchor\">&nbsp;</a>"
-
+    "<a href=\"#{get_url(@currFile)}\">#{unitNum}</a>
+		<a name=\"box#{@boxNum}\" class=\"anchor\">&nbsp;</a>"
     # if lst.size > 1
     #	unitSeriesNum = lst.join(" #{withlink}:")
     # else
@@ -350,7 +347,6 @@ class Vocab
   def add_vocab_to_file(vocab)
     return unless vocab != ''
 
-    result = vocab
     file = "#{@parentDir}/review/#{@vocabFileName}"
     add_content_to_file(file, vocab)
 
@@ -370,7 +366,7 @@ class Vocab
     linkPath = localPath.match(/bjc-r.+/).to_s
     result = "/#{linkPath}/#{file}"
     # https://bjc.berkeley.edu
-    # result = "#{result}"
+    result.to_s
     # add_content_to_file('urlLinks.txt', result)
   end
 end

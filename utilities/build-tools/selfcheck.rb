@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'fileutils'
 require 'rio'
 
@@ -13,6 +15,10 @@ class SelfCheck
     @currUnitName = nil
     @examFileName = nil
     @language = language
+  end
+
+  def language_ext
+    @language_ext ||= @language == 'en' ? '' : ".#{@language}"
   end
 
   def isNewUnit(boolean)
@@ -79,7 +85,7 @@ class SelfCheck
     title = doc.xpath('//title')
     str = title.to_s
     pattern = %r{</?\w+>}
-    if str.nil? or !@isNewUnit
+    if str.nil? || !@isNewUnit
       nil
     else
       newStr = str.split(pattern)
@@ -146,19 +152,13 @@ class SelfCheck
   def add_HTML_end
     Dir.chdir("#{@parentPath}/review")
     ending = "</body>\n</html>"
-    if File.exist?(@selfCheckFileName)
-      File.write(@selfCheckFileName, ending, mode: 'a')
-      reread_and_reformat(@selfCheckFileName)
-    end
-
+    File.write(@selfCheckFileName, ending, mode: 'a') if File.exist?(@selfCheckFileName)
     return unless File.exist?(@examFileName)
 
     File.write(@examFileName, ending, mode: 'a')
-    reread_and_reformat(@examFileName)
-  end
 
-  def reread_and_reformat(file_path)
-    File.write(file_path, Nokogiri.HTML(File.read(file_path)).to_html(indent: 2), mode: 'w')
+    # does examFileName exist?
+    # File.write(@examFileName, ending, mode: "a")
   end
 
   def add_content_to_file(filename, data, type)
@@ -168,11 +168,10 @@ class SelfCheck
     # data = data.gsub(/\n(\s+)?\n/, "\n")
     if File.exist?(filename)
       File.write(filename, "<h3>#{currLab}</h3>\n", mode: 'a') if lab != currLab
-      File.write(filename, data, mode: 'a')
     else
       createAssessmentDataFile(filename, type)
-      File.write(filename, data, mode: 'a')
     end
+    File.write(filename, data, mode: 'a')
   end
 
   def add_unit_to_header
@@ -186,16 +185,14 @@ class SelfCheck
     list.join('.')
   end
 
-  def destination_dir
-    "#{@parentPath}/review"
-  end
-
   def add_assessment_to_file(assessment)
-    add_content_to_file("#{destination_dir}/#{@selfCheckFileName}", assessment, 'Self-Check')
+    result = assessment
+    add_content_to_file("#{@parentPath}/review/#{@selfCheckFileName}", result, 'Self-Check')
   end
 
   def add_exam_to_file(exam)
-    add_content_to_file("#{destination_dir}/#{@examFileName}", exam, 'Exam')
+    result = exam
+    add_content_to_file("#{@parentPath}/review/#{@examFileName}", result, 'Exam')
   end
 
   def get_url(file)
@@ -203,6 +200,7 @@ class SelfCheck
     linkPath = localPath.match(/bjc-r.+/).to_s
     result = "/#{linkPath}/#{file}"
     # https://bjc.berkeley.edu
+    result.to_s
     # add_content_to_file('urlLinks.txt', result)
   end
 end

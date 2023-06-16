@@ -1,12 +1,13 @@
-require 'rio'
-require 'open-uri'
-require 'nokogiri'
-require 'twitter_cldr'
+# frozen_string_literal: true
 
 require_relative 'vocab'
 require_relative 'main'
 require_relative 'selfcheck'
 require_relative 'index'
+require 'rio'
+require 'open-uri'
+require 'nokogiri'
+require 'twitter_cldr'
 
 class Tests
   @type = 'testing'
@@ -18,7 +19,7 @@ class Tests
     dict = {}
     i = 0
     list.each do |item|
-      dict[item] = "#{i}"
+      dict[item] = i.to_s
       i += 1
     end
     ind.vocabDict(dict)
@@ -28,10 +29,10 @@ class Tests
 
   def nokoTest
     doc = File.open('1-intro-loops.topic') { |f| Nokogiri::HTML(f) }
-    div = doc.xpath("//div[@class = 'vocabFullWidth']")
+    doc.xpath("//div[@class = 'vocabFullWidth']")
     # vocab = div
     # Nokogiri::XML::DocumentFragment.parse(div.to_s)
-    title = doc.xpath('title')
+    doc.xpath('title')
   end
 
   def nokogiriTest
@@ -39,10 +40,10 @@ class Tests
     div = doc.xpath("//div[@class = 'vocabFullWidth']")
     vocab = div
     # Nokogiri::XML::DocumentFragment.parse(div.to_s)
-    title = doc.xpath('//title')
+    doc.xpath('//title')
     classname = vocab.at_css 'div'
     children = classname.children
-    output = children.before('<id="ZZZZZZZZZZZZZZZZZZZ">')
+    children.before('<id="ZZZZZZZZZZZZZZZZZZZ">')
     # attr(key, value = nil) { |node| ... }
     vocab.each do |node|
       children = node.children
@@ -101,7 +102,7 @@ class Tests
   end
 
   def allVocab
-    v = Vocab.new(Dir.getwd)
+    Vocab.new(Dir.getwd)
     test1
     test2
     test3
@@ -112,24 +113,23 @@ class Tests
   end
 
   def assessDataTest
-    sc = SelfCheck.new('C:/Users/I560638/bjc-r/cur/programming/2-gossip-and-greet/2-customizing.html')
+    SelfCheck.new('C:/Users/I560638/bjc-r/TESTING/2-gossip-and-greet/2-customizing.html')
   end
 
-  # TODO: `Main` function calls need to be updated.
   def languageTest
-    m = Main.new('C:/Users/I560638/bjc-r/cur/programming/1-introduction/1-building-an-app',
+    m = Main.new('C:/Users/I560638/bjc-r/TESTING/1-introduction/1-building-an-app',
                  'C:/Users/I560638/bjc-r/topic/nyc_bjc')
     puts m.fileLanguage('1-creating-a-snap-account.es.html')
     puts m.fileLanguage('1-creating-a-snap-account.html')
   end
 
   def mainCSP
-    m = Main.new('C:/Users/I560638/bjc-r/TESTING', 'C:/Users/I560638/bjc-r/cur/programming/nyc_bjc', 'en')
+    m = Main.new('C:/Users/I560638/bjc-r/TESTING', 'C:/Users/I560638/bjc-r/TESTING/nyc_bjc', 'en')
     m.Main()
   end
 
   def mainCSPSpanish
-    m = Main.new('C:/Users/I560638/bjc-r/TESTING', 'C:/Users/I560638/bjc-r/cur/programming/', 'es')
+    m = Main.new('C:/Users/I560638/bjc-r/TESTING', 'C:/Users/I560638/bjc-r/TESTING/nyc_bjc', 'es')
     m.Main()
   end
 
@@ -155,13 +155,15 @@ class Tests
   end
 
   def isTopicTest
-    v = Vocab.new(Dir.getwd)
+    Vocab.new(Dir.getwd)
     main = Main.new(Dir.getwd)
     # strList = File.readlines('testTopics.topic')
     str = 'title: Unit 1: Functions and Data
+
 			{
+
 			heading:  Lab 1: Introduction to Snap<em>!</em>
-        raw-html: <img class="imageRight" src="/bjc-r/sparks/img/U1/lab01/say-hello-fancy-with-inputs-repornéih hóu ᕼย𝕒Ｎ" />
+			raw-html: <img class="imageRight" src="/bjc-r/sparks/img/U1/lab01/say-hello-fancy-with-inputs-repornéih hóu ᕼย𝕒Ｎ" />
 			'
     strList = str.split(/\n/)
     strList.each do |line|
@@ -196,8 +198,11 @@ class Tests
   def test4
     v = Vocab.new(Dir.getwd)
     str = '<div class="vocabFullWidth"><!--<strong>: Reporters</strong> and <strong>Inputs</strong>-->'
-
-    v.parse_vocab_header(str)
+    if v.parse_vocab_header(str)
+      true
+    else
+      false
+    end
   end
 
   def test5
