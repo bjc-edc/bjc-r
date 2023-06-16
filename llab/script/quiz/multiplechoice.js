@@ -88,7 +88,9 @@ MC.prototype.displayNumberAttempts = function(part1, part2, states) {
     var nextAttemptNum = states.length + 1;
     var nextAttemptString = "";
     // TODO: Make this switch / case and refactor to a function (for clarity)
-    if (Math.floor(nextAttemptNum / 10) == 1) {
+    if (llab.pageLang() != 'en') {
+        nextAttemptString = nextAttemptNum.toString();
+    } else if (Math.floor(nextAttemptNum / 10) == 1) {
         nextAttemptString = nextAttemptNum + "th";
     } else if (nextAttemptNum % 10 == 1) {
         nextAttemptString = nextAttemptNum + "st";
@@ -119,7 +121,7 @@ MC.prototype.tryAgain = function(e) {
  */
 MC.prototype.render = function() {
     let t = llab.translate;
-    var i, type, choiceHTML;
+    var i, type, choiceHTML, question_id;
     if (!this.previouslyRendered) {
         //$('.MultipleChoice').html(pageTemplate);
 
@@ -153,22 +155,37 @@ MC.prototype.render = function() {
     }
 
     /* render the choices */
-    // FIXME -- WRITE TO DOM OUTSIDE OF LOOP
     for (i = 0; i < this.choices.length; i++) {
-        // TODO: Reduce this duplication......
-        choiceHTML = '<table><tbody><tr class="table-middle"><td class="table-middle">' + '<input type="' + type + '" name="radiobutton"' + ' id="' + this.removeSpace(this.choices[i].identifier) + '" value="' + this.removeSpace(this.choices[i].identifier) + '" class="' + type + '"/></td><td class="table-middle">' + '<div id="choicetext:' + this.removeSpace(this.choices[i].identifier) + '">' + this.choices[i].text + '</div></td><td class="table-middle"><div id="feedback_' + this.removeSpace(this.choices[i].identifier) + '" name="feedbacks"></div></td></tr></tbody></table>';
+        question_id = this.removeSpace(this.choices[i].identifier);
+        choiceHTML = `
+        <table><tbody>
+            <tr class="table-middle">
+                <td class="table-middle">
+                    <input type="${type}" class="${type}" name="radiobutton"
+                    id="${question_id}" value="${question_id}" />
+                </td>
+                <td class="table-middle">
+                    <label id="choicetext:${question_id}" for="${question_id}">
+                        ${this.choices[i].text}
+                    </label>
+                </td>
+                <td class="table-middle">
+                    <div id="feedback_${question_id}" name="feedbacks">
+                    </div>
+                </td>
+            </tr>
+        </tbody></table>`;
 
         this.multipleChoice.find('.radiobuttondiv').append(choiceHTML);
 
         // TODO -- explain this...
-        // TODO -- too much duplication!
-        $('#' + this.removeSpace(this.choices[i].identifier)).bind('click', {
+        $(`#${question_id}`).bind('click', {
             myQuestion: this
         }, function(args) {
             args.data.myQuestion.enableCheckAnswerButton('true');
         });
         if (this.selectedInSavedState(this.choices[i].identifier)) {
-            $('#' + this.removeSpace(this.choices[i].identifier)).attr('checked', true);
+            $(`#${question_id}`).attr('checked', true);
         }
 
         this.multipleChoice.find(".checkAnswerButton").bind('click', {
@@ -186,17 +203,16 @@ MC.prototype.render = function() {
 
     this.multipleChoice.find('.tryAgainButton').addClass('disabled');
     this.enableCheckAnswerButton('true'); // ? Why not pass a boolean?
-    // should this be here??? TODO
     this.clearFeedbackDiv();
 
     if (this.correctResponse.length < 1) {
         // if there is no correct answer to this question (ie, when they're filling out a form),
         // change button to say "save answer" and "edit answer" instead of "check answer" and "try again"
         // and don't show the number of attempts.
-        this.multipleChoice.find(".checkAnswerButton").innerHTML = "Save Answer";
-        this.multipleChoice.find(".tryAgainButton").innerHTML = "Edit Answer";
+        this.multipleChoice.find(".checkAnswerButton").innerHTML = t("Save Answer");
+        this.multipleChoice.find(".tryAgainButton").innerHTML = t("Edit Answer");
     } else {
-        this.displayNumberAttempts("This is your", "attempt", this.attempts);
+        this.displayNumberAttempts(t("This is your"), t("attempt"), this.attempts);
     };
 
     if (this.states.length > 0) {
@@ -265,8 +281,6 @@ MC.prototype.selectedInSavedState = function(choiceId) {
  * TODO: Move this to a generic place for LLAB (library?)
  */
 if (!Array.shuffle) {
-    // FIXME -- wtf if with this for loop?
-    // Document sources
     Array.prototype.shuffle = function() {
         var rnd, tmp, i;
         for (i = this.length; i; rnd = parseInt(Math.random() * i), tmp = this[--i], this[i] = this[rnd], this[rnd] = tmp) {}
@@ -298,13 +312,10 @@ MC.prototype.isCorrect = function(id) {
  */
 // FIXME --- CACHE THE $ SELECTORS!!
 MC.prototype.checkAnswer = function() {
-    // TODO: Google Analytics Push
-    // Capture Question + Correctness + Attempts
     if (this.multipleChoice.find('.checkAnswerButton').hasClass('disabled')) {
         return;
     }
 
-    //clear the previous result message
     this.multipleChoice.find('.resultMessageDiv').html('');
 
     this.attempts.push(null);
@@ -358,7 +369,6 @@ MC.prototype.checkAnswer = function() {
 
     var outerdiv = this.multipleChoice.find('.panel-heading').parent();
     outerdiv.removeClass('panel-primary');
-    // Remove the confirmation classes if previously added.
     outerdiv.removeClass('panel-success');
     outerdiv.removeClass('panel-danger');
     if (isCorrect) { //the student answered correctly
@@ -416,14 +426,14 @@ MC.prototype.enforceMaxChoices = function(inputs) {
  * @return string - html response
  */
 MC.prototype.getResultMessage = function(isCorrect) {
-    var message = '';
+    let t = llab.translate;
 
     /* if this attempt is correct, then we only need to return a msg */
     if (isCorrect) {
-        message = "You have successfully completed this question!";
+        return t("You have successfully completed this q)uestion!");
     }
 
-    return message;
+    return '';
 };
 
 /** FIXME -- reusable
@@ -484,40 +494,38 @@ MC.prototype.postRender = function() {
 
 // BEAUTIOUS
 MC.prototype.getTemplate = function() {
-    return "<div class='panel panel-primary MultipleChoice Question'>" +
-        "        <div class='panel-heading questionType'>" +
-        "            Multiple Choice" +
-        "        </div>" +
-        "        <!-- end of questionCountBox -->" +
-        "        <div class='panel-body currentQuestionBox'>" +
-        "            <div class='leftColumn'>" +
-        "                <div class='promptDiv'></div>" +
-        "                <div class='radiobuttondiv'></div>" +
-        "                <div class='feedbackdiv'></div>" +
-        "            </div>" +
-        "        </div>" +
-        "        <div class='clearBoth'></div>" +
-        "        <div class='interactionBox'>" +
-        "            <div class='statusMessages'>" +
-        "                <div class='numberAttemptsDiv'></div>" +
-        "                <div class='scoreDiv'></div>" +
-        "                <div class='resultMessageDiv'></div>" +
-        "            </div>" +
-        "            <!-- Anchor-Based Button Layout using TABLE -->" +
-        "            <div class='buttonDiv'>" +
-        "                <table class='buttonTable'>" +
-        "                    <tr>" +
-        "                        <td><div class='buttonDiv'>" +
-        "                            <button class='checkAnswerButton btn btn-primary'>Check Answer</button>" +
-        "                        </div></td><td>" +
-        "                        <div class='buttonDiv'>" +
-        "                            <button class='tryAgainButton btn btn-primary'>Try Again</button>" +
-        "                        </div></td>" +
-        "                    </tr>" +
-        "                </table>" +
-        "            </div>" +
-        "        </div>" +
-        "    </div>";
+    let t = llab.translate;
+    return `
+<div class='panel panel-primary MultipleChoice Question'>
+    <div class='panel-heading questionType'>Multiple Choice</div>
+    <div class='panel-body currentQuestionBox'>
+        <div class='leftColumn'>
+            <div class='promptDiv'></div>
+            <div class='radiobuttondiv'></div>
+            <div class='feedbackdiv'></div>
+        </div>
+    </div>
+    <div class='clearBoth'></div>
+    <div class='interactionBox'>
+        <div class='statusMessages'>
+            <div class='numberAttemptsDiv'></div>
+            <div class='scoreDiv'></div>
+            <div class='resultMessageDiv'></div>
+        </div>
+        <div class='buttonDiv'>
+            <table class='buttonTable'>
+                <tr>
+                    <td><div class='buttonDiv'>
+                        <button class='checkAnswerButton btn btn-primary'>${t("Check Answer")}</button>
+                    </div></td>
+                    <td><div class='buttonDiv'>
+                        <button class='tryAgainButton btn btn-primary'>${t("Try Again")}</button>
+                    </div></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>`;
 };
 
 
