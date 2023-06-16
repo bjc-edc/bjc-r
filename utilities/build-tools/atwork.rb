@@ -13,19 +13,19 @@ class AtWork
 		@isNewUnit = true
 		@currUnitNum = 0
 		@currLab = ''
-		@atFileName = ''
+		@atwork_filename = "atwork#{language_ext}.html"
 		@labPath = ''
 		@currUnitName = nil
+	end
+
+	def language_ext
+		@language_ext ||= @language == 'en' ? '' : ".#{@language}"
 	end
 
 	def unit()
 		temp = @currUnit.match(/[A-Za-z]+/)
 		return temp.to_s
 	end
-
-    def atworkFileName(input)
-        @atworkFileName = input
-    end
 
 	def currUnit(str)
 		@currUnit = str
@@ -34,7 +34,6 @@ class AtWork
 	def currFile(file)
 		@currFile = file
 	end
-
 
 	def currFile(file)
 		@currFile = file
@@ -82,7 +81,6 @@ class AtWork
 			currUnit(newStr.join)
 			currUnitNum(@currUnit.match(/\d+/).to_s)
 			unit()
-			atworkFileName("atwork#{@language_ext}.html")
 			isNewUnit(false)
 		end
 	end
@@ -112,8 +110,8 @@ class AtWork
 	def add_HTML_end()
 		Dir.chdir("#{@parentDir}/review")
 		ending = "</body>\n</html>"
-		if File.exist?(@atworkFileName)
-			File.write(@atworkFileName, ending, mode: "a")
+		if File.exist?(@atwork_filename)
+			File.write(@atwork_filename, ending, mode: "a")
 		end
 	end
 
@@ -121,9 +119,9 @@ class AtWork
 	def add_content_to_file(filename, data)
         currentDir = Dir.getwd()
         linesList =  rio(@currFile).lines[0..15]
-        puts currentDir
-        puts @parentDir
-		Dir.chdir("#{@parentDir}/review")
+        # puts currentDir
+        # puts @parentDir
+				Dir.chdir("#{@parentDir}/review")
         puts Dir.getwd()
         puts filename
 		data = data.gsub(/&amp;/, "&")
@@ -154,7 +152,7 @@ class AtWork
 		unitNum = return_unit(@currUnit)
 		currentDir = Dir.getwd()
 		FileUtils.cd("..")
-		link = " <a href=\"#{get_url(@atworkFileName)}\">#{unitNum}</a>"
+		link = " <a href=\"#{get_url(@atwork_filename)}\">#{unitNum}</a>"
 		FileUtils.cd(currentDir)
 		return link
 	end
@@ -173,26 +171,23 @@ class AtWork
 	def add_to_file(input)
 		if input != ''
 			result = input
-			add_content_to_file(@atworkFileName, input)
+			add_content_to_file(@atwork_filename, input)
 		end
 	end
 
 	def get_url(file)
 		localPath = Dir.getwd()
 		linkPath = localPath.match(/bjc-r.+/).to_s
-		result = "/#{linkPath}/#{file}"
-		#https://bjc.berkeley.edu
-		result = "#{result}"
+		"/#{linkPath}/#{file}"
 		#add_content_to_file('urlLinks.txt', result)
 	end
 
     def moveFile()
-        src = "#{@parentDir}/review/atwork#{@language_ext}.html"
-        dst = "#{@parentDir}/atwork#{@language_ext}.html"
+        src = "#{@parentDir}/review/#{@atwork_filename}"
+        dst = "#{@parentDir}/#{@atwork_filename}"
         if File.exist?(dst)
             File.delete(dst)
         end
         FileUtils.copy_file(src, dst)
     end
-
 end
