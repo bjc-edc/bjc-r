@@ -154,13 +154,13 @@ MC.prototype.render = function() {
 
     for (i = 0; i < this.choices.length; i++) {
         optId = this.choices[i].identifier;
-        choice_id = `q-${this.num}- ${this.removeSpace(optId)}`;
+        choice_id = `q-${this.num}-${this.removeSpace(optId)}`;
         choiceHTML = `
         <table><tbody>
             <tr class="table-middle">
                 <td class="table-middle">
                     <input type="${type}" class="${type}" name="radiobutton"
-                    id="${choice_id}" value="${choice_id}" />
+                    id="${choice_id}" value="${this.removeSpace(optId)}" />
                 </td>
                 <td class="table-middle">
                     <label id="choicetext-${choice_id}" for="${choice_id}">
@@ -230,9 +230,7 @@ MC.prototype.render = function() {
 /**
  * Determine if challenge question is enabled
  */
-MC.prototype.isChallengeEnabled = function() {
-    return false;
-};
+MC.prototype.isChallengeEnabled = () => false;
 
 /**
  * Determine if scoring is enabled
@@ -269,7 +267,6 @@ MC.prototype.selectedInSavedState = function(choiceId) {
     return false;
 };
 
-
 /**
  * Returns true if the choice with the given id is correct, false otherwise.
  */
@@ -293,7 +290,6 @@ MC.prototype.isCorrect = function(id) {
  * Checks Answer and updates display with correctness and feedback
  * Disables "Check Answer" button and enables "Try Again" button
  */
-// FIXME --- CACHE THE $ SELECTORS!!
 MC.prototype.checkAnswer = function() {
     if (this.multipleChoice.find('.checkAnswerButton').hasClass('disabled')) {
         return;
@@ -306,32 +302,28 @@ MC.prototype.checkAnswer = function() {
     var inputbuttons = this.multipleChoice.find('.radiobuttondiv')[0].getElementsByTagName('input');
     var mcState = {};
     var isCorrect = true;
-    var i, checked, choiceIdentifier, choice;
+    var i, checked, choiceIdentifier, choice, fullId;
 
     this.enableRadioButtons(false);
-    // disable radiobuttons
     this.multipleChoice.find('.checkAnswerButton').addClass('disabled');
-    // disable checkAnswerButton
     this.multipleChoice.find('.tryAgainButton').removeClass('disabled');
-    // show try again button
     for (i = 0; i < inputbuttons.length; i++) {
         checked = inputbuttons[i].checked;
-        choiceIdentifier = inputbuttons[i].getAttribute('id');
+        choiceIdentifier = inputbuttons[i].getAttribute('value');
+        fullId = inputbuttons[i].getAttribute('id')
         // identifier of the choice that was selected
         // use the identifier to get the correctness and feedback
         choice = this.getChoiceByIdentifier(choiceIdentifier);
         if (checked) {
             if (choice) {
-                this.multipleChoice.find('#feedback_' + choiceIdentifier).html(choice.feedback);
-
-                var choiceTextDiv = this.multipleChoice.find(".choicetext-" + choiceIdentifier);
+                this.multipleChoice.find('#feedback_' + fullId).html(choice.feedback);
+                var choiceTextDiv = this.multipleChoice.find("#choicetext-" + fullId);
                 if (this.isCorrect(choice.identifier)) {
                     choiceTextDiv.attr("class", "correct");
                 } else {
                     choiceTextDiv.attr("class", "incorrect");
                     isCorrect = false;
                 }
-
                 mcState.identifier = choice.identifier;
                 mcState.text = choice.text;
             } else {
@@ -350,17 +342,15 @@ MC.prototype.checkAnswer = function() {
     outerdiv.removeClass('panel-primary');
     outerdiv.removeClass('panel-success');
     outerdiv.removeClass('panel-danger');
-    if (isCorrect) { //the student answered correctly
+    if (isCorrect) {
         outerdiv.addClass('panel-success');
-        //get the congratulations message and display it
         this.multipleChoice.find('.resultMessageDiv').html(this.getResultMessage(isCorrect));
-        // disable checkAnswerButton
         this.multipleChoice.find('.checkAnswerButton').addClass('disabled');
     } else {
         outerdiv.addClass('panel-danger');
     }
 
-    //push the state object into this mc object's own copy of states
+    // push the state object into this mc object's own copy of states
     this.states.push(mcState);
     return false;
 };
