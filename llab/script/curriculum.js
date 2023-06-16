@@ -13,6 +13,12 @@ llab.url_list = [];
 
 var FULL = llab.selectors.FULL;
 
+const TOGGLE_HEADINGS = [
+  'ifTime',
+  'takeItFurther',
+  'takeItTeased',
+];
+
 const TRANSLATIONS = {
   'ifTime': {
     en: 'If There Is Time…',
@@ -51,6 +57,12 @@ const TRANSLATIONS = {
   'attemptMessage': {
     en: 'This is your %ordinal attempt.',
     es: 'Este es tu intento n.º %number.',
+  },
+  'This is your': {
+    es: 'Este es tu intento n.º',
+  },
+  'attempt': {
+    es: '', // HACK: multiple choice questions are formatted oddly...
   }
 };
 
@@ -61,7 +73,7 @@ llab.translate = (key, replacements, lang) => {
   let dictionary = TRANSLATIONS[key];
   if (!dictionary) { return key; }
   let result = dictionary[lang];
-  if (!result) {
+  if (result !== '' && !result) {
     result = dictionary['en'] || key;
   }
   if (Array.isArray(replacements)) {
@@ -74,10 +86,11 @@ llab.translate = (key, replacements, lang) => {
 };
 let t = llab.translate;
 
+// TODO: Cache this result somewhere?
 llab.pageLang = () => {
   let pageLanguage = $("html").attr('lang');
   if (!pageLanguage) {
-    let altLang = location.pathname.match(/(\.\w\w).html/)
+    let altLang = location.pathname.match(/(\.\w\w).html/);
     if (altLang) {
       pageLanguage = altLang;
     }
@@ -122,7 +135,7 @@ llab.secondarySetUp = function() {
     return null;
   }
 
-  let classSelector = `div.${Object.keys(TRANSLATIONS).join(',div.')}`;
+  let classSelector = `div.${Object.keys(TOGGLE_HEADINGS).join(',div.')}`;
   $(classSelector).each(function(i) {
     let classList = Array.from(this.classList);
     let isVisible = classList.indexOf('show') > -1;
@@ -395,7 +408,6 @@ llab.processLinks = function(data, _status, _jqXHR) {
   $('.dropdown-menu').css('max-height', $(window).height() * 0.8);
   $('.dropdown-menu').css('max-width', Math.min($(window).width() * 0.8, 450));
 
-  llab.addTransitionLinks();
 
   // FIXME -- this doesn't belong here.
   llab.indicateProgress(llab.url_list.length, llab.thisPageNum() + 1);
@@ -442,8 +454,8 @@ llab.setupTitle = function() {
 
   // Create the header section and nav buttons
   llab.createTitleNav();
+  llab.addTransitionLinks();
 
-  // create Title tag, yo
   var titleText = llab.getQueryParameter("title");
   if (titleText !== '') {
     document.title = titleText;
@@ -726,6 +738,10 @@ llab.addFooter = function() {
 
 // Show a link 'switch to espanol' or 'switch to english' depending on the current language
 llab.addTransitionLinks = function() {
+  if (!llab.canShowDevComments()) {
+    return;
+  }
+
   let currentPage = location.pathname.split('/').pop();
   // extract the language from the file name
   // make an ajax call to get the file name in the other language

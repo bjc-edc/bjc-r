@@ -202,6 +202,7 @@ llab.renderFull = function(data, _ignored1, _ignored2) {
     }
 
     llab.setUpDevComments();
+    llab.addTransitionLinks();
 }
 
 
