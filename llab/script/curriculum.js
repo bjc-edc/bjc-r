@@ -54,16 +54,10 @@ llab.TRANSLATIONS = {
     en: 'You have successfully completed this question!',
     es: '¡Has completado la pregunta correctamente!',
   },
-  'attemptMessage': { // TODO: This is not currently used. MCQ needs refactoring.
+  'attemptMessage': {
     en: 'This is your %ordinal attempt.',
     es: 'Este es tu intento n.º %number.',
   },
-  'This is your': {
-    es: 'Este es tu intento n.º',
-  },
-  'attempt': {
-    es: '', // HACK: multiple choice questions are formatted oddly...
-  }
 };
 
 // Executed on *every* page load.
@@ -75,9 +69,6 @@ llab.secondarySetUp = function() {
 
   // Get the topic file and step from the URL
   llab.file = llab.getQueryParameter("topic");
-
-  llab.addFeedback(document.title, llab.file, llab.getQueryParameter('course'));
-
 
   // We don't have a topic file, so we should exit.
   if (llab.file === '' || !llab.isCurriculum()) {
@@ -124,16 +115,18 @@ llab.secondarySetUp = function() {
   });
 
   llab.setupSnapImages();
+
+  // TODO: Consider moving Quiz options to here...
   llab.additionalSetup([
     {
-      trigger: 'pre code',
+      selectors: 'pre > code',
       libName: 'highlights', // should match llab.optionalLibs
-      function: llab.codeHighlightSetup
+      onload: llab.highlightSyntax
     },
     {
-      trigger: '.katex, .katex-inline, .katex-block',
+      selectors: '.katex, .katex-inline, .katex-block',
       libName: 'katex',
-      function: llab.mathDisplaySetup
+      onload: llab.displayMathDivs
     }
   ]);
 
@@ -151,52 +144,27 @@ llab.secondarySetUp = function() {
     }
   });
 
+  llab.addFeedback(document.title, llab.file, llab.getQueryParameter('course'));
 }; // close secondarysetup();
 
 
-/** A prelimary API for defining loading additional content based on triggers.
-*  @{param} array TRIGGERS is an array of {trigger, callback} pairs.
-*  a `trigger` is currently a CSS selector that gets passed to $ to see if any
-*  of those elements are on the current page. If the elements are found then a
-*  `callback` is called with no arguments.
-*  TODO: Cleanup and test this code.
-*  TODO: Explore ideas for better trigger options?
-*/
-llab.additionalSetup = function(triggers) {
-  var items;
-  triggers.forEach(function (obj) {
-    if (obj.trigger && obj.function) {
-      items = $(obj.trigger);
-      if (items.length) {
-        Function.call(null, obj.function);
+/**
+ * A prelimary API for defining loading additional content based on triggers.
+ *  @{param} array TRIGGERS is an array of {selectors, libName, onload } objects.
+ *  If the selectors are valid, we load *one* CSS and JS file from llab.optionalLibs
+ *  An `onload` function can be supplied, which will be called when the JS file is loaded.
+ */
+
+llab.additionalSetup = triggers => {
+  let items, files;
+  triggers.forEach(({ trigger, libName, onload }) => {
+      items = $(trigger);
+      if (items.length > 0) {
+        files = llab.optionalLibs[libName];
+        document.head.appendChild(llab.styleTag(files.css));
+        document.head.appendChild(llab.scriptTag(files.js, onload));
       }
-    }
   });
-}
-
-/** Import the required JS and CSS for Code highlighting.
-*  TODO: Abstract this away into its own function
-*/
-llab.codeHighlightSetup = function () {
-  let css, js, highlights = llab.optionalLibs.highlights;
-  css = llab.styleTag(highlights.css);
-  js = llab.scriptTag(highlights.js);
-  js.onload = llab.highlightSyntax;
-
-  document.head.appendChild(css);
-  document.head.appendChild(js);
-}
-
-/** Import the required JS and CSS for LaTeX Code.
-*/
-llab.mathDisplaySetup = function () {
-  var css, js, katex = llab.optionalLibs.katex;
-  css = llab.styleTag(katex.css);
-  js = llab.scriptTag(katex.js);
-  js.onload = llab.displayMathDivs;
-
-  document.head.appendChild(css);
-  document.head.appendChild(js);
 }
 
 // Call The Functions to HighlightJS to render
@@ -210,12 +178,11 @@ llab.highlightSyntax = function() {
   });
 }
 
-// Call the KaTeX APIS to render the LaTeX code.
 llab.displayMathDivs = function () {
-  $('.katex, .katex-inline').each(function (idx, elm) {
+  $('.katex, .katex-inline').each(function (_, elm) {
     katex.render(elm.textContent, elm, {throwOnError: false});
   });
-  $('.katex-block').each(function (idx, elm) {
+  $('.katex-block').each(function (_, elm) {
     katex.render(elm.textContent, elm, {
       displayMode: true, throwOnError: false
     });
