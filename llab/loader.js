@@ -3,7 +3,6 @@
  * This file is the entry point for all llab pages.
  */
 
-
 const THIS_FILE = 'loader.js';
 const RELEASE_DATE = '2023-06-16';
 
@@ -75,12 +74,8 @@ llab.loaded['config'] = true;
 llab.loaded['library'] = false;
 llab.loaded['multiplechoice'] = false
 llab.paths.stage_complete_functions[0] = function() {
-    console.log('STAGE 0 COMPLETE???');
-    console.log(typeof jQuery === 'function')
-    return ( typeof jQuery === 'function' &&
-        llab.loaded['config'] && llab.loaded['library'] );
+    return (typeof jQuery === 'function') && llab.loaded['library'];
 }
-
 
 /////////////////
 ///////////////// stage 1
@@ -110,13 +105,12 @@ llab.paths.stage_complete_functions[2] = function() {
     return true; // && llab.loaded['user'];
 }
 
-
 //////////////
 
 llab.getPathToThisScript = function() {
-    var scripts = document.scripts;
-    for (var i = 0; i < scripts.length; i += 1) {
-        var src = scripts[i].src;
+    var scripts = document.scripts, i, src;
+    for (i = 0; i < scripts.length; i += 1) {
+        src = scripts[i].src;
         if (src.endsWith('/' + THIS_FILE)) {
             return src;
         }
@@ -127,15 +121,15 @@ llab.getPathToThisScript = function() {
 llab.thisPath = llab.getPathToThisScript();
 
 function getTag(name, src, type, opts) {
-    var tag = document.createElement(name);
+    let tag = document.createElement(name),
+        link = name === 'link' ? 'href' : 'src';
 
     if (src.indexOf("//") === -1) {
         src = llab.thisPath.replace(THIS_FILE, src);
     }
 
-    var link  = name === 'link' ? 'href' : 'src';
     tag[link] = `${src}?${RELEASE_DATE}`;
-    tag.type  = type;
+    tag.type = type;
     if (opts) {
         for (let opt in opts) {
             tag[opt] = opts[opt];
@@ -149,8 +143,8 @@ llab.styleTag = (href) => getTag('link', href, 'text/css', { 'rel': 'stylesheet'
 
 
 llab.initialSetUp = function() {
-    function loadScriptsAndLinks(stage_num) {
-        llab.paths.scripts[stage_num].forEach(function(src) {
+    let loadScriptsAndLinks = (stage_num) => {
+        llab.paths.scripts[stage_num].forEach(src => {
             document.head.appendChild(llab.scriptTag(src), () => proceedWhenComplete(stage_num));
         });
 
@@ -159,25 +153,21 @@ llab.initialSetUp = function() {
         }
     }
 
-    function proceedWhenComplete(stage_num) {
+    proceedWhenComplete = (stage_num) => {
         if (llab.paths.stage_complete_functions[stage_num]()) {
             if ((stage_num + 1) < llab.paths.scripts.length) {
                 loadScriptsAndLinks(stage_num + 1);
             }
         } else {
-            setTimeout(function() {
-                proceedWhenComplete(stage_num);
-            }, 2);
+            setTimeout(() => { proceedWhenComplete(stage_num) }, 2);
         }
     }
 
-    console.log('LOADING CSS')
     llab.paths.css_files.forEach(file => document.head.appendChild(llab.styleTag(file)));
     loadScriptsAndLinks(0);
 
-    if (llab.isLocalEnvironment() && llab.SENTRY_URL) {
-        let sentry = llab.scriptTag(llab.SENTRY_URL, llab.setupSentry);
-        document.head.appendChild(sentry);
+    if (!llab.isLocalEnvironment() && llab.SENTRY_URL) {
+        document.head.appendChild(llab.scriptTag(llab.SENTRY_URL, llab.setupSentry));
     }
 };
 

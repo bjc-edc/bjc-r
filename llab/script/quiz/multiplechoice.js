@@ -84,24 +84,26 @@ MC.prototype.getChoiceByIdentifier = function(identifier) {
     return null;
 };
 
-MC.prototype.displayNumberAttempts = function(part1, part2, states) {
-    var nextAttemptNum = states.length + 1;
-    var nextAttemptString = "";
-    // TODO: Make this switch / case and refactor to a function (for clarity)
-    if (llab.pageLang() != 'en') {
-        nextAttemptString = nextAttemptNum.toString();
-    } else if (Math.floor(nextAttemptNum / 10) == 1) {
-        nextAttemptString = nextAttemptNum + "th";
-    } else if (nextAttemptNum % 10 == 1) {
-        nextAttemptString = nextAttemptNum + "st";
-    } else if (nextAttemptNum % 10 == 2) {
-        nextAttemptString = nextAttemptNum + "nd";
-    } else if (nextAttemptNum % 10 == 3) {
-        nextAttemptString = nextAttemptNum + "rd";
+llab.numToOrdinal = (number) => {
+    if (Math.floor(number / 10) == 1) {
+        return `${number}th`;
+    } else if (number % 10 == 1) {
+        return `${number}st`;
+    } else if (number % 10 == 2) {
+        return `${number}nd`;
+    } else if (number % 10 == 3) {
+        return `${number}rd`;
     } else {
-        nextAttemptString = nextAttemptNum + "th";
+        return `${number}th`;
     }
-    this.multipleChoice.find('.numberAttemptsDiv').html(part1 + " " + nextAttemptString + " " + part2 + ".");
+}
+
+MC.prototype.displayNumberAttempts = function(states) {
+    let count = states.length + 1, t = llab.t;
+    this.multipleChoice.find('.numberAttemptsDiv').html(t(
+        'attemptMessage',
+        { number: count, ordinal: llab.numToOrdinal(count) }
+    ));
 };
 
 MC.prototype.tryAgain = function(e) {
@@ -122,7 +124,7 @@ MC.prototype.tryAgain = function(e) {
 MC.prototype.render = function() {
     let t = llab.translate,
         type = 'radio';
-    var i, choiceHTML, question_id;
+    var i, choiceHTML, choice_id, optId;
     if (!this.previouslyRendered) {
         /* set the question type title */
         this.multipleChoice.find('.questionType').html(t('selfCheckTitle'));
@@ -150,25 +152,23 @@ MC.prototype.render = function() {
         type = 'checkbox';
     }
 
-    console.log(this);
-    /* render the choices */
     for (i = 0; i < this.choices.length; i++) {
-        question_id = this.removeSpace(this.choices[i].identifier);
+        optId = this.choices[i].identifier;
+        choice_id = `q-${this.num}- ${this.removeSpace(optId)}`;
         choiceHTML = `
         <table><tbody>
             <tr class="table-middle">
                 <td class="table-middle">
                     <input type="${type}" class="${type}" name="radiobutton"
-                    id="${question_id}" value="${question_id}" />
+                    id="${choice_id}" value="${choice_id}" />
                 </td>
                 <td class="table-middle">
-                    <label id="choicetext:${question_id}" for="${question_id}">
+                    <label id="choicetext-${choice_id}" for="${choice_id}">
                         ${this.choices[i].text}
                     </label>
                 </td>
                 <td class="table-middle">
-                    <div id="feedback_${question_id}" name="feedbacks">
-                    </div>
+                    <div id="feedback_${choice_id}" name="feedbacks"></div>
                 </td>
             </tr>
         </tbody></table>`;
@@ -176,13 +176,11 @@ MC.prototype.render = function() {
         this.multipleChoice.find('.radiobuttondiv').append(choiceHTML);
 
         // TODO -- explain this...
-        $(`#${question_id}`).bind('click', {
-            myQuestion: this
-        }, function(args) {
+        $(`#${choice_id}`).bind('click', { myQuestion: this }, function(args) {
             args.data.myQuestion.enableCheckAnswerButton('true');
         });
-        if (this.selectedInSavedState(this.choices[i].identifier)) {
-            $(`#${question_id}`).attr('checked', true);
+        if (this.selectedInSavedState(optId)) {
+            $(`#${choice_id}`).attr('checked', true);
         }
 
         this.multipleChoice.find(".checkAnswerButton").bind('click', {
@@ -209,7 +207,7 @@ MC.prototype.render = function() {
         this.multipleChoice.find(".checkAnswerButton").innerHTML = t("Save Answer");
         this.multipleChoice.find(".tryAgainButton").innerHTML = t("Edit Answer");
     } else {
-        this.displayNumberAttempts(t("This is your"), t("attempt"), this.attempts);
+        this.displayNumberAttempts( this.attempts);
     };
 
     if (this.states.length > 0) {
@@ -326,7 +324,7 @@ MC.prototype.checkAnswer = function() {
             if (choice) {
                 this.multipleChoice.find('#feedback_' + choiceIdentifier).html(choice.feedback);
 
-                var choiceTextDiv = this.multipleChoice.find(".choicetext:" + choiceIdentifier);
+                var choiceTextDiv = this.multipleChoice.find(".choicetext-" + choiceIdentifier);
                 if (this.isCorrect(choice.identifier)) {
                     choiceTextDiv.attr("class", "correct");
                 } else {

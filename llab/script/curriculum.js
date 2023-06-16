@@ -71,12 +71,13 @@ llab.TRANSLATIONS = {
 llab.secondarySetUp = function() {
   let t = llab.translate;
   llab.setupTitle();
+  llab.addFooter();
 
   // Get the topic file and step from the URL
   llab.file = llab.getQueryParameter("topic");
 
   llab.addFeedback(document.title, llab.file, llab.getQueryParameter('course'));
-  llab.addFooter();
+
 
   // We don't have a topic file, so we should exit.
   if (llab.file === '' || !llab.isCurriculum()) {
@@ -123,7 +124,6 @@ llab.secondarySetUp = function() {
   });
 
   llab.setupSnapImages();
-
   llab.additionalSetup([
     {
       trigger: 'pre code',
@@ -612,12 +612,11 @@ llab.addFeedback = function(title, topic, course) {
     return;
   }
 
-  // Prevent Feedback Button on non Teacher Guide pages (Added by Mary Fries on 10/16/17)
+  // Show Feedback ONLY on Teacher Guide
   if (location.pathname.slice(0,25) != "/bjc-r/cur/teaching-guide") {
     return;
   }
 
-  // TODO: Make this config
   var surveyURL = 'https://getfeedback.com/r/LRm9oI3N?';
   surveyURL += $.param({
     'PAGE': title,
