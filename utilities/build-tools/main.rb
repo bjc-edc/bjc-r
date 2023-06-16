@@ -83,10 +83,10 @@ class Main
     print prompt
     while (user_input = gets.chomp) # loop while getting user input
       case user_input
-      when 'Y', 'Y'.downcase
+      when 'Y', 'y'
         testingFolder(true)
         break
-      when 'N', 'N'.downcase
+      when 'N', 'n'
         testingFolder(false)
         break
       else
@@ -94,6 +94,11 @@ class Main
         print prompt # print the prompt, so the user knows to re-enter input
       end
     end
+  end
+
+  # TODO: Use this method
+  def destination_dir
+    "#{@parentDir}/review"
   end
 
   def deleteReviewFolder
@@ -288,7 +293,6 @@ class Main
   end
 
   def isFileALab(file, labName)
-    rio(file)
     file.include?(labName)
   end
 
