@@ -430,7 +430,7 @@ MC.prototype.getResultMessage = function(isCorrect) {
 
     /* if this attempt is correct, then we only need to return a msg */
     if (isCorrect) {
-        return t("You have successfully completed this q)uestion!");
+        return t("successMessage");
     }
 
     return '';

@@ -126,20 +126,15 @@ llab.secondarySetUp = function() {
   });
 
   // Return the name of the class on element if it is a class in optionalContent
-  function lookupClassName(optionalContent, classList) {
-    for (let key in optionalContent) {
-      if (classList.includes(key)) {
-        return key;
-      }
-    }
-    return null;
+  function lookupClassName(toggleClasses, classList) {
+    return toggleClasses.find(className => classList.includes(className));
   }
 
-  let classSelector = `div.${Object.keys(TOGGLE_HEADINGS).join(',div.')}`;
+  let classSelector = `div.${TOGGLE_HEADINGS.join(',div.')}`;
   $(classSelector).each(function(i) {
     let classList = Array.from(this.classList);
     let isVisible = classList.indexOf('show') > -1;
-    let contentType = lookupClassName(TRANSLATIONS, classList);
+    let contentType = lookupClassName(TOGGLE_HEADINGS, classList);
     let id = `hint-${contentType}-${i}`;
     this.innerHTML = `
       <a style='font-size: 18px;' href='#${id}' data-toggle='collapse'
