@@ -55,7 +55,9 @@ llab.renderFull = function(data, _ignored1, _ignored2) {
 
     if (courseURL) {
         courseURL = llab.courses_path + courseURL;
-        $(FULL).append(`<a class='course_link pull-right' href=${courseURL}>${llab.strings.goMain}</a>`);
+        $(FULL).append(
+            `<a class='course_link pull-right' href=${courseURL}>${llab.t(llab.strings.goMain)}</a>`
+        );
     }
 
     llab.file = llab.topic;

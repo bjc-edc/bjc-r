@@ -50,15 +50,22 @@ llab.pageLang = () => {
         return llab.CURRENT_PAGE_LANG;
     }
 
-    let pageLanguage = $("html").attr('lang');
-    if (!pageLanguage) {
-      let altLang = location.pathname.match(/(\.\w\w).html/);
-      if (altLang) {
-        pageLanguage = altLang;
+    let htmlLang = $("html").attr('lang');
+    if (!htmlLang) {
+        htmlLang = llab.determineAltLang();
+        $("html").attr('lang', htmlLang);
       }
-    }
-    llab.CURRENT_PAGE_LANG = pageLanguage || 'en';
+    llab.CURRENT_PAGE_LANG = htmlLang || 'en';
     return llab.CURRENT_PAGE_LANG;
+}
+
+// Use the filename of the HTML file or course file, or topic file to determine page language.
+llab.determineAltLang = () => {
+    let altLang = location.href.match(/\.(\w\w)\.(html|topic)/);
+    if (altLang) {
+        return altLang[1];
+    }
+    return 'en'
 }
 
 // very loosely mirror the Rails API
@@ -280,11 +287,9 @@ llab.fragments = {};
 // These are common strings that need not be build and should be reused!
 llab.strings = {};
 llab.strings.goMain = 'Go to Table of Contents';
-// &#8230; is ellipsis
-llab.strings.clickNav = 'Click here to navigate&nbsp;&nbsp;';
-//
 llab.fragments.bootstrapSep = '<li class="divider list_item" role="presentation"></li>';
 llab.fragments.bootstrapCaret = '<span class="caret"></span>';
+// TODO: Translate this
 llab.fragments.hamburger = '<span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>';
 // LLAB selectors for common page elements
 llab.selectors.FULL = '.full';

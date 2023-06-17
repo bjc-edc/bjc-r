@@ -58,6 +58,9 @@ llab.TRANSLATIONS = {
     en: 'This is your %ordinal attempt.',
     es: 'Este es tu intento n.º %number.',
   },
+  'Go to Table of Contents': {
+    es: 'Ir a la tabla de contenido'
+  }
 };
 
 // Executed on *every* page load.
@@ -312,7 +315,7 @@ llab.processLinks = function(data, _status, _jqXHR) {
     if (course.indexOf("//") === -1) {
       course = llab.courses_path + course;
     }
-    itemContent = llab.spanTag(llab.strings.goMain, 'course-link-list');
+    itemContent = llab.spanTag(llab.t(llab.strings.goMain), 'course-link-list');
     ddItem = llab.dropdownItem(itemContent, course);
     list.prepend(ddItem);
   }
