@@ -45,21 +45,58 @@ llab.getSnapRunURL = function(targeturl, options) {
     return `${snapURL}${origin}${targeturl}`;
 };
 
+llab.pageLang = () => {
+    if (llab.CURRENT_PAGE_LANG) {
+        return llab.CURRENT_PAGE_LANG;
+    }
+
+    let htmlLang = $("html").attr('lang');
+    if (!htmlLang) {
+        htmlLang = llab.determineAltLang();
+        $("html").attr('lang', htmlLang);
+      }
+    llab.CURRENT_PAGE_LANG = htmlLang || 'en';
+    return llab.CURRENT_PAGE_LANG;
+}
+
+// Use the filename of the HTML file or course file, or topic file to determine page language.
+llab.determineAltLang = () => {
+    let altLang = location.href.match(/\.(\w\w)\.(html|topic)/);
+    if (altLang) {
+        return altLang[1];
+    }
+    return 'en'
+}
+
+// very loosely mirror the Rails API
+llab.translate = (key, replacements, lang) => {
+    replacements ||= {};
+    lang ||= llab.pageLang();
+    let dictionary = llab.TRANSLATIONS[key];
+    if (!dictionary) { return key; }
+    let result = dictionary[lang];
+    if (result !== '' && !result) {
+      result = dictionary['en'] || key;
+    }
+    if (Array.isArray(replacements)) {
+      replacements = Object.assign({}, replacements);
+    }
+    Object.keys(replacements).forEach((key) => {
+      result = result.replaceAll(`%${key}`, replacements[key]);
+    })
+    return result;
+};
+llab.t = llab.translate;
+
 llab.toggleDevComments = function() {
     $(".todo, .comment, .commentBig").toggle();
 };
-
-llab.hideAllDevComments = function() {
-    $('.todo, .comment, .commentBig').hide();
-}
 
 llab.showAllDevComments = function() {
     $('.todo, .comment, .commentBig').show();
 }
 
-llab.canShowDevComments = function() {
-    return ['localhost', '127.0.0.1'].includes(window.location.hostname);
-}
+llab.canShowDevComments = llab.isLocalEnvironment;
 
 llab.setUpDevComments = function() {
     if (llab.canShowDevComments()) {
@@ -250,11 +287,9 @@ llab.fragments = {};
 // These are common strings that need not be build and should be reused!
 llab.strings = {};
 llab.strings.goMain = 'Go to Table of Contents';
-// &#8230; is ellipsis
-llab.strings.clickNav = 'Click here to navigate&nbsp;&nbsp;';
-//
 llab.fragments.bootstrapSep = '<li class="divider list_item" role="presentation"></li>';
 llab.fragments.bootstrapCaret = '<span class="caret"></span>';
+// TODO: Translate this
 llab.fragments.hamburger = '<span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>';
 // LLAB selectors for common page elements
 llab.selectors.FULL = '.full';
@@ -288,12 +323,10 @@ llab.eraseCookie = function(name) {
     createCookie(name,"",-1);
 }
 
-
 llab.spanTag = function(content, className) {
     return '<span class="' + className + '">' + content + '</span>'
 }
 
-// Cool array level operations
 // TODO: Replace with native JS some/every.
 llab.any = function(A) {
     return A.reduce(function(x, y) {return x || y });
