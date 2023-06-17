@@ -564,13 +564,22 @@ llab.setButtonURLs = function() {
 };
 
 // TODO: Update page content and push URL onto browser back button
-llab.goBack = function() {
-  location.href = llab.url_list[llab.thisPageNum() - 1];
+llab.goBack = (event) => {
+  event.preventDefault();
+  llab.loadNewPage(llab.url_list[llab.thisPageNum() - 1])
 };
 
-llab.goForward = function() {
-  location.href = llab.url_list[llab.thisPageNum() + 1];
+llab.goForward = (event) => {
+  event.preventDefault();
+  llab.loadNewPage(llab.url_list[llab.thisPageNum() - 1])
 };
+
+llab.loadNewPage = (url) => {
+  fetch(url).then(content => {
+    // delete .full
+    // update nav/header/etc.
+  })
+}
 
 llab.addFeedback = function(title, topic, course) {
   // Prevent Button on small devices
