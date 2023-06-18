@@ -6,16 +6,16 @@
 
 require 'pry'
 
-SOURCE = ARGV[0]
+SOURCE = ARGV[0] || 'img/'
 
 # binding.pry
 
 all_images = Dir.glob("#{Dir.getwd()}/#{SOURCE}/**/*")
-spanish_files = all_images.select { |path| path.match?(/\w+\.es\.\w+/) }
+spanish_files = all_images.select { |path| path.match?(/\w+\.es\.(png|jpeg|gif|jpg|svg)/) }
 spanish_files.each do |es_path|
   en_path = es_path.sub('.es', '')
   if File.exists?(en_path)
-    result = `diff -s #{en_path} #{es_path}`
+    result = `diff -s '#{en_path}' '#{es_path}'`
     if result.match?('identical')
       puts "Deleting #{es_path}"
       File.delete(es_path)
