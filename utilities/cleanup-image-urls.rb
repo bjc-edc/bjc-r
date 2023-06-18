@@ -1821,18 +1821,18 @@ IMAGE_FILES = <<~FILES.split
   img/blocks/word-to-list.es.png
   img/blocks/x-position.es.png
   img/blocks/y-position.es.png
-  img/icons/headphones-mini.es.png
-  img/icons/import-tools-mini.es.png
-  img/icons/new-project-mini.es.png
-  img/icons/predict-mini.es.png
+  img/icons/headphones-mini.png
+  img/icons/import-tools-mini.png
+  img/icons/new-project-mini.png
+  img/icons/predict-mini.png
   img/icons/rotation-center.es.png
-  img/icons/share-your-work-mini.es.png
-  img/icons/teachers-choice-mini.es.png
+  img/icons/share-your-work-mini.png
+  img/icons/teachers-choice-mini.png
   img/icons/teachers-choice.es.png
-  img/icons/work-by-yourself-mini.es.png
-  img/icons/work-with-a-partner-mini.es.png
-  img/icons/write-in-journal-mini.es.png
-  img/icons/write-out-thoughts-mini.es.png
+  img/icons/work-by-yourself-mini.png
+  img/icons/work-with-a-partner-mini.png
+  img/icons/write-in-journal-mini.png
+  img/icons/write-out-thoughts-mini.png
 FILES
 
 puts IMAGE_FILES.length
