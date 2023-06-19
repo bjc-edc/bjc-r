@@ -10,7 +10,9 @@ VALID_LANGUAGES = %w[en es de].freeze
 TEMP_FOLDER = 'summaries~'
 
 class Main
+  attr_reader :parentDir
   attr_accessor :skip_test_prompt
+  attr_accessor :course_file
 
   # TODO: This should probably take in a root, course_html and a lang
   def initialize(root: '', content: 'cur/programming', topic_dir: 'nyc_bjc', language: 'en')
@@ -27,6 +29,8 @@ class Main
     @classStr = ''
     @subClassStr = ''
     @labFileName = ''
+    @course_file = "bjc4nyc#{language_ext}.html"
+    @topics_in_course = []
     @vocab = Vocab.new(@parentDir, language)
     @selfcheck = SelfCheck.new(@parentDir, language)
     @atwork = AtWork.new(@parentDir, language)
@@ -61,7 +65,7 @@ class Main
     testingFolderPrompt
     createNewReviewFolder
     # parse_class()
-    parse_all_topic_files_in_folder(@topicFolder)
+    @topics_in_course = course_file.list_topics
     parse_units("#{@parentDir}/review/topics.txt")
     @vocab.doIndex
     puts 'All units complete'
@@ -384,6 +388,7 @@ class Main
       src = "#{@parentDir}/review/#{file}"
       dst = "#{Dir.getwd}/#{file}"
       File.delete(dst) if File.exist?(dst)
+      # TODO: use nokogiri to refomat the file.
       FileUtils.copy_file(src, dst) if File.exist?(src)
     end
   end
@@ -495,6 +500,4 @@ class Main
   def currUnit(str)
     @currUnit = str
   end
-
-  attr_reader :parentDir
 end

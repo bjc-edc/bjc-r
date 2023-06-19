@@ -88,8 +88,9 @@ class SelfCheck
       newStr = str.split(pattern)
       currUnit(newStr.join)
       currUnitNum(@currUnit.match(/\d+/).to_s)
-      selfCheckFileName("selfcheck#{@currUnitNum}#{@language_ext}.html")
-      examFileName("exam#{@currUnitNum}#{@language_ext}.html")
+      # TODO put the filenames somewhere...
+      selfCheckFileName("unit-#{@currUnitNum}-self-check#{@language_ext}.html")
+      examFileName("unit-#{@currUnitNum}-exam-reference#{@language_ext}.html")
       isNewUnit(false)
     end
   end
@@ -196,8 +197,6 @@ class SelfCheck
     localPath = Dir.getwd
     linkPath = localPath.match(/bjc-r.+/).to_s
     result = "/#{linkPath}/#{file}"
-    # https://bjc.berkeley.edu
-    result.to_s
     # add_content_to_file('urlLinks.txt', result)
   end
 end

@@ -78,7 +78,7 @@ class Vocab
   end
 
   def vocab_file_name(unit)
-    @vocab_file_name = "#{unit}-vocab#{@language_ext}.html"
+    @vocab_file_name = "unit-#{unit}-vocab#{@language_ext}.html"
   end
 
   def get_vocab_file_name
