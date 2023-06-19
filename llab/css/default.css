@@ -10,7 +10,6 @@ code, pre, tt, kbd, samp, var {
 html, body { /* default Sans Serif Stack */
   font-family: "Open Sans", Helvetica, Arial, sans-serif;
 }
-
 /* END FONT SETTINGS */
 
 a:visited {
@@ -61,7 +60,6 @@ nav {
   text-align: right;
 }
 
-/* FIXME --- poorly performant. */
 .full ul, .full ol {
   font-size: 1em;
   font-weight: inherit;
@@ -76,8 +74,8 @@ nav {
 .full is needed because the class reference is more specific and the
 above rules override these without it.
 */
-.full ul  ul, .full ol  ol,
-.full ul  ol, .full ol  ul {
+.full ul ul, .full ol ol,
+.full ul ol, .full ol ul {
   border: none;
   display: block;
   margin: none;
@@ -125,12 +123,10 @@ code { /* Override bootstrap. */
 /** PAGE NAV (TOP AND BOTTOM) ************************************************/
 .llab-nav {
   line-height: 1.38; /* Keep slightly smaller than normal to control centering the nav buttons */
-  background: #FFF;
   margin: 0 0 .5em 0;
-  box-shadow: 0 5px 10px #CCC;
   width: 100%;
   padding: .5em 1em;
-  vertical-align: middle;
+  border: none;
 }
 
 /* Show a special div on small screens that isn't in the nav bar */
@@ -139,25 +135,37 @@ code { /* Override bootstrap. */
   display: none;
 }
 
-.navbar-title, .title-small-screen {
+.title-small-screen {
   font-size: 1.5em;
   font-weight: bold;
-  font-variant: small-caps;
   color: #003A70;
-  text-align: left;
 }
 
 /* Contains the page title text, truncates text with '…' */
-/* First line is stupid bootstrap stuff....*/
 .navbar-default .navbar-title:hover, .navbar-default .navbar-title:focus,
 .navbar-default .navbar-title,
-.navbar-title, a..navbar-title {
+.navbar-title, a.navbar-title {
   vertical-align: middle;
-  max-width: 80%;
-  min-width: 50%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+nav.navbar .navbar-brand {
+  max-height: 48px;
+  padding: 0;
+  margin-left: 30px;
+}
+
+.navbar-brand img {
+  max-height: 50px;
+  -webkit-filter: none;
+}
+
+nav.navbar .navbar-title {
+  padding: 5px;
+  margin: auto 5px;
+  width: auto;
 }
 
 .full-bottom-bar {
@@ -177,45 +185,69 @@ code { /* Override bootstrap. */
   padding: 1em;
 }
 
-/* WIDTH OF THESE TWO MUST NOT BE > 100%!! */
-.navbar-left {
-  width: 80%; /* For setting title width */
-}
-
-.navbar-right { /* Contains Nav Buttons and Dropdown Menu */
-  width: 20%;  /* For setting title width */
-}
-
 .navbar-toggle {
-  border-radius: 4px;
+  border-radius: 0px;
   display: inline;
-  position: inherit;
   float: none;
   margin: 0;
   border-color: #888;
 }
 
-.navbar-default .navbar-toggle,
-.navbar-default .navbar-toggle:hover,
-.navbar-default .navbar-toggle:focus {
-  border: 1px solid #888 !important; /* FIXME */
+.navbar-right {
+  padding: 6px 1rem;
+  margin-right: 20ch;
+}
+
+/* Override Bootstrap default class */
+.navbar-nav>li>a {
+  padding: 6px;
+}
+
+ul.navbar-nav li {
+  padding: 0;
+}
+
+/* back, dropdown-toogle, next buttons */
+.btn-nav {
+  color: white;
+  border: 2px solid white;
+  border-left-width: 1px;
+  border-right-width: 1px;
+  background-color: none;
+  font-size: 1.2rem;
+  font-weight: 900;
+  padding: 5px;
+  border-radius: 0;
+}
+
+li:first-child .btn-nav {
+  border-left-width: 2px;
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+}
+
+li:last-child .btn-nav {
+  border-right-width: 2px;
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+
+a.btn-nav,
+a.btn-nav:visited {
+  color: white;
 }
 
 .nav-btns {
-  float: right;
-  z-index: 9999;
   max-width: 18em;
-  min-width: 15em;
   margin-bottom: 0; /* Bootstrap override for ul, defaults 10 otherwise */
   line-height: 1em;
   font-weight: 900;
-  position: relative;
-  vertical-align: middle;
 }
 
 /* BUTTON CLASSES */
 /* Overrides default bootstrap which conflicts with right float dropdown. */
-.btn-group > .btn {
+.btn-group .btn {
   float: none;
 }
 
@@ -246,6 +278,7 @@ code { /* Override bootstrap. */
   text-overflow: ellipsis;
   /* max- height + width set using JS on page load. */
 }
+
 .list_item {
   font-size: 10pt;
   padding: 0;
@@ -279,30 +312,7 @@ code { /* Override bootstrap. */
   font-weight: 600;
 }
 
-/* Button to toggle the menu */
-.list_header, .arrow {
-  height: 2em;
-  margin: 0;
-  text-align: center;
-  font-size: 12pt;
-  font-weight: 900;
-  border-color: #888;
-  border-radius: 0; /* No round coners on dropdowns between buttons */
-}
 
-.list_header {
-  border-radius: 0; /* No round coners on dropdowns between buttons */
-  background-color: #FFF;
-}
-
-.arrow {/* For Buttons with arrows instead of words. */
-  border-radius: 8px;
-  font-variant: small-caps;
-  font-weight: 900;
-  -webkit-text-stroke: 1px;
-  width: 3em;
-  padding: 5px 3px 3px 3px; /* center text in buttons */
-}
 
 /* Dropdown menu items with icons */
 .course-link-list, .main-topic-link, .current-page-arrow {
@@ -868,6 +878,7 @@ img.indent, div.indent {
   .page-feedback {
 	display: none;
   }
+
   .nav-btns.btn-group {
 	/* Buttons can take the whole top bar on small screens
 	 * Main difference is for the dropdown menus to look nice when
