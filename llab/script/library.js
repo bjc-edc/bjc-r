@@ -294,7 +294,7 @@ llab.fragments.hamburger = '<span class="sr-only">Toggle navigation</span><span 
 // LLAB selectors for common page elements
 llab.selectors.FULL = '.full';
 llab.selectors.NAVSELECT = '.llab-nav';
-llab.selectors.PROGRESS = '.full-bottom-bar';
+llab.selectors.PROGRESS = '.progress-indicator';
 
 //// cookie stuff
 // someday my framework will come, but for now, stolen blithely from http://www.quirksmode.org/js/cookies.html

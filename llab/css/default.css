@@ -1,4 +1,10 @@
-/* FONT STYLES FOR ELEMENTS */
+@charset "UTF-8";
+
+*[hidden] {
+  display: none;
+  pointer-events: none;
+}
+
 /* Override Bootstrap */
 code, pre, tt, kbd, samp, var {
   font-size: 1em;
@@ -25,9 +31,9 @@ html {
 body {
   font-size: 1em;
   line-height: 1.5;
-  color: #000; /* Why Bootstrap, why?! */
+  color: #000;
   text-align: left;
-  padding: 55px 1em 1em; /* padding top is reset by JS on load. */
+  padding: 60px 1em 1em; /* padding top is reset by JS on load. */
 }
 
 .full {
@@ -40,7 +46,6 @@ img {
   /* Better resizing of images for mobile devices */
   max-width: 100%;
   padding: 6px;
-  /* drop shadows because we be fancy people */
   -webkit-filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.5));
   -ms-filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=2, OffY=2, Color='#444')";
   filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=2, OffY=2, Color='#444')";
@@ -66,13 +71,9 @@ nav {
   display:inline-block;
   color: #004;
   margin: 18px;
-  border: 2px solid #39F;
-  border-radius: 6px;
 }
 
 /* Handle Nested Lists
-.full is needed because the class reference is more specific and the
-above rules override these without it.
 */
 .full ul ul, .full ol ol,
 .full ul ol, .full ol ul {
@@ -107,7 +108,7 @@ blockquote {
 }
 
 /* Physically disables clicking on a link which LOOKS disabled. */
-a[disabled] {
+a[disabled], .disabled {
   pointer-events: none;
 }
 
@@ -126,19 +127,36 @@ code { /* Override bootstrap. */
   margin: 0 0 .5em 0;
   width: 100%;
   padding: .5em 1em;
-  border: none;
+  border: none; /* override bootstrap's very light border. */
+  background-color: #0C3559;
 }
 
 /* Show a special div on small screens that isn't in the nav bar */
 .title-small-screen {
   margin: 1% 3%;
   display: none;
-}
-
-.title-small-screen {
   font-size: 1.5em;
   font-weight: bold;
-  color: #003A70;
+  color: #000;
+}
+
+/* Necessary when on mobile. */
+.navbar-nav .open .dropdown-menu {
+  background-color: #FFF;
+}
+
+a.btn.btn-nav {
+  width: 3ch !important;
+}
+
+@media screen (max-width: 768px) {
+  ul.navbar-nav .open {
+    margin: 0.5em;
+  }
+  ul.navbar-nav li.open ul {
+    margin: 0.5em;
+    width: 100%
+  }
 }
 
 /* Contains the page title text, truncates text with '…' */
@@ -160,6 +178,8 @@ nav.navbar .navbar-brand {
 .navbar-brand img {
   max-height: 50px;
   -webkit-filter: none;
+  -ms-filter: none;
+  filter: none;
 }
 
 nav.navbar .navbar-title {
@@ -169,37 +189,33 @@ nav.navbar .navbar-title {
 }
 
 .full-bottom-bar {
-  background: #003A70;
-  opacity: 0.85;
-  filter: alpha(opacity=85); /* For IE8 and earlier */
-  background-image: url(../img/progress.gif);
-  background-repeat: no-repeat;
-  background-size: 26px;
-  height: 32px;
-  background-position: 2% 3px; /* (32px - 26px) / 2 */
-  border-radius: 20px;
-  width: 92%;
-  box-shadow: 2px 2px 3px #888;
-  /* 3em is extra padding for the feedback button */
-  margin: 1em auto 1em; /* changed from '1em auto 3em' by Mary Fries on 10/16/17 to leave room for footer */
-  padding: 1em;
+  background: #0C3559;
+  height: 55px;
+  border-radius: 8px;
+  width: 95%;
+  margin: 1em auto 1em;
+  padding: 0.3em 1em;
 }
 
-.navbar-toggle {
-  border-radius: 0px;
-  display: inline;
-  float: none;
-  margin: 0;
-  border-color: #888;
+.progress-indicator {
+  float: left;
+  height: 50px;
+  background-image: url(../img/alonzo.png);
+  background-repeat: no-repeat;
+  background-size: 32px;
+  width: calc(100% - 10ch);
+  padding: 0 0.5em;
+  background-position: 0 0; /* (32px - 26px) / 2 */
 }
 
 .navbar-right {
   padding: 6px 1rem;
-  margin-right: 20ch;
+  margin-right: 10ch;
 }
 
+
 /* Override Bootstrap default class */
-.navbar-nav>li>a {
+.navbar-nav > li > a {
   padding: 6px;
 }
 
@@ -207,17 +223,28 @@ ul.navbar-nav li {
   padding: 0;
 }
 
-/* back, dropdown-toogle, next buttons */
+/* dropdown-toogle, back/next buttons */
 .btn-nav {
   color: white;
   border: 2px solid white;
-  border-left-width: 1px;
-  border-right-width: 1px;
-  background-color: none;
+  background-color: unset;
   font-size: 1.2rem;
   font-weight: 900;
   padding: 5px;
   border-radius: 0;
+}
+
+.nav .open > a,
+.nav> li > a:focus,
+.nav > li > a:hover,
+a.btn-nav:visited:hover,
+a.btn-nav:visited:focus,
+a.btn-nav:active,
+.btn-nav:hover,
+.btn-nav:focus {
+  border-color: #F2E205;
+  color: #F2E205;
+  background-color: unset;
 }
 
 li:first-child .btn-nav {
@@ -226,44 +253,42 @@ li:first-child .btn-nav {
   border-bottom-left-radius: 6px;
 }
 
-li:last-child .btn-nav {
+/* Special-case for the next button */
+li:nth-child(3) .btn-nav {
   border-right-width: 2px;
   border-top-right-radius: 6px;
   border-bottom-right-radius: 6px;
 }
 
+.full-bottom-bar .btn-nav {
+  border-radius: 6px;
+}
+
+.nav-lang-dropdown {
+  margin-left: 5ch;
+}
+.nav-lang-dropdown .btn-nav {
+  border-radius: 6px;
+}
 
 a.btn-nav,
 a.btn-nav:visited {
   color: white;
 }
 
-.nav-btns {
-  max-width: 18em;
-  margin-bottom: 0; /* Bootstrap override for ul, defaults 10 otherwise */
-  line-height: 1em;
-  font-weight: 900;
+button.btn-nav {
+  top: 2px;
+  border: 2px solid white;
+  font-size: 1rem;
+  margin: 0 -1px;
 }
 
-/* BUTTON CLASSES */
-/* Overrides default bootstrap which conflicts with right float dropdown. */
-.btn-group .btn {
-  float: none;
+/* Slightly better centering of the hamburger. */
+button.btn-nav .glyphicon-menu-hamburger {
+  top: 2.5px;
 }
 
-/* Bottom nav buttons are slightly different */
-.bottom-nav {
-  float: right;
-  height: 26px;
-  margin-top: -13px; /* Height / 2 */
-  vertical-align: middle;
-}
 
-.bottom-nav > .btn {
-  height: 26px; /* Same height as above */
-  padding: 2px; /* FIXME -- value is weird */
-  font-size: .76em;
-}
 /* END NAV SECTION ***********************************************************/
 
 /* PAGE DROPDOWN SECTION ******************************************************/
@@ -611,7 +636,7 @@ img.indent, div.indent {
 }
 
 /**** SPECIAL CONTENT CLASSES ***/
-/* .snap inserts the logo using the proper formatting.
+/* easily stylize Snap! with proper italics
 * Insert using "<span class="snap">snap</span>"
 */
 .snap:first-letter {
@@ -620,7 +645,6 @@ img.indent, div.indent {
 
 .snap {
   text-transform: capitalize;
-  font-variant: small-caps;
   font-style: normal;
 }
 
@@ -831,61 +855,44 @@ img.indent, div.indent {
 /******* SMALL DEVICE STUFF *****/
 @media (max-width: 768px) {
   body {
-	width: 100%;
+    width: 100%;
   }
   .full {
-	width: 98%;
-  }
-  .navbar-right > .btn-group > .arrow {
-	display: none;
-  }
-  .navbar-toggle {
-	border: 6px;
-  }
-  .navbar-right > .btn-group {
-	float: left;
-	padding: 0;
-	width: 100%;
-  }
-  .navbar-right {
-	float: left;
-	margin: 0;
-	padding: 0;
-	width: 100%;
-  }
-  .dropdown-menu-right {
-	width: 100%;
-  }
-  .navbar-left {
-	display: none;
-	width: 0;
-  }
-  /* FIXME -- this shouldn't be this way, but it works. */
-  .list_item {
-	color: #000;
-  }
-  /** Rounded corners for hamburger when it's the only button */
-  .list_header {
-	border-radius: 6px;
-  }
-  /* Override display only, all other properties are set above */
-  .title-small-screen {
-	display: block;
-  }
-  .llab-nav {
-	position: fixed;
-  }
-  .page-feedback {
-	display: none;
+    width: 100%;
   }
 
-  .nav-btns.btn-group {
-	/* Buttons can take the whole top bar on small screens
-	 * Main difference is for the dropdown menus to look nice when
-	 * expanded */
-	width: 100%;
-	/* Override this setting so that width takes effect. */
-	max-width: 100%;
+  .navbar-right {
+    position: relative;
+    margin: 1em;
+  }
+  .navbar-right > li {
+    display: inline-block;
+    position: relative;
+  }
+
+  .navbar-left {
+    display: none;
+    width: 0;
+  }
+
+  .list_item {
+    color: #FFF;
+  }
+
+  /** Rounded corners for hamburger when it's the only button */
+  .list_header {
+    border-radius: 6px;
+  }
+
+  /* Override display only, all other properties are set above */
+  .title-small-screen {
+    display: block;
+  }
+  .llab-nav {
+    position: fixed;
+  }
+  .page-feedback {
+    display: none;
   }
 }
 
@@ -902,48 +909,49 @@ img.indent, div.indent {
 }
 /* * * * END FONTS * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-
-/**************** *************************** ************/
-/**************** TO BE REMOVED OR REFACTORED ************/
-/* THESE ARE USED IN TWO FILES
-* We should move these to those two locations, or try to fix them
-*/
-#tableBlue {
-  border-collapse: collapse;
-  margin: 10px 15px;
-  background-color: #CCF;
+a[data-toggle="collapse"]:not([aria-expanded="true"])::after,
+a[data-toggle="collapse"][aria-expanded="false"]::after {
+  content: " ▸";
+  text-decoration: none;
 }
 
-#tableBlue th {
-  border: 1px solid #66F;
-  vertical-align: top;
-  text-align: left;
-  font-size: .8em;
-  padding: 2px 10px;
-  font-weight: 600;
+a[data-toggle="collapse"][aria-expanded="true"]::after {
+  content: " ▾";
+  text-decoration: none;
 }
 
-#tableBlue td {
-  border: 1px solid #66F;
-  vertical-align: top;
-  padding: 5px 10px;
-  vertical-align: top;
+
+/*!
+ * Font Awesome Free 5.13.0 by @fontawesome - https://fontawesome.com
+ * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
+
+ * We don't include all (or much of...) fontawesome.
+ * Add icons to this list as we use them in the repo.
+ * Copy the unicode from the top of the icon view on the relevant fontawesome page.
+ */
+ .fas, .far, .fa {
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+  font-style: normal;
 }
 
-#tableBlue ul {
-  border: none;
-  margin: 0;
+a.fa-external-link-alt:after { /* This is used on the /cur/solutions-assessments/ pages to indicate an external link. */
+  content: " \f35d";
+  font-size: .7em;
 }
 
-form li div {
-  font: 500 15px/1.7 "Times New Roman", Times, serif;
+.fa-globe::after {
+  content: ' \f0ac ';
 }
 
-form > h2, form > ol > li {
-  color: #999;
-  font: 500 30px;
+.fa-bars::after {
+  content: ' \f0c9 ';
 }
 
-form label {
-  font-family: sans-serif;
+.fa-arrow-left::after {
+  content: ' \f060 ';
+}
+
+.fa-arrow-right::after {
+  content: ' \f061 ';
 }
