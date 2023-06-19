@@ -1,11 +1,19 @@
 @charset "UTF-8";
+html {
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
+  font-size: 1em; /* Fix for weird bootstrap */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
+  color: #000;
+  text-align: left;
 
-*[hidden] {
-  display: none;
-  pointer-events: none;
 }
 
-/* Override Bootstrap */
+body {
+  padding: 60px 1em 1em; /* padding top is reset by JS on load. */
+}
+
 code, pre, tt, kbd, samp, var {
   font-size: 1em;
   font-style: normal;
@@ -13,27 +21,8 @@ code, pre, tt, kbd, samp, var {
   font-family: 'Andale Mono', 'Menlo', Courier, monospace;
 }
 
-html, body { /* default Sans Serif Stack */
-  font-family: "Open Sans", Helvetica, Arial, sans-serif;
-}
-/* END FONT SETTINGS */
-
 a:visited {
   color: #36BBCE;
-}
-
-html {
-  font-size: 1em; /* Fix for weird bootstrap */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-body {
-  font-size: 1em;
-  line-height: 1.5;
-  color: #000;
-  text-align: left;
-  padding: 60px 1em 1em; /* padding top is reset by JS on load. */
 }
 
 .full {
@@ -73,8 +62,7 @@ nav {
   margin: 18px;
 }
 
-/* Handle Nested Lists
-*/
+/* Handle Nested Lists */
 .full ul ul, .full ol ol,
 .full ul ol, .full ol ul {
   border: none;
@@ -188,26 +176,6 @@ nav.navbar .navbar-title {
   width: auto;
 }
 
-.full-bottom-bar {
-  background: #0C3559;
-  height: 55px;
-  border-radius: 8px;
-  width: 95%;
-  margin: 1em auto 1em;
-  padding: 0.3em 1em;
-}
-
-.progress-indicator {
-  float: left;
-  height: 50px;
-  background-image: url(../img/alonzo.png);
-  background-repeat: no-repeat;
-  background-size: 32px;
-  width: calc(100% - 10ch);
-  padding: 0 0.5em;
-  background-position: 0 0; /* (32px - 26px) / 2 */
-}
-
 .navbar-right {
   padding: 6px 1rem;
   margin-right: 10ch;
@@ -288,6 +256,25 @@ button.btn-nav .glyphicon-menu-hamburger {
   top: 2.5px;
 }
 
+.full-bottom-bar {
+  background: #0C3559;
+  height: 55px;
+  border-radius: 8px;
+  width: 95%;
+  margin: 1em auto 1em;
+  padding: 0.3em 1em;
+}
+
+.progress-indicator {
+  float: left;
+  height: 50px;
+  background-image: url(../img/alonzo.png);
+  background-repeat: no-repeat;
+  background-size: 32px;
+  width: calc(100% - 10ch);
+  padding: 0 0.5em;
+  background-position: 0 0; /* (32px - 26px) / 2 */
+}
 
 /* END NAV SECTION ***********************************************************/
 
@@ -295,20 +282,17 @@ button.btn-nav .glyphicon-menu-hamburger {
 /* Give space to caret in dropdown menus */
 /* FIXME -- standardize class names! */
 .dropdown-menu {
-  margin-top: 6px; /* should be equal to padding on list_header */
+  margin-top: 6px;
   overflow-y: scroll; /* scroll menu on small screens */
   width: auto;
   white-space: nowrap;
-  overflow-x: hidden;  /* Text truncation */
+  overflow-x: hidden;
   text-overflow: ellipsis;
   /* max- height + width set using JS on page load. */
 }
 
 .list_item {
-  font-size: 10pt;
-  padding: 0;
-  margin: 0;
-  text-align: left;
+  font-size: 12pt;
 }
 
 @media screen (max-width: 767px) {
@@ -330,16 +314,13 @@ button.btn-nav .glyphicon-menu-hamburger {
 
 /* nested class necessary to override padding */
 .list_item.dropdown-header {
-  color: #222;
+  color: #000;
   text-transform: capitalize;
   padding: 3px 10px;
-  font-size: 13px;
+  font-size: 14pt;
   font-weight: 600;
 }
 
-
-
-/* Dropdown menu items with icons */
 .course-link-list, .main-topic-link, .current-page-arrow {
   font-weight: bold;
   background-size: contain;
@@ -387,9 +368,8 @@ pre > code.hljs {
 .resultMessageDiv {
   font-size: 1.2em;
 }
-/* FEEDBACK BUTTON ON BOTTOM RIGHT
- * TODO: This section doesn't belong in llab. Bad Michael.
- */
+
+/* FEEDBACK BUTTON ON BOTTOM RIGHT */
 .page-feedback {
   padding: 4px;
   float: right;
@@ -418,7 +398,7 @@ pre > code.hljs {
 }
 
 /* For whatever reason the iframe has some whitespace around it
-* and this fixes the whitespace  */
+* and this fixes the whitespace */
 #feedback-frame {
   margin-bottom: -5px;
   margin-right: -1px;
@@ -432,9 +412,9 @@ pre > code.hljs {
   background-image: url(../img/globe.png);
   background-size: contain;
   background-repeat: no-repeat;
-  padding-left: 30px; /* was 25px until  3/8/16 */
-  float: right; /* added 3/8/16 to move TOC link to RHS near where menus are on lab pages */
-  padding-right: 25px; /* added 3/8/16 to move TOC link to RHS near where menus are on lab pages */
+  padding-left: 30px;
+  float: right;
+  padding-right: 25px;
 }
 
 /* arg. not image please... */
@@ -797,7 +777,6 @@ img.indent, div.indent {
 }
 
 /** QUIZ CLASSES OF QUESTIONABLE USE */
-
 .MultipleChoice .promptdiv p {
   font-size: inherit;
   font-weight: normal;
@@ -826,11 +805,9 @@ img.indent, div.indent {
 }
 
 /** END QUESTIONABLE STUFF */
-/********************************/
-/*** END QUIZ CSS			   */
+/*** END QUIZ CSS */
 /********************************/
 
-/******* SMALL DEVICE STUFF *****/
 @media print {
   /** Hide these items from printing:
    *  Dropdwon menu
@@ -838,11 +815,12 @@ img.indent, div.indent {
    *  bottom back/next buttons
    *  feedback scripts
    */
-  .nav.navbar-nav.navbar-right,
+  .nav,
   .title-small-screen,
   .full-bottom-bar,
   .page-feedback,
-  .course_link {
+  .course_link,
+  footer {
     display: none;
   }
 
@@ -854,10 +832,7 @@ img.indent, div.indent {
 
 /******* SMALL DEVICE STUFF *****/
 @media (max-width: 768px) {
-  body {
-    width: 100%;
-  }
-  .full {
+  body, .full {
     width: 100%;
   }
 
@@ -872,16 +847,6 @@ img.indent, div.indent {
 
   .navbar-left {
     display: none;
-    width: 0;
-  }
-
-  .list_item {
-    color: #FFF;
-  }
-
-  /** Rounded corners for hamburger when it's the only button */
-  .list_header {
-    border-radius: 6px;
   }
 
   /* Override display only, all other properties are set above */
