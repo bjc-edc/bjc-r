@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'fileutils'
-require 'rio'
 require 'nokogiri'
 
 require_relative 'index'
@@ -139,7 +138,7 @@ class Vocab
       Dir.chdir("#{@parentDir}/review")
       File.new(@vocabFileName, 'w')
     end
-    linesList = rio("#{filePath}/#{@currFile}").lines[0..30]
+    linesList = File.readlines("#{filePath}/#{@currFile}")[0..30]
     while !linesList[i].match(/<body>/) && (i < 30)
       if linesList[i].match(/<title>/)
         File.write(fileName, "<title>#{unit} #{@currUnitNum} #{vocabLanguage}</title>\n", mode: 'a')

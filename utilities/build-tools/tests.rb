@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
+require 'open-uri'
+require 'nokogiri'
+require 'twitter_cldr'
+
 require_relative 'vocab'
 require_relative 'main'
 require_relative 'selfcheck'
 require_relative 'index'
-require 'rio'
-require 'open-uri'
-require 'nokogiri'
-require 'twitter_cldr'
 
 class Tests
   @type = 'testing'

@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'fileutils'
-require 'rio'
 
 class SelfCheck
   def initialize(path, language)
@@ -127,7 +126,7 @@ class SelfCheck
   def createAssessmentDataFile(fileName, type)
     i = 0
     File.new(fileName, 'w') unless File.exist?(fileName)
-    linesList = rio(@currFile).lines[0..15]
+    linesList = File.readlines(@currFile)[0..15]
     while linesList[i].match(/<body>/).nil?
       if linesList[i].match(/<title>/)
         if @language == 'en'

@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'fileutils'
-require 'rio'
 require 'nokogiri'
 
 class AtWork
@@ -115,7 +114,7 @@ class AtWork
 
   def add_content_to_file(filename, data)
     currentDir = Dir.getwd
-    linesList = rio(@currFile).lines[0..15]
+    linesList = File.readlines(@currFile)[0..15]
     # puts currentDir
     # puts @parentDir
     Dir.chdir("#{@parentDir}/review")

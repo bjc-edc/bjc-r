@@ -2,7 +2,6 @@
 
 require 'fileutils'
 require 'nokogiri'
-require 'rio'
 
 require_relative 'vocab'
 require_relative 'selfcheck'
@@ -15,7 +14,8 @@ TEMP_FOLDER = 'summaries~'
 class Main
   attr_accessor :skip_test_prompt
 
-  def initialize(root: '', content: 'programming', topic_dir: 'nyc_bjc', language: 'en')
+  # TODO: This should probably take in a root, course_html and a lang
+  def initialize(root: '', content: 'cur/programming', topic_dir: 'nyc_bjc', language: 'en')
     raise '`root` must end with "bjc-r" folder' unless root.match(%r{bjc-r/?$})
     raise '`content` should NOT include "bjc-r/" folder' if content.match(%r{bjc-r/$})
     raise '`topic_dir` should NOT include "bjc-r/" folder' if topic_dir.match(%r{bjc-r/$})
@@ -39,6 +39,8 @@ class Main
     @language_ext ||= @language == 'en' ? '' : ".#{@language}"
   end
 
+  # TODO: This should be an attr_accessor: :testing_folder
+  # externally you'd work class.testing_folder = bool
   def testingFolder(bool)
     @testingFolder = bool
   end
@@ -167,33 +169,30 @@ class Main
     linkMatchWithoutBracket = linkMatch.split(/\]/)
     link = linkMatchWithoutBracket.join.to_s
     if @language == 'en'
-      <<~TOPIC
-        heading: Unit #{@unitNum} Review
-        		resource: Vocabulary [#{link}/vocab#{@unitNum}.html]
-        		resource: On the AP Exam [#{link}/exam#{@unitNum}.html]
-        		resource: Self-Check Questions [#{link}/selfcheck#{@unitNum}.html]
+      topic_content = <<~TOPIC
+        heading: (NEW-TOOLS) Unit #{@unitNum} Review
+        		resource: (NEW-TOOLS) Vocabulary [#{link}/vocab#{@unitNum}.html]
+        		resource: (NEW-TOOLS) On the AP Exam [#{link}/exam#{@unitNum}.html]
+        		resource: (NEW-TOOLS) Self-Check Questions [#{link}/selfcheck#{@unitNum}.html]
       TOPIC
     else
-      <<~TOPIC
-        heading: Unidad #{@unitNum} Revision
-        		resource: Vocabulario [#{link}/vocab#{@unitNum}#{language_ext}.html]
-        		resource: En el examen AP[#{link}/exam#{@unitNum}#{language_ext}.html]
-        		resource: Preguntas de Autocomprobacion [#{link}/selfcheck#{@unitNum}#{language_ext}.html]
+      topic_content = <<~TOPIC
+        heading: (NEW-TOOLS) Unidad #{@unitNum} Revision
+        		resource: (NEW-TOOLS) Vocabulario [#{link}/vocab#{@unitNum}#{language_ext}.html]
+        		resource: (NEW-TOOLS) En el examen AP[#{link}/exam#{@unitNum}#{language_ext}.html]
+        		resource: (NEW-TOOLS) Preguntas de Autocomprobacion [#{link}/selfcheck#{@unitNum}#{language_ext}.html]
       TOPIC
     end
-    # add_content_to_topic_file("#{@topicFolder}/#{topicFile}", topic_content)
+    add_content_to_topic_file("#{@topicFolder}/#{topicFile}", topic_content)
   end
 
   def isSummary(line)
-    if !line.nil? && !@currUnit.nil? && line.match(@currUnit)
-      true
-    else
-      false
-    end
+    !line.nil? && !@currUnit.nil? && line.match(@currUnit)
   end
 
   # Parses through the data of the topic page and generates and adds content to a topics.txt
   # file that will be parsed later on to generate summaries
+  # TODO: This shouldn't write to a file, but return some hash/object
   def parse_rawTopicPage(file)
     currUnit(nil)
     allLines = File.readlines(file)
@@ -236,11 +235,7 @@ class Main
   # Returns true if there is a comment in the topics.topic page
   def isComment(arg)
     str = arg.force_encoding('BINARY')
-    if str.match(%r{//})
-      true
-    else
-      false
-    end
+    str.match(%r{//})
   end
 
   # Removes the part of the string that is commented out in topics.topic which will then be added
@@ -282,6 +277,35 @@ class Main
       File.new(filename, 'w')
       File.write(filename, data)
     end
+  end
+
+  def add_content_to_topic_file(topic_file, contents)
+    topic_content = File.readlines(topic_file)
+    contents = contents.split("\n")
+    index = 0
+    inserted = false
+    while index < topic_content.length
+      line = topic_content[index]
+      if line.match(/}/)
+        topic_content.insert(index, *contents)
+        inserted = true
+        break
+      elsif line.match(contents[0]) # found the first line of the section
+        while !line.match(/}/) || !line.strip == '' || !line.match(/heading/i)
+          topic_content.delete_at(index)
+        end
+        contents.delete_at(0)
+        topic_content.insert(index, *contents)
+        inserted = true
+        break
+      end
+    end
+    # indicates the file is missing a section...
+    if !inserted
+      topic_content.insert(index, *contents)
+      topic_content.insert(index + 1, '}')
+    end
+    File.write(topic_file, topic_content.join("\n"))
   end
 
   def removeHTML(str)
@@ -456,31 +480,12 @@ class Main
     if !fileName.match(/\.\w\w\.\w+/).nil?
       langMatch = fileName.match(/\w+\.\w+/).to_s
       langMatch.match(/\w+$/).to_s
-
     else
       'en'
     end
   end
 
-  # p array.map { |x| x == 4 ? 'Z' : x }
-  # => [1, 2, 3, 'Z']
-  def parse_topic_links(fileName, line)
-    Dir.chdir(@topicFolderPath)
-    fileContents = []
-    rio(fileName)
-    lineLink = line.match(/[.+]/).to_s
-    fileContents.index(lineLink)
-    fileContents.each do |item|
-      next unless item.match(lineMatch)
-
-      addStr = "#{lineLink}?topic=#{@classStr}%2F#{@unitNum}-#{fileName}.topic&course=#{@classStr}.html]"
-      fileContents.gsub(lineLink.to_s, addStr)
-      # elsif lineMatch and isSummary
-    end
-  end
-
   # Setters and Getters
-
   def classStr(str)
     @classStr = str
   end
