@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 require 'fileutils'
+require 'nokogiri'
 require 'rio'
+
 require_relative 'vocab'
 require_relative 'selfcheck'
 require_relative 'atwork'
@@ -13,13 +15,13 @@ TEMP_FOLDER = 'summaries~'
 class Main
   attr_accessor :skip_test_prompt
 
-  def initialize(root: '', cur_dir: 'programming', topic_dir: 'nyc_bjc', language: 'en')
+  def initialize(root: '', content: 'programming', topic_dir: 'nyc_bjc', language: 'en')
     raise '`root` must end with "bjc-r" folder' unless root.match(%r{bjc-r/?$})
-    raise '`cur_dir` should NOT include "bjc-r/" folder' if cur_dir.match(%r{bjc-r/$})
+    raise '`content` should NOT include "bjc-r/" folder' if content.match(%r{bjc-r/$})
     raise '`topic_dir` should NOT include "bjc-r/" folder' if topic_dir.match(%r{bjc-r/$})
 
     @rootDir = root
-    @parentDir = "#{@rootDir}/#{cur_dir}/"
+    @parentDir = "#{@rootDir}/#{content}/"
     @topicFolder = "#{@rootDir}/topic/#{topic_dir}/"
     @language = language
     @currUnit = nil

@@ -59,15 +59,15 @@
     and specified language as string inputs.
 
     Note, that the folders are local to your drive (i.e. C:/Users/I560638)
-    3.2.2 :001 > myMain = Main.new(root: 'path-to/bjc-r/', cur_dir: 'cur/..', topic_dir: 'nyc_bjc', [language])
+    3.2.2 :001 > myMain = Main.new(root: 'path-to/bjc-r/', content: 'cur/..', topic_dir: 'nyc_bjc', [language])
     3.2.2 :002 > myMain.main()
 
     Example for running english CSP:
-    3.2.2 :001 > engCSP = Main.new(root: "C:/Users/I560638/bjc-r/", cur_dir: 'programming' topic_dir: "nyc_bjc", "en")
+    3.2.2 :001 > engCSP = Main.new(root: "C:/Users/I560638/bjc-r/", content: 'programming' topic_dir: "nyc_bjc", "en")
     3.2.2 :002 > engCSP.main()
 
      Example for running spanish CSP:
-    3.2.2 :001 > esCSP = Main.new(root: "C:/Users/I560638/bjc-r/", cur_dir: "programming", topic_dir: "nyc_bjc", "es")
+    3.2.2 :001 > esCSP = Main.new(root: "C:/Users/I560638/bjc-r/", content: "programming", topic_dir: "nyc_bjc", "es")
     3.2.2 :002 > esCSP.main()
 
 
