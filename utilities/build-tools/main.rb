@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require 'fileutils'
 require 'nokogiri'
 
@@ -63,7 +61,7 @@ class Main
     testingFolderPrompt
     createNewReviewFolder
     # parse_class()
-    parse_allTopicPages(@topicFolder)
+    parse_all_topic_files_in_folder(@topicFolder)
     parse_units("#{@parentDir}/review/topics.txt")
     @vocab.doIndex
     puts 'All units complete'
@@ -142,11 +140,11 @@ class Main
 
   # Input is the folder path of the topic folder you want to parse
   # Based on all the parsed topic pages, summaries will be generated
-  def parse_allTopicPages(_folder)
-    Dir.chdir(@topicFolder)
-    filesList = list_files('.topic')
-    filesList.each do |file|
-      parse_rawTopicPage(file) if isTopicPageFile(file) && (fileLanguage(file) == @language)
+  def parse_all_topic_files_in_folder(folder)
+    Dir.chdir(@topicFolder) # TODO: remove this if possible.
+    topic_files = Dir.glob("#{folder}/*.topic").select { |f| File.file?(f) }
+    topic_files.each do |file|
+      parse_rawTopicPage(file) if isTopicPageFile(file)
     end
   end
 
@@ -154,17 +152,13 @@ class Main
   def isTopicPageFile(file)
     unwantedFilesPattern = /teaching-guide/
     filename = File.basename(file)
-    if filename.match(unwantedFilesPattern)
-      false
-    elsif filename.match(/\d+/) && (fileLanguage(file) == @language)
-      true
-    else
-      false
-    end
+    return false if filename.match(unwantedFilesPattern)
+
+    filename.match(/\d+/) && (fileLanguage(file) == @language)
   end
 
   # Adds the summary content and links to the topic.topic file
-  def addSummariesToTopic(_topicFile)
+  def addSummariesToTopic(topic_file)
     linkMatch = @parentDir.match(%r{/bjc-r.+}).to_s
     linkMatchWithoutBracket = linkMatch.split(/\]/)
     link = linkMatchWithoutBracket.join.to_s
@@ -178,12 +172,12 @@ class Main
     else
       topic_content = <<~TOPIC
         heading: (NEW-TOOLS) Unidad #{@unitNum} Revision
-        		resource: (NEW-TOOLS) Vocabulario [#{link}/vocab#{@unitNum}#{language_ext}.html]
-        		resource: (NEW-TOOLS) En el examen AP[#{link}/exam#{@unitNum}#{language_ext}.html]
-        		resource: (NEW-TOOLS) Preguntas de Autocomprobacion [#{link}/selfcheck#{@unitNum}#{language_ext}.html]
+        		resource: (NEW-TOOLS) Vocabulario [#{link}/#{@unitNum}-vocab#{language_ext}.html]
+        		resource: (NEW-TOOLS) En el examen AP[#{link}/#{@unitNum}-exam#{language_ext}.html]
+        		resource: (NEW-TOOLS) Preguntas de Autocomprobacion [#{link}/#{@unitNum}-selfcheck#{language_ext}.html]
       TOPIC
     end
-    add_content_to_topic_file("#{@topicFolder}/#{topicFile}", topic_content)
+    add_content_to_topic_file(topic_file, topic_content)
   end
 
   def isSummary(line)
@@ -382,10 +376,10 @@ class Main
   end
 
   def copyFiles
-    list = [@vocab.getVocabFileName.to_s, @selfcheck.getSelfCheckFileName.to_s, @selfcheck.getExamFileName.to_s]
+    list = [@vocab.get_vocab_file_name.to_s, @selfcheck.getSelfCheckFileName.to_s, @selfcheck.getExamFileName.to_s]
     FileUtils.cd('..')
     # src = "#{@parentDir}/review/#{@vocab}"
-    # dst = "#{Dir.getwd}/#{@vocab.getVocabFileName}"
+    # dst = "#{Dir.getwd}/#{@vocab.get_vocab_file_name}"
     list.each do |file|
       src = "#{@parentDir}/review/#{file}"
       dst = "#{Dir.getwd}/#{file}"
@@ -456,11 +450,7 @@ class Main
   end
 
   def isEndofTopicPage(line)
-    if line.match(/END OF UNIT/)
-      true
-    else
-      false
-    end
+    line.match(/END OF UNIT/)
   end
 
   def getFolder(strPattern, parentFolder)

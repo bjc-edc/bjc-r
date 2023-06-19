@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require 'fileutils'
 
 class SelfCheck
@@ -9,7 +7,7 @@ class SelfCheck
     @isNewUnit = true
     @currUnitNum = 0
     @currLab = ''
-    @vocabFileName = ''
+    @vocab_file_name = ''
     @selfCheckFileName = nil
     @currUnitName = nil
     @examFileName = nil

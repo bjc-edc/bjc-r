@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require 'fileutils'
 require 'nokogiri'
 
@@ -15,7 +13,7 @@ class Vocab
     @isNewUnit = true
     @currUnitNum = 0
     @currLab = ''
-    @vocabFileName = ''
+    @vocab_file_name = ''
     @vocabList = []
     @vocabDict = {}
     @labPath = ''
@@ -79,12 +77,12 @@ class Vocab
     return if @currUnit.nil?
   end
 
-  def vocabFileName(name)
-    @vocabFileName = name
+  def vocab_file_name(unit)
+    @vocab_file_name = "#{unit}-vocab#{@language_ext}.html"
   end
 
-  def getVocabFileName
-    @vocabFileName
+  def get_vocab_file_name
+    @vocab_file_name
   end
 
   def currLab
@@ -117,7 +115,7 @@ class Vocab
       currUnit(newStr.join)
       currUnitNum(@currUnit.match(/\d+/).to_s)
       unit
-      vocabFileName("vocab#{@currUnitNum}#{@language_ext}.html")
+      vocab_file_name(@unitNum)
       boxNum(0)
       isNewUnit(false)
     end
@@ -136,7 +134,7 @@ class Vocab
     filePath = Dir.getwd
     unless File.exist?(fileName)
       Dir.chdir("#{@parentDir}/review")
-      File.new(@vocabFileName, 'w')
+      File.new(@vocab_file_name, 'w')
     end
     linesList = File.readlines("#{filePath}/#{@currFile}")[0..30]
     while !linesList[i].match(/<body>/) && (i < 30)
@@ -155,9 +153,9 @@ class Vocab
   def add_HTML_end
     Dir.chdir("#{@parentDir}/review")
     ending = "</body>\n</html>"
-    return unless File.exist?(@vocabFileName)
+    return unless File.exist?(@vocab_file_name)
 
-    File.write(@vocabFileName, ending, mode: 'a')
+    File.write(@vocab_file_name, ending, mode: 'a')
   end
 
   def add_content_to_file(filename, data)
@@ -319,7 +317,7 @@ class Vocab
     unitNum = return_vocab_unit(@currUnit)
     currentDir = Dir.getwd
     FileUtils.cd('..')
-    link = " <a href=\"#{get_url(@vocabFileName)}\">#{unitNum}</a>"
+    link = " <a href=\"#{get_url(@vocab_file_name)}\">#{unitNum}</a>"
     FileUtils.cd(currentDir)
     link
   end
@@ -346,7 +344,7 @@ class Vocab
   def add_vocab_to_file(vocab)
     return unless vocab != ''
 
-    file = "#{@parentDir}/review/#{@vocabFileName}"
+    file = "#{@parentDir}/review/#{@vocab_file_name}"
     add_content_to_file(file, vocab)
 
     # if File.exists?(file)
@@ -364,8 +362,6 @@ class Vocab
     localPath = Dir.getwd
     linkPath = localPath.match(/bjc-r.+/).to_s
     result = "/#{linkPath}/#{file}"
-    # https://bjc.berkeley.edu
-    result.to_s
     # add_content_to_file('urlLinks.txt', result)
   end
 end
