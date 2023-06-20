@@ -615,9 +615,7 @@ llab.addFooter = function() {
 // Show a link 'switch to espanol' or 'switch to english' depending on the current language
 // TODO: Move this to a dropdown menu in the navbar with a globe icon
 llab.addTransitionLinks = function() {
-  if (!llab.canShowDevComments()) {
-    return;
-  }
+  if (!llab.isLocalEnvironment()) { return; }
 
   let currentPage = location.pathname.split('/').pop();
   // extract the language from the file name
