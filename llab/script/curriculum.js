@@ -19,50 +19,6 @@ const TOGGLE_HEADINGS = [
   'takeItTeased',
 ];
 
-llab.TRANSLATIONS = {
-  'ifTime': {
-    en: 'If There Is Time…',
-    es: 'Si hay tiempo…',
-  },
-  'takeItFurther': {
-    en: 'Take It Further…',
-    es: 'Llevándolo más allá',
-  },
-  'takeItTeased': {
-    en: 'Take It Further…',
-    es: 'Llevándolo más allá',
-  },
-  'backText': {
-    en: 'previous page',
-    es: 'previous page',
-  },
-  'nextText': {
-    en: 'next page',
-    es: 'next page',
-  },
-  'selfCheckTitle': {
-    en: 'Self-Check Question',
-    es: 'Autoevaluación',
-  },
-  'Try Again': {
-    es: 'Intentarlo de nuevo',
-  },
-  'Check Answer': {
-    es: 'Comprobar respuesta',
-  },
-  'successMessage': {
-    en: 'You have successfully completed this question!',
-    es: '¡Has completado la pregunta correctamente!',
-  },
-  'attemptMessage': {
-    en: 'This is your %ordinal attempt.',
-    es: 'Este es tu intento n.º %number.',
-  },
-  'Go to Table of Contents': {
-    es: 'Ir a la tabla de contenido'
-  }
-};
-
 // Executed on *every* page load.
 // TODO: Should probably be slip into a better place.
 llab.secondarySetUp = function() {
