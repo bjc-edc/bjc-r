@@ -1,9 +1,11 @@
 require 'fileutils'
 require 'nokogiri'
 
+require_relative 'bjc_helpers'
+require_relative 'atwork'
+require_relative 'course'
 require_relative 'vocab'
 require_relative 'selfcheck'
-require_relative 'atwork'
 
 # TODO: Include BJCHelpers - figure out which config stuff belongs there.
 VALID_LANGUAGES = %w[en es de].freeze
@@ -11,6 +13,7 @@ VALID_LANGUAGES = %w[en es de].freeze
 TEMP_FOLDER = 'summaries~'
 
 class Main
+  attr_reader :course
   attr_reader :parentDir
   attr_accessor :skip_test_prompt
   attr_accessor :course_file
@@ -31,11 +34,12 @@ class Main
     @subClassStr = ''
     @labFileName = ''
     # TODO:
-    @course_file = "bjc4nyc#{language_ext}.html"
+    @course_file = "bjc4nyc"
+    @course = BJCCourse.new(root: @rootDir, course: @course_file, language: language)
     @vocab = Vocab.new(@parentDir, language)
-    @selfcheck = SelfCheck.new(@parentDir, language)
+    @self_check = SelfCheck.new(@parentDir, language)
     @atwork = AtWork.new(@parentDir, language)
-    @testingFolder = true
+    @testingFolder = false
   end
 
   def language_ext
@@ -74,7 +78,7 @@ class Main
   end
 
   def topic_files_in_course
-    @topic_files_in_course ||= course_file.list_topics
+    @topic_files_in_course ||= course.list_topics
   end
 
   def clear_review_folder
@@ -84,10 +88,8 @@ class Main
   end
 
   def testingFolderPrompt
-    if @skip_test_prompt
-      testingFolder(false)
-      return
-    end
+    return if @skip_test_prompt
+
     prompt = '> '
     puts "Would you like to have a consolidated review folder (for testing purposes)? \n Type Y/N"
     print prompt
@@ -146,14 +148,15 @@ class Main
     File.exist?("#{fileName}#{fileType}") & File.file?(fileName)
   end
 
-  # Input is the folder path of the topic folder you want to parse
+  # Input is the current list of topic files based on the @course html file.
   # Based on all the parsed topic pages, summaries will be generated
-  def parse_all_topic_files(folder)
+  def parse_all_topic_files
     Dir.chdir(@topicFolder) # TODO: remove this if possible.
-    topic_files_in_course.select(&:is_topic_file).each { |file| parse_rawTopicPage(file) }
+    topic_files_in_course.select { |f| is_topic_file(f) }.each { |f| parse_rawTopicPage(f) }
   end
 
   # Returns true if the file is a valid topic page
+  # TODO: figure out if this should test for *.topic ?
   def is_topic_file(file)
     unwantedFilesPattern = /teaching-guide/
     filename = File.basename(file)
@@ -171,15 +174,15 @@ class Main
       topic_content = <<~TOPIC
         heading: (NEW) Unit #{@unitNum} Review
         		resource: (NEW) Vocabulary [#{link}/#{@vocab.vocab_file_name}]
-        		resource: (NEW) On the AP Exam [#{link}/#{@selfCheck.exam_file_name}]
-        		resource: (NEW) Self-Check Questions [#{link}/#{@selfCheck.self_check_file_name}]
+        		resource: (NEW) On the AP Exam [#{link}/#{@self_check.exam_file_name}]
+        		resource: (NEW) Self-Check Questions [#{link}/#{@self_check.self_check_file_name}]
       TOPIC
     else
       topic_content = <<~TOPIC
         heading: (NEW) Unidad #{@unitNum} Revision
         		resource: (NEW) Vocabulario [#{link}/#{@vocab.vocab_file_name}]
-        		resource: (NEW) En el examen AP [#{link}/#{@selfCheck.exam_file_name}]
-        		resource: (NEW) Preguntas de Autocomprobacion [#{link}/#{@selfCheck.self_check_file_name}]
+        		resource: (NEW) En el examen AP [#{link}/#{@self_check.exam_file_name}]
+        		resource: (NEW) Preguntas de Autocomprobacion [#{link}/#{@self_check.self_check_file_name}]
       TOPIC
     end
     add_content_to_topic_file(topic_file, topic_content)
@@ -193,8 +196,9 @@ class Main
   # file that will be parsed later on to generate summaries
   # TODO: This shouldn't write to a file, but return some hash/object
   def parse_rawTopicPage(file)
+    full_path = "#{@rootDir}/topic/#{file}"
     currUnit(nil)
-    allLines = File.readlines(file)
+    allLines = File.readlines(full_path)
     topicURLPattern = %r{/bjc-r.+\.\w+}
     headerPattern = /((heading:.+)|(title:.+))/
     labNum = 1
@@ -227,7 +231,8 @@ class Main
       end
       index += 1
     end
-    File.write(file, allLines.join)
+    puts "*"*20 + "\n WOULD WRITE TOPIC FILE?\n\n#{allLines.join}"
+    # File.write(full_path, allLines.join)
     add_content_to_file("#{@parentDir}/review/topics.txt", "END OF UNIT\n")
   end
 
@@ -278,8 +283,14 @@ class Main
     end
   end
 
+  # TODO - if we have a BJCTopic class, this probably belongs there.
+  def path_to_topic_file(topic_file)
+    "#{@rootDir}/topic/#{topic_file}"
+  end
+
   def add_content_to_topic_file(topic_file, contents)
-    topic_content = File.readlines(topic_file)
+    full_path = path_to_topic_file(topic_file)
+    topic_content = File.readlines(full_path)
     contents = contents.split("\n")
     index = 0
     inserted = false
@@ -298,13 +309,14 @@ class Main
         inserted = true
         break
       end
+      index += 1
     end
     # indicates the file is missing a section...
     if !inserted
       topic_content.insert(index, *contents)
       topic_content.insert(index + 1, '}')
     end
-    File.write(topic_file, topic_content.join("\n"))
+    File.write(full_path, topic_content.join("\n"))
   end
 
   def removeHTML(str)
@@ -381,7 +393,7 @@ class Main
   end
 
   def copyFiles
-    list = [@vocab.vocab_file_name, @selfcheck.self_check_file_name, @selfcheck.exam_file_name]
+    list = [@vocab.vocab_file_name, @self_check.self_check_file_name, @self_check.exam_file_name]
     FileUtils.cd('..')
     # src = "#{@parentDir}/review/#{@vocab}"
     # dst = "#{Dir.getwd}/#{@vocab.get_vocab_file_name}"
@@ -422,7 +434,7 @@ class Main
           extractTopicLinkFolder(line)
           @vocab.labPath(Dir.getwd)
           @vocab.read_file(labFile)
-          @selfcheck.read_file(labFile)
+          @self_check.read_file(labFile)
           @atwork.read_file(labFile)
         end
 
@@ -441,14 +453,14 @@ class Main
         unitNum(line.match(/\d+/).to_s)
         unitName = line.match(/Unit.+/)
         @vocab.currUnitName(unitName.to_s)
-        @selfcheck.currUnitName(unitName.to_s)
+        @self_check.currUnitName(unitName.to_s)
         @atwork.currUnitName(unitName.to_s)
       # unitFolder = getFolder(@unitNum, @parentDir)
       # Dir.chdir(unitFolder)
       # change unit folder
       elsif isEndofTopicPage(line)
         @vocab.add_HTML_end
-        @selfcheck.add_HTML_end
+        @self_check.add_HTML_end
         @atwork.add_HTML_end
       end
       i += 1

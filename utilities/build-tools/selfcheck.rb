@@ -138,13 +138,13 @@ class SelfCheck
   def add_HTML_end
     Dir.chdir("#{@parentPath}/review")
     ending = "</body>\n</html>"
-    File.write(@selfCheckFileName, ending, mode: 'a') if File.exist?(@selfCheckFileName)
-    return unless File.exist?(@examFileName)
+    File.write(self_check_file_name, ending, mode: 'a') if File.exist?(self_check_file_name)
+    return unless File.exist?(exam_file_name)
 
-    File.write(@examFileName, ending, mode: 'a')
+    File.write(exam_file_name, ending, mode: 'a')
 
-    # does examFileName exist?
-    # File.write(@examFileName, ending, mode: "a")
+    # doesexam_file_name exist?
+    # File.write(exam_file_name, ending, mode: "a")
   end
 
   def add_content_to_file(filename, data, type)
