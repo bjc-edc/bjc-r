@@ -1,4 +1,5 @@
 
+require_relative 'bjc_helpers'
 
 class BJCTopic
   attr_reader :file_path
@@ -7,7 +8,7 @@ class BJCTopic
   attr_reader :language
 
   # TODO: Is it useful to know the course a topic came with?
-  def initialize(path, course: nil)
+  def initialize(path, course: nil, language: 'en')
 
   end
 
@@ -15,12 +16,19 @@ class BJCTopic
   # look at the code in llab
   # TODO: this could arguably be its own class.
   # Is this all that's needed (recursively) ?
-  # { title, type, url, sections: [] }
+  # { title, type, content, number, pages: [] }
   def parse
 
   end
 
   def unit_number
+  end
+
+  # TODO: This is what will make the organization a bit tricky...
+  # FOR most BJC4NYC --> /bjc-r/cur/programming/{UNIT}/
+  # FOR Sparks ..
+  # For Teacher guides?
+  def base_content_folder
   end
 
   # Just the names of the lab sections

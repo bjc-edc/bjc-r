@@ -5,6 +5,7 @@ require_relative 'vocab'
 require_relative 'selfcheck'
 require_relative 'atwork'
 
+# TODO: Include BJCHelpers - figure out which config stuff belongs there.
 VALID_LANGUAGES = %w[en es de].freeze
 # TODO: Replace the review/ folder with this
 TEMP_FOLDER = 'summaries~'
@@ -29,8 +30,8 @@ class Main
     @classStr = ''
     @subClassStr = ''
     @labFileName = ''
+    # TODO:
     @course_file = "bjc4nyc#{language_ext}.html"
-    @topics_in_course = []
     @vocab = Vocab.new(@parentDir, language)
     @selfcheck = SelfCheck.new(@parentDir, language)
     @atwork = AtWork.new(@parentDir, language)
@@ -64,16 +65,19 @@ class Main
   def Main
     testingFolderPrompt
     createNewReviewFolder
-    # parse_class()
-    @topics_in_course = course_file.list_topics
+    parse_all_topic_files
     parse_units("#{@parentDir}/review/topics.txt")
     @vocab.doIndex
-    puts 'All units complete'
     @atwork.moveFile
-    clear
+    puts 'All units complete'
+    clear_review_folder
   end
 
-  def clear
+  def topic_files_in_course
+    @topic_files_in_course ||= course_file.list_topics
+  end
+
+  def clear_review_folder
     return if @testingFolder
 
     deleteReviewFolder
@@ -144,16 +148,13 @@ class Main
 
   # Input is the folder path of the topic folder you want to parse
   # Based on all the parsed topic pages, summaries will be generated
-  def parse_all_topic_files_in_folder(folder)
+  def parse_all_topic_files(folder)
     Dir.chdir(@topicFolder) # TODO: remove this if possible.
-    topic_files = Dir.glob("#{folder}/*.topic").select { |f| File.file?(f) }
-    topic_files.each do |file|
-      parse_rawTopicPage(file) if isTopicPageFile(file)
-    end
+    topic_files_in_course.select(&:is_topic_file).each { |file| parse_rawTopicPage(file) }
   end
 
   # Returns true if the file is a valid topic page
-  def isTopicPageFile(file)
+  def is_topic_file(file)
     unwantedFilesPattern = /teaching-guide/
     filename = File.basename(file)
     return false if filename.match(unwantedFilesPattern)
@@ -168,17 +169,17 @@ class Main
     link = linkMatchWithoutBracket.join.to_s
     if @language == 'en'
       topic_content = <<~TOPIC
-        heading: (NEW-TOOLS) Unit #{@unitNum} Review
-        		resource: (NEW-TOOLS) Vocabulary [#{link}/vocab#{@unitNum}.html]
-        		resource: (NEW-TOOLS) On the AP Exam [#{link}/exam#{@unitNum}.html]
-        		resource: (NEW-TOOLS) Self-Check Questions [#{link}/selfcheck#{@unitNum}.html]
+        heading: (NEW) Unit #{@unitNum} Review
+        		resource: (NEW) Vocabulary [#{link}/#{@vocab.vocab_file_name}]
+        		resource: (NEW) On the AP Exam [#{link}/#{@selfCheck.exam_file_name}]
+        		resource: (NEW) Self-Check Questions [#{link}/#{@selfCheck.self_check_file_name}]
       TOPIC
     else
       topic_content = <<~TOPIC
-        heading: (NEW-TOOLS) Unidad #{@unitNum} Revision
-        		resource: (NEW-TOOLS) Vocabulario [#{link}/#{@unitNum}-vocab#{language_ext}.html]
-        		resource: (NEW-TOOLS) En el examen AP[#{link}/#{@unitNum}-exam#{language_ext}.html]
-        		resource: (NEW-TOOLS) Preguntas de Autocomprobacion [#{link}/#{@unitNum}-selfcheck#{language_ext}.html]
+        heading: (NEW) Unidad #{@unitNum} Revision
+        		resource: (NEW) Vocabulario [#{link}/#{@vocab.vocab_file_name}]
+        		resource: (NEW) En el examen AP [#{link}/#{@selfCheck.exam_file_name}]
+        		resource: (NEW) Preguntas de Autocomprobacion [#{link}/#{@selfCheck.self_check_file_name}]
       TOPIC
     end
     add_content_to_topic_file(topic_file, topic_content)
@@ -380,7 +381,7 @@ class Main
   end
 
   def copyFiles
-    list = [@vocab.get_vocab_file_name.to_s, @selfcheck.getSelfCheckFileName.to_s, @selfcheck.getExamFileName.to_s]
+    list = [@vocab.vocab_file_name, @selfcheck.self_check_file_name, @selfcheck.exam_file_name]
     FileUtils.cd('..')
     # src = "#{@parentDir}/review/#{@vocab}"
     # dst = "#{Dir.getwd}/#{@vocab.get_vocab_file_name}"

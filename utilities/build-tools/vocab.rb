@@ -13,7 +13,6 @@ class Vocab
     @isNewUnit = true
     @currUnitNum = 0
     @currLab = ''
-    @vocab_file_name = ''
     @vocabList = []
     @vocabDict = {}
     @labPath = ''
@@ -41,12 +40,7 @@ class Vocab
   end
 
   def unit
-    temp = @currUnit.match(/[A-Za-z]+/)
-    temp.to_s
-  end
-
-  def selfcheck
-    # @selfcheck
+    @currUnit.match(/[A-Za-z]+/).to_s
   end
 
   def currUnit(str)
@@ -77,12 +71,8 @@ class Vocab
     return if @currUnit.nil?
   end
 
-  def vocab_file_name(unit)
-    @vocab_file_name = "unit-#{unit}-vocab#{@language_ext}.html"
-  end
-
-  def get_vocab_file_name
-    @vocab_file_name
+  def vocab_file_name
+    "unit-#{@currUnitNum}-vocab#{@language_ext}.html"
   end
 
   def currLab
@@ -114,8 +104,6 @@ class Vocab
       newStr = str.split(pattern)
       currUnit(newStr.join)
       currUnitNum(@currUnit.match(/\d+/).to_s)
-      unit
-      vocab_file_name(@unitNum)
       boxNum(0)
       isNewUnit(false)
     end
@@ -134,7 +122,7 @@ class Vocab
     filePath = Dir.getwd
     unless File.exist?(fileName)
       Dir.chdir("#{@parentDir}/review")
-      File.new(@vocab_file_name, 'w')
+      File.new(vocab_file_name, 'w')
     end
     linesList = File.readlines("#{filePath}/#{@currFile}")[0..30]
     while !linesList[i].match(/<body>/) && (i < 30)
@@ -153,9 +141,9 @@ class Vocab
   def add_HTML_end
     Dir.chdir("#{@parentDir}/review")
     ending = "</body>\n</html>"
-    return unless File.exist?(@vocab_file_name)
+    return unless File.exist?(vocab_file_name)
 
-    File.write(@vocab_file_name, ending, mode: 'a')
+    File.write(vocab_file_name, ending, mode: 'a')
   end
 
   def add_content_to_file(filename, data)
@@ -317,7 +305,7 @@ class Vocab
     unitNum = return_vocab_unit(@currUnit)
     currentDir = Dir.getwd
     FileUtils.cd('..')
-    link = " <a href=\"#{get_url(@vocab_file_name)}\">#{unitNum}</a>"
+    link = " <a href=\"#{get_url(vocab_file_name)}\">#{unitNum}</a>"
     FileUtils.cd(currentDir)
     link
   end
@@ -344,7 +332,7 @@ class Vocab
   def add_vocab_to_file(vocab)
     return unless vocab != ''
 
-    file = "#{@parentDir}/review/#{@vocab_file_name}"
+    file = "#{@parentDir}/review/#{vocab_file_name}"
     add_content_to_file(file, vocab)
 
     # if File.exists?(file)

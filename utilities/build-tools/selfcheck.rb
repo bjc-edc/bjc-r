@@ -1,6 +1,10 @@
 require 'fileutils'
 
+require_relative 'bjc_helpers'
+
 class SelfCheck
+  include BJCHelpers
+
   def initialize(path, language)
     @parentPath = path
     @currUnit = nil
@@ -8,30 +12,13 @@ class SelfCheck
     @currUnitNum = 0
     @currLab = ''
     @vocab_file_name = ''
-    @selfCheckFileName = nil
     @currUnitName = nil
-    @examFileName = nil
     @language = language
-  end
-
-  def language_ext
-    @language_ext ||= @language == 'en' ? '' : ".#{@language}"
+    @language_ext = language_ext(language)
   end
 
   def isNewUnit(boolean)
     @isNewUnit = boolean
-  end
-
-  def examFileName(name)
-    @examFileName = name
-  end
-
-  def getExamFileName
-    @examFileName
-  end
-
-  def getSelfCheckFileName
-    @selfCheckFileName
   end
 
   def unit
@@ -63,8 +50,12 @@ class SelfCheck
     @currUnitName = str
   end
 
-  def selfCheckFileName(name)
-    @selfCheckFileName = name
+  def self_check_file_name
+    "unit-#{@currUnitNum}-self-check#{@language_ext}.html"
+  end
+
+  def exam_file_name
+    "unit-#{@currUnitNum}-exam-reference#{@language_ext}.html"
   end
 
   def read_file(file)
@@ -88,9 +79,6 @@ class SelfCheck
       newStr = str.split(pattern)
       currUnit(newStr.join)
       currUnitNum(@currUnit.match(/\d+/).to_s)
-      # TODO put the filenames somewhere...
-      selfCheckFileName("unit-#{@currUnitNum}-self-check#{@language_ext}.html")
-      examFileName("unit-#{@currUnitNum}-exam-reference#{@language_ext}.html")
       isNewUnit(false)
     end
   end
@@ -136,7 +124,7 @@ class SelfCheck
                            else
                              'Examen AP'
                            end
-          File.write(fileName, "<title>Unidad #{@currUnitNum} #{translatedType} </title>\n", mode: 'a')
+          File.write(fileName, "<title>Unidad #{@currUnitNum} #{translatedType}</title>\n", mode: 'a')
         end
       else
         File.write(fileName, "#{linesList[i]}\n", mode: 'a')
@@ -183,14 +171,12 @@ class SelfCheck
     list.join('.')
   end
 
-  def add_assessment_to_file(assessment)
-    result = assessment
-    add_content_to_file("#{@parentPath}/review/#{@selfCheckFileName}", result, 'Self-Check')
+  def add_assessment_to_file(result)
+    add_content_to_file("#{@parentPath}/review/#{self_check_file_name}", result, 'Self-Check')
   end
 
   def add_exam_to_file(exam)
-    result = exam
-    add_content_to_file("#{@parentPath}/review/#{@examFileName}", result, 'Exam')
+    add_content_to_file("#{@parentPath}/review/#{exam_file_name}", exam, 'Exam')
   end
 
   def get_url(file)
