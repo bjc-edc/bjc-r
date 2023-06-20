@@ -1,13 +1,21 @@
 require 'fileutils'
 require 'nokogiri'
+require 'i18n'
 
 require_relative 'index'
 require_relative 'selfcheck'
 
+I18n.load_path = Dir['*.yml']
+I18n.backend.load_translations
+
+# TODO: It's unclear where the HTML for new files comes from.
+# We should probably have a 'template' file which gets used.
+# I think we can just replace content in the file, but we could use a library.
 class Vocab
   def initialize(path, language = 'en')
     @parentDir = path
     @language = language
+    I18n.locale = @language
     @currUnit = nil
     @currFile = nil
     @isNewUnit = true
@@ -79,7 +87,7 @@ class Vocab
     return if @currUnit.nil?
 
     labMatch = @currUnit.match(/Lab.+,/)
-    labList =  labMatch.to_s.split(/,/)
+    labList = labMatch.to_s.split(/,/)
     @currLab = labList.join
   end
 
@@ -109,14 +117,6 @@ class Vocab
     end
   end
 
-  def vocabLanguage
-    if @language == 'en'
-      'Vocabulary'
-    elsif @language == 'es'
-      'Vocabulario'
-    end
-  end
-
   def createNewVocabFile(fileName)
     i = 0
     filePath = Dir.getwd
@@ -127,14 +127,14 @@ class Vocab
     linesList = File.readlines("#{filePath}/#{@currFile}")[0..30]
     while !linesList[i].match(/<body>/) && (i < 30)
       if linesList[i].match(/<title>/)
-        File.write(fileName, "<title>#{unit} #{@currUnitNum} #{vocabLanguage}</title>\n", mode: 'a')
+        File.write(fileName, "\t<title>#{unit} #{@currUnitNum} #{I18n.t('vocab')}</title>\n", mode: 'a')
       else
-        File.write(fileName, "#{linesList[i]}\n", mode: 'a')
+        File.write(fileName, "\t#{linesList[i]}\n", mode: 'a')
       end
       i += 1
     end
-    File.write(fileName, "<h2>#{@currUnit}</h2>\n", mode: 'a')
-    File.write(fileName, "<h3>#{currLab}</h3>\n", mode: 'a')
+    File.write(fileName, "\t<h2>#{@currUnit}</h2>\n", mode: 'a')
+    File.write(fileName, "\t<h3>#{currLab}</h3>\n", mode: 'a')
     Dir.chdir(@labPath)
   end
 
@@ -151,7 +151,7 @@ class Vocab
     data = data.gsub(/&amp;/, '&')
     data.delete!("\n\n\\")
     if File.exist?(filename)
-      File.write(filename, "<h3>#{currLab}</h3>", mode: 'a') if lab != currLab
+      File.write(filename, "\t<h3>#{currLab}</h3>", mode: 'a') if lab != currLab
     else
       createNewVocabFile(filename)
     end

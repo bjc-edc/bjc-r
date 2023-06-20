@@ -14,13 +14,13 @@ puts "Rebuilding all index/summaries from: #{path}"
 
 puts
 puts 'Rebuilding English CSP'
-en_runner = Main.new(root: path, content: 'cur/programming', topic_dir: 'nyc_bjc', language: 'en')
+en_runner = Main.new(root: path, content: 'cur/programming', course: 'bjc4nyc', language: 'en')
 en_runner.skip_test_prompt = true
 en_runner.Main
 
 puts
 puts 'Rebuilding Espanol CSP'
-es_runner = Main.new(root: path, content: 'cur/programming', topic_dir: 'nyc_bjc', language: 'es')
+es_runner = Main.new(root: path, content: 'cur/programming', course: 'bjc4nyc', language: 'es')
 es_runner.skip_test_prompt = true
 es_runner.Main
 
