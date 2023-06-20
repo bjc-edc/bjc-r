@@ -9,6 +9,50 @@
 llab = llab || {};
 llab.loaded = llab.loaded || {};
 
+////// TRANSLATIONS -- Shared Across All Files.
+llab.TRANSLATIONS = {
+    'ifTime': {
+      en: 'If There Is Time…',
+      es: 'Si hay tiempo…',
+    },
+    'takeItFurther': {
+      en: 'Take It Further…',
+      es: 'Llevándolo más allá',
+    },
+    'takeItTeased': {
+      en: 'Take It Further…',
+      es: 'Llevándolo más allá',
+    },
+    'backText': {
+      en: 'previous page',
+      es: 'previous page',
+    },
+    'nextText': {
+      en: 'next page',
+      es: 'next page',
+    },
+    'selfCheckTitle': {
+      en: 'Self-Check Question',
+      es: 'Autoevaluación',
+    },
+    'Try Again': {
+      es: 'Intentarlo de nuevo',
+    },
+    'Check Answer': {
+      es: 'Comprobar respuesta',
+    },
+    'successMessage': {
+      en: 'You have successfully completed this question!',
+      es: '¡Has completado la pregunta correctamente!',
+    },
+    'attemptMessage': {
+      en: 'This is your %ordinal attempt.',
+      es: 'Este es tu intento n.º %number.',
+    },
+    'Go to Table of Contents': {
+      es: 'Ir a la tabla de contenido'
+    }
+};
 
 /////////////////
 llab.snapRunURLBase = "https://snap.berkeley.edu/snap/snap.html#open:";
@@ -70,6 +114,10 @@ llab.determineAltLang = () => {
 
 // very loosely mirror the Rails API
 llab.translate = (key, replacements, lang) => {
+    if (!llab.TRANSLATIONS) {
+        return key;
+    }
+
     replacements ||= {};
     lang ||= llab.pageLang();
     let dictionary = llab.TRANSLATIONS[key];
