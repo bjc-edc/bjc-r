@@ -8,6 +8,8 @@
 // retrieve llab or create an empty version.
 llab = llab || {};
 llab.loaded = llab.loaded || {};
+llab.DEVELOPER_CLASSES = '.todo, .comment, .commentBig, .ap-standard, .csta-standard'
+
 
 ////// TRANSLATIONS -- Shared Across All Files.
 llab.TRANSLATIONS = {
@@ -53,6 +55,7 @@ llab.TRANSLATIONS = {
       es: 'Ir a la tabla de contenido'
     }
 };
+
 
 /////////////////
 llab.snapRunURLBase = "https://snap.berkeley.edu/snap/snap.html#open:";
@@ -137,11 +140,11 @@ llab.translate = (key, replacements, lang) => {
 llab.t = llab.translate;
 
 llab.toggleDevComments = function() {
-    $(".todo, .comment, .commentBig").toggle();
+    $(llab.DEVELOPER_CLASSES).toggle();
 };
 
 llab.showAllDevComments = function() {
-    $('.todo, .comment, .commentBig').show();
+    $(llab.DEVELOPER_CLASSES).show();
 }
 
 llab.canShowDevComments = llab.isLocalEnvironment;
