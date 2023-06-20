@@ -115,17 +115,17 @@ llab.determineAltLang = () => {
 
 // very loosely mirror the Rails API
 llab.translate = (key, replacements) => {
-    if (!llab.TRANSLATIONS && !llab.TRANSLATIONS[key]) { return key; }
+    if (!llab.TRANSLATIONS || !llab.TRANSLATIONS[key]) { return key; }
     if (!replacements) { replacements = {}; }
 
     let lang = llab.pageLang(),
-        result = dictionary[lang];
+        result = llab.TRANSLATIONS[key][lang];
     if (result !== '' && !result) {
-      result = dictionary['en'] || key;
+      result = llab.TRANSLATIONS[key]['en'] || key;
     }
 
-    Object.keys(replacements).forEach(key => {
-      result = result.replaceAll(`%{${key}}`, replacements[key]);
+    Object.keys(replacements).forEach(rep => {
+      result = result.replaceAll(`%{${rep}}`, replacements[rep]);
     });
     return result;
 };

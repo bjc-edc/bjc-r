@@ -53,6 +53,8 @@ llab.renderFull = function(data, _ignored1, _ignored2) {
         params = llab.getURLParameters(),
         courseURL = llab.getQueryParameter('course');
 
+    llab.secondarySetUp();
+
     if (courseURL) {
         courseURL = llab.courses_path + courseURL;
         $(FULL).append(
@@ -204,7 +206,7 @@ llab.renderFull = function(data, _ignored1, _ignored2) {
     }
 
     llab.setUpDevComments();
-    llab.addTransitionLinks();
+    llab.setupTranslationsMenu();
 }
 
 

@@ -424,7 +424,7 @@ llab.createTitleNav = function() {
     $(document.body).prepend(topHTML);
   }
 
-  llab.addTransitionLinks();
+  llab.setupTranslationsMenu();
 
   // Don't add anything else if we don't know the step...
   // FUTURE - We should separate the rest of this function if necessary.
@@ -606,7 +606,7 @@ llab.addFooter = function() {
 
 // Show a link 'switch to espanol' or 'switch to english' depending on the current language
 // TODO: Move this to a dropdown menu in the navbar with a globe icon
-llab.addTransitionLinks = function() {
+llab.setupTranslationsMenu = function() {
   if (!llab.isLocalEnvironment()) { return; }
 
   // extract the language from the file name
