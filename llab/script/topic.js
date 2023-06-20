@@ -46,14 +46,10 @@
  */
 llab.tags = ["h1", "h2", "h3", "h4", "h5", "h6"];
 
-
-
 llab.renderFull = function(data, _ignored1, _ignored2) {
     var FULL = llab.selectors.FULL,
         params = llab.getURLParameters(),
         courseURL = llab.getQueryParameter('course');
-
-    llab.secondarySetUp();
 
     if (courseURL) {
         courseURL = llab.courses_path + courseURL;
@@ -105,13 +101,12 @@ llab.renderFull = function(data, _ignored1, _ignored2) {
                 learningGoal = false;
                 bigIdea = false;
             } else if (line.slice(0, 6) == "topic:") {
-                // FIXME -- style
-                item = $(document.createElement("div")).attr({'class': 'topic_header'}).append(line.slice(6));
+                item = $("<div class='topic_header'>").append(line.slice(6));
                 topic.append(item);
                 learningGoal = false;
                 bigIdea = false;
             } else if (line.slice(0, 8) == "heading:") {
-//		if (lablist) {topic.append(lablist);};
+                // if (lablist) {topic.append(lablist);};
                 item = $(document.createElement("h3")).append(line.slice(8));
                 topic.append(item);
                 lablist = $(document.createElement("ol")); // .attr({'class': 'topic_header'}).append(line.slice(6));
@@ -156,8 +151,8 @@ llab.renderFull = function(data, _ignored1, _ignored2) {
                 learningGoal = false;
                 bigIdea = false;
                 var sepIdx = line.indexOf(":");
-		if (sepIdx != -1 && llab.isTag(line.slice(0, sepIdx))) {
-//                    item = $(document.createElement("div")).append(line.slice(0, sepIdx));
+                if (sepIdx != -1 && llab.isTag(line.slice(0, sepIdx))) {
+                    // item = $(document.createElement("div")).append(line.slice(0, sepIdx));
                     item = $(document.createElement(line.slice(0, sepIdx)));
                 } else if (sepIdx != -1 && line.slice(0, sepIdx) != "raw-html" && lablist) {
                     item = $(document.createElement("li"));
@@ -204,9 +199,6 @@ llab.renderFull = function(data, _ignored1, _ignored2) {
             bigIdea = false;
         }
     }
-
-    llab.setUpDevComments();
-    llab.setupTranslationsMenu();
 }
 
 
@@ -254,7 +246,7 @@ llab.displayTopic = function() {
 // Make a call to build a topic page.
 // Be sure that content is set only on pages that it should be
 $(document).ready(function() {
-    var url = document.URL,
+    var url = llab.stripLangExtensions(document.URL),
         isTopicFile = (url.indexOf("topic.html") !== -1 ||
             // FIXME -- this may be broken.
             url.indexOf("empty-topic-page.html") !== -1);
@@ -263,24 +255,3 @@ $(document).ready(function() {
         llab.displayTopic();
     }
 });
-
-
-/*
-  Error checking (do this after building page, so it won't slow it down?)
-
-  Check the link targets if present - if they aren't there (give a 404),
-  put a "broken" class on the link to render in red or something
-
-  Maybe be smart about a mistyped youtube target?  dunno.
-
-  Be forgiving:
-
-  if there is no closing brace, put one there when another one opens or the page ends
-
-  No error checking:
-
-  No error checking on class name before the colon - it could be misspelled
-
-  if no colon at all, just put no class on the div
-
-*/

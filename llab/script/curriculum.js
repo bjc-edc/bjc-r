@@ -445,7 +445,7 @@ llab.dropdownItem = function(text, url) {
     text = `<a href=${url} role="menuitem">${text}</a>`;
   }
 
-  return `<li class="list_item" role="presentation>${text}</li>`;
+  return $(`<li class="list_item" role="presentation">${text}</li>`);
 };
 
 // Pages directly within a lab. Excludes 'topic' and 'course' pages.
@@ -453,7 +453,7 @@ llab.isCurriculum = function() {
   if (llab.getQueryParameter('topic')) {
     return ![
       llab.empty_topic_page_path, llab.topic_launch_page, llab.alt_topic_page
-    ].includes(location.pathname);
+    ].includes(llab.stripLangExtensions(location.pathname));
   }
   return false;
 }

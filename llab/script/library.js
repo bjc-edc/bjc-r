@@ -113,6 +113,7 @@ llab.determineAltLang = () => {
     return 'en'
 }
 
+
 // very loosely mirror the Rails API
 llab.translate = (key, replacements) => {
     if (!llab.TRANSLATIONS || !llab.TRANSLATIONS[key]) { return key; }
@@ -131,6 +132,13 @@ llab.translate = (key, replacements) => {
 };
 
 llab.t = llab.translate;
+
+// TODO: Figure out how to handle common pages that are translated
+// e.g. topic.html and topic.es.html are both topic files...
+llab.pageLangugeExtension = () => llab.pageLang() == 'en' ? '' : `.${llab.pageLang()}`;
+
+// Turn img.es.png into img.png
+llab.stripLangExtensions = (text) => text.replaceAll(`.${llab.pageLang()}.`, '.');
 
 // TODO: jQuery3 -- these need to be migrated.
 llab.toggleDevComments = () => { $(llab.DEVELOPER_CLASSES).toggle() };
@@ -158,6 +166,13 @@ llab.getQueryParameter = function(paramName) {
     }
 };
 
+// TODO: Write a use this function.
+// This should return the "type" of a page used in the repo:
+// course, topic, curriculum -- maybe others later (summaries? teacher guide?)
+llab.curentPageType = () => {
+    return false;
+}
+
 /** Strips comments off the line in a topic file. */
 llab.stripComments = function(line) {
     var index = line.indexOf("//");
@@ -172,19 +187,15 @@ llab.stripComments = function(line) {
  * To make use of this code, the two ga() functions need to be called
  * on each page that is loaded, which means this file must be loaded.
  */
-llab.GA = () => {
-  document.head.appendChild(
-    llab.scriptTag(`https://www.googletagmanager.com/gtag/js?id=${llab.GACode}`)
-  );
-};
-
-// GA Function Calls -- these do the real work!:
 if (llab.GACode) {
-    llab.GA();
+    document.head.appendChild(getTag(
+        'script',
+        `https://www.googletagmanager.com/gtag/js?id=${llab.GACode}`,
+        'text/javascript'
+    ));
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+    function gtag(){ dataLayer.push(arguments); }
     gtag('js', new Date());
-
     gtag('config', llab.GACode);
 }
 
