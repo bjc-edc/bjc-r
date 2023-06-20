@@ -132,6 +132,7 @@ llab.translate = (key, replacements) => {
 
 llab.t = llab.translate;
 
+// TODO: jQuery3 -- these need to be migrated.
 llab.toggleDevComments = () => { $(llab.DEVELOPER_CLASSES).toggle() };
 llab.showAllDevComments = () => { $(llab.DEVELOPER_CLASSES).show() };
 
@@ -171,9 +172,10 @@ llab.stripComments = function(line) {
  * To make use of this code, the two ga() functions need to be called
  * on each page that is loaded, which means this file must be loaded.
  */
-llab.GA = function() {
-    let ga_url = `https://www.googletagmanager.com/gtag/js?id=${llab.GACode}`;
-    document.head.appendChild(getTag('script', ga_url, 'text/javascript'));
+llab.GA = () => {
+  document.head.appendChild(
+    llab.scriptTag(`https://www.googletagmanager.com/gtag/js?id=${llab.GACode}`)
+  );
 };
 
 // GA Function Calls -- these do the real work!:

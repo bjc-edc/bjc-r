@@ -428,33 +428,24 @@ llab.createTitleNav = function() {
 
   // Don't add anything else if we don't know the step...
   // FUTURE - We should separate the rest of this function if necessary.
-  if (!llab.isCurriculum()) {
-    return;
-  }
+  if (!llab.isCurriculum()) { return; }
 
   if ($(llab.selectors.PROGRESS).length === 0) {
     $(document.body).append(botHTML);
   }
 
-  llab.setButtonURLs();
+  llab.setButtonURLs(); // TODO-INVESTIGATE: We should be able to remove this.
 };
 
 /** Build an item for the navigation dropdown
 *  Takes in TEXT and a URL and reutrns a list item to be added
 *  too an existing dropdown */
 llab.dropdownItem = function(text, url) {
-  let item = $(document.createElement("li")).attr(
-    {'class': 'list_item', 'role' : 'presentation'}
-  );
   if (url) {
-    let link = $('<a>').attr({'href': url, 'role' : 'menuitem'});
-    link.html(text);
-    item.append(link);
-  } else {
-    item.html(text);
+    text = `<a href=${url} role="menuitem">${text}</a>`;
   }
 
-  return item;
+  return `<li class="list_item" role="presentation>${text}</li>`;
 };
 
 // Pages directly within a lab. Excludes 'topic' and 'course' pages.
@@ -478,9 +469,7 @@ llab.thisPageNum = function() {
 // Create the Forward and Backward buttons, properly disabling them when needed
 llab.setButtonURLs = function() {
   // No dropdowns for places that don't have a step.
-  if (!llab.isCurriculum()) {
-    return;
-  }
+  if (!llab.isCurriculum()) { return; }
 
   // TODO: Should this happen ever?
   var forward = $('.js-nextPageLink'), back = $('.js-backPageLink');
@@ -571,7 +560,8 @@ llab.addFeedback = function(title, topic, course) {
   $(document.body).append(feedback);
 };
 
-llab.addFooter = function() {
+// TODO: Move to bootstrap classes (wait until BS5)
+llab.addFooter = () => {
   $(document.body).append(
     `<footer>
       <div class="footer wrapper margins">
