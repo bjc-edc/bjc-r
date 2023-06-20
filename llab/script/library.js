@@ -8,7 +8,52 @@
 // retrieve llab or create an empty version.
 llab = llab || {};
 llab.loaded = llab.loaded || {};
+llab.DEVELOPER_CLASSES = '.todo, .comment, .commentBig, .ap-standard, .csta-standard'
 
+////// TRANSLATIONS -- Shared Across All Files.
+llab.TRANSLATIONS = {
+    'ifTime': {
+      en: 'If There Is Time…',
+      es: 'Si hay tiempo…',
+    },
+    'takeItFurther': {
+      en: 'Take It Further…',
+      es: 'Llevándolo más allá',
+    },
+    'takeItTeased': {
+      en: 'Take It Further…',
+      es: 'Llevándolo más allá',
+    },
+    'backText': {
+      en: 'previous page',
+      es: 'previous page',
+    },
+    'nextText': {
+      en: 'next page',
+      es: 'next page',
+    },
+    'selfCheckTitle': {
+      en: 'Self-Check Question',
+      es: 'Autoevaluación',
+    },
+    'Try Again': {
+      es: 'Intentarlo de nuevo',
+    },
+    'Check Answer': {
+      es: 'Comprobar respuesta',
+    },
+    'successMessage': {
+      en: 'You have successfully completed this question!',
+      es: '¡Has completado la pregunta correctamente!',
+    },
+    'attemptMessage': {
+      en: 'This is your %{ordinal} attempt.',
+      es: 'Este es tu intento n.º %{number}.',
+    },
+    'Go to Table of Contents': {
+      es: 'Ir a la tabla de contenido'
+    }
+};
 
 /////////////////
 llab.snapRunURLBase = "https://snap.berkeley.edu/snap/snap.html#open:";
@@ -54,7 +99,7 @@ llab.pageLang = () => {
     if (!htmlLang) {
         htmlLang = llab.determineAltLang();
         $("html").attr('lang', htmlLang);
-      }
+    }
     llab.CURRENT_PAGE_LANG = htmlLang || 'en';
     return llab.CURRENT_PAGE_LANG;
 }
@@ -69,37 +114,29 @@ llab.determineAltLang = () => {
 }
 
 // very loosely mirror the Rails API
-llab.translate = (key, replacements, lang) => {
-    replacements ||= {};
-    lang ||= llab.pageLang();
-    let dictionary = llab.TRANSLATIONS[key];
-    if (!dictionary) { return key; }
-    let result = dictionary[lang];
+llab.translate = (key, replacements) => {
+    if (!llab.TRANSLATIONS && !llab.TRANSLATIONS[key]) { return key; }
+    if (!replacements) { replacements = {}; }
+
+    let lang = llab.pageLang(),
+        result = dictionary[lang];
     if (result !== '' && !result) {
       result = dictionary['en'] || key;
     }
-    if (Array.isArray(replacements)) {
-      replacements = Object.assign({}, replacements);
-    }
-    Object.keys(replacements).forEach((key) => {
-      result = result.replaceAll(`%${key}`, replacements[key]);
-    })
+
+    Object.keys(replacements).forEach(key => {
+      result = result.replaceAll(`%{${key}}`, replacements[key]);
+    });
     return result;
 };
+
 llab.t = llab.translate;
 
-llab.toggleDevComments = function() {
-    $(".todo, .comment, .commentBig").toggle();
-};
+llab.toggleDevComments = () => { $(llab.DEVELOPER_CLASSES).toggle() };
+llab.showAllDevComments = () => { $(llab.DEVELOPER_CLASSES).show() };
 
-llab.showAllDevComments = function() {
-    $('.todo, .comment, .commentBig').show();
-}
-
-llab.canShowDevComments = llab.isLocalEnvironment;
-
-llab.setUpDevComments = function() {
-    if (llab.canShowDevComments()) {
+llab.setUpDevComments = () => {
+    if (llab.isLocalEnvironment()) {
         if ($('.js-commentBtn').length < 1) {
             let addToggle = $('<button class="imageRight btn btn-default js-commentBtn">')
                 .click(llab.toggleDevComments)
@@ -109,7 +146,6 @@ llab.setUpDevComments = function() {
         $(window).load(llab.showAllDevComments);
     }
 }
-
 
 /** Returns the value of the URL parameter associated with NAME. */
 llab.getQueryParameter = function(paramName) {
@@ -319,32 +355,9 @@ llab.readCookie = function(name) {
     return null;
 }
 
-llab.eraseCookie = function(name) {
-    createCookie(name,"",-1);
-}
+llab.eraseCookie = name => createCookie(name, "", -1);
 
-llab.spanTag = function(content, className) {
-    return '<span class="' + className + '">' + content + '</span>'
-}
-
-// TODO: Replace with native JS some/every.
-llab.any = function(A) {
-    return A.reduce(function(x, y) {return x || y });
-}
-
-llab.all = function(A) {
-    return A.reduce(function(x, y) {return x && y });
-}
-
-llab.which = function(A) {
-    for (i = 0; i < A.length; i++) {
-        if (A[i]) {
-            return i;
-        }
-    }
-    return -1;
-}
-
+llab.spanTag = (content, className) => `<span class="${className}">${content}</span>`;
 
 /////////////////////  END
 
