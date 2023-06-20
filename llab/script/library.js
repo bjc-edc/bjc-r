@@ -48,8 +48,8 @@ llab.TRANSLATIONS = {
       es: '¡Has completado la pregunta correctamente!',
     },
     'attemptMessage': {
-      en: 'This is your %ordinal attempt.',
-      es: 'Este es tu intento n.º %number.',
+      en: 'This is your %{ordinal} attempt.',
+      es: 'Este es tu intento n.º %{number}.',
     },
     'Go to Table of Contents': {
       es: 'Ir a la tabla de contenido'
@@ -112,45 +112,41 @@ llab.determineAltLang = () => {
     if (altLang) {
         return altLang[1];
     }
-    return 'en'
+    return 'en';
 }
 
-// very loosely mirror the Rails API
-llab.translate = (key, replacements, lang) => {
-    if (!llab.TRANSLATIONS) {
-        return key;
-    }
+// loosely mirror the Rails API, `lang` is optional.
+llab.translate = (key, replacements) => {
+    if (!llab.TRANSLATIONS) { return key; }
 
-    replacements ||= {};
-    lang ||= llab.pageLang();
-    let dictionary = llab.TRANSLATIONS[key];
+    if (!replacements) { replacements = {}; }
+
+    let dictionary = llab.TRANSLATIONS[key],
+        lang = llab.pageLang();
+
     if (!dictionary) { return key; }
     let result = dictionary[lang];
     if (result !== '' && !result) {
       result = dictionary['en'] || key;
     }
-    if (Array.isArray(replacements)) {
-      replacements = Object.assign({}, replacements);
-    }
-    Object.keys(replacements).forEach((key) => {
-      result = result.replaceAll(`%${key}`, replacements[key]);
+
+    Object.keys(replacements).forEach(key => {
+      result = result.replaceAll(`%{${key}}`, replacements[key]);
     })
     return result;
 };
 llab.t = llab.translate;
 
-llab.toggleDevComments = function() {
+llab.toggleDevComments = () => {
     $(llab.DEVELOPER_CLASSES).toggle();
 };
 
-llab.showAllDevComments = function() {
+llab.showAllDevComments = () => {
     $(llab.DEVELOPER_CLASSES).show();
 }
 
-llab.canShowDevComments = llab.isLocalEnvironment;
-
 llab.setUpDevComments = function() {
-    if (llab.canShowDevComments()) {
+    if (llab.isLocalEnvironment()) {
         if ($('.js-commentBtn').length < 1) {
             let addToggle = $('<button class="imageRight btn btn-default js-commentBtn">')
                 .click(llab.toggleDevComments)
@@ -160,7 +156,6 @@ llab.setUpDevComments = function() {
         $(window).load(llab.showAllDevComments);
     }
 }
-
 
 /** Returns the value of the URL parameter associated with NAME. */
 llab.getQueryParameter = function(paramName) {
@@ -397,6 +392,6 @@ llab.which = function(A) {
 }
 
 
-/////////////////////  END
+///////////////////// END
 
 llab.loaded['library'] = true;
