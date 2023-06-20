@@ -14,9 +14,9 @@
         <div class="learn">
             <p><strong>On this page</strong>, you will ask and answer more demanding questions about your dataset and learn new tools.</p>
         </div>
-        
+
         <p>
-            <div class="comment">DAT-2.D.4</div>
+            <div class="ap-standard">DAT-2.D.4</div>
             You can ask questions about a specific subset of your data by <em>filtering</em> the data using <code>keep</code>. Filtering is a powerful technique for finding information and recognizing patterns in data. For example, filtering can help you answer questions like "What is the average city MPG <em>for just the Subarus</em> in this dataset?"<br />
             <img class="indent" src="/bjc-r/img/5-algorithms/average-mpg-of-subarus-reporting.png" alt="average of (column (9) of table (keep items (field (14) of record 'empty list input slot' = Subaru) from (data of table (cars))) reporting 19.704..." title="average of (column (9) of table (keep items (field (14) of record 'empty list input slot' = Subaru) from (data of table (cars))) reporting 19.704..." /><br />
             Column 14 is the "Make" of the vehicle, so we <code>keep</code> all the records from <var>cars</var> for which the 14<sup>th</sup> field is "Subaru." Then, we take column 9 of those records (the "City MPG") and find their average.
@@ -28,7 +28,7 @@
                     <p>
                         You can use the <code>pipe</code> function from the "Bar Charts" library to work through your data analysis one function at at time:<br />
                        <img class="indent" src="/bjc-r/img/5-algorithms/pipe-cars-reporting.png" alt="pipe (data of table (cars)) → (keep items (field (14) of record 'list input slot' = Subaru) from 'list input slot') (column (9) of table ()) (average of ()) reporting 19.49..." title="pipe (data of table (cars)) → (keep items (field (14) of record 'list input slot' = Subaru) from 'list input slot') (column (9) of table ()) (average of ()) reporting 19.49..." /><br />
-                        The <code>pipe</code> function sends the <code>data from table (</code><var>cars</var><code>)</code> through <code>keep</code> to filter it for just the Subarus, through <code>column (9) of table</code> to get just the "City MPG" for those Subarus, and finally through <code>average</code> to get the average of those Subaru MPG values.  
+                        The <code>pipe</code> function sends the <code>data from table (</code><var>cars</var><code>)</code> through <code>keep</code> to filter it for just the Subarus, through <code>column (9) of table</code> to get just the "City MPG" for those Subarus, and finally through <code>average</code> to get the average of those Subaru MPG values.
                     </p>
                     <p>Recall that the empty input slots in each function are filled by the output of the previous function (or the starting dataset in the case of the first function): the empty slots in the <code>keep</code> function are both filled by <code>data from table (</code><var>cars</var><code>)</code>; the empty slot in <code>column (9) of table</code> is filled by the output of <code>keep</code>; and the empty slot in <code>average</code> is filled by the output of <code>column (9) of table</code>. It's like a pipe of made of pieces connected together; the data goes in one end and works through each function, computing a new value at each step.</p>
                 </div>
@@ -48,7 +48,7 @@
                         <li>Import the <code>maximum of list</code>, <code>minimum of list</code>, <code>sum of list</code>, and <code>average of list</code> blocks from your U2L4-MathTools project. </li>
                     </ol>
                 </li>
-                <div class="comment">DAT-2.D</div>
+                <div class="ap-standard">DAT-2.D</div>
                 <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> Determine one question you can answer by <strong>looking at a single column of a <em>portion</em> </strong> of your data set, and then build code to answer that question. You can nest your function or use <code>pipe</code>. (Or try both!)</li>
 				<div class="endnote">
                     <a href="#hint-portion" data-toggle="collapse" title="Click for example questions to ask about a portion of a single column.">Click for example questions to ask about a portion of a single column.</a>
@@ -66,7 +66,7 @@
 			</ol>
 		</div>
         <p>
-            Sometimes, you want to keep a subset of your data (such as "Which cars were made in 2010?"), but other times, you just want one item that matches your requirement, often because what you really want to know is whether <em>any</em> items match, and as soon as you find one, the answer is &quot;yes&quot; (such as "Were any electric cars made in 2010?"). Snap<em>!</em> has a higher order function <img class="inline nopadtb" src="/bjc-r/img/blocks/find-first.png" alt="find first item () in 'list input slot'" title="find first item () in 'list input slot'" /> that works similarly to <code>keep</code>, but it reports only the first item that's found, so it can be faster. 
+            Sometimes, you want to keep a subset of your data (such as "Which cars were made in 2010?"), but other times, you just want one item that matches your requirement, often because what you really want to know is whether <em>any</em> items match, and as soon as you find one, the answer is &quot;yes&quot; (such as "Were any electric cars made in 2010?"). Snap<em>!</em> has a higher order function <img class="inline nopadtb" src="/bjc-r/img/blocks/find-first.png" alt="find first item () in 'list input slot'" title="find first item () in 'list input slot'" /> that works similarly to <code>keep</code>, but it reports only the first item that's found, so it can be faster.
         </p>
         <div class="endnote">
             <p><code>Find first</code> is equivalent to <code>item (1) of (keep)</code>. It is a higher order function like <code>keep</code>, <code>map</code>, and <code>combine</code> because it takes a function (a predicate) as input.</p>
@@ -79,8 +79,8 @@
                 </div>
             </p>
         </div>
-    
-        <div class="comment">DAT-2.D.6</div>
+
+        <div class="ap-standard">DAT-2.D.6</div>
         <p>You can access or change data to create new information by using:
             <ul>
                 <li><code>Map</code> to transform every element of a data set (such as doubling every element in a list, or extracting the parent’s email from every student record)</li>
@@ -89,16 +89,16 @@
                 <li>Visualization tools to present the data set in a chart, graph, or other visual representation (such as by using <code>bar chart</code>, which you will learn on the next page)</li>
             </ul>
         </p>
-            
+
         <div class="forYouToDo">
             <ol start="4">
-                <div class="comment">DAT-2.D</div>
+                <div class="ap-standard">DAT-2.D</div>
                 <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> Ask and answer a question that you can answer by looking at a single column of a portion of your data set and <strong>examining just the first matching item</strong>. Build code to answer your question.</li>
                 <img class="imageRight" src="/bjc-r/img/icons/save-now.png" alt="Save your work" title="Save your work" />
                 <li><img src="/bjc-r/img/icons/write-out-thoughts-mini.png" alt="Write out your thoughts.">Pick a computing innovation that uses a lot of data. Write about what kinds of data it uses, where those data come from, and how the application transforms the data to extract information.</li>
             </ol>
 		</div>
 
-        
+
     </body>
 </html>
