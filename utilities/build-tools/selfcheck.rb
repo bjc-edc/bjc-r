@@ -1,6 +1,12 @@
 require 'fileutils'
+require 'i18n'
 
 require_relative 'bjc_helpers'
+
+TEMP_FOLDER = 'summaries~'
+
+I18n.load_path = Dir['**/*.yml']
+I18n.backend.load_translations
 
 class SelfCheck
   include BJCHelpers
@@ -15,6 +21,11 @@ class SelfCheck
     @currUnitName = nil
     @language = language
     @language_ext = language_ext(language)
+    I18n.locale = @language.to_sym
+  end
+
+  def review_folder
+    @review_folder ||= "#{@parentPath}/#{TEMP_FOLDER}"
   end
 
   def isNewUnit(boolean)
@@ -116,6 +127,7 @@ class SelfCheck
     linesList = File.readlines(@currFile)[0..15]
     while linesList[i].match(/<body>/).nil?
       if linesList[i].match(/<title>/)
+        # TODO: Use I18n.t() here.
         if @language == 'en'
           File.write(fileName, "<title>Unit #{@currUnitNum} #{type} Questions</title>\n", mode: 'a')
         else
@@ -136,8 +148,8 @@ class SelfCheck
   end
 
   def add_HTML_end
-    Dir.chdir("#{@parentPath}/review")
-    ending = "</body>\n</html>"
+    Dir.chdir(review_folder)
+    ending = "\t</body>\n</html>"
     File.write(self_check_file_name, ending, mode: 'a') if File.exist?(self_check_file_name)
     return unless File.exist?(exam_file_name)
 
@@ -172,11 +184,11 @@ class SelfCheck
   end
 
   def add_assessment_to_file(result)
-    add_content_to_file("#{@parentPath}/review/#{self_check_file_name}", result, 'Self-Check')
+    add_content_to_file("#{review_folder}/#{self_check_file_name}", result, 'Self-Check')
   end
 
   def add_exam_to_file(exam)
-    add_content_to_file("#{@parentPath}/review/#{exam_file_name}", exam, 'Exam')
+    add_content_to_file("#{review_folder}/#{exam_file_name}", exam, 'Exam')
   end
 
   def get_url(file)

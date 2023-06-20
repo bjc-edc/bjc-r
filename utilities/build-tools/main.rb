@@ -13,7 +13,7 @@ require_relative 'selfcheck'
 VALID_LANGUAGES = %w[en es de].freeze
 TEMP_FOLDER = 'summaries~'
 
-I18n.load_path = Dir['*.yml']
+I18n.load_path = Dir['**/*.yml']
 I18n.backend.load_translations
 
 class Main
@@ -27,12 +27,12 @@ class Main
   def initialize(root: '', content: 'cur/programming', course: 'bjc4nyc', language: 'en')
     raise '`root` must end with "bjc-r" folder' unless root.match(%r{bjc-r/?$})
     raise '`content` should NOT include "bjc-r/" folder' if content.match(%r{bjc-r/$})
-    raise '`course` should NOT include ".html" folder' if topic_dir.match(%r{\.html$})
+    raise '`course` should NOT include ".html" folder' if course.match(%r{\.html$})
 
     @rootDir = root
     @parentDir = "#{@rootDir}/#{content}/"
     @language = language
-    I18n.locale = @language
+    I18n.locale = @language.to_sym
     @currUnit = nil
     @unitNum = ''
     @classStr = ''
@@ -168,9 +168,9 @@ class Main
     link = linkMatchWithoutBracket.join.to_s
     topic_content = <<~TOPIC
       heading: (NEW) #{I18n.t('unit_review', num: @unitNum)}
-        resource: (NEW) #{I18n.t('vocab')} [#{link}/#{@vocab.vocab_file_name}]
-        resource: (NEW) #{I18n.t('on_ap_exma')} [#{link}/#{@self_check.exam_file_name}]
-        resource: (NEW) #{I18n.t('self_check')} [#{link}/#{@self_check.self_check_file_name}]
+        resource: (NEW) #{I18n.t('vocab')} [#{link}#{@vocab.vocab_file_name}]
+        resource: (NEW) #{I18n.t('on_ap_exam')} [#{link}#{@self_check.exam_file_name}]
+        resource: (NEW) #{I18n.t('self_check')} [#{link}#{@self_check.self_check_file_name}]
     TOPIC
     add_content_to_topic_file(topic_file, topic_content)
   end

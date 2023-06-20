@@ -5,7 +5,7 @@ require 'i18n'
 require_relative 'index'
 require_relative 'selfcheck'
 
-I18n.load_path = Dir['*.yml']
+I18n.load_path = Dir['**/*.yml']
 I18n.backend.load_translations
 
 # TODO: It's unclear where the HTML for new files comes from.
@@ -15,7 +15,7 @@ class Vocab
   def initialize(path, language = 'en')
     @parentDir = path
     @language = language
-    I18n.locale = @language
+    I18n.locale = @language.to_sym
     @currUnit = nil
     @currFile = nil
     @isNewUnit = true
@@ -31,6 +31,10 @@ class Vocab
 
   def language_ext
     @language_ext ||= @language == 'en' ? '' : ".#{@language}"
+  end
+
+  def review_folder
+    @review_folder ||= "#{@parentDir}/#{TEMP_FOLDER}"
   end
 
   def doIndex
