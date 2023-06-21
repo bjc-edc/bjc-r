@@ -78,6 +78,12 @@ llab.secondarySetUp = function() {
     }
   ]);
 
+  // TODO: Figoute a nicer place to put this...
+  // TODO: Rewrite the function to not scan every element.
+  if ($('[w3-include-html]')) {
+    w3.includeHTML();
+  }
+
   llab.addFeedback(document.title, llab.file, llab.getQueryParameter('course'));
 
   // We don't have a topic file, so we should exit.
