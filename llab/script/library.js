@@ -10,7 +10,6 @@ llab = llab || {};
 llab.loaded = llab.loaded || {};
 llab.DEVELOPER_CLASSES = '.todo, .comment, .commentBig, .ap-standard, .csta-standard'
 
-
 ////// TRANSLATIONS -- Shared Across All Files.
 llab.TRANSLATIONS = {
     'ifTime': {
@@ -27,11 +26,11 @@ llab.TRANSLATIONS = {
     },
     'backText': {
       en: 'previous page',
-      es: 'previous page',
+      es: 'Anterior',
     },
     'nextText': {
       en: 'next page',
-      es: 'next page',
+      es: 'Siguiente',
     },
     'selfCheckTitle': {
       en: 'Self-Check Question',
@@ -55,7 +54,6 @@ llab.TRANSLATIONS = {
       es: 'Ir a la tabla de contenido'
     }
 };
-
 
 /////////////////
 llab.snapRunURLBase = "https://snap.berkeley.edu/snap/snap.html#open:";
@@ -101,7 +99,7 @@ llab.pageLang = () => {
     if (!htmlLang) {
         htmlLang = llab.determineAltLang();
         $("html").attr('lang', htmlLang);
-      }
+    }
     llab.CURRENT_PAGE_LANG = htmlLang || 'en';
     return llab.CURRENT_PAGE_LANG;
 }
@@ -112,40 +110,41 @@ llab.determineAltLang = () => {
     if (altLang) {
         return altLang[1];
     }
-    return 'en';
+    return 'en'
 }
 
-// loosely mirror the Rails API, `lang` is optional.
-llab.translate = (key, replacements) => {
-    if (!llab.TRANSLATIONS) { return key; }
 
+// very loosely mirror the Rails API
+llab.translate = (key, replacements) => {
+    if (!llab.TRANSLATIONS || !llab.TRANSLATIONS[key]) { return key; }
     if (!replacements) { replacements = {}; }
 
-    let dictionary = llab.TRANSLATIONS[key],
-        lang = llab.pageLang();
-
-    if (!dictionary) { return key; }
-    let result = dictionary[lang];
+    let lang = llab.pageLang(),
+        result = llab.TRANSLATIONS[key][lang];
     if (result !== '' && !result) {
-      result = dictionary['en'] || key;
+      result = llab.TRANSLATIONS[key]['en'] || key;
     }
 
-    Object.keys(replacements).forEach(key => {
-      result = result.replaceAll(`%{${key}}`, replacements[key]);
-    })
+    Object.keys(replacements).forEach(rep => {
+      result = result.replaceAll(`%{${rep}}`, replacements[rep]);
+    });
     return result;
 };
+
 llab.t = llab.translate;
 
-llab.toggleDevComments = () => {
-    $(llab.DEVELOPER_CLASSES).toggle();
-};
+// TODO: Figure out how to handle common pages that are translated
+// e.g. topic.html and topic.es.html are both topic files...
+llab.pageLangugeExtension = () => llab.pageLang() == 'en' ? '' : `.${llab.pageLang()}`;
 
-llab.showAllDevComments = () => {
-    $(llab.DEVELOPER_CLASSES).show();
-}
+// Turn img.es.png into img.png
+llab.stripLangExtensions = (text) => text.replaceAll(`.${llab.pageLang()}.`, '.');
 
-llab.setUpDevComments = function() {
+// TODO: jQuery3 -- these need to be migrated.
+llab.toggleDevComments = () => { $(llab.DEVELOPER_CLASSES).toggle() };
+llab.showAllDevComments = () => { $(llab.DEVELOPER_CLASSES).show() };
+
+llab.setUpDevComments = () => {
     if (llab.isLocalEnvironment()) {
         if ($('.js-commentBtn').length < 1) {
             let addToggle = $('<button class="imageRight btn btn-default js-commentBtn">')
@@ -167,6 +166,13 @@ llab.getQueryParameter = function(paramName) {
     }
 };
 
+// TODO: Write a use this function.
+// This should return the "type" of a page used in the repo:
+// course, topic, curriculum -- maybe others later (summaries? teacher guide?)
+llab.curentPageType = () => {
+    return false;
+}
+
 /** Strips comments off the line in a topic file. */
 llab.stripComments = function(line) {
     var index = line.indexOf("//");
@@ -181,18 +187,15 @@ llab.stripComments = function(line) {
  * To make use of this code, the two ga() functions need to be called
  * on each page that is loaded, which means this file must be loaded.
  */
-llab.GA = function() {
-    let ga_url = `https://www.googletagmanager.com/gtag/js?id=${llab.GACode}`;
-    document.head.appendChild(getTag('script', ga_url, 'text/javascript'));
-};
-
-// GA Function Calls -- these do the real work!:
 if (llab.GACode) {
-    llab.GA();
+    document.head.appendChild(getTag(
+        'script',
+        `https://www.googletagmanager.com/gtag/js?id=${llab.GACode}`,
+        'text/javascript'
+    ));
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+    function gtag(){ dataLayer.push(arguments); }
     gtag('js', new Date());
-
     gtag('config', llab.GACode);
 }
 
@@ -333,14 +336,14 @@ llab.fragments = {};
 // These are common strings that need not be build and should be reused!
 llab.strings = {};
 llab.strings.goMain = 'Go to Table of Contents';
-llab.fragments.bootstrapSep = '<li class="divider list_item" role="presentation"></li>';
+llab.fragments.bootstrapSep = '<li class="divider" role="presentation"></li>';
 llab.fragments.bootstrapCaret = '<span class="caret"></span>';
 // TODO: Translate this
 llab.fragments.hamburger = '<span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>';
 // LLAB selectors for common page elements
 llab.selectors.FULL = '.full';
 llab.selectors.NAVSELECT = '.llab-nav';
-llab.selectors.PROGRESS = '.full-bottom-bar';
+llab.selectors.PROGRESS = '.progress-indicator';
 
 //// cookie stuff
 // someday my framework will come, but for now, stolen blithely from http://www.quirksmode.org/js/cookies.html
@@ -365,33 +368,36 @@ llab.readCookie = function(name) {
     return null;
 }
 
-llab.eraseCookie = function(name) {
-    createCookie(name,"",-1);
-}
+llab.eraseCookie = name => createCookie(name, "", -1);
 
-llab.spanTag = function(content, className) {
-    return '<span class="' + className + '">' + content + '</span>'
-}
+llab.spanTag = (content, className) => `<span class="${className}">${content}</span>`;
 
-// TODO: Replace with native JS some/every.
-llab.any = function(A) {
-    return A.reduce(function(x, y) {return x || y });
-}
-
-llab.all = function(A) {
-    return A.reduce(function(x, y) {return x && y });
-}
-
-llab.which = function(A) {
-    for (i = 0; i < A.length; i++) {
-        if (A[i]) {
-            return i;
+/////////// Other Inlined Dependencies
+if (typeof w3 === 'undefined') { w3 = {}; }
+w3.includeHTML = function(cb) {
+    var z, i, elmnt, file, xhttp;
+    z = document.getElementsByTagName("*");
+    for (i = 0; i < z.length; i++) {
+        elmnt = z[i];
+        file = elmnt.getAttribute("w3-include-html");
+        if (file) {
+        xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4) {
+            if (this.status == 200) {elmnt.innerHTML = this.responseText;}
+            if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
+            elmnt.removeAttribute("w3-include-html");
+            w3.includeHTML(cb);
+            }
+        }
+        xhttp.open("GET", file, true);
+        xhttp.send();
+        return;
         }
     }
-    return -1;
-}
+    if (cb) cb();
+};
 
-
-///////////////////// END
+/////////////////////  END
 
 llab.loaded['library'] = true;
