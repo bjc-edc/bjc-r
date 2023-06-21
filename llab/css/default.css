@@ -1,7 +1,8 @@
 @charset "UTF-8";
+
 html {
   font-family: "Open Sans", Helvetica, Arial, sans-serif;
-  font-size: 1em; /* Fix for weird bootstrap */
+  font-size: 16px; /* Fix for weird bootstrap */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.5;
@@ -11,7 +12,8 @@ html {
 }
 
 body {
-  padding: 60px 1em 1em; /* padding top is reset by JS on load. */
+  font-size: 16px;
+  padding: 50px 1em 1em; /* padding top is reset by JS on load. */
 }
 
 code, pre, tt, kbd, samp, var {
@@ -44,10 +46,6 @@ img {
   -webkit-filter: none;
   -ms-filter: none;
   filter: none;
-}
-
-nav {
-  padding: 1% 5% 1% 5%;
 }
 
 .right {
@@ -114,9 +112,19 @@ code { /* Override bootstrap. */
   line-height: 1.38; /* Keep slightly smaller than normal to control centering the nav buttons */
   margin: 0 0 .5em 0;
   width: 100%;
-  padding: .5em 1em;
+  padding: 6px;
+  height: 62px; /* Gives us 50px + padding. */
   border: none; /* override bootstrap's very light border. */
   background-color: #0C3559;
+  color: #FFF;
+}
+
+.navbar-title {
+  padding: 6px 16px;
+  width: auto;
+  font-family: 'work_sansregular', 'Open Sans', Helvetica, Arial, sans-serif;
+  font-size: 1.6rem;
+  font-weight: bold;
 }
 
 /* Show a special div on small screens that isn't in the nav bar */
@@ -133,17 +141,23 @@ code { /* Override bootstrap. */
   background-color: #FFF;
 }
 
-a.btn.btn-nav {
-  width: 3ch !important;
-}
-
-@media screen (max-width: 768px) {
-  ul.navbar-nav .open {
-    margin: 0.5em;
+@media screen and (max-width: 768px) {
+  /* Bootstrsap 3 selector */
+  .navbar-nav .open .dropdown-menu {
+    position: fixed;
+    top: 75px;
+    left: 2em;
+    border: 2px solid #0C3559;
   }
+
   ul.navbar-nav li.open ul {
     margin: 0.5em;
     width: 100%
+  }
+
+  /* Close the gap between buttons, only shows on mobile. */
+  .nav-btn-group > .btn-nav {
+    margin: 0 -3px;
   }
 }
 
@@ -158,47 +172,54 @@ a.btn.btn-nav {
 }
 
 nav.navbar .navbar-brand {
-  max-height: 48px;
-  padding: 0;
-  margin-left: 30px;
+  height: 50px;
+  padding: 0; /* no extra padding around image, so it fills 50px */
+  margin: 0 0 0 48px;
 }
 
 .navbar-brand img {
-  max-height: 50px;
+  height: 50px;
+  padding: 0;
   -webkit-filter: none;
   -ms-filter: none;
   filter: none;
 }
 
-nav.navbar .navbar-title {
-  padding: 5px;
-  margin: auto 5px;
-  width: auto;
-}
-
 .navbar-right {
-  padding: 6px 1rem;
+  padding: 5px 1rem;
   margin-right: 10ch;
 }
 
-
-/* Override Bootstrap default class */
-.navbar-nav > li > a {
-  padding: 6px;
-}
-
-ul.navbar-nav li {
+/* No extra space around buttons */
+ul.navbar-right li {
   padding: 0;
 }
 
-/* dropdown-toogle, back/next buttons */
+.nav-lang-dropdown {
+  margin-right: 5ch;
+}
+
+/**
+    translation, dropdown-toogle, back/next buttons
+    Keep all nav buttons nice and sqaure
+   The ul container adds +5px top/bottom padding
+   Total navbar height adds more padding to get to 60px
+*/
+.navbar-nav > li > a, /* override bootstrap 3 */
 .btn-nav {
   color: white;
   border: 2px solid white;
   background-color: unset;
-  font-size: 1.2rem;
+  font-size: 20px;
   font-weight: 900;
-  padding: 5px;
+  padding: 8px;
+  border-radius: 6px;
+  height: 40px;
+  width: 40px;
+}
+
+/* This requires .nav-btn-group as a parent of all button elements. */
+.nav-btn-group a.btn-nav {
   border-radius: 0;
 }
 
@@ -215,45 +236,23 @@ a.btn-nav:active,
   background-color: unset;
 }
 
-li:first-child .btn-nav {
-  border-left-width: 2px;
+.nav-btn-group.nav-btn-group-first > .btn-nav {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
   border-top-left-radius: 6px;
   border-bottom-left-radius: 6px;
 }
 
-/* Special-case for the next button */
-li:nth-child(3) .btn-nav {
-  border-right-width: 2px;
+.nav-btn-group.nav-btn-group-last > .btn-nav {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
   border-top-right-radius: 6px;
   border-bottom-right-radius: 6px;
-}
-
-.full-bottom-bar .btn-nav {
-  border-radius: 6px;
-}
-
-.nav-lang-dropdown {
-  margin-left: 5ch;
-}
-.nav-lang-dropdown .btn-nav {
-  border-radius: 6px;
 }
 
 a.btn-nav,
 a.btn-nav:visited {
   color: white;
-}
-
-button.btn-nav {
-  top: 2px;
-  border: 2px solid white;
-  font-size: 1rem;
-  margin: 0 -1px;
-}
-
-/* Slightly better centering of the hamburger. */
-button.btn-nav .glyphicon-menu-hamburger {
-  top: 2.5px;
 }
 
 .full-bottom-bar {
@@ -275,12 +274,8 @@ button.btn-nav .glyphicon-menu-hamburger {
   padding: 0 0.5em;
   background-position: 0 0; /* (32px - 26px) / 2 */
 }
-
 /* END NAV SECTION ***********************************************************/
 
-/* PAGE DROPDOWN SECTION ******************************************************/
-/* Give space to caret in dropdown menus */
-/* FIXME -- standardize class names! */
 .dropdown-menu {
   margin-top: 6px;
   overflow-y: scroll; /* scroll menu on small screens */
@@ -291,33 +286,12 @@ button.btn-nav .glyphicon-menu-hamburger {
   /* max- height + width set using JS on page load. */
 }
 
-.list_item {
-  font-size: 12pt;
-}
-
-@media screen (max-width: 767px) {
-  .navbar-default .navbar-nav .open .dropdown-menu > li.dropdown-header {
-    font-weight: bold;
-    color: #FFF;
-  }
-
-  .navbar-default .navbar-nav .open .dropdown-menu > li > a {
-    color: #FFF;
-  }
-
-  .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover,
-  .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
-    color: #FFF;
-    text-decoration: underline;
-  }
-}
-
-/* nested class necessary to override padding */
-.list_item.dropdown-header {
+/* override bootstrap 3 nested classes */
+ul.dropdown-menu > li.dropdown-header,
+.dropdown-header {
   color: #000;
-  text-transform: capitalize;
   padding: 3px 10px;
-  font-size: 14pt;
+  font-size: 1.2em;
   font-weight: 600;
 }
 
@@ -342,7 +316,6 @@ button.btn-nav .glyphicon-menu-hamburger {
 .current-page-arrow {
   background-image: url(../img/forward.png);
 }
-/* END PAGE DROPDWON SECTION *************************************************/
 
 /* Syntax highlighting elements, override Bootstrap PRE stuff */
 pre > code {
@@ -427,7 +400,6 @@ pre > code.hljs {
   text-decoration: line-through;
 }
 
-/* TODO: Document THis.... */
 table .pre {
   line-height: 1em;
 }
@@ -476,28 +448,28 @@ img.indent, div.indent {
 		  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .25), 0 1px 2px rgba(0, 0, 0, .05);
 }
 
-.quoteRed { /* FIXME, name needed */
+.quoteRed {
   border-left: 12px solid #C11;
-  background-image: none; /* override bootsrap, for now */
+  background-image: none;
   background-color: #e7c3c3;
 }
 
-.quoteOrange { /* FIXME, name needed */
+.quoteOrange {
   border-left: 12px solid #FF9D1E;
   background-color: #FFCE8E;
 }
 
-.quoteBlue { /* FIXME, name needed */
+.quoteBlue {
   border-left: 12px solid #164CBA;
   background-color: #99F;
 }
 
-.quoteGreen { /* FIXME, name needed */
+.quoteGreen {
   border-left: 12px solid #693;
   background-color: #9C6;
 }
 
-.quoteYellow { /* FIXME, name needed */
+.quoteYellow {
   border-left: 12px solid #e4e47d;
   background-color: #F1F1BC;
 }
@@ -803,7 +775,6 @@ img.indent, div.indent {
 .feedbackdiv.incorrect {
   color: red;
 }
-
 /** END QUESTIONABLE STUFF */
 /*** END QUIZ CSS */
 /********************************/
@@ -836,16 +807,26 @@ img.indent, div.indent {
     width: 100%;
   }
 
-  .navbar-right {
-    position: relative;
-    margin: 1em;
+  body {
+    padding-top: 75px;
   }
+
+  .navbar-left {
+    float: left;
+    margin: 0.5em;
+  }
+  .navbar-right {
+    float: right;
+    padding: 0.5em;
+    margin: 0.5em;
+  }
+
   .navbar-right > li {
     display: inline-block;
     position: relative;
   }
 
-  .navbar-left {
+  .navbar-title {
     display: none;
   }
 
@@ -853,9 +834,7 @@ img.indent, div.indent {
   .title-small-screen {
     display: block;
   }
-  .llab-nav {
-    position: fixed;
-  }
+
   .page-feedback {
     display: none;
   }
@@ -863,7 +842,7 @@ img.indent, div.indent {
 
 
 /* * * * * FONTS * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-@font-face { /* Default Sans Font */
+/* @font-face {
   font-family: 'Open Sans';
   src: url('../fonts/opensans/OpenSans-Regular-webfont.eot');
   src: url('../fonts/opensans/OpenSans-Regular-webfont.eot?#iefix') format('embedded-opentype'),
@@ -871,7 +850,31 @@ img.indent, div.indent {
 	   url('../fonts/opensans/OpenSans-Regular-webfont.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
+} */
+
+@font-face {
+  font-family: 'work_sansregular';
+  src: url('fonts/Work_Sans/WorkSans-Regular.eot');
+  src: url('fonts/Work_Sans/WorkSans-Regular.eot?#iefix') format('embedded-opentype'),
+       url('fonts/Work_Sans/WorkSans-Regular.woff') format('woff'),
+       url('fonts/Work_Sans/WorkSans-Regular.ttf') format('truetype'),
+       url('fonts/Work_Sans/WorkSans-Regular.svg#open_sansregular') format('svg');
+  font-weight: normal;
+  font-style: normal;
 }
+
+@font-face {
+font-family: 'Font Awesome 5 Free';
+font-style: normal;
+font-weight: 900;
+src: url("fonts/fontawesome/fa-solid-900.eot");
+src: url("fonts/fontawesome/fa-solid-900.eot?#iefix") format("embedded-opentype"),
+     url("fonts/fontawesome/fa-solid-900.woff2") format("woff2"),
+     url("fonts/fontawesome/fa-solid-900.woff") format("woff"),
+     url("fonts/fontawesome/fa-solid-900.ttf") format("truetype"),
+     url("fonts/fontawesome/fa-solid-900.svg#fontawesome") format("svg");
+}
+
 /* * * * END FONTS * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 a[data-toggle="collapse"]:not([aria-expanded="true"])::after,
@@ -900,7 +903,8 @@ a[data-toggle="collapse"][aria-expanded="true"]::after {
   font-style: normal;
 }
 
-a.fa-external-link-alt:after { /* This is used on the /cur/solutions-assessments/ pages to indicate an external link. */
+/* This is used on the /cur/solutions-assessments/ pages to indicate an external link. */
+a.fa-external-link-alt:after {
   content: " \f35d";
   font-size: .7em;
 }

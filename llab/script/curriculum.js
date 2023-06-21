@@ -362,11 +362,13 @@ llab.createTitleNav = function() {
   }
 
   let previousPageButton = `
-      <a class='btn btn-nav js-backPageLink js-navButton hidden' aria-label="${t('backText')}">
+      <a class='btn btn-nav hidden js-backPageLink js-navButton'
+        aria-label="${t('backText')}">
         <i class="fas fa-arrow-left" aria-hidden=true></i>
       </a>`,
     nextPageButton = `
-      <a class='btn btn-nav js-nextPageLink js-navButton hidden' aria-label="${t('nextText')}">
+      <a class='btn btn-nav hidden js-nextPageLink js-navButton'
+        aria-label="${t('nextText')}">
         <i class="fas fa-arrow-right" aria-hidden=true></i>
       </a>`,
     topHTML = `
@@ -379,31 +381,31 @@ llab.createTitleNav = function() {
         <div class="navbar-title"></div>
       </div>
       <ul class="nav navbar-nav navbar-right">
-        <li>${previousPageButton}</li>
-        <li class="dropdown js-navDropdown js-navButton hidden">
+        <li class="dropdown js-langDropdown nav-lang-dropdown hidden">
+          <a class="btn btn-nav btn-nav-lang dropdown-toggle" type="button"
+            aria-label=${t('Switch language')} role="button" tabindex=1
+            id="dropdown-langs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="far fa-globe" aria-hidden=true></i>
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="dropdown-langs">
+            <li><a class="js-switch-lang-en">Switch to English</a></li>
+            <li><a class="js-switch-lang-es">Español</a></li>
+          </ul>
+        </li>
+        <li class="nav-btn-group nav-btn-group-first">${previousPageButton}</li>
+        <li class="nav-btn-group dropdown js-navDropdown js-navButton hidden">
           <a class="btn btn-nav dropdown-toggle"
-            type="button" role="button"
+            type="button" role="button" tabindex=1
             aria-label="${t('Navigation Menu')}"
             id="Topic-Navigation-Menu" data-toggle="dropdown"
             aria-haspopup=true aria-expanded=false>
             <i class="fas fa-bars" aria-hidden=true></i>
           </a>
-          <ul class="js-llabPageNavMenu dropdown-menu dropdown-menu-right"
+          <ul class="js-llabPageNavMenu dropdown-menu"
             role="menu" aria-labeledby='Topic-Navigation-Menu'>
           </ul>
         </li>
-        <li>${nextPageButton}</li>
-        <li class="dropdown js-langDropdown nav-lang-dropdown hidden">
-          <a class="btn btn-nav dropdown-toggle" type="button"
-            aria-label=${t('Switch language')} role="button"
-            id="dropdown-langs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="far fa-globe" aria-hidden=true></i>
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="dropdown-langs">
-            <li><a class="js-switch-lang-en">English</a></li>
-            <li><a class="js-switch-lang-es">Español</a></li>
-          </ul>
-        </li>
+        <li class="nav-btn-group nav-btn-group-last">${nextPageButton}</li>
       </ul>
       <div class="trapezoid"></div>
     </nav>
@@ -445,7 +447,7 @@ llab.dropdownItem = function(text, url) {
     text = `<a href=${url} role="menuitem">${text}</a>`;
   }
 
-  return $(`<li class="list_item" role="presentation">${text}</li>`);
+  return $(`<li role="presentation">${text}</li>`);
 };
 
 // Pages directly within a lab. Excludes 'topic' and 'course' pages.
@@ -511,9 +513,7 @@ llab.goForward = function() {
 
 llab.addFeedback = function(title, topic, course) {
   // Prevent Button on small devices
-  if (screen.width < 1024) {
-    return;
-  }
+  if (screen.width < 1024) { return; }
 
   // Show Feedback ONLY on Teacher Guide
   if (location.pathname.slice(0,25) != "/bjc-r/cur/teaching-guide") {
