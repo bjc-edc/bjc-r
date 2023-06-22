@@ -1,4 +1,3 @@
-
 require 'nokogiri'
 
 require_relative 'bjc_helpers'
@@ -7,6 +6,7 @@ class BJCCourse
   include BJCHelpers
 
   attr_accessor :course_file
+
   def initialize(root: '', course: '', language: 'en')
     raise '`root` must end with "bjc-r" folder' unless root.match(%r{bjc-r/?$})
     raise 'course must be present' unless course
@@ -20,7 +20,7 @@ class BJCCourse
   end
 
   def topic_url
-    "/bjc-r/topic/topic.html?topic="
+    '/bjc-r/topic/topic.html?topic='
   end
 
   def list_topics

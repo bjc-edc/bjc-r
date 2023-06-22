@@ -17,17 +17,15 @@ I18n.load_path = Dir['**/*.yml']
 I18n.backend.load_translations
 
 class Main
-  attr_reader :course
-  attr_reader :parentDir
-  attr_accessor :skip_test_prompt
-  attr_accessor :course_file
+  attr_reader :course, :parentDir
+  attr_accessor :skip_test_prompt, :course_file
 
   # TODO: Determine whether the content folder path is necessary
   # or can it be inferred from a course/topic?
   def initialize(root: '', content: 'cur/programming', course: 'bjc4nyc', language: 'en')
     raise '`root` must end with "bjc-r" folder' unless root.match(%r{bjc-r/?$})
     raise '`content` should NOT include "bjc-r/" folder' if content.match(%r{bjc-r/$})
-    raise '`course` should NOT include ".html" folder' if course.match(%r{\.html$})
+    raise '`course` should NOT include ".html" folder' if course.match(/\.html$/)
 
     @rootDir = root
     @parentDir = "#{@rootDir}/#{content}/"
@@ -39,7 +37,7 @@ class Main
     @subClassStr = ''
     @labFileName = ''
     @course_file = course
-    @course = BJCCourse.new(root: @rootDir, course: @course_file, language: language)
+    @course = BJCCourse.new(root: @rootDir, course: @course_file, language:)
     @vocab = Vocab.new(@parentDir, language)
     @self_check = SelfCheck.new(@parentDir, language)
     @atwork = AtWork.new(@parentDir, language)
@@ -269,7 +267,7 @@ class Main
     end
   end
 
-  # TODO - if we have a BJCTopic class, this probably belongs there.
+  # TODO: - if we have a BJCTopic class, this probably belongs there.
   def path_to_topic_file(topic_file)
     "#{@rootDir}/topic/#{topic_file}"
   end
@@ -297,8 +295,8 @@ class Main
       index += 1
     end
     # indicates the file is missing a section ending...
-    if !inserted
-      topic_content.pop() # Last line _should always be a }
+    unless inserted
+      topic_content.pop # Last line _should always be a }
       topic_content.append(contents.join("\n"))
       topic_content.append("\n}\n")
     end
