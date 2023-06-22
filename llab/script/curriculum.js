@@ -19,6 +19,15 @@ const TOGGLE_HEADINGS = [
   'takeItTeased',
 ];
 
+// TODO: Use session storage?
+llab.set_cache = (key, value) => {
+  sessionStorage[key] = value;
+  return true;
+}
+
+// TODO: Should this ingore the cache in development?
+llab.read_cache = key => sessionStorage[key];
+
 // Executed on *every* page load.
 llab.secondarySetUp = function() {
   let t = llab.translate;
@@ -91,20 +100,23 @@ llab.secondarySetUp = function() {
     return;
   }
 
-  $.ajax({
-    url: `${llab.topics_path}/${llab.file}`,
-    type: "GET",
-    contentType: 'text/plain; charset=UTF-8',
-    dataType: "text",
-    cache: false,
-    success: llab.processLinks,
-    error: (_jqXHR, _status, error) => {
-      if (Sentry) {
-        Sentry.captureException(error);
+  if (llab.read_cache(llab.file)) {
+    llab.processLinks(llab.read_cache(llab.file));
+  } else {
+    $.ajax({
+      url: `${llab.topics_path}/${llab.file}`,
+      type: "GET",
+      contentType: 'text/plain; charset=UTF-8',
+      dataType: "text",
+      cache: false,
+      success: llab.processLinks,
+      error: (_jqXHR, _status, error) => {
+        if (Sentry) {
+          Sentry.captureException(error);
+        }
       }
-    }
-  });
-
+    });
+  }
 }; // close secondarysetup();
 
 /**
@@ -159,6 +171,7 @@ llab.processLinks = function(data, _status, _jqXHR) {
   */
   if (llab.file === '') {
     llab.file = llab.getQueryParameter('topic');
+    llab.set_cache(llab.file, data);
   }
 
   if (location.pathname === llab.empty_curriculum_page_path) {
@@ -187,6 +200,9 @@ llab.processLinks = function(data, _status, _jqXHR) {
   // Prevent src, title from being added to other URLS.
   delete params.src;
   delete params.title;
+
+  // Ensure the menu is empty before re-adding items.
+  list.html('');
 
   for (; i < len; i += 1) {
     line = llab.stripComments($.trim(topicArray[i]));
@@ -333,8 +349,10 @@ llab.setupTitle = function() {
     document.title = titleText;
   }
 
+  console.log('Rebuilding Title', document.title);
   // Set the header title to the page title.
   titleText = document.title;
+  console.log('Rebuilding Title', titleText);
   if (titleText) {
     $('.navbar-title').html(titleText);
     $('.title-small-screen').html(titleText);
@@ -511,19 +529,55 @@ llab.setButtonURLs = function() {
 // TODO: Update page content and push URL onto browser back button
 llab.goBack = (event) => {
   event.preventDefault();
-  llab.loadNewPage(llab.url_list[llab.thisPageNum() - 1])
+  llab.loadNewPage(llab.url_list[llab.thisPageNum() - 1]);
 };
 
 llab.goForward = (event) => {
+  console.log(event)
   event.preventDefault();
-  llab.loadNewPage(llab.url_list[llab.thisPageNum() - 1])
+  llab.loadNewPage(llab.url_list[llab.thisPageNum() + 1]);
 };
 
-llab.loadNewPage = (url) => {
-  fetch(url).then(content => {
-    // delete .full
-    // update nav/header/etc.
-  })
+llab.loadNewPage = (path) => {
+  if (llab.PREVENT_NAVIGATIONS) {
+    // this seems like a poor way to debounce multiple clicks.
+    setTimeout((() => llab.PREVENT_NAVIGATIONS = false), 500);
+  }
+  llab.PREVENT_NAVIGATIONS = true;
+  fetch(path).then(response => response.text()).then(html => {
+    let parser = new DOMParser(),
+        doc = parser.parseFromString(html, 'text/html');
+
+    // What else needs to be reset?
+    llab.titleSet = false;
+    let title = doc.head.getElementsByTagName('title')[0].innerHTML;
+    document.title = title;
+    // This is the main content.
+    let body = doc.body.innerHTML;
+    $('.full').html(body);
+    // Setup the new page
+    // TODO: Ensure this is idempotent.
+    llab.secondarySetUp();
+    // TODO:
+    // Scroll To Top
+    // Make an analytics page visit
+    // TODO: merge in <head> updates?
+    // TODO: handle #anchors in URL?
+    // Do we need to fire off any events? Bootstrap? dom loaded?
+    window.history.pushState({}, '', path);
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+    llab.PREVENT_NAVIGATIONS = false;
+  }).catch(function (err) {
+    llab.PREVENT_NAVIGATIONS = false;
+    // There was an error
+    console.warn('Something went wrong.', err);
+    if (Sentry) {
+      Sentry.captureException(err);
+    }
+  });
 }
 
 llab.addFeedback = function(title, topic, course) {
@@ -577,6 +631,7 @@ llab.addFeedback = function(title, topic, course) {
 
 // TODO: Move to bootstrap classes (wait until BS5)
 llab.addFooter = () => {
+  if ($('<footer>').length > 0) { return; }
   $(document.body).append(
     `<footer>
       <div class="footer wrapper margins">

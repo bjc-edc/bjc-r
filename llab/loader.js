@@ -49,7 +49,7 @@ llab.empty_curriculum_page_path = llab.llab_path + "html/empty-curriculum-page.h
 
 // google analytics tokens
 llab.GACode = 'G-JCCWWYDEJW';
-llab.GAurl = document.hostname;
+llab.GAurl = location.origin;
 
 // Error Handling -- The URL embeds the Sentry desination
 llab.SENTRY_URL = 'https://js.sentry-cdn.com/f55a4cd65a8b48fd99e8247c6a5e6c2d.min.js';
@@ -138,6 +138,11 @@ function getTag(name, src, type, opts) {
     return tag;
 }
 
+// TODO: these need to just be insert script / insert stylesheet
+// those functions can then check if something is already loaded.
+// Array.from(document.scripts).map(node => node.src.replace(location.origin, '').replace(/?.*$/, ''))
+// Array.from(document.styleSheets).map(node => node.src.replace(location.origin, '').replace(/\?.*$/, ''))
+// TODO - will need to normalize paths.
 llab.scriptTag = (src, onload) => getTag('script', src, 'text/javascript', { 'onload': onload });
 llab.styleTag = (href) => getTag('link', href, 'text/css', { 'rel': 'stylesheet' });
 
