@@ -26,7 +26,8 @@
   The line will be treated as any other line otherwise
 
   raw-html:
-  all following lines until a blank line are just raw html that stuck on the page.
+  all following lines until a blank line or a resource tag are just raw html
+  that is inserted into the model.
 
   other currently supported classes: quiz, assignment, resource, forum, video, extresource.
 
@@ -44,169 +45,253 @@
 /* The allowed tags for easy entry.
  * e.g.   h1: Some Text [maybe/a/link/too]
  */
-llab.tags = ["h1", "h2", "h3", "h4", "h5", "h6"];
+llab.topicKeywords = {};
+llab.topicKeywords.resources = ["quiz", "assignment", "resource",
+                                "forum", "video", "extresource",
+                                "reading", "group"];
+llab.topicKeywords.headings = ["h1", "h2", "h3", "h4", "h5", "h6", "heading"];
+llab.topicKeywords.info = ["big-idea", "learning-goal"]
 
-llab.renderFull = function(data, _ignored1, _ignored2) {
-    var FULL = llab.selectors.FULL,
-        params = llab.getURLParameters(),
-        courseURL = llab.getQueryParameter('course');
+/* TODO: comment...
 
-    if (courseURL) {
-        courseURL = llab.courses_path + courseURL;
-        $(FULL).append(
-            `<a class='course_link pull-right' href=${courseURL}>${llab.t(llab.strings.goMain)}</a>`
-        );
-    }
+*/
+llab.parseTopicFile = function parser(data) {
 
     llab.file = llab.topic;
 
     data = data.replace(/(\r)/gm,""); // normalize line endings
     var lines = data.split("\n");
-    var line;
-    var topic;
-    var lablist;
-    var item;
-    var learningGoal = false;
-    var bigIdea = false;
-    var list;
-    var raw = false;
-    var text;
-    var isHidden;
-    var num = 0;
-    var indent = "";
+    // TODO: If we support multiple topics per file -- this should have a URL field and maybe this should just be contents?
+    var topics = { topics: [] };
+    var line, topic_model, item, list, text, content, section, indent;
+    var in_topic = false, raw = false;
     var url = document.URL;
     for (var i = 0; i < lines.length; i++) {
-        line = lines[i];
-        line = llab.stripComments(line);
-        // TODO: Refactor this line
-        isHidden = params.hasOwnProperty('no' + $.trim(line.slice(0, line.indexOf(':'))));
-        if (line.length && !raw && !isHidden) {
-            if (line.slice(0, 6) === "title:") {
-                // TODO: Refractor to a set title function!
-                var titleHTML = line.slice(6);
-                $('.navbar-title').html(titleHTML);
-                $('.title-small-screen').html(titleHTML);
-                var titleText = $('.navbar-title').text();
-                // SPECIAL-CASE for 'Snap' in titles.
-                titleText = titleText.replace('snap', 'Snap!');
-                document.title = titleText;
-                learningGoal = false;
-                bigIdea = false;
-            } else if (line.slice(0, 8) == "raw-html") {
+        line = llab.stripComments(lines[i]);
+        line = line.trim();
+        if (line.length && !raw) {
+            if (line.match(/^title:/)) {
+                topics.title = line.slice(6);
+            } else if (line.match(/^topic:/)) {
+                topic_model.title = line.slice(6);
+            } else if (line.match(/^raw-html/)) {
                 raw = true;
             } else if (line[0] == "{") {
-                in_topic = true;
-                topic = $(document.createElement("div")).attr({'class': 'topic'});
-                $(FULL).append(topic);
-                learningGoal = false;
-                bigIdea = false;
-            } else if (line.slice(0, 6) == "topic:") {
-                item = $("<div class='topic_header'>").append(line.slice(6));
-                topic.append(item);
-                learningGoal = false;
-                bigIdea = false;
-            } else if (line.slice(0, 8) == "heading:") {
-                // if (lablist) {topic.append(lablist);};
-                item = $(document.createElement("h3")).append(line.slice(8));
-                topic.append(item);
-                lablist = $(document.createElement("ol")); // .attr({'class': 'topic_header'}).append(line.slice(6));
-                topic.append(lablist);
-                learningGoal = false;
-                bigIdea = false;
+                topic_model = { type: 'topic', url: llab.topic, contents: [] };
+                topics.topics.push(topic_model);
+                section = { title: '', contents: [], type: 'section' };
+                topic_model.contents.push(section);
+            } else if (llab.isHeading(line)) {
+                headingType = llab.getKeyword(line, llab.topicKeywords.headings);
+                if (section.contents.length > 0) {
+                    section = { title: '', contents: [], type: 'section' };
+                    topic_model.contents.push(section);
+                }
+                section.title = llab.getContent(line)['text'];
+                section.headingType = headingType;
             } else if (line[0] == "}") {
-                in_topic = false;
-                learningGoal = false;
-                bigIdea = false;
-            } else if (line.slice(0, 13) == "learning-goal") {
-                bigIdea = false;
-                if (learningGoal) {
-                    list.append($(document.createElement("li")).append(line.slice(14)));
-                } else {
-                    indent = llab.indentString(line);
-                    line = $.trim(line);
-                    learningGoal = true;
-                    item = $(document.createElement("div")).attr({'class': 'learninggoals' + indent});
-                    list = $(document.createElement("ol"));
-                    list.append($(document.createElement("li")).append(line.slice(14)));
-                    item.append(list);
-                    topic.append(item);
-                };
-            } else if (line.slice(0, 8) == "big-idea") {
-                learningGoal = false;
-                if (bigIdea) {
-                    list.append($(document.createElement("li")).append(line.slice(9)));
-                } else {
-                    indent = llab.indentString(line);
-                    line = $.trim(line);
-                    bigIdea = true;
-                    item = $(document.createElement("div")).attr({'class': 'bigideas' + indent});
-                    list = $(document.createElement("ol"));
-                    list.append($(document.createElement("li")).append(line.slice(9)));
-                    item.append(list);
-                    topic.append(item);
-                };
-            } else {
-                indent = llab.indentString(line);
-                line = $.trim(line);
-                learningGoal = false;
-                bigIdea = false;
-                var sepIdx = line.indexOf(":");
-                if (sepIdx != -1 && llab.isTag(line.slice(0, sepIdx))) {
-                    // item = $(document.createElement("div")).append(line.slice(0, sepIdx));
-                    item = $(document.createElement(line.slice(0, sepIdx)));
-                } else if (sepIdx != -1 && line.slice(0, sepIdx) != "raw-html" && lablist) {
-                    item = $(document.createElement("li"));
-                } else {
-                    item = $(document.createElement("div")).attr({'class': indent});
-                }
-                if (line.indexOf("[") != -1) {
-                    var temp = $(document.createElement("a"));
-                    var query = params;
-                    text = line.slice(sepIdx + 1, line.indexOf("["))
-                    temp.append($.trim(text));
-                    url = (line.slice(line.indexOf("[") + 1, line.indexOf("]")));
-                    if (url.indexOf("http") != -1) {
-                        query = $.extend({}, query, { src: url, title: text });
-                        url = llab.empty_curriculum_page_path;
-                    } else if (url.indexOf(llab.rootURL) == -1 && url.indexOf("..") == -1) {
-                        var slash = url[0] == "/" ? '' : '/';
-                        url = llab.rootURL + slash + url;
-                    }
-                    url += (url.indexOf('?') !== -1 ? '&' : '?') + llab.QS.stringify(query);
-                    num += 1;
-                    temp.attr({'href': url});
-                    item.append(temp);
-                } else {
-                    item.append(line.slice(sepIdx + 1));
-                }
-                if (lablist) {lablist.append(item);} else {topic.append(item);};
+                // shouldn't matter
+            } else if (llab.isInfo(line)) {
+                tag = llab.getKeyword(line, llab.topicKeywords.info);
+                indent = llab.indentLevel(line);
+                content = llab.getContent(line)['text']; // ?
+                // TODO: do we really need indentation now?
+                // if so, I think it should be added to the type
+                // and only if indentation levels != nested levels.
+                item = { type: tag, contents: content, indent: indent };
+                section.contents.push(item);
+            } else if (llab.isResource(line) || true) {
+                // FIXME: dumb way to handle lines without a known tag
+                // Shouldn't this just be an else case?
+                tag = llab.getKeyword(line, llab.topicKeywords.resources);
+                indent = llab.indentLevel(line);
+                content = llab.getContent(line);
+                item = { type: tag, indent: indent, contents: content.text,
+                         url: content.url };
+                section.contents.push(item);
             }
-        } else if (line.length == 1) {
-            learningGoal = false;
-            bigIdea = false;
+        } else if (line.length == 0) {
             raw = false;
-        } else if (raw) {
-            var raw_html = "";
-            while (line.length > 1 && line.slice[0] != "}") {
-                raw_html += " " + line;
+        }
+        if (raw) {
+            var raw_html = [];
+            text = llab.getContent(line)['text']; // in case they start the raw html on the same line
+            if (text) {
+                raw_html.push(text)
+            }
+            // FIXME -- if nested topics are good check for {
+            while (lines[i+1].length >= 1 && lines[i+1].slice(0) != "}" && !llab.isKeyword(lines[i+1])) {
                 i++;
                 line = lines[i];
+                raw_html.push(line);
             }
-            lablist.append(raw_html);
+            // FIXME -- shouldn't the type have a - ?
+            section.contents.push({ type: 'raw_html', contents: raw_html });
             raw = false;
-        } else {
-            learningGoal = false;
-            bigIdea = false;
         }
     }
+    llab.topics = topics;
+
+    return topics;
 }
 
+// Shorter method alias (used in node API)
+llab.parse = llab.parseTopicFile;
 
+/* TODO: Comment needed.
+*/
+llab.matchesArray = function(line, A) {
+    var matches = A.map(function(s) {return line.match(s) });
+    return llab.any(matches.map(function(m) {return m != null }));
+}
+
+// TODO: comment...
+llab.getKeyword = function(line, A) {
+    var matches = A.map(function(s) {return line.match(s) });
+    return A[llab.which(matches.map(function(m) {return m != null }))];
+}
+
+llab.getContent = function(line) {
+    var sepIdx = line.indexOf(':');
+    var content = line.slice(sepIdx + 1);
+    // TODO, we could probably strengthen this with a lastIndexOf() call.
+    var sliced = content.split(/\[|\]/);
+    return { text: sliced[0], url: sliced[1] };
+}
+
+llab.isResource = function(line) {
+    return llab.matchesArray(line, llab.topicKeywords.resources);
+}
+
+llab.isInfo = function(line) {
+    return llab.matchesArray(line, llab.topicKeywords.info);
+}
+
+llab.isHeading = function(line) {
+    return llab.matchesArray(line, llab.topicKeywords.headings);
+}
+
+llab.isKeyword = function(line) {
+    return llab.isResource(line) || llab.isInfo(line) || llab.isHeading(line);
+}
+
+llab.renderFull = function renderAndParse(data) {
+    var content = llab.parseTopicFile(data);
+    llab.renderTopicModel(content);
+}
+
+// TODO: this data format is messy.
+llab.renderTopicModel = function rederer(topics) {
+    llab.renderTitle(topics.title);
+    topics.topics.forEach(function(topic) {
+        llab.renderTopic(topic);
+    });
+}
+
+llab.renderTitle = function(title) {
+    var navbar, titleText;
+    navbar = $(llab.selectors.NAVTITLE)
+    $(llab.selectors.MOBILETITLE).html(title);
+    navbar.html(title);
+    titleText = navbar.text(); // Normalize Window Title
+    titleText = titleText.replace('snap', 'Snap!');
+    document.title = titleText;
+};
+
+llab.renderCourseLink = function(course) {
+    if (course.indexOf("://") === -1) {
+        course = llab.courses_path + course;
+    }
+    $('.nav.navbar-nav.navbar-right').prepend($(document.createElement("a")).attr(
+        {"class":"course_link", "href": course }
+    ).html(llab.strings.goMain));
+};
+
+llab.renderTopic = function(topic_model) {
+    var FULL = llab.selectors.FULL,
+        params = llab.getURLParameters(),
+        course = params.course;
+    var topicDOM = $("<div>").attr({ 'class': 'topic' });
+
+    // FIXME -- css eventually, should be topic-header
+    topicDOM.append($(document.createElement("div")).attr(
+        {'class': 'topic_header'}).append(topic_model.title));
+
+    // FIXME -- forEach
+    var current;
+    for (var i = 0; i < topic_model.contents.length; i++) {
+        current = topic_model.contents[i];
+        if (current.type == "section") {
+            llab.renderSection(current, topicDOM);
+        }
+    }
+
+    // Make sure to only update view once things are rendered.
+    $(FULL).append(topicDOM);
+    llab.renderCourseLink(course);
+}
+
+llab.renderSection = function(section, parent) {
+    var sectionDOM = $("<section>"),
+        params = llab.getURLParameters();
+    if (section.title) {
+        var tag = section.headingType == "heading" ? 'h3' : section.headingType;
+        sectionDOM.append($('<' + tag + '>').append(section.title));
+    }
+
+    // FIXME -- for each loop!
+    var current;
+    for (var i = 0; i < section.contents.length; i++) {
+        current = section.contents[i];
+        isHidden = params.hasOwnProperty('no' + current.type);
+
+        // Skip Rendering Hidden Resources.
+        if (isHidden) {
+            continue;
+        }
+
+        if (current.type && llab.isResource(current.type)) {
+            llab.renderResource(current, sectionDOM);
+        } else if (current.type && llab.isInfo(current.type)) {
+            var infoSection = [current];
+            while (i < section.contents.length - 1 && section.contents[i].type == current.type) {
+                i++;
+                infoSection.push(section.contents[i]);
+            }
+            llab.renderInfo(infoSection, current.type, sectionDOM);
+        } else if (current.type == "section") {
+            llab.renderSection(current, sectionDOM);
+        } else { // also handles: current.type == "raw_html"
+            sectionDOM.append(current.contents);
+        }
+    }
+
+    sectionDOM.appendTo(parent);
+}
+
+llab.renderResource = function(resource, parent) {
+    var item = $("<div>").attr({ 'class': resource.type });
+    var new_contents = resource.contents + "\n";
+    if (resource.url) {
+        var slash = resource.url[0] == "/" ? '' : '/';
+        item.append($(document.createElement("a")).attr({'href': resource.url}).append(new_contents));
+    } else {
+        item.append(new_contents);
+    }
+    parent.append(item);
+}
+
+llab.renderInfo = function(contents, type, parent) {
+    var infoDOM =  $(document.createElement("div")).attr({'class': type});
+    var list = $(document.createElement("ul")).appendTo(infoDOM);
+    list.append(contents.map(function(item) {return $(document.createElement("li")).append(item.contents) }));
+    parent.append(infoDOM);
+}
 
 /* Returns the indent class of this string,
  * depending on how far it has been indented
  * on the line. */
-llab.indentString = function(s) {
+llab.indentLevel = function(s) {
     var len = s.length;
     var count = 0;
     for (var i = 0; i < len; i++) {
@@ -218,14 +303,11 @@ llab.indentString = function(s) {
             break;
         }
     }
-    return " indent" + Math.floor(count/4);
+    return Math.floor(count/4);
 }
 
-
-/* Returns true iff S is an allowed html tag. */
-llab.isTag = function(s) {
-    return llab.tags.indexOf(s) !== -1;
-}
+// TODO: Separate out the llab.file stuff
+// TODO: save to an read from local storage.
 
 llab.displayTopic = function() {
     llab.file = llab.getQueryParameter("topic");
@@ -236,17 +318,18 @@ llab.displayTopic = function() {
             type : "GET",
             dataType : "text",
             cache : true,
-            success : llab.renderFull
+            success : llab.renderFull // FIXME -- rename
         });
     } else {
-        $(llab.selectors.FULL).text("Please specify a file in the URL.");
+        // FIXME -- put that text somewhere
+        document.getElementsByTagName(llab.selectors.FULL).item(0).innerHTML = "Please specify a file in the URL.";
     }
 }
 
 // Make a call to build a topic page.
 // Be sure that content is set only on pages that it should be
 $(document).ready(function() {
-    var url = llab.stripLangExtensions(document.URL),
+    var url = document.URL,
         isTopicFile = (url.indexOf("topic.html") !== -1 ||
             // FIXME -- this may be broken.
             url.indexOf("empty-topic-page.html") !== -1);
@@ -255,3 +338,26 @@ $(document).ready(function() {
         llab.displayTopic();
     }
 });
+
+
+// TODO: Export nodeJS stuff here.
+
+/*
+  Error checking (do this after building page, so it won't slow it down?)
+
+  Check the link targets if present - if they aren't there (give a 404),
+  put a "broken" class on the link to render in red or something
+
+  Maybe be smart about a mistyped youtube target?  dunno.
+
+  Be forgiving:
+
+  if there is no closing brace, put one there when another one opens or the page ends
+
+  No error checking:
+
+  No error checking on class name before the colon - it could be misspelled
+
+  if no colon at all, just put no class on the div
+
+*/
