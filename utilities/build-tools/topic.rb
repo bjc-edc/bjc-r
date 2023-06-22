@@ -82,7 +82,7 @@ class BJCTopic
       # TODO: remove text after // in a line.
       line = strip_comments(lines[i]).strip
 
-      unless raw
+      if !raw
         if line.length.positive?
           if line.match?(/^title:/)
             topics[:title] = line.slice(6..)
@@ -91,7 +91,7 @@ class BJCTopic
           elsif line.match?(/^raw-html/)
             raw = true
           elsif line[0] == '{'
-            topic_model = { type: 'topic', url: llab[:topic], contents: [] }
+            topic_model = { type: 'topic', url: @file_path, contents: [] }
             topics[:topics].push(topic_model)
             section = { title: '', contents: [], type: 'section' }
             topic_model[:contents].push(section)
@@ -127,22 +127,21 @@ class BJCTopic
         elsif line.length == 0
           raw = false
         end
+      end
+      if raw
+        raw_html = []
+        text = get_content(line)['text'] # in case they start the raw html on the same line
+        raw_html.push(text) if text
 
-        if raw
-          raw_html = []
-          text = get_content(line)['text'] # in case they start the raw html on the same line
-          raw_html.push(text) if text
-
-          # FIXME: -- if nested topics are good check for {
-          while lines[i + 1].length >= 1 && lines[i + 1][0] != '}' && !is_keyword(lines[i + 1])
-            i += 1
-            line = lines[i]
-            raw_html.push(line)
-          end
-
-          section[:contents].push({ type: 'raw-html', contents: raw_html })
-          raw = false
+        # FIXME: -- if nested topics are good check for {
+        while lines[i + 1].length >= 1 && lines[i + 1][0] != '}' && !is_keyword(lines[i + 1])
+          i += 1
+          line = lines[i]
+          raw_html.push(line)
         end
+
+        section[:contents].push({ type: 'raw-html', contents: raw_html })
+        raw = false
       end
 
       i += 1
