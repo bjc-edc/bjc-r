@@ -46,318 +46,318 @@
  * e.g.   h1: Some Text [maybe/a/link/too]
  */
 llab.topicKeywords = {};
-llab.topicKeywords.resources = ["quiz", "assignment", "resource",
-                                "forum", "video", "extresource",
-                                "reading", "group"];
+llab.topicKeywords.resources = [
+  "quiz",
+  "assignment",
+  "resource",
+  "forum",
+  "video",
+  "extresource",
+  "reading",
+  "group",
+];
 llab.topicKeywords.headings = ["h1", "h2", "h3", "h4", "h5", "h6", "heading"];
-llab.topicKeywords.info = ["big-idea", "learning-goal"]
+llab.topicKeywords.info = ["big-idea", "learning-goal"];
 
 /* TODO: comment...
 
 */
 llab.parseTopicFile = function parser(data) {
-
-    llab.file = llab.topic;
-
-    data = data.replace(/(\r)/gm,""); // normalize line endings
-    var lines = data.split("\n");
-    // TODO: If we support multiple topics per file -- this should have a URL field and maybe this should just be contents?
-    var topics = { topics: [] };
-    var line, topic_model, item, list, text, content, section, indent;
-    var in_topic = false, raw = false;
-    var url = document.URL;
-    for (var i = 0; i < lines.length; i++) {
-        line = llab.stripComments(lines[i]);
-        line = line.trim();
-        if (line.length && !raw) {
-            if (line.match(/^title:/)) {
-                topics.title = line.slice(6);
-            } else if (line.match(/^topic:/)) {
-                topic_model.title = line.slice(6);
-            } else if (line.match(/^raw-html/)) {
-                raw = true;
-            } else if (line[0] == "{") {
-                topic_model = { type: 'topic', url: llab.topic, contents: [] };
-                topics.topics.push(topic_model);
-                section = { title: '', contents: [], type: 'section' };
-                topic_model.contents.push(section);
-            } else if (llab.isHeading(line)) {
-                headingType = llab.getKeyword(line, llab.topicKeywords.headings);
-                if (section.contents.length > 0) {
-                    section = { title: '', contents: [], type: 'section' };
-                    topic_model.contents.push(section);
-                }
-                section.title = llab.getContent(line)['text'];
-                section.headingType = headingType;
-            } else if (line[0] == "}") {
-                // shouldn't matter
-            } else if (llab.isInfo(line)) {
-                tag = llab.getKeyword(line, llab.topicKeywords.info);
-                indent = llab.indentLevel(line);
-                content = llab.getContent(line)['text']; // ?
-                // TODO: do we really need indentation now?
-                // if so, I think it should be added to the type
-                // and only if indentation levels != nested levels.
-                item = { type: tag, contents: content, indent: indent };
-                section.contents.push(item);
-            } else if (llab.isResource(line) || true) {
-                // FIXME: dumb way to handle lines without a known tag
-                // Shouldn't this just be an else case?
-                tag = llab.getKeyword(line, llab.topicKeywords.resources);
-                indent = llab.indentLevel(line);
-                content = llab.getContent(line);
-                item = { type: tag, indent: indent, contents: content.text,
-                         url: content.url };
-                section.contents.push(item);
-            }
-        } else if (line.length == 0) {
-            raw = false;
+  llab.file = llab.topic;
+  data = data.replace(/(\r)/gm, ""); // normalize line endings
+  var lines = data.split("\n");
+  // TODO: If we support multiple topics per file -- this should have a URL field and maybe this should just be contents?
+  var topics = { topics: [] };
+  var line, topic_model, item, text, content, section, indent, raw = false;
+  for (var i = 0; i < lines.length; i++) {
+    line = llab.stripComments(lines[i]);
+    line = line.trim();
+    if (line.length && !raw) {
+      if (line.match(/^title:/)) {
+        topics.title = line.slice(6);
+      } else if (line.match(/^topic:/)) {
+        topic_model.title = line.slice(6);
+      } else if (line.match(/^raw-html/)) {
+        raw = true;
+      } else if (line[0] == "{") {
+        topic_model = { type: "topic", url: llab.topic, contents: [] };
+        topics.topics.push(topic_model);
+        section = { title: "", contents: [], type: "section" };
+        topic_model.contents.push(section);
+      } else if (llab.isHeading(line)) {
+        headingType = llab.getKeyword(line, llab.topicKeywords.headings);
+        if (section.contents.length > 0) {
+          section = { title: "", contents: [], type: "section" };
+          topic_model.contents.push(section);
         }
-        if (raw) {
-            var raw_html = [];
-            text = llab.getContent(line)['text']; // in case they start the raw html on the same line
-            if (text) {
-                raw_html.push(text)
-            }
-            // FIXME -- if nested topics are good check for {
-            while (lines[i+1].length >= 1 && lines[i+1].slice(0) != "}" && !llab.isKeyword(lines[i+1])) {
-                i++;
-                line = lines[i];
-                raw_html.push(line);
-            }
-            // FIXME -- shouldn't the type have a - ?
-            section.contents.push({ type: 'raw_html', contents: raw_html });
-            raw = false;
-        }
+        section.title = llab.getContent(line)["text"];
+        section.headingType = headingType;
+      } else if (line[0] == "}") {
+        // shouldn't matter
+      } else if (llab.isInfo(line)) {
+        tag = llab.getKeyword(line, llab.topicKeywords.info);
+        indent = llab.indentLevel(line);
+        content = llab.getContent(line)["text"]; // ?
+        // TODO: do we really need indentation now?
+        // if so, I think it should be added to the type
+        // and only if indentation levels != nested levels.
+        item = { type: tag, contents: content, indent: indent };
+        section.contents.push(item);
+      } else if (llab.isResource(line) || true) {
+        // FIXME: dumb way to handle lines without a known tag
+        // Shouldn't this just be an else case?
+        tag = llab.getKeyword(line, llab.topicKeywords.resources);
+        indent = llab.indentLevel(line);
+        content = llab.getContent(line);
+        item = {
+          type: tag,
+          indent: indent,
+          contents: content.text,
+          url: content.url,
+        };
+        section.contents.push(item);
+      }
+    } else if (line.length == 0) {
+      raw = false;
     }
-    llab.topics = topics;
+    if (raw) {
+      var raw_html = [];
+      text = llab.getContent(line)["text"]; // in case they start the raw html on the same line
+      if (text) {
+        raw_html.push(text);
+      }
 
-    return topics;
-}
+      while (
+        lines[i + 1].length >= 1 &&
+        lines[i + 1].slice(0) != "}" &&
+        !llab.isKeyword(lines[i + 1])
+      ) {
+        i++;
+        line = lines[i];
+        raw_html.push(line);
+      }
+      section.contents.push({ type: "raw-html", contents: raw_html });
+      raw = false;
+    }
+  }
+  llab.topics = topics;
+
+  return topics;
+};
 
 // Shorter method alias (used in node API)
 llab.parse = llab.parseTopicFile;
 
 /* TODO: Comment needed.
-*/
-llab.matchesArray = function(line, A) {
-    var matches = A.map(function(s) {return line.match(s) });
-    return llab.any(matches.map(function(m) {return m != null }));
-}
+ */
+llab.matchesArray = (line, A) => A.some((s) => line.match(s) !== null);
 
 // TODO: comment...
-llab.getKeyword = function(line, A) {
-    var matches = A.map(function(s) {return line.match(s) });
-    return A[llab.which(matches.map(function(m) {return m != null }))];
-}
+llab.getKeyword = function (line, A) {
+  var matches = A.map((s) => line.match(s));
+  var index = matches.findIndex((m) => m !== null);
+  return index !== -1 ? A[index] : undefined;
+};
 
-llab.getContent = function(line) {
-    var sepIdx = line.indexOf(':');
-    var content = line.slice(sepIdx + 1);
-    // TODO, we could probably strengthen this with a lastIndexOf() call.
-    var sliced = content.split(/\[|\]/);
-    return { text: sliced[0], url: sliced[1] };
-}
+llab.getContent = function (line) {
+  var sepIdx = line.indexOf(":");
+  var content = line.slice(sepIdx + 1);
+  // TODO, we could probably strengthen this with a lastIndexOf() call.
+  var sliced = content.split(/\[|\]/);
+  return { text: sliced[0], url: sliced[1] };
+};
 
-llab.isResource = function(line) {
-    return llab.matchesArray(line, llab.topicKeywords.resources);
-}
+llab.isResource = function (line) {
+  return llab.matchesArray(line, llab.topicKeywords.resources);
+};
 
-llab.isInfo = function(line) {
-    return llab.matchesArray(line, llab.topicKeywords.info);
-}
+llab.isInfo = function (line) {
+  return llab.matchesArray(line, llab.topicKeywords.info);
+};
 
-llab.isHeading = function(line) {
-    return llab.matchesArray(line, llab.topicKeywords.headings);
-}
+llab.isHeading = function (line) {
+  return llab.matchesArray(line, llab.topicKeywords.headings);
+};
 
-llab.isKeyword = function(line) {
-    return llab.isResource(line) || llab.isInfo(line) || llab.isHeading(line);
-}
+llab.isKeyword = function (line) {
+  return llab.isResource(line) || llab.isInfo(line) || llab.isHeading(line);
+};
 
 llab.renderFull = function renderAndParse(data) {
-    var content = llab.parseTopicFile(data);
-    llab.renderTopicModel(content);
-}
+  var content = llab.parseTopicFile(data);
+  llab.renderTopicModel(content);
+};
 
 // TODO: this data format is messy.
 llab.renderTopicModel = function rederer(topics) {
-    llab.renderTitle(topics.title);
-    topics.topics.forEach(function(topic) {
-        llab.renderTopic(topic);
-    });
-}
-
-llab.renderTitle = function(title) {
-    var navbar, titleText;
-    navbar = $(llab.selectors.NAVTITLE)
-    $(llab.selectors.MOBILETITLE).html(title);
-    navbar.html(title);
-    titleText = navbar.text(); // Normalize Window Title
-    titleText = titleText.replace('snap', 'Snap!');
-    document.title = titleText;
+  llab.renderTitle(topics.title);
+  topics.topics.forEach(function (topic) {
+    llab.renderTopic(topic);
+  });
 };
 
-llab.renderCourseLink = function(course) {
-    if (course.indexOf("://") === -1) {
-        course = llab.courses_path + course;
-    }
-    $('.nav.navbar-nav.navbar-right').prepend($(document.createElement("a")).attr(
-        {"class":"course_link", "href": course }
-    ).html(llab.strings.goMain));
+llab.renderTitle = function (title) {
+  var navbar, titleText;
+  navbar = $('.navbar-title');
+  $(llab.selectors.MOBILETITLE).html(title);
+  navbar.html(title);
+  titleText = navbar.text(); // Normalize Window Title
+  titleText = titleText.replace("snap", "Snap!");
+  document.title = titleText;
 };
 
-llab.renderTopic = function(topic_model) {
-    var FULL = llab.selectors.FULL,
-        params = llab.getURLParameters(),
-        course = params.course;
-    var topicDOM = $("<div>").attr({ 'class': 'topic' });
+llab.renderCourseLink = function (course) {
+  if (course.indexOf("://") === -1) {
+    course = llab.courses_path + course;
+  }
+  $(".full").prepend(
+    `<a class="course_link pull-right" href="${course}">${llab.t(llab.strings.goMain)}</a>`
+  );
+};
 
-    // FIXME -- css eventually, should be topic-header
-    topicDOM.append($(document.createElement("div")).attr(
-        {'class': 'topic_header'}).append(topic_model.title));
+llab.renderTopic = function (topic_model) {
+  var FULL = llab.selectors.FULL,
+    params = llab.getURLParameters(),
+    course = params.course;
+  var $topicDiv = $(`<div class="topic"></div>`);
 
-    // FIXME -- forEach
-    var current;
-    for (var i = 0; i < topic_model.contents.length; i++) {
-        current = topic_model.contents[i];
-        if (current.type == "section") {
-            llab.renderSection(current, topicDOM);
-        }
-    }
+  if (topic_model.title) {
+    $topicDiv.append(`<div class="topic_header">${topic_model.title}</div>`);
+  }
 
-    // Make sure to only update view once things are rendered.
-    $(FULL).append(topicDOM);
-    llab.renderCourseLink(course);
-}
-
-llab.renderSection = function(section, parent) {
-    var sectionDOM = $("<section>"),
-        params = llab.getURLParameters();
-    if (section.title) {
-        var tag = section.headingType == "heading" ? 'h3' : section.headingType;
-        sectionDOM.append($('<' + tag + '>').append(section.title));
-    }
-
-    // FIXME -- for each loop!
-    var current;
-    for (var i = 0; i < section.contents.length; i++) {
-        current = section.contents[i];
-        isHidden = params.hasOwnProperty('no' + current.type);
-
-        // Skip Rendering Hidden Resources.
-        if (isHidden) {
-            continue;
-        }
-
-        if (current.type && llab.isResource(current.type)) {
-            llab.renderResource(current, sectionDOM);
-        } else if (current.type && llab.isInfo(current.type)) {
-            var infoSection = [current];
-            while (i < section.contents.length - 1 && section.contents[i].type == current.type) {
-                i++;
-                infoSection.push(section.contents[i]);
-            }
-            llab.renderInfo(infoSection, current.type, sectionDOM);
-        } else if (current.type == "section") {
-            llab.renderSection(current, sectionDOM);
-        } else { // also handles: current.type == "raw_html"
-            sectionDOM.append(current.contents);
-        }
-    }
-
-    sectionDOM.appendTo(parent);
-}
-
-llab.renderResource = function(resource, parent) {
-    var item = $("<div>").attr({ 'class': resource.type });
-    var new_contents = resource.contents + "\n";
-    if (resource.url) {
-        var slash = resource.url[0] == "/" ? '' : '/';
-        item.append($(document.createElement("a")).attr({'href': resource.url}).append(new_contents));
+  var current;
+  for (var i = 0; i < topic_model.contents.length; i++) {
+    current = topic_model.contents[i];
+    if (current.type == "section") {
+      llab.renderSection(current, $topicDiv);
     } else {
-        item.append(new_contents);
+      console.log('NON SECTION CONTENT NO RENDERED', content)
     }
-    parent.append(item);
-}
+  }
 
-llab.renderInfo = function(contents, type, parent) {
-    var infoDOM =  $(document.createElement("div")).attr({'class': type});
-    var list = $(document.createElement("ul")).appendTo(infoDOM);
-    list.append(contents.map(function(item) {return $(document.createElement("li")).append(item.contents) }));
-    parent.append(infoDOM);
-}
+  // Make sure to only update view once things are rendered.
+  $(FULL).append($topicDiv);
+  llab.renderCourseLink(course);
+};
+
+llab.renderSection = function (section, parent) {
+  var $section = $("<section>"),
+    params = llab.getURLParameters();
+
+  if (section.title) {
+    var tag = section.headingType == "heading" ? "h3" : section.headingType;
+    $section.append(`<${tag}>${section.title}</${tag}>`);
+  }
+
+  $section.append('<ol>');
+  let $contentContainer = $section.find('ol');
+
+  var current;
+  for (var i = 0; i < section.contents.length; i++) {
+    current = section.contents[i];
+    isHidden = params.hasOwnProperty("no" + current.type);
+
+    // Skip Rendering Hidden Resources.
+    if (isHidden) {
+      continue;
+    }
+
+    if (current.type && llab.isResource(current.type)) {
+      llab.renderResource(current, $contentContainer);
+    } else if (current.type && llab.isInfo(current.type)) {
+      var infoSection = [current];
+      while (
+        i < section.contents.length - 1 &&
+        section.contents[i].type == current.type
+      ) {
+        i++;
+        infoSection.push(section.contents[i]);
+      }
+      llab.renderInfo(infoSection, current.type, $contentContainer);
+    } else if (current.type == "section") {
+      llab.renderSection(current, $section);
+    } else {
+      // also handles: current.type == "raw_html"
+      $section.append(current.contents);
+    }
+  }
+
+  $section.appendTo(parent);
+};
+
+llab.renderResource = (resource, parent) => {
+  const item = $(`<li class="${resource.type}"></li>`);
+
+  if (resource.url) {
+    item.append(`<a href=${resource.url}>${resource.contents}</a>`);
+  } else {
+    item.append(resource.contents);
+  }
+
+  parent.append(item);
+};
+
+llab.renderInfo = function (contents, type, parent) {
+  var infoDOM = $(document.createElement("div")).attr({ class: type });
+  var list = $(document.createElement("ol")).appendTo(infoDOM);
+  list.append(
+    contents.map(function (item) {
+      return $(document.createElement("li")).append(item.contents);
+    })
+  );
+  parent.append(infoDOM);
+};
 
 /* Returns the indent class of this string,
  * depending on how far it has been indented
  * on the line. */
-llab.indentLevel = function(s) {
-    var len = s.length;
-    var count = 0;
-    for (var i = 0; i < len; i++) {
-        if (s[i] == " ") {
-            count++;
-        } else if (s[i] == "\t") {
-            count += 4;
-        } else {
-            break;
-        }
+llab.indentLevel = function (s) {
+  var len = s.length;
+  var count = 0;
+  for (var i = 0; i < len; i++) {
+    if (s[i] == " ") {
+      count++;
+    } else if (s[i] == "\t") {
+      count += 4;
+    } else {
+      break;
     }
-    return Math.floor(count/4);
-}
+  }
+  return Math.floor(count / 4);
+};
 
+llab.handleError = (error) => {
+  if (typeof Sentry !== "undefined") {
+    Sentry.captureException(error);
+  }
+  console.error(error);
+};
 // TODO: Separate out the llab.file stuff
 // TODO: save to an read from local storage.
 
-llab.displayTopic = function() {
-    llab.file = llab.getQueryParameter("topic");
+llab.displayTopic = function () {
+  llab.file = llab.getQueryParameter("topic");
 
-    if (llab.file) {
-        $.ajax({
-            url : llab.topics_path + llab.file,
-            type : "GET",
-            dataType : "text",
-            cache : true,
-            success : llab.renderFull // FIXME -- rename
-        });
-    } else {
-        // FIXME -- put that text somewhere
-        document.getElementsByTagName(llab.selectors.FULL).item(0).innerHTML = "Please specify a file in the URL.";
-    }
-}
+  if (llab.file) {
+    fetch(llab.topics_path + llab.file)
+      .then((response) => response.text())
+      .then((data) => llab.renderFull(data))
+      .catch(llab.handleError);
+  } else {
+    document.getElementsByTagName(llab.selectors.FULL).item(0).innerHTML =
+      "Please specify a file in the URL.";
+  }
+};
 
 // Make a call to build a topic page.
 // Be sure that content is set only on pages that it should be
-$(document).ready(function() {
-    var url = document.URL,
-        isTopicFile = (url.indexOf("topic.html") !== -1 ||
-            // FIXME -- this may be broken.
-            url.indexOf("empty-topic-page.html") !== -1);
+$(document).ready(() => {
+  const url = llab.stripLangExtensions(document.URL),
+    isTopicFile =
+      url.indexOf("topic.html") !== -1 ||
+      url.indexOf("empty-topic-page.html") !== -1;
 
-    if (isTopicFile) {
-        llab.displayTopic();
-    }
+  if (isTopicFile) {
+    llab.displayTopic();
+  }
 });
-
-
-// TODO: Export nodeJS stuff here.
-
-/*
-  Error checking (do this after building page, so it won't slow it down?)
-
-  Check the link targets if present - if they aren't there (give a 404),
-  put a "broken" class on the link to render in red or something
-
-  Maybe be smart about a mistyped youtube target?  dunno.
-
-  Be forgiving:
-
-  if there is no closing brace, put one there when another one opens or the page ends
-
-  No error checking:
-
-  No error checking on class name before the colon - it could be misspelled
-
-  if no colon at all, just put no class on the div
-
-*/
