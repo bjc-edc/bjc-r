@@ -19,52 +19,7 @@ const TOGGLE_HEADINGS = [
   'takeItTeased',
 ];
 
-llab.TRANSLATIONS = {
-  'ifTime': {
-    en: 'If There Is Time…',
-    es: 'Si hay tiempo…',
-  },
-  'takeItFurther': {
-    en: 'Take It Further…',
-    es: 'Llevándolo más allá',
-  },
-  'takeItTeased': {
-    en: 'Take It Further…',
-    es: 'Llevándolo más allá',
-  },
-  'backText': {
-    en: 'previous page',
-    es: 'previous page',
-  },
-  'nextText': {
-    en: 'next page',
-    es: 'next page',
-  },
-  'selfCheckTitle': {
-    en: 'Self-Check Question',
-    es: 'Autoevaluación',
-  },
-  'Try Again': {
-    es: 'Intentarlo de nuevo',
-  },
-  'Check Answer': {
-    es: 'Comprobar respuesta',
-  },
-  'successMessage': {
-    en: 'You have successfully completed this question!',
-    es: '¡Has completado la pregunta correctamente!',
-  },
-  'attemptMessage': {
-    en: 'This is your %ordinal attempt.',
-    es: 'Este es tu intento n.º %number.',
-  },
-  'Go to Table of Contents': {
-    es: 'Ir a la tabla de contenido'
-  }
-};
-
 // Executed on *every* page load.
-// TODO: Should probably be slip into a better place.
 llab.secondarySetUp = function() {
   let t = llab.translate;
   llab.setupTitle();
@@ -123,6 +78,12 @@ llab.secondarySetUp = function() {
     }
   ]);
 
+  // TODO: Figoute a nicer place to put this...
+  // TODO: Rewrite the function to not scan every element.
+  if ($('[w3-include-html]')) {
+    w3.includeHTML();
+  }
+
   llab.addFeedback(document.title, llab.file, llab.getQueryParameter('course'));
 
   // We don't have a topic file, so we should exit.
@@ -145,7 +106,6 @@ llab.secondarySetUp = function() {
   });
 
 }; // close secondarysetup();
-
 
 /**
  * A prelimary API for defining loading additional content based on triggers.
@@ -212,12 +172,7 @@ llab.processLinks = function(data, _status, _jqXHR) {
   course = params.course || '',
   topicArray = data.split("\n"),
   url = document.URL,
-  // TODO: Move this to a dropdown function
-  list = $(document.createElement("ul")).attr({
-    'class': 'dropdown-menu dropdown-menu-right',
-    'role': 'menu',
-    'aria-labeledby': 'Topic-Navigation-Menu'
-  }),
+  list = $('.js-llabPageNavMenu'),
   itemContent,
   ddItem,
   line,
@@ -321,18 +276,15 @@ llab.processLinks = function(data, _status, _jqXHR) {
   }
   // Setup the nav button links and build the dropdown.
   llab.setButtonURLs();
-  llab.buildDropdown();
-  // FIXME -- will break on pages with multiple dropdowns (future)
-  $('.dropdown').append(list);
+
+  $('.js-navDropdown').append(list);
   // Set the max-height of the dropdown list to not exceed window height
   // This is particularly important for smaller screens.
-  $('.dropdown-menu').css('max-height', $(window).height() * 0.8);
-  $('.dropdown-menu').css('max-width', Math.min($(window).width() * 0.8, 450));
+  $('.dropdown-menu').css('max-height', $(window).height() * 0.6);
+  $('.dropdown-menu').css('max-width', Math.min($(window).width(), 450));
 
 
-  // FIXME -- this doesn't belong here.
   llab.indicateProgress(llab.url_list.length, llab.thisPageNum() + 1);
-
 }; // end processLinks()
 
 
@@ -384,7 +336,6 @@ llab.setupTitle = function() {
   // Set the header title to the page title.
   titleText = document.title;
   if (titleText) {
-    // FIXME this needs to be a selector
     $('.navbar-title').html(titleText);
     $('.title-small-screen').html(titleText);
   }
@@ -416,86 +367,93 @@ llab.createTitleNav = function() {
     navURL = location.pathname;
   }
 
-  var topHTML = `
-    <nav class="llab-nav navbar navbar-default navbar-fixed-top nopadtb" role="navigation">
-      <div class="nav navbar-nav navbar-left">
-        <a class="site-title" rel="author" href="${navURL}" aria-label="${t('Go to Index')}">
-          <img src="${logoURL}" alt="${t('BJC logo')}" class="pull-left">
+  let previousPageButton = `
+      <a class='btn btn-nav hidden js-backPageLink js-navButton'
+        aria-label="${t('backText')}">
+        <i class="fas fa-arrow-left" aria-hidden=true></i>
+      </a>`,
+    nextPageButton = `
+      <a class='btn btn-nav hidden js-nextPageLink js-navButton'
+        aria-label="${t('nextText')}">
+        <i class="fas fa-arrow-right" aria-hidden=true></i>
+      </a>`,
+    topHTML = `
+    <nav class="llab-nav navbar navbar-fixed-top" role="navigation">
+      <div class="nav navbar-left">
+        <a class="navbar-brand" rel="author" href="${navURL}"
+          aria-label="${t('Go to Index')}">
+          <img src="${logoURL}" alt="${t('BJC logo')}">
         </a>
         <div class="navbar-title"></div>
       </div>
-      <div class="nav navbar-nav navbar-right">
-        <ul class="nav-btns btn-group"></ul>
-      </div>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown js-langDropdown nav-lang-dropdown hidden">
+          <a class="btn btn-nav btn-nav-lang dropdown-toggle" type="button"
+            aria-label=${t('Switch language')} role="button" tabindex=1
+            id="dropdown-langs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="far fa-globe" aria-hidden=true></i>
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="dropdown-langs">
+            <li><a class="js-switch-lang-en">Switch to English</a></li>
+            <li><a class="js-switch-lang-es">Español</a></li>
+          </ul>
+        </li>
+        <li class="nav-btn-group nav-btn-group-first">${previousPageButton}</li>
+        <li class="nav-btn-group dropdown js-navDropdown js-navButton hidden">
+          <a class="btn btn-nav dropdown-toggle"
+            type="button" role="button" tabindex=1
+            aria-label="${t('Navigation Menu')}"
+            id="Topic-Navigation-Menu" data-toggle="dropdown"
+            aria-haspopup=true aria-expanded=false>
+            <i class="fas fa-bars" aria-hidden=true></i>
+          </a>
+          <ul class="js-llabPageNavMenu dropdown-menu"
+            role="menu" aria-labeledby='Topic-Navigation-Menu'>
+          </ul>
+        </li>
+        <li class="nav-btn-group nav-btn-group-last">${nextPageButton}</li>
+      </ul>
       <div class="trapezoid"></div>
     </nav>
-    <div class="title-small-screen"></div>
-    `,
-    botHTML = '<div class="full-bottom-bar"><div class="bottom-nav btn-group"></div></div>',
-    topNav = $(llab.selectors.NAVSELECT),
-    buttons = `<a class='btn btn-default backbutton arrow' aria-label="${t('backText')}">←</a><a class='btn btn-default forwardbutton arrow' aria-label="${t('nextText')}">→</a>`;
+    <div class="title-small-screen"></div>`,
+    botHTML = `
+      <div class="full-bottom-bar">
+        <div class="js-navButton hidden" style="float: left">
+          ${previousPageButton}
+        </div>
+        <div class="progress-indicator"></div>
+        <div class="js-navButton hidden" style="float: right">
+          ${nextPageButton}
+        </div>
+      </div>`,
+    topNav = $(llab.selectors.NAVSELECT);
 
   if (topNav.length === 0) {
     $(document.body).prepend(topHTML);
   }
 
-  llab.addTransitionLinks();
+  llab.setupTranslationsMenu();
 
   // Don't add anything else if we don't know the step...
   // FUTURE - We should separate the rest of this function if necessary.
-  if (!llab.isCurriculum()) {
-    return;
-  }
+  if (!llab.isCurriculum()) { return; }
 
-  $('.nav-btns').append(buttons);
   if ($(llab.selectors.PROGRESS).length === 0) {
     $(document.body).append(botHTML);
-    $('.bottom-nav').append(buttons);
   }
 
-  llab.setButtonURLs();
-};
-
-
-// Create the navigation dropdown
-llab.buildDropdown = function() {
-  var dropdown, list_header;
-  // Container div for the whole menu (title + links)
-  dropdown = $(document.createElement("div")).attr(
-    {'class': 'dropdown inline'}
-  );
-
-  // build the list header
-  list_header = $(document.createElement("button")).attr(
-    {'class': 'navbar-toggle btn dropdown-toggle list_header btn-default',
-    'type' : 'button', 'data-toggle' : "dropdown" }
-  );
-  list_header.append(llab.fragments.hamburger);
-
-  // Add Header to dropdown
-  dropdown.append(list_header);
-  // Insert into the top div AFTER the backbutton.
-  dropdown.insertAfter($('.navbar-default .navbar-right .backbutton'));
+  llab.setButtonURLs(); // TODO-INVESTIGATE: We should be able to remove this.
 };
 
 /** Build an item for the navigation dropdown
 *  Takes in TEXT and a URL and reutrns a list item to be added
 *  too an existing dropdown */
 llab.dropdownItem = function(text, url) {
-  var item, link;
-  // li container
-  item = $(document.createElement("li")).attr(
-    {'class': 'list_item', 'role' : 'presentation'}
-  );
   if (url) {
-    link = $('<a>').attr({'href': url, 'role' : 'menuitem'});
-    link.html(text);
-    item.append(link);
-  } else {
-    item.html(text);
+    text = `<a href=${url} role="menuitem">${text}</a>`;
   }
 
-  return item;
+  return $(`<li role="presentation">${text}</li>`);
 };
 
 // Pages directly within a lab. Excludes 'topic' and 'course' pages.
@@ -503,7 +461,7 @@ llab.isCurriculum = function() {
   if (llab.getQueryParameter('topic')) {
     return ![
       llab.empty_topic_page_path, llab.topic_launch_page, llab.alt_topic_page
-    ].includes(location.pathname);
+    ].includes(llab.stripLangExtensions(location.pathname));
   }
   return false;
 }
@@ -519,47 +477,34 @@ llab.thisPageNum = function() {
 // Create the Forward and Backward buttons, properly disabling them when needed
 llab.setButtonURLs = function() {
   // No dropdowns for places that don't have a step.
-  if (!llab.isCurriculum()) {
-    return;
-  }
+  if (!llab.isCurriculum()) { return; }
 
-  var forward = $('.forwardbutton'), back = $('.backbutton');
+  // TODO: Should this happen ever?
+  var forward = $('.js-nextPageLink'), back = $('.js-backPageLink');
   var buttonsExist = forward.length !== 0 && back.length !== 0;
-
   if (!buttonsExist & $(llab.selectors.NAVSELECT) !== 0) {
-    // freshly minted buttons. MMM, tasty!
     llab.createTitleNav();
   }
 
-  forward = $('.forwardbutton');
-  back = $('.backbutton');
+  forward = $('.js-nextPageLink');
+  back = $('.js-backPageLink');
+  $('.js-navButton').removeClass('hidden');
 
-  // Disable the back button
-  // TODO: switch from using `.disabled` to [disabled] in css
-  var thisPage = llab.thisPageNum();
-  if (thisPage === 0) {
-    back.each(function(i, item) {
-      $(item).addClass('disabled').removeAttr('href').attr('disabled', true);
-    });
+  if (llab.thisPageNum() === 0) {
+    back.addClass('disabled').removeAttr('href').attr('disabled', true);
   } else {
-    back.each(function(i, item) {
-      $(item).removeClass('disabled').removeAttr('disabled')
-      .attr('href', llab.url_list[thisPage - 1])
+    back.removeClass('disabled').removeAttr('disabled')
+      .attr('href', llab.url_list[llab.thisPageNum() - 1])
       .click(llab.goBack);
-    });
   }
 
   // Disable the forward button
-  if (thisPage === llab.url_list.length - 1) {
-    forward.each(function(i, item) {
-      $(item).addClass('disabled').removeAttr('href').attr('disabled', true);
-    });
+  if (llab.thisPageNum() === llab.url_list.length - 1) {
+    forward.addClass('disabled').removeAttr('href').attr('disabled', true);
   } else {
-    forward.each(function(i, item) {
-      $(item).removeClass('disabled').removeAttr('disabled')
-      .attr('href', llab.url_list[thisPage + 1])
+    forward.removeClass('disabled').removeAttr('disabled')
+      .attr('href', llab.url_list[llab.thisPageNum() + 1])
       .click(llab.goForward);
-    });
   }
 };
 
@@ -583,9 +528,7 @@ llab.loadNewPage = (url) => {
 
 llab.addFeedback = function(title, topic, course) {
   // Prevent Button on small devices
-  if (screen.width < 1024) {
-    return;
-  }
+  if (screen.width < 1024) { return; }
 
   // Show Feedback ONLY on Teacher Guide
   if (location.pathname.slice(0,25) != "/bjc-r/cur/teaching-guide") {
@@ -632,7 +575,8 @@ llab.addFeedback = function(title, topic, course) {
   $(document.body).append(feedback);
 };
 
-llab.addFooter = function() {
+// TODO: Move to bootstrap classes (wait until BS5)
+llab.addFooter = () => {
   $(document.body).append(
     `<footer>
       <div class="footer wrapper margins">
@@ -667,30 +611,29 @@ llab.addFooter = function() {
 
 // Show a link 'switch to espanol' or 'switch to english' depending on the current language
 // TODO: Move this to a dropdown menu in the navbar with a globe icon
-llab.addTransitionLinks = function() {
-  if (!llab.canShowDevComments()) {
-    return;
-  }
+llab.setupTranslationsMenu = function() {
+  if (!llab.isLocalEnvironment()) { return; }
 
-  let currentPage = location.pathname.split('/').pop();
   // extract the language from the file name
   // make an ajax call to get the file name in the other language
   // if the file exists, add a link to it
-  let langMatcher = currentPage.match(/\.(es)\./);
-  let lang = langMatcher ? langMatcher[1] : 'en', new_url, btn_text;
+  let lang = llab.pageLang();
+  let new_url;
   if (lang === 'es') {
     new_url = location.href.replaceAll('.es.', '.');
-    btn_text = 'Switch to English';
   } else if (lang === 'en') {
     new_url = location.href.replaceAll('.html', '.es.html').replaceAll('.topic', '.es.topic');
-    btn_text = 'Cambiar a Español';
    }
    fetch(new_url).then((response) => {
       if (!response.ok) { return; }
-      let link = `<a href="${new_url}" class="btn btn-default imageRight" role="button">
-          ${btn_text}
-        </a>`;
-      $('.full').prepend(link);
+      $('.js-langDropdown').removeClass('hidden');
+      if (lang == 'es') {
+        $('.js-switch-lang-es').attr('href', location.href);
+        $('.js-switch-lang-en').attr('href', new_url);
+      } else if (lang == 'en') {
+        $('.js-switch-lang-es').attr('href', new_url);
+        $('.js-switch-lang-en').attr('href', location.href);
+      }
    }).catch(() => {});
 }
 
@@ -708,25 +651,11 @@ llab.setupSnapImages = () => {
 *  Positions an image along the bottom of the lab page, signifying progress.
 *  numSteps is the total number of steps in the lab
 *  currentStep is the number of the current step
-*  Note, these steps are 0 indexed!
 */
 llab.indicateProgress = function(numSteps, currentStep) {
-  var progress = $(llab.selectors.PROGRESS),
-  width = progress.width(),
-  // TODO: This neeeds to be a global selector!!
-  btns = $('.bottom-nav').width(),
-  pctMargin, result; // result stores left-offset of background image.
-
-  /* This works as long as the buttons are on the RIGHT of the image to be
-  * moved. The image on the last step will be moved at most the % width of
-  * the buttons.
-  */
-  pctMargin = (btns / width) * 100;
-  result = currentStep /  (numSteps + 1);
-  result = result * (100 - pctMargin);
-  result = result + "% 3px";
-  // 3px == height of bottom-bar - image height == (32px - 26px)/ 2
-  progress.css("background-position", result);
+  $(llab.selectors.PROGRESS).css(
+    "background-position", `${currentStep / (numSteps) * 100}% 0`
+  );
 };
 
 // Setup the nav and parse the topic file.
