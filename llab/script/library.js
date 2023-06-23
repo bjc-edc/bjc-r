@@ -245,7 +245,10 @@ if (llab.GACode) {
     window.dataLayer = window.dataLayer || [];
     function gtag(){ dataLayer.push(arguments); }
     gtag('js', new Date());
-    gtag('config', llab.GACode);
+    gtag('config', llab.GACode, {
+        page_title: document && document.querySelector('title').textContent,
+        page_location: document.URL
+    });
 }
 
 /** Truncate a STR to an output of N chars.

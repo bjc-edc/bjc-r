@@ -523,12 +523,17 @@ llab.rebuildPageFromHTML = (html) => {
   llab.conditionalSetup(llab.CONDITIONAL_LOADS);
   llab.secondarySetUp();
   // TODO:
-  // Make an analytics page visit
   // TODO: merge in <head> updates?
   // TODO: handle #anchors in URL?
   // Do we need to fire off any events? Bootstrap? dom loaded?
   window.history.pushState({}, '', path);
   window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (llab.GACode) {
+    gtag('config', llab.GACode, {
+      page_title: title,
+      page_location: document.URL  // Full URL is required.
+    });
+  }
   llab.PREVENT_NAVIGATIONS = false;
 }
 
