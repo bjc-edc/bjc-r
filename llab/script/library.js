@@ -246,7 +246,7 @@ if (llab.GACode) {
     function gtag(){ dataLayer.push(arguments); }
     gtag('js', new Date());
     gtag('config', llab.GACode, {
-        page_title: document && document.querySelector('title').textContent,
+        // page_title: document && document.querySelector('title').textContent,
         page_location: document.URL
     });
 }

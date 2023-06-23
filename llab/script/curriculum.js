@@ -27,6 +27,18 @@ llab.set_cache = (key, value) => {
 // TODO: Should this ingore the cache in development?
 llab.read_cache = key => sessionStorage[key];
 
+llab.DISABLE_DYNAMIC_NAVIGATION = false;
+llab.dynamicNavigation = (path) => {
+  return (event) => {
+    if (llab.DISABLE_DYNAMIC_NAVIGATION) {
+      location.href = path;
+      return;
+    }
+    event.preventDefault();
+    llab.loadNewPage(path);
+  }
+}
+
 // Executed on *every* page load.
 llab.secondarySetUp = function() {
   let t = llab.translate;
@@ -67,7 +79,6 @@ llab.secondarySetUp = function() {
       $(`#${id}`).addClass('in');
       $(this).removeClass('show');
     }
-
   });
 
   llab.setupSnapImages();
@@ -243,6 +254,10 @@ llab.processLinks = function(data, _status, _jqXHR) {
   $('.dropdown-menu').css('max-height', $(window).height() * 0.6);
   $('.dropdown-menu').css('max-width', Math.min($(window).width(), 450));
 
+  // Attach Dynamic Click Handlers to menu items.
+  $('a[role=menuitem]').each((_i, element) => {
+    $(element).off('click').on('click', llab.dynamicNavigation(element.href));
+  });
 
   llab.indicateProgress(llab.url_list.length, llab.thisPageNum() + 1);
 }; // end processLinks()
@@ -293,7 +308,6 @@ llab.setupTitle = function() {
     document.title = titleText;
   }
 
-  console.log('Rebuilding Title', document.title);
   // Set the header title to the page title.
   titleText = document.title;
   console.log('Rebuilding Title', titleText);
@@ -450,14 +464,15 @@ llab.setButtonURLs = function() {
 
   forward = $('.js-nextPageLink');
   back = $('.js-backPageLink');
-  $('.js-navButton').removeClass('hidden');
+  // Unhide buttons and remove click handlers
+  $('.js-navButton').removeClass('hidden').off('click');
 
   if (llab.thisPageNum() === 0) {
     back.addClass('disabled').removeAttr('href').attr('disabled', true);
   } else {
     back.removeClass('disabled').removeAttr('disabled')
       .attr('href', llab.url_list[llab.thisPageNum() - 1])
-      .click(llab.goBack);
+      .on('click', llab.dynamicNavigation(llab.url_list[llab.thisPageNum() - 1]));
   }
 
   // Disable the forward button
@@ -466,19 +481,8 @@ llab.setButtonURLs = function() {
   } else {
     forward.removeClass('disabled').removeAttr('disabled')
       .attr('href', llab.url_list[llab.thisPageNum() + 1])
-      .click(llab.goForward);
+      .on('click', llab.dynamicNavigation(llab.url_list[llab.thisPageNum() + 1]));
   }
-};
-
-// TODO: Update page content and push URL onto browser back button
-llab.goBack = (event) => {
-  event.preventDefault();
-  llab.loadNewPage(llab.url_list[llab.thisPageNum() - 1]);
-};
-
-llab.goForward = (event) => {
-  event.preventDefault();
-  llab.loadNewPage(llab.url_list[llab.thisPageNum() + 1]);
 };
 
 // TODO: This is a fallback incase we aren't ready to deploy dynamic page loads.
@@ -491,22 +495,23 @@ llab.loadNewPage = (path) => {
     // this seems like a poor way to debounce multiple clicks.
     setTimeout((() => llab.PREVENT_NAVIGATIONS = false), 500);
   }
+  console.log('LOADING NEW PAGE:', path);
   llab.PREVENT_NAVIGATIONS = true;
   fetch(path)
     .then(response => response.text())
-    .then(llab.rebuildPageFromHTML)
+    .then(html => llab.rebuildPageFromHTML(html, path))
     .catch(err => {
       llab.PREVENT_NAVIGATIONS = false;
       // There was an error
       console.warn('Something went wrong.', err);
-      if (Sentry) {
+      if (typeof Sentry !== 'undefined') {
         Sentry.captureException(err);
       }
     });
 }
 
 // Called when we load an new document via a fetch.
-llab.rebuildPageFromHTML = (html) => {
+llab.rebuildPageFromHTML = (html, path) => {
   let parser = new DOMParser(),
     doc = parser.parseFromString(html, 'text/html');
 
@@ -531,7 +536,7 @@ llab.rebuildPageFromHTML = (html) => {
   if (llab.GACode) {
     gtag('config', llab.GACode, {
       page_title: title,
-      page_location: document.URL  // Full URL is required.
+      page_location: document.URL // Full URL is required.
     });
   }
   llab.PREVENT_NAVIGATIONS = false;

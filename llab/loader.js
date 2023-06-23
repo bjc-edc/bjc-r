@@ -194,17 +194,17 @@ llab.CONDITIONAL_LOADS = [
     {
       selectors: 'pre > code',
       libName: 'highlights', // must be defined in llab.optionalLibs (above)
-      onload: llab.highlightSyntax
+      onload: () => { llab.highlightSyntax(); } // these must be wrapped in a function.
     },
     {
       selectors: '.katex, .katex-inline, .katex-block',
       libName: 'katex',
-      onload: llab.displayMathDivs
+      onload: () => { llab.displayMathDivs(); }
     },
     {
       selectors: '[data-img-gifffer]',
       libName: 'gifffer',
-      onload: Gifffer
+      onload: () => { Gifffer(); }
     }
 ];
 
