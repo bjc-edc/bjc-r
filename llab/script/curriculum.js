@@ -78,7 +78,7 @@ llab.secondarySetUp = function() {
     }
   ]);
 
-  // TODO: Figoute a nicer place to put this...
+  // TODO: Figure a nicer place to put this...
   // TODO: Rewrite the function to not scan every element.
   if ($('[w3-include-html]')) {
     w3.includeHTML();
@@ -394,7 +394,7 @@ llab.createTitleNav = function() {
             <i class="far fa-globe" aria-hidden=true></i>
           </a>
           <ul class="dropdown-menu" aria-labelledby="dropdown-langs">
-            <li><a class="js-switch-lang-en">Switch to English</a></li>
+            <li><a class="js-switch-lang-en">English</a></li>
             <li><a class="js-switch-lang-es">Español</a></li>
           </ul>
         </li>
