@@ -19,7 +19,6 @@ const TOGGLE_HEADINGS = [
   'takeItTeased',
 ];
 
-// TODO: Use session storage?
 llab.set_cache = (key, value) => {
   sessionStorage[key] = value;
   return true;
@@ -73,20 +72,6 @@ llab.secondarySetUp = function() {
 
   llab.setupSnapImages();
 
-  // TODO: Consider moving Quiz options to here...
-  llab.additionalSetup([
-    {
-      selectors: 'pre > code',
-      libName: 'highlights', // should match llab.optionalLibs
-      onload: llab.highlightSyntax
-    },
-    {
-      selectors: '.katex, .katex-inline, .katex-block',
-      libName: 'katex',
-      onload: llab.displayMathDivs
-    }
-  ]);
-
   // TODO: Figure a nicer place to put this...
   // TODO: Rewrite the function to not scan every element.
   if ($('[w3-include-html]')) {
@@ -118,47 +103,6 @@ llab.secondarySetUp = function() {
     });
   }
 }; // close secondarysetup();
-
-/**
- * A prelimary API for defining loading additional content based on triggers.
- *  @{param} array TRIGGERS is an array of {selectors, libName, onload } objects.
- *  If the selectors are valid, we load *one* CSS and JS file from llab.optionalLibs
- *  An `onload` function can be supplied, which will be called when the JS file is loaded.
- */
-
-llab.additionalSetup = triggers => {
-  let items, files;
-  triggers.forEach(({ trigger, libName, onload }) => {
-      items = $(trigger);
-      if (items.length > 0) {
-        files = llab.optionalLibs[libName];
-        document.head.appendChild(llab.styleTag(files.css));
-        document.head.appendChild(llab.scriptTag(files.js, onload));
-      }
-  });
-}
-
-// Call The Functions to HighlightJS to render
-llab.highlightSyntax = function() {
-  $('pre > code').each(function(i, block) {
-    // Trim the extra whitespace in HTML files.
-    block.innerHTML = block.innerHTML.trim();
-    if (typeof hljs !== 'undefined') {
-      hljs.highlightBlock(block);
-    }
-  });
-}
-
-llab.displayMathDivs = function () {
-  $('.katex, .katex-inline').each(function (_, elm) {
-    katex.render(elm.textContent, elm, {throwOnError: false});
-  });
-  $('.katex-block').each(function (_, elm) {
-    katex.render(elm.textContent, elm, {
-      displayMode: true, throwOnError: false
-    });
-  });
-}
 
 /**
 *  Processes just the hyperlinked elements in the topic file,
@@ -533,10 +477,14 @@ llab.goBack = (event) => {
 };
 
 llab.goForward = (event) => {
-  console.log(event)
   event.preventDefault();
   llab.loadNewPage(llab.url_list[llab.thisPageNum() + 1]);
 };
+
+// TODO: This is a fallback incase we aren't ready to deploy dynamic page loads.
+llab.loadNavigateToNewPage = (url) => {
+  location.href = url;
+}
 
 llab.loadNewPage = (path) => {
   if (llab.PREVENT_NAVIGATIONS) {
@@ -544,40 +492,44 @@ llab.loadNewPage = (path) => {
     setTimeout((() => llab.PREVENT_NAVIGATIONS = false), 500);
   }
   llab.PREVENT_NAVIGATIONS = true;
-  fetch(path).then(response => response.text()).then(html => {
-    let parser = new DOMParser(),
-        doc = parser.parseFromString(html, 'text/html');
-
-    // What else needs to be reset?
-    llab.titleSet = false;
-    let title = doc.head.getElementsByTagName('title')[0].innerHTML;
-    document.title = title;
-    // This is the main content.
-    let body = doc.body.innerHTML;
-    $('.full').html(body);
-    // Setup the new page
-    // TODO: Ensure this is idempotent.
-    llab.secondarySetUp();
-    // TODO:
-    // Scroll To Top
-    // Make an analytics page visit
-    // TODO: merge in <head> updates?
-    // TODO: handle #anchors in URL?
-    // Do we need to fire off any events? Bootstrap? dom loaded?
-    window.history.pushState({}, '', path);
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
+  fetch(path)
+    .then(response => response.text())
+    .then(llab.rebuildPageFromHTML)
+    .catch(err => {
+      llab.PREVENT_NAVIGATIONS = false;
+      // There was an error
+      console.warn('Something went wrong.', err);
+      if (Sentry) {
+        Sentry.captureException(err);
+      }
     });
-    llab.PREVENT_NAVIGATIONS = false;
-  }).catch(function (err) {
-    llab.PREVENT_NAVIGATIONS = false;
-    // There was an error
-    console.warn('Something went wrong.', err);
-    if (Sentry) {
-      Sentry.captureException(err);
-    }
-  });
+}
+
+// Called when we load an new document via a fetch.
+llab.rebuildPageFromHTML = (html) => {
+  let parser = new DOMParser(),
+    doc = parser.parseFromString(html, 'text/html');
+
+  let title = doc.head.getElementsByTagName('title')[0].innerHTML;
+  let body = doc.body.innerHTML;
+
+  // What else needs to be reset?
+  llab.titleSet = false;
+  llab.conditional_setup_run = false;
+  document.title = title;
+  $('.full').html(body);
+  // Setup the new page
+  // TODO: Ensure this is idempotent.
+  llab.conditionalSetup(llab.CONDITIONAL_LOADS);
+  llab.secondarySetUp();
+  // TODO:
+  // Make an analytics page visit
+  // TODO: merge in <head> updates?
+  // TODO: handle #anchors in URL?
+  // Do we need to fire off any events? Bootstrap? dom loaded?
+  window.history.pushState({}, '', path);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  llab.PREVENT_NAVIGATIONS = false;
 }
 
 llab.addFeedback = function(title, topic, course) {

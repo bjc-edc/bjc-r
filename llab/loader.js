@@ -17,16 +17,7 @@ llab = {
     rootURL: '',
     install_directory: '',
     CONFIG_FILE_PATH: '../llab.js', // currently unsed.
-    optionalLibs: {
-        katex: {
-            css: 'css/katex.min.css',
-            js: 'lib/katex.min.js'
-        },
-        highlights: {
-            css: 'css/tomorrow-night-blue.css',
-            js: '//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js'
-        }
-    },
+    optionalLibs: {},
 
 };
 
@@ -55,12 +46,13 @@ llab.GAurl = location.origin;
 llab.SENTRY_URL = 'https://js.sentry-cdn.com/f55a4cd65a8b48fd99e8247c6a5e6c2d.min.js';
 
 // CSS
-llab.paths.css_files.push('css/3.3.7/bootstrap.min.css');
-// reference your custom CSS files, from within llab install directory.
-// Multiple CSS files is fine, include a separate push for each
-llab.paths.css_files.push('css/default.css');
-llab.paths.css_files.push('../css/bjc.css');
-llab.paths.css_files.push('../css/edcdevtech-headerfooter.css');
+llab.paths.css_files = [
+    'css/3.3.7/bootstrap.min.css',
+    'css/default.css',
+    '../css/bjc.css',
+    // TODO: Merge this into bjc.css.
+    '../css/edcdevtech-headerfooter.css',
+];
 
 /////////////////////////
 ///////////////////////// stage 0
@@ -73,8 +65,11 @@ llab.paths.scripts[0].push("script/quiz/multiplechoice.js");
 llab.loaded['config'] = true;
 llab.loaded['library'] = false;
 llab.loaded['multiplechoice'] = false
-llab.paths.stage_complete_functions[0] = function() {
-    return (typeof jQuery === 'function') && llab.loaded['library'];
+llab.paths.stage_complete_functions[0] = () => {
+    return (typeof jQuery === 'function') &&
+        llab.loaded['library'] &&
+        // This function is defined in library, and the conditions are defined below.
+        llab.conditionalSetup(llab.CONDITIONAL_LOADS);
 }
 
 /////////////////
@@ -104,6 +99,22 @@ llab.paths.scripts[2].push("script/quiz.js");
 llab.paths.stage_complete_functions[2] = function() {
     return true; // && llab.loaded['user'];
 }
+
+///////// OPTIONAL LIBRARIES:
+llab.optionalLibs = {
+    katex: {
+        css: 'css/katex.min.css',
+        js: 'lib/katex.min.js'
+    },
+    highlights: {
+        css: 'css/tomorrow-night-blue.css',
+        js: '//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js'
+    },
+    gifffer: {
+        css: null,
+        js: '/bjc-r/utilities/gifffer.min.js'
+    }
+};
 
 //////////////
 
@@ -175,6 +186,27 @@ llab.initialSetUp = function() {
         document.head.appendChild(llab.scriptTag(llab.SENTRY_URL, llab.setupSentry));
     }
 };
+
+//// CONDITIONALLY LOAD LIBRARIES
+// All of these are loaded *after* stage 0 is ready.
+// These functions must either be global, or defined in library.js
+llab.CONDITIONAL_LOADS = [
+    {
+      selectors: 'pre > code',
+      libName: 'highlights', // must be defined in llab.optionalLibs (above)
+      onload: llab.highlightSyntax
+    },
+    {
+      selectors: '.katex, .katex-inline, .katex-block',
+      libName: 'katex',
+      onload: llab.displayMathDivs
+    },
+    {
+      selectors: '[data-img-gifffer]',
+      libName: 'gifffer',
+      onload: Gifffer
+    }
+];
 
 /////////////////////
 
