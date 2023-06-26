@@ -62,7 +62,7 @@
             </div>
             <div class="todo">
                 <p>I cleaned this up a bit and added a "tough stuff" icon on part B. I think part B is <em>very</em> hard. More could be done to make it clearer, but I don't have the time for that now. One concern that this we should address now is not using "..." where what we need is jaggies. <strong>Can you please replace those two images with the complete images, and I'll jaggy them?</strong> <br />
-                    <img class="" src="/bjc-r/img/2-complexity/plural-specialists-list.png" alt="" title="" /> <img class="" src="/bjc-r/img/2-complexity/match-vowels.es.png" alt="" title="" />
+                    <img class="" src="/bjc-r/img/2-complexity/plural-specialists-list.es.png" alt="" title="" /> <img class="" src="/bjc-r/img/2-complexity/match-vowels.es.png" alt="" title="" />
                 </p>
                 <p>Also, <strong>can you make sure that the TG and the solutions match</strong> this version after you review it? Thanks! --MF, 1/11/21</p>
             </div>
@@ -85,13 +85,13 @@
                     <ol style="list-style-type: lower-roman">
                         <li>
                             Comienza por hacer una lista de <em>pares clave-valor</em>, con las últimas letras como claves y los procedimientos especializados como valores:<br />
-                            <img class="indent" src="/bjc-r/img/2-complexity/plural-specialists-list.png" alt="asignar a (especialistas en plural) a (lista (lista (h) (plural anillado-h ( ) bloque)) (lista (y) (plural anillado-y ( ) bloque)) (lista (f) (plural anillado-f ( ) bloque)) (lista (x) (anillado (unir( ) (es)) bloque)) (lista (...) (...)))" title="asignar a(especialistas en plural) a (lista (lista (h) (plural anillado-h ( ) bloque)) (lista (y) (plural anillado-y ( ) bloque)) (lista (f) (plural anillado-f ( ) bloque)) (lista (x) (anillado (unir( ) (es)) bloque)) (lista (...) (...)))" /><br />
+                            <img class="indent" src="/bjc-r/img/2-complexity/plural-specialists-list.es.png" alt="asignar a (especialistas en plural) a (lista (lista (h) (plural anillado-h ( ) bloque)) (lista (y) (plural anillado-y ( ) bloque)) (lista (f) (plural anillado-f ( ) bloque)) (lista (x) (anillado (unir( ) (es)) bloque)) (lista (...) (...)))" title="asignar a(especialistas en plural) a (lista (lista (h) (plural anillado-h ( ) bloque)) (lista (y) (plural anillado-y ( ) bloque)) (lista (f) (plural anillado-f ( ) bloque)) (lista (x) (anillado (unir( ) (es)) bloque)) (lista (...) (...)))" /><br />
                             <div class="narrowpurple">Para crear el segundo elemento de cada lista pequeña, busca el bloque que deseas, colócalo en la segunda entrada de <code>lista</code>, luego haz clic en el bloque con el botón derecho y elige "encapsular". Como muestra el ejemplo "x", no tiene que ser un bloque llamado <code>plural-</code>algo. Solo tiene que tener una ranura de entrada vacía donde desea que vaya la palabra.</div>
                         </li>
                         <li>
                             <div class="comment">FYI, this breaks the rule of not teaching more than one thing at a time, we are teaching key-value pairing, FIND FIRST, and CALL. As a result, you've defaulted to hand-holding here. --MF, 1/11/21</div>
                             Luego, en tu procedimiento <code>plural</code>, puedes reemplazar la mayoría de los bloques si</code> con<br />
-                            <img class="indent" src="/bjc-r/img/2-complexity/plural-specialist-dispatch.png" alt="variables de programa (par)
+                            <img class="indent" src="/bjc-r/img/2-complexity/plural-specialist-dispatch.es.png" alt="variables de programa (par)
                             asignar (par) para (encontrar el primer elemento (anillado ((elemento (1) de ( )) = (última letra de (palabra)))) en (plural especialistas))
                             si (es (par) una (lista)?) {
                                  reportar (llamada (elemento (2) de (par)) con entradas (palabra))
@@ -113,18 +113,18 @@
                             No hay razón para que las claves tengan que ser letras individuales. Modifica el código en <code>plural</code> para que compare todas las <em>subcadenas finales</em> de la palabra con la lista de especialistas. Es decir, si la palabra es "ditch" (zanja), buscará en la lista de especialistas "ditch", luego "itch", luego "tch", "ch" y finalmente, si no encuentra nada más, "h ." pondrías<br />
                             <img class="indent" src="/bjc-r/img/2-complexity/ch-dispatch.es.png" alt="lista (ch) (bloque anillado (unir ( ) (es)))" title="lista (ch) (bloque anillado (unir ( ) (es)))" /><br />
                             en la lista, y luego a las palabras que terminen en "ch" se les agregaría "es". Este mecanismo es muy general; funciona incluso para casos especiales como<br />
-                            <img class="indent" src="/bjc-r/img/2-complexity/child-dispatch.png" alt="lista (child) (anillado (palabra (children)))" title="lista (child) (anillado (palabra (children)))" /><br />
+                            <img class="indent" src="/bjc-r/img/2-complexity/child-dispatch.es.png" alt="lista (child) (anillado (palabra (children)))" title="lista (child) (anillado (palabra (children)))" /><br />
                             (Tendrás que definir la función <code>palabra</code> que solo reporta su entrada; es necesaria porque no puede escribir letras directamente en un anillo). <em>Ahora</em> tienes un bloque <code>plural</code> <i>realmente </i>despejado. E incluso funcionará para un idioma que no sea inglés, si haces una lista especializada diferente.
                         </li>
                         <li>
                             <div class="comment">Here is where you really start to lose me. I'm not actually building this in Snap<em>!</em>now, as I've spent far too long on this already, but the text doesn't explain this adequately for me. --MF, 1/11/21</div>
                             Si modificas la prueba de la subcadena final para que, en lugar de darse por vencido si no puede encontrar la última letra de la palabra como una clave, ve un paso más allá y busca una clave <em>vacía</em> en el lista especializada, y agrega<br />
-                            <img class="indent" src="/bjc-r/img/2-complexity/default-dispatch.png" alt="(elemento ( ) (anillado (unir ( ) (s))))" title="(elemento ( ) (anillado (unir ( ) (s))))" /><br />
+                            <img class="indent" src="/bjc-r/img/2-complexity/default-dispatch.es.png" alt="(elemento ( ) (anillado (unir ( ) (s))))" title="(elemento ( ) (anillado (unir ( ) (s))))" /><br />
                             a la lista, entonces puedes estar seguro de que todas las palabras posibles coincidirán con eso, al menos, por lo que ya no necesita el <code>si</code>. Tu bloque <code>plural</code> ahora puede ser solo de una línea: <code>reportar (llamar (elemento 2 de (la subcadena final más larga...</code>.
                         </li>
                         <li>
                             Para un desafío adicional, modifica tu prueba de subcadena final para que un signo más en la clave coincida con cualquier vocal (servirá como un carácter comodín), para que puedas hacer esto:<br />
-                            <img class="indent" src="/bjc-r/img/2-complexity/match-vowels.png" alt="lista (...) (lista (+y) (anillada (unir ( ) (s)))) (lista (y) (anillada (unir (todas menos la última letra de ( )) (s)))) (. ..)" title="lista (...) (lista (+y) (anillada (unir ( ) (s)))) (lista (y) (anillada (unir (todas menos la última letra de ( )) (s)))) (. ..)" />
+                            <img class="indent" src="/bjc-r/img/2-complexity/match-vowels.es.png" alt="lista (...) (lista (+y) (anillada (unir ( ) (s)))) (lista (y) (anillada (unir (todas menos la última letra de ( )) (s)))) (. ..)" title="lista (...) (lista (+y) (anillada (unir ( ) (s)))) (lista (y) (anillada (unir (todas menos la última letra de ( )) (s)))) (. ..)" />
                         </li>
                     </ol>
                 </li>
