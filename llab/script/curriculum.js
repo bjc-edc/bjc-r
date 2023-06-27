@@ -519,6 +519,8 @@ llab.rebuildPageFromHTML = (html, path) => {
   let title = doc.querySelector('title') ? doc.querySelector('title').text : '';
   let body = doc.body.innerHTML;
 
+  // This needs to happen sooner, so dependent APIs can read the new URL.
+  window.history.pushState({}, '', path);
   // What else needs to be reset?
   llab.titleSet = false;
   llab.conditional_setup_run = false;
@@ -526,13 +528,11 @@ llab.rebuildPageFromHTML = (html, path) => {
   $('.full').html(body);
   // Setup the new page
   // TODO: Ensure this is idempotent.
-  llab.conditionalSetup(llab.CONDITIONAL_LOADS);
   llab.secondarySetUp();
+  llab.conditionalSetup(llab.CONDITIONAL_LOADS);
   // TODO:
-  // TODO: merge in <head> updates?
   // TODO: handle #anchors in URL?
   // Do we need to fire off any events? Bootstrap? dom loaded?
-  window.history.pushState({}, '', path);
   window.scrollTo({ top: 0, behavior: 'instant' });
   if (llab.GACode) {
     gtag('config', llab.GACode, {
@@ -595,7 +595,7 @@ llab.addFeedback = function(title, topic, course) {
 // TODO: Move to bootstrap classes (wait until BS5)
 llab.addFooter = () => {
   if ($('<footer>').length > 0) { return; }
-  $(document.body).append(
+    $(document.body).append(
     `<footer>
       <div class="footer wrapper margins">
         <div class="footer-col col1">
@@ -627,8 +627,7 @@ llab.addFooter = () => {
   );
 }
 
-// Show a link 'switch to espanol' or 'switch to english' depending on the current language
-// TODO: Move this to a dropdown menu in the navbar with a globe icon
+// Show a dropdwon icon in the navbar if the same URL exists in a translated form.
 llab.setupTranslationsMenu = function() {
   if (!llab.isLocalEnvironment()) { return; }
 
@@ -643,7 +642,12 @@ llab.setupTranslationsMenu = function() {
     new_url = location.href.replaceAll('.html', '.es.html').replaceAll('.topic', '.es.topic');
    }
    fetch(new_url).then((response) => {
-      if (!response.ok) { return; }
+      if (!response.ok) {
+        // We might need to re-hide the menu if it is currently showing.
+        $('.js-langDropdown').addClass('hidden');
+        $('.js-langDropdown a').removeAttr('href');
+        return;
+      }
       $('.js-langDropdown').removeClass('hidden');
       if (lang == 'es') {
         $('.js-switch-lang-es').attr('href', location.href);
