@@ -502,11 +502,12 @@ llab.loadNewPage = (path) => {
     .then(html => llab.rebuildPageFromHTML(html, path))
     .catch(err => {
       llab.PREVENT_NAVIGATIONS = false;
-      // There was an error
       console.warn('Something went wrong.', err);
       if (typeof Sentry !== 'undefined') {
         Sentry.captureException(err);
       }
+      // make a traditional redirect.
+      location.href = path;
     });
 }
 
