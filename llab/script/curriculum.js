@@ -516,7 +516,7 @@ llab.rebuildPageFromHTML = (html, path) => {
   let parser = new DOMParser(),
     doc = parser.parseFromString(html, 'text/html');
 
-  let title = doc.head.getElementsByTagName('title')[0].innerHTML;
+  let title = doc.querySelector('title') ? doc.querySelector('title').title : '';
   let body = doc.body.innerHTML;
 
   // What else needs to be reset?
