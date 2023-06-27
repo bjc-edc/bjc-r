@@ -516,7 +516,7 @@ llab.rebuildPageFromHTML = (html, path) => {
   let parser = new DOMParser(),
     doc = parser.parseFromString(html, 'text/html');
 
-  let title = doc.querySelector('title') ? doc.querySelector('title').title : '';
+  let title = doc.querySelector('title') ? doc.querySelector('title').text : '';
   let body = doc.body.innerHTML;
 
   // What else needs to be reset?
@@ -533,7 +533,7 @@ llab.rebuildPageFromHTML = (html, path) => {
   // TODO: handle #anchors in URL?
   // Do we need to fire off any events? Bootstrap? dom loaded?
   window.history.pushState({}, '', path);
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  window.scrollTo({ top: 0, behavior: 'instant' });
   if (llab.GACode) {
     gtag('config', llab.GACode, {
       page_title: title,
