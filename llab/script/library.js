@@ -150,8 +150,9 @@ llab.stripLangExtensions = (text) => text.replaceAll(`.${llab.pageLang()}.`, '.'
 llab.conditional_setup_run = false;
 llab.conditionalSetup = triggers => {
     if (llab.conditional_setup_run) { return true; }
-    triggers.forEach(({ trigger, libName, onload }) => {
-        if (document.querySelectorAll(trigger).length > 0) {
+    triggers.forEach(obj => {
+        let selectors = obj.selectors, libName = obj.libName, onload = obj.onload;
+        if (document.querySelectorAll(selectors).length > 0) {
           let files = llab.optionalLibs[libName];
           if (!files && onload) {
             onload();

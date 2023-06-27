@@ -66,10 +66,7 @@ llab.loaded['config'] = true;
 llab.loaded['library'] = false;
 llab.loaded['multiplechoice'] = false
 llab.paths.stage_complete_functions[0] = () => {
-    return (typeof jQuery === 'function') &&
-        llab.loaded['library'] &&
-        // This function is defined in library, and the conditions are defined below.
-        llab.conditionalSetup(llab.CONDITIONAL_LOADS);
+    return (typeof jQuery === 'function') && llab.loaded['library'];
 }
 
 /////////////////
@@ -112,7 +109,7 @@ llab.optionalLibs = {
     },
     gifffer: {
         css: null,
-        js: '/bjc-r/utilities/gifffer.min.js'
+        js: '../utilities/gifffer.min.js'
     }
 };
 
@@ -164,6 +161,11 @@ llab.initialSetUp = function() {
             document.head.appendChild(llab.scriptTag(src), () => proceedWhenComplete(stage_num));
         });
 
+        // loading optional stuff after jQuery/Bootstrap dependencies, but early as possible.
+        if (stage_num == 1) {
+            llab.conditionalSetup(llab.CONDITIONAL_LOADS);
+        }
+
         if ((stage_num + 1) < llab.paths.scripts.length) {
             proceedWhenComplete(stage_num);
         }
@@ -202,7 +204,7 @@ llab.CONDITIONAL_LOADS = [
       onload: () => { llab.displayMathDivs(); }
     },
     {
-      selectors: '[data-img-gifffer]',
+      selectors: '[data-gifffer]',
       libName: 'gifffer',
       onload: () => { Gifffer(); }
     }
