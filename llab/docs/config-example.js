@@ -55,7 +55,7 @@ llab.empty_curriculum_page_path = llab.llab_path + "html/empty-curriculum-page.h
 
 // google analytics tokens
 llab.GAuse = true;
-llab.GACode = 'UA-47210910-3';
+llab.GACode = 'G-WK0EW5GQRZ';
 llab.GAurl = 'berkeley.edu';
 
 

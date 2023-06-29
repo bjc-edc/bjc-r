@@ -1,5 +1,21 @@
-/* FONT STYLES FOR ELEMENTS */
-/* Override Bootstrap */
+@charset "UTF-8";
+
+html {
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
+  font-size: 16px; /* Fix for weird bootstrap */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
+  color: #000;
+  text-align: left;
+
+}
+
+body {
+  font-size: 16px;
+  padding: 50px 1em 1em; /* padding top is reset by JS on load. */
+}
+
 code, pre, tt, kbd, samp, var {
   font-size: 1em;
   font-style: normal;
@@ -7,28 +23,8 @@ code, pre, tt, kbd, samp, var {
   font-family: 'Andale Mono', 'Menlo', Courier, monospace;
 }
 
-html, body { /* default Sans Serif Stack */
-  font-family: "Open Sans", Helvetica, Arial, sans-serif;
-}
-
-/* END FONT SETTINGS */
-
 a:visited {
   color: #36BBCE;
-}
-
-html {
-  font-size: 1em; /* Fix for weird bootstrap */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-body {
-  font-size: 1em;
-  line-height: 1.5;
-  color: #000; /* Why Bootstrap, why?! */
-  text-align: left;
-  padding: 55px 1em 1em; /* padding top is reset by JS on load. */
 }
 
 .full {
@@ -41,7 +37,6 @@ img {
   /* Better resizing of images for mobile devices */
   max-width: 100%;
   padding: 6px;
-  /* drop shadows because we be fancy people */
   -webkit-filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.5));
   -ms-filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=2, OffY=2, Color='#444')";
   filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=2, OffY=2, Color='#444')";
@@ -53,31 +48,21 @@ img {
   filter: none;
 }
 
-nav {
-  padding: 1% 5% 1% 5%;
-}
-
 .right {
   text-align: right;
 }
 
-/* FIXME --- poorly performant. */
 .full ul, .full ol {
   font-size: 1em;
   font-weight: inherit;
   display:inline-block;
   color: #004;
   margin: 18px;
-  border: 2px solid #39F;
-  border-radius: 6px;
 }
 
-/* Handle Nested Lists
-.full is needed because the class reference is more specific and the
-above rules override these without it.
-*/
-.full ul  ul, .full ol  ol,
-.full ul  ol, .full ol  ul {
+/* Handle Nested Lists */
+.full ul ul, .full ol ol,
+.full ul ol, .full ol ul {
   border: none;
   display: block;
   margin: none;
@@ -109,7 +94,7 @@ blockquote {
 }
 
 /* Physically disables clicking on a link which LOOKS disabled. */
-a[disabled] {
+a[disabled], .disabled {
   pointer-events: none;
 }
 
@@ -125,186 +110,198 @@ code { /* Override bootstrap. */
 /** PAGE NAV (TOP AND BOTTOM) ************************************************/
 .llab-nav {
   line-height: 1.38; /* Keep slightly smaller than normal to control centering the nav buttons */
-  background: #FFF;
   margin: 0 0 .5em 0;
-  box-shadow: 0 5px 10px #CCC;
   width: 100%;
-  padding: .5em 1em;
-  vertical-align: middle;
+  padding: 6px;
+  height: 62px; /* Gives us 50px + padding. */
+  border: none; /* override bootstrap's very light border. */
+  background-color: #0C3559;
+  color: #FFF;
+}
+
+.navbar-title {
+  padding: 6px 16px;
+  width: auto;
+  font-family: 'work_sansregular', 'Open Sans', Helvetica, Arial, sans-serif;
+  font-size: 1.6rem;
+  font-weight: bold;
 }
 
 /* Show a special div on small screens that isn't in the nav bar */
 .title-small-screen {
   margin: 1% 3%;
   display: none;
-}
-
-.navbar-title, .title-small-screen {
   font-size: 1.5em;
   font-weight: bold;
-  font-variant: small-caps;
-  color: #003A70;
-  text-align: left;
+  color: #000;
+}
+
+/* Necessary when on mobile. */
+.navbar-nav .open .dropdown-menu {
+  background-color: #FFF;
+}
+
+@media screen and (max-width: 768px) {
+  /* Bootstrsap 3 selector */
+  .navbar-nav .open .dropdown-menu {
+    position: fixed;
+    top: 75px;
+    left: 2em;
+    border: 2px solid #0C3559;
+  }
+
+  ul.navbar-nav li.open ul {
+    margin: 0.5em;
+    width: 100%
+  }
+
+  /* Close the gap between buttons, only shows on mobile. */
+  .nav-btn-group > .btn-nav {
+    margin: 0 -3px;
+  }
 }
 
 /* Contains the page title text, truncates text with '…' */
-/* First line is stupid bootstrap stuff....*/
 .navbar-default .navbar-title:hover, .navbar-default .navbar-title:focus,
 .navbar-default .navbar-title,
-.navbar-title, a..navbar-title {
+.navbar-title, a.navbar-title {
   vertical-align: middle;
-  max-width: 80%;
-  min-width: 50%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.full-bottom-bar {
-  background: #003A70;
-  opacity: 0.85;
-  filter: alpha(opacity=85); /* For IE8 and earlier */
-  background-image: url(../img/progress.gif);
-  background-repeat: no-repeat;
-  background-size: 26px;
-  height: 32px;
-  background-position: 2% 3px; /* (32px - 26px) / 2 */
-  border-radius: 20px;
-  width: 92%;
-  box-shadow: 2px 2px 3px #888;
-  /* 3em is extra padding for the feedback button */
-  margin: 1em auto 1em; /* changed from '1em auto 3em' by Mary Fries on 10/16/17 to leave room for footer */
-  padding: 1em;
+nav.navbar .navbar-brand {
+  height: 50px;
+  padding: 0; /* no extra padding around image, so it fills 50px */
+  margin: 0 0 0 48px;
 }
 
-/* WIDTH OF THESE TWO MUST NOT BE > 100%!! */
-.navbar-left {
-  width: 80%; /* For setting title width */
+.navbar-brand img {
+  height: 50px;
+  padding: 0;
+  -webkit-filter: none;
+  -ms-filter: none;
+  filter: none;
 }
 
-.navbar-right { /* Contains Nav Buttons and Dropdown Menu */
-  width: 20%;  /* For setting title width */
+.navbar-right {
+  padding: 5px 1rem;
+  margin-right: 10ch;
 }
 
-.navbar-toggle {
-  border-radius: 4px;
-  display: inline;
-  position: inherit;
-  float: none;
-  margin: 0;
-  border-color: #888;
+/* No extra space around buttons */
+ul.navbar-right li {
+  padding: 0;
 }
 
-.navbar-default .navbar-toggle,
-.navbar-default .navbar-toggle:hover,
-.navbar-default .navbar-toggle:focus {
-  border: 1px solid #888 !important; /* FIXME */
+.nav-lang-dropdown {
+  margin-right: 5ch;
 }
 
-.nav-btns {
-  float: right;
-  z-index: 9999;
-  max-width: 18em;
-  min-width: 15em;
-  margin-bottom: 0; /* Bootstrap override for ul, defaults 10 otherwise */
-  line-height: 1em;
+/**
+    translation, dropdown-toogle, back/next buttons
+    Keep all nav buttons nice and sqaure
+   The ul container adds +5px top/bottom padding
+   Total navbar height adds more padding to get to 60px
+*/
+.navbar-nav > li > a, /* override bootstrap 3 */
+.btn-nav {
+  color: white;
+  border: 2px solid white;
+  background-color: unset;
+  font-size: 20px;
   font-weight: 900;
-  position: relative;
-  vertical-align: middle;
+  padding: 8px;
+  border-radius: 6px;
+  height: 40px;
+  width: 40px;
 }
 
-/* BUTTON CLASSES */
-/* Overrides default bootstrap which conflicts with right float dropdown. */
-.btn-group > .btn {
-  float: none;
+/* This requires .nav-btn-group as a parent of all button elements. */
+.nav-btn-group a.btn-nav {
+  border-radius: 0;
 }
 
-/* Bottom nav buttons are slightly different */
-.bottom-nav {
-  float: right;
-  height: 26px;
-  margin-top: -13px; /* Height / 2 */
-  vertical-align: middle;
+.nav .open > a,
+.nav> li > a:focus,
+.nav > li > a:hover,
+a.btn-nav:visited:hover,
+a.btn-nav:visited:focus,
+a.btn-nav:active,
+.btn-nav:hover,
+.btn-nav:focus {
+  border-color: #F2E205;
+  color: #F2E205;
+  background-color: unset;
 }
 
-.bottom-nav > .btn {
-  height: 26px; /* Same height as above */
-  padding: 2px; /* FIXME -- value is weird */
-  font-size: .76em;
+.nav-btn-group.nav-btn-group-first > .btn-nav {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+}
+
+.nav-btn-group.nav-btn-group-last > .btn-nav {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+a.btn-nav,
+a.btn-nav:visited {
+  color: white;
+}
+
+.full-bottom-bar {
+  background: #0C3559;
+  height: 48px;
+  border-radius: 12px;
+  width: 95%;
+  margin: 1em auto 1em;
+  padding: 4px 1em;
+}
+
+.full-bottom-bar a.btn-nav {
+  margin: 3px;
+  padding: 0;
+  height: 32px;
+  width: 32px;
+}
+
+.progress-indicator {
+  float: left;
+  height: 48px;
+  background-image: url(../img/alonzo.png);
+  background-repeat: no-repeat;
+  background-size: 32px;
+  width: calc(100% - 10ch);
+  padding: 0 0.5em;
+  background-position: 0 0; /* (32px - 26px) / 2 */
 }
 /* END NAV SECTION ***********************************************************/
 
-/* PAGE DROPDOWN SECTION ******************************************************/
-/* Give space to caret in dropdown menus */
-/* FIXME -- standardize class names! */
 .dropdown-menu {
-  margin-top: 6px; /* should be equal to padding on list_header */
+  margin-top: 6px;
   overflow-y: scroll; /* scroll menu on small screens */
   width: auto;
   white-space: nowrap;
-  overflow-x: hidden;  /* Text truncation */
+  overflow-x: hidden;
   text-overflow: ellipsis;
   /* max- height + width set using JS on page load. */
 }
-.list_item {
-  font-size: 10pt;
-  padding: 0;
-  margin: 0;
-  text-align: left;
-}
 
-@media screen (max-width: 767px) {
-  .navbar-default .navbar-nav .open .dropdown-menu > li.dropdown-header {
-    font-weight: bold;
-    color: #FFF;
-  }
-
-  .navbar-default .navbar-nav .open .dropdown-menu > li > a {
-    color: #FFF;
-  }
-
-  .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover,
-  .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
-    color: #FFF;
-    text-decoration: underline;
-  }
-}
-
-/* nested class necessary to override padding */
-.list_item.dropdown-header {
-  color: #222;
-  text-transform: capitalize;
+/* override bootstrap 3 nested classes */
+ul.dropdown-menu > li.dropdown-header,
+.dropdown-header {
+  color: #000;
   padding: 3px 10px;
-  font-size: 13px;
+  font-size: 1.2em;
   font-weight: 600;
 }
 
-/* Button to toggle the menu */
-.list_header, .arrow {
-  height: 2em;
-  margin: 0;
-  text-align: center;
-  font-size: 12pt;
-  font-weight: 900;
-  border-color: #888;
-  border-radius: 0; /* No round coners on dropdowns between buttons */
-}
-
-.list_header {
-  border-radius: 0; /* No round coners on dropdowns between buttons */
-  background-color: #FFF;
-}
-
-.arrow {/* For Buttons with arrows instead of words. */
-  border-radius: 8px;
-  font-variant: small-caps;
-  font-weight: 900;
-  -webkit-text-stroke: 1px;
-  width: 3em;
-  padding: 5px 3px 3px 3px; /* center text in buttons */
-}
-
-/* Dropdown menu items with icons */
 .course-link-list, .main-topic-link, .current-page-arrow {
   font-weight: bold;
   background-size: contain;
@@ -326,7 +323,6 @@ code { /* Override bootstrap. */
 .current-page-arrow {
   background-image: url(../img/forward.png);
 }
-/* END PAGE DROPDWON SECTION *************************************************/
 
 /* Syntax highlighting elements, override Bootstrap PRE stuff */
 pre > code {
@@ -352,9 +348,8 @@ pre > code.hljs {
 .resultMessageDiv {
   font-size: 1.2em;
 }
-/* FEEDBACK BUTTON ON BOTTOM RIGHT
- * TODO: This section doesn't belong in llab. Bad Michael.
- */
+
+/* FEEDBACK BUTTON ON BOTTOM RIGHT */
 .page-feedback {
   padding: 4px;
   float: right;
@@ -383,7 +378,7 @@ pre > code.hljs {
 }
 
 /* For whatever reason the iframe has some whitespace around it
-* and this fixes the whitespace  */
+* and this fixes the whitespace */
 #feedback-frame {
   margin-bottom: -5px;
   margin-right: -1px;
@@ -397,9 +392,9 @@ pre > code.hljs {
   background-image: url(../img/globe.png);
   background-size: contain;
   background-repeat: no-repeat;
-  padding-left: 30px; /* was 25px until  3/8/16 */
-  float: right; /* added 3/8/16 to move TOC link to RHS near where menus are on lab pages */
-  padding-right: 25px; /* added 3/8/16 to move TOC link to RHS near where menus are on lab pages */
+  padding-left: 30px;
+  float: right;
+  padding-right: 25px;
 }
 
 /* arg. not image please... */
@@ -412,7 +407,6 @@ pre > code.hljs {
   text-decoration: line-through;
 }
 
-/* TODO: Document THis.... */
 table .pre {
   line-height: 1em;
 }
@@ -461,28 +455,28 @@ img.indent, div.indent {
 		  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .25), 0 1px 2px rgba(0, 0, 0, .05);
 }
 
-.quoteRed { /* FIXME, name needed */
+.quoteRed {
   border-left: 12px solid #C11;
-  background-image: none; /* override bootsrap, for now */
+  background-image: none;
   background-color: #e7c3c3;
 }
 
-.quoteOrange { /* FIXME, name needed */
+.quoteOrange {
   border-left: 12px solid #FF9D1E;
   background-color: #FFCE8E;
 }
 
-.quoteBlue { /* FIXME, name needed */
+.quoteBlue {
   border-left: 12px solid #164CBA;
   background-color: #99F;
 }
 
-.quoteGreen { /* FIXME, name needed */
+.quoteGreen {
   border-left: 12px solid #693;
   background-color: #9C6;
 }
 
-.quoteYellow { /* FIXME, name needed */
+.quoteYellow {
   border-left: 12px solid #e4e47d;
   background-color: #F1F1BC;
 }
@@ -601,7 +595,7 @@ img.indent, div.indent {
 }
 
 /**** SPECIAL CONTENT CLASSES ***/
-/* .snap inserts the logo using the proper formatting.
+/* easily stylize Snap! with proper italics
 * Insert using "<span class="snap">snap</span>"
 */
 .snap:first-letter {
@@ -610,7 +604,6 @@ img.indent, div.indent {
 
 .snap {
   text-transform: capitalize;
-  font-variant: small-caps;
   font-style: normal;
 }
 
@@ -763,7 +756,6 @@ img.indent, div.indent {
 }
 
 /** QUIZ CLASSES OF QUESTIONABLE USE */
-
 .MultipleChoice .promptdiv p {
   font-size: inherit;
   font-weight: normal;
@@ -790,13 +782,10 @@ img.indent, div.indent {
 .feedbackdiv.incorrect {
   color: red;
 }
-
 /** END QUESTIONABLE STUFF */
-/********************************/
-/*** END QUIZ CSS			   */
+/*** END QUIZ CSS */
 /********************************/
 
-/******* SMALL DEVICE STUFF *****/
 @media print {
   /** Hide these items from printing:
    *  Navbars / dropdown menus
@@ -806,7 +795,6 @@ img.indent, div.indent {
    * Ensure full width/height and minimal borders.
    * TODO: Put a BJC Logo / Course name + unit/lab number somewhere.
    */
-
   html, body, .full {
     width: 100%;
     height: 100%;
@@ -824,7 +812,8 @@ img.indent, div.indent {
   nav.nav,
   .full-bottom-bar,
   .page-feedback,
-  .course_link {
+  .course_link,
+  footer {
     display: none;
   }
 
@@ -836,67 +825,46 @@ img.indent, div.indent {
 
 /******* SMALL DEVICE STUFF *****/
 @media (max-width: 768px) {
+  body, .full {
+    width: 100%;
+  }
+
   body {
-	width: 100%;
+    padding-top: 75px;
   }
-  .full {
-	width: 98%;
-  }
-  .navbar-right > .btn-group > .arrow {
-	display: none;
-  }
-  .navbar-toggle {
-	border: 6px;
-  }
-  .navbar-right > .btn-group {
-	float: left;
-	padding: 0;
-	width: 100%;
+
+  .navbar-left {
+    float: left;
+    margin: 0.5em;
   }
   .navbar-right {
-	float: left;
-	margin: 0;
-	padding: 0;
-	width: 100%;
+    float: right;
+    padding: 0.5em;
+    margin: 0.5em;
   }
-  .dropdown-menu-right {
-	width: 100%;
+
+  .navbar-right > li {
+    display: inline-block;
+    position: relative;
   }
-  .navbar-left {
-	display: none;
-	width: 0;
+
+  .navbar-title {
+    display: none;
   }
-  /* FIXME -- this shouldn't be this way, but it works. */
-  .list_item {
-	color: #000;
-  }
-  /** Rounded corners for hamburger when it's the only button */
-  .list_header {
-	border-radius: 6px;
-  }
+
   /* Override display only, all other properties are set above */
   .title-small-screen {
-	display: block;
+    display: block;
   }
-  .llab-nav {
-	position: fixed;
-  }
+
   .page-feedback {
-	display: none;
-  }
-  .nav-btns.btn-group {
-	/* Buttons can take the whole top bar on small screens
-	 * Main difference is for the dropdown menus to look nice when
-	 * expanded */
-	width: 100%;
-	/* Override this setting so that width takes effect. */
-	max-width: 100%;
+    display: none;
   }
 }
 
 
 /* * * * * FONTS * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-@font-face { /* Default Sans Font */
+/* @font-face {
   font-family: 'Open Sans';
   src: url('../fonts/opensans/OpenSans-Regular-webfont.eot');
   src: url('../fonts/opensans/OpenSans-Regular-webfont.eot?#iefix') format('embedded-opentype'),
@@ -904,51 +872,77 @@ img.indent, div.indent {
 	   url('../fonts/opensans/OpenSans-Regular-webfont.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
+} */
+
+@font-face {
+  font-family: 'work_sansregular';
+  src: url('fonts/Work_Sans/WorkSans-Regular.eot');
+  src: url('fonts/Work_Sans/WorkSans-Regular.eot?#iefix') format('embedded-opentype'),
+       url('fonts/Work_Sans/WorkSans-Regular.woff') format('woff'),
+       url('fonts/Work_Sans/WorkSans-Regular.ttf') format('truetype'),
+       url('fonts/Work_Sans/WorkSans-Regular.svg#open_sansregular') format('svg');
+  font-weight: normal;
+  font-style: normal;
 }
+
+@font-face {
+font-family: 'Font Awesome 5 Free';
+font-style: normal;
+font-weight: 900;
+src: url("fonts/fontawesome/fa-solid-900.eot");
+src: url("fonts/fontawesome/fa-solid-900.eot?#iefix") format("embedded-opentype"),
+     url("fonts/fontawesome/fa-solid-900.woff2") format("woff2"),
+     url("fonts/fontawesome/fa-solid-900.woff") format("woff"),
+     url("fonts/fontawesome/fa-solid-900.ttf") format("truetype"),
+     url("fonts/fontawesome/fa-solid-900.svg#fontawesome") format("svg");
+}
+
 /* * * * END FONTS * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-
-/**************** *************************** ************/
-/**************** TO BE REMOVED OR REFACTORED ************/
-/* THESE ARE USED IN TWO FILES
-* We should move these to those two locations, or try to fix them
-*/
-#tableBlue {
-  border-collapse: collapse;
-  margin: 10px 15px;
-  background-color: #CCF;
+a[data-toggle="collapse"]:not([aria-expanded="true"])::after,
+a[data-toggle="collapse"][aria-expanded="false"]::after {
+  content: " ▸";
+  text-decoration: none;
 }
 
-#tableBlue th {
-  border: 1px solid #66F;
-  vertical-align: top;
-  text-align: left;
-  font-size: .8em;
-  padding: 2px 10px;
-  font-weight: 600;
+a[data-toggle="collapse"][aria-expanded="true"]::after {
+  content: " ▾";
+  text-decoration: none;
 }
 
-#tableBlue td {
-  border: 1px solid #66F;
-  vertical-align: top;
-  padding: 5px 10px;
-  vertical-align: top;
+
+/*!
+ * Font Awesome Free 5.13.0 by @fontawesome - https://fontawesome.com
+ * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
+
+ * We don't include all (or much of...) fontawesome.
+ * Add icons to this list as we use them in the repo.
+ * Copy the unicode from the top of the icon view on the relevant fontawesome page.
+ */
+ .fas, .far, .fa {
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+  font-style: normal;
 }
 
-#tableBlue ul {
-  border: none;
-  margin: 0;
+/* This is used on the /cur/solutions-assessments/ pages to indicate an external link. */
+a.fa-external-link-alt:after {
+  content: " \f35d";
+  font-size: .7em;
 }
 
-form li div {
-  font: 500 15px/1.7 "Times New Roman", Times, serif;
+.fa-globe::after {
+  content: ' \f0ac ';
 }
 
-form > h2, form > ol > li {
-  color: #999;
-  font: 500 30px;
+.fa-bars::after {
+  content: ' \f0c9 ';
 }
 
-form label {
-  font-family: sans-serif;
+.fa-arrow-left::after {
+  content: ' \f060 ';
+}
+
+.fa-arrow-right::after {
+  content: ' \f061 ';
 }
