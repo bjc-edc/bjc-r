@@ -43,7 +43,7 @@ llab.empty_curriculum_page_path = llab.llab_path + "html/empty-curriculum-page.h
 
 
 // google analytics tokens
-llab.GACode = 'G-JCCWWYDEJW'
+llab.GACode = 'G-WK0EW5GQRZ'
 llab.GAurl = location.hostname;
 
 
