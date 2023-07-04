@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<script type="text/javascript" src="/bjc-r/utilities/gifffer.min.js"></script>
+		<script type="text/javascript">window.onload = function() {Gifffer();}</script>
+		<link rel="stylesheet" type="text/css" href="/bjc-r/css/bjc-gifffer.css">
+		<title>Unit 2 Lab 3: Make Some Noise, Activity 1</title>
+	</head>
+
+	<body>
+		<h2>Creating an Oscilloscope</h2>
+		<div class="todo">
+			Needed for <a href="https://snap.berkeley.edu/versions/dev/snap.html#present:Username=mfries&ProjectName=BJCMS%20-%20Sound%20Visualizer" target="_blank">SOUND VISUALIZER</a>: 
+			<ul>
+				<li>+, - (in beat repeat if not before)</li>
+				<li>stop (2.1.1?)</li>
+				<li>when key pressed (with <code>stop</code> on 2.1.1?)</li>
+				<li>forever (2.1.1)</li>
+				<li>set variable (2.1.3?)</li>
+				<li>go to (could be taught in field of flowers)</li>
+				<li>clear (could be taught in field of flowers)</li>
+				<li>pen down (could be taught in field of flowers)</li>
+				<li>if else (chat bot?)</li>
+				<li>not (chat bot)</li>
+				<li>microphone (with visualizer)</li>
+				<li>script variables (with visualizer?)</li>
+			</ul>
+		</div>
+		<div class="todo">
+			<p>TG: For a quick overview of the Snap<em>!</em> projects covered in this unit, see <a href="https://www.youtube.com/watch?v=9o6II1-jjkc" title="Making a Guzdial Style Uke Demo with Snap! in 5 Minutes">Making a Guzdial Style Uke Demo with Snap! in 5 Minutes</a> created by Snap<em>!</em>developer, Jens Mönig, in 2019</p>
+			<p>TG: You may also find this more technical video useful to understanding the audio enginnering aspects of this lab: <a href="https://www.youtube.com/watch?v=2RoIG8DEt_8" title="Electrical & Electronic Waveforms: sine, square, triangular, sawtooth, ramp">Electrical &amp; Electronic Waveforms: sine, square, triangular, sawtooth, ramp</a> by ElectronicsNotes (up to 2:32 covers the difference btween oscilloscopes and spectrum amalyzers, you can skip the next section called "Sine Wave Mathematical Formula," and the rest of the video covers the basic waveforms: sine, square, triangular, sawtooth, ramp.)</p>
+		</div>
+
+		<div class="learn">In this activity, you will create an <em>oscilloscope</em> to visualize the sounds detected by your computer's microphone.</div>
+		
+		<h3>Exploring the Tools</h3>
+		<div class="vocab">
+			<ul>
+				<li>An <strong>oscilloscope</strong> is an instrument that graphs the intensity of a signal over time.</li>
+				<li>The <strong>frequency</strong> of a sound is its pitch ; high frequencies sound high, and a low frequencies sound low. (Technically, frequency is how often a sound pressure wave repeats.)</li>
+			</ul>
+		</div>
+		<p>
+			Snap<em>!</em> can access your computer's microphone, so you can create a virtual oscilloscope that displays the frequencies picked up by the microphone.<br />
+			<img class="indent" gifffer="../images/2.3/sound-visualizer.gif" alt="animation of an oscilloscope in Snap! that looks like a rapidly changing, horizontal wavey line" title="animation of an oscilloscope in Snap! that looks like a rapidly changing, horizontal wavey line" /><br />
+			 
+		</p>
+		
+		<div class="forYouToDo">
+			<ol>
+				<li>Create a new project called <div class="newProject"><span class="text">"Sparks-Sound-Visualizer"</span><img src="/bjc-r/img/icons/new-project-called.png" alt="Create a new project called Sparks-Sound-Visualizer" title="Create a new project called Sparks-Sound-Visualizer" />, and save it to your account.</div></li>
+				<div class="endnote">
+					If you haven't used the microphone yet in Snap<em>!</em> on this computer, you might get a message like this (but maybe a little different) asking you to allow snap.berkeley.edu to access your microphone. You'll need to allow this to build the oscilloscope.<br />
+					<img class="" src="../images/2.3/allow-microphone.png" alt="image of a popup message saying 'snap.berkeley.edu wants to use your microphone' with two buttons 'Block' and 'Allow'" title="image of a popup message saying 'snap.berkeley.edu wants to use your microphone' with two buttons 'Block' and 'Allow'" />
+				</div>
+				<li>
+					<div class="comment">FOR TG: You can right-click the <code>microphone</code> block and choose "help..." to learn more about how it works.</div>
+					Explore the <code>microphone</code> block. Drag it out of the "Sensing" palette, and click it several times for each of the following inputs:
+					<img class="imageRight" src="../images/2.3/microphone-dropdown.png" alt="picture of microphone block with drop-down menu open showing seven options: volume, note, frequency, samples, sample rate, spectrum, resolution" title="picture of microphone block with drop-down menu open showing seven options: volume, note, frequency, samples, sample rate, spectrum, resolution" />
+					<div class="sidenote">If you get zeros as output for these inputs, try a few more times. It  can take a moment for Snap<em>!</em> to tell your browser to tell your computer to listen to the microphone. If it still still doesn't work, check your microphone.</div>
+					<ol style="list-style-type: lower-alpha;">
+						<li><img class="" src="../images/2.3/microphone(volume).png" alt="microphone (volume)" title="microphone (volume)" /> reports the current volume value detected by the microphone (Try clicking it while you are making a quiet sound, a loud sound, and no sound.)</li>
+						<li><img class="" src="../images/2.3/microphone(samples).png" alt="microphone (samples)" title="microphone (samples)" /> reports a list of current microphone volume values sampled across a small period of time </li>
+						<li><img class="" src="../images/2.3/microphone(resolution).png" alt="microphone (resolution)" title="microphone (resolution)" /> reports the number of values in a <code>microphone (samples)</code> list</li>
+					</ol>
+				</li>
+				<li>
+					<div class="sidenote">You learned about the <code>for each</code> block on <a href="/bjc-r/sparks/student-pages/U2/L1/05-beat-repeat.html?topic=sparks%2F2-sequencing-iteration.topic&course=sparks.html" title="Unit 2 Lab 1 Activity 5: Beat Repeat">Unit 2 Lab 1 Activity 5: Beat Repeat</a>.</div>
+					<img class="imageRight" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
+					These two instructions are the core of the oscilloscope code. Discuss how they work. (They will not work on their own.)<br />
+					<img class="indent" src="../images/2.3/oscilloscope-core-1.png" alt="set (time step) to (width of (Stage) / microphone (resolution))" title="set (time step) to (width of (Stage) / microphone (resolution))" />
+					<img class="indent" src="../images/2.3/oscilloscope-core-2.png" alt="for each (sample) in (microphone (samples)) {
+	go to x: (x position + time step) y: (sample × 150)
+}" title="for each (sample) in (microphone (samples)) {
+	go to x: (x position + time step) y: (sample × 150)
+}" />
+
+				</li>
+			</ol>
+		</div>
+		
+		<div class="todo">TG: OPTIONAL: To see the dimensions of the stage, click the "Stage" icon in the lower right corner of the Snap! window, select "Backgrounds..." from the Snap! file menu, choose the "XY Grid" and click "Import," and then return to this code, by clicking the "Sprite" icon in the lower right corner and selecting the "Scripts" tab at the top of this scripting area. (Instructions like this will be in the Google doc for students; this is just a preview.) :)</div>
+
+		<p>
+			Below is the complete code for oscilloscope, and here is what it does:
+			<ul>
+				<li>This code creates a <var>time step</var> variable and sets its value so that microphone samples will fit across width of the Snap<em>!</em> stage by dividing the stage width by the microphone resolution. </li>
+				<li>It moves the sprite to the left center of the Snap<em>!</em> stage, clears the stage, and puts the pen down. This sets up the sprite for to draw one set of <code>microphone (samples)</code> data.</li>
+				<li>Then to draw each sample volume value, it moves the sprite to the left (by adding <var>time step</var> value to the <em>x</em>) position) and to the volume value (by setting the <em>y</em> position to the sample volume value scaled up 150 times). </li>
+				<li>The <code>forever</code> block makes this code keep drawing the current microphone sample list, and the <code>warp</code> block makes Snap<em>!</em> draw fast.</li>
+			</ul>
+			<div class="todo">TG: students can also download the image of hte oscilloscope code and drag it into snap. There is Snap<em>!</em> code embeded in the image as XML.</div>
+			<div class="todo">REDO THIS AND OTHER CODE images with updated code version (v2)</div>
+			<img class="indent" src="../images/2.3/oscilloscope-code.png" alt="script variables (time step)
+set (time step) to (width of (Stage) / microphone (resolution))
+forever {
+	warp {
+		go to x: (-240) y: (0)
+		clear
+		pen down
+		for each (sample) in (microphone (samples)) {
+			go to x: (x position + time step) y: (sample × 150)
+		}
+	}
+}" title="script variables (time step)
+set (time step) to (width of (Stage) / microphone (resolution))
+forever {
+	warp {
+		go to x: (-240) y: (0)
+		clear
+		pen down
+		for each (sample) in (microphone (samples)) {
+			go to x: (x position + time step) y: (sample × 150)
+		}
+	}
+}" />
+		</p>
+	
+		<div class="endnote">
+			<p><a href="#hint-oscilloscope-detail" data-toggle="collapse" title="One more time: What's going with the oscilloscope code?">One more time: What's going with the oscilloscope code?</a></p>
+			<div id="hint-oscilloscope-detail" class="collapse">
+				<p>First, a script variable <var>time step</var> is created and set to the width of the stage divided by the number of values in the microphone sample set (so that the sprite moves horizontally across the whole stage as it goes through the list of samples).</p>
+				<p>
+					Then the following two things happen forever and fast (the <code>wrap</code> block is like a time-warp):
+					<ul>
+						<li>The sprite is moved to the right-hand center of the stage (-240, 0). The stage is cleared from all previous pen drawings. The sprite's pen is put down.</li>
+						<li>For each sample in the set of microphone samples, the sprite moves to the next <em>x</em> position horizontally and moves to a scaled up version of the current frequency sample vertically.</li>
+					</ul>
+				</p>
+				<p>Since the code resets the state of the sprite and the stage and then draws all the samples across the stage again and again forever, and this creates an oscilloscope!</p>
+			</div>
+		</div>
+	
+		<h3>Building and Testing the Oscilloscope</h3>
+		<div class="forYouToDo">
+			<ol start="4">
+				<li>Build this in Snap<em>!</em></li>
+				<div class="comment">TG; add trouble shooting tips to TG. connecting the microphone, checking system settings to see that the mic works with the computer; checking the browser settings; check that the oscilloscope scale factor (the 150 multiplier in the y input to the goto block) is an appropriate value to make the oscilloscope's oscillations both be visible and fit within the  Snap<em>!</em>stage (if not, have students change theirs; it may be different for different computers). Before you begin, try the osc code (include link) on one or more school computers to work out any issues.</div>
+				<li>Talk, sing, and make noise! If your computer's microphone is detecting sound and your Snap<em>!</em> code is working, you should see the frequencies displayed on the Snap<em>!</em>stage.</li>
+				<li>Troubleshoot any problems with your code.</li>
+				<div class="comment">You learned how to add comments on ...</div>
+				<li>Once your oscilloscope is working, add Snap<em>!</em>comments to your code so you remember how it works.</li>
+				<li><img class="inline" src="/bjc-r/img/icons/save-now.png" alt="Now Is a Good Time to Save" title="Now Is a Good Time to Save" /></li>
+			</ol>
+		</div>
+	
+		<div class="ifTime">
+			<ol start="9">
+				<li>
+					<img class="imageRight" src="/bjc-r/img/icons/predict.png" alt="Predict What Will Happen" title="Predict What Will Happen" />
+					Without using Snap<em>!</em>, try to predict what will happen to the oscilloscope if you change the number in the <img class="nopadtb" src="../images/2.3/samplex150.png" alt="sample × 150" title="sample × 150" /> input to the <code>go to</code> block? 
+				</li>
+				<li>
+					<img class="imageRight" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
+					Why do you think that will happen?
+				</li>
+				<li>Try it out in Snap<em>!</em>. Try a larger value (like 1000) and a smaller value (like 25). If your prediction wasn't correct, can you explain why what you see happens?</li>
+			</ol>
+		</div>
+		
+		<div class="learn">In this activity, you coded <em>oscilloscope</em> that displays the intensity of the sound over time.</div>
+
+
+	</body>
+</html>

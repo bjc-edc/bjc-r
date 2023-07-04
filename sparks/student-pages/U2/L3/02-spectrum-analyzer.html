@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unit 2 Lab 3: Make Some Noise, Activity 2</title>
+	</head>
+
+	<body>
+		<h2>Spectrum Analyzer</h2>
+		<div class="learn">In this activity, you will reuse your oscilloscope code to create a spectrum analyzer.</div>
+		<p>With a few small edits, this same code can become a spectrum analyzer.</p>
+		<p>For the oscilloscope, the horizontal axis showed time and the vertical axis showed intensity (frequency appeared only in the period of—the spacing between—the waves). In the spectrum analyzer, the horizontal access will show intensity and the vertical will show frequency.</p>
+
+		<div class="todo">explain difference between oscilloscope and the spectrum analyzer.</div>
+
+		<h3>Creating the Spectrum Analyzer</h3>
+		<div class="forYouToDo">
+			<ol>
+				<li>
+					Explore the <var>spectrum</var> input to the <code>microphone</code> block by changing its input and clicking the block several times. (Try while you are making noise and while you aren't.)<br />
+					<img class="indent" src="../images/2.3/microphone(spectrum).png" alt="microphone (spectrum)" title="microphone (spectrum)" />
+				</li>
+			</ol>
+		</div>
+		<p>While <img class="" src="../images/2.3/microphone(samples).png" alt="microphone (samples)" title="microphone (samples)" /> reports a list of current microphone volume values sampled across a <em>small period of time</em>, <img class="" src="../images/2.3/microphone(spectrum).png" alt="microphone (spectrum)" title="microphone (spectrum)" /> reports a list of current microphone volume values values across a <em>range of frequencies</em>.</p>
+		
+		<div class="forYouToDo">
+			<ol start="2">
+				<li>If your project isn't open already, log in to Snap<em>!</em>, and open your "Sparks-Sound-Visualizer" project.</li>
+				<li>
+					Since you will reuse your oscilloscope code, preserve it by creating two copies of everything inside the <code>forever</code> block. Put one copy inside a <code>show volume samples</code> command block and one copy inside a <code>show frequencies</code> command block.<br />
+					<img class="" src="../images/2.3/show-volume-samples-code.png" alt="show volume samples:
+warp {
+	go to x: (-240) y: (0)
+	clear
+	pen down
+	for each (volume sample) in (microphone (samples)) {
+		go to x: (x position + time step) y: (sample × 150)
+	}
+	pen up
+}" title="" />
+				</li>
+				<li>
+					<div class="sidenote">There are helpful Snap<em>!</em> tricks for a few of these things:
+					<ul>
+						<li>To rename a variable <em>and</em> alle the places is appears at the same time, right-click the variable and choose "rename all..."</li>
+						<li>To change from one block (like <img class="nopadtb" src="/bjc-r/img/3-lists/times.png" alt="× (times)" title="× (times)" />) to a similar block (like <img class="nopadtb" src="/bjc-r/img/3-lists/minus.png" alt="- (minus)" title="- (minus)" /> ), right-click the block, choose "relabel..." and choose the new block you want in its place.</li>
+					</ul>
+					</div>
+					The <code>show frequencies</code> will have a few critial differences:
+					<ol style="list-style-type: lower-alpha;">
+						<li>The second input to the <code>for each</code> block should be <code>microphone (spectrum)</code> and not <code>microphone (samples)</code>.</li>
+						<li>It makes sense to rename the first input from <var>volume sample</var> to <var>frequency</var>. You'll have to change the variable in the <em>y</em> input for the <code>go to</code> block also.</li>
+						<li>The <em>y</em> input to the <code>go to</code> block doesn't need to be scaled up by multiplying by 150, but it should be lowered near the bottom of the stage such as by subtracting 150 instead.</li>
+					</ol>
+				</li>
+				<div class="todo">I need to decide how to handle the timestep variable. Maybe just use a global (then only have to set it once at the beginning).</div>
+				<li>Put the <code>show volume samples</code> block inside the <code>forever</code> block in your oscilloscope code, and test that it still works. If not, fix it before going on.</li>
+				<li>Replace the <code>show volume samples</code> block with the <code>show frequencies</code> and test that too. Fix, if needed.</li>
+				<li>Turn your vizualizer on, and make some noise while you switch back and forth between the oscilloscope and the spectrum analyzer.</li>
+			</ol>
+		</div>
+		<div class="learn">In this activity, you changed your oscilloscope into a spectrum analyzer by graphing the intensity of each frequency instead of the overall intensity at each time.</div>
+
+
+	</body>
+</html>
