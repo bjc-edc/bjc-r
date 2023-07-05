@@ -1,44 +1,51 @@
-# frozen_string_literal: true
-
+require 'pry'
 require 'fileutils'
-require 'rio'
+require 'i18n'
+require 'nokogiri'
+
+require_relative 'bjc_helpers'
+require_relative 'atwork'
+require_relative 'course'
 require_relative 'vocab'
 require_relative 'selfcheck'
-require_relative 'atwork'
 
+# TODO: Include BJCHelpers - figure out which config stuff belongs there.
 VALID_LANGUAGES = %w[en es de].freeze
-# TODO: Replace the review/ folder with this
 TEMP_FOLDER = 'summaries~'
 
-class Main
-  attr_accessor :skip_test_prompt
+I18n.load_path = Dir['**/*.yml']
+I18n.backend.load_translations
 
-  def initialize(root: '', cur_dir: 'programming', topic_dir: 'nyc_bjc', language: 'en')
+class Main
+  attr_reader :course, :parentDir
+  attr_accessor :skip_test_prompt, :course_file
+
+  # TODO: Determine whether the content folder path is necessary
+  # or can it be inferred from a course/topic?
+  def initialize(root: '', content: 'cur/programming', course: 'bjc4nyc', language: 'en')
     raise '`root` must end with "bjc-r" folder' unless root.match(%r{bjc-r/?$})
-    raise '`cur_dir` should NOT include "bjc-r/" folder' if cur_dir.match(%r{bjc-r/$})
-    raise '`topic_dir` should NOT include "bjc-r/" folder' if topic_dir.match(%r{bjc-r/$})
+    raise '`content` should NOT include "bjc-r/" folder' if content.match(%r{bjc-r/$})
+    raise '`course` should NOT include ".html" folder' if course.match(/\.html$/)
 
     @rootDir = root
-    @parentDir = "#{@rootDir}/#{cur_dir}/"
-    @topicFolder = "#{@rootDir}/topic/#{topic_dir}/"
+    @parentDir = "#{@rootDir}/#{content}/"
     @language = language
+    I18n.locale = @language.to_sym
     @currUnit = nil
     @unitNum = ''
     @classStr = ''
     @subClassStr = ''
     @labFileName = ''
+    @course_file = course
+    @course = BJCCourse.new(root: @rootDir, course: @course_file, language:)
     @vocab = Vocab.new(@parentDir, language)
-    @selfcheck = SelfCheck.new(@parentDir, language)
+    @self_check = SelfCheck.new(@parentDir, language)
     @atwork = AtWork.new(@parentDir, language)
-    @testingFolder = true
+    @testingFolder = false
   end
 
   def language_ext
     @language_ext ||= @language == 'en' ? '' : ".#{@language}"
-  end
-
-  def testingFolder(bool)
-    @testingFolder = bool
   end
 
   # Extracts the folder class name and subfolder. For example with Sparks,
@@ -58,36 +65,37 @@ class Main
   def Main
     testingFolderPrompt
     createNewReviewFolder
-    # parse_class()
-    parse_allTopicPages(@topicFolder)
-    parse_units("#{@parentDir}/review/topics.txt")
+    parse_all_topic_files
+    parse_units("#{review_folder}/topics.txt")
     @vocab.doIndex
-    puts 'All units complete'
     @atwork.moveFile
-    clear
+    puts 'All units complete'
+    clear_review_folder
   end
 
-  def clear
+  def topic_files_in_course
+    @topic_files_in_course ||= course.list_topics
+  end
+
+  def clear_review_folder
     return if @testingFolder
 
     deleteReviewFolder
   end
 
   def testingFolderPrompt
-    if @skip_test_prompt
-      testingFolder(false)
-      return
-    end
+    return if @skip_test_prompt
+
     prompt = '> '
     puts "Would you like to have a consolidated review folder (for testing purposes)? \n Type Y/N"
     print prompt
     while (user_input = gets.chomp) # loop while getting user input
       case user_input
       when 'Y', 'y'
-        testingFolder(true)
+        @testingFolder = true
         break
       when 'N', 'n'
-        testingFolder(false)
+        @testingFolder = false
         break
       else
         puts 'Unsupported input. Please type either Y/N'
@@ -96,13 +104,12 @@ class Main
     end
   end
 
-  # TODO: Use this method
-  def destination_dir
-    "#{@parentDir}/review"
+  def review_folder
+    @review_folder ||= "#{@parentDir}/#{TEMP_FOLDER}"
   end
 
   def deleteReviewFolder
-    Dir.chdir("#{@parentDir}/review")
+    Dir.chdir(review_folder)
     File.delete('topics.txt') if File.exist?('topics.txt')
     # TODO: should filter en/es separately.
     files = list_files("#{language_ext}.html")
@@ -112,10 +119,10 @@ class Main
   end
 
   def createNewReviewFolder
-    if Dir.exist?("#{@parentDir}/review")
+    if Dir.exist?(review_folder)
       deleteReviewFolder
     else
-      Dir.mkdir("#{@parentDir}/review")
+      Dir.mkdir(review_folder)
     end
   end
 
@@ -136,65 +143,48 @@ class Main
     File.exist?("#{fileName}#{fileType}") & File.file?(fileName)
   end
 
-  # Input is the folder path of the topic folder you want to parse
+  # Input is the current list of topic files based on the @course html file.
   # Based on all the parsed topic pages, summaries will be generated
-  def parse_allTopicPages(_folder)
-    Dir.chdir(@topicFolder)
-    filesList = list_files('.topic')
-    filesList.each do |file|
-      parse_rawTopicPage(file) if isTopicPageFile(file) && (fileLanguage(file) == @language)
-    end
+  def parse_all_topic_files
+    topic_files_in_course.select { |f| is_topic_file(f) }.each { |f| parse_rawTopicPage(f) }
   end
 
   # Returns true if the file is a valid topic page
-  def isTopicPageFile(file)
+  # TODO: figure out if this should test for *.topic ?
+  def is_topic_file(file)
     unwantedFilesPattern = /teaching-guide/
     filename = File.basename(file)
-    if filename.match(unwantedFilesPattern)
-      false
-    elsif filename.match(/\d+/) && (fileLanguage(file) == @language)
-      true
-    else
-      false
-    end
+    return false if filename.match(unwantedFilesPattern)
+
+    filename.match(/\d+/) && (fileLanguage(file) == @language)
   end
 
   # Adds the summary content and links to the topic.topic file
-  def addSummariesToTopic(_topicFile)
+  def addSummariesToTopic(topic_file)
     linkMatch = @parentDir.match(%r{/bjc-r.+}).to_s
     linkMatchWithoutBracket = linkMatch.split(/\]/)
     link = linkMatchWithoutBracket.join.to_s
-    if @language == 'en'
-      <<~TOPIC
-        heading: Unit #{@unitNum} Review
-        		resource: Vocabulary [#{link}/vocab#{@unitNum}.html]
-        		resource: On the AP Exam [#{link}/exam#{@unitNum}.html]
-        		resource: Self-Check Questions [#{link}/selfcheck#{@unitNum}.html]
-      TOPIC
-    else
-      <<~TOPIC
-        heading: Unidad #{@unitNum} Revision
-        		resource: Vocabulario [#{link}/vocab#{@unitNum}#{language_ext}.html]
-        		resource: En el examen AP[#{link}/exam#{@unitNum}#{language_ext}.html]
-        		resource: Preguntas de Autocomprobacion [#{link}/selfcheck#{@unitNum}#{language_ext}.html]
-      TOPIC
-    end
-    # add_content_to_topic_file("#{@topicFolder}/#{topicFile}", topic_content)
+    topic_content = <<~TOPIC
+      heading: (NEW) #{I18n.t('unit_review', num: @unitNum)}
+        resource: (NEW) #{I18n.t('vocab')} [#{link}#{@vocab.vocab_file_name}]
+        resource: (NEW) #{I18n.t('on_ap_exam')} [#{link}#{@self_check.exam_file_name}]
+        resource: (NEW) #{I18n.t('self_check')} [#{link}#{@self_check.self_check_file_name}]
+    TOPIC
+    add_content_to_topic_file(topic_file, topic_content)
   end
 
   def isSummary(line)
-    if !line.nil? && !@currUnit.nil? && line.match(@currUnit)
-      true
-    else
-      false
-    end
+    !line.nil? && !@currUnit.nil? && line.match(@currUnit)
   end
 
   # Parses through the data of the topic page and generates and adds content to a topics.txt
   # file that will be parsed later on to generate summaries
+  # TODO: Move this to the BJCTopic Class, or maybe a BJCTopicParser class
+  # TODO: This shouldn't write to a file, but return some hash/object
   def parse_rawTopicPage(file)
+    full_path = "#{@rootDir}/topic/#{file}"
     currUnit(nil)
-    allLines = File.readlines(file)
+    allLines = File.readlines(full_path)
     topicURLPattern = %r{/bjc-r.+\.\w+}
     headerPattern = /((heading:.+)|(title:.+))/
     labNum = 1
@@ -215,30 +205,25 @@ class Main
         if line.match(headerPattern)
           unitNum(line.match(/\d+/).to_s) if line.match(/title:/)
           header = removeHTML(line.match(headerPattern).to_s)
-          add_content_to_file("#{@parentDir}/review/topics.txt", "#{header}\n")
+          add_content_to_file("#{review_folder}/topics.txt", "#{header}\n")
           labNum = 1
         else
           wholeLine = removeHTML(line.to_s.split(/.+:/).join)
           labName = wholeLine.match(/(\w+\s?((!|\?|\.|-)\s?)?)+/).to_s
           topicURL = line.match(topicURLPattern).to_s
-          add_content_to_file("#{@parentDir}/review/topics.txt", "#{labNum} #{labName} ----- #{topicURL}\n")
+          add_content_to_file("#{review_folder}/topics.txt", "#{labNum} #{labName} ----- #{topicURL}\n")
           labNum += 1
         end
       end
       index += 1
     end
-    File.write(file, allLines.join)
-    add_content_to_file("#{@parentDir}/review/topics.txt", "END OF UNIT\n")
+    add_content_to_file("#{review_folder}/topics.txt", "END OF UNIT\n")
   end
 
   # Returns true if there is a comment in the topics.topic page
   def isComment(arg)
     str = arg.force_encoding('BINARY')
-    if str.match(%r{//})
-      true
-    else
-      false
-    end
+    str.match(%r{//})
   end
 
   # Removes the part of the string that is commented out in topics.topic which will then be added
@@ -282,6 +267,42 @@ class Main
     end
   end
 
+  # TODO: - if we have a BJCTopic class, this probably belongs there.
+  def path_to_topic_file(topic_file)
+    "#{@rootDir}/topic/#{topic_file}"
+  end
+
+  def add_content_to_topic_file(topic_file, contents)
+    full_path = path_to_topic_file(topic_file)
+    topic_content = File.readlines(full_path)
+    contents = contents.split("\n")
+    header = contents[0]
+    index = 0
+    inserted = false
+    while index < topic_content.length
+      line = topic_content[index]
+      if line.match(header) # found the first line of the section
+        while !line.match(/}/) || !line.strip == '' || !line.match(/heading/i)
+          topic_content.delete_at(index)
+          line = topic_content[index]
+        end
+        contents.delete_at(0)
+        topic_content.insert(index, contents.join("\n"))
+        topic_content.insert(index + 1, "\n}")
+        inserted = true
+        break
+      end
+      index += 1
+    end
+    # indicates the file is missing a section ending...
+    unless inserted
+      topic_content.pop # Last line _should always be a }
+      topic_content.append(contents.join("\n"))
+      topic_content.append("\n}\n")
+    end
+    File.write(full_path, topic_content.join)
+  end
+
   def removeHTML(str)
     htmlTagPattern = %r{</?\w+>}
     if str.match(htmlTagPattern)
@@ -320,8 +341,7 @@ class Main
   def localPath
     parentDir = @parentDir.match(/.+bjc-r/).to_s
     local = parentDir.split(%r{/bjc-r})
-    output = local.join
-    output.to_s
+    local.join.to_s
   end
 
   def extractTopicLink(line)
@@ -356,14 +376,15 @@ class Main
   end
 
   def copyFiles
-    list = [@vocab.getVocabFileName.to_s, @selfcheck.getSelfCheckFileName.to_s, @selfcheck.getExamFileName.to_s]
+    list = [@vocab.vocab_file_name, @self_check.self_check_file_name, @self_check.exam_file_name]
     FileUtils.cd('..')
-    # src = "#{@parentDir}/review/#{@vocab}"
-    # dst = "#{Dir.getwd}/#{@vocab.getVocabFileName}"
+    # src = "#{review_folder}/#{@vocab}"
+    # dst = "#{Dir.getwd}/#{@vocab.vocab_file_name}"
     list.each do |file|
-      src = "#{@parentDir}/review/#{file}"
+      src = "#{review_folder}/#{file}"
       dst = "#{Dir.getwd}/#{file}"
       File.delete(dst) if File.exist?(dst)
+      # TODO: use nokogiri to refomat the file.
       FileUtils.copy_file(src, dst) if File.exist?(src)
     end
   end
@@ -387,16 +408,14 @@ class Main
         FileUtils.cd(currentPath)
       end
       if !line.match(labNamePattern).nil?
-
         # labNum = line.match(/\d+\s+/).to_s
         # labFile = findLabFile(labNum, Dir.getwd())
-
         labFile = extractTopicLink(line)
         if labFile != ''
           extractTopicLinkFolder(line)
           @vocab.labPath(Dir.getwd)
           @vocab.read_file(labFile)
-          @selfcheck.read_file(labFile)
+          @self_check.read_file(labFile)
           @atwork.read_file(labFile)
         end
 
@@ -410,19 +429,18 @@ class Main
       # labFolder = getFolder(labNum, unitFolder)
       # Dir.chdir(labFolder)
       # change lab folder
-
       elsif line.match(unitNamePattern)
         unitNum(line.match(/\d+/).to_s)
         unitName = line.match(/Unit.+/)
         @vocab.currUnitName(unitName.to_s)
-        @selfcheck.currUnitName(unitName.to_s)
+        @self_check.currUnitName(unitName.to_s)
         @atwork.currUnitName(unitName.to_s)
       # unitFolder = getFolder(@unitNum, @parentDir)
       # Dir.chdir(unitFolder)
       # change unit folder
       elsif isEndofTopicPage(line)
         @vocab.add_HTML_end
-        @selfcheck.add_HTML_end
+        @self_check.add_HTML_end
         @atwork.add_HTML_end
       end
       i += 1
@@ -430,11 +448,7 @@ class Main
   end
 
   def isEndofTopicPage(line)
-    if line.match(/END OF UNIT/)
-      true
-    else
-      false
-    end
+    line.match(/END OF UNIT/)
   end
 
   def getFolder(strPattern, parentFolder)
@@ -442,9 +456,7 @@ class Main
     foldersList = list_folders(parentFolder)
     foldersList.each do |folder|
       if File.basename(folder).match(/#{strPattern}/)
-
         # if File.basename(folder).match(/^#{strPattern}/)
-
         return "#{parentFolder}/#{folder}"
       end
     end
@@ -454,31 +466,12 @@ class Main
     if !fileName.match(/\.\w\w\.\w+/).nil?
       langMatch = fileName.match(/\w+\.\w+/).to_s
       langMatch.match(/\w+$/).to_s
-
     else
       'en'
     end
   end
 
-  # p array.map { |x| x == 4 ? 'Z' : x }
-  # => [1, 2, 3, 'Z']
-  def parse_topic_links(fileName, line)
-    Dir.chdir(@topicFolderPath)
-    fileContents = []
-    rio(fileName)
-    lineLink = line.match(/[.+]/).to_s
-    fileContents.index(lineLink)
-    fileContents.each do |item|
-      next unless item.match(lineMatch)
-
-      addStr = "#{lineLink}?topic=#{@classStr}%2F#{@unitNum}-#{fileName}.topic&course=#{@classStr}.html]"
-      fileContents.gsub(lineLink.to_s, addStr)
-      # elsif lineMatch and isSummary
-    end
-  end
-
   # Setters and Getters
-
   def classStr(str)
     @classStr = str
   end
@@ -498,6 +491,4 @@ class Main
   def currUnit(str)
     @currUnit = str
   end
-
-  attr_reader :parentDir
 end

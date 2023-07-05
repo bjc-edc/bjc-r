@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
+require 'open-uri'
+require 'nokogiri'
+require 'twitter_cldr'
+
 require_relative 'vocab'
 require_relative 'main'
 require_relative 'selfcheck'
 require_relative 'index'
-require 'rio'
-require 'open-uri'
-require 'nokogiri'
-require 'twitter_cldr'
 
 class Tests
   @type = 'testing'
@@ -140,7 +140,7 @@ class Tests
 
   def crawl_allTopicPages
     m = Main.new('C:/Users/I560638/bjc-r/sparks/student-pages', 'C:/Users/I560638/bjc-r/topic/sparks')
-    m.parse_allTopicPages('C:/Users/I560638/bjc-r/topic/sparks')
+    m.parse_all_topic_files_in_folder('C:/Users/I560638/bjc-r/topic/sparks')
   end
 
   def getFolderTest

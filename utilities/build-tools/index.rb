@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'fileutils'
-require 'rio'
 require 'nokogiri'
 require 'twitter_cldr'
 
@@ -155,7 +154,7 @@ class Index
   def createNewIndexFile(copyFile, filePath)
     i = 0
     File.new(index_filename, 'a')
-    linesList = rio("#{filePath}/#{copyFile}").lines[0..20]
+    linesList = File.readlines("#{filePath}/#{copyFile}")[0..20]
     while !linesList[i].match(%r{</head>}) && (i < 20)
       if linesList[i].match(/<title>/)
         File.write(index_filename, '<title>BJC Curriculum Index</title>', mode: 'a')
