@@ -113,7 +113,6 @@ llab.determineAltLang = () => {
     return 'en'
 }
 
-
 // very loosely mirror the Rails API
 llab.translate = (key, replacements) => {
     if (!llab.TRANSLATIONS || !llab.TRANSLATIONS[key]) { return key; }
@@ -139,6 +138,57 @@ llab.pageLangugeExtension = () => llab.pageLang() == 'en' ? '' : `.${llab.pageLa
 
 // Turn img.es.png into img.png
 llab.stripLangExtensions = (text) => text.replaceAll(`.${llab.pageLang()}.`, '.');
+
+/////// CONDITIONAL LOADING OF CONTENT
+/**
+ * A prelimary API for defining loading additional content based on triggers.
+ *  @{param} array TRIGGERS is an array of {selectors, libName, onload } objects.
+ *  If the selectors are valid, we load *one* CSS and JS file from llab.optionalLibs
+ *  An `onload` function can be supplied, which will be called when the JS file is loaded.
+ */
+// check that we only run this thing one.
+llab.conditional_setup_run = false;
+llab.conditionalSetup = triggers => {
+    if (llab.conditional_setup_run) { return true; }
+    triggers.forEach(obj => {
+        let selectors = obj.selectors, libName = obj.libName, onload = obj.onload;
+        if (document.querySelectorAll(selectors).length > 0) {
+          let files = llab.optionalLibs[libName];
+          if (!files && onload) {
+            onload();
+            return;
+          }
+          if (files.css) {
+            document.head.appendChild(llab.styleTag(files.css));
+          }
+          if (files.js) {
+            document.head.appendChild(llab.scriptTag(files.js, onload));
+          }
+        }
+    });
+    llab.conditional_setup_run = true;
+}
+
+// Call The Functions to HighlightJS to render
+llab.highlightSyntax = function() {
+    $('pre > code').each(function(i, block) {
+      block.innerHTML = block.innerHTML.trim();
+      if (typeof hljs !== 'undefined') {
+        hljs.highlightBlock(block);
+      }
+    });
+  }
+
+llab.displayMathDivs = function () {
+  $('.katex, .katex-inline').each(function (_, elm) {
+     katex.render(elm.textContent, elm, {throwOnError: false});
+  });
+  $('.katex-block').each(function (_, elm) {
+    katex.render(elm.textContent, elm, {
+      displayMode: true, throwOnError: false
+    });
+  });
+}
 
 // TODO: jQuery3 -- these need to be migrated.
 llab.toggleDevComments = () => { $(llab.DEVELOPER_CLASSES).toggle() };
@@ -196,7 +246,10 @@ if (llab.GACode) {
     window.dataLayer = window.dataLayer || [];
     function gtag(){ dataLayer.push(arguments); }
     gtag('js', new Date());
-    gtag('config', llab.GACode);
+    gtag('config', llab.GACode, {
+        // page_title: document && document.querySelector('title').textContent,
+        page_location: document.URL
+    });
 }
 
 /** Truncate a STR to an output of N chars.
