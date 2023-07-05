@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<script type="text/javascript" src="/bjc-r/utilities/gifffer.min.js"></script>
+		<script type="text/javascript">window.onload = function() {Gifffer();}</script>
+		<link rel="stylesheet" type="text/css" href="/bjc-r/css/bjc-gifffer.css">
+		<title>Unit 2 Lab 3: Make Some Noise, Activity 1</title>
+	</head>
+
+	<body>
+		<h2>Visualizing Sound Data</h2>
+		<div class="todo">
+			<p><a href="#hint-needs" data-toggle="collapse" title="">Needs</a> for <a href="https://snap.berkeley.edu/versions/dev/snap.html#present:Username=mfries&ProjectName=BJCMS%20-%20Sound%20Visualizer" target="_blank">SOUND VISUALIZER</a></p>
+			<div id="hint-needs" class="collapse"><p>
+				<ul>
+					<li>+, - (in beat repeat if not before)</li>
+					<li>stop (2.1.1?)</li>
+					<li>when key pressed (with <code>stop</code> on 2.1.1?)</li>
+					<li>forever (2.1.1)</li>
+					<li>set variable (2.1.3?)</li>
+					<li>go to (could be taught in field of flowers)</li>
+					<li>clear (could be taught in field of flowers)</li>
+					<li>pen down (could be taught in field of flowers)</li>
+					<li>if else (chat bot?)</li>
+					<li>not (chat bot)</li>
+					<li>microphone (with visualizer)</li>
+					<li>script variables (with visualizer?)</li>
+				</ul>
+			</p></div>
+		</div>
+		<div class="todo">Need to cover 				<li><strong>2-CS-02: Design projects that combine hardware and software components to collect and exchange data.</strong> Collecting and exchanging data involves input, output, storage, and processing. When possible, students should select the hardware and software components for their project designs by considering factors such as functionality, cost, size, speed, accessibility, and aesthetics. For example, components for a mobile app could include accelerometer, GPS, and speech recognition. The choice of a device that connects wirelessly through a Bluetooth connection versus a physical USB connection involves a tradeoff between mobility and the need for an additional power source for the wireless device.</li> very well in this lab as it's not covered elsewhere.</div>
+		
+		<div class="learn">In this activity, you will explore the sound data from your computer's microphone.</div>
+	
+				<div class="todo">preview the difference between Time Domain and Frequency Domain</div>
+
+		
+		<p>
+			Snap<em>!</em> can access your computer's microphone, so you can create a virtual <em>oscilloscope</em> that show how the volume changes over time.<br />
+			<img class="indent" data-gifffer="/bjc-r/sparks/img/U2/lab03/sound-visualizer.gif" alt="animation of an oscilloscope in Snap! that looks like a rapidly changing, horizontal wavey line" title="animation of an oscilloscope in Snap! that looks like a rapidly changing, horizontal wavey line" /><br />
+			 
+		</p>
+		<div class="vocabFullWidth">
+			<ul>
+				<li>An <strong>oscilloscope</strong> is an instrument that graphs a signal's intensity over time.</li>
+				<div class="todo">Add pic with superimposed sound wave. https://commons.wikimedia.org/wiki/File:Tektronix_Oscilloscope_475A.jpg</div>
+
+			</ul>
+		</div>
+		<div class="todo">clarify that here, our intensity is volume/loudness</div>
+		<div class="todo">Have PG and BH review this sound stuff. Maybe have Jens, BH, and perhaps even Della review the whole lab.</div>
+		<div class="endnote">
+			<h4><strong>Sound Waves</strong></h4>
+			<p>Sound is created by pressure waves traveling through a material (like air or water). When you hear music, an instrument or speaker (think of a vibrating guitar string, a vibrating drum head, or a vibrating speaker) creates waves of pressure that travel through the air to your eardrum, which transmits the signal through your nerves to your brain. Have you ever heard a sound that was so loud you could feel it? Those were pressure waves that were so big you could sense them with more than just your eardrum!</p>
+		</div>
+		
+		<div class="forYouToDo">
+			<ol>
+				<li>Create a new project called <div class="newProject"><span class="text">"Sparks-Making-Noise"</span><img src="/bjc-r/img/icons/new-project-called.png" alt="Create a new project called Sparks-Making-Noise" title="Create a new project called Sparks-Making-Noise" />, and save it to your account.</div></li>
+				<li>
+					Test that your microphone works with Snap<em>!</em>.
+					<div class="narrower">
+						<h4><strong><a href="#hint-microphone-test" data-toggle="collapse" title="Testing a Microphone in Snap!">Testing a Microphone in Snap<em>!</em></a></strong></h4>
+						<div id="hint-microphone-test" class="collapse">
+							<p>
+								<ol type="a">
+									<li>
+										Click the <strong>"Sounds..."</strong> tab above the scripting area.<br />
+										<img class="indent" src="/bjc-r/sparks/img/U2/lab02/select-sounds.png" alt="image of the 'Sounds' tab, which is located between the 'Scripts' and 'Costumes' tabs above the scripting area" title="image of the 'Sounds' tab, which is located between the 'Scripts' and 'Costumes' tabs above the scripting area" />
+									</li>
+									<li>
+										<div class="sidenoteBig">
+											The browser may ask you for permission to access the microphone. Click "Allow."<br />
+											<img class="" src="/bjc-r/sparks/img/U2/lab02/microphone-allow.png" alt="screenshot of browser message requesting microphone access for snap.berkeley.edu. Click 'Allow.'" title="screenshot of browser message requesting microphone access for snap.berkeley.edu. Click 'Allow.'" />
+										</div>
+										Click the record button (<img class="inline" src="/bjc-r/img/sys/button-record.png" alt="record button" title="record button" />) to open the "Sound Recorder."
+									</li>
+									<li>
+										Click the record button in the "Sound Recorder" (the circle), make some sounds (talk, laugh, etc.), and press stop (the square) when you are done.<br />
+										<img class="indent" src="/bjc-r/sparks/img/U2/lab02/sound-recorder.png" alt="picture of the Sound Recorder window, which has a five buttons: a circle for record, a square for stop, a right-pointing triangle for play, 'Save,' and 'Cancel'" title="picture of the Sound Recorder window, which has a five buttons: a circle for record, a square for stop, a right-pointing triangle for play, 'Save,' and 'Cancel'" />
+									</li>
+									<li>Click the play button (the triangle) to check that the microphone recorded your sound.</li>
+									<div class="takeNote">If you aren't able to record a sound, check the audio settings in the computer's system settings/preferences. If you can't figure it out, ask your teacher.</div>
+									<li>Click "Cancel" since you are just testing the microphone.</li>
+								</ol>
+							</p>
+						</div>
+					</div>
+				</li>
+				<!--<div class="endnote">
+					<p>If you haven't used the microphone with Snap<em>!</em> yet on this computer, you might get a message like this (but maybe a little different) asking you to allow snap.berkeley.edu to access your microphone. You'll need to allow this to build the oscilloscope. </p>
+					<p><a href="#hint-microphone-browser" data-toggle="collapse" title="Click for an image of what allowing the browser to access the microphone might look like in Chrome.">Click for an image of what this might look like in Chrome.</a></p>
+					<div id="hint-microphone-browser" class="collapse">
+						<img class="indent" src="/bjc-r/sparks/img/U2/lab03/allow-microphone.png" alt="image of a popup message saying 'snap.berkeley.edu wants to use your microphone' with two buttons 'Block' and 'Allow'" title="image of a popup message saying 'snap.berkeley.edu wants to use your microphone' with two buttons 'Block' and 'Allow'" />
+					</div>
+				</div>-->
+				<li>
+					Explore the <code>microphone</code> block. Drag it out of the "Sensing" palette, and click it several times for each of the following inputs:
+					<img class="imageRight" src="/bjc-r/sparks/img/U2/lab03/microphone-dropdown.png" alt="picture of microphone block with drop-down menu open showing seven options: volume, note, frequency, samples, sample rate, spectrum, resolution" title="picture of microphone block with drop-down menu open showing seven options: volume, note, frequency, samples, sample rate, spectrum, resolution" />
+					<ol style="list-style-type: lower-alpha;">
+						<li>
+							<img class="" src="/bjc-r/sparks/img/U2/lab03/microphone(volume).png" alt="microphone (volume)" title="microphone (volume)" /> reports the current volume value detected by the microphone (Try clicking it while you are making a quiet sound, a loud sound, and no sound.)<br />
+							<img class="indent" src="/bjc-r/sparks/img/U2/lab03/microphone(volume)-reporting.png" alt="microphone (volume) reporting 5.4169..." title="microphone (volume) reporting 5.4169..." />
+						</li>
+						<li>
+							<img class="" src="/bjc-r/sparks/img/U2/lab03/microphone(samples).png" alt="microphone (samples)" title="microphone (samples)" /> reports a list of current microphone volume values sampled across a small period of time <br />
+							<img class="indent" src="/bjc-r/sparks/img/U2/lab03/microphone(samples)-reporting.png" alt="microphone (samples) reporting" title="microphone (samples)" />
+						</li>
+						<li>
+							<img class="" src="/bjc-r/sparks/img/U2/lab03/microphone(resolution).png" alt="microphone (resolution)" title="microphone (resolution)" /> reports the number of values in a <code>microphone (samples)</code> list<br />
+							<img class="indent" src="/bjc-r/sparks/img/U2/lab03/microphone(resolution)-reporting.png" alt="microphone (resolution) reporting 512" title="microphone (resolution) reporting 512" /> 
+						</li>
+					</ol>
+					<div class="endnote">You may get zeros as output at first. It can take a moment for Snap<em>!</em> to tell your browser to tell your computer to listen to the microphone.</div>
+				</li>
+			</ol>
+		</div>
+
+		<div class="todo">Have they learned pen down, yet?? I don't hitink soo.. Maybe in 2.2?? Maybe it should be added?</div>
+		<p>
+			<div class="sidenote">You learned about the <code>for each</code> block on <a href="/bjc-r/sparks/student-pages/U2/L1/05-beat-repeat.html?topic=sparks%2F2-sequencing-iteration.topic&course=sparks.html" title="Unit 2 Lab 1 Activity 5: Beat Repeat">Unit 2 Lab 1 Activity 5: Beat Repeat</a>.</div>
+			There is a <code>for each</code> block is at the core of the oscilloscope code. For each microphone volume sample, the sprite will move
+			<s>Discuss why a <code>for each</code> block is needed, and why the sprite will move (using <code>go to</code>) for each volumne sample.</s> <br />
+			<img class="indent" src="/bjc-r/sparks/img/U2/lab03/oscilloscope-core-2-no-inputs.png" alt="for each (sample) in (microphone (samples)) {
+go to x: () y: ()
+}" title="for each (sample) in (microphone (samples)) {
+go to x: () y: ()
+}" />
+
+		</p>
+
+		<div class="forYouToDo">
+			<ol start="4">
+				<li>
+					<div class="sidenote">
+						<p>You learned about global variables in <a href="/bjc-r/sparks/student-pages/U2/L1/06-storing-songs.html?topic=sparks%2F2-sequencing-iteration.topic&course=sparks.html" title="Unit 2 Lab 1 Activity 6: Storing Songs">Unit 2 Lab 1 Activity 6: Storing Songs</a>.</p>
+					</div>
+					Create a global variable called <var>time step</var> to store the  ( set to the width of the stage divided by the number of values in the microphone sample set (so that the sprite moves horizontally across the whole stage as it goes through the list of samples) (microphone samples will fit across width of the Snap! stage by dividing the stage width by the microphone resolution.). Set it's value so that the... think about the timestep stuff					<p><a href="#hint-time-step" data-toggle="collapse" title="">hint</a></p>
+				<div id="hint-time-step" class="collapse"><p><img class="indent" src="/bjc-r/sparks/img/U2/lab03/oscilloscope-core-1.png" alt="set (time step) to (width of (Stage) / microphone (resolution))" title="set (time step) to (width of (Stage) / microphone (resolution))" /></p></div>
+					</li>
+				<div class="todo">To see the dimensions of the stage, click the "Stage" icon in the lower right corner of the Snap! window, select "Backgrounds..." from the Snap! file menu, choose the "XY Grid" and click "Import," and then return to this code, by clicking the "Sprite" icon in the lower right corner and selecting the "Scripts" tab at the top of this scripting area. (Instructions like this will be in the Google doc for students; this is just a preview.) :)</div>
+				<li>build the inputs to the <code>goto</code> block</li>
+<div class="todo">
+						<img class="indent" src="/bjc-r/sparks/img/U2/lab03/oscilloscope-core-2.png" alt="for each (sample) in (microphone (samples)) {
+	go to x: (x position + time step) y: (sample × 150)
+}" title="for each (sample) in (microphone (samples)) {
+	go to x: (x position + time step) y: (sample × 150)
+}" />
+					</div>
+			</ol>
+		</div>
+				<div class="todo">recap with anotehr preview of the difference between Time Domain and Frequency Domain</div>
+		
+		<div class="learn">In this activity, you learned about oscilloscopes, accessed the sound data from your computer's microphone, and started planning the code for an oscilloscopes.</div>
+
+
+	</body>
+</html>
