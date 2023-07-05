@@ -66,6 +66,7 @@ class Main
     testingFolderPrompt
     createNewReviewFolder
     parse_all_topic_files
+    # Call BJCTopic.new().parse
     parse_units("#{review_folder}/topics.txt")
     @vocab.doIndex
     @atwork.moveFile
