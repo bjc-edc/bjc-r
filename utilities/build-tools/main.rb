@@ -147,12 +147,12 @@ class Main
   # Input is the current list of topic files based on the @course html file.
   # Based on all the parsed topic pages, summaries will be generated
   def parse_all_topic_files
-    topic_files_in_course.select { |f| is_topic_file(f) }.each { |f| parse_rawTopicPage(f) }
+    topic_files_in_course.select { |f| is_topic_file?(f) }.each { |f| parse_rawTopicPage(f) }
   end
 
   # Returns true if the file is a valid topic page
   # TODO: figure out if this should test for *.topic ?
-  def is_topic_file(file)
+  def is_topic_file?(file)
     unwantedFilesPattern = /teaching-guide/
     filename = File.basename(file)
     return false if filename.match(unwantedFilesPattern)

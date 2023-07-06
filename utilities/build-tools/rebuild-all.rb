@@ -25,7 +25,7 @@ es_runner.skip_test_prompt = true
 es_runner.Main
 
 puts
-puts 'Rebuilding Espanol CSP'
+puts 'Rebuilding Sparks'
 sparks_runner = Main.new(root: path, content: 'sparks/student-pages', course: 'sparks', language: 'en')
 sparks_runner.skip_test_prompt = true
 sparks_runner.Main
