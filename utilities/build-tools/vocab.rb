@@ -7,6 +7,7 @@ require_relative 'selfcheck'
 
 I18n.load_path = Dir['**/*.yml']
 I18n.backend.load_translations
+TEMP_FOLDER = 'summaries~'
 
 # TODO: It's unclear where the HTML for new files comes from.
 # We should probably have a 'template' file which gets used.
@@ -125,8 +126,8 @@ class Vocab
     i = 0
     filePath = Dir.getwd
     unless File.exist?(fileName)
-      Dir.chdir("#{@parentDir}/review")
-      File.new(vocab_file_name, 'w')
+      Dir.chdir(review_folder)
+      File.new(fileName, 'w')
     end
     linesList = File.readlines("#{filePath}/#{@currFile}")[0..30]
     while !linesList[i].match(/<body>/) && (i < 30)
@@ -143,7 +144,7 @@ class Vocab
   end
 
   def add_HTML_end
-    Dir.chdir("#{@parentDir}/review")
+    Dir.chdir(review_folder)
     ending = "</body>\n</html>"
     return unless File.exist?(vocab_file_name)
 
@@ -336,7 +337,7 @@ class Vocab
   def add_vocab_to_file(vocab)
     return unless vocab != ''
 
-    file = "#{@parentDir}/review/#{vocab_file_name}"
+    file = "#{review_folder}/#{vocab_file_name}"
     add_content_to_file(file, vocab)
 
     # if File.exists?(file)

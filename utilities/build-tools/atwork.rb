@@ -172,6 +172,8 @@ class AtWork
   def moveFile
     src = "#{@parentDir}/review/#{@atwork_filename}"
     dst = "#{@parentDir}/#{@atwork_filename}"
+    return unless File.exist?(src)
+
     File.delete(dst) if File.exist?(dst)
     FileUtils.copy_file(src, dst)
   end
