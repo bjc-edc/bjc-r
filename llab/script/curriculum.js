@@ -611,9 +611,9 @@ llab.setupTranslationsMenu = function() {
   let lang = llab.pageLang();
   let new_url;
   if (lang === 'es') {
-    new_url = location.href.replaceAll('.es.', '.');
+    new_url = location.href.replace(/\.es\./g, '.');
   } else if (lang === 'en') {
-    new_url = location.href.replaceAll('.html', '.es.html').replaceAll('.topic', '.es.topic');
+    new_url = location.href.replace(/\.html/g, '.es.html').replace(/\.topic/g, '.es.topic');
    }
    fetch(new_url).then((response) => {
       if (!response.ok) { return; }
