@@ -74,7 +74,7 @@ llab.renderFull = function(data, _ignored1, _ignored2) {
     var isHidden;
     var num = 0;
     var indent = "";
-    var url = document.URL;
+    var url = location.href;
     for (var i = 0; i < lines.length; i++) {
         line = lines[i];
         line = llab.stripComments(line);
@@ -246,7 +246,7 @@ llab.displayTopic = function() {
 // Make a call to build a topic page.
 // Be sure that content is set only on pages that it should be
 $(document).ready(function() {
-    var url = llab.stripLangExtensions(document.URL),
+    var url = llab.stripLangExtensions(location.href),
         isTopicFile = (url.indexOf("topic.html") !== -1 ||
             // FIXME -- this may be broken.
             url.indexOf("empty-topic-page.html") !== -1);

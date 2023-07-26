@@ -171,7 +171,7 @@ llab.processLinks = function(data, _status, _jqXHR) {
   var params = llab.getURLParameters(),
   course = params.course || '',
   topicArray = data.split("\n"),
-  url = document.URL,
+  url = location.href,
   list = $('.js-llabPageNavMenu'),
   itemContent,
   ddItem,
@@ -246,7 +246,7 @@ llab.processLinks = function(data, _status, _jqXHR) {
         title: itemContent
       }));
     } else { // Content reference is local
-      isCurrentPage = document.URL.indexOf(url) !== -1;
+      isCurrentPage = location.href.indexOf(url) !== -1;
       if (url.indexOf(llab.rootURL) === -1 && url.indexOf("..") === -1) {
         url = llab.rootURL + (url[0] === "/" ? '' : "/") + url;
       }
@@ -531,7 +531,7 @@ llab.addFeedback = function(title, topic, course) {
     'PAGE': title,
     'TOPIC': topic,
     'COURSE': course,
-    'URL': document.url
+    'URL': location.href
   });
 
   var button = $(document.createElement('button')).attr({
@@ -611,9 +611,9 @@ llab.setupTranslationsMenu = function() {
   let lang = llab.pageLang();
   let new_url;
   if (lang === 'es') {
-    new_url = location.href.replaceAll('.es.', '.');
+    new_url = location.href.replace(/\.es\./g, '.');
   } else if (lang === 'en') {
-    new_url = location.href.replaceAll('.html', '.es.html').replaceAll('.topic', '.es.topic');
+    new_url = location.href.replace(/\.html/g, '.es.html').replace(/\.topic/g, '.es.topic');
    }
    fetch(new_url).then((response) => {
       if (!response.ok) { return; }
