@@ -87,7 +87,7 @@ llab.getSnapRunURL = function(targeturl, options) {
         origin += path;
     }
 
-    return `${snapURL}${origin}${targeturl}`;
+    return `${snapURL}${origin}${targeturl}?${new Date().toISOString()}`;
 };
 
 llab.pageLang = () => {
