@@ -630,11 +630,8 @@ llab.setupTranslationsMenu = function() {
 
 llab.setupSnapImages = () => {
   $('img.js-runInSnap').each((_idx, elm) => {
-    let $img = $(elm);
-    $img.wrap("<div class='embededImage'></div>");
-    let openURL = llab.getSnapRunURL(encodeURIComponent($img.attr('src')));
-    let $open = $(`<a href="${openURL}" class="openInSnap" target="_blank">Open In Snap!</a>`);
-    $open.insertAfter($img);
+    let openURL = llab.getSnapRunURL($img.attr('src'));
+    $(elm).wrap(`<a href="${openURL}" class="snap-project" target="_blank" aria-label="Open in Snap!"></a>`);
   });
 };
 
