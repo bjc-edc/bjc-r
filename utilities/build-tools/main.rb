@@ -187,13 +187,12 @@ class Main
     #linkMatch = @parentDir.match(%r{/bjc-r.+}).to_s
     #linkMatchWithoutBracket = linkMatch.split(/\]/).join.to_s
     link_match = "/bjc-r/#{@content}"
-    unit = nil
     unit = File.readlines(topic_file_path).find { |line| line.match?(link_match) }
-    link = extract_unit_lab_path(unit, false, true)
+    link = extract_unit_path(unit, false, true)
     list = [@vocab.vocab_file_name, @self_check.exam_file_name, @self_check.self_check_file_name]
-    topic_resource = ["\tresource: (NEW) #{I18n.t('vocab')} [#{link}#{@vocab.vocab_file_name}]",
-                    "\n\tresource: (NEW) #{I18n.t('on_ap_exam')} [#{link}#{@self_check.exam_file_name}]",
-                    "\n\tresource: (NEW) #{I18n.t('self_check')} [#{link}#{@self_check.self_check_file_name}]"]
+    topic_resource = ["\tresource: (NEW) #{I18n.t('vocab')} [#{link}/#{@vocab.vocab_file_name}]",
+                    "\n\tresource: (NEW) #{I18n.t('on_ap_exam')} [#{link}/#{@self_check.exam_file_name}]",
+                    "\n\tresource: (NEW) #{I18n.t('self_check')} [#{link}/#{@self_check.self_check_file_name}]"]
     topic_content = <<~TOPIC
       heading: (NEW) #{I18n.t('unit_review', num: @unitNum)}
     TOPIC
@@ -425,36 +424,33 @@ class Main
   end
 
 
-  def extract_unit_lab_path(line, use_root=true, is_topic=true)
+  def extract_unit_path(line, use_root=true, is_topic=true)
     if is_topic
       bracket_removed = line.split(/.+\[/)
-      #puts bracket_removed
-      #puts bracket_removed[0]
       match = bracket_removed[1].split(/\]/).join.to_s
     else
       match = line
     end
-    link = if @language != 'en'
+    link_with_lab = if @language != 'en'
              match.split(/(\w+-?)+\.\w+\.html/)
            else
              match.split(/(\w+-?)+\.html/)
            end
-    use_root ? "#{localPath}#{link[0]}" : link[0]
-    # if link.size > 1
-    
-    # end
+    list = link_with_lab[0].split("/")
+    link = list.map { |elem, output = ""| output += ("/#{elem}") if list.index(elem) < list.length - 1}.join
+    link = link[1..link.length] if link[1] == "/" #get rid of extra slash, otherwise appears as //bjc-r
+    use_root ? "#{localPath}#{link}" : link
   end
 
 
   def copyFiles
     list = [@vocab.vocab_file_name, @self_check.self_check_file_name, @self_check.exam_file_name]
-    FileUtils.cd('..')
+    #FileUtils.cd('..')
     # src = "#{review_folder}/#{@vocab}"
     # dst = "#{Dir.getwd}/#{@vocab.vocab_file_name}"
     list.each do |file|
       src = "#{review_folder}/#{file}"
       dst = "#{Dir.getwd}/#{file}"
-  
       File.delete(dst) if File.exist?(dst)
       # TODO: use nokogiri to refomat the file.
       FileUtils.copy_file(src, dst) if File.exist?(src)

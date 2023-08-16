@@ -144,7 +144,7 @@ class Vocab
       end
       i += 1
     end
-    File.write(fileName, "\t<h2>#{@currUnit}</h2>\n", mode: 'a')
+    #File.write(fileName, "\t<h2>#{@currUnit}</h2>\n", mode: 'a')
     File.write(fileName, "\t<h3>#{currLab}</h3>\n", mode: 'a')
     Dir.chdir(@labPath)
   end

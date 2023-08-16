@@ -143,7 +143,7 @@ class SelfCheck
       end
       i += 1
     end
-    File.write(fileName, "<h2>#{@currUnit}</h2>\n", mode: 'a')
+    #File.write(fileName, "<h2>#{@currUnit}</h2>\n", mode: 'a')
     File.write(fileName, "<h3>#{currLab}</h3>\n", mode: 'a')
   end
 
