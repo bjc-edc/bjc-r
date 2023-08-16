@@ -36,6 +36,7 @@ class Main
     @classStr = ''
     @subClassStr = ''
     @labFileName = ''
+    @content = content
     @course_file = course
     @course = BJCCourse.new(root: @rootDir, course: @course_file, language:)
     @vocab = Vocab.new(@parentDir, language)
@@ -120,7 +121,7 @@ class Main
       end
       File.delete(file)
     end
-    puts review_folder
+    
     FileUtils.rm_rf(review_folder)
   end
 
@@ -169,7 +170,7 @@ class Main
     all_lines = File.readlines(topic_file)
     new_lines = ""
     all_lines.each do |line|
-      puts line
+     
       if line.match(/Unit \d+ Review/) || line.match(/Unidad \d+ Revision/)
         return File.write(topic_file, new_lines.strip)
       elsif line != '}' and line != '\n'
@@ -178,13 +179,17 @@ class Main
     end
   end
 
+
   # Adds the summary content and links to the topic.topic file
   def addSummariesToTopic(topic_file)
     topic_file_path = "#{@rootDir}/topic/#{topic_file}"
     delete_existing_summaries(topic_file_path)
-    linkMatch = @parentDir.match(%r{/bjc-r.+}).to_s
-    linkMatchWithoutBracket = linkMatch.split(/\]/)
-    link = linkMatchWithoutBracket.join.to_s
+    #linkMatch = @parentDir.match(%r{/bjc-r.+}).to_s
+    #linkMatchWithoutBracket = linkMatch.split(/\]/).join.to_s
+    link_match = "/bjc-r/#{@content}"
+    unit = nil
+    unit = File.readlines(topic_file_path).find { |line| line.match?(link_match) }
+    link = extract_unit_lab_path(unit, false, true)
     list = [@vocab.vocab_file_name, @self_check.exam_file_name, @self_check.self_check_file_name]
     topic_resource = ["\tresource: (NEW) #{I18n.t('vocab')} [#{link}#{@vocab.vocab_file_name}]",
                     "\n\tresource: (NEW) #{I18n.t('on_ap_exam')} [#{link}#{@self_check.exam_file_name}]",
@@ -387,6 +392,7 @@ class Main
     local.join.to_s
   end
 
+ 
   def extractTopicLink(line)
     labNamePattern = /----- /
     linkMatch = line.split(labNamePattern)
@@ -404,7 +410,7 @@ class Main
     # lab = link.match(/(\w+-?)+\.\w+\.html/).to_s
   end
 
-  def extractTopicLinkFolder(line)
+  def extractTopicLinkFolder(line, use_root=true)
     labNamePattern = /----- /
     linkMatch = line.split(labNamePattern)
     link = if @language != 'en'
@@ -412,11 +418,33 @@ class Main
            else
              linkMatch[1].split(/(\w+-?)+\.html/)
            end
-    folder = "#{localPath}#{link[0]}"
+    use_root ? "#{localPath}#{link[0]}" : link[0]
     # if link.size > 1
-    Dir.chdir(folder)
+    
     # end
   end
+
+
+  def extract_unit_lab_path(line, use_root=true, is_topic=true)
+    if is_topic
+      bracket_removed = line.split(/.+\[/)
+      #puts bracket_removed
+      #puts bracket_removed[0]
+      match = bracket_removed[1].split(/\]/).join.to_s
+    else
+      match = line
+    end
+    link = if @language != 'en'
+             match.split(/(\w+-?)+\.\w+\.html/)
+           else
+             match.split(/(\w+-?)+\.html/)
+           end
+    use_root ? "#{localPath}#{link[0]}" : link[0]
+    # if link.size > 1
+    
+    # end
+  end
+
 
   def copyFiles
     list = [@vocab.vocab_file_name, @self_check.self_check_file_name, @self_check.exam_file_name]
@@ -426,7 +454,7 @@ class Main
     list.each do |file|
       src = "#{review_folder}/#{file}"
       dst = "#{Dir.getwd}/#{file}"
-      puts dst
+  
       File.delete(dst) if File.exist?(dst)
       # TODO: use nokogiri to refomat the file.
       FileUtils.copy_file(src, dst) if File.exist?(src)
@@ -455,7 +483,7 @@ class Main
       if !line.match(labNamePattern).nil?
         labFile = extractTopicLink(line)
         if labFile != ''
-          extractTopicLinkFolder(line)
+          Dir.chdir(extractTopicLinkFolder(line))
           @vocab.labPath(Dir.getwd)
           @vocab.read_file(labFile)
           @self_check.read_file(labFile)

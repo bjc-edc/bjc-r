@@ -164,6 +164,11 @@ class Index
       i += 1
     end
     File.write(index_filename, "\n</head>\n<body>\n", mode: 'a')
+    back_to_top = <<~HTML
+      <button id="scroll_to_top" style="position: fixed" style="float: right;" type="button">
+        <a href="#top">#{I18n.t('back_to_top')}</a>&nbsp;</button>
+    HTML
+    File.write(index_filename, back_to_top, mode: 'a')
   end
 
   def add_HTML_end
@@ -175,7 +180,7 @@ class Index
 
   def keepCapitalized?(vocab)
     capitals = ['IP', 'DDoS', 'SSL', 'TLS', 'TCP', 'IA', 'IPA', 'PCT', 'PI', 'AI', 'ADT', 'API',
-                'Creative Commons', 'ISPs', 'Commons', 'Creative', 'Internet']
+                'Creative Commons', 'ISPs', 'Commons', 'Creative', 'Boolean', 'Booleano']
     capitals.each do |item|
       if vocab.match?(item) # and (vocab == item or vocab.match?("#{item}\s") or vocab.match?("\s#{item}"))
         return true
