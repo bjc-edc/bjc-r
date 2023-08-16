@@ -631,7 +631,7 @@ llab.setupTranslationsMenu = function() {
 llab.setupSnapImages = () => {
   $('img.js-runInSnap').each((_idx, elm) => {
     let openURL = llab.getSnapRunURL($img.attr('src'));
-    $(elm).wrap(`<a href="${openURL}" class="snap-project" target="_blank" aria-label="Open in Snap!"></a>`);
+    $(elm).wrap(`<a href="${openURL}" class="snap-project" target=_blank></a>`);
   });
 };
 
