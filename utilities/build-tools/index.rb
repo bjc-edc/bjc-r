@@ -157,7 +157,7 @@ class Index
     linesList = File.readlines("#{filePath}/#{copyFile}")[0..20]
     while !linesList[i].match(%r{</head>}) && (i < 20)
       if linesList[i].match(/<title>/)
-        File.write(index_fileName, "\t<title>#{I18n.t('index')}</title>\n", mode: 'a')
+        File.write(index_filename, "\t<title>#{I18n.t('index')}</title>\n", mode: 'a')
       else
         File.write(index_filename, (linesList[i]).to_s, mode: 'a')
       end
@@ -174,8 +174,8 @@ class Index
   end
 
   def keepCapitalized?(vocab)
-    capitals = ["Moore's", 'IP', 'DDoS', 'SSL', 'TLS', 'TCP', 'IA', 'IPA', 'PCT', 'PI', 'AI', 'ADT', 'API',
-                'Creative Commons', 'ISPs', 'Commons', 'Creative']
+    capitals = ['IP', 'DDoS', 'SSL', 'TLS', 'TCP', 'IA', 'IPA', 'PCT', 'PI', 'AI', 'ADT', 'API',
+                'Creative Commons', 'ISPs', 'Commons', 'Creative', 'Internet']
     capitals.each do |item|
       if vocab.match?(item) # and (vocab == item or vocab.match?("#{item}\s") or vocab.match?("\s#{item}"))
         return true

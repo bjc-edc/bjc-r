@@ -7,12 +7,14 @@ require_relative 'selfcheck'
 
 I18n.load_path = Dir['**/*.yml']
 I18n.backend.load_translations
-TEMP_FOLDER = 'summaries~'
+TEMP_FOLDER = 'review'
 
 # TODO: It's unclear where the HTML for new files comes from.
 # We should probably have a 'template' file which gets used.
 # I think we can just replace content in the file, but we could use a library.
 class Vocab
+  include BJCHelpers
+
   def initialize(path, language = 'en')
     @parentDir = path
     @language = language
@@ -28,11 +30,12 @@ class Vocab
     @currUnitName = nil
     @index = Index.new(@parentDir, @language)
     @boxNum = 0
+    @language_ext = language_ext(language)
   end
 
-  def language_ext
-    @language_ext ||= @language == 'en' ? '' : ".#{@language}"
-  end
+  #def language_ext
+  #  @language_ext ||= @language == 'en' ? '' : ".#{@language}"
+  #end
 
   def review_folder
     @review_folder ||= "#{@parentDir}/#{TEMP_FOLDER}"
@@ -98,9 +101,7 @@ class Vocab
 
   def read_file(file)
     return unless File.exist?(file)
-
     currFile(file)
-    isNewUnit(true)
     parse_unit(file)
     parse_vocab(file)
     puts "Completed: #{@currUnit}"
@@ -111,14 +112,19 @@ class Vocab
     title = doc.xpath('//title')
     str = title.to_s
     pattern = %r{</?\w+>}
-    if str.nil? || !@isNewUnit
+    boxNum(@boxNum + 1)
+    if str.nil?
+      isNewUnit(false)
       nil
     else
       newStr = str.split(pattern)
-      currUnit(newStr.join)
-      currUnitNum(@currUnit.match(/\d+/).to_s)
-      boxNum(0)
-      isNewUnit(false)
+      if newStr.join == @currUnit
+        isNewUnit(false)
+      else
+        currUnit(newStr.join)
+        currUnitNum(@currUnit.match(/\d+/).to_s)
+        isNewUnit(true)
+      end
     end
   end
 
@@ -287,6 +293,7 @@ class Vocab
       @vocabList.push(vocab)
       @vocabDict[vocab] = [add_vocab_unit_to_index]
     elsif @vocabDict[findVocab(vocab)].last != add_vocab_unit_to_index
+      #puts add_vocab_unit_to_index
       @vocabDict[findVocab(vocab)].append(add_vocab_unit_to_index)
     end
   end
@@ -312,7 +319,7 @@ class Vocab
     unitNum = return_vocab_unit(@currUnit)
     currentDir = Dir.getwd
     FileUtils.cd('..')
-    link = " <a href=\"#{get_url(vocab_file_name)}\">#{unitNum}#box#{@boxNum}</a>"
+    link = " <a href=\"#{get_url(vocab_file_name)}#box#{@boxNum}\">#{unitNum}</a>"
     FileUtils.cd(currentDir)
     link
   end

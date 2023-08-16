@@ -116,8 +116,8 @@ class AtWork
     # puts currentDir
     # puts @parentDir
     Dir.chdir("#{@parentDir}/review")
-    puts Dir.getwd
-    puts filename
+    #puts Dir.getwd
+    #puts filename
     data = data.gsub(/&amp;/, '&')
     data.delete!("\n\n\\")
     createNewFile(filename, linesList) unless File.exist?(filename)

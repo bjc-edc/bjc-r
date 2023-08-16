@@ -3,7 +3,7 @@ require 'i18n'
 
 require_relative 'bjc_helpers'
 
-TEMP_FOLDER = 'summaries~'
+TEMP_FOLDER = 'review'
 
 I18n.load_path = Dir['**/*.yml']
 I18n.backend.load_translations

@@ -111,17 +111,17 @@ class Main
 
   def deleteReviewFolder
     Dir.chdir(review_folder)
-    #File.delete('topics.txt') if File.exist?('topics.txt')
+    File.delete('topics.txt') if File.exist?('topics.txt')
     # TODO: should filter en/es separately.
     files = list_files("#{language_ext}.html")
     files.each do |file|
       File.open(file) do |f|
         f.close
       end
-      puts file
-      puts review_folder
       File.delete(file)
     end
+    puts review_folder
+    FileUtils.rm_rf(review_folder)
   end
 
   def createNewReviewFolder
@@ -411,7 +411,7 @@ class Main
     f.each do |line|
       if line.match(endUnitPattern)
         currentPath = Dir.getwd
-        ##copyFiles
+        copyFiles
         FileUtils.cd(currentPath)
       end
       if !line.match(labNamePattern).nil?
