@@ -224,4 +224,24 @@ class BJCTopic
 
     { content: content, url: url }
   end
+
+  #not fully function - vic added
+  def generate_topic_file(json_hash)
+    topic_file = "title: #{json_hash[:title]}\n"
+    
+    json_hash[:content].each do |section|
+      topic_file += "\nheading: #{section[:title]}\n"
+      section[:content].each do |item|
+        if item[:type] == "raw-html"
+          topic_file += "\t#{item[:content]}\n"
+        else
+          topic_file += "\tresource: #{item[:content]} [#{item[:url]}]\n"
+        end
+      end
+    end
+    
+    File.open(topic_file, 'w') {|f| f.write(topic_file) }
+
+  end
+  
 end

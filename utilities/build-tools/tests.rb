@@ -21,7 +21,9 @@ def run_topic
   puts
   puts 'Parsing topic page'
   en_runner = BJCTopic.new('C:\Users\I560638\bjc-r\topic\sparks\2-sequencing-iteration.topic')
-  en_runner.parse
+  topic_json = en_runner.parse
+  topic_json[:title]
+  en_runner.generate_topic_file(topic_json)
 end
 #attr_reader :file_path, :file_name, :title, :language
 

@@ -75,7 +75,7 @@ class Main
   end
 
   def topic_files_in_course
-    @topic_files_in_course ||= course.list_topics
+    @topic_files_in_course ||= course.list_topics.filter { |file| file.match(/\d+-\w+/)}
   end
 
   def clear_review_folder
@@ -165,23 +165,60 @@ class Main
     filename.match(/\d+/) && (fileLanguage(file) == @language)
   end
 
+  def delete_existing_summaries(topic_file)
+    all_lines = File.readlines(topic_file)
+    new_lines = ""
+    all_lines.each do |line|
+      puts line
+      if line.match(/Unit \d+ Review/) || line.match(/Unidad \d+ Revision/)
+        return File.write(topic_file, new_lines.strip)
+      elsif line != '}' and line != '\n'
+        new_lines += line
+      end
+    end
+  end
+
   # Adds the summary content and links to the topic.topic file
   def addSummariesToTopic(topic_file)
+    topic_file_path = "#{@rootDir}/topic/#{topic_file}"
+    delete_existing_summaries(topic_file_path)
     linkMatch = @parentDir.match(%r{/bjc-r.+}).to_s
     linkMatchWithoutBracket = linkMatch.split(/\]/)
     link = linkMatchWithoutBracket.join.to_s
+    list = [@vocab.vocab_file_name, @self_check.exam_file_name, @self_check.self_check_file_name]
+    topic_resource = ["\tresource: (NEW) #{I18n.t('vocab')} [#{link}#{@vocab.vocab_file_name}]",
+                    "\n\tresource: (NEW) #{I18n.t('on_ap_exam')} [#{link}#{@self_check.exam_file_name}]",
+                    "\n\tresource: (NEW) #{I18n.t('self_check')} [#{link}#{@self_check.self_check_file_name}]"]
     topic_content = <<~TOPIC
       heading: (NEW) #{I18n.t('unit_review', num: @unitNum)}
-        resource: (NEW) #{I18n.t('vocab')} [#{link}#{@vocab.vocab_file_name}]
-        resource: (NEW) #{I18n.t('on_ap_exam')} [#{link}#{@self_check.exam_file_name}]
-        resource: (NEW) #{I18n.t('self_check')} [#{link}#{@self_check.self_check_file_name}]
     TOPIC
-    add_content_to_topic_file(topic_file, topic_content)
+    is_empty_review = true
+    list.length.times do |index|
+      if File.exist?(list[index])
+        topic_content += topic_resource[index]
+        is_empty_review = false
+      end
+    end
+    add_content_to_file(topic_file_path, "\n#{topic_content}\n}") if !is_empty_review
+    #topic_content = <<~TOPIC
+    #  heading: (NEW) #{I18n.t('unit_review', num: @unitNum)}
+    #    resource: (NEW) #{I18n.t('vocab')} [#{link}#{@vocab.vocab_file_name}]
+    #    resource: (NEW) #{I18n.t('on_ap_exam')} [#{link}#{@self_check.exam_file_name}]
+    #    resource: (NEW) #{I18n.t('self_check')} [#{link}#{@self_check.self_check_file_name}]
+    #TOPIC
+    #add_content_to_topic_file(topic_file, topic_review)
   end
 
   def isSummary(line)
     !line.nil? && !@currUnit.nil? && line.match(@currUnit)
   end
+
+  #Writing new function to parse using the topic.rb file
+  #def parse_topic_page(file)
+  #  path = "#{@rootDir}/topic/#{file}"
+  #  topic_runner = BJCTopic.new(path)
+  #  topic_json = topic_runner.parse
+  #end
 
   # Parses through the data of the topic page and generates and adds content to a topics.txt
   # file that will be parsed later on to generate summaries
@@ -205,7 +242,7 @@ class Main
       summaryExists = true if (index > 1) && isSummary(line)
       line = removeComment(oldline) if isComment(line)
       if line.match(/\}/) && !summaryExists
-        allLines[index] = addSummariesToTopic(file)
+        #allLines[index] = addSummariesToTopic(file)
         summaryExists = true
       elsif isTopic(line)
         if line.match(headerPattern)
@@ -402,6 +439,7 @@ class Main
   # function to began to create or add onto the vocab pages
   def parse_units(topicsFile)
     # make sure i am in summaries directory first
+    topics_index = 0
     Dir.chdir(@parentDir)
     f = File.open(topicsFile, 'r')
     labNamePattern = /-----/
@@ -415,8 +453,6 @@ class Main
         FileUtils.cd(currentPath)
       end
       if !line.match(labNamePattern).nil?
-        # labNum = line.match(/\d+\s+/).to_s
-        # labFile = findLabFile(labNum, Dir.getwd())
         labFile = extractTopicLink(line)
         if labFile != ''
           extractTopicLinkFolder(line)
@@ -425,26 +461,17 @@ class Main
           @self_check.read_file(labFile)
           @atwork.read_file(labFile)
         end
-
-      # pass to function that will open correct file
-      # elsif line.match(labTopicPattern)
-      # if line.match(/^(heading: [a-zA-Z]+)/)
-      #	labNum = /optional-project/
-      # else
-      #	labNum = line.match(/\d+/).to_s
-      # end
-      # labFolder = getFolder(labNum, unitFolder)
-      # Dir.chdir(labFolder)
-      # change lab folder
       elsif line.match(unitNamePattern)
+        if @unitNum.to_i > 0
+          addSummariesToTopic(topic_files_in_course[topics_index - 1])
+          topics_index += 1
         unitNum(line.match(/\d+/).to_s)
         unitName = line.match(/Unit.+/)
         @vocab.currUnitName(unitName.to_s)
         @self_check.currUnitName(unitName.to_s)
         @atwork.currUnitName(unitName.to_s)
-      # unitFolder = getFolder(@unitNum, @parentDir)
-      # Dir.chdir(unitFolder)
-      # change unit folder
+        
+        end
       elsif isEndofTopicPage(line)
         @vocab.add_HTML_end
         @self_check.add_HTML_end
