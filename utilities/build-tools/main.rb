@@ -11,7 +11,7 @@ require_relative 'selfcheck'
 
 # TODO: Include BJCHelpers - figure out which config stuff belongs there.
 VALID_LANGUAGES = %w[en es de].freeze
-TEMP_FOLDER = 'summaries~'
+TEMP_FOLDER = 'review'
 
 I18n.load_path = Dir['**/*.yml']
 I18n.backend.load_translations
@@ -111,10 +111,15 @@ class Main
 
   def deleteReviewFolder
     Dir.chdir(review_folder)
-    File.delete('topics.txt') if File.exist?('topics.txt')
+    #File.delete('topics.txt') if File.exist?('topics.txt')
     # TODO: should filter en/es separately.
     files = list_files("#{language_ext}.html")
     files.each do |file|
+      File.open(file) do |f|
+        f.close
+      end
+      puts file
+      puts review_folder
       File.delete(file)
     end
   end
@@ -384,6 +389,7 @@ class Main
     list.each do |file|
       src = "#{review_folder}/#{file}"
       dst = "#{Dir.getwd}/#{file}"
+      puts dst
       File.delete(dst) if File.exist?(dst)
       # TODO: use nokogiri to refomat the file.
       FileUtils.copy_file(src, dst) if File.exist?(src)
@@ -405,7 +411,7 @@ class Main
     f.each do |line|
       if line.match(endUnitPattern)
         currentPath = Dir.getwd
-        copyFiles
+        ##copyFiles
         FileUtils.cd(currentPath)
       end
       if !line.match(labNamePattern).nil?

@@ -167,40 +167,41 @@ class Vocab
   # might be better to have other function to handle that bigger parsing of the whole file #with io.foreach
   def parse_vocab(file)
     doc = File.open(file) { |f| Nokogiri::HTML(f) }
-    vocabSet1 = doc.xpath("//div[@class = 'vocabFullWidth']")
-    # header = parse_vocab_header(doc.xpath(""))
-    vocabSet1.each do |node|
-      child = node.children
-      child.before(add_vocab_unit_to_header)
-      get_vocab_word(node)
-    end
-    add_vocab_to_file(vocabSet1.to_s)
-    vocabSet2 = doc.xpath("//div[@class = 'vocabBig']")
-    vocabSet2.each do |node|
-      child = node.children
-      changeToVocabFullWidth(vocabSet2, node['class'])
-      child.before(add_vocab_unit_to_header)
-      get_vocab_word(node)
-    end
-    add_vocab_to_file(vocabSet2.to_s)
-    vocabSet3 = doc.xpath("//div[@class = 'vocab']")
-    vocabSet3.each do |node|
-      child = node.children
-      changeToVocabFullWidth(vocabSet3, node['class'])
-      child.before(add_vocab_unit_to_header)
-      get_vocab_word(node)
-    end
-    add_vocab_to_file(vocabSet3.to_s)
-    # if not(vocabSet.empty?())
+    vocab_full_size = ["'vocabFullWidth'", "'vocabFullWidth AP-only'"]
+    vocab_partial_size = ["'vocabBig'", "'vocab'"]
 
-    # end
+    vocab_full_size.each do |class_tag|
+      path = "//div[@class = #{class_tag}]"
+      vocab_set = doc.xpath("//div[@class = #{class_tag}]")
+      vocab_set.each do |node|
+        child = node.children
+        child.before(add_vocab_unit_to_header)
+        get_vocab_word(node)
+      end
+      if vocab_set.to_s != ""
+        add_vocab_to_file(vocab_set.to_s)
+      end
+    end
+
+    vocab_partial_size.each do |class_tag|
+      vocab_set2 = doc.xpath("//div[@class = #{class_tag}]")
+      vocab_set2.each do |node|
+        child = node.children
+        change_to_vocabFullWidth(vocab_set2, node['class'])
+        child.before(add_vocab_unit_to_header)
+        get_vocab_word(node)
+      end
+      if vocab_set2.to_s != ""
+        add_vocab_to_file(vocab_set2.to_s)
+      end
+    end
   end
 
-  def changeToVocabFullWidth(vocabSet, clas)
+  def change_to_vocabFullWidth(vocab_set, clas)
     return unless %w[vocabBig vocab].include?(clas)
 
-    vocabSet.remove_class(clas)
-    vocabSet.add_class('vocabFullWidth')
+    vocab_set.remove_class(clas)
+    vocab_set.add_class('vocabFullWidth')
   end
 
   def get_vocab_word(nodeSet)
@@ -271,7 +272,8 @@ class Vocab
 
   def extract_vocab_word(nodeSet)
     nodeSet.each do |n|
-      node = removeArticles(n.text.gsub(/(\s+)$/, '').to_s)
+      kludges = ['the cloud', 'cloud, the']
+      kludges.include?(n.to_s) ? node = n : node = removeArticles(n.text.gsub(/(\s+)$/, '').to_s)
       saveVocabWord(node)
       separateVocab(node)
     end
@@ -310,15 +312,15 @@ class Vocab
     unitNum = return_vocab_unit(@currUnit)
     currentDir = Dir.getwd
     FileUtils.cd('..')
-    link = " <a href=\"#{get_url(vocab_file_name)}\">#{unitNum}</a>"
+    link = " <a href=\"#{get_url(vocab_file_name)}\">#{unitNum}#box#{@boxNum}</a>"
     FileUtils.cd(currentDir)
     link
   end
 
   def add_vocab_unit_to_header
     unitNum = return_vocab_unit(@currUnit)
-    "<a href=\"#{get_url(@currFile)}\">#{unitNum}</a>
-		<a name=\"box#{@boxNum}\" class=\"anchor\">&nbsp;</a>"
+   "<a href=\"#{get_url(@currFile)}\"> #{unitNum}</a>
+    <a name=\"box#{@boxNum}\" class=\"anchor\">&nbsp;</a>"
     # if lst.size > 1
     #	unitSeriesNum = lst.join(" #{withlink}:")
     # else
