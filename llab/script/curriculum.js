@@ -41,6 +41,8 @@ llab.dynamicNavigation = (path) => {
 
 // Executed on *every* page load.
 llab.secondarySetUp = function() {
+  debugger;
+
   let t = llab.translate;
   llab.setupTitle();
   llab.addFooter();
@@ -83,6 +85,20 @@ llab.secondarySetUp = function() {
 
   llab.setupSnapImages();
 
+  // TODO: Consider moving Quiz options to here...
+  llab.additionalSetup([
+    {
+      selector: 'pre > code',
+      libName: 'highlights', // should match llab.optionalLibs
+      onload: llab.highlightSyntax
+    },
+    {
+      selector: '.katex, .katex-inline, .katex-block',
+      libName: 'katex',
+      onload: llab.displayMathDivs
+    }
+  ]);
+
   // TODO: Figure a nicer place to put this...
   // TODO: Rewrite the function to not scan every element.
   if ($('[w3-include-html]')) {
@@ -112,7 +128,49 @@ llab.secondarySetUp = function() {
         }
       }
     });
-  }
+  };
+
+}; // close secondarysetup();
+
+/**
+ * A prelimary API for defining loading additional content based on triggers.
+ *  @{param} array TRIGGERS is an array of {selectors, libName, onload } objects.
+ *  If the selectors are valid, we load *one* CSS and JS file from llab.optionalLibs
+ *  An `onload` function can be supplied, which will be called when the JS file is loaded.
+ */
+
+llab.additionalSetup = triggers => {
+  let items, files;
+  triggers.forEach(({ selector, libName, onload }) => {
+    items = $(selector);
+      if (items.length > 0) {
+        files = llab.optionalLibs[libName];
+        document.head.appendChild(llab.styleTag(files.css));
+        document.head.appendChild(llab.scriptTag(files.js, onload));
+      }
+  });
+}
+
+// Call The Functions to HighlightJS to render
+llab.highlightSyntax = function() {
+  $('pre > code').each(function(i, block) {
+    // Trim the extra whitespace in HTML files.
+    block.innerHTML = block.innerHTML.trim();
+    if (typeof hljs !== 'undefined') {
+      hljs.highlightBlock(block);
+    }
+  });
+}
+
+llab.displayMathDivs = function () {
+  $('.katex, .katex-inline').each(function (_, elm) {
+    katex.render(elm.textContent, elm, {throwOnError: false});
+  });
+  $('.katex-block').each(function (_, elm) {
+    katex.render(elm.textContent, elm, {
+      displayMode: true, throwOnError: false
+    });
+  });
 }; // close secondarysetup();
 
 /**
@@ -139,7 +197,7 @@ llab.processLinks = function(data, _status, _jqXHR) {
   var params = llab.getURLParameters(),
   course = params.course || '',
   topicArray = data.split("\n"),
-  url = document.URL,
+  url = location.href,
   list = $('.js-llabPageNavMenu'),
   itemContent,
   ddItem,
@@ -217,7 +275,7 @@ llab.processLinks = function(data, _status, _jqXHR) {
         title: itemContent
       }));
     } else { // Content reference is local
-      isCurrentPage = document.URL.indexOf(url) !== -1;
+      isCurrentPage = location.href.indexOf(url) !== -1;
       if (url.indexOf(llab.rootURL) === -1 && url.indexOf("..") === -1) {
         url = llab.rootURL + (url[0] === "/" ? '' : "/") + url;
       }
@@ -310,7 +368,6 @@ llab.setupTitle = function() {
 
   // Set the header title to the page title.
   titleText = document.title;
-  console.log('Rebuilding Title', titleText);
   if (titleText) {
     $('.navbar-title').html(titleText);
     $('.title-small-screen').html(titleText);
@@ -495,7 +552,7 @@ llab.loadNewPage = (path) => {
     // this seems like a poor way to debounce multiple clicks.
     setTimeout((() => llab.PREVENT_NAVIGATIONS = false), 500);
   }
-  console.log('LOADING NEW PAGE:', path);
+
   llab.PREVENT_NAVIGATIONS = true;
   fetch(path)
     .then(response => response.text())
@@ -531,7 +588,6 @@ llab.rebuildPageFromHTML = (html, path) => {
   llab.secondarySetUp();
   llab.conditionalSetup(llab.CONDITIONAL_LOADS);
   // TODO:
-  // TODO: handle #anchors in URL?
   // Do we need to fire off any events? Bootstrap? dom loaded?
   window.scrollTo({ top: 0, behavior: 'instant' });
   if (llab.GACode) {
@@ -557,7 +613,7 @@ llab.addFeedback = function(title, topic, course) {
     'PAGE': title,
     'TOPIC': topic,
     'COURSE': course,
-    'URL': document.url
+    'URL': location.href
   });
 
   var button = $(document.createElement('button')).attr({
@@ -637,9 +693,9 @@ llab.setupTranslationsMenu = function() {
   let lang = llab.pageLang();
   let new_url;
   if (lang === 'es') {
-    new_url = location.href.replaceAll('.es.', '.');
+    new_url = location.href.replace(/\.es\./g, '.');
   } else if (lang === 'en') {
-    new_url = location.href.replaceAll('.html', '.es.html').replaceAll('.topic', '.es.topic');
+    new_url = location.href.replace(/\.html/g, '.es.html').replace(/\.topic/g, '.es.topic');
    }
    fetch(new_url).then((response) => {
       if (!response.ok) {
@@ -661,11 +717,8 @@ llab.setupTranslationsMenu = function() {
 
 llab.setupSnapImages = () => {
   $('img.js-runInSnap').each((_idx, elm) => {
-    let $img = $(elm);
-    $img.wrap("<div class='embededImage'></div>");
-    let openURL = llab.getSnapRunURL(encodeURIComponent($img.attr('src')));
-    let $open = $(`<a href="${openURL}" class="openInSnap" target="_blank">Open In Snap!</a>`);
-    $open.insertAfter($img);
+    let openURL = llab.getSnapRunURL($img.attr('src'));
+    $(elm).wrap(`<a href="${openURL}" class="snap-project" target=_blank></a>`);
   });
 };
 
@@ -682,5 +735,6 @@ llab.indicateProgress = function(numSteps, currentStep) {
 
 // Setup the nav and parse the topic file.
 $(document).ready(function() {
+  debugger;
   llab.secondarySetUp();
 });
