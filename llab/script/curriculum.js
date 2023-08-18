@@ -21,6 +21,8 @@ const TOGGLE_HEADINGS = [
 
 // Executed on *every* page load.
 llab.secondarySetUp = function() {
+  debugger;
+
   let t = llab.translate;
   llab.setupTitle();
   llab.addFooter();
@@ -67,12 +69,12 @@ llab.secondarySetUp = function() {
   // TODO: Consider moving Quiz options to here...
   llab.additionalSetup([
     {
-      selectors: 'pre > code',
+      selector: 'pre > code',
       libName: 'highlights', // should match llab.optionalLibs
       onload: llab.highlightSyntax
     },
     {
-      selectors: '.katex, .katex-inline, .katex-block',
+      selector: '.katex, .katex-inline, .katex-block',
       libName: 'katex',
       onload: llab.displayMathDivs
     }
@@ -116,8 +118,9 @@ llab.secondarySetUp = function() {
 
 llab.additionalSetup = triggers => {
   let items, files;
-  triggers.forEach(({ trigger, libName, onload }) => {
-      items = $(trigger);
+  triggers.forEach(({ selector, libName, onload }) => {
+    console.log(selector, libName, onload)
+    items = $(selector);
       if (items.length > 0) {
         files = llab.optionalLibs[libName];
         document.head.appendChild(llab.styleTag(files.css));
@@ -648,5 +651,6 @@ llab.indicateProgress = function(numSteps, currentStep) {
 
 // Setup the nav and parse the topic file.
 $(document).ready(function() {
+  debugger;
   llab.secondarySetUp();
 });
