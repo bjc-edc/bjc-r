@@ -98,8 +98,9 @@ llab.numToOrdinal = (number) => {
     }
 }
 
-MC.prototype.displayNumberAttempts = function(states) {
-    let count = states.length + 1, t = llab.t;
+MC.prototype.displayNumberAttempts = function(attempts) {
+    // if (attempts.length < 1) { return; }
+    let count = attempts.length + 1, t = llab.t;
     this.multipleChoice.find('.numberAttemptsDiv').html(t(
         'attemptMessage',
         { number: count, ordinal: llab.numToOrdinal(count) }
@@ -207,7 +208,7 @@ MC.prototype.render = function() {
         this.multipleChoice.find(".checkAnswerButton").innerHTML = t("Save Answer");
         this.multipleChoice.find(".tryAgainButton").innerHTML = t("Edit Answer");
     } else {
-        this.displayNumberAttempts( this.attempts);
+        this.displayNumberAttempts(this.attempts);
     };
 
     if (this.states.length > 0) {

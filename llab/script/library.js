@@ -87,7 +87,7 @@ llab.getSnapRunURL = function(targeturl, options) {
         origin += path;
     }
 
-    return `${snapURL}${origin}${targeturl}`;
+    return `${snapURL}${origin}${targeturl}?${new Date().toISOString()}`;
 };
 
 llab.pageLang = () => {
@@ -126,7 +126,7 @@ llab.translate = (key, replacements) => {
     }
 
     Object.keys(replacements).forEach(rep => {
-      result = result.replaceAll(`%{${rep}}`, replacements[rep]);
+      result = result.replace(new RegExp(`%{${rep}}`,'g'), replacements[rep]);
     });
     return result;
 };
@@ -138,7 +138,7 @@ llab.t = llab.translate;
 llab.pageLangugeExtension = () => llab.pageLang() == 'en' ? '' : `.${llab.pageLang()}`;
 
 // Turn img.es.png into img.png
-llab.stripLangExtensions = (text) => text.replaceAll(`.${llab.pageLang()}.`, '.');
+llab.stripLangExtensions = (text) => text.replace(/\.${llab.pageLang()}\./g, '.');
 
 // TODO: jQuery3 -- these need to be migrated.
 llab.toggleDevComments = () => { $(llab.DEVELOPER_CLASSES).toggle() };

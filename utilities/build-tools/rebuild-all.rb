@@ -14,15 +14,21 @@ puts "Rebuilding all index/summaries from: #{path}"
 
 puts
 puts 'Rebuilding English CSP'
-en_runner = Main.new(root: path, cur_dir: 'cur/programming', topic_dir: 'nyc_bjc', language: 'en')
-en_runner.skip_test_prompt = false
+en_runner = Main.new(root: path, content: 'cur/programming', course: 'bjc4nyc', language: 'en')
+en_runner.skip_test_prompt = true
 en_runner.Main
 
 puts
 puts 'Rebuilding Espanol CSP'
-es_runner = Main.new(root: path, cur_dir: 'cur/programming', topic_dir: 'nyc_bjc', language: 'es')
-es_runner.skip_test_prompt = false
+es_runner = Main.new(root: path, content: 'cur/programming', course: 'bjc4nyc', language: 'es')
+es_runner.skip_test_prompt = true
 es_runner.Main
+
+puts
+puts 'Rebuilding Sparks'
+sparks_runner = Main.new(root: path, content: 'sparks/student-pages', course: 'sparks', language: 'en')
+sparks_runner.skip_test_prompt = true
+sparks_runner.Main
 
 puts '*' * 80
 puts 'WARNING: DO NOT COMMIT THESE UPDATES UNTIL THIS IS REMOVED'

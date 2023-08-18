@@ -21,6 +21,8 @@ const TOGGLE_HEADINGS = [
 
 // Executed on *every* page load.
 llab.secondarySetUp = function() {
+  debugger;
+
   let t = llab.translate;
   llab.setupTitle();
   llab.addFooter();
@@ -67,12 +69,12 @@ llab.secondarySetUp = function() {
   // TODO: Consider moving Quiz options to here...
   llab.additionalSetup([
     {
-      selectors: 'pre > code',
+      selector: 'pre > code',
       libName: 'highlights', // should match llab.optionalLibs
       onload: llab.highlightSyntax
     },
     {
-      selectors: '.katex, .katex-inline, .katex-block',
+      selector: '.katex, .katex-inline, .katex-block',
       libName: 'katex',
       onload: llab.displayMathDivs
     }
@@ -116,8 +118,9 @@ llab.secondarySetUp = function() {
 
 llab.additionalSetup = triggers => {
   let items, files;
-  triggers.forEach(({ trigger, libName, onload }) => {
-      items = $(trigger);
+  triggers.forEach(({ selector, libName, onload }) => {
+    console.log(selector, libName, onload)
+    items = $(selector);
       if (items.length > 0) {
         files = llab.optionalLibs[libName];
         document.head.appendChild(llab.styleTag(files.css));
@@ -171,7 +174,7 @@ llab.processLinks = function(data, _status, _jqXHR) {
   var params = llab.getURLParameters(),
   course = params.course || '',
   topicArray = data.split("\n"),
-  url = document.URL,
+  url = location.href,
   list = $('.js-llabPageNavMenu'),
   itemContent,
   ddItem,
@@ -246,7 +249,7 @@ llab.processLinks = function(data, _status, _jqXHR) {
         title: itemContent
       }));
     } else { // Content reference is local
-      isCurrentPage = document.URL.indexOf(url) !== -1;
+      isCurrentPage = location.href.indexOf(url) !== -1;
       if (url.indexOf(llab.rootURL) === -1 && url.indexOf("..") === -1) {
         url = llab.rootURL + (url[0] === "/" ? '' : "/") + url;
       }
@@ -531,7 +534,7 @@ llab.addFeedback = function(title, topic, course) {
     'PAGE': title,
     'TOPIC': topic,
     'COURSE': course,
-    'URL': document.url
+    'URL': location.href
   });
 
   var button = $(document.createElement('button')).attr({
@@ -611,9 +614,9 @@ llab.setupTranslationsMenu = function() {
   let lang = llab.pageLang();
   let new_url;
   if (lang === 'es') {
-    new_url = location.href.replaceAll('.es.', '.');
+    new_url = location.href.replace(/\.es\./g, '.');
   } else if (lang === 'en') {
-    new_url = location.href.replaceAll('.html', '.es.html').replaceAll('.topic', '.es.topic');
+    new_url = location.href.replace(/\.html/g, '.es.html').replace(/\.topic/g, '.es.topic');
    }
    fetch(new_url).then((response) => {
       if (!response.ok) { return; }
@@ -630,11 +633,8 @@ llab.setupTranslationsMenu = function() {
 
 llab.setupSnapImages = () => {
   $('img.js-runInSnap').each((_idx, elm) => {
-    let $img = $(elm);
-    $img.wrap("<div class='embededImage'></div>");
-    let openURL = llab.getSnapRunURL(encodeURIComponent($img.attr('src')));
-    let $open = $(`<a href="${openURL}" class="openInSnap" target="_blank">Open In Snap!</a>`);
-    $open.insertAfter($img);
+    let openURL = llab.getSnapRunURL($img.attr('src'));
+    $(elm).wrap(`<a href="${openURL}" class="snap-project" target=_blank></a>`);
   });
 };
 
@@ -651,5 +651,6 @@ llab.indicateProgress = function(numSteps, currentStep) {
 
 // Setup the nav and parse the topic file.
 $(document).ready(function() {
+  debugger;
   llab.secondarySetUp();
 });
