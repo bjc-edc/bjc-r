@@ -1,34 +1,35 @@
 require 'fileutils'
-require 'rio'
+require 'i18n'
+
+require_relative 'bjc_helpers'
+
+TEMP_FOLDER = 'summaries~'
+
+I18n.load_path = Dir['**/*.yml']
+I18n.backend.load_translations
 
 class SelfCheck
+  include BJCHelpers
+
   def initialize(path, language)
     @parentPath = path
     @currUnit = nil
     @isNewUnit = true
     @currUnitNum = 0
     @currLab = ''
-    @vocabFileName = ''
-    @selfCheckFileName = nil
+    @vocab_file_name = ''
     @currUnitName = nil
-    @examFileName = nil
     @language = language
+    @language_ext = language_ext(language)
+    I18n.locale = @language.to_sym
+  end
+
+  def review_folder
+    @review_folder ||= "#{@parentPath}/#{TEMP_FOLDER}"
   end
 
   def isNewUnit(boolean)
     @isNewUnit = boolean
-  end
-
-  def examFileName(name)
-    @examFileName = name
-  end
-
-  def getExamFileName
-    @examFileName
-  end
-
-  def getSelfCheckFileName
-    @selfCheckFileName
   end
 
   def unit
@@ -60,8 +61,12 @@ class SelfCheck
     @currUnitName = str
   end
 
-  def selfCheckFileName(name)
-    @selfCheckFileName = name
+  def self_check_file_name
+    "unit-#{@currUnitNum}-self-check#{@language_ext}.html"
+  end
+
+  def exam_file_name
+    "unit-#{@currUnitNum}-exam-reference#{@language_ext}.html"
   end
 
   def read_file(file)
@@ -79,14 +84,12 @@ class SelfCheck
     title = doc.xpath('//title')
     str = title.to_s
     pattern = %r{</?\w+>}
-    if str.nil? or !@isNewUnit
+    if str.nil? || !@isNewUnit
       nil
     else
       newStr = str.split(pattern)
       currUnit(newStr.join)
       currUnitNum(@currUnit.match(/\d+/).to_s)
-      selfCheckFileName("selfcheck#{@currUnitNum}#{@language_ext}.html")
-      examFileName("exam#{@currUnitNum}#{@language_ext}.html")
       isNewUnit(false)
     end
   end
@@ -121,9 +124,10 @@ class SelfCheck
   def createAssessmentDataFile(fileName, type)
     i = 0
     File.new(fileName, 'w') unless File.exist?(fileName)
-    linesList = rio(@currFile).lines[0..15]
+    linesList = File.readlines(@currFile)[0..15]
     while linesList[i].match(/<body>/).nil?
       if linesList[i].match(/<title>/)
+        # TODO: Use I18n.t() here.
         if @language == 'en'
           File.write(fileName, "<title>Unit #{@currUnitNum} #{type} Questions</title>\n", mode: 'a')
         else
@@ -132,7 +136,7 @@ class SelfCheck
                            else
                              'Examen AP'
                            end
-          File.write(fileName, "<title>Unidad #{@currUnitNum} #{translatedType} </title>\n", mode: 'a')
+          File.write(fileName, "<title>Unidad #{@currUnitNum} #{translatedType}</title>\n", mode: 'a')
         end
       else
         File.write(fileName, "#{linesList[i]}\n", mode: 'a')
@@ -144,21 +148,15 @@ class SelfCheck
   end
 
   def add_HTML_end
-    Dir.chdir("#{@parentPath}/review")
-    ending = "</body>\n</html>"
-    if File.exist?(@selfCheckFileName)
-      File.write(@selfCheckFileName, ending, mode: 'a')
-      reread_and_reformat(@selfCheckFileName)
-    end
+    Dir.chdir(review_folder)
+    ending = "\t</body>\n</html>"
+    File.write(self_check_file_name, ending, mode: 'a') if File.exist?(self_check_file_name)
+    return unless File.exist?(exam_file_name)
 
-    return unless File.exist?(@examFileName)
+    File.write(exam_file_name, ending, mode: 'a')
 
-    File.write(@examFileName, ending, mode: 'a')
-    reread_and_reformat(@examFileName)
-  end
-
-  def reread_and_reformat(file_path)
-    File.write(file_path, Nokogiri.HTML(File.read(file_path)).to_html(indent: 2), mode: 'w')
+    # doesexam_file_name exist?
+    # File.write(exam_file_name, ending, mode: "a")
   end
 
   def add_content_to_file(filename, data, type)
@@ -168,11 +166,10 @@ class SelfCheck
     # data = data.gsub(/\n(\s+)?\n/, "\n")
     if File.exist?(filename)
       File.write(filename, "<h3>#{currLab}</h3>\n", mode: 'a') if lab != currLab
-      File.write(filename, data, mode: 'a')
     else
       createAssessmentDataFile(filename, type)
-      File.write(filename, data, mode: 'a')
     end
+    File.write(filename, data, mode: 'a')
   end
 
   def add_unit_to_header
@@ -186,23 +183,18 @@ class SelfCheck
     list.join('.')
   end
 
-  def destination_dir
-    "#{@parentPath}/review"
-  end
-
-  def add_assessment_to_file(assessment)
-    add_content_to_file("#{destination_dir}/#{@selfCheckFileName}", assessment, 'Self-Check')
+  def add_assessment_to_file(result)
+    add_content_to_file("#{review_folder}/#{self_check_file_name}", result, 'Self-Check')
   end
 
   def add_exam_to_file(exam)
-    add_content_to_file("#{destination_dir}/#{@examFileName}", exam, 'Exam')
+    add_content_to_file("#{review_folder}/#{exam_file_name}", exam, 'Exam')
   end
 
   def get_url(file)
     localPath = Dir.getwd
     linkPath = localPath.match(/bjc-r.+/).to_s
     result = "/#{linkPath}/#{file}"
-    # https://bjc.berkeley.edu
     # add_content_to_file('urlLinks.txt', result)
   end
 end

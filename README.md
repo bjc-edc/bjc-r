@@ -1,6 +1,6 @@
-# bjc-r 
+# bjc-r [EDC][edc] | [Berkeley][berkeley]
 
-The Beauty and Joy of Computing labs repository.
+[The Beauty and Joy of Computing](https://bjc.berkeley.edu) curriculum repository.
 
 ## Cloning this Repo
 
@@ -14,13 +14,17 @@ git clone git@github.com:bjc-edc/bjc-r
 
 There are *two* primary `bjc-r` repositories.
 
-* This repo (`bjc-edc/bjc-r`) contains the high school AP CSP course, Middle School, and spanish translations of curricula
-* `cs10/bjc-r` is ued primary for CS10 at UC Berkeley. [https://cs10.org/bjc-r][cs10]
-* `beautyjoy/bjc-r` currently does not exist, but will become a mirror of the bjc-edc/bjc-r repository.
+* This repo ([`bjc-edc/bjc-r`][edc-gh]) contains the high school AP CSP course, Middle School, and spanish translations of curricula
+* [`cs10/bjc-r`][cs10-gh] is ued primary for CS10 at UC Berkeley. [https://cs10.org/bjc-r][cs10]
+* [`beautyjoy/bjc-r`][bjc-gh] is a mirror of this (bjc-edc/bjc-r) repository, just for hosting.
+
+[edc-gh]: https://github.com/bjc-edc/bjc-r/
+[cs10-gh]: https://github.com/cs10/bjc-r/
+[bjc-gh]: https://github.com/beautyjoy/bjc-r/
 
 ## Viewing the Site
 
-This repo lives on the following two domains:
+The public content is viewable at the following two locations:
 
 * [https://bjc.berkeley.edu/bjc-r][berkeley]
 * [https://bjc.edc.org/bjc-r][edc]
@@ -37,7 +41,7 @@ __No matter the platform, you should server files from `/bjc-r/` at the root of 
 ### macOS and Unix
 The easiest way to setup a server is to use a simple, built-in Python server.
 1. `cd bjc-r` -- Ensure your current directory is at the root of `bjc-r/`
-2. Execute `python3 utilities/server.py`
+2. Execute `./run-server`
   2.1 This **must** be run from within bjc-r.
   2.2 Press Control-C to end the server.
 3. Navigate to [http://localhost:8000/bjc-r][localhost] in a browser.
@@ -46,7 +50,7 @@ The easiest way to setup a server is to use a simple, built-in Python server.
 This server requires Python 3.
 
 ### Windows
-Windows guide coming...sometime. However, the Python solution should work as well, provided you install Python 3.
+As long as you can install Python 3, you should be able to run the same script, either via PowerShell, or WSL, or some other means.
 
 ## Contributing
 
@@ -55,7 +59,7 @@ Windows guide coming...sometime. However, the Python solution should work as wel
 However, for the most part, all you need to do is write some HTML.
 To contribute:
 1. Create your own fork of `bjc-r`.
-2. Optionally: Create a new branch for your feature.
+2. Create a new branch for your feature.
 3. Work away!
 4. Create a pull request.
 5. Get feedback on the pull request and make changes as needed.
@@ -63,16 +67,9 @@ To contribute:
 
 Of course, submitting issues is always welcome and encouraged! These issues can be bugs, questions, improvements or anything you'd like to share.
 
-## UC Berkeley Deployment Process (March 2022)
+## UC Berkeley Deployment Process
 
-The repo's `master` branch should always be in a directly deployable state. The files can be put on a web server inside a folder served at `/bjc-r` without modification. Each time we want to deploy the curriculum, we create a [Release](https://github.com/bjc-edc/bjc-r/releases). (Releases show in git as a tag when you check out the code.)
-
-1. ssh into user@abbenay.cs.berkeley.edu
-2. Your home directory should be `~/bjc` (`/home/bh/public_html/bjc/`
-3. `cd bjc-r`
-4. `git fetch`
-5. Look at the latest releases, should be at the bottom of the output.
-6. `git checkout [tag name]`, e.g. `git checkoutout 2022-03-15`
+The UC Berkeley version is the `live` branch of the repo beautyjoy/bjc-r on GitHub.
 
 ## License
 [CC-BY-NC-SA 3.0][cc]

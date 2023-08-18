@@ -13,98 +13,39 @@ llab.url_list = [];
 
 var FULL = llab.selectors.FULL;
 
-const TRANSLATIONS = {
-  'ifTime': {
-    en: 'If There Is Time…',
-    es: 'Si hay tiempo…',
-  },
-  'takeItFurther': {
-    en: 'Take It Further…',
-    es: 'Llevándolo más allá',
-  },
-  'takeItTeased': {
-    en: 'Take It Further…',
-    es: 'Llevándolo más allá',
-  },
-  'backText': {
-    en: 'previous page',
-    es: 'previous page',
-  },
-  'nextText': {
-    en: 'next page',
-    es: 'next page',
-  },
-  'selfCheckTitle': {
+const TOGGLE_HEADINGS = [
+  'ifTime',
+  'takeItFurther',
+  'takeItTeased',
+];
 
-  }
-};
-
-// very loosely mirror the Rails API
-llab.translate = (key, lang) => {
-  lang ||= llab.pageLang();
-  let options = TRANSLATIONS[key];
-  if (!options) { return 'UNKNOWN'; }
-  let result = options[lang];
-  if (!result) {
-    return options['en'] || 'UNKOWN';
-  }
-  return result;
-};
-let t = llab.translate;
-
-llab.pageLang = () => {
-  let pageLanguage = $("html").attr('lang');
-  if (!pageLanguage) {
-    let altLang = location.pathname.match(/(\.\w\w).html/)
-    if (altLang) {
-      pageLanguage = altLang;
-    }
-  }
-  return pageLanguage || 'en';
-}
-
-// Executed on each page load.
-// TODO: Should probably be slip into a better place.
+// Executed on *every* page load.
 llab.secondarySetUp = function() {
+  debugger;
+
+  let t = llab.translate;
   llab.setupTitle();
+  llab.addFooter();
 
   // Get the topic file and step from the URL
   llab.file = llab.getQueryParameter("topic");
 
-  llab.addFeedback(document.title, llab.file, llab.getQueryParameter('course'));
-  llab.addFooter();
-
-  // We don't have a topic file, so we should exit.
-  if (llab.file === '' || !llab.isCurriculum()) {
-    return;
-  }
-
   // fix snap links so they run snap
-  $('a.run').each(function(_i) {
-    $(this).attr('target', '_blank');
-    $(this).attr('href', llab.getSnapRunURL(this.getAttribute('href')));
-  });
-
-  $('.js-run').each(function(_i) {
+  $('.js-run, a.run').each(function(_i) {
     $(this).attr('target', '_blank');
     $(this).attr('href', llab.getSnapRunURL(this.getAttribute('href'))); // {version: 'v7'}
   });
 
   // Return the name of the class on element if it is a class in optionalContent
-  function lookupClassName(optionalContent, classList) {
-    for (let key in optionalContent) {
-      if (classList.includes(key)) {
-        return key;
-      }
-    }
-    return null;
+  function lookupClassName(toggleClasses, classList) {
+    return toggleClasses.find(className => classList.includes(className));
   }
 
-  let classSelector = `div.${Object.keys(TRANSLATIONS).join(',div.')}`;
+  let classSelector = `div.${TOGGLE_HEADINGS.join(',div.')}`;
   $(classSelector).each(function(i) {
     let classList = Array.from(this.classList);
     let isVisible = classList.indexOf('show') > -1;
-    let contentType = lookupClassName(TRANSLATIONS, classList);
+    let contentType = lookupClassName(TOGGLE_HEADINGS, classList);
     let id = `hint-${contentType}-${i}`;
     this.innerHTML = `
       <a style='font-size: 18px;' href='#${id}' data-toggle='collapse'
@@ -125,75 +66,71 @@ llab.secondarySetUp = function() {
 
   llab.setupSnapImages();
 
+  // TODO: Consider moving Quiz options to here...
   llab.additionalSetup([
-    {  // TODO: PUT THESE CLASSES SOMEWHERE
-      trigger: 'pre code',
-      function: llab.codeHighlightSetup()
+    {
+      selector: 'pre > code',
+      libName: 'highlights', // should match llab.optionalLibs
+      onload: llab.highlightSyntax
     },
-    {   // TODO: PUT THESE CLASSES SOMEWHERE
-      trigger: '.katex, .katex-inline, .katex-block',
-      function: llab.mathDisplaySetup()
+    {
+      selector: '.katex, .katex-inline, .katex-block',
+      libName: 'katex',
+      onload: llab.displayMathDivs
     }
   ]);
 
+  // TODO: Figure a nicer place to put this...
+  // TODO: Rewrite the function to not scan every element.
+  if ($('[w3-include-html]')) {
+    w3.includeHTML();
+  }
+
+  llab.addFeedback(document.title, llab.file, llab.getQueryParameter('course'));
+
+  // We don't have a topic file, so we should exit.
+  if (llab.file === '' || !llab.isCurriculum()) {
+    return;
+  }
+
   $.ajax({
-    url: `${llab.rootURL}topic/${llab.file}`,
+    url: `${llab.topics_path}/${llab.file}`,
     type: "GET",
     contentType: 'text/plain; charset=UTF-8',
     dataType: "text",
     cache: false,
     success: llab.processLinks,
-    error: function(_jqXHR, status, error) {
-      // TODO: We should push errors to Google Analytics
-      console.log('Error Accessing Topic: ' + llab.file);
-      console.log('Error: ' + error);
-      console.log('Status: ' + status);
+    error: (_jqXHR, _status, error) => {
+      if (Sentry) {
+        Sentry.captureException(error);
+      }
     }
   });
 
 }; // close secondarysetup();
 
+/**
+ * A prelimary API for defining loading additional content based on triggers.
+ *  @{param} array TRIGGERS is an array of {selectors, libName, onload } objects.
+ *  If the selectors are valid, we load *one* CSS and JS file from llab.optionalLibs
+ *  An `onload` function can be supplied, which will be called when the JS file is loaded.
+ */
 
-/** A prelimary API for defining loading additional content based on triggers.
-*  @{param} array TRIGGERS is an array of {trigger, callback} pairs.
-*  a `trigger` is currently a CSS selector that gets passed to $ to see if any
-*  of those elements are on the current page. If the elements are found then a
-*  `callback` is called with no arguments.
-*  TODO: Cleanup and test this code.
-*  TODO: Explore ideas for better trigger options?
-*/
-llab.additionalSetup = function(triggers) {
-  var items;
-  triggers.forEach(function (obj) {
-    if (obj.trigger && obj.function) {
-      items = $(trigger);
-      if (items.length) {
-        Function.call(null, obj.function);
+llab.additionalSetup = triggers => {
+  let items, files;
+  triggers.forEach(({ selector, libName, onload }) => {
+    console.log(selector, libName, onload)
+    items = $(selector);
+      if (items.length > 0) {
+        files = llab.optionalLibs[libName];
+        document.head.appendChild(llab.styleTag(files.css));
+        document.head.appendChild(llab.scriptTag(files.js, onload));
       }
-    }
   });
-}
-
-/** Import the required JS and CSS for Code highlighting.
-*  TODO: Abstract this away into its own function
-*/
-llab.codeHighlightSetup = function () {
-  var cssFile, jsFile, css, js;
-  cssFile = llab.paths.syntax_highlighting_css;
-  jsFile  = llab.paths.syntax_highlights;
-  css = getTag('link', cssFile, 'text/css');
-  css.rel = "stylesheet";
-  js = getTag('script', jsFile, 'text/javascript');
-  // onload function
-  $(js).attr({'onload': 'llab.highlightSyntax()'});
-  // Using $ to append to head causes onload not to be fired...
-  document.head.appendChild(css);
-  document.head.appendChild(js);
 }
 
 // Call The Functions to HighlightJS to render
 llab.highlightSyntax = function() {
-  // TODO: PUT THESE CLASSES SOMEWHERE
   $('pre > code').each(function(i, block) {
     // Trim the extra whitespace in HTML files.
     block.innerHTML = block.innerHTML.trim();
@@ -203,29 +140,11 @@ llab.highlightSyntax = function() {
   });
 }
 
-/** Import the required JS and CSS for LaTeX Code.
-*  TODO: Abstract this away into its own function
-*/
-llab.mathDisplaySetup = function () {
-  var cssFile, jsFile, css, js;
-  cssFile = llab.paths.katex_css;
-  jsFile  = llab.paths.math_katex_js;
-  css = getTag('link', cssFile, 'text/css');
-  css.rel = "stylesheet";
-  js = getTag('script', jsFile, 'text/javascript');
-  // onload function
-  $(js).attr({'onload': 'llab.displayMathDivs()'});
-  // Using $ to append to head causes onload not to be fired...
-  document.head.appendChild(css);
-  document.head.appendChild(js);
-}
-
-// Call the KaTeX APIS to render the LaTeX code.
 llab.displayMathDivs = function () {
-  $('.katex, .katex-inline').each(function (idx, elm) {
+  $('.katex, .katex-inline').each(function (_, elm) {
     katex.render(elm.textContent, elm, {throwOnError: false});
   });
-  $('.katex-block').each(function (idx, elm) {
+  $('.katex-block').each(function (_, elm) {
     katex.render(elm.textContent, elm, {
       displayMode: true, throwOnError: false
     });
@@ -255,13 +174,8 @@ llab.processLinks = function(data, _status, _jqXHR) {
   var params = llab.getURLParameters(),
   course = params.course || '',
   topicArray = data.split("\n"),
-  url = document.URL,
-  // TODO: Move this to a dropdown function
-  list = $(document.createElement("ul")).attr({
-    'class': 'dropdown-menu dropdown-menu-right',
-    'role': 'menu',
-    'aria-labeledby': 'Topic-Navigation-Menu'
-  }),
+  url = location.href,
+  list = $('.js-llabPageNavMenu'),
   itemContent,
   ddItem,
   line,
@@ -335,7 +249,7 @@ llab.processLinks = function(data, _status, _jqXHR) {
         title: itemContent
       }));
     } else { // Content reference is local
-      isCurrentPage = document.URL.indexOf(url) !== -1;
+      isCurrentPage = location.href.indexOf(url) !== -1;
       if (url.indexOf(llab.rootURL) === -1 && url.indexOf("..") === -1) {
         url = llab.rootURL + (url[0] === "/" ? '' : "/") + url;
       }
@@ -359,25 +273,21 @@ llab.processLinks = function(data, _status, _jqXHR) {
     if (course.indexOf("//") === -1) {
       course = llab.courses_path + course;
     }
-    itemContent = llab.spanTag(llab.strings.goMain, 'course-link-list');
+    itemContent = llab.spanTag(llab.t(llab.strings.goMain), 'course-link-list');
     ddItem = llab.dropdownItem(itemContent, course);
     list.prepend(ddItem);
   }
   // Setup the nav button links and build the dropdown.
   llab.setButtonURLs();
-  llab.buildDropdown();
-  // FIXME -- will break on pages with multiple dropdowns (future)
-  $('.dropdown').append(list);
+
+  $('.js-navDropdown').append(list);
   // Set the max-height of the dropdown list to not exceed window height
   // This is particularly important for smaller screens.
-  $('.dropdown-menu').css('max-height', $(window).height() * 0.8);
-  $('.dropdown-menu').css('max-width', Math.min($(window).width() * 0.8, 450));
+  $('.dropdown-menu').css('max-height', $(window).height() * 0.6);
+  $('.dropdown-menu').css('max-width', Math.min($(window).width(), 450));
 
-  llab.addTransitionLinks();
 
-  // FIXME -- this doesn't belong here.
   llab.indicateProgress(llab.url_list.length, llab.thisPageNum() + 1);
-
 }; // end processLinks()
 
 
@@ -421,7 +331,6 @@ llab.setupTitle = function() {
   // Create the header section and nav buttons
   llab.createTitleNav();
 
-  // create Title tag, yo
   var titleText = llab.getQueryParameter("title");
   if (titleText !== '') {
     document.title = titleText;
@@ -430,7 +339,6 @@ llab.setupTitle = function() {
   // Set the header title to the page title.
   titleText = document.title;
   if (titleText) {
-    // FIXME this needs to be a selector
     $('.navbar-title').html(titleText);
     $('.title-small-screen').html(titleText);
   }
@@ -453,93 +361,102 @@ llab.createTitleNav = function() {
   llab.setUpDevComments();
 
   // The BJC Logo takes you to the course ToC, or the BJC index when there is no course defined.
-  let navDestination = '/bjc-r';
-  let logoURL = '/bjc-r/img/header-footer/bjc-logo-sm2.png';
+  let t = llab.t,
+      navURL = '/bjc-r/',
+      logoURL = '/bjc-r/img/header-footer/bjc-logo-sm2.png';
   if (llab.getQueryParameter('course')) {
-    navDestination = `/bjc-r/course/${llab.getQueryParameter('course')}`;
-  } else if (location.pathname.indexOf('/bjc-r/course/')) {
-    navDestination = location.pathname;
+    navURL = `/bjc-r/course/${llab.getQueryParameter('course')}`;
+  } else if (location.pathname.indexOf('/bjc-r/course/') == 0) {
+    navURL = location.pathname;
   }
 
-  var topHTML = `
-    <nav class="llab-nav navbar navbar-default navbar-fixed-top nopadtb" role="navigation">
-      <div class="nav navbar-nav navbar-left">
-        <a class="site-title" rel="author" href="${navDestination}">
-          <img src="${logoURL}" alt="BJC logo" class="pull-left">
+  let previousPageButton = `
+      <a class='btn btn-nav hidden js-backPageLink js-navButton'
+        aria-label="${t('backText')}">
+        <i class="fas fa-arrow-left" aria-hidden=true></i>
+      </a>`,
+    nextPageButton = `
+      <a class='btn btn-nav hidden js-nextPageLink js-navButton'
+        aria-label="${t('nextText')}">
+        <i class="fas fa-arrow-right" aria-hidden=true></i>
+      </a>`,
+    topHTML = `
+    <nav class="llab-nav navbar navbar-fixed-top" role="navigation">
+      <div class="nav navbar-left">
+        <a class="navbar-brand" rel="author" href="${navURL}"
+          aria-label="${t('Go to Index')}">
+          <img src="${logoURL}" alt="${t('BJC logo')}">
         </a>
         <div class="navbar-title"></div>
       </div>
-      <div class="nav navbar-nav navbar-right">
-        <ul class="nav-btns btn-group"></ul>
-      </div>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown js-langDropdown nav-lang-dropdown hidden">
+          <a class="btn btn-nav btn-nav-lang dropdown-toggle" type="button"
+            aria-label=${t('Switch language')} role="button" tabindex=1
+            id="dropdown-langs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="far fa-globe" aria-hidden=true></i>
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="dropdown-langs">
+            <li><a class="js-switch-lang-en">English</a></li>
+            <li><a class="js-switch-lang-es">Español</a></li>
+          </ul>
+        </li>
+        <li class="nav-btn-group nav-btn-group-first">${previousPageButton}</li>
+        <li class="nav-btn-group dropdown js-navDropdown js-navButton hidden">
+          <a class="btn btn-nav dropdown-toggle"
+            type="button" role="button" tabindex=1
+            aria-label="${t('Navigation Menu')}"
+            id="Topic-Navigation-Menu" data-toggle="dropdown"
+            aria-haspopup=true aria-expanded=false>
+            <i class="fas fa-bars" aria-hidden=true></i>
+          </a>
+          <ul class="js-llabPageNavMenu dropdown-menu"
+            role="menu" aria-labeledby='Topic-Navigation-Menu'>
+          </ul>
+        </li>
+        <li class="nav-btn-group nav-btn-group-last">${nextPageButton}</li>
+      </ul>
       <div class="trapezoid"></div>
     </nav>
-    <div class="title-small-screen"></div>
-    `,
-    botHTML = '<div class="full-bottom-bar"><div class="bottom-nav btn-group"></div></div>',
-    topNav = $(llab.selectors.NAVSELECT),
-    buttons = `<a class='btn btn-default backbutton arrow' aria-label="${t('backText')}">←</a><a class='btn btn-default forwardbutton arrow' aria-label="${t('nextText')}">→</a>`;
+    <div class="title-small-screen"></div>`,
+    botHTML = `
+      <div class="full-bottom-bar">
+        <div class="js-navButton hidden" style="float: left">
+          ${previousPageButton}
+        </div>
+        <div class="progress-indicator"></div>
+        <div class="js-navButton hidden" style="float: right">
+          ${nextPageButton}
+        </div>
+      </div>`,
+    topNav = $(llab.selectors.NAVSELECT);
 
   if (topNav.length === 0) {
     $(document.body).prepend(topHTML);
   }
 
+  llab.setupTranslationsMenu();
+
   // Don't add anything else if we don't know the step...
   // FUTURE - We should separate the rest of this function if necessary.
-  if (!llab.isCurriculum()) {
-    return;
-  }
+  if (!llab.isCurriculum()) { return; }
 
-  // TODO: selector...
-  $('.nav-btns').append(buttons);
   if ($(llab.selectors.PROGRESS).length === 0) {
     $(document.body).append(botHTML);
-    $('.bottom-nav').append(buttons);
   }
 
-  llab.setButtonURLs();
-};
-
-
-// Create the navigation dropdown
-llab.buildDropdown = function() {
-  var dropdown, list_header;
-  // Container div for the whole menu (title + links)
-  dropdown = $(document.createElement("div")).attr(
-    {'class': 'dropdown inline'}
-  );
-
-  // build the list header
-  list_header = $(document.createElement("button")).attr(
-    {'class': 'navbar-toggle btn dropdown-toggle list_header btn-default',
-    'type' : 'button', 'data-toggle' : "dropdown" }
-  );
-  list_header.append(llab.fragments.hamburger);
-
-  // Add Header to dropdown
-  dropdown.append(list_header);
-  // Insert into the top div AFTER the backbutton.
-  dropdown.insertAfter($('.navbar-default .navbar-right .backbutton'));
+  llab.setButtonURLs(); // TODO-INVESTIGATE: We should be able to remove this.
 };
 
 /** Build an item for the navigation dropdown
 *  Takes in TEXT and a URL and reutrns a list item to be added
 *  too an existing dropdown */
 llab.dropdownItem = function(text, url) {
-  var item, link;
-  // li container
-  item = $(document.createElement("li")).attr(
-    {'class': 'list_item', 'role' : 'presentation'}
-  );
   if (url) {
-    link = $('<a>').attr({'href': url, 'role' : 'menuitem'});
-    link.html(text);
-    item.append(link);
-  } else {
-    item.html(text);
+    text = `<a href=${url} role="menuitem">${text}</a>`;
   }
 
-  return item;
+  return $(`<li role="presentation">${text}</li>`);
 };
 
 // Pages directly within a lab. Excludes 'topic' and 'course' pages.
@@ -547,7 +464,7 @@ llab.isCurriculum = function() {
   if (llab.getQueryParameter('topic')) {
     return ![
       llab.empty_topic_page_path, llab.topic_launch_page, llab.alt_topic_page
-    ].includes(location.pathname);
+    ].includes(llab.stripLangExtensions(location.pathname));
   }
   return false;
 }
@@ -563,47 +480,34 @@ llab.thisPageNum = function() {
 // Create the Forward and Backward buttons, properly disabling them when needed
 llab.setButtonURLs = function() {
   // No dropdowns for places that don't have a step.
-  if (!llab.isCurriculum()) {
-    return;
-  }
+  if (!llab.isCurriculum()) { return; }
 
-  var forward = $('.forwardbutton'), back = $('.backbutton');
+  // TODO: Should this happen ever?
+  var forward = $('.js-nextPageLink'), back = $('.js-backPageLink');
   var buttonsExist = forward.length !== 0 && back.length !== 0;
-
   if (!buttonsExist & $(llab.selectors.NAVSELECT) !== 0) {
-    // freshly minted buttons. MMM, tasty!
     llab.createTitleNav();
   }
 
-  forward = $('.forwardbutton');
-  back = $('.backbutton');
+  forward = $('.js-nextPageLink');
+  back = $('.js-backPageLink');
+  $('.js-navButton').removeClass('hidden');
 
-  // Disable the back button
-  // TODO: switch from using `.disabled` to [disabled] in css
-  var thisPage = llab.thisPageNum();
-  if (thisPage === 0) {
-    back.each(function(i, item) {
-      $(item).addClass('disabled').removeAttr('href').attr('disabled', true);
-    });
+  if (llab.thisPageNum() === 0) {
+    back.addClass('disabled').removeAttr('href').attr('disabled', true);
   } else {
-    back.each(function(i, item) {
-      $(item).removeClass('disabled').removeAttr('disabled')
-      .attr('href', llab.url_list[thisPage - 1])
+    back.removeClass('disabled').removeAttr('disabled')
+      .attr('href', llab.url_list[llab.thisPageNum() - 1])
       .click(llab.goBack);
-    });
   }
 
   // Disable the forward button
-  if (thisPage === llab.url_list.length - 1) {
-    forward.each(function(i, item) {
-      $(item).addClass('disabled').removeAttr('href').attr('disabled', true);
-    });
+  if (llab.thisPageNum() === llab.url_list.length - 1) {
+    forward.addClass('disabled').removeAttr('href').attr('disabled', true);
   } else {
-    forward.each(function(i, item) {
-      $(item).removeClass('disabled').removeAttr('disabled')
-      .attr('href', llab.url_list[thisPage + 1])
+    forward.removeClass('disabled').removeAttr('disabled')
+      .attr('href', llab.url_list[llab.thisPageNum() + 1])
       .click(llab.goForward);
-    });
   }
 };
 
@@ -618,22 +522,19 @@ llab.goForward = function() {
 
 llab.addFeedback = function(title, topic, course) {
   // Prevent Button on small devices
-  if (screen.width < 1024) {
-    return;
-  }
+  if (screen.width < 1024) { return; }
 
-  // Prevent Feedback Button on non Teacher Guide pages (Added by Mary Fries on 10/16/17)
+  // Show Feedback ONLY on Teacher Guide
   if (location.pathname.slice(0,25) != "/bjc-r/cur/teaching-guide") {
     return;
   }
 
-  // TODO: Make this config
   var surveyURL = 'https://getfeedback.com/r/LRm9oI3N?';
   surveyURL += $.param({
     'PAGE': title,
     'TOPIC': topic,
     'COURSE': course,
-    'URL': document.url
+    'URL': location.href
   });
 
   var button = $(document.createElement('button')).attr({
@@ -668,8 +569,8 @@ llab.addFeedback = function(title, topic, course) {
   $(document.body).append(feedback);
 };
 
-// Footer content added by Mary on 1/20/16 was moved outside of feedback function by Mary on 10/16/17
-llab.addFooter = function() {
+// TODO: Move to bootstrap classes (wait until BS5)
+llab.addFooter = () => {
   $(document.body).append(
     `<footer>
       <div class="footer wrapper margins">
@@ -703,36 +604,37 @@ llab.addFooter = function() {
 }
 
 // Show a link 'switch to espanol' or 'switch to english' depending on the current language
-llab.addTransitionLinks = function() {
-  let currentPage = location.pathname.split('/').pop();
+// TODO: Move this to a dropdown menu in the navbar with a globe icon
+llab.setupTranslationsMenu = function() {
+  if (!llab.isLocalEnvironment()) { return; }
+
   // extract the language from the file name
   // make an ajax call to get the file name in the other language
   // if the file exists, add a link to it
-  let langMatcher = currentPage.match(/\.(es)\./);
-  let lang = langMatcher ? langMatcher[1] : 'en', new_url, btn_text;
+  let lang = llab.pageLang();
+  let new_url;
   if (lang === 'es') {
-    new_url = location.href.replaceAll('.es.', '.');
-    btn_text = 'Switch to English';
+    new_url = location.href.replace(/\.es\./g, '.');
   } else if (lang === 'en') {
-    new_url = location.href.replaceAll('.html', '.es.html').replaceAll('.topic', '.es.topic');
-    btn_text = 'Cambiar a Español';
+    new_url = location.href.replace(/\.html/g, '.es.html').replace(/\.topic/g, '.es.topic');
    }
    fetch(new_url).then((response) => {
       if (!response.ok) { return; }
-      let link = `<a href="${new_url}" class="btn btn-default imageRight" role="button">
-          ${btn_text}
-        </a>`;
-      $('.full').prepend(link);
+      $('.js-langDropdown').removeClass('hidden');
+      if (lang == 'es') {
+        $('.js-switch-lang-es').attr('href', location.href);
+        $('.js-switch-lang-en').attr('href', new_url);
+      } else if (lang == 'en') {
+        $('.js-switch-lang-es').attr('href', new_url);
+        $('.js-switch-lang-en').attr('href', location.href);
+      }
    }).catch(() => {});
 }
 
 llab.setupSnapImages = () => {
   $('img.js-runInSnap').each((_idx, elm) => {
-    let $img = $(elm);
-    $img.wrap("<div class='embededImage'></div>");
-    let openURL = llab.getSnapRunURL(encodeURIComponent($img.attr('src')));
-    let $open = $(`<a href="${openURL}" class="openInSnap" target="_blank">Open In Snap!</a>`);
-    $open.insertAfter($img);
+    let openURL = llab.getSnapRunURL($img.attr('src'));
+    $(elm).wrap(`<a href="${openURL}" class="snap-project" target=_blank></a>`);
   });
 };
 
@@ -740,28 +642,15 @@ llab.setupSnapImages = () => {
 *  Positions an image along the bottom of the lab page, signifying progress.
 *  numSteps is the total number of steps in the lab
 *  currentStep is the number of the current step
-*  Note, these steps are 0 indexed!
 */
 llab.indicateProgress = function(numSteps, currentStep) {
-  var progress = $(llab.selectors.PROGRESS),
-  width = progress.width(),
-  // TODO: This neeeds to be a global selector!!
-  btns = $('.bottom-nav').width(),
-  pctMargin, result; // result stores left-offset of background image.
-
-  /* This works as long as the buttons are on the RIGHT of the image to be
-  * moved. The image on the last step will be moved at most the % width of
-  * the buttons.
-  */
-  pctMargin = (btns / width) * 100;
-  result = currentStep /  (numSteps + 1);
-  result = result * (100 - pctMargin);
-  result = result + "% 3px";
-  // 3px == height of bottom-bar - image height == (32px - 26px)/ 2
-  progress.css("background-position", result);
+  $(llab.selectors.PROGRESS).css(
+    "background-position", `${currentStep / (numSteps) * 100}% 0`
+  );
 };
 
 // Setup the nav and parse the topic file.
 $(document).ready(function() {
+  debugger;
   llab.secondarySetUp();
 });

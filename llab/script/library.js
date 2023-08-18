@@ -8,7 +8,52 @@
 // retrieve llab or create an empty version.
 llab = llab || {};
 llab.loaded = llab.loaded || {};
+llab.DEVELOPER_CLASSES = '.todo, .comment, .commentBig, .ap-standard, .csta-standard'
 
+////// TRANSLATIONS -- Shared Across All Files.
+llab.TRANSLATIONS = {
+    'ifTime': {
+      en: 'If There Is Time…',
+      es: 'Si hay tiempo…',
+    },
+    'takeItFurther': {
+      en: 'Take It Further…',
+      es: 'Llevándolo más allá',
+    },
+    'takeItTeased': {
+      en: 'Take It Further…',
+      es: 'Llevándolo más allá',
+    },
+    'backText': {
+      en: 'previous page',
+      es: 'Anterior',
+    },
+    'nextText': {
+      en: 'next page',
+      es: 'Siguiente',
+    },
+    'selfCheckTitle': {
+      en: 'Self-Check Question',
+      es: 'Autoevaluación',
+    },
+    'Try Again': {
+      es: 'Intentarlo de nuevo',
+    },
+    'Check Answer': {
+      es: 'Comprobar respuesta',
+    },
+    'successMessage': {
+      en: 'You have successfully completed this question!',
+      es: '¡Has completado la pregunta correctamente!',
+    },
+    'attemptMessage': {
+      en: 'This is your %{ordinal} attempt.',
+      es: 'Este es tu intento n.º %{number}.',
+    },
+    'Go to Table of Contents': {
+      es: 'Ir a la tabla de contenido'
+    }
+};
 
 /////////////////
 llab.snapRunURLBase = "https://snap.berkeley.edu/snap/snap.html#open:";
@@ -42,27 +87,65 @@ llab.getSnapRunURL = function(targeturl, options) {
         origin += path;
     }
 
-    return `${snapURL}${origin}${targeturl}`;
+    return `${snapURL}${origin}${targeturl}?${new Date().toISOString()}`;
 };
 
-llab.toggleDevComments = function() {
-    $(".todo, .comment, .commentBig").toggle();
+llab.pageLang = () => {
+    if (llab.CURRENT_PAGE_LANG) {
+        return llab.CURRENT_PAGE_LANG;
+    }
+
+    let htmlLang = $("html").attr('lang');
+    if (!htmlLang) {
+        htmlLang = llab.determineAltLang();
+        $("html").attr('lang', htmlLang);
+    }
+    llab.CURRENT_PAGE_LANG = htmlLang || 'en';
+    return llab.CURRENT_PAGE_LANG;
+}
+
+// Use the filename of the HTML file or course file, or topic file to determine page language.
+llab.determineAltLang = () => {
+    let altLang = location.href.match(/\.(\w\w)\.(html|topic)/);
+    if (altLang) {
+        return altLang[1];
+    }
+    return 'en'
+}
+
+
+// very loosely mirror the Rails API
+llab.translate = (key, replacements) => {
+    if (!llab.TRANSLATIONS || !llab.TRANSLATIONS[key]) { return key; }
+    if (!replacements) { replacements = {}; }
+
+    let lang = llab.pageLang(),
+        result = llab.TRANSLATIONS[key][lang];
+    if (result !== '' && !result) {
+      result = llab.TRANSLATIONS[key]['en'] || key;
+    }
+
+    Object.keys(replacements).forEach(rep => {
+      result = result.replace(new RegExp(`%{${rep}}`,'g'), replacements[rep]);
+    });
+    return result;
 };
 
-llab.hideAllDevComments = function() {
-    $('.todo, .comment, .commentBig').hide();
-}
+llab.t = llab.translate;
 
-llab.showAllDevComments = function() {
-    $('.todo, .comment, .commentBig').show();
-}
+// TODO: Figure out how to handle common pages that are translated
+// e.g. topic.html and topic.es.html are both topic files...
+llab.pageLangugeExtension = () => llab.pageLang() == 'en' ? '' : `.${llab.pageLang()}`;
 
-llab.canShowDevComments = function() {
-    return ['localhost', '127.0.0.1'].includes(window.location.hostname);
-}
+// Turn img.es.png into img.png
+llab.stripLangExtensions = (text) => text.replace(/\.${llab.pageLang()}\./g, '.');
 
-llab.setUpDevComments = function() {
-    if (llab.canShowDevComments()) {
+// TODO: jQuery3 -- these need to be migrated.
+llab.toggleDevComments = () => { $(llab.DEVELOPER_CLASSES).toggle() };
+llab.showAllDevComments = () => { $(llab.DEVELOPER_CLASSES).show() };
+
+llab.setUpDevComments = () => {
+    if (llab.isLocalEnvironment()) {
         if ($('.js-commentBtn').length < 1) {
             let addToggle = $('<button class="imageRight btn btn-default js-commentBtn">')
                 .click(llab.toggleDevComments)
@@ -73,7 +156,6 @@ llab.setUpDevComments = function() {
     }
 }
 
-
 /** Returns the value of the URL parameter associated with NAME. */
 llab.getQueryParameter = function(paramName) {
     var params = llab.getURLParameters();
@@ -83,6 +165,13 @@ llab.getQueryParameter = function(paramName) {
         return '';
     }
 };
+
+// TODO: Write a use this function.
+// This should return the "type" of a page used in the repo:
+// course, topic, curriculum -- maybe others later (summaries? teacher guide?)
+llab.curentPageType = () => {
+    return false;
+}
 
 /** Strips comments off the line in a topic file. */
 llab.stripComments = function(line) {
@@ -98,18 +187,15 @@ llab.stripComments = function(line) {
  * To make use of this code, the two ga() functions need to be called
  * on each page that is loaded, which means this file must be loaded.
  */
-llab.GA = function() {
-    let ga_url = `https://www.googletagmanager.com/gtag/js?id=${llab.GACode}`;
-    document.head.appendChild(getTag('script', ga_url, 'text/javascript'));
-};
-
-// GA Function Calls -- these do the real work!:
 if (llab.GACode) {
-    llab.GA();
+    document.head.appendChild(getTag(
+        'script',
+        `https://www.googletagmanager.com/gtag/js?id=${llab.GACode}`,
+        'text/javascript'
+    ));
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+    function gtag(){ dataLayer.push(arguments); }
     gtag('js', new Date());
-
     gtag('config', llab.GACode);
 }
 
@@ -250,16 +336,14 @@ llab.fragments = {};
 // These are common strings that need not be build and should be reused!
 llab.strings = {};
 llab.strings.goMain = 'Go to Table of Contents';
-// &#8230; is ellipsis
-llab.strings.clickNav = 'Click here to navigate&nbsp;&nbsp;';
-//
-llab.fragments.bootstrapSep = '<li class="divider list_item" role="presentation"></li>';
+llab.fragments.bootstrapSep = '<li class="divider" role="presentation"></li>';
 llab.fragments.bootstrapCaret = '<span class="caret"></span>';
+// TODO: Translate this
 llab.fragments.hamburger = '<span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>';
 // LLAB selectors for common page elements
 llab.selectors.FULL = '.full';
 llab.selectors.NAVSELECT = '.llab-nav';
-llab.selectors.PROGRESS = '.full-bottom-bar';
+llab.selectors.PROGRESS = '.progress-indicator';
 
 //// cookie stuff
 // someday my framework will come, but for now, stolen blithely from http://www.quirksmode.org/js/cookies.html
@@ -284,34 +368,35 @@ llab.readCookie = function(name) {
     return null;
 }
 
-llab.eraseCookie = function(name) {
-    createCookie(name,"",-1);
-}
+llab.eraseCookie = name => createCookie(name, "", -1);
 
+llab.spanTag = (content, className) => `<span class="${className}">${content}</span>`;
 
-llab.spanTag = function(content, className) {
-    return '<span class="' + className + '">' + content + '</span>'
-}
-
-// Cool array level operations
-// TODO: Replace with native JS some/every.
-llab.any = function(A) {
-    return A.reduce(function(x, y) {return x || y });
-}
-
-llab.all = function(A) {
-    return A.reduce(function(x, y) {return x && y });
-}
-
-llab.which = function(A) {
-    for (i = 0; i < A.length; i++) {
-        if (A[i]) {
-            return i;
+/////////// Other Inlined Dependencies
+if (typeof w3 === 'undefined') { w3 = {}; }
+w3.includeHTML = function(cb) {
+    var z, i, elmnt, file, xhttp;
+    z = document.getElementsByTagName("*");
+    for (i = 0; i < z.length; i++) {
+        elmnt = z[i];
+        file = elmnt.getAttribute("w3-include-html");
+        if (file) {
+        xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4) {
+            if (this.status == 200) {elmnt.innerHTML = this.responseText;}
+            if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
+            elmnt.removeAttribute("w3-include-html");
+            w3.includeHTML(cb);
+            }
+        }
+        xhttp.open("GET", file, true);
+        xhttp.send();
+        return;
         }
     }
-    return -1;
-}
-
+    if (cb) cb();
+};
 
 /////////////////////  END
 
