@@ -126,7 +126,7 @@ llab.translate = (key, replacements) => {
     }
 
     Object.keys(replacements).forEach(rep => {
-      result = result.replace(/%{${rep}}/g, replacements[rep]);
+      result = result.replace(new RegExp(`%{${rep}}`,'g'), replacements[rep]);
     });
     return result;
 };
