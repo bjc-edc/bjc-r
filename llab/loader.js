@@ -49,7 +49,7 @@ llab.empty_curriculum_page_path = llab.llab_path + "html/empty-curriculum-page.h
 
 // google analytics tokens
 llab.GACode = 'G-WK0EW5GQRZ';
-llab.GAurl = document.hostname;
+llab.GAurl = location.hostname;
 
 // Error Handling -- The URL embeds the Sentry desination
 llab.SENTRY_URL = 'https://js.sentry-cdn.com/f55a4cd65a8b48fd99e8247c6a5e6c2d.min.js';
