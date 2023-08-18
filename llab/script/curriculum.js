@@ -41,8 +41,6 @@ llab.dynamicNavigation = (path) => {
 
 // Executed on *every* page load.
 llab.secondarySetUp = function() {
-  debugger;
-
   let t = llab.translate;
   llab.setupTitle();
   llab.addFooter();
@@ -586,6 +584,8 @@ llab.rebuildPageFromHTML = (html, path) => {
   // Setup the new page
   // TODO: Ensure this is idempotent.
   llab.secondarySetUp();
+  buildQuestions(); // MCQs
+  llab.editURLs(); // course pages
   llab.conditionalSetup(llab.CONDITIONAL_LOADS);
   // TODO:
   // Do we need to fire off any events? Bootstrap? dom loaded?
@@ -593,7 +593,7 @@ llab.rebuildPageFromHTML = (html, path) => {
   if (llab.GACode) {
     gtag('config', llab.GACode, {
       page_title: title,
-      page_location: document.URL // Full URL is required.
+      page_location: location.href // Full URL is required.
     });
   }
   llab.PREVENT_NAVIGATIONS = false;
@@ -735,6 +735,5 @@ llab.indicateProgress = function(numSteps, currentStep) {
 
 // Setup the nav and parse the topic file.
 $(document).ready(function() {
-  debugger;
   llab.secondarySetUp();
 });

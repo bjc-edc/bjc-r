@@ -39,13 +39,8 @@ llab.alt_topic_page = llab.rootURL + "topic/topic.html";
 llab.empty_curriculum_page_path = llab.llab_path + "html/empty-curriculum-page.html";
 
 // google analytics tokens
-<<<<<<< HEAD
-llab.GACode = 'G-JCCWWYDEJW';
-llab.GAurl = location.origin;
-=======
 llab.GACode = 'G-WK0EW5GQRZ';
-llab.GAurl = document.hostname;
->>>>>>> master
+llab.GAurl = location.origin;
 
 // Error Handling -- The URL embeds the Sentry desination
 llab.SENTRY_URL = 'https://js.sentry-cdn.com/f55a4cd65a8b48fd99e8247c6a5e6c2d.min.js';
