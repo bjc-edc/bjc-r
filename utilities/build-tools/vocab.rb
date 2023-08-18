@@ -14,10 +14,11 @@ TEMP_FOLDER = 'review'
 # I think we can just replace content in the file, but we could use a library.
 class Vocab
   include BJCHelpers
-
-  def initialize(path, language = 'en')
+  
+  def initialize(path, language = 'en', content)
     @parentDir = path
     @language = language
+    @content = content
     I18n.locale = @language.to_sym
     @currUnit = nil
     @currFile = nil
@@ -112,7 +113,7 @@ class Vocab
     title = doc.xpath('//title')
     str = title.to_s
     pattern = %r{</?\w+>}
-    boxNum(@boxNum + 1)
+    #boxNum(@boxNum + 1)
     if str.nil?
       isNewUnit(false)
       nil
@@ -138,14 +139,14 @@ class Vocab
     linesList = File.readlines("#{filePath}/#{@currFile}")[0..30]
     while !linesList[i].match(/<body>/) && (i < 30)
       if linesList[i].match(/<title>/)
-        File.write(fileName, "\t<title>#{unit} #{@currUnitNum} #{I18n.t('vocab')}</title>\n", mode: 'a')
+        File.write(fileName, "<title>#{unit} #{@currUnitNum} #{I18n.t('vocab')}</title>\n", mode: 'a')
       else
-        File.write(fileName, "\t#{linesList[i]}\n", mode: 'a')
+        File.write(fileName, "#{linesList[i]}\n", mode: 'a')
       end
       i += 1
     end
-    #File.write(fileName, "\t<h2>#{@currUnit}</h2>\n", mode: 'a')
-    File.write(fileName, "\t<h3>#{currLab}</h3>\n", mode: 'a')
+    File.write(fileName, "<h2>#{@currUnitName}</h2>\n", mode: 'a')
+    File.write(fileName, "<h3>#{currLab}</h3>\n", mode: 'a')
     Dir.chdir(@labPath)
   end
 
@@ -162,7 +163,7 @@ class Vocab
     data = data.gsub(/&amp;/, '&')
     data.delete!("\n\n\\")
     if File.exist?(filename)
-      File.write(filename, "\t<h3>#{currLab}</h3>", mode: 'a') if lab != currLab
+      File.write(filename, "<h3>#{currLab}</h3>", mode: 'a') if lab != currLab
     else
       createNewVocabFile(filename)
     end
@@ -179,28 +180,31 @@ class Vocab
     vocab_full_size.each do |class_tag|
       path = "//div[@class = #{class_tag}]"
       vocab_set = doc.xpath("//div[@class = #{class_tag}]")
-      vocab_set.each do |node|
-        child = node.children
-        child.before(add_vocab_unit_to_header)
-        get_vocab_word(node)
-      end
       if vocab_set.to_s != ""
-        add_vocab_to_file(vocab_set.to_s)
+        vocab_set.each do |node|
+          child = node.children
+          child.before(add_vocab_unit_to_header) #if !child.to_a.include?(add_vocab_unit_to_header)
+          get_vocab_word(node)
+          boxNum(1 + @boxNum)
+        end
+      add_vocab_to_file(vocab_set.to_s)
       end
     end
 
     vocab_partial_size.each do |class_tag|
       vocab_set2 = doc.xpath("//div[@class = #{class_tag}]")
-      vocab_set2.each do |node|
-        child = node.children
-        change_to_vocabFullWidth(vocab_set2, node['class'])
-        child.before(add_vocab_unit_to_header)
-        get_vocab_word(node)
-      end
       if vocab_set2.to_s != ""
+        vocab_set2.each do |node|
+          child = node.children
+          change_to_vocabFullWidth(vocab_set2, node['class'])
+          child.before(add_vocab_unit_to_header) #if !child.to_a.include?(add_vocab_unit_to_header)
+          get_vocab_word(node)
+          boxNum(1 + @boxNum)
+        end
         add_vocab_to_file(vocab_set2.to_s)
       end
     end
+
   end
 
   def change_to_vocabFullWidth(vocab_set, clas)
@@ -293,7 +297,6 @@ class Vocab
       @vocabList.push(vocab)
       @vocabDict[vocab] = [add_vocab_unit_to_index]
     elsif @vocabDict[findVocab(vocab)].last != add_vocab_unit_to_index
-      #puts add_vocab_unit_to_index
       @vocabDict[findVocab(vocab)].append(add_vocab_unit_to_index)
     end
   end
@@ -317,10 +320,10 @@ class Vocab
 
   def add_vocab_unit_to_index
     unitNum = return_vocab_unit(@currUnit)
-    currentDir = Dir.getwd
-    FileUtils.cd('..')
+    ##currentDir = Dir.getwd
+    ##FileUtils.cd('..')
     link = " <a href=\"#{get_url(vocab_file_name)}#box#{@boxNum}\">#{unitNum}</a>"
-    FileUtils.cd(currentDir)
+    ##FileUtils.cd(currentDir)
     link
   end
 

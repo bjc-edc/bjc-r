@@ -39,9 +39,9 @@ class Main
     @content = content
     @course_file = course
     @course = BJCCourse.new(root: @rootDir, course: @course_file, language:)
-    @vocab = Vocab.new(@parentDir, language)
-    @self_check = SelfCheck.new(@parentDir, language)
-    @atwork = AtWork.new(@parentDir, language)
+    @vocab = Vocab.new(@parentDir, language, content)
+    @self_check = SelfCheck.new(@parentDir, language, content)
+    @atwork = AtWork.new(@parentDir, language, content)
     @testingFolder = false
   end
 
@@ -295,7 +295,10 @@ class Main
                'heading: Unidad',
                'resource: Vocabulario',
                'resource: En el examen AP',
-               'resource: Preguntas de Autocomprobacion']
+               'resource: Preguntas de Autocomprobacion',
+              "#{I18n.t('self_check')}",
+              "#{I18n.t('vocab')}",
+              "#{I18n.t('on_ap_exam')}"]
     topicLine = /(\s+)?(\w+)+(\s+)?/
     bool = true
     kludges.each do |item|
@@ -445,7 +448,8 @@ class Main
 
   def copyFiles
     list = [@vocab.vocab_file_name, @self_check.self_check_file_name, @self_check.exam_file_name]
-    #FileUtils.cd('..')
+    currentDir = Dir.pwd
+    FileUtils.cd('..')
     # src = "#{review_folder}/#{@vocab}"
     # dst = "#{Dir.getwd}/#{@vocab.vocab_file_name}"
     list.each do |file|
@@ -455,6 +459,7 @@ class Main
       # TODO: use nokogiri to refomat the file.
       FileUtils.copy_file(src, dst) if File.exist?(src)
     end
+    Dir.chdir(currentDir)
   end
 
   # Inputs is the topics.txt file that is created earlier from the .topic file.
@@ -472,9 +477,10 @@ class Main
     i = 0
     f.each do |line|
       if line.match(endUnitPattern)
-        currentPath = Dir.getwd
+        #currentPath = Dir.getwd
         copyFiles
-        FileUtils.cd(currentPath)
+        #FileUtils.cd(currentPath)
+        puts Dir.getwd
       end
       if !line.match(labNamePattern).nil?
         labFile = extractTopicLink(line)

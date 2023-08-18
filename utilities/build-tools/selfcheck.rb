@@ -11,9 +11,10 @@ I18n.backend.load_translations
 class SelfCheck
   include BJCHelpers
 
-  def initialize(path, language)
+  def initialize(path, language, content)
     @parentPath = path
     @currUnit = nil
+    @content = content
     @isNewUnit = true
     @currUnitNum = 0
     @currLab = ''
@@ -143,7 +144,7 @@ class SelfCheck
       end
       i += 1
     end
-    #File.write(fileName, "<h2>#{@currUnit}</h2>\n", mode: 'a')
+    File.write(fileName, "<h2>#{@currUnitName}</h2>\n", mode: 'a')
     File.write(fileName, "<h3>#{currLab}</h3>\n", mode: 'a')
   end
 

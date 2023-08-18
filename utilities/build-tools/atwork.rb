@@ -2,9 +2,10 @@ require 'fileutils'
 require 'nokogiri'
 
 class AtWork
-  def initialize(path, language = 'en')
+  def initialize(path, language = 'en', content)
     @parentDir = path
     @language = language
+    @content = content
     @currUnit = nil
     @currFile = nil
     @isNewUnit = true
