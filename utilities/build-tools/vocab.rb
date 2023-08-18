@@ -320,16 +320,17 @@ class Vocab
 
   def add_vocab_unit_to_index
     unitNum = return_vocab_unit(@currUnit)
+    suffix = generate_url_suffix(TOPIC_COURSE[0], get_prev_folder(Dir.pwd), TOPIC_COURSE[1])
     ##currentDir = Dir.getwd
     ##FileUtils.cd('..')
-    link = " <a href=\"#{get_url(vocab_file_name)}#box#{@boxNum}\">#{unitNum}</a>"
-    ##FileUtils.cd(currentDir)
-    link
+    path = get_prev_folder(Dir.pwd, true)
+    link = " <a href=\"#{get_url(vocab_file_name, path)}#box#{@boxNum}#{suffix}\">#{unitNum}</a>"
   end
 
   def add_vocab_unit_to_header
     unitNum = return_vocab_unit(@currUnit)
-   "<a href=\"#{get_url(@currFile)}\"> #{unitNum}</a>
+    suffix = generate_url_suffix(TOPIC_COURSE[0], get_prev_folder(Dir.pwd), TOPIC_COURSE[1])
+   "<a href=\"#{get_url(@currFile, Dir.pwd)}#{suffix}\"> #{unitNum}</a>
     <a name=\"box#{@boxNum}\" class=\"anchor\">&nbsp;</a>"
     # if lst.size > 1
     #	unitSeriesNum = lst.join(" #{withlink}:")
@@ -363,8 +364,7 @@ class Vocab
     # end
   end
 
-  def get_url(file)
-    localPath = Dir.getwd
+  def get_url(file, localPath)
     linkPath = localPath.match(/bjc-r.+/).to_s
     result = "/#{linkPath}/#{file}"
     # add_content_to_file('urlLinks.txt', result)

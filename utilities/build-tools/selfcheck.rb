@@ -23,6 +23,7 @@ class SelfCheck
     @language = language
     @language_ext = language_ext(language)
     I18n.locale = @language.to_sym
+    @box_num = 0
   end
 
   def review_folder
@@ -68,6 +69,10 @@ class SelfCheck
 
   def exam_file_name
     "unit-#{@currUnitNum}-exam-reference#{@language_ext}.html"
+  end
+
+  def box_num(num)
+    @box_num = num
   end
 
   def read_file(file)
@@ -175,7 +180,9 @@ class SelfCheck
 
   def add_unit_to_header
     unitNum = return_unit(@currUnit)
-    " <a href=\"#{get_url(@currFile)}\">#{unitNum}</a>"
+    box_num(@box_num + 1)
+    suffix = generate_url_suffix(TOPIC_COURSE[0], get_prev_folder(Dir.pwd), TOPIC_COURSE[1])
+    " <a href=\"#{get_url(@currFile)}#box#{@box_num}#{suffix}\">#{unitNum}</a>"
   end
 
   # need something to call this function and parse_unit

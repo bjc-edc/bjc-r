@@ -17,6 +17,7 @@ I18n.load_path = Dir['**/*.yml']
 I18n.backend.load_translations
 
 class Main
+  include BJCHelpers
   attr_reader :course, :parentDir
   attr_accessor :skip_test_prompt, :course_file
 
@@ -43,7 +44,9 @@ class Main
     @self_check = SelfCheck.new(@parentDir, language, content)
     @atwork = AtWork.new(@parentDir, language, content)
     @testingFolder = false
+    @topic_folder = ""
   end
+
 
   def language_ext
     @language_ext ||= @language == 'en' ? '' : ".#{@language}"
@@ -181,7 +184,8 @@ class Main
 
 
   # Adds the summary content and links to the topic.topic file
-  def addSummariesToTopic(topic_file)
+  def addSummariesToTopic(topic_file, curr_lab_folder)
+    topic_folder(topic_file.split("/")[0])
     topic_file_path = "#{@rootDir}/topic/#{topic_file}"
     delete_existing_summaries(topic_file_path)
     #linkMatch = @parentDir.match(%r{/bjc-r.+}).to_s
@@ -190,9 +194,10 @@ class Main
     unit = File.readlines(topic_file_path).find { |line| line.match?(link_match) }
     link = extract_unit_path(unit, false, true)
     list = [@vocab.vocab_file_name, @self_check.exam_file_name, @self_check.self_check_file_name]
-    topic_resource = ["\tresource: (NEW) #{I18n.t('vocab')} [#{link}/#{@vocab.vocab_file_name}]",
-                    "\n\tresource: (NEW) #{I18n.t('on_ap_exam')} [#{link}/#{@self_check.exam_file_name}]",
-                    "\n\tresource: (NEW) #{I18n.t('self_check')} [#{link}/#{@self_check.self_check_file_name}]"]
+    suffix = generate_url_suffix(@topic_folder, curr_lab_folder, @course_file)
+    topic_resource = ["\tresource: (NEW) #{I18n.t('vocab')} [#{link}/#{@vocab.vocab_file_name}#{suffix}#]",
+                    "\n\tresource: (NEW) #{I18n.t('on_ap_exam')} [#{link}/#{@self_check.exam_file_name}#{suffix}]",
+                    "\n\tresource: (NEW) #{I18n.t('self_check')} [#{link}/#{@self_check.self_check_file_name}#{suffix}]"]
     topic_content = <<~TOPIC
       heading: (NEW) #{I18n.t('unit_review', num: @unitNum)}
     TOPIC
@@ -230,6 +235,7 @@ class Main
   # TODO: This shouldn't write to a file, but return some hash/object
   def parse_rawTopicPage(file)
     full_path = "#{@rootDir}/topic/#{file}"
+    get_topic_course(get_prev_folder(file), @course_file)
     currUnit(nil)
     allLines = File.readlines(full_path)
     topicURLPattern = %r{/bjc-r.+\.\w+}
@@ -474,18 +480,19 @@ class Main
     labNamePattern = /-----/
     unitNamePattern = /title: /
     endUnitPattern = /END OF UNIT/
+    current_lab_folder = ""
     i = 0
     f.each do |line|
       if line.match(endUnitPattern)
         #currentPath = Dir.getwd
         copyFiles
         #FileUtils.cd(currentPath)
-        puts Dir.getwd
       end
       if !line.match(labNamePattern).nil?
         labFile = extractTopicLink(line)
         if labFile != ''
-          Dir.chdir(extractTopicLinkFolder(line))
+          current_lab_folder = extractTopicLinkFolder(line)
+          Dir.chdir(current_lab_folder)
           @vocab.labPath(Dir.getwd)
           @vocab.read_file(labFile)
           @self_check.read_file(labFile)
@@ -493,7 +500,8 @@ class Main
         end
       elsif line.match(unitNamePattern)
         if @unitNum.to_i > 0
-          addSummariesToTopic(topic_files_in_course[topics_index - 1])
+          current_unit_folder = current_lab_folder.split("/")[-2]
+          addSummariesToTopic(topic_files_in_course[topics_index - 1], current_unit_folder)
           topics_index += 1
         unitNum(line.match(/\d+/).to_s)
         unitName = line.match(/Unit.+/)
@@ -554,5 +562,9 @@ class Main
 
   def currUnit(str)
     @currUnit = str
+  end
+
+  def topic_folder(name)
+    @topic_folder = name
   end
 end
