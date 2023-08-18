@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta charset="utf-8">
 		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
 		<title>Unit 3 Lab 3: Tic-Tac-Toe, Page 1</title>
-    </head> 
-    
+    </head>
+
     <body>
 	    <h2>Remembering the Moves and Possible Wins</h2>
-		
+
         <div class="learn">
             <p><strong>In this lab</strong>, you will continue your <a href="/bjc-r/cur/programming/3-lists/1-abstraction/5-building-tic-tac-toe.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Building a Tic-Tac-Toe Board">Tic-Tac-Toe project</a> to make the program <em>analyze</em> the game board to detect wins and ties.</p>
             <p><strong>On this page</strong>, you'll prepare by allowing the program to record the moves that are made, and teach it the winning groups of three squares.</p>
@@ -29,13 +29,13 @@
                </li>
             </ol>
         </div>
-        
+
         <p>Each sprite needs to know its own position on the board so that you can use the <code>item of</code> block to replace that position with an X or an O. So, you'll create a <em>sprite variable</em>, <img class="inline nopadtb" src="/bjc-r/img/3-lists/position-number.png" alt="position number" title="position number" />, and each clone will have its <em>own version</em> of this variable.</p>
-        
+
         <div class="vocabFullWidth">: <strong>Sprite Variable</strong>
             <p>A <strong>sprite variable</strong> is like a global variable in that it <em>doesn't</em> belong to a particular <em>script</em>, but it does belong to a particular <em>sprite.</em></p>
         </div>
-        
+
         <div class="forYouToDo">
 			<ol start="3">
                 <li>
@@ -45,15 +45,15 @@
                     Create a sprite variable <var>position number</var>.
                     <div class="narrower">
                         <p>
-                            You make a sprite variable similarly to how you make global variables: 
+                            You make a sprite variable similarly to how you make global variables:
                             <ul>
                                 <li>Click <img class="inline nopadtb noshadow" src="/bjc-r/img/1-introduction/make-a-variable.png" alt="make a variable button" title="make a variable button" /> in the Variables palette.</li>
                                 <li>Then, as you are typing the variable's name, select "for this sprite only" to make it a sprite variable.</li>
                             </ul>
                         </p>
-                        
+
                         <img class="indent" src="/bjc-r/img/3-lists/square-number-var.png" alt="variable name dialog box with 'for this sprite only' selected" title="variable name dialog box with 'for this sprite only' selected" /><br />
-                    </div>                    
+                    </div>
                 </li>
                 <li>
                     As you create the clones, set each one's <var>position number</var> to the appropriate value (1-9).<br />
@@ -66,7 +66,7 @@
 					<div class="takeNote">Make sure that the parent's <var>position number</var> doesn't end up being a number 1-9 so that it doesn't conflict with a clone.</div>
                 </li>
                 <li>When a square is clicked, replace that square's entry in the <var>board</var> list with X or O as appropriate.</li>
-                <li>Watch the values stored in the <var>board</var> variable as you play a game of Tic Tac Toe. Make sure that it updates as you expect it to, and fix any bugs.</li>	
+                <li>Watch the values stored in the <var>board</var> variable as you play a game of Tic Tac Toe. Make sure that it updates as you expect it to, and fix any bugs.</li>
 			</ol>
 		</div>
 
@@ -75,7 +75,7 @@
             To program a way to detect a win, you need to determine what counts as a win.  You'll store each possible winning triple as a list of three position numbers (a <em>triple</em>).  For example, this winning triple could be represented as <img src="/bjc-r/img/3-lists/{3,5,7}.png" alt="list{3, 5, 7}" title="list{3, 5, 7}"> because the win is in the 3<sup>rd</sup>, 5<sup>th</sup>, and 7<sup>th</sup> positions:<br />
             <img class="indent noshadow" src="/bjc-r/img/3-lists/winning-combo-357.png" alt="diagonal win bottom left to top right" title="diagonal win bottom left to top right"><br />
         </p>
-        
+
         <div class="forYouToDo">
 			<ol start="7">
                 <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
@@ -87,12 +87,12 @@
             </ol>
         </div>
         <p>
-            You <em>could</em> check for each possible win separately:<br />        
-            <img class="indent" src="/bjc-r/img/3-lists/silly-check-win.png" alt="is there a win? (Comment: Don't build this!! Just read it.) : if (is there a win at (1) (2) (3) ?) report (true); if (is there a win at (4) (5) (6) ?) report (true); ...; if (is there a win at (3) (5) (7) ?) report (true); report (false)" title="is there a win? (Comment: Don't build this!! Just read it.) : if (is there a win at (1) (2) (3) ?) report (true); if (is there a win at (4) (5) (6) ?) report (true); ...; if (is there a win at (3) (5) (7) ?) report (true); report (false)">  
+            You <em>could</em> check for each possible win separately:<br />
+            <img class="indent" src="/bjc-r/img/3-lists/silly-check-win.png" alt="is there a win? (Comment: Don't build this!! Just read it.) : if (is there a win at (1) (2) (3) ?) report (true); if (is there a win at (4) (5) (6) ?) report (true); ...; if (is there a win at (3) (5) (7) ?) report (true); report (false)" title="is there a win? (Comment: Don't build this!! Just read it.) : if (is there a win at (1) (2) (3) ?) report (true); if (is there a win at (4) (5) (6) ?) report (true); ...; if (is there a win at (3) (5) (7) ?) report (true); report (false)">
         </p>
-                      
+
         <p>But that's way too much code, especially because you'll have to do something very similar again, later on, when the computer actually plays against you. Instead, you'll create a list to store all of the possible winning triples so you can check it against the current state of the game stored by <var>board</var>.</p>
-        
+
         <div class="forYouToDo">
 			<ol start="8">
                <img class="imageRight" src="/bjc-r/img/icons/save-mini.png" alt="Save Your Work" title="Save Your Work" />
@@ -107,7 +107,7 @@
         </div>
 
 
-       
-        
+
+
     </body>
 </html>
