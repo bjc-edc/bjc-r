@@ -171,13 +171,13 @@ llab.conditionalSetup = triggers => {
 
 // Call The Functions to HighlightJS to render
 llab.highlightSyntax = function() {
-    $('pre > code').each(function(i, block) {
-      block.innerHTML = block.innerHTML.trim();
-      if (typeof hljs !== 'undefined') {
-        hljs.highlightBlock(block);
-      }
-    });
-  }
+  $('pre > code').each(function(i, block) {
+    block.innerHTML = block.innerHTML.trim();
+    if (typeof hljs !== 'undefined') {
+      hljs.highlightBlock(block);
+    }
+  });
+};
 
 llab.displayMathDivs = function () {
   $('.katex, .katex-inline').each(function (_, elm) {
@@ -188,7 +188,7 @@ llab.displayMathDivs = function () {
       displayMode: true, throwOnError: false
     });
   });
-}
+};
 
 // TODO: jQuery3 -- these need to be migrated.
 llab.toggleDevComments = () => { $(llab.DEVELOPER_CLASSES).toggle() };

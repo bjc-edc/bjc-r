@@ -83,20 +83,6 @@ llab.secondarySetUp = function() {
 
   llab.setupSnapImages();
 
-  // TODO: Consider moving Quiz options to here...
-  llab.additionalSetup([
-    {
-      selector: 'pre > code',
-      libName: 'highlights', // should match llab.optionalLibs
-      onload: llab.highlightSyntax
-    },
-    {
-      selector: '.katex, .katex-inline, .katex-block',
-      libName: 'katex',
-      onload: llab.displayMathDivs
-    }
-  ]);
-
   // TODO: Figure a nicer place to put this...
   // TODO: Rewrite the function to not scan every element.
   if ($('[w3-include-html]')) {
@@ -127,48 +113,6 @@ llab.secondarySetUp = function() {
       }
     });
   };
-
-}; // close secondarysetup();
-
-/**
- * A prelimary API for defining loading additional content based on triggers.
- *  @{param} array TRIGGERS is an array of {selectors, libName, onload } objects.
- *  If the selectors are valid, we load *one* CSS and JS file from llab.optionalLibs
- *  An `onload` function can be supplied, which will be called when the JS file is loaded.
- */
-
-llab.additionalSetup = triggers => {
-  let items, files;
-  triggers.forEach(({ selector, libName, onload }) => {
-    items = $(selector);
-      if (items.length > 0) {
-        files = llab.optionalLibs[libName];
-        document.head.appendChild(llab.styleTag(files.css));
-        document.head.appendChild(llab.scriptTag(files.js, onload));
-      }
-  });
-}
-
-// Call The Functions to HighlightJS to render
-llab.highlightSyntax = function() {
-  $('pre > code').each(function(i, block) {
-    // Trim the extra whitespace in HTML files.
-    block.innerHTML = block.innerHTML.trim();
-    if (typeof hljs !== 'undefined') {
-      hljs.highlightBlock(block);
-    }
-  });
-}
-
-llab.displayMathDivs = function () {
-  $('.katex, .katex-inline').each(function (_, elm) {
-    katex.render(elm.textContent, elm, {throwOnError: false});
-  });
-  $('.katex-block').each(function (_, elm) {
-    katex.render(elm.textContent, elm, {
-      displayMode: true, throwOnError: false
-    });
-  });
 }; // close secondarysetup();
 
 /**
@@ -337,13 +281,13 @@ llab.addFrame = function() {
 
 // Setup the entire page title. This includes creating any HTML elements.
 // This should be called EARLY in the load process!
-// FIXME: lots of stuff needs to be pulled out of this function
 llab.setupTitle = function() {
-  // TODO: rename / refactor location
-  $(document.head).append('<meta name="viewport" content="width=device-width, initial-scale=1">');
-
   if (llab.titleSet) {
     return;
+  }
+
+  if (!$('meta[name="viewport"]').length) {
+    $(document.head).append('<meta name="viewport" content="width=device-width, initial-scale=1">');
   }
 
   // Create .full before adding stuff.
@@ -351,9 +295,10 @@ llab.setupTitle = function() {
     $(document.body).wrapInner('<div class="full"></div>');
   }
 
-  // Work around when things are oddly loaded...
+  // Reset the nav + title divs.
   if ($(llab.selectors.NAVSELECT).length !== 0) {
     $(llab.selectors.NAVSELECT).remove();
+    $('.title-small-screen').remove();
   }
 
   // Create the header section and nav buttons
@@ -364,7 +309,6 @@ llab.setupTitle = function() {
     document.title = titleText;
   }
 
-  // Set the header title to the page title.
   titleText = document.title;
   if (titleText) {
     $('.navbar-title').html(titleText);
