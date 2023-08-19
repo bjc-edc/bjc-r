@@ -324,13 +324,15 @@ class Vocab
     ##currentDir = Dir.getwd
     ##FileUtils.cd('..')
     path = get_prev_folder(Dir.pwd, true)
-    link = " <a href=\"#{get_url(vocab_file_name, path)}#box#{@boxNum}#{suffix}\">#{unitNum}</a>"
+    #link = " <a href=\"#{get_url(vocab_file_name, path)}#box#{@boxNum}#{suffix}\">#{unitNum}</a>"
+    link = " <a href=\"#{get_url(vocab_file_name, path)}#box#{@boxNum}\">#{unitNum}</a>"
   end
 
   def add_vocab_unit_to_header
     unitNum = return_vocab_unit(@currUnit)
     suffix = generate_url_suffix(TOPIC_COURSE[0], get_prev_folder(Dir.pwd), TOPIC_COURSE[1])
-   "<a href=\"#{get_url(@currFile, Dir.pwd)}#{suffix}\"> #{unitNum}</a>
+   #"<a href=\"#{get_url(@currFile, Dir.pwd)}#{suffix}\"> #{unitNum}</a>
+   "<a href=\"#{get_url(@currFile, Dir.pwd)}\"> #{unitNum}</a>
     <a name=\"box#{@boxNum}\" class=\"anchor\">&nbsp;</a>"
     # if lst.size > 1
     #	unitSeriesNum = lst.join(" #{withlink}:")
