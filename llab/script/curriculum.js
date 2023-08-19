@@ -99,19 +99,15 @@ llab.secondarySetUp = function() {
   if (llab.read_cache(llab.file)) {
     llab.processLinks(llab.read_cache(llab.file));
   } else {
-    $.ajax({
-      url: `${llab.topics_path}/${llab.file}`,
-      type: "GET",
-      contentType: 'text/plain; charset=UTF-8',
-      dataType: "text",
-      cache: false,
-      success: llab.processLinks,
-      error: (_jqXHR, _status, error) => {
-        if (Sentry) {
-          Sentry.captureException(error);
-        }
-      }
-    });
+    fetch(`${llab.topics_path}/${llab.file}`)
+      .then(response => response.text())
+      .then(text => llab.processLinks(text))
+      .catch(err => {
+          console.warn('Something went wrong.', err);
+          if (typeof Sentry !== 'undefined') {
+              Sentry.captureException(err);
+          }
+      });
   };
 }; // close secondarysetup();
 
@@ -120,7 +116,7 @@ llab.secondarySetUp = function() {
 *  and creates navigation buttons.
 *  FIXME: This should share code with llab.topic!
 */
-llab.processLinks = function(data, _status, _jqXHR) {
+llab.processLinks = function(data) {
   /* NOTE: DO NOT REMOVE THIS CONDITIONAL WITHOUT SERIOUS TESTING
   * llab.file gets reset with the ajax call.
   */
@@ -434,9 +430,7 @@ llab.dropdownItem = function(text, url) {
 // Pages directly within a lab. Excludes 'topic' and 'course' pages.
 llab.isCurriculum = function() {
   if (llab.getQueryParameter('topic')) {
-    return ![
-      llab.empty_topic_page_path, llab.topic_launch_page, llab.alt_topic_page
-    ].includes(llab.stripLangExtensions(location.pathname));
+    return !llab.isTopicFile();
   }
   return false;
 }
