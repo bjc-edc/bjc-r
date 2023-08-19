@@ -227,31 +227,35 @@ llab.isTag = function(s) {
     return llab.tags.indexOf(s) !== -1;
 }
 
-llab.displayTopic = function() {
+llab.displayTopic = () => {
+    if (!llab.isTopicFile()) { return; }
+
     llab.file = llab.getQueryParameter("topic");
 
     if (llab.file) {
-        $.ajax({
-            url : llab.topics_path + llab.file,
-            type : "GET",
-            dataType : "text",
-            cache : true,
-            success : llab.renderFull
-        });
+        fetch(llab.topics_path + llab.file)
+            .then(response => response.text())
+            .then(text => llab.renderFull(text))
+            .catch(err => {
+                console.warn('Something went wrong.', err);
+                if (typeof Sentry !== 'undefined') {
+                    Sentry.captureException(err);
+                }
+            });
     } else {
         $(llab.selectors.FULL).text("Please specify a file in the URL.");
     }
 }
 
+llab.isTopicFile = () => {
+    var url = llab.stripLangExtensions(location.href);
+    return (url.indexOf("topic.html") !== -1 ||
+        // FIXME -- this may be broken.
+        url.indexOf("empty-topic-page.html") !== -1);
+}
+
 // Make a call to build a topic page.
 // Be sure that content is set only on pages that it should be
 $(document).ready(function() {
-    var url = llab.stripLangExtensions(location.href),
-        isTopicFile = (url.indexOf("topic.html") !== -1 ||
-            // FIXME -- this may be broken.
-            url.indexOf("empty-topic-page.html") !== -1);
-
-    if (isTopicFile) {
-        llab.displayTopic();
-    }
+    llab.displayTopic();
 });

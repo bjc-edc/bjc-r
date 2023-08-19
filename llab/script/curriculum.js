@@ -413,7 +413,7 @@ llab.createTitleNav = function() {
   // FUTURE - We should separate the rest of this function if necessary.
   if (!llab.isCurriculum()) { return; }
 
-  if ($(llab.selectors.PROGRESS).length === 0) {
+  if ($('.full-bottom-bar').length === 0) {
     $(document.body).append(botHTML);
   }
 
@@ -484,11 +484,6 @@ llab.setButtonURLs = function() {
   }
 };
 
-// TODO: This is a fallback incase we aren't ready to deploy dynamic page loads.
-llab.loadNavigateToNewPage = (url) => {
-  location.href = url;
-}
-
 llab.loadNewPage = (path) => {
   if (llab.PREVENT_NAVIGATIONS) {
     // this seems like a poor way to debounce multiple clicks.
@@ -510,6 +505,7 @@ llab.loadNewPage = (path) => {
     });
 }
 
+// TODO: We use pushState, add a hook for onpopstate (back button use)
 // Called when we load an new document via a fetch.
 llab.rebuildPageFromHTML = (html, path) => {
   let parser = new DOMParser(),
@@ -518,8 +514,9 @@ llab.rebuildPageFromHTML = (html, path) => {
   let title = doc.querySelector('title') ? doc.querySelector('title').text : '';
   let body = doc.body.innerHTML;
 
-  // This needs to happen sooner, so dependent APIs can read the new URL.
-  window.history.pushState({}, '', path);
+  // This needs to happen fast, so dependent APIs can read the new URL.
+  window.history.pushState({ "html": html, "pageTitle": title },"", path);
+
   // What else needs to be reset?
   llab.titleSet = false;
   llab.conditional_setup_run = false;
@@ -527,6 +524,7 @@ llab.rebuildPageFromHTML = (html, path) => {
   $('.full').html(body);
   // Setup the new page
   // TODO: Ensure this is idempotent.
+  llab.displayTopic();
   llab.secondarySetUp();
   buildQuestions(); // MCQs
   llab.editURLs(); // course pages
@@ -594,37 +592,38 @@ llab.addFeedback = function(title, topic, course) {
 
 // TODO: Move to bootstrap classes (wait until BS5)
 llab.addFooter = () => {
-  if ($('<footer>').length > 0) { return; }
-    $(document.body).append(
-    `<footer>
-      <div class="footer wrapper margins">
-        <div class="footer-col col1">
-          <img class="noshadow" src="/bjc-r/img/header-footer/NSF_logo.png" alt="NSF" />
-        </div>
-        <div class="footer-col col2">
-          <img class="noshadow" src="/bjc-r/img/header-footer/EDC_logo.png" alt="EDC" />
-        </div>
-        <div class="footer-col col3">
-          <img class="noshadow" src="/bjc-r/img/header-footer/UCB_logo.png" alt="UCB" />
-        </div>
-        <div class="footer-col col4">
-          <p>The Beauty and Joy of Computing by University of California, Berkeley and Education
-          Development Center, Inc. is licensed under a Creative Commons
-          Attribution-NonCommercial-ShareAlike 4.0 International License. The development of this
-          site has been funded by the National Science Foundation under grant nos. 1138596, 1441075,
-          and 1837280; the U.S. Department of Education under grant number S411C200074; and the
-          Hopper-Dean Foundation.
-          Any opinions, findings, and conclusions or recommendations expressed in this material are
-          those of the author(s) and do not necessarily reflect the views of the National Science
-          Foundation or our other funders.
-        </p>
+  if ($('footer').length > 0) { return; }
+
+  $(document.body).append(
+  `<footer>
+    <div class="footer wrapper margins">
+      <div class="footer-col col-md-1 col-xs-4">
+        <img style="max-height: 50px" class="noshadow" src="/bjc-r/img/header-footer/NSF_logo.png" alt="NSF" />
       </div>
-      <div class="footer-col col5">
-        <img class="noshadow" src="/bjc-r/img/header-footer/cc_88x31.png" alt="Creative Commons Attribution" />
+      <div class="footer-col col-md-1 col-xs-4">
+        <img style="max-height: 50px" class="noshadow" src="/bjc-r/img/header-footer/EDC_logo.png" alt="EDC" />
       </div>
+      <div class="footer-col col-md-1 col-xs-4">
+        <img style="max-height: 50px" class="noshadow" src="/bjc-r/img/header-footer/UCB_logo.png" alt="UCB" />
+      </div>
+      <div class="footer-col col-md-6 col-xs-12">
+        <p>The Beauty and Joy of Computing by University of California, Berkeley and Education
+        Development Center, Inc. is licensed under a Creative Commons
+        Attribution-NonCommercial-ShareAlike 4.0 International License. The development of this
+        site has been funded by the National Science Foundation under grant nos. 1138596, 1441075,
+        and 1837280; the U.S. Department of Education under grant number S411C200074; and the
+        Hopper-Dean Foundation.
+        Any opinions, findings, and conclusions or recommendations expressed in this material are
+        those of the author(s) and do not necessarily reflect the views of the National Science
+        Foundation or our other funders.
+      </p>
     </div>
-  </footer>`
-  );
+    <div class="footer-col col-md-1 col-xs-4">
+      <img style="max-height: 50px" class="noshadow" src="/bjc-r/img/header-footer/cc_88x31.png" alt="Creative Commons Attribution" />
+    </div>
+  </div>
+</footer>`
+);
 }
 
 // Show a dropdwon icon in the navbar if the same URL exists in a translated form.
