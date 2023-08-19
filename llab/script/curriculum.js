@@ -19,10 +19,28 @@ const TOGGLE_HEADINGS = [
   'takeItTeased',
 ];
 
+llab.set_cache = (key, value) => {
+  sessionStorage[key] = value;
+  return true;
+}
+
+// TODO: Should this ingore the cache in development?
+llab.read_cache = key => sessionStorage[key];
+
+llab.DISABLE_DYNAMIC_NAVIGATION = false;
+llab.dynamicNavigation = (path) => {
+  return (event) => {
+    if (llab.DISABLE_DYNAMIC_NAVIGATION) {
+      location.href = path;
+      return;
+    }
+    event.preventDefault();
+    llab.loadNewPage(path);
+  }
+}
+
 // Executed on *every* page load.
 llab.secondarySetUp = function() {
-  debugger;
-
   let t = llab.translate;
   llab.setupTitle();
   llab.addFooter();
@@ -61,24 +79,9 @@ llab.secondarySetUp = function() {
       $(`#${id}`).addClass('in');
       $(this).removeClass('show');
     }
-
   });
 
   llab.setupSnapImages();
-
-  // TODO: Consider moving Quiz options to here...
-  llab.additionalSetup([
-    {
-      selector: 'pre > code',
-      libName: 'highlights', // should match llab.optionalLibs
-      onload: llab.highlightSyntax
-    },
-    {
-      selector: '.katex, .katex-inline, .katex-block',
-      libName: 'katex',
-      onload: llab.displayMathDivs
-    }
-  ]);
 
   // TODO: Figure a nicer place to put this...
   // TODO: Rewrite the function to not scan every element.
@@ -93,75 +96,33 @@ llab.secondarySetUp = function() {
     return;
   }
 
-  $.ajax({
-    url: `${llab.topics_path}/${llab.file}`,
-    type: "GET",
-    contentType: 'text/plain; charset=UTF-8',
-    dataType: "text",
-    cache: false,
-    success: llab.processLinks,
-    error: (_jqXHR, _status, error) => {
-      if (Sentry) {
-        Sentry.captureException(error);
-      }
-    }
-  });
-
+  if (llab.read_cache(llab.file)) {
+    llab.processLinks(llab.read_cache(llab.file));
+  } else {
+    fetch(`${llab.topics_path}/${llab.file}`)
+      .then(response => response.text())
+      .then(text => llab.processLinks(text))
+      .catch(err => {
+          console.warn('Something went wrong.', err);
+          if (typeof Sentry !== 'undefined') {
+              Sentry.captureException(err);
+          }
+      });
+  };
 }; // close secondarysetup();
-
-/**
- * A prelimary API for defining loading additional content based on triggers.
- *  @{param} array TRIGGERS is an array of {selectors, libName, onload } objects.
- *  If the selectors are valid, we load *one* CSS and JS file from llab.optionalLibs
- *  An `onload` function can be supplied, which will be called when the JS file is loaded.
- */
-
-llab.additionalSetup = triggers => {
-  let items, files;
-  triggers.forEach(({ selector, libName, onload }) => {
-    console.log(selector, libName, onload)
-    items = $(selector);
-      if (items.length > 0) {
-        files = llab.optionalLibs[libName];
-        document.head.appendChild(llab.styleTag(files.css));
-        document.head.appendChild(llab.scriptTag(files.js, onload));
-      }
-  });
-}
-
-// Call The Functions to HighlightJS to render
-llab.highlightSyntax = function() {
-  $('pre > code').each(function(i, block) {
-    // Trim the extra whitespace in HTML files.
-    block.innerHTML = block.innerHTML.trim();
-    if (typeof hljs !== 'undefined') {
-      hljs.highlightBlock(block);
-    }
-  });
-}
-
-llab.displayMathDivs = function () {
-  $('.katex, .katex-inline').each(function (_, elm) {
-    katex.render(elm.textContent, elm, {throwOnError: false});
-  });
-  $('.katex-block').each(function (_, elm) {
-    katex.render(elm.textContent, elm, {
-      displayMode: true, throwOnError: false
-    });
-  });
-}
 
 /**
 *  Processes just the hyperlinked elements in the topic file,
 *  and creates navigation buttons.
 *  FIXME: This should share code with llab.topic!
 */
-llab.processLinks = function(data, _status, _jqXHR) {
+llab.processLinks = function(data) {
   /* NOTE: DO NOT REMOVE THIS CONDITIONAL WITHOUT SERIOUS TESTING
   * llab.file gets reset with the ajax call.
   */
   if (llab.file === '') {
     llab.file = llab.getQueryParameter('topic');
+    llab.set_cache(llab.file, data);
   }
 
   if (location.pathname === llab.empty_curriculum_page_path) {
@@ -190,6 +151,9 @@ llab.processLinks = function(data, _status, _jqXHR) {
   // Prevent src, title from being added to other URLS.
   delete params.src;
   delete params.title;
+
+  // Ensure the menu is empty before re-adding items.
+  list.html('');
 
   for (; i < len; i += 1) {
     line = llab.stripComments($.trim(topicArray[i]));
@@ -284,8 +248,12 @@ llab.processLinks = function(data, _status, _jqXHR) {
   // Set the max-height of the dropdown list to not exceed window height
   // This is particularly important for smaller screens.
   $('.dropdown-menu').css('max-height', $(window).height() * 0.6);
-  $('.dropdown-menu').css('max-width', Math.min($(window).width(), 450));
+  $('.dropdown-menu').css('max-width', Math.min($(window).width()*.97, 450));
 
+  // Attach Dynamic Click Handlers to menu items.
+  $('a[role=menuitem]').each((_i, element) => {
+    $(element).off('click').on('click', llab.dynamicNavigation(element.href));
+  });
 
   llab.indicateProgress(llab.url_list.length, llab.thisPageNum() + 1);
 }; // end processLinks()
@@ -309,13 +277,13 @@ llab.addFrame = function() {
 
 // Setup the entire page title. This includes creating any HTML elements.
 // This should be called EARLY in the load process!
-// FIXME: lots of stuff needs to be pulled out of this function
 llab.setupTitle = function() {
-  // TODO: rename / refactor location
-  $(document.head).append('<meta name="viewport" content="width=device-width, initial-scale=1">');
-
   if (llab.titleSet) {
     return;
+  }
+
+  if (!$('meta[name="viewport"]').length) {
+    $(document.head).append('<meta name="viewport" content="width=device-width, initial-scale=1">');
   }
 
   // Create .full before adding stuff.
@@ -323,9 +291,10 @@ llab.setupTitle = function() {
     $(document.body).wrapInner('<div class="full"></div>');
   }
 
-  // Work around when things are oddly loaded...
+  // Reset the nav + title divs.
   if ($(llab.selectors.NAVSELECT).length !== 0) {
     $(llab.selectors.NAVSELECT).remove();
+    $('.title-small-screen').remove();
   }
 
   // Create the header section and nav buttons
@@ -336,7 +305,6 @@ llab.setupTitle = function() {
     document.title = titleText;
   }
 
-  // Set the header title to the page title.
   titleText = document.title;
   if (titleText) {
     $('.navbar-title').html(titleText);
@@ -441,7 +409,7 @@ llab.createTitleNav = function() {
   // FUTURE - We should separate the rest of this function if necessary.
   if (!llab.isCurriculum()) { return; }
 
-  if ($(llab.selectors.PROGRESS).length === 0) {
+  if ($('.full-bottom-bar').length === 0) {
     $(document.body).append(botHTML);
   }
 
@@ -462,9 +430,7 @@ llab.dropdownItem = function(text, url) {
 // Pages directly within a lab. Excludes 'topic' and 'course' pages.
 llab.isCurriculum = function() {
   if (llab.getQueryParameter('topic')) {
-    return ![
-      llab.empty_topic_page_path, llab.topic_launch_page, llab.alt_topic_page
-    ].includes(llab.stripLangExtensions(location.pathname));
+    return !llab.isTopicFile();
   }
   return false;
 }
@@ -491,14 +457,15 @@ llab.setButtonURLs = function() {
 
   forward = $('.js-nextPageLink');
   back = $('.js-backPageLink');
-  $('.js-navButton').removeClass('hidden');
+  // Unhide buttons and remove click handlers
+  $('.js-navButton').removeClass('hidden').off('click');
 
   if (llab.thisPageNum() === 0) {
     back.addClass('disabled').removeAttr('href').attr('disabled', true);
   } else {
     back.removeClass('disabled').removeAttr('disabled')
       .attr('href', llab.url_list[llab.thisPageNum() - 1])
-      .click(llab.goBack);
+      .on('click', llab.dynamicNavigation(llab.url_list[llab.thisPageNum() - 1]));
   }
 
   // Disable the forward button
@@ -507,18 +474,73 @@ llab.setButtonURLs = function() {
   } else {
     forward.removeClass('disabled').removeAttr('disabled')
       .attr('href', llab.url_list[llab.thisPageNum() + 1])
-      .click(llab.goForward);
+      .on('click', llab.dynamicNavigation(llab.url_list[llab.thisPageNum() + 1]));
   }
 };
 
-// TODO: Update page content and push URL onto browser back button
-llab.goBack = function() {
-  location.href = llab.url_list[llab.thisPageNum() - 1];
-};
+llab.loadNewPage = (path) => {
+  if (llab.PREVENT_NAVIGATIONS) {
+    // this seems like a poor way to debounce multiple clicks.
+    setTimeout((() => llab.PREVENT_NAVIGATIONS = false), 500);
+  }
 
-llab.goForward = function() {
-  location.href = llab.url_list[llab.thisPageNum() + 1];
-};
+  llab.PREVENT_NAVIGATIONS = true;
+  fetch(path)
+    .then(response => response.text())
+    .then(html => llab.rebuildPageFromHTML(html, path))
+    .catch(err => {
+      llab.PREVENT_NAVIGATIONS = false;
+      console.warn('Something went wrong.', err);
+      if (typeof Sentry !== 'undefined') {
+        Sentry.captureException(err);
+      }
+      // make a traditional redirect.
+      location.href = path;
+    });
+}
+
+// Handle popstate events for when users use the back button
+window.addEventListener("popstate", (event) => {
+  llab.rerenderPage(event.state['body'], event.state['pageTitle']);
+});
+
+llab.rerenderPage = (pageBody, title) => {
+  // Reset llab state.
+  llab.titleSet = false;
+  llab.conditional_setup_run = false;
+
+  document.title = title;
+  $('.full').html(pageBody);
+  llab.displayTopic(); // only topic pages...
+  llab.editURLs(); // only course pages
+  llab.secondarySetUp();
+  buildQuestions(); // MCQs
+  llab.conditionalSetup(llab.CONDITIONAL_LOADS);
+  // TODO: Do we need to fire off any events? Bootstrap? dom loaded?
+  window.scrollTo({ top: 0, behavior: 'instant' });
+
+  if (llab.GACode) {
+    gtag('config', llab.GACode, {
+      page_title: title,
+      page_location: location.href // Full URL is required.
+    });
+  }
+}
+
+// Called when we load an new document via a fetch.
+llab.rebuildPageFromHTML = (html, path) => {
+  let parser = new DOMParser(),
+    doc = parser.parseFromString(html, 'text/html');
+
+  let title = doc.querySelector('title') ? doc.querySelector('title').text : '';
+  let body = doc.body.innerHTML;
+
+  // This needs to happen fast, so dependent APIs can read the new URL.
+  window.history.pushState({ "html": html, "pageTitle": title, "body": body },"", path);
+  llab.rerenderPage(body, title);
+
+  llab.PREVENT_NAVIGATIONS = false;
+}
 
 llab.addFeedback = function(title, topic, course) {
   // Prevent Button on small devices
@@ -571,40 +593,41 @@ llab.addFeedback = function(title, topic, course) {
 
 // TODO: Move to bootstrap classes (wait until BS5)
 llab.addFooter = () => {
+  if ($('footer').length > 0) { return; }
+
   $(document.body).append(
-    `<footer>
-      <div class="footer wrapper margins">
-        <div class="footer-col col1">
-          <img class="noshadow" src="/bjc-r/img/header-footer/NSF_logo.png" alt="NSF" />
-        </div>
-        <div class="footer-col col2">
-          <img class="noshadow" src="/bjc-r/img/header-footer/EDC_logo.png" alt="EDC" />
-        </div>
-        <div class="footer-col col3">
-          <img class="noshadow" src="/bjc-r/img/header-footer/UCB_logo.png" alt="UCB" />
-        </div>
-        <div class="footer-col col4">
-          <p>The Beauty and Joy of Computing by University of California, Berkeley and Education
-          Development Center, Inc. is licensed under a Creative Commons
-          Attribution-NonCommercial-ShareAlike 4.0 International License. The development of this
-          site has been funded by the National Science Foundation under grant nos. 1138596, 1441075,
-          and 1837280; the U.S. Department of Education under grant number S411C200074; and the
-          Hopper-Dean Foundation.
-          Any opinions, findings, and conclusions or recommendations expressed in this material are
-          those of the author(s) and do not necessarily reflect the views of the National Science
-          Foundation or our other funders.
-        </p>
+  `<footer>
+    <div class="footer wrapper margins">
+      <div class="footer-col col-md-1 col-xs-4">
+        <img style="max-height: 50px" class="noshadow" src="/bjc-r/img/header-footer/NSF_logo.png" alt="NSF" />
       </div>
-      <div class="footer-col col5">
-        <img class="noshadow" src="/bjc-r/img/header-footer/cc_88x31.png" alt="Creative Commons Attribution" />
+      <div class="footer-col col-md-1 col-xs-4">
+        <img style="max-height: 50px" class="noshadow" src="/bjc-r/img/header-footer/EDC_logo.png" alt="EDC" />
       </div>
+      <div class="footer-col col-md-1 col-xs-4">
+        <img style="max-height: 50px" class="noshadow" src="/bjc-r/img/header-footer/UCB_logo.png" alt="UCB" />
+      </div>
+      <div class="footer-col col-md-6 col-xs-12">
+        <p>The Beauty and Joy of Computing by University of California, Berkeley and Education
+        Development Center, Inc. is licensed under a Creative Commons
+        Attribution-NonCommercial-ShareAlike 4.0 International License. The development of this
+        site has been funded by the National Science Foundation under grant nos. 1138596, 1441075,
+        and 1837280; the U.S. Department of Education under grant number S411C200074; and the
+        Hopper-Dean Foundation.
+        Any opinions, findings, and conclusions or recommendations expressed in this material are
+        those of the author(s) and do not necessarily reflect the views of the National Science
+        Foundation or our other funders.
+      </p>
     </div>
-  </footer>`
-  );
+    <div class="footer-col col-md-1 col-xs-4">
+      <img style="max-height: 50px" class="noshadow" src="/bjc-r/img/header-footer/cc_88x31.png" alt="Creative Commons Attribution" />
+    </div>
+  </div>
+</footer>`
+);
 }
 
-// Show a link 'switch to espanol' or 'switch to english' depending on the current language
-// TODO: Move this to a dropdown menu in the navbar with a globe icon
+// Show a dropdwon icon in the navbar if the same URL exists in a translated form.
 llab.setupTranslationsMenu = function() {
   if (!llab.isLocalEnvironment()) { return; }
 
@@ -619,7 +642,12 @@ llab.setupTranslationsMenu = function() {
     new_url = location.href.replace(/\.html/g, '.es.html').replace(/\.topic/g, '.es.topic');
    }
    fetch(new_url).then((response) => {
-      if (!response.ok) { return; }
+      if (!response.ok) {
+        // We might need to re-hide the menu if it is currently showing.
+        $('.js-langDropdown').addClass('hidden');
+        $('.js-langDropdown a').removeAttr('href');
+        return;
+      }
       $('.js-langDropdown').removeClass('hidden');
       if (lang == 'es') {
         $('.js-switch-lang-es').attr('href', location.href);
@@ -651,6 +679,5 @@ llab.indicateProgress = function(numSteps, currentStep) {
 
 // Setup the nav and parse the topic file.
 $(document).ready(function() {
-  debugger;
   llab.secondarySetUp();
 });
