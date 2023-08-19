@@ -508,7 +508,6 @@ llab.loadNewPage = (path) => {
 // TODO: We use pushState, add a hook for onpopstate (back button use)
 // Called when we load an new document via a fetch.
 llab.rebuildPageFromHTML = (html, path) => {
-
   let parser = new DOMParser(),
     doc = parser.parseFromString(html, 'text/html');
 
@@ -597,17 +596,17 @@ llab.addFooter = () => {
 
   $(document.body).append(
   `<footer>
-    <div class="footer wrapper margins">
-      <div class="footer-col col1">
+    <div class="footer wrapper margins row">
+      <div class="footer-col col-md-2 col-xs-4">
         <img class="noshadow" src="/bjc-r/img/header-footer/NSF_logo.png" alt="NSF" />
       </div>
-      <div class="footer-col col2">
+      <div class="footer-col col-md-2 col-xs-4">
         <img class="noshadow" src="/bjc-r/img/header-footer/EDC_logo.png" alt="EDC" />
       </div>
-      <div class="footer-col col3">
+      <div class="footer-col col-md-2 col-xs-4">
         <img class="noshadow" src="/bjc-r/img/header-footer/UCB_logo.png" alt="UCB" />
       </div>
-      <div class="footer-col col4">
+      <div class="footer-col col-md-4 col-xs-12">
         <p>The Beauty and Joy of Computing by University of California, Berkeley and Education
         Development Center, Inc. is licensed under a Creative Commons
         Attribution-NonCommercial-ShareAlike 4.0 International License. The development of this
@@ -619,7 +618,7 @@ llab.addFooter = () => {
         Foundation or our other funders.
       </p>
     </div>
-    <div class="footer-col col5">
+    <div class="footer-col col-md-2 col-xs-4">
       <img class="noshadow" src="/bjc-r/img/header-footer/cc_88x31.png" alt="Creative Commons Attribution" />
     </div>
   </div>
