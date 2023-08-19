@@ -505,7 +505,36 @@ llab.loadNewPage = (path) => {
     });
 }
 
-// TODO: We use pushState, add a hook for onpopstate (back button use)
+// Handle popstate events for when users use the back button
+window.addEventListener("popstate", (event) => {
+  llab.rerenderPage(event.state['body'], event.state['pageTitle']);
+});
+
+llab.rerenderPage = (pageBody, title) => {
+  // Reset llab state.
+  llab.titleSet = false;
+  llab.conditional_setup_run = false;
+
+  document.title = title;
+  $('.full').html(pageBody);
+  // Setup the new page
+  // TODO: Ensure this is idempotent.
+  llab.displayTopic();
+  llab.secondarySetUp();
+  buildQuestions(); // MCQs
+  llab.editURLs(); // course pages
+  llab.conditionalSetup(llab.CONDITIONAL_LOADS);
+  // TODO: Do we need to fire off any events? Bootstrap? dom loaded?
+  window.scrollTo({ top: 0, behavior: 'instant' });
+
+  if (llab.GACode) {
+    gtag('config', llab.GACode, {
+      page_title: title,
+      page_location: location.href // Full URL is required.
+    });
+  }
+}
+
 // Called when we load an new document via a fetch.
 llab.rebuildPageFromHTML = (html, path) => {
   let parser = new DOMParser(),
@@ -515,29 +544,9 @@ llab.rebuildPageFromHTML = (html, path) => {
   let body = doc.body.innerHTML;
 
   // This needs to happen fast, so dependent APIs can read the new URL.
-  window.history.pushState({ "html": html, "pageTitle": title },"", path);
+  window.history.pushState({ "html": html, "pageTitle": title, "body": body },"", path);
+  llab.rerenderPage(body, title);
 
-  // What else needs to be reset?
-  llab.titleSet = false;
-  llab.conditional_setup_run = false;
-  document.title = title;
-  $('.full').html(body);
-  // Setup the new page
-  // TODO: Ensure this is idempotent.
-  llab.displayTopic();
-  llab.secondarySetUp();
-  buildQuestions(); // MCQs
-  llab.editURLs(); // course pages
-  llab.conditionalSetup(llab.CONDITIONAL_LOADS);
-  // TODO:
-  // Do we need to fire off any events? Bootstrap? dom loaded?
-  window.scrollTo({ top: 0, behavior: 'instant' });
-  if (llab.GACode) {
-    gtag('config', llab.GACode, {
-      page_title: title,
-      page_location: location.href // Full URL is required.
-    });
-  }
   llab.PREVENT_NAVIGATIONS = false;
 }
 
