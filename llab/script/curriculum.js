@@ -413,7 +413,7 @@ llab.createTitleNav = function() {
   // FUTURE - We should separate the rest of this function if necessary.
   if (!llab.isCurriculum()) { return; }
 
-  if ($(llab.selectors.PROGRESS).length === 0) {
+  if ($('.full-bottom-bar').length === 0) {
     $(document.body).append(botHTML);
   }
 
@@ -512,14 +512,15 @@ llab.loadNewPage = (path) => {
 
 // Called when we load an new document via a fetch.
 llab.rebuildPageFromHTML = (html, path) => {
+  // This needs to happen fast, so dependent APIs can read the new URL.
+  window.history.pushState({}, '', path);
+
   let parser = new DOMParser(),
     doc = parser.parseFromString(html, 'text/html');
 
   let title = doc.querySelector('title') ? doc.querySelector('title').text : '';
   let body = doc.body.innerHTML;
 
-  // This needs to happen sooner, so dependent APIs can read the new URL.
-  window.history.pushState({}, '', path);
   // What else needs to be reset?
   llab.titleSet = false;
   llab.conditional_setup_run = false;
@@ -527,6 +528,7 @@ llab.rebuildPageFromHTML = (html, path) => {
   $('.full').html(body);
   // Setup the new page
   // TODO: Ensure this is idempotent.
+  llab.displayTopic();
   llab.secondarySetUp();
   buildQuestions(); // MCQs
   llab.editURLs(); // course pages
