@@ -147,7 +147,7 @@ class Vocab
     end
     File.write(fileName, "<h2>#{@currUnitName}</h2>\n", mode: 'a')
     File.write(fileName, "<h3>#{currLab}</h3>\n", mode: 'a')
-    Dir.chdir(@labPath)
+    Dir.chdir(filePath)
   end
 
   def add_HTML_end
