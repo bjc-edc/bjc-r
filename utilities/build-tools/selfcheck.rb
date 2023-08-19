@@ -182,7 +182,8 @@ class SelfCheck
     unitNum = return_unit(@currUnit)
     box_num(@box_num + 1)
     suffix = generate_url_suffix(TOPIC_COURSE[0], get_prev_folder(Dir.pwd), TOPIC_COURSE[1])
-    " <a href=\"#{get_url(@currFile)}#box#{@box_num}#{suffix}\">#{unitNum}</a>"
+    #" <a href=\"#{get_url(@currFile)}#box#{@box_num}#{suffix}\">#{unitNum}</a>"
+    " <a href=\"#{get_url(@currFile)}#box#{@box_num}\">#{unitNum}</a>"
   end
 
   # need something to call this function and parse_unit
