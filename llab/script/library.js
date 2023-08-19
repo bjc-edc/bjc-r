@@ -95,22 +95,29 @@ llab.pageLang = () => {
         return llab.CURRENT_PAGE_LANG;
     }
 
+    let urlLang = llab.determinLangFromURL();
     let htmlLang = $("html").attr('lang');
-    if (!htmlLang) {
-        htmlLang = llab.determineAltLang();
-        $("html").attr('lang', htmlLang);
+
+    if (urlLang) {
+        llab.CURRENT_PAGE_LANG = urlLang;
     }
-    llab.CURRENT_PAGE_LANG = htmlLang || 'en';
+
+    llab.CURRENT_PAGE_LANG = urlLang || htmlLang || 'en';
+
+    if (!htmlLang) {
+        $("html").attr('lang', llab.CURRENT_PAGE_LANG);
+    }
+
     return llab.CURRENT_PAGE_LANG;
 }
 
 // Use the filename of the HTML file or course file, or topic file to determine page language.
-llab.determineAltLang = () => {
-    let altLang = location.href.match(/\.(\w\w)\.(html|topic)/);
-    if (altLang) {
-        return altLang[1];
+llab.determinLangFromURL = () => {
+    let urlLang = location.href.match(/\.(\w\w)\.(html|topic)/);
+    if (urlLang) {
+        return urlLang[1];
     }
-    return 'en'
+    return null;
 }
 
 // very loosely mirror the Rails API
