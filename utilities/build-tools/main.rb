@@ -193,20 +193,19 @@ class Main
     link_match = "/bjc-r/#{@content}"
     unit = File.readlines(topic_file_path).find { |line| line.match?(link_match) }
     link = extract_unit_path(unit, false, true)
-    list = [@vocab.vocab_file_name, @self_check.exam_file_name, @self_check.self_check_file_name]
+    list = [@vocab.vocab_file_name, 
+            @self_check.exam_file_name, 
+            @self_check.self_check_file_name].map {|f_name| f_name.gsub!(/\d+/, @unitNum)}
     suffix = generate_url_suffix(@topic_folder, curr_lab_folder, @course_file)
-    topic_resource = ["\tresource: (NEW) #{I18n.t('vocab')} [#{link}/#{@vocab.vocab_file_name}#{suffix}#]",
-                    "\n\tresource: (NEW) #{I18n.t('on_ap_exam')} [#{link}/#{@self_check.exam_file_name}#{suffix}]",
-                    "\n\tresource: (NEW) #{I18n.t('self_check')} [#{link}/#{@self_check.self_check_file_name}#{suffix}]"]
+    topic_resource = ["\tresource: (NEW) #{I18n.t('vocab')} [#{link}/#{list[0]}#{suffix}#]",
+                    "\n\tresource: (NEW) #{I18n.t('on_ap_exam')} [#{link}/#{list[1]}#{suffix}]",
+                    "\n\tresource: (NEW) #{I18n.t('self_check')} [#{link}/#{list[2]}#{suffix}]"]
     topic_content = <<~TOPIC
       heading: (NEW) #{I18n.t('unit_review', num: @unitNum)}
     TOPIC
     is_empty_review = true
-    puts review_folder
     list.length.times do |index|
       if File.exist?("#{review_folder}/#{list[index]}")
-        puts list[index]
-        puts @vocab.vocab_file_name
         topic_content += topic_resource[index]
         is_empty_review = false
       end
@@ -255,7 +254,6 @@ class Main
       summaryExists = true if (index > 1) && isSummary(line)
       line = removeComment(oldline) if isComment(line)
       if line.match(/\}/) && !summaryExists
-        #allLines[index] = addSummariesToTopic(file)
         summaryExists = true
       elsif isTopic(line)
         if line.match(headerPattern)
@@ -490,22 +488,24 @@ class Main
     i = 0
     f.each do |line|
       if line.match(endUnitPattern)
-        #currentPath = Dir.getwd
         current_unit_folder = current_lab_folder.split("/")[-2]
         addSummariesToTopic(topic_files_in_course[topics_index], current_unit_folder)
-        topics_index += 1
         copyFiles
-        #FileUtils.cd(currentPath)
+        topics_index += 1
       end
       if !line.match(labNamePattern).nil?
         labFile = extractTopicLink(line)
+        root = @rootDir.split("/bjc-r")[0]
+        lab_path = "#{root}#{line.split(labNamePattern)[-1].split(" ")[-1]}"
         if labFile != ''
           current_lab_folder = extractTopicLinkFolder(line)
-          Dir.chdir(current_lab_folder)
-          @vocab.labPath(Dir.getwd)
-          @vocab.read_file(labFile)
-          @self_check.read_file(labFile)
-          @atwork.read_file(labFile)
+          if File.exist?(lab_path)
+            Dir.chdir(current_lab_folder)
+            @vocab.labPath(Dir.getwd)
+            @vocab.read_file(labFile)
+            @self_check.read_file(labFile)
+            @atwork.read_file(labFile)
+          end
         end
       elsif line.match(unitNamePattern)
         unitNum(line.match(/\d+/).to_s)
@@ -520,6 +520,7 @@ class Main
       end
       i += 1
     end
+    f.close
   end
 
   def isEndofTopicPage(line)
