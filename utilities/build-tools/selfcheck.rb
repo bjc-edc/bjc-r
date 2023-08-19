@@ -119,6 +119,7 @@ class SelfCheck
     # header = parse_vocab_header(doc.xpath(""))
     examSet.each do |node|
       child = node.children
+      node.kwattr_add("style", "width: 95%")
       child.before(add_unit_to_header)
       # node.content.gsub(/\n\n/, "\n")
     end
@@ -183,7 +184,7 @@ class SelfCheck
     box_num(@box_num + 1)
     suffix = generate_url_suffix(TOPIC_COURSE[0], get_prev_folder(Dir.pwd), TOPIC_COURSE[1])
     #" <a href=\"#{get_url(@currFile)}#box#{@box_num}#{suffix}\">#{unitNum}</a>"
-    " <a href=\"#{get_url(@currFile)}#box#{@box_num}\">#{unitNum}</a>"
+    " <a href=\"#{get_url(@currFile)}#{suffix}#box#{@box_num}\"><b>#{unitNum}</b></a>"
   end
 
   # need something to call this function and parse_unit

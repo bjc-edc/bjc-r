@@ -175,6 +175,10 @@ class Vocab
     f.close
   end
 
+  #re-formatting the margins of the vocab boxes some there is less whitespace on vocab pages
+  def reformat(file)
+  end
+
   # might need to save index of line when i find the /div/ attribute
   # might be better to have other function to handle that bigger parsing of the whole file #with io.foreach
   def parse_vocab(file)
@@ -188,6 +192,7 @@ class Vocab
       if vocab_set.to_s != ""
         vocab_set.each do |node|
           child = node.children
+          node.kwattr_add("style", "width: 95%")
           child.before(add_vocab_unit_to_header) #if !child.to_a.include?(add_vocab_unit_to_header)
           get_vocab_word(node)
           boxNum(1 + @boxNum)
@@ -202,6 +207,7 @@ class Vocab
         vocab_set2.each do |node|
           child = node.children
           change_to_vocabFullWidth(vocab_set2, node['class'])
+          node.kwattr_add("style", "width: 95%")
           child.before(add_vocab_unit_to_header) #if !child.to_a.include?(add_vocab_unit_to_header)
           get_vocab_word(node)
           boxNum(1 + @boxNum)
@@ -329,15 +335,15 @@ class Vocab
     ##FileUtils.cd('..')
     path = get_prev_folder(Dir.pwd, true)
     #link = " <a href=\"#{get_url(vocab_file_name, path)}#box#{@boxNum}#{suffix}\">#{unitNum}</a>"
-    link = " <a href=\"#{get_url(vocab_file_name, path)}#box#{@boxNum}\">#{unitNum}</a>"
+    link = " <a href=\"#{get_url(vocab_file_name, path)}#{suffix}#box#{@boxNum}\">#{unitNum}</a>"
   end
 
   def add_vocab_unit_to_header
     unitNum = return_vocab_unit(@currUnit)
     suffix = generate_url_suffix(TOPIC_COURSE[0], get_prev_folder(Dir.pwd), TOPIC_COURSE[1])
    #"<a href=\"#{get_url(@currFile, Dir.pwd)}#{suffix}\"> #{unitNum}</a>
-   "<a href=\"#{get_url(@currFile, Dir.pwd)}\"> #{unitNum}</a>
-    <a name=\"box#{@boxNum}\" class=\"anchor\">&nbsp;</a>"
+   #"<a name=\"box#{@boxNum}\" class=\"anchor\">&nbsp;</a>
+    "<a name=\"box#{@boxNum}\" href=\"#{get_url(@currFile, Dir.pwd)}\"><b> #{unitNum}</b></a>"
     # if lst.size > 1
     #	unitSeriesNum = lst.join(" #{withlink}:")
     # else
