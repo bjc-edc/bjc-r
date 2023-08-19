@@ -252,7 +252,7 @@ llab.processLinks = function(data, _status, _jqXHR) {
   // Set the max-height of the dropdown list to not exceed window height
   // This is particularly important for smaller screens.
   $('.dropdown-menu').css('max-height', $(window).height() * 0.6);
-  $('.dropdown-menu').css('max-width', Math.min($(window).width(), 450));
+  $('.dropdown-menu').css('max-width', Math.min($(window).width()*.97, 450));
 
   // Attach Dynamic Click Handlers to menu items.
   $('a[role=menuitem]').each((_i, element) => {
