@@ -131,23 +131,24 @@ class Vocab
 
   def createNewVocabFile(fileName)
     i = 0
-    filePath = Dir.getwd
+    file_path = Dir.getwd
     unless File.exist?(fileName)
       Dir.chdir(review_folder)
       File.new(fileName, 'w')
     end
-    linesList = File.readlines("#{filePath}/#{@currFile}")[0..30]
+    f = File.open(fileName, mode: 'a')
+    linesList = File.readlines("#{file_path}/#{@currFile}")[0..30]
     while !linesList[i].match(/<body>/) && (i < 30)
       if linesList[i].match(/<title>/)
-        File.write(fileName, "<title>#{unit} #{@currUnitNum} #{I18n.t('vocab')}</title>\n", mode: 'a')
+        f.write("<title>#{unit} #{@currUnitNum} #{I18n.t('vocab')}</title>\n")
       else
-        File.write(fileName, "#{linesList[i]}\n", mode: 'a')
+        f.write("#{linesList[i]}\n")
       end
       i += 1
     end
-    File.write(fileName, "<h2>#{@currUnitName}</h2>\n", mode: 'a')
-    File.write(fileName, "<h3>#{currLab}</h3>\n", mode: 'a')
-    Dir.chdir(filePath)
+    f.write("<h2>#{@currUnitName}</h2>\n<h3>#{currLab}</h3>\n")
+    f.close
+    Dir.chdir(file_path)
   end
 
   def add_HTML_end
@@ -163,11 +164,15 @@ class Vocab
     data = data.gsub(/&amp;/, '&')
     data.delete!("\n\n\\")
     if File.exist?(filename)
-      File.write(filename, "<h3>#{currLab}</h3>", mode: 'a') if lab != currLab
+      f = File.open(filename, mode: 'a') 
+      f.write("<h3>#{currLab}</h3>") if lab != currLab
+      f.close
     else
       createNewVocabFile(filename)
     end
-    File.write(filename, data, mode: 'a')
+    f = File.open(filename, mode: 'a') 
+    f.write(data)
+    f.close
   end
 
   # might need to save index of line when i find the /div/ attribute
@@ -204,7 +209,6 @@ class Vocab
         add_vocab_to_file(vocab_set2.to_s)
       end
     end
-
   end
 
   def change_to_vocabFullWidth(vocab_set, clas)

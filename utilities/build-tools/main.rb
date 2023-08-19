@@ -119,10 +119,13 @@ class Main
     # TODO: should filter en/es separately.
     files = list_files("#{language_ext}.html")
     files.each do |file|
-      File.open(file) do |f|
-        f.close
+      begin
+        File.open(file, 'r') do |f|
+          f.close
+          File.delete(f)
+        end
+      rescue Errno::ACCESS
       end
-      File.delete(file)
     end
     
     FileUtils.rm_rf(review_folder)
@@ -316,12 +319,9 @@ class Main
   end
 
   def add_content_to_file(filename, data)
-    if File.exist?(filename)
-      File.write(filename, data, mode: 'a')
-    else
-      File.new(filename, 'w')
-      File.write(filename, data)
-    end
+    File.exist?(filename) ? f = File.open(filename, 'a') : f = File.new(filename, 'w')
+    f.write(data)
+    f.close
   end
 
   # TODO: - if we have a BJCTopic class, this probably belongs there.
