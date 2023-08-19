@@ -137,7 +137,7 @@ llab.t = llab.translate;
 llab.pageLangugeExtension = () => llab.pageLang() == 'en' ? '' : `.${llab.pageLang()}`;
 
 // Turn img.es.png into img.png
-llab.stripLangExtensions = (text) => text.replace(new Regexp(`\.${llab.pageLang()}\.`, 'g'), '.');
+llab.stripLangExtensions = (text) => text.replace(new RegExp(`\.${llab.pageLang()}\.`, 'g'), '.');
 
 /////// CONDITIONAL LOADING OF CONTENT
 /**
