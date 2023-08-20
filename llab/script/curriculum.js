@@ -112,6 +112,7 @@ llab.secondarySetUp = function(newPath) {
   }
 
   if (llab.read_cache(llab.file)) {
+    // TODO: Update this to use a parsed JSON object.
     llab.processLinks(llab.read_cache(llab.file));
   } else {
     fetch(`${llab.topics_path}/${llab.file}`)
@@ -139,26 +140,29 @@ llab.processLinks = function(data) {
     llab.addFrame();
   }
 
+  // Reset the URL list
+  llab.url_list = [];
+
   // Get the URL parameters as an object
   // FIXME -- Rename the url variable
   // FIXME -- duplicate query parameters?
   var params = llab.getURLParameters(),
-  course = params.course || '',
-  topicArray = data.split("\n"),
-  url = location.href,
-  list = $('.js-llabPageNavMenu'),
-  itemContent,
-  ddItem,
-  line,
-  isHidden,
-  isHeading,
-  lineClass,
-  i = 0,
-  len = topicArray.length,
-  pageCount = -1,
-  urlOpen, urlClose;
+    course = params.course || '',
+    topicArray = data.split("\n"),
+    url = location.href,
+    list = $('.js-llabPageNavMenu'),
+    itemContent,
+    ddItem,
+    line,
+    isHidden,
+    isHeading,
+    lineClass,
+    i = 0,
+    len = topicArray.length,
+    pageCount = -1,
+    urlOpen, urlClose;
 
-  // Prevent src, title from being added to other URLS.
+  // Prevent src, title from being added to other URLs.
   delete params.src;
   delete params.title;
 
@@ -268,6 +272,13 @@ llab.processLinks = function(data) {
   llab.indicateProgress(llab.url_list.length, llab.thisPageNum() + 1);
 }; // end processLinks()
 
+
+// Build a list of links to be appended to the navigation dropdown.
+llab.buildDropdownFromTopicModel = (_llabObj) => {
+  // TODO: Just the parsed topic file to create dropdown contents.
+  let list = $('.js-llabPageNavMenu');
+
+}
 
 // Create an iframe when loading from an empty curriculum page
 // Used for embedded content. (Videos, books, etc)
