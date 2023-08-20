@@ -63,10 +63,8 @@ llab.topicKeywords.info = ["big-idea", "learning-goal"];
 
 */
 llab.parseTopicFile = function parser(data) {
-  llab.file = llab.topic;
   data = data.replace(/(\r)/gm, ""); // normalize line endings
   var lines = data.split("\n");
-  // TODO: If we support multiple topics per file -- this should have a URL field and maybe this should just be contents?
   var topics = { topics: [] };
   var line, topic_model, item, text, content, section, indent, raw = false;
   for (var i = 0; i < lines.length; i++) {
@@ -136,7 +134,7 @@ llab.parseTopicFile = function parser(data) {
         line = lines[i];
         raw_html.push(line);
       }
-      section.contents.push({ type: "raw-html", contents: raw_html });
+      section.contents.push({ type: "raw-html", contents: raw_html.join("\n") });
       raw = false;
     }
   }
@@ -188,7 +186,6 @@ llab.renderFull = function renderAndParse(data) {
   llab.renderTopicModel(content);
 };
 
-// TODO: this data format is messy.
 llab.renderTopicModel = function rederer(topics) {
   llab.renderTitle(topics.title);
   topics.topics.forEach(function (topic) {
@@ -286,7 +283,7 @@ llab.renderSection = function (section, parent) {
 };
 
 llab.renderResource = (resource, parent) => {
-  const item = $(`<li class="${resource.type}"></li>`);
+  const item = $(`<li></li>`); // class="${resource.type}"
 
   if (resource.url) {
     item.append(`<a href=${resource.url}>${resource.contents}</a>`);
@@ -312,9 +309,9 @@ llab.renderInfo = function (contents, type, parent) {
  * depending on how far it has been indented
  * on the line. */
 llab.indentLevel = function (s) {
-  var len = s.length;
-  var count = 0;
-  for (var i = 0; i < len; i++) {
+  const len = s.length;
+  let count = 0;
+  for (let i = 0; i < len; i++) {
     if (s[i] == " ") {
       count++;
     } else if (s[i] == "\t") {
