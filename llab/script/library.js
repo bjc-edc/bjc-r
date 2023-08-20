@@ -197,6 +197,13 @@ llab.displayMathDivs = function () {
   });
 };
 
+llab.handleError = (error) => {
+    console.warn("Something went wrong: ", error);
+    if (typeof Sentry !== "undefined") {
+    Sentry.captureException(error);
+  }
+};
+
 // TODO: jQuery3 -- these need to be migrated.
 llab.toggleDevComments = () => { $(llab.DEVELOPER_CLASSES).toggle() };
 llab.showAllDevComments = () => { $(llab.DEVELOPER_CLASSES).show() };
