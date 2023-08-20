@@ -120,11 +120,11 @@ class Main
     files = list_files("#{language_ext}.html")
     files.each do |file|
       begin
-        File.open(file, 'r') do |f|
+        File.open(file, mode: 'r') do |f|
           f.close
           File.delete(f)
         end
-      rescue Errno::ACCESS
+      rescue Errno::EACCES
       end
     end
     
