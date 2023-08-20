@@ -326,26 +326,15 @@ llab.indentLevel = function (s) {
   return Math.floor(count / 4);
 };
 
-llab.handleError = (error) => {
-  if (typeof Sentry !== "undefined") {
-    Sentry.captureException(error);
-  }
-  console.error(error);
-};
-
-llab.isTopicFile = () => {
-    return [
-        llab.topic_launch_page, llab.alt_topic_page
-    ].includes(llab.stripLangExtensions(location.href));
-}
-
 llab.displayTopic = function() {
-    llab.file = llab.getQueryParameter("topic");
+  if (!llab.isTopicFile()) { return; }
+
+  llab.file = llab.getQueryParameter("topic");
 
   if (llab.file) {
     fetch(llab.topics_path + llab.file)
-      .then((response) => response.text())
-      .then((data) => llab.renderFull(data))
+      .then(response => response.text())
+      .then(data => llab.renderFull(data))
       .catch(llab.handleError);
   } else {
     document.getElementsByTagName(llab.selectors.FULL).item(0).innerHTML =
