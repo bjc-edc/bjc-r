@@ -27,7 +27,11 @@ llab.set_cache = (key, value) => {
 // TODO: Should this ingore the cache in development?
 llab.read_cache = key => sessionStorage[key];
 
+// Switch to turn off ajax page loads.
 llab.DISABLE_DYNAMIC_NAVIGATION = false;
+// this should only be true when navigating back/forwards so we do no repopulate history.
+llab.SKIP_PUSH_STATE = false;
+
 llab.dynamicNavigation = (path) => {
   return (event) => {
     if (llab.DISABLE_DYNAMIC_NAVIGATION) {
@@ -40,7 +44,7 @@ llab.dynamicNavigation = (path) => {
 }
 
 // Executed on *every* page load.
-llab.secondarySetUp = function() {
+llab.secondarySetUp = function(newPath) {
   let t = llab.translate;
   llab.setupTitle();
   llab.addFooter();
@@ -94,6 +98,17 @@ llab.secondarySetUp = function() {
   // We don't have a topic file, so we should exit.
   if (llab.file === '' || !llab.isCurriculum()) {
     return;
+  }
+
+  if (!llab.SKIP_PUSH_STATE) {
+    window.history.pushState(
+      { "title": document.title, "body": $('.full').html() },
+      document.title,
+      newPath // null on initial page loads...
+    );
+  } else {
+    // once we have rendered a new page, we can add this back.
+    llab.SKIP_PUSH_STATE = false;
   }
 
   if (llab.read_cache(llab.file)) {
@@ -494,25 +509,26 @@ llab.loadNewPage = (path) => {
 
 // Handle popstate events for when users use the back button
 window.addEventListener("popstate", (event) => {
-  console.log(event);
   const state = event.state;
-  if (!state) {
+  if (!state || !state.body || !state.title) {
+    location.reload();
     return;
   }
 
-  llab.rerenderPage(state['body'], state['pageTitle']);
+  llab.SKIP_PUSH_STATE = true;
+  llab.rerenderPage(state.body, state.title);
 });
 
-llab.rerenderPage = (pageBody, title) => {
+llab.rerenderPage = (body, title, path) => {
   // Reset llab state.
   llab.titleSet = false;
   llab.conditional_setup_run = false;
 
   document.title = title;
-  $('.full').html(pageBody);
+  $('.full').html(body);
   llab.displayTopic(); // only topic pages...
   llab.editURLs(); // only course pages
-  llab.secondarySetUp();
+  llab.secondarySetUp(path);
   buildQuestions(); // MCQs
   llab.conditionalSetup(llab.CONDITIONAL_LOADS);
   // TODO: Do we need to fire off any events? Bootstrap? dom loaded?
@@ -528,19 +544,12 @@ llab.rerenderPage = (pageBody, title) => {
 
 // Called when we load an new document via a fetch.
 llab.rebuildPageFromHTML = (html, path) => {
-  // We need to put the **current** page in the browser history.
-  window.history.pushState(
-    { "html": document.innerHTML, "pageTitle": document.title, "body": document.body.innerHTML },
-    "",
-    location.href
-  );
-
   let parser = new DOMParser(),
     doc = parser.parseFromString(html, 'text/html');
 
   let title = doc.querySelector('title') ? doc.querySelector('title').text : '';
   let body = doc.body.innerHTML;
-  llab.rerenderPage(body, title);
+  llab.rerenderPage(body, title, path);
 
   llab.PREVENT_NAVIGATIONS = false;
 }
