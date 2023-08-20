@@ -275,7 +275,7 @@ llab.renderSection = function (section, parent) {
       llab.renderSection(current, $section);
     } else {
       // also handles: current.type == "raw_html"
-      $section.append(current.contents);
+      $contentContainer.append(current.contents);
     }
   }
 
