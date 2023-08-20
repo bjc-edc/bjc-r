@@ -59,17 +59,17 @@ llab.topicKeywords.resources = [
 llab.topicKeywords.headings = ["h1", "h2", "h3", "h4", "h5", "h6", "heading"];
 llab.topicKeywords.info = ["big-idea", "learning-goal"];
 
-/* TODO: comment...
-
+/* Turn a *.topic file in a JSON-type structure.
+ * This needs some work to be easier to use...
 */
 llab.parseTopicFile = function parser(data) {
-  data = data.replace(/(\r)/gm, ""); // normalize line endings
-  var lines = data.split("\n");
-  var topics = { topics: [] };
+  let splitLines = () => data.replace(/(\r)/gm, "").split("\n");
+  let lines = splitLines(), topics = { topics: [] };
+  let getNextLine = () => llab.stripComments(lines.shift()).trim();
+
   var line, topic_model, item, text, content, section, indent, raw = false;
-  for (var i = 0; i < lines.length; i++) {
-    line = llab.stripComments(lines[i]);
-    line = line.trim();
+  while (lines.length) {
+    line = getNextLine();
     if (line.length && !raw) {
       if (line.match(/^title:/)) {
         topics.title = line.slice(6);
@@ -101,9 +101,9 @@ llab.parseTopicFile = function parser(data) {
         // and only if indentation levels != nested levels.
         item = { type: tag, contents: content, indent: indent };
         section.contents.push(item);
-      } else if (llab.isResource(line) || true) {
-        // FIXME: dumb way to handle lines without a known tag
-        // Shouldn't this just be an else case?
+      } else if (line.length == 0) {
+        raw = false;
+      } else {
         tag = llab.getKeyword(line, llab.topicKeywords.resources);
         indent = llab.indentLevel(line);
         content = llab.getContent(line);
@@ -115,8 +115,6 @@ llab.parseTopicFile = function parser(data) {
         };
         section.contents.push(item);
       }
-    } else if (line.length == 0) {
-      raw = false;
     }
     if (raw) {
       var raw_html = [];
@@ -124,31 +122,30 @@ llab.parseTopicFile = function parser(data) {
       if (text) {
         raw_html.push(text);
       }
-
+      next = lines[1];
       while (
-        lines[i + 1].length >= 1 &&
-        lines[i + 1].slice(0) != "}" &&
-        !llab.isKeyword(lines[i + 1])
+        next.length >= 1 && next[0] != "}" && !llab.isKeyword(next)
       ) {
-        i++;
-        line = lines[i];
+        line = getNextLine();
+        console.log(`raw - i: ${i}  line: ${line}`)
         raw_html.push(line);
+        next = lines[1];
       }
       section.contents.push({ type: "raw-html", contents: raw_html.join("\n") });
       raw = false;
     }
   }
   llab.topics = topics;
-
   return topics;
 };
 
-// Shorter method alias (used in node API)
-llab.parse = llab.parseTopicFile;
-
-/* TODO: Comment needed.
+/*
+ *  Return true if a line matches with a keywoard in A.
+ *  A `line` is either a single word, or an unparsed line of a topic file.
  */
-llab.matchesArray = (line, A) => A.some((s) => line.match(s) !== null);
+llab.matchesArray = (line, A) => {
+  return A.some(s => line.match(new RegExp(`(\s*${s}:)|(^${s}$)`, 'i')) !== null);
+};
 
 // TODO: comment...
 llab.getKeyword = function (line, A) {
@@ -162,7 +159,7 @@ llab.getContent = function (line) {
   var content = line.slice(sepIdx + 1);
   // TODO, we could probably strengthen this with a lastIndexOf() call.
   var sliced = content.split(/\[|\]/);
-  return { text: sliced[0], url: sliced[1] };
+  return { text: sliced[0].trim(), url: sliced[1] };
 };
 
 llab.isResource = function (line) {
@@ -204,6 +201,11 @@ llab.renderTitle = function (title) {
 };
 
 llab.renderCourseLink = function (course) {
+  if (!course) {
+    console.log('No course found for this topic page.');
+    return;
+  }
+
   if (course.indexOf("://") === -1) {
     course = llab.courses_path + course;
   }
@@ -252,12 +254,10 @@ llab.renderSection = function (section, parent) {
   var current;
   for (var i = 0; i < section.contents.length; i++) {
     current = section.contents[i];
-    isHidden = params.hasOwnProperty("no" + current.type);
+    isHidden = params.hasOwnProperty(`no${current.type}`);
 
     // Skip Rendering Hidden Resources.
-    if (isHidden) {
-      continue;
-    }
+    if (isHidden) { continue; }
 
     if (current.type && llab.isResource(current.type)) {
       llab.renderResource(current, $contentContainer);
@@ -282,11 +282,26 @@ llab.renderSection = function (section, parent) {
   $section.appendTo(parent);
 };
 
+llab.fullResourceURL = (url) => {
+  let query = llab.getURLParameters();
+
+  // TODO: Do not append llab-specific query parameters to external links.
+  if (url.indexOf("http") != -1) {
+      query = $.extend({}, query, { src: url });
+      url = llab.empty_curriculum_page_path;
+  } else if (url.indexOf(llab.rootURL) == -1 && url.indexOf("..") == -1) {
+      url = `${llab.rootURL}${url[0] == "/" ? '' : '/'}${url}`;
+  }
+  url += (url.indexOf('?') !== -1 ? '&' : '?') + llab.QS.stringify(query);
+
+  return url;
+}
+
 llab.renderResource = (resource, parent) => {
   const item = $(`<li></li>`); // class="${resource.type}"
 
   if (resource.url) {
-    item.append(`<a href=${resource.url}>${resource.contents}</a>`);
+    item.append(`<a href=${llab.fullResourceURL(resource.url)}>${resource.contents}</a>`);
   } else {
     item.append(resource.contents);
   }

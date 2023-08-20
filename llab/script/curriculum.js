@@ -273,9 +273,7 @@ llab.addFrame = function() {
 // Setup the entire page title. This includes creating any HTML elements.
 // This should be called EARLY in the load process!
 llab.setupTitle = function() {
-  if (llab.titleSet) {
-    return;
-  }
+  if (llab.titleSet) { return; }
 
   if (!$('meta[name="viewport"]').length) {
     $(document.head).append('<meta name="viewport" content="width=device-width, initial-scale=1">');
@@ -496,7 +494,13 @@ llab.loadNewPage = (path) => {
 
 // Handle popstate events for when users use the back button
 window.addEventListener("popstate", (event) => {
-  llab.rerenderPage(event.state['body'], event.state['pageTitle']);
+  console.log(event);
+  const state = event.state;
+  if (!state) {
+    return;
+  }
+
+  llab.rerenderPage(state['body'], state['pageTitle']);
 });
 
 llab.rerenderPage = (pageBody, title) => {
@@ -524,14 +528,18 @@ llab.rerenderPage = (pageBody, title) => {
 
 // Called when we load an new document via a fetch.
 llab.rebuildPageFromHTML = (html, path) => {
+  // We need to put the **current** page in the browser history.
+  window.history.pushState(
+    { "html": document.innerHTML, "pageTitle": document.title, "body": document.body.innerHTML },
+    "",
+    location.href
+  );
+
   let parser = new DOMParser(),
     doc = parser.parseFromString(html, 'text/html');
 
   let title = doc.querySelector('title') ? doc.querySelector('title').text : '';
   let body = doc.body.innerHTML;
-
-  // This needs to happen fast, so dependent APIs can read the new URL.
-  window.history.pushState({ "html": html, "pageTitle": title, "body": body },"", path);
   llab.rerenderPage(body, title);
 
   llab.PREVENT_NAVIGATIONS = false;
@@ -673,6 +681,4 @@ llab.indicateProgress = function(numSteps, currentStep) {
 };
 
 // Setup the nav and parse the topic file.
-$(document).ready(function() {
-  llab.secondarySetUp();
-});
+$(document).ready( () => llab.secondarySetUp() );
