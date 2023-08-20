@@ -206,17 +206,16 @@ llab.handleError = (error) => {
 
 // TODO: jQuery3 -- these need to be migrated.
 llab.toggleDevComments = () => { $(llab.DEVELOPER_CLASSES).toggle() };
-llab.showAllDevComments = () => { $(llab.DEVELOPER_CLASSES).show() };
 
 llab.setUpDevComments = () => {
     if (llab.isLocalEnvironment()) {
         if ($('.js-commentBtn').length < 1) {
             let addToggle = $('<button class="imageRight btn btn-default js-commentBtn">')
                 .click(llab.toggleDevComments)
-                .text('Toggle developer todos/comments (red boxes)');
+                .text('Toggle developer comments (red boxes)');
             $(FULL).prepend(addToggle);
         }
-        $(window).load(llab.showAllDevComments);
+        $(document).ready(llab.toggleDevComments);
     }
 }
 
