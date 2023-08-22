@@ -247,4 +247,15 @@ llab.displayTopic = () => {
     }
 }
 
-$(document).ready(() => llab.displayTopic() );
+llab.isTopicFile = () => {
+    var url = llab.stripLangExtensions(location.href);
+    return (url.indexOf("topic.html") !== -1 ||
+        // FIXME -- this may be broken.
+        url.indexOf("empty-topic-page.html") !== -1);
+}
+
+// Make a call to build a topic page.
+// Be sure that content is set only on pages that it should be
+$(document).ready(function() {
+    llab.displayTopic();
+});
