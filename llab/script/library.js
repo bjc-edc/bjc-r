@@ -10,6 +10,8 @@ llab = llab || {};
 llab.loaded = llab.loaded || {};
 llab.DEVELOPER_CLASSES = '.todo, .comment, .commentBig, .ap-standard, .csta-standard'
 
+llab.PRODUCTION_SERVERS = [ 'bjc.berkeley.edu', 'bjc.edc.org', 'cs10.org' ]
+
 ////// TRANSLATIONS -- Shared Across All Files.
 llab.TRANSLATIONS = {
     'ifTime': {
@@ -205,17 +207,33 @@ llab.handleError = (error) => {
 };
 
 // TODO: jQuery3 -- these need to be migrated.
-llab.toggleDevComments = () => { $(llab.DEVELOPER_CLASSES).toggle() };
+llab.toggleDevComments = () => $(llab.DEVELOPER_CLASSES).toggle();
 
+// Staging is a dev environment + gh-pages, etc.
+llab.isStagingEnvironment = () => !llab.PRODUCTION_SERVERS.includes(location.host);
+
+// TODO: Rename this to "setupDevTools" something...
 llab.setUpDevComments = () => {
+    // Remove and re-add (necessary for dynamic navigations)
+    const rightSideButton = 'imageRight btn btn-sm'
+    $('.js-openProdLink, .js-commentBtn').remove();
+
+    // Specifically exclude public staging pages.
     if (llab.isLocalEnvironment()) {
-        if ($('.js-commentBtn').length < 1) {
-            let addToggle = $('<button class="imageRight btn btn-default js-commentBtn">')
-                .click(llab.toggleDevComments)
-                .text('Toggle developer comments (red boxes)');
-            $(FULL).prepend(addToggle);
-        }
+        let addToggle = $(`<button class="${rightSideButton} btn-default js-commentBtn"
+            >Toggle developer comments</button>`)
+            .click(llab.toggleDevComments);
+        $(FULL).prepend(addToggle);
         $(document).ready(llab.toggleDevComments);
+    }
+
+    if (llab.isStagingEnvironment()) {
+        let open_link = $(`
+            <a class="${rightSideButton} btn-info js-openProdLink"
+              target="_blank"
+              href=${location.href.replace(location.host, 'bjc.edc.org')}
+            >Open on edc.org</a>`)
+            $(FULL).prepend(open_link);
     }
 }
 
