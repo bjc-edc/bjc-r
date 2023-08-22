@@ -199,10 +199,10 @@ class Main
     list = [@vocab.vocab_file_name, 
             @self_check.exam_file_name, 
             @self_check.self_check_file_name].map {|f_name| f_name.gsub!(/\d+/, @unitNum)}
-    suffix = generate_url_suffix(@topic_folder, curr_lab_folder, @course_file)
-    topic_resource = ["\tresource: (NEW) #{I18n.t('vocab')} [#{link}/#{list[0]}#{suffix}#]",
-                    "\n\tresource: (NEW) #{I18n.t('on_ap_exam')} [#{link}/#{list[1]}#{suffix}]",
-                    "\n\tresource: (NEW) #{I18n.t('self_check')} [#{link}/#{list[2]}#{suffix}]"]
+    #suffix = generate_url_suffix(@topic_folder, curr_lab_folder, @course_file)
+    topic_resource = ["\tresource: (NEW) #{I18n.t('vocab')} [#{link}/#{list[0]}]",
+                    "\n\tresource: (NEW) #{I18n.t('on_ap_exam')} [#{link}/#{list[1]}]",
+                    "\n\tresource: (NEW) #{I18n.t('self_check')} [#{link}/#{list[2]}]"]
     topic_content = <<~TOPIC
       heading: (NEW) #{I18n.t('unit_review', num: @unitNum)}
     TOPIC
