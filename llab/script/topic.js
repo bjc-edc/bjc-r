@@ -127,7 +127,6 @@ llab.parseTopicFile = function parser(data) {
         next.length >= 1 && next[0] != "}" && !llab.isKeyword(next)
       ) {
         line = getNextLine();
-        console.log(`raw - i: ${i}  line: ${line}`)
         raw_html.push(line);
         next = lines[1];
       }
@@ -202,7 +201,7 @@ llab.renderTitle = function (title) {
 
 llab.renderCourseLink = function (course) {
   if (!course) {
-    console.log('No course found for this topic page.');
+    console.warn('No course found for this topic page.');
     return;
   }
 
@@ -230,7 +229,7 @@ llab.renderTopic = function (topic_model) {
     if (current.type == "section") {
       llab.renderSection(current, $topicDiv);
     } else {
-      console.log('NON SECTION CONTENT NO RENDERED', content)
+      console.warn('non-section content skipped:', content)
     }
   }
 
