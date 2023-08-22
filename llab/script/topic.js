@@ -58,6 +58,7 @@ llab.topicKeywords.resources = [
 ];
 llab.topicKeywords.headings = ["h1", "h2", "h3", "h4", "h5", "h6", "heading"];
 llab.topicKeywords.info = ["big-idea", "learning-goal"];
+llab.topicKeywords.special = ['raw-html'];
 
 /* Turn a *.topic file in a JSON-type structure.
  * This needs some work to be easier to use...
@@ -72,9 +73,9 @@ llab.parseTopicFile = function parser(data) {
     line = getNextLine();
     if (line.length && !raw) {
       if (line.match(/^title:/)) {
-        topics.title = line.slice(6);
+        topics.title = line.slice(6).trim();
       } else if (line.match(/^topic:/)) {
-        topic_model.title = line.slice(6);
+        topic_model.title = line.slice(6).trim();
       } else if (line.match(/^raw-html/)) {
         raw = true;
       } else if (line[0] == "{") {
@@ -173,8 +174,12 @@ llab.isHeading = function (line) {
   return llab.matchesArray(line, llab.topicKeywords.headings);
 };
 
+llab.isSpecial = function (line) {
+  return llab.matchesArray(line, llab.topicKeywords.special);
+};
+
 llab.isKeyword = function (line) {
-  return llab.isResource(line) || llab.isInfo(line) || llab.isHeading(line);
+  return llab.isResource(line) || llab.isInfo(line) || llab.isHeading(line) || llab.isSpecial(line);
 };
 
 llab.renderFull = function renderAndParse(data) {
@@ -269,11 +274,11 @@ llab.renderSection = function (section, parent) {
         i++;
         infoSection.push(section.contents[i]);
       }
+      console.log('Called render info')
       llab.renderInfo(infoSection, current.type, $contentContainer);
     } else if (current.type == "section") {
       llab.renderSection(current, $section);
-    } else {
-      // also handles: current.type == "raw_html"
+    } else { // also handles: current.type == "raw_html"
       $contentContainer.append(current.contents);
     }
   }
