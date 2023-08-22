@@ -344,7 +344,7 @@ class Vocab
    #"<a href=\"#{get_url(@currFile, Dir.pwd)}#{suffix}\"> #{unitNum}</a>
    #"<a name=\"box#{@boxNum}\" class=\"anchor\">&nbsp;</a>
     "<a name=\"box#{@boxNum}\"</a>
-    <a href=\"#{get_url(@currFile, Dir.pwd)}\"><b> #{unitNum}</b></a>"
+    <a href=\"#{get_url(@currFile, Dir.pwd)}#{suffix}\"><b> #{unitNum}</b></a>"
     # if lst.size > 1
     #	unitSeriesNum = lst.join(" #{withlink}:")
     # else
