@@ -511,10 +511,12 @@ llab.rerenderPage = (pageBody, title) => {
 
   document.title = title;
   $('.full').html(pageBody);
-  llab.displayTopic(); // only topic pages...
-  llab.editURLs(); // only course pages
+  // Setup the new page
+  // TODO: Ensure this is idempotent.
+  llab.displayTopic();
   llab.secondarySetUp();
   buildQuestions(); // MCQs
+  llab.editURLs(); // course pages
   llab.conditionalSetup(llab.CONDITIONAL_LOADS);
   // TODO: Do we need to fire off any events? Bootstrap? dom loaded?
   window.scrollTo({ top: 0, behavior: 'instant' });
