@@ -32,8 +32,8 @@ llab.DISABLE_DYNAMIC_NAVIGATION = false;
 // this should only be true when navigating back/forwards so we do no repopulate history.
 llab.SKIP_PUSH_STATE = false;
 
-llab.dynamicNavigation = (path) => {
-  return (event) => {
+llab.dynamicNavigation = path => {
+  return event => {
     if (llab.DISABLE_DYNAMIC_NAVIGATION) {
       location.href = path;
       return;
@@ -44,7 +44,7 @@ llab.dynamicNavigation = (path) => {
 }
 
 // Executed on *every* page load.
-llab.secondarySetUp = function(newPath) {
+llab.secondarySetUp = function (newPath) {
   let t = llab.translate;
   llab.setupTitle();
   llab.addFooter();
@@ -127,7 +127,7 @@ llab.secondarySetUp = function(newPath) {
 *  and creates navigation buttons.
 *  FIXME: This should share code with llab.topic!
 */
-llab.processLinks = function(data) {
+llab.processLinks = function (data) {
   /* NOTE: DO NOT REMOVE THIS CONDITIONAL WITHOUT SERIOUS TESTING
   * llab.file gets reset with the ajax call.
   */
@@ -274,10 +274,9 @@ llab.processLinks = function(data) {
 
 
 // Build a list of links to be appended to the navigation dropdown.
-llab.buildDropdownFromTopicModel = (_llabObj) => {
+llab.buildDropdownFromTopicModel = _llabObj => {
   // TODO: Just the parsed topic file to create dropdown contents.
-  let list = $('.js-llabPageNavMenu');
-
+  let _list = $('.js-llabPageNavMenu');
 }
 
 // Create an iframe when loading from an empty curriculum page
@@ -447,20 +446,12 @@ llab.dropdownItem = function(text, url) {
 };
 
 // Pages directly within a lab. Excludes 'topic' and 'course' pages.
-llab.isCurriculum = function() {
-  if (llab.getQueryParameter('topic')) {
-    return !llab.isTopicFile();
-  }
-  return false;
-}
-
+llab.isCurriculum = () => llab.getQueryParameter('topic') != "" && !llab.isTopicFile();
 
 /* Return the index value of this page in reference to the lab.
 * Indicies are 0 based, and this excludes query parameters because
 * they could become re-ordered. */
-llab.thisPageNum = function() {
-  return llab.pageNum;
-}
+llab.thisPageNum = () => llab.pageNum;
 
 // Create the Forward and Backward buttons, properly disabling them when needed
 llab.setButtonURLs = function() {

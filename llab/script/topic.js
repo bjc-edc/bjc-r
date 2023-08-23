@@ -185,6 +185,11 @@ llab.isKeyword = function (line) {
 llab.renderFull = function renderAndParse(data) {
   var content = llab.parseTopicFile(data);
   llab.renderTopicModel(content);
+  llab.secondarySetUp();
+  // llab.conditionalSetup(llab.CONDITIONAL_LOADS);
+  // if ($('[w3-include-html]')) {
+  //   w3.includeHTML();
+  // }
 };
 
 llab.renderTopicModel = function rederer(topics) {
