@@ -8,7 +8,69 @@ require_relative 'vocab'
 require_relative 'main'
 require_relative 'selfcheck'
 require_relative 'index'
+require_relative 'topic'
 
+def run_topic
+  root = '/bjc-r'
+  path = Dir.pwd ##ENV('PWD')
+  puts path
+  path = path.sub(%r{#{root}/.*$}, root)
+  puts "Rebuilding all index/summaries from: #{path}"
+  # TODO: Is it useful to know the course a topic came with?
+  
+  puts
+  puts 'Parsing topic page'
+  en_runner = BJCTopic.new('C:\Users\I560638\bjc-r\topic\sparks\2-sequencing-iteration.topic')
+  topic_json = en_runner.parse
+  topic_json[:title]
+  en_runner.generate_topic_file(topic_json)
+end
+#attr_reader :file_path, :file_name, :title, :language
+
+
+def run_CSP_EN
+  root = '/bjc-r'
+  path = Dir.pwd ##ENV('PWD')
+  puts path
+  path = path.sub(%r{#{root}/.*$}, root)
+  puts "Rebuilding all index/summaries from: #{path}"
+
+  puts
+  puts 'Rebuilding English CSP'
+  en_runner = Main.new(root: path, content: 'cur/programming', course: 'bjc4nyc', language: 'en')
+  en_runner.skip_test_prompt = true
+  en_runner.Main
+end
+
+def run_CSP_ES
+  root = '/bjc-r'
+  path = Dir.pwd ##ENV('PWD')
+  puts path
+  path = path.sub(%r{#{root}/.*$}, root)
+  puts "Rebuilding all index/summaries from: #{path}"
+
+  puts
+  puts 'Rebuilding English CSP'
+  en_runner = Main.new(root: path, content: 'cur/programming', course: 'bjc4nyc', language: 'es')
+  en_runner.skip_test_prompt = true
+  en_runner.Main
+end
+
+def run_Sparks_ES
+  root = '/bjc-r'
+  path = Dir.pwd ##ENV('PWD')
+  puts path
+  path = path.sub(%r{#{root}/.*$}, root)
+  puts "Rebuilding all index/summaries from: #{path}"
+
+  puts
+  puts 'Rebuilding English CSP'
+  en_runner = Main.new(root: path, content: 'sparks/student-pages', course: 'sparks', language: 'en')
+  en_runner.skip_test_prompt = true
+  en_runner.Main
+end
+
+###### old, outdated tests - no longer works as of 08.15.23 - TODO update
 class Tests
   @type = 'testing'
   def initialize; end

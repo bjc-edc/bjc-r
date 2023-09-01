@@ -58,7 +58,7 @@ llab.paths.css_files = [
 ///////////////////////// stage 0
 // Stage 0 items can be executed with no dependences.
 llab.paths.scripts[0] = [];
-llab.paths.scripts[0].push("lib/jquery.min.js");
+llab.paths.scripts[0].push("lib/jquery-3.7.0.slim.min.js");
 llab.paths.scripts[0].push("script/library.js");
 llab.paths.scripts[0].push("script/quiz/multiplechoice.js");
 
