@@ -24,11 +24,6 @@ class BJCCourse
     url.include?("?topic=")
   end
 
-  def list_topics_no_path
-    topic_files = list_topics
-    topic_files.map {|file| file.split("/")[-1]}
-  end
-
   def list_topics
     # Filtering the URLs is necessary because there are links with the wrong class applied.
     course_contents.css('.topic_link a').map do |node|

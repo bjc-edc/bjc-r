@@ -40,8 +40,8 @@ class Main
     @content = content
     @course_file = course
     @course = BJCCourse.new(root: @rootDir, course: @course_file, language:)
-    @vocab = Vocab.new(@parentDir, language, content, @course)
-    @self_check = SelfCheck.new(@parentDir, language, content, @course)
+    @vocab = Vocab.new(@parentDir, language, content)
+    @self_check = SelfCheck.new(@parentDir, language, content)
     @atwork = AtWork.new(@parentDir, language, content)
     @testingFolder = false
     @topic_folder = ""
@@ -185,6 +185,9 @@ class Main
     end
   end
 
+  def topic_file_resource(name, path):
+    "\n    resource: (NEW) #{I18n.t(name)} [#{path}]"
+  end
 
   # Adds the summary content and links to the topic.topic file
   def addSummariesToTopic(topic_file, curr_lab_folder)
@@ -194,37 +197,29 @@ class Main
     link_match = "/bjc-r/#{@content}"
     unit = File.readlines(topic_file_path).find { |line| line.match?(link_match) }
     link = extract_unit_path(unit, false, true)
-    list = [@vocab.vocab_file_name, 
+    names = ['vocab', 'on_ap_exam', 'self_check']
+    f_names = [@vocab.vocab_file_name, 
             @self_check.exam_file_name, 
             @self_check.self_check_file_name].map {|f_name| f_name.gsub!(/\d+/, @unitNum)}
-
-    topic_resource = ["\tresource: (NEW) #{I18n.t('vocab')} [#{link}/#{list[0]}]",
-                    "\n\tresource: (NEW) #{I18n.t('on_ap_exam')} [#{link}/#{list[1]}]",
-                    "\n\tresource: (NEW) #{I18n.t('self_check')} [#{link}/#{list[2]}]"]
     topic_content = <<~TOPIC
+
       heading: (NEW) #{I18n.t('unit_review', num: @unitNum)}
+
     TOPIC
     is_empty_review = true
-    list.length.times do |index|
-      if File.exist?("#{review_folder}/#{list[index]}")
-        topic_content += topic_resource[index]
+    f_names.length.times do |i|
+      if File.exist?("#{review_folder}/#{f_names[i]}")
+        topic_content += topic_file_resource(names[i], "#{link}/#{f_names[i]}")
         is_empty_review = false
       end
     end
     add_content_to_file(topic_file_path, "\n#{topic_content}\n}") if !is_empty_review
-
   end
 
   def isSummary(line)
     !line.nil? && !@currUnit.nil? && line.match(@currUnit)
   end
 
-  #Writing new function to parse using the topic.rb file
-  #def parse_topic_page(file)
-  #  path = "#{@rootDir}/topic/#{file}"
-  #  topic_runner = BJCTopic.new(path)
-  #  topic_json = topic_runner.parse
-  #end
 
   # Parses through the data of the topic page and generates and adds content to a topics.txt
   # file that will be parsed later on to generate summaries
@@ -362,31 +357,6 @@ class Main
     end
   end
 
-  def isFileALab(file, labName)
-    file.include?(labName)
-  end
-
-  # not using
-  def parse_labNameFromFile(labFile)
-    fileName = File.basename(labFile)
-    nameMatch = fileName.match(/([a-zA-Z]-?)+/)
-    nameMatch.to_s.join(' ')
-  end
-
-  def findLabFile(lab, _folder)
-    listLabs = list_files('.html')
-    i = 0
-    labNum = lab.match(/\d+/).to_s
-    while i < listLabs.size
-      if listLabs[i].match(labNum) && (fileLanguage(listLabs[i]) == @language)
-        labFileName(listLabs[i])
-        return listLabs[i]
-        break
-      end
-      i += 1
-    end
-  end
-
   def localPath
     parentDir = @parentDir.match(/.+bjc-r/).to_s
     local = parentDir.split(%r{/bjc-r})
@@ -398,14 +368,12 @@ class Main
     labNamePattern = /----- /
     linkMatch = line.split(labNamePattern)
     link = linkMatch[1]
-    # lab = link.match(/(\w+-?)+\.html/)
     lab = if @language != 'en'
             link.match(/(\w+-?)+\.\w+\.html/)
           else
             link.match(/(\w+-?)+\.html/)
           end
     lab.to_s
-
   end
 
   def extractTopicLinkFolder(line, use_root=true)
@@ -417,7 +385,6 @@ class Main
              linkMatch[1].split(/(\w+-?)+\.html/)
            end
     use_root ? "#{localPath}#{link[0]}" : link[0]
-
   end
 
 
@@ -444,14 +411,12 @@ class Main
     list = [@vocab.vocab_file_name, @self_check.self_check_file_name, @self_check.exam_file_name]
     currentDir = Dir.pwd
     FileUtils.cd('..')
-
     list.each do |file|
       src = "#{review_folder}/#{file}"
       dst = "#{Dir.getwd}/#{file}"
       File.delete(dst) if File.exist?(dst)
       # TODO: use nokogiri to refomat the file.
       FileUtils.copy_file(src, dst) if File.exist?(src)
-
     end
     Dir.chdir(currentDir)
   end
@@ -516,7 +481,6 @@ class Main
     foldersList = list_folders(parentFolder)
     foldersList.each do |folder|
       if File.basename(folder).match(/#{strPattern}/)
-        # if File.basename(folder).match(/^#{strPattern}/)
         return "#{parentFolder}/#{folder}"
       end
     end

@@ -2,7 +2,6 @@ require 'fileutils'
 require 'nokogiri'
 require 'i18n'
 
-require_relative 'course'
 require_relative 'index'
 require_relative 'selfcheck'
 
@@ -16,11 +15,10 @@ TEMP_FOLDER = 'review'
 class Vocab
   include BJCHelpers
   
-  def initialize(path, language = 'en', content, course)
+  def initialize(path, language = 'en', content)
     @parentDir = path
     @language = language
     @content = content
-    @course = course
     I18n.locale = @language.to_sym
     @currUnit = nil
     @currFile = nil
@@ -35,6 +33,10 @@ class Vocab
     @boxNum = 0
     @language_ext = language_ext(language)
   end
+
+  #def language_ext
+  #  @language_ext ||= @language == 'en' ? '' : ".#{@language}"
+  #end
 
   def review_folder
     @review_folder ||= "#{@parentDir}/#{TEMP_FOLDER}"
@@ -104,10 +106,6 @@ class Vocab
     parse_unit(file)
     parse_vocab(file)
     puts "Completed: #{@currUnit}"
-  end
-
-  def topic_files_in_course
-    @topic_files_in_course ||= @course.list_topics_no_path.filter { |file| file.match(/\d+-\w+/)}
   end
 
   def parse_unit(file)
@@ -290,7 +288,7 @@ class Vocab
   def extract_vocab_word(nodeSet)
     nodeSet.each do |n|
       kludges = ['the cloud', 'cloud, the']
-      kludges.include?(n.to_s.downcase) ? node = n : node = removeArticles(n.text.gsub(/(\s+)$/, '').to_s)
+      kludges.include?(n.to_s) ? node = n : node = removeArticles(n.text.gsub(/(\s+)$/, '').to_s)
       saveVocabWord(node)
       separateVocab(node)
     end
@@ -325,35 +323,29 @@ class Vocab
     end
   end
 
-  def get_topic_file
-    unit_reference = return_vocab_unit(@currUnit)
-    unit_num = unit_reference.match(/\d+/).to_s
-    topic_files = topic_files_in_course.filter {|f| f.match(unit_num)}[0]
-  end
-
+  #Returns a link to the VOCAB page and the unit, lab, page number where the term is found
   def add_vocab_unit_to_index
-    unit = return_vocab_unit(@currUnit)
-    suffix = generate_url_suffix(TOPIC_COURSE[0], get_topic_file, TOPIC_COURSE[1])
-    puts
-    puts suffix
-    puts 
+    unitNum = return_vocab_unit(@currUnit)
+    suffix = generate_url_suffix(TOPIC_COURSE[0], get_prev_folder(Dir.pwd), TOPIC_COURSE[1])
     path = get_prev_folder(Dir.pwd, true)
-    " <a href=\"#{get_url(vocab_file_name, path)}#{suffix}#box#{@boxNum}\">#{unit}</a>"
+    link = " <a href=\"#{get_url(vocab_file_name, path)}#{suffix}#box#{@boxNum}\">#{unitNum}</a>"
   end
 
+  #Returns a link to the LAB page and the unit, lab, page number where the term is found
   def add_vocab_unit_to_header
-    unit = return_vocab_unit(@currUnit)
-    suffix = generate_url_suffix(TOPIC_COURSE[0], get_topic_file, TOPIC_COURSE[1])
+    unitNum = return_vocab_unit(@currUnit)
+    suffix = generate_url_suffix(TOPIC_COURSE[0], get_prev_folder(Dir.pwd), TOPIC_COURSE[1])
     "<a name=\"box#{@boxNum}\"</a>
-    <a href=\"#{get_url(@currFile, Dir.pwd)}#{suffix}\"><b> #{unit}</b></a>"
+    <a href=\"#{get_url(@currFile, Dir.pwd)}#{suffix}\"><b> #{unitNum}</b></a>"
   end
 
-  # need something to call this function and parse_unit
+  #Returns the number of of the unit, lab, and page number
   def return_vocab_unit(str)
     list = str.scan(/(\d+)/)
     list.join('.')
   end
 
+  #Adds vocab content/text to file
   def add_vocab_to_file(vocab)
     return unless vocab != ''
 
