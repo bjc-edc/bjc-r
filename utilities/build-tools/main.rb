@@ -40,8 +40,8 @@ class Main
     @content = content
     @course_file = course
     @course = BJCCourse.new(root: @rootDir, course: @course_file, language:)
-    @vocab = Vocab.new(@parentDir, language, content)
-    @self_check = SelfCheck.new(@parentDir, language, content)
+    @vocab = Vocab.new(@parentDir, language, content, @course)
+    @self_check = SelfCheck.new(@parentDir, language, content, @course)
     @atwork = AtWork.new(@parentDir, language, content)
     @testingFolder = false
     @topic_folder = ""
@@ -191,15 +191,13 @@ class Main
     topic_folder(topic_file.split("/")[0])
     topic_file_path = "#{@rootDir}/topic/#{topic_file}"
     delete_existing_summaries(topic_file_path)
-    #linkMatch = @parentDir.match(%r{/bjc-r.+}).to_s
-    #linkMatchWithoutBracket = linkMatch.split(/\]/).join.to_s
     link_match = "/bjc-r/#{@content}"
     unit = File.readlines(topic_file_path).find { |line| line.match?(link_match) }
     link = extract_unit_path(unit, false, true)
     list = [@vocab.vocab_file_name, 
             @self_check.exam_file_name, 
             @self_check.self_check_file_name].map {|f_name| f_name.gsub!(/\d+/, @unitNum)}
-    #suffix = generate_url_suffix(@topic_folder, curr_lab_folder, @course_file)
+
     topic_resource = ["\tresource: (NEW) #{I18n.t('vocab')} [#{link}/#{list[0]}]",
                     "\n\tresource: (NEW) #{I18n.t('on_ap_exam')} [#{link}/#{list[1]}]",
                     "\n\tresource: (NEW) #{I18n.t('self_check')} [#{link}/#{list[2]}]"]
@@ -214,13 +212,7 @@ class Main
       end
     end
     add_content_to_file(topic_file_path, "\n#{topic_content}\n}") if !is_empty_review
-    #topic_content = <<~TOPIC
-    #  heading: (NEW) #{I18n.t('unit_review', num: @unitNum)}
-    #    resource: (NEW) #{I18n.t('vocab')} [#{link}#{@vocab.vocab_file_name}]
-    #    resource: (NEW) #{I18n.t('on_ap_exam')} [#{link}#{@self_check.exam_file_name}]
-    #    resource: (NEW) #{I18n.t('self_check')} [#{link}#{@self_check.self_check_file_name}]
-    #TOPIC
-    #add_content_to_topic_file(topic_file, topic_review)
+
   end
 
   def isSummary(line)
@@ -412,11 +404,8 @@ class Main
           else
             link.match(/(\w+-?)+\.html/)
           end
-    # folder = "#{localPath()}#{link[0]}"
-    # link =
-    # Dir.chdir(folder)
     lab.to_s
-    # lab = link.match(/(\w+-?)+\.\w+\.html/).to_s
+
   end
 
   def extractTopicLinkFolder(line, use_root=true)
@@ -428,9 +417,7 @@ class Main
              linkMatch[1].split(/(\w+-?)+\.html/)
            end
     use_root ? "#{localPath}#{link[0]}" : link[0]
-    # if link.size > 1
-    
-    # end
+
   end
 
 
@@ -457,17 +444,14 @@ class Main
     list = [@vocab.vocab_file_name, @self_check.self_check_file_name, @self_check.exam_file_name]
     currentDir = Dir.pwd
     FileUtils.cd('..')
-    # src = "#{review_folder}/#{@vocab}"
-    # dst = "#{Dir.getwd}/#{@vocab.vocab_file_name}"
+
     list.each do |file|
       src = "#{review_folder}/#{file}"
       dst = "#{Dir.getwd}/#{file}"
       File.delete(dst) if File.exist?(dst)
       # TODO: use nokogiri to refomat the file.
       FileUtils.copy_file(src, dst) if File.exist?(src)
-      #puts src
-      #puts dst
-      #puts File.exist?(src)
+
     end
     Dir.chdir(currentDir)
   end
