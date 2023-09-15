@@ -32,7 +32,7 @@ module BJCHelpers
 
   def generate_url_suffix(topic, unit_folder, course)
     UNIT_FOLDERS.push(unit_folder) if !UNIT_FOLDERS.include?(unit_folder)
-    "?topic=#{topic}/#{unit_folder}.topic&course=#{course}.html&novideo&noassignment"
+    "?topic=#{topic}/#{unit_folder}&course=#{course}.html&novideo&noassignment"
   end
 
   def bjc_html_page(lang, title, contents)
