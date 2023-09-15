@@ -157,13 +157,18 @@ class Index
     linesList = File.readlines("#{filePath}/#{copyFile}")[0..20]
     while !linesList[i].match(%r{</head>}) && (i < 20)
       if linesList[i].match(/<title>/)
-        File.write(index_filename, '<title>BJC Curriculum Index</title>', mode: 'a')
+        File.write(index_filename, "\t<title>#{I18n.t('index')}</title>\n", mode: 'a')
       else
         File.write(index_filename, (linesList[i]).to_s, mode: 'a')
       end
       i += 1
     end
     File.write(index_filename, "\n</head>\n<body>\n", mode: 'a')
+    back_to_top = <<~HTML
+      <button id="scroll_to_top" style="position: fixed" style="float: right;" type="button">
+        <a href="#top">#{I18n.t('back_to_top')}</a>&nbsp;</button>
+    HTML
+    File.write(index_filename, back_to_top, mode: 'a')
   end
 
   def add_HTML_end
@@ -174,8 +179,8 @@ class Index
   end
 
   def keepCapitalized?(vocab)
-    capitals = ["Moore's", 'IP', 'DDoS', 'SSL', 'TLS', 'TCP', 'IA', 'IPA', 'PCT', 'PI', 'AI', 'ADT', 'API',
-                'Creative Commons', 'ISPs']
+    capitals = ['IP', 'DDoS', 'SSL', 'TLS', 'TCP', 'IA', 'IPA', 'PCT', 'PI', 'AI', 'ADT', 'API',
+                'Creative Commons', 'ISPs', 'Commons', 'Creative', 'Boolean', 'Booleano']
     capitals.each do |item|
       if vocab.match?(item) # and (vocab == item or vocab.match?("#{item}\s") or vocab.match?("\s#{item}"))
         return true

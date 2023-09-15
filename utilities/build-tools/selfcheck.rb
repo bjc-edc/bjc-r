@@ -3,7 +3,7 @@ require 'i18n'
 
 require_relative 'bjc_helpers'
 
-TEMP_FOLDER = 'summaries~'
+TEMP_FOLDER = 'review'
 
 I18n.load_path = Dir['**/*.yml']
 I18n.backend.load_translations
@@ -11,9 +11,10 @@ I18n.backend.load_translations
 class SelfCheck
   include BJCHelpers
 
-  def initialize(path, language)
+  def initialize(path, language, content)
     @parentPath = path
     @currUnit = nil
+    @content = content
     @isNewUnit = true
     @currUnitNum = 0
     @currLab = ''
@@ -22,6 +23,7 @@ class SelfCheck
     @language = language
     @language_ext = language_ext(language)
     I18n.locale = @language.to_sym
+    @box_num = 0
   end
 
   def review_folder
@@ -67,6 +69,10 @@ class SelfCheck
 
   def exam_file_name
     "unit-#{@currUnitNum}-exam-reference#{@language_ext}.html"
+  end
+
+  def box_num(num)
+    @box_num = num
   end
 
   def read_file(file)
@@ -143,7 +149,7 @@ class SelfCheck
       end
       i += 1
     end
-    File.write(fileName, "<h2>#{@currUnit}</h2>\n", mode: 'a')
+    File.write(fileName, "<h2>#{@currUnitName}</h2>\n", mode: 'a')
     File.write(fileName, "<h3>#{currLab}</h3>\n", mode: 'a')
   end
 
@@ -174,7 +180,10 @@ class SelfCheck
 
   def add_unit_to_header
     unitNum = return_unit(@currUnit)
-    " <a href=\"#{get_url(@currFile)}\">#{unitNum}</a>"
+    box_num(@box_num + 1)
+    suffix = generate_url_suffix(TOPIC_COURSE[0], get_prev_folder(Dir.pwd), TOPIC_COURSE[1])
+    #" <a href=\"#{get_url(@currFile)}#box#{@box_num}#{suffix}\">#{unitNum}</a>"
+    " <a href=\"#{get_url(@currFile)}#box#{@box_num}\">#{unitNum}</a>"
   end
 
   # need something to call this function and parse_unit

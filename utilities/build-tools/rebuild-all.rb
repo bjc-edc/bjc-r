@@ -8,7 +8,8 @@
 require_relative 'main'
 
 ROOT = '/bjc-r'
-path = ENV['PWD']
+path = Dir.pwd ##ENV('PWD')
+puts path
 path = path.sub(%r{#{ROOT}/.*$}, ROOT)
 puts "Rebuilding all index/summaries from: #{path}"
 

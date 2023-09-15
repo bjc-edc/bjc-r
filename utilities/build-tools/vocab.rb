@@ -7,15 +7,18 @@ require_relative 'selfcheck'
 
 I18n.load_path = Dir['**/*.yml']
 I18n.backend.load_translations
-TEMP_FOLDER = 'summaries~'
+TEMP_FOLDER = 'review'
 
 # TODO: It's unclear where the HTML for new files comes from.
 # We should probably have a 'template' file which gets used.
 # I think we can just replace content in the file, but we could use a library.
 class Vocab
-  def initialize(path, language = 'en')
+  include BJCHelpers
+  
+  def initialize(path, language = 'en', content)
     @parentDir = path
     @language = language
+    @content = content
     I18n.locale = @language.to_sym
     @currUnit = nil
     @currFile = nil
@@ -28,11 +31,12 @@ class Vocab
     @currUnitName = nil
     @index = Index.new(@parentDir, @language)
     @boxNum = 0
+    @language_ext = language_ext(language)
   end
 
-  def language_ext
-    @language_ext ||= @language == 'en' ? '' : ".#{@language}"
-  end
+  #def language_ext
+  #  @language_ext ||= @language == 'en' ? '' : ".#{@language}"
+  #end
 
   def review_folder
     @review_folder ||= "#{@parentDir}/#{TEMP_FOLDER}"
@@ -98,9 +102,7 @@ class Vocab
 
   def read_file(file)
     return unless File.exist?(file)
-
     currFile(file)
-    isNewUnit(true)
     parse_unit(file)
     parse_vocab(file)
     puts "Completed: #{@currUnit}"
@@ -111,14 +113,19 @@ class Vocab
     title = doc.xpath('//title')
     str = title.to_s
     pattern = %r{</?\w+>}
-    if str.nil? || !@isNewUnit
+    #boxNum(@boxNum + 1)
+    if str.nil?
+      isNewUnit(false)
       nil
     else
       newStr = str.split(pattern)
-      currUnit(newStr.join)
-      currUnitNum(@currUnit.match(/\d+/).to_s)
-      boxNum(0)
-      isNewUnit(false)
+      if newStr.join == @currUnit
+        isNewUnit(false)
+      else
+        currUnit(newStr.join)
+        currUnitNum(@currUnit.match(/\d+/).to_s)
+        isNewUnit(true)
+      end
     end
   end
 
@@ -132,15 +139,15 @@ class Vocab
     linesList = File.readlines("#{filePath}/#{@currFile}")[0..30]
     while !linesList[i].match(/<body>/) && (i < 30)
       if linesList[i].match(/<title>/)
-        File.write(fileName, "\t<title>#{unit} #{@currUnitNum} #{I18n.t('vocab')}</title>\n", mode: 'a')
+        File.write(fileName, "<title>#{unit} #{@currUnitNum} #{I18n.t('vocab')}</title>\n", mode: 'a')
       else
-        File.write(fileName, "\t#{linesList[i]}\n", mode: 'a')
+        File.write(fileName, "#{linesList[i]}\n", mode: 'a')
       end
       i += 1
     end
-    File.write(fileName, "\t<h2>#{@currUnit}</h2>\n", mode: 'a')
-    File.write(fileName, "\t<h3>#{currLab}</h3>\n", mode: 'a')
-    Dir.chdir(@labPath)
+    File.write(fileName, "<h2>#{@currUnitName}</h2>\n", mode: 'a')
+    File.write(fileName, "<h3>#{currLab}</h3>\n", mode: 'a')
+    Dir.chdir(filePath)
   end
 
   def add_HTML_end
@@ -156,7 +163,7 @@ class Vocab
     data = data.gsub(/&amp;/, '&')
     data.delete!("\n\n\\")
     if File.exist?(filename)
-      File.write(filename, "\t<h3>#{currLab}</h3>", mode: 'a') if lab != currLab
+      File.write(filename, "<h3>#{currLab}</h3>", mode: 'a') if lab != currLab
     else
       createNewVocabFile(filename)
     end
@@ -167,40 +174,44 @@ class Vocab
   # might be better to have other function to handle that bigger parsing of the whole file #with io.foreach
   def parse_vocab(file)
     doc = File.open(file) { |f| Nokogiri::HTML(f) }
-    vocabSet1 = doc.xpath("//div[@class = 'vocabFullWidth']")
-    # header = parse_vocab_header(doc.xpath(""))
-    vocabSet1.each do |node|
-      child = node.children
-      child.before(add_vocab_unit_to_header)
-      get_vocab_word(node)
-    end
-    add_vocab_to_file(vocabSet1.to_s)
-    vocabSet2 = doc.xpath("//div[@class = 'vocabBig']")
-    vocabSet2.each do |node|
-      child = node.children
-      changeToVocabFullWidth(vocabSet2, node['class'])
-      child.before(add_vocab_unit_to_header)
-      get_vocab_word(node)
-    end
-    add_vocab_to_file(vocabSet2.to_s)
-    vocabSet3 = doc.xpath("//div[@class = 'vocab']")
-    vocabSet3.each do |node|
-      child = node.children
-      changeToVocabFullWidth(vocabSet3, node['class'])
-      child.before(add_vocab_unit_to_header)
-      get_vocab_word(node)
-    end
-    add_vocab_to_file(vocabSet3.to_s)
-    # if not(vocabSet.empty?())
+    vocab_full_size = ["'vocabFullWidth'", "'vocabFullWidth AP-only'"]
+    vocab_partial_size = ["'vocabBig'", "'vocab'"]
 
-    # end
+    vocab_full_size.each do |class_tag|
+      path = "//div[@class = #{class_tag}]"
+      vocab_set = doc.xpath("//div[@class = #{class_tag}]")
+      if vocab_set.to_s != ""
+        vocab_set.each do |node|
+          child = node.children
+          child.before(add_vocab_unit_to_header) #if !child.to_a.include?(add_vocab_unit_to_header)
+          get_vocab_word(node)
+          boxNum(1 + @boxNum)
+        end
+      add_vocab_to_file(vocab_set.to_s)
+      end
+    end
+
+    vocab_partial_size.each do |class_tag|
+      vocab_set2 = doc.xpath("//div[@class = #{class_tag}]")
+      if vocab_set2.to_s != ""
+        vocab_set2.each do |node|
+          child = node.children
+          change_to_vocabFullWidth(vocab_set2, node['class'])
+          child.before(add_vocab_unit_to_header) #if !child.to_a.include?(add_vocab_unit_to_header)
+          get_vocab_word(node)
+          boxNum(1 + @boxNum)
+        end
+        add_vocab_to_file(vocab_set2.to_s)
+      end
+    end
+
   end
 
-  def changeToVocabFullWidth(vocabSet, clas)
+  def change_to_vocabFullWidth(vocab_set, clas)
     return unless %w[vocabBig vocab].include?(clas)
 
-    vocabSet.remove_class(clas)
-    vocabSet.add_class('vocabFullWidth')
+    vocab_set.remove_class(clas)
+    vocab_set.add_class('vocabFullWidth')
   end
 
   def get_vocab_word(nodeSet)
@@ -271,7 +282,8 @@ class Vocab
 
   def extract_vocab_word(nodeSet)
     nodeSet.each do |n|
-      node = removeArticles(n.text.gsub(/(\s+)$/, '').to_s)
+      kludges = ['the cloud', 'cloud, the']
+      kludges.include?(n.to_s) ? node = n : node = removeArticles(n.text.gsub(/(\s+)$/, '').to_s)
       saveVocabWord(node)
       separateVocab(node)
     end
@@ -308,17 +320,20 @@ class Vocab
 
   def add_vocab_unit_to_index
     unitNum = return_vocab_unit(@currUnit)
-    currentDir = Dir.getwd
-    FileUtils.cd('..')
-    link = " <a href=\"#{get_url(vocab_file_name)}\">#{unitNum}</a>"
-    FileUtils.cd(currentDir)
-    link
+    suffix = generate_url_suffix(TOPIC_COURSE[0], get_prev_folder(Dir.pwd), TOPIC_COURSE[1])
+    ##currentDir = Dir.getwd
+    ##FileUtils.cd('..')
+    path = get_prev_folder(Dir.pwd, true)
+    #link = " <a href=\"#{get_url(vocab_file_name, path)}#box#{@boxNum}#{suffix}\">#{unitNum}</a>"
+    link = " <a href=\"#{get_url(vocab_file_name, path)}#box#{@boxNum}\">#{unitNum}</a>"
   end
 
   def add_vocab_unit_to_header
     unitNum = return_vocab_unit(@currUnit)
-    "<a href=\"#{get_url(@currFile)}\">#{unitNum}</a>
-		<a name=\"box#{@boxNum}\" class=\"anchor\">&nbsp;</a>"
+    suffix = generate_url_suffix(TOPIC_COURSE[0], get_prev_folder(Dir.pwd), TOPIC_COURSE[1])
+   #"<a href=\"#{get_url(@currFile, Dir.pwd)}#{suffix}\"> #{unitNum}</a>
+   "<a href=\"#{get_url(@currFile, Dir.pwd)}\"> #{unitNum}</a>
+    <a name=\"box#{@boxNum}\" class=\"anchor\">&nbsp;</a>"
     # if lst.size > 1
     #	unitSeriesNum = lst.join(" #{withlink}:")
     # else
@@ -351,8 +366,7 @@ class Vocab
     # end
   end
 
-  def get_url(file)
-    localPath = Dir.getwd
+  def get_url(file, localPath)
     linkPath = localPath.match(/bjc-r.+/).to_s
     result = "/#{linkPath}/#{file}"
     # add_content_to_file('urlLinks.txt', result)
