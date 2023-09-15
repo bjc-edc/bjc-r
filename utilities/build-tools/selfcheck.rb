@@ -187,7 +187,7 @@ class SelfCheck
   def add_unit_to_header
     unitNum = return_unit(@currUnit)
     box_num(@box_num + 1)
-    suffix = generate_url_suffix(TOPIC_COURSE[0], get_topic_file, TOPIC_COURSE[1])
+    suffix = generate_url_suffix(TOPIC_COURSE[0], get_topic_file, TOPIC_COURSE[-1])
     " <a href=\"#{get_url(@currFile)}#{suffix}#box#{@box_num}\"><b>#{unitNum}</b></a>"
   end
 

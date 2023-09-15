@@ -333,14 +333,14 @@ class Vocab
 
   def add_vocab_unit_to_index
     unit = return_vocab_unit(@currUnit)
-    suffix = generate_url_suffix(TOPIC_COURSE[0], get_topic_file, TOPIC_COURSE[1])
+    suffix = generate_url_suffix(TOPIC_COURSE[0], get_topic_file, TOPIC_COURSE[-1])
     path = get_prev_folder(Dir.pwd, true)
     " <a href=\"#{get_url(vocab_file_name, path)}#{suffix}#box#{@boxNum}\">#{unit}</a>"
   end
 
   def add_vocab_unit_to_header
     unit = return_vocab_unit(@currUnit)
-    suffix = generate_url_suffix(TOPIC_COURSE[0], get_topic_file, TOPIC_COURSE[1])
+    suffix = generate_url_suffix(TOPIC_COURSE[0], get_topic_file, TOPIC_COURSE[-1])
     "<a name=\"box#{@boxNum}\"</a>
     <a href=\"#{get_url(@currFile, Dir.pwd)}#{suffix}\"><b> #{unit}</b></a>"
   end
