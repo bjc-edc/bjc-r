@@ -308,6 +308,7 @@ llab.setupTitle = function() {
   if ($(FULL).length === 0) {
     $(document.body).wrapInner('<div class="full"></div>');
   }
+  llab.setAdditionalClasses();
 
   // Reset the nav + title divs.
   if ($(llab.selectors.NAVSELECT).length !== 0) {
@@ -434,6 +435,13 @@ llab.createTitleNav = function() {
   llab.setButtonURLs(); // TODO-INVESTIGATE: We should be able to remove this.
 };
 
+llab.setAdditionalClasses = () => {
+  let $container = $('.full');
+  let isTeacherGuide = location.href.indexOf('teaching-guide') > 0;
+  if (isTeacherGuide) {
+    $container.addClass('teacher-guide')
+  }
+}
 /** Build an item for the navigation dropdown
 *  Takes in TEXT and a URL and reutrns a list item to be added
 *  too an existing dropdown */
@@ -528,6 +536,7 @@ llab.rerenderPage = (body, title, path) => {
 
   document.title = title;
   $('.full').html(body);
+  llab.setAdditionalClasses();
   llab.displayTopic(); // only topic pages...
   llab.editURLs(); // only course pages
   llab.secondarySetUp(path);
