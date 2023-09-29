@@ -27,9 +27,13 @@ llab.set_cache = (key, value) => {
 // TODO: Should this ingore the cache in development?
 llab.read_cache = key => sessionStorage[key];
 
+// Switch to turn off ajax page loads.
 llab.DISABLE_DYNAMIC_NAVIGATION = false;
-llab.dynamicNavigation = (path) => {
-  return (event) => {
+// this should only be true when navigating back/forwards so we do no repopulate history.
+llab.SKIP_PUSH_STATE = false;
+
+llab.dynamicNavigation = path => {
+  return event => {
     if (llab.DISABLE_DYNAMIC_NAVIGATION) {
       location.href = path;
       return;
@@ -40,7 +44,7 @@ llab.dynamicNavigation = (path) => {
 }
 
 // Executed on *every* page load.
-llab.secondarySetUp = function() {
+llab.secondarySetUp = function (newPath) {
   let t = llab.translate;
   llab.setupTitle();
   llab.addFooter();
@@ -96,23 +100,26 @@ llab.secondarySetUp = function() {
     return;
   }
 
+  if (!llab.SKIP_PUSH_STATE) {
+    window.history.pushState(
+      { "title": document.title, "body": $('.full').html() },
+      document.title,
+      newPath // null on initial page loads...
+    );
+  } else {
+    // once we have rendered a new page, we can add this back.
+    llab.SKIP_PUSH_STATE = false;
+  }
+
   if (llab.read_cache(llab.file)) {
+    // TODO: Update this to use a parsed JSON object.
     llab.processLinks(llab.read_cache(llab.file));
   } else {
-    $.ajax({
-      url: `${llab.topics_path}/${llab.file}`,
-      type: "GET",
-      contentType: 'text/plain; charset=UTF-8',
-      dataType: "text",
-      cache: false,
-      success: llab.processLinks,
-      error: (_jqXHR, _status, error) => {
-        if (Sentry) {
-          Sentry.captureException(error);
-        }
-      }
-    });
-  };
+    fetch(`${llab.topics_path}/${llab.file}`)
+      .then(response => response.text())
+      .then(topic => llab.processLinks(topic))
+      .catch(llab.handleError);
+  }
 }; // close secondarysetup();
 
 /**
@@ -120,7 +127,7 @@ llab.secondarySetUp = function() {
 *  and creates navigation buttons.
 *  FIXME: This should share code with llab.topic!
 */
-llab.processLinks = function(data, _status, _jqXHR) {
+llab.processLinks = function (data) {
   /* NOTE: DO NOT REMOVE THIS CONDITIONAL WITHOUT SERIOUS TESTING
   * llab.file gets reset with the ajax call.
   */
@@ -133,26 +140,29 @@ llab.processLinks = function(data, _status, _jqXHR) {
     llab.addFrame();
   }
 
+  // Reset the URL list
+  llab.url_list = [];
+
   // Get the URL parameters as an object
   // FIXME -- Rename the url variable
   // FIXME -- duplicate query parameters?
   var params = llab.getURLParameters(),
-  course = params.course || '',
-  topicArray = data.split("\n"),
-  url = location.href,
-  list = $('.js-llabPageNavMenu'),
-  itemContent,
-  ddItem,
-  line,
-  isHidden,
-  isHeading,
-  lineClass,
-  i = 0,
-  len = topicArray.length,
-  pageCount = -1,
-  urlOpen, urlClose;
+    course = params.course || '',
+    topicArray = data.split("\n"),
+    url = location.href,
+    list = $('.js-llabPageNavMenu'),
+    itemContent,
+    ddItem,
+    line,
+    isHidden,
+    isHeading,
+    lineClass,
+    i = 0,
+    len = topicArray.length,
+    pageCount = -1,
+    urlOpen, urlClose;
 
-  // Prevent src, title from being added to other URLS.
+  // Prevent src, title from being added to other URLs.
   delete params.src;
   delete params.title;
 
@@ -263,6 +273,12 @@ llab.processLinks = function(data, _status, _jqXHR) {
 }; // end processLinks()
 
 
+// Build a list of links to be appended to the navigation dropdown.
+llab.buildDropdownFromTopicModel = _llabObj => {
+  // TODO: Just the parsed topic file to create dropdown contents.
+  let _list = $('.js-llabPageNavMenu');
+}
+
 // Create an iframe when loading from an empty curriculum page
 // Used for embedded content. (Videos, books, etc)
 llab.addFrame = function() {
@@ -282,9 +298,7 @@ llab.addFrame = function() {
 // Setup the entire page title. This includes creating any HTML elements.
 // This should be called EARLY in the load process!
 llab.setupTitle = function() {
-  if (llab.titleSet) {
-    return;
-  }
+  if (llab.titleSet) { return; }
 
   if (!$('meta[name="viewport"]').length) {
     $(document.head).append('<meta name="viewport" content="width=device-width, initial-scale=1">');
@@ -294,6 +308,7 @@ llab.setupTitle = function() {
   if ($(FULL).length === 0) {
     $(document.body).wrapInner('<div class="full"></div>');
   }
+  llab.setAdditionalClasses();
 
   // Reset the nav + title divs.
   if ($(llab.selectors.NAVSELECT).length !== 0) {
@@ -420,6 +435,13 @@ llab.createTitleNav = function() {
   llab.setButtonURLs(); // TODO-INVESTIGATE: We should be able to remove this.
 };
 
+llab.setAdditionalClasses = () => {
+  let $container = $('.full');
+  let isTeacherGuide = location.href.indexOf('teaching-guide') > 0;
+  if (isTeacherGuide) {
+    $container.addClass('teacher-guide')
+  }
+}
 /** Build an item for the navigation dropdown
 *  Takes in TEXT and a URL and reutrns a list item to be added
 *  too an existing dropdown */
@@ -432,22 +454,12 @@ llab.dropdownItem = function(text, url) {
 };
 
 // Pages directly within a lab. Excludes 'topic' and 'course' pages.
-llab.isCurriculum = function() {
-  if (llab.getQueryParameter('topic')) {
-    return ![
-      llab.empty_topic_page_path, llab.topic_launch_page, llab.alt_topic_page
-    ].includes(llab.stripLangExtensions(location.pathname));
-  }
-  return false;
-}
-
+llab.isCurriculum = () => llab.getQueryParameter('topic') != "" && !llab.isTopicFile();
 
 /* Return the index value of this page in reference to the lab.
 * Indicies are 0 based, and this excludes query parameters because
 * they could become re-ordered. */
-llab.thisPageNum = function() {
-  return llab.pageNum;
-}
+llab.thisPageNum = () => llab.pageNum;
 
 // Create the Forward and Backward buttons, properly disabling them when needed
 llab.setButtonURLs = function() {
@@ -505,7 +517,42 @@ llab.loadNewPage = (path) => {
     });
 }
 
-// TODO: We use pushState, add a hook for onpopstate (back button use)
+// Handle popstate events for when users use the back button
+window.addEventListener("popstate", (event) => {
+  const state = event.state;
+  if (!state || !state.body || !state.title) {
+    location.reload();
+    return;
+  }
+
+  llab.SKIP_PUSH_STATE = true;
+  llab.rerenderPage(state.body, state.title);
+});
+
+llab.rerenderPage = (body, title, path) => {
+  // Reset llab state.
+  llab.titleSet = false;
+  llab.conditional_setup_run = false;
+
+  document.title = title;
+  $('.full').html(body);
+  llab.setAdditionalClasses();
+  llab.displayTopic(); // only topic pages...
+  llab.editURLs(); // only course pages
+  llab.secondarySetUp(path);
+  buildQuestions(); // MCQs
+  llab.conditionalSetup(llab.CONDITIONAL_LOADS);
+  // TODO: Do we need to fire off any events? Bootstrap? dom loaded?
+  window.scrollTo({ top: 0, behavior: 'instant' });
+
+  if (llab.GACode) {
+    gtag('config', llab.GACode, {
+      page_title: title,
+      page_location: location.href // Full URL is required.
+    });
+  }
+}
+
 // Called when we load an new document via a fetch.
 llab.rebuildPageFromHTML = (html, path) => {
   let parser = new DOMParser(),
@@ -513,31 +560,8 @@ llab.rebuildPageFromHTML = (html, path) => {
 
   let title = doc.querySelector('title') ? doc.querySelector('title').text : '';
   let body = doc.body.innerHTML;
+  llab.rerenderPage(body, title, path);
 
-  // This needs to happen fast, so dependent APIs can read the new URL.
-  window.history.pushState({ "html": html, "pageTitle": title },"", path);
-
-  // What else needs to be reset?
-  llab.titleSet = false;
-  llab.conditional_setup_run = false;
-  document.title = title;
-  $('.full').html(body);
-  // Setup the new page
-  // TODO: Ensure this is idempotent.
-  llab.displayTopic();
-  llab.secondarySetUp();
-  buildQuestions(); // MCQs
-  llab.editURLs(); // course pages
-  llab.conditionalSetup(llab.CONDITIONAL_LOADS);
-  // TODO:
-  // Do we need to fire off any events? Bootstrap? dom loaded?
-  window.scrollTo({ top: 0, behavior: 'instant' });
-  if (llab.GACode) {
-    gtag('config', llab.GACode, {
-      page_title: title,
-      page_location: location.href // Full URL is required.
-    });
-  }
   llab.PREVENT_NAVIGATIONS = false;
 }
 
@@ -626,6 +650,30 @@ llab.addFooter = () => {
 );
 }
 
+llab.translated_page_url = function() {
+  // Return the URL to the current page when a translation exists.
+  if (llab.pageLang() === 'es') {
+    return location.href.replace(/\.es\./g, '.');
+  } else if (llab.pageLang() === 'en') {
+    return location.href.replace(/\.html/g, '.es.html').replace(/\.topic/g, '.es.topic');
+   }
+}
+
+llab.translated_content_url = function() {
+  // This returns the URL directly to a topic file, so we can see if the fetch passes.
+  if (!llab.isTopicFile()) {
+    return llab.translated_page_url();
+  } else {
+    let topic_file = llab.getQueryParameter("topic");
+    if (llab.pageLang() === 'es') {
+      topic_file = topic_file.replace(/\.es\./g, '.');
+    } else if (llab.pageLang() === 'en') {
+      topic_file = topic_file.replace(/\.topic/g, '.es.topic');
+    }
+    return llab.topics_path + topic_file;
+  }
+}
+
 // Show a dropdwon icon in the navbar if the same URL exists in a translated form.
 llab.setupTranslationsMenu = function() {
   if (!llab.isLocalEnvironment()) { return; }
@@ -634,28 +682,27 @@ llab.setupTranslationsMenu = function() {
   // make an ajax call to get the file name in the other language
   // if the file exists, add a link to it
   let lang = llab.pageLang();
-  let new_url;
-  if (lang === 'es') {
-    new_url = location.href.replace(/\.es\./g, '.');
-  } else if (lang === 'en') {
-    new_url = location.href.replace(/\.html/g, '.es.html').replace(/\.topic/g, '.es.topic');
-   }
-   fetch(new_url).then((response) => {
-      if (!response.ok) {
-        // We might need to re-hide the menu if it is currently showing.
-        $('.js-langDropdown').addClass('hidden');
-        $('.js-langDropdown a').removeAttr('href');
-        return;
-      }
-      $('.js-langDropdown').removeClass('hidden');
-      if (lang == 'es') {
-        $('.js-switch-lang-es').attr('href', location.href);
-        $('.js-switch-lang-en').attr('href', new_url);
-      } else if (lang == 'en') {
-        $('.js-switch-lang-es').attr('href', new_url);
-        $('.js-switch-lang-en').attr('href', location.href);
-      }
-   }).catch(() => {});
+  let new_url = llab.translated_page_url();
+  // This URL is different when on a topic page.
+  let translated_content_url = llab.translated_content_url();
+
+  fetch(translated_content_url).then(response => {
+    if (!response.ok) {
+      console.log('Not found!!')
+      // We need to re-hide the menu if it is currently showing.
+      $('.js-langDropdown').addClass('hidden');
+      $('.js-langDropdown a').removeAttr('href');
+      return;
+    }
+    $('.js-langDropdown').removeClass('hidden');
+    if (lang == 'es') {
+      $('.js-switch-lang-es').attr('href', location.href);
+      $('.js-switch-lang-en').attr('href', new_url);
+    } else if (lang == 'en') {
+      $('.js-switch-lang-es').attr('href', new_url);
+      $('.js-switch-lang-en').attr('href', location.href);
+    }
+  }).catch(() => {});
 }
 
 llab.setupSnapImages = () => {
@@ -677,6 +724,4 @@ llab.indicateProgress = function(numSteps, currentStep) {
 };
 
 // Setup the nav and parse the topic file.
-$(document).ready(function() {
-  llab.secondarySetUp();
-});
+$(document).ready( () => llab.secondarySetUp() );

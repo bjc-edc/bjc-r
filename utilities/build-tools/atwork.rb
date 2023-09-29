@@ -2,9 +2,10 @@ require 'fileutils'
 require 'nokogiri'
 
 class AtWork
-  def initialize(path, language = 'en')
+  def initialize(path, language = 'en', content)
     @parentDir = path
     @language = language
+    @content = content
     @currUnit = nil
     @currFile = nil
     @isNewUnit = true
@@ -116,8 +117,8 @@ class AtWork
     # puts currentDir
     # puts @parentDir
     Dir.chdir("#{@parentDir}/review")
-    puts Dir.getwd
-    puts filename
+    #puts Dir.getwd
+    #puts filename
     data = data.gsub(/&amp;/, '&')
     data.delete!("\n\n\\")
     createNewFile(filename, linesList) unless File.exist?(filename)
