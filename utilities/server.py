@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from http.server import HTTPServer, SimpleHTTPRequestHandler, test
-import sys, ssl, socketserver
+import sys, ssl, socketserver, subprocess, time
 
 PORT = int(sys.argv[1]) if len(sys.argv) > 1 else 8000
 DIRECTORY = "../"
@@ -27,5 +27,21 @@ def https_server():
         httpd.socket = context.wrap_socket(httpd.socket, server_side=True)
         httpd.serve_forever()
 
+def serve_from_port():
+    global PORT
+    try:
+        test(BJCServer, HTTPServer, port=PORT)
+    except:
+        PORT += 10
+        print(f"Port {PORT-10} seems blocked, using port {PORT}")
+        test(BJCServer, HTTPServer, port=PORT)
+
+def open_on_mac():
+    has_open = subprocess.run(['which', 'open'])
+    if has_open.returncode == 0:
+        subprocess.run(['open', f'http://localhost:{PORT}/bjc-r/'])
+
 if __name__ == '__main__':
+    # serve_from_port()
+    open_on_mac()
     test(BJCServer, HTTPServer, port=PORT)
