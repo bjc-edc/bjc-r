@@ -308,6 +308,7 @@ llab.setupTitle = function() {
   if ($(FULL).length === 0) {
     $(document.body).wrapInner('<div class="full"></div>');
   }
+  llab.setAdditionalClasses();
 
   // Reset the nav + title divs.
   if ($(llab.selectors.NAVSELECT).length !== 0) {
@@ -434,6 +435,13 @@ llab.createTitleNav = function() {
   llab.setButtonURLs(); // TODO-INVESTIGATE: We should be able to remove this.
 };
 
+llab.setAdditionalClasses = () => {
+  let $container = $('.full');
+  let isTeacherGuide = location.href.indexOf('teaching-guide') > 0;
+  if (isTeacherGuide) {
+    $container.addClass('teacher-guide')
+  }
+}
 /** Build an item for the navigation dropdown
 *  Takes in TEXT and a URL and reutrns a list item to be added
 *  too an existing dropdown */
@@ -528,6 +536,7 @@ llab.rerenderPage = (body, title, path) => {
 
   document.title = title;
   $('.full').html(body);
+  llab.setAdditionalClasses();
   llab.displayTopic(); // only topic pages...
   llab.editURLs(); // only course pages
   llab.secondarySetUp(path);
@@ -641,6 +650,30 @@ llab.addFooter = () => {
 );
 }
 
+llab.translated_page_url = function() {
+  // Return the URL to the current page when a translation exists.
+  if (llab.pageLang() === 'es') {
+    return location.href.replace(/\.es\./g, '.');
+  } else if (llab.pageLang() === 'en') {
+    return location.href.replace(/\.html/g, '.es.html').replace(/\.topic/g, '.es.topic');
+   }
+}
+
+llab.translated_content_url = function() {
+  // This returns the URL directly to a topic file, so we can see if the fetch passes.
+  if (!llab.isTopicFile()) {
+    return llab.translated_page_url();
+  } else {
+    let topic_file = llab.getQueryParameter("topic");
+    if (llab.pageLang() === 'es') {
+      topic_file = topic_file.replace(/\.es\./g, '.');
+    } else if (llab.pageLang() === 'en') {
+      topic_file = topic_file.replace(/\.topic/g, '.es.topic');
+    }
+    return llab.topics_path + topic_file;
+  }
+}
+
 // Show a dropdwon icon in the navbar if the same URL exists in a translated form.
 llab.setupTranslationsMenu = function() {
   if (!llab.isLocalEnvironment()) { return; }
@@ -649,28 +682,27 @@ llab.setupTranslationsMenu = function() {
   // make an ajax call to get the file name in the other language
   // if the file exists, add a link to it
   let lang = llab.pageLang();
-  let new_url;
-  if (lang === 'es') {
-    new_url = location.href.replace(/\.es\./g, '.');
-  } else if (lang === 'en') {
-    new_url = location.href.replace(/\.html/g, '.es.html').replace(/\.topic/g, '.es.topic');
-   }
-   fetch(new_url).then((response) => {
-      if (!response.ok) {
-        // We might need to re-hide the menu if it is currently showing.
-        $('.js-langDropdown').addClass('hidden');
-        $('.js-langDropdown a').removeAttr('href');
-        return;
-      }
-      $('.js-langDropdown').removeClass('hidden');
-      if (lang == 'es') {
-        $('.js-switch-lang-es').attr('href', location.href);
-        $('.js-switch-lang-en').attr('href', new_url);
-      } else if (lang == 'en') {
-        $('.js-switch-lang-es').attr('href', new_url);
-        $('.js-switch-lang-en').attr('href', location.href);
-      }
-   }).catch(() => {});
+  let new_url = llab.translated_page_url();
+  // This URL is different when on a topic page.
+  let translated_content_url = llab.translated_content_url();
+
+  fetch(translated_content_url).then(response => {
+    if (!response.ok) {
+      console.log('Not found!!')
+      // We need to re-hide the menu if it is currently showing.
+      $('.js-langDropdown').addClass('hidden');
+      $('.js-langDropdown a').removeAttr('href');
+      return;
+    }
+    $('.js-langDropdown').removeClass('hidden');
+    if (lang == 'es') {
+      $('.js-switch-lang-es').attr('href', location.href);
+      $('.js-switch-lang-en').attr('href', new_url);
+    } else if (lang == 'en') {
+      $('.js-switch-lang-es').attr('href', new_url);
+      $('.js-switch-lang-en').attr('href', location.href);
+    }
+  }).catch(() => {});
 }
 
 llab.setupSnapImages = () => {
