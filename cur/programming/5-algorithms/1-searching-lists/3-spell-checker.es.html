@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unidad 5 Laboratorio 1: Algoritmos de búsqueda y eficiencia, Página 3</title>
+	</head>
+
+	<body>
+		<h2>&iquest;Est&aacute; deletreado correctamente "seperar"?</h2>
+        <div class="todo">
+            <p>PAUL SHOULD REVIEW THIS CONTENT.</p>
+            <h3>TG and solutions need to be checked. --MF, 12/19/18</h3>
+        </div>
+        <div class="learn">
+            <p><strong>En esta p&aacute;gina</strong>, utilizar&aacute;s un algoritmo de <em>b&uacute;squeda binaria</em> para buscar eficientemente en una lista <em>ordenada</em>.</p>
+        </div>
+        <p>Responder esta pregunta es f&aacute;cil en Snap<em>!</em>, porque puedes solo preguntar <img class="inline nopadtb" src="/bjc-r/img/5-algorithms/100000-words-contains-seperate.es.png" alt="(100,000 palabras) contiene (seperar)" title="(100,000 palabras) contiene (seperar)">. Pero <em>"f&aacute;cil" no significa r&aacute;pido</em>. El bloque <code>contiene</code> todav&iacute;a tiene que buscar cada elemento de la lista hasta que encuentre el que est&aacute; buscando (y decir <code>verdadero</code>) o alcanzar el final de la lista (y decir <code>falso</code>). </p>
+        <p>Cuando est&aacute;s buscando <em>una</em> sola cosa en una lista (por ejemplo, revisando si una palabra en particular est&aacute; escrita correctamente) en vez de encontrar <em>todas</em> las palabras con algunas caracter&iacute;sticas (por ejemplo, buscar todas las palabras de cinco letras), puedes utilizar la estrategia de <a href="/bjc-r/cur/programming/5-algorithms/1-searching-lists/1-sorted-lists.es.html?topic=nyc_bjc%2F5-algorithms.es.topic&amp;course=bjc4nyc.es.html&amp;novideo&amp;noassignment" title="Página 1: Adivina mi número">P&aacute;gina 1: Adivina mi n&uacute;mero</a> para hacer tu algoritmo m&aacute;s r&aacute;pido. La mejor estrategia para ese problema es un algoritmo de <em>b&uacute;squeda binaria</em>: siempre&nbsp;adivina el valor <em>medio</em>. De esa manera, eliminas la mitad de las posibilidades con cada adivinanza. Podemos utilizar una estrategia similar para buscar una palabra en una lista de palabras.</p>
+        <div class="endnote">Podr&iacute;as haber escrito un programa de adivinanza de n&uacute;meros m&aacute;s sencillo: la computadora podr&iacute;a adivinar el n&uacute;mero 1, luego el 2, luego el 3, y as&iacute; sucesivamente hasta encontrar el n&uacute;mero. Eso ser&iacute;a un algoritmo de <em>b&uacute;squeda lineal</em>; es m&aacute;s f&aacute;cil de codificar, pero tarda m&aacute;s en ejecutarse porque cada vez que hace una adivinanza err&oacute;nea, elimina solo esa adivinanza. Con la b&uacute;squeda binaria, cada adivinanza incorrecta elimina la <em>mitad </em>de posibilidades a la vez.</div>
+        <div class="vocabFullWidth">:<strong> B&uacute;squeda binaria</strong>
+        	<div class="ap-standard">AAP-2.P.1, AAP-2.P.2</div>
+            <p>Un algoritmo de <strong>b&uacute;squeda binaria</strong> comienza en medio de una lista <em>ordenada</em> y elimina repetidamente la mitad de la lista hasta que se encuentra el valor deseado o se han eliminado todos los elementos.</p>
+            <div class="ap-standard">AAP-2.O.1</div>
+            <div class="sidenoteBig">Aprendiste acerca de lista transpuesta en&nbsp;<a href="/bjc-r/cur/programming/2-complexity/2-data-structures-art/3-traversing-list.es.html?topic=nyc_bjc%2F2-conditionals-abstraction.es.topic&amp;course=bjc4nyc.es.html&amp;novideo&amp;noassignment" title="Unidad 2 Laboratorio 2 Página 3: Comprobación de cada respuesta del cuestionario">Unidad 2 Laboratorio 2 Página 3: Comprobación de cada respuesta del cuestionario</a>.</div>
+            <p>La búsqueda lineal hace un recorrido <em>completo</em> de la lista. La b&uacute;squeda binaria ahorra tiempo al hacer un recorrido <em>parcial</em> de la lista.</p>
+        </div>
+        <div class="endnote">Lo &uacute;nico que casi todo el mundo sabe de las computadoras es que utilizan binarios: unos y ceros. La b&uacute;squeda binaria no tiene nada que ver con eso. La palabra "binario" solo significa "dos", ya sean dos d&iacute;gitos o dos mitades.</div>
+
+        <div class="forYouToDo" id="first">
+	  <ol>
+                <li>
+                    <img class="inline" src="/bjc-r/img/icons/write-out-thoughts.es.png" alt="Escribe tus ideas" title="Escribe tus ideas">
+                    Compara&nbsp; el bloque de <code>b&uacute;squeda binaria</code> con tu c&oacute;digo de <a href="/bjc-r/cur/programming/5-algorithms/1-searching-lists/1-sorted-lists.es.html?topic=nyc_bjc%2F5-algorithms.es.topic&amp;course=bjc4nyc.es.html&amp;novideo&amp;noassignment" title="Página 1: Adivina mi número">P&aacute;gina 1: Adivina mi n&uacute;mero</a>. &iquest;Qu&eacute; partes son iguales? &iquest;Qu&eacute; partes son diferentes?<br>
+                    <img class="indent" src="/bjc-r/img/5-algorithms/binary-search-block-definition.es.png" alt="búsqueda binaria para (valor) en (datos) {
+            variables de programa (bajo) (alto) (índice actual) (elemento actual)
+            instrucción atómica
+            asignar a (bajo) el valor (1)
+            asignar a (alto) el valor (longitud de (datos))
+            repetir hasta que ((bajo) &gt; (alto)) {
+                        asignar a (índice actual) el valor (promedio de (bajo) y (alto)) #comentario: Encuentra la palabra de en medio
+                        asignar a (elemento actual) el valor (item (índice actual) de (datos))
+                        si ((elemento actual) = (valor)) { reportar (verdadero) }
+                        sino {
+                                    si ((elemento actual) &gt; (valor)) #comentario: Elimina la mitad de la lista {
+                                                asignar a (alto) el valor  ((índice actual) &ndash; (1))
+                                    } sino { asignar a (bajo) el valor ((índice actual) + (1)) }
+                        }
+            }
+            reportar (falso)
+}" title="búsqueda binaria para (valor) en (datos) {
+    variables de programa (bajo) (alto) (índice actual) (elemento actual)
+    instrucción atómica
+    asignar a (bajo) el valor (1)
+    asignar a (alto) el valor (longitud de (datos))
+    repetir hasta que ((bajo) &gt; (alto)) {
+                asignar a (índice actual) el valor (promedio de (bajo) y (alto)) #comentario: Encuentra la palabra de en medio
+                asignar a (elemento actual) el valor (item (índice actual) de (datos))
+                si ((elemento actual) = (valor)) { reportar (verdadero) }
+                sino {
+                            si ((elemento actual) &gt; (valor)) #comentario: Elimina la mitad de la lista {
+                                        asignar a (alto) el valor  ((índice actual) &ndash; (1))
+                            } sino { asignar a (bajo) el valor ((índice actual) + (1)) }
+                }
+    }
+    reportar (falso)
+}">
+                    <div class="todo">TG: The crucial difference is that you find the average position on in the list but them to see if you are high or low, you have to look at the actual item in the list, not just the position number.</div>
+                    <div class="endnote">&nbsp;
+                        El bloque <code>&gt;</code>&nbsp; (as&iacute; como los bloques <code>&lt;</code> y <code>=</code> ) compara las palabras alfab&eacute;ticamente: <br>
+                        <img class="indent" src="/bjc-r/img/5-algorithms/carrot-gt-banana-reporting.es.png" alt="(zanahoria) &gt; (plátano) reporta verdadero" title="(zanahoria) &gt; (plátano) reporta verdadero">
+                        <img class="indent" src="/bjc-r/img/5-algorithms/apple-gt-banana-reporting.es.png" alt="(manzana) &gt; (plátano) reporta falso" title="(manzana) &gt; (plátano) reporta falso">
+                    </div>
+                </li>
+				<li>Comprueba si &iquest;"seperar" est&aacute; escrito correctamente utilizando la&nbsp; <code>b&uacute;squeda binaria</code> para buscar la palabra en la lista de&nbsp; <var>100,000 palabras (ordenadas)</var>.</li>
+				<li>Prueba la <code>b&uacute;squeda binaria</code> con algunas palabras que sabes que est&aacute;n escritas correctamente y otras que sabes que están incorrectas. </li>
+				<li>Ahora utiliza la <code>b&uacute;squeda binaria</code>&nbsp; para buscar las mismas palabras en las <var>100,000 palabras </var>sin ordenar.</li>
+                <div class="ap-standard">AAP-2.P.2</div>
+				<li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.es.png" alt="Habla con tu compañero" title="Habla con tu compañero">&iquest;Por qu&eacute; funciona en una lista pero no en la otra?</li>
+			</ol>
+		</div>
+
+        <p>El bloque <code>contiene</code> no puede hacer ninguna suposici&oacute;n sobre la lista en la que est&aacute;s buscando, pero si solo est&aacute;s buscando una cosa en una lista ordenada puedes utilizar la b&uacute;squeda binaria.</p>
+        <div class="takeNote">
+            <div class="ap-standard">AAP-2.P.2</div>
+            <p>
+                Dos cosas afectan&nbsp; la posibilidad que utilices un algoritmo de b&uacute;squeda binario:
+                </p>
+<ul>
+                    <li>&iquest;Qu&eacute; pregunta estás intentando responder? &iquest;Est&aacute;s buscando <em>una</em> cosa en una lista o est&aacute;s encontrando <em>todas</em> las cosas de la lista con algunas carater&iacute;sticas?</li>
+                    <li>&iquest;Cu&aacute;les son las condiciones de tus datos? &iquest;Est&aacute;n ordenados o no ordenados?</li>
+                </ul>
+                <table class="bordered center standard" summary="tabla que muestra que para utilizar la b&uacute;squeda binaria, deben estar buscando un valor espec&iacute;fico y debes buscarlo en datos ordenados">
+                    <tbody>
+<tr>
+                        <th scope="col">&nbsp;</th>
+                        <th scope="col">encuentra un valor</th>
+                        <th scope="col">encuentra muchos valores</th>
+                    </tr>
+                    <tr>
+                        <th scope="col">Datos ordenados</th>
+                        <td style="color: green">puedes usar b&uacute;squeda binaria</td>
+                        <td>debes usar b&uacute;squeda lineal</td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Datos sin ordenar</th>
+                        <td>debes usar b&uacute;squeda lineal</td>
+                        <td>debes usar b&uacute;squeda lineal</td>
+                    </tr>
+                </tbody></table>
+            <p></p>
+        </div>
+        <div class="endnote">Si est&aacute;s trabajando con listas cortas, no es tan importante el algoritmo que utilices. Es cuando se trata de muchos datos que tienes que pensar cuidadosamente sobre el algoritmo.</div>
+        <div class="forYouToDo">
+			<ol start="6">
+                <li>
+                    <!-- Question 1 -->
+                    <div class="assessment-data" type="multiplechoice" identifier="In order to use a binary search, the data must be..." hasinlinefeedback="true" maxchoices="1" responseidentifier="ri1" shuffle="true">
+                        <div class="prompt">
+                            <div class="ap-standard">AAP-2.P part b, AAP-2.P.2</div>
+                            Para utilizar una b&uacute;squeda binaria, los datos deben ser...
+                        </div>
+                        <div class="choice" identifier="c1">
+                            <div class="text">binarios</div>
+                            <div class="feedback">
+                                Todos los datos de una computadora se representan mediante binarios (unos y ceros), pero eso no tiene nada que ver con las b&uacute;squedas binarias, que se comparan con el valor medio para elegir cu&aacute;l de las dos mitades eliminar.
+                            </div>
+                        </div>
+                        <div class="choice" identifier="c2">
+                            <div class="text">ordenados</div>
+                            <div class="feedback">&iexcl;Correcto! Si los datos est&aacute;n ordenados, la comparaci&oacute;n con el valor medio te dar&aacute; una buena informaci&oacute;n sobre qu&eacute; mitad de los datos debes guardar. </div>
+                        </div>
+                        <div class="choice" identifier="c3">
+                            <div class="text">no ordenados</div>
+                            <div class="feedback">Si los datos no est&aacute;n ordenados, no puedes estar seguro de que se pueda eliminar todo lo que est&aacute; antes o despu&eacute;s del valor medio. </div>
+                        </div>
+                        <div class="choice" identifier="c4">
+                            <div class="text">lineales</div>
+                            <div class="feedback">"Lineal" es el nombre de otro algoritmo de b&uacute;squeda, no una propiedad de los datos.</div>
+                        </div>
+                        <div class="responseDeclaration" identifier="ri1">
+                            <div class="correctResponse" identifier="c2"></div>
+                        </div>
+                    </div>
+                    <!-- Question 2 -->
+                    <div class="assessment-data" type="multiplechoice" identifier="Which of the following questions can be answered with a binary search, assuming the data are sorted?" hasinlinefeedback="true" maxchoices="2" responseidentifier="ri2" shuffle="true">
+                        <div class="prompt">&iquest;Cu&aacute;l de las siguientes preguntas se puede responder con una b&uacute;squeda binaria, suponiendo que los datos est&eacute;n ordenados? Marca todas las que apliquen: </div>
+                        <div class="choice" identifier="c1">
+                            <div class="text">&iquest;Cu&aacute;l es el n&uacute;mero de tel&eacute;fono de mi amigo Rasheed?</div>
+                            <div class="feedback">
+                                &iexcl;Correcto! Est&aacute;s buscando por <strong>un</strong> n&uacute;mero de tel&eacute;fono en la lista.
+                            </div>
+                        </div>
+                        <div class="choice" identifier="c2">
+                            <div class="text">Dame una lista de todas las canciones de Beyonc&eacute;.</div>
+                            <div class="feedback">
+                                Tenemos que contrar <strong>todas</strong> las canciones de Beyonc&eacute;, no solo una.</div>
+                        </div>
+                        <div class="choice" identifier="c3">
+                            <div class="text">Dime si el pan est&aacute; en la lista de compras.</div>
+                            <div class="feedback">
+                                &iexcl;Correcto! Est&aacute;s buscando <strong>un</strong> art&iacute;culo en la lista.
+                            </div>
+                        </div>
+                        <div class="choice" identifier="c4">
+                            <div class="text">&iquest;Qui&eacute;n de mi lista de contactos vive en la Gran Avenida?</div>
+                            <div class="feedback">
+                                La lista de tus contactos est&aacute; probablemente <strong>ordenado por nombre</strong>, no por direcci&oacute;n. Tambi&eacute;n, puede haber <strong>m&aacute;s de una</strong> persona que viva en la Gran Avenida.
+                            </div>
+                        </div>
+                        <div class="responseDeclaration" identifier="ri2">
+                            <div class="correctResponse" identifier="c1"></div>
+                            <div class="correctResponse" identifier="c3"></div>
+                        </div>
+                    </div>
+                </li>
+            </ol>
+		</div>
+
+        <div class="ifTime">
+			<ol start="7">
+				<li>Construye un corrector ortogr&aacute;fico.</li>
+                <div class="endnote">Utiliza <img class="inline" src="/bjc-r/img/blocks/split-by-whitespace.es.png" alt="split () by (whitespace)" title="split () by (whitespace)" width="190"> para convertir el texto de entrada en una lista.</div>
+                <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.es.png" alt="Habla con tu compañero" title="Habla con tu compañero">&iquest;Debe tu corrector ortogr&aacute;fico buscar en el diccionario cada palabra del texto o buscar en el texto cada palabra del diccionario?</li>
+			</ol>
+		</div>
+
+
+
+
+
+
+</body></html>

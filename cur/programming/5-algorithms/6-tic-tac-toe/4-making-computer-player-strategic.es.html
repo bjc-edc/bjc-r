@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+
+        <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+        <script type="text/javascript" src="/bjc-r/utilities/gifffer.min.js"></script>
+        <script type="text/javascript">window.onload = function() {Gifffer();}</script>
+        <link rel="stylesheet" type="text/css" href="/bjc-r/css/bjc-gifffer.css">
+		<!--<title>Unit 5 Lab X: Tic-Tac-Toe with a Strategic Computer Player, Page 2</title>-->
+        <title>Unidad 5 Laboratorio 6: Tres en línea contra la computadora, Página 4</title>
+    </head>
+
+    <body>
+        <h2>Hacer que la computadora juegue estratégicamente</h2>
+        <div class="todo">
+            <p>PG: Long and hard.</p>
+            <p>MF: Project still needs to be wrapped up and updated online</p>
+        </div>
+
+        <div class="learn">
+            <p><strong>En esta p&aacute;gina</strong>, implementar&aacute;s las reglas de estrategia del juego tres en l&iacute;nea para hacer que la computadora juegue estrat&eacute;gicamente.</p>
+        </div>
+
+        <p>Crear&aacute;s un bloque <img src="/bjc-r/img/5-algorithms/next-move.png" alt="siguiente movimiento para la computadora" title="siguiente movimiento para la computadora">&nbsp; puedes enviar un mensaje a todos los clones acerca de la posici&oacute;n en la que la computadora se mover&aacute;. Como antes, solo el clon que coincida con el <var>n&uacute;mero de posici&oacute;n</var> har&aacute; el movimiento.</p>
+        <p>
+        	El c&oacute;digo para el <code>siguiente movimiento para la computadora</code> implementar&aacute; las siguientes tres reglas de estrategia:
+            </p>
+<ul>
+                <li>Regla 1: Si yo (la computadora, jugador O) puedo ganar; házlo.</li>
+                <li>Regla 2: Si mi oponente (el humano, jugador X) puede ganar; bloqu&eacute;alo.</li>
+                <li>Regla final: De lo contrario, solo escoge el mejor cuadrado vac&iacute;o.</li>
+            </ul>
+		<p></p>
+
+        <div class="forYouToDo" id="first">
+			<ol>
+				<li>Si a&uacute;n no est&aacute; abierto, abre el proyecto U5-Tresenlinea.</li>
+                <li>
+                    Crea los nuevos dos bloques para implementar las reglas de estrategia. <!--Use the same script-local variable name, <var>player</var> for the inputs.--> Por ahora, crea <code>&iquest;puedo ganar ahora?</code> configúralo como <code>falso</code>. No coloques a&uacute;n c&oacute;digo dentro de la <code>cuadrado ganador</code> .<br>
+                    <img class="indent" src="/bjc-r/img/5-algorithms/can-player-win-now.png" alt="¿puede el jugador () ganar ahora?" title="¿puede el jugador () ganar ahora?">
+                    <img class="indent" src="/bjc-r/img/5-algorithms/winning-square-for-player.png" alt="cuadrado ganadorpara jugador" title="cuadrado ganadorpara jugador">
+                    
+                </li>
+                <li>Ahora, crea el <img src="/bjc-r/img/5-algorithms/next-move.png" alt="próximo movimiento para computadora" title="próximo movimiento para computadora"> bloque que implemente las reglas de estrategia utilizando estos dos nuevos bloques, y util&iacute;zalo como entrada para <code>enviar mensaje</code> en lugar de <code>mejor cuadrado vac&iacute;o</code>. </li>
+                <div class="endnote">
+                    <a href="#hint-rules" data-toggle="collapse" title="Haz clic para una pista acera de la implementación de reglas de estrategia.">Haz clic aqu&iacute; para ver una pista acerca de implementaci&oacute;n de reglas de estrategia.</a>
+                    <div id="hint-rules" class="collapse">
+	                    <p>Tambi&eacute;n utiliza el bloque <img class="inline" src="/bjc-r/img/5-algorithms/best-empty-square.png" alt="mejor cuadrado vacío" title="mejor cuadrado vacío">&nbsp; .</p>
+                    </div>
+                </div>
+                <li>Juega una partida contra la computadora y aseg&uacute;rate que el juego a&uacute;n funciona.</li>
+            </ol>
+        </div>
+
+        <div class="ifTime">
+            <ol start="5">
+                <li>Modifica el programa para que la computadora pueda jugar X u O. Cuando el juego comience, p&iacute;ofrece al jugador humano que elija X u O.</li>
+				<li>Crea una forma para que el jugador decida si quiere jugar contra otro humano o contra la computadora.</li>
+            </ol>
+        </div>
+
+        <div class="takeItFurther">
+            <ol type="A">
+                <li>Juega contra la computadora y encuentra una estrategia que te permita ganar el juego. (Esto no es trivial; solo que las reglas de la computadora que ya tienes son bastante buenas.)</li>
+                <li>
+                    Programa m&aacute;s reglas para que la computadora juegue mejor. Esto implicar&aacute; mirar m&aacute;s de un movimiento hacia adelante. Hay varias maneras de hacerl; la siguiente es solo una sugerencia.
+
+
+<ol type="a">
+                        <li>
+                            No es suficiente con buscar una jugada ganadora para ti mismo en dos movimientos a partir de ahora. Si puedes ver un movimiento as&iacute;, tambi&eacute;n lo puede hacer tu oponente, que se mover&aacute; para bloquearte. As&iacute; que lo que debes encontrar es un&nbsp;<em>tenedor: </em>dos triples en los que t&uacute; tengas una aparición y tu oponente no tenga ninguna, y que tengan un cuadrado libre en com&uacute;n. Esto es mucho m&aacute;s f&aacute;cil de ver con una imagen:<br>
+                            <img class="indent" src="/bjc-r/img/hof/fork.png" alt="tablero con tenedor" title="tablero con tenedor"><br>
+                            <div class="endnote">El jugador X comenz&oacute; el juego con el movimiento de apertura est&aacute;ndar, en el centro. El jugador O respondi&oacute; pobremente, en el borde superior, y por lo tanto est&aacute; a punto de perder el juego. El jugador X jug&oacute; en la esquina superior izquierda. El jugador O tuvo que responder en la esquina inferior derecha para bloquear una victoria inmediata para el jugador X. Es el turno del jugador X. No hay una combinaci&oacute;n ganadora con dos X, ni con dos O. Pero jugador X puede encontrar <em>dos</em> combinaciones ganadoras, las marcadas con las l&iacute;neas rojas, las cuales tienen una X y dos cuadrados libres, <em>con uno de los cuadrados libres en com&uacute;n</em>. En la imagen, el cuadrado com&uacute;n es el 4, el cuadrado del borde izquierdo, y ah&iacute; es donde el jugador X debe moverse.</div>
+                        </li>
+                        <li>Encuentra todos los triples (es decir, reporta una <em>lista de triples</em>) en la que la computadora tenga un cuadrado y los otros dos est&aacute;n vac&iacute;as, y luego guárdalos en una variable llamada <var>individuales</var>.</li>
+                        <li>
+                            Haz una lista grande de todas las letras y n&uacute;meros de los triples:<br>
+                            <img class="indent" src="/bjc-r/img/hof/ttt-flatten.es.png" alt="variable de programa(átomos); asignar a (átomos) el valor (combinar con (anexar()()) elementos de (individuales))" title="variable de programa(átomos); asignar a (átomos) el valor (combinar con (anexar()()) elementos de (individuales))"><br>
+                        </li>
+                        <div class="endnote">"&Aacute;tomo" es un t&eacute;rmino t&eacute;cnico para un valor que no es una lista. Una lista contiene un mont&oacute;n de elementos, al igual que una mol&eacute;cula contiene un mont&oacute;n de &aacute;tomos.</div>
+                        <li>Ahora encuentra un n&uacute;mero que aparezca m&aacute;s de una vez en&nbsp;<code>&aacute;tomos</code>.</li>
+                        <div class="endnote">
+                            <div class="todo">Need to update page number. --MF, 3/29/19</div>
+                            Resolviste una situación relacionada en <a href="/bjc-r/cur/programming/5-algorithms/1-searching-lists/7-comparing-search-algorithms.es.html" title="Unidad 5 Laboratorio 1 Página 7: Eliminación de duplicados">Unidad 5 Laboratorio 1 P&aacute;gina 7: Eliminación de duplicados</a>.
+                        </div>
+
+                    </ol>
+                </li>
+            </ol>
+        </div>
+
+
+
+
+</body></html>

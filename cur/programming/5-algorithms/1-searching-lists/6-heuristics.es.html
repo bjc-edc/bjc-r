@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unidad 5 Laboratorio 1: Algoritmos de búsqueda y eficiencia, Página 6</title>
+	</head>
+
+	<body>
+        <h2>Soluciones heur&iacute;sticas</h2>
+		<div class="todo">
+            <p>PAUL SHOULD REVIEW THIS CONTENT.</p>
+            <h3>TG and solutions need to be checked. --MF, 12/19/18</h3>
+        </div>
+        <div class="learn">
+            <p><strong>En esta p&aacute;gina</strong>, aprender&aacute;s que incluso para los problemas de tiempo no razonables, puede haber soluciones "suficientemente cercanas" a un tiempo razonable.</p>
+        </div>
+        <div class="ap-standard">AAP-4.A.6, AAP-4.A.8, AAP-4.A.9</div>
+        <p>Si un problema puede ser resuelto en tiempo exponencial, puede haber un algoritmo diferente que lo haga en tiempo polin&oacute;mico (es decir, m&aacute;s r&aacute;pidamente), pero algunos problemas no pueden ser respondidos en tiempo polin&oacute;mico. Es importante reconocer que un algoritmo de tiempo exponencial <strong>todav&iacute;a resuelve un problema correctamente</strong>; solo que toma un tiempo irrazonablemente largo (tal vez incluso cientos de a&ntilde;os para algunos insumos, por ejemplo).</p>
+        <p>Los algoritmos de tiempo exponencial a veces pueden ser reemplazados por <em>heur&iacute;stica</em>, que son algoritmos de tiempo polin&oacute;mico que no resuelven el problema exactamente, pero dan una aproximaci&oacute;n bastante buena. Pero la heur&iacute;stica es &uacute;til solo para ciertos tipos de problemas.<!--Heuristics are useful when a problem has has a solution, and although we can't compute the solution in a practical amount a time, we can still find "pretty good" solutions.--></p>
+        <div class="vocabFullWidth">
+          <div class="ap-standard">AAP-4.A.2</div>
+            <ul>
+                <li>Un <strong>problema de decisi&oacute;n</strong> es un problema con una respuesta verdadera/falsa (por ejemplo, "&iquest;es 5,825,496,221 un n&uacute;mero primo?").</li>
+<li>Un <strong>problema de optimizaci&oacute;n&nbsp;</strong> es uno con el objetivo de encontrar la mejor soluci&oacute;n entre muchos (por ejemplo, "&iquest;cu&aacute;l es el mejor horario de la escuela para colocar a cada estudiante en la mayor cantidad posible de sus clases solicitadas?).</li>
+            </ul>
+        </div>
+
+        <div class="forYouToDo">
+			<ol>
+				<li>&iquest;Para qu&eacute; tipo de problemas (problemas de optimizaci&oacute;n o problemas de decisi&oacute;n) una soluci&oacute;n heur&iacute;stica puede ser &uacute;til?</li>
+			</ol>
+		</div>
+
+        <p>
+            Un ejemplo de un problema para el cual una soluci&oacute;n heur&iacute;stica es &uacute;til es el <strong>problema del vendedor viajero</strong>: Para un grupo de ciudades, <em>&iquest;cu&aacute;l es la ruta m&aacute;s corta</em> para que un vendedor visite cada ciudad y regrese a su ciudad de origen? Este es un buen caso para la heur&iacute;stica porque:
+            </p>
+<ol>
+                <li>Est&aacute; claro que debe haber una ruta m&aacute;s corta.</li>
+                <li>No se conoce ning&uacute;n algoritmo de tiempo polin&oacute;mico para este problema. (La mayor&iacute;a de los inform&aacute;ticos piensan que no es posible escribir uno.)</li>
+                <li><em>Hay</em> una posible heur&iacute;stica: elige un camino al azar y luego intenta mejorarlo intercambiando dos ciudades repetidamente hasta que no puedas mejorar el camino con cambios tan peque&ntilde;os.</li>
+            </ol>
+            <div class="endnote">Esta heur&iacute;stica es llamada "ascenso de colinas" porque encontrar&aacute;s el mejor camino <em>cercano</em>&nbsp;(la cima de una colina), pero podr&iacute;a haber una colina m&aacute;s alta (un mejor camino) m&aacute;s lejos.</div>
+        <p></p>
+
+        <div class="forYouToDo">
+			<ol start="2">
+                <li>
+                    <div class="ap-standard">AAP-4.A part b</div>
+                    <!-- Question 2 -->
+                    <div class="assessment-data" type="multiplechoice" identifier="In which of the following problems is a heuristic solution appropriate?" hasinlinefeedback="true" maxchoices="1" responseidentifier="ri2" shuffle="true">
+                        <div class="prompt">
+                            &iquest;En cu&aacute;l de los siguientes problemas es apropiada una soluci&oacute;n heur&iacute;stica?
+                        </div>
+                        <div class="choice" identifier="c1">
+                            <div class="text">Encontrar el elemento m&aacute;s grande de una lista.</div>
+                            <div class="feedback">
+                                Podemos encontrar la soluci&oacute;n a este problema en el tiempo polin&oacute;mico.
+                            </div>
+                        </div>
+                        <div class="choice" identifier="c2">
+                            <div class="text">Encontrar la mejor combinaci&oacute;n de ingredientes para la salsa de espagueti.</div>
+                            <div class="feedback">
+                                No hay una soluci&oacute;n perfecta (correcta) para este problema porque diferentes personas tienen diferentes gustos.
+                            </div>
+                        </div>
+                        <div class="choice" identifier="c3">
+                            <div class="text">Jugar al ajedrez.</div>
+                            <div class="feedback">
+                                &iexcl;Correcto! Este es un buen ejemplo porque hay una soluci&oacute;n (una forma de determinar el resultado de un juego perfectamente jugado), la soluci&oacute;n no se puede encontrar en tiempo polin&oacute;mico, y una soluci&oacute;n aproximada ser&iacute;a &uacute;til.
+                            </div>
+                        </div>
+                        <div class="choice" identifier="c4">
+                            <div class="text">Encontrar la combinaci&oacute;n de una cerradura de <em>n</em> n&uacute;meros.</div>
+                            <div class="feedback">
+                                No hay posibilidad de una heur&iacute;stica porque no es &uacute;til tener una combinaci&oacute;n casi correcta (una soluci&oacute;n aproximada).
+                            </div>
+                        </div>
+                        <div class="responseDeclaration" identifier="ri2">
+                            <div class="correctResponse" identifier="c3"></div>
+                        </div>
+                    </div>
+                </li>
+			</ol>
+		</div>
+
+        <h3>&iquest;Pueden resolverse todos los problemas de decisi&oacute;n?</h3>
+        <p>Resulta que no todos los problemas de decisi&oacute;n (preguntas de verdadero/falso) pueden ser resueltos con un algoritmo.</p>
+
+        <div class="vocabFullWidth">
+            <div class="ap-standard">AAP-4.B.1, AAP-4.B.2, AAP-4.B.3</div>
+            <p>Un problema <strong>resoluble</strong> es un problema de decisi&oacute;n para el cual es posible escribir un algoritmo que dar&aacute; una salida correcta para todas las entradas. </p>
+            <p>Un problema&nbsp;<strong>indecidible</strong> es lo opuesto.&nbsp; <em>No </em>es posible escribir un algoritmo que dar&aacute; una salida correcta para todas las entradas&mdash;aunque podr&iacute;a ser posible para algunos de ellos.</p>
+        </div>
+        <div class="endnote">
+            <p>La pregunta&nbsp; "&iquest;el n&uacute;mero entero es par?"es ejemplo de un problema <em>resoluble</em> porque es posible escribir un algoritmo que determinar&aacute; si <em>un</em> n&uacute;mero entero es par.</p>
+            <p>La pregunta "&iquest;este programa de computadora que toma una entrada siempre reportar&aacute; eventualmente un resultado?" es un <em>problema indecidible</em>. Es posible escribir un algoritmo de comprobaci&oacute;n que sea capaz de decir por <em>algunos</em> programas con <em>algunas</em> entradas si reportar&aacute;n un resultado o se atascar&aacute;n en un bucle infinito y nunca reportar&aacute;n. Pero resulta que no es posible escribir un algoritmo de comprobaci&oacute;n que funcione para <em>cualquier</em> programa con <em>cualquier</em> entrada. (Puedes ver una prueba de que ning&uacute;n algoritmo de comprobaci&oacute;n de este tipo&mdash;para una computadora o persona&mdash;puede ser escrito en <a href="/bjc-r/cur/programming/5-algorithms/4-unsolvable-undecidable/1-logical-inconsistency.es.html?topic=nyc_bjc%2F5-algorithms.es.topic&amp;course=bjc4nyc.es.html&amp;novideo&amp;noassignment" title="Unidad 5 Lab 4">en Laboratorio 4</a> de esta unidad.)</p>
+        </div>
+
+        <div class="forYouToDo">
+			<ol start="3">
+                <div class="ap-standard">AAP-4.B</div>
+                <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.es.png" alt="Habla con tu compañero" title="Habla con tu compañero">Qu&eacute; significa que un problema sea indecidible?</li>
+			</ol>
+		</div>
+</body></html>
