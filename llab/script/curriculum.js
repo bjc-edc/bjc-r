@@ -520,6 +520,9 @@ llab.loadNewPage = (path) => {
 // Handle popstate events for when users use the back button
 window.addEventListener("popstate", (event) => {
   const state = event.state;
+  console.log(event)
+  debugger;
+
   if (!state || !state.body || !state.title) {
     location.reload();
     return;
