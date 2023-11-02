@@ -254,13 +254,6 @@ llab.curentPageType = () => {
     return false;
 }
 
-//
-llab.isTopicFile = () => {
-    return [
-        llab.empty_topic_page_path, llab.topic_launch_page, llab.alt_topic_page
-      ].includes(llab.stripLangExtensions(location.pathname));
-};
-
 /** Strips comments off the line in a topic file. */
 llab.stripComments = function(line) {
     var index = line.indexOf("//");
