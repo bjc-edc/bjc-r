@@ -28,7 +28,7 @@ llab.set_cache = (key, value) => {
 llab.read_cache = key => sessionStorage[key];
 
 // Switch to turn off ajax page loads.
-llab.DISABLE_DYNAMIC_NAVIGATION = false;
+llab.DISABLE_DYNAMIC_NAVIGATION = true;
 // this should only be true when navigating back/forwards so we do no repopulate history.
 llab.SKIP_PUSH_STATE = false;
 
