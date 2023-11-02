@@ -14,8 +14,13 @@ module BJCHelpers
   end
   
   def get_topic_course(topic, course)
-    TOPIC_COURSE.push(topic) if !TOPIC_COURSE.include?(topic)
+    if not(TOPIC_COURSE.empty?)
+      TOPIC_COURSE.each do |item|
+        TOPIC_COURSE.delete(item)
+      end
+    end
     TOPIC_COURSE.push(course) if !TOPIC_COURSE.include?(course)
+    TOPIC_COURSE.push(topic) if !TOPIC_COURSE.include?(topic)
   end
 
   #get the folder or path before the end. Would return programming in bjc-r/cur/programming/hello.html
@@ -32,7 +37,7 @@ module BJCHelpers
 
   def generate_url_suffix(topic, unit_folder, course)
     UNIT_FOLDERS.push(unit_folder) if !UNIT_FOLDERS.include?(unit_folder)
-    "?topic=#{topic}/#{unit_folder}.topic&course=#{course}.html&novideo&noassignment"
+    "?topic=#{topic}/#{unit_folder}&course=#{course}.html&novideo&noassignment"
   end
 
   def bjc_html_page(lang, title, contents)

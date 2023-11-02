@@ -562,6 +562,27 @@ llab.rebuildPageFromHTML = (html, path) => {
   let body = doc.body.innerHTML;
   llab.rerenderPage(body, title, path);
 
+  // What else needs to be reset?
+  llab.titleSet = false;
+  llab.conditional_setup_run = false;
+  document.title = title;
+  $('.full').html(body);
+  // Setup the new page
+  // TODO: Ensure this is idempotent.
+  llab.displayTopic();
+  llab.secondarySetUp();
+  buildQuestions(); // MCQs
+  llab.editURLs(); // course pages
+  llab.conditionalSetup(llab.CONDITIONAL_LOADS);
+  // TODO:
+  // Do we need to fire off any events? Bootstrap? dom loaded?
+  window.scrollTo({ top: 0, behavior: 'instant' });
+  if (llab.GACode) {
+    gtag('config', llab.GACode, {
+      page_title: title,
+      page_location: location.href // Full URL is required.
+    });
+  }
   llab.PREVENT_NAVIGATIONS = false;
 }
 

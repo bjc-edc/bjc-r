@@ -247,12 +247,6 @@ llab.getQueryParameter = function(paramName) {
     }
 };
 
-llab.isTopicFile = () => {
-    return [
-        llab.empty_topic_page_path, llab.topic_launch_page, llab.alt_topic_page
-      ].includes(llab.stripLangExtensions(location.pathname));
-};
-
 // TODO: Write a use this function.
 // This should return the "type" of a page used in the repo:
 // course, topic, curriculum -- maybe others later (summaries? teacher guide?)
