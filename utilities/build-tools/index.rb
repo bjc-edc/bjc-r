@@ -46,11 +46,6 @@ class Index
   def generateAlphaOrder(usedLetters, output)
     getAlphabet
     File.write(index_filename, "\n<div class=\"index-letter-link\">\n", mode: 'a')
-    # i = 0
-    # while alphabet.length > i
-    #    File.write(index_filename, "<a href=\"##{alphabet[i].upcase}\">#{alphabet[i].upcase}</a>&nbsp;\n", mode: "a")
-    #    i += 1
-    # end
     linksUnusedLetters(usedLetters).each do |letter|
       File.write(index_filename, letter, mode: 'a')
     end
@@ -60,7 +55,6 @@ class Index
 
   def isNonEngChar(vocab, _usedLetters)
     !(isCapital?(vocab[0]) or isLowercase?(vocab[0]))
-    # return usedLetters.localize(@language).compare(usedLetters[-1], vocab[0]).abs() == 1
   end
 
   def isCapital?(char)
@@ -86,7 +80,6 @@ class Index
   def linksUnusedLetters(usedLetters)
     unused = getAlphabet.map { |letter| usedLetters.include?(letter) }
     links = []
-    # link = (fileName, "<a href=\"##{alphabet[i].upcase}\">#{alphabet[i].upcase}</a>&nbsp;\n", mode: "a")
     i = 0
     while i < unused.length
       newBool = unused[i]
@@ -145,7 +138,6 @@ class Index
     Dir.chdir(filePath)
     files = Dir.glob('*html').select { |f| File.file? f }
     createNewIndexFile(files[0], filePath)
-    # generateAlphaOrder()
     addIndex
     add_HTML_end
     moveFile
@@ -182,7 +174,7 @@ class Index
     capitals = ['IP', 'DDoS', 'SSL', 'TLS', 'TCP', 'IA', 'IPA', 'PCT', 'PI', 'AI', 'ADT', 'API',
                 'Creative Commons', 'ISPs', 'Commons', 'Creative', 'Boolean', 'Booleano']
     capitals.each do |item|
-      if vocab.match?(item) # and (vocab == item or vocab.match?("#{item}\s") or vocab.match?("\s#{item}"))
+      if vocab.match?(item)
         return true
       elsif vocab.match?(/\(.+\)/)
         return true
