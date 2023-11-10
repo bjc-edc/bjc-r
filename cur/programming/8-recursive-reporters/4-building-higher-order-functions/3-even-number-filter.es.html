@@ -1,123 +1,66 @@
 <!DOCTYPE html>
 <html lang="es">
+	<head>
+		<meta charset="utf-8">
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unidad 8 Laboratorio 4: Construyendo funciones de orden superior, Página 3</title>
+	</head>
 
-<head>
-    <meta charset="utf-8">
-    <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
-    <title>Unidad 8 Lab 4: Algunos Simples, Pagina 3</title>
-</head>
+	<body>
+		<h2>Números pares y <code>keep</code></h2>
+		<p>Queremos un bloque que tome una lista de números como entrada y reporte una lista de solo los números <strong>pares</strong> de la entrada.</p>
+		<p>
+			Ya sabes cómo escribir este bloque usando la función de orden superior <code>keep</code>, pero veamos cómo se ve usando la recursividad:<br />
+			<img class="indent" src="/bjc-r/img/8-recursive-reporters/evens.png" alt="evens (numbers){if(empty? (numbers)){return(empty list)} else{if((item(1) of (numbers)) mod (2)=0){report(item(1) of (numbers) in front of (evens (all but first of (numbers))))} else{report(evens(all but first of (numbers)))}}}" title="evens (numbers){if(empty? (numbers)){return(empty list)} else{if((item(1) of (numbers)) mod (2)=0){report(item(1) of (numbers) in front of (evens (all but first of (numbers))))} else{report(evens(all but first of (numbers)))}}}" />
+		</p>
+		<p>Aquí hay <em>tres </em>casos posibles a considerar, no solo el caso base habitual o el caso recursivo. Todavía hay un caso base, a saber, una lista de entrada vacía, en cuyo caso informamos una lista vacía. Pero hay <em>dos</em>casos recursivos, dependiendo de si el primer elemento de la lista es par o no. (Tiene que haber un primer elemento, si no estamos en el caso base). Los bloques de Operadores verdes arriba toman el resto al dividir el primer número por 2, y ven si ese resto es 0, en cuyo caso el número es incluso.</p>
+		<p>Si el primer número es par, entonces queremos incluir ese número en el resultado. Entonces reportamos ese número <code>delante de</code> la llamada recursiva en el resto de los números. Si el primer número no es par, entonces <em>no </em>queremos incluirlo en el resultado, así que simplemente informamos el valor informado por la llamada recursiva.</p>
 
-<body>
-    <h2>Números Pares y <code>Keep</code></h2>
-    <div class="todo">
-        <p>PG: "We want a block that…." Why? I would SO hope that we have the time to write lessons like this (speaking
-            rather loosely) where we actually DO "want a block that…" Earlier in the curriculum. FYTD 1, for example,
-            could sensibly be applied much earlier. We can flat-out SHOW kids how to do it in one example, and let them
-            modify (ahem, use, modify, create) it to do a different task, and then let them create their own. The FYTDs
-            here are a bit like that, and are really good. Setting them in context would be great. Maybe before getting
-            KEEP?</p>
-        <p>BH: Move ITIT 5 to FYTD 4, old FYTD 4 to 5, so we can /end/ with the climactic orange box!</p>
-        <p>MF: The pedagogy here is killing me. Here draw a square with recursion or functionally. WHY?!?!? Don't
-            torture students. Give them a problem where this technique really matters.</p>
-    </div>
+		<div class="takeNote">Al igual que <code>plurals</code>, el código <code>evens</code> es un ejemplo de un <strong>patrón</strong> de código. No hay nada especial acerca de los números pares aquí. El mismo patrón podría usarse para hacer una lista de números impares, o números que terminen en 7, o nombres que comiencen con Z.</div>
 
-    <p>Queremos un bloque que tome una lista de números como entrada y reporte una lista de solo los números
-        <strong>pares</strong> de la entrada.
-    </p>
-    <p>
-        Ya sabes cómo escribir este bloque usando la función de orden superior <code>keep</code>, pero veamos cómo se ve
-        usando
-        la recursividad:<br />
-    <div class="todo">Can we please come up with CS exercises that aren't "do this pointless thing to learn something
-        that seemingly has no point"? There must be some reason we want to teach this--some context in which it would be
-        useful; Let's show that. --MF, 9/26/18</div>
-    <img class="indent" src="/bjc-r/img/8-recursive-reporters/evens.png"
-        alt="evens (numbers){if(empty? (numbers)){return(empty list)} else{if((item(1) of (numbers)) mod (2)=0){report(item(1) of (numbers) in front of (evens (all but first of (numbers))))} else{report(evens(all but first of (numbers)))}}}"
-        title="evens (numbers){if(empty? (numbers)){return(empty list)} else{if((item(1) of (numbers)) mod (2)=0){report(item(1) of (numbers) in front of (evens (all but first of (numbers))))} else{report(evens(all but first of (numbers)))}}}" />
-    </p>
-    <p>Aquí hay <em>tres </em>casos posibles a considerar, no solo el caso base habitual o el caso recursivo. Todavía
-        hay un
-        caso base, a saber, una lista de entrada vacía, en cuyo caso informamos una lista vacía. Pero hay <em>dos
-        </em>casos
-        recursivos, dependiendo de si el primer elemento de la lista es par o no. (Tiene que haber un primer elemento,
-        si no
-        estamos en el caso base). Los bloques de Operadores verdes arriba toman el resto al dividir el primer número por
-        2,
-        y ven si ese resto es 0, en cuyo caso el número es incluso.</p>
-    <p>Si el primer número es par, entonces queremos incluir ese número en el resultado. Entonces reportamos ese número
-        <code>delante de</code> la llamada recursiva en el resto de los números. Si el primer número no es par, entonces
-        <em>no </em>queremos incluirlo en el resultado, así que simplemente informamos el valor informado por la llamada
-        recursiva.
-    </p>
+		<div class="forYouToDo" id="first">
+			<p><strong>Haga los siguientes ejercicios usando recursividad, no funciones de orden superior. </strong></p>
+			<ol>
+				<div class="sidenote">Intente modificar el código de <code>evens</code>.</div>
+				<li>
+					Escriba un bloque <code>ends-e</code> que tome una lista de palabras como entrada y reporte una lista de esas palabras de la entrada cuya última letra es e.<br />
+					<img class="indent" src="/bjc-r/img/8-recursive-reporters/endse-ex.png"
+						alt="ends-e(list{la, lluvia, en, España, es, en, Europa}), informando {la, Europa}"
+						title="ends-e(listar{la, lluvia, en, España, es, en, Europa}), informando {la, Europa}" />
+				</li>
+				<li>
+					Escriba un bloque <code>numbers</code> que tome una lista de palabras y números mixtos como entrada, y reporte una lista de solo los números de la lista de entrada.<br />
+					<img class="indent" src="/bjc-r/img/8-recursive-reporters/numbers-ex.png"
+						alt="numbers(list{the, 1, after, 909}), informe {1, 909}"
+						title="numbers(list{the, 1, after, 909}), reportando {1, 909}" />
+				</li>
+				<li>Generaliza el patrón para hacer un bloque <code>keep</code>.</li>
+				<div class="tomarNota">
+					Si no trabajó en la página de bloqueo <code>combine</code> en <a
+						href="/bjc-r/cur/programming/5-algorithms/old/3-timing-experiments/1-comparing-algorithms .es.html"
+						title="Comparación de algoritmos"> Unidad 5 Práctica de laboratorio 3 Página 1: Comparación de
+						algoritmos</a>, probablemente querrá tener una idea de cómo funciona ese bloque antes de comenzar
+					con el siguiente problema.
 
-    <div class="takeNote">Al igual que <code>plurals</code>, el código <code>evens</code> es un ejemplo de un
-        <strong>patrón</strong> de código.
-        No hay nada especial acerca de los números pares aquí. El mismo patrón podría usarse para hacer una lista de
-        números
-        impares, o números que terminen en 7, o nombres que comiencen con Z.</div>
+				</div>
+				<li>Escribe el bloque <code>combine</code>. <strong>Nota:</strong> El caso base será una lista con un elemento, no una lista vacía.
+				</li>
+			</ol>
+		</div>
 
-    <div class="forYouToDo" id="first">
-        <div class="todo"><strong>Fundamental Concern:</strong> The pedagogy here is killing me. Here draw a square with
-            recursion or functionally. WHY?!?!? Don't torture students. Give them a problem where this technique really
-            matters. --MF, 9/26/18</div>
-        <p><strong>Haga los siguientes ejercicios usando recursividad, no funciones de orden superior. </fuerte>
-        </p>
-        <ol>
-            <div class="sidenote">Intente modificar el código de <code>evens</code>.</div>
-            <li>
-                Escriba un bloque <code>ends-e</code> que tome una lista de palabras como entrada y reporte una lista de
-                esas
-                palabras de la entrada cuya última letra es e.<br />
-                <img class="indent" src="/bjc-r/img/8-recursive-reporters/endse-ex.png"
-                    alt="ends-e(list{la, lluvia, en, España, es, en, Europa}), informando {la, Europa}"
-                    title="ends-e(listar{la, lluvia, en, España, es, en, Europa}), informando {la, Europa}" />
-            </li>
-            <li>
-                Escriba un bloque <code>numbers</code> que tome una lista de palabras y números mixtos como entrada, y
-                reporte
-                una lista de solo los números de la lista de entrada.<br />
-                <img class="indent" src="/bjc-r/img/8-recursive-reporters/numbers-ex.png"
-                    alt="numbers(list{the, 1, after, 909}), informe {1, 909}"
-                    title="numbers(list{the, 1, after, 909}), reportando {1, 909}" />
-            </li>
-            <li>Generaliza el patrón para hacer un bloque <code>keep</code>.</li>
-            <div class="tomarNota">
-                Si no trabajó en la página de bloqueo <code>combine</code> en <a
-                    href="/bjc-r/cur/programming/5-algorithms/old/3-timing-experiments/1-comparing-algorithms .es.html"
-                    title="Comparación de algoritmos"> Unidad 5 Práctica de laboratorio 3 Página 1: Comparación de
-                    algoritmos</a>, probablemente querrá tener una idea de cómo funciona ese bloque antes de comenzar
-                con el
-                siguiente problema.
+		<div class="takeNote">Crear <code>map</code>, <code>keep</code> y <code>combine</code> es un gran logro. Sin embargo, cada uno de estos bloques solo generaliza un patrón simple. Algunas personas piensan que las funciones de orden superior son <strong><em>demasiado difíciles y aterradoras</em></strong> para que los estudiantes las usen, y mucho menos las construyan. ¡Pero acabas de hacerlo!
+		</div>
 
-            </div>
-            <li>Escribe el bloque <code>combine</code>. <strong>Nota:</strong> El caso base será una lista con un
-                elemento, no
-                una lista vacía.
-            </li>
-        </ol>
-    </div>
-
-    <div class="takeNote">Crear <code>map</code>, <code>keep</code> y <code>combine</code> es un gran logro. Sin
-        embargo, cada uno de estos
-        bloques solo generaliza un patrón simple. Algunas personas piensan que las funciones de orden superior son
-        <strong><em>demasiado difíciles y aterradoras</em></strong> para que los estudiantes las usen, y mucho menos las
-        construyan. ¡Pero acabas de hacerlo!
-    </div>
-
-    <div class="ifTime">
-        <ol comienzo="5">
-            <li>
-                Modifique cualquier algoritmo <code>sort</code> que haya escrito anteriormente en el título <a
-                    href="/bjc-r/cur/programming/8-recursive-reporters/2-sorting/1-sorting-a-list.es.html"="Ordenar una lista">
-                    Unidad 8 Práctica de laboratorio 2, página 1: Ordenar una lista</a> para tomar un predicado de
-                comparación como entrada, para que pueda decir<br />
-                <img class="indent" src="/bjc-r/img/8-recursive-reporters/sortusing.png"
-                    alt="ordenar(algunos-valores) usando (()>()) para comparar"
-                    title=" ordenar (algunos valores) usando (()>()) para comparar" /><br />
-                para ordenar con el elemento <em>más grande</em> primero.
-            </li>
-        </ol>
-    </div>
-</body>
+		<div class="takeItFurther">
+			<ol type="A">
+				<li>Do the <a href="/bjc-r/cur/programming/8-recursive-reporters/optional-project-sorting/1-sorting-a-list.html?topic=nyc_bjc%2F8-recursive-reporters.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 8 Optional Project: Sorting" target="_blank">Unit 8 Optional Project: Sorting</a>.</li>
+				<li>
+					Modifique cualquier algoritmo <code>sort</code> que haya escrito anteriormente en el título <a href="/bjc-r/cur/programming/8-recursive-reporters/2-sorting/1-sorting-a-list.es.html" title="Ordenar una lista">Unidad 8 Práctica de laboratorio 2, página 1: Ordenar una lista</a> para tomar un predicado de comparación como entrada, para que pueda decir<br />
+					<img class="indent" src="/bjc-r/img/8-recursive-reporters/sortusing.png" alt="ordenar(algunos-valores) usando (()>()) para comparar" title=" ordenar (algunos valores) usando (()>()) para comparar" /><br />
+					para ordenar con el elemento <em>más grande</em> primero.
+				</li>
+			</ol>
+		</div>
+	</body>
 
 </html>
