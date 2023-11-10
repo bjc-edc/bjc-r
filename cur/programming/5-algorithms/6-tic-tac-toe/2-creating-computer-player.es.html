@@ -25,7 +25,7 @@
        
         <h3>Hacer que la computadora mueva de manera aleatoria</h3>
         <p>Por ahora, crear&aacute;s un jugador controlado por la computadora que se mueva a posiciones aleatorias en el tablero. (No ser&aacute; un muy buen jugador, pero lo arreglar&aacute;s cuando la estructura del c&oacute;digo de la jugada de la computadora est&eacute; en su lugar.) Cuando el programa decide a d&oacute;nde quiere ir, utilizar&aacute;s <span style="font-family: monospace;"></span><code>enviar mensaje</code> para enviar un mensaje para decir al clon el <var>n&uacute;mero de posici&oacute;n </var>correspondiente para registrar un movimiento. (Para el jugador humano, <span style="font-family: monospace;"></span><code>cuando me hagan clic</code> sirve para este prop&oacute;sito, pero los movimientos de la computadora no son impulsados por el usuario al hacer clic en un cuadradrado.)</p>
-        <div class="endnote">Recuerda que los clones son copias temporales de un sprite. Los aprendiste en <a href="/bjc-r/cur/programming/3-lists/1-abstraction/5-building-tic-tac-toe.es.html?topic=nyc_bjc%2F2-conditionals-abstraction.es.topic&amp;course=bjc4nyc.es.html&amp;novideo&amp;noassignment#clones" title="Unidad 3 Laboratorio 1 Página 5: Construir un tablero de tres en línea">Unidad 3 Laboratorio 1 P&aacute;gina 5: Construir un tablero de tres en l&iacute;nea</a>.</div>
+        <div class="endnote">Recuerda que los clones son copias temporales de un objeto. Los aprendiste en <a href="/bjc-r/cur/programming/3-lists/1-abstraction/5-building-tic-tac-toe.es.html?topic=nyc_bjc%2F2-conditionals-abstraction.es.topic&amp;course=bjc4nyc.es.html&amp;novideo&amp;noassignment#clones" title="Unidad 3 Laboratorio 1 Página 5: Construir un tablero de tres en línea">Unidad 3 Laboratorio 1 P&aacute;gina 5: Construir un tablero de tres en l&iacute;nea</a>.</div>
        
         <p>
             <img class="indent" src="/bjc-r/img/blocks/broadcast.es.png" alt="enviar mensaje" title="enviar mensaje">
@@ -46,25 +46,29 @@
                 <li>Si a&uacute;n no est&aacute; abierto, abre tu proyecto U5-Tresenlinea.</li>
                 <li>
                     Encunetra el programa que comienza con <code>cuando me hagan clic</code>. Ese programa maneja un movimiento del jugador humano. Ahora empieza un nuevo programa al lado de este:<br />
-                    <img class="indent" src="/bjc-r/img/5-algorithms/when-receive.png" alt="cuando me llegue (cualquier mensaje) : si (mensaje) = (número cuadrado) [nada el la ranura del programa todavía]" title="cuando me llegue (cualquier mensaje) : si (mensaje) = (número cuadrado) [nada el la ranura del programa todavía]" />
+                    <img class="indent" src="/bjc-r/img/5-algorithms/when-receive.es.png" alt="cuando me llegue (cualquier mensaje) (datos) {
+                    si ((datos) = (número de posición))
+                }" title="cuando me llegue (cualquier mensaje) (datos) {
+                    si ((datos) = (número de posición))
+                }" />
                 </li>
                 <li>
                     Crea una abstracción para contener todo dentro del enunciado <code>si</code> del programa <code>cuando me (hagan clic)</code> y úsalo en ambos programas.<br />
-                    <img class="indent" src="/bjc-r/img/5-algorithms/when-clicked.png" alt="cuando me (hagan clic) {
-    si ((disfraz #) = 1) {
+                    <img class="indent" src="/bjc-r/img/5-algorithms/when-clicked.es.png" alt="cuando me (hagan clic) {
+    si ((# de disfraz) = 1) {
         mover a este cuadradrado
     }
 }" title="cuando me (hagan clic) {
-    si ((disfraz #) = 1) {
+    si ((# de disfraz) = 1) {
         mover a este cuadradrado
     }
 }" />&nbsp;&nbsp;&nbsp;
-                    <img class="indent" src="/bjc-r/img/5-algorithms/when-receive-move.png" alt="cuando me (hagan clic) {
-    si ((mensaje) = (número cuadrado)) {
+                    <img class="indent" src="/bjc-r/img/5-algorithms/when-receive-move.es.png" alt="cuando me llegue (cualquier mensaje) (datos) {
+    si ((mensaje) = (número de posición)) {
         mover a este cuadradrado
     }
-}" title="cuando me (hagan clic) {
-    si ((mensaje) = (número cuadrado)) {
+}" title="cuando me llegue (cualquier mensaje) (datos) {
+    si ((mensaje) = (número de posición)) {
         mover a este cuadradrado
     }
 }" />
@@ -76,7 +80,7 @@
                     </div>
                    Para depurar el programa <code>cuando me llegue</code>, edita el bloque <code>mover a este cuadradrado</code>. Después de tu código para el turno del Jugador X, elige <em>temporalmente</em> un cuadradrado aleatorio y usa <code>enviar mensaje</code> con ese número de cuadrado como mensaje. (Si tu programa <code>cuando me llegue</code> funciona, la computadora moverá al cuadrado correspondiente).
                 </li>
-				<li>Toma turnos con tu compa&ntilde;ero jugando tres en l&iacute;nea contra el jugador controlado por&nbsp; la computadora. Arregla cualquier error que encuentres.</li>
+				<li>Toma turnos con tu compa&ntilde;ero jugando tres en l&iacute;nea contra el jugador controlado por la computadora. Arregla cualquier error que encuentres.</li>
                 <div class="todo">In the first move of the first time I tried this today, the computer played in the same space as I had just played, so I fixed that (knowing, as the curriculum designer that I don't really have to because of what comes next, but because the student won't know what's next), but then I noticed that when X wins, which it generally will against a random player, O then moves again--potentially even "winning" after me. So I tried to fix that, and after trying for a bit, I ended up deciding to stop and write about this potential time sink rather than sinking my own time into it. What to do? --MF, 9/6/18
                     
                 <p>Also: we have no note about removing the Player O code, which we might consider adding, and the orange box in #3 is too late; I'd already done copy and paste before I saw it. Our directions really inspire "just doing what it says without thinking" I'm not sure what to do about that... (BTW, should we have said that earlier? I can't find a good place because we build up the code slowly, but I wondered it.) --MF, 9/6/18</p></div>
@@ -85,8 +89,8 @@
 		
         <h3>Asigna a la computadora una estrategia simple</h3>
 
-		<p>En lugar de hacer que la computadora se mueva al azar, comenzar&aacute;s a darle a la computadora alguna estrategia. A diferencia de las personas, no todos los cuadrados del tablero del tres en l&iacute;nea son creados iguales. Jugar en el centro (posici&oacute;n 5) o en una esquina (posiciones 1, 3, 7, o 9) es mejor que jugar en un borde (posiciones 2, 4, 6, o 8).<br>
-            <img class="indent noshadow" src="/bjc-r/img/5-algorithms/position-ranking.png" alt="Tablero de tres en línea que muestra caras felices en las esquinas y el centro y caras triste en los bordes" title="Tablero de tres en línea que muestra caras felices en las esquinas y el centro y caras triste en los bordes">
+		<p>En lugar de hacer que la computadora se mueva al azar, comenzar&aacute;s a dar a la computadora alguna estrategia. A diferencia de las personas, no todos los cuadrados del tablero del tres en l&iacute;nea son creados iguales. Jugar en el centro (posici&oacute;n 5) o en una esquina (posiciones 1, 3, 7, o 9) es mejor que jugar en un borde (posiciones 2, 4, 6, o 8).<br>
+            <img class="indent noshadow" src="/bjc-r/img/5-algorithms/position-ranking.png" alt="Tablero de tres en línea que muestra caras felices en las esquinas y el centro y caras tristes en los bordes" title="Tablero de tres en línea que muestra caras felices en las esquinas y el centro y caras tristes en los bordes">
         </p>
 
         <div class="forYouToDo">
@@ -94,7 +98,7 @@
             	<li>
                     <img class="imageRight" src="/bjc-r/img/icons/talk-with-another-pair.es.png" alt="Habla con otra pareja" title="Habla con otra pareja"> &iquest;Por qu&eacute; jugar en el centro o en una esquina es mejor que en el borde? Elabora una explicaci&oacute;n corta, l&oacute;gica y convincente. Compara tu explicaci&oacute;n con la de otros estudiantes.<br>
                 </li>
-                <li>Crea un <img class="inline" src="/bjc-r/img/5-algorithms/best-empty-square.png" alt="mejor cuadrado vacío" title="mejor cuadrado vacío" /> bloque de mejor cuadrado vac&iacute;o que informe de la mejor posici&oacute;n en el tablero que a&uacute;n no se ha llenado. &Uacute;salo como entrada para tu instrucci&oacute;n <code>enviar mensaje</code> en lugar de <code>aleatorio</code>.
+                <li>Crea un <img class="inline" src="/bjc-r/img/5-algorithms/best-empty-square.es.png" alt="mejor cuadrado vacío" title="mejor cuadrado vacío" /> bloque de mejor cuadrado vac&iacute;o que reporte de la mejor posici&oacute;n en el tablero que a&uacute;n no se ha llenado. &Uacute;salo como entrada para tu instrucci&oacute;n <code>enviar mensaje</code> en lugar de <code>aleatorio</code>.
 
 
 <div class="endnote">
