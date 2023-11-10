@@ -2,6 +2,7 @@ require 'fileutils'
 require 'nokogiri'
 require 'i18n'
 
+require_relative 'course'
 require_relative 'index'
 require_relative 'selfcheck'
 
@@ -15,10 +16,11 @@ TEMP_FOLDER = 'review'
 class Vocab
   include BJCHelpers
   
-  def initialize(path, language = 'en', content)
+  def initialize(path, language = 'en', content, course)
     @parentDir = path
     @language = language
     @content = content
+    @course = course
     I18n.locale = @language.to_sym
     @currUnit = nil
     @currFile = nil
@@ -33,10 +35,6 @@ class Vocab
     @boxNum = 0
     @language_ext = language_ext(language)
   end
-
-  #def language_ext
-  #  @language_ext ||= @language == 'en' ? '' : ".#{@language}"
-  #end
 
   def review_folder
     @review_folder ||= "#{@parentDir}/#{TEMP_FOLDER}"
@@ -108,12 +106,15 @@ class Vocab
     puts "Completed: #{@currUnit}"
   end
 
+  def topic_files_in_course
+    @topic_files_in_course ||= @course.list_topics_no_path.filter { |file| file.match(/\d+-\w+/)}
+  end
+
   def parse_unit(file)
     doc = File.open(file) { |f| Nokogiri::HTML(f) }
     title = doc.xpath('//title')
     str = title.to_s
     pattern = %r{</?\w+>}
-    #boxNum(@boxNum + 1)
     if str.nil?
       isNewUnit(false)
       nil
@@ -131,23 +132,24 @@ class Vocab
 
   def createNewVocabFile(fileName)
     i = 0
-    filePath = Dir.getwd
+    file_path = Dir.getwd
     unless File.exist?(fileName)
       Dir.chdir(review_folder)
       File.new(fileName, 'w')
     end
-    linesList = File.readlines("#{filePath}/#{@currFile}")[0..30]
+    f = File.open(fileName, mode: 'a')
+    linesList = File.readlines("#{file_path}/#{@currFile}")[0..30]
     while !linesList[i].match(/<body>/) && (i < 30)
       if linesList[i].match(/<title>/)
-        File.write(fileName, "<title>#{unit} #{@currUnitNum} #{I18n.t('vocab')}</title>\n", mode: 'a')
+        f.write("<title>#{unit} #{@currUnitNum} #{I18n.t('vocab')}</title>\n")
       else
-        File.write(fileName, "#{linesList[i]}\n", mode: 'a')
+        f.write("#{linesList[i]}\n")
       end
       i += 1
     end
-    File.write(fileName, "<h2>#{@currUnitName}</h2>\n", mode: 'a')
-    File.write(fileName, "<h3>#{currLab}</h3>\n", mode: 'a')
-    Dir.chdir(filePath)
+    f.write("<h2>#{@currUnitName}</h2>\n<h3>#{currLab}</h3>\n")
+    f.close
+    Dir.chdir(file_path)
   end
 
   def add_HTML_end
@@ -163,11 +165,19 @@ class Vocab
     data = data.gsub(/&amp;/, '&')
     data.delete!("\n\n\\")
     if File.exist?(filename)
-      File.write(filename, "<h3>#{currLab}</h3>", mode: 'a') if lab != currLab
+      f = File.open(filename, mode: 'a') 
+      f.write("<h3>#{currLab}</h3>") if lab != currLab
+      f.close
     else
       createNewVocabFile(filename)
     end
-    File.write(filename, data, mode: 'a')
+    f = File.open(filename, mode: 'a') 
+    f.write(data)
+    f.close
+  end
+
+  #re-formatting the margins of the vocab boxes some there is less whitespace on vocab pages
+  def reformat(file)
   end
 
   # might need to save index of line when i find the /div/ attribute
@@ -183,6 +193,7 @@ class Vocab
       if vocab_set.to_s != ""
         vocab_set.each do |node|
           child = node.children
+          node.kwattr_add("style", "width: 95%")
           child.before(add_vocab_unit_to_header) #if !child.to_a.include?(add_vocab_unit_to_header)
           get_vocab_word(node)
           boxNum(1 + @boxNum)
@@ -197,6 +208,7 @@ class Vocab
         vocab_set2.each do |node|
           child = node.children
           change_to_vocabFullWidth(vocab_set2, node['class'])
+          node.kwattr_add("style", "width: 95%")
           child.before(add_vocab_unit_to_header) #if !child.to_a.include?(add_vocab_unit_to_header)
           get_vocab_word(node)
           boxNum(1 + @boxNum)
@@ -204,7 +216,6 @@ class Vocab
         add_vocab_to_file(vocab_set2.to_s)
       end
     end
-
   end
 
   def change_to_vocabFullWidth(vocab_set, clas)
@@ -215,14 +226,12 @@ class Vocab
   end
 
   def get_vocab_word(nodeSet)
-    # extract_vocab_word(nodeSet.xpath(".//li//strong"))
     extract_vocab_word(nodeSet.xpath('.//div//strong'))
     extract_vocab_word(nodeSet.xpath('.//li//strong'))
     extract_vocab_word(nodeSet.xpath('.//p//strong'))
   end
 
   def vocabExists?(list, word)
-    # return ((cases.map{|item| eval(word + item)}).map{|vocab| list.include?(vocab)}).any?
     (list.include?(word) or list.include?(word.upcase) or list.include?(word.downcase) or list.include?(word.capitalize))
   end
 
@@ -265,8 +274,6 @@ class Vocab
     vList = vocab.split(' ')
     articles = %w[el la las los the]
     plurals = articles.map(&:capitalize)
-    # keep = []
-    # vList.map{|word| articles.include?(word) or plural.include?(word) ? keep.append(vList.index(word))}
     if articles.include?(vList[0]) || plurals.include?(vList[0])
       vList = vList[1..]
       vList.include?(',') ? vList[..vList.index(',')] : vList
@@ -283,7 +290,7 @@ class Vocab
   def extract_vocab_word(nodeSet)
     nodeSet.each do |n|
       kludges = ['the cloud', 'cloud, the']
-      kludges.include?(n.to_s) ? node = n : node = removeArticles(n.text.gsub(/(\s+)$/, '').to_s)
+      kludges.include?(n.to_s.downcase) ? node = n : node = removeArticles(n.text.gsub(/(\s+)$/, '').to_s)
       saveVocabWord(node)
       separateVocab(node)
     end
@@ -318,29 +325,24 @@ class Vocab
     end
   end
 
+  def get_topic_file
+    unit_reference = return_vocab_unit(@currUnit)
+    unit_num = unit_reference.match(/\d+/).to_s
+    topic_files = topic_files_in_course.filter {|f| f.match(unit_num)}[0]
+  end
+
   def add_vocab_unit_to_index
-    unitNum = return_vocab_unit(@currUnit)
-    suffix = generate_url_suffix(TOPIC_COURSE[0], get_prev_folder(Dir.pwd), TOPIC_COURSE[1])
-    ##currentDir = Dir.getwd
-    ##FileUtils.cd('..')
+    unit = return_vocab_unit(@currUnit)
+    suffix = generate_url_suffix(TOPIC_COURSE[0], get_topic_file, TOPIC_COURSE[-1])
     path = get_prev_folder(Dir.pwd, true)
-    #link = " <a href=\"#{get_url(vocab_file_name, path)}#box#{@boxNum}#{suffix}\">#{unitNum}</a>"
-    link = " <a href=\"#{get_url(vocab_file_name, path)}#box#{@boxNum}\">#{unitNum}</a>"
+    " <a href=\"#{get_url(vocab_file_name, path)}#{suffix}#box#{@boxNum}\">#{unit}</a>"
   end
 
   def add_vocab_unit_to_header
-    unitNum = return_vocab_unit(@currUnit)
-    suffix = generate_url_suffix(TOPIC_COURSE[0], get_prev_folder(Dir.pwd), TOPIC_COURSE[1])
-   #"<a href=\"#{get_url(@currFile, Dir.pwd)}#{suffix}\"> #{unitNum}</a>
-   "<a href=\"#{get_url(@currFile, Dir.pwd)}\"> #{unitNum}</a>
-    <a name=\"box#{@boxNum}\" class=\"anchor\">&nbsp;</a>"
-    # if lst.size > 1
-    #	unitSeriesNum = lst.join(" #{withlink}:")
-    # else
-    #	unitSeriesNum = lst
-    #	unitSeriesNum.push(" #{withlink}:")
-    #	unitSeriesNum.join
-    # end
+    unit = return_vocab_unit(@currUnit)
+    suffix = generate_url_suffix(TOPIC_COURSE[0], get_topic_file, TOPIC_COURSE[-1])
+    "<a name=\"box#{@boxNum}\"</a>
+    <a href=\"#{get_url(@currFile, Dir.pwd)}#{suffix}\"><b> #{unit}</b></a>"
   end
 
   # need something to call this function and parse_unit
@@ -354,21 +356,10 @@ class Vocab
 
     file = "#{review_folder}/#{vocab_file_name}"
     add_content_to_file(file, vocab)
-
-    # if File.exists?(file)
-    #	doc = File.open(file) { |f| Nokogiri::HTML(f) }
-    #	vocabSet = doc.xpath("//div[@class = 'vocabFullWidth']").to_s
-    #	if vocab.match(vocabSet) == nil
-    #			add_content_to_file(file, vocab)
-    #	end
-    # else
-    # add_content_to_file(file, vocab)
-    # end
   end
 
   def get_url(file, localPath)
     linkPath = localPath.match(/bjc-r.+/).to_s
     result = "/#{linkPath}/#{file}"
-    # add_content_to_file('urlLinks.txt', result)
   end
 end
