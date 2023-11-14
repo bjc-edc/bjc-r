@@ -8,34 +8,40 @@
 
 	<body>
 		<h2>Conversión binaria</h2>
+		<div class="learn">
+            <p><strong>En este laboratorio</strong>, extenderás tu trabajo con la <a href="/bjc-r/cur/programming/4-internet/4-representation-compression/5-binary.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc.html&novideo&noassignment" title="Unidad 4 Laboratorio 4 Página 5: Representación binaria" target="_blank">representación binaria de la Unidad 4</a> a programar la conversión base en Snap<em>!</em>.</p>
+            <p><strong>En esta página</strong>, explorarás un enfoque,  más elegante, a la conversión base.</p>
+        </div>
 		<p>
-			Durante <a href="/bjc-r/cur/programming/6-computers/old/1-number-representation/1-binary.es.html">Unidad 6</a> aprendiste sobre la representación binaria de un número. En este proyecto, escrive un reportero <code>decimal-&gt;binario</code> que toma un <em>número</em> (que Snap<em>!</em> representa en decimal) como entrada y reporta una <em>cadena de ceros y unos</em> que representan el mismo número en binario:<br />
-			<img class="indent" src="/bjc-r/img/8-recursive-reporters/9827.es.png" alt="decimal-&gt;binary (9827) reporting 10011001100011" title="decimal-&gt;binary (9827) reporting 10011001100011" />
+			En la <a href="/bjc-r/cur/programming/4-internet/4-representation-compression/5-binary.es.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc.html&novideo&noassignment">Unidad 4</a> aprendiste sobre la representación binaria de un número. En este proyecto, escribe un reportero <code>decimal-&gt;binario</code> que tome un <em>número</em> (que Snap<em>!</em> representa en decimal) como entrada y que reporte una <em>cadena de ceros y unos</em> que representen el mismo número en binario:<br />
+			<img class="indent" src="/bjc-r/img/8-recursive-reporters/9827.es.png" alt="decimal-&gt;binario (9827) reporting 10011001100011" title="decimal-&gt;binarrio (9827) reporting 10011001100011" />
 		</p>
 		<p>
 			Para resolver este problema, deberás trabajar con la división de enteros en cociente y resto. Por ejemplo, 17 ÷ 5 es <strong>3</strong> con un <strong>resto de 2</strong>. Aquí se explica cómo encontrar el cociente y el resto en Snap<em>!</em>&thinsp;:<br />
-			<div class="sidenote">Para encontrar <code>floor</code> necesitarás el bloque <code>sqrt</code>, luego cambia la operación. El <strong>piso</strong> de un número es el entero más grande menor o igual que ese número. El piso de &pi; es 3.</div>
-			<img class="indent" src="/bjc-r/img/8-recursive-reporters/quotient.es.png" alt="(floor) of (17/5), reporting 3" title="(floor) of (17/5), reporting 3" />
-			<img class="indent" src="/bjc-r/img/8-recursive-reporters/mod.es.png" alt="(17)mod(5), reporting 2" title="(17)mod(5), reporting 2" />
+			<img class="indent" src="/bjc-r/img/8-recursive-reporters/quotient.es.png" alt="(piso) of (17/5), reporta 3" title="(piso) of (17/5), reporta 3" />
+			<img class="indent" src="/bjc-r/img/8-recursive-reporters/mod.es.png" alt="(17)módulo(5), reporta 2" title="(17)módulo(5), reporta 2" />
 		</p>
-
+		<div class="endnote">
+			<p>El <code>piso</code> (o <em>suelo</em>) es el entero más grande menor o igual a ese número. Por ejemplo, el suelo de 3.87 es 3. La función de suelo está en un bloque con otras funciones matemáticas. En la paleta, se ve así: <img class="inline nopadtb" src="/bjc-r/img/blocks/sqrt-of-10.png" alt="raíz cuadrada" title="raíz cuadrada" /> Necesitarás cambiar la operación en el menú desplegable.</p>
+			<p>El bloque <code>módulo</code> reporta el <em>resto</em> cuando la primera entrada se divide entra la segunda. Aprendiste acerca de <code>módulo</code> en <a href="/bjc-r/cur/programming/2-complexity/4-making-computers-do-math/1-mod-operator.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Unidad 2 Laboratorio 4 Página 1: El operador módulo" target="_blank">Unidad 2 Laboratorio 4 Página 1: El operador <code>módulo</code></a>.</p>
+		</div>
 		<div class="forYouToDo" id="first">
 			<ol>
 				<li>
-					Escriba el bloque <code>decimal-&gt;binario</code>.
+					Escribe el bloque <code>decimal-&gt;binario</code>.
 					<div class="endnote">
 						<p><a href="#hint-dec2bin" data-toggle="collapse" title="Need a hint about the decimal to binary block?">¿Necesito una pista?</a></p>
 						<div id="hint-dec2bin" class="collapse">
 							<p>La sugerencia más importante es que la construcción de la cadena binaria debería funcionar de <strong>derecha a izquierda</strong>, porque el bit más a la derecha es siempre la columna de las unidades, mientras que el valor del bit más a la izquierda cambia según la cantidad de dígitos que tenga el número.</p>
-							<p><a href="#hint-dec2bin2" data-toggle="collapse" title="Need more hints about the decimal to binary block?">¿Necesitas más pistas?</a></p>
+							<p><a href="#hint-dec2bin2" data-toggle="collapse" title="¿Necesitas más pistas sobre el bloque decimal a binario?">¿Necesitas más pistas?</a></p>
 							<div id="hint-dec2bin2" class="collapse">
-								<p>Recuerda, la <strong>entrada</strong> de tu bloque es un <strong>número</strong>, por lo que haces aritmética con él; el valor <strong>informado</strong> por su bloque es una <strong>cadena de texto</strong>, por lo que necesita operadores de cadena (<code>join</code>) para crearlo.</p>
-								<p><a href="#hint-dec2bin3" data-toggle="collapse" title="Need a bit more support building the decimal to binary block?">¿Necesitas un poco más de apoyo?</a></p>
+								<p>Recuerda, la <strong>entrada</strong> de tu bloque es un <strong>número</strong>, por lo que haces aritmética con él; el valor <strong>reportado</strong> por su bloque es una <strong>cadena de texto</strong>, por lo que necesita operadores de cadena (<code>unir</code>) para crearlo.</p>
+								<p><a href="#hint-dec2bin3" data-toggle="collapse" title="¿Necesitas un poco más de apoyo para construir el bloque decimal a binario?">¿Necesitas un poco más de apoyo?</a></p>
 								<div id="hint-dec2bin3" class="collapse">
-									<p>Intente hacer estos cálculos a mano y busque conexiones. Las conexiones pueden ayudarlo a comprender cómo escribir su código.</p>
-									<img class="imageRight" src="/bjc-r/img/icons/talk-with-your-partner.es.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
+									<p>Intenta hacer estos cálculos a mano y busca conexiones. Las conexiones pueden ayudarte a comprender cómo escribir tu código.</p>
+									<img class="imageRight" src="/bjc-r/img/icons/talk-with-your-partner.es.png" alt="Habla con tu compañero" title="Habla con tu compañero" />
 									<ul>
-										<li>Explique por qué 13 es 1101 en binario.</li>
+										<li>Explica por qué 13 es 1101 en binario.</li>
 										<li>Escribe 26 en binario. Escribe 27 en binario. ¿Cómo se relaciona cada uno con escribir 13 en binario?</li>
 										<li>¿Cuáles son el cociente y el resto cuando divides 27 entre 2?</li>
 									</ul>
@@ -44,7 +50,7 @@
 						</div>
 					</div>
 				</li>
-				<li><div class="saveAs"><span class="text">"U8L2-Base-Conversion"</span><img src="/bjc-r/img/icons/save-this-as.es.png" alt="Save your work as U8L2-Base-Conversion" title="Save your work as U8L2-Base-Conversion" /></div></li>
+				<li><div class="saveAs"><span class="text">"U8L2-Base-Conversion"</span><img src="/bjc-r/img/icons/save-this-as.es.png" alt="Guarda tu trabajo como U8L2-Conversión-Base" title="Guarda tu trabajo U8L2-Conversión-Base" /></div></li>
 			</ol>
 		</div>
 
