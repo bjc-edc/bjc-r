@@ -385,7 +385,7 @@ llab.createTitleNav = function() {
           </a>
           <ul class="dropdown-menu" aria-labelledby="dropdown-langs">
             <li><a class="js-switch-lang-en">English</a></li>
-            <li><a class="js-switch-lang-es">Español</a></li>
+            <li><a class="js-switch-lang-es">Espa\u00F1ol</a></li>
           </ul>
         </li>
         <li class="nav-btn-group nav-btn-group-first">${previousPageButton}</li>
