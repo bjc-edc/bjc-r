@@ -9,31 +9,31 @@
 	<body>
 		<h2>Conversión base</h2>
 		<div class="learn">
-			<p><strong>En esta página,</strong> generalizará desde la conversión base con binario a la conversión con <em>cualquier</em> base.</p>
+			<p><strong>En esta página</strong>, generalizarás desde la conversión base con binario a la conversión con <em>cualquier</em> base.</p>
 		</div>
 
 		<p>Aquí hay una solución para la conversión binaria de enteros no negativos:</p>
-		<p><img class="indent" src="/bjc-r/img/8-recursive-reporters/tobinary.es.png" alt="decimal->binary(number){if(number<2){report(number)}else{report(join(decimal->binary(floor(number/2)))(number mod 2))}}" title="decimal->binary(number){if(number<2){report(number)}else{report(join(decimal->binary(floor(number/2)))(number mod 2))}}"/></p>
+		<p><img class="indent" src="/bjc-r/img/8-recursive-reporters/tobinary.es.png" alt="decimal->binario(número){si(número<2){reportar(número)}sino{reportar(unir(decimal->binario(piso(número/2)))(número módulo 2))}}" title="decimal->binario(número){si(número<2){reportar(número)}sino{reportar(unir(decimal->binario(piso(número/2)))(número módulo 2))}}"/></p>
 		<p>Si un número se puede representar con un solo dígito, lo usamos como caso base. Para el binario, los únicos números que se pueden representar con un solo dígito son el 0 y el 1, por lo que probamos para ver si el número es menor que 2. Si es así, lo reportamos.</p>
-		<p><div class="sidenote">Puede sorprender que no usemos un combinador aritmético, pero el resultado deseado es un <em>numeral</em>, una cadena de texto. Es por eso que el combinador es una operación de cadena.</div>En el caso recursivo, el dígito binario más a la derecha es el resto al dividir el número por 2. Los otros dígitos provienen de una llamada recursiva al cociente al dividir por 2. El combinador es <code>join</code> porque queremos unir los dígitos.</p>
+		<p><div class="sidenote">Puede sorprender que no usemos un combinador aritmético, pero el resultado deseado es un <em>numeral</em>, una cadena de texto. Es por eso que el combinador es una operación de cadena.</div>En el caso recursivo, el dígito binario más a la derecha es el resto al dividir el número entre 2. Los otros dígitos provienen de una llamada recursiva al cociente al dividir entre 2. El combinador es <code>unir</code> porque queremos unir los dígitos.</p>
 
 		<div class="forYouToDo" id="first">
 		   <ol>
 				<li>
 					Escribe el bloque <code>base 7</code>, que muestra un número en base 7.<br />
-					<img class="indent" src="/bjc-r/img/8-recursive-reporters/base7example.es.png" alt="base7( 9827), reporting 40436" title="base7( 9827), reporting 40436" />
+					<img class="indent" src="/bjc-r/img/8-recursive-reporters/base7example.es.png" alt="base7( 9827), reporta 40436" title="base7( 9827), reporta 40436" />
 				</li>
 				<li>
 					Generaliza el patrón con un bloque <code>base</code> que toma la base como una segunda entrada:<br />
-					<img class="indent" src="/bjc-r/img/8-recursive-reporters/base2.es.png" alt="(9827)base(2), reporting 10011001100011" title="(9827)base(2), reporting 10011001100011" />
-					<img class="indent" src="/bjc-r/img/8-recursive-reporters/base7.es.png" alt="(9827)base(7), reporting 40436" title="(9827)base(7), reporting 40436" /><br />
-					<img class="indent" src="/bjc-r/img/8-recursive-reporters/base8.es.png" alt="(9827)base(8), reporting 23143" title="(9827)base(8), reporting 23143" />
-					<img class="indent" src="/bjc-r/img/8-recursive-reporters/base10.es.png" alt="(9827)base(10), reporting 9827" title="(9827)base(10), reporting 9827" /><br />
+					<img class="indent" src="/bjc-r/img/8-recursive-reporters/base2.es.png" alt="(9827)base(2), reporta 10011001100011" title="(9827)base(2), reporta 10011001100011" />
+					<img class="indent" src="/bjc-r/img/8-recursive-reporters/base7.es.png" alt="(9827)base(7), reporta 40436" title="(9827)base(7), reporta 40436" /><br />
+					<img class="indent" src="/bjc-r/img/8-recursive-reporters/base8.es.png" alt="(9827)base(8), reporta 23143" title="(9827)base(8), reporta 23143" />
+					<img class="indent" src="/bjc-r/img/8-recursive-reporters/base10.es.png" alt="(9827)base(10), reporta 9827" title="(9827)base(10), reporta 9827" /><br />
 
 				</li>
 				<li>
-					<div class="sidenote">Snap<em>!</em> mostrará este número en decimal, pero lo estás convirtiendo a un <em>número</em>, no a una cadena de dígitos.</div>Escribe la función inversa <code>de base</code> que toma una cadena (de texto) de dígitos y una base como entradas, y reporta el número correspondiente.<br />
-					<img class="indent" src="/bjc-r/img/8-recursive-reporters/frombase.es.png" alt="(23143)from base(8) reporting 9827" title="(23143)from base(8) reporting 9827" />
+					<div class="sidenote">Snap<em>!</em> mostrará este número en decimal, pero lo estás convirtiendo a un <em>número</em>, no a una cadena de dígitos.</div>Escribe la función inversa <code>desde la base</code> que toma una cadena (de texto) de dígitos y una base como entradas, y reporta el número correspondiente.<br />
+					<img class="indent" src="/bjc-r/img/8-recursive-reporters/frombase.es.png" alt="(23143)desde la base(8) reportia 9827" title="(23143)desde la base(8) reporta 9827" />
 				</li>
 			</ol>
 		</div>
@@ -41,11 +41,11 @@
 		<div class="ifTime">
 			<ol start="4">
 				<li>
-					Mejore el bloque <code>base</code> para que pueda subir a la base 36 usando las letras <code>a</code>‒<code>z</code> como dígitos con valores 10‒35.<br />
-					<img class="indent" src="/bjc-r/img/8-recursive-reporters/common.png" alt="(32562)base(15), reporting 99ac" title="(32562)base(15), reporting 99ac" />
-					<img class="indent" src="/bjc-r/img/8-recursive-reporters/w00zy.png" alt="(53749006)base(36) reporting w00zy" title="(53749006)base(36) reporting w00zy" />
+					Mejora el bloque <code>base</code> para que pueda subir a la base 36 usando las letras <code>a</code>‒<code>z</code> como dígitos con valores 10‒35.<br />
+					<img class="indent" src="/bjc-r/img/8-recursive-reporters/common.png" alt="(32562)base(15), reporta 99ac" title="(32562)base(15), reporta 99ac" />
+					<img class="indent" src="/bjc-r/img/8-recursive-reporters/w00zy.png" alt="(53749006)base(36) reporta w00zy" title="(53749006)base(36) reporta w00zy" />
 				</li>
-				<li>Mejore el bloque <code>desda la base</code> para admitir bases hasta 36 de la misma manera.</li>
+				<li>Mejora el bloque <code>desde la base</code> para admitir bases hasta 36 de la misma manera.</li>
 			</ol>
 		</div>
 
