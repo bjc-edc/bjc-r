@@ -367,6 +367,7 @@ llab.createTitleNav = function() {
         aria-label="${t('nextText')}">
         <i class="fas fa-arrow-right" aria-hidden=true></i>
       </a>`,
+    // use \u00F1 instead of an ñ in the menu. (Issue in Chrome on topic pages)
     topHTML = `
     <nav class="llab-nav navbar navbar-fixed-top" role="navigation">
       <div class="nav navbar-left">
