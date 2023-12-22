@@ -3,80 +3,76 @@
 	<head>
 		<meta charset="utf-8">
 		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
-		<title>Unidad 8 Laboratorio 4: Construyendo funciones de orden superior, Página 2</title>
+		<title>Unidad 8 Laboratorio 4: Construir funciones de orden superior, Página 2</title>
 	</head>
 
 	<body>
-		<h2>Generalizando el modelo <code>map</code></h2>
+		<h2>Generalizar el modelo <code>mapear</code></h2>
+		<div class="learn">
+            <p><strong>En esta página</strong>, generalizarás el patrón del código que has estado explorando para conocer otros problemas en que este patrón de código puede aplicarse.</p>
+        </div>
 		<p>
 			Aquí hay una versión del código para cada bloque de la página anterior.<br />
 			<img class="indent" src="/bjc-r/img/8-recursive-reporters/plurals.es.png"
-				alt="plurals (words){if(empty?(words)){report(list{})}else{report(join(item(1) of (words) (s) in front of (plurals(all but first of(words))))}}"
-				title="plurals (words){if(empty?(words)){report(list{})}else{report(join(item(1) of (words) (s) in front of (plurals(all but first of(words))))}}" />
+				alt="plurales (palabras){si(¿vacío?(palabras)){reportar(lista{})}sino{reportar(unir(elemento(1) de (palabras) (s) delante de (plurales(todas menos la primera(palabras))))}}"
+				title="plurales (palabras){si(¿vacío?(palabras)){reportar(lista{})}sino{reportar(unir(elemento(1) de (palabras) (s) delante de (plurales(todas menos la primera(palabras))))}}" />
 			<div class="sidenote">
-				Su bloque <code>exaggerated word</code> puede verse muy diferente, pero aquí hay una versión:<br />
+				Tu bloque <code>palabra exagerada</code> puede verse muy diferente, pero aquí hay una versión:<br />
 				<img src="/bjc-r/img/8-recursive-reporters/exaggerate-word.es.png"
-					alt="exaggerate word (word){if(is (word) a (number)?){report(2*word)}; if(word=good){report(great)}; if(word=bad){report(terrible)}; if(word=like){report(love)}; if(word=dislike){report(hate)}; report(word)}"
-					title="exaggerate word (word){if(is (word) a (number)?){report(2*word)}; if(word=good){report(great)}; if(word=bad){report(terrible)}; if(word=like){report(love)}; if(word=dislike){report(hate)}; report(word)}" />
+					alt="palabra exagerada (palabra){si(es (palabra) un (número)?){reportar(2*palabra)}; si(palabra=bueno){reportar(excelente)}; si(palabra=malo){reportar(terrible)}; si(palabra=me gusta){reportar(me encanta)}; si(palabra=no me gusta){reportar(lo odio)}; reportar(palabra)}"
+					title="palabra exagerada (palabra){si(es (palabra) un (número)?){reportar(2*palabra)}; si(palabra=bueno){reportar(excelente)}; si(palabra=malo){reportar(terrible)}; si(palabra=me gusta){reportar(me encanta)}; si(palabra=no me gusta){reportar(lo odio)}; reportar(palabra)}" />
 			</div>
 			<img class="indent" src="/bjc-r/img/8-recursive-reporters/squares.png"
-				alt="squares(numbers){if(empty?(numbers)){report(list{})}else{(item(1)of(numbers)*item(1)of(numbers)) infront of(squares(all but first of(numbers))))}}"
-				title="squares(numbers){if(empty?(numbers)){report(list{})}else{(item(1)of(numbers)*item(1)of(numbers)) infront of(squares(all but first of(numbers))))}}" /><br />
+				alt="raíz cuadrada(números){si(¿vacío?(números)){reportar(lista{})}sino{(elemento(1)de(números)*elemento(1)de(números)) delante de (raíz cuadrada(todos menos el primero(números))))}}"
+				title="raíz cuadrada(números){si(¿vacío?(números)){reportar(lista{})}sino{(elemento(1)de(números)*elemento(1)de(números)) delante de (raíz cuadrada(todos menos el primero(números))))}}" /><br />
 			<img class="indent" src="/bjc-r/img/8-recursive-reporters/exaggerate.es.png"
-				alt="exaggerate(sentence){report(list->sentence(exagerate wordlist(sentence->list(sentence))))}"
-				title="exaggerate(sentence){report(list->sentence(exagerate wordlist(sentence->list(sentence))))}" /><br />
+				alt="exagerar(oración){reportar(lista->oración(exagerar lista de palabras(oración->lista(oración))))}"
+				title="exagerar(oración){reportar(lista->oración(exagerar lista de palabras(oración->lista(oración))))}" /><br />
 			<img class="indent" src="/bjc-r/img/8-recursive-reporters/exaggerate-wordlist.es.png"
-				alt="exaggerate wordlist(words){if(empty? (words)){report(empty list)}else{report((exaggerate word(item(1) of (words))) in front of (exaggerate wordlist(all but first of (words))))}}"
-				title="exaggerate wordlist(words){if(empty? (words)){report(empty list)}else{report((exaggerate word(item(1) of (words))) in front of (exaggerate wordlist(all but first of (words))))}}" />
+				alt="exagerar lista de palabras(palabras){si(¿vacío? (palabras)){reportar(lista vacía)}sino{reportar((exagerar palabra(elemento(1) de (palabras))) delante de (exagerar lista de palabras(todas menos la primera (palabras))))}}"
+				title="exagerar lista de palabras(palabras){si(¿vacío? (palabras)){reportar(lista vacía)}sino{reportar((exagerar palabra(elemento(1) de (palabras))) delante de (exagerar lista de palabras(todas menos la primera (palabras))))}}" />
 		</p>
 		<p>
-			<code>Plurals</code>, <code>squares</code> y <code>exaggerated wordlist</code> parecen casi
-			idénticos:<br /><br />
+			Los bloques <code>plurales</code>, <code>raíz cuadrada</code> y <code>lista de palabras exagerada</code> parecen casi idénticos. La única diferencia es la parte circular de arriba: la función particular que se aplica al <code>elemento 1 de</code> la lista de entrada. Aquí tienes una generalización del patrón:<br />
+		</p>
+
 		<div class="comment">This is too wide for one pic and should be broken into 3. --MF</div>
-		<img src="/bjc-r/img/8-recursive-reporters/map-examples.png"
-			alt="Image showing code for plurals, squares and exaggerate and highlighting that all three have 'item(1) of ...' being acted on by a particular function"
-			title="Image showing code for plurals, squares and exaggerate and highlighting that all three have 'item(1) of ...' being acted on by a particular function" />
-		</p>
-		<p>
-			La única diferencia es la parte circular de arriba: la función particular que se aplica al
-			<code>item 1 of</code> la
-			lista de entrada. He aquí una generalización del patrón:<br />
+
 			<img class="indent" src="/bjc-r/img/8-recursive-reporters/map-start.png"
-				alt="map definition without function call: map (function) over (data){if (empty? (data)){report(empty list)} else{report(() in front of (map(function) over(all but first of (data))))}}"
-				title="map definition without function call: map (function) over (data){if (empty? (data)){report(empty list)} else{report(() in front of (map(function) over(all but first of (data))))}}" />
-		</p>
-		<p>Pero, ¿qué ponemos en la primera ranura de entrada de <code>in front of</code>?</p>
+				alt="definición de mapear sin la función de llamar: mapear (función) sobre (datos){si (¿vací? (datos)){reportar(lista vacío)} sino{reportar(() delante de (mapear(función) sobre(todos menos el primero (datos))))}}"
+				title="definición de mapear sin la función de llamar: mapear (función) sobre (datos){si (¿vací? (datos)){reportar(lista vacío)} sino{reportar(() delante de (mapear(función) sobre(todos menos el primero (datos))))}}" />
+		<p>Pero, ¿qué ponemos en la primera ranura de entrada de <code>delante de</code>?</p>
 		<p>
-			Hay dos pequeños detalles que tienes que aprender para terminar esta definición. La primera es que la entrada <code>function</code> tiene que ser un reportero. Ya sabe cómo configurar una entrada para que sea de un tipo específico. Establecer esto como reportero no es diferente:<br />
-			<img class="indent" src="/bjc-r/img/8-recursive-reporters/reporter-type.png" alt="reporter type declaration"
-				title="reporter type declaration" />
+			Hay dos pequeños detalles que tienes que aprender para terminar esta definición. La primera es que la entrada <code>función</code> tiene que ser un reportero. Ya sabe cómo configurar una entrada para que sea de un tipo específico. Establecer esto como reportero no es diferente:<br />
+			<img class="indent" src="/bjc-r/img/8-recursive-reporters/reporter-type.png" alt="declaración de tipo reportero" title="declaración de tipo reportero" />
 		</p>
-		<p>La letra griega λ que aparece en el Editor de bloques junto a la palabra <code>function</code> en el óvalo naranja es un recordatorio de tipo, al igual que el ︙para las listas.</p>
+		<p>La letra griega λ que aparece en el Editor de bloques junto a la palabra <code>función</code> en el óvalo naranja es un recordatorio de tipo, al igual que el ︙para las listas.</p>
 		<p>
-			Ahora debe saber cómo aplicar la función al <code>item 1 of data</code>. Busque el bloque <code>call</code> en la paleta Control y haga clic en su punta de flecha derecha para darle una segunda ranura de entrada. Luego complétalo así:<br />
+			Ahora debe saber cómo aplicar la función al <code>elemento 1 de datos</code>. Busque el bloque <code>llamar</code> en la paleta Control y haga clic en su punta de flecha derecha para darle una segunda ranura de entrada. Luego complétalo así:<br />
 			<img class="indent" src="/bjc-r/img/8-recursive-reporters/map.es.png"
-				alt="map definition: map (function lambda) over (data){if (empty? (data)){report(empty list)} else{report((call(function) with inputs (item(1) of (data))) in front of (map(function) over(all but first of (data))))}}"
-				title="map definition: map (function lambda) over (data){if (empty? (data)){report(empty list)} else{report(((call(function) with inputs (item(1) of (data))) in front of (map(function) over(all but first of (data))))}}" />
+				alt="definición de mapear: mapear (función lambda) sobre (datos){si (¿vacío? (datos)){reportar(lista vacío)} sino{reportar((llamar(función) con entradas (elemento(1) de (datos))) delante de (mapear(función) sobre(todo menos el primero (datos))))}}"
+				title="definición de mapear: mapear (función lambda) sobre (datos){si (¿vacío? (datos)){reportar(lista vacío)} sino{reportar((llamar(función) con entradas (elemento(1) de (datos))) delante de (mapear(función) sobre(todo menos el primero (datos))))}}" />
 		</p>
-		<p>¡Eso es todo! ¡Has escrito <code>map</code>, una función de orden superior!</p>
-		<p>El bloque <code>call</code> encuentra ranuras de entrada vacías en su entrada de función y las llena con los valores de entrada dados.</p>
+		<p>¡Eso es todo! ¡Has escrito <code>mapear</code>, una función de orden superior!</p>
+		<p>El bloque <code>llamar</code> encuentra ranuras de entrada vacías en su entrada de función y las llena con los valores de entrada dados.</p>
 		<div class="takeNote">Las funciones de orden superior no son difíciles, una vez que comprende la recursividad y cómo generalizar un procedimiento agregando una entrada. ¡No son gran cosa para escribir! Y son muy potentes de usar.</div>
 
 		<div class="forYouToDo" id="first">
 			<ol>
-				<li>Reconstruye el bloque <code>exaggerate</code> usando una llamada a <code>map</code>. ¿Qué le sucede al ayudante? función?</li>
+				<li>Reconstruye el bloque <code>exagerar</code> usando una llamada a <code>mapear</code>. ¿Qué le sucede a la función ayudante?</li>
 				<li>
-					De vez en cuando surge un problema que no <em>exactamente </em>coincide con el modelo <code>map</code>, pero se acerca. En ese caso, no puede usar <code>map</code>, pero su comprensión del patrón aún ayuda He aquí un ejemplo:<br />
+					De vez en cuando surge un problema que no <em>exactamente </em>coincide con el modelo <code>mapear</code>, pero se parece. En ese caso, no puede usar <code>mapear</code>, pero tu comprensión del patrón aún ayuda He aquí un ejemplo:<br />
 					<img class="indent" src="/bjc-r/img/8-reporteros-recursivos/odds.es.png"
-						alt="elementos impares de (datos){if(vacíos? (datos)){informe(lista vacía)} else{if(vacíos? (todos menos el primero de (datos))){informe(datos)} else{ informe((elemento(1) de (datos)) delante de (elementos impares de(todos menos el primero de (todos menos el primero de (datos)))))}}}"
-						title="elementos impares de (datos){if(vacíos? (datos)){informe(lista vacía)} else{if(vacíos? (todos menos el primero de (datos))){informe(datos)} else{ informe((elemento(1) de (datos)) delante de (elementos impares de(todos menos el primero de (todos menos el primero de (datos)))))}}}" /><br />
-					Completa los espacios en blanco: este script es como el patrón de mapa excepto por ______ (caso base) y _____ (en el caso recursivo).
+						alt="elementos impares de (datos){si(¿vacío? (datos)){reportar(lista vacía)} sino{si(¿vacío? (todos menos el primero de (datos))){reportar(datos)} sino{ reportar((elemento(1) de (datos)) delante de (elementos impares de(todos menos el primero de (todos menos el primero de (datos)))))}}}"
+						title="elementos impares de (datos){si(¿vacío? (datos)){reportar(lista vacía)} sino{si(¿vacío? (todos menos el primero de (datos))){reportar(datos)} sino{ reportar((elemento(1) de (datos)) delante de (elementos impares de(todos menos el primero de (todos menos el primero de (datos)))))}}}" /><br />
+					Completa los espacios en blanco: este guion es como el patrón de mapear excepto por ______ (caso base) y _____ (en el caso recursivo).
 				</li>
 				<li>
-					Construya el bloque <code>pairup</code>:<br />
+					Construye el bloque <code>emparejar</code>:<br />
 					<img class="indent" src="/bjc-r/img/8-reporteros-recursivos/pairup.es.png"
-						alt="emparejar(listar{ahora, aquí, después, matemática}), informar {en ninguna parte, en el más allá, después}"
-						title="pairup(list{now, here, after, math}), reportando {en ninguna parte, en el más allá, secuelas}" />
+						alt="emparejar(lista{ahora, aquí, después, matemática}), reportar {en ninguna parte, en el más allá, después}"
+						title="emparejar(lista{ahora, aquí, después, matemática}), reportar {en ninguna parte, en el más allá, después}" />
+						<div class="todo">The pairup block in Spanish needs to be redone carefully. --AG 11/18/23</div>
 				</li>
 			</ol>
 		</div>

@@ -3,48 +3,53 @@
 	<head>
 		<meta charset="utf-8">
 		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
-		<title>Unidad 8 Laboratorio 4: Construyendo funciones de orden superior, Página 1</title>
+		<title>Unidad 8 Laboratorio 4: Construir funciones de orden superior, Página 1</title>
 	</head>
 
 	<body>
-		<h2>Caminando por una lista</h2>
-		<div class="sidenote">Es una gran simplificación decir que agregar "s" siempre forma el plural. Si hiciste el proyecto opcional en Plurales y te gusta, puedes usar tu trabajo del bloque <code>plural</code> que hiciste en <a
+		<h2>Recorrer una lista</code></h2>
+		<div class="learn">
+            <p><strong>En este laboratorio</strong>, utilizarás tu habilidad con la recursividad para construir algunas funciones avanzadas.</p>
+            <p><strong>En esta página</strong>, investigarás acerca de un patrón de código común.</p>
+        </div>
+		<div class="sidenote">Decir que agregar "s" a una palabra siempre forma el plural es una simplificación excesiva. Si hiciste el proyecto opcional de Plurales y te apetece, puedes usar tu trabajo del bloque <code>plural</code> que hiciste en la <a
 				href="/bjc-r/cur/programming/2-complexity/optional-projects/5-plurals2.es.html"
-				title="Modeling Language: Plurals, Part 2">Unidad 2</a>.</div>
+				title="Lenguaje de modelado: Plurales, Parte 2">Unidad 2</a>.</div>
 
 		<p>
-			Aquí está el bloque <code>plurals</code> del laboratorio 1. Toma una <em>lista de palabras</em> como entrada e informa una lista de los plurales de esas palabras. Aunque hay una manera de construir este bloque usando <code>map</code>, tenga paciencia con nosotros: hay una buena razón para investigar esta versión recursiva.<br />
+			Aquí tienes el bloque <code>plurals</code> del laboratorio 1. Toma una <em>lista de palabras</em> como entrada y reporta una lista de los plurales de esas palabras. Aunque hay una manera de construir este bloque usando <code>mapear</code>, ten paciencia con nosotros: hay una buena razón para investigar esta versión recursiva.<br />
 		<img class="indent" src="/bjc-r/img/8-recursive-reporters/plurals.es.png"
-			alt="plurals (words){if(empty?(words)){report(list{})}else{report(join(item(1) of (words) (s) in front of (plurals(all but first of(words))))}}"
-			title="plurals (words){if(empty?(words)){report(list{})}else{report(join(item(1) of (words) (s) in front of (plurals(all but first of(words))))}}" />
+			alt="plurales (palabras){si(¿vacío?(palabras)){reportar(lista{})}sino{reportar(unir(elemento(1) de (palabras) (s) delante de (plurales(todas menos la primera (palabras))))}}"
+			title="plurales (palabras){si(¿vacío?(palabras)){reportar(lista{})}sino{reportar(unir(elemento(1) de (palabras) (s) delante de (plurales(todas menos la primera (palabras))))}}" />
 		</p>
 		<div class="takeNote">
-			<p>La gran idea aquí es que puede dividir una lista en su primer elemento y el resto de los elementos, forman el plural del primero, y hacer una llamada recursiva para el resto. El bloque <code>delante de</code> puede parecer extraño al principio, con sus entradas asimétricas (un elemento, una lista), pero pone el plural del primero palabra y los plurales del resto de las palabras juntas.</p>
-			<p>Este patrón de código se puede usar para crear muchos reporteros recursivos útiles que tienen un caso base
-				simple y un llamada recursiva simple.</p>
+			<p>La idea principal es poder dividir una lista en su primer elemento y el resto de los elementos, formar el plural del primero y hacer una llamada recursiva para el resto. El bloque <code>delante de</code> puede parecer extraño al principio, con sus entradas asimétricas (un elemento, una lista), pero junta el plural de la primera palabra y los plurales del resto de las palabras.</p>
+			<p>Este patrón de código se puede usar para crear muchos reporteros recursivos útiles que tienen un caso base simple y una llamada recursiva simple.</p>
 		</div>
 		<div class="forYouToDo" id="first">
 			<p><strong>Haz los siguientes ejercicios usando recursividad, no funciones de orden superior.</strong></p>
 			<ol>
 				<li>
-					<div class="sidenote">Intente modificar el código de <code>plurals</code>.</div>Haga un <code>squares</code> bloque que toma una lista de números como entrada y reporta una lista de los cuadrados de los números.
+					<div class="sidenote">Intenta modificar el código de <code>plurales</code>. </div>Haz un bloque <code>raíz cuadrada</code> que tome una lista de números como entrada y reporte una lista de las raíces cuadradas de los números.
 					<p><img class="indent" src="/bjc-r/img/8-reporteros-recursivos/cuadrados-ex.es.png"
-							alt="cuadrados(lista{7,8,1}) informes {49,64,1}"
-							title="cuadrados(lista{7,8,1}) informando {49,64,1}" />
+							alt="raíz cuadrada(lista{7,8,1}) reporta {49,64,1}"
+							title="raíz cuadrada(lista{7,8,1}) reporta {49,64,1}" />
 					</p>
 				</li>
 				<li>
-					Cree un bloque <code>exaggerate</code> que tome una oración como entrada e informe una oración en la que cada número en la entrada se duplica, "bueno" se reemplaza por "excelente", "malo" se reemplaza por
- "terrible" "me gusta" se reemplaza por "amor", y "no me gusta" se reemplaza por "odio".
+					Crea un bloque <code>exagerar</code> que tome una oración como entrada y reporte una oración en la que cada número en la entrada se duplique, "bueno" se reemplace por "excelente", "malo" por
+ "terrible", "me gusta" por "me encanta" y "no me gusta" por "lo odio".
 					<p><img class="indent" src="/bjc-r/img/8-reporteros-recursivos/ex-ex.es.png"
-							alt="exagerar(Me comí 6 palitos muy buenos), informando que comí 12 palitos muy buenos"
-							title="exagerar(Me comí 6 palitos muy buenos), informando que comí 12 palitos muy buenos" />
+							alt="exagerar(Me comí 6 tacos muy buenos), reporta que comí 12 tacos muy buenos"
+							title="exagerar(Me comí 6 tacos muy buenos), reporta que comí 12 tacos muy buenos" />
 					</p>
-					<p>Para hacer esto, use una función de "wrapper" que transforma la oración en una lista de palabras y viceversa de nuevo:</p>
-					<p><img class="indent" src="/bjc-r/img/8-reporteros-recursivos/exagerar.es.png" alt="exagerar(oración){informe(lista->oración(exagerar lista de palabras(oración->lista(oración))))}" title="exagerar(oración){informe(lista->oración(exagerar lista de palabras(oración->lista(oración))))}" /></p>
+					<p>Para hacer esto, importa la biblioteca de "palabras, oraciones". Luego, usa una función  "envolvente" que transforme la oración en una lista de palabras y viceversa de nuevo:</p>
+					<p><img class="indent" src="/bjc-r/img/8-reporteros-recursivos/exagerar.es.png" alt="exagerar(oración){reportar(lista->oración(exagerar lista de palabras(oración->lista(oración))))}" title="exagerar(oración){reportar(lista->oración(exagerar lista de palabras(oración->lista(oración))))}" /></p>
 					<div class="sidenote">¿Qué debe hacer la función auxiliar con las otras palabras?</div>
-					<p>También querrá una función de ayuda <code>exaggerate word</code> que funcione en una sola palabra, buscando para palabras y tipos específicos para exagerar.</p>
+					<p>El bloque <code>exagerar lista de palabras</code> será recursivo.</p>
+					<p>También necesitarás una función de ayuda <code>exagerar palabra</code> que funcione en una sola palabra, buscando para palabras y tipos específicos para exagerar.</p>
 				</li>
+				<li><div class="saveAs"><span class="text">"U8L4-Construir-FOS"</span><img src="/bjc-r/img/icons/save-this-as.es.png" alt="Guarda tu trabajo como U8L4-Construir-FOS" title="Guarda tu trabajo como U8L4-Construir-FOS" /></div></li>
 			</ol>
 		</div>
 

@@ -3,23 +3,23 @@
 	<head>
 		<meta charset="utf-8">
 		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
-		<title>Unidad 8 Laboratorio 1: Reporteadores recursivos, Página 1</title>
+		<title>Unidad 8 Laboratorio 1: Reporteros recursivos, Página 1</title>
 	</head>
 
 	<body>
-		<h2>Contando Árboles</h2>
+		<h2>Contar árboles</h2>
 		<div class="learn">
-			<p><strong>In this lab,</strong> you will develop recursive reporters.</p>
-			<p><strong>On this page,</strong> you will explore a procedure for counting the segments in a fractal tree, and re-build it recursively.</p>
+			<p><strong>En este laboratorio</strong>, desarrollarás reporteros recursivos.</p>
+			<p><strong>En esta página</strong>, explorarás un procedimiento para contar los segmentos del árbol fractal, y reconstruirlo de manera recursiva.</p>
 		</div>
 
-		<p>En Unidad 7, tu construiste <a href="/bjc-r/cur/programming/7-recursion/1-trees/1-recursive-tree.es.html?topic=nyc_bjc%2F6-recursion-trees-fractals.es.topic&course=bjc4nyc.es.html&novideo&noassignment" title="Recursive Tree">árboles recursivos</a>. Cada árbol está hecho de segmentos de línea.</p>
+		<p>En la Unidad 7, construiste <a href="/bjc-r/cur/programming/7-recursion/1-trees/1-recursive-tree.es.html?topic=nyc_bjc%2F6-recursion-trees-fractals.es.topic&course=bjc4nyc.es.html&novideo&noassignment" title="Árbol recursivo">Árbol recursivo</a>. Cada árbol está hecho de segmentos de línea.</p>
 		<div class="forYouToDo" id="first">
 			<img class="imageRight noshadow" src="/bjc-r/img/7-recursion/tree-level9.jpg" alt="imagen de árbol fractal" title="imagen de árbol fractal" />
 			<ol>
-				<li>Abra su proyecto "U7L1-Tree". ¿Cuántos segmentos de línea hay en un árbol de cada nivel? Completa esta tabla. (Puedes contar a simple vista o usar Snap<em>!</em> para contar). </li>
-				<table class="center bordered"
-					summary="table showing the number of line segments in a TREE of a given level">
+				<li>
+					Abre tu proyecto "U7L1-Árbol". ¿Cuántos segmentos de línea hay en un árbol de cada nivel? Completa esta tabla. (Puedes contar a simple vista o usar Snap<em>!</em> para contar). </li>
+					<table class="center bordered" summary="tabla que muestra el número de segmentos de línea de un ÁRBOL en un nivel dado">
 					<tr>
 						<th scope="col" style="font-weight:normal;"><var>nivel</var></th>
 						<th scope="col" style="font-weight:normal; white-space: nowrap;"><var>conteo de segmentos</var></th>
@@ -48,13 +48,14 @@
 						<td>6</td>
 						<td>&nbsp;</td>
 					</tr>
-				</table>
-				<li>¿Cómo se compara la cantidad de segmentos en un nivel con la cantidad de segmentos en el nivel anterior?
+					</table>
+				</li>
+
+				<li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.es.png" alt="Habla con tu compañero" title="Habla con tu compañero" />¿Cómo se compara la cantidad de segmentos en un nivel con la cantidad de segmentos en el nivel anterior?
 				</li>
 				<li>Construya un bloque que tenga un número de árbol como entrada y la cantidad de segmentos en ese nivel como salida
 				</li>
-				<img class="indent" src="/bjc-r/img/8-recursive-reporters/treecounter.es.png"
-					alt="segments in tree (7) reporting 127" title="segments in tree (7) reporting 127" /><br />
+				<img class="indent" src="/bjc-r/img/8-recursive-reporters/treecounter.es.png" alt="segmentos de árbol (7) reporta 127" title="segmentos de árbol (7) reporta 127" /><br />
 			</ol>
 		</div>
 
@@ -62,48 +63,47 @@
 			<div class="stagedir">Alphie y Betty discuten el código que crearon.</div>
 			<div><span>Alphie:</span> Noté un patrón en la tabla. Cada número de segmentos es uno menos que una potencia de 2.</div>
 			<div><span>Betty:</span> ¿Cómo se ve tu código?</div>
-			<div><span>Alphie:</span> usé un bucle <code>for</code> para construir la potencia de 2, luego resté 1 al final<br /></div>
-			<div class="stagedir"><img src="/bjc-r/img/8-recursive-reporters/alphiecode.es.png" alt="segments in tree(n){script variables(answer); set(answer) to (1); for (i=1 to n){set(answer) to (answer*2)} report(answer-1)}" title="segments in tree(n){script variables(answer); set(answer) to (1); for (i=1 to n){set(answer) to (answer*2)} report(answer-1)}">
+			<div><span>Alphie:</span> usé un bucle <code>para</code> para construir la potencia de 2, luego resté 1 al final<br /></div>
+			<div class="stagedir"><img src="/bjc-r/img/8-recursive-reporters/alphiecode.es.png" alt="segmentos de árbol(n){variables de programa(respuesta); fijar(respuesta) a (1); para (i=1 a n){fijar(respuesta) a (respuesta*2)} reportar(respuesta-1)}" title="segmentos de árbol(n){variables de programa(respuesta); fijar(respuesta) a (1); para (i=1 a n){fijar(respuesta) a (respuesta*2)} reportar(respuesta-1)}">
 			</div>
-			<div><span>Alphie:</span> Al final, el <code>report</code> bloque envía el valor final. Puse la ultima operación matematica allí.</div>
-			<div><span>Betty:</span> ¡Caray! ¡El mío se ve muy diferente! Hice que el código se pareciera al código de <code>tree</code>.
+			<div><span>Alphie:</span> Al final, el bloque <code>reportar</code> envía el valor final. Puse la ultima operación matematica allí.</div>
+			<div><span>Betty:</span> ¡Mira! ¡El mío se ve muy diferente! Hice que el código se pareciera al código de <code>árbol</code>.
 			</div>
 			<div><span>Alphie:</span> Interesante... pero no lo entiendo.</div>
-			<div><span>Betty:</span> Vuelve a mirar el código de <code>tree</code>. Usamos <em>recursion</em>. Construimos un segmento, giramos, llamamos <code>tree</code> para construir un árbol más pequeño, giramos nuevamente y luego llamamos <code>tree</code> nuevamente para construir otro árbol más pequeño.
+			<div><span>Betty:</span> Vuelve a mirar el código de <code>árbol</code>. Usamos <em>recursividad</em>. Construimos un segmento, giramos, llamamos <code>árbol</code> para construir un árbol más pequeño, giramos nuevamente y luego llamamos <code>árbol</code> nuevamente para construir otro árbol más pequeño.
 			</div>
-			<div><span>Alphie:</span> ¡Increíble! Podemos pensar en cómo funciona ese algoritmo para escribir el <code>segments in tree</code> reportero recursivamente. Pero podemos ignorar todas las partes móviles y giratorias, ¿Correcto? Déjame intentarlo.
+			<div><span>Alphie:</span> ¡Increíble! Podemos pensar en cómo funciona ese algoritmo para escribir el <code>segmentos de árbol</code> reportero recursivamente. Pero podemos ignorar todas las partes móviles y giratorias, ¿Correcto? Déjame intentarlo.
 			</div>
 			<div><span>Betty:</span> ¡Correcto! Y no olvides: <em>¡Los casos base son importantes!</em></div>
 		</div>
 
-		<p>Ha creado y trabajado con bloques recursivos de <em>command</em>. La recursividad también se puede utilizar en
-			<em>reporteros</em>.
+		<p>Creaste y trabajaste con bloques recursivos de <em>comando</em>. La recursividad también se puede utilizar en <em>reporteros</em>.
 		</p>
 
 		<div class="forYouToDo">
 			<ol start="4">
 				<li>
-					Si aún no lo ha hecho, cree un <strong>reportero recursivo</strong> que reporte el número de segmentos en un árbol de nivel <var>n</var>.
-					<div class="endnote">Recuerde que debe hacer clic en "Apply" antes de poder usar su bloque de forma recursiva en el Editor de bloques.</div>
+					Si aún no lo has hecho, crea un <strong>reportero recursivo</strong> que reporte el número de segmentos en un árbol de nivel <var>n</var>.
+					<div class="endnote">Recuerda que debes hacer clic en "Apply" antes de poder usar su bloque de forma recursiva en el Editor de bloques.</div>
 				</li>
 			</ol>
 		</div>
 
-		<p>Aquí está el código de Betsy para la función <code>segmentos en arbol</code>:</p>
+		<p>Aquí está el código de Betsy para la función <code>segmentos de arbol</code>:</p>
 
-		<img class="indent" src="/bjc-r/img/8-recursive-reporters/bettycode.es.png" alt="segments in tree(n){if(n=1){report(1)}else{report(1+2*segments in tree(n-1))}}"  title="segments in tree(n){if(n=1){report(1)}else{report(1+2*segments in tree(n-1))}}" />
-		<div class="takeNote">El bloque <code>report</code> solo se conecta a los bloques <em>superiores</em>. Esto se debe a que <code>reportar</code> devuelve el resultado de su espacio de entrada, inmediatamente, como la salida del bloque reporter <code>segmentos en arbol</code>. No se ejecuta más código en un reporter después de un bloque <code>reportar</code>.</div>
+		<img class="indent" src="/bjc-r/img/8-recursive-reporters/bettycode.es.png" alt="segmentos de árbol(n){si(n=1){reportar(1)}sino{reportar(1+2*segmentos de árbol(n-1))}}"  title="segmentos de árbol(n){si(n=1){reportar(1)}sino{reportar(1+2*segmentos de árbol(n-1))}}" />
+		<div class="takeNote">El bloque <code>reportar</code> solo se conecta a los bloques <em>superiores</em>. Esto se debe a que <code>reportar</code> devuelve el resultado de su espacio de entrada, inmediatamente, como la salida del bloque reportero <code>segmentos de arbol</code>. No se ejecuta más código en un reportero después de un bloque <code>reportar</code>.</div>
 
 		<div class="forYouToDo">
 			<ol start="5">
-				<li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> ¿Cuál es la condición del caso base? ¿Qué hace el programa en ese caso? ¿Por qué es necesario el caso base?</li>
-				<li>El comando <code>tree</code> tenía dos llamadas recursivas, pero este código solo tiene una. ¿Por qué?</li>
+				<li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Habla con tu compañero" title="Habla con tu compañero" /> ¿Cuál es la condición del caso base? ¿Qué hace el programa en ese caso? ¿Por qué es necesario el caso base?</li>
+				<li>El comando <code>árbol</code> tenía dos llamadas recursivas, pero este código solo tiene una. ¿Por qué?</li>
 				<li>
-					<div class="sidenoteBig">Vuelve a leer el código del fractal triangular y utilízalo como ayuda para construir este reportero recursivo.</div>
-					<a href="/bjc-r/cur/programming/7-recursion/2-projects/1-triangle-fractal.es.html?topic=nyc_bjc%2F6-recursion-trees-fractals.es.topic&course=bjc4nyc.es.html&novideo&noassignment" title="Triangle Fractal">En la Unidad 7</a>, construiste un bloque <code>triángulo fractal</code>. Cree un bloque que informe el <em>número total de triángulos</em> formados en un fractal de triángulos de nivel <var>n</var>:<br />
-					<img class="indent" src="/bjc-r/img/8-recursive-reporters/trianglecounter.es.png" alt="triangles in level (5) fractal reporting 121" title="triangles in level (5) fractal reporting 121"/>
+					<div class="sidenoteBig">Vuelve a leer el código del fractal de triángulo y utilízalo como ayuda para construir este reportero recursivo.</div>
+					<a href="/bjc-r/cur/programming/7-recursion/2-projects/1-triangle-fractal.es.html?topic=nyc_bjc%2F6-recursion-trees-fractals.es.topic&course=bjc4nyc.es.html&novideo&noassignment" title="Triangle Fractal">En la Unidad 7</a>, construiste un bloque <code>triángulo fractal</code>. Crea un bloque que reporte el <em>número total de triángulos</em> formados en un fractal de triángulos de nivel <var>n</var>:<br />
+					<img class="indent" src="/bjc-r/img/8-recursive-reporters/trianglecounter.es.png" alt="triángulo en nivel (5) fractal reporta 121" title="triángulo en nivel (5) fractal reporta 121"/>
 				</li>
-				<li><div class="saveAs"><span class="text">"U8L1-Recursive-Reporters"</span><img src="/bjc-r/img/icons/save-this-as.es.png" alt="Save your work as U8L1-Recursive-Reporters" title="Save your work as U8L1-Recursive-Reporters" /></div></li>
+				<li><div class="saveAs"><span class="text">"U8L1-Recursive-Reporters"</span><img src="/bjc-r/img/icons/save-this-as.es.png" alt="Guarda tu trabajo como U8L1-Reporteros-recursivos" title="Guarda tu trabajo como U8L1-Reporteros-recursivos" /></div></li>
 			</ol>
 		</div>
 
