@@ -4,11 +4,15 @@
 <head>
     <meta charset="utf-8">
     <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
-    <title>Unidad 7 Lab 2: Proyectos de Recursividad, Pagina 1</title>
+    <title>Unidad 7 Laboratorio 2: Proyectos de recursividad, Página 1</title>
 </head>
 
 <body>
-    <h2>Fractal Triangular</h2>
+    <h2>Triángulo fractal</h2>
+    <div class="learn">
+        <p><strong>En este laboratorio</strong>, crearás varios procedimientos recursivos de dibujo de fractales.</p>
+         <!--<p><strong>On this page,</strong>...</p>-->
+     </div>
     <div class="todo">
         <p>PG: Change. The follow-up that leads to competency (abstraction of the principles so that kids can do new
             things of /their/ invention) is the "if there is time" and embedded non-triangles (squares, pentagons,
@@ -18,102 +22,52 @@
             here at all.</p>
         <p>We need to add pink boxes to this whole unit. --MF, 4/3/19</p>
     </div>
-    <div class="sidenote">Esta figura se llama "<a href="https://duckduckgo.com/?q=Sierpinski+gasket&iax=1&ia=images"
-            target="_blank">Sierpinski (sher-PIN-ski) gasket</a>." </div>
+    <div class="sidenote">Esta figura se llama "triángulo de <a href="https://duckduckgo.com/?q=Sierpinski+gasket&iax=1&ia=images"
+            target="_blank">Sierpinski (sjer p 'ins ki)</a>." </div>
     <p>
         <img class="indent noshadow" src="/bjc-r/img/7-recursion/triangle-fractal.gif"
-            alt="triangle fractal animation levels 1 to 8" title="triangle fractal animation levels 1 to 8" />
+            alt="animación de los niveles del 1 al 8 del triángulo fractal" title="animación de los niveles del 1 al 8 del triángulo fractal" />
     </p>
     <div class="forYouToDo" id="first">
         <ol>
-            <div class="newProject"><span class="text">"U7L2-TriangleFractal"</span><img
-                    src="/bjc-r/img/icons/new-project-called.es.png" alt="Create a new project called U7L2-TriangleFractal"
-                    title="Create a new project called U7L2-TriangleFractal" /></div>
+            <li>Abre tu proyecto "U3L1-ArteFractal"; y guárdalo como "U7L2-TriánguloFractal".<br /></li>
+            <li>Ejecuta <img class="noshadow" src="/bjc-r/img/7-recursion/triangle-size-175.es.png" alt="triángulo anidado, tamaño: (175)" title="triángulo anidado, tamaño: (175)" />.  Luego, mira dentro del bloque y recuerda con tu compañero cómo funcionaba.</li>
             <li>
-                Primero, escriba un bloque que tome un <var>size</var> como entrada y dibuje un triángulo
-                equilátero.<br />
-                <img class="indent" src="/bjc-r/img/7-recursion/triangle-size-40.es.png" alt="triangle size: (40)"
-                    title="triangle size: (40)" />
-                <img class="indent" src="/bjc-r/img/7-recursion/triangle-size-40-drawing.jpg"
-                    alt="triangle size: (40) drawing" title="triangle size: (40) drawing" />
+                <strong>Predice</strong> cómo cambiará la forma si cambias el 9 a <img class="noshadow" src="/bjc-r/img/7-recursion/size-gt-9.png" alt="(tamaño)&gt;(9)" title="(tamaño)>&gt;(9)" /> un 2 y ejecutas la instrucción de nuevo. Luego prueba y observa si hace lo que esperas.
+                <div class="endnote">
+                    El bloque <code>instrucción atómica</code> (en la paleta de control amarilla) hace que los programas que contiene se ejecuten más
+                    rápido al no permitir que se ejecuten otros programas ni actualizar la pantalla hasta que finalice.<br />
+                <img class="indent" src="/bjc-r/img/7-recursion/warped-175.es.png" 
+                    alt="instrucción atómica{nivel triángulo fractal:(9) tamaño:(100)}"
+                    title="instrucción atómica{nivel triángulo fractal:(9) tamaño:(100)}" />
+                </div>
             </li>
+            <li>Luego asigna el valor de 2 de nuevo a 9.</li>
 
         </ol>
     </div>
 
-    <h3>Haciendo Crecer el Triángulo en el Fractal</h3>
-    <p>
-        <code>triangle</code> es el caso base. Puedes modificarlo, o crear un nuevo bloque con <var>level</var> y
-        Entradas de <var>size</var> como <code>tree</code>:<br />
-        <img class="indent" src="/bjc-r/img/7-recursion/tri-frac-1-head.es.png"
-            alt="triangle fractal level: (level #) size: (size #)"
-            title="triangle fractal level: (level #) size: (size #)" />
-    </p>
-    <p>
-        Si el nivel es 1, deberíamos ver solo el triángulo:<br />
-        <img class="indent noshadow" src="/bjc-r/img/7-recursion/tri-frac-1-level-1.png"
-            alt="Triangle fractal level 1 drawing: basic triangle"
-            title="Triangle fractal level 1 drawing: basic triangle" />
-    </p>
-    <div class="comment">Paul, do you not like my click-for-comment on principle? --bh</div>
-    <p>
-        De lo contrario, un niño de la mitad del tamaño brota al final de cada lado del padre. En el nivel 2, debería verse así:<br />
-        <img class="indent noshadow" src="/bjc-r/img/7-recursion/tri-frac-1-level-2.png"
-            alt="Triangle fractal level 2 drawing: triangle with 3 smaller triangles on its vertices"
-            title="Triangle fractal level 2 drawing: triangle with 3 smaller triangles on its vertices" />
-    </p>
-    <p>
-        Y en el nivel 3, deberías ver esto:<br />
-        <img class="indent noshadow" src="/bjc-r/img/7-recursion/tri-frac-1-level-3.png"
-            alt="Triangle fractal level 3 drawing: triangle with 3 smaller triangles on its vertices each of which in turn have 3 smaller triangles on their vertices"
-            title="Triangle fractal level 3 drawing: triangle with 3 smaller triangles on its vertices each of which in turn have 3 smaller triangles on their vertices" />
-    </p>
+    <p>La expresión<img class="noshadow" src="/bjc-r/img/7-recursion/size-gt-9.png" alt="(tamaño)>(9)" title="(tamaño)>(9)" /> asigna el <em>caso base</em> de la recursividad del bloque <code>triángulo anidado</code>.  Sin embargo, utilizando la entrada <var>tamaño</var> para controlar la profundidad de la recursividad no es muy satisfactorio. Por ejemplo, cuando intentaste <img class="noshadow" src="/bjc-r/img/7-recursion/triangle-size-175.es.png" alt="triángulo anidado, tamaño: (175)" title="triángulo anidado, tamaño: (175)" /> podías haber pensado: "Qué imagen tan interesante, pero es demasiado grande para caber en el escenario. Voy a intentar cambiar el tamaño a 100 mejor." Si realmente lo intentaste, ¿estuviste satisfecho con el resultado?</p>
 
     <div class="forYouToDo">
-        <ol start="2">
-            <li><img class="imageRight" src="/bjc-r/img/icons/talk-with-your-partner.es.png" alt="Talk with Your Partner"
-                    title="Talk with Your Partner" />
-                Escribe el código para <code>triangle fractal</code>.</li>
-                <li>Usando un bloque <code>warp</code> (para ahorrar tiempo) pruebe con un número de nivel grande, como 8 o 9.</li>
-                <div class="nota final">
-                    El bloque <code>warp</code> (en la paleta de control amarilla) hace que los scripts que contiene se ejecuten más
-                    rápido al
-                    no permitir que se ejecuten otros scripts ni actualizar la pantalla hasta que finalice.<br />
-                <img class="indent" src="/bjc-r/img/7-recursion/tri-frac-1-in-warp.es.png"
-                    alt="warp{triangle fractal level:(9) size:(100)}"
-                    title="warp{triangle fractal level:(9) size:(100)}" />
-            </div>
+        <ol start="5">
+            <li>Si no lo intentaste antes, inténtalo ahora.</li>
         </ol>
     </div>
 
-    <div class="ifTime">
-        <p>Para dibujar el triángulo padre, el sprite debe girar 120°; entre lados. Para el fractal solo
-        creado, ese giro ocurre <em>después</em> de dibujar al niño, pero podría girar <em>antes</em> del
-        llamada recursiva, o dividir el turno, con una parte antes y una parte después de la llamada recursiva.</p>
-        <ol start="4">
+    <p>Ya conoces una manera mejor de controlar la recursividad: toma otra entrada, <var>nivel</var>, para controlar la profundidad de la recursividad de manera separada al tamaño general de la imagen. Eso es lo que hiciste en el fractal del árbol.</p>
+
+    <div class="forYouToDo">
+        <ol start="6">
+            <li>Crea un bloque <img class="noshadow" src="/bjc-r/img/7-recursion/tri-fract-block.png" alt="triángulo fractal, nivel: ( ) tamaño: ()" title="triángulo fractal, nivel: ( ) tamaño: ()" />.  Puedes usar el código existente de tu <code>triángulo anidado</code> para comenzar.</li>
+            <li>Prueba varios dibujos de <code>triángulo fractal</code>, todos con <var>tamaño</var> 100, pero con los valores de <var>nivel</var> desde 1 hasta 10. Asegúrate que hacen lo que esperabas.</li>
             <li>
-                Pruebe algunas modificaciones como estas:<br />
-                <img class="indent" src="/bjc-r/img/7-recursion/triangle-fractal-variation01.png"
-                    alt="repeat(3){move(size) steps; turn clockwise (120) degrees; triangle fractal level:(level-1) size:(size*0.5)}"
-                    title="repeat(3){move(size) steps; turn clockwise (120) degrees; triangle fractal level:(level-1) size:(size*0.5)}" />
-                <img class="indent" src="/bjc-r/img/7-recursion/triangle-fractal-variation02.png"
-                    alt="repeat(3){move(size) steps; turn clockwise (120) degrees; triangle fractal level:(level-1) size:(size*0.5); turn clockwise(60) degrees}"
-                    title="repeat(3){move(size) steps; turn clockwise (120) degrees; triangle fractal level:(level-1) size:(size*0.5); turn clockwise(60) degrees}" />
-                <img class="indent" src="/bjc-r/img/7-recursion/triangle-fractal-variation03.png"
-                    alt="repeat(3){move(size) steps; turn counter-clockwise (30) degrees; triangle fractal level:(level-1) size:(size*0.5); turn clockwise(150) degrees}"
-                    title="repeat(3){move(size) steps; turn counter-clockwise (30) degrees; triangle fractal level:(level-1) size:(size*0.5); turn clockwise(150) degrees}" />
+                Generaliza tu procedimiento añadiendo una entrada:<br />
+                <img class="indent" src="/bjc-r/img/7-recursion/poly-fract.png" alt="polígono fractal, nivel: ( ) número de lados: ( ) tamaño: ()" title="polígono fractal, nivel: ( ) número de lados: ( ) tamaño: ()" />.
             </li>
         </ol>
     </div>
-    <div class="takeItFurther">
-        <ol type="A">
-            <li>Use <code>for</code> to make an animation that cycles through different turning angle arrangements (that
-                is, 0&deg; and 120&deg;, then 1&deg; and 119&deg;, then 2&deg; and 118&deg;, etc.).</li>
-            <li>Experiment with the scale factor for the <var>size</var> of the recursive calls. A couple of interesting
-                values are <span class="katex">\frac{<var>1</var>}{3}</span> and <span
-                    class="katex">\frac{<var>1</var>}{\sqrt{3}}</span>.</li>
-        </ol>
-    </div>
+
 
     <!--<div class="todo">
             <div class="takeItFurther">

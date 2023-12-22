@@ -28,7 +28,7 @@ llab.set_cache = (key, value) => {
 llab.read_cache = key => sessionStorage[key];
 
 // Switch to turn off ajax page loads.
-llab.DISABLE_DYNAMIC_NAVIGATION = false;
+llab.DISABLE_DYNAMIC_NAVIGATION = true;
 // this should only be true when navigating back/forwards so we do no repopulate history.
 llab.SKIP_PUSH_STATE = false;
 
@@ -367,6 +367,7 @@ llab.createTitleNav = function() {
         aria-label="${t('nextText')}">
         <i class="fas fa-arrow-right" aria-hidden=true></i>
       </a>`,
+    // use \u00F1 instead of an ñ in the menu. (Issue in Chrome on topic pages)
     topHTML = `
     <nav class="llab-nav navbar navbar-fixed-top" role="navigation">
       <div class="nav navbar-left">
@@ -385,7 +386,7 @@ llab.createTitleNav = function() {
           </a>
           <ul class="dropdown-menu" aria-labelledby="dropdown-langs">
             <li><a class="js-switch-lang-en">English</a></li>
-            <li><a class="js-switch-lang-es">Español</a></li>
+            <li><a class="js-switch-lang-es">Espa\u00F1ol</a></li>
           </ul>
         </li>
         <li class="nav-btn-group nav-btn-group-first">${previousPageButton}</li>
@@ -643,15 +644,15 @@ llab.addFooter = () => {
   `<footer>
     <div class="footer wrapper margins">
       <div class="footer-col col-md-1 col-xs-4">
-        <img style="max-height: 50px" class="noshadow" src="/bjc-r/img/header-footer/NSF_logo.png" alt="NSF" />
+        <img src="/bjc-r/img/header-footer/NSF_logo.png" alt="NSF" />
       </div>
       <div class="footer-col col-md-1 col-xs-4">
-        <img style="max-height: 50px" class="noshadow" src="/bjc-r/img/header-footer/EDC_logo.png" alt="EDC" />
+        <img src="/bjc-r/img/header-footer/EDC_logo.png" alt="EDC" />
       </div>
       <div class="footer-col col-md-1 col-xs-4">
-        <img style="max-height: 50px" class="noshadow" src="/bjc-r/img/header-footer/UCB_logo.png" alt="UCB" />
+        <img src="/bjc-r/img/header-footer/UCB_logo.png" alt="UCB" />
       </div>
-      <div class="footer-col col-md-6 col-xs-12">
+      <div class="footer-col col-md-8 col-xs-12">
         <p>The Beauty and Joy of Computing by University of California, Berkeley and Education
         Development Center, Inc. is licensed under a Creative Commons
         Attribution-NonCommercial-ShareAlike 4.0 International License. The development of this
@@ -664,7 +665,7 @@ llab.addFooter = () => {
       </p>
     </div>
     <div class="footer-col col-md-1 col-xs-4">
-      <img style="max-height: 50px" class="noshadow" src="/bjc-r/img/header-footer/cc_88x31.png" alt="Creative Commons Attribution" />
+      <img src="/bjc-r/img/header-footer/cc_88x31.png" alt="Creative Commons Attribution" />
     </div>
   </div>
 </footer>`
