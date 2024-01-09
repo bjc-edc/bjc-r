@@ -31,11 +31,11 @@
         <p>La compresión sin pérdida funciona por <em>eliminación de datos redundantes</em>. Estos algoritmos pueden, <em>usualmente</em>, reducir el número de bits necesarios para almacenar o transmitir los datos, garantizando al mismo tiempo que los datos originales se puedan reconstruir perfectamente.</p>
 
         <img class="imageRight" src="/bjc-r/img/6-computers/bjc-logo-original.png" alt="Logo de BJC sin comprimir" title="Logo de BJC sin comprimir" />
-        <p>La codificación de longitud de ejecución (<em>run-length encoding</em> en inglés) es un ejemplo de compresión sin pérdida. Fíjaet en los 158 píxeles en la fila superior del logotipo de BJC (a la derecha). Los primeros 60 píxeles son blancos. Luego vienen cinco píxeles de naranja amarillento (la parte superior de la "b"). Y el resto de esa fila es blanca.</p>
-        <p class="indent">...<img src="/bjc-r/img/6-computers/top-row-of-pixels-in-bjc-logo.png" alt="Primera fila de píxeles en el logotipo de BJC: 4 blancos, 6 amarillo-naranja, 3 blancos" title="Primera fila de píxeles en el logotipo de BJC: 4 blancos, 6 amarillo-naranja, 3 blancos">...</p>
+        <p>La codificación de longitud de ejecución (<em>run-length encoding</em> en inglés) es un ejemplo de compresión sin pérdida. Fíjate en los 158 píxeles en la fila superior del logo de BJC (a la derecha). Los primeros 60 píxeles son blancos. Luego vienen cinco píxeles de naranja amarillento (la parte superior de la "b"). Y el resto de esa fila es blanca.</p>
+        <p class="indent">...<img src="/bjc-r/img/6-computers/top-row-of-pixels-in-bjc-logo.png" alt="Primera fila de píxeles en el logo de BJC: 4 blancos, 6 amarillo-naranja, 3 blancos" title="Primera fila de píxeles en el logo de BJC: 4 blancos, 6 amarillo-naranja, 3 blancos">...</p>
         <p>En lugar de almacenar los 158 píxeles individualmente, podríamos comprimirlos con <em>codificación de longitud de ejecución</em> y solo almacenar seis valores (tres números y tres colores):</p>
 
-        <table class="byte indent" width="30%" summary="run length encoding for top row of BJC logo">
+        <table class="byte indent" width="30%" summary="Codificación de longitud de ejecución para la fila superior del logo de BJC.">
             <tr>
                 <th width="47%" scope="col">pixel count</th>
                 <th width="53%" scope="col">color code</th>
@@ -60,14 +60,14 @@
             <p>Los algoritmos de <strong>compresión de datos con pérdida</strong> <em>no</em> son totalmente reversibles; solo pueden reconstruir una <em>aproximación</em> de los datos originales.</p>
         </div>
         <div class="ap-standard">DAT-1.D.5</div>
-        <p>La compresión con pérdida funciona eliminando detalles que son menos perceptibles para las personas. El algoritmo de compresión con pérdida más utilizado para imágenes se llama JPEG (o JPG, ambos pronunciados "jay peg" para "Joint Photographic Experts Group", el comité que lo inventó). JPEG funciona preservando la mayor parte de la información de brillo para cada píxel (ya que los ojos humanos son sensibles a eso) y realizando una especie de proceso de promedio de la información de color (porque los ojos humanos no son tan buenos para distinguir el color, especialmente los colores cercanos al blanco).</p>
+        <p>La compresión con pérdida funciona eliminando detalles que son menos perceptibles para las personas. El algoritmo de compresión con pérdida más utilizado para imágenes se llama JPEG (o JPG, ambos pronunciados "llei-peg" para "Joint Photographic Experts Group", el comité que lo inventó). JPEG funciona preservando la mayor parte de la información de brillo para cada píxel (ya que los ojos humanos son sensibles a eso) y realizando una especie de proceso de promedio de la información de color (porque los ojos humanos no son tan buenos para distinguir el color, especialmente los colores cercanos al blanco).</p>
         <p>
             A continuación se muestra una imagen original sin comprimir de guijarros (piedras pequeñas) en un estanque y un JPEG altamente comprimido de la misma imagen. ¿Puedes decir cuál es cuál?<br />
             <img class="indent" src="/bjc-r/img/6-computers/pond.bmp" alt="imagen de piedras pequeñas en un estanque" title="imagen de piedras pequeñas en un estanque" />
             <img src="/bjc-r/img/6-computers/pond.jpg" alt="imagen de piedras pequeñas en un estanque" title="imagen de piedras pequeñas en un estanque" />
         </p>
 
-        <p>Probablemente <em>puedas</em> decir cuál es cuál, especialmente si buscaste bordes afilados o manchas muy brillantes. Pero el archivo comprimido usa 1/30 del espacio utilizado por el original, e incluso se podría decir que es una imagen de rocas. Por lo tanto, para muchos propósitos, la versión comprimida sería lo suficientemente buena. Los algoritmos con pérdida generalmente le permiten<em>controlar el grado de precisión</em>, y, en general, las personas seleccionan configuraciones de compresión menos extremas, por lo que el archivo comprimido se parece mucho más al original que a este ejemplo.</p>
+        <p>Probablemente <em>puedas</em> decir cuál es cuál, especialmente si buscaste bordes afilados o manchas muy brillantes. Pero el archivo comprimido usa 1/30 del espacio utilizado por el original, e incluso se podría decir que es una imagen de rocas. Por lo tanto, para muchos propósitos, la versión comprimida sería lo suficientemente buena. Los algoritmos con pérdida generalmente te permiten <em>controlar el grado de precisión</em>, y, en general, las personas seleccionan configuraciones de compresión menos extremas, por lo que el archivo comprimido se parece mucho más al original que a este ejemplo.</p>
 
         <div class="endnote">
             <p><a href="#hint-sizes" data-toggle="collapse" title="¿Qué tamaño tiene este archivo cuando se codifica en diferentes formatos?">¿Qué tamaño tiene este archivo cuando se codifica en diferentes formatos?</a></p>
@@ -101,12 +101,12 @@
         <p>El formato MP3, que probablemente usas para archivos de música portátiles, es un formato de compresión con pérdida. Tiende a enfatizar las frecuencias altas, por lo que las personas acostumbradas a la música MP3 encuentran que las versiones sin comprimir de la misma música tienen un sonido excesivamente grave (<em>boomy</em> o con mucho énfasis en los graves).</p>
         <h3>¿Cuál es el mejor?</h3>
         <p>
-            Ambos tipos de compresión de datos existen porque cada uno es útil en ciertas circunstancias.:
+            Ambos tipos de compresión de datos existen porque cada uno es útil en ciertas circunstancias:
             <ul>
                 <div class="ap-standard">DAT-1.D.7</div>
-                <li>La compresión sin pérdida es una buena opción cuando hay transiciones muy nítidas entre colores (como en los logotipos) <em>o</em>cuando es esencial poder recrear datos originales con precisión (como el código de un programa o el texto de un libro).</li>
+                <li>La compresión sin pérdida es una buena opción cuando hay transiciones muy nítidas entre colores (como en los logos) <em>o</em> cuando es esencial poder recrear datos originales con precisión (como el código de un programa o el texto de un libro).</li>
                 <div class="ap-standard">DAT-1.D.6, DAT-1.D.8</div>
-                <li>La compresión con pérdida es una buena opción cuando los datos no requieren precisión (como imágenes, sonido o películas, que las personas ni siquiera notan que se han comprimido)<em>y</em> cuando la reducción del número de bits almacenados o transmitidos es lo más importante.</li>
+                <li>La compresión con pérdida es una buena opción cuando los datos no requieren precisión (como imágenes, sonido o películas, que las personas ni siquiera notan que se han comprimido) <em>y</em> cuando la reducción del número de bits almacenados o transmitidos es lo más importante.</li>
             </ul>
         </p>
 
@@ -141,7 +141,7 @@
                     <!-- Question 2 -->
                     <div class="assessment-data" type="multiplechoice" identifier="Which are examples of lossless transformation?"
                         hasinlinefeedback="true" maxchoices="2" responseIdentifier="ri2" shuffle="true">
-                        <div class="prompt">Un artista visual está procesando una imagen digital. ¿Cuál de las siguientes opciones describe un<strong>Lossless</strong> transformación de la que se puede recuperar la imagen original? <em>Elige dos respuestas.</em></div>
+                        <div class="prompt">Un artista visual está procesando una imagen digital. ¿Cuál de las siguientes opciones describe una transformación <strong>sin perdida</strong> de la que se puede recuperar la imagen original? <em>Elige dos respuestas.</em></div>
                         <div class="choice" identifier="c1">
                             <div class="text">Crear el negativo de una imagen, donde los colores se invierten (las áreas oscuras aparecen claras).</div>
                             <div class="feedback">Correcto. Esta transformación es reversible y es un ejemplo de una transformación sin pérdida.</div>

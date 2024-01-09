@@ -1,74 +1,57 @@
 <!DOCTYPE html>
 <html lang="es">
-    <head>
-        <meta charset="utf-8">
-        <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
-        <title></title>Unidad 8 Proyecto opcional: Clasificación, página 3</title>
-    </head>
+	<head>
+		<meta charset="utf-8">
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unidad 8 Proyecto opcional: Ordenar, Página 3</title>
+	</head>
 
     <body>
-        <h2>Ordenación de partición</h2>
-        <div class="todo">
-            <p>PG: Scrap. Scrap all. Two reasons. (1) While sorting algorithms is an important and traditional CS topic, it's not obvious to me why they have any important role in an attract-them-in course. These are TiF for interested kids. (2) If our reason for this unit is to teach recursion, sorting is a distraction, and harder than we need to be. If anything at all, it's a culmination, not a start. I'd be happier showing kids how to march down a list and act on it. With HoFs or recursion. Power and utility. That's currently in Lab 4. Maybe earlier even than this unit?</p>
-            <p>BH: Definitely replace with mergesort.  Partition sort isn't guaranteed O(n log n); its analysis was awarded a PhD at Stanford.  Mergesort is straightforward.</p>
-            <p>MF: I said keep, but I find these pages to be almost to much, and I want to review them. Also, I want to think about whether it would make sense to revisit timing and efficiency here.</p>
-        </div>
-
+        <h2>Ordenar por partición</h2>
         <p>
-            Otra clasificación de uso común se denomina <strong>ordenación de partición</strong>. Así es como funciona:
+            Otra clasificación de uso común se denomina <strong>ordenación por partición</strong>. Así es cómo funciona:
             <ul>
-                <li><strong>Paso 1.</strong> En una lista desordenada, seleccione el primer elemento de la lista (<em>que probablemente no sea el elemento que debería aparecer primero después de ordenar</em>). Este elemento se denomina <strong>pivote</strong>.</li>
-<div class="todo">BH: About step 2 and its yellow box:  This handwaves away the deep issue, which is that sometimes the sort key is smaller than the sort record, so two records may sort alike but not be equal.  I'm not sure if this has to be addressed but maybe it should be mentioned in the TG. BK: I didn't understand what this comment means, sorry.</div>
-                <li><div class="sidenote">Un elemento está "con el pivote" solo si tiene el mismo valor que el pivote.</div><strong>Paso 2.</strong> Para cada elemento de la lista, decida si viene antes del pivote, con el pivote, o después del pivote.</li>
-                <li><strong>Paso 3.</strong> Divida los datos en tres categorías: elementos antes del pivote, con el pivote, después del pivote. Las listas antes y después del pivote no están ordenadas.</li>
-                <li><strong>Paso 4.</strong> Si hay elementos antes del pivote, use una ordenación de partición para ordenarlos. Si hay elementos después del pivote, use una ordenación de partición para ordenarlos.</li>
-				<li><strong>Paso 5.</strong> La lista ordenada se crea al unir las tres listas de resultados.</li>
+                <li><strong>Paso 1.</strong> En una lista desordenada, selecciona el primer elemento de la lista (<em>que probablemente no sea el elemento que debería aparecer primero después de ordenar</em>). Este elemento se denomina <strong>pivote</strong>.</li>
+                <li><div class="sidenote">Un elemento está "con el pivote" solo si tiene el mismo valor que el pivote.</div><strong>Paso 2.</strong> Para cada elemento de la lista, decide si viene antes del pivote, con el pivote, o después del pivote.</li>
+                <li><strong>Paso 3.</strong> Divide los datos en tres categorías: elementos antes del pivote, con el pivote, después del pivote. Las listas antes y después del pivote no están ordenadas.</li>
+                <li><strong>Paso 4.</strong> Si hay elementos antes del pivote, usa una ordenación de partición para ordenarlos. Si hay elementos después del pivote, usa una ordenación de partición para ordenarlos.</li>
+				<li><strong>Paso 5.</strong> La lista ordenada se crea anexando las tres listas que resultan.</li>
             </ul>
         </p>
 
-		<div class="takeNote">Los nombres no se ordenan al colocarlos antes o después de un pivote. Para <img src="/bjc-r/img/8-recursive-reporters/eightnames.png" alt="list{Emma, Olivia, Sophia, Isabella, Ava, Mia, Emily, Abigail}" title="list{ Emma, Olivia, Sophia, Isabella, Ava, Mia, Emily, Abigail}"/>, este es el estado después de la primera división a través de pivote: el <strong>pivote</strong> es Emma, la lista antes del pivote es < var>{Ava, Abigail}</var>, y la lista después del pivote es <var>{Olivia, Sophia, Isabella, Mia, Emily}</var>. Luego, el proceso de clasificación continúa en estas dos listas sin clasificar más pequeñas.</div>
+		<div class="takeNote">Los nombres no se ordenan al colocarlos antes o después de un pivote. Para <img src="/bjc-r/img/8-recursive-reporters/eightnames.png" alt="lista{Emma, Olivia, Sophia, Isabella, Ava, Mia, Emily, Abigail}" title="lista{ Emma, Olivia, Sophia, Isabella, Ava, Mia, Emily, Abigail}"/>, este es el estado después de la primera división utilizando el pivote: el <strong>pivote</strong> es Emma, la lista antes del pivote es <var>{Ava, Abigail}</var> y la lista después del pivote es <var>{Olivia, Sophia, Isabella, Mia, Emily}</var>. Luego, el proceso de clasificación continúa en estas dos listas desordenadas más pequeñas.</div>
 
         <div class="forYouToDo" id="first">
             <ol>
-                <li>Explore la ordenación de partición antes de escribir cualquier código. Con tu clase, ponte de pie y forma una fila. Luego, siga el proceso de ordenación de partición para ordenar a todos, de menor a mayor, por el número de su domicilio.</li>
+                <li>Explora la ordenación de partición antes de escribir cualquier código. Con tu clase, ponte de pie y forma una fila. Luego, sigue el proceso de ordenación de partición para ordenar a todos, de menor a mayor, por el número de la dirección de su casa.</li>
                 <li>¿Cómo es la ordenación de partición un ejemplo de recursividad? ¿Cuál es el caso base?</li>
             </ol>
         </div>
 
-<!--        <div class="sidenote">The name <strong>quicksort</strong> can refer to many different algorithms, all with the same goal: sort, quick! This page describes a standard partition sort.</div> -->
-<!--        <p>A video of one version of partition sort can be found <a href="http://www.youtube.com/watch?v=aQiWF4E8flQ">here.</a> There are minor differences: the video uses the last item as pivot, and calls the algorithm "quick sort".</p> -->
-<div class="todo">We may want to make our own video to show this in action. The linked video is not quite right and has been killed off.</div>
-        <p>Para escribir un bloque de <code>clasificación de partición</code> en Snap<em>!</em>, necesitará código para un caso base y código que siga los pasos de la ordenación de partición.</p>
+        <p>Para escribir un bloque de <code>ordenar por partición</code> en Snap<em>!</em>, necesitarás código para un caso base y código que siga los pasos de la ordenación por partición.</p>
 
         <div class="forYouToDo">
             <ol start="3">
-                <li>
-                     <a class="run" href="/bjc-r/prog/8-recursive-reporters/appendblock.xml"><img class="inline" src="/bjc-r/img/icons/load-save.es.png" alt="Click here to load this file. Then save it to your Snap! account." title="Click here to load this file. Then save it to your Snap! account."></a><br /> Examine este nuevo proyecto que contiene el bloque <code>append</code> (menú Variables).
-                    <img class="indent" src="/bjc-r/img/8-recursive-reporters/appendblock.png" alt="append(list{Ava, Abigail})(list{Emma})(list{Olivia, Sophia, Isabella, Mia, Emily})" title="append(list{Ava, Abigail})(list{Emma})(list{Olivia, Sophia, Isabella, Mia, Emily})" />
-                </li>
-                <li>Describe lo que hace el bloque <code>append</code>.</li>
-                <li><div class="sidenoteBig">Deberá descubrir cómo colocar los elementos en las tres categorías y cómo crear una lista final para la salida.</div>Cree el reportero recursivo <code>ordenación de partición</code>. Su salida, para cualquier lista, debe ser la misma que la salida para la ordenación por selección <code></code>.</li>
+                <li><div class="sidenoteBig">Deberás descubrir cómo colocar los elementos en las tres categorías y cómo crear una lista final para la salida.</div>Crea el reportero recursivo <code>ordenar por partición</code>. Su salida, para cualquier lista, debe ser la misma que la salida para <code>ordenar por selección</code>.</li>
             </ol>
         </div>
 
 		<div class="sidenoteBig">
             <a href="#hint-1" data-toggle="collapse" class="collapsed" title="Example">Revelar un ejemplo.</a>
             <div id="hint-1" class="collapse">
-            	Por ejemplo, supongamos que ayer tenía una gran lista ordenada y hoy agrega algunos elementos nuevos, por lo que necesita volver a ordenar la lista. Un algoritmo de clasificación de propósito general no aprovechará el carácter casi en orden de su entrada. Pero <em>ordenación por inserción</em>, un algoritmo que es lento en general, maneja este caso especial rápidamente.
+            	Por ejemplo, supongamos que ayer tenía una gran lista ordenada y hoy agrega algunos elementos nuevos, por lo que necesita volver a ordenar la lista. Un algoritmo de ordenamiento de propósito general no aprovechará el carácter que esté casi en orden de su entrada. Pero la <em>ordenación por inserción</em>, un algoritmo que es lento en general, maneja este caso especial rápidamente.
             </div>
         </div>
-		<p>¿Por qué hay diferentes algoritmos de clasificación? Algunos algoritmos de ordenación tardan más en ejecutarse que otros, pero incluso un algoritmo que es lento en general puede ser útil en casos especiales.</p>
+		<p>¿Por qué hay diferentes algoritmos de ordenamiento? Algunos algoritmos de ordenación tardan más en ejecutarse que otros, pero incluso un algoritmo que es lento en general puede ser útil en casos especiales.</p>
 
         <div class="ifTime">
-            <ol start="6">
+            <ol start="4">
                 <li>
-                    <div class="sidenote">You could also use a long list of names here.</div>
-                    Haga una lista de 500 elementos de números aleatorios y luego clasifique la lista usando los tres algoritmos de ordenación que creó en esta práctica de laboratorio. Sigue los tiempos:<br />
-                    <img class="indent" src="/bjc-r/img/8-recursive-reporters/compare-time.png" alt="set(biglist) to (Empty list); repeat(500){add(pick random(1) to (2000) to (biglist)}; reset timer; say(sort(biglist)); set(time) to (timer)" title="set(biglist) to (Empty list); repeat(500){add(pick random(1) to (2000) to (biglist)}; reset timer; say(sort(biglist)); set(time) to (timer)" />
+                    <div class="sidenote">Aquí también puedes utilizar una lista larga de nombres.</div>
+                    Crea una lista de 500 elementos de números aleatorios y luego ordénala usando los tres algoritmos de ordenación que creaste en esta práctica de laboratorio. Toma nota del tiempo:<br />
+                    <img class="indent" src="/bjc-r/img/8-recursive-reporters/compare-time.png" alt="fijar(listalarga) a (lista vacía); repetir(500){añadir(número al azar entre(1) y (2000) a (listalarga)}; reiniciar cronómetro; decir(ordenar(listalarga)); fijar(tiempo) a (cronómetro)" title="fijar(listalarga) a (lista vacía); repetir(500){añadir(número al azar entre(1) y (2000) a (listalarga)}; reiniciar cronómetro; decir(ordenar(listalarga)); fijar(tiempo) a (cronómetro)" />
                 </li>
                 <li>¿Qué algoritmo fue el más rápido? ¿Por qué podría este tipo de algoritmo funcionar más rápido?</li>
-                <!--<p>In that script we've renamed <code>sort</code> to <code>merge&nbsp;sort</code>, and used the name <code>your&nbsp;sort</code> for the one you wrote earlier.  <code>Biglist</code>, <code>your-time</code>, and <code>merge-time</code> are global variables.</p>
-                <p>Most likely, mergesort will take less than four seconds, while the one you wrote earlier will take more than 15 seconds. That's because we're betting your earlier one positions one number at a time in the sorted list, whereas mergesort cuts the list into two half-size lists and sorts them separately, which is inherently more efficient. If you make the input list ten times as long, a one-at-a-time sort will take 100 times as long to compute the result, whereas mergesort will only take about 30 times as long.</p> -->
             </ol>
         </div>
 

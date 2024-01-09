@@ -12,9 +12,58 @@
 	<body>
 		<h2>Oscilloscope</h2>
 		<div class="learn">In this activity, you will create an <em>oscilloscope</em> to visualize the sounds detected by your computer's microphone.</div>
+				<div class="todo">preview the difference between Time Domain and Frequency Domain</div>
+
+		
+		
+		<div class="todo">Can we cover this here?<li><strong>2-CS-02: Design projects that combine hardware and software components to collect and exchange data.</strong> Collecting and exchanging data involves input, output, storage, and processing. When possible, students should select the hardware and software components for their project designs by considering factors such as functionality, cost, size, speed, accessibility, and aesthetics. For example, components for a mobile app could include accelerometer, GPS, and speech recognition. The choice of a device that connects wirelessly through a Bluetooth connection versus a physical USB connection involves a tradeoff between mobility and the need for an additional power source for the wireless device.</li> </div>
+		
+		<div class="learn">In this activity, you will explore the sound data from your computer's microphone.</div>
+		
+		
+		<div class="todo">TG: In order to clarify the axes of an oscilloscope plot, you may want to do a quick unplugged activity where you graph volume intensity over time on the board. Draw a coordinate axes on the board with "intensity" as the label on the vertical axis and "time" as the label on the horizontal axis. Try having one student sing a pitch (or just say a vowel for a long time: "oooooooooo") and vary the volume. As they do, draw a plot of their volume intensity over time. (That is, while moving the pen/marker from left to right at a constant speed across the board, draw the line higher when they get louder and draw the line lower when they get quieter.) Then, do the opposite: ask a student (or the class) to sing (or say a vowel) at the volume level you draw on a new graph. Start with your pen at the middle of the vertical-axis and while moving it from left to right, draw the line higher and lower to indicate the volume at which they should vocalize. This help students understand what an oscilloscope shows and also helps to distinguish "higher and lower volume" from "higher and lower frequency" which will become relevant soon. Note: if students struggle (or you expect them to struggle) to understand this activity on a two dimensional plot, try both parts of the activity on a one-dimensinoal vertical intensity plot first. (TODO: move this 1-D thing to the start of the activity for all students and create a pic of both the 1D and 2D coord systems)</div>
 
 
+		<div class="todo">Have they learned pen down, yet?? I don't hitink soo.. Maybe in 2.2?? Maybe it should be added here?</div>
 		<p>
+			<div class="sidenote">You learned about the <code>for each</code> block on <a href="/bjc-r/sparks/student-pages/U2/L1/05-beat-repeat.html?topic=sparks%2F2-sequencing-iteration.topic&course=sparks.html" title="Unit 2 Lab 1 Activity 5: Beat Repeat">Unit 2 Lab 1 Activity 5: Beat Repeat</a>.</div>
+			There is a <code>for each</code> block is at the core of the oscilloscope code. In order to plot the microphone volume intensity over time, the sprite should go to each For each microphone volume sample, the sprite will move
+			<s>Discuss why a <code>for each</code> block is needed, and why the sprite will move (using <code>go to</code>) for each volumne sample.</s> <br />
+			<img class="indent" src="/bjc-r/sparks/img/U2/lab03/oscilloscope-core-2-no-inputs.png" alt="for each (sample) in (microphone (samples)) {
+go to x: () y: ()
+}" title="for each (sample) in (microphone (samples)) {
+go to x: () y: ()
+}" />
+
+		</p>
+
+		<div class="forYouToDo">
+			<ol start="1">
+				<li>
+					<div class="sidenote">
+						<p>You learned about global variables in <a href="/bjc-r/sparks/student-pages/U2/L1/06-storing-songs.html?topic=sparks%2F2-sequencing-iteration.topic&course=sparks.html" title="Unit 2 Lab 1 Activity 6: Storing Songs">Unit 2 Lab 1 Activity 6: Storing Songs</a>.</p>
+					</div>
+					Create a global variable called <var>time step</var> to store the  ( set to the width of the stage divided by the number of values in the microphone sample set (so that the sprite moves horizontally across the whole stage as it goes through the list of samples) (microphone samples will fit acr
+					oss width of the Snap! stage by dividing the stage width by the microphone resolution.). Set it's value so that the... think about the timestep stuff					<p><a href="#hint-time-step" data-toggle="collapse" title="">hint</a></p>
+				<div id="hint-time-step" class="collapse"><p><img class="indent" src="/bjc-r/sparks/img/U2/lab03/oscilloscope-core-1.png" alt="set (time step) to (width of (Stage) / microphone (resolution))" title="set (time step) to (width of (Stage) / microphone (resolution))" /></p></div>
+					</li>
+				<div class="todo">To see the dimensions of the stage, click the "Stage" icon in the lower right corner of the Snap! window, select "Backgrounds..." from the Snap! file menu, choose the "XY Grid" and click "Import," and then return to this code, by clicking the "Sprite" icon in the lower right corner and selecting the "Scripts" tab at the top of this scripting area. (Instructions like this will be in the Google doc for students; this is just a preview.) :)</div>
+				<li>build the inputs to the <code>goto</code> block</li>
+<div class="todo">
+						<img class="indent" src="/bjc-r/sparks/img/U2/lab03/oscilloscope-core-2.png" alt="for each (sample) in (microphone (samples)) {
+	go to x: (x position + time step) y: (sample × 150)
+}" title="for each (sample) in (microphone (samples)) {
+	go to x: (x position + time step) y: (sample × 150)
+}" />
+					</div>
+			</ol>
+		</div>
+				<div class="todo">recap with anotehr preview of the difference between Time Domain and Frequency Domain</div>
+		
+	
+			<div class="learn">In this activity, you learned about oscilloscopes, accessed the sound data from your computer's microphone, and started planning the code for an oscilloscopes.</div>
+	
+	<p>
 			Below is the complete code for oscilloscope, and here is what it does:
 			<ul>
 				<li>This code creates a <var>time step</var> variable and sets its value so that microphone samples will fit across width of the Snap<em>!</em> stage by dividing the stage width by the microphone resolution. </li>
@@ -65,7 +114,7 @@ forever {
 		</div>
 
 		<div class="forYouToDo">
-			<ol start="4">
+			<ol start="3">
 				<li>Build this in Snap<em>!</em></li>
 				<li>Talk, sing, and make noise! If your computer's microphone is detecting sound and your Snap<em>!</em> code is working, you should see the frequencies displayed on the Snap<em>!</em> stage.</li>
 				<li>Troubleshoot any problems with your code.</li>

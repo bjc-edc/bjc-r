@@ -1,159 +1,70 @@
 <!DOCTYPE html>
 <html lang="es">
-    <head>
-        <head>
-            <meta charset="utf-8">
-            <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
-            <title>Unidad 8 Lab 1: Reporteadores Recursivos, Pagina 2</title>
-        </head>
+	<head>
+		<meta charset="utf-8">
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unidad 8 Laboratorio 1: Reporteros recursivos, Página 2</title>
+	</head>
 
-        <body>
-            <h2>Escribiendo Reporteros Recursivos</h2>
-        <div class="todo">
-            <p>PG: The controversy in the notes on the page is about good examples. We have an earlier controversy to deal with. Why are we teaching recursion at all?! /MY/ answer to that would be that it is a powerful IDEA, intellectually interesting, and related to some natural ways of thinking but more formalized (that is, making those already natural ways explicit). I emphasized IDEA, to distinguish from TECHNIQUE. Virtually everything, including letter count, can be done with more abbreviated code, if we build the appropriate tools first.  LENGTH OF (LIST TO SENTENCE (list))  This does get to one of my total confusions about controversies about Snap, itself. Why are MAP, KEEP, and COMBINE in a library as opposed to in the language?  Just to illustrate that it's possible to create them in Snap? Seems like the wrong way to advertise Snap's power. This feels like the same issue we're facing in our discussion of when/how to teach recursion. If we have to defend WHY to teach recursion only on its suitability as a technique for a particular problem, I think we're done in. The problems it is needed for are either already solved or too hard for our kids. Let's start with small problems that make great sense to think of recursively, even if someone else has already written the tool that saves us from having to do that.  LETTER COUNT is fine. So is n^m. Factorial is also fine but less familiar than n^m. (Typically n^m is sixth or seventh grade; factorial is high school.) Looking through a list for an item (yes, exactly what CONTAINS does), UNIQUING a list....  An advantage is that these are all different applications with very similar structures, so kids are /learning how to do it/ rather than getting lots of different lessons and not learning anything well.</p>
-            <p>MF: Need to adjust for changes throughout curriculum</p>
-            <p>Also, images on this page need to be redone with plain prototype labels. --MF, 4/5/19</p>
-			<p>
-				Brian and Mary agree that this page needs some restructuring to make clear the message about the need for combiners for recursive reporters. --MF, 6/17/20
-				<ol>
-					<li>Brian is going to reintegrate the commented out content and update the images. --MF, 6/4/19</li>
-					<li>Mary to rewrite page focusing on core idea, walking them through several examples (e.g., factorial, my join words, and plurals), and then having them build letter count with a disclaimer that it will help them think about the problem. --MF, 6/17/20</li>
-				</ol>
-			</p>
-			<p>Some of the images on this page still need to be rebuilt. --MF, 4/22/22</p>
-        </div>
-
+	<body>
+		<h2>Escribir reporteros recursivos</h2>
 		<div class="learn">
-            <p><strong>On this page,</strong> you'll build a recursive factorial block and several recursive blocks that handle strings.</p>
-			<div class="todo">This page clearly needs attention, but that's currently what they do here. --MF</div>
+			<p><strong>En esta página</strong>, construirás un bloque factorial recursivo y varios bloques recursivos que manejen cadenas.</p>
+		</div>
 
-        </div>
+		<div class="forYouToDo" id="first">
+			<p>
+				<div class="sidenote">¡Di 9! como "nueve factorial", no <em>NUEVE!</em></div>
+				La función factorial <em>n</em>! se define como el producto de los números enteros de 1 a <em>n</em>.
+			</p>
+			<ol>
+				<li>El valor de 9! es 362.880. Encuentra el valor de 10!.</li>
+				<div class="sidenoteBig"> No olvides el consejo de Betty: <em>¡Los casos base son importantes!</em></div>
+				<li>Describe la relación entre 37! y 36!.</li>
+				<li>Usa estas ideas para construir un <code>factorial</code> bloque usando un reportero recursivo.</li>
+			</ol>
+		</div>
 
+		<p>
+			A menudo, los <em>comandos</em> recursivos tienen una estructura como esta, con múltiples comandos en el caso recursivo:
+			<div class="sidenote">Los <em>comandos</em> recursivos pueden incluso tener <em>múltiples</em> llamadas recursivas (<code>árbol</code> es un buen ejemplo; llamamos <code>árbol</code> <em>dos veces</em> desde dentro de una sola llamada a <code>árbol</code>).
+			</div>
+			<img class="indent" src="/bjc-r/img/8-recursive-reporters/rec-command.png" alt="recursividad(entrada){si(¿caso base?(entrada){hacer algo simple} sino{hacer algo; recursividad(entrada pequeña); hacer algo}}" title="recursividad(entrada){si(¿caso base?(entrada){hacer algo simple} sino{hacer algo; recursividad(entrada pequeña); hacer algo}}" />
+		</p>
 
+		<p>
+			Los <em>reporteros</em> recursivos tienen una estructura diferente porque pueden reportar <em>solo un</em> valor. Porque el bloque <code>reportar</code> <em>reporta</em> una respuesta, deberás crear la respuesta antes o dentro de la llamada de bloque <code>reportar</code>. Por eso, esto no es posible:<br />
+			<div class="sidenote">Ni siquiera puedes construir este programa porque no se te permitirá conectar ningún bloque <em>debajo</em> un bloque <code>reportar</code>.</div>
+			<img class="indent" src="/bjc-r/img/8-recursive-reporters/bad-rec-reporter.png" alt="No se puede hacer esto: reportero recursivo(entrada){si(¿caso base?(entrada){reportar (algo simple)} else{reportar algo; reportar(reportero recursivo(entrada pequeña)); reportar algo}}" title="No se puede hacer esto: reportero recursivo(entrada){si(¿caso base?(entrada){reportar (algo simple)} else{reportar algo; reportar(reportero recursivo(entrada pequeña)); reportar algo}}" />
+		</p>
 
-        <!--<p>To write a recursive reporter, it helps to describe how the output is related to a simpler output of the same reporter.</p>-->
+		<div class="forYouToDo">
+			<p>Los programas de procesamiento de textos cuentan el número de palabras y letras en los documentos. Una forma de contar el número de letras en una frase es usar un reportero recursivo.</p>
+			<ol start="4">
+				<li>La frase <strong>"en el curso de los acontecimientos humanos"</strong> tiene 36 letras. ¿Cuántas letras hay en la frase <strong>"Cuando en el curso de los acontecimientos humanos"</strong>?</li>
+				<li>La recursividad siempre necesita un caso base para evitar que el script se llame a sí mismo para siempre. ¿Que tipo de base caso podríamos usar para esta situación?</li>
+				<li>
+					Cree un bloque de <code>conteo de letras</code> que tome una lista de palabras como entrada y reporte el total número de letras en todas las palabras. El bloque <code>todas menos la primera letra</code> puede ser útil, pero hay más de una manera de hacer esto.<br />
+					<img class="indent" src="/bjc-r/img/8-recursive-reporters/lettercount.es.png" alt="conteo de letras(lista{Nosotros, el, Pueblo, de, los, Estados, Unidos}) reporta 35" title="conteo de letras(lista{Nosotros, el, Pueblo, de, los, Estados, Unidos}) reporta 35" />
+				</li>
+				<li>
+					Crea tu propia versión del bloque <code>unir palabras</code>. Este bloque ingresa una lista y genera una oración de cadena, con espacios:<br />
+					<img class="indent" src="/bjc-r/img/8-recursive-reporters/myjoinwords.es.png" alt="unir palabras nuevo(lista{Nosotros, el, Pueblo, de, los, Estados, Unidos}) reporta -Nosotros el Pueblo de los Estados Unidos" title="unir palabras nuevo(lista{Nosotros, el, Pueblo, de, los, Estados, Unidos}) reporta -Nosotros el Pueblo de los Estados Unidos" />
+				</li>
+			</ol>
+		</div>
 
-        <div class="forYouToDo" id="first">
-            <p>
-            <div class="sidenote">Diga 9! como "nueve factorial", no <em>¡NUEVE!</em></div>
-            La función factorial <em>n</em>! se define como el producto de los números enteros de 1 a <em>n</em>.
-            </p>
-            <ol>
-                <li>
-                    El valor de 9! es 362.880. Encuentra el valor de 10!.
-                </li>
-                <div class="sidenoteBig"> No olvides el consejo de Betty: <em>¡Los casos base son importantes!</em></div>
-                <li>Describe la relación entre 37! y 36!.</li>
-                <li>Usa estas ideas para construir un <code>factorial</code> bloque usando un reportero recursivo.
-                </li>
-            </ol>
-        </div>
+		<p>Las operaciones de lista <code>todas menos la primera letra</code> y <code>delante de</code> se usan con frecuencia en reporteros recursivos.</p>
 
-        <div class="todo">I've always disliked using fake blocks like in the following pics, and I'd like to address this when we clean up the page. --MF, 4/22/22</div>
-        <p>
-            <!--(I dont' think this is true, personally. --MF) Recursive <em>reporters</em> can be more difficult to write than recursive <em>commands</em>, such as <code>tree</code> and <code>triangle fractal</code>.-->
-            Los <em>comandos</em> recursivos a menudo tienen una estructura como esta, con múltiples comandos en el caso
-            recursivo:
-        <div class="sidenote">Los <em>comandos</em> recursivos pueden incluso tener <em>múltiples</em> llamadas recursivas
-            (<code>tree</code>
-            es un buen ejemplo; llamamos <code>tree</code> <em>dos veces</em> desde dentro de una sola llamada a
-            <code>tree</code>).
-        </div>
-        <div class="todo">Please no pseudosnap! --MF, 4/5/19</div>
-        <img class="indent" src="/bjc-r/img/8-recursive-reporters/rec-command.png"
-            alt="recursion(input){if(base case?(input){do something simple} else{do stuff; recursion(smaller input); do stuff}}"
-            title="recursion(input){if(base case?(input){do something simple} else{do stuff; recursion(smaller input); do stuff}}" />
-        </p>
+		<div class="forYouToDo">
+			<ol start="8">
+				<li>
+					Crea este bloque <code>plurales</code>, luego describe cómo funciona. (Ya has construido una más simple versión de <code>plurales</code> usando <code>mapear</code>; queremos que veas que el mismo problema puede ser resuelto de múltiples maneras.)<br />
+					<img class="indent" src="/bjc-r/img/8-recursive-reporters/plurals.es.png" alt="plurales(palabras){si(¿vacía?(palabras)){reportar(lista vacía)} sino{reportar((unir (elemento 1 de palabras)(s) delante de (plurales(todas menos la primera letra (palabras)))}}" title="plurales(palabras){si(¿vacía?(palabras)){reportar(lista vacía)} sino{reportar((unir (elemento 1 de palabras)(s) delante de (plurales(todas menos la primera letra (palabras)))}}" />
+				</li>
+			</ol>
+		</div>
 
-        <p>
-            Los <em>reporteros</em> recursivos tienen una estructura diferente porque pueden reportar <em>solo un</em>
-            valor. Porque el <code>report</code> block <em>reports</em> una respuesta, deberá crear la respuesta antes o
-            dentro de la llamada de bloque <code>report</code>. Entonces, esto no es posible:<br />
-        <div class="sidenote">Ni siquiera puedes construir este script porque no se te permitirá conectar ningún bloque
-            <em>debajo</em> un bloque <code>report</code>.
-        </div>
-        <img class="indent" src="/bjc-r/img/8-recursive-reporters/bad-rec-reporter.png"
-            alt="Cannot do this: recursive reporter(input){if(base case?(input){report (something simple)} else{report something; report(recursive reporter(smaller input)); report something}}"
-            title="Cannot do this: recursive reporter(input){if(base case?(input){report (something simple)} else{report something; report(recursive reporter(smaller input)); report something}}" />
-        </p>
-        <!--<p> Higher-order functions, mathematics operations, and other ways to combine information are often used.</p>
-            <p>Instead, most of the time a recursive reporter call will be inside a <em>combiner</em> that attaches the result of the recursive call to some other value:</p>
-            <p><img src="/bjc-r/img/8-recursive-reporters/rec-reporter.png" alt="correct recursive reporter pattern with combiner" /></p>
-            <p>The combiner can be an arithmetic operator such as <code>+</code> or <code>&times;</code>:</p>
-            <p><img src="/bjc-r/img/8-recursive-reporters/factorial.png" alt="factorial" /></p> -->
+	</body>
 
-        <div class="todo">BH suggests deleting #4-7 here. Discuss some other time? Or just dump it? I like this exercise.
-        </div>
-
-        <div class="forYouToDo">
-            <p>Los programas de procesamiento de textos cuentan el número de palabras y letras en los documentos. Una forma
-                de contar el número de letras en una frase es usar un reportero recursivo.</p>
-            <ol start="4">
-                <div class="commentBig">Can we use a phrase that is more familiar to the high schooler's experience? --MF
-                    Such as? These are the first words of the Declaration of Independence. I do not want to use the Pledge
-                    of Allegiance. -BK</div>
-                <li>La frase <strong>"en el curso de los acontecimientos humanos"</strong> tiene 24 letras. ¿Cuantas letras
-                    hay en la frase <strong>"Cuando en el curso de los acontecimientos humanos"</strong>?</li>
-                <li>La recursividad siempre necesita un caso base para evitar que el script se llame a sí mismo para
-                    siempre. ¿Que tipo de base caso podríamos usar para esta situación?</li>
-                <li>
-                    Cree un bloque de <code>letter count</code> que tome una lista de palabras como entrada e informe el
-                    total
-                    número de letras en todas las palabras. El bloque <code>all but first of</code> puede ser útil, pero hay
-                    más de una manera de hacer esto.<br />
-                    <img class="indent" src="/bjc-r/img/8-recursive-reporters/lettercount.es.png"
-                        alt="letter count(list{We, the. People, of, the, United, States}) reporting 28"
-                        title="letter count(list{We, the. People, of, the, United, States}) reporting 28" />
-                </li>
-                <li>
-                    <!--<div class="sidenote">You'll need a block that takes strings and makes larger strings...</div>
-                        <div class="comment">I don't understand the above sidenote. I get that that's what we are doing, but what is this trying to tell me to do? --MF</div>-->
-                    Crea tu propia versión del bloque <code>join words</code>. Este bloque ingresa una lista y genera una
-                    oración de cadena, con espacios:<br />
-                    <img class="indent" src="/bjc-r/img/8-recursive-reporters/myjoinwords.es.png"
-                        alt="my join words(list{We, the. People, of, the, United, States}) reporting -We the People of the United States"
-                        title="my join words(list{We, the. People, of, the, United, States})reporting -We the People of the United States" />
-                </li>
-                <!-- <p>Then, compare your work to the real <code>join words</code> block.</p>  -->
-                <div class="todo">
-                    <p>Again, I am concerned with teaching recursion as "a more complicated way to do what you already know
-                        how to do." I don't think <code>my join words</code> works because it can be done so much more
-                        quickly <em>non-recursively</em> by using <code>combine</code>. I <em>do</em> like
-                        <code>letter count</code> though because it <em>does</em> simplify the code. --MF<br />
-                        <img class="indent" src="/bjc-r/img/8-recursive-reporters/recursive-letter-count.png"
-                            alt="letter count(list){if(length of list=0){report()};report(length of(item(1) of list)+(letter count(all but first of list))}"
-                            title="letter count(list){if(length of list=0){report()};report(length of(item(1) of list)+(letter count(all but first of list))}" />
-                    </p>
-                    <p>As noted in email, I don't think <code>letter count</code> is an exception, as Mary does. But more
-                        important, I don't think students can easily compare their <code>my join words</code> with the
-                        <code>join words</code> in the tools library, because the latter is variadic, taking multiple
-                        strings as inputs rather than taking one single list of strings. As a result, its code uses the sort
-                        of hidden and obscure &quot;input list&quot; feature of Snap<em>!</em>, which we haven't taught and
-                        I'd rather avoid teaching, at least in the middle of teaching other hard stuff. --bh
-                    </p>
-                    <p>I need a suggestion to change this. Or is the suggestion to delete the join-words task? Any other
-                        things to replace it? Also we should use "empty?" when possible, not "length = 0". -BK</p>
-                </div>
-            </ol>
-        </div>
-
-        <p>Las operaciones de lista <code>all but first of</code> y <code>infront of</code> se usan con frecuencia en
-            recursivas
-            reporteros.</p>
-
-        <div class="forYouToDo">
-            <ol start="8">
-                <li>
-                    Cree este bloque <code>plurals</code>, luego describa cómo funciona. (Ya has construido una más simple
-                    versión de <code>plurals</code> usando <code>map</code>; queremos que veas que el mismo problema puede
-                    ser resuelto de múltiples maneras.)<br />
-                    <img class="indent" src="/bjc-r/img/8-recursive-reporters/plurals.es.png"
-                        alt="plurals(words){if(empty?(words)){report(empty list)} else{report((join (item 1 of words)(s) in front of (plurals(all but first of (words)))}}"
-                        title="plurals(words){if(empty?(words)){report(empty list)} else{report((join (item 1 of words)(s) in front of (plurals(all but first of (words)))}}" />
-                </li>
-            </ol>
-        </div>
-
-    </body>
-
-    </html>
+</html>

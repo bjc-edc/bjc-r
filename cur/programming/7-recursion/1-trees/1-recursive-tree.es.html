@@ -3,54 +3,60 @@
 	<head>
 		<meta charset="utf-8">
 		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
-		<title>Unidad 7 Laboratorio 1: Árboles en un bosque, Página 1</title>
+		<title>Unidad 7 Laboratorio 1: Árboles, Página 1</title>
 	</head>
 
 	<body>
-		<h2>Árbol recursivo</h2>
+		<h2>El árbol recursivo</h2>
+        <div class="learn">
+            <p><strong>En esta práctica de laboratorio</strong>, construirás un programa para dibujar árboles que utiliza la recursión para dibujar las ramas creando árboles cada vez más pequeños.</p>
+            <p><strong>En esta página</strong>, explorarás la anidación del código para árboles dentro del código para árboles.</p>
+        </div>
         <div class="todo">Brian's Notes from late July 2016:
         	<ul>
-            	<li>Think about adding to 6.1.1 the sentence "TREE 4 100 should do the same thing as TREE4 100" because we're really not clear enough about what the level input means.</li>
+            	<li>Think about adding to 6.1.1 the sentence "árbol 4 100 should do the same thing as árbol4 100" because we're really not clear enough about what the nivel input means.</li>
 			</ul>
         </div>
         <div class="todo">
-            <p>PG: Change. I still have great reservations about the pedagogy. We are telling kids, step by step, how to do something before they have a picture of what they're trying to control. At least two other alternatives: create tree governed by size (as we do in Unit 1 or 2) and embed, /then/ show how one might want to control growth by count rather than size; create tree by abstract model (trunk, branch, and leaf, which is also the base case) showing structural similarities and differences. Neither of these succeeds in getting to the generic "formula"—stop rule dependent on decrementing input, body, recursive call—but, in my mind, that's a culmination, not a place to start.</p>
+            <p>PG: Change. I still have great reservations about the pedagogy. We are telling kids, step by step, how to do something before they have a picture of what they're trying to control. At least two other alternatives: create árbol governed by tamaño (as we do in Unit 1 or 2) and embed, /then/ show how one might want to control growth by count rather than tamaño; create árbol by abstract model (trunk, branch, and leaf, which is also the base case) showing structural similarities and differences. Neither of these succeeds in getting to the generic "formula"—stop rule dependent on decrementing input, body, recursive call—but, in my mind, that's a culmination, not a place to start.</p>
             <p>We need to add pink boxes to this whole unit. --MF, 4/3/19</p>
         </div>
 
         <p>El patrón de ramificación de muchas plantas tiene una estructura <strong>fractal</strong>: las partes más pequeñas son como copias en miniatura de la planta completa. <br />
-            <div class="sidenoteBig">Un <strong>fractal</strong> es un patrón repetido infinito formado por copias (o ligeras variaciones) de la misma forma. En esta imagen, la rama verde tiene (esencialmente) la misma forma que la imagen completa.</div>
-            <img class="noshadow" src="/bjc-r/img/7-recursion/greentree.gif" alt="fractal tree" title="fractal tree" /><br />
-            En esta práctica de laboratorio, construirá un árbol usando <em>bloques dentro de bloques</em> para crear las ramas. Cada rama será una copia más pequeña de esencialmente el mismo árbol.
+            <div class="vocab">
+                <p>Un <strong>fractal</strong> es un patrón repetido infinito formado por copias (o ligeras variaciones) de la misma forma. En esta imagen, la rama verde tiene (esencialmente) la misma forma que la imagen completa.</p>
+            </div>
+            <img class="noshadow" src="/bjc-r/img/7-recursion/greentree.gif" alt="árbol fractal" title="árbol fractal" /><br />
         </p>
 
         <div class="forYouToDo" id="first">
             <ol>
-                <div class="newProject">	<span class="text">"U7L1-Tree"</span><img src="/bjc-r/img/icons/new-project-called.es.png" alt="Start a New Project called U7L1-Tree" title="Start a New Project called U7L1-Tree" /></div>
+                <li><div class="newProject">	<span class="text">"U7L1-árbol"</span><img src="/bjc-r/img/icons/new-project-called.es.png" alt="Comienza un proyecto nuevo llamado U7L1-Árbol" title="Comienza un proyecto nuevo llamado U7L1-Árbol" /></div>
+                </li>
                 <li>
                     Construyendo el primer nivel:
                       <ol>
                         <li>
-                            Cree este <img src="/bjc-r/img/7-recursion/tree-1.es.png" alt="tree 1 size:()" title="tree 1 size:()"> bloque: <br />
-                            <img class="indent" src="/bjc-r/img/7-recursion/tree1.es.png" alt="tree 1 size:(size#){move(size) steps; move(-1*size) steps}" title="tree 1 size:(size#){move(size) steps; move(-1*size) steps}" /><br /> <div class="comment">PG: suggest redoing images so that the title is <code>tree 1 size: (size)</code>, so that it later changes the hard coded numbers into a variable <code>tree (level) size: (size)</code>. Then text needs to be brought in line.</div>
-                            Esto parece ridículamente simple, pero pronto se volverá más interesante.
+                            Cree un bloque <code>árbol 1</code>. Parece sencillo, pero pronto se volverá más complicado.<br />
+                            
+                            <img class="indent" src="/bjc-r/img/7-recursion/tree1.es.png" alt="árbol 1 tamaño:(tamaño#){mover(tamaño) pasos; mover(-1*tamaño) pasos}" title="árbol 1 tamaño:(tamaño#){mover(tamaño) pasos; mover(-1*tamaño) pasos}" /><br /> <div class="comment">PG: suggest redoing images so that the title is <code>tree 1 size: (size)</code>, so that it later changes the hard coded numbers into a variable <code>tree (level) size: (size)</code>. Then text needs to be brought in line.</div>
                         </li>
                         <li>
-                        	Apunta el sprite hacia arriba, baja la pluma y corre. <img src="/bjc-r/img/7-recursion/tree-1(50).es.png" alt="tree 1 size:(50)" title="tree 1 size:(50)">. Deberías obtener un resultado como este: <br />
-							<img class="indent" src="/bjc-r/img/7-recursion/tree-level1.png" alt="tree1 result: Trunk of tree drawn" title="tree1 result: Trunk of tree drawn" />
+                        	Apunta el objeto hacia arriba, baja el lápiz y ejecuta. Deberías obtener un resultado como este:<img src="/bjc-r/img/7-recursion/tree-1(50).es.png" alt="árbol 1 tamaño:(50)" title="árbol 1 tamaño:(50)">.  <br />
+							<img class="indent" src="/bjc-r/img/7-recursion/tree-level1.png" alt="árbol1 resultado: dibujo del tronco del árbol" title="árbol1 resultado: dibujo del tronco del árbol" />
                     	</li>
-                        <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> ¿Dónde comienza tu sprite? ¿En qué dirección está mirando? ¿Dónde se detiene?</li>
+                        <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Habla con tu compañero" title="Habla con tu compañero" /> ¿Dónde comienza tu objeto? ¿En qué dirección está mirando? ¿Dónde se detiene?</li>
                     </ol>
                 </li>
                 <!-- <li>
-                    Building the second level:
+                    Building the second nivel:
 <ol>
                     	<li>
-                       	Build <code>tree2</code> that draws two levels. Actually, you're going to make two different versions of this, so call the first one <code>tree2a</code>:<br />
-<img src="/bjc-r/img/6-recursion/tree2a.es.png" alt="tree2a">                        </li>
+                       	Build <code>árbol2</code> that draws two nivels. Actually, you're going to make two different versions of this, so call the first one <code>árbol2a</code>:<br />
+<img src="/bjc-r/img/6-recursion/árbol2a.es.png" alt="árbol2a">                        </li>
                      <li>
-                        	Run <code>tree2a size: 50</code>. You should get a result like this:<br />
-                        	<img class="indent" src="/bjc-r/img/6-recursion/tree-level2.jpg" alt="tree2 result" title="tree2 result" />
+                        	Run <code>árbol2a tamaño: 50</code>. You should get a result like this:<br />
+                        	<img class="indent" src="/bjc-r/img/6-recursion/árbol-nivel2.jpg" alt="árbol2 result" title="árbol2 result" />
         </li>
                         <li>
                         	<img class="imageRight" src="/bjc-r/img/icons/talk-with-your-partner.es.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
@@ -58,21 +64,28 @@
                         </li>
 </ol></li></ol></div>
                         <div class="takeItFurther"><ol type="A">
-                          <li>How many blocks would you need to write <code>tree3a</code> out of Motion blocks similarly to how we wrote <code>tree2a</code>? How about <code>tree4a</code>?</li></ol></div>
+                          <li>How many blocks would you need to write <code>árbol3a</code> out of Motion blocks similarly to how we wrote <code>árbol2a</code>? How about <code>árbol4a</code>?</li></ol></div>
 <div class="forYouToDo"><ol  start="3">                   --> 		<div class="sidenote">Usar <code>árbol 1</code> para dibujar las ramas en <code>árbol 2</code> es usar <em>abstracción</em>.</div>
 
-<li>Build <img src="/bjc-r/img/7-recursion/tree-2.es.png"alt="tree 2 size:()" title="tree 2 size:()"> que usa <img src="/bjc-r/img/7-recursion/tree-1(50).es.png" alt="Tamaño del árbol 1:(50)" title="Tamaño del árbol 1:(50)"> como sus ramas.<br /><img class="indent" src="/bjc-r/img/7-recursion/tree2.es.png" alt="tree2 size:(size#){move(size) steps; turn counterclockwise (25) degrees; tree 1 size:(size*0.65); turn clockwise(25) degrees; turn clockwise(35) degrees; tree 1 size:(size*0.85); turn counterclockwise (35); move(-1*size) steps}" title="tree2 size:(size#){move(size) steps; turn counterclockwise (25) degrees; tree 1 size:(size*0.65); turn clockwise(25) degrees; turn clockwise(35) degrees; tree 1 size:(size*0.85); turn counterclockwise (35); move(-1*size) steps}"/>                      </li>
-						<li>Describe exactamente la posición y la dirección del sprite cuando el primer <code>árbol 1</code> deja de ejecutarse. ¿Por qué es esencial para que funcione <code>árbol 2</code>?</li>
+<li>Construye un bloque <code>árbol 2</code> que utilice <code>árbol 1</code> como sus ramas. <img src="/bjc-r/img/7-recursion/tree-2(50).es.png" alt="Tamaño del árbol 1:(50)" title="Tamaño del árbol 1:(50)"><br /><img class="indent" src="/bjc-r/img/7-recursion/tree2.es.png" alt="árbol2 tamaño:(tamaño#){mover(tamaño) pasos; girar (25) grados; árbol 1 tamaño:(tamaño*0.65); girar (25) grados; girar (35) grados; árbol 1 tamaño:(tamaño*0.85); girar (35); move(-1*tamaño) pasos}" title="árbol2 tamaño:(tamaño#){mover(tamaño) pasos; girar (25) grados; árbol 1 tamaño:(tamaño*0.65); girar (25) grados; girar(35) grados; árbol 1 tamaño:(tamaño*0.85); girar (35); mover(-1*tamaño) pasos}"/>                      </li>
+			    <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Habla con tu compañero" title="Habla con tu compañero" />Describe exactamente la posición y la dirección del objeto cuando el primer <code>árbol 1</code> deja de ejecutarse. ¿Por qué es esencial para que funcione <code>árbol 2</code>?</li>
                     </ol>
 </div>
 
-        <div class="takeNote"><strong>Transparencia del estado</strong>: volver a poner todo (sprite, lápiz, etc.) exactamente como estaba cuando comenzaste, es importante cuando los bloques dependen de otros bloques. Por lo general, esto significa devolver el sprite a la misma posición y dirección, y el lápiz al mismo color y tamaño que tenían.</div>
+        <div class="vocabFullWidth">
+            <p><strong>Transparencia del estado</strong>: volver a poner todo (objeto, lápiz, etc.) exactamente como estaba cuando comenzaste, es importante cuando los bloques dependen de otros bloques. Por lo general, esto significa devolver el objeto a la misma posición y dirección, y el lápiz al mismo color y tamaño que tenían.</p></div>
 <div class="comment">Paul and Mary want to use copy and paste here.</div>
         <div class="forYouToDo">
-            <ol start="4">
+            <ol start="5">
 
                 <li>Haz un bloque <code>árbol 3</code> que use el bloque <code>árbol 2</code> como ramas.</li>
-
+                <div class="endnote">
+                    Haz clic con el botón derecho del ratón (o control-clic en Mac) sobre un bloque para "duplicarlo" o "renombrarlo" para hacer estas tareas más rápido. <a href="#hint-dup-and-relabel" data-toggle="collapse" title="Haz clic para mostrar un ejemplo.">Haz clic para mostrar un ejemplo.</a>
+                    <div id="hint-dup-and-relabel" class="collapse">
+                        <div class="sidenote">Needs better alt/title text. --MF, 6/18/20</div>
+                        <img class="indent" src="/bjc-r/img/7-recursion/dup-and-relabel.gif" alt="opción del menú para duplicar y renombrar" title="opción del menú para duplicar y renombrar" />
+                    </div>
+                </div>
               <li>Haz un bloque <code>árbol 4</code> que use el bloque <code>árbol 3</code> como ramas.</li>
               <!--                <div class="endnote">
                 	Right-click (or control-click on a Mac) a block to "duplicate" or "relabel" blocks to make these tasks much faster.<br />
@@ -80,22 +93,25 @@
                 </div>
 -->
                 <li>
-                    Si lo desea, cree un bloque <code>árbol 5</code> que use el bloque <code>árbol 4</code>. Corriendo<img src="/bjc-r/img/7-recursion/tree-5(50).es.png"  alt="tree 5 size:(50)" title="tree 5 size:(50)"> debería producir un resultado como este:<br />
-                    <img class="indent" src="/bjc-r/img/7-recursion/tree5.png" alt="tree5 result: Tree with trunk and branches" title="tree5 result: Tree with trunk and branches" />
-        			<img class="imageRight" src="/bjc-r/img/icons/save-now.es.png" alt="Now Is a Good Time to Save" title="Now Is a Good Time to Save" />
+                    Si lo deseas, crea un bloque <code>árbol 5</code> que utilice el bloque <code>árbol 4</code>. Al ejecutar <img src="/bjc-r/img/7-recursion/tree-5(50).es.png"  alt="árbol 5 tamaño:(50)" title="árbol 5 tamaño:(50)"> debería producir un resultado como este:<br />
+                    <img class="indent" src="/bjc-r/img/7-recursion/tree5.png" alt="árbol5 resultado: árbol con tronco y ramas" title="árbol5 resultado: árbol con tronco y ramas" />
+        			<img class="imageRight" src="/bjc-r/img/icons/save-now.es.png" alt="Es un buen momento para guardar tu trabajo" title="Es un buen momento para guardar tu trabajo" />
                 </li>
             </ol>
     	</div>
 
-        <p>Todos estos bloques se ven esencialmente iguales excepto que <code>árbol 5</code> usa <code>árbol 4</code>,mientras que <code>árbol 4</code> usa <code>árbol 3</code>, y así sucesivamente. Entonces tiene sentido preguntarse si podemos reemplazar todos estos bloques con un solo bloque <code>tree</code>, usando una variable para el número que cambia.</p>
-		<div class="takeNote">Usar un bloque dentro de sí mismo se llama <strong>recursividad</strong>.</div>
+        <p>Todos estos bloques se ven esencialmente iguales excepto que <code>árbol 5</code> usa <code>árbol 4</code>,mientras que <code>árbol 4</code> usa <code>árbol 3</code>, y así sucesivamente. Entonces tiene sentido preguntarse si podemos reemplazar todos estos bloques con un solo bloque <code>árbol</code>, usando una variable para el número que cambia.</p>
+		<div class="vocabFullWidth">
+            <p>Usar un bloque dentro de sí mismo se llama <strong>recursividad</strong>.</p>
+            <div class="endnote">Aprendiste sobre la recursividad en <a href="/bjc-r/cur/programming/3-lists/1-abstraction/3-fractal-art-recursive.html?topic=nyc_bjc%2F3-lists.topic&course=bjc4nyc.html&novideo&noassignment" title="Unidad 3 Laboratorio 1 Página 3: Usar la abstracción para anidar triángulos">Unidad 3 Laboratorio 1 Página 3: Usar la abstracción para anidar triángulos</a>.</div>
+        </div></div>
 
 
 		<!--<div class="forYouToDo">
           <ol start="6">
                 <li>
-                    It might seem that all we need to do is build this (with the parts stuck together instead of the gaps that we show). In fact, this is not quite right, but it's worth trying to see what happens. Build it and try <code>tree</code> with the input levels of 5, 3, and 1 (still using size 50).<br />
-					<img src="/bjc-r/img/6-recursion/tree-recursive-without-control.es.png"  alt="recursive tree model without stop rule">
+                    It might seem that all we need to do is build this (with the parts stuck together instead of the gaps that we show). In fact, this is not quite right, but it's worth trying to see what happens. Build it and try <code>árbol</code> with the input nivels of 5, 3, and 1 (still using size 50).<br />
+					<img src="/bjc-r/img/6-recursion/árbol-recursive-without-control.es.png"  alt="recursive árbol model without stop rule">
                 </li>
                 <li>
                 	<img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.es.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
@@ -103,8 +119,8 @@
                 </li>
 
 </ol></div>
-<!--                 	Now run <code>tree level: 9 size: 50</code>. It doesn't work yet. All you see is: <br />
-					<img class="indent" src="/bjc-r/img/6-recursion/treebug.jpg" alt="picture of failing tree" title="picture of failing tree" />
+<!--                 	Now run <code>árbol nivel: 9 tamaño: 50</code>. It doesn't work yet. All you see is: <br />
+					<img class="indent" src="/bjc-r/img/6-recursion/árbolbug.jpg" alt="picture of failing árbol" title="picture of failing árbol" />
                 </li>
                 <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.es.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> Try to debug the script. What's going wrong?</li>
             </ol>
@@ -113,16 +129,13 @@
 -->
 
 		<div class="forYouToDo">
-            <ol start="7">
+            <ol start="8">
                 <li>
-                    Esta es la idea general para la versión <em>recursiva</em> de <code>árbol</code>. Constrúyelo:<br />
-            		<img class="indent" src="/bjc-r/img/7-recursion/tree-nobase.es.png" alt="tree level:(level#) size:(size#){move(size) steps; turn counterclockwise (25) degrees; tree level:(level-1) size:(size*0.65); turn clockwise(25) degrees; turn clockwise(35) degrees; tree level:(level-1) size:(size*0.85); turn counterclockwise (35); move(-1*size) steps}" title="tree level:(level#) size:(size#){move(size) steps; turn counterclockwise (25) degrees; tree level:(level-1) size:(size*0.65); turn clockwise(25) degrees; turn clockwise(35) degrees; tree level:(level-1) size:(size*0.85); turn counterclockwise (35); move(-1*size) steps}" />
+                    Esta es la idea general para la versión <em>recursiva</em> de <code>árbol</code>. <img class="inline" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Habla con tu compañero" title="Habla con tu compañero" /> ¿Cuáles son las diferencias entre este programa de árbol recursivo y el código para <code>árbol 2</code> y <code>árbol 3</code>, y por qué se necesitan estas diferencias?<br />
+            		<img class="indent" src="/bjc-r/img/7-recursion/tree-nobase.es.png" alt="árbol nivel:(nivel#) tamaño:(tamaño#){mover(tamaño) pasos; girar (25) grados; árbol nivel:(nivel-1) tamaño:(tamaño*0.65); girar (25) grados; girar(35) grados; árbol nivel:(nivel-1) tamaño:(tamaño*0.85); girar (35); mover(-1*tamaño) pasos}" title="árbol nivel:(nivel#) tamaño:(tamaño#){mover(tamaño) pasos; girar (25) grados; árbol nivel:(nivel-1) tamaño:(tamaño*0.65); girar(25) grados; girar(35) grados; árbol nivel:(nivel-1) tamaño:(tamaño*0.85); girar (35); mover(-1*tamaño) pasos}" />
                 </li>
-                <li>
-                	Ahora ejecuta <code>árbol nivel: 9 tamaño: 50</code>. Aún no funciona. Todo lo que ves es:<br />
-			<img class="indent" src="/bjc-r/img/7-recursion/treebug.gif" alt="Tree drawing never terminates, stuck at a single branch" title="Tree drawing never terminates, stuck at a single branch" />
-                </li>
-                <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.es.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> Intente depurar el script. ¿Qué está yendo mal?</li>
+                <li>Esto es lo que ocurre si ejecutas <code>árbol, nivel: 9 tamaño: 50</code>. <br />
+			<img class="indent" src="/bjc-r/img/7-recursion/treebug.gif" alt="dibujo de árbol sin fin, estancado en una sola rama" title="dibujo de árbol sin fin, estancado en una sola rama" /><br/>Aún no funciona. Intenta depurar el programa y ejecutarlo por ti mismo. <img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.es.png" alt="Habla con tu compañero" title="Habla con tu compañero" /> ¿Qué está yendo mal?</li>
             </ol>
         </div>
 
