@@ -8,6 +8,10 @@
 *   library.js
 */
 
+// TODO: Notes on most necessary refactorings:
+// * Dynamic Navigation is messy.
+// * getters/setters for "current page" in a lab need refactored
+// * getCurrentPageURL, nextPageURL, prevPageURL
 llab.file = "";
 llab.url_list = [];
 
@@ -28,10 +32,11 @@ llab.set_cache = (key, value) => {
 llab.read_cache = key => sessionStorage[key];
 
 // Switch to turn off ajax page loads.
-llab.DISABLE_DYNAMIC_NAVIGATION = true;
+llab.DISABLE_DYNAMIC_NAVIGATION = false;
 // this should only be true when navigating back/forwards so we do no repopulate history.
-llab.SKIP_PUSH_STATE = false;
+// llab.SKIP_PUSH_STATE = false;
 
+console.log('TOP off curriculum.js rerun');
 llab.dynamicNavigation = path => {
   return event => {
     if (llab.DISABLE_DYNAMIC_NAVIGATION) {
@@ -42,6 +47,25 @@ llab.dynamicNavigation = path => {
     llab.loadNewPage(path);
   }
 }
+
+if (!llab.DISABLE_DYNAMIC_NAVIGATION) {
+  // Handle popstate events for when users use the back button
+  window.addEventListener("popstate", (event) => {
+    const state = event.state;
+    console.log(event)
+    // debugger;
+
+    if (!state || !state.body || !state.title) {
+      location.reload();
+      return;
+    }
+
+    // llab.SKIP_PUSH_STATE = true;
+    llab.rerenderPage(state.body, state.title);
+  });
+}
+
+/////////////////////
 
 // Executed on *every* page load.
 llab.secondarySetUp = function (newPath) {
@@ -127,7 +151,7 @@ llab.secondarySetUp = function (newPath) {
 *  and creates navigation buttons.
 *  FIXME: This should share code with llab.topic!
 */
-llab.processLinks = function (data) {
+llab.processLinks = (data) => {
   /* NOTE: DO NOT REMOVE THIS CONDITIONAL WITHOUT SERIOUS TESTING
   * llab.file gets reset with the ajax call.
   */
@@ -239,6 +263,7 @@ llab.processLinks = function (data) {
 
     // Make the current step have an arrow in the dropdown menu
     if (isCurrentPage) {
+      console.log('isCurrentPage...')
       llab.pageNum = pageCount;
       itemContent = llab.spanTag(itemContent, 'current-page-arrow');
     }
@@ -498,6 +523,8 @@ llab.setButtonURLs = function() {
 };
 
 llab.loadNewPage = (path) => {
+  console.log('LOAD NEW PAGE: ', path);
+
   if (llab.PREVENT_NAVIGATIONS) {
     // this seems like a poor way to debounce multiple clicks.
     setTimeout((() => llab.PREVENT_NAVIGATIONS = false), 500);
@@ -518,25 +545,12 @@ llab.loadNewPage = (path) => {
     });
 }
 
-// Handle popstate events for when users use the back button
-window.addEventListener("popstate", (event) => {
-  const state = event.state;
-  console.log(event)
-  debugger;
-
-  if (!state || !state.body || !state.title) {
-    location.reload();
-    return;
-  }
-
-  llab.SKIP_PUSH_STATE = true;
-  llab.rerenderPage(state.body, state.title);
-});
 
 llab.rerenderPage = (body, title, path) => {
   // Reset llab state.
   llab.titleSet = false;
   llab.conditional_setup_run = false;
+  console.log('RERENDER PAGE: ', path)
 
   document.title = title;
   $('.full').html(body);
@@ -564,6 +578,7 @@ llab.rebuildPageFromHTML = (html, path) => {
 
   let title = doc.querySelector('title') ? doc.querySelector('title').text : '';
   let body = doc.body.innerHTML;
+  console.log('REBUILD FROM HTML')
   llab.rerenderPage(body, title, path);
 
   llab.PREVENT_NAVIGATIONS = false;
