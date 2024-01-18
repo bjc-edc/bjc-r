@@ -82,7 +82,7 @@ llab.secondarySetUp = function (newPath) {
   });
 
   // Return the name of the class on element if it is a class in optionalContent
-  function lookupClassName(toggleClasses, classList) {
+  let lookupClassName = (toggleClasses, classList) => {
     return toggleClasses.find(className => classList.includes(className));
   }
 
@@ -241,14 +241,12 @@ llab.processLinks = (data) => {
     // Grab the link betweem [ and ]
     url = line.slice(urlOpen + 1, urlClose);
     pageCount += 1;
+
     // Content References an external resource
     if (url.indexOf("//") !== -1) {
-    isCurrentPage = llab.getQueryParameter('src') === decodeURIComponent(url);
-    url = llab.empty_curriculum_page_path + "?" + llab.QS.stringify(
-      $.extend({}, params, {
-        src: url,
-        title: itemContent
-      }));
+      isCurrentPage = llab.getQueryParameter('src') === decodeURIComponent(url);
+      let url_query = llab.QS.stringify($.extend({}, params, { src: url, title: itemContent }));
+      url = `${llab.empty_curriculum_page_path}?${url_query}`;
     } else { // Content reference is local
       isCurrentPage = location.href.indexOf(url) !== -1;
       if (url.indexOf(llab.rootURL) === -1 && url.indexOf("..") === -1) {
@@ -289,18 +287,18 @@ llab.processLinks = (data) => {
   $('.dropdown-menu').css('max-width', Math.min($(window).width()*.97, 450));
 
   // Attach Dynamic Click Handlers to menu items.
-  $('a[role=menuitem]').each((_i, element) => {
-    $(element).off('click').on('click', llab.dynamicNavigation(element.href));
-  });
+  // $('a[role=menuitem]').each((_i, element) => {
+  //   $(element).off('click').on('click', llab.dynamicNavigation(element.href));
+  // });
 
   llab.indicateProgress(llab.url_list.length, llab.thisPageNum() + 1);
 }; // end processLinks()
 
 
 // Build a list of links to be appended to the navigation dropdown.
-llab.buildDropdownFromTopicModel = _llabObj => {
+llab.buildDropdownFromTopicModel = (_llabObj) => {
   // TODO: Just the parsed topic file to create dropdown contents.
-  let _list = $('.js-llabPageNavMenu');
+  // let _list = $('.js-llabPageNavMenu');
 }
 
 // Create an iframe when loading from an empty curriculum page
@@ -507,8 +505,8 @@ llab.setButtonURLs = function() {
     back.addClass('disabled').removeAttr('href').attr('disabled', true);
   } else {
     back.removeClass('disabled').removeAttr('disabled')
-      .attr('href', llab.url_list[llab.thisPageNum() - 1])
-      .on('click', llab.dynamicNavigation(llab.url_list[llab.thisPageNum() - 1]));
+      .attr('href', llab.url_list[llab.thisPageNum() - 1]);
+      // .on('click', llab.dynamicNavigation(llab.url_list[llab.thisPageNum() - 1]));
   }
 
   // Disable the forward button
@@ -516,14 +514,12 @@ llab.setButtonURLs = function() {
     forward.addClass('disabled').removeAttr('href').attr('disabled', true);
   } else {
     forward.removeClass('disabled').removeAttr('disabled')
-      .attr('href', llab.url_list[llab.thisPageNum() + 1])
-      .on('click', llab.dynamicNavigation(llab.url_list[llab.thisPageNum() + 1]));
+      .attr('href', llab.url_list[llab.thisPageNum() + 1]);
+      // .on('click', llab.dynamicNavigation(llab.url_list[llab.thisPageNum() + 1]));
   }
 };
 
 llab.loadNewPage = (path) => {
-  console.log('LOAD NEW PAGE: ', path);
-
   if (llab.PREVENT_NAVIGATIONS) {
     // this seems like a poor way to debounce multiple clicks.
     setTimeout((() => llab.PREVENT_NAVIGATIONS = false), 500);
@@ -577,9 +573,7 @@ llab.rebuildPageFromHTML = (html, path) => {
 
   let title = doc.querySelector('title') ? doc.querySelector('title').text : '';
   let body = doc.body.innerHTML;
-  console.log('REBUILD FROM HTML')
   llab.rerenderPage(body, title, path);
-
   llab.PREVENT_NAVIGATIONS = false;
 }
 
