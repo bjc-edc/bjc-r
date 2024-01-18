@@ -677,8 +677,6 @@ llab.translated_content_url = function() {
 
 // Show a dropdwon icon in the navbar if the same URL exists in a translated form.
 llab.setupTranslationsMenu = function() {
-  if (!llab.isLocalEnvironment()) { return; }
-
   // extract the language from the file name
   // make an ajax call to get the file name in the other language
   // if the file exists, add a link to it
