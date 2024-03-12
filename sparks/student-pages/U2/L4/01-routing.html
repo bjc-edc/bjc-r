@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Lab 4: Routing Protocols</title>
+	</head>
+
+	<body>
+		<h2>Routing Strategies</h2>
+		<div class="learn"></div>
+		<p>The Internet is a giant network that enables millions of computing devices to communicate with one another. That communication is possible thanks to <em>routers</em>.</p>
+		<div class="vocabFullWidth"><p><strong>Routers</strong> are a special type of computing device that knows how to send messages to other Internet-connected devices.</p></div>
+
+		<p>
+			This diagram is a simplification of what happens when your computer requests a webpage from the BJC servers:<br />
+			<img class="indent" src="/bjc-r/img/4-internet/redundant-2.jpg" height="250px" alt="graph of a network with a sender and a receiver at each end and multiple connections among multiple notes between them" title="graph of a network with a sender and a receiver at each end and multiple connections among multiple notes between them" />
+		</p>
+		<p>
+			<img class="imageRight" src="/bjc-r/sparks/img/U2/lab04/router.jpg" alt="" title="" />
+			<div class="sidenote">Image by Wikipedia user Asim18.</div>
+			Your computer sends a request to the nearest router (which you might even be able to see right now, if it's in the same room as your computer!). The message then travels from router to router until it finally reaches the destination, the BJC computer. There are many possible paths the message can take, including some paths that wouldn't reach the destination.</p>
+		<p>Fortunately, Internet routing protocols help routers decide how to send a message along.</p>
+		<div class="vocabFullWidth"><p>A <strong>protocol</strong> is a standard set of rules for communication that everyone agrees to.</p></div>
+		<p>That means lots of different kinds of computing devices (laptops, desktops, phones, home assistants, etc), can all communicate with each other, because they all follow the same Internet protocols.</p>
+		<p>In this lab, you'll experiment with routing protocols and test the strength of a network.</p>
+		
+		<div class="forYouToDo">
+			<ol>
+				<li>Start by downloading <a href="https://snap.berkeley.edu/snap/snap.html#present:Username=pamelafox-ucb&ProjectName=Routers&editMode" title="" target="_blank">the starter project: Routers</a>.</li>
+				<li>
+					When you click the <code>initialize routers</code> command block, it will draw a simple network on the stage:<br />
+					<img class="" src="/bjc-r/sparks/img/U2/lab03/" alt="" title="" />
+				</li>
+				<li>
+					Now you'll send messages between routers A-F. Drag the send message block to the stage:<br />
+					<img class="" src="/bjc-r/sparks/img/U2/lab03/" alt="" title="" />
+					This block accepts a router name in the first blank, a router name in the second blank, and then expects you to select an option from the strategy dropdown.
+				</li>
+				<li>Try sending a message between two routers that aren't directly connected while experimenting with different routing strategies. For each experiment, note the number of routers and distance traveled. Try the experiment again with a different set of routers.</li>
+			</ol>
+		</div>
+		
+		<p>
+			Here's a short description of each strategy:
+			<ul>
+				<li>Closest: Picks the directly connected router that's closest to the current router.</li>
+				<li>Farthest: Picks the directly connected router that's farther from the current router.</li>
+				<li>Random: Randomly picks any one of the directly connected routers.</li>
+				<li>Lookup: Picks a router based on an internally stored table (i.e. for router A, a lookup for router F suggests going through router C).</li>
+			</ul>
+		</p>
+	
+		<div class="forYouToDo">
+			<ol start="6">
+				<li>Worksheet: Start router, End router, Strategy, Routers hopped, Total distance</li>
+				<li>Discuss these questions with a partner or class: Based on your experiments, which do you think is the best routing strategy? Or do you think it depends? Does the strategy always matter, or are there some situations where the result is always the same?</li>
+			</ol>
+		</div>
+	
+		<p>The Internet uses a strategy most similar to the lookup strategy. When a router receives a message, it checks the destination address of that message, and sees an address like 232.56.13.83. It then looks for that address in its internally stored lookup table. If the router is very close to the destination, it might find the entire address and be able to send it directly to the destination router. However, most likely, it'll find part of the address, like 232.56 and then will send the message to the next router that's best for handling those addresses.</p>
+		<p>It's a lot like the postal system - a postal office in Santa Fe, Mexico may not know the exact post office to handle an address in New Jersey, but it knows how to send the mail on a truck headed for a New Jersey post office. Then the New Jersey post office can figure it out from there!</p>
+
+		<div class="learn"></div>
+
+
+	</body>
+</html>
