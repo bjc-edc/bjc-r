@@ -14,6 +14,7 @@
 			This lab covers the basics of visualizing and generating waveforms. In the first activity, students create an oscilloscope (example shown below) to graph sound intensity over <em>time</em> for data picked up by their computer microphone. In the second activity, they build a spectrum analyzer which graphs the intensity of each <em>frequency</em>.
 			<img class="indent" data-gifffer="/bjc-r/sparks/img/U2/lab03/sound-visualizer.gif" alt="animation of an oscilloscope in Snap! that looks like a rapidly changing, horizontal wavey line" title="animation of an oscilloscope in Snap! that looks like a rapidly changing, horizontal wavey line" /><br />
 		</p>
+				<div class="todo">Include somehitng about the difference between Time Domain and Frequency Domain</div>
 
 		<h3>Pacing</h3>
 		<p>
@@ -37,6 +38,68 @@
 			</ul>
 		</div>
 
+<div class="todo">
+
+	<p>
+			Below is the complete code for oscilloscope, and here is what it does:
+			<ul>
+				<li>This code creates a <var>time step</var> variable and sets its value so that microphone samples will fit across width of the Snap<em>!</em> stage by dividing the stage width by the microphone resolution. </li>
+				<li>It moves the sprite to the left center of the Snap<em>!</em> stage, clears the stage, and puts the pen down. This sets up the sprite for to draw one set of <code>microphone (samples)</code> data.</li>
+				<li>Then to draw each sample volume value, it moves the sprite to the left (by adding <var>time step</var> value to the <em>x</em>) position) and to the volume value (by setting the <em>y</em> position to the sample volume value scaled up 150 times). </li>
+				<li>The <code>forever</code> block makes this code keep drawing the current microphone sample list, and the <code>warp</code> block makes Snap<em>!</em> draw fast.</li>
+			</ul>
+			<div class="todo">TG: students can also download the image of the oscilloscope code and drag it into snap. There is Snap<em>!</em> code embedded in the image as XML.</div>
+			<div class="todo">REDO THIS AND OTHER CODE images with updated code version (v2)</div>
+			<img class="indent" src="/bjc-r/sparks/img/U2/lab03/oscilloscope-code.png" alt="script variables (time step)
+set (time step) to (width of (Stage) / microphone (resolution))
+forever {
+	warp {
+		go to x: (-240) y: (0)
+		clear
+		pen down
+		for each (sample) in (microphone (samples)) {
+			go to x: (x position + time step) y: (sample × 150)
+		}
+	}
+}" title="script variables (time step)
+set (time step) to (width of (Stage) / microphone (resolution))
+forever {
+	warp {
+		go to x: (-240) y: (0)
+		clear
+		pen down
+		for each (sample) in (microphone (samples)) {
+			go to x: (x position + time step) y: (sample × 150)
+		}
+	}
+}" />
+		</p>
+
+		<div class="endnote">
+			<p><a href="#hint-oscilloscope-detail" data-toggle="collapse" title="One more time: What's going with the oscilloscope code?">One more time: What's going with the oscilloscope code?</a></p>
+			<div id="hint-oscilloscope-detail" class="collapse">
+				<p>First, a script variable <var>time step</var> is created and set to the width of the stage divided by the number of values in the microphone sample set (so that the sprite moves horizontally across the whole stage as it goes through the list of samples).</p>
+				<p>
+					Then the following two things happen forever and fast (the <code>wrap</code> block is like a time-warp):
+					<ul>
+						<li>The sprite is moved to the right-hand center of the stage (-240, 0). The stage is cleared from all previous pen drawings. The sprite's pen is put down.</li>
+						<li>For each sample in the set of microphone samples, the sprite moves to the next <em>x</em> position horizontally and moves to a scaled up version of the current frequency sample vertically.</li>
+					</ul>
+				</p>
+				<p>Since the code resets the state of the sprite and the stage and then draws all the samples across the stage again and again forever, and this creates an oscilloscope!</p>
+			</div>
+		</div>
+
+		<div class="forYouToDo">
+			<ol start="3">
+				<li>Talk, sing, and make noise! If your computer's microphone is detecting sound and your Snap<em>!</em> code is working, you should see the frequencies displayed on the Snap<em>!</em> stage.</li>
+			</ol>
+		</div>
+
+</div>
+
+
+		<div class="todo">Page 3 TG: these two tools are FTs of each other..., volume typically measured on logarithmic scale</div>
 
 
 
@@ -105,6 +168,9 @@
 				</li>
 			</ul>
 		</div>
+
+		<div class="todo">PAGE 2 TG: In order to clarify the axes of an oscilloscope plot, you may want to do a quick unplugged activity where you graph volume intensity over time on the board. Draw a coordinate axes on the board with "intensity" as the label on the vertical axis and "time" as the label on the horizontal axis. Try having one student sing a pitch (or just say a vowel for a long time: "oooooooooo") and vary the volume. As they do, draw a plot of their volume intensity over time. (That is, while moving the pen/marker from left to right at a constant speed across the board, draw the line higher when they get louder and draw the line lower when they get quieter.) Then, do the opposite: ask a student (or the class) to sing (or say a vowel) at the volume level you draw on a new graph. Start with your pen at the middle of the vertical-axis and while moving it from left to right, draw the line higher and lower to indicate the volume at which they should vocalize. This help students understand what an oscilloscope shows and also helps to distinguish "higher and lower volume" from "higher and lower frequency" which will become relevant soon. Note: if students struggle (or you expect them to struggle) to understand this activity on a two dimensional plot, try both parts of the activity on a one-dimensinoal vertical intensity plot first. (TODO: move this 1-D thing to the start of the activity for all students and create a pic of both the 1D and 2D coord systems)</div>
+
 
 
 
