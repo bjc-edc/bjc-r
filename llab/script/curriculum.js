@@ -343,7 +343,7 @@ llab.setupTitle = function() {
   // Create the header section and nav buttons
   llab.createTitleNav();
 
-  var titleText = llab.getQueryParameter("title");
+  let titleText = llab.getQueryParameter("title");
   if (titleText !== '') {
     document.title = titleText;
   }
