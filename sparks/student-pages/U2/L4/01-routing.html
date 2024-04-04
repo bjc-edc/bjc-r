@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unit 2 Lab 4: Routing Protocols, Activity 1</title>
+		<script type="text/javascript" src="/bjc-r/utilities/gifffer.min.js"></script>
+		<script type="text/javascript">window.onload = function() {Gifffer();}</script>
+		<link rel="stylesheet" type="text/css" href="/bjc-r/css/bjc-gifffer.css">
+	</head>
+
+	<body>
+		<h2>Finding the Best Routing Strategy</h2>
+		<div class="learn">In this activity, you'll explore how data is sent across the internet and experiment with routing protocols.</div>
+			
+		<div class="vocab">
+			<p>A <strong>router</strong> is a special type of computing device that knows how to send messages to other internet-connected devices.</p>
+			<img class="" src="/bjc-r/sparks/img/U2/lab04/router.jpg" alt="image of a router with one line input, 4 ethernet outputs, and a power socket" title="image of a router with one line input, 4 ethernet outputs, and a power socket" />
+			<div class="endnote"><small>Image by Wikipedia user Asim18.</small></div>
+		</div>
+		<p>The internet is a giant network that enables millions of computing devices to communicate with one another. That communication is possible thanks to <em>routers</em>.</p>
+
+		<p>
+			Below is an animation demostrating how a message travels through routers across the internet. Click it to watch it play.
+		</p>
+		<img class="indent" data-gifffer="/bjc-r/img/4-internet/redundancy-simple.gif" alt="A network of nodes joined with edges, with a sender node and a receiver node. " title="A network of nodes joined with edges, with a sender node and a receiver node. The sender is able to send a message to the receiver even when an intermediate node is damaged in the network, as the message is able to traverse an alternate path highlighting network's redundancy." />
+		<p>
+			Your computer sends a request to the nearest router (which you might even be able to see right now, if it's in the same room as your computer). The message then travels from router to router until it finally reaches the destination. There are many possible paths the message can take, including some paths that wouldn't reach the destination.</p>
+		<p>Fortunately, internet routing protocols help routers decide how to send a message along.</p>
+		<div class="vocabFullWidth"><p>A <strong>protocol</strong> is a standard set of rules for communication that everyone agrees to.</p></div>
+		<p>That means lots of different kinds of computing devices (laptops, desktops, phones, home assistants, etc), can all communicate with each other, because they all follow the same internet protocols.</p>
+		
+		<div class="forYouToDo">
+			<ol>
+				<li>Open this <a class="js-run snap-project" href="/bjc-r/sparks/prog/U2/lab04/routing-protocols.xml&editMode&noRun" title="Routers - Snap! project" target="_blank">Routers</a> project, and save it to your account.</li>
+				<li>
+					Click the <img class="inlines nopadtb" src="/bjc-r/sparks/img/U2/lab04/initialize-routers.png" alt="initialize routers" title="initialize routers" /> command block. It will draw a simple network on the stage.<br />
+					<img class="indent noshadow" src="/bjc-r/sparks/img/U2/lab04/router-setup.png" alt="network of routers A-F with some routers most connected than others" title="network of routers A-F with some routers most connected than others" />
+				</li>
+				<li>
+					Now you'll send messages between routers A-F. Drag the send message block to the stage.<br />
+					<img class="indent" src="/bjc-r/sparks/img/U2/lab04/send-message.png" alt="send message from router () to reouter () with strategy ()" title="send message from router () to reouter () with strategy ()" /><br />
+					This block accepts a router name (a letter) in the first blank, a router name (another letter) in the second blank, and an option selected from the strategy dropdown.
+				</li>
+				<li>
+					Try sending a message between two routers that aren't directly connected while experimenting with different routing strategies. For each experiment, note the number of routers and distance traveled. Try the experiment again with a different set of routers.
+					<div class="endnote">
+						<p>
+							Here's a short description of each strategy:
+							<ul>
+								<li><strong>Closest:</strong> Picks the directly connected router that's closest to the current router.</li>
+								<li><strong>Farthest:</strong> Picks the directly connected router that's farther from the current router.</li>
+								<li><strong>Random:</strong> Randomly picks any one of the directly connected routers.</li>
+								<li><strong>Lookup:</strong> Picks a router based on an internally stored table (i.e. for router A, a lookup for router F suggests going through router C).</li>
+							</ul>
+						</p>
+					</div>
+				</li>
+				<li>
+					<img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /><br />
+					Based on your experiments, which do you think is the best routing strategy? Or do you think it depends? Does the strategy always matter, or are there some situations where the result is always the same?
+				</li>
+			</ol>
+		</div>
+	
+		<p>The internet uses a strategy most similar to the lookup strategy. When a router receives a message, it checks the destination address of that message, and sees an address like 232.56.13.83. It then looks for that address in its internally stored lookup table. If the router is very close to the destination, it might find the entire address and be able to send it directly to the destination router. However, most likely, it'll find part of the address, like 232.56 and then will send the message to the next router that's best for handling those addresses.</p>
+		<p>It's a lot like the postal system; a postal office in Santa Fe, Mexico may not know the exact post office to handle an address in New Jersey, but it knows how to send the mail on a truck headed for a New Jersey post office. Then the New Jersey post office can figure it out from there!</p>
+
+		<div class="learn">In this activity, you learned explore how data is sent across the internet through a network of connected routers accorind to different routing protocols.</div>
+
+
+	</body>
+</html>
