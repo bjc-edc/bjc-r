@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unit 2 Lab 3: Make Some Noise, Activity 6</title>
+	</head>
+
+	<body>
+		<h2>Making Notes and Instruments</h2>
+		<div class="learn">In this activity, you will create notes by repeating a set of volume intensities and instruments by changing the intensities that you repeat.</div>
+		
+		<p>
+			<img class="imageRight" src="/bjc-r/sparks/img/U2/lab01/play-emoji-note.png" alt="play ♪ pitch: () beats: ()" title="play ♪ pitch: () beats: ()" />
+			In Lab 1: Song Player, you used Snap<em>!</em> to play specific pitches. You can create pitches by repeating a sample of noise. The frequency at which the static repeats will determine the pitch of the note you hear.
+		</p>
+		<h3>Making a Note</h3>
+		<div class="forYouToDo">
+			<ol start="1">
+				<li>Open your "Sparks-Making-Noise" project if isn't open already.</li>
+				<li>
+					Now instead of creating a noise with 44100 intensity values, as you did in the previous activity, create a new variable called <img class="inline nopadtb" src="/bjc-r/sparks/img/U2/lab05/short-noise.png" alt="short noise" title="short noise" /> and load the list with fewer intensity values (such as 240).
+					<div class="endnote">
+						<p><a href="#shorter-noise" data-toggle="collapse" title="Click for walkthrough images of how to create a shorter noise with fewer intensity values.">Click for walk-through images.</a></p>
+						<div id="shorter-noise" class="collapse">
+							<img class="indent" src="/bjc-r/sparks/img/U2/lab05/show-short-noise.png" alt="show variable (short noise)" title="show variable (short noise)" />
+							<img class="indent" src="/bjc-r/sparks/img/U2/lab05/play-sound-short-noise.png" alt="play sound (short noise)" title="play sound (short noise)" />
+							<img class="indent" src="/bjc-r/sparks/img/U2/lab05/generator-short-noise.png" alt="warp {
+			set (short noise) to (list)
+			repeat (240) {
+				add (pick random (-0.99999) to (1)) to (short noise)
+			}
+		}" title="warp {
+			set (short noise) to (list)
+			repeat (240) {
+				add (pick random (-0.99999) to (1)) to (short noise)
+			}
+		}" />
+							<p>You'll need to move the watcher on the stage to see all variables at the same time.</p>
+						</div>
+					</div>
+				</li>
+				<li>
+					Then create another variable called <img class="inline nopadtb" src="/bjc-r/sparks/img/U2/lab05/repeated-short-noise.png" alt="repeated short noise" title="repeated short noise" />, add enough copies of the intensity values from <var>short noise</var> to make one second of sound, and play <var>repeated short noise</var>. The repeated short noise sample should sound more like a note than the plain noise in the last activity did.
+					<div class="endnote">
+						<p><a href="#repeated-shorter-noise" data-toggle="collapse" title="Click for walkthrough images of how to create a repeated shorter noise.">Click for walk-through images.</a></p>
+						<div id="repeated-shorter-noise" class="collapse">
+							<img class="indent" src="/bjc-r/sparks/img/U2/lab05/show-repeated-short-noise.png" alt="show variable (repeated short noise)" title="show variable (repeated short noise)" />
+							<img class="indent" src="/bjc-r/sparks/img/U2/lab05/play-sound-repeated-short-noise.png" alt="play sound (repeated short noise)" title="play sound (repeated short noise)" />
+							<img class="indent" src="/bjc-r/sparks/img/U2/lab05/generator-repeated-short-noise.png" alt="warp {
+			set (repeated short noise) to (list)
+			repeat ((sample rate) of sound (microphone (samples)) / (length) of (short noise)) {
+				for each (sample) in (short noise) {
+					add (sample) to (repeated short noise)
+				}
+			}
+		}" title="warp {
+			set (repeated short noise) to (list)
+			repeat ((sample rate) of sound (microphone (samples)) / (length) of (short noise)) {
+				for each (sample) in (short noise) {
+					add (sample) to (repeated short noise)
+				}
+			}
+		}" />
+						</div>
+					</div>
+				</li>
+			</ol>
+		</div>
+		<div class="ifTime show">
+			<ol start="4">
+				<li>
+					<img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
+					How does the <code>for each</code> loop in this version of the code work to fill up the <var>repeated short noise</var> list?<br />
+					<img class="indent" src="/bjc-r/sparks/img/U2/lab05/generator-repeated-short-noise-for-each.png" alt="for each (sample) in (short noise) {
+	add (sample) to (repeated short noise)
+}" title="for each (sample) in (short noise) {
+	add (sample) to (repeated short noise)
+}" />
+				</li>
+				<li>
+					<img class="imageRight" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
+					The example code in the walk-through images above uses this expression to determine how many copies <var>short noise</var> to put in <var>repeated short noise</var>. How does this code ensure that <var>repeated short noise</var> contains exactly one second of sound samples?<br />
+					<img class="indent" src="/bjc-r/sparks/img/U2/lab05/repeat-times-repeated-short-noise.png" alt="(sample rate) of sound (microphone (samples)) / (length) of (short noise)" title="(sample rate) of sound (microphone (samples)) / (length) of (short noise)" />
+				</li>
+			</ol>
+		</div>
+		
+		<h3>Making Other Notes</h3>
+		<div class="ifTime">
+			<ol start="6">
+				<div class="sidenoteBig">If your Snap<em>!</em> stage gets too crowded with variable watchers, use the <code>show variable</code> and <code>hide variable</code> blocks to control which watchers are displayed.</div>
+				<li>Create a two new variables, <img class="inline nopadtb" src="/bjc-r/sparks/img/U2/lab05/shorter-noise.png" alt="shorter noise" title="shorter noise" /> and <img class="inline nopadtb" src="/bjc-r/sparks/img/U2/lab05/repeated-shorter-noise.png" alt="repeated shorter noise" title="repeated shorter noise" />.</li>
+				<li>Load the <var>shorter noise</var> variable with even fewer intensity values (such as 60).</li>
+				<li>Add enough copies of <var>shorter noise</var> to <var>repeated shorter noise</var> to make  one second of sound, and play <var>repeated shorter noise</var>. It should sound higher in pitch than the <var>short noise</var>.</li>
+				<div class="endnote">A shorter length of repeated sound means that the sound will be repeated more frequently, which makes for a higher frequency.</div>
+			</ol>
+		</div>
+		
+		<h3>Making Other Instruments</h3>
+		<div class="ifTime">
+			<ol start="9">
+				<li>
+					Change the way the notes sound by changing the signal intensity values in the short sample that gets repeated. For example, you might make <var>square sample</var> and <var>repeated square sample</var> variables and load the sample with 60 negative values followed by 60 positive values to make a "square wave":<br />
+					<img class="indent" src="/bjc-r/sparks/img/U2/lab05/generator-square.png" alt="warp {
+	set (square sample) to (list)
+	repeat (60) {
+		add (-0.5) to (square sample)
+	}
+	repeat (60) {
+		add (0.5) to (square sample)
+	}
+}" title="warp {
+	set (square sample) to (list)
+	repeat (60) {
+		add (-0.5) to (square sample)
+	}
+	repeat (60) {
+		add (0.5) to (square sample)
+	}
+}" /><br />
+					Or you might have the values in the short sample start negative and then go up slowly.<br />
+					<img class="indent" src="/bjc-r/sparks/img/U2/lab05/generator-sawtooth.png" alt="warp {
+	set (sawtooth sample) to (list)
+	for (-50) to (50) {
+		add (i / 100) to (sawtooth sample)
+	}
+}" title="warp {
+	set (sawtooth sample) to (list)
+	for (-50) to (50) {
+		add (i / 100) to (sawtooth sample)
+	}
+}" />
+					<img class="indent" src="/bjc-r/sparks/img/U2/lab05/sawtooth-sample-watcher.png" alt="sawtooth variable watcher showing a list containing 101 items: {-0.5, -0.49, -0.48, -0.47, -0.46, -0.45, -0.44, -0.43, ...}" title="sawtooth variable watcher showing a list containing 101 items: {-0.5, -0.49, -0.48, -0.47, -0.46, -0.45, -0.44, -0.43, ...}" />
+				</li>
+			</ol>
+		</div>
+
+		<h3>Visualizing Your Own Sounds</h3>
+		<div class="forYouToDo">
+			<ol start="10">
+				<li>
+					<img class="imageRight" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
+					Run your oscilloscope or the spectrum analyzer while you play some of the notes and instruments you created. How does the visualization correspond with what you hear?</li>
+				<li><img class="inline" src="/bjc-r/img/icons/save-now.png" alt="Now Is a Good Time to Save" title="Now Is a Good Time to Save" /></li>
+			</ol>
+		</div>
+
+		<div class="learn">In this activity, you created your own notes and intruments by creating and repeating a set of sound intensity values, and you used your oscilloscope or the spectrum analyzer to "see" the sounds you created.</div>
+
+
+	</body>
+</html>
