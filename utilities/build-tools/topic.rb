@@ -1,11 +1,11 @@
 require_relative 'bjc_helpers'
 
 class BJCTopic
-  attr_reader :file_path, :file_name, :title, :language
+  attr_reader :file_path, :course, :title, :language
 
-  # TODO: Is it useful to know the course a topic came with?
   def initialize(path, course: nil, language: 'en')
     @file_path = path
+    @course = course
 
     if !File.exist?(@file_path)
       raise "Error: No file found at #{file_path}"
@@ -39,12 +39,54 @@ class BJCTopic
   # This should explicitly exclude the 3 compiled HTML pages.
   def all_pages; end
 
-  def all_pages_with_summaries; end
+  # Return all valid links to HTML pages as an array (no nesting)
+  def all_pages_with_summaries
+    parsed_topic_object[:topics].map do |topic|
+      # binding.irb
+      topic[:content].map do |section|
+        if section[:type] == 'section'
+          extract_pages_in_section(section)
+        elsif section[:type] == 'resource'
+          item[:url]
+        end
+      end.flatten
+    end.flatten
+  end
+
+  # TODO: this should be private(?)
+  # Takes in one "section" of the parsed topic object
+  def extract_pages_in_section(parsed_section)
+    parsed_section[:content].map do |item|
+      if item[:type] == 'resource'
+        item[:url]
+      elsif item[:type] == 'section'
+        extract_pages_in_section(item)
+      else
+        nil
+      end
+    end.flatten.compact
+  end
 
   def to_h = parse
 
   def to_json(*_args)
     to_h.to_json
+  end
+
+  # Just the part of the file path relative to the topic/ directory
+  # This is used in the URL for the topic, ?topic=llab_reference_path
+  def llab_reference_path
+    # Strips everything before the topic/ directory
+    @file_path.match(/\/topic\/(.*\.topic)/)[1]
+  end
+
+  # Build a compliant llab URL that would show the full page w/ navigation
+  # Adds a topic and course reference to the URL
+  def augmented_page_paths_in_topic
+    puts "Augmenting page paths in topic @ #{@file_path}"
+    all_pages_with_summaries.map do |path|
+      "#{path}?topic=#{llab_reference_path}&course=#{course}"
+    end
   end
 
   # TODO: Cleanup when we move to a topic parser class.
@@ -228,7 +270,7 @@ class BJCTopic
   #not fully function - vic added
   def generate_topic_file(json_hash)
     topic_file = "title: #{json_hash[:title]}\n"
-    
+
     json_hash[:content].each do |section|
       topic_file += "\nheading: #{section[:title]}\n"
       section[:content].each do |item|
@@ -239,9 +281,7 @@ class BJCTopic
         end
       end
     end
-    
-    File.open(topic_file, 'w') {|f| f.write(topic_file) }
 
+    File.open(topic_file, 'w') {|f| f.write(topic_file) }
   end
-  
 end

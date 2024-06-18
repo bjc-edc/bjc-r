@@ -94,7 +94,7 @@ llab.secondarySetUp = function (newPath) {
     let id = `hint-${contentType}-${i}`;
     this.innerHTML = `
       <a style='font-size: 18px;' href='#${id}' data-toggle='collapse'
-        role="button" aria-controls="#${id}" aria-expanded=${isVisible}>
+        role="button" aria-controls="${id}" aria-expanded=${isVisible}>
         <strong>${t(contentType)}</strong>
       </a>
       <div id='${id}' class='collapse'>
