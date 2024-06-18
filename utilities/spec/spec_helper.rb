@@ -26,23 +26,31 @@ require 'axe-capybara'
 require 'capybara/dsl'
 require 'capybara/session'
 
+# This is the root of the repository, e.g. the bjc-r directory
+# Update this is you move this file.
+REPO_ROOT = File.expand_path('../../', __dir__)
+
 # https://nts.strzibny.name/how-to-test-static-sites-with-rspec-capybara-and-webkit/
 class StaticSite
   attr_reader :root, :server
 
+  # TODO: Rack::File will be deprecated soon. Find a better solution.
   def initialize(root)
     @root = root
     @server = Rack::File.new(root)
   end
 
   def call(env)
-    path = env['PATH_INFO']
+    # Remove the /bjc-r prefix, which is present in all URLs, but not in the file system.
+    path = env['PATH_INFO'].gsub('/bjc-r', '')
 
     # Use index.html for / paths
     if path == '/' && exists?('index.html')
       env['PATH_INFO'] = '/index.html'
     elsif !exists?(path) && exists?(path + '.html')
-      env['PATH_INFO'] += '.html'
+      env['PATH_INFO'] = "#{path}.html"
+    else
+      env['PATH_INFO'] = path
     end
 
     server.call(env)
@@ -55,6 +63,8 @@ end
 
 RSpec.configure do |config|
   config.include Capybara::DSL
+
+  Capybara.save_path = File.join(REPO_ROOT, 'tmp')
 
   # Allow rspec to use `--only-failures` and `--next-failure` flags
   # Ensure that `tmp` is in your `.gitignore` file
@@ -103,30 +113,11 @@ RSpec.configure do |config|
   Capybara.default_driver = :chrome_headless
   Capybara.javascript_driver = :chrome_headless
 
-  Capybara.run_server = false
-  # TODO: Do we need to ensure the ports are aligned?
-  Capybara.app_host = 'http://localhost:8000/'
-
-  server_job = nil
-  config.before(:suite) do
-    # launch the server (currently a Python process...)
-    # TODO: Ensure the path to run-server is correct
-    run_server_path = File.join(File.dirname(__FILE__), '..', '..', 'run-server')
-    server_job = fork do
-      exec `#{run_server_path} > /dev/null 2>&1 &`
+  # Setup for Capybara to serve static files served by Rack
+  Capybara.app = Rack::Builder.new do
+    map '/' do
+      use Rack::Lint
+      run StaticSite.new(REPO_ROOT)
     end
-  end
-
-  config.after(:suite) do
-    # kill the server
-    Process.kill('TERM', server_job)
-  end
-
-  # # Setup for Capybara to serve static files served by Rack
-  # Capybara.app = Rack::Builder.new do
-  #   map '/' do
-  #     use Rack::Lint
-  #     run StaticSite.new(File.join(File.dirname(__FILE__), '..'))
-  #   end
-  # end.to_app
+  end.to_app
 end

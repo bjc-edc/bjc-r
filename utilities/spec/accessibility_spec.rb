@@ -22,28 +22,23 @@ COURSES = %w[
 ]
 
 def load_site_urls(courses)
-  puts "Buidling list of site URLs"
   courses.map do |course|
+    puts "Buidling URLs for #{course}..."
     load_all_urls_in_course("#{course}.html")
   end.flatten
 end
 
 def extract_urls_from_page(topic_file, course)
-  # Use nokogiri to extract all URLs from the page
-  puts "Eventually will load #{topic_file} in course #{course}"
   topic_file = File.join(File.dirname(__FILE__), '..', '..', 'topic', topic_file)
-  # TODO: handle spanish files with .es.html course names
-  topic_parser = BJCTopic.new(topic_file, course: course, language: 'en')
-
+  lang = topic_file.match(/\.(\w\w)\.topic/) ? Regexp.last_match(1) : 'en'
+  topic_parser = BJCTopic.new(topic_file, course: course, language: lang)
   topic_parser.augmented_page_paths_in_topic
 end
 
 def load_all_urls_in_course(course)
   # This is slow...
   # Read the course page, then add all "Unit" URLs to the list
-  # Visit each Unit (topic file) then add all topic URLs to the list
-  # Extract all .topic_container -> .topic_url URLs
-  # read the course html file
+  # TODO: Use the BJCCourse class to extract the URLs
   results = [ "/bjc-r/#{course}" ]
   course_file = File.join(File.dirname(__FILE__), '..', '..', 'course', course)
   doc = Nokogiri::HTML(File.read(course_file))
@@ -72,7 +67,6 @@ index_pages = Dir.glob(site).filter_map { |f| f.gsub(base_path, '/bjc-r') if !f.
 ALL_PAGES.concat(index_pages)
 ALL_PAGES.concat(load_site_urls(COURSES)).reject! { |u| !u.start_with?('/bjc-r') }.uniq!
 
-# puts ALL_PAGES
 puts "Running tests on #{ALL_PAGES.count} pages."
 # puts "  - #{ALL_PAGES.join("\n  - ")}\n#{'=' * 72}\n\n"
 
@@ -85,9 +79,7 @@ complete_a11y_standards = %i[wcag21a wcag21 wcag22aa best-practice secion508]
 # axe-core rules that are not required to be accessible / do not apply
 # See: https://github.com/dequelabs/axe-core/blob/develop/doc/rule-descriptions.md
 skipped_rules = [
-  # This rule is disabled because the static files don't have a title.
-  # A title is added by llab when served properly.
-  'document-title',
+
 ]
 # These are elements that are not required to be accessible
 excluded_elements = [
@@ -105,18 +97,17 @@ ALL_PAGES.each do |path|
 
     # These tests should always be enabled.
     it 'according to WCAG 2.0 AA' do
-      # binding.irb
       expect(page).to be_axe_clean
         .according_to(*required_a11y_standards, "#{path} does NOT meet WCAG 2.0 AA")
         .skipping(*skipped_rules)
         .excluding(*excluded_elements)
     end
 
-    it 'according to WCAG 2.2 and all additional standards', :skip do
-      expect(page).to be_axe_clean
-        .according_to(*complete_a11y_standards)
-        .skipping(*skipped_rules)
-        .excluding(*excluded_elements)
-    end
+    # it 'according to WCAG 2.2 and all additional standards', :skip do
+    #   expect(page).to be_axe_clean
+    #     .according_to(*complete_a11y_standards)
+    #     .skipping(*skipped_rules)
+    #     .excluding(*excluded_elements)
+    # end
   end
 end
