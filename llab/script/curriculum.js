@@ -93,7 +93,7 @@ llab.secondarySetUp = function (newPath) {
     let contentType = lookupClassName(TOGGLE_HEADINGS, classList);
     let id = `hint-${contentType}-${i}`;
     this.innerHTML = `
-      <a style='font-size: 18px;' href='#${id}' data-toggle='collapse'
+      <a style='font-size: 20px;' href='#${id}' data-toggle='collapse'
         role="button" aria-controls="${id}" aria-expanded=${isVisible}>
         <strong>${t(contentType)}</strong>
       </a>
