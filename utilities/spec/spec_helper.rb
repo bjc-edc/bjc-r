@@ -63,6 +63,14 @@ end
 
 RSpec.configure do |config|
   config.include Capybara::DSL
+  # Setup for Capybara to serve static files served by Rack
+  Capybara.server = :webrick
+  Capybara.app = Rack::Builder.new do
+    map '/' do
+      use Rack::Lint
+      run StaticSite.new(REPO_ROOT)
+    end
+  end.to_app
 
   Capybara.save_path = File.join(REPO_ROOT, 'tmp')
 
@@ -112,12 +120,4 @@ RSpec.configure do |config|
   # Should be :chrome_headless in CI though.
   Capybara.default_driver = :chrome_headless
   Capybara.javascript_driver = :chrome_headless
-
-  # Setup for Capybara to serve static files served by Rack
-  Capybara.app = Rack::Builder.new do
-    map '/' do
-      use Rack::Lint
-      run StaticSite.new(REPO_ROOT)
-    end
-  end.to_app
 end
