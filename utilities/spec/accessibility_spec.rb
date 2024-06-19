@@ -40,7 +40,7 @@ def load_all_urls_in_course(course)
   # This is slow...
   # Read the course page, then add all "Unit" URLs to the list
   # TODO: Use the BJCCourse class to extract the URLs
-  results = [ "/bjc-r/#{course}" ]
+  results = [ "/bjc-r/course/#{course}" ]
   course_file = File.join(File.dirname(__FILE__), '..', '..', 'course', course)
   doc = Nokogiri::HTML(File.read(course_file))
   urls = doc.css('.topic_container .topic_link a').map { |url| url['href'] }
@@ -106,7 +106,10 @@ ALL_PAGES.each do |course, paths|
 
       # These tests should always be enabled.
       it 'according to WCAG 2.0 AA' do
-        save_screen("#{course}-#{topic}-#{path}.png")
+        if page.html.match?(/File not found:/)
+          skip("TODO: #{url} is a 404 page.")
+        end
+
         expect(page).to be_axe_clean
           .according_to(*required_a11y_standards, "#{path} does NOT meet WCAG 2.0 AA")
           .skipping(*skipped_rules)

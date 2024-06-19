@@ -20,6 +20,7 @@ require 'rspec'
 require 'rack'
 
 require 'capybara/rspec'
+# require 'capybara-screenshot/rspec'
 require 'rack/test'
 require 'axe-rspec'
 require 'axe-capybara'
@@ -62,18 +63,40 @@ class StaticSite
   end
 end
 
+# Capybara::Screenshot.prune_strategy = :keep_last_run
+
+# Setup for Capybara to serve static files served by Rack
+Capybara.server = :webrick
+Capybara.app = Rack::Builder.new do
+  map '/' do
+    use Rack::Lint
+    run StaticSite.new(REPO_ROOT)
+  end
+end.to_app
+
+Capybara.save_path = File.join(REPO_ROOT, 'tmp')
+
+Capybara.register_driver :chrome_headless do |app|
+  options = Selenium::WebDriver::Chrome::Options.new
+  options.add_argument('--headless')
+  options.add_argument('--no-sandbox')
+  options.add_argument('--disable-dev-shm-usage')
+  # macbook air ~13" screen width
+  options.add_argument('--window-size=1280,2500')
+
+  Capybara::Selenium::Driver.new(app, browser: :chrome, options:)
+end
+
+# Should be :chrome_headless in CI though.
+Capybara.default_driver = :chrome_headless
+Capybara.javascript_driver = :chrome_headless
+
+# Capybara::Screenshot.register_driver(:chrome_headless) do |driver, path|
+#   driver.save_screenshot(path, full: true)
+# end
+
 RSpec.configure do |config|
   config.include Capybara::DSL
-  # Setup for Capybara to serve static files served by Rack
-  Capybara.server = :webrick
-  Capybara.app = Rack::Builder.new do
-    map '/' do
-      use Rack::Lint
-      run StaticSite.new(REPO_ROOT)
-    end
-  end.to_app
-
-  Capybara.save_path = File.join(REPO_ROOT, 'tmp')
 
   # Allow rspec to use `--only-failures` and `--next-failure` flags
   # Ensure that `tmp` is in your `.gitignore` file
@@ -105,20 +128,4 @@ RSpec.configure do |config|
   # inherited by the metadata hash of host groups and examples, rather than
   # triggering implicit auto-inclusion in groups with matching metadata.
   config.shared_context_metadata_behavior = :apply_to_host_groups
-
-  Capybara.register_driver :chrome_headless do |app|
-    options = Selenium::WebDriver::Chrome::Options.new
-    options.add_argument('--headless')
-    options.add_argument('--no-sandbox')
-    options.add_argument('--disable-dev-shm-usage')
-    # macbook air ~13" screen size
-    options.add_argument('--window-size=1280,800')
-
-    Capybara::Selenium::Driver.new(app, browser: :chrome, options:)
-  end
-
-  # Change default_driver to :selenium_chrome if you want to actually see the tests running in a browser locally.
-  # Should be :chrome_headless in CI though.
-  Capybara.default_driver = :chrome_headless
-  Capybara.javascript_driver = :chrome_headless
 end
