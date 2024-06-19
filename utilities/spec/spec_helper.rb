@@ -27,6 +27,8 @@ require 'axe-capybara'
 require 'capybara/dsl'
 require 'capybara/session'
 
+require_relative './spec_summary'
+
 # This is the root of the repository, e.g. the bjc-r directory
 # Update this is you move this file.
 REPO_ROOT = File.expand_path('../../', __dir__)
@@ -128,4 +130,9 @@ RSpec.configure do |config|
   # inherited by the metadata hash of host groups and examples, rather than
   # triggering implicit auto-inclusion in groups with matching metadata.
   config.shared_context_metadata_behavior = :apply_to_host_groups
+
+  # config.after(:suite) do
+  #   # defined in the spec_summary file
+  #   print_summary
+  # end
 end
