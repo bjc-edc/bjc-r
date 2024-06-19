@@ -48,13 +48,14 @@ def load_all_urls_in_course(course)
   topic_pages = urls.filter_map do |url|
     next unless url.match?(/\.topic/)
 
-    results << "#{url}&course=#{course}"
+    query_separator = url.match?(/\?/) ? '&' : '?'
+    results << "#{url}#{query_separator}course=#{course}"
     topic_file = url.match(/topic=(.*\.topic)/)[1]
     extract_urls_from_page(topic_file, course)
   end.flatten
 
   results << topic_pages
-  results << urls.filter_map { |url| "#{url}&course=#{course}" if !url.match?(/\.topic/) }
+  results << urls.filter_map { |url| "#{url}#{url.match?(/\?/) ? '&' : '?'}course=#{course}" if !url.match?(/\.topic/) }
   results.flatten.reject { |u| !u.start_with?('/bjc-r') }.uniq
 end
 
@@ -88,24 +89,24 @@ excluded_elements = [
 
 # ALL_PAGES is a hash of course names to arrays of URLs
 ALL_PAGES.each do |course, paths|
-  paths.each do |path|
-    fileted_path = path.gsub('/bjc-r/', '')
-    topic = fileted_path.match(/topic=(.*\.topic)/) ? Regexp.last_match(1) : 'no-topic'
+  paths.each do |url|
+    path = url.gsub('/bjc-r', '')
+    topic = path.match(/topic=(.*\.topic)/) ? Regexp.last_match(1) : 'no-topic'
     # Trim all query parameters
-    fileted_path = fileted_path.split('?').first
+    path = path.split('?').first
 
     # using course as a tag allows passing `--tag bjc4nyc` to rspec to run only the
     # tests for that course.
-    describe "#{course} : #{topic} : #{fileted_path} is accessible",
+    describe "#{course} : #{topic} : #{path} is accessible",
       type: :feature, js: true, course.to_sym => true do
 
       before(:each) do
-        visit(path)
-        # Esure the response is OK
+        visit(url)
       end
 
       # These tests should always be enabled.
       it 'according to WCAG 2.0 AA' do
+        save_screen("#{course}-#{topic}-#{path}.png")
         expect(page).to be_axe_clean
           .according_to(*required_a11y_standards, "#{path} does NOT meet WCAG 2.0 AA")
           .skipping(*skipped_rules)

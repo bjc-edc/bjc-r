@@ -44,6 +44,7 @@ class StaticSite
     # Remove the /bjc-r prefix, which is present in all URLs, but not in the file system.
     path = env['PATH_INFO'].gsub('/bjc-r', '')
 
+
     # Use index.html for / paths
     if path == '/' && exists?('index.html')
       env['PATH_INFO'] = '/index.html'
