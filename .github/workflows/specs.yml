@@ -3,10 +3,21 @@ name: Run rspec tests
 on: [pull_request]
 
 jobs:
-  build:
+  a11y:
     runs-on: ubuntu-latest
+    continue-on-error: true
     env:
       BUNDLE_GEMFILE: utilities/Gemfile
+    strategy:
+      matrix:
+        # The files in /bjc-r/course w/o a .html extension
+        # These correspond to rspec tags for each test run.
+        course:
+          - bjc4nyc
+          - bjc4nyc.es
+          - sparks
+          - bjc4nyc_teacher
+          - sparks-teacher
     steps:
       - uses: actions/checkout@v3
       - uses: ruby/setup-ruby@v1
@@ -15,7 +26,7 @@ jobs:
           # TODO: Can we specifiy a different file path?
           ruby-version: 3.2.2
           bundler-cache: true
-      - name: Run rspec tests
-        run: |
-            bundle exec rspec utilities/spec
-            ruby utilities/spec_summary.rb
+      - name: ${{ matrix.course }} - a11y tests
+        run: bundle exec rspec utilities/spec --tag ${{ matrix.course }}
+      - name: ${{ matrix.course }} - a11y summary
+        run: ruby utilities/spec_summary.rb
