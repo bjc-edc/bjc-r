@@ -18,6 +18,9 @@ jobs:
           - sparks
           - bjc4nyc_teacher
           - sparks-teacher
+        suite:
+          - wcag20
+          - wcag22
     steps:
       - uses: actions/checkout@v3
       - uses: ruby/setup-ruby@v1
@@ -27,4 +30,4 @@ jobs:
           ruby-version: 3.2.2
           bundler-cache: true
       - name: ${{ matrix.course }} - a11y tests
-        run: bundle exec rspec utilities/spec --tag ${{ matrix.course }}
+        run: bundle exec rspec utilities/spec --tag ${{ matrix.course }} --tag ${{ matrix.suite }}

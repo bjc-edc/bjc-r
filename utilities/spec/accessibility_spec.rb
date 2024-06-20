@@ -105,7 +105,7 @@ ALL_PAGES.each do |course, paths|
       end
 
       # These tests should always be enabled.
-      it 'according to WCAG 2.0 AA' do
+      it 'according to WCAG 2.0 AA', wcag20: true do
         if page.html.match?(/File not found:/)
           skip("TODO: #{url} is a 404 page.")
         end
@@ -116,13 +116,12 @@ ALL_PAGES.each do |course, paths|
           .excluding(*excluded_elements)
       end
 
-      # TODO: This is commented out just to reduce the noise...
-      # it 'according to WCAG 2.2 and all additional standards', :skip do
-      #   expect(page).to be_axe_clean
-      #     .according_to(*complete_a11y_standards)
-      #     .skipping(*skipped_rules)
-      #     .excluding(*excluded_elements)
-      # end
+      it 'according to WCAG 2.2 and all additional standards', wcag22: true do
+        expect(page).to be_axe_clean
+          .according_to(*complete_a11y_standards)
+          .skipping(*skipped_rules)
+          .excluding(*excluded_elements)
+      end
     end
   end
 end
