@@ -87,8 +87,17 @@ excluded_elements = [
   'var', # Snap! elements don't have enough color contrast.
 ]
 
+def test_tags(tags)
+  Hash[tags.map { |k| [k.to_sym, true] }]
+end
+
 # ALL_PAGES is a hash of course names to arrays of URLs
 ALL_PAGES.each do |course, paths|
+    # A little hacky, but rspec --tag doesn't allow "and" conditions.
+    # Allows CI to run only the tests for a specific course AND standard.
+    wcag20_tags = test_tags([course, :wcag20, "#{course}_wcag20"])
+    wcag22_tags = test_tags([course, :wcag22, "#{course}_wcag22"])
+
   paths.each do |url|
     path = url.gsub('/bjc-r', '')
     topic = path.match(/topic=(.*\.topic)/) ? Regexp.last_match(1) : 'no-topic'
@@ -105,11 +114,6 @@ ALL_PAGES.each do |course, paths|
           skip("TODO: #{url} is a 404 page.")
         end
       end
-
-      # A little hacky, but rspec --tag doesn't allow "and" conditions.
-      # Allows CI to run only the tests for a specific course AND standard.
-      wcag20_tags = { course.to_sym => true, wcag20: true, "#{course}_wcag20".to_sym => true }
-      wcag22_tags = { course.to_sym => true, wcag22: true, "#{course}_wcag22".to_sym => true }
 
       # These tests should always be enabled.
       it 'according to WCAG 2.0 AA', **wcag20_tags do
