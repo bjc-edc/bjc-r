@@ -97,26 +97,29 @@ ALL_PAGES.each do |course, paths|
 
     # using course as a tag allows passing `--tag bjc4nyc` to rspec to run only the
     # tests for that course.
-    describe "#{course} : #{topic} : #{path} is accessible",
-      type: :feature, js: true, course.to_sym => true do
-
+    describe "#{course} : #{topic} : #{path} is accessible", type: :feature, js: true do
       before(:each) do
         visit(url)
-      end
 
-      # These tests should always be enabled.
-      it 'according to WCAG 2.0 AA', wcag20: true do
         if page.html.match?(/File not found:/)
           skip("TODO: #{url} is a 404 page.")
         end
+      end
 
+      # A little hacky, but rspec --tag doesn't allow "and" conditions.
+      # Allows CI to run only the tests for a specific course AND standard.
+      wcag20_tags = { course.to_sym => true, wcag20: true, "#{course}_wcag20".to_sym => true }
+      wcag22_tags = { course.to_sym => true, wcag22: true, "#{course}_wcag22".to_sym => true }
+
+      # These tests should always be enabled.
+      it 'according to WCAG 2.0 AA', **wcag20_tags do
         expect(page).to be_axe_clean
           .according_to(*required_a11y_standards, "#{path} does NOT meet WCAG 2.0 AA")
           .skipping(*skipped_rules)
           .excluding(*excluded_elements)
       end
 
-      it 'according to WCAG 2.2 and all additional standards', wcag22: true do
+      it 'according to WCAG 2.2 and all additional standards', **wcag22_tags do
         expect(page).to be_axe_clean
           .according_to(*complete_a11y_standards)
           .skipping(*skipped_rules)

@@ -25,9 +25,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: ruby/setup-ruby@v1
         with:
-          # Use the .ruby-version file in the repository
-          # TODO: Can we specifiy a different file path?
           ruby-version: 3.2.2
           bundler-cache: true
-      - name: ${{ matrix.course }} - a11y tests
-        run: bundle exec rspec utilities/spec --tag ${{ matrix.course }} --tag ${{ matrix.suite }}
+      - name: a11y tests
+        run: bundle exec rspec utilities/spec --tag ${{ matrix.course }}_${{ matrix.suite }}
