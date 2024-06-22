@@ -329,7 +329,7 @@ llab.setupTitle = function() {
 
   // Create .full before adding stuff.
   if ($(FULL).length === 0) {
-    $(document.body).wrapInner('<div class="full"></div>');
+    $(document.body).wrapInner('<main class="full"></main>');
   }
   llab.setAdditionalClasses();
 
