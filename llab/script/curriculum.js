@@ -93,8 +93,8 @@ llab.secondarySetUp = function (newPath) {
     let contentType = lookupClassName(TOGGLE_HEADINGS, classList);
     let id = `hint-${contentType}-${i}`;
     this.innerHTML = `
-      <a style='font-size: 18px;' href='#${id}' data-toggle='collapse'
-        role="button" aria-controls="#${id}" aria-expanded=${isVisible}>
+      <a style='font-size: 20px;' href='#${id}' data-toggle='collapse'
+        role="button" aria-controls="${id}" aria-expanded=${isVisible}>
         <strong>${t(contentType)}</strong>
       </a>
       <div id='${id}' class='collapse'>
@@ -262,7 +262,6 @@ llab.processLinks = (data) => {
 
     // Make the current step have an arrow in the dropdown menu
     if (isCurrentPage) {
-      console.log('isCurrentPage...')
       llab.pageNum = pageCount;
       itemContent = llab.spanTag(itemContent, 'current-page-arrow');
     }
@@ -330,7 +329,7 @@ llab.setupTitle = function() {
 
   // Create .full before adding stuff.
   if ($(FULL).length === 0) {
-    $(document.body).wrapInner('<div class="full"></div>');
+    $(document.body).wrapInner('<main class="full"></main>');
   }
   llab.setAdditionalClasses();
 
@@ -381,14 +380,14 @@ llab.createTitleNav = function() {
     navURL = location.pathname;
   }
 
-  let previousPageButton = `
-      <a class='btn btn-nav hidden js-backPageLink js-navButton'
-        aria-label="${t('backText')}">
+  let previousButtonLabel = `aria-label="${t('backText')}"`,
+    nextButtonLabel = `aria-label="${t('nextText')}"`,
+    previousPageButton = `
+      <a class='btn btn-nav hidden js-backPageLink js-navButton' ${previousButtonLabel}>
         <i class="fas fa-arrow-left" aria-hidden=true></i>
       </a>`,
     nextPageButton = `
-      <a class='btn btn-nav hidden js-nextPageLink js-navButton'
-        aria-label="${t('nextText')}">
+      <a class='btn btn-nav hidden js-nextPageLink js-navButton' ${nextButtonLabel}>
         <i class="fas fa-arrow-right" aria-hidden=true></i>
       </a>`,
     // use \u00F1 instead of an ñ in the menu. (Issue in Chrome on topic pages)
@@ -504,18 +503,20 @@ llab.setButtonURLs = function() {
   $('.js-navButton').removeClass('hidden').off('click');
 
   if (llab.thisPageNum() === 0) {
-    back.addClass('disabled').removeAttr('href').attr('disabled', true);
+    back.addClass('disabled').removeAttr('href').removeAttr('aria-label').attr('disabled', true);
   } else {
     back.removeClass('disabled').removeAttr('disabled')
+      .attr('aria-label', llab.t('backText'))
       .attr('href', llab.url_list[llab.thisPageNum() - 1])
       .on('click', llab.dynamicNavigation(llab.url_list[llab.thisPageNum() - 1]));
   }
 
   // Disable the forward button
   if (llab.thisPageNum() === llab.url_list.length - 1) {
-    forward.addClass('disabled').removeAttr('href').attr('disabled', true);
+    forward.addClass('disabled').removeAttr('href').removeAttr('aria-label').attr('disabled', true);
   } else {
     forward.removeClass('disabled').removeAttr('disabled')
+      .attr('aria-label', llab.t('nextText'))
       .attr('href', llab.url_list[llab.thisPageNum() + 1])
       .on('click', llab.dynamicNavigation(llab.url_list[llab.thisPageNum() + 1]));
   }
