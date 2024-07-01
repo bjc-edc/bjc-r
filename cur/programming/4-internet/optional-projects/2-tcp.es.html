@@ -1,96 +1,89 @@
 <!DOCTYPE html>
 <html lang="es">
-    <head>
-        <meta charset="utf-8">
-        <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+	<head>
+		<meta charset="utf-8">
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
 		<title>Unit 4 Lab 2: Communication Protocols, Page 2</title>
-    </head>
+	</head>
 
-    <body>
-        <h2>Reliable Transmission on Unreliable Networks: TCP</h2>
-        <div class="todo">
-            <p>BH: Yucky video.  Otherwise okay.  We should get TCP out of the TIF -- it's the only real activity!</p>
-            <p>MF: Brian wants to make improvements to this project--can that become an optional project? We don't have any for U4.</p>
-        </div>
+	<body>
+		<h2>Reliable Transmission on Unreliable Networks: TCP</h2>
+		<div class="learn">
+			<p><strong>On this page,</strong> you will learn the system for ensuring that communication is <em>reliable</em> on the Internet.</p>
+		</div>
 
-        <div class="learn">
-            <p><strong>On this page,</strong> you will learn the system for ensuring that communication is <em>reliable</em> on the Internet.</p>
-        </div>
+		<div class="todo">
+			<p><strong>What you will do:</strong> You will watch a video, read, and explore a simulation of unreliable IP transmissions.</p>
+			<p><strong>What you will learn:</strong> You will learn about how the Internet sends data <em>reliably</em> by using protocols.</p>
+			<p><strong>On your own:</strong> You can code your own Transmission Control Protocol. </p>
+		</div>
 
-        <div class="todo">
-            <p><strong>What you will do:</strong> You will watch a video, read, and explore a simulation of unreliable IP transmissions.</p>
-            <p><strong>What you will learn:</strong> You will learn about how the Internet sends data <em>reliably</em> by using protocols.</p>
-            <p><strong>On your own:</strong> You can code your own Transmission Control Protocol. </p>
-        </div>
+		<p>Computers, servers, and routers are fairly reliable, but every once in a while a packet will be lost, and devices on the Internet need to tolerate these faults. One way to tolerate faults is not to care. (If you lose one frame of video, it doesn't matter.) Another way (called TCP) is to keep sending packets until they are acknowledged as having been received correctly. <strong>TCP (Transmission Control Protocol)</strong> guarantees <em>reliable</em> data transmission by keeping track of which packets have been received successfully, resending any that have been lost or damaged, and specifying the order for reassembling the data on the other end. </p>
+		<div class="vocabFullWidth">
+			<p><strong>TCP/IP</strong> is a pair of protocols that provide an abstraction. <strong>IP</strong> lets your computer pretend it has a <em>direct</em> connection to another computer. <strong>TCP</strong> lets your computer pretend it has a <em>reliable</em> connection to the other computer.</p>
+		</div>
+		<br />
 
-        <p>Computers, servers, and routers are fairly reliable, but every once in a while a packet will be lost, and devices on the Internet need to tolerate these faults. One way to tolerate faults is not to care. (If you lose one frame of video, it doesn't matter.) Another way (called TCP) is to keep sending packets until they are acknowledged as having been received correctly. <strong>TCP (Transmission Control Protocol)</strong> guarantees <em>reliable</em> data transmission by keeping track of which packets have been received successfully, resending any that have been lost or damaged, and specifying the order for reassembling the data on the other end. </p>
-        <div class="vocabFullWidth">
-            <p><strong>TCP/IP</strong> is a pair of protocols that provide an abstraction. <strong>IP</strong> lets your computer pretend it has a <em>direct</em> connection to another computer. <strong>TCP</strong> lets your computer pretend it has a <em>reliable</em> connection to the other computer.</p>
-        </div>
-        <br />
-
-        <img class="imageRight" src="/bjc-r/img/icons/headphones.es.png" alt="Set Up Your Headphones or Speakers" title="Set Up Your Headphones or Speakers" />
+		<img class="imageRight" src="/bjc-r/img/icons/headphones.es.png" alt="Set Up Your Headphones or Speakers" title="Set Up Your Headphones or Speakers" />
 		<div class="sidenote">If your connection blocks YouTube, <a href="http://scratch.mit.edu/discuss/youtube/AYdF7b3nMto" target="_blank" title="The Internet: Packets, Routing & Reliability">watch the video here</a>.</div>
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/AYdF7b3nMto?rel=0" frameborder="0" allowfullscreen class="indent"></iframe>
+		<iframe width="560" height="315" src="https://www.youtube.com/embed/AYdF7b3nMto?rel=0" frameborder="0" allowfullscreen class="indent"></iframe>
 
 		<div class="takeNote">
-            <p>
+			<p>
 				The TCP/IP end-to-end design of the Internet is an abstraction:
 				<ul>
-                    <li>The computers (including servers) at the two endpoints of a communication run the <strong>Transmission Control Protocol</strong> (TCP), which guarantees reliable transmission.</li>
+					<li>The computers (including servers) at the two endpoints of a communication run the <strong>Transmission Control Protocol</strong> (TCP), which guarantees reliable transmission.</li>
 					<li>The routers at every connection point on the Internet run the <strong>Internet Protocol</strong> (IP), which transmits packets from one IP address to another.</li>
 				</ul>
-            </p>
-            <p>The routers don't know anything about the messages they carry; all they care about is transmitting them. The computers that send and receive the messages are the only ones concerned with what the messages mean.</p>
-          <!--<p>The routers don't have to know anything about the messages they carry over the net; all they care about is transmitting between the IP addresses at the beginning of each packet. The computers that send and receive the message are the only ones that have to think about what the messages mean. As a result, when someone invents a new application for the Internet, all the routers in the world don't have to be replaced or reprogrammed&mdash;to them it's all just bits.</p>-->
-        </div>
+			</p>
+			<p>The routers don't know anything about the messages they carry; all they care about is transmitting them. The computers that send and receive the messages are the only ones concerned with what the messages mean.</p>
+		</div>
 
-        <div class="forYouToDo">
-            <ol>
-                <li>
-                    <a class="run" href="/bjc-r/prog/4-internet/U4L1-TCP.xml#present"><img class="inline" src="/bjc-r/img/icons/load-save.es.png" alt="Click here to load this file. Then save it to your Snap! account." title="Click here to load this file. Then save it to your Snap! account."></a><br />
-                    This project provides a simulation of unreliable data transmission by Internet Protocol.
-                    <ul>
-                        <li><strong>Click the green flag</strong> to initialize the <var>incoming transmission</var> variables before each experiment.</li>
-                        <li><strong>Click either character</strong> to enter a message for it to send to the other one.</li>
-                	</ul>
-                </li>
+		<div class="forYouToDo">
+			<ol>
+				<li>
+					<a class="run" href="/bjc-r/prog/4-internet/U4L1-TCP.xml#present"><img class="inline" src="/bjc-r/img/icons/load-save.es.png" alt="Haz clic para cargar un proyecto nuevo. Entonces guárdalo." title="Haz clic para cargar un proyecto nuevo. Entonces guárdalo."></a><br />
+					This project provides a simulation of unreliable data transmission by Internet Protocol.
+					<ul>
+						<li><strong>Click the green flag</strong> to initialize the <var>incoming transmission</var> variables before each experiment.</li>
+						<li><strong>Click either character</strong> to enter a message for it to send to the other one.</li>
+					</ul>
+				</li>
 				<div class="sidenote">In this simulation, the complete message is a string of text that is divided into packets of one letter each. In reality, the packet length is not so strictly limited and messages are usually much longer.</div>
 				<a class="run" href="/bjc-r/prog/4-internet/U4L1-TCP.xml"><img class="indent" src="/bjc-r/img/4-internet/TCP.png" alt="picture of TCP project stage"></a>
-                <li>
-                    <img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.es.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
-                    Compare the result with what you sent. What problems do you see?
-                </li>
-			</ol>
-    	</div>
-        <p>TCP works by including additional information along with each packet so that the receiving computer can keep track of how many packets it has received, re-request any missing packets, and reorder the packets to reconstruct the original message. In this simulation, a packet either arrives correctly (even if it's out of order) or it doesn't arrive at all. But on the Internet, it's possible for a packet to arrive with <em>erroneous</em> data, so the real TCP has to check for errors and request re-transmission of packets with errors too.</p>
-
-	<div class="ifTime">
-            <ol start="3">
-                <li>Read <a href="http://www.bitsbook.com/wp-content/uploads/2008/12/B2B_3.pdf#page=324" target="_blank" title="Blown to Bits: IP Addresses and Crimes"><em>Blown to Bits</em> pages 306-309</a>.</li>
-            </ol>
-        </div>
-
-
-        <div class="takeItFurther">
-            <img class="imageRight" src="/bjc-r/img/icons/tough-stuff.es.png" alt="Tough Stuff" title="Tough Stuff" />
-            <ol type="A">
 				<li>
-                    Build a simple TCP. Resolve the unreliability so that messages are received reliably despite the limitations of IP packets.
-                    <strong>You'll need to change</strong> the definitions of:
-                    <ul>
-                        <li><img src="/bjc-r/img/4-internet/internet-transmit.png" alt="internet transmit () to ()" title="internet transmit () to ()" /></li>
-                        <li><img src="/bjc-r/img/4-internet/read-internet-data.png" alt="read internet data with ()" title="read internet data with ()" /></li>
-                    </ul>
-                    <div class="endnote"><strong>Do <em>not</em> change</strong> the definition of <img src="/bjc-r/img/4-internet/send-IP.png" alt="send IP packet () to (sprite)" title="send IP packet () to (sprite)">. That block simulates the unreliable network. You could "solve" the problem by rewriting this block to simulate a perfect network instead of an imperfect one, but that misses the point.</div>
-                    To solve this problem, you'll need a way to keep track of the order of the data <em>and</em> a way to re-request missing packets:
-                    <ul>
-                        <li>First, solve the problem of packets arriving out of order. You can include extra <strong>header</strong> information in addition to the packet data in order to help the receiver reconstruct the message. This will require cooperation by both sender and receiver (that is, changes to both gray blocks).</li>
-                        <li>Then, solve the problem of packets not arriving at all. That is, make the transmission reliable even though IP is unreliable. This, too, will require changing both sender and receiver. </li>
-                    </ul>
+					<img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.es.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
+					Compare the result with what you sent. What problems do you see?
 				</li>
 			</ol>
-        </div>
+		</div>
+		<p>TCP works by including additional information along with each packet so that the receiving computer can keep track of how many packets it has received, re-request any missing packets, and reorder the packets to reconstruct the original message. In this simulation, a packet either arrives correctly (even if it's out of order) or it doesn't arrive at all. But on the Internet, it's possible for a packet to arrive with <em>erroneous</em> data, so the real TCP has to check for errors and request re-transmission of packets with errors too.</p>
+
+		<div class="ifTime">
+			<ol start="3">
+				<li>Read <a href="http://www.bitsbook.com/wp-content/uploads/2008/12/B2B_3.pdf#page=324" target="_blank" title="Blown to Bits: IP Addresses and Crimes"><em>Blown to Bits</em> pages 306-309</a>.</li>
+			</ol>
+		</div>
+
+		<div class="takeItFurther">
+			<img class="imageRight" src="/bjc-r/img/icons/tough-stuff.es.png" alt="Tough Stuff" title="Tough Stuff" />
+			<ol type="A">
+				<li>
+					Build a simple TCP. Resolve the unreliability so that messages are received reliably despite the limitations of IP packets.
+					<strong>You'll need to change</strong> the definitions of:
+					<ul>
+						<li><img src="/bjc-r/img/4-internet/internet-transmit.png" alt="internet transmit () to ()" title="internet transmit () to ()" /></li>
+						<li><img src="/bjc-r/img/4-internet/read-internet-data.png" alt="read internet data with ()" title="read internet data with ()" /></li>
+					</ul>
+					<div class="endnote"><strong>Do <em>not</em> change</strong> the definition of <img src="/bjc-r/img/4-internet/send-IP.png" alt="send IP packet () to (sprite)" title="send IP packet () to (sprite)">. That block simulates the unreliable network. You could "solve" the problem by rewriting this block to simulate a perfect network instead of an imperfect one, but that misses the point.</div>
+					To solve this problem, you'll need a way to keep track of the order of the data <em>and</em> a way to re-request missing packets:
+					<ul>
+						<li>First, solve the problem of packets arriving out of order. You can include extra <strong>header</strong> information in addition to the packet data in order to help the receiver reconstruct the message. This will require cooperation by both sender and receiver (that is, changes to both gray blocks).</li>
+						<li>Then, solve the problem of packets not arriving at all. That is, make the transmission reliable even though IP is unreliable. This, too, will require changing both sender and receiver. </li>
+					</ul>
+				</li>
+			</ol>
+		</div>
 
 
 	</body>
