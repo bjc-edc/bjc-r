@@ -398,7 +398,7 @@ llab.createTitleNav = function() {
           aria-label="${t('Go to Index')}">
           <img src="${logoURL}" alt="${t('BJC logo')}">
         </a>
-        <div class="navbar-title"></div>
+        <h1 class="navbar-title"></h1>
       </div>
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown js-langDropdown nav-lang-dropdown hidden">
@@ -429,7 +429,7 @@ llab.createTitleNav = function() {
       </ul>
       <div class="trapezoid"></div>
     </nav>
-    <div class="title-small-screen"></div>`,
+    <h1 class="title-small-screen"></h1>`,
     botHTML = `
       <div class="full-bottom-bar">
         <div class="js-navButton hidden" style="float: left">
