@@ -96,7 +96,7 @@ def a11y_test_cases(course, url)
   wcag20_tags = test_tags([course, :wcag20])
   wcag22_tags = test_tags([course, :wcag22])
 
-  describe "#{course} #{topic_from_url(url)} #{trimmed_url(url)} is accessible",
+  describe "#{course} #{topic_from_url(url)} #{trimmed_url(url)}",
     type: :feature, js: true do
     before(:each) do
       visit(url)
@@ -107,18 +107,31 @@ def a11y_test_cases(course, url)
     end
 
     # These tests should always be enabled.
-    it 'according to WCAG 2.0 AA', **wcag20_tags do
+    it 'is WCAG 2.0 AA accessible', **wcag20_tags do
       expect(page).to be_axe_clean
         .according_to(*required_a11y_standards, "#{path} does NOT meet WCAG 2.0 AA")
         .skipping(*skipped_rules)
         .excluding(*excluded_elements)
     end
 
-    it 'according to WCAG 2.2 AA and all additional standards', **wcag22_tags do
+    it 'is WCAG 2.2 AA accessible', **wcag22_tags do
       expect(page).to be_axe_clean
         .according_to(*complete_a11y_standards)
         .skipping(*skipped_rules)
         .excluding(*excluded_elements)
+    end
+
+    it 'has no broken links' do
+      passed_test = true
+      page.all('a').each do |link|
+        url = link['href']
+        response = Net::HTTP.get_response(URI(url))
+        unless [200, 301, 302].include?(response.code)
+          passed_test = false
+          puts "Broken link: #{url} returned a #{response.code}"
+        end
+      end
+      expect(passed_test).to be true
     end
   end
 end
