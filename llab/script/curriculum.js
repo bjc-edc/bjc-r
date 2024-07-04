@@ -403,7 +403,7 @@ llab.createTitleNav = function() {
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown js-langDropdown nav-lang-dropdown hidden">
           <a class="btn btn-nav btn-nav-lang dropdown-toggle" type="button"
-            aria-label=${t('Switch language')} role="button" tabindex=1
+            aria-label=${t('Switch language')} role="button" tabindex=0
             id="dropdown-langs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="far fa-globe" aria-hidden=true></i>
           </a>
@@ -415,7 +415,7 @@ llab.createTitleNav = function() {
         <li class="nav-btn-group nav-btn-group-first">${previousPageButton}</li>
         <li class="nav-btn-group dropdown js-navDropdown js-navButton hidden">
           <a class="btn btn-nav dropdown-toggle"
-            type="button" role="button" tabindex=1
+            type="button" role="button" tabindex=0
             aria-label="${t('Navigation Menu')}"
             id="Topic-Navigation-Menu" data-toggle="dropdown"
             aria-haspopup=true aria-expanded=false>
@@ -431,7 +431,7 @@ llab.createTitleNav = function() {
     </nav>
     <h1 class="title-small-screen"></h1>`,
     botHTML = `
-      <div class="full-bottom-bar">
+      <nav class="full-bottom-bar" aria-label="secondary page navigation">
         <div class="js-navButton hidden" style="float: left">
           ${previousPageButton}
         </div>
@@ -439,7 +439,7 @@ llab.createTitleNav = function() {
         <div class="js-navButton hidden" style="float: right">
           ${nextPageButton}
         </div>
-      </div>`,
+      </nav>`,
     topNav = $(llab.selectors.NAVSELECT);
 
   if (topNav.length === 0) {

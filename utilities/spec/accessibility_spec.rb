@@ -53,25 +53,6 @@ def load_all_urls_in_course(course)
 end
 # ===============================
 
-
-# ====== AXE Configuration
-# Axe-core test standards groups
-# See https://github.com/dequelabs/axe-core/blob/develop/doc/API.md#axe-core-tags
-required_a11y_standards = %i[wcag2a wcag2aa]
-# These are currently skipped until the basic tests are passing.
-complete_a11y_standards = %i[wcag21a wcag21 wcag22aa best-practice secion508]
-
-# axe-core rules that are not required to be accessible / do not apply
-# See: https://github.com/dequelabs/axe-core/blob/develop/doc/rule-descriptions.md
-skipped_rules = []
-
-# These are elements that are not required to be accessible
-excluded_elements = [
-  '[data-a11y-external-errors="true"]',
-  '.js-openProdLink',
-  'var', # Snap! elements don't have enough color contrast.
-]
-
 def test_tags(tags)
   # Adds "course_wcag22" tag to the list.
   tags << tags.join("_")
@@ -96,6 +77,24 @@ def a11y_test_cases(course, url)
   wcag20_tags = test_tags([course, :wcag20])
   wcag22_tags = test_tags([course, :wcag22])
 
+  # ====== AXE Configuration
+  # Axe-core test standards groups
+  # See https://github.com/dequelabs/axe-core/blob/develop/doc/API.md#axe-core-tags
+  required_a11y_standards = %i[wcag2a wcag2aa]
+  # These are currently skipped until the basic tests are passing.
+  complete_a11y_standards = %i[wcag21a wcag21aa wcag22aa wcag2a-obsolete best-practice secion508]
+
+  # axe-core rules that are not required to be accessible / do not apply
+  # See: https://github.com/dequelabs/axe-core/blob/develop/doc/rule-descriptions.md
+  skipped_rules = []
+
+  # These are elements that are not required to be accessible
+  excluded_elements = [
+    '[data-a11y-external-errors="true"]', # should be used very sparingly.
+    '.js-openProdLink', # OK to exclude, only in development.
+    'var', # Snap! elements don't have enough color contrast.
+  ]
+
   describe "#{course} #{topic_from_url(url)} #{trimmed_url(url)}",
     type: :feature, js: true do
     before(:each) do
@@ -107,26 +106,26 @@ def a11y_test_cases(course, url)
     end
 
     # These tests should always be enabled.
-    it 'is WCAG 2.0 AA accessible', **wcag20_tags do
+    it 'is WCAG 2.0 accessible', **wcag20_tags do
       expect(page).to be_axe_clean
-        .according_to(*required_a11y_standards, "#{path} does NOT meet WCAG 2.0 AA")
+        .according_to(*required_a11y_standards)
         .skipping(*skipped_rules)
         .excluding(*excluded_elements)
     end
 
-    it 'is WCAG 2.2 AA accessible', **wcag22_tags do
+    it 'is WCAG 2.2 accessible', **wcag22_tags do
       expect(page).to be_axe_clean
         .according_to(*complete_a11y_standards)
         .skipping(*skipped_rules)
         .excluding(*excluded_elements)
     end
 
-    it 'has no broken links' do
+    it 'has no broken links', course => true do
       passed_test = true
       page.all('a').each do |link|
         url = link['href']
         response = Net::HTTP.get_response(URI(url))
-        unless [200, 301, 302].include?(response.code)
+        unless [200, 301, 302].include?(response.code.to_i)
           passed_test = false
           puts "Broken link: #{url} returned a #{response.code}"
         end

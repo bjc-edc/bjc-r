@@ -252,8 +252,9 @@ llab.renderSection = function (section, parent) {
   var $section = $("<section>"),
     params = llab.getURLParameters();
 
+  // TODO: This heading needs to be computed in a more accurate way...
   if (section.title) {
-    var tag = section.headingType == "heading" ? "h3" : section.headingType;
+    var tag = section.headingType == "heading" ? "h2" : section.headingType;
     $section.append(`<${tag}>${section.title}</${tag}>`);
   }
 
