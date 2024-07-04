@@ -76,6 +76,7 @@ def a11y_test_cases(course, url)
   # Allows CI to run only the tests for a specific course AND standard.
   wcag20_tags = test_tags([course, :wcag20])
   wcag22_tags = test_tags([course, :wcag22])
+  subset_tags = test_tags([course, :subset])
 
   # ====== AXE Configuration
   # Axe-core test standards groups
@@ -90,8 +91,16 @@ def a11y_test_cases(course, url)
 
   # These are elements that are not required to be accessible
   excluded_elements = [
-    '[data-a11y-external-errors="true"]', # should be used very sparingly.
-    '.js-openProdLink', # OK to exclude, only in development.
+    # should be used very sparingly.
+    '[data-a11y-external-errors="true"]',
+    # Developer Tools, which aren't visible in production
+    '.js-openProdLink',
+    '.todo',
+    '.comment',
+    '.commentBig',
+    '.ap-standard',
+    '.csta-standard',
+    # TODO: items below here **must** be fixed eventually.
     'var', # Snap! elements don't have enough color contrast.
   ]
 
@@ -117,6 +126,23 @@ def a11y_test_cases(course, url)
       expect(page).to be_axe_clean
         .according_to(*complete_a11y_standards)
         .skipping(*skipped_rules)
+        .excluding(*excluded_elements)
+    end
+
+    # This test should normally be commented out.
+    # it allows you to easily/temporary update a subset of axe rules and run just those.
+    # heading-order
+    # color-contrast
+    it 'passes a subset a11y rules', **subset_tags do
+      expect(page).to be_axe_clean
+        .checking_only(%i|
+          duplicate-id
+          listitem
+          frame-title
+          image-alt
+          label
+          area-alt
+        |)
         .excluding(*excluded_elements)
     end
 
