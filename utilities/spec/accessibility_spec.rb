@@ -13,14 +13,7 @@ require_relative '../build-tools/topic'
 # spec_helper ensures the webiste is built and can be served locally
 require_relative './spec_helper'
 
-COURSES = %w[
-  bjc4nyc
-  bjc4nyc.es
-  sparks
-  bjc4nyc_teacher
-  sparks-teacher
-]
-
+# ===== bjc-r specific config/parsing....
 def load_site_urls(courses)
   # Map is a course_name => [url1, url2, ...]
   courses.map do |course|
@@ -58,17 +51,10 @@ def load_all_urls_in_course(course)
   results << urls.filter_map { |url| "#{url}#{url.match?(/\?/) ? '&' : '?'}course=#{course}" if !url.match?(/\.topic/) }
   results.flatten.reject { |u| !u.start_with?('/bjc-r') }.uniq
 end
+# ===============================
 
-ALL_PAGES = {}
-# TODO: We need to figure out what things should be tested.
-# base_path = File.join(File.dirname(__FILE__), '..', '..')
-# site = File.join(base_path, '**', 'index.html')
-# index_pages = Dir.glob(site).filter_map { |f| f.gsub(base_path, '/bjc-r') if !f.match?(/old\//) }
-# ALL_PAGES['Indexes'] = index_pages
-ALL_PAGES.merge!(load_site_urls(COURSES))
 
-puts "Running tests on #{ALL_PAGES.values.map(&:length).sum} pages."
-
+# ====== AXE Configuration
 # Axe-core test standards groups
 # See https://github.com/dequelabs/axe-core/blob/develop/doc/API.md#axe-core-tags
 required_a11y_standards = %i[wcag2a wcag2aa]
@@ -77,9 +63,8 @@ complete_a11y_standards = %i[wcag21a wcag21 wcag22aa best-practice secion508]
 
 # axe-core rules that are not required to be accessible / do not apply
 # See: https://github.com/dequelabs/axe-core/blob/develop/doc/rule-descriptions.md
-skipped_rules = [
+skipped_rules = []
 
-]
 # These are elements that are not required to be accessible
 excluded_elements = [
   '[data-a11y-external-errors="true"]',
@@ -88,47 +73,72 @@ excluded_elements = [
 ]
 
 def test_tags(tags)
+  # Adds "course_wcag22" tag to the list.
+  tags << tags.join("_")
   Hash[tags.map { |k| [k.to_sym, true] }]
 end
 
-# ALL_PAGES is a hash of course names to arrays of URLs
-ALL_PAGES.each do |course, paths|
-    # A little hacky, but rspec --tag doesn't allow "and" conditions.
-    # Allows CI to run only the tests for a specific course AND standard.
-    wcag20_tags = test_tags([course, :wcag20, "#{course}_wcag20"])
-    wcag22_tags = test_tags([course, :wcag22, "#{course}_wcag22"])
+# Create a readable path for specs from the page URL
+def trimmed_url(url)
+  path = url.gsub('/bjc-r', '')
+  path.split('?').first # Trim all query parameters for readability.
+end
 
-  paths.each do |url|
-    path = url.gsub('/bjc-r', '')
-    topic = path.match(/topic=(.*\.topic)/) ? Regexp.last_match(1) : 'no-topic'
-    # Trim all query parameters
-    path = path.split('?').first
+def topic_from_url(url)
+  return '-' unless url.match(/topic=(.*)\.topic/)
 
-    # using course as a tag allows passing `--tag bjc4nyc` to rspec to run only the
-    # tests for that course.
-    describe "#{course} : #{topic} : #{path} is accessible", type: :feature, js: true do
-      before(:each) do
-        visit(url)
+  "- #{Regexp.last_match(1)} -"
+end
 
-        if page.html.match?(/File not found:/)
-          skip("TODO: #{url} is a 404 page.")
-        end
-      end
+def a11y_test_cases(course, url)
+  # A little hacky, but `rspec --tag` doesn't allow "and" conditions.
+  # Allows CI to run only the tests for a specific course AND standard.
+  wcag20_tags = test_tags([course, :wcag20])
+  wcag22_tags = test_tags([course, :wcag22])
 
-      # These tests should always be enabled.
-      it 'according to WCAG 2.0 AA', **wcag20_tags do
-        expect(page).to be_axe_clean
-          .according_to(*required_a11y_standards, "#{path} does NOT meet WCAG 2.0 AA")
-          .skipping(*skipped_rules)
-          .excluding(*excluded_elements)
-      end
+  describe "#{course} #{topic_from_url(url)} #{trimmed_url(url)} is accessible",
+    type: :feature, js: true do
+    before(:each) do
+      visit(url)
 
-      it 'according to WCAG 2.2 and all additional standards', **wcag22_tags do
-        expect(page).to be_axe_clean
-          .according_to(*complete_a11y_standards)
-          .skipping(*skipped_rules)
-          .excluding(*excluded_elements)
+      if page.html.match?(/File not found:/)
+        skip("TODO: #{url} is a 404 page.")
       end
     end
+
+    # These tests should always be enabled.
+    it 'according to WCAG 2.0 AA', **wcag20_tags do
+      expect(page).to be_axe_clean
+        .according_to(*required_a11y_standards, "#{path} does NOT meet WCAG 2.0 AA")
+        .skipping(*skipped_rules)
+        .excluding(*excluded_elements)
+    end
+
+    it 'according to WCAG 2.2 AA and all additional standards', **wcag22_tags do
+      expect(page).to be_axe_clean
+        .according_to(*complete_a11y_standards)
+        .skipping(*skipped_rules)
+        .excluding(*excluded_elements)
+    end
   end
+end
+
+# Use course as a tag (`rspec --tag bjc4nyc`) to run only the tests for that course.
+COURSES = %w[
+  bjc4nyc
+  bjc4nyc.es
+  sparks
+  bjc4nyc_teacher
+  sparks-teacher
+]
+ALL_PAGES = load_site_urls(COURSES)
+# TODO: We need to figure out what things should be tested.
+# base_path = File.join(File.dirname(__FILE__), '..', '..')
+# site = File.join(base_path, '**', 'index.html')
+# index_pages = Dir.glob(site).filter_map { |f| f.gsub(base_path, '/bjc-r') if !f.match?(/old\//) }
+# ALL_PAGES['Indexes'] = index_pages
+puts "Running tests on #{ALL_PAGES.values.map(&:length).sum} pages."
+
+ALL_PAGES.each do |course, pages|
+  pages.each { |url| a11y_test_cases(course, url) }
 end
