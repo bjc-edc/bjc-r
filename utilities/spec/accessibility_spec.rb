@@ -164,8 +164,11 @@ def a11y_test_cases(course, url)
         url = link['href']
         next unless url
 
+        # All google docs seem to report 401's falsely in CI.
+        next if url.match(/docs\.google\.com/)
+
         response = Net::HTTP.get_response(URI(url))
-        unless [200, 301, 302].include?(response.code.to_i)
+        unless [200, 301, 302, 303].include?(response.code.to_i)
           passed_test = false
           puts "Broken link: #{url} returned a #{response.code}"
         end
