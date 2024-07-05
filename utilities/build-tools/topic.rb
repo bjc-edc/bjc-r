@@ -58,7 +58,7 @@ class BJCTopic
       topic[:content].map do |section|
         if section[:type] == 'section'
           extract_pages_in_section(section)
-        elsif section[:type] == 'resource'
+        elsif RESOURCES_KEYWORDS.include?(item[:type])
           item[:url]
         end
       end.flatten
