@@ -94,7 +94,6 @@ def a11y_test_cases(course, url)
     # should be used very sparingly.
     '[data-a11y-external-errors="true"]',
     # Developer Tools, which aren't visible in production
-    '.js-openProdLink',
     '.todo',
     '.comment',
     '.commentBig',
@@ -133,10 +132,10 @@ def a11y_test_cases(course, url)
 
     # This test should normally be commented out.
     # it allows you to easily/temporary update a subset of axe rules and run just those.
+    # heading-order
     it 'passes a subset a11y rules', **subset_tags do
       expect(page).to be_axe_clean
         .checking_only(%i|
-          heading-order
           color-contrast
           duplicate-id
           listitem
@@ -148,10 +147,12 @@ def a11y_test_cases(course, url)
         .excluding(*excluded_elements)
     end
 
-    it 'has no broken links', course => true do
+    it 'has no broken links', **subset_tags do
       passed_test = true
       page.all('a').each do |link|
         url = link['href']
+        next unless url
+
         response = Net::HTTP.get_response(URI(url))
         unless [200, 301, 302].include?(response.code.to_i)
           passed_test = false
