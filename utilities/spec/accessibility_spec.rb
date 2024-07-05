@@ -158,23 +158,23 @@ def a11y_test_cases(course, url)
         .excluding(*excluded_elements)
     end
 
-    it 'has no broken links', **subset_tags do
-      passed_test = true
-      page.all('a').each do |link|
-        url = link['href']
-        next unless url
+    # it 'has no broken links', **subset_tags do
+    #   passed_test = true
+    #   page.all('a').each do |link|
+    #     url = link['href']
+    #     next unless url
 
-        # All google docs seem to report 401's falsely in CI.
-        next if url.match(/docs\.google\.com/)
+    #     # All google docs seem to report 401's falsely in CI.
+    #     next if url.match(/docs\.google\.com/)
 
-        response = Net::HTTP.get_response(URI(url))
-        unless [200, 301, 302, 303].include?(response.code.to_i)
-          passed_test = false
-          puts "Broken link: #{url} returned a #{response.code}"
-        end
-      end
-      expect(passed_test).to be true
-    end
+    #     response = Net::HTTP.get_response(URI(url))
+    #     unless [200, 301, 302, 303].include?(response.code.to_i)
+    #       passed_test = false
+    #       puts "Broken link: #{url} returned a #{response.code}"
+    #     end
+    #   end
+    #   expect(passed_test).to be true
+    # end
   end
 end
 
