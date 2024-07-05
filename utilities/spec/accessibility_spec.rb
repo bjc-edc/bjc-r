@@ -112,6 +112,8 @@ def a11y_test_cases(course, url)
       if page.html.match?(/File not found:/)
         skip("TODO: #{url} is a 404 page.")
       end
+
+      # TODO: Add a function to expand all optional content.
     end
 
     # These tests should always be enabled.
@@ -131,11 +133,11 @@ def a11y_test_cases(course, url)
 
     # This test should normally be commented out.
     # it allows you to easily/temporary update a subset of axe rules and run just those.
-    # heading-order
-    # color-contrast
     it 'passes a subset a11y rules', **subset_tags do
       expect(page).to be_axe_clean
         .checking_only(%i|
+          heading-order
+          color-contrast
           duplicate-id
           listitem
           frame-title

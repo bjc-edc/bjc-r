@@ -211,7 +211,7 @@ class BJCTopic
   # Returns an array of all the paths in that section
   def extract_pages_in_section(parsed_section)
     parsed_section[:content].map do |item|
-      if item[:type] == 'resource'
+      if RESOURCES_KEYWORDS.include?(item[:type])
         item[:url]
       elsif item[:type] == 'section'
         extract_pages_in_section(item)
