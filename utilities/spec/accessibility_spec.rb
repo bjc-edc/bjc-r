@@ -130,6 +130,17 @@ def a11y_test_cases(course, url)
         .excluding(*excluded_elements)
     end
 
+    # This should be removed once all pages pass.
+    # it allows you to easily/temporary update a subset of axe rules and run just those.
+    it 'passes a subset a11y rules', **wcag22_tags, heading_order: true do
+      expect(page).to be_axe_clean
+        .checking_only(%i|
+          heading-order
+        |)
+        .excluding(*excluded_elements)
+    end
+
+
     # This test should normally be commented out.
     # it allows you to easily/temporary update a subset of axe rules and run just those.
     # heading-order
