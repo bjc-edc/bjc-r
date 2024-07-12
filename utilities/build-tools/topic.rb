@@ -50,19 +50,28 @@ class BJCTopic
   def section_headings; end
 
   # This should explicitly exclude the 3 compiled HTML pages.
-  def all_pages; end
 
-  # Return all valid links to HTML pages as an array (no nesting)
-  def all_pages_with_summaries
+  def all_pages_without_summaries
+    all_pages(include_summaries: false)
+  end
+
+  def all_pages(include_summaries=false)
     parsed_topic_object[:topics].map do |topic|
-      topic[:content].map do |section|
-        if section[:type] == 'section'
-          extract_pages_in_section(section)
-        elsif RESOURCES_KEYWORDS.include?(item[:type])
-          item[:url]
+      topic[:content].map do |entry|
+        next if is_summary_section?(entry) || (!entry[:url].nil? && is_summary_page?(entry))
+
+        if entry[:type] == 'section'
+          extract_pages_in_section(entry, include_summaries: include_summaries)
+        elsif RESOURCES_KEYWORDS.include?(entry[:type])
+          entry[:url]
         end
       end.flatten
     end.flatten
+  end
+
+  # Return all valid links to HTML pages as an array (no nesting)
+  def all_pages_with_summaries
+   all_pages(include_summaries: true)
   end
 
   def to_h = parse
@@ -73,8 +82,10 @@ class BJCTopic
 
   # Build a compliant llab URL that would show the full page w/ navigation
   # Adds a topic and course reference to the URL
+  # TODO: This isn't the right abstraction...
+  # This should maybe be called automatically by the all_pages functions?
   def augmented_page_paths_in_topic
-    all_pages_with_summaries.map do |path|
+    all_pages_without_summaries.map do |path|
       "#{path}?topic=#{llab_reference_path}&course=#{course}"
     end
   end
@@ -207,11 +218,34 @@ class BJCTopic
   private
   # TODO: Many methods above should be made private
 
+  # Determines if a section is a "summary" of content based on the heading.
+  SUMMARY_SECTION_TITLES = [
+    /Unit\s*\d+\s*Review/,
+    /Unidad\s*\d+\s*Revision/,
+  ]
+  def is_summary_section?(section)
+    SUMMARY_SECTION_TITLES.any? { |re| section[:title].match?(re) }
+  end
+
+  SUMMARY_URLS = [
+    /\/summaries\//, # all pages in a summaries directory
+    /unit-.*-vocab.*\.html/,
+    /unit-.*-self-check.*\.html/,
+    /unit-.*-exam-reference.*\.html/,
+  ]
+  def is_summary_page?(item)
+    SUMMARY_URLS.any? { |re| item[:url].match?(re) }
+  end
+
   # Takes in one "section" of the parsed topic object
   # Returns an array of all the paths in that section
-  def extract_pages_in_section(parsed_section)
+  # If include_summaries = false, then known "summary" URLs are exlcuded
+  # this means quizzes, vocab, ap exam pages.
+  def extract_pages_in_section(parsed_section, include_summaries=true)
     parsed_section[:content].map do |item|
-      if RESOURCES_KEYWORDS.include?(item[:type])
+      if !include_summaries && is_summary_page?(item)
+        nil
+      elsif RESOURCES_KEYWORDS.include?(item[:type])
         item[:url]
       elsif item[:type] == 'section'
         extract_pages_in_section(item)
