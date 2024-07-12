@@ -284,7 +284,18 @@ llab.renderSection = function (section, parent) {
       llab.renderInfo(infoSection, current.type, $contentContainer);
     } else if (current.type == "section") {
       llab.renderSection(current, $section);
-    } else { // also handles: current.type == "raw_html"
+    } else if (current.type === "raw-html") {
+      // alert('Found raw-html')
+      // try not to append non-list items to the <ol>
+      // if we haven't added to the <ol> yet, raw-html is rendered before
+      // otherwise, raw-html is pushed to the end of the </ol>
+      // TODO: Does it make sense to close the list, push contents and start a new one?
+      if ($contentContainer.children().length == 0) {
+        $contentContainer.before(current.contents);
+      } else {
+        $section.append(current.contents);
+      }
+    } else {
       $contentContainer.append(current.contents);
     }
   }
