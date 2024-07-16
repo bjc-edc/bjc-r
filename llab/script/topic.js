@@ -280,20 +280,18 @@ llab.renderSection = function (section, parent) {
         i++;
         infoSection.push(section.contents[i]);
       }
-      console.log('Called render info')
       llab.renderInfo(infoSection, current.type, $contentContainer);
     } else if (current.type == "section") {
       llab.renderSection(current, $section);
     } else if (current.type === "raw-html") {
-      // alert('Found raw-html')
-      // try not to append non-list items to the <ol>
-      // if we haven't added to the <ol> yet, raw-html is rendered before
-      // otherwise, raw-html is pushed to the end of the </ol>
-      // TODO: Does it make sense to close the list, push contents and start a new one?
+      // TODO: This section is challening...
+      // Content before the item list belongs to the containr.
+      // Content w/in the list needs to conform to being an li or ul.
+      // It all needs to be (Seeming?) appear in-order (see Sparks TG)
       if ($contentContainer.children().length == 0) {
         $contentContainer.before(current.contents);
       } else {
-        $section.append(current.contents);
+        $contentContainer.append(current.contents);
       }
     } else {
       $contentContainer.append(current.contents);
