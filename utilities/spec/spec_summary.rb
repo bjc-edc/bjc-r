@@ -22,11 +22,48 @@ def summarize_results(results)
   end.flatten.tally
 end
 
+def group_results(results)
+  all_cases_list = failing_specs(results).map do |ex|
+    msg = ex['exception']['message']
+    msg.gsub!(/\nInvocation:.*;/, '')
+    cases = msg.split(AXE_CASE_TITLE)
+    cases.delete_at(0)
+    Hash[*cases].transform_values { |v| { page: ex['full_description'], message: v }}
+  end
+  results = Hash.new
+  results.default = []
+  all_cases_list.each do |test_hash|
+      test_hash.each do |axe_name, failure|
+        if results.has_key?(axe_name)
+          results[axe_name] << failure
+        else
+          results[axe_name] = [ failure ]
+        end
+      end
+  end
+  results
+end
+
+def test_failures_with_pages(summary_group)
+  summary_group.transform_values { |list| list.map { |h| h[:page] } }
+end
+
+def nicely_print(hash)
+  hash.each do |key, values|
+    puts "#{key}:"
+    values.each { |item| puts("\t#{item}") }
+  end
+end
+
 def print_summary
   results_data = JSON.parse(File.read(RESULTS_PATH))
   failing_tests_by_type = summarize_results(results_data)
   pp(failing_tests_by_type)
   puts "Total: #{failing_tests_by_type.values.sum} failures."
+
+  puts "\n#{'-'*16}"
+  summary_group = group_results(results_data)
+  nicely_print(test_failures_with_pages(summary_group))
 end
 
 print_summary

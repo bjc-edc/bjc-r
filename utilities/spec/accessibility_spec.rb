@@ -122,7 +122,7 @@ def a11y_test_cases(course, url)
     end
 
     # These tests should always be enabled.
-    xit 'is WCAG 2.0 accessible', **wcag20_tags do
+    it 'is WCAG 2.0 accessible', **wcag20_tags do
       expect(page).to be_axe_clean
         .according_to(*required_a11y_standards)
         .skipping(*skipped_rules)
@@ -130,7 +130,7 @@ def a11y_test_cases(course, url)
     end
 
     # TODO: Temporarily disabled with xit until we get the first round passing.
-    xit 'is WCAG 2.2 accessible', **wcag22_tags do
+    it 'is WCAG 2.2 accessible', **wcag22_tags do
       expect(page).to be_axe_clean
         .according_to(*complete_a11y_standards)
         .skipping(*skipped_rules)
