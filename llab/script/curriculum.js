@@ -86,25 +86,20 @@ llab.secondarySetUp = function (newPath) {
     return toggleClasses.find(className => classList.includes(className));
   }
 
-  let classSelector = `div.${TOGGLE_HEADINGS.join(',div.')}`;
-  $(classSelector).each(function(i) {
+  let classSelector = `.${TOGGLE_HEADINGS.join(',.')}`;
+  $(classSelector).each(function(_i) {
     let classList = Array.from(this.classList);
     let isVisible = classList.indexOf('show') > -1;
     let contentType = lookupClassName(TOGGLE_HEADINGS, classList);
-    let id = `hint-${contentType}-${i}`;
-    this.innerHTML = `
-      <a style='font-size: 20px;' href='#${id}' data-toggle='collapse'
-        role="button" aria-controls="${id}" aria-expanded=${isVisible}>
-        <strong>${t(contentType)}</strong>
-      </a>
-      <div id='${id}' class='collapse'>
-        ${this.innerHTML}
-      </div>`;
+    this.outerHTML = `
+      <details class="${classList.join(' ')}" ${isVisible ? 'open' : ''}>
+        <summary class="disclosure-heading">${t(contentType)}</summary>
+        <div>${this.innerHTML}</div>
+      </details>`;
+
     // Use class "ifTime show" to show by default.
-    // BS3 uses the 'in' class to show content, TODO: update this for v5.
     if (isVisible) {
-      $(`#${id}`).addClass('in');
-      $(this).removeClass('show');
+      $(this).attr('open', true);
     }
   });
 
@@ -638,36 +633,36 @@ llab.addFooter = () => {
   if ($('footer').length > 0) { return; }
 
   $(document.body).append(
-  `<footer>
-    <div class="footer wrapper margins">
-      <div class="footer-col col-md-1 col-xs-4">
-        <img src="/bjc-r/img/header-footer/NSF_logo.png" alt="NSF" />
+    `<footer>
+      <div class="footer wrapper margins">
+        <div class="footer-col col-md-1 col-xs-4">
+          <img src="/bjc-r/img/header-footer/NSF_logo.png" alt="NSF" />
+        </div>
+        <div class="footer-col col-md-1 col-xs-4">
+          <img src="/bjc-r/img/header-footer/EDC_logo.png" alt="EDC" />
+        </div>
+        <div class="footer-col col-md-1 col-xs-4">
+          <img src="/bjc-r/img/header-footer/UCB_logo.png" alt="UCB" />
+        </div>
+        <div class="footer-col col-md-8 col-xs-12">
+          <p>The Beauty and Joy of Computing by University of California, Berkeley and Education
+          Development Center, Inc. is licensed under a Creative Commons
+          Attribution-NonCommercial-ShareAlike 4.0 International License. The development of this
+          site has been funded by the National Science Foundation under grant nos. 1138596, 1441075,
+          and 1837280; the U.S. Department of Education under grant number S411C200074; and the
+          Hopper-Dean Foundation.
+          Any opinions, findings, and conclusions or recommendations expressed in this material are
+          those of the author(s) and do not necessarily reflect the views of the National Science
+          Foundation or our other funders.
+        </p>
       </div>
       <div class="footer-col col-md-1 col-xs-4">
-        <img src="/bjc-r/img/header-footer/EDC_logo.png" alt="EDC" />
+        <img src="/bjc-r/img/header-footer/cc_88x31.png" alt="Creative Commons Attribution" />
       </div>
-      <div class="footer-col col-md-1 col-xs-4">
-        <img src="/bjc-r/img/header-footer/UCB_logo.png" alt="UCB" />
-      </div>
-      <div class="footer-col col-md-8 col-xs-12">
-        <p>The Beauty and Joy of Computing by University of California, Berkeley and Education
-        Development Center, Inc. is licensed under a Creative Commons
-        Attribution-NonCommercial-ShareAlike 4.0 International License. The development of this
-        site has been funded by the National Science Foundation under grant nos. 1138596, 1441075,
-        and 1837280; the U.S. Department of Education under grant number S411C200074; and the
-        Hopper-Dean Foundation.
-        Any opinions, findings, and conclusions or recommendations expressed in this material are
-        those of the author(s) and do not necessarily reflect the views of the National Science
-        Foundation or our other funders.
-      </p>
     </div>
-    <div class="footer-col col-md-1 col-xs-4">
-      <img src="/bjc-r/img/header-footer/cc_88x31.png" alt="Creative Commons Attribution" />
-    </div>
-  </div>
-</footer>`
-);
-}
+  </footer>`
+  );
+};
 
 llab.translated_page_url = function() {
   // Return the URL to the current page when a translation exists.
@@ -676,7 +671,7 @@ llab.translated_page_url = function() {
   } else if (llab.pageLang() === 'en') {
     return location.href.replace(/\.html/g, '.es.html').replace(/\.topic/g, '.es.topic');
    }
-}
+};
 
 llab.translated_content_url = function() {
   // This returns the URL directly to a topic file, so we can see if the fetch passes.
