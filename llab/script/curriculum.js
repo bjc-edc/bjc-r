@@ -105,11 +105,17 @@ llab.secondarySetUp = function (newPath) {
 
   llab.setupSnapImages();
 
-  // TODO: Figure a nicer place to put this...
+  // TODO: Figure a nicer place to put all of these...
   // TODO: Rewrite the function to not scan every element.
   if ($('[w3-include-html]')) {
     w3.includeHTML();
   }
+
+  // Make it easy to make little color swatch boxes.
+  // These are useful when teaching about RGB.
+  $('.color-swatch').each((_, el) => {
+    $(el).css('background-color', $(el).attr('data-color'))
+  })
 
   llab.addFeedback(document.title, llab.file, llab.getQueryParameter('course'));
 
