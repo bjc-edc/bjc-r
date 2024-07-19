@@ -68,7 +68,7 @@ end
 def topic_from_url(url)
   return '-' unless url.match(/topic=(.*)\.topic/)
 
-  "- #{Regexp.last_match(1)} -"
+  "- #{Regexp.last_match(1)}"
 end
 
 def a11y_test_cases(course, url)
@@ -103,7 +103,7 @@ def a11y_test_cases(course, url)
     'var', # Snap! elements don't have enough color contrast.
   ]
 
-  describe "#{course} #{topic_from_url(url)} #{trimmed_url(url)}",
+  describe "#{course} #{topic_from_url(url)} (#{trimmed_url(url)}) :",
     type: :feature, js: true do
     before(:each) do
       visit(url)
