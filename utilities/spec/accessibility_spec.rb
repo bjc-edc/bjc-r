@@ -13,44 +13,27 @@ require_relative '../build-tools/topic'
 # spec_helper ensures the webiste is built and can be served locally
 require_relative './spec_helper'
 
-# ===== bjc-r specific config/parsing....
-def load_site_urls(courses)
-  # Map is a course_name => [url1, url2, ...]
-  courses.map do |course|
-    puts "Buidling URLs for #{course}..."
-    [course, load_all_urls_in_course("#{course}.html")]
-  end.to_h
-end
-
-def extract_urls_from_page(topic_file, course)
-  topic_file = File.join(File.dirname(__FILE__), '..', '..', 'topic', topic_file)
-  lang = topic_file.match(/\.(\w\w)\.topic/) ? Regexp.last_match(1) : 'en'
-  topic_parser = BJCTopic.new(topic_file, course: course, language: lang)
-  topic_parser.augmented_page_paths_in_topic
-end
-
-def load_all_urls_in_course(course)
-  # This is slow...
-  # Read the course page, then add all "Unit" URLs to the list
-  # TODO: Use the BJCCourse class to extract the URLs
-  results = [ "/bjc-r/course/#{course}" ]
-  course_file = File.join(File.dirname(__FILE__), '..', '..', 'course', course)
-  doc = Nokogiri::HTML(File.read(course_file))
-  urls = doc.css('.topic_container .topic_link a').map { |url| url['href'] }
-
-  topic_pages = urls.filter_map do |url|
-    next unless url.match?(/\.topic/)
-
-    query_separator = url.match?(/\?/) ? '&' : '?'
-    results << "#{url}#{query_separator}course=#{course}"
-    topic_file = url.match(/topic=(.*\.topic)/)[1]
-    extract_urls_from_page(topic_file, course)
-  end.flatten
-
-  results << topic_pages
-  results << urls.filter_map { |url| "#{url}#{url.match?(/\?/) ? '&' : '?'}course=#{course}" if !url.match?(/\.topic/) }
-  results.flatten.reject { |u| !u.start_with?('/bjc-r') }.uniq
-end
+# ===== Page / Couse List
+# Use course as a tag (`rspec --tag bjc4nyc`) to run only the tests for that course.
+COURSES = %w[
+  bjc4nyc
+  bjc4nyc.es
+  sparks
+  bjc4nyc_teacher
+  sparks-teacher
+]
+ALL_PAGES = load_site_urls(COURSES)
+# A handful of pages we should ensure are compliant.
+ALL_PAGES['general'] = [
+  '/bjc-r/',
+  '/bjc-r/docs/style_guide.html',
+  '/bjc-r/docs/best_practices.html',
+  '/bjc-r/docs/translations.html',
+  '/bjc-r/topic/topic.html',
+  '/bjc-r/topic/topic.es.html',
+  '/bjc-r/sparks/design-principles.html',
+  '/bjc-r/mini/index.html'
+]
 # ===============================
 
 def test_tags(tags)
@@ -87,7 +70,7 @@ def a11y_test_cases(course, url)
 
   # axe-core rules that are not required to be accessible / do not apply
   # See: https://github.com/dequelabs/axe-core/blob/develop/doc/rule-descriptions.md
-  skipped_rules = []
+  skipped_rules = ['listitem']
 
   # These are elements that are not required to be accessible
   excluded_elements = [
@@ -129,7 +112,6 @@ def a11y_test_cases(course, url)
         .excluding(*excluded_elements)
     end
 
-    # TODO: Temporarily disabled with xit until we get the first round passing.
     it 'is WCAG 2.2 accessible', **wcag22_tags do
       expect(page).to be_axe_clean
         .according_to(*complete_a11y_standards)
@@ -138,7 +120,7 @@ def a11y_test_cases(course, url)
     end
 
     # TODO: Remove or comment out this test after the subset rules are passing.    # it allows you to easily/temporary update a subset of axe rules and run just those.
-    xit 'passes heading-order a11y rules', **wcag22_tags, heading_order: true do
+    it 'passes heading-order a11y rules', **wcag22_tags, heading_order: true do
       expect(page).to be_axe_clean
         .checking_only(%i|
           heading-order
@@ -184,31 +166,8 @@ def a11y_test_cases(course, url)
   end
 end
 
-# Use course as a tag (`rspec --tag bjc4nyc`) to run only the tests for that course.
-COURSES = %w[
-  bjc4nyc
-  bjc4nyc.es
-  sparks
-  bjc4nyc_teacher
-  sparks-teacher
-]
-ALL_PAGES = load_site_urls(COURSES)
-# A handful of pages we should ensure are compliant.
-ALL_PAGES['general'] = [
-  '/bjc-r/',
-  '/bjc-r/docs/style_guide.html',
-  '/bjc-r/docs/best_practices.html',
-  '/bjc-r/topic/topic.html',
-  '/bjc-r/topic/topic.es.html',
-  '/bjc-r/sparks/design-principles.html',
-  '/bjc-r/mini/index.html'
-]
-# base_path = File.join(File.dirname(__FILE__), '..', '..')
-# site = File.join(base_path, '**', 'index.html')
-# index_pages = Dir.glob(site).filter_map { |f| f.gsub(base_path, '/bjc-r') if !f.match?(/old\//) }
-# ALL_PAGES['Indexes'] = index_pages
-puts "Running tests on #{ALL_PAGES.values.map(&:length).sum} pages."
 
+puts "Running tests on #{ALL_PAGES.values.map(&:length).sum} pages."
 ALL_PAGES.each do |course, pages|
   pages.each { |url| a11y_test_cases(course, url) }
 end

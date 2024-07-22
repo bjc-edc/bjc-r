@@ -43,5 +43,5 @@ def open_on_mac():
 
 if __name__ == '__main__':
     # serve_from_port()
-    # open_on_mac()
+    open_on_mac()
     test(BJCServer, HTTPServer, port=PORT)
