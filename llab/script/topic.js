@@ -124,12 +124,10 @@ llab.parseTopicFile = function parser(data) {
         raw_html.push(text);
       }
       next = lines[1];
-      while (
-        next.length >= 1 && next[0] != "}" && !llab.isKeyword(next)
-      ) {
+      while (next.length >= 1 && next[0] != "}" && !llab.isKeyword(next)) {
         line = getNextLine();
         raw_html.push(line);
-        next = lines[1];
+        next = lines[0];
       }
       section.contents.push({ type: "raw-html", contents: raw_html.join("\n") });
       raw = false;
