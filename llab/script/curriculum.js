@@ -86,35 +86,36 @@ llab.secondarySetUp = function (newPath) {
     return toggleClasses.find(className => classList.includes(className));
   }
 
-  let classSelector = `div.${TOGGLE_HEADINGS.join(',div.')}`;
-  $(classSelector).each(function(i) {
+  let classSelector = `.${TOGGLE_HEADINGS.join(',.')}`;
+  $(classSelector).each(function(_i) {
     let classList = Array.from(this.classList);
     let isVisible = classList.indexOf('show') > -1;
     let contentType = lookupClassName(TOGGLE_HEADINGS, classList);
-    let id = `hint-${contentType}-${i}`;
-    this.innerHTML = `
-      <a style='font-size: 18px;' href='#${id}' data-toggle='collapse'
-        role="button" aria-controls="#${id}" aria-expanded=${isVisible}>
-        <strong>${t(contentType)}</strong>
-      </a>
-      <div id='${id}' class='collapse'>
-        ${this.innerHTML}
-      </div>`;
+    this.outerHTML = `
+      <details class="${classList.join(' ')}" ${isVisible ? 'open' : ''}>
+        <summary class="disclosure-heading">${t(contentType)}</summary>
+        <div>${this.innerHTML}</div>
+      </details>`;
+
     // Use class "ifTime show" to show by default.
-    // BS3 uses the 'in' class to show content, TODO: update this for v5.
     if (isVisible) {
-      $(`#${id}`).addClass('in');
-      $(this).removeClass('show');
+      $(this).attr('open', true);
     }
   });
 
   llab.setupSnapImages();
 
-  // TODO: Figure a nicer place to put this...
+  // TODO: Figure a nicer place to put all of these...
   // TODO: Rewrite the function to not scan every element.
   if ($('[w3-include-html]')) {
     w3.includeHTML();
   }
+
+  // Make it easy to make little color swatch boxes.
+  // These are useful when teaching about RGB.
+  $('.color-swatch').each((_, el) => {
+    $(el).css('background-color', $(el).attr('data-color'))
+  })
 
   llab.addFeedback(document.title, llab.file, llab.getQueryParameter('course'));
 
@@ -262,7 +263,6 @@ llab.processLinks = (data) => {
 
     // Make the current step have an arrow in the dropdown menu
     if (isCurrentPage) {
-      console.log('isCurrentPage...')
       llab.pageNum = pageCount;
       itemContent = llab.spanTag(itemContent, 'current-page-arrow');
     }
@@ -330,7 +330,7 @@ llab.setupTitle = function() {
 
   // Create .full before adding stuff.
   if ($(FULL).length === 0) {
-    $(document.body).wrapInner('<div class="full"></div>');
+    $(document.body).wrapInner('<main class="full"></main>');
   }
   llab.setAdditionalClasses();
 
@@ -381,14 +381,14 @@ llab.createTitleNav = function() {
     navURL = location.pathname;
   }
 
-  let previousPageButton = `
-      <a class='btn btn-nav hidden js-backPageLink js-navButton'
-        aria-label="${t('backText')}">
+  let previousButtonLabel = `aria-label="${t('backText')}"`,
+    nextButtonLabel = `aria-label="${t('nextText')}"`,
+    previousPageButton = `
+      <a class='btn btn-nav hidden js-backPageLink js-navButton' ${previousButtonLabel}>
         <i class="fas fa-arrow-left" aria-hidden=true></i>
       </a>`,
     nextPageButton = `
-      <a class='btn btn-nav hidden js-nextPageLink js-navButton'
-        aria-label="${t('nextText')}">
+      <a class='btn btn-nav hidden js-nextPageLink js-navButton' ${nextButtonLabel}>
         <i class="fas fa-arrow-right" aria-hidden=true></i>
       </a>`,
     // use \u00F1 instead of an ñ in the menu. (Issue in Chrome on topic pages)
@@ -399,12 +399,12 @@ llab.createTitleNav = function() {
           aria-label="${t('Go to Index')}">
           <img src="${logoURL}" alt="${t('BJC logo')}">
         </a>
-        <div class="navbar-title"></div>
+        <h1 class="navbar-title"></h1>
       </div>
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown js-langDropdown nav-lang-dropdown hidden">
           <a class="btn btn-nav btn-nav-lang dropdown-toggle" type="button"
-            aria-label=${t('Switch language')} role="button" tabindex=1
+            aria-label=${t('Switch language')} role="button" tabindex=0
             id="dropdown-langs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="far fa-globe" aria-hidden=true></i>
           </a>
@@ -416,7 +416,7 @@ llab.createTitleNav = function() {
         <li class="nav-btn-group nav-btn-group-first">${previousPageButton}</li>
         <li class="nav-btn-group dropdown js-navDropdown js-navButton hidden">
           <a class="btn btn-nav dropdown-toggle"
-            type="button" role="button" tabindex=1
+            type="button" role="button" tabindex=0
             aria-label="${t('Navigation Menu')}"
             id="Topic-Navigation-Menu" data-toggle="dropdown"
             aria-haspopup=true aria-expanded=false>
@@ -430,9 +430,9 @@ llab.createTitleNav = function() {
       </ul>
       <div class="trapezoid"></div>
     </nav>
-    <div class="title-small-screen"></div>`,
+    <h1 class="title-small-screen"></h1>`,
     botHTML = `
-      <div class="full-bottom-bar">
+      <nav class="full-bottom-bar" aria-label="secondary page navigation">
         <div class="js-navButton hidden" style="float: left">
           ${previousPageButton}
         </div>
@@ -440,7 +440,7 @@ llab.createTitleNav = function() {
         <div class="js-navButton hidden" style="float: right">
           ${nextPageButton}
         </div>
-      </div>`,
+      </nav>`,
     topNav = $(llab.selectors.NAVSELECT);
 
   if (topNav.length === 0) {
@@ -504,18 +504,20 @@ llab.setButtonURLs = function() {
   $('.js-navButton').removeClass('hidden').off('click');
 
   if (llab.thisPageNum() === 0) {
-    back.addClass('disabled').removeAttr('href').attr('disabled', true);
+    back.addClass('disabled').removeAttr('href').removeAttr('aria-label').attr('disabled', true);
   } else {
     back.removeClass('disabled').removeAttr('disabled')
+      .attr('aria-label', llab.t('backText'))
       .attr('href', llab.url_list[llab.thisPageNum() - 1])
       .on('click', llab.dynamicNavigation(llab.url_list[llab.thisPageNum() - 1]));
   }
 
   // Disable the forward button
   if (llab.thisPageNum() === llab.url_list.length - 1) {
-    forward.addClass('disabled').removeAttr('href').attr('disabled', true);
+    forward.addClass('disabled').removeAttr('href').removeAttr('aria-label').attr('disabled', true);
   } else {
     forward.removeClass('disabled').removeAttr('disabled')
+      .attr('aria-label', llab.t('nextText'))
       .attr('href', llab.url_list[llab.thisPageNum() + 1])
       .on('click', llab.dynamicNavigation(llab.url_list[llab.thisPageNum() + 1]));
   }
@@ -637,36 +639,36 @@ llab.addFooter = () => {
   if ($('footer').length > 0) { return; }
 
   $(document.body).append(
-  `<footer>
-    <div class="footer wrapper margins">
-      <div class="footer-col col-md-1 col-xs-4">
-        <img src="/bjc-r/img/header-footer/NSF_logo.png" alt="NSF" />
+    `<footer>
+      <div class="footer wrapper margins">
+        <div class="footer-col col-md-1 col-xs-4">
+          <img src="/bjc-r/img/header-footer/NSF_logo.png" alt="NSF" />
+        </div>
+        <div class="footer-col col-md-1 col-xs-4">
+          <img src="/bjc-r/img/header-footer/EDC_logo.png" alt="EDC" />
+        </div>
+        <div class="footer-col col-md-1 col-xs-4">
+          <img src="/bjc-r/img/header-footer/UCB_logo.png" alt="UCB" />
+        </div>
+        <div class="footer-col col-md-8 col-xs-12">
+          <p>The Beauty and Joy of Computing by University of California, Berkeley and Education
+          Development Center, Inc. is licensed under a Creative Commons
+          Attribution-NonCommercial-ShareAlike 4.0 International License. The development of this
+          site has been funded by the National Science Foundation under grant nos. 1138596, 1441075,
+          and 1837280; the U.S. Department of Education under grant number S411C200074; and the
+          Hopper-Dean Foundation.
+          Any opinions, findings, and conclusions or recommendations expressed in this material are
+          those of the author(s) and do not necessarily reflect the views of the National Science
+          Foundation or our other funders.
+        </p>
       </div>
       <div class="footer-col col-md-1 col-xs-4">
-        <img src="/bjc-r/img/header-footer/EDC_logo.png" alt="EDC" />
+        <img src="/bjc-r/img/header-footer/cc_88x31.png" alt="Creative Commons Attribution" />
       </div>
-      <div class="footer-col col-md-1 col-xs-4">
-        <img src="/bjc-r/img/header-footer/UCB_logo.png" alt="UCB" />
-      </div>
-      <div class="footer-col col-md-8 col-xs-12">
-        <p>The Beauty and Joy of Computing by University of California, Berkeley and Education
-        Development Center, Inc. is licensed under a Creative Commons
-        Attribution-NonCommercial-ShareAlike 4.0 International License. The development of this
-        site has been funded by the National Science Foundation under grant nos. 1138596, 1441075,
-        and 1837280; the U.S. Department of Education under grant number S411C200074; and the
-        Hopper-Dean Foundation.
-        Any opinions, findings, and conclusions or recommendations expressed in this material are
-        those of the author(s) and do not necessarily reflect the views of the National Science
-        Foundation or our other funders.
-      </p>
     </div>
-    <div class="footer-col col-md-1 col-xs-4">
-      <img src="/bjc-r/img/header-footer/cc_88x31.png" alt="Creative Commons Attribution" />
-    </div>
-  </div>
-</footer>`
-);
-}
+  </footer>`
+  );
+};
 
 llab.translated_page_url = function() {
   // Return the URL to the current page when a translation exists.
@@ -675,7 +677,7 @@ llab.translated_page_url = function() {
   } else if (llab.pageLang() === 'en') {
     return location.href.replace(/\.html/g, '.es.html').replace(/\.topic/g, '.es.topic');
    }
-}
+};
 
 llab.translated_content_url = function() {
   // This returns the URL directly to a topic file, so we can see if the fetch passes.

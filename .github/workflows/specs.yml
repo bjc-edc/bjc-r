@@ -1,0 +1,31 @@
+name: Run rspec tests
+
+on: [pull_request]
+
+jobs:
+  a11y:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    # env:
+    #   BUNDLE_GEMFILE: utilities/Gemfile
+    strategy:
+      matrix:
+        # The files in /bjc-r/course w/o a .html extension
+        # These correspond to rspec tags for each test run.
+        course:
+          - bjc4nyc
+          - bjc4nyc.es
+          - sparks
+          - bjc4nyc_teacher
+          - sparks-teacher
+        suite:
+          - wcag20
+          - wcag22
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ruby/setup-ruby@v1
+        with:
+          # ruby-version: 3.2.2
+          bundler-cache: true
+      - name: a11y tests
+        run: bundle exec rspec utilities/spec --tag ${{ matrix.course }}_${{ matrix.suite }}
