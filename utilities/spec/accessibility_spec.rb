@@ -71,7 +71,7 @@ def a11y_test_cases(course, url)
   # axe-core rules that are not required to be accessible / do not apply
   # See: https://github.com/dequelabs/axe-core/blob/develop/doc/rule-descriptions.md
   # This should be empty and all additions should be extensively documented, or temporary.
-  skipped_rules = ['listitem', 'list', 'heading-order']
+  skipped_rules = []
 
   # These are elements that are not required to be accessible
   excluded_elements = [
