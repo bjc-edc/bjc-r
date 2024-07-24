@@ -28,4 +28,7 @@ jobs:
           # ruby-version: 3.2.2
           bundler-cache: true
       - name: a11y tests
-        run: bundle exec rspec utilities/spec --tag ${{ matrix.course }}_${{ matrix.suite }}
+        run: bundle exec rspec utilities/specs --tag ${{ matrix.course }}_${{ matrix.suite }}
+      - name: summary
+        if: always()
+        run: ruby utitlities/specs/spec_summary.rb
