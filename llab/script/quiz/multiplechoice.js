@@ -197,7 +197,7 @@ MC.prototype.render = function() {
         });
     }
 
-    this.multipleChoice.find('.tryAgainButton').addClass('disabled');
+    this.multipleChoice.find('.tryAgainButton').addClass('disabled').attr('disabled', true);
     this.enableCheckAnswerButton('true');
     this.clearFeedbackDiv();
 
@@ -218,7 +218,7 @@ MC.prototype.render = function() {
         var resultMessage = this.getResultMessage(latestState.isCorrect);
         this.multipleChoice.find('.resultMessageDiv').html(resultMessage);
         if (latestState.isCorrect) {
-            this.multipleChoice.find('.tryAgainButton').addClass('disabled');
+            this.multipleChoice.find('.tryAgainButton').addClass('disabled').attr('disabled', true);
         }
     }
 
@@ -306,8 +306,8 @@ MC.prototype.checkAnswer = function() {
     var i, checked, choiceIdentifier, choice, fullId;
 
     this.enableRadioButtons(false);
-    this.multipleChoice.find('.checkAnswerButton').addClass('disabled');
-    this.multipleChoice.find('.tryAgainButton').removeClass('disabled');
+    this.multipleChoice.find('.checkAnswerButton').addClass('disabled').attr('disabled', true);
+    this.multipleChoice.find('.tryAgainButton').removeClass('disabled').attr('disabled', false);
     for (i = 0; i < inputbuttons.length; i++) {
         checked = inputbuttons[i].checked;
         choiceIdentifier = inputbuttons[i].getAttribute('value');
@@ -346,7 +346,7 @@ MC.prototype.checkAnswer = function() {
     if (isCorrect) {
         outerdiv.addClass('panel-success');
         this.multipleChoice.find('.resultMessageDiv').html(this.getResultMessage(isCorrect));
-        this.multipleChoice.find('.checkAnswerButton').addClass('disabled');
+        this.multipleChoice.find('.checkAnswerButton').addClass('disabled').attr('disabled', true);
     } else {
         outerdiv.addClass('panel-danger');
     }
@@ -417,13 +417,12 @@ MC.prototype.removeSpace = function(text) {
  */
 MC.prototype.enableCheckAnswerButton = function(doEnable) {
     if (doEnable == 'true') { // FIXME
-        this.multipleChoice.find('.checkAnswerButton').removeClass('disabled');
-        // disable checkAnswerButton
+        this.multipleChoice.find('.checkAnswerButton').removeClass('disabled').attr('disabled', false);
     } else {
-        this.multipleChoice.find('.tryAgainButton').addClass('disabled');
-        // disable checkAnswerButton
+        this.multipleChoice.find('.tryAgainButton').addClass('disabled').attr('disabled', true);
     }
 };
+
 /**
  * Enables radiobuttons so that user can click on them
  */

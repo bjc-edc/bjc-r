@@ -605,7 +605,7 @@ if (typeof jQuery === 'undefined') {
     this.$element
       .removeClass('collapse')
       .addClass('collapsing')[dimension](0)
-      .attr('aria-expanded', true)
+      // .attr('aria-expanded', true)
 
     this.$trigger
       .removeClass('collapsed')
