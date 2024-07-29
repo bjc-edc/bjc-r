@@ -229,7 +229,7 @@ llab.setUpDevComments = () => {
 
     if (llab.isStagingEnvironment()) {
         let open_link = $(`
-            <a class="${rightSideButton} btn-info js-openProdLink"
+            <a class="${rightSideButton} btn-primary js-openProdLink"
               target="_blank"
               href=${location.href.replace(location.host, 'bjc.edc.org')}
             >Open on edc.org</a>`)

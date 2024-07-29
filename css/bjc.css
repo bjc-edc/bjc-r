@@ -10,6 +10,7 @@ h4,
 h5,
 h6 {
   font-family: "work_sansregular", "Open Sans", sans-serif;
+  color: #000;
 }
 
 .anchor {
@@ -18,12 +19,22 @@ h6 {
 }
 
 a:visited {
-  color: #248694;
+  color: #106070; /* darkened for a11y. */
+  /* color: #248694; */
 }
 
 a,
 .dialogue a {
-  color: #2a6496;
+  /* color: #28499F; */
+  color: #3056AA;
+  /* color: #2a6496; */
+  /* TODO-A11Y: We need to find better contrasting colors, or make links visual. */
+  /* text-decoration: underline; */
+}
+
+a.btn,
+.dialogue a.btn {
+  text-decoration: none
 }
 
 /* development comments are hidden by default.
@@ -253,7 +264,7 @@ var {
 }
 
 .todo:before {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: bold;
 }
 
@@ -330,6 +341,32 @@ img.noshadow {
   -webkit-filter: drop-shadow(0px 0px 0px rgba(0, 0, 0, 0.5));
   -ms-filter: none;
   filter: none;
+}
+
+/*** OPEN/CLOSE Sections */
+/* This is the text that allows you to expand/collapse contet. */
+summary.disclosure-heading {
+  font-weight: bold;
+  font-size: 14pt;
+  cursor: pointer;
+  color: #285a8c;
+}
+
+details > summary::after {
+  content: " ▸";
+  font-size: 1.2rem;
+  text-decoration: none;
+}
+
+details[open] > summary::after {
+  content: " ▾";
+  font-size: 1.2rem;
+  text-decoration: none;
+}
+
+/* Hide Safari's disclosure triangle before the text. */
+summary::-webkit-details-marker {
+  display: none;
 }
 
 /* Used in teaching guide */
@@ -426,7 +463,7 @@ img.noshadow {
 }
 .atwork,
 .atworkFullWidth {
-  background-color: #fcc589;
+  background-color: #fcc890;
 }
 .vocab,
 .vocabBig,
@@ -477,7 +514,6 @@ div.comment,
 }
 
 .forYouToDo:before,
-.forYouToDoHeader,
 .ifTime:before,
 .dialogue:before,
 .takeItFurther:before,
@@ -495,7 +531,7 @@ div.comment,
     .vocabSummary
   ):not(.pseudop):not(.bordered-table),
 .time:before {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: bold;
   line-height: 2.5em;
 }
@@ -538,10 +574,6 @@ div.comment,
 
 .dialogue > div > span.long:not(.katex) {
   width: 9em;
-}
-
-.forYouToDoHeader {
-  text-indent: -40px;
 }
 
 .forYouToDo {
@@ -727,6 +759,11 @@ html[lang="es"] .time:before {
   content: "Si tienes poco tiempo, puedes avanzar...";
 }
 
+/* Orange blobs with text overlays. */
+.saveAs {
+  color: #333;
+}
+
 div.saveAs img {
   position: relative;
   z-index: 1;
@@ -737,7 +774,6 @@ div.saveAs span.text {
   margin-left: 182px;
   padding-top: 1.05em;
   z-index: 2;
-  color: #333;
 }
 
 html[lang="es"] div.saveAs span.text {
@@ -745,7 +781,6 @@ html[lang="es"] div.saveAs span.text {
   margin-left: 211px;
   padding-top: 1.13em;
   z-index: 2;
-  color: #333;
 }
 
 div.newProject span.text {
@@ -753,7 +788,6 @@ div.newProject span.text {
   margin-left: 323px;
   padding-top: 1.05em;
   z-index: 2;
-  color: #333;
 }
 
 html[lang="es"] div.newProject span.text {
@@ -761,7 +795,6 @@ html[lang="es"] div.newProject span.text {
   margin-left: 445px;
   padding-top: 1.18em;
   z-index: 2;
-  color: #333;
 }
 
 /* Gifffer Library */
@@ -1049,7 +1082,8 @@ table.videos td {
 /* TODO: Refactor to use bs collapse + delete arrows */
 a.expansion-menu h4,
 a.expansion-menu {
-  color: #2a6496;
+  color: #28499F;
+  /* color: #2a6496; */
 }
 a.expansion-menu:visited h4,
 a.expansion-menu:visited {
@@ -1097,4 +1131,18 @@ div.index-letter-target p {
 
 div.index-letter-target li {
   margin-left: 25px;
+}
+
+
+/* A little rounded rect showing whatever is specified as the background color.
+  Use in HTML as <div class="color-swatch" data-color="#0A78FF"> */
+.color-swatch {
+  box-sizing: border-box;
+  display: inline-block;
+  margin: 2px;
+  vertical-align: sub;
+  width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 4px;
+  border: 1px solid black;
 }
