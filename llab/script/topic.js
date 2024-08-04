@@ -296,6 +296,10 @@ llab.renderSection = function (section, parent) {
     }
   }
 
+  if ($contentContainer.children().length == 0) {
+    $contentContainer.remove();
+  }
+
   $section.appendTo(parent);
 };
 
