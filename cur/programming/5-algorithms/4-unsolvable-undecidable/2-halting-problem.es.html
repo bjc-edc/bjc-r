@@ -28,7 +28,7 @@
 
 
         <h3>Suposición de que existe una función <code>¿detener?</code></h3>
-        <h4><strong>Realizar la suposición</strong></h4>
+        <h4 class="box-head">Realizar la suposición</h4>
         <p>
 			<div class="sidenote">No podemos mostrar el código dentro de <code>¿detener?</code>; estamos demostrando que no se puede escribir en absoluto, sin importar qué código lo implemente.</div>
             Primero, <em>asumimos</em> que existe una función llamada <code>¿detener?</code> que determina si dado un reportero reportará un valor en un tiempo finito. (Si es así, decimos que el reportero <em>se detiene.</em>) Se necesitan dos entradas: una función y un valor de entrada para esa función. Reporta <code>verdadero</code> si la función reportase un valor cuando se le da esa entrada; y reporta <code>falso</code> si la función se ejecutase para siempre (en un bucle infinito).<br />
@@ -43,7 +43,7 @@
         <p class="indent"><img class="inline" src="/bjc-r/img/5-algorithms/halts-reporting-false.es.png" alt="¿detener?(programa con un bucle infinito ())(foo) reporta falso" title="¿detener?(programa con un bucle infinito ())(foo) reporta falso" /> porque <img class="inline" src="/bjc-r/img/5-algorithms/program-with-loop(foo).es.png" alt="programa con un bucle infinito (foo)" title="programa con un bucle infinito (foo)" /> bucles infinitamente.</p>
 
 
-        <h4><strong>Revisión del plan para la prueba</strong></h4>
+        <h4 class="box-head">Revisión del plan para la prueba</h4>
         <p>Usaremos prueba por contradicción para mostrar que la siguiente pregunta <em>no se puede</em> responder<em>en general</em>:</p>
         <p class="center"><strong>¿Un determinado programa de computadora, dada una determinada entrada, reportara un resultado en un tiempo finito?</strong></p>
         <div class="endnote">
@@ -87,7 +87,7 @@
 
         <h3>Muestra de cómo esto crea una contradicción</h3>
 
-		<h4><strong>Construir un programa para el cual <code>¿detener?</code> no funcionará</strong></h4>
+		<h4 class="box-head">Construir un programa para el cual <code>¿detener?</code> no funcionará</h4>
 		<p>
             Para demostrar que no puede existir tal función, necesitamos crear una contradicción. Necesitamos demostrar que tiene que haber al menos una función y una entrada a esa función para la cual <code>¿detener?</code> no funciona de la manera que asumimos. Por lo tanto, podemos hacer un bloque <code>prueba</code>, específicamente con el propósito de romper <code>¿detener?</code>:<br />
             <div class="sidenoteBig">
@@ -105,7 +105,7 @@
             Este <em>es</em> desafiante. ¡Quédate con eso! Estamos <em>creando una contradicción</em> para demostrar que no puede existir la función <code>¿detener?</code> a la que se llama dentro de <code>prueba</code>.
         </div>
 
-        <h4><strong>Uso de autorreferencia para conducir a la contradicción</strong></h4>
+        <h4 class="box-head">Uso de autorreferencia para conducir a la contradicción</h4>
         <p>
             Para hacer que la situación sea <em>exactamente</em> como lo que dijo Betsy ("La declaración que estoy haciendo <em>en este momento</em> es falsa"), llamaremos a <code>prueba</code> dentro de <em>sí mismo</em>:<br />
             <img class="indent" src="/bjc-r/img/5-algorithms/testertester.es.png" alt="prueba(prueba())" title="prueba(prueba())" /><br />
@@ -117,7 +117,7 @@
         <p class="indent"><img class="inline" src="/bjc-r/img/5-algorithms/halts-tester-tester-reporting-true.es.png" alt="¿detener? (prueba) (prueba) reporta verdadero" title="¿detener? (prueba) (prueba) reporta verdadero" /> significaría que <img class="inline" src="/bjc-r/img/5-algorithms/testertester.es.png" alt="prueba(prueba())" title="prueba(prueba())" /> devuelve un valor.</p>
         <p class="indent"><img class="inline" src="/bjc-r/img/5-algorithms/halts-tester-tester-reporting-false.es.png" alt="¿detener? (prueba) (prueba) reporta falso" title="¿detener? (prueba) (prueba) reporta falso" /> significaría que <img class="inline" src="/bjc-r/img/5-algorithms/testertester.es.png" alt="prueba(prueba())" title="prueba(prueba())" /> bucles infinitamente.</p>
 
-        <h4><strong>Entender la contradicción</strong></h4>
+        <h4 class="box-head">Entender la contradicción</h4>
         <p>
             Cuando llamamos <img class="inline" src="/bjc-r/img/5-algorithms/testertester.es.png" alt="prueba(prueba())" title="prueba(prueba())" />, nos encontramos con la contradicción. Para ver cómo, mire hacia atrás en la definición de <code>prueba</code>:<br />
             <img class="indent" src="/bjc-r/img/5-algorithms/tester-halting.es.png" alt="prueba(reportero){si(¿detener?(reportero)(reportero){por siempre{}}sino{reportar(verdadero)}}" title="prueba(reportero){si(¿detener?(reportero)(reportero){por siempre{}}sino{reportar(verdadero)}}">
