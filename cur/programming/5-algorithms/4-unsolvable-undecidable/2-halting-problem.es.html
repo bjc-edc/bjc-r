@@ -18,7 +18,7 @@
             <p><strong>En esta página</strong>, considerarás un problema que <em>no puede</em> tener una respuesta.</p>
         </div>
 
-        <p>En este punto del curso, has experimentado la frustración de depurar un programa. Sería genial si hubiera un programa de depuración de propósito general que pudiera leer cualquier código y determinar si había errores. Desafortunadamente, podemos usar prueba por contradicción (como hicieron Alphie, Betsy y Gamal en la página anterior) para demostrar que esto no se puede hacer.</p>
+        <p>En este punto del curso, has experimentado la frustración de depurar un programa. Sería genial si hubiera un programa de depuración de propósito general que pudiera leer cualquier código y determinar si había errores. Desafortunadamente, podemos usar prueba por contradicción (como hicieron Morgan, Jasmine y Omar en la página anterior) para demostrar que esto no se puede hacer.</p>
         <p>Primero, asumiremos que es posible escribir una función para determinar si hay <em>bucles infinitos</em> en un programa (situaciones en las que una función se ejecuta para siempre sin devolver un valor). Luego, utilizaremos esa función en un programa especialmente diseñado para crear una contradicción (una incompatibilidad lógica) para demostrar que la suposición es incorrecta&mdash;<strong>no puede existir un programa de depuración de uso general</strong>. "Este programa tiene errores" es un <em>problema indecidible</em>; nunca se puede construir un algoritmo que siempre lo resuelva correctamente para cada programa.</p>
         <div class="vocabFullWidth">
             <p>Un <strong>bucle infinito</strong> (<em>infinite loop</em>) es una secuencia de instrucciones de computadora que se repite para siempre.</p>
@@ -98,7 +98,7 @@
             <img class="indent" src="/bjc-r/img/5-algorithms/tester-halting.es.png" alt="prueba(reportero){si(¿detener?(reportero)(reportero){por siempre{}}sino{reportar(No importa qué valor es reportado.)}}" title="prueba(reportero){si(¿detener?(reportero)(reportero){por siempre{}}sino{reportar(No importa qué valor es reportado.)}}">
         </p>
         <p>El bloque <code>por siempre</code> en este script crea un bucle infinito. Si el código de <code>prueba</code> termina en esta parte de la declaración <code>si</code>, nunca reportara nada. Entonces, entonces si <code>prueba</code> se detendrá <em>el mismo</em> depende de la salida del predicado <code>¿detener?</code> en la declaración <code>si</code> dentro de él.</p>
-        <p>La expresion <img class="inline" src="/bjc-r/img/5-algorithms/halts-reporter-reporter.es.png" alt="¿detener? (reportero) (reportero)" title="¿detener? (reportero) (reportero)" /> pregunta qué sucederá si llamamos a la función de entrada (<var>reportar</var>) con <em>el mismo</em> como su propia entrada. Esto es similar a cuando Betsy hizo una declaración sobre la declaración que estaba haciendo, cuando dijo: "La declaración que estoy haciendo <em>en este momento</em> es falsa". </p>
+        <p>La expresion <img class="inline" src="/bjc-r/img/5-algorithms/halts-reporter-reporter.es.png" alt="¿detener? (reportero) (reportero)" title="¿detener? (reportero) (reportero)" /> pregunta qué sucederá si llamamos a la función de entrada (<var>reportar</var>) con <em>el mismo</em> como su propia entrada. Esto es similar a cuando Jasmine hizo una declaración sobre la declaración que estaba haciendo, cuando dijo: "La declaración que estoy haciendo <em>en este momento</em> es falsa". </p>
 
         <div class="endnote">
             <img class="inline" src="/bjc-r/img/icons/tough-stuff-mini.png" alt="Actividades desafiantes" title="Actividades desafiantes" />
@@ -107,7 +107,7 @@
 
         <h4><strong>Uso de autorreferencia para conducir a la contradicción</strong></h4>
         <p>
-            Para hacer que la situación sea <em>exactamente</em> como lo que dijo Betsy ("La declaración que estoy haciendo <em>en este momento</em> es falsa"), llamaremos a <code>prueba</code> dentro de <em>sí mismo</em>:<br />
+            Para hacer que la situación sea <em>exactamente</em> como lo que dijo Jasmine ("La declaración que estoy haciendo <em>en este momento</em> es falsa"), llamaremos a <code>prueba</code> dentro de <em>sí mismo</em>:<br />
             <img class="indent" src="/bjc-r/img/5-algorithms/testertester.es.png" alt="prueba(prueba())" title="prueba(prueba())" /><br />
             Ahora, la instrucción <code>si</code> dentro del bloque <code>prueba</code> preguntará si <code>prueba</code> se detendrá (no se ejecutará para siempre) si se llama con <code>prueba</code> como su entrada. El predicado en la instrucción <code>si</code> se convertirá en <code>¿detener? (prueba) (prueba)</code>.<br />
 <div class="todo">I took out class="indent" on this picture so that it'd fit in the window.  If you don't like that, figure out how to shrink the picture without fuzzing it up. -bh<br />OK, leaving this comment here to remind me for another day. --MF, 2/1/18</div>
