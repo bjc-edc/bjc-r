@@ -16,24 +16,24 @@
         <p>Unlike, for example, a video game or an art project, a contact list app is all about <strong>data</strong>. In this lab as a whole, you'll create a <code>contact</code> abstract data type, with components such as <code>name</code>, <code>address</code>, <code>phone</code>, <code>birthday</code>, and so on, much as in <a href="/bjc-r/cur/programming/2-complexity/2-data-structures-art/3-traversing-list.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 2 Lab 2: Checking Each Quiz Answer">Unit 2 Lab 2: Checking Each Quiz Answer</a> where you created a <code>quiz item</code> ADT. But in this case, each component of a <code>contact</code> will itself be an ADT. On this page you'll start with names.</p>
 
         <div class="dialogue">
-            <div><span>Alphie:</span> Hmm, that paragraph above says that <code>name</code> has to be an ADT, but I don't see why.  Isn't a name just a text string?  "Alphie North."  "Betsy
-            Davies." "Sir James Paul McCartney."</div>
+            <div><span>Morgan:</span> Hmm, that paragraph above says that <code>name</code> has to be an ADT, but I don't see why.  Isn't a name just a text string?  "Morgan Preston."  "Jasmine
+            Williams." "Sir James Paul McCartney."</div>
             <div>
-                <span>Betsy:</span> Let's look at the list on your phone.<br />
+                <span>Jasmine:</span> Let's look at the list on your phone.<br />
                 <img src="/bjc-r/img/3-lists/contacts.png" height="150" alt="list of names"><br />
 				Ah, they're sorted by last name, even though it's not the beginning of the name text.
             </div>
             <div>
-                <span>Alphie:</span> So are you saying we should have a <code>name</code> data type made out of a
+                <span>Morgan:</span> So are you saying we should have a <code>name</code> data type made out of a
                 <code>first name</code> and a <code>last name</code>? Then it'd look just like what we did for <code>point</code>:<br />
                 <img src="/bjc-r/img/3-lists/point.png" alt="point = list" title="point = list"/>&nbsp;&nbsp;&nbsp;&nbsp;<img src="/bjc-r/img/3-lists/simple-name.png" alt="name, first: (first) last: (last):  report (list first last)">
             </div>
             <div class="stagedir">Some other students start looking over their shoulders.</div>
             <div><span>Mei:</span> Do you want your app to work in China?  People there put their family name first, so Sun Yìxiān is in the Sun family, and would be in the S part of your name list, not the Y part.</div>
-            <div><span>Alphie:</span> So, you're saying we need two different <code>name</code> types, with different constructors and selectors?</div>
-            <div><span>Gamal:</span> At least two.  After you finish your program, I'll tell you about names in Iceland (given name first, but sorted on given name, not family name) and Myanmar (no family name at all)!</div>
-            <div class="stagedir">Alphie puts his head in his hands and groans.</div>
-            <div><span>Betsy:</span> Nah, it doesn't have to be that bad.  We'll just have one <code>name</code> type, but it'll have <em>variants,</em> and we'll include a <em>type tag</em> in with the given and family parts to indicate <strong>given-first</strong> (as in the US) or <strong>family-first</strong> (as in China). Gamal can add more variants later if he wants.</div>
+            <div><span>Morgan:</span> So, you're saying we need two different <code>name</code> types, with different constructors and selectors?</div>
+            <div><span>Omar:</span> At least two.  After you finish your program, I'll tell you about names in Iceland (given name first, but sorted on given name, not family name) and Myanmar (no family name at all)!</div>
+            <div class="stagedir">Morgan puts his head in his hands and groans.</div>
+            <div><span>Jasmine:</span> Nah, it doesn't have to be that bad.  We'll just have one <code>name</code> type, but it'll have <em>variants,</em> and we'll include a <em>type tag</em> in with the given and family parts to indicate <strong>given-first</strong> (as in the US) or <strong>family-first</strong> (as in China). Omar can add more variants later if he wants.</div>
         </div>
 
         <div class="forYouToDo" id="first">
@@ -73,23 +73,23 @@
         </div>
 
         <div class="dialogue">
-            <div><span>Alphie:</span> Okay, now I guess we have to make selectors, right?</div>
+            <div><span>Morgan:</span> Okay, now I guess we have to make selectors, right?</div>
             <img src="/bjc-r/img/3-lists/name-type.png" alt="name type (name): report item 1 of (name)"> <img src="/bjc-r/img/3-lists/given-name.png" alt="given name (name): report item 2 of (name)"> <img src="/bjc-r/img/3-lists/family-name.png" alt="family name (name):  report item 3 (name)">
-            <div><span>Gamal:</span> Don't call the first one <code>name type</code>.  We're going to need the same type selector for other ADTs also, so call it <code>type tag</code>.</div>
-            <div><span>Alphie:</span> How do you know?</div>
-            <div><span>Gamal:</span> I read ahead in the curriculum!</div>
-            <div class="stagedir">Alphie and Betsy groan.</div>
+            <div><span>Omar:</span> Don't call the first one <code>name type</code>.  We're going to need the same type selector for other ADTs also, so call it <code>type tag</code>.</div>
+            <div><span>Morgan:</span> How do you know?</div>
+            <div><span>Omar:</span> I read ahead in the curriculum!</div>
+            <div class="stagedir">Morgan and Jasmine groan.</div>
         </div>
 
         <div class="forYouToDo">
             <ol start="3">
-            	<li>Make the three selectors, using Gamal's suggested name for the first one.</li>
+            	<li>Make the three selectors, using Omar's suggested name for the first one.</li>
             </ol>
         </div>
 
         <div class="dialogue">
-            <div><span>Betsy:</span> But I'm not sure how this variant idea is going to help.  Mostly, the rest of the program isn't going to want the family name alone.  It's going to want the <em>entire</em> name, either in display order or in sorting order, so aren't we going to need blocks like <img src="/bjc-r/img/3-lists/given-first-name-sorted-order.png" alt="given first name in sorted form (name)"> and so on?</div>
-            <div><span>Alphie:</span> Oh, hang on, you're thinking of it as a selector just for one variant (given-first names), but we can simplify a bit by thinking of it as a selector for <em>all</em> names, <img src="/bjc-r/img/3-lists/name-sorted-block.png" alt="name (sorted form) ( )">.  The definition is a little more complicated, but the rest of the program will be able to use it without caring what kind of variant it has.</div>
+            <div><span>Jasmine:</span> But I'm not sure how this variant idea is going to help.  Mostly, the rest of the program isn't going to want the family name alone.  It's going to want the <em>entire</em> name, either in display order or in sorting order, so aren't we going to need blocks like <img src="/bjc-r/img/3-lists/given-first-name-sorted-order.png" alt="given first name in sorted form (name)"> and so on?</div>
+            <div><span>Morgan:</span> Oh, hang on, you're thinking of it as a selector just for one variant (given-first names), but we can simplify a bit by thinking of it as a selector for <em>all</em> names, <img src="/bjc-r/img/3-lists/name-sorted-block.png" alt="name (sorted form) ( )">.  The definition is a little more complicated, but the rest of the program will be able to use it without caring what kind of variant it has.</div>
         </div>
 
         <div class="forYouToDo">
@@ -97,7 +97,7 @@
                 <li>
                     Finish this definition:<br />
                     <img src="/bjc-r/img/3-lists/name-sorted-defn.png" alt="name (sorted form) (name):  if ((type tag (name)) = [given-first]) report (join (family name (name)) [, ] (given name (name)))"><br >
-                    Note that for a given-first name we put a comma and space between the names, "Davies, Betsy"; there won't be a comma for family-first names ("Sun Yìxiān").
+                    Note that for a given-first name we put a comma and space between the names, "Williams, Jasmine"; there won't be a comma for family-first names ("Sun Yìxiān").
                 </li>
                 <li>Similarly, define <img src="/bjc-r/img/3-lists/name-display.png" alt="name (display form) ( )">.</li>
             </ol>
@@ -105,11 +105,11 @@
 
         <div class="dialogue">
             <div>
-                <span>Betsy:</span> Oh, I see!  Now in the rest of the program we can just say things like<br />
+                <span>Jasmine:</span> Oh, I see!  Now in the rest of the program we can just say things like<br />
                 <img src="/bjc-r/img/3-lists/foreach-say-name.png" alt="for each (contact) of (contact list)  say (name (display form) (contact name (contact))) for 2 secs">
             </div>
             <div>
-                <span>Alphie:</span> It's even better than that!  This is where the magic comes in.  When we make the Contact ADT, we give it a type tag too:<br />
+                <span>Morgan:</span> It's even better than that!  This is where the magic comes in.  When we make the Contact ADT, we give it a type tag too:<br />
                 <img src="/bjc-r/img/3-lists/contact-with-tag.png" alt="contact, name: (name) address: (address) phone: (phone):   report (list [contact] (name) (address) (phone))"><br />
                 Then, since contacts have type tags, we can make <em>the same selector blocks</em> work for them, too:<br />
                 <img src="/bjc-r/img/3-lists/display-name-object.png" width="729" height="421" alt="name (display form) (object):  if ... if ((type tag (object)) = contact) report (name (display form) (contact name (object))) ..."><br />

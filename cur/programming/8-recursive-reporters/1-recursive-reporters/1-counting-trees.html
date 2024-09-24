@@ -9,7 +9,7 @@
     <body>
         <h2>Counting Trees</h2>
         <div class="todo">
-            <p>PG: Generic editing: Beta doesn't have a consistent name. Sometimes Betty, sometimes Betsy. General comment: I don't feel like we've settled on a goal and really crafted a sequence to reach it. I think we're showing off all sorts of things that can be done with recursion, rather than thinking about how to /teach/ recursion and structuring this so that the student really becomes the master. This page: I basically like this, but I feel it is less focused on helping a kid write a recursive reporter than on the mathematics.  Alphie's solution and the first four lines of the TOL are clever but, for our purposes, irrelevant. Worse, if we want to build a power of 2 block, we should teach how to do /that/ recursively. The method here (last two lines of TOL) does, sort of, do that, but because the focus is elsewhere (and we never draw it back), it is likely to be special purpose. We don't see the right abstraction, Alphie's "one less than a power of 2." </p>
+            <p>PG: Generic editing: Beta doesn't have a consistent name. Sometimes Betty, sometimes Jasmine. General comment: I don't feel like we've settled on a goal and really crafted a sequence to reach it. I think we're showing off all sorts of things that can be done with recursion, rather than thinking about how to /teach/ recursion and structuring this so that the student really becomes the master. This page: I basically like this, but I feel it is less focused on helping a kid write a recursive reporter than on the mathematics.  Morgan's solution and the first four lines of the TOL are clever but, for our purposes, irrelevant. Worse, if we want to build a power of 2 block, we should teach how to do /that/ recursively. The method here (last two lines of TOL) does, sort of, do that, but because the focus is elsewhere (and we never draw it back), it is likely to be special purpose. We don't see the right abstraction, Morgan's "one less than a power of 2." </p>
 			<p>BH to sort out this feedback from Tim Matthies : <a href="https://piazza.com/class/h8yx482idav52y?cid=2024" target="_blank">Post2</a> --MF, 6/17/20</p>
 			<p>Mary to consider: <a href="https://piazza.com/class/h8yx482idav52y?cid=2025" target="_blank">Post1</a></p>
 		</div>
@@ -62,18 +62,18 @@
         </div>
 
         <div class="dialogue">
-            <div class="stagedir">Alphie and Betsy discuss the code they created.</div>
+            <div class="stagedir">Morgan and Jasmine discuss the code they created.</div>
 <!--            <div class="comment">I worry that "one less than a power of 2" will need some review. Some of these kids have not had algebra, right? And even if they <em>all</em> have, some of the kids I saw were not strong mathematically. --MF  Keeping as is; powers of 2 are discussed in Unit 7 and are a sixth-grade Common Core topic.</div> -->
-            <div><span>Alphie:</span> I noticed a pattern in the table. Each number of segments is one less than a power of 2.</div>
-            <div><span>Betsy:</span> What does your code look like?</div>
-            <div><span>Alphie:</span> I used a <code>for</code> loop to build the power of 2, then I subtracted 1 at the end:<br /></div>
+            <div><span>Morgan:</span> I noticed a pattern in the table. Each number of segments is one less than a power of 2.</div>
+            <div><span>Jasmine:</span> What does your code look like?</div>
+            <div><span>Morgan:</span> I used a <code>for</code> loop to build the power of 2, then I subtracted 1 at the end:<br /></div>
             <div class="stagedir"><img src="/bjc-r/img/8-recursive-reporters/alphiecode.png" alt="segments in tree(n){script variables(answer); set(answer) to (1); for (i=1 to n){set(answer) to (answer*2)} report(answer-1)}" title="segments in tree(n){script variables(answer); set(answer) to (1); for (i=1 to n){set(answer) to (answer*2)} report(answer-1)}"></div>
-            <div><span>Alphie:</span> At the end, the <code>report</code> block sends the final value. I put the last math operation there.</div>
-            <div><span>Betsy:</span> Wow. Mine looks a lot different! I made the code look like the code for <code>tree</code>.</div>
-            <div><span>Alphie:</span> Interesting... but I don't get it.</div>
-            <div><span>Betsy:</span> Look back at the code for <code>tree</code>. We used <em>recursion</em>. We built a segment, turned, called <code>tree</code> to build a smaller tree, turned again, and then called <code>tree</code> again to build another, smaller tree.</div>
-            <div><span>Alphie:</span> Cool! We can think about how that algorithm works to write the <code>segments in tree</code> reporter recursively. But we can ignore all the moving and turning parts, right? Let me give this a shot. </div>
-            <div><span>Betsy:</span> Right! And don't forget: <em>base cases are important!</em></div>
+            <div><span>Morgan:</span> At the end, the <code>report</code> block sends the final value. I put the last math operation there.</div>
+            <div><span>Jasmine:</span> Wow. Mine looks a lot different! I made the code look like the code for <code>tree</code>.</div>
+            <div><span>Morgan:</span> Interesting... but I don't get it.</div>
+            <div><span>Jasmine:</span> Look back at the code for <code>tree</code>. We used <em>recursion</em>. We built a segment, turned, called <code>tree</code> to build a smaller tree, turned again, and then called <code>tree</code> again to build another, smaller tree.</div>
+            <div><span>Morgan:</span> Cool! We can think about how that algorithm works to write the <code>segments in tree</code> reporter recursively. But we can ignore all the moving and turning parts, right? Let me give this a shot. </div>
+            <div><span>Jasmine:</span> Right! And don't forget: <em>base cases are important!</em></div>
         </div>
 
         <p>You've built and worked with recursive <em>command</em> blocks. Recursion can also be used in <em>reporters</em>.</p>
@@ -93,7 +93,7 @@
             <ul><li>I had written n^m into <a href="/bjc-r/cur/programming/2-complexity/4-making-computers-do-math/2-math-predicates.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment">U2 Math Tools</a>, but it's now a primitive. --MF, 4/5/19</li></ul>
         </div>
 
-        <p>Here's Betsy's code for the <code>segments in tree</code> function:</p>
+        <p>Here's Jasmine's code for the <code>segments in tree</code> function:</p>
 
         <img class="indent" src="/bjc-r/img/8-recursive-reporters/bettycode.png" alt="segments in tree(n){if(n=1){report(1)}else{report(1+2*segments in tree(n-1))}}"  title="segments in tree(n){if(n=1){report(1)}else{report(1+2*segments in tree(n-1))}}" />
         <div class="takeNote">The <code>report</code> block only connects to the blocks <em>above</em> it. That's because <code>report</code> returns the result of its input slot, immediately, as the output of the <code>segments in tree</code> reporter block. No further code is executed in a reporter after a <code>report</code> block.</div>

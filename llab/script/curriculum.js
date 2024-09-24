@@ -423,7 +423,7 @@ llab.createTitleNav = function() {
             <i class="fas fa-bars" aria-hidden=true></i>
           </a>
           <ul class="js-llabPageNavMenu dropdown-menu"
-            role="menu" aria-labeledby='Topic-Navigation-Menu'>
+            role="menu" aria-labelledby='Topic-Navigation-Menu'>
           </ul>
         </li>
         <li class="nav-btn-group nav-btn-group-last">${nextPageButton}</li>
