@@ -8,14 +8,20 @@ source 'https://rubygems.org'
 
 ruby file: '.ruby-version'
 
-gem 'axe-core-capybara'
-gem 'axe-core-rspec'
-gem 'capybara'
-gem 'capybara-screenshot'
-gem 'nokogiri'
-# TODO: Replace this gem with a better default...
-gem 'rack-jekyll'
-gem 'rspec'
-gem 'selenium-webdriver'
-gem 'webdrivers'
-gem 'webrick'
+group :development, :test do
+  # Testing framework
+  gem 'rspec'
+  # Browser-based testing hooks
+  gem 'capybara'
+  gem 'capybara-screenshot'
+  gem 'selenium-webdriver'
+  gem 'webdrivers'
+  # Accessibility testing tools
+  gem 'axe-core-capybara'
+  gem 'axe-core-rspec'
+  # Testing supports
+  gem 'nokogiri'
+  gem 'rack', '~> 3'
+  gem 'rackup'
+  gem 'webrick'
+end
