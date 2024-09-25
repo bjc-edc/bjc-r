@@ -78,7 +78,6 @@ REPO_ROOT = File.expand_path('../../', __dir__)
 class StaticSite
   attr_reader :root, :server
 
-  # TODO: Rack::File will be deprecated soon. Find a better solution.
   def initialize(root)
     @root = root
     @server = Rack::File.new(root)
@@ -108,7 +107,6 @@ end
 
 Capybara::Screenshot.prune_strategy = :keep_last_run
 
-# Setup for Capybara to serve static files served by Rack
 Capybara.server = :webrick
 Capybara.app = Rack::Builder.new do
   map '/' do

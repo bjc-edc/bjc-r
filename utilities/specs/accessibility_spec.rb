@@ -3,7 +3,7 @@
 # Run accessibility specs for all pages in the webiste.
 # This runs the axe accessibility checker on each page in a headless browser.
 
-  require 'nokogiri'
+require 'nokogiri'
 
 # Load our custom BJC tools
 require_relative '../build-tools/bjc_helpers'
