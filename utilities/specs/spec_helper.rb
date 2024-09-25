@@ -20,7 +20,6 @@ require 'rspec'
 require 'rack'
 
 require 'capybara/rspec'
-# require 'capybara-screenshot/rspec'
 require 'rack/test'
 require 'axe-rspec'
 require 'axe-capybara'
@@ -28,51 +27,9 @@ require 'capybara/dsl'
 require 'capybara/session'
 require 'capybara-screenshot'
 
-# ===== bjc-r specific config/parsing....
-# TODO: This code should be moved to support/parsing sections.
-def load_site_urls(courses)
-  # Map is a course_name => [url1, url2, ...]
-  courses.map do |course|
-    puts "Buidling URLs for #{course}..."
-    [course, load_all_urls_in_course("#{course}.html")]
-  end.to_h
-end
-
-def extract_urls_from_page(topic_file, course)
-  topic_file = File.join(File.dirname(__FILE__), '..', '..', 'topic', topic_file)
-  lang = topic_file.match(/\.(\w\w)\.topic/) ? Regexp.last_match(1) : 'en'
-  topic_parser = BJCTopic.new(topic_file, course: course, language: lang)
-  topic_parser.augmented_page_paths_in_topic
-end
-
-def load_all_urls_in_course(course)
-  # Read the course page, then add all "Unit" URLs to the list
-  # TODO: Use the BJCCourse class to extract the URLs
-  results = [ "/bjc-r/course/#{course}" ]
-  course_file = File.join(File.dirname(__FILE__), '..', '..', 'course', course)
-  doc = Nokogiri::HTML(File.read(course_file))
-  urls = doc.css('.topic_container .topic_link a').map { |url| url['href'] }
-
-  topic_pages = urls.filter_map do |url|
-    next unless url.match?(/\.topic/)
-
-    query_separator = url.match?(/\?/) ? '&' : '?'
-    results << "#{url}#{query_separator}course=#{course}"
-    topic_file = url.match(/topic=(.*\.topic)/)[1]
-    extract_urls_from_page(topic_file, course)
-  end.flatten
-
-  results << topic_pages
-  results << urls.filter_map { |url| "#{url}#{url.match?(/\?/) ? '&' : '?'}course=#{course}" if !url.match?(/\.topic/) }
-  results.flatten.reject { |u| !u.start_with?('/bjc-r') }.uniq
-end
-
-# ======== end bjc-r stuff ==========
-
 # Used to set the path for a local webserver.
-# Update this if you move this file.
-DESTINATION = 'tmp/specs/'
-FILE_SERVER_ROOT = File.expand_path("../", __dir__)
+# For simplicity, this is one level above bjc-r/ so the prefix is easily handled.
+FILE_SERVER_ROOT = File.expand_path("../../../", __dir__)
 
 Capybara.register_driver :chrome_headless do |app|
   options = Selenium::WebDriver::Chrome::Options.new
@@ -114,7 +71,7 @@ Capybara::Screenshot.prune_strategy = :keep_last_run
 Capybara.server = :webrick
 Capybara.app = Rack::Builder.new do
   use Rack::Lint
-  use Rack::Static, { urls: ['/'], root: FILE_SERVER_ROOT, index: 'index.html' }
+  use Rack::Static, { urls: [''], root: "#{FILE_SERVER_ROOT}/", index: 'index.html' }
   run Rack::Files.new(FILE_SERVER_ROOT)
 end.to_app
 
