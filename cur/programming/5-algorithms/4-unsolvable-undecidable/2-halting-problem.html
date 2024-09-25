@@ -18,7 +18,7 @@
             <p><strong>On this page,</strong> you will consider a problem that <em>can't</em> have an answer.</p>
         </div>
 
-        <p>By this point in the course, you've experienced the frustration of debugging a program. It would be great if there were a general-purpose debugging program that could read any code and determine if there were bugs. Unfortunately, we can use proof by contradiction (as Alphie, Betsy, and Gamal did on the previous page) to prove that this can't be done.</p>
+        <p>By this point in the course, you've experienced the frustration of debugging a program. It would be great if there were a general-purpose debugging program that could read any code and determine if there were bugs. Unfortunately, we can use proof by contradiction (as Morgan, Jasmine, and Omar did on the previous page) to prove that this can't be done.</p>
         <p>First, we'll assume that it's possible to write a function to determine if there are <em>infinite loops</em> in a program (situations in which a function runs forever without reporting a value). Then, we'll use that function in a program especially designed to create a contradiction (a logical incompatibility) to prove that the assumption is wrong&mdash;<strong>no general-purpose debugging program can exist</strong>. "Does this program have bugs" is an <em>undecidable problem</em>; no algorithm can ever be constructed that always solves it correctly for every program.</p>
         <div class="vocabFullWidth">
             <p>An <strong>infinite loop</strong> is a sequence of computer instructions that repeats forever.</p>
@@ -98,7 +98,7 @@
             <img class="indent" src="/bjc-r/img/5-algorithms/tester-halting.png" alt="tester(reporter){if(halts?(reporter)(reporter){forever{}}else{report(It doesn't matter what value is reported.)}}" title="tester(reporter){if(halts?(reporter)(reporter){forever{}}else{report(It doesn't matter what value is reported.)}}">
         </p>
         <p>The <code>forever</code> block in this script creates an infinite loop. If the <code>tester</code> code ends up in this part of the <code>if</code> statement, it will never report anything. So whether <code>tester</code> <em>itself</em> will halt depends on the output of the <code>halts?</code> predicate in the <code>if</code> statement inside it.</p>
-        <p>The expression <img class="inline" src="/bjc-r/img/5-algorithms/halts-reporter-reporter.png" alt="halts? (reporter) (reporter)" title="halts? (reporter) (reporter)" /> asks what will happen if we call the input function (<var>reporter</var>) with <em>itself</em> as its own input. This is similar to when Betsy made a statement about the statement she was making, when she said, "The statement I'm making <em>right now</em> is false."</p>
+        <p>The expression <img class="inline" src="/bjc-r/img/5-algorithms/halts-reporter-reporter.png" alt="halts? (reporter) (reporter)" title="halts? (reporter) (reporter)" /> asks what will happen if we call the input function (<var>reporter</var>) with <em>itself</em> as its own input. This is similar to when Jasmine made a statement about the statement she was making, when she said, "The statement I'm making <em>right now</em> is false."</p>
 
         <div class="endnote">
             <img class="inline" src="/bjc-r/img/icons/tough-stuff-mini.png" alt="Tough Stuff" title="Tough Stuff" />
@@ -107,7 +107,7 @@
 
         <h4 class="box-head">Using Self-Reference to Lead to Contradiction</h4>
         <p>
-            To make the situation <em>exactly</em> like what Betsy said ("The statement I'm making <em>right now </em>is false."), we'll call <code>tester</code> on <em>itself</em>:<br />
+            To make the situation <em>exactly</em> like what Jasmine said ("The statement I'm making <em>right now </em>is false."), we'll call <code>tester</code> on <em>itself</em>:<br />
             <img class="indent" src="/bjc-r/img/5-algorithms/testertester.png" alt="tester(tester())" title="tester(tester())" /><br />
             Now, the <code>if</code> statement inside the <code>tester</code> block will ask if <code>tester</code> will halt (not run forever) if it's called with <code>tester</code> as its input. The predicate in the <code>if</code> statement will become <code>halts? (tester) (tester)</code>.<br />
 <div class="todo">I took out class="indent" on this picture so that it'd fit in the window.  If you don't like that, figure out how to shrink the picture without fuzzing it up. -bh<br />OK, leaving this comment here to remind me for another day. --MF, 2/1/18</div>
