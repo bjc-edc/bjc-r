@@ -16,18 +16,32 @@ module BJCSpecs
     sparks-teacher
   ]
 
-  # This is a map of all courses/groups
-  ALL_PAGES = {}
-  ALL_PAGES['general'] = [
-    '/bjc-r/',
-    '/bjc-r/docs/style_guide.html',
-    '/bjc-r/docs/best_practices.html',
-    '/bjc-r/docs/translations.html',
-    '/bjc-r/topic/topic.html',
-    '/bjc-r/topic/topic.es.html',
-    '/bjc-r/sparks/design-principles.html',
-    '/bjc-r/mini/index.html'
-  ]
+  # This is a map of all pages by course
+  ALL_PAGES = {
+    'general' => [
+      '/bjc-r/'
+    ]
+  }
+
+  ALL_PAGES['general'] += [
+    # For the BJC Team, but technically public
+    'docs/style_guide',
+    'docs/best_practices',
+    'docs/translations',
+    # Empty Topic pages, but are publicly visible.
+    'topic/topic',
+    'topic/topic.es',
+    # Extra course page, but not a full course.
+    'mini/index',
+    # Informational Pages, but not linked as part of a course.
+    'sparks/design-principles',
+    'cur/snap-cheat-sheet',
+    'cur/snap-cheat-sheet.es',
+    'cur/compare',
+    'cur/specifications',
+    'cur/updates',
+    'eir/school-equity'
+  ].map { |p| "/bjc-r/#{p}.html" }
 
   def load_site_urls(courses)
     # Map is a course_name => [url1, url2, ...]
