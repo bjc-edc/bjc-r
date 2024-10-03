@@ -309,7 +309,7 @@ llab.addFrame = function() {
   var source = llab.getQueryParameter("src");
 
   var frame = $(document.createElement("iframe")).attr(
-    {'src': source, 'class': 'content-embed'}
+    {'src': source, 'class': 'content-embed', 'title': 'Embedded video content'}
   );
 
   let content = $(document.createElement('div'));
@@ -626,7 +626,8 @@ llab.addFeedback = function(title, topic, course) {
         'id': 'feedback-frame',
         'width': "300",
         'height': "230",
-        'src': surveyURL
+        'src': surveyURL,
+        'title': 'Page feedback survey'
       });
       $('#fdbk').append(frame);
     }
