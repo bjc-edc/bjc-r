@@ -1,214 +1,305 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
-		<title>Unit 4 Lab 1 Teacher Guide</title>
-	</head>
 
-	<body>
-		<h2>Lab 1: Computer Networks</h2>
-        <div class="todo">KEEP SUCH THAT needs to be fixed. --MF, 6/22/20</div>
-        <p>This lab offers a very brief overview of what could be (and often is, in college-level CS) a full course in itself: how the Internet works. It emphasizes a few key ideas:</p>
+<head>
+  <meta charset="utf-8">
+  <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+  <title>Unit 4 Lab 1 Teacher Guide</title>
+</head>
+
+<body>
+  <h2>Lab 1: Computer Networks</h2>
+  <div class="todo">KEEP SUCH THAT needs to be fixed. --MF, 6/22/20</div>
+  <p>This lab offers a very brief overview of what could be (and often is, in college-level CS) a full course in
+    itself: how the Internet works. It emphasizes a few key ideas:</p>
+  <ul>
+    <li>The Internet is a huge artifact, built and maintained by thousands of people around the world, based on a
+      level of cooperation that's remarkable, considering that it connects enemy countries and competing
+      corporations.</li>
+    <li>The design of the network has to be very different from the kind of programming students have done in this
+      course, because in such a large system you have to assume that some network software or (more likely)
+      equipment will fail in the middle of a transaction. So the network needs a lot of redundancy, and software
+      (mostly running in routers) has to manage the redundant parts.</li>
+    <li>
+      The complexity of the network is such that abstraction is an absolute requirement, not just a good idea in
+      general. The multiple levels of abstraction are provided by <em>protocols:</em> design specifications for
+      software in terms of the services it can expect from lower levels of abstraction and the services it must
+      provide to higher levels. There are four main levels of abstraction:
+      <ul>
+        <li>Application layer: User-visible software such as browsers and email. Assumes a reliable Internet.
+        </li>
+        <li>Transport layer: Provides the abstraction of a reliable Internet. The main protocol at this level is
+          TCP: Transmission Control Protocol. Assumes a world-wide addressable Internet.</li>
+        <li>Internet layer: Provides the abstraction of a world-wide Internet. The main protocol at this level
+          is IP: Internet Protocol. This runs mainly in routers, not in users' computers. Assumes connection
+          to a local network and one or more larger networks.</li>
+        <li>Link layer: Provides hardware connection to a network. Ethernet, WiFi, and cellular data are the
+          main examples.</li>
+      </ul>
+    </li>
+    <li>The running of the Internet takes a lot of work, and involves a lot of international politics. &quot;Who's
+      in charge?&quot; is not a simple question.</li>
+  </ul>
+  <p>In addition to these main points, there's a lot of vocabulary the College Board expects students to learn. We try
+    to present the vocabulary a little at a time, in contexts in which each term makes sense.</p>
+
+
+  <h3>Pacing</h3>
+  <div>
+    The 4 lab pages could be split across 2&ndash;4 days (<strong>80&ndash;160 minutes</strong>). Expected times to
+    complete follow:
+    <ul>
+      <li>20&ndash;40 minutes (&lt;1 class period) on <a
+          href="/bjc-r/cur/programming/4-internet/1-reliable-communication/1-what-is-internet.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc.html&novideo&noassignment"
+          title="Page 1: What Is the Internet?">What Is the Internet?</a></li>
+      <li>15&ndash;30 minutes (&lt;1 class period) on <a
+          href="/bjc-r/cur/programming/4-internet/1-reliable-communication/2-network-redundancy.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc.html&novideo&noassignment"
+          title="Page 2: Network Redundancy">Network Redundancy</a></li>
+      <li>35&ndash;70 minutes (1&ndash;2 class periods) on <a
+          href="/bjc-r/cur/programming/4-internet/1-reliable-communication/3-open-protocols.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc.html&novideo&noassignment"
+          title="Page 3: Internet Abstractions and Open Protocols">Internet Abstractions and Open
+          Protocols</a></li>
+      <li>10&ndash;20 minutes (&lt;1 class period) on <a
+          href="/bjc-r/cur/programming/4-internet/1-reliable-communication/4-who-is-in-charge.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc.html&novideo&noassignment"
+          title="Page 4: Who's In Charge of the Internet?">Who's In Charge of the Internet?</a></li>
+    </ul>
+  </div>
+
+
+  <h3>Lab Pages</h3>
+  <div>
+    <ul>
+      <li>
+        <strong>Page 1: What Is the Internet?</strong>
         <ul>
-        	<li>The Internet is a huge artifact, built and maintained by thousands of people around the world, based on a level of cooperation that's remarkable, considering that it connects enemy countries and competing corporations.</li>
-        	<li>The design of the network has to be very different from the kind of programming students have done in this course, because in such a large system you have to assume that some network software or (more likely) equipment will fail in the middle of a transaction. So the network needs a lot of redundancy, and software (mostly running in routers) has to manage the redundant parts.</li>
-        	<li>
-                The complexity of the network is such that abstraction is an absolute requirement, not just a good idea in general. The multiple levels of abstraction are provided by <em>protocols:</em> design specifications for software in terms of the services it can expect from lower levels of abstraction and the services it must provide to higher levels. There are four main levels of abstraction:
-                <ul>
-                    <li>Application layer: User-visible software such as browsers and email. Assumes a reliable Internet.</li>
-                    <li>Transport layer: Provides the abstraction of a reliable Internet. The main protocol at this level is TCP: Transmission Control Protocol. Assumes a world-wide addressable Internet.</li>
-                    <li>Internet layer: Provides the abstraction of a world-wide Internet. The main protocol at this level is IP: Internet Protocol.  This runs mainly in routers, not in users' computers. Assumes connection to a local network and one or more larger networks.</li>
-                    <li>Link layer: Provides hardware connection to a network. Ethernet, WiFi, and cellular data are the main examples.</li>
-                </ul>
-            </li>
-        	<li>The running of the Internet takes a lot of work, and involves a lot of international politics. &quot;Who's in charge?&quot; is not a simple question.</li>
+          <li>
+            <strong>Learning Goals:</strong>
+            <ul>
+              <li>Understand the range of uses of the Internet, including but not limited to the World
+                Wide Web.</li>
+              <li>Understand some of the technical requirements to make the Internet work.</li>
+              <li>Understand what it means for data or processors to be &quot;in the cloud.&quot;</li>
+            </ul>
+          </li>
+          <li>
+            <strong>Tips:</strong>
+            <ul>
+              <li>Ask your school's IT person if you can run &quot;traceroute&quot; in class, to show
+                students how a message is routed to a computer in another country.</li>
+            </ul>
+          </li>
         </ul>
-        <p>In addition to these main points, there's a lot of vocabulary the College Board expects students to learn.  We try to present the vocabulary a little at a time, in contexts in which each term makes sense.</p>
-
-
-        <h3>Pacing</h3>
-		<div>
-			The 4 lab pages could be split across 2&ndash;4 days (<strong>80&ndash;160 minutes</strong>). Expected times to complete follow:
-			<ul>
-				<li>20&ndash;40 minutes (&lt;1 class period) on <a href="/bjc-r/cur/programming/4-internet/1-reliable-communication/1-what-is-internet.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc.html&novideo&noassignment" title="Page 1: What Is the Internet?">What Is the Internet?</a></li>
-				<li>15&ndash;30 minutes (&lt;1 class period) on <a href="/bjc-r/cur/programming/4-internet/1-reliable-communication/2-network-redundancy.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc.html&novideo&noassignment" title="Page 2: Network Redundancy">Network Redundancy</a></li>
-				<li>35&ndash;70 minutes (1&ndash;2 class periods) on <a href="/bjc-r/cur/programming/4-internet/1-reliable-communication/3-open-protocols.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc.html&novideo&noassignment" title="Page 3: Internet Abstractions and Open Protocols">Internet Abstractions and Open Protocols</a></li>
-				<li>10&ndash;20 minutes (&lt;1 class period) on <a href="/bjc-r/cur/programming/4-internet/1-reliable-communication/4-who-is-in-charge.html?topic=nyc_bjc%2F4-internet.topic&course=bjc4nyc.html&novideo&noassignment" title="Page 4: Who's In Charge of the Internet?">Who's In Charge of the Internet?</a></li>
-			</ul>
-		</div>
-
-
-		<h3>Lab Pages</h3>
-		<div>
-			<ul>
-				<li>
-					<strong>Page 1: What Is the Internet?</strong>
-					<ul>
-						<li>
-                            <strong>Learning Goals:</strong>
-                            <ul>
-                                <li>Understand the range of uses of the Internet, including but not limited to the World Wide Web.</li>
-                                <li>Understand some of the technical requirements to make the Internet work.</li>
-                                <li>Understand what it means for data or processors to be &quot;in the cloud.&quot;</li>
-                            </ul>
-						</li>
-                        <li>
-                            <strong>Tips:</strong>
-                            <ul>
-                                <li>Ask your school's IT person if you can run &quot;traceroute&quot; in class, to show students how a message is routed to a computer in another country.</li>
-                            </ul>
-                        </li>
-                    </ul>
-				</li>
-				<li>
-					<strong>Page 2: Network Redundancy.</strong>
-					<ul>
-						<li><strong>Learning Goal:</strong> Understand how network redundancy is accomplished on the Internet. </li>
-						<li>
-							<strong>Tips:</strong>
-							<ul>
-								<li>
-                                    After students have worked through the questions on the lab page, you could use these questions for a group discussion:
-									<img class="imageRight" src="/bjc-r/img/4-internet/redundant-2.jpg" alt="A network with the sender connected to the receiver via a multitude of nodes and routes demonstrating network redundancy" title="A network with the sender connected to the receiver via a multitude of nodes and routes demonstrating network redundancy" />
-                                    <ul>
-                                        <li>Are there any other two nodes whose failure would stop the message from going through? Either the two neighbor nodes of the receiver could fail or the right neighbor node of the receiver and the node <em>above</em> the left neighbor node of the receiver could fail.</li>
-                                        <li>What is the minimum number of extra connections you'd have to add so that <em>any</em> two nodes could fail without preventing messages between any two other nodes? The answer is two. There are four vertices with only two neighbors; use one edge to connect any two of those, and another to connect the other two. (This will require "crossing" connections on the graph as it is drawn here, but this is OK and could offer an opportunity to remind students of what the elements of the graph represent.)</li>
-                                        <li>What is the <em>minimum</em> number of nodes that can stop working before the sender and the receiver can't communicate? One way to answer this question is to note that the receiver has only two neighbors, so if those two nodes go down, it can't get any messages no matter where the sender is in the network. (The same argument applies to the sender, but since the sender has three neighbors and 3 &gt; 2, it's the receiver that provides the answer to this question.)</li>
-                                        <li>What is the <em>maximum</em> number of nodes that can fail and still let Sender and Receiver communicate? To answer this question, you can find the shortest path between the desired endpoints (which is the one through the two highly-connected central nodes) and then let all the other nodes fail.</li>
-                                    </ul>
-                                </li>
-                                <div class="comment"><h1>Brian</h1> This is new. I pulled it off the bottom of the student page and dumped it here. --MF, 11/18/19</div>
-                                <li>The last question on this student page poses several questions. Here are some possible correct responses:
-                                    <ul>
-                                        <li>The benefit of fault tolerance is that if some piece of the system fails, the whole system doesn't fail.</li>
-                                        <li>The Internet is fault tolerance because is has redundant connections.</li>
-                                        <li>The vulnerabilities to failure include damage to a cable, power failure, military intervention, hardware malfunction, etc.</li>
-                                    </ul>
-                                </li>
-                            </ul>
-						</li>
-					</ul>
-				</li>
-				<li>
-					<strong>Page 3: Internet Abstractions and Open Protocols.</strong>
-					<ul>
-						<li>
-                            <strong>Learning Goals:</strong>
-                            <ul>
-                                <li>Understand the four layers of abstraction in the Internet protocols.</li>
-                                <li>Understand how TCP/IP together provide the main abstractions for the net.</li>
-                                <li>Understand how your home router can send a message to any IP address.</li>
-                            </ul>
-						</li>
-						<li>
-                            <strong>Tips:</strong>
-                            <ul>
-                                <li>The Wikipedia article &quot;<a href="https://en.wikipedia.org/wiki/Internet_protocol_suite" target="_blank">Internet Protocol Suite</a>&quot; has a chart showing just a few of the 300-odd protocols that run the Internet. You might let interested kids read up on some obscure protocol and explain to the class what it does and why it's important.</li>
-                                <li>The specific implementation of  TCP/IP most commonly used around the world was developed at UC Berkeley. :-)</li>
-                                <li>It's easy to give a one-sentence description of a protocol, but, for example, early implementations of TCP worked in theory but could easily become swamped with backed up traffic; the current protocol description includes complicated timing mechanisms that are essential to keeping the net flowing smoothly.</li>
-                            </ul>
-						</li>
-					</ul>
-				</li>
-				<li>
-					<strong>Page 4: Who's In Charge of the Internet?</strong>
-					<ul>
-						<li><strong>Learning Goal:</strong> <!--(+) -->Understand the history of the development of the Internet. In particular, understand the political history of ICANN and the IETF.</li>
-					</ul>
-				</li>
-                <!--<li>
-                	<strong>Page 5: Writing HTML (Teacher's Choice).</strong>
-					<ul>
-                        <li>
-							<strong>Learning Goals:</strong>
-							<ul>
-                    			<li>Understand HTML with CSS as a special purpose programming language designed for programming web pages. </li>
-                        <!-- <li>(+) Understand JavaScript as a general purpose programming language that is frequently used with web programming.</li>- ->-->
-		  </ul>
-		</div>
-
-
-        <div class="todo">Are we cutting these assignments? If so, please delete HTML. --MF, 5/16/20</div>
-        <!--
-		<h3>Assignments</h3>
-		<div>
-        	<ul>
-            	<li>Assignment Idea: To help students solidify their understanding of address hierarchy, have them describe what it means that:
-                    <ul>
-                        <li>Street addresses are hierarchical.</li>
-                        <li>Domain names are hierarchical.</li>
-                        <li>IP addresses are hierarchical.</li>
-                    </ul>
-                </li>
-            </ul>
-        </div>-->
-
-		<h3>Solutions</h3>
-        <div w3-include-html="/bjc-r/utilities/includes/4-solutions.txt"></div>
-
-
-		<h3>Correlation with 2020 AP CS Principles Framework<a name="AP" class="anchor">&nbsp;</a></h3>
-        <div class="apStandards">
-            <h4>Computational Thinking Practices: Skills</h4>
+      </li>
+      <li>
+        <strong>Page 2: Network Redundancy.</strong>
+        <ul>
+          <li><strong>Learning Goal:</strong> Understand how network redundancy is accomplished on the
+            Internet. </li>
+          <li>
+            <strong>Tips:</strong>
             <ul>
-                <li><strong>1.D:</strong> Evaluate solution options.</li>
-                <li><strong>5.A:</strong> Explain how computing systems work.</li>
+              <li>
+                After students have worked through the questions on the lab page, you could use these
+                questions for a group discussion:
+                <img class="imageRight" src="/bjc-r/img/4-internet/redundant-2.jpg"
+                  alt="A network with the sender connected to the receiver via a multitude of nodes and routes demonstrating network redundancy"
+                  title="A network with the sender connected to the receiver via a multitude of nodes and routes demonstrating network redundancy" />
+                <ul>
+                  <li>Are there any other two nodes whose failure would stop the message from going
+                    through? Either the two neighbor nodes of the receiver could fail or the right
+                    neighbor node of the receiver and the node <em>above</em> the left neighbor node
+                    of the receiver could fail.</li>
+                  <li>What is the minimum number of extra connections you'd have to add so that
+                    <em>any</em> two nodes could fail without preventing messages between any two
+                    other nodes? The answer is two. There are four vertices with only two neighbors;
+                    use one edge to connect any two of those, and another to connect the other two.
+                    (This will require "crossing" connections on the graph as it is drawn here, but
+                    this is OK and could offer an opportunity to remind students of what the
+                    elements of the graph represent.)</li>
+                  <li>What is the <em>minimum</em> number of nodes that can stop working before the
+                    sender and the receiver can't communicate? One way to answer this question is to
+                    note that the receiver has only two neighbors, so if those two nodes go down, it
+                    can't get any messages no matter where the sender is in the network. (The same
+                    argument applies to the sender, but since the sender has three neighbors and 3
+                    &gt; 2, it's the receiver that provides the answer to this question.)</li>
+                  <li>What is the <em>maximum</em> number of nodes that can fail and still let Sender
+                    and Receiver communicate? To answer this question, you can find the shortest
+                    path between the desired endpoints (which is the one through the two
+                    highly-connected central nodes) and then let all the other nodes fail.</li>
+                </ul>
+                <div class="comment">This is new. I pulled it off the bottom of the student page and
+                  dumped it here. --MF, 11/18/19</div>
+              </li>
+              <li>The last question on this student page poses several questions. Here are some possible
+                correct responses:
+                <ul>
+                  <li>The benefit of fault tolerance is that if some piece of the system fails, the
+                    whole system doesn't fail.</li>
+                  <li>The Internet is fault tolerance because is has redundant connections.</li>
+                  <li>The vulnerabilities to failure include damage to a cable, power failure,
+                    military intervention, hardware malfunction, etc.</li>
+                </ul>
+              </li>
             </ul>
-            <h4>Learning Objectives:</h4>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <strong>Page 3: Internet Abstractions and Open Protocols.</strong>
+        <ul>
+          <li>
+            <strong>Learning Goals:</strong>
             <ul>
-                <li><strong>CSN-1.A:</strong> Explain how computing devices work together in a network. (5.A)</li>
-                <li><strong>CSN-1.B:</strong> Explain how the Internet works. (5.A)</li>
-                <li><strong>CSN-1.D:</strong> Describe the differences between the Internet and the World Wide Web. (5.A)</li>
-                <li>
-                    <strong>CSN-1.E:</strong> For fault-tolerant systems, like the Internet:
-                    <ol>
-                        <li>Describe the benefits of fault tolerance. (1.D)</li>
-                        <li>Explain how a given system is fault-tolerant. (5.A)</li>
-                        <li>Identify vulnerabilities to failure in a system. (1.D)</li>
-                    </ol>
-                </li>
+              <li>Understand the four layers of abstraction in the Internet protocols.</li>
+              <li>Understand how TCP/IP together provide the main abstractions for the net.</li>
+              <li>Understand how your home router can send a message to any IP address.</li>
             </ul>
-            <h4>Essential Knowledge:</h4>
+          </li>
+          <li>
+            <strong>Tips:</strong>
             <ul>
-                <li><strong>CSN-1.A.1:</strong> A <em>computing device</em> is a physical artifact that can run a program. Some examples include computers, tablets, servers, routers, and smart sensors.</li>
-                <li><strong>CSN-1.A.2:</strong> A <em>computing system</em> is a group of computing devices and programs working together for a common purpose.</li>
-                <li><strong>CSN-1.A.3:</strong> A <em>computer network</em> is a group of interconnected computing devices capable of sending or receiving data.</li>
-                <li><strong>CSN-1.A.4:</strong> A computer network is a type of a computing system.</li>
-                <li><strong>CSN-1.A.5:</strong> A <em>path</em> between two computing devices on a computer network (a sender and a receiver) is a sequence of directly connected computing devices that begins at the sender and ends at the receiver.</li>
-                <li><strong>CSN-1.A.6:</strong> <em>Routing</em> is the process of finding a path from sender to receiver.</li>
-                <li><strong>CSN-1.A.7:</strong> The <em>bandwidth</em> of a computer network is the maximum amount of data that can be sent in a fixed amount of time.</li>
-                <li><strong>CSN-1.A.8:</strong> Bandwidth is usually measured in bits per second.</li>
-                <li><strong>CSN-1.B.1:</strong> The Internet is a computer network consisting of interconnected networks that use standardized, open (nonproprietary) communication protocols.</li>
-                <li><strong>CSN-1.B.2:</strong> Access to the Internet depends on the ability to connect a computing device to an Internet-connected device.</li>
-                <li><strong>CSN-1.B.3:</strong> A <em>protocol</em> is an agreed-upon set of rules that specify the behavior of a system.</li>
-                <li><strong>CSN-1.B.4:</strong> The protocols used in the Internet are <em>open</em>, which allows users to easily connect additional computing devices to the Internet.</li>
-                <li><strong>CSN-1.B.5:</strong> Routing on the Internet is usually dynamic; it is not specified in advance.</li>
-                <li><strong>CSN-1.B.6:</strong> The <em>scalability</em> of a system is the capacity for the system to change in size and scale to meet new demands.</li>
-                <li><strong>CSN-1.B.7:</strong> The Internet was designed to be scalable.</li>
-                <li><strong>CSN-1.C.1:</strong> Information is passed through the Internet as a <em>data stream</em>. Data streams contain chunks of data, which are encapsulated in <em>packets</em>.</li>
-                <li><strong>CSN-1.C.2:</strong> Packets contain a chunk of data and metadata used for routing the packet between the origin and the destination on the Internet, as well as for data reassembly.</li>
-                <li><strong>CSN-1.C.3:</strong> Packets may arrive at the destination in order, out of order, or not at all.</li>
-                <li><strong>CSN-1.C-4:</strong> IP, TCP, and UDP are common protocols used on the Internet.</li>
-                <li><strong>CSN-1.D.1:</strong> The World Wide Web is a system of linked pages, programs, and files.</li>
-                <li><strong>CSN-1.D.2:</strong> HTTP is a protocol used by the World Wide Web.</li>
-                <li><strong>CSN-1.D.3:</strong> The World Wide Web uses the Internet.</li>
-                <li><strong>CSN-1.E.1:</strong> The Internet has been engineered to be fault-tolerant, with abstractions for routing and transmitting data.</li>
-                <li><strong>CSN-1.E.2:</strong> <em>Redundancy</em> is the inclusion of extra components that can be used to mitigate failure of a system if other components fail.</li>
-                <li><strong>CSN-1.E.3:</strong> One way to accomplish network redundancy is by having more than one path between any two connected devices.</li>
-                <li><strong>CSN-1.E.4:</strong> If a particular device or connection on the Internet fails, subsequent data will be sent via a different route, if possible.</li>
-                <li><strong>CSN-1.E.5:</strong> When a system can support failures and still continue to function, it is called <em>fault-tolerant</em>. This is important because elements of complex systems fail at unexpected times, often in groups, and fault tolerance allows users to continue to use the network.</li>
-                <li><strong>CSN-1.E.6:</strong> Redundancy within a system often requires additional resources but can provide the benefit of fault tolerance.</li>
-                <li><strong>CSN-1.E.7:</strong> The redundancy of routing options between two points increases the reliability of the Internet and helps it scale to more devices and more people.</li>
-                <li>
-                    <strong>IOC-1.B.1:</strong> Computing innovations can be used in ways that their creators had not originally intended:
-                    <ul>
-                        <li>The World Wide Web was originally intended only for rapid and easy exchange of information within the scientific community.</li>
-                    </ul>
-                </li>
+              <li>The Wikipedia article &quot;<a
+                  href="https://en.wikipedia.org/wiki/Internet_protocol_suite"
+                  target="_blank">Internet Protocol Suite</a>&quot; has a chart showing just a few of
+                the 300-odd protocols that run the Internet. You might let interested kids read up on
+                some obscure protocol and explain to the class what it does and why it's important.</li>
+              <li>The specific implementation of TCP/IP most commonly used around the world was developed
+                at UC Berkeley. :-)</li>
+              <li>It's easy to give a one-sentence description of a protocol, but, for example, early
+                implementations of TCP worked in theory but could easily become swamped with backed up
+                traffic; the current protocol description includes complicated timing mechanisms that
+                are essential to keeping the net flowing smoothly.</li>
             </ul>
-        </div>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <strong>Page 4: Who's In Charge of the Internet?</strong>
+        <ul>
+          <li><strong>Learning Goal:</strong> <!--(+) -->Understand the history of the development of the
+            Internet. In particular, understand the political history of ICANN and the IETF.</li>
+        </ul>
+      </li>
+      <!--<li>
+          <strong>Page 5: Writing HTML (Teacher's Choice).</strong>
+          <ul>
+            <li>
+              <strong>Learning Goals:</strong>
+              <ul>
+                <li>Understand HTML with CSS as a special purpose programming language designed for programming web pages. </li>
+            <!-- <li>(+) Understand JavaScript as a general purpose programming language that is frequently used with web programming.</li>- ->-->
+    </ul>
+  </div>
 
 
-	</body>
+  <div class="todo">Are we cutting these assignments? If so, please delete HTML. --MF, 5/16/20</div>
+  <!--
+    <h3>Assignments</h3>
+    <div>
+      <ul>
+        <li>Assignment Idea: To help students solidify their understanding of address hierarchy, have them describe what it means that:
+          <ul>
+            <li>Street addresses are hierarchical.</li>
+            <li>Domain names are hierarchical.</li>
+            <li>IP addresses are hierarchical.</li>
+          </ul>
+        </li>
+      </ul>
+    </div>-->
+
+  <h3>Solutions</h3>
+  <div w3-include-html="/bjc-r/utilities/includes/4-solutions.txt"></div>
+
+
+  <h3>Correlation with 2020 AP CS Principles Framework<a name="AP" class="anchor">&nbsp;</a></h3>
+  <div class="apStandards">
+    <h4>Computational Thinking Practices: Skills</h4>
+    <ul>
+      <li><strong>1.D:</strong> Evaluate solution options.</li>
+      <li><strong>5.A:</strong> Explain how computing systems work.</li>
+    </ul>
+    <h4>Learning Objectives:</h4>
+    <ul>
+      <li><strong>CSN-1.A:</strong> Explain how computing devices work together in a network. (5.A)</li>
+      <li><strong>CSN-1.B:</strong> Explain how the Internet works. (5.A)</li>
+      <li><strong>CSN-1.D:</strong> Describe the differences between the Internet and the World Wide Web. (5.A)
+      </li>
+      <li>
+        <strong>CSN-1.E:</strong> For fault-tolerant systems, like the Internet:
+        <ol>
+          <li>Describe the benefits of fault tolerance. (1.D)</li>
+          <li>Explain how a given system is fault-tolerant. (5.A)</li>
+          <li>Identify vulnerabilities to failure in a system. (1.D)</li>
+        </ol>
+      </li>
+    </ul>
+    <h4>Essential Knowledge:</h4>
+    <ul>
+      <li><strong>CSN-1.A.1:</strong> A <em>computing device</em> is a physical artifact that can run a program.
+        Some examples include computers, tablets, servers, routers, and smart sensors.</li>
+      <li><strong>CSN-1.A.2:</strong> A <em>computing system</em> is a group of computing devices and programs
+        working together for a common purpose.</li>
+      <li><strong>CSN-1.A.3:</strong> A <em>computer network</em> is a group of interconnected computing devices
+        capable of sending or receiving data.</li>
+      <li><strong>CSN-1.A.4:</strong> A computer network is a type of a computing system.</li>
+      <li><strong>CSN-1.A.5:</strong> A <em>path</em> between two computing devices on a computer network (a
+        sender and a receiver) is a sequence of directly connected computing devices that begins at the sender
+        and ends at the receiver.</li>
+      <li><strong>CSN-1.A.6:</strong> <em>Routing</em> is the process of finding a path from sender to receiver.
+      </li>
+      <li><strong>CSN-1.A.7:</strong> The <em>bandwidth</em> of a computer network is the maximum amount of data
+        that can be sent in a fixed amount of time.</li>
+      <li><strong>CSN-1.A.8:</strong> Bandwidth is usually measured in bits per second.</li>
+      <li><strong>CSN-1.B.1:</strong> The Internet is a computer network consisting of interconnected networks
+        that use standardized, open (nonproprietary) communication protocols.</li>
+      <li><strong>CSN-1.B.2:</strong> Access to the Internet depends on the ability to connect a computing device
+        to an Internet-connected device.</li>
+      <li><strong>CSN-1.B.3:</strong> A <em>protocol</em> is an agreed-upon set of rules that specify the behavior
+        of a system.</li>
+      <li><strong>CSN-1.B.4:</strong> The protocols used in the Internet are <em>open</em>, which allows users to
+        easily connect additional computing devices to the Internet.</li>
+      <li><strong>CSN-1.B.5:</strong> Routing on the Internet is usually dynamic; it is not specified in advance.
+      </li>
+      <li><strong>CSN-1.B.6:</strong> The <em>scalability</em> of a system is the capacity for the system to
+        change in size and scale to meet new demands.</li>
+      <li><strong>CSN-1.B.7:</strong> The Internet was designed to be scalable.</li>
+      <li><strong>CSN-1.C.1:</strong> Information is passed through the Internet as a <em>data stream</em>. Data
+        streams contain chunks of data, which are encapsulated in <em>packets</em>.</li>
+      <li><strong>CSN-1.C.2:</strong> Packets contain a chunk of data and metadata used for routing the packet
+        between the origin and the destination on the Internet, as well as for data reassembly.</li>
+      <li><strong>CSN-1.C.3:</strong> Packets may arrive at the destination in order, out of order, or not at all.
+      </li>
+      <li><strong>CSN-1.C-4:</strong> IP, TCP, and UDP are common protocols used on the Internet.</li>
+      <li><strong>CSN-1.D.1:</strong> The World Wide Web is a system of linked pages, programs, and files.</li>
+      <li><strong>CSN-1.D.2:</strong> HTTP is a protocol used by the World Wide Web.</li>
+      <li><strong>CSN-1.D.3:</strong> The World Wide Web uses the Internet.</li>
+      <li><strong>CSN-1.E.1:</strong> The Internet has been engineered to be fault-tolerant, with abstractions for
+        routing and transmitting data.</li>
+      <li><strong>CSN-1.E.2:</strong> <em>Redundancy</em> is the inclusion of extra components that can be used to
+        mitigate failure of a system if other components fail.</li>
+      <li><strong>CSN-1.E.3:</strong> One way to accomplish network redundancy is by having more than one path
+        between any two connected devices.</li>
+      <li><strong>CSN-1.E.4:</strong> If a particular device or connection on the Internet fails, subsequent data
+        will be sent via a different route, if possible.</li>
+      <li><strong>CSN-1.E.5:</strong> When a system can support failures and still continue to function, it is
+        called <em>fault-tolerant</em>. This is important because elements of complex systems fail at unexpected
+        times, often in groups, and fault tolerance allows users to continue to use the network.</li>
+      <li><strong>CSN-1.E.6:</strong> Redundancy within a system often requires additional resources but can
+        provide the benefit of fault tolerance.</li>
+      <li><strong>CSN-1.E.7:</strong> The redundancy of routing options between two points increases the
+        reliability of the Internet and helps it scale to more devices and more people.</li>
+      <li>
+        <strong>IOC-1.B.1:</strong> Computing innovations can be used in ways that their creators had not
+        originally intended:
+        <ul>
+          <li>The World Wide Web was originally intended only for rapid and easy exchange of information
+            within the scientific community.</li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+
+</body>
+
 </html>
