@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Lab 5: Smart Systems and AI</title>
+	</head>
+
+	<body>
+		<h2>Movie Recommender</h2>
+		<div class="learn">In this lab, you'll build a movie recommendation engine, using lots of lists along the way.</div>
+		<p>Have you ever been recommended something by an app? Perhaps it suggested a new product for you to buy, a new song for your playlist, or a video similar to your favorite videos? </p>
+		<p>Many web applications include recommendations, since they can be both good for the user (finding something new you enjoy!) and good for the application (more usage often means more profit). </p>
+
+		<h3>A recommendation algorithm</h3>
+		<p>An algorithm is a series of steps to solve a problem. We need to come up with an algorithm to recommend movies to someone.</p>
+		<div class="forYouToDo">
+            <ol>
+				<li>
+					Perform this skit to get an idea for one possible algorithm:
+					<div class="dialogue"> <a name="seta" class="anchor">&nbsp;</a>
+						<div><span>Morgan:</span> Hey Omar, I bet I can come up with amazing movie recommendations with you, movies you would have never thought of watching before but you will LOVE.</div>
+						<div><span>Omar:</span> Oh reallly??</div>
+						<div><span>Morgan:</span> Yep! I just need a list of a few movies you already like. What's your favorite movie?</div>
+						<div><span>Omar:</span> Toy Story</div>
+						<div><span>Morgan:</span> Okay cool, cool, animated family adventure. What's your next favorite movie?</div>
+						<div><span>Omar:</span> Toy Story II</div>
+						<div><span>Morgan:</span> Uhh okay, so you definitely like 3d animated movies. What's another movie you love?</div>
+						<div><span>Omar:</span> Toy Story III</div>
+						<div><span>Morgan:</span> AHGHGHGH Omar! I give up. Go watch Toy Story 4. Hmph.</div>
+						<div><span>Jasmine:</span> Try it with me!</div>
+						<div><span>Morgan:</span> Okkkay, what's your favorite movie?</div>
+						<div><span>Jasmine:</span> Toy Story</div>
+						<div><span>Morgan:</span> :( *sigh*grump* Next favorite movie?</div>
+						<div><span>Jasmine:</span> Back to the Future</div>
+						<div><span>Morgan:</span> *perks up* Okay, now we're getting somewhere. One more?</div>
+						<div><span>Jasmine:</span> How to Train Your Dragon</div>
+						<div><span>Morgan:</span> Okay, drumroll please! I predict that you would love Howl's Moving Castle.</div>
+						<div><span>Jasmine:</span> Sweet I'll check it out!</div>
+					</div>
+				</li>
+			</ol>
+		</div>				
+
+		<p>Morgan's movie recommendation algorithm was just in their head, but many computer programs use similar recommendations based on a user's history. Those programs need enough data to make a good suggestion, and that data can't all be basically the same. That's the difference between <strong>data</strong> and <strong>information</strong>: data is a bunch of data points that are true about the world, information is what we learn from those data points. A long list of data doesn't always mean a lot of information, but a short list of data might be chock full of information. </p>
+		<p>
+			So here's a possible way to turn Morgan's algorithm into a computer program:
+			<ol>
+				<li>Get a list of favorite movies from the user (at least 3 movies, but more is better!)</li>
+				<li>Look up each movie and record its genre.</li>
+				<li>Count how often the same genre appears across the user's favorite movies.</li>
+				<li>Calculate the top genre according to the counts</li>
+				<li>Recommend a movie that has the same genre as the top genre.</li>
+			</ol>
+		</p>
+	
+	
+		<h3>Programming the recommender</h3>
+
+		<h4>Looking up movies</h4>
+	
+		<div class="forYouToDo">
+		<div class="todo">This project requires JS extensions to be turned on in Snap. Need to address. --MF, 11/20/24</div>
+			<ol start="2">
+				<div class="comment">Link needs attention. --MF, 11/20/24</div>
+				<li>Start by downloading <a href="https://snap.berkeley.edu/snap/snap.html#present:Username=pamelafox-ucb&ProjectName=Genre%20Recommender%20FP&editMode&noRun" title="" target="_blank">this starter project</a>.</li>
+			</ol>
+		</div>
+		<p>First, we need a way to discover information about a movie. Snap doesn't know anything about movies, but there are other websites that specialize in movies. Some of those websites make it possible for other programmers (like us) to request movie information from thei`r server, via an API. That means we can use Snap to look up movies!</p>
+
+		<div class="todo">Make this diagram --MF, 11/20/24</div>
+		[ Diagram of browser -> movie server , movie info? request, movie info! response]
+
+		<p>
+			We've written a <code>look up movie</code> block that uses the OMDb API. All you need to do is drag the block into the main area and type in a movie title.<br />
+			<div class="comment">Image needs alt and title text. --MF, 11/20/24</div>
+			<img class="indent" src="/bjc-r/sparks/img/U2/lab06/look-up-movie.png">
+		</p>
+		<p>
+			When you click on that block, it will show you an empty result if it couldn't find the movie. The title <em>must</em> be spelled correctly. For example, "Toy Story 1" wouldn't find any results since the actual title is "Toy Story 1".<br />
+			<div class="comment">Image needs alt and title text. --MF, 11/20/24</div>
+			<img class="indent" src="/bjc-r/sparks/img/U2/lab06/look-up-movie-reporting-blank.png">
+		</p>
+		<p>
+			However, a successful movie lookup will show a list of details about the movie - the title, year, rating, duration, and genres.
+			<div class="comment">Image needs alt and title text. --MF, 11/20/24</div>
+			<img class="indent" src="/bjc-r/sparks/img/U2/lab06/look-up-movie-reporting.png">
+		</p>
+		<p>This is an example of a block that reports a list. In fact, it reports a list of lists, which is presented as a table in the output bubble. Each item in the list has two items, the label for that piece of data, and the value of that piece of data, like "Title" and "Toy Story". All that data came from the OMDb API.</p>
+
+
+        <h3>Recording the genres</h3>
+        <p>Now that you've verified you can look up a movie by its title, you can use another block that will report just the genres from that movie's information.</p>
+        <div class="forYouToDo">
+            <ol start="3">
+                <li>
+                    <div class="todo">Do we need to define <em>genre</em> for a middle-school audience? --MF, 11/20/24</div>
+                    Drag the <code>genres of movie</code> block into the main area, and drag the <code>look up movie</code> block into the input slot.<br />
+                    <div class="comment">Image needs alt and title text. --MF, 11/20/24</div>
+                    <img class="indent" src="/bjc-r/sparks/img/U2/lab06/genres-reporting.png">
+                </li>
+            </ol>
+        </div>
+        <p>Viola, another list! This time, the block reports the list of genres, based on the information it got from the OMDb API about the movie.</p>
+
+
+        <h3>Counting genres</h3>
+        <p>
+            The next step is to look up multiple movies and count the genres across those movies. There's another block for that, <code>count genres</code>.<br />
+            <div class="comment">Image needs alt and title text. --MF, 11/20/24</div>
+            <img class="indent" src="/bjc-r/sparks/img/U2/lab06/count-genres.png">
+        </p>
+        <div class="forYouToDo">
+            <ol start="4">
+                <li>Drag <code>count genres</code> into the main scripting area.</li>
+            </ol>
+        </div>
+        <p>Notice something different about this block? Instead of a blank, it has an icon that looks like a list. That indicates that the input parameter must be a list; it can't be a number or text.</p>
+        <div class="forYouToDo">
+            <ol start="5">
+                <li>
+                    Drag a <code>list</code> block directly from the sidebar into that icon.<br />
+                    <div class="comment">Image needs alt and title text. --MF, 11/20/24</div>
+                    <img class="indent" src="/bjc-r/sparks/img/U2/lab06/count-genres-list.png">
+                </li>
+                <li>
+                    Now drag the previous <code>genres of movie</code> block into that first list slot.<br />
+                    <div class="comment">Image needs alt and title text. --MF, 11/20/24</div>
+                    <img class="indent" src="/bjc-r/sparks/img/U2/lab06/count-genres-list-one-movie-reporting.png">
+                </li>
+            </ol>
+        </div>
+        <p>For only one movie, the count should be 1 for every genre, since it can't have seen a genre more than once yet.</p>
+        <div class="forYouToDo">
+            <ol start="7">
+                <li>
+                    Keep adding more movie titles by duplicating the <code>genres of movie</code> block and typing in a different movie title.<br />
+                    <div class="comment">Image needs alt and title text. --MF, 11/20/24</div>
+                    <img class="indent" src="/bjc-r/sparks/img/U2/lab06/count-genres-list-two-movies.png">
+                </li>
+                <li>Each time you add a movie, click the block and see how the counts change. If they don't change, you may have typed the title incorrectly. You can always double-check your title works by dragging the <code>look up movie</code> block out of that big nested block and seeing what it reports.</li>
+            </ol>
+        </div>
+        <p>
+            Once you've added a bunch of movies, some genres will probably have higher counts than others. (Unless all your favorite movies are just sequels of Toy Story, of course.)<br />
+            <div class="comment">Image needs alt and title text. --MF, 11/20/24</div>
+            <img class="indent" src="/bjc-r/sparks/img/U2/lab06/count-genres-list-four-movies-reporting.png">
+        </p>
+
+        
+        <h3>Calculating the top genre</h3>
+        <p>
+            According to our algorithm, we're going to recommend a movie based on the top genre. That's the one that has the highest count in the output from the genre counts block. There's another block that does that calculation: <code>top genre</code>.<br />
+            <div class="comment">Image needs alt and title text. --MF, 11/20/24</div>
+            <img class="indent" src="/bjc-r/sparks/img/U2/lab06/top-genre.png"><br />
+            This block also takes a list, and that list should be the output of the count genres block that we just used.
+        </p>
+        <div class="forYouToDo">
+            <ol start="9">
+                <li>
+                    Once you've moved the copy into the <code>top genre</code> block, click to make sure it reports the most common genre across those movies.<br />
+                    <div class="comment">Image needs alt and title text. --MF, 11/20/24</div>
+                    <img class="indent" src="/bjc-r/sparks/img/U2/lab06/top-genre-reporting.png"><br />
+                </li>
+            </ol>
+        </div>
+
+
+        <h3>Recommending a movie</h3>
+        <p>
+            Okay, we're nearly there! Now that we know the top genre, we can recommend a movie based on that genre. That's the job of the <code>recommend movie for genre</code> block! <br />
+            <div class="comment">Image needs alt and title text. --MF, 11/20/24</div>
+            <img class="indent" src="/bjc-r/sparks/img/U2/lab06/recommend.png"><br />
+        </p>
+
+        <div class="forYouToDo">
+            <ol start="10">
+                <li>Drag a <code>recommend movie for genre</code> block into the main scripting area.</li>
+                <li>This block also takes a list input.  Duplicate the list from the last step and drag it over the list icon.</li>
+                <li>
+                    Click the block for a movie recommendation. <br />
+                    <div class="comment">Image needs alt and title text. --MF, 11/20/24</div>
+                    <img class="indent" src="/bjc-r/sparks/img/U2/lab06/recommend-reporting.png"><br />
+                </li>
+                <li>Click again for another recommendation! The block will suggest a random movie based on the top genre, so you can get a few different suggestions for your movie watching pleasure.</li>
+            </ol>
+        </div>
+        <div class="ifTime">
+            <ol start="14">
+                <li>You can also try adding more movies to the original list to see if the recommendations change.</li>
+            </ol>
+        </div>
+
+
+        <h2>Evaluating the recommender</h2>
+        <p>
+            We were able to build a recommendation algorithm relatively quickly, but how well does it work? In fact, how do we even know how well it works? Here's one approach:
+            <ol>
+                <li>For each recommendation you received, tally whether you were excited by the recommendation and would probably try watching it, or whether you wouldn't even attempt to watch the movie.</li>
+                <li>Combine your tallies with your classmate's tallies.</li>
+                <li>Calculate the average percentage across the whole class.</li>
+            </ol>
+        </p>
+
+        <p>
+            Here's an example:
+            <div class="todo">Table needs accessibility attention (captions?). --MF, 11/20/24</div>
+            <table class="indent">
+                <tr>
+                    <th>Classmate</th>
+                    <th>Excited</th>
+                    <th>Meh</th>
+                    <th>Percentage</th>
+                </tr>
+                <tr>
+                    <td>Your Name</td>
+                    <td>3</td>
+                    <td>2</td>
+                    <td>3/5 = 60%</td>
+                </tr>
+                <tr>
+                    <td>Their Name</td>
+                    <td>4</td>
+                    <td>1</td>
+                    <td>4/5 = 80%</td>
+                </tr>
+                <tr><td colspan="4" style="text-align:right;">Average: 70%</td></tr>
+            </table>
+        </p>
+        <p>If the recommendation algorithm generated movie ideas that were exciting 70% of the time, that sounds like a pretty decent algorithm, or at least, better than a completely random movie suggestion.</p>
+        <p>We'd have an even better idea of the algorithm quality if you could all go watch all the movies and report back whether you actually liked them, but that could take a few weeks, so this will have to be good enough for now.</p>
+
+        <div class="ifTime">
+            <ol start="15">
+                <li>🤔 YouTube uses a recommendation algorithm to suggest videos to users. How do you think they decide whether their algorithm is working or not?</li>
+            </ol>
+        </div>
+
+
+        <h2>Brainstorm: New recommendation algorithms</h2>
+        <div class="ifTime">
+            <ol start="16">
+                <li>This is definitely not the best movie recommendation algorithm in the world. With a classmate or your whole class, brainstorm more ideas for ways to either improve this genre-based algorithm or to come up with a completely different strategy for recommending movies.</li>
+                <li>📝 Write out your algorithm idea as a step-by-step list or draw a diagram, whatever you prefer.</li>
+                <li>Present your algorithm to your classmates and give each other feedback. You might even combine your ideas to create the ultimate algorithm. We won't implement your algorithm today, but one day you could.</li>
+            </ol>
+        </div>
+
+
+        <h2>Discussion: The impact of recommendations</h2>
+        <p>Recommendations can be a benefit to the user, helping them discover more things they're interested in. </p>
+        <p>
+            But consider these situations that can arise from recommendations:
+            <ul>
+                <li>Watching hours of YouTube videos related to the original one you watched</li>
+                <li>Making additional purchases online beyond what you originally planned to buy</li>
+                <li>Browsing hundreds of popular posts on Instagram when you only meant to check your friend's most recent post</li>
+            </ul>
+        </p>
+        <p>More is not always better for the user, even if it means more usage for the app. </p>
+        <p>
+            An organization actually tracked user happiness based on time spent in mobile apps and made this graph of the results:<br />
+            <div class="comment">
+                <p>Image needs alt and title text. --MF, 11/20/24</p>
+                <p>ALSO, this one needs attribution; where is this from? --MF, 11/20/24</p>
+            </div>
+            <img class="indent" src="/bjc-r/sparks/img/U2/lab06/daily-time.png">
+        </p>
+        <p>For many apps, user happiness was correlated with spending less time on the app, usually between 10-40 minutes each day.</p>
+        <div class="ifTime">
+            <ol start="19">
+                <li>🤔 What do you think? When are recommendations a good thing? Is there a way that apps can present recommendations to users that can help them make healthy decisions about how to spend their time and money? Discuss with your classmates.</li>
+            </ol>
+        </div>
+
+		<div class="learn">In this lab, you built a movie recommendation engine, using lots of lists along the way.</div>
+
+
+	</body>
+</html>
