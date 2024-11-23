@@ -8,166 +8,213 @@
 
 	<body>
 		<h2>Machine Learning</h2>
-		<div class="learn"></div>
-		
-		Perhaps you've heard of "AI": artificial intelligence. AI describes any strategy that helps a computer make smart decisions, like being able to make predictions about the future or being able to recognize the objects in an image. 
-
-One way to make a program smarter is to use machine learning: you feed the computer some data, the program learns from the data to build a model of the world, and then the program can make predictions or classifications based on its model of the world. 
-
-It sounds a lot like how humans learn about the world, right? Starting from childhood, we see more and more examples of things ("red apple!" "green apple!"), we start to make connections and form an idea in our head, and then we can apply our knowledge to new examples ("oh, a pink apple!"). Of course, we don't always get it right (a peach can be a very confusing fruit for a toddler who's only ever seen apples!). That's true of machine learning too: it's only as good as the data that goes into it and the algorithm that learns from the data.
-
-In this lab, you'll use machine learning to teach a Snap program about the world, going through these sequence of steps:
-
-
-
-Get data (& exercise!)
-
-Here's the question we're hoping our AI can answer: If all the students at your school stood in a line holding hands, how long would it take them to pass a hula hoop from one end of the line to the other?
-
-✏️ First, make your own prediction and write it down on a paper or post-it note. Keep that paper or pass it to your teacher so they can put up all the predictions.
-
-Now you're going to use a computer to answer the question, since it could take a REALLY long time to pass that hula hoop, and you probably can't spend all day in a circle. Plus, if you build a model that answers that question, you could then answer other questions, like other schools, the population of your town, etc.
-
-The plan: You'll do this activity in increasing larger groups in your class, until you have data points for a range of sizes. That will become the input data for the model. The hope is that the model can learn from that data set and make predictions about much larger numbers.
-
-Instructions:
-Get into groups of 9-15 people.
-Designate someone as the timekeeper with a stopwatch. 
-Start off with groups of two, with the hula hoop on one student's wrist.
-The timekeeper will record the time it takes for the hula hoop to get to the other student's wrist. 
-Continue adding a student, recording each new time.
-Stop once you've run out of group members.
-
-Split the data
-
-Whenever we build a machine learning model, we need some sort of validation: a test of whether the model has correctly learned about the world. One form of validation is to split the original data into training data and test data, and then checking predictions on the test data to see how close the predictions are to the actual data. 
-
-So the sequence of steps is actually more like this:
-
-
-
-How many data points should you reserve for the test data set? Often, machine learning engineers do an 80/20 split, keeping 80% of the original data as training data and 20% for validation. Mark a few of the rows in your sheet with stars to indicate that they'll be part of the test data set, at least two rows but not more than 20%. You don't have a lot of data to start off with, so if you reserve too much for the test data, there won't be enough training data!
-Digitize the data
-
-Download this starter project.
-
-Since your data is just on a piece of paper right now, the first step is to digitize the data.
-
-Your data table is really a collection of data points, where each number of people is the x value and the amount of time taken is the y value. So you'll store it as a list of points in Snap.
-
-Drag a list block into the main area, then drag a point block into the first slot. 
-
-Write the data point in that point block, putting the number of people in the first slot and then the time taken in the second slot.
-
-Click on the block and you should see a table that looks like your actual table (but with only one row so far):
-
-
-By the way, the point block is actually creating a 2-item list (you can peek inside the block definition to see!), but using the point block instead of a list block makes the program much easier to read.
-
-To add the rest of your data, keep following the same process:
-Click the outer right arrow to add a new slot to the outer list block, representing a data point.
-Drag a point block into the newly created slot.
-Type the number of people in the first slot of that block and the time taken in the second slot.
-
-You should only be adding the training data points to this first list. Leave out the rows that you're saving as the test data points.
-
-When you're done, clicking on the block should yield a table that looks familiar, minus the test data rows:
-
-
-
-Now make another list for the remaining rows that you've designated as the test data.
-
-Add variables
-Oftentimes in programming, we need to be able to reuse a piece of data multiple times. In this case, we're going to be reusing the data points in a few places. Instead of repeating the same list both times, it's more convenient to store the list in a variable. A variable has a name and a value. Once you store some value in a variable, you can simply reference the variable name when you want to use that data again.
-
-To create a variable, click "Make a variable" and type the variable name "training data" in the pop-up. That variable will now show up in the sidebar, so that you can drag its name into any slot. A monitor for that variable will also show up on the stage along with its current value. That can be useful for debugging, but you can also un-select the checkbox to hide the stage monitor.
-
-
-
-Now your program has a variable named training data, but it isn't storing any value yet. For that, drag the set variable block into the main area. 
-
-
-
-Instead of a slot, this block has a dropdown which shows you all the possible variable names in the program. Select "training data" from the dropdown and then drag the list block from earlier into the right-hand slot.
-
-
-
-
-Now do the same for the test data. Make a new variable named "test data", and use another set variable block to store the test data list in that variable.
-
-
-
-
-
-Build the model
-
-It's machine learning time! Here's a reminder of the process we're following:
-
-
-
-Since we now have the training data stored in a variable, let's build a model based on that data.
-
-First though, make a new variable called "model" to store the model. Drag another set variable block and snap it below the first two. Select "model" from the dropdown.
-
-What about the value? That will be the actual model of the world built by the machine learning algorithm. Drag the build model block into the right-hand slot.
-
-
-
-That model has a slot for the training data, which you now have stored in a variable. Instead of dragging the whole list into the slot, drag the variable name from the script variables block into the slot instead.
-
-
-
-So, a model is now built, but what is a model really? Let's step back and…
-
-Visualize!
-
-The type of machine learning that we're using in this lab is called linear regression. It only works if there is a linear relationship between the data points - i.e. the amount of time increases at the same rate as the number of people. It learns that rate, and uses it for prediction.
-
-We can visualize how the model works by making a graph of the training data.
-
-Drag the make graph block into the main area. This block takes two input parameters: the first is the training data and the second is the model. Conveniently, those are already stored in variables! Drag the variable names into the block.
-
-
-
-Click the whole sequence of blocks to build the model and make the graph. You should see a graph in the stage like this one:
-
-
-This graph shows the data as blue circles, but it also shows a line that fits those points pretty well. That line represents the model, and the equation of the line can be used to predict the amount of time for *any* number of people. 
-
-Test the model
-
-How good is the model? How accurately can that line predict times for group sizes that were *not* in the training data? 
-
-One way to check the quality of the model is to calculate the average error: how far off the predicted value is from the actual value, on average. Drag the calculate average error block into the main area.
-
-
-
-The block takes two input parameters, the test data and the model. You've got both of those stored in variables, so just drag the variable names into the slots. Click the block to see the average error. For the sample test data, I got an average error of 2 seconds, which seems pretty reasonable to me. 
-
-🤔  What error did you get? Does it feel like a reasonable error to you? You could compare with other groups in the class. If it's not, you may need more training data. There might have been an issue with the timekeeping in your original data or just not enough data points.
-
-Make predictions
-
-Remember the process? We're at the final step! Our program uses basic machine learning to build a model of the world, and we've tested that model on test data to validate that it has an understanding of the world. It's time to make some predictions...
-
-
-
-You can make a prediction for any number of people using the prediction block:
-
-
-Drag the model variable into the first slot and type any value in the second slot. That slot is called the x value, since that's how the number of people is represented on the graph, but for this situation, you can think of it as the number of people. Click the block to see the prediction.
-
-If that prediction seems reasonable, it's time to answer the original question: how long would it take to pass the hula hoop amongst all the students in your school? Put the number of students in the prediction block and check out the result.
-
-Discuss:
-How far off was your prediction from the computer's prediction?
-Who got closest in your class?
-Do you trust the computer prediction, or do you think some other factors would affect the time taken by an entire school?
-
-
-Worksheet: Hula Hoop Data
-
-
+		<div class="learn">In this lab, you'll use machine learning to teach a Snap program about the world.</div>
+		<p>Perhaps you've heard of "AI": artificial intelligence. AI describes any strategy that helps a computer make smart decisions, like being able to make predictions about the future or being able to recognize the objects in an image.</p>
+        <p>One way to make a program smarter is to use <strong>machine learning</strong>: you feed the computer some data, the program learns from the data to build a model of the world, and then the program can make predictions or classifications based on its model of the world.</p>
+        <p>It sounds a lot like how humans learn about the world, right? Starting from childhood, we see more and more examples of things ("red apple!" "green apple!"), we start to make connections and form an idea in our head, and then we can apply our knowledge to new examples ("oh, a pink apple!"). Of course, we don't always get it right (a peach can be a very confusing fruit for a toddler who's only ever seen apples!). That's true of machine learning too: it's only as good as the data that goes into it and the algorithm that learns from the data.</p>
+        <p>
+            In this lab, you'll use machine learning to teach a Snap program about the world, going through these sequence of steps:<br />
+			<div class="comment">Image needs alt and title text. --MF, 11/23/24</div>
+            <img class="indent" src="/bjc-r/sparks/img/U2/lab07/steps01.png" />
+        </p>
+        
+        
+        <h3>Get data (&amp; exercise!)</h3>
+        <p>Here's the question we're hoping our AI can answer: If all the students at your school stood in a line holding hands, how long would it take them to pass a hula hoop from one end of the line to the other?</p>
+        <div class="forYouToDo">
+            <ol>
+                <li>✏️ First, make your own prediction and write it down on a paper or post-it note. Keep that paper or pass it to your teacher so they can put up all the predictions.</li>
+            </ol>
+        </div>
+        <p>Now you're going to use a computer to answer the question, since it could take a REALLY long time to pass that hula hoop, and you probably can't spend all day in a circle. Plus, if you build a model that answers that question, you could then answer other questions, like other schools, the population of your town, etc.</p>
+        <p>The plan: You'll do this activity in increasing larger groups in your class, until you have data points for a range of sizes. That will become the input data for the model. The hope is that the model can learn from that data set and make predictions about much larger numbers.</p>
+        <div class="forYouToDo">
+            Instructions:
+            <ol start="2">
+                <li>Get into groups of 9-15 people.</li>
+                <li>Designate someone as the timekeeper with a stopwatch. </li>
+                <li>Start off with groups of two, with the hula hoop on one student's wrist.</li>
+                <li>The timekeeper will record the time it takes for the hula hoop to get to the other student's wrist. </li>
+                <li>Continue adding a student, recording each new time.</li>
+                <li>Stop once you've run out of group members.</li>
+            </ol>
+        </div>
+
+        
+        <h3>Split the data</h3>
+        <p>Whenever we build a machine learning model, we need some sort of validation: a test of whether the model has correctly learned about the world. One form of validation is to split the original data into training data and test data, and then checking predictions on the test data to see how close the predictions are to the actual data.</p>
+        <p>
+            So the sequence of steps is actually more like this:<br />
+			<div class="comment">Image needs alt and title text. --MF, 11/23/24</div>
+            <img class="indent" src="/bjc-r/sparks/img/U2/lab07/steps02.png" />
+        </p>
+        <p>How many data points should you reserve for the test data set? Often, machine learning engineers do an 80/20 split, keeping 80% of the original data as training data and 20% for validation. Mark a few of the rows in your sheet with stars to indicate that they'll be part of the test data set, at least two rows but not more than 20%. You don't have a lot of data to start off with, so if you reserve too much for the test data, there won't be enough training data!</p>
+
+
+        <h3>Digitize the data</h3>
+        <div class="forYouToDo">
+            Instructions:
+            <ol start="8">
+                <div class="todo">Need to update link with correct starter file.</div>
+			    <div class="comment">Image needs alt and title text. --MF, 11/23/24</div>
+                <li>Download <a href="https://snap.berkeley.edu/snap/snap.html#present:Username=pamelafox-ucb&ProjectName=Regression-Take2&editMode">this starter project</a>.</li>
+            </ol>
+        </div>
+        <p>Since your data is just on a piece of paper right now, the first step is to digitize the data.</p>
+        <p>Your data table is really a collection of data points, where each number of people is the x value and the amount of time taken is the y value. So you'll store it as a list of points in Snap.</p>
+        <div class="forYouToDo">
+            <ol start="9">
+                <li>
+                    Drag a list block into the main area, then drag a <code>point</code> block into the first slot. <br />
+			        <div class="comment">Image needs alt and title text. --MF, 11/23/24</div>
+                    <img class="indent" src="/bjc-r/sparks/img/U2/lab07/list-point.png" />
+                </li>
+                <li>Write the data point in that <code>point</code> block, putting the number of people in the first slot and then the time taken in the second slot.</li>
+                <li>
+                    Click on the block and you should see a table that looks like your actual table (but with only one row so far):<br />
+			        <div class="comment">Image needs alt and title text. --MF, 11/23/24</div>
+                    <img class="indent" src="/bjc-r/sparks/img/U2/lab07/list-point-reporting.png" />
+                </li>
+            </ol>
+        </div>
+        <p>By the way, the <code>point</code> block is actually creating a 2-item list (you can peek inside the block definition to see!), but using the point block instead of a list block makes the program much easier to read.</p>
+        <div class="forYouToDo">
+            <ol start="12">
+                <li>
+                    To add the rest of your data, keep following the same process:
+                    <ol start="12">
+                        <li>Click the outer right arrow to add a new slot to the outer list block, representing a data point.</li>
+                        <li>Drag a <code>point</code> block into the newly created slot.</li>
+                        <li>Type the number of people in the first slot of that block and the time taken in the second slot.</li>
+                    </ol>
+                </li>
+                <li>You should <em>only</em> be adding the training data points to this first list. Leave out the rows that you're saving as the test data points.</li>
+                <li>
+                    When you're done, clicking on the block should yield a table that looks familiar, minus the test data rows:<br />
+			        <div class="comment">Image needs alt and title text. --MF, 11/23/24</div>
+                    <img class="indent" src="/bjc-r/sparks/img/U2/lab07/list-point-long-reporting.png" />
+                </li>
+                <li>
+                    Now make another list for the remaining rows that you've designated as the test data.<br />
+			        <div class="comment">Image needs alt and title text. --MF, 11/23/24</div>
+                    <img class="indent" src="/bjc-r/sparks/img/U2/lab07/list-point-short-reporting.png" />
+                </li>
+            </ol>
+        </div>
+
+
+        <h3>Add variables</h3>
+        <p>Oftentimes in programming, we need to be able to reuse a piece of data multiple times. In this case, we're going to be reusing the data points in a few places. Instead of repeating the same list both times, it's more convenient to store the list in a <em>variable</em>. A variable has a name and a value. Once you store some value in a variable, you can simply reference the variable name when you want to use that data again.</p>
+        <div class="forYouToDo">
+            <ol start="15">
+                <li>
+                    To create a variable, click "Make a variable" and type the variable name "training data" in the pop-up. That variable will now show up in the sidebar, so that you can drag its name into any slot. A monitor for that variable will also show up on the stage along with its current value. That can be useful for debugging, but you can also un-select the checkbox to hide the stage monitor.<br />
+			        <div class="comment">Image needs alt and title text. --MF, 11/23/24</div>
+                    <img class="indent" src="/bjc-r/sparks/img/U2/lab07/training-data-watcher.png" />
+                </li>
+                <li>
+                    Now your program has a variable named training data, but it isn't storing any value yet. For that, drag the set variable block into the main area.<br />
+			        <div class="comment">Image needs alt and title text. --MF, 11/23/24</div>
+                    <img class="indent" src="/bjc-r/sparks/img/U2/lab07/set-to-0.png" />
+                </li>
+                <li>
+                    Instead of a slot, this block has a dropdown which shows you all the possible variable names in the program. Select "training data" from the dropdown and then drag the list block from earlier into the right-hand slot.<br />
+			        <div class="comment">Image needs alt and title text. --MF, 11/23/24</div>
+                    <img class="indent" src="/bjc-r/sparks/img/U2/lab07/set-training-data.png" />
+                </li>
+                <li>
+                    Now do the same for the test data. Make a new variable named "test data", and use another set variable block to store the test data list in that variable.<br />
+			        <div class="comment">Image needs alt and title text. --MF, 11/23/24</div>
+                    <img class="indent" src="/bjc-r/sparks/img/U2/lab07/set-training-data-set-test-data.png" />
+                </li>
+            </ol>
+        </div>
+
+
+        <h3>Build the model</h3>
+        <p>
+            It's machine learning time! Here's a reminder of the process we're following:<br />
+            <div class="comment">Image needs alt and title text. --MF, 11/23/24</div>
+            <img class="indent" src="/bjc-r/sparks/img/U2/lab07/steps03.png" />
+        </p>
+        <p>Since we now have the training data stored in a variable, let's build a model based on that data.</p>
+        <div class="forYouToDo">
+            <ol start="19">
+                <li>First though, make a new variable called "model" to store the model. Drag another set variable block and snap it below the first two. Select "model" from the dropdown.</li>
+                <li>
+                    What about the value? That will be the actual model of the world built by the machine learning algorithm. Drag the build model block into the right-hand slot.<br />
+			        <div class="comment">Image needs alt and title text. --MF, 11/23/24</div>
+                    <img class="indent" src="/bjc-r/sparks/img/U2/lab07/set-model-build-model.png" />
+                </li>
+                <li>
+                    That model has a slot for the training data, which you now have stored in a variable. Instead of dragging the whole list into the slot, drag the variable name from the script variables block into the slot instead.<br />
+			        <div class="comment">Image needs alt and title text. --MF, 11/23/24</div>
+                    <img class="indent" src="/bjc-r/sparks/img/U2/lab07/set-model-build-model-training-data.png" />
+                </li>
+            </ol>
+        </div>
+        <p>So, a model is now built, but what is a model really? Let's step back and…</p>
+
+
+        <h3>Visualize!</h3>
+        <p>The type of machine learning that we're using in this lab is called linear regression. It only works if there is a linear relationship between the data points - i.e. the amount of time increases at the same rate as the number of people. It learns that rate, and uses it for prediction.</p>
+        <p>We can visualize how the model works by making a graph of the training data.</p>
+        <div class="forYouToDo">
+            <ol start="22">
+                <li>
+                    Drag the make graph block into the main area. This block takes two input parameters: the first is the training data and the second is the model. Conveniently, those are already stored in variables! Drag the variable names into the block.<br />
+			        <div class="comment">Image needs alt and title text. --MF, 11/23/24</div>
+                    <img class="indent" src="/bjc-r/sparks/img/U2/lab07/make-graph.png" />
+                </li>
+                <li>Click the whole sequence of blocks to build the model and make the graph. You should see a graph in the stage like this one:<br />
+			        <div class="comment">Image needs alt and title text. --MF, 11/23/24</div>
+                    <img class="indent" src="/bjc-r/sparks/img/U2/lab07/graph.png" />
+                </li>
+            </ol>
+        </div>
+        <p>This graph shows the data as blue circles, but it also shows a line that fits those points pretty well. That line represents the model, and the equation of the line can be used to predict the amount of time for *any* number of people. </p>
+
+
+        <h3>Test the model</h3>
+        <p>How good is the model? How accurately can that line predict times for group sizes that were *not* in the training data?</p>
+        <p>One way to check the quality of the model is to calculate the average error: how far off the predicted value is from the actual value, on average. </p>
+        <div class="forYouToDo">
+            <ol start="24">
+                <li>Drag the calculate average error block into the main area.<br />
+			        <div class="comment">Image needs alt and title text. --MF, 11/23/24</div>
+                    <img class="indent" src="/bjc-r/sparks/img/U2/lab07/calculate-average-error.png" />
+                </li>
+                <li>The block takes two input parameters, the test data and the model. You've got both of those stored in variables, so just drag the variable names into the slots. Click the block to see the average error. For the sample test data, I got an average error of 2 seconds, which seems pretty reasonable to me. </li>
+                <li>🤔  What error did you get? Does it feel like a reasonable error to you? You could compare with other groups in the class. If it's not, you may need more training data. There might have been an issue with the timekeeping in your original data or just not enough data points.</li>
+            </ol>
+        </div>
+
+
+        <h3>Make predictions</h3>
+        <p>
+            Remember the process? We're at the final step! Our program uses basic machine learning to build a model of the world, and we've tested that model on test data to validate that it has an understanding of the world. It's time to make some predictions...<br />
+            <div class="comment">Image needs alt and title text. --MF, 11/23/24</div>
+            <img class="indent" src="/bjc-r/sparks/img/U2/lab07/steps04.png" />
+        </p>
+        <p>
+            You can make a prediction for any number of people using the <code>prediction</code> block:<br />
+            <div class="comment">Image needs alt and title text. --MF, 11/23/24</div>
+            <img class="indent" src="/bjc-r/sparks/img/U2/lab07/prediction.png" />
+        </p>
+        <div class="forYouToDo">
+            <ol start="27">
+                <li>Drag the model variable into the first slot and type any value in the second slot. That slot is called the x value, since that's how the number of people is represented on the graph, but for this situation, you can think of it as the number of people. Click the block to see the prediction.</li>
+                <li>If that prediction seems reasonable, it's time to answer the original question: how long would it take to pass the hula hoop amongst all the students in your school? Put the number of students in the prediction block and check out the result.</li>
+                <li>
+                    Discuss:
+                    <ul>
+                        <li>How far off was your prediction from the computer's prediction?</li>
+                        <li>Who got closest in your class?</li>
+                        <li>Do you trust the computer prediction, or do you think some other factors would affect the time taken by an entire school?</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
 
 		<div class="learn"></div>
 
