@@ -16,7 +16,7 @@
 		<h3>Writing Code to Draw One Set of Samples</h3>
 		<p>
 			<div class="sidenote">You learned about the <code>for each</code> block on <a href="/bjc-r/sparks/student-pages/U2/L1/05-beat-repeat.html?topic=sparks%2F2-sequencing-iteration.topic&course=sparks.html" title="Unit 2 Lab 1 Activity 5: Beat Repeat">Unit 2 Lab 1 Activity 5: Beat Repeat</a>.</div>
-			There is a <code>for each</code> block at the core of the oscilloscope code. In order to draw a plot of the microphone volume intensity (loudness) over time, the sprite should go to each microphone volume sample, tracing our the intensities across the Snap<em>!</em> stage.<br />
+			There is a <code>for each</code> block at the core of the oscilloscope code. In order to draw a plot of the microphone volume intensity (loudness) over time, the sprite should go to each microphone volume sample, tracing out the intensities for each sample across the Snap<em>!</em> stage.<br />
 			<img class="indent" src="/bjc-r/sparks/img/U2/lab03/oscilloscope-core-2-no-inputs.png" alt="for each (sample) in (microphone (samples)) {
 go to x: () y: ()
 }" title="for each (sample) in (microphone (samples)) {
@@ -25,7 +25,7 @@ go to x: () y: ()
 
 		</p>
 		<p>As you've seen, every time <code>microphone (samples)</code> runs, it reports a set of samples recorded over a brief period of time. For our oscilloscope, we want to plot that set of samples across the stage, then replace the drawing with the next set of sound samples detected, then replace it again, and so on in order to visualize the changing signal intensity over time.</p>
-		<p>Since we'll plot the samples across the stage horizontally, we need to keep track of how much space each sample gets on the stage.</p>
+		<p>Since we'll plot the samples across the stage horizontally, we need to keep track of the width each sample should get on the stage.</p>
 
 		<div class="forYouToDo">
 			<ol start="1">
@@ -34,14 +34,17 @@ go to x: () y: ()
 					<div class="sidenote">
 						<p>You learned about global variables in <a href="/bjc-r/sparks/student-pages/U2/L1/06-storing-songs.html?topic=sparks%2F2-sequencing-iteration.topic&course=sparks.html" title="Unit 2 Lab 1 Activity 6: Storing Songs">Unit 2 Lab 1 Activity 6: Storing Songs</a>.</p>
 					</div>
-					Create a global variable called <var>sample width</var> to store the amount space each sample gets on the stage. Set it to the width of the stage divided by the microphone resolution (the number of values in the sample set). <a href="#hint-sample-width" data-toggle="collapse" title="Click for an example of how to set the value of the 'sample width' variable.">Click for an example of how to set the value of this variable.</a>
-					<div id="hint-sample-width" class="collapse"><p><img class="indent" src="/bjc-r/sparks/img/U2/lab03/oscilloscope-core-1.png" alt="set (sample width) to (width of (Stage) / microphone (resolution))" title="set (sample width) to (width of (Stage) / microphone (resolution))" /></p></div>
-					<div class="endnote"><strong><h4>Why set <var>sample width</var> to the width of the stage divided by the microphone resolution?</h4></strong> Since we need to know how much space each sample gets on the stage, we need to divide up the stage width into enough pieces for all the microphone samples to fit.</div>
+					Create a global variable called <var>sample width</var> to store the width each sample gets on the stage. Set it to the width of the stage divided by the microphone resolution (the number of values in the sample set). <!--<a href="#hint-sample-width" data-toggle="collapse" title="Click for an example of how to set the value of the 'sample width' variable.">Click for an example of how to set the value of this variable.</a>
+					<div id="hint-sample-width" class="collapse"><p><img class="indent" src="/bjc-r/sparks/img/U2/lab03/oscilloscope-core-1.png" alt="set (sample width) to (width of (Stage) / microphone (resolution))" title="set (sample width) to (width of (Stage) / microphone (resolution))" /></p></div>-->
+					<div class="endnote">
+						<h3 class="box-head">Why set <var>sample width</var> to the width of the stage divided by the microphone resolution?</h3>
+						Since we need to know how much space each sample gets on the stage, we need to divide up the stage width into enough pieces for all the microphone samples to fit.
+					</div>
 				</li>
 				<li>
 					The sprite needs to draw the set of volume samples across the stage. For each sample, the sprite should move forward horizontally (the width of one sample) and move vertically to the intensity (loudness) of that sample. Create the <code>for each</code> code by copying the code shown above and completing the inputs to the <code>go to</code> block.
-					<div class="endnote">Since the sprite will move across the stage throughout one whole set of samples, the horizontal movement must be based on where the sprite is already. Since the volume samples are small, you will need to multiply the intensity value by some scaling factor in order to see the values on the stage; how much you need to multiply by depends on your microphone and the sounds you make.</div>
-					<a href="#hint-for-each" data-toggle="collapse" title="Click if you want an an example of how to build the 'for each' loop.">Click if you want an example.</a>
+					<div class="endnote">Since the sprite will move across the stage throughout one whole set of samples, the horizontal movement must be based on where the sprite is already. Since the volume samples are small, you will need to multiply the intensity value by some scaling factor in order to see the values on the stage. How much you need to multiply by depends on your microphone and the sounds you make.</div>
+					<a href="#hint-for-each" data-toggle="collapse" title="Click if you need an an example of how to build the 'for each' loop.">Click if you need an example.</a>
 					<div id="hint-for-each" class="collapse">
 						<img class="indent" src="/bjc-r/sparks/img/U2/lab03/oscilloscope-core-2.png" alt="for each (volume sample) in (microphone (samples)) {
 		go to x: (x position + sample width) y: (volume sample × 150)
@@ -50,7 +53,7 @@ go to x: () y: ()
 	}" />
 					</div>
 				</li>
-				<li>You'll need a few more blocks (such as <code>pen down</code>) to make your code draw the samples, but first: <img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> Discuss how this <code>for each</code> code will make your sprite draw a set of samples across the stage.</li>
+				<li>You'll need a few more blocks (such as <code>pen down</code>) to make your code actually draw the samples, but first: <img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> Discuss how this <code>for each</code> code will help your sprite draw a set of samples across the stage.</li>
 			</ol>
 		</div>
 		
@@ -59,8 +62,8 @@ go to x: () y: ()
 		<div class="forYouToDo">
 			<ol start="5">
 				<li>
-					<img class="imageRight" src="/bjc-r/sparks/img/U2/lab03/show-volume-samples.png" alt="show volume samples" title="show volume samples" />
-					Now finish the oscilloscope. Create a new block called <code>show volume samples</code> that:
+					
+					Now finish the oscilloscope. Create a new block <img class="inline" src="/bjc-r/sparks/img/U2/lab03/show-volume-samples.png" alt="show volume samples" title="show volume samples" /> that:
 					<div class="sidenote">The <img class="inline" src="/bjc-r/img/blocks/warp.png" alt="warp" title="warp" /> block runs all of the code inside it quickly without taking the time to draw anything at a speed people can see.</div>
 					<ul>
 						<li>Moves the sprite to the middle of the left side of the stage (<em>x</em> = -240, <em>y</em> = 0)</li>
@@ -70,7 +73,6 @@ go to x: () y: ()
 						<li>Lifts the pen up (so you don't draw a line across the stage when you draw the next set of samples)</li>
 						<li>Does all of these steps <em>quickly</em>. Do this by wrapping all of the <code>show volume samples</code> code inside of a <code>warp</code> block.</li>
 					</ul>
-					Close the block editor, and put a <code>show volume samples</code> block inside a <code>forever</code> block so that not just one set of samples is drawn, but many sets are drawn continuously.
 					<p>Try to build the code yourself, but if you need it, you can <a href="#hint-example-code" data-toggle="collapse" title="See an example of how to build the 'show volume samples' code.">see an example here</a>.</p>
 					<div id="hint-example-code" class="collapse">
 						<img class="indent" src="/bjc-r/sparks/img/U2/lab03/set-variable-forever-show-volume-samples.png" alt="set (sample width) to (width of (Stage) / microphone (resolution))
@@ -101,6 +103,7 @@ warp {
 }" />
 					</div>
 				</li>
+				<li>Close the block editor, and put a <code>show volume samples</code> block inside a <code>forever</code> block so that not just one set of samples is drawn, but many sets are drawn continuously.</li>
 				<li>
 					Try out your code, make some noise, watch the results on the stage, and work with your partner and classmates to debug any issues. The oscilloscope should move according to the sounds you make and should look something like this:<br />
 					<img class="indent" data-gifffer="/bjc-r/sparks/img/U2/lab03/sound-visualizer.gif" alt="animation of an oscilloscope in Snap! that looks like a rapidly changing, horizontal wavey line" title="animation of an oscilloscope in Snap! that looks like a rapidly changing, horizontal wavey line" />
@@ -120,11 +123,11 @@ warp {
 		</div>
 		
 		<div class="ifTime">
-			<ol start="9">
+			<ol start="10">
 				<li>
 					<img class="imageRight" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
 					<img class="inline" src="/bjc-r/img/icons/predict.png" alt="Predict What Will Happen" title="Predict What Will Happen" />
-					Without using Snap<em>!</em>, try to predict what will happen to the oscilloscope if you change the number in the <img class="nopadtb" src="/bjc-r/sparks/img/U2/lab03/samplex150.png" alt="sample × 150" title="sample × 150" /> input to the <code>go to</code> block? <em>Why</em> do you think that will happen?
+					Without using Snap<em>!</em>, try to predict what will happen to the oscilloscope if you change the number in the <img class="nopadtb" src="/bjc-r/sparks/img/U2/lab03/samplex150.png" alt="sample × 150" title="sample × 150" /> input to the <code>go to</code> block. <em>Why</em> do you think that will happen?
 				</li>
 				<li>Try it out in Snap<em>!</em>. Try a larger value (like 1000) and a smaller value (like 25). If your prediction wasn't correct, can you explain why what you see happens?</li>
 			</ol>
