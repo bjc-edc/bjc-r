@@ -10,84 +10,80 @@
 	</head>
 
 	<body>
-		<h2>Spectrum Analyzer</h2>
-		<div class="todo">preview the difference between Time Domain and Frequency Domain</div>
+		<h2>Creating a Spectrum Analyzer</h2>
 		<div class="learn">In this activity, you will reuse your oscilloscope code to create a spectrum analyzer.</div>
-		<p>With a few small edits, this same code can become a spectrum analyzer.</p>
-		<p>For the oscilloscope, the horizontal axis showed time and the vertical axis showed intensity (frequency appeared only in the period of—the spacing between—the waves). In the spectrum analyzer, the horizontal access will show intensity and the vertical will show frequency.</p>
-
-		<div class="todo">explain difference between oscilloscope and the spectrum analyzer.</div>
+		<p>
+			For the oscilloscope, the horizontal axis showed time, and the vertical axis showed volume intensity (loudness). 
+			In a spectrum analyzer, the horizontal axis shows <em>intensity</em>, and the vertical axis still shows volume intensity.<br />
+			<img class="indent" data-gifffer="/bjc-r/sparks/img/U2/lab03/spectrum-analyzer-with-labels.gif" alt="animation of an oscilloscope in Snap! that looks like a rapidly changing, horizontal wavey line; the horizontal axis is labeled 'volume intensity' and the vertical axis is labeled 'time'" title="animation of an oscilloscope in Snap! that looks like a rapidly changing, horizontal wavey line; the horizontal axis is labeled 'volume intensity' and the vertical axis is labeled 'time'" /><br />			
+		</p>
 
 		<h3>Creating the Spectrum Analyzer</h3>
 		<div class="vocabFullWidth">
 			<ul>
 				<li>The <strong>frequency</strong> of a sound is its pitch. High frequencies sound "high" (sharp), and low frequencies sound "low" (boomy).</li>
-				<li>An <strong>spectrum analyzer</strong> is an instrument that graphs a signal's intensity at each frequency.</li>
+				<li>An <strong>spectrum analyzer</strong> is an instrument that graphs a signal's intensity at each frequency. You'll create a sound spectrum analyzer that shows the volume of each frequency.</li>
 			</ul>
 		</div>
-		<div class="todo">clarify that here, our intensity is volume/loudness</div>
-		<div class="todo">TG: these two tools are FTs of each other..., volume typically measured on logarithmic scale</div>
 
 		<div class="endnote">
 			<p><a href="#hint-frequency" data-toggle="collapse" title="Want to know more about frequency?">Want to know more about frequency?</a></p>
 			<div id="hint-frequency" class="collapse">
-				<p>Frequency is how often a repeating sound pressure wave repeats. Music (when its more than just precussion) is about playing different frequencies in a way that other people enjoy hearing.</p>
+				<p>Frequency is how often a repeating sound pressure wave repeats. Music (when its more than just percussion) is about playing different frequencies in a way that people enjoy hearing.</p>
 			</div>
 		</div>
 
-
-
 		<div class="forYouToDo">
 			<ol>
+				<li>Open your "Sparks-Making-Noise" project if isn't open already.</li>
 				<li>
-					Explore the <var>spectrum</var> input to the <code>microphone</code> block by changing its input and clicking the block several times. (Try while you are making noise and while you aren't.)<br />
+					Explore the <var>spectrum</var> input to the <code>microphone</code> block by changing its input and clicking the block several times. (Try it both while you are making noise and while you aren't.)<br />
 					<img class="indent" src="/bjc-r/sparks/img/U2/lab03/microphone(spectrum).png" alt="microphone (spectrum)" title="microphone (spectrum)" />
 				</li>
 			</ol>
 		</div>
-		<p>While <img class="" src="/bjc-r/sparks/img/U2/lab03/microphone(samples).png" alt="microphone (samples)" title="microphone (samples)" /> reports a list of current microphone volume values sampled across a <em>small period of time</em>, <img class="" src="/bjc-r/sparks/img/U2/lab03/microphone(spectrum).png" alt="microphone (spectrum)" title="microphone (spectrum)" /> reports a list of current microphone volume values values across a <em>range of frequencies</em>.</p>
+		<p>
+			The <img class="inline" src="/bjc-r/sparks/img/U2/lab03/microphone(samples).png" alt="microphone (samples)" title="microphone (samples)" /> block reports a list of current microphone volume values sampled across a <em>small period of time</em>, which makes it great for building an oscilloscope.<br />
+			<img class="indent" src="/bjc-r/sparks/img/U2/lab03/microphone(samples)-reporting.png" alt="microphone (samples) reporting" title="microphone (samples)" /><br />
+			The <img class="inline" src="/bjc-r/sparks/img/U2/lab03/microphone(spectrum).png" alt="microphone (spectrum)" title="microphone (spectrum)" /> block reports a list of current microphone volume values across a <em>range of frequencies</em>, making it great for building a spectrum analyzer.<br />
+			<img class="indent" src="/bjc-r/sparks/img/U2/lab03/microphone(spectrum)-reporting.png" alt="microphone (spectrum) reporting" title="microphone (spectrum)" /><br />
+		</p>
 
 		<div class="forYouToDo">
-			<ol start="2">
-				<li>If your project isn't open already, log in to Snap<em>!</em>, and open your "Sparks-Sound-Visualizer" project.</li>
+			<ol start="3">
 				<li>
-					Since you will reuse your oscilloscope code, preserve it by creating two copies of everything inside the <code>forever</code> block. Put one copy inside a <code>show volume samples</code> command block and one copy inside a <code>show frequencies</code> command block.<br />
-					<img class="indent" src="/bjc-r/sparks/img/U2/lab03/show-volume-samples-code.png" alt="show volume samples:
-warp {
-	go to x: (-240) y: (0)
-	clear
-	pen down
-	for each (volume sample) in (microphone (samples)) {
-		go to x: (x position + time step) y: (sample × 150)
-	}
-	pen up
-}" title="" />
+					Since you will reuse your oscilloscope code, find the <code>show volume samples</code> block in the pallete on the left, right-click it, and select "duplicate block definition..."<br />
+					<img class="indent" src="/bjc-r/sparks/img/U2/lab03/duplicate-block-definition.png" alt="show volume samples block with menu open showing 'duplicate block definition...' option selected" title="show volume samples block with menu open showing 'duplicate block definition...' option selected" />
 				</li>
+				<li>Rename the block <code>show frequencies</code> by clicking the name of the block in the Block Editor window and changing or deleting the text in the title.</li>
 				<li>
 					<div class="sidenote">There are helpful Snap<em>!</em> tricks for a few of these things:
 					<ul>
-						<li>To rename a variable <em>and</em> alle the places is appears at the same time, right-click the variable and choose "rename all..."</li>
-						<li>To change from one block (like <img class="nopadtb" src="/bjc-r/img/blocks/times.png" alt="× (times)" title="× (times)" />) to a similar block (like <img class="nopadtb" src="/bjc-r/img/blocks/minus.png" alt="- (minus)" title="- (minus)" /> ), right-click the block, choose "relabel..." and choose the new block you want in its place.</li>
+						<li>To rename a variable <em>and</em> all the places it appears <em>at the same time</em>, right-click the variable and choose "rename all..."</li>
+						<li>To change from one block (like <img class="nopadtb" src="/bjc-r/img/blocks/times.png" alt="× (times)" title="× (times)" />) to a similar block (like <img class="nopadtb" src="/bjc-r/img/blocks/minus.png" alt="- (minus)" title="- (minus)" /> ), right-click the block, and choose "relabel..."</li>
 					</ul>
 					</div>
-					The <code>show frequencies</code> will have a few critial differences:
+					Edit the <img class="inline" src="/bjc-r/sparks/img/U2/lab03/show-frequencies.png" alt="show frequencies" title="show frequencies" /> block with these critical changes:
 					<ol style="list-style-type: lower-alpha;">
-						<li>The second input to the <code>for each</code> block should be <code>microphone (spectrum)</code> and not <code>microphone (samples)</code>.</li>
-						<li>It makes sense to rename the first input from <var>volume sample</var> to <var>frequency</var>. You'll have to change the variable in the <em>y</em> input for the <code>go to</code> block also.</li>
-						<li>The <em>y</em> input to the <code>go to</code> block doesn't need to be scaled up by multiplying by 150, but it should be lowered near the bottom of the stage such as by subtracting 150 instead.</li>
+						<li>The second input to the <code>for each</code> block should be <code>microphone (spectrum)</code> instead of <code>microphone (samples)</code> so that it draws the intensity for each frequency in the spectrum instead of the intensity at each sample over time.</li>
+						<li>Since you'll be plotting frequencies not volume samples, the first input to the <code>for each</code> block should be <var>frequency</var> instead of <var>volume sample</var>. Be sure to change the variable in the <em>y</em> input for the <code>go to</code> block also.</li>
+						<li>Finally, that <em>y</em> input to the <code>go to</code> block doesn't need to be scaled up by multiplying by 150, but the value could be lowered (using subtraction) so the drawing starts near the bottom of the stage (or example, you might subtract by 150 instead). (If you lower the drawing with subtraction, lower the starting <em>y</em> value in the <code>go to </code> block also.)</li>
 					</ol>
 				</li>
-				<div class="todo">I need to decide how to handle the timestep variable. Maybe just use a global (then only have to set it once at the beginning).</div>
-				<li>Put the <code>show volume samples</code> block inside the <code>forever</code> block in your oscilloscope code, and test that it still works. If not, fix it before going on.</li>
-				<li>Replace the <code>show volume samples</code> block with the <code>show frequencies</code> and test that too. Fix, if needed.</li>
-				<li>Turn your vizualizer on, and make some noise while you switch back and forth between the oscilloscope and the spectrum analyzer.</li>
+				<li>
+					Replace the <code>show volume samples</code> block with the <code>show frequencies</code> inside the <code>forever</code> block, and test your code. Make some noise, watch the results, and work with your partner and classmates to debug any issues. The spectrum analyzer should look something like this:<br />
+					<img class="indent" data-gifffer="/bjc-r/sparks/img/U2/lab03/spectrum-analyzer.gif" alt="animation of an oscilloscope in Snap! that looks like a rapidly changing, horizontal wavey line" title="animation of an oscilloscope in Snap! that looks like a rapidly changing, horizontal wavey line" /><br />
+				</li>
+				<li><img class="inline" src="/bjc-r/img/icons/save-now.png" alt="Now Is a Good Time to Save" title="Now Is a Good Time to Save" /></li>
 			</ol>
 		</div>
-
-		<div class="todo">Extension: ITIT play a song on your phone</div>
-
-
-		<div class="learn">In this activity, you changed your oscilloscope into a spectrum analyzer by graphing the intensity of each frequency instead of the overall intensity at each time.</div>
+		<div class="ifTime show">
+			<ol start="8">
+				<li>Try playing a song while you watch your spectrum analyzer.</li>
+			</ol>
+		</div>
+		
+		<div class="learn">In this activity, you changed your oscilloscope into a spectrum analyzer by plotting the intensity of each frequency separately instead of plotting the total intensity across time.</div>
 
 
 	</body>

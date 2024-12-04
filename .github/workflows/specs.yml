@@ -1,0 +1,36 @@
+name: Run rspec tests
+
+on:
+  - pull_request
+  - push
+  - workflow_dispatch
+
+jobs:
+  a11y:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    strategy:
+      matrix:
+        # The files in /bjc-r/course/ (excluding the .html)
+        # These correspond to rspec tags for each test run.
+        course:
+          - bjc4nyc
+          - bjc4nyc.es
+          - sparks
+          - bjc4nyc_teacher
+          - sparks-teacher
+          - general
+        suite:
+          - wcag20
+          - wcag22
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ruby/setup-ruby@v1
+        with:
+          # Specified by .ruby-version
+          bundler-cache: true
+      - name: a11y tests
+        run: bundle exec rspec utilities/specs --tag ${{ matrix.course }}_${{ matrix.suite }}
+      - name: summary
+        if: always()
+        run: ruby utilities/specs/spec_summary.rb
