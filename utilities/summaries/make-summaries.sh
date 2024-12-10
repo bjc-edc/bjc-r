@@ -1,11 +1,12 @@
 #! /bin/csh
-cd ..
-rm -f summaries/index-presort
+set CURRENT='utilities/summaries/'
+cd cur/programming/
+rm -f $CURRENT/index-presort
 foreach Z (vocab exam assessment-data)
-summaries/vocab.sh $Z
+$CURRENT/vocab.sh $Z
 echo $Z
 end
-sort -f summaries/index-presort | uniq -i > summaries/index-sorted
+sort -f $CURRENT/index-presort | uniq -i > $CURRENT/index-sorted
 echo sort
-summaries/index
+$CURRENT/index -c
 echo index
