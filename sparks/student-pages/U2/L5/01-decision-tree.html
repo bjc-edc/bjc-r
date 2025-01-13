@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Lab 5: Smart Systems and AI</title>
+	</head>
+
+	<body>
+		<h2>Decision Tree</h2>
+		<div class="learn"></div>
+		<p>
+			One way that a computer program (and a human!) can make a decision is by using a decision tree. Here's an example of a decision tree for going out to play:<br />
+			<img class="indent" src="/bjc-r/sparks/img/U2/decision-tree.png" alt="" title="" />
+		</p>
+		<p>The decision making process starts at the top. The program checks the outlook (sunny, overcast, or rainy) and follows the path corresponding to each value. If it's sunny, it then checks the humidity level. A high humidity (&gt; 70) results in the decision of staying in, while a lower humidity results in the decision of playing. All of the paths eventually result in either "play!" or "stay in!", so this program will always result in a decision.</p>
+		<p>In this lab, you'll code this decision tree, learn about testing your code, and then come up with your own custom decision tree.</p>
+		
+		<h3>Coding the Tree</h3>
+		<p>
+			We want to turn that decision tree into a block that returns either true or false, like this:<br />
+			<img class="indent" src="/bjc-r/sparks/img/U2/lab05/go-play-outside-reporting.png" alt="" title="" />
+		</p>
+		<div class="forYouToDo">
+			<ol>
+				<li><a href="https://snap.berkeley.edu/snap/snap.html#present:Username=pamelafox-ucb&ProjectName=Decision Trees&editMode" title="" target="_blank">Download the starter project here</a>. It contains a few blocks we'll use later.</li>
+			</ol>
+		</div>
+		
+		<h3>Block parameters</h3>
+		<div class="forYouToDo">
+			<ol start="2">
+				<li>To get started, click "Make a block" in the sidebar. In the pop-up, type a name like "go play outside?" and select "predicate". A predicate block is a special kind of reporter block that returns either true or false (not text or numbers).</li>
+				<li>
+					Now add an input parameter by clicking the + sign in the block header. Type "outlook" as the name. There should only be three possible values for that parameter, and we can actually make it into a dropdown by customizing the parameter. Click the arrow in that popup to see more customization options, then click the gear in the bottom right corner for even more options. Select "options" in that gear pop-up. <a href="#hint-outlook" data-toggle="collapse" title="Click for an image of the menu item for adding the 'outlook' input options.">Click for an image.</a><br />
+					<div id="hint-outlook" class="collapse"><img class="indent noshadow" src="/bjc-r/sparks/img/U2/lab05/input-outlook-options-popup.png" alt="" title="" /></div>
+				</li>
+				<li>
+					Type the three options in the popup, separated by new lines. <a href="#hint-outlook-options" data-toggle="collapse" title="Click for an image of adding the 'outlook' input options.">Click for an image.</a><br />
+					<div id="hint-outlook-options" class="collapse"><img class="indent" src="/bjc-r/sparks/img/U2/lab05/input-outlook-slot-options.png" alt="" title="" /></div>
+				</li>
+				<li>
+					Add another input parameter and type "humidity" as the name. Click the right arrow again for options, and check the "Number" box in the left column to specify that it's a numeric parameter. <a href="#hint-humidity" data-toggle="collapse" title="Click for an image of adding a 'humidity' input parameter.">Click for an image.</a><br />
+					<div id="hint-humidity" class="collapse"><img class="indent" src="/bjc-r/sparks/img/U2/lab05/input-humidity.png" alt="" title="" /></div>
+				</li>
+				<li>
+					Add one more input parameter and type "windy" as the name. Click the right arrow again for options, and check the "Boolean" box in the right column to specify that it should be either true/false. <a href="#hint-windy" data-toggle="collapse" title="Click for an image of adding a 'humidity' input parameter.">Click for an image.</a><br />
+					<div id="hint-windy" class="collapse"><img class="indent" src="/bjc-r/sparks/img/U2/lab05/input-windy.png" alt="" title="" /></div>
+				</li>
+				<li>
+					Close the block editor and check out your new block.<br />
+					<img class="" src="/bjc-r/sparks/img/U2/lab05/go-play-outside.png" alt="" title="" /><br />
+					It doesn't do anything yet, but it does have some fancy input parameter types! Specifying the input types makes it easier for users to give the block valid input, so it's always a good thing to do if you can.
+				</li>
+			</ol>
+		</div>
+		
+		<h3>Block body</h3>
+		<div class="forYouToDo">
+			<ol start="">
+				<li>
+					Now let's actually define the block. Right click on the block and click "edit" to go back into the block editor. Here's a reminder of the decision tree that we need to represent in code:<br />
+					<img class="" src="/bjc-r/sparks/img/U2/lab05/" alt="" title="" /><br />
+				</li>
+			</ol>
+		</div>
+		<p>In a decision tree diagram, each diamond represents a question with multiple paths flowing from it. In a Snap program, a diamond can be coded using if/else blocks.</p>
+		<p>We'll guide you through coding the first flow, through the sunny part of the tree.</p>
+		<div class="forYouToDo">
+			<ol start="">
+				<li>
+					Drag the if/else block from the Control palette and snap it under the block header.<br />
+					<img class="" src="/bjc-r/sparks/img/U2/lab05/" alt="" title="" />
+				</li>
+				<li>
+					All of the arrows coming from the top diagram represent possible values for the outlook parameter. The first arrow represents the outlook being "sunny", so that's what should go in the if condition. Drag the = operator block into the diamond slot next to the if, then drag the outlook parameter into one side and type "sunny" on the other side.<br />
+					<img class="" src="/bjc-r/sparks/img/U2/lab05/" alt="" title="" />
+				</li>
+				<li>
+					What goes inside the <code>if</code>? Well, in the diagram, that arrow leads to another diamond! That means another if/else block. Drag another one into that block.<br />
+					<img class="" src="/bjc-r/sparks/img/U2/lab05/" alt="" title="" />
+				</li>
+				<li>
+					The next diamond asks the question of humidity level, with different paths depending on whether it's greater than 70 or not. Drag the > operator into that diamond slot, then drag the humidity parameter into one side and type 70 in the other side.<br />
+					<img class="" src="/bjc-r/sparks/img/U2/lab05/" alt="" title="" />
+				</li>
+				<li>
+					The arrows from the humidity diamond lead to rectangles, indicating the actual decision, either play (true) or stay in (false). Snap a report block into each of the if/else slots, then drag true/false blocks into each report block and set them to the appropriate value.<br />
+					<img class="" src="/bjc-r/sparks/img/U2/lab05/" alt="" title="" />
+				</li>
+				<li>
+					Okay, our block can now make a decision, as long as it's sunny outside! 🌞🌞🌞 If you want, you could exit the block editor now and do a few checks to see if the sunny-day decisions make sense.<br />
+					<img class="" src="/bjc-r/sparks/img/U2/lab05/" alt="" title="" />
+				</li>
+				<li>
+					Now see if you can code the rest of the decision tree, using the same sort of blocks we used already. 
+					<div class="endnote">Here's a hint to get you started: you'll want to use another if/else inside the currently empty else, since you still have two more outlooks to handle.</div>
+				</li>
+			</ol>
+		</div>
+
+		<h3>Testing the Tree</h3>
+		<p>At this point, you've probably done a few checks to see that the block is reporting true/false appropriately. Testing a program for correctness is a very important part of computer programming, since it's very easy to accidentally write buggy code. In fact, most programmers use dedicated tools for testing.</p>
+		<p>
+			We've made two reporter blocks to make it even easier for you to check your decision tree block, inspired by typical program testing tools.<br />
+			<img class="" src="/bjc-r/sparks/img/U2/lab05/" alt="" title="" />
+			<img class="" src="/bjc-r/sparks/img/U2/lab05/" alt="" title="" />
+		</p>
+		
+		<div class="forYouToDo">
+			<ol start="">
+				<li>
+					The first block checks that the value of the first parameter is the same as the value of the second parameter. To use it, drag an already filled out <code>go play outside?</code> block into the first slot, then drag a true/false block into the second slot. That second slot should be true if you expect the result to be true or false otherwise.
+					<div class="endnote">
+						For example, when it's sunny and humid outside, it should be false. If the code produces the expected value, you'll see a "Test passed!".
+						<img class="" src="/bjc-r/sparks/img/U2/lab05/" alt="" title="" /><br />
+						Here's an example of a test for when it's sunny and not that humid. This time, we expect it to be true.<br />
+						<img class="" src="/bjc-r/sparks/img/U2/lab05/" alt="" title="" />
+					</div>
+				</li>
+				<li>Now go make test blocks for lots more situations. What combinations of parameters should you check for? Where is it likely for your code to have bugs? You should have at least 5 test blocks, but probably even more than that.</li>
+				<li>If you discover a test block that says "Test failed!", first check your test case. Did you really input the parameters you thought you did? Then check your block's code, especially near where it should have made the decision. Did you use the right comparison operator in the if condition? Did you report the correct value?</li>
+			</ol>
+		</div>
+		
+		<h3>All together now</h3>
+		<div class="forYouToDo">
+			<ol start="">
+				<li>Now that you have a bunch of passing tests, it'd be nice if you could run them all at once instead of having to click a billion times. That's the purpose of the check all tests block! Just drag a test block into the first slot. Then click the right arrow to add a slot for each of your additional tests and drag the rests of your tests in. 
+</li>
+			</ol>
+		</div>
+		<p>At any point, you can click the block to confirm that all the tests are passing.</p>
+		<p>Here's the awesome thing about testing: if you realize there's a better way to code the logic of the block, you can edit the block definition, change the code, and then just click this block to make sure all the tests pass.</p>
+		<p>Testing is a great way to make sure that a computer program is actually doing what it's meant to be doing. Many programs have more tests than code, in fact, since it's so important that they work as expected. Consider the software used on a Boeing 747 airplane or on a space shuttle: you wouldn't want to ride on a plane running untested code, right? *Shudder*</p>
+
+
+		<h3>Create your own decision tree</h3>
+		<div class="forYouToDo">
+			<ol>
+				<li>
+					This time, you're going to make your own decision tree. What sort of decisions do you want a computer to make for you? 
+					<div class="endnote">
+						Here are some ideas to kickstart your brainstorming:
+						<ul>
+							<li>Deciding on the best move to make in a sport. For example, deciding in baseball whether to run to third base depending on parameters about how the ball was hit and whether the bases are full.</li>
+							<li>Deciding whether to go out to a restaurant for dinner or stay inside, considering parameters like cost, how empty the fridge is, hunger level,  etc.</li>
+							<li>Deciding whether to wear a jacket outside (using similar parameters as the tree you coded, most likely).</li>
+						</ul>
+						You can also have decision trees return a set of values, not just true or false. Consider:
+						<ul>
+							<li>Recommending a sport for someone to play, based on whether they like solo/group activities, how risk averse they are, what weather they like, how much exercise they want, how competitive they are, etc. </li>
+							<li>Choosing what to eat for breakfast, based on preferences for cold/hot breakfast, how many minutes you have preparation, whether you want to eat healthy, etc.</li>
+						</ul>
+
+
+					</div>
+				</li>
+				<li>
+					<img class="" src="/bjc-r/img/icons/work-with-a-partner-mini.png" alt="Work with a Partner" title="Work with a Partner" /> 
+					Work with a partner and brainstorm ideas on paper. Write them out as flowcharts just like the one we showed here. Every path should eventually end in a decision.
+				</li>
+				<li>
+					<img class="" src="/bjc-r/img/icons/talk-with-your-partner-mini.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
+					Once you've drawn it on paper, share it with another pair and ask for feedback. Is anything unclear? Do they suggest a different flow? Make a new iteration if you find their feedback useful.
+				</li>
+			</ol>
+		</div>
+		
+		<h3>Coding your tree</h3>
+		<p>Now you'll code your own decision tree, just like you coded the one earlier. If it's similar, you can even duplicate the earlier block and start from that, but you can also start from scratch. Feel free to scroll up to see the steps we used for the first block. </p>
+		<p>Follow the testing steps too, so that your custom block is just as well-tested.</p>
+		<p>Once you're done, share it with the whole class!</p>
+
+		<div class="learn"></div>
+
+
+	</body>
+</html>

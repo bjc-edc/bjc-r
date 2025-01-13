@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unit 2 Lab 3: Make Some Noise, Activity 5</title>
+	</head>
+
+	<body>
+		<h2>Making Noise</h2>
+		<div class="learn">In this activity, you will make a noise sample from scratch by making the computer play a set of random volume intensities.</div>
+		<div class="todo">
+			<p><a href="#hint-needs" data-toggle="collapse" title="">Needed for SOUND GENERATOR...</a></p>
+			<div id="hint-needs" class="collapse">
+				<a href="https://snap.berkeley.edu/versions/dev/snap.html#present:Username=mfries&ProjectName=BJCMS%20-%20Sound%20Generator" target="_blank">SOUND GENERATOR</a>
+				<ul>
+					<li>pick random (<a href="/bjc-r/sparks/student-pages/U1/L2/02-refining-the-story.html?topic=sparks%2F1-functions-data.topic&course=middle-school.html">1.2.2</a>)</li>
+					<li>/ (<a href="/bjc-r/sparks/student-pages/U1/L5/01-numbers-computers.html?topic=sparks%2F1-functions-data.topic&course=middle-school.html">1.5.1</a>, where it's introduced and <a href="/bjc-r/sparks/student-pages/U1/L7/06-combining-data.html?topic=sparks%2F1-functions-data.topic&course=middle-school.html">1.7.6</a>, where they use it to build <code>average</code>)</li>
+					<li>length of list (<a href="/bjc-r/sparks/student-pages/U1/L7/05-keeping-specific-data.html?topic=sparks%2F1-functions-data.topic&course=middle-school.html">1.7.5</a>)</li>
+					<li>(sample rate) of sound (2.1.1?)</li>
+					<li>play sound (<a href="/bjc-r/sparks/student-pages/U2/L1/01-playing-notes.html?topic=sparks%2F2-sequencing-iteration.topic">2.1.1</a>)</li>
+					<li>repeat (<a href="/bjc-r/sparks/student-pages/U2/L1/01-playing-notes.html?topic=sparks%2F2-sequencing-iteration.topic">2.1.1</a>)</li>
+					<li>for each (<a href="/bjc-r/sparks/student-pages/U2/L1/02-beat-repeat.html?topic=sparks%2F2-sequencing-iteration.topic">2.1.2</a>)</li>
+					<li>show/hide variable (2.1.3?)</li>
+					<li>set variable (2.1.3?)</li>
+					<li>global vars (with generator?)</li>
+					<li>warp (with generator)</li>
+					<li>add (?)</li>
+				</ul>
+			</div>
+		</div>
+		
+		<p>Sound is pressure waves, and the patterns of those waves determine what the sound <em>sounds like</em>. In Snap<em>!</em>, sounds can be generated as lists of volume intensities. You'll start by creating one second of "noise", which is just random intensities that sound like static. </p>
+
+		<h3>Making Noise</h3>
+		<div class="forYouToDo">
+			<ol>
+				<li>Open your "Sparks-Making-Noise" project if isn't open already.</li>
+				<li>
+					Create a variable called <code>noise</code> to store the intensity values, and make it start as an empty list.<br />
+					<img class="indent" src="/bjc-r/sparks/img/U2/lab05/declare-vars.png" alt="show variable (noise); set (noise) to (list)" title="show variable (noise); set (noise) to (list)" />
+				</li>
+				<li>
+					<img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /><br />
+					What is the difference between the inputs of the following two expressions? 
+					What is the difference between their outputs? <br />
+					<img class="indent" src="/bjc-r/sparks/img/U2/lab05/pick-random-integers.png" alt="pick random (-1) to (1)" title="pick random (-1) to (1)" /><br />
+					<img class="indent" src="/bjc-r/sparks/img/U2/lab05/pick-random-floats.png" alt="pick random (-0.99999) to (1)" title="pick random (-0.99999) to (1)" />
+
+				</li>
+				<li>
+					<img class="imageRight" src="/bjc-r/sparks/img/U2/lab05/noise-watcher.png" alt="noise variable watcher showing a list of long decimals between -1 and 1" title="noise variable watcher showing a list of long decimals between -1 and 1" />
+					<img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" /> What will this code do? <br />
+					<img class="indent" src="/bjc-r/sparks/img/U2/lab05/generator-sample-rate.png" alt="warp(repeat((sample rate) of sound (microphone(samples)))(add(pick random (-0.99999) to (1)) to (noise)))" title="warp(repeat((sample rate) of sound (microphone(samples)))(add(pick random (-0.99999) to (1)) to (noise)))" /><br />
+					Look at the variable watcher on the Snap<em>!</em> stage to confirm. Drag its corner to expand, and then scroll.
+				</li>
+				<div class="endnote">
+					<p><a href="#noise-loader" data-toggle="collapse" title="Click for a break-down of how this code works.">Click for a break-down of how this code works.</a></p>
+					<div id="noise-loader" class="collapse">
+						<ul>
+							<li>The above code repeatedly adds a random number between -1 and 1 to the <var>noise</var> variable.</li>
+							<li>The first input to <code>pick random</code> is -0.99999 instead of -1 to force that block to output decimals rather than only integers.</li>
+							<li>The <code>add</code> block is repeated <var>sampling rate</var> number of times.</li>
+							<li>The <code>warp</code> block acts like a time-warp to speed things up.</li>
+						</ul>
+					</div>
+				</div>
+				
+				<div class="vocabFullWidth">
+					<p>
+						The <strong>sample rate</strong> is how many intensity samples fit in one second of sound samples detected by the microphone.<br />
+						<img class="indent" src="/bjc-r/sparks/img/U2/lab05/sample-rate-mic-samples-reporting.png" alt="(sample rate) of sound (microphone(samples)) reporting 44100" title="(sample rate) of sound (microphone(samples)) reporting 44100" />
+					</p>
+				</div>
+				<li>
+					<img class="imageRight" src="/bjc-r/img/icons/headphones.png" alt="Set Up Your Headphones or Speakers" title="Set Up Your Headphones or Speakers" />
+					Build that code in Snap<em>!</em>, then drag the <var>noise</var> variable into the <code>play</code> block, <strong>turn down the volume</strong>, and play the noise. Debug your code if needed.<br />
+					<img class="indent" src="/bjc-r/sparks/img/U2/lab05/play-sound-noise.png" alt="play sound (noise)" title="play sound (noise)" />
+				</li>
+				<li><img class="inline" src="/bjc-r/img/icons/save-now.png" alt="Now Is a Good Time to Save" title="Now Is a Good Time to Save" /></li>
+			</ol>
+		</div>
+		<div class="learn">In this activity, you created noise by making the computer play a bunch of random volume intensities.</div>
+
+	</body>
+</html>

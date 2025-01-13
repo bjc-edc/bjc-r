@@ -18,17 +18,17 @@
             <p><strong>En esta página</strong>, considerarás un problema que <em>no puede</em> tener una respuesta.</p>
         </div>
 
-        <p>En este punto del curso, has experimentado la frustración de depurar un programa. Sería genial si hubiera un programa de depuración de propósito general que pudiera leer cualquier código y determinar si había errores. Desafortunadamente, podemos usar prueba por contradicción (como hicieron Alphie, Betsy y Gamal en la página anterior) para demostrar que esto no se puede hacer.</p>
+        <p>En este punto del curso, has experimentado la frustración de depurar un programa. Sería genial si hubiera un programa de depuración de propósito general que pudiera leer cualquier código y determinar si había errores. Desafortunadamente, podemos usar prueba por contradicción (como hicieron Morgan, Jasmine y Omar en la página anterior) para demostrar que esto no se puede hacer.</p>
         <p>Primero, asumiremos que es posible escribir una función para determinar si hay <em>bucles infinitos</em> en un programa (situaciones en las que una función se ejecuta para siempre sin devolver un valor). Luego, utilizaremos esa función en un programa especialmente diseñado para crear una contradicción (una incompatibilidad lógica) para demostrar que la suposición es incorrecta&mdash;<strong>no puede existir un programa de depuración de uso general</strong>. "Este programa tiene errores" es un <em>problema indecidible</em>; nunca se puede construir un algoritmo que siempre lo resuelva correctamente para cada programa.</p>
         <div class="vocabFullWidth">
-            <p>Un <strong>bucle infinito</strong> es una secuencia de instrucciones de computadora que se repite para siempre.</p>
-            <p>Un <strong>problema irresoluble</strong> es aquel para el que nunca se puede escribir un algoritmo para encontrar la solución.</p>
-            <p>Un <strong>problema indecidible</strong> es aquel para el que nunca se puede escribir un algoritmo que siempre dé una <em>decisión verdadero/falso</em> correcta para cada valor de entrada. Los problemas indecidibles son una subcategoría de problemas irresolubles que incluyen solo problemas que deberían tener una respuesta sí/no (como: ¿mi código tiene un error?).</p>
+            <p>Un <strong>bucle infinito</strong> (<em>infinite loop</em>) es una secuencia de instrucciones de computadora que se repite para siempre.</p>
+            <p>Un <strong>problema irresoluble</strong> (<em>unsolvable problem</em>) es aquel para el que nunca se puede escribir un algoritmo para encontrar la solución.</p>
+            <p>Un <strong>problema indecidible</strong> (<em>undecidable problem</em>) es aquel para el que nunca se puede escribir un algoritmo que siempre dé una <em>decisión verdadero/falso</em> correcta para cada valor de entrada. Los problemas indecidibles son una subcategoría de problemas irresolubles que incluyen solo problemas que deberían tener una respuesta sí/no (como: ¿mi código tiene un error?).</p>
         </div>
 
 
         <h3>Suposición de que existe una función <code>¿detener?</code></h3>
-        <h4><strong>Realizar la suposición</strong></h4>
+        <h4 class="box-head">Realizar la suposición</h4>
         <p>
 			<div class="sidenote">No podemos mostrar el código dentro de <code>¿detener?</code>; estamos demostrando que no se puede escribir en absoluto, sin importar qué código lo implemente.</div>
             Primero, <em>asumimos</em> que existe una función llamada <code>¿detener?</code> que determina si dado un reportero reportará un valor en un tiempo finito. (Si es así, decimos que el reportero <em>se detiene.</em>) Se necesitan dos entradas: una función y un valor de entrada para esa función. Reporta <code>verdadero</code> si la función reportase un valor cuando se le da esa entrada; y reporta <code>falso</code> si la función se ejecutase para siempre (en un bucle infinito).<br />
@@ -43,7 +43,7 @@
         <p class="indent"><img class="inline" src="/bjc-r/img/5-algorithms/halts-reporting-false.es.png" alt="¿detener?(programa con un bucle infinito ())(foo) reporta falso" title="¿detener?(programa con un bucle infinito ())(foo) reporta falso" /> porque <img class="inline" src="/bjc-r/img/5-algorithms/program-with-loop(foo).es.png" alt="programa con un bucle infinito (foo)" title="programa con un bucle infinito (foo)" /> bucles infinitamente.</p>
 
 
-        <h4><strong>Revisión del plan para la prueba</strong></h4>
+        <h4 class="box-head">Revisión del plan para la prueba</h4>
         <p>Usaremos prueba por contradicción para mostrar que la siguiente pregunta <em>no se puede</em> responder<em>en general</em>:</p>
         <p class="center"><strong>¿Un determinado programa de computadora, dada una determinada entrada, reportara un resultado en un tiempo finito?</strong></p>
         <div class="endnote">
@@ -61,11 +61,11 @@
                 </p>
                 <p>
                     Este <em>nunca</em> se detiene para cualquier entrada:<br />
-                    <img class="indent" src="/bjc-r/img/5-algorithms/loop-fn.es.png" width="158" alt="bucle(x): por siempre (esperar 1 segs)" title="bucle(x): por siempre (esperar 1 segs)" />
+                    <img class="indent" src="/bjc-r/img/5-algorithms/loop-fn.es.png" alt="bucle(x): por siempre (esperar 1 segs)" title="bucle(x): por siempre (esperar 1 segs)" />
                 </p>
                 <p>
                     Y este se detiene <em>a veces</em>&mdash;para cualquier entrada excepto 87:<br />
-                    <img class="indent" src="/bjc-r/img/5-algorithms/weird-fn.es.png" width="158" alt="extraño(x): si (x = 87) (por siempre (esperar 1 segs)) sino (reportar (3))" title="extraño(x): si (x = 87) (por siempre (esperar 1 segs)) sino (reportar (3))" />
+                    <img class="indent" src="/bjc-r/img/5-algorithms/weird-fn.es.png" alt="extraño(x): si (x = 87) (por siempre (esperar 1 segs)) sino (reportar (3))" title="extraño(x): si (x = 87) (por siempre (esperar 1 segs)) sino (reportar (3))" />
                 </p>
                 <p>Recuerda: la pregunta es si podemos idear una prueba que nos dirá si <em>alguna</em> función particular reportará un valor para <em>cualquier</em> entrada específica.</p>
 			</div>
@@ -87,7 +87,7 @@
 
         <h3>Muestra de cómo esto crea una contradicción</h3>
 
-		<h4><strong>Construir un programa para el cual <code>¿detener?</code> no funcionará</strong></h4>
+		<h4 class="box-head">Construir un programa para el cual <code>¿detener?</code> no funcionará</h4>
 		<p>
             Para demostrar que no puede existir tal función, necesitamos crear una contradicción. Necesitamos demostrar que tiene que haber al menos una función y una entrada a esa función para la cual <code>¿detener?</code> no funciona de la manera que asumimos. Por lo tanto, podemos hacer un bloque <code>prueba</code>, específicamente con el propósito de romper <code>¿detener?</code>:<br />
             <div class="sidenoteBig">
@@ -98,16 +98,16 @@
             <img class="indent" src="/bjc-r/img/5-algorithms/tester-halting.es.png" alt="prueba(reportero){si(¿detener?(reportero)(reportero){por siempre{}}sino{reportar(No importa qué valor es reportado.)}}" title="prueba(reportero){si(¿detener?(reportero)(reportero){por siempre{}}sino{reportar(No importa qué valor es reportado.)}}">
         </p>
         <p>El bloque <code>por siempre</code> en este script crea un bucle infinito. Si el código de <code>prueba</code> termina en esta parte de la declaración <code>si</code>, nunca reportara nada. Entonces, entonces si <code>prueba</code> se detendrá <em>el mismo</em> depende de la salida del predicado <code>¿detener?</code> en la declaración <code>si</code> dentro de él.</p>
-        <p>La expresion <img class="inline" src="/bjc-r/img/5-algorithms/halts-reporter-reporter.es.png" alt="¿detener? (reportero) (reportero)" title="¿detener? (reportero) (reportero)" /> pregunta qué sucederá si llamamos a la función de entrada (<var>reportar</var>) con <em>el mismo</em> como su propia entrada. Esto es similar a cuando Betsy hizo una declaración sobre la declaración que estaba haciendo, cuando dijo: "La declaración que estoy haciendo <em>en este momento</em> es falsa". </p>
+        <p>La expresion <img class="inline" src="/bjc-r/img/5-algorithms/halts-reporter-reporter.es.png" alt="¿detener? (reportero) (reportero)" title="¿detener? (reportero) (reportero)" /> pregunta qué sucederá si llamamos a la función de entrada (<var>reportar</var>) con <em>el mismo</em> como su propia entrada. Esto es similar a cuando Jasmine hizo una declaración sobre la declaración que estaba haciendo, cuando dijo: "La declaración que estoy haciendo <em>en este momento</em> es falsa". </p>
 
         <div class="endnote">
             <img class="inline" src="/bjc-r/img/icons/tough-stuff-mini.png" alt="Actividades desafiantes" title="Actividades desafiantes" />
             Este <em>es</em> desafiante. ¡Quédate con eso! Estamos <em>creando una contradicción</em> para demostrar que no puede existir la función <code>¿detener?</code> a la que se llama dentro de <code>prueba</code>.
         </div>
 
-        <h4><strong>Uso de autorreferencia para conducir a la contradicción</strong></h4>
+        <h4 class="box-head">Uso de autorreferencia para conducir a la contradicción</h4>
         <p>
-            Para hacer que la situación sea <em>exactamente</em> como lo que dijo Betsy ("La declaración que estoy haciendo <em>en este momento</em> es falsa"), llamaremos a <code>prueba</code> dentro de <em>sí mismo</em>:<br />
+            Para hacer que la situación sea <em>exactamente</em> como lo que dijo Jasmine ("La declaración que estoy haciendo <em>en este momento</em> es falsa"), llamaremos a <code>prueba</code> dentro de <em>sí mismo</em>:<br />
             <img class="indent" src="/bjc-r/img/5-algorithms/testertester.es.png" alt="prueba(prueba())" title="prueba(prueba())" /><br />
             Ahora, la instrucción <code>si</code> dentro del bloque <code>prueba</code> preguntará si <code>prueba</code> se detendrá (no se ejecutará para siempre) si se llama con <code>prueba</code> como su entrada. El predicado en la instrucción <code>si</code> se convertirá en <code>¿detener? (prueba) (prueba)</code>.<br />
 <div class="todo">I took out class="indent" on this picture so that it'd fit in the window.  If you don't like that, figure out how to shrink the picture without fuzzing it up. -bh<br />OK, leaving this comment here to remind me for another day. --MF, 2/1/18</div>
@@ -117,7 +117,7 @@
         <p class="indent"><img class="inline" src="/bjc-r/img/5-algorithms/halts-tester-tester-reporting-true.es.png" alt="¿detener? (prueba) (prueba) reporta verdadero" title="¿detener? (prueba) (prueba) reporta verdadero" /> significaría que <img class="inline" src="/bjc-r/img/5-algorithms/testertester.es.png" alt="prueba(prueba())" title="prueba(prueba())" /> devuelve un valor.</p>
         <p class="indent"><img class="inline" src="/bjc-r/img/5-algorithms/halts-tester-tester-reporting-false.es.png" alt="¿detener? (prueba) (prueba) reporta falso" title="¿detener? (prueba) (prueba) reporta falso" /> significaría que <img class="inline" src="/bjc-r/img/5-algorithms/testertester.es.png" alt="prueba(prueba())" title="prueba(prueba())" /> bucles infinitamente.</p>
 
-        <h4><strong>Entender la contradicción</strong></h4>
+        <h4 class="box-head">Entender la contradicción</h4>
         <p>
             Cuando llamamos <img class="inline" src="/bjc-r/img/5-algorithms/testertester.es.png" alt="prueba(prueba())" title="prueba(prueba())" />, nos encontramos con la contradicción. Para ver cómo, mire hacia atrás en la definición de <code>prueba</code>:<br />
             <img class="indent" src="/bjc-r/img/5-algorithms/tester-halting.es.png" alt="prueba(reportero){si(¿detener?(reportero)(reportero){por siempre{}}sino{reportar(verdadero)}}" title="prueba(reportero){si(¿detener?(reportero)(reportero){por siempre{}}sino{reportar(verdadero)}}">

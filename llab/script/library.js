@@ -229,7 +229,7 @@ llab.setUpDevComments = () => {
 
     if (llab.isStagingEnvironment()) {
         let open_link = $(`
-            <a class="${rightSideButton} btn-info js-openProdLink"
+            <a class="${rightSideButton} btn-primary js-openProdLink"
               target="_blank"
               href=${location.href.replace(location.host, 'bjc.edc.org')}
             >Open on edc.org</a>`)
@@ -391,7 +391,15 @@ llab.merge = function(objA, objB) {
 };
 
 llab.getURLParameters = function() {
-    return llab.QS.parse(location.search);
+    let stripHTML = (content) => $('<div/>').text(content).html();
+    if (!llab.safeURLParams) {
+        llab.safeURLParams = {};
+        const searchParams = new URLSearchParams(location.search);
+        for (const [param, value] of searchParams) {
+            llab.safeURLParams[param] = stripHTML(value);
+          }
+    }
+    return llab.safeURLParams;
 };
 
 llab.getAttributesForElement = function(elm) {

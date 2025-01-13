@@ -124,12 +124,10 @@ llab.parseTopicFile = function parser(data) {
         raw_html.push(text);
       }
       next = lines[1];
-      while (
-        next.length >= 1 && next[0] != "}" && !llab.isKeyword(next)
-      ) {
+      while (next.length >= 1 && next[0] != "}" && !llab.isKeyword(next)) {
         line = getNextLine();
         raw_html.push(line);
-        next = lines[1];
+        next = lines[0];
       }
       section.contents.push({ type: "raw-html", contents: raw_html.join("\n") });
       raw = false;
@@ -252,8 +250,9 @@ llab.renderSection = function (section, parent) {
   var $section = $("<section>"),
     params = llab.getURLParameters();
 
+  // TODO: This heading needs to be computed in a more accurate way...
   if (section.title) {
-    var tag = section.headingType == "heading" ? "h3" : section.headingType;
+    var tag = section.headingType == "heading" ? "h2" : section.headingType;
     $section.append(`<${tag}>${section.title}</${tag}>`);
   }
 
@@ -279,13 +278,26 @@ llab.renderSection = function (section, parent) {
         i++;
         infoSection.push(section.contents[i]);
       }
-      console.log('Called render info')
       llab.renderInfo(infoSection, current.type, $contentContainer);
     } else if (current.type == "section") {
       llab.renderSection(current, $section);
-    } else { // also handles: current.type == "raw_html"
+    } else if (current.type === "raw-html") {
+      // TODO: This section is challening...
+      // Content before the item list belongs to the containr.
+      // Content w/in the list needs to conform to being an li or ul.
+      // It all needs to be (Seeming?) appear in-order (see Sparks TG)
+      if ($contentContainer.children().length == 0) {
+        $contentContainer.before(current.contents);
+      } else {
+        $contentContainer.append(current.contents);
+      }
+    } else {
       $contentContainer.append(current.contents);
     }
+  }
+
+  if ($contentContainer.children().length == 0) {
+    $contentContainer.remove();
   }
 
   $section.appendTo(parent);
