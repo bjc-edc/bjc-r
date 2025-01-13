@@ -20,7 +20,6 @@ require 'rspec'
 require 'rack'
 
 require 'capybara/rspec'
-# require 'capybara-screenshot/rspec'
 require 'rack/test'
 require 'axe-rspec'
 require 'axe-capybara'
@@ -28,113 +27,53 @@ require 'capybara/dsl'
 require 'capybara/session'
 require 'capybara-screenshot'
 
-# ===== bjc-r specific config/parsing....
-# TODO: This code should be moved to support/parsing sections.
-def load_site_urls(courses)
-  # Map is a course_name => [url1, url2, ...]
-  courses.map do |course|
-    puts "Buidling URLs for #{course}..."
-    [course, load_all_urls_in_course("#{course}.html")]
-  end.to_h
-end
-
-def extract_urls_from_page(topic_file, course)
-  topic_file = File.join(File.dirname(__FILE__), '..', '..', 'topic', topic_file)
-  lang = topic_file.match(/\.(\w\w)\.topic/) ? Regexp.last_match(1) : 'en'
-  topic_parser = BJCTopic.new(topic_file, course: course, language: lang)
-  topic_parser.augmented_page_paths_in_topic
-end
-
-def load_all_urls_in_course(course)
-  # Read the course page, then add all "Unit" URLs to the list
-  # TODO: Use the BJCCourse class to extract the URLs
-  results = [ "/bjc-r/course/#{course}" ]
-  course_file = File.join(File.dirname(__FILE__), '..', '..', 'course', course)
-  doc = Nokogiri::HTML(File.read(course_file))
-  urls = doc.css('.topic_container .topic_link a').map { |url| url['href'] }
-
-  topic_pages = urls.filter_map do |url|
-    next unless url.match?(/\.topic/)
-
-    query_separator = url.match?(/\?/) ? '&' : '?'
-    results << "#{url}#{query_separator}course=#{course}"
-    topic_file = url.match(/topic=(.*\.topic)/)[1]
-    extract_urls_from_page(topic_file, course)
-  end.flatten
-
-  results << topic_pages
-  results << urls.filter_map { |url| "#{url}#{url.match?(/\?/) ? '&' : '?'}course=#{course}" if !url.match?(/\.topic/) }
-  results.flatten.reject { |u| !u.start_with?('/bjc-r') }.uniq
-end
-
-# ======== end bjc-r stuff ==========
-
-
-# This is the root of the repository, e.g. the bjc-r directory
-# Update this is you move this file.
-REPO_ROOT = File.expand_path('../../', __dir__)
-
-# https://nts.strzibny.name/how-to-test-static-sites-with-rspec-capybara-and-webkit/
-class StaticSite
-  attr_reader :root, :server
-
-  def initialize(root)
-    @root = root
-    @server = Rack::File.new(root)
-  end
-
-  def call(env)
-    # Remove the /bjc-r prefix, which is present in all URLs, but not in the file system.
-    path = env['PATH_INFO'].gsub('/bjc-r', '')
-
-
-    # Use index.html for / paths
-    if path == '/' && exists?('index.html')
-      env['PATH_INFO'] = '/index.html'
-    elsif !exists?(path) && exists?(path + '.html')
-      env['PATH_INFO'] = "#{path}.html"
-    else
-      env['PATH_INFO'] = path
-    end
-
-    server.call(env)
-  end
-
-  def exists?(path)
-    File.exist?(File.join(root, path))
-  end
-end
-
-Capybara::Screenshot.prune_strategy = :keep_last_run
-
-Capybara.server = :webrick
-Capybara.app = Rack::Builder.new do
-  map '/' do
-    use Rack::Lint
-    run StaticSite.new(REPO_ROOT)
-  end
-end.to_app
-
-Capybara.save_path = File.join(REPO_ROOT, 'tmp')
+# Used to set the path for a local webserver.
+# For simplicity, this is one level above bjc-r/ so the prefix is easily handled.
+FILE_SERVER_ROOT = File.expand_path("../../../", __dir__)
 
 Capybara.register_driver :chrome_headless do |app|
   options = Selenium::WebDriver::Chrome::Options.new
   options.add_argument('--headless')
   options.add_argument('--no-sandbox')
   options.add_argument('--disable-dev-shm-usage')
-  # macbook air ~13" screen width
-  options.add_argument('--window-size=1280,2500')
+  # MacBook Air ~13" screen size, with an absurd height to capture more content.
+  options.add_argument('--window-size=1280,4000')
 
   Capybara::Selenium::Driver.new(app, browser: :chrome, options:)
 end
 
+# Change default_driver to :selenium_chrome if you want to actually see the tests running in a browser locally.
 # Should be :chrome_headless in CI though.
 Capybara.default_driver = :chrome_headless
 Capybara.javascript_driver = :chrome_headless
 
-# Capybara::Screenshot.register_driver(:chrome_headless) do |driver, path|
-#   driver.save_screenshot(path, full: true)
-# end
+Capybara::Screenshot.register_driver(:chrome_headless) do |driver, path|
+  driver.save_screenshot(path)
+end
+
+Capybara::Screenshot.register_filename_prefix_formatter(:rspec) do |example|
+  # Highly specific to a11y specs: path-mode-wcag-version
+  # TODO: Find a nice way to name "index" pages, or consider using Capybara.page.title
+  page = example.example_group.top_level_description.gsub(' is accessible', '')
+  # mode = example.example_group.description # i.e. light mode / dark mode
+  standard = example.description.split.last # i.e "meets WCAG 2.1"
+  test_case = "#{page}_#{standard}".gsub(%r{^/}, '').gsub(%r{[/\s+]}, '-')
+  "screenshot_#{test_case}"
+end
+
+Capybara.save_path = 'tmp/capybara/'
+Capybara::Screenshot.autosave_on_failure = true
+Capybara::Screenshot.append_timestamp = false
+Capybara::Screenshot.prune_strategy = :keep_last_run
+
+# Use Rack to serve static files from within the build directory.
+# This supports "clean" URLs which serve /path/ from /path/index.html
+Capybara.server = :webrick
+Capybara.app = Rack::Builder.new do
+  use Rack::Lint
+  use Rack::Static, { urls: [''], root: "#{FILE_SERVER_ROOT}/", index: 'index.html' }
+  run Rack::Files.new(FILE_SERVER_ROOT)
+end.to_app
 
 RSpec.configure do |config|
   config.include Capybara::DSL

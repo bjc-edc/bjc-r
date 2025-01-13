@@ -1,19 +1,15 @@
 # frozen_string_literal: true
 
-# Run accessibility specs for all pages in the webiste.
+# Run accessibility specs for all pages in the website.
 # This runs the axe accessibility checker on each page in a headless browser.
 
-require 'nokogiri'
-
-# Load our custom BJC tools
-require_relative '../build-tools/bjc_helpers'
-require_relative '../build-tools/course'
-require_relative '../build-tools/topic'
-
-# spec_helper ensures the webiste is built and can be served locally
+# spec_helper ensures the website is built and can be served locally
+require_relative './bjc_helper'
 require_relative './spec_helper'
 
-# ===== Page / Couse List
+include BJCSpecs
+
+# ===== Page / Course List
 # Use course as a tag (`rspec --tag bjc4nyc`) to run only the tests for that course.
 COURSES = %w[
   bjc4nyc
@@ -22,18 +18,7 @@ COURSES = %w[
   bjc4nyc_teacher
   sparks-teacher
 ]
-ALL_PAGES = load_site_urls(COURSES)
-# A handful of pages we should ensure are compliant.
-ALL_PAGES['general'] = [
-  '/bjc-r/',
-  '/bjc-r/docs/style_guide.html',
-  '/bjc-r/docs/best_practices.html',
-  '/bjc-r/docs/translations.html',
-  '/bjc-r/topic/topic.html',
-  '/bjc-r/topic/topic.es.html',
-  '/bjc-r/sparks/design-principles.html',
-  '/bjc-r/mini/index.html'
-]
+ALL_PAGES = BJCSpecs.complete_bjc_grouped_file_list(COURSES)
 # ===============================
 
 def test_tags(tags)
@@ -66,7 +51,7 @@ def a11y_test_cases(course, url)
   # See https://github.com/dequelabs/axe-core/blob/develop/doc/API.md#axe-core-tags
   required_a11y_standards = %i[wcag2a wcag2aa]
   # These are currently skipped until the basic tests are passing.
-  complete_a11y_standards = %i[wcag21a wcag21aa wcag22aa wcag2a-obsolete best-practice secion508]
+  complete_a11y_standards = %i[wcag21a wcag21aa wcag22aa wcag2a-obsolete best-practice section508]
 
   # axe-core rules that are not required to be accessible / do not apply
   # See: https://github.com/dequelabs/axe-core/blob/develop/doc/rule-descriptions.md
@@ -92,6 +77,7 @@ def a11y_test_cases(course, url)
     before(:each) do
       visit(url)
 
+      # binding.irb
       if page.html.match?(/File not found:/)
         skip("TODO: #{url} is a 404 page.")
       end

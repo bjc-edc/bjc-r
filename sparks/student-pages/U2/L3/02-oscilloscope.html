@@ -16,7 +16,7 @@
 		<h3>Writing Code to Draw One Set of Samples</h3>
 		<p>
 			<div class="sidenote">You learned about the <code>for each</code> block on <a href="/bjc-r/sparks/student-pages/U2/L1/05-beat-repeat.html?topic=sparks%2F2-sequencing-iteration.topic&course=sparks.html" title="Unit 2 Lab 1 Activity 5: Beat Repeat">Unit 2 Lab 1 Activity 5: Beat Repeat</a>.</div>
-			There is a <code>for each</code> block at the core of the oscilloscope code. In order to plot the microphone volume intensity (loudness) over time, the sprite should go to each microphone volume sample.<br />
+			There is a <code>for each</code> block at the core of the oscilloscope code. In order to draw a plot of the microphone volume intensity (loudness) over time, the sprite should go to each microphone volume sample, tracing our the intensities across the Snap<em>!</em> stage.<br />
 			<img class="indent" src="/bjc-r/sparks/img/U2/lab03/oscilloscope-core-2-no-inputs.png" alt="for each (sample) in (microphone (samples)) {
 go to x: () y: ()
 }" title="for each (sample) in (microphone (samples)) {
@@ -24,7 +24,7 @@ go to x: () y: ()
 }" />
 
 		</p>
-		<p>As you've seen, every time <code>microphone (samples)</code> runs, it reports a set of samples recorded over a brief period of time. For our oscilloscope, we want to plot that set of samples across the stage, then replace it with the next set of sound samples detected, then replace it again, and so on in order to visualize the signal intensity over time.</p>
+		<p>As you've seen, every time <code>microphone (samples)</code> runs, it reports a set of samples recorded over a brief period of time. For our oscilloscope, we want to plot that set of samples across the stage, then replace the drawing with the next set of sound samples detected, then replace it again, and so on in order to visualize the changing signal intensity over time.</p>
 		<p>Since we'll plot the samples across the stage horizontally, we need to keep track of how much space each sample gets on the stage.</p>
 
 		<div class="forYouToDo">
@@ -36,6 +36,7 @@ go to x: () y: ()
 					</div>
 					Create a global variable called <var>sample width</var> to store the amount space each sample gets on the stage. Set it to the width of the stage divided by the microphone resolution (the number of values in the sample set). <a href="#hint-sample-width" data-toggle="collapse" title="Click for an example of how to set the value of the 'sample width' variable.">Click for an example of how to set the value of this variable.</a>
 					<div id="hint-sample-width" class="collapse"><p><img class="indent" src="/bjc-r/sparks/img/U2/lab03/oscilloscope-core-1.png" alt="set (sample width) to (width of (Stage) / microphone (resolution))" title="set (sample width) to (width of (Stage) / microphone (resolution))" /></p></div>
+					<div class="endnote"><strong><h4>Why set <var>sample width</var> to the width of the stage divided by the microphone resolution?</h4></strong> Since we need to know how much space each sample gets on the stage, we need to divide up the stage width into enough pieces for all the microphone samples to fit.</div>
 				</li>
 				<li>
 					The sprite needs to draw the set of volume samples across the stage. For each sample, the sprite should move forward horizontally (the width of one sample) and move vertically to the intensity (loudness) of that sample. Create the <code>for each</code> code by copying the code shown above and completing the inputs to the <code>go to</code> block.
