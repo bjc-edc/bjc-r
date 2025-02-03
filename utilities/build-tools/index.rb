@@ -126,11 +126,15 @@ class Index
     generateAlphaOrder(usedLetters, output)
   end
 
-  def moveFile
+  def move_and_format_file
     src = "#{@parentDir}/review/#{index_filename}"
     dst = "#{@parentDir}/#{index_filename}"
     File.delete(dst) if File.exist?(dst)
-    FileUtils.copy_file(src, dst)
+    raw_html = File.read(src)
+    # pretty print the HTML
+    pretty_html = Nokogiri::HTML(raw_html) { |config| config.options = Nokogiri::XML::Node::SaveOptions::FORMAT }
+    File.write(dst, pretty_html)
+    # FileUtils.copy_file(src, dst)
   end
 
   def main
@@ -140,7 +144,7 @@ class Index
     createNewIndexFile(files[0], filePath)
     addIndex
     add_HTML_end
-    moveFile
+    move_and_format_file
   end
 
   def createNewIndexFile(copyFile, filePath)
