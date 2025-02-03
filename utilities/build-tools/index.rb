@@ -132,7 +132,10 @@ class Index
     File.delete(dst) if File.exist?(dst)
     raw_html = File.read(src)
     # pretty print the HTML
-    pretty_html = Nokogiri::HTML(raw_html) { |config| config.options = Nokogiri::XML::Node::SaveOptions::FORMAT }
+    pretty_html = Nokogiri::HTML(raw_html) do |config|
+      config.options = Nokogiri::XML::Node::SaveOptions::FORMAT
+    end
+    debugger
     File.write(dst, pretty_html)
     # FileUtils.copy_file(src, dst)
   end

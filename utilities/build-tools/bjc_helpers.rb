@@ -1,3 +1,8 @@
+# frozen_string_literal: true
+
+VALID_LANGUAGES = %w[en es de].freeze
+TEMP_FOLDER = 'review'
+
 module BJCHelpers
   UNIT_FOLDERS = []
   TOPIC_COURSE = []
@@ -12,7 +17,7 @@ module BJCHelpers
     folder = f.split("/")
     return folder[-1]
   end
-  
+
   def get_topic_course(topic, course)
     if not(TOPIC_COURSE.empty?)
       TOPIC_COURSE.each do |item|

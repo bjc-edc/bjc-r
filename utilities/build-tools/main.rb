@@ -9,10 +9,6 @@ require_relative 'course'
 require_relative 'vocab'
 require_relative 'selfcheck'
 
-# TODO: Include BJCHelpers - figure out which config stuff belongs there.
-VALID_LANGUAGES = %w[en es de].freeze
-TEMP_FOLDER = 'review'
-
 I18n.load_path = Dir['**/*.yml']
 I18n.backend.load_translations
 
