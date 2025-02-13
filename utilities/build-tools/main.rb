@@ -1,4 +1,3 @@
-require 'pry'
 require 'fileutils'
 require 'i18n'
 require 'nokogiri'

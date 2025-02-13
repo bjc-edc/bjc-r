@@ -126,18 +126,18 @@ class Index
     generateAlphaOrder(usedLetters, output)
   end
 
+  # TODO: Rather than appending to files, we should just use a variable to store the HTML content
   def move_and_format_file
     src = "#{@parentDir}/review/#{index_filename}"
     dst = "#{@parentDir}/#{index_filename}"
     File.delete(dst) if File.exist?(dst)
-    raw_html = File.read(src)
-    # pretty print the HTML
-    pretty_html = Nokogiri::HTML(raw_html) do |config|
-      config.options = Nokogiri::XML::Node::SaveOptions::FORMAT
-    end
-    debugger
+    # Use Nokogiri to pretty print the HTML -- but only XML mode seems to use proper indentation
+    # So, remove the XML doctype and add back the HTML doctype
+    pretty_html = <<~HTML
+      <!DOCTYPE html>
+      #{Nokogiri::XML(File.read(src), &:noblanks).document.root}
+    HTML
     File.write(dst, pretty_html)
-    # FileUtils.copy_file(src, dst)
   end
 
   def main
