@@ -135,10 +135,11 @@ class Index
     # So, remove the XML doctype and add back the HTML doctype
     pretty_html = <<~HTML
       <!DOCTYPE html>
+      #{write_html_head}
       #{Nokogiri::XML(File.read(src), &:noblanks).document.root.to_s}
     HTML
-    File.write(dst, File.read(src))
-    # File.write(dst, pretty_html)
+    # File.write(dst, File.read(src))
+    File.write(dst, pretty_html)
   end
 
   def main
@@ -149,6 +150,16 @@ class Index
     addIndex
     add_HTML_end
     move_and_format_file
+  end
+
+  def write_html_head
+    <<~HTML
+      <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>#{I18n.t('index')}</title>
+      </head>
+    HTML
   end
 
   def createNewIndexFile(copyFile, filePath)
