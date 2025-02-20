@@ -126,11 +126,20 @@ class Index
     generateAlphaOrder(usedLetters, output)
   end
 
-  def moveFile
+  # TODO: Rather than appending to files, we should just use a variable to store the HTML content
+  def move_and_format_file
     src = "#{@parentDir}/review/#{index_filename}"
     dst = "#{@parentDir}/#{index_filename}"
     File.delete(dst) if File.exist?(dst)
-    FileUtils.copy_file(src, dst)
+    # Use Nokogiri to pretty print the HTML -- but only XML mode seems to use proper indentation
+    # So, remove the XML doctype and add back the HTML doctype
+    pretty_html = <<~HTML
+      <!DOCTYPE html>
+      #{write_html_head}
+      #{Nokogiri::XML(File.read(src), &:noblanks).document.root.to_s}
+    HTML
+    # File.write(dst, File.read(src))
+    File.write(dst, pretty_html)
   end
 
   def main
@@ -140,7 +149,17 @@ class Index
     createNewIndexFile(files[0], filePath)
     addIndex
     add_HTML_end
-    moveFile
+    move_and_format_file
+  end
+
+  def write_html_head
+    <<~HTML
+      <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>#{I18n.t('index')}</title>
+      </head>
+    HTML
   end
 
   def createNewIndexFile(copyFile, filePath)

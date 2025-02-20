@@ -4,7 +4,7 @@ require 'i18n'
 require_relative 'course'
 require_relative 'bjc_helpers'
 
-TEMP_FOLDER = 'review'
+# TEMP_FOLDER = 'review'
 
 I18n.load_path = Dir['**/*.yml']
 I18n.backend.load_translations
@@ -188,7 +188,7 @@ class SelfCheck
     unitNum = return_unit(@currUnit)
     box_num(@box_num + 1)
     suffix = generate_url_suffix(TOPIC_COURSE[0], get_topic_file, TOPIC_COURSE[-1])
-    " <a href=\"#{get_url(@currFile)}#{suffix}#box#{@box_num}\"><b>#{unitNum}</b></a>"
+    "from <a href=\"#{get_url(@currFile)}#{suffix}#box#{@box_num}\"><strong>#{unitNum}</strong></a>"
   end
 
   # need something to call this function and parse_unit

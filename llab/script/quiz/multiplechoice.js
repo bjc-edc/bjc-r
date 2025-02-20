@@ -130,6 +130,7 @@ MC.prototype.render = function() {
         /* set the question type title */
         this.multipleChoice.find('.questionType').html(t('selfCheckTitle'));
     }
+    // TODO: Michael add a thing to include the <a> tag.
 
     /* render the prompt */
     this.multipleChoice.find('.promptDiv').html(this.content.prompt);
@@ -176,7 +177,6 @@ MC.prototype.render = function() {
 
         this.multipleChoice.find('.radiobuttondiv').append(choiceHTML);
 
-        // TODO -- explain this...
         $(`#${choice_id}`).bind('click', { myQuestion: this }, function(args) {
             args.data.myQuestion.enableCheckAnswerButton('true');
         });
@@ -416,7 +416,7 @@ MC.prototype.removeSpace = function(text) {
  * disable checkAnswerButton
  */
 MC.prototype.enableCheckAnswerButton = function(doEnable) {
-    if (doEnable == 'true') { // FIXME
+    if (doEnable == 'true') {
         this.multipleChoice.find('.checkAnswerButton').removeClass('disabled').attr('disabled', false);
     } else {
         this.multipleChoice.find('.tryAgainButton').addClass('disabled').attr('disabled', true);
