@@ -135,9 +135,10 @@ class Index
     # So, remove the XML doctype and add back the HTML doctype
     pretty_html = <<~HTML
       <!DOCTYPE html>
-      #{Nokogiri::XML(File.read(src), &:noblanks).document.root}
+      #{Nokogiri::XML(File.read(src), &:noblanks).document.root.to_s}
     HTML
-    File.write(dst, pretty_html)
+    File.write(dst, File.read(src))
+    # File.write(dst, pretty_html)
   end
 
   def main
