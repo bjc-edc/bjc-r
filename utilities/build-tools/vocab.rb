@@ -8,14 +8,13 @@ require_relative 'selfcheck'
 
 I18n.load_path = Dir['**/*.yml']
 I18n.backend.load_translations
-TEMP_FOLDER = 'review'
 
 # TODO: It's unclear where the HTML for new files comes from.
 # We should probably have a 'template' file which gets used.
 # I think we can just replace content in the file, but we could use a library.
 class Vocab
   include BJCHelpers
-  
+
   def initialize(path, language = 'en', content, course)
     @parentDir = path
     @language = language
@@ -165,13 +164,13 @@ class Vocab
     data = data.gsub(/&amp;/, '&')
     data.delete!("\n\n\\")
     if File.exist?(filename)
-      f = File.open(filename, mode: 'a') 
+      f = File.open(filename, mode: 'a')
       f.write("<h3>#{currLab}</h3>") if lab != currLab
       f.close
     else
       createNewVocabFile(filename)
     end
-    f = File.open(filename, mode: 'a') 
+    f = File.open(filename, mode: 'a')
     f.write(data)
     f.close
   end

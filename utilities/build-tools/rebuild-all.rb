@@ -9,26 +9,31 @@ require_relative 'main'
 
 ROOT = '/bjc-r'
 path = Dir.pwd # #ENV('PWD')
-puts path
 path = path.sub(%r{#{ROOT}/.*$}, ROOT)
 puts "Rebuilding all index/summaries from: #{path}"
 
+csp_dir = 'cur/programming'
 puts
 puts 'Rebuilding English CSP'
-en_runner = Main.new(root: path, content: 'cur/programming', course: 'bjc4nyc', language: 'en')
-en_runner.skip_test_prompt = true
+# TODO: this should not be necessary. If the files already exist,
+# # then we get an error about `topic.txt` not being found.
+# Delete the files so that they are rebuilt.
+output_files = %w|atwork.html vocab-index.html|
+output_files.each do |file|
+  full_path = File.join(path, csp_dir, file)
+  File.delete(full_path) if File.exist?(full_path)
+end
+en_runner = Main.new(root: path, content: csp_dir, course: 'bjc4nyc', language: 'en')
 en_runner.Main
 
-# puts
-# puts 'Rebuilding Espanol CSP'
-# es_runner = Main.new(root: path, content: 'cur/programming', course: 'bjc4nyc', language: 'es')
-# es_runner.skip_test_prompt = true
-# es_runner.Main
+puts
+puts 'Rebuilding Espanol CSP'
+es_runner = Main.new(root: path, content: csp_dir, course: 'bjc4nyc', language: 'es')
+es_runner.Main
 
 # puts
 # puts 'Rebuilding Sparks'
 # sparks_runner = Main.new(root: path, content: 'sparks/student-pages', course: 'sparks', language: 'en')
-# sparks_runner.skip_test_prompt = true
 # sparks_runner.Main
 
 puts '*' * 80

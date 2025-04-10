@@ -14,7 +14,7 @@ I18n.backend.load_translations
 class Main
   include BJCHelpers
   attr_reader :course, :parentDir
-  attr_accessor :skip_test_prompt, :course_file
+  attr_accessor :course_file
 
   # TODO: Determine whether the content folder path is necessary
   # or can it be inferred from a course/topic?
@@ -38,7 +38,6 @@ class Main
     @vocab = Vocab.new(@parentDir, language, content, @course)
     @self_check = SelfCheck.new(@parentDir, language, content, @course)
     @atwork = AtWork.new(@parentDir, language, content)
-    @testingFolder = false
     @topic_folder = ''
   end
 
@@ -60,8 +59,8 @@ class Main
 
   # Main/primary function to be called, will call and create all other functions and classes.
   # This function will parse the topic pages, parse all labs and units, and create summary pages
+  # TODO: this needs to be rewritten to use the BJCTopic class / not require temporary files.
   def Main
-    testingFolderPrompt
     createNewReviewFolder
     parse_all_topic_files
     # Call BJCTopic.new().parse
@@ -77,30 +76,7 @@ class Main
   end
 
   def clear_review_folder
-    return if @testingFolder
-
     deleteReviewFolder
-  end
-
-  def testingFolderPrompt
-    return if @skip_test_prompt
-
-    prompt = '> '
-    puts "Would you like to have a consolidated review folder (for testing purposes)? \n Type Y/N"
-    print prompt
-    while (user_input = gets.chomp) # loop while getting user input
-      case user_input
-      when 'Y', 'y'
-        @testingFolder = true
-        break
-      when 'N', 'n'
-        @testingFolder = false
-        break
-      else
-        puts 'Unsupported input. Please type either Y/N'
-        print prompt # print the prompt, so the user knows to re-enter input
-      end
-    end
   end
 
   def review_folder
@@ -406,6 +382,7 @@ class Main
 
   def extract_unit_path(line, use_root = true, is_topic = true)
     if is_topic
+      # TODO: This may error in raw-html lines which have links.
       bracket_removed = line.split(/.+\[/)
       match = bracket_removed[1].split(/\]/).join.to_s
     else

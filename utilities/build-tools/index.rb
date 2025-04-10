@@ -158,6 +158,7 @@ class Index
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>#{I18n.t('index')}</title>
+        <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
       </head>
     HTML
   end
@@ -165,19 +166,20 @@ class Index
   def createNewIndexFile(copyFile, filePath)
     i = 0
     File.new(index_filename, 'a')
-    linesList = File.readlines("#{filePath}/#{copyFile}")[0..20]
-    while !linesList[i].match(%r{</head>}) && (i < 20)
-      if linesList[i].match(/<title>/)
-        File.write(index_filename, "\t<title>#{I18n.t('index')}</title>\n", mode: 'a')
-      else
-        File.write(index_filename, (linesList[i]).to_s, mode: 'a')
-      end
-      i += 1
-    end
-    File.write(index_filename, "\n</head>\n<body>\n", mode: 'a')
+    # linesList = File.readlines("#{filePath}/#{copyFile}")[0..20]
+    # while !linesList[i].match(%r{</head>}) && (i < 20)
+    #   # if linesList[i].match(/<title>/)
+    #   #   File.write(index_filename, "\t<title>#{I18n.t('index')}</title>\n", mode: 'a')
+    #   # else
+    #   #   File.write(index_filename, (linesList[i]).to_s, mode: 'a')
+    #   # end
+    #   i += 1
+    # end
+    File.write(index_filename, "\n\t<body>\n", mode: 'a')
     back_to_top = <<~HTML
-      <button id="scroll_to_top" style="position: fixed" style="float: right;" type="button">
-        <a href="#top">#{I18n.t('back_to_top')}</a>&nbsp;</button>
+        <a style="position: fixed; float: right;"
+          class="btn btn-primary btn-lg"
+          href="#top">#{I18n.t('back_to_top')}</a>&nbsp;
     HTML
     File.write(index_filename, back_to_top, mode: 'a')
   end
