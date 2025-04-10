@@ -122,7 +122,6 @@ class SelfCheck
     end
     return if examSet.empty?
 
-    # binding.irb
     add_exam_to_file(examSet.to_s)
   end
 
@@ -179,7 +178,7 @@ class SelfCheck
   def get_topic_file
     unit_reference = return_unit(@currUnit)
     unit_num = unit_reference.match(/\d+/).to_s
-    topic_files = topic_files_in_course.filter {|f| f.match(unit_num)}[0]
+    topic_files_in_course.filter {|f| f.match(unit_num)}[0]
   end
 
   def add_unit_to_header

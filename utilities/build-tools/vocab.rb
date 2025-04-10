@@ -162,7 +162,6 @@ class Vocab
   def add_content_to_file(filename, data)
     lab = @currLab
     data = data.gsub(/&amp;/, '&')
-    # data.delete!("\n\n\\")
     if File.exist?(filename)
       f = File.open(filename, mode: 'a')
       f.write("<h3>#{currLab}</h3>\n") if lab != currLab
