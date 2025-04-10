@@ -109,11 +109,11 @@ class SelfCheck
     end
     return if selfcheckSet.empty?
 
-    add_assessment_to_file(selfcheckSet.to_s)
+    add_assessment_to_file(selfcheckSet.to_html)
   end
 
   def parse_examData(file)
-    doc = File.open(file) { |f| Nokogiri::HTML(f) }
+    doc = File.open(file) { |f| Nokogiri::HTML5(f) }
     examSet = doc.xpath("//div[@class = 'examFullWidth']")
     examSet.each do |node|
       child = node.children
@@ -122,6 +122,7 @@ class SelfCheck
     end
     return if examSet.empty?
 
+    # binding.irb
     add_exam_to_file(examSet.to_s)
   end
 
@@ -153,7 +154,7 @@ class SelfCheck
 
   def add_HTML_end
     Dir.chdir(review_folder)
-    ending = "\t</body>\n</html>"
+    ending = "\n\t</body>\n</html>\n"
     File.write(self_check_file_name, ending, mode: 'a') if File.exist?(self_check_file_name)
     return unless File.exist?(exam_file_name)
 
@@ -163,13 +164,12 @@ class SelfCheck
   def add_content_to_file(filename, data, type)
     lab = @currLab
     data = data.gsub(/&amp;/, '&')
-    data.delete!("\n\n\\")
     if File.exist?(filename)
       File.write(filename, "<h3>#{currLab}</h3>\n", mode: 'a') if lab != currLab
     else
       createAssessmentDataFile(filename, type)
     end
-    File.write(filename, data, mode: 'a')
+    File.write(filename, "#{data}", mode: 'a')
   end
 
   def topic_files_in_course
@@ -206,6 +206,6 @@ class SelfCheck
   def get_url(file)
     localPath = Dir.getwd
     linkPath = localPath.match(/bjc-r.+/).to_s
-    result = "/#{linkPath}/#{file}"
+    "/#{linkPath}/#{file}"
   end
 end

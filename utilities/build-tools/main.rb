@@ -275,8 +275,9 @@ class Main
     bool
   end
 
+  # TODO: We should cleanup how newlines are added to the file.
   def add_content_to_file(filename, data)
-    File.open(filename, mode: 'a+') { |f| f.write(data) }
+    File.open(filename, mode: 'a+') { |f| f.write("#{data}\n") }
   end
 
   # TODO: - if we have a BJCTopic class, this probably belongs there.

@@ -153,7 +153,7 @@ class Vocab
 
   def add_HTML_end
     Dir.chdir(review_folder)
-    ending = "</body>\n</html>"
+    ending = "\n</body>\n</html>"
     return unless File.exist?(vocab_file_name)
 
     File.write(vocab_file_name, ending, mode: 'a')
@@ -162,20 +162,20 @@ class Vocab
   def add_content_to_file(filename, data)
     lab = @currLab
     data = data.gsub(/&amp;/, '&')
-    data.delete!("\n\n\\")
+    # data.delete!("\n\n\\")
     if File.exist?(filename)
       f = File.open(filename, mode: 'a')
-      f.write("<h3>#{currLab}</h3>") if lab != currLab
+      f.write("<h3>#{currLab}</h3>\n") if lab != currLab
       f.close
     else
       createNewVocabFile(filename)
     end
     f = File.open(filename, mode: 'a')
-    f.write(data)
+    f.write("#{data}\n")
     f.close
   end
 
-  #re-formatting the margins of the vocab boxes some there is less whitespace on vocab pages
+  # re-formatting the margins of the vocab boxes some there is less whitespace on vocab pages
   def reformat(file)
   end
 
@@ -327,7 +327,7 @@ class Vocab
   def get_topic_file
     unit_reference = return_vocab_unit(@currUnit)
     unit_num = unit_reference.match(/\d+/).to_s
-    topic_files = topic_files_in_course.filter {|f| f.match(unit_num)}[0]
+    topic_files_in_course.filter {|f| f.match(unit_num)}[0]
   end
 
   def add_vocab_unit_to_index
@@ -341,7 +341,7 @@ class Vocab
     unit = return_vocab_unit(@currUnit)
     suffix = generate_url_suffix(TOPIC_COURSE[0], get_topic_file, TOPIC_COURSE[-1])
     "<a name=\"box#{@boxNum}\"</a>
-    <a href=\"#{get_url(@currFile, Dir.pwd)}#{suffix}\"><b> #{unit}</b></a>"
+    <a href=\"#{get_url(@currFile, Dir.pwd)}#{suffix}\"><b> #{unit}</b></a>\n"
   end
 
   # need something to call this function and parse_unit
@@ -359,6 +359,6 @@ class Vocab
 
   def get_url(file, localPath)
     linkPath = localPath.match(/bjc-r.+/).to_s
-    result = "/#{linkPath}/#{file}"
+    "/#{linkPath}/#{file}"
   end
 end
