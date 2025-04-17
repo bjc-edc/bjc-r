@@ -706,6 +706,26 @@ table.truth tr td {
   width: 40%;
 }
 
+/* These boxes are used on idex/summary pages for all vocab, AP exam, atwork, etc. *
+  We should use `.vacab.summaryBox` instead of `.vocabSummary` and so on. */
+.summaryBox {
+  width: 95%;
+  margin-left: auto;
+  margin-top: 0.5em;
+  padding: 20px;
+  text-indent: 0em;
+  overflow: hidden;
+}
+
+/* Content labelling is redundant on summary pages. */
+.vocab.summaryBox:before
+.exam.summaryBox:before
+.atwork.summaryBox:before {
+  content: "";
+}
+
+/* TODO-MB: We need to separate these into multiple composable classes. */
+/* TODO: After merging in new sumamries remove vocabSummary, examSummary, etc. */
 .vocabFullWidth,
 .examFullWidth,
 .vocabSummary,
@@ -718,11 +738,15 @@ table.truth tr td {
   text-indent: 0em;
   overflow: hidden;
 }
+
 .vocabSummary,
 .examSummary {
   margin-right: auto;
 }
 
+.summary .todo,
+.summary .comment,
+.summary .commentBig,
 .vocabSummary .todo,
 .vocabSummary .comment,
 .vocabSummary .commentBig,
@@ -762,8 +786,7 @@ table.truth tr td {
 
 html[lang="es"] .exam:before,
 html[lang="es"] .examBig:before,
-html[lang="es"] .examFullWidth:before,
-html[lang="es"] .examSummary:before {
+html[lang="es"] .examFullWidth:before {
   content: "En el examen AP...";
 }
 
@@ -774,8 +797,7 @@ html[lang="es"] .atworkFullWidth:before {
 
 html[lang="es"] .vocab:before,
 html[lang="es"] .vocabBig:before,
-html[lang="es"] .vocabFullWidth:before,
-html[lang="es"] .vocabSummary:before {
+html[lang="es"] .vocabFullWidth:before {
   content: "Vocabulario";
 }
 

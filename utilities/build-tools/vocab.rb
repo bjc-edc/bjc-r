@@ -14,6 +14,8 @@ I18n.backend.load_translations
 # I think we can just replace content in the file, but we could use a library.
 class Vocab
   include BJCHelpers
+  VOCAB_CLASSES = ['vocabFullWidth', 'vocabBig', 'vocab']
+
 
   def initialize(path, language = 'en', content, course)
     @parentDir = path
@@ -75,10 +77,6 @@ class Vocab
 
   def currUnitNum(num)
     @currUnitNum = num
-  end
-
-  def boxNum(num)
-    @boxNum = num
   end
 
   def currLab
@@ -182,51 +180,24 @@ class Vocab
   # might be better to have other function to handle that bigger parsing of the whole file #with io.foreach
   def parse_vocab(file)
     doc = File.open(file) { |f| Nokogiri::HTML(f) }
-    vocab_full_size = ["'vocabFullWidth'", "'vocabFullWidth AP-only'"]
-    vocab_partial_size = ["'vocabBig'", "'vocab'"]
 
-    vocab_full_size.each do |class_tag|
-      path = "//div[@class = #{class_tag}]"
-      vocab_set = doc.xpath("//div[@class = #{class_tag}]")
-      if vocab_set.to_s != ""
-        vocab_set.each do |node|
-          child = node.children
-          node.kwattr_add("style", "width: 95%")
-          child.before(add_vocab_unit_to_header) #if !child.to_a.include?(add_vocab_unit_to_header)
-          get_vocab_word(node)
-          boxNum(1 + @boxNum)
-        end
-      add_vocab_to_file(vocab_set.to_s)
-      end
-    end
-
-    vocab_partial_size.each do |class_tag|
-      vocab_set2 = doc.xpath("//div[@class = #{class_tag}]")
-      if vocab_set2.to_s != ""
-        vocab_set2.each do |node|
-          child = node.children
-          change_to_vocabFullWidth(vocab_set2, node['class'])
-          node.kwattr_add("style", "width: 95%")
-          child.before(add_vocab_unit_to_header) #if !child.to_a.include?(add_vocab_unit_to_header)
-          get_vocab_word(node)
-          boxNum(1 + @boxNum)
-        end
-        add_vocab_to_file(vocab_set2.to_s)
-      end
+    xpath_selector = VOCAB_CLASSES.map { |class_name| "//div[contains(@class, '#{class_name}')]" }.join(' | ')
+    doc.xpath(xpath_selector).each do |node|
+      # TODO: Verify no additonal classes should be present on the original items.
+      node['class'] = 'vocab summaryBox'
+      child = node.children
+      child.before(add_vocab_unit_to_header) #if !child.to_a.include?(add_vocab_unit_to_header)
+      get_vocab_word(node) # This saves the extracted term for later.
+      # TODO: see if we can remove this tracking of the box number.
+      @boxNum += 1
+      add_vocab_to_file(node.to_s)
     end
   end
 
-  def change_to_vocabFullWidth(vocab_set, clas)
-    return unless %w[vocabBig vocab].include?(clas)
-
-    vocab_set.remove_class(clas)
-    vocab_set.add_class('vocabFullWidth')
-  end
-
-  def get_vocab_word(nodeSet)
-    extract_vocab_word(nodeSet.xpath('.//div//strong'))
-    extract_vocab_word(nodeSet.xpath('.//li//strong'))
-    extract_vocab_word(nodeSet.xpath('.//p//strong'))
+  def get_vocab_word(node)
+    extract_vocab_word(node.xpath('.//div//strong'))
+    extract_vocab_word(node.xpath('.//li//strong'))
+    extract_vocab_word(node.xpath('.//p//strong'))
   end
 
   def vocabExists?(list, word)
@@ -285,10 +256,14 @@ class Vocab
     end
   end
 
-  def extract_vocab_word(nodeSet)
-    nodeSet.each do |n|
+  def extract_vocab_word(nodes)
+    nodes.each do |node|
+      # Skip removing 'the' from these words.
+      # TODO: Does this need to handle spanish?
       kludges = ['the cloud', 'cloud, the']
-      kludges.include?(n.to_s.downcase) ? node = n : node = removeArticles(n.text.gsub(/(\s+)$/, '').to_s)
+      if !kludges.include?(node.to_s.downcase)
+        node = removeArticles(node.text.gsub(/(\s+)$/, '').to_s)
+      end
       saveVocabWord(node)
       separateVocab(node)
     end
@@ -333,14 +308,17 @@ class Vocab
     unit = return_vocab_unit(@currUnit)
     suffix = generate_url_suffix(TOPIC_COURSE[0], get_topic_file, TOPIC_COURSE[-1])
     path = get_prev_folder(Dir.pwd, true)
-    " <a href=\"#{get_url(vocab_file_name, path)}#{suffix}#box#{@boxNum}\">#{unit}</a>"
+    # TODO: CLEANUP
+    index_a = "<a href=\"#{get_url(vocab_file_name, path)}#{suffix}#box#{@boxNum}\">#{unit}</a>"
+    puts index_a
+    index_a
   end
 
   def add_vocab_unit_to_header
     unit = return_vocab_unit(@currUnit)
     suffix = generate_url_suffix(TOPIC_COURSE[0], get_topic_file, TOPIC_COURSE[-1])
     "<a name=\"box#{@boxNum}\"</a>
-    <a href=\"#{get_url(@currFile, Dir.pwd)}#{suffix}\"><b> #{unit}</b></a>\n"
+    <a href=\"#{get_url(@currFile, Dir.pwd)}#{suffix}\"><b>#{unit}</b></a>\n"
   end
 
   # need something to call this function and parse_unit
