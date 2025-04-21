@@ -55,4 +55,20 @@ module BJCHelpers
     </html>
     HTML
   end
+
+  def summary_page_template(lang, title, contents)
+    <<~HTML
+    <!DOCTYPE html>
+    <html lang="#{lang}">
+      <head>
+        <title>#{title}</title>
+        <meta charset="utf-8">
+        <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+      <head>
+      <body>
+        #{contents}
+      </body>
+    </html>
+    HTML
+  end
 end
