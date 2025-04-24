@@ -717,13 +717,6 @@ table.truth tr td {
   overflow: hidden;
 }
 
-/* Content labelling is redundant on summary pages. */
-.vocab.summaryBox:before
-.exam.summaryBox:before
-.atwork.summaryBox:before {
-  content: "";
-}
-
 /* TODO-MB: We need to separate these into multiple composable classes. */
 /* TODO: After merging in new sumamries remove vocabSummary, examSummary, etc. */
 .vocabFullWidth,
@@ -782,6 +775,20 @@ table.truth tr td {
   font-size: 16px;
   font-weight: bold;
   line-height: 1.5em;
+}
+
+/* Override some basic vocab only settings */
+.vocab.summaryBox,
+.exam.summaryBox,
+.atwork.summaryBox {
+  float: none;
+  clear: both;
+}
+
+/* TODO: Consider atwork and on the exam boxes. */
+.vocab.summaryBox:before,
+html[lang="es"] .vocab.summaryBox:before {
+  content: none;
 }
 
 html[lang="es"] .exam:before,

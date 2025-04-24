@@ -183,7 +183,6 @@ class Vocab
 
     xpath_selector = VOCAB_CLASSES.map { |class_name| "//div[contains(@class, '#{class_name}')]" }.join(' | ')
     doc.xpath(xpath_selector).each do |node|
-      # TODO: Verify no additonal classes should be present on the original items.
       node['class'] = 'vocab summaryBox'
       child = node.children
       child.before(add_vocab_unit_to_header) #if !child.to_a.include?(add_vocab_unit_to_header)
@@ -314,11 +313,12 @@ class Vocab
     index_a
   end
 
+  # Note: There should be no whitespace after the <a> tag so the `:` is right next to the link.
   def add_vocab_unit_to_header
     unit = return_vocab_unit(@currUnit)
     suffix = generate_url_suffix(TOPIC_COURSE[0], get_topic_file, TOPIC_COURSE[-1])
     "<a name=\"box#{@boxNum}\"</a>
-    <a href=\"#{get_url(@currFile, Dir.pwd)}#{suffix}\"><b>#{unit}</b></a>\n"
+    <a href=\"#{get_url(@currFile, Dir.pwd)}#{suffix}\"><b>#{unit}</b></a>"
   end
 
   # need something to call this function and parse_unit

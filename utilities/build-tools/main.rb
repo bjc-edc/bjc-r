@@ -58,6 +58,8 @@ class Main
     #   # Inside the loop we should make the calls parse vocab, self-check, and atwork.
     #   topic.iterate_curriculum_pages.each do |page, unit, lab, page_number|
     #     puts "#{page} #{unit} #{lab} #{page_number}"
+    #     @vocab.doIndex
+    #     @atwork.moveFile
     #   end
     # end
     parse_units("#{review_folder}/topics.txt")
