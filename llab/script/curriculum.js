@@ -450,7 +450,8 @@ llab.createTitleNav = function() {
   llab.setupTranslationsMenu();
 
   // This doesn't quite belong here. index pages are a special case...
-  if (location.pathname.indexOf('-index.html') > 0) {
+  // TODO: Consider atwork pages too?
+  if (location.pathname.indexOf('vocab-index') > 0) {
     let course = llab.getQueryParameter('course');
     llab.renderCourseLink(course);
   }
