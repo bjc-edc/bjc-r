@@ -307,15 +307,12 @@ class Vocab
     unit = return_vocab_unit(@currUnit)
     suffix = generate_url_suffix(TOPIC_COURSE[0], get_topic_file, TOPIC_COURSE[-1])
     path = get_prev_folder(Dir.pwd, true)
-    # TODO: CLEANUP
-    index_a = "<a href=\"#{get_url(vocab_file_name, path)}#{suffix}#box#{@boxNum}\">#{unit}</a>"
-    puts index_a
-    index_a
+    "<a href=\"#{get_url(vocab_file_name, path)}#{suffix}#box#{@boxNum}\">#{unit}</a>"
   end
 
   # Note: There should be no whitespace after the <a> tag so the `:` is right next to the link.
   def add_vocab_unit_to_header
-    unit = return_vocab_unit(@currUnit)
+    unit = lab_unit_as_text(@currUnit)
     suffix = generate_url_suffix(TOPIC_COURSE[0], get_topic_file, TOPIC_COURSE[-1])
     "<a name=\"box#{@boxNum}\"</a>
     <a href=\"#{get_url(@currFile, Dir.pwd)}#{suffix}\"><b>#{unit}</b></a>"
@@ -325,6 +322,11 @@ class Vocab
   def return_vocab_unit(str)
     list = str.scan(/(\d+)/)
     list.join('.')
+  end
+
+  def lab_unit_as_text(unit_str)
+    # TODO: replace this with "Lab #{unit_num}, Page #{}" in the future.
+    return_vocab_unit(unit_str)
   end
 
   def add_vocab_to_file(vocab)
