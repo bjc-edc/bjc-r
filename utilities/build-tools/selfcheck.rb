@@ -182,10 +182,10 @@ class SelfCheck
   end
 
   def add_unit_to_header
-    unitNum = return_unit(@currUnit)
+    page_number = BJCHelpers.lab_page_number(@currUnit)
     box_num(@box_num + 1)
     suffix = generate_url_suffix(TOPIC_COURSE[0], get_topic_file, TOPIC_COURSE[-1])
-    "from <a href=\"#{get_url(@currFile)}#{suffix}#box#{@box_num}\"><strong>#{unitNum}</strong></a>"
+    "from <a href=\"#{get_url(@currFile)}#{suffix}#box#{@box_num}\"><strong>#{page_number}</strong></a>"
   end
 
   # need something to call this function and parse_unit
