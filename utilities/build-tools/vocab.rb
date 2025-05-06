@@ -5,6 +5,7 @@ require 'i18n'
 require_relative 'course'
 require_relative 'index'
 require_relative 'selfcheck'
+require_relative 'bjc_helpers'
 
 I18n.load_path = Dir['**/*.yml']
 I18n.backend.load_translations
@@ -312,7 +313,7 @@ class Vocab
 
   # Note: There should be no whitespace after the <a> tag so the `:` is right next to the link.
   def add_vocab_unit_to_header(vocabTerm = '')
-    page_number = lab_page_number(@currUnit)
+    page_number = BJCHelpers.lab_page_number(@currUnit)
     suffix = generate_url_suffix(TOPIC_COURSE[0], get_topic_file, TOPIC_COURSE[-1])
     "<a name=\"box#{@boxNum}\"</a>
     <a href=\"#{get_url(@currFile, Dir.pwd)}#{suffix}\"><b>#{page_number}</b></a>"
@@ -322,15 +323,6 @@ class Vocab
   def return_vocab_unit(str)
     list = str.scan(/(\d+)/)
     list.join('.')
-  end
-
-  # TODO: This needs to use a topic model to get the correct sequence.
-  def lab_page_number(unit_str)
-    list = str.scan(/(\d+)/)
-    if list.length != 3
-      puts "Error: Invalid unit string format: #{unit_str}"
-    end
-    I18n.t('lab_page', lab_num: list[1], page_num: list[2])
   end
 
   # TODO: Use this to replace boxNumber in the HTML.
