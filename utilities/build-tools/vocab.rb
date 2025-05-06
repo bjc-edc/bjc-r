@@ -303,7 +303,7 @@ class Vocab
     topic_files_in_course.filter {|f| f.match(unit_num)}[0]
   end
 
-  def add_vocab_unit_to_index
+  def add_vocab_unit_to_index(vocabTerm = '')
     unit = return_vocab_unit(@currUnit)
     suffix = generate_url_suffix(TOPIC_COURSE[0], get_topic_file, TOPIC_COURSE[-1])
     path = get_prev_folder(Dir.pwd, true)
@@ -311,11 +311,11 @@ class Vocab
   end
 
   # Note: There should be no whitespace after the <a> tag so the `:` is right next to the link.
-  def add_vocab_unit_to_header
-    unit = lab_unit_as_text(@currUnit)
+  def add_vocab_unit_to_header(vocabTerm = '')
+    page_number = lab_page_number(@currUnit)
     suffix = generate_url_suffix(TOPIC_COURSE[0], get_topic_file, TOPIC_COURSE[-1])
     "<a name=\"box#{@boxNum}\"</a>
-    <a href=\"#{get_url(@currFile, Dir.pwd)}#{suffix}\"><b>#{unit}</b></a>"
+    <a href=\"#{get_url(@currFile, Dir.pwd)}#{suffix}\"><b>#{page_number}</b></a>"
   end
 
   # need something to call this function and parse_unit
@@ -324,9 +324,20 @@ class Vocab
     list.join('.')
   end
 
-  def lab_unit_as_text(unit_str)
-    # TODO: replace this with "Lab #{unit_num}, Page #{}" in the future.
-    return_vocab_unit(unit_str)
+  # TODO: This needs to use a topic model to get the correct sequence.
+  def lab_page_number(unit_str)
+    list = str.scan(/(\d+)/)
+    if list.length != 3
+      puts "Error: Invalid unit string format: #{unit_str}"
+    end
+    I18n.t('lab_page', lab_num: list[1], page_num: list[2])
+  end
+
+  # TODO: Use this to replace boxNumber in the HTML.
+  def vocab_term_html_id(unit_str, vocab_term)
+    unit_reference = return_vocab_unit(unit_str).gsub(/\./, '-')
+    # TODO: is there anything we need to do to sanitize the vocab_term?
+    "#{unit_reference}-#{vocab_term.gsub(/\s+/, '-').downcase}"
   end
 
   def add_vocab_to_file(vocab)
