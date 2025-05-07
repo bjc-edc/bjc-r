@@ -68,7 +68,7 @@ function makeGetRemoteQdataCallback(location, questionNum) {
 
 // qdata is a div with the relevant data
 // location is a div whose contents will be replaced with the question.
-function buildQuestion(qdata, location, questionNum, fetched)  {
+function buildQuestion(qdata, location, questionNum, _fetched)  {
     qdata = $(qdata).insertBefore(location);
     var type = qdata.attr("type");
     var question = getQInstance(type, qdata, location, questionNum);
