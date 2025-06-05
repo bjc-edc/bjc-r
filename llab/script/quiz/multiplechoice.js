@@ -1,11 +1,9 @@
 // TODO: Make sure all display elements can use bootstrap
-// TODO: Dry Code -- lots of repetition
 // TODO: Save Selectors for button states and buttons
 // TODO: Bind click events to google analytics
 // TODO: Namespace everything
 // TODO: Cache selections of elements
 // TODO: Delay writing to DOM until everything is fully rendered
-// TODO: Reduce complexity of DOM for answer options
 // TODO: Return messages for incorrect answers
 // TODO: Randomize the correct messages (need to randomly pick from an array)
 // TODO: Remove the alert() call for bad answer selections
@@ -61,6 +59,7 @@ MC.prototype.loadContent = function() {
 
     // get user interaction information
     this.content.prompt = this.interaction.find('.prompt').html();
+    this.content.additonal_info = this.interaction.find('.additional-info').html();
     this.properties.shuffle = this.interaction.attr('shuffle') == "true";
     this.properties.maxChoices = this.interaction.attr('maxchoices');
 
@@ -129,8 +128,12 @@ MC.prototype.render = function() {
     if (!this.previouslyRendered) {
         /* set the question type title */
         this.multipleChoice.find('.questionType').html(t('selfCheckTitle'));
+        /* Some questions (mostly summary pages) have a .additional-info div
+         * that we want to display as part of the question title. */
+        if (this.content.additonal_info) {
+            this.multipleChoice.find('.questionType').append(this.content.additonal_info);
+        }
     }
-    // TODO: Michael add a thing to include the <a> tag.
 
     /* render the prompt */
     this.multipleChoice.find('.promptDiv').html(this.content.prompt);

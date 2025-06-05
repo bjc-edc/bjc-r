@@ -105,7 +105,12 @@ class SelfCheck
     selfcheckSet = doc.xpath("//div[@class = 'assessment-data']")
     selfcheckSet.each do |node|
       child = node.children
-      child.before(add_unit_to_header)
+      child.before(<<~HTML
+        <div class="additional-info">
+          #{add_unit_to_header}
+        </div>
+      HTML
+      )
     end
     return if selfcheckSet.empty?
 
@@ -117,6 +122,7 @@ class SelfCheck
     examSet = doc.xpath("//div[@class = 'examFullWidth']")
     examSet.each do |node|
       child = node.children
+      # TODO: use the same fix as vocab
       node.kwattr_add("style", "width: 95%")
       child.before(add_unit_to_header)
     end
@@ -132,6 +138,7 @@ class SelfCheck
     while linesList[i].match(/<body>/).nil?
       if linesList[i].match(/<title>/)
         # TODO: Use I18n.t() here.
+        # title = "<title>Unit #{@currUnitNum} #{type} Questions</title>\n"
         if @language == 'en'
           File.write(fileName, "<title>Unit #{@currUnitNum} #{type} Questions</title>\n", mode: 'a')
         else
@@ -168,7 +175,7 @@ class SelfCheck
     else
       createAssessmentDataFile(filename, type)
     end
-    File.write(filename, "#{data}", mode: 'a')
+    File.write(filename, data, mode: 'a')
   end
 
   def topic_files_in_course
@@ -182,10 +189,10 @@ class SelfCheck
   end
 
   def add_unit_to_header
-    unitNum = return_unit(@currUnit)
+    page_number = BJCHelpers.lab_page_number(@currUnit)
     box_num(@box_num + 1)
     suffix = generate_url_suffix(TOPIC_COURSE[0], get_topic_file, TOPIC_COURSE[-1])
-    "from <a href=\"#{get_url(@currFile)}#{suffix}#box#{@box_num}\"><strong>#{unitNum}</strong></a>"
+    " from <a href=\"#{get_url(@currFile)}#{suffix}#box#{@box_num}\"><strong>#{page_number}</strong></a>"
   end
 
   # need something to call this function and parse_unit

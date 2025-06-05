@@ -7,6 +7,7 @@ require_relative 'atwork'
 require_relative 'course'
 require_relative 'vocab'
 require_relative 'selfcheck'
+require_relative 'topic'
 
 I18n.load_path = Dir['**/*.yml']
 I18n.backend.load_translations
@@ -34,7 +35,7 @@ class Main
     @labFileName = ''
     @content = content
     @course_file = course
-    @course = BJCCourse.new(root: @rootDir, course: @course_file, language:)
+    @course = BJCCourse.new(root: @rootDir, course: @course_file, language: @language)
     @vocab = Vocab.new(@parentDir, language, content, @course)
     @self_check = SelfCheck.new(@parentDir, language, content, @course)
     @atwork = AtWork.new(@parentDir, language, content)
@@ -45,45 +46,38 @@ class Main
     @language_ext ||= @language == 'en' ? '' : ".#{@language}"
   end
 
-  # Extracts the folder class name and subfolder. For example with Sparks,
-  # classStr = 'sparks' and subclassStr = 'student-pages'. For CSP,
-  # classStr = 'cur' and subclassStr = 'programming'
-  # def parse_class()
-  #	path = @parentDir
-  #	pattern = /bjc-r\\(\w+.?)+(\\review)$/
-  #	pathMatch = path.match(pattern).to_s
-  #	pathList = pathMatch.split("\\")
-  #	classStr(pathList[1])
-  #	subClassStr(pathList[2])
-  # end
-
   # Main/primary function to be called, will call and create all other functions and classes.
   # This function will parse the topic pages, parse all labs and units, and create summary pages
   # TODO: this needs to be rewritten to use the BJCTopic class / not require temporary files.
   def Main
     createNewReviewFolder
     parse_all_topic_files
-    # Call BJCTopic.new().parse
+    # @course.list_topics.each do |topic_file|
+    #   topic = parse_topic_page(topic_file)
+    #   # TODO: This method needs to be fully implemented.
+    #   # Inside the loop we should make the calls parse vocab, self-check, and atwork.
+    #   topic.iterate_curriculum_pages.each do |page, unit, lab, page_number|
+    #     puts "#{page} #{unit} #{lab} #{page_number}"
+    #     @vocab.doIndex
+    #     @atwork.moveFile
+    #   end
+    # end
     parse_units("#{review_folder}/topics.txt")
     @vocab.doIndex
     @atwork.moveFile
     puts 'All units complete'
-    clear_review_folder
+    delete_review_folder
   end
 
   def topic_files_in_course
     @topic_files_in_course ||= course.list_topics.filter { |file| file.match(/\d+-\w+/) }
   end
 
-  def clear_review_folder
-    deleteReviewFolder
-  end
-
   def review_folder
     @review_folder ||= "#{@parentDir}#{TEMP_FOLDER}"
   end
 
-  def deleteReviewFolder
+  def delete_review_folder
     Dir.chdir(review_folder)
     File.delete('topics.txt') if File.exist?('topics.txt')
     # TODO: should filter en/es separately.
@@ -101,7 +95,7 @@ class Main
 
   def createNewReviewFolder
     if Dir.exist?(review_folder)
-      deleteReviewFolder
+      delete_review_folder
     else
       Dir.mkdir(review_folder)
     end
@@ -185,18 +179,16 @@ class Main
   end
 
   # Writing new function to parse using the topic.rb file
-  # def parse_topic_page(file)
-  #  path = "#{@rootDir}/topic/#{file}"
-  #  topic_runner = BJCTopic.new(path)
-  #  topic_json = topic_runner.parse
-  # end
+  def parse_topic_page(file)
+    BJCTopic.new(path_to_topic_file(file), course: @course_file, language: @language)
+  end
 
   # Parses through the data of the topic page and generates and adds content to a topics.txt
   # file that will be parsed later on to generate summaries
   # TODO: Move this to the BJCTopic Class, or maybe a BJCTopicParser class
   # TODO: This shouldn't write to a file, but return some hash/object
   def parse_rawTopicPage(file)
-    full_path = "#{@rootDir}/topic/#{file}"
+    full_path = path_to_topic_file(file)
     get_topic_course(get_prev_folder(file), @course_file)
     currUnit(nil)
     allLines = File.readlines(full_path)
@@ -328,13 +320,6 @@ class Main
 
   def isFileALab(file, labName)
     file.include?(labName)
-  end
-
-  # not using
-  def parse_labNameFromFile(labFile)
-    fileName = File.basename(labFile)
-    nameMatch = fileName.match(/([a-zA-Z]-?)+/)
-    nameMatch.to_s.join(' ')
   end
 
   def findLabFile(lab, _folder)

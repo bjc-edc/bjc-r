@@ -5,6 +5,7 @@ require 'i18n'
 require_relative 'course'
 require_relative 'index'
 require_relative 'selfcheck'
+require_relative 'bjc_helpers'
 
 I18n.load_path = Dir['**/*.yml']
 I18n.backend.load_translations
@@ -183,7 +184,6 @@ class Vocab
 
     xpath_selector = VOCAB_CLASSES.map { |class_name| "//div[contains(@class, '#{class_name}')]" }.join(' | ')
     doc.xpath(xpath_selector).each do |node|
-      # TODO: Verify no additonal classes should be present on the original items.
       node['class'] = 'vocab summaryBox'
       child = node.children
       child.before(add_vocab_unit_to_header) #if !child.to_a.include?(add_vocab_unit_to_header)
@@ -304,27 +304,32 @@ class Vocab
     topic_files_in_course.filter {|f| f.match(unit_num)}[0]
   end
 
-  def add_vocab_unit_to_index
+  def add_vocab_unit_to_index(vocabTerm = '')
     unit = return_vocab_unit(@currUnit)
     suffix = generate_url_suffix(TOPIC_COURSE[0], get_topic_file, TOPIC_COURSE[-1])
     path = get_prev_folder(Dir.pwd, true)
-    # TODO: CLEANUP
-    index_a = "<a href=\"#{get_url(vocab_file_name, path)}#{suffix}#box#{@boxNum}\">#{unit}</a>"
-    puts index_a
-    index_a
+    "<a href=\"#{get_url(vocab_file_name, path)}#{suffix}#box#{@boxNum}\">#{unit}</a>"
   end
 
-  def add_vocab_unit_to_header
-    unit = return_vocab_unit(@currUnit)
+  # Note: There should be no whitespace after the <a> tag so the `:` is right next to the link.
+  def add_vocab_unit_to_header(vocabTerm = '')
+    page_number = BJCHelpers.lab_page_number(@currUnit)
     suffix = generate_url_suffix(TOPIC_COURSE[0], get_topic_file, TOPIC_COURSE[-1])
     "<a name=\"box#{@boxNum}\"</a>
-    <a href=\"#{get_url(@currFile, Dir.pwd)}#{suffix}\"><b>#{unit}</b></a>\n"
+    <a href=\"#{get_url(@currFile, Dir.pwd)}#{suffix}\"><b>#{page_number}</b></a>"
   end
 
   # need something to call this function and parse_unit
   def return_vocab_unit(str)
     list = str.scan(/(\d+)/)
     list.join('.')
+  end
+
+  # TODO: Use this to replace boxNumber in the HTML.
+  def vocab_term_html_id(unit_str, vocab_term)
+    unit_reference = return_vocab_unit(unit_str).gsub(/\./, '-')
+    # TODO: is there anything we need to do to sanitize the vocab_term?
+    "#{unit_reference}-#{vocab_term.gsub(/\s+/, '-').downcase}"
   end
 
   def add_vocab_to_file(vocab)
