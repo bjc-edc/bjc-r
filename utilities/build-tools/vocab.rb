@@ -313,10 +313,13 @@ class Vocab
 
   # Note: There should be no whitespace after the <a> tag so the `:` is right next to the link.
   def add_vocab_unit_to_header(vocabTerm = '')
-    page_number = BJCHelpers.lab_page_number(@currUnit)
+    page_text = BJCHelpers.lab_page_number(@currUnit)
+    # Capitalize the first letter of the page text
+    # This really only makes a difference for the Spanish translation, since English is already capitalized.
+    page_text = page_text.capitalize if @language == 'es'
     suffix = generate_url_suffix(TOPIC_COURSE[0], get_topic_file, TOPIC_COURSE[-1])
     "<a name=\"box#{@boxNum}\"</a>
-    <a href=\"#{get_url(@currFile, Dir.pwd)}#{suffix}\"><b>#{page_number}</b></a>"
+    <a href=\"#{get_url(@currFile, Dir.pwd)}#{suffix}\"><b>#{page_text}</b></a>"
   end
 
   # need something to call this function and parse_unit
