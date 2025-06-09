@@ -103,8 +103,37 @@ class SelfCheck
   def parse_assessmentData(file)
     doc = File.open(file) { |f| Nokogiri::HTML(f) }
     selfcheckSet = doc.xpath("//div[@class = 'assessment-data']")
+    return if selfcheckSet.empty?
+
+    puts "Found #{selfcheckSet.length} self-check sets in #{file}" if !selfcheckSet.empty?
     selfcheckSet.each do |node|
       child = node.children
+      # puts child.to_s
+      # binding.irb
+      # Use need to make sure responseidentifier is present and is unique within the set.
+      response_id = node.attributes['responseidentifier'].value
+      if response_id.nil? || response_id.empty?
+        raise "Response identifier is missing or not unique.\n#{file}"
+      end
+      # Find child of the node that contains the responseDeclaration.
+      # If the responseDeclaration is not found, raise an error.
+      response_node = node.xpath(".//div[@class='responseDeclaration']")
+      if response_node.empty?
+        raise "Response node is missing for response identifier: #{response_id}.\n#{file}"
+      elsif response_node.length > 1
+        raise "Multiple response nodes found for response identifier: #{response_id}.\n#{file}"
+      end
+      response_node = response_node.first
+      response_div_identifier = response_node.attributes['identifier'].value
+      if response_div_identifier != response_id
+        binding.irb
+        raise "Response identifier mismatch: expected #{response_id}, found #{response_div_identifier}.\n#{file}"
+      end
+      suffix = return_unit(@currUnit).gsub('.', '_')
+      unique_id = "#{response_id}_#{suffix}"
+      # Update both the container div and the responseDeclaration with the unique identifier.
+      response_node.attributes['identifier'].value = unique_id
+      node.attributes['responseidentifier'].value = unique_id
       child.before(<<~HTML
         <div class="additional-info">
           #{add_unit_to_header}
@@ -112,7 +141,6 @@ class SelfCheck
       HTML
       )
     end
-    return if selfcheckSet.empty?
 
     add_assessment_to_file(selfcheckSet.to_html)
   end
