@@ -83,6 +83,7 @@ class SelfCheck
     parse_unit(file)
     parse_assessmentData(file)
     parse_examData(file)
+    puts "Completed self-check and exam data for: #{@currUnit}"
   end
 
   def parse_unit(file)
@@ -102,14 +103,12 @@ class SelfCheck
 
   def parse_assessmentData(file)
     doc = File.open(file) { |f| Nokogiri::HTML(f) }
-    selfcheckSet = doc.xpath("//div[@class = 'assessment-data']")
+    selfcheckSet = doc.xpath("//div[contains(@class, 'assessment-data')]")
     return if selfcheckSet.empty?
 
     puts "Found #{selfcheckSet.length} self-check sets in #{file}" if !selfcheckSet.empty?
     selfcheckSet.each do |node|
       child = node.children
-      # puts child.to_s
-      # binding.irb
       # Use need to make sure responseidentifier is present and is unique within the set.
       response_id = node.attributes['responseidentifier'].value
       if response_id.nil? || response_id.empty?
@@ -126,7 +125,6 @@ class SelfCheck
       response_node = response_node.first
       response_div_identifier = response_node.attributes['identifier'].value
       if response_div_identifier != response_id
-        binding.irb
         raise "Response identifier mismatch: expected #{response_id}, found #{response_div_identifier}.\n#{file}"
       end
       suffix = return_unit(@currUnit).gsub('.', '_')
@@ -147,14 +145,19 @@ class SelfCheck
 
   def parse_examData(file)
     doc = File.open(file) { |f| Nokogiri::HTML5(f) }
-    examSet = doc.xpath("//div[@class = 'examFullWidth']")
+    puts "Parsing exam data from #{file}"
+    examSet = doc.xpath("//div[contains(@class, 'examFullWidth')]")
+    puts "\tFound #{examSet.length} exam sets in #{file}" if !examSet.empty?
+    return if examSet.empty?
+    puts "\tCurrent Unit: #{@currUnit} // Curr Lab: #{@currLab} // Curr Unit Num: #{@currUnitNum}"
+
     examSet.each do |node|
+      node['class'] = 'examFullWidth summaryBox'
       child = node.children
-      # TODO: use the same fix as vocab
-      node.kwattr_add("style", "width: 95%")
+      # # TODO: use the same fix as vocab
+      # node.kwattr_add("style", "width: 95%")
       child.before(add_unit_to_header)
     end
-    return if examSet.empty?
 
     add_exam_to_file(examSet.to_s)
   end

@@ -101,7 +101,7 @@ class Vocab
     currFile(file)
     parse_unit(file)
     parse_vocab(file)
-    puts "Completed: #{@currUnit}"
+    puts "Vocab Completed: #{@currUnit}"
   end
 
   def topic_files_in_course
