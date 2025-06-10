@@ -15,7 +15,6 @@ class SelfCheck
     @currUnit = nil
     @content = content
     @course = course
-    # @isNewUnit = true
     @currUnitNum = 0
     @currLab = ''
     @vocab_file_name = ''
@@ -24,22 +23,16 @@ class SelfCheck
     @language_ext = language_ext(language)
     I18n.locale = @language.to_sym
     @box_num = 0
-    # TODO: Refactor needed
     # Track the previous lab/section heading for the self-check+exam page. If it changes, then we need to insert a newpage heading.
-    @priorPageHeading = { 'Self-Check' => '', 'Exam' => '' }
+    @priorPageHeading = { 'Self-Check' => nil, 'Exam' => nil }
   end
 
   def review_folder
     @review_folder ||= "#{@parentPath}/#{TEMP_FOLDER}"
   end
 
-  # def isNewUnit(boolean)
-  #   @isNewUnit = boolean
-  # end
-
   def unit
-    temp = @currUnit.match(/[A-Za-z]+/)
-    temp.to_s
+    @currUnit.match(/[A-Za-z]+/).to_s
   end
 
   def currFile(file)
@@ -82,10 +75,7 @@ class SelfCheck
     return unless File.exist?(file)
 
     currFile(file)
-    # TODO: This should not be necessary, but without it, everything shows as unit 1.
-    # isNewUnit(true)
-    # TODO: Parse using nokogiri, then pass the doc object to the parsing methods.
-    puts "Reading file: #{file}"
+    # puts "Reading file: #{file}"
     doc = File.open(file) { |f| Nokogiri::HTML(f) }
     parse_unit(doc)
     extract_self_checks(doc)
@@ -95,25 +85,19 @@ class SelfCheck
 
   def parse_unit(doc)
     title = doc.xpath('//title').to_s
-    pattern = %r{</?\w+>}
-    if title.nil? # || !@isNewUnit
-      nil
-    else
-      newtitle = title.split(pattern)
-      currUnit(newtitle.join)
-      currUnitNum(@currUnit.match(/\d+/).to_s)
-      # isNewUnit(false)
-    end
+    return if title.nil?
+
+    newtitle = title.split(%r{</?\w+>}) # TODO: cleanup
+    currUnit(newtitle.join)
+    currUnitNum(@currUnit.match(/\d+/).to_s)
   end
 
   def extract_self_checks(doc)
     self_checks = doc.xpath("//div[contains(@class, 'assessment-data')]")
     return if self_checks.empty?
 
-    puts "Found #{self_checks.length} self-check sets in" if !self_checks.empty?
+    # puts "Found #{self_checks.length} self-check sets in" if !self_checks.empty?
     self_checks.each do |node|
-      child = node.children
-      # Use need to make sure responseidentifier is present and is unique within the set.
       response_id = node.attributes['responseidentifier'].value
       if response_id.nil? || response_id.empty?
         raise "Response identifier is missing or not unique."
@@ -122,21 +106,19 @@ class SelfCheck
       # If the responseDeclaration is not found, raise an error.
       response_node = node.xpath(".//div[@class='responseDeclaration']")
       if response_node.empty?
-        raise "Response node is missing for response identifier: #{response_id}."
-      elsif response_node.length > 1
-        raise "Multiple response nodes found for response identifier: #{response_id}."
+        raise "Response node is missing for response identifier: #{response_id}"
       end
       response_node = response_node.first
       response_div_identifier = response_node.attributes['identifier'].value
       if response_div_identifier != response_id
-        raise "Response id mismatch: expected #{response_id}, found #{response_div_identifier}"
+        raise "Response id mismatch: expected '#{response_id}' found '#{response_div_identifier}'"
       end
       suffix = return_unit(@currUnit).gsub('.', '_')
       unique_id = "#{response_id}_#{suffix}"
       # Update both the container div and the responseDeclaration with the unique identifier.
       response_node.attributes['identifier'].value = unique_id
       node.attributes['responseidentifier'].value = unique_id
-      child.before(<<~HTML
+      node.children.before(<<~HTML
         <div class="additional-info">
           #{add_unit_to_header}
         </div>
@@ -148,17 +130,15 @@ class SelfCheck
   end
 
   def extract_ap_exam_blocks(doc)
-    examSet = doc.xpath("//div[contains(@class, 'examFullWidth')]")
-    return if examSet.empty?
-    # puts "\tFound #{examSet.length} exam sets"
+    on_exam_boxes = doc.xpath("//div[contains(@class, 'examFullWidth')]")
+    return if on_exam_boxes.empty?
 
-    examSet.each do |node|
+    on_exam_boxes.each do |node|
       node['class'] = 'exam summaryBox'
-      child = node.children
-      child.before(add_unit_to_header)
+      node.children.before(add_unit_to_header)
     end
 
-    add_exam_to_file(examSet.to_s)
+    add_exam_to_file(on_exam_boxes.to_s)
   end
 
   def create_summary_file(fileName, type)
@@ -194,16 +174,15 @@ class SelfCheck
   end
 
   def add_content_to_file(filename, data, type)
-    prior_heading = @priorPageHeading[type]
-    expected_heading = currLab
-    data = data.gsub(/&amp;/, '&')
     if !File.exist?(filename)
       create_summary_file(filename, type)
     end
-    if prior_heading != expected_heading
-      # puts "Adding new #{expected_heading} to existing file: #{filename}"
-      File.write(filename, "<h2>#{expected_heading}</h2>\n", mode: 'a')
-      @priorPageHeading[type] = expected_heading
+
+    prior_heading = @priorPageHeading[type]
+    data = data.gsub(/&amp;/, '&')
+    if prior_heading != currLab
+      File.write(filename, "<h2>#{currLab}</h2>\n", mode: 'a')
+      @priorPageHeading[type] = currLab
     end
     File.write(filename, data, mode: 'a')
   end
