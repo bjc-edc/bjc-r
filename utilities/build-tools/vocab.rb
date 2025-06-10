@@ -5,17 +5,19 @@ require 'i18n'
 require_relative 'course'
 require_relative 'index'
 require_relative 'selfcheck'
+require_relative 'bjc_helpers'
 
 I18n.load_path = Dir['**/*.yml']
 I18n.backend.load_translations
-TEMP_FOLDER = 'review'
 
 # TODO: It's unclear where the HTML for new files comes from.
 # We should probably have a 'template' file which gets used.
 # I think we can just replace content in the file, but we could use a library.
 class Vocab
   include BJCHelpers
-  
+  VOCAB_CLASSES = ['vocabFullWidth', 'vocabBig', 'vocab']
+
+
   def initialize(path, language = 'en', content, course)
     @parentDir = path
     @language = language
@@ -78,10 +80,6 @@ class Vocab
     @currUnitNum = num
   end
 
-  def boxNum(num)
-    @boxNum = num
-  end
-
   def currLab
     return if @currUnit.nil?
   end
@@ -103,7 +101,7 @@ class Vocab
     currFile(file)
     parse_unit(file)
     parse_vocab(file)
-    puts "Completed: #{@currUnit}"
+    puts "Vocab Completed: #{@currUnit}"
   end
 
   def topic_files_in_course
@@ -154,7 +152,7 @@ class Vocab
 
   def add_HTML_end
     Dir.chdir(review_folder)
-    ending = "</body>\n</html>"
+    ending = "\n</body>\n</html>"
     return unless File.exist?(vocab_file_name)
 
     File.write(vocab_file_name, ending, mode: 'a')
@@ -163,20 +161,19 @@ class Vocab
   def add_content_to_file(filename, data)
     lab = @currLab
     data = data.gsub(/&amp;/, '&')
-    data.delete!("\n\n\\")
     if File.exist?(filename)
-      f = File.open(filename, mode: 'a') 
-      f.write("<h3>#{currLab}</h3>") if lab != currLab
+      f = File.open(filename, mode: 'a')
+      f.write("<h3>#{currLab}</h3>\n") if lab != currLab
       f.close
     else
       createNewVocabFile(filename)
     end
-    f = File.open(filename, mode: 'a') 
-    f.write(data)
+    f = File.open(filename, mode: 'a')
+    f.write("#{data}\n")
     f.close
   end
 
-  #re-formatting the margins of the vocab boxes some there is less whitespace on vocab pages
+  # re-formatting the margins of the vocab boxes some there is less whitespace on vocab pages
   def reformat(file)
   end
 
@@ -184,51 +181,23 @@ class Vocab
   # might be better to have other function to handle that bigger parsing of the whole file #with io.foreach
   def parse_vocab(file)
     doc = File.open(file) { |f| Nokogiri::HTML(f) }
-    vocab_full_size = ["'vocabFullWidth'", "'vocabFullWidth AP-only'"]
-    vocab_partial_size = ["'vocabBig'", "'vocab'"]
 
-    vocab_full_size.each do |class_tag|
-      path = "//div[@class = #{class_tag}]"
-      vocab_set = doc.xpath("//div[@class = #{class_tag}]")
-      if vocab_set.to_s != ""
-        vocab_set.each do |node|
-          child = node.children
-          node.kwattr_add("style", "width: 95%")
-          child.before(add_vocab_unit_to_header) #if !child.to_a.include?(add_vocab_unit_to_header)
-          get_vocab_word(node)
-          boxNum(1 + @boxNum)
-        end
-      add_vocab_to_file(vocab_set.to_s)
-      end
-    end
-
-    vocab_partial_size.each do |class_tag|
-      vocab_set2 = doc.xpath("//div[@class = #{class_tag}]")
-      if vocab_set2.to_s != ""
-        vocab_set2.each do |node|
-          child = node.children
-          change_to_vocabFullWidth(vocab_set2, node['class'])
-          node.kwattr_add("style", "width: 95%")
-          child.before(add_vocab_unit_to_header) #if !child.to_a.include?(add_vocab_unit_to_header)
-          get_vocab_word(node)
-          boxNum(1 + @boxNum)
-        end
-        add_vocab_to_file(vocab_set2.to_s)
-      end
+    xpath_selector = VOCAB_CLASSES.map { |class_name| "//div[contains(@class, '#{class_name}')]" }.join(' | ')
+    doc.xpath(xpath_selector).each do |node|
+      node['class'] = 'vocab summaryBox'
+      child = node.children
+      child.before(add_vocab_unit_to_header) #if !child.to_a.include?(add_vocab_unit_to_header)
+      get_vocab_word(node) # This saves the extracted term for later.
+      # TODO: see if we can remove this tracking of the box number.
+      @boxNum += 1
+      add_vocab_to_file(node.to_s)
     end
   end
 
-  def change_to_vocabFullWidth(vocab_set, clas)
-    return unless %w[vocabBig vocab].include?(clas)
-
-    vocab_set.remove_class(clas)
-    vocab_set.add_class('vocabFullWidth')
-  end
-
-  def get_vocab_word(nodeSet)
-    extract_vocab_word(nodeSet.xpath('.//div//strong'))
-    extract_vocab_word(nodeSet.xpath('.//li//strong'))
-    extract_vocab_word(nodeSet.xpath('.//p//strong'))
+  def get_vocab_word(node)
+    extract_vocab_word(node.xpath('.//div//strong'))
+    extract_vocab_word(node.xpath('.//li//strong'))
+    extract_vocab_word(node.xpath('.//p//strong'))
   end
 
   def vocabExists?(list, word)
@@ -287,10 +256,14 @@ class Vocab
     end
   end
 
-  def extract_vocab_word(nodeSet)
-    nodeSet.each do |n|
+  def extract_vocab_word(nodes)
+    nodes.each do |node|
+      # Skip removing 'the' from these words.
+      # TODO: Does this need to handle spanish?
       kludges = ['the cloud', 'cloud, the']
-      kludges.include?(n.to_s.downcase) ? node = n : node = removeArticles(n.text.gsub(/(\s+)$/, '').to_s)
+      if !kludges.include?(node.to_s.downcase)
+        node = removeArticles(node.text.gsub(/(\s+)$/, '').to_s)
+      end
       saveVocabWord(node)
       separateVocab(node)
     end
@@ -328,27 +301,38 @@ class Vocab
   def get_topic_file
     unit_reference = return_vocab_unit(@currUnit)
     unit_num = unit_reference.match(/\d+/).to_s
-    topic_files = topic_files_in_course.filter {|f| f.match(unit_num)}[0]
+    topic_files_in_course.filter {|f| f.match(unit_num)}[0]
   end
 
-  def add_vocab_unit_to_index
+  def add_vocab_unit_to_index(vocabTerm = '')
     unit = return_vocab_unit(@currUnit)
     suffix = generate_url_suffix(TOPIC_COURSE[0], get_topic_file, TOPIC_COURSE[-1])
     path = get_prev_folder(Dir.pwd, true)
-    " <a href=\"#{get_url(vocab_file_name, path)}#{suffix}#box#{@boxNum}\">#{unit}</a>"
+    "<a href=\"#{get_url(vocab_file_name, path)}#{suffix}#box#{@boxNum}\">#{unit}</a>"
   end
 
-  def add_vocab_unit_to_header
-    unit = return_vocab_unit(@currUnit)
+  # Note: There should be no whitespace after the <a> tag so the `:` is right next to the link.
+  def add_vocab_unit_to_header(vocabTerm = '')
+    page_text = BJCHelpers.lab_page_number(@currUnit)
+    # Capitalize the first letter of the page text
+    # This really only makes a difference for the Spanish translation, since English is already capitalized.
+    page_text = page_text.capitalize if @language == 'es'
     suffix = generate_url_suffix(TOPIC_COURSE[0], get_topic_file, TOPIC_COURSE[-1])
     "<a name=\"box#{@boxNum}\"</a>
-    <a href=\"#{get_url(@currFile, Dir.pwd)}#{suffix}\"><b> #{unit}</b></a>"
+    <a href=\"#{get_url(@currFile, Dir.pwd)}#{suffix}\"><b>#{page_text}</b></a>"
   end
 
   # need something to call this function and parse_unit
   def return_vocab_unit(str)
     list = str.scan(/(\d+)/)
     list.join('.')
+  end
+
+  # TODO: Use this to replace boxNumber in the HTML.
+  def vocab_term_html_id(unit_str, vocab_term)
+    unit_reference = return_vocab_unit(unit_str).gsub(/\./, '-')
+    # TODO: is there anything we need to do to sanitize the vocab_term?
+    "#{unit_reference}-#{vocab_term.gsub(/\s+/, '-').downcase}"
   end
 
   def add_vocab_to_file(vocab)
@@ -360,6 +344,6 @@ class Vocab
 
   def get_url(file, localPath)
     linkPath = localPath.match(/bjc-r.+/).to_s
-    result = "/#{linkPath}/#{file}"
+    "/#{linkPath}/#{file}"
   end
 end
