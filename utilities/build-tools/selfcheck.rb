@@ -12,12 +12,11 @@ class SelfCheck
 
   def initialize(path, language, content, course)
     @parentPath = path
-    @currUnit = nil
     @content = content
     @course = course
+    @currUnit = nil
     @currUnitNum = 0
     @currLab = ''
-    @vocab_file_name = ''
     @currUnitName = nil
     @language = language
     @language_ext = language_ext(language)
@@ -145,7 +144,7 @@ class SelfCheck
     return if File.exist?(fileName)
 
     File.new(fileName, 'w')
-    puts "Creating summary file: #{fileName} for type: #{type}"
+    # puts "Creating summary file: #{fileName} for type: #{type}"
 
     page_preamble = <<~HTML
       <!DOCTYPE html>
