@@ -23,18 +23,35 @@ output_files.each do |file|
   full_path = File.join(path, csp_dir, file)
   File.delete(full_path) if File.exist?(full_path)
 end
-en_runner = Main.new(root: path, content: csp_dir, course: 'bjc4nyc', language: 'en')
-en_runner.Main
 
+TO_RUN = [
+  { course: 'bjc4nyc', language: 'en', content: csp_dir },
+  { course: 'bjc4nyc', language: 'es', content: csp_dir },
+  { course: 'sparks', language: 'en', content: 'sparks/student-pages' }
+]
+
+# TODO:
+# Allow passing in --only and --lang to limit the rebuild.
+args = ARGV
+if args.include?('--only')
+  only_course = args[args.index('--only') + 1]
+  TO_RUN.select! { |options| options[:course] == only_course }
+end
+if args.include?('--lang')
+  only_language = args[args.index('--lang') + 1]
+  TO_RUN.select! { |options| options[:language] == only_language }
+end
+puts "Rebuilding for courses: #{TO_RUN.map { |options| options[:course] }.uniq.join(', ')}"
+puts "Rebuilding for languages: #{TO_RUN.map { |options| options[:language] }.uniq.join(', ')}"
 puts
-puts 'Rebuilding Espanol CSP'
-es_runner = Main.new(root: path, content: csp_dir, course: 'bjc4nyc', language: 'es')
-# es_runner.Main
 
-# puts
-puts 'Rebuilding Sparks'
-sparks_runner = Main.new(root: path, content: 'sparks/student-pages', course: 'sparks', language: 'en')
-# sparks_runner.Main
+TO_RUN.each do |options|
+  options => { course:, language:, content: }
+  puts "Rebuilding #{course} (#{language})"
+  runner = Main.new(root: path, content: content, course: course, language: language)
+  runner.Main
+  puts '--' * 40
+end
 
 puts '*' * 80
 puts 'WARNING: DO NOT COMMIT THESE UPDATES UNTIL THIS IS REMOVED'

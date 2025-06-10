@@ -15,7 +15,7 @@ class SelfCheck
     @currUnit = nil
     @content = content
     @course = course
-    @isNewUnit = true
+    # @isNewUnit = true
     @currUnitNum = 0
     @currLab = ''
     @vocab_file_name = ''
@@ -33,9 +33,9 @@ class SelfCheck
     @review_folder ||= "#{@parentPath}/#{TEMP_FOLDER}"
   end
 
-  def isNewUnit(boolean)
-    @isNewUnit = boolean
-  end
+  # def isNewUnit(boolean)
+  #   @isNewUnit = boolean
+  # end
 
   def unit
     temp = @currUnit.match(/[A-Za-z]+/)
@@ -83,7 +83,7 @@ class SelfCheck
 
     currFile(file)
     # TODO: This should not be necessary, but without it, everything shows as unit 1.
-    isNewUnit(true)
+    # isNewUnit(true)
     # TODO: Parse using nokogiri, then pass the doc object to the parsing methods.
     puts "Reading file: #{file}"
     doc = File.open(file) { |f| Nokogiri::HTML(f) }
@@ -96,13 +96,13 @@ class SelfCheck
   def parse_unit(doc)
     title = doc.xpath('//title').to_s
     pattern = %r{</?\w+>}
-    if title.nil? || !@isNewUnit
+    if title.nil? # || !@isNewUnit
       nil
     else
       newtitle = title.split(pattern)
       currUnit(newtitle.join)
       currUnitNum(@currUnit.match(/\d+/).to_s)
-      isNewUnit(false)
+      # isNewUnit(false)
     end
   end
 
@@ -150,7 +150,7 @@ class SelfCheck
   def extract_ap_exam_blocks(doc)
     examSet = doc.xpath("//div[contains(@class, 'examFullWidth')]")
     return if examSet.empty?
-    puts "\tFound #{examSet.length} exam sets"
+    # puts "\tFound #{examSet.length} exam sets"
 
     examSet.each do |node|
       node['class'] = 'exam summaryBox'
@@ -201,7 +201,7 @@ class SelfCheck
       create_summary_file(filename, type)
     end
     if prior_heading != expected_heading
-      puts "Adding new #{expected_heading} to existing file: #{filename}"
+      # puts "Adding new #{expected_heading} to existing file: #{filename}"
       File.write(filename, "<h2>#{expected_heading}</h2>\n", mode: 'a')
       @priorPageHeading[type] = expected_heading
     end
