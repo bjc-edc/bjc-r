@@ -24,6 +24,9 @@ class SelfCheck
     @language_ext = language_ext(language)
     I18n.locale = @language.to_sym
     @box_num = 0
+    # TODO: Refactor needed
+    # Track the previous lab/section heading for the self-check+exam page. If it changes, then we need to insert a newpage heading.
+    @priorPageHeading = { 'Self-Check' => '', 'Exam' => '' }
   end
 
   def review_folder
@@ -79,53 +82,54 @@ class SelfCheck
     return unless File.exist?(file)
 
     currFile(file)
+    # TODO: This should not be necessary, but without it, everything shows as unit 1.
     isNewUnit(true)
-    parse_unit(file)
-    parse_assessmentData(file)
-    parse_examData(file)
+    # TODO: Parse using nokogiri, then pass the doc object to the parsing methods.
+    puts "Reading file: #{file}"
+    doc = File.open(file) { |f| Nokogiri::HTML(f) }
+    parse_unit(doc)
+    extract_self_checks(doc)
+    extract_ap_exam_blocks(doc)
     puts "Completed self-check and exam data for: #{@currUnit}"
   end
 
-  def parse_unit(file)
-    doc = File.open(file) { |f| Nokogiri::HTML(f) }
-    title = doc.xpath('//title')
-    str = title.to_s
+  def parse_unit(doc)
+    title = doc.xpath('//title').to_s
     pattern = %r{</?\w+>}
-    if str.nil? || !@isNewUnit
+    if title.nil? || !@isNewUnit
       nil
     else
-      newStr = str.split(pattern)
-      currUnit(newStr.join)
+      newtitle = title.split(pattern)
+      currUnit(newtitle.join)
       currUnitNum(@currUnit.match(/\d+/).to_s)
       isNewUnit(false)
     end
   end
 
-  def parse_assessmentData(file)
-    doc = File.open(file) { |f| Nokogiri::HTML(f) }
-    selfcheckSet = doc.xpath("//div[contains(@class, 'assessment-data')]")
-    return if selfcheckSet.empty?
+  def extract_self_checks(doc)
+    self_checks = doc.xpath("//div[contains(@class, 'assessment-data')]")
+    return if self_checks.empty?
 
-    puts "Found #{selfcheckSet.length} self-check sets in #{file}" if !selfcheckSet.empty?
-    selfcheckSet.each do |node|
+    puts "Found #{self_checks.length} self-check sets in" if !self_checks.empty?
+    self_checks.each do |node|
       child = node.children
       # Use need to make sure responseidentifier is present and is unique within the set.
       response_id = node.attributes['responseidentifier'].value
       if response_id.nil? || response_id.empty?
-        raise "Response identifier is missing or not unique.\n#{file}"
+        raise "Response identifier is missing or not unique."
       end
       # Find child of the node that contains the responseDeclaration.
       # If the responseDeclaration is not found, raise an error.
       response_node = node.xpath(".//div[@class='responseDeclaration']")
       if response_node.empty?
-        raise "Response node is missing for response identifier: #{response_id}.\n#{file}"
+        raise "Response node is missing for response identifier: #{response_id}."
       elsif response_node.length > 1
-        raise "Multiple response nodes found for response identifier: #{response_id}.\n#{file}"
+        raise "Multiple response nodes found for response identifier: #{response_id}."
       end
       response_node = response_node.first
       response_div_identifier = response_node.attributes['identifier'].value
       if response_div_identifier != response_id
-        raise "Response identifier mismatch: expected #{response_id}, found #{response_div_identifier}.\n#{file}"
+        raise "Response id mismatch: expected #{response_id}, found #{response_div_identifier}"
       end
       suffix = return_unit(@currUnit).gsub('.', '_')
       unique_id = "#{response_id}_#{suffix}"
@@ -140,19 +144,17 @@ class SelfCheck
       )
     end
 
-    add_assessment_to_file(selfcheckSet.to_html)
+    add_assessment_to_file(self_checks.to_html)
   end
 
-  def parse_examData(file)
-    doc = File.open(file) { |f| Nokogiri::HTML5(f) }
-    puts "Parsing exam data from #{file}"
+  def extract_ap_exam_blocks(doc)
     examSet = doc.xpath("//div[contains(@class, 'examFullWidth')]")
-    puts "\tFound #{examSet.length} exam sets in #{file}" if !examSet.empty?
+    puts "\tFound #{examSet.length} exam sets" if !examSet.empty?
     return if examSet.empty?
     puts "\tCurrent Unit: #{@currUnit} // Curr Lab: #{@currLab} // Curr Unit Num: #{@currUnitNum}"
 
     examSet.each do |node|
-      node['class'] = 'examFullWidth summaryBox'
+      node['class'] = 'exam summaryBox'
       child = node.children
       # # TODO: use the same fix as vocab
       # node.kwattr_add("style", "width: 95%")
@@ -162,31 +164,47 @@ class SelfCheck
     add_exam_to_file(examSet.to_s)
   end
 
-  def createAssessmentDataFile(fileName, type)
+  def create_summary_file(fileName, type)
     i = 0
-    File.new(fileName, 'w') unless File.exist?(fileName)
-    linesList = File.readlines(@currFile)[0..15]
-    while linesList[i].match(/<body>/).nil?
-      if linesList[i].match(/<title>/)
-        # TODO: Use I18n.t() here.
-        # title = "<title>Unit #{@currUnitNum} #{type} Questions</title>\n"
-        if @language == 'en'
-          File.write(fileName, "<title>Unit #{@currUnitNum} #{type} Questions</title>\n", mode: 'a')
-        else
-          translatedType = if type == 'Self-Check'
-                             'Preguntas de Autocomprobacion'
-                           else
-                             'Examen AP'
-                           end
-          File.write(fileName, "<title>Unidad #{@currUnitNum} #{translatedType}</title>\n", mode: 'a')
-        end
-      else
-        File.write(fileName, "#{linesList[i]}\n", mode: 'a')
-      end
-      i += 1
+    if File.exist?(fileName)
+      puts "Summary file already exists: #{fileName} for type: #{type}"
+      return
     end
-    File.write(fileName, "<h2>#{@currUnitName}</h2>\n", mode: 'a')
-    File.write(fileName, "<h3>#{currLab}</h3>\n", mode: 'a')
+    File.new(fileName, 'w')
+    puts "Creating summary file: #{fileName} for type: #{type}"
+
+    page_title = if type == 'Self-Check'
+                   "Unit #{@currUnitNum} Self-Check Questions"
+                 else
+                    "Unit #{@currUnitNum} AP Exam Reference"
+                 end
+    if @language == 'es'
+      page_title = if type == 'Self-Check'
+                      "Unidad #{@currUnitNum} Preguntas de Autocomprobacion"
+                    else
+                      "Unidad #{@currUnitNum} Examen AP"
+                    end
+    end
+
+    page_preamble = <<~HTML
+      <!DOCTYPE html>
+      <html lang="#{@language}">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>#{page_title}</title>
+        <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+        <script type="text/javascript" src="/bjc-r/utilities/gifffer.min.js"></script>
+        <script type="text/javascript">window.onload = function() {Gifffer();}</script>
+        <link rel="stylesheet" type="text/css" href="/bjc-r/css/bjc-gifffer.css">
+      </head>
+      <body>
+    HTML
+    File.write(fileName, page_preamble, mode: 'w')
+    # File.write(fileName, "<h2>#{@currUnitName}</h2>\n", mode: 'a')
+    # puts "writing h3..."
+    # File.write(fileName, "<h3>#{currLab}</h3>\n", mode: 'a')
+    # @priorPageHeading[type] = currLab
   end
 
   def add_HTML_end
@@ -199,12 +217,16 @@ class SelfCheck
   end
 
   def add_content_to_file(filename, data, type)
-    lab = @currLab
+    prior_heading = @priorPageHeading[type]
+    expected_heading = currLab
     data = data.gsub(/&amp;/, '&')
-    if File.exist?(filename)
-      File.write(filename, "<h3>#{currLab}</h3>\n", mode: 'a') if lab != currLab
-    else
-      createAssessmentDataFile(filename, type)
+    if !File.exist?(filename)
+      create_summary_file(filename, type)
+    end
+    if prior_heading != expected_heading
+      puts "Adding new #{expected_heading} to existing file: #{filename}"
+      File.write(filename, "<h2>#{expected_heading}</h2>\n", mode: 'a')
+      @priorPageHeading[type] = expected_heading
     end
     File.write(filename, data, mode: 'a')
   end

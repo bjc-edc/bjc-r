@@ -29,12 +29,12 @@ en_runner.Main
 puts
 puts 'Rebuilding Espanol CSP'
 es_runner = Main.new(root: path, content: csp_dir, course: 'bjc4nyc', language: 'es')
-es_runner.Main
+# es_runner.Main
 
 # puts
 puts 'Rebuilding Sparks'
 sparks_runner = Main.new(root: path, content: 'sparks/student-pages', course: 'sparks', language: 'en')
-sparks_runner.Main
+# sparks_runner.Main
 
 puts '*' * 80
 puts 'WARNING: DO NOT COMMIT THESE UPDATES UNTIL THIS IS REMOVED'
