@@ -149,15 +149,12 @@ class SelfCheck
 
   def extract_ap_exam_blocks(doc)
     examSet = doc.xpath("//div[contains(@class, 'examFullWidth')]")
-    puts "\tFound #{examSet.length} exam sets" if !examSet.empty?
     return if examSet.empty?
-    puts "\tCurrent Unit: #{@currUnit} // Curr Lab: #{@currLab} // Curr Unit Num: #{@currUnitNum}"
+    puts "\tFound #{examSet.length} exam sets"
 
     examSet.each do |node|
       node['class'] = 'exam summaryBox'
       child = node.children
-      # # TODO: use the same fix as vocab
-      # node.kwattr_add("style", "width: 95%")
       child.before(add_unit_to_header)
     end
 
@@ -165,26 +162,10 @@ class SelfCheck
   end
 
   def create_summary_file(fileName, type)
-    i = 0
-    if File.exist?(fileName)
-      puts "Summary file already exists: #{fileName} for type: #{type}"
-      return
-    end
+    return if File.exist?(fileName)
+
     File.new(fileName, 'w')
     puts "Creating summary file: #{fileName} for type: #{type}"
-
-    page_title = if type == 'Self-Check'
-                   "Unit #{@currUnitNum} Self-Check Questions"
-                 else
-                    "Unit #{@currUnitNum} AP Exam Reference"
-                 end
-    if @language == 'es'
-      page_title = if type == 'Self-Check'
-                      "Unidad #{@currUnitNum} Preguntas de Autocomprobacion"
-                    else
-                      "Unidad #{@currUnitNum} Examen AP"
-                    end
-    end
 
     page_preamble = <<~HTML
       <!DOCTYPE html>
@@ -192,7 +173,7 @@ class SelfCheck
       <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>#{page_title}</title>
+        <title>#{I18n.t('unit', num: @currUnitNum)} #{I18n.t(type.downcase.gsub('-', '_'))}</title>
         <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
         <script type="text/javascript" src="/bjc-r/utilities/gifffer.min.js"></script>
         <script type="text/javascript">window.onload = function() {Gifffer();}</script>
@@ -201,10 +182,6 @@ class SelfCheck
       <body>
     HTML
     File.write(fileName, page_preamble, mode: 'w')
-    # File.write(fileName, "<h2>#{@currUnitName}</h2>\n", mode: 'a')
-    # puts "writing h3..."
-    # File.write(fileName, "<h3>#{currLab}</h3>\n", mode: 'a')
-    # @priorPageHeading[type] = currLab
   end
 
   def add_HTML_end
