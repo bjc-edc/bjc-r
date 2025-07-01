@@ -104,8 +104,6 @@ MC.prototype.displayNumberAttempts = function(attempts) {
 };
 
 MC.prototype.tryAgain = function(e) {
-    // TODO: Google Analytics Push
-    // Capture Question + Correctness + Attempts
     if (this.multipleChoice.find(".tryAgainButton").hasClass("disabled")) {
         return;
     }
@@ -120,8 +118,9 @@ MC.prototype.tryAgain = function(e) {
  */
 MC.prototype.render = function() {
     let t = llab.translate,
-        type = 'radio';
-    var i, choiceHTML, choice_id, optId;
+        type = 'radio',
+        choiceHTML, choice_id, optId;
+
     if (!this.previouslyRendered) {
         /* set the question type title */
         this.multipleChoice.find('.questionType').html(t('selfCheckTitle'));
@@ -154,16 +153,14 @@ MC.prototype.render = function() {
         type = 'checkbox';
     }
 
-    for (i = 0; i < this.choices.length; i++) {
+    for (let i = 0; i < this.choices.length; i++) {
         optId = this.choices[i].identifier;
         choice_id = `q-${this.num}-${this.removeSpace(optId)}`;
         choiceHTML = `
         <div class="option-row">
-            <div class="">
-                <input type="${type}"
-                    class="form-check-input"
-                    id="${choice_id}" value="${this.removeSpace(optId)}" />
-                <label class="form-check-label" id="choicetext-${choice_id}" for="${choice_id}">
+            <div class="option-input">
+                <input type="${type}" id="${choice_id}" value="${this.removeSpace(optId)}" />
+                <label id="choicetext-${choice_id}" for="${choice_id}">
                     ${this.choices[i].text}
                 </label>
             </div>
@@ -344,6 +341,17 @@ MC.prototype.checkAnswer = function() {
         this.multipleChoice.find('.checkAnswerButton').addClass('disabled').attr('disabled', true);
     } else {
         outerdiv.addClass('panel-danger');
+    }
+
+    // Update Google Analytics
+    if (typeof ga === 'function') {
+        ga('send', 'event', {
+            eventCategory: 'Quiz',
+            eventAction: 'checkAnswer',
+            eventLabel: this.interaction.attr('identifier'),
+            eventValue: isCorrect ? 1 : 0,
+            nonInteraction: true // don't count this as an interaction
+        });
     }
 
     // push the state object into this mc object's own copy of states
