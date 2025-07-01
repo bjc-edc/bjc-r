@@ -1,4 +1,3 @@
-// TODO: Make sure all display elements can use bootstrap
 // TODO: Save Selectors for button states and buttons
 // TODO: Bind click events to google analytics
 // TODO: Namespace everything
@@ -11,8 +10,6 @@
 /* Represents a multiple choice question. */
 
 function MC(data, location, questionNumber) {
-    // FIXME: rename location variable
-    //data = data[0];
     this.myClass = "MultipleChoice";
 
 
@@ -161,22 +158,17 @@ MC.prototype.render = function() {
         optId = this.choices[i].identifier;
         choice_id = `q-${this.num}-${this.removeSpace(optId)}`;
         choiceHTML = `
-        <table><tbody>
-            <tr class="table-middle">
-                <td class="table-middle">
-                    <input type="${type}" class="${type}" name="radiobutton"
+        <div class="option-row">
+            <div class="">
+                <input type="${type}"
+                    class="form-check-input"
                     id="${choice_id}" value="${this.removeSpace(optId)}" />
-                </td>
-                <td class="table-middle">
-                    <label id="choicetext-${choice_id}" for="${choice_id}">
-                        ${this.choices[i].text}
-                    </label>
-                </td>
-                <td class="table-middle">
-                    <div id="feedback_${choice_id}" name="feedbacks"></div>
-                </td>
-            </tr>
-        </tbody></table>`;
+                <label class="form-check-label" id="choicetext-${choice_id}" for="${choice_id}">
+                    ${this.choices[i].text}
+                </label>
+            </div>
+            <div class="option-feedback" id="feedback_${choice_id}" name="feedback"></div>
+        </div>`;
 
         this.multipleChoice.find('.radiobuttondiv').append(choiceHTML);
 
@@ -320,7 +312,7 @@ MC.prototype.checkAnswer = function() {
         choice = this.getChoiceByIdentifier(choiceIdentifier);
         if (checked) {
             if (choice) {
-                this.multipleChoice.find('#feedback_' + fullId).html(choice.feedback);
+                this.multipleChoice.find('#feedback_' + fullId).html(choice.feedback).css('display', 'inline-block');
                 var choiceTextDiv = this.multipleChoice.find("#choicetext-" + fullId);
                 if (this.isCorrect(choice.identifier)) {
                     choiceTextDiv.attr("class", "correct");
@@ -431,7 +423,7 @@ MC.prototype.enableCheckAnswerButton = function(doEnable) {
  */
 MC.prototype.enableRadioButtons = function(doEnable) {
     var i;
-    var radiobuttons = this.multipleChoice.find('[name="radiobutton"]');
+    var radiobuttons = this.multipleChoice.find('input[type="radio"], input[type="checkbox"]');
     for (i = 0; i < radiobuttons.length; i++) {
         if (doEnable == 'true') {
             radiobuttons[i].removeAttribute('disabled');
@@ -446,13 +438,13 @@ MC.prototype.enableRadioButtons = function(doEnable) {
  * Clears HTML inside feedbackdiv
  */
 MC.prototype.clearFeedbackDiv = function() {
-    var z;
     var feedbackdiv = this.multipleChoice.find('.feedbackdiv');
     feedbackdiv.innerHTML = "";
 
-    var feedbacks = this.multipleChoice.find('[name="feedbacks"]');
-    for (z = 0; z < feedbacks.length; z++) {
-        feedbacks[z].innerHTML = "";
+    var feedback = this.multipleChoice.find('[name="feedback"]');
+    for (let z = 0; z < feedback.length; z++) {
+        feedback[z].innerHTML = "";
+        feedback[z].style.display = 'none';
     }
 };
 
@@ -466,7 +458,7 @@ MC.prototype.getTemplate = function() {
     <div class='panel-body currentQuestionBox'>
         <div class='leftColumn'>
             <div class='promptDiv'></div>
-            <div class='radiobuttondiv'></div>
+            <form class='radiobuttondiv'></form>
             <div class='feedbackdiv'></div>
         </div>
     </div>
@@ -478,8 +470,8 @@ MC.prototype.getTemplate = function() {
             <div class='resultMessageDiv'></div>
         </div>
         <div class='buttonDiv'>
-            <table class='buttonTable'>
-                <tr>
+            <table class='buttonTable' role="presentation"><tbody>
+                <tr role="presentation">
                     <td><div class='buttonDiv'>
                         <button class='checkAnswerButton btn btn-primary'>${t("Check Answer")}</button>
                     </div></td>
@@ -487,7 +479,7 @@ MC.prototype.getTemplate = function() {
                         <button class='tryAgainButton btn btn-primary'>${t("Try Again")}</button>
                     </div></td>
                 </tr>
-            </table>
+            <tbody></table>
         </div>
     </div>
 </div>`;
