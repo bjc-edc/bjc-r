@@ -262,6 +262,7 @@ llab.processLinks = (data) => {
     llab.url_list.push(url);
 
     // Make the current step have an arrow in the dropdown menu
+    // TODO: Set aria-current on the dropdown item.
     if (isCurrentPage) {
       llab.pageNum = pageCount;
       itemContent = llab.spanTag(itemContent, 'current-page-arrow');
