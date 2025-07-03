@@ -429,8 +429,7 @@ llab.createTitleNav = function() {
         <li class="nav-btn-group nav-btn-group-last">${nextPageButton}</li>
       </ul>
       <div class="trapezoid"></div>
-    </nav>
-    <h1 class="title-small-screen"></h1>`,
+    </nav>`,
     botHTML = `
       <nav class="full-bottom-bar" aria-label="secondary page navigation">
         <div class="js-navButton hidden" style="float: left">
@@ -441,13 +440,25 @@ llab.createTitleNav = function() {
           ${nextPageButton}
         </div>
       </nav>`,
-    topNav = $(llab.selectors.NAVSELECT);
+    topNav = $(llab.selectors.NAVSELECT),
+    smallScreenTitle = '<h1 class="title-small-screen"></h1>';
+
+  if ($('.title-small-screen').length === 0) {
+    $('main').prepend(smallScreenTitle);
+  }
 
   if (topNav.length === 0) {
     $(document.body).prepend(topHTML);
   }
 
   llab.setupTranslationsMenu();
+
+  // This doesn't quite belong here. index pages are a special case...
+  // TODO: Consider atwork pages too?
+  if (location.pathname.indexOf('vocab-index') > 0) {
+    let course = llab.getQueryParameter('course');
+    llab.renderCourseLink(course);
+  }
 
   // Don't add anything else if we don't know the step...
   // FUTURE - We should separate the rest of this function if necessary.
