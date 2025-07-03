@@ -216,9 +216,13 @@ llab.renderCourseLink = function (course) {
   if (course.indexOf("://") === -1) {
     course = llab.courses_path + course;
   }
-  $(".full").prepend(
-    `<a class="course_link pull-right" href="${course}">${llab.t(llab.strings.goMain)}</a>`
-  );
+  if ($('.title-small-screen').length > 0) {
+    $(`<a class="course_link pull-right" href="${course}">${llab.t(llab.strings.goMain)}</a>`).insertAfter('.title-small-screen');
+  } else {
+    $(llab.selectors.FULL).prepend(
+      `<a class="course_link pull-right" href="${course}">${llab.t(llab.strings.goMain)}</a>`
+    );
+  }
 };
 
 llab.renderTopic = function (topic_model) {
@@ -283,13 +287,21 @@ llab.renderSection = function (section, parent) {
       llab.renderSection(current, $section);
     } else if (current.type === "raw-html") {
       // TODO: This section is challening...
-      // Content before the item list belongs to the containr.
-      // Content w/in the list needs to conform to being an li or ul.
+      // For accessibility every item in the list should be inside an <li> tag.
       // It all needs to be (Seeming?) appear in-order (see Sparks TG)
+      // debugger;
       if ($contentContainer.children().length == 0) {
         $contentContainer.before(current.contents);
       } else {
-        $contentContainer.append(current.contents);
+        // If there's already an <li> child, we need to append
+        // the raw HTML to the last <li> child.
+        let lastChild = $contentContainer.children().last();
+        if (lastChild.is('li')) {
+          lastChild.append(current.contents);
+        } else {
+          // If the last child is not an <li>, we need to create a new one.
+          $contentContainer.append(`<li>${current.contents}</li>`);
+        }
       }
     } else {
       $contentContainer.append(current.contents);
