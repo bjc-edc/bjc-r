@@ -50,7 +50,7 @@ def a11y_test_cases(course, url)
   # Axe-core test standards groups
   # See https://github.com/dequelabs/axe-core/blob/develop/doc/API.md#axe-core-tags
   required_a11y_standards = %i[wcag2a wcag2aa]
-  # These are currently skipped until the basic tests are passing.
+  # These are currently labelled as "optional" until the basic tests are passing.
   complete_a11y_standards = %i[wcag21a wcag21aa wcag22aa wcag2a-obsolete best-practice section508]
 
   # axe-core rules that are not required to be accessible / do not apply
