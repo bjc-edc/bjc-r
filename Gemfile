@@ -9,9 +9,7 @@ source 'https://rubygems.org'
 ruby file: '.tool-versions'
 
 # Skip running in CI environments
-unless ENV['CI']
-  eval_gemfile 'utilities/build-tools/Gemfile'
-end
+eval_gemfile 'utilities/build-tools/Gemfile'
 
 group :development, :test do
   # Testing framework
