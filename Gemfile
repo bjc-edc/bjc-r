@@ -8,8 +8,8 @@ source 'https://rubygems.org'
 
 ruby file: '.tool-versions'
 
-# Not strictly necessary, but useful for development.
-# eval_gemfile 'utilities/build-tools/Gemfile'
+# Skip running in CI environments
+eval_gemfile 'utilities/build-tools/Gemfile'
 
 group :development, :test do
   # Testing framework
