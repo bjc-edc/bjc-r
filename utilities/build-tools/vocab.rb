@@ -15,8 +15,7 @@ I18n.backend.load_translations
 # I think we can just replace content in the file, but we could use a library.
 class Vocab
   include BJCHelpers
-  VOCAB_CLASSES = ['vocabFullWidth', 'vocabBig', 'vocab']
-
+  VOCAB_CLASSES = %w[vocabFullWidth vocabBig vocab]
 
   def initialize(path, language = 'en', content, course)
     @parentDir = path
@@ -34,8 +33,11 @@ class Vocab
     @labPath = ''
     @currUnitName = nil
     @index = Index.new(@parentDir, @language)
-    @boxNum = 0
+    # TODO: See if we can remove this.
+    @current_box_num = 0
     @language_ext = language_ext(language)
+    # (For now) also store the current file content as a string, so we can write the file only once.
+    @current_file_content = ''
   end
 
   def review_folder
@@ -81,7 +83,7 @@ class Vocab
   end
 
   def currLab
-    return if @currUnit.nil?
+    nil if @currUnit.nil?
   end
 
   def vocab_file_name
@@ -98,6 +100,7 @@ class Vocab
 
   def read_file(file)
     return unless File.exist?(file)
+
     currFile(file)
     parse_unit(file)
     parse_vocab(file)
@@ -105,7 +108,7 @@ class Vocab
   end
 
   def topic_files_in_course
-    @topic_files_in_course ||= @course.list_topics_no_path.filter { |file| file.match(/\d+-\w+/)}
+    @topic_files_in_course ||= @course.list_topics_no_path.filter { |file| file.match(/\d+-\w+/) }
   end
 
   def parse_unit(file)
@@ -128,32 +131,31 @@ class Vocab
     end
   end
 
-  def createNewVocabFile(fileName)
-    i = 0
-    file_path = Dir.getwd
-    unless File.exist?(fileName)
+  def write_new_vocab_summary(file_name)
+    title = "#{unit} #{@currUnitNum} #{I18n.t('vocab')}"
+    @current_file_content << BJCHelpers.summary_page_prefix(@language, title)
+    # "<h2>#{@currUnitName}</h2>\n<h3>#{currLab}</h3>\n"
+    @current_file_content << "\n\t<h2>#{currLab}</h2>\n"
+
+    if File.exist?(file_name)
+      puts "Appending to existing vocab file: #{file_name}"
+      f = File.open(file_name, mode: 'a')
+      f.write(@current_file_content)
+      f.close
+    else
+      Dir.mkdir(review_folder) unless Dir.exist?(review_folder)
       Dir.chdir(review_folder)
-      File.new(fileName, 'w')
+      puts "Creating new vocab file: #{file_name}"
+      File.write(file_name, @current_file_content)
     end
-    f = File.open(fileName, mode: 'a')
-    linesList = File.readlines("#{file_path}/#{@currFile}")[0..30]
-    while !linesList[i].match(/<body>/) && (i < 30)
-      if linesList[i].match(/<title>/)
-        f.write("<title>#{unit} #{@currUnitNum} #{I18n.t('vocab')}</title>\n")
-      else
-        f.write("#{linesList[i]}\n")
-      end
-      i += 1
-    end
-    f.write("<h2>#{@currUnitName}</h2>\n<h3>#{currLab}</h3>\n")
-    f.close
-    Dir.chdir(file_path)
   end
 
   def add_HTML_end
     Dir.chdir(review_folder)
-    ending = "\n</body>\n</html>"
     return unless File.exist?(vocab_file_name)
+
+    ending = BJCHelpers.summary_page_suffix
+    @current_file_content << ending # Currently unused.
 
     File.write(vocab_file_name, ending, mode: 'a')
   end
@@ -163,12 +165,14 @@ class Vocab
     data = data.gsub(/&amp;/, '&')
     if File.exist?(filename)
       f = File.open(filename, mode: 'a')
-      f.write("<h3>#{currLab}</h3>\n") if lab != currLab
+      @current_file_content << "\n\t<h2>#{currLab}</h2>\n" if lab != currLab
+      f.write("<h2>#{currLab}</h2>\n") if lab != currLab
       f.close
     else
-      createNewVocabFile(filename)
+      write_new_vocab_summary(filename)
     end
     f = File.open(filename, mode: 'a')
+    @current_file_content << "#{data}\n"
     f.write("#{data}\n")
     f.close
   end
@@ -186,10 +190,10 @@ class Vocab
     doc.xpath(xpath_selector).each do |node|
       node['class'] = 'vocab summaryBox'
       child = node.children
-      child.before(add_vocab_unit_to_header) #if !child.to_a.include?(add_vocab_unit_to_header)
+      child.before(add_vocab_unit_to_header)
       get_vocab_word(node) # This saves the extracted term for later.
       # TODO: see if we can remove this tracking of the box number.
-      @boxNum += 1
+      @current_box_num += 1
       add_vocab_to_file(node.to_s)
     end
   end
@@ -261,9 +265,7 @@ class Vocab
       # Skip removing 'the' from these words.
       # TODO: Does this need to handle spanish?
       kludges = ['the cloud', 'cloud, the']
-      if !kludges.include?(node.to_s.downcase)
-        node = removeArticles(node.text.gsub(/(\s+)$/, '').to_s)
-      end
+      node = removeArticles(node.text.gsub(/(\s+)$/, '').to_s) unless kludges.include?(node.to_s.downcase)
       saveVocabWord(node)
       separateVocab(node)
     end
@@ -301,24 +303,24 @@ class Vocab
   def get_topic_file
     unit_reference = return_vocab_unit(@currUnit)
     unit_num = unit_reference.match(/\d+/).to_s
-    topic_files_in_course.filter {|f| f.match(unit_num)}[0]
+    topic_files_in_course.filter { |f| f.match(unit_num) }[0]
   end
 
   def add_vocab_unit_to_index(vocabTerm = '')
     unit = return_vocab_unit(@currUnit)
     suffix = generate_url_suffix(TOPIC_COURSE[0], get_topic_file, TOPIC_COURSE[-1])
     path = get_prev_folder(Dir.pwd, true)
-    "<a href=\"#{get_url(vocab_file_name, path)}#{suffix}#box#{@boxNum}\">#{unit}</a>"
+    "<a href=\"#{get_url(vocab_file_name, path)}#{suffix}#box#{@current_box_num}\">#{unit}</a>"
   end
 
-  # Note: There should be no whitespace after the <a> tag so the `:` is right next to the link.
-  def add_vocab_unit_to_header(vocabTerm = '')
+  # NOTE: There should be no whitespace after the <a> tag so the `:` is right next to the link.
+  def add_vocab_unit_to_header
     page_text = BJCHelpers.lab_page_number(@currUnit)
     # Capitalize the first letter of the page text
     # This really only makes a difference for the Spanish translation, since English is already capitalized.
     page_text = page_text.capitalize if @language == 'es'
     suffix = generate_url_suffix(TOPIC_COURSE[0], get_topic_file, TOPIC_COURSE[-1])
-    "<a name=\"box#{@boxNum}\"</a>
+    "<a name=\"box#{@current_box_num}\"</a>
     <a href=\"#{get_url(@currFile, Dir.pwd)}#{suffix}\"><b>#{page_text}</b></a>"
   end
 
@@ -328,7 +330,7 @@ class Vocab
     list.join('.')
   end
 
-  # TODO: Use this to replace boxNumber in the HTML.
+  # TODO: Use this to replace current_box_number in the HTML.
   def vocab_term_html_id(unit_str, vocab_term)
     unit_reference = return_vocab_unit(unit_str).gsub(/\./, '-')
     # TODO: is there anything we need to do to sanitize the vocab_term?
