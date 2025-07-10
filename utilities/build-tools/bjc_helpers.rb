@@ -64,6 +64,8 @@ module BJCHelpers
             <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
           </head>
           <body>
+            <a style="position: fixed; float: right;"
+              class="btn btn-primary btn-lg" href="#top">#{I18n.t('back_to_top')}</a>
       HTML
     end
 

@@ -131,54 +131,42 @@ class Vocab
     end
   end
 
-  def write_new_vocab_summary(file_name)
+  def write_new_vocab_summary(_file_name)
     title = "#{unit} #{@currUnitNum} #{I18n.t('vocab')}"
     @current_file_content << BJCHelpers.summary_page_prefix(@language, title)
     # "<h2>#{@currUnitName}</h2>\n<h3>#{currLab}</h3>\n"
     @current_file_content << "\n\t<h2>#{currLab}</h2>\n"
 
-    if File.exist?(file_name)
-      puts "Appending to existing vocab file: #{file_name}"
-      f = File.open(file_name, mode: 'a')
-      f.write(@current_file_content)
-      f.close
-    else
-      Dir.mkdir(review_folder) unless Dir.exist?(review_folder)
-      Dir.chdir(review_folder)
-      puts "Creating new vocab file: #{file_name}"
-      File.write(file_name, @current_file_content)
-    end
+    # if File.exist?(file_name)
+    #   puts "Appending to existing vocab file: #{file_name}"
+    #   f = File.open(file_name, mode: 'a')
+    #   f.write(@current_file_content)
+    #   f.close
+    # else
+    #   Dir.mkdir(review_folder) unless Dir.exist?(review_folder)
+    #   Dir.chdir(review_folder)
+    #   puts "Creating new vocab file: #{file_name}"
+    #   File.write(file_name, @current_file_content)
+    # end
   end
 
   def add_HTML_end
     Dir.chdir(review_folder)
-    return unless File.exist?(vocab_file_name)
-
-    ending = BJCHelpers.summary_page_suffix
-    @current_file_content << ending # Currently unused.
-
-    File.write(vocab_file_name, ending, mode: 'a')
+    # return unless File.exist?(vocab_file_name)
+    @current_file_content << BJCHelpers.summary_page_suffix
+    # binding.irb
+    File.write(vocab_file_name, @current_file_content)
   end
 
   def add_content_to_file(filename, data)
     lab = @currLab
     data = data.gsub(/&amp;/, '&')
-    if File.exist?(filename)
-      f = File.open(filename, mode: 'a')
+    if @current_file_content != ''
       @current_file_content << "\n\t<h2>#{currLab}</h2>\n" if lab != currLab
-      f.write("<h2>#{currLab}</h2>\n") if lab != currLab
-      f.close
     else
       write_new_vocab_summary(filename)
     end
-    f = File.open(filename, mode: 'a')
-    @current_file_content << "#{data}\n"
-    f.write("#{data}\n")
-    f.close
-  end
-
-  # re-formatting the margins of the vocab boxes some there is less whitespace on vocab pages
-  def reformat(file)
+    @current_file_content << data
   end
 
   # might need to save index of line when i find the /div/ attribute
