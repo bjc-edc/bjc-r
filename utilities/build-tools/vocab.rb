@@ -25,7 +25,6 @@ class Vocab
     I18n.locale = @language.to_sym
     @currUnit = nil
     @currFile = nil
-    @isNewUnit = true
     @currUnitNum = 0
     @currLab = ''
     @vocabList = []
@@ -38,6 +37,8 @@ class Vocab
     @language_ext = language_ext(language)
     # (For now) also store the current file content as a string, so we can write the file only once.
     @current_file_content = ''
+    # This is actually a hash of units: labs: pages: [{word:, html:}]
+    @vocab_by_page = {}
   end
 
   def review_folder
@@ -74,10 +75,6 @@ class Vocab
     @currFile = file
   end
 
-  def isNewUnit(boolean)
-    @isNewUnit = boolean
-  end
-
   def currUnitNum(num)
     @currUnitNum = num
   end
@@ -98,6 +95,33 @@ class Vocab
     @currLab = labList.join
   end
 
+  def process_curriculum_page(page)
+    # Extract vocab from each page, then add to the @vocab_by_page hash
+  end
+
+  # Then:
+  # def write_unit_summary_file(unit)
+  #   # This method is not currently implemented.
+  #   # Write the summary file for the unit.
+  # end
+
+  # Then write all vocab to the curriculum index file.
+  # def write_curriculum_index_file; end
+
+  def handle_new_unit(unit)
+    @current_file_content = ''
+    @current_box_num = 0 # Should this be per-unit?
+    @currUnit = unit
+    @currUnitNum = @currUnit.match(/\d+/).to_s
+    write_new_vocab_summary(vocab_file_name)
+  end
+
+  # Write unit summary file.
+  def end_of_unit(_unit)
+    add_HTML_end
+  end
+
+  # TODO: Delete this after process_curriculum_page is fully implemented.
   def read_file(file)
     return unless File.exist?(file)
 
@@ -117,16 +141,13 @@ class Vocab
     str = title.to_s
     pattern = %r{</?\w+>}
     if str.nil?
-      isNewUnit(false)
       nil
     else
       newStr = str.split(pattern)
-      if newStr.join == @currUnit
-        isNewUnit(false)
+      if newStr.join == @currUnit # same unit
       else
         currUnit(newStr.join)
         currUnitNum(@currUnit.match(/\d+/).to_s)
-        isNewUnit(true)
       end
     end
   end
