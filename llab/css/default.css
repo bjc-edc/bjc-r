@@ -39,13 +39,11 @@
 
 html {
   font-family: "work_sansregular", "Open Sans", Helvetica, Arial, sans-serif;
-  font-size: 16px; /* Fix for weird bootstrap */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.5;
   color: #000;
   text-align: left;
-
 }
 
 body {
@@ -163,7 +161,7 @@ code { /* Override bootstrap. */
 
 /** PAGE NAV (TOP AND BOTTOM) ************************************************/
 .llab-nav {
-  line-height: 1.38; /* Keep slightly smaller than normal to control centering the nav buttons */
+  line-height: 1.5; /* Keep slightly smaller than normal to control centering the nav buttons */
   margin: 0 0 .5em 0;
   width: 100%;
   padding: 6px;
@@ -190,35 +188,35 @@ code { /* Override bootstrap. */
 }
 
 /* Necessary when on mobile. */
-.navbar-nav .open .dropdown-menu {
+/* .navbar-nav .open .dropdown-menu {
   background-color: #FFF;
-}
+} */
 
 @media (min-width: 768px) {
-  .navbar-left {
-    /* With of the right side buttons: lang menu + back/forward buttons */
-    max-width: calc(100% - 36ch);
+  .justify-content-end .dropdown-menu {
+    right: 0;
+    top: 50px;
+    left: auto;
   }
 }
 
 @media screen and (max-width: 768px) {
   /* Bootstrsap 3 selector */
-  .navbar-nav .open .dropdown-menu {
+  .navbar-expand .navbar-nav .dropdown-menu {
     position: fixed;
     top: 75px;
-    left: 0.2em;
+    left: 0.5em;
     max-width: calc(100% - 0.8em - 2em - 4px);
     border: 2px solid #0C3559;
   }
 
-  ul.navbar-nav li.open ul {
-    margin: 0.5em;
-    width: 100%;
+  .nav-lang-dropdown {
+    margin-right: 3ch;
   }
 
-  /* Close the gap between buttons, only shows on mobile. */
-  .nav-btn-group > .btn-nav {
-    margin: 0 -3px;
+  ul.navbar-nav li.show ul {
+    margin: 0.5em;
+    width: 100%;
   }
 }
 
@@ -246,13 +244,18 @@ nav.navbar .navbar-brand {
   filter: none;
 }
 
-.navbar-right {
+ul.justify-content-end {
   padding: 5px 1rem;
   margin-right: 5%;
 }
 
+/* Hide the default bootstrap dropdown indicator */
+.navbar-nav .dropdown-toggle::after {
+  display: none;
+}
+
 /* No extra space around buttons */
-ul.navbar-right li {
+ul.navbar-nav li {
   padding: 0;
 }
 
@@ -274,8 +277,7 @@ ul.navbar-right li {
   border: 2px solid white;
   background-color: unset;
   font-size: 20px;
-  font-weight: 900;
-  padding: 8px;
+  padding: 4px;
   border-radius: 6px;
   height: 40px;
   width: 40px;
@@ -286,12 +288,11 @@ ul.navbar-right li {
   border-radius: 0;
 }
 
-.nav .open > a,
-.nav> li > a:focus,
-.nav > li > a:hover,
+.navbar-nav .show > a,
+.navbar-nav li > a:focus,
+.navbar-nav li > a:hover,
 a.btn-nav:visited:hover,
 a.btn-nav:visited:focus,
-a.btn-nav:active,
 .btn-nav:hover,
 .btn-nav:focus {
   border-color: #F2E205;
@@ -348,11 +349,13 @@ a.btn-nav:visited {
 
 .dropdown-menu {
   margin-top: 6px;
-  overflow-y: scroll; /* scroll menu on small screens */
+  overflow-y: auto; /* scroll menu on small screens */
   width: auto;
   white-space: nowrap;
   overflow-x: hidden;
   text-overflow: ellipsis;
+  border-color: #0C3559;
+  padding-right: 0.5em;
   /* max- height + width set using JS on page load. */
 }
 
@@ -361,10 +364,22 @@ ul.dropdown-menu > li.dropdown-header,
 .dropdown-header {
   color: #000;
   padding: 3px 10px;
-  font-size: 1.1em;
   font-weight: 600;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.dropdown-item {
+  --bs-dropdown-color: #212529;
+  --bs-dropdown-header-padding-x: 0.67rem;
+  --bs-dropdown-header-padding-y: 0.33rem;
+  font-size: 0.9rem;
+}
+
+a.dropdown-item:not(.btn-primary):not(.btn-nav),
+a.dropdown-item:not(.btn-primary):not(.btn-nav):visited {
+  color: #212529;
+  text-decoration: none;
 }
 
 .course-link-list, .main-topic-link, .current-page-arrow {
@@ -388,6 +403,7 @@ ul.dropdown-menu > li.dropdown-header,
 .current-page-arrow {
   background-image: url(../img/forward.png);
 }
+/** END DROPDOWN MENU STYLING *******************************************/
 
 /* Syntax highlighting elements, override Bootstrap PRE stuff */
 pre > code {
@@ -923,22 +939,6 @@ img.indent, div.indent {
 
   nav.navbar .navbar-brand {
     margin: 0 0.5em;
-  }
-
-  .navbar-left {
-    float: left;
-    margin: 0;
-  }
-
-  .navbar-right {
-    float: right;
-    padding: 0;
-    margin: 0.25em 0.5em;
-  }
-
-  .navbar-right > li {
-    display: inline-block;
-    position: relative;
   }
 
   .navbar-title {

@@ -45,9 +45,9 @@ llab.GAurl = location.origin;
 // Error Handling -- The URL embeds the Sentry desination
 llab.SENTRY_URL = 'https://js.sentry-cdn.com/f55a4cd65a8b48fd99e8247c6a5e6c2d.min.js';
 
-// CSS
+// CSS, relative to llab/
 llab.paths.css_files = [
-    'css/3.3.7/bootstrap.min.css',
+    'lib/bootstrap-5.3.7-dist/css/bootstrap.min.css',
     'css/default.css',
     '../css/bjc.css',
     // TODO: Merge this into bjc.css.
@@ -75,7 +75,7 @@ llab.paths.scripts[1] = [];
 llab.paths.scripts[1].push("script/curriculum.js");
 llab.paths.scripts[1].push("script/course.js");
 llab.paths.scripts[1].push("script/topic.js");
-llab.paths.scripts[1].push("lib/bootstrap.min.js");
+llab.paths.scripts[1].push("lib/bootstrap-5.3.7-dist/js/bootstrap.bundle.min.js");
 // llab.paths.scripts[1].push("script/lib/sha1.js");     // for brainstorm
 
 // Doing a very weird thing delaying this until stage 1
