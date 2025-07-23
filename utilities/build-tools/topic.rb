@@ -12,6 +12,8 @@ class BJCTopic
   def initialize(topic_file_path, course: nil, language: 'en')
     @file_path = topic_file_path
     @course = course
+    @unit_data = nil
+    @language = language
 
     if !File.exist?(@file_path)
       raise "Error: No file found at #{file_path}"
@@ -29,6 +31,12 @@ class BJCTopic
     @file_path.match(/\/topic\/(.*\.topic)/)[1]
   end
 
+  # BJC: Assume every topic file has one unit.
+  # However, the title belongs to the parent topic content.
+  def unit_data
+    @unit_data ||= parsed_topic_object[:topics].first
+  end
+
   # This should return some hash-type structure
   # look at the code in llab
   # TODO: this could arguably be its own class.
@@ -38,25 +46,63 @@ class BJCTopic
     parsed_topic_object
   end
 
-  def unit_number; end
-
-  # TODO: This is what will make the organization a bit tricky...
   # FOR most BJC4NYC --> /bjc-r/cur/programming/{UNIT}/
   # FOR Sparks ..
   # For Teacher guides?
-  def base_content_folder; end
+  # Find the longest common path prefix for all URLs within a topic.
+  # This is the base content folder for the topic.
+  # It should be the first part of the URL, like /bjc-r/cur/programming/
+  # or /sparks/student-pages/
+  def base_content_folder
+    @base_content_folder ||= begin
+      paths = all_pages.map { |page| File.dirname(page[:url]) }
+      longest_common_prefix(paths)
+    end
+  end
 
-  # Just the names of the lab sections
-  def section_headings; end
+  # Returns the longest common prefix of an array of strings.
+  # For example, ['a/b/c', 'a/b/d'] returns 'a/b/'
+  def longest_common_prefix(strings)
+    return '' if strings.empty?
 
+    # Find the longest common prefix among the strings
+    prefix = strings[0]
+    strings.each do |str|
+      while str.index(prefix) != 0
+        prefix = prefix[0..-2]
+      end
+    end
+    prefix
+  end
 
   # A way to process each page for vocab, self-checks, etc.
+  # This should yield the data needed to parse each curriculum page
+  # unit (same for all pages), unit path (first subfolder in the path),
+  # lab (the lab name, like "Lab 1"), and page number (1, 2, 3, etc.), path
   # TODO: Do we need a 'Page()' class?
   def iterate_curriculum_pages(&block)
-    # This should yield the data needed to parse each curriculum page.
-    all_pages_without_summaries.each do |page|
-      binding.irb
-      block.call(path_to_page, unit, lab, page_number)
+    page_data = {
+      unit: unit_number,
+      unit_path: base_content_folder,
+      course: @course,
+      lab: nil,
+      lab_number: nil,
+      page_number: nil,
+      path: nil
+    }
+    topic_content = unit_data[:content]
+    topic_content.each_with_index do |section, section_index|
+      # binding.irb
+      page_data[:lab] = section[:title]
+      page_data[:lab_number] = section_index + 1
+
+      section[:content].each_with_index do |entry, entry_index|
+        # next if summary_section?(entry) || (!entry[:url].nil? && summary_page?(entry))
+
+        page_data[:page_number] = entry_index + 1
+        page_data[:path] = entry[:url]
+        block.call(page_data)
+      end
     end
   end
 
@@ -65,27 +111,28 @@ class BJCTopic
     all_pages(include_summaries: false)
   end
 
-  # TODO: pass more than just the URL
   def all_pages(include_summaries=false)
     parsed_topic_object[:topics].each_with_index.map do |topic, topic_index|
       topic[:content].each_with_index.map do |entry, entry_index|
-        next if is_summary_section?(entry) || (!entry[:url].nil? && is_summary_page?(entry))
+        next if summary_section?(entry) || (!entry[:url].nil? && summary_page?(entry))
 
         if entry[:type] == 'section'
           extract_pages_in_section(entry, include_summaries: include_summaries)
         elsif RESOURCES_KEYWORDS.include?(entry[:type])
-          entry[:url]
+          entry
         end
       end.flatten
-    end.flatten
+    end.flatten.compact
   end
 
   # Return all valid links to HTML pages as an array (no nesting)
   def all_pages_with_summaries
-   all_pages(include_summaries: true)
+    all_pages(include_summaries: true)
   end
 
-  def to_h = parse
+  def to_h
+    parse
+  end
 
   def to_json(*_args)
     to_h.to_json
@@ -226,15 +273,26 @@ class BJCTopic
     File.open(topic_file, 'w') {|f| f.write(topic_file) }
   end
 
+  # Assumes there is only 1 primary section in the topic file.
+  def unit_number
+    return nil if parsed_topic_object.nil? || parsed_topic_object[:title].nil?
+
+    # Extract the unit number from the title, e.g., "Unit 1: Introduction"
+    match = parsed_topic_object[:title].match(/Unit\s*(\d+)/)
+    return nil if match.nil?
+
+    match[1]
+  end
+
   private
-  # TODO: Many methods above should be made private
 
   # Determines if a section is a "summary" of content based on the heading.
   SUMMARY_SECTION_TITLES = [
     /Unit\s*\d+\s*Review/,
     /Unidad\s*\d+\s*Revision/,
   ]
-  def is_summary_section?(section)
+
+  def summary_section?(section)
     SUMMARY_SECTION_TITLES.any? { |re| section[:title].match?(re) }
   end
 
@@ -244,7 +302,7 @@ class BJCTopic
     /unit-.*-self-check.*\.html/,
     /unit-.*-exam-reference.*\.html/,
   ]
-  def is_summary_page?(item)
+  def summary_page?(item)
     SUMMARY_URLS.any? { |re| item[:url].match?(re) }
   end
 
@@ -254,14 +312,12 @@ class BJCTopic
   # this means quizzes, vocab, ap exam pages.
   def extract_pages_in_section(parsed_section, include_summaries=false)
     parsed_section[:content].each_with_index.map do |item, item_index|
-      if !include_summaries && is_summary_page?(item)
+      if !include_summaries && summary_page?(item)
         nil
       elsif RESOURCES_KEYWORDS.include?(item[:type])
-        item[:url]
+        item
       elsif item[:type] == 'section'
         extract_pages_in_section(item, include_summaries: include_summaries)
-      else
-        nil
       end
     end.flatten.compact
   end
