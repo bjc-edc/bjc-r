@@ -453,6 +453,13 @@ llab.createTitleNav = function() {
 
   llab.setupTranslationsMenu();
 
+  // This doesn't quite belong here. index pages are a special case...
+  // TODO: Consider atwork pages too?
+  if (location.pathname.indexOf('vocab-index') > 0) {
+    let course = llab.getQueryParameter('course');
+    llab.renderCourseLink(course);
+  }
+
   // Don't add anything else if we don't know the step...
   // FUTURE - We should separate the rest of this function if necessary.
   if (!llab.isCurriculum()) { return; }

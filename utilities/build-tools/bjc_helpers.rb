@@ -1,3 +1,8 @@
+# frozen_string_literal: true
+
+VALID_LANGUAGES = %w[en es de].freeze
+TEMP_FOLDER = 'review'
+
 module BJCHelpers
   UNIT_FOLDERS = []
   TOPIC_COURSE = []
@@ -12,7 +17,7 @@ module BJCHelpers
     folder = f.split("/")
     return folder[-1]
   end
-  
+
   def get_topic_course(topic, course)
     if not(TOPIC_COURSE.empty?)
       TOPIC_COURSE.each do |item|
@@ -40,14 +45,45 @@ module BJCHelpers
     "?topic=#{topic}/#{unit_folder}&course=#{course}.html&novideo&noassignment"
   end
 
-  def bjc_html_page(lang, title, contents)
-    <<~HTML
-    <html lang="#{lang}">
-      <head>
-        <title>#{title}</title>
-      </head>
-      <body>#{contents}</body>
-    </html>
-    HTML
+  # Methods below here are only visible by calling BJCHelpers.X
+  class << self
+    # TODO: This needs to use a topic model to get the correct sequence.
+    def lab_page_number(unit_str)
+      list = unit_str.scan(/(\d+)/)
+      if list.length != 3
+        puts "Error: Invalid unit string format: #{unit_str}"
+      end
+      # str.scan seems to return a list of lists...
+      I18n.t('lab_page', lab_num: list[1][0], page_num: list[2][0])
+    end
+
+    def bjc_html_page(lang, title, contents)
+      <<~HTML
+      <html lang="#{lang}">
+        <head>
+          <title>#{title}</title>
+        </head>
+        <body>#{contents}</body>
+      </html>
+      HTML
+    end
+
+    def summary_page_template(lang, title, contents)
+      <<~HTML
+      <!DOCTYPE html>
+      <html lang="#{lang}">
+        <head>
+          <title>#{title}</title>
+          <meta charset="utf-8">
+          <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+        <head>
+        <body>
+          #{contents}
+        </body>
+      </html>
+      HTML
+    end
+
   end
+
 end

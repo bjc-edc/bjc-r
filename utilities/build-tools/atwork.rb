@@ -116,7 +116,6 @@ class AtWork
     linesList = File.readlines(@currFile)[0..15]
     Dir.chdir("#{@parentDir}/review")
     data = data.gsub(/&amp;/, '&')
-    data.delete!("\n\n\\")
     createNewFile(filename, linesList) unless File.exist?(filename)
     File.write(filename, data, mode: 'a')
     FileUtils.cd(currentDir)

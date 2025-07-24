@@ -9,8 +9,8 @@ class BJCTopic
   HEADINGS_KEYWORDS = %w[h1 h2 h3 h4 h5 h6 heading]
   INFO_KEYWORDS = %w[big-idea learning-goal]
 
-  def initialize(path, course: nil, language: 'en')
-    @file_path = path
+  def initialize(topic_file_path, course: nil, language: 'en')
+    @file_path = topic_file_path
     @course = course
 
     if !File.exist?(@file_path)
@@ -49,15 +49,26 @@ class BJCTopic
   # Just the names of the lab sections
   def section_headings; end
 
-  # This should explicitly exclude the 3 compiled HTML pages.
 
+  # A way to process each page for vocab, self-checks, etc.
+  # TODO: Do we need a 'Page()' class?
+  def iterate_curriculum_pages(&block)
+    # This should yield the data needed to parse each curriculum page.
+    all_pages_without_summaries.each do |page|
+      binding.irb
+      block.call(path_to_page, unit, lab, page_number)
+    end
+  end
+
+  # This should explicitly exclude the 3 compiled HTML pages.
   def all_pages_without_summaries
     all_pages(include_summaries: false)
   end
 
+  # TODO: pass more than just the URL
   def all_pages(include_summaries=false)
-    parsed_topic_object[:topics].map do |topic|
-      topic[:content].map do |entry|
+    parsed_topic_object[:topics].each_with_index.map do |topic, topic_index|
+      topic[:content].each_with_index.map do |entry, entry_index|
         next if is_summary_section?(entry) || (!entry[:url].nil? && is_summary_page?(entry))
 
         if entry[:type] == 'section'
@@ -241,14 +252,14 @@ class BJCTopic
   # Returns an array of all the paths in that section
   # If include_summaries = false, then known "summary" URLs are exlcuded
   # this means quizzes, vocab, ap exam pages.
-  def extract_pages_in_section(parsed_section, include_summaries=true)
-    parsed_section[:content].map do |item|
+  def extract_pages_in_section(parsed_section, include_summaries=false)
+    parsed_section[:content].each_with_index.map do |item, item_index|
       if !include_summaries && is_summary_page?(item)
         nil
       elsif RESOURCES_KEYWORDS.include?(item[:type])
         item[:url]
       elsif item[:type] == 'section'
-        extract_pages_in_section(item)
+        extract_pages_in_section(item, include_summaries: include_summaries)
       else
         nil
       end
