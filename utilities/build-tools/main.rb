@@ -52,21 +52,20 @@ class Main
   def Main
     createNewReviewFolder
     parse_all_topic_files
-    # @course.list_topics.each do |topic_file|
-    #   topic = parse_topic_page(topic_file)
-    #   # TODO: This method needs to be fully implemented.
-    #   # Inside the loop we should make the calls parse vocab, self-check, and atwork.
-    #   topic.iterate_curriculum_pages.each do |page, unit, lab, page_number|
-    #     puts "#{page} #{unit} #{lab} #{page_number}"
-    #     @vocab.doIndex
-    #     @atwork.moveFile
-    #   end
-    # end
+    # New code: Move processing vocab/atwork/self-check to here...
+    @course.list_topics.each do |topic_file|
+      topic = parse_topic_page(topic_file)
+      topic.iterate_curriculum_pages do |page|
+        puts page
+      end
+    end
+
+    # Original stuff below here....
     parse_units("#{review_folder}/topics.txt")
     @vocab.doIndex
     @atwork.moveFile
     puts 'All units complete'
-    delete_review_folder
+    # delete_review_folder
   end
 
   def topic_files_in_course
@@ -80,13 +79,12 @@ class Main
   def delete_review_folder
     Dir.chdir(review_folder)
     File.delete('topics.txt') if File.exist?('topics.txt')
-    # TODO: should filter en/es separately.
     files = list_files("#{language_ext}.html")
     files.each do |file|
-      File.open(file, mode: 'r') do |f|
-        f.close
-        File.delete(f)
-      end
+      File.delete(file) if File.exist?(file)
+      # File.open(file, mode: 'r') do |f|
+      #   f.close
+      # end
     rescue Errno::EACCES
     end
 
@@ -162,6 +160,7 @@ class Main
                       "\n\tresource: (NEW) #{I18n.t('on_ap_exam')} [#{link}/#{list[1]}]",
                       "\n\tresource: (NEW) #{I18n.t('self_check')} [#{link}/#{list[2]}]"]
     topic_content = <<~TOPIC
+
       heading: (NEW) #{I18n.t('unit_review', num: @unitNum)}
     TOPIC
     is_empty_review = true
@@ -178,7 +177,6 @@ class Main
     !line.nil? && !@currUnit.nil? && line.match(@currUnit)
   end
 
-  # Writing new function to parse using the topic.rb file
   def parse_topic_page(file)
     BJCTopic.new(path_to_topic_file(file), course: @course_file, language: @language)
   end
@@ -387,7 +385,6 @@ class Main
 
   def copyFiles
     list = [@vocab.vocab_file_name, @self_check.self_check_file_name, @self_check.exam_file_name]
-    currentDir = Dir.pwd
     FileUtils.cd('..')
 
     list.each do |file|
@@ -397,8 +394,10 @@ class Main
       # TODO: use nokogiri to refomat the file.
       FileUtils.copy_file(src, dst) if File.exist?(src)
     end
-    Dir.chdir(currentDir)
+    Dir.chdir(Dir.pwd)
   end
+
+
 
   # Inputs is the topics.txt file that is created earlier from the .topic file.
   # Reads each line from the topics.txt file and finds that unit, lab, and html

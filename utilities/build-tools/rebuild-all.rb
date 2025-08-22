@@ -24,8 +24,8 @@ end
 
 TO_RUN = [
   { course: 'bjc4nyc', language: 'en', content: csp_dir },
-  { course: 'bjc4nyc', language: 'es', content: csp_dir },
-  { course: 'sparks', language: 'en', content: 'sparks/student-pages' }
+  # { course: 'bjc4nyc', language: 'es', content: csp_dir },
+  # { course: 'sparks', language: 'en', content: 'sparks/student-pages' }
 ]
 
 if ARGV.include?('--only')
