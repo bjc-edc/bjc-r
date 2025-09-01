@@ -6,7 +6,10 @@
 # Install with: bundle install
 source 'https://rubygems.org'
 
-ruby file: '.ruby-version'
+ruby file: '.tool-versions'
+
+# Skip running in CI environments
+eval_gemfile 'utilities/build-tools/Gemfile'
 
 group :development, :test do
   # Testing framework

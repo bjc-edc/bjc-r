@@ -41,6 +41,7 @@
 						<li>Set up a zone for all of the crafting materials that's easy for students to access.</li>
 						<li>Consider supplementing materials based on what you have available in your space.</li>
 						<li>Clear off work surfaces so students have space to program and build in the same location.</li>
+                        <li>Connecting servos generally poses fewer issues than connecting the micro:bits themselves (or at least, less challenging ones), but it's still a good idea to review the "Troubleshooting" section below (under "Tips") before class.</li>
 					</ul>
 				</li>
 				<li>
@@ -61,13 +62,34 @@
 				<li>
 					<strong>Tips:</strong>
 					<ul>
-						<li>
-							When troubleshooting the servos, check the following:
-							<ul>
-								<li>The direction of the servo wires (orange is positive, brown is negative).</li>
-								<li>The direction of the battery wires (red is positive, black is negative).</li>
-								<li>The direction the micro:bit is facing.</li>
-							</ul>
+						<li>There is a sound switch on the basic:bit board. You may want to turn that off (down) or ask students to do so.</li>
+                        <li>
+							<strong>Troubleshooting</strong> servos:
+                            <ol style="list-style-type: decimal;">
+                                <li>Check that the micro:bit is connected by sending a simple command like <img class="inline nopadtb" src="/bjc-r/sparks/img/U3/L4/is-this-on.png" alt="scroll text (Is this on?)" title="scroll text (Is this on?)" />. If it's not connected, review the troubleshooting section from <a href="http://localhost:8000/bjc-r/sparks/teaching-guide/U3/01-meet-microbit.html?topic=sparks%2F3-teaching-guide.topic&course=sparks-teacher.html&novideo&noassignment" title="Lab 1 Teacher Guide">Lab 1</a> Activity 1.</li>
+								<li>
+                                    Check that the servo really isn't working:
+                                    <ul>
+                                        <li>If you have a detachable servo arm, connect it to the servo shaft so that it's easy to see whether the servo is moving.</li>
+                                        <li>
+                                            Then build and run this script (using the correct servo pin number for your setup):<br />
+                                            <img class="indent" src="/bjc-r/sparks/img/U3/L4/servo-test.png" alt="forever {
+    set servo (0) to (random (-90) to (90)) degrees (-90 to 90)
+    wait (500) millisecs
+}" title="forever {
+    set servo (0) to (random (-90) to (90)) degrees (-90 to 90)
+    wait (500) millisecs
+}" />
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>Check that the servo number in the code matches the number beside pins that the servo is connected to on the board.</li>
+                                <li>Check the direction of the servo wires (orange is positive, brown is negative).</li>
+                                <li>If using a basic:bit board, check that all five screws have been screwed in. (The screws serve as wires connecting the two boards together; there is one for each set of servo pins, one for the 3 volts, and one for the ground.)</li>
+                                <li>Try a different set of pins (sometimes one doesn't work) and update the script to the new pin number.</li>
+                                <li>Try a different servo to check that it's not a broken servo issue.</li>
+								<li>If disconnected from the computer, check the direction of the battery wires (red is positive, black is negative).</li>
+							</ol>
 						</li>
 					</ul>
 				</li>
