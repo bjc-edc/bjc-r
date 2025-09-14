@@ -94,7 +94,7 @@ def binary_search(value, data):
             <ol start="2">
                 <li>
                     <img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
-                    Read the Python version of the binary search function can compare it to the Snap<em>!</em> code. Discuss the similarities and differences.
+                    Read the Python version of the binary search function and compare it to the Snap<em>!</em> code. Discuss the similarities and differences.
                 </li>
             </ol>
         </div>
@@ -106,7 +106,7 @@ def binary_search(value, data):
                 Read more about some of the differences when using Python.
                     <ul>
                         <li>
-                            <strong>Python uses makes all variables local automatically.</strong> In Python, there's nothing like the <code>script variables</code>  block.  Variables are automatically local (usable only within their procedures) and will only be global (usable anywhere in the program) if you use a <pre class="inline">global</pre> or <pre class="inline">nonlocal</pre> statement. <a href="#hint-python-whylocal" data-toggle="collapse" title="Why does Python have automatically local variables?">Why does Python do this?</a>
+                            <strong>Python makes all variables local automatically.</strong> In Python, there's nothing like the <code>script variables</code>  block.  Variables are automatically local (usable only within their procedures) and will only be global (usable anywhere in the program) if you use a <pre class="inline">global</pre> or <pre class="inline">nonlocal</pre> statement. <a href="#hint-python-whylocal" data-toggle="collapse" title="Why does Python have automatically local variables?">Why does Python do this?</a>
                             <div id="hint-python-whylocal" class="collapse">
                                 Automatically making variables all local encourages programmers to use global variables only when really necessary. You learned why global variables are sometimes necessary but otherwise best avoided on page <a href="/bjc-r/cur/programming/2-complexity/1-variables-games/4-keeping-score.html?topic=nyc_bjc/2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 2 Lab 1 Page 4: Keeping Score with Global Variables">Unit 2 Lab 1 Page 4: Keeping Score with Global Variables</a>. (If you need a review, you learned about the <code>script variables</code> block and local variables on <a href="/bjc-r/cur/programming/2-complexity/1-variables-games/1-number-guessing-game.html?topic=nyc_bjc/2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 2 Lab 1 Page 1: Starting a Number Guessing Game">Unit 2 Lab 1 Page 1: Starting a Number Guessing Game</a>.)
                             </div>
@@ -124,12 +124,16 @@ high = current_index-1" /><br />
                                 Python uses indentation (how many spaces at the beginning of each line) for the same purpose:
                                 <pre class="indent">if (current_item &gt; value):
     high = current_index-1</pre>
-                                Python is unique among popular languages in making the amount of spacing significant in this way. 
+                                The vertical left edge of Snap<em>!</em>'s C-shaped block is visually similar to the indentation, but Python doesn't have a visual equivalent to the bottom edge of the C-shaped block; you know the extent of the loop or conditional has ended only because the indentation of the text decreases.  Python is unique among popular languages in making the amount of spacing significant in this way. 
                             </div>
                         </li>
-                        <li><strong>Python list numbering starts at 0 not 1.</strong> In Python, as in many text-based languages, the first item of a list is item number 0, not item 1. So for example, item 5 is actually the sixth item.</li>
+                        <li><strong>Python list numbering starts at 0, not 1.</strong> In Python, as in many text-based languages, the first item of a list is item number 0, not item 1. So for example, item 5 is actually the sixth item. <a href="#hint-why-zero-origin" data-toggle="collapse" title="Why start with item number 0?">Why?</a>
+                            <div id="hint-why-zero-origin" class="collapse">
+                                "Zero-origin" indexing is an example of anti-abstraction in programming language design. Think of the computer's memory as a row of boxes, each of which has an "address," a number, like house numbers on a street.  If an array is a collection of neighboring boxes, and if the name of the array represents the address of the first of those boxes, then array+1 is the address of the second item, and so on.  (This is a simplification but essentially true.)  Using index number 0 for the first item means that the address of <pre class="inline">array[n]</pre> is array+n. This slightly simplifies the translation of a program to machine language, at the cost of confusing the human programmer, who has to stop and think about whether the 23rd item of an array is <pre class="inline">array[22]</pre> or <pre class="inline">array[24]</pre>. Abstracting away the question of how lists are stored in memory, we think the 23rd item should be <pre class="inline">item 23 of</pre> the list to match the expectation of the human programmer.
+                            </div>
+</li>
                         <li>
-                            <strong>Python uses parentheses instead of nested reporters.</strong> Snap<em>!</em> lets you nest blocks inside each other to tell the computer the order in which you want to perform operations. In text-based languages like Python, you must use parentheses if your expression doesn't follow order of operations. <a href="#hint-python-parentheses" data-toggle="collapse" title="See an example of nesting vs. parentheses.">See an example.</a>
+                            <strong>Python uses parentheses instead of visually nested reporters.</strong> Snap<em>!</em> lets you nest blocks inside each other to tell the computer the order in which you want to perform operations. In text-based languages like Python, you must use parentheses if your expression doesn't follow order of operations. <a href="#hint-python-parentheses" data-toggle="collapse" title="See an example of nesting vs. parentheses.">See an example.</a>
                             <div id="hint-python-parentheses" class="collapse">
                                 <ul>
                                     <li>The expression <img src="/bjc-r/img/5-algorithms/times-first.png" alt="(3*4)+5" title="(3*4)+5" /> could be written as <pre class="inline">3*4+5</pre> because of order of operations.</li>
@@ -154,7 +158,7 @@ high = current_index-1" /><br />
                                     </p>
                                     <div class="pseudop">
                                         <strong>How can I make this easier for myself?</strong><br />
-                                        If you find yourself programming in a language that uses <pre class="inline">=</pre> for assigning a variable, you can train yourself to pronounce <pre class="inline">=</pre> as "gets" or "becomes" as in "<em>x</em> gets 3" or "<em>x</em> becomes 3" rather than as "<em>x</em> equals 3." 
+                                        If you find yourself programming in a language that uses <pre class="inline">=</pre> for assigning to a variable, you can train yourself to pronounce <pre class="inline">=</pre> as "gets" or "becomes" as in "<em>x</em> gets 3" or "<em>x</em> becomes 3" rather than as "<em>x</em> equals 3."  But you should still pronounce  <pre class="inline">==</pre> as "equal equal," so you never say a single "equals" by itself, which would be ambiguous.
                                     </div>
                                 </div>
                             </div>
