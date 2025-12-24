@@ -13,10 +13,12 @@ require_relative 'atwork'
 
 FILE_NAME = 'vocab-index'
 # Special case words and terms.
+# These are also not split when they appear in phrases
 # Contains both English and Spanish terms.
-CAPITALS = [
+CAPS_SPECIALS = [
+  'Creative Commons',
   'IP', 'DDoS', 'SSL', 'TLS', 'TCP', 'AI', 'ADT', 'API',
-  'Creative Commons', 'ISPs', 'Commons', 'Creative', 'Boolean',
+  'ISPs', 'Boolean',
   # CSP Spanish
   'IA', 'IPA', 'PCT', 'PI', 'Booleano',
   # Sparks
@@ -24,12 +26,15 @@ CAPITALS = [
 ].freeze
 
 class Index
-  attr_accessor :language, :vocab_url_map, :file_body
+  attr_accessor :language, :vocab_url_map, :file_body, :terms_list
 
   def initialize(path, language = 'en')
     @parentDir = path
     @language = language
-    @vocabList = []
+  end
+
+  def sparks?
+    @parentDir.include?('sparks/')
   end
 
   def language_ext
@@ -40,16 +45,10 @@ class Index
     "#{FILE_NAME}#{language_ext}.html"
   end
 
-  def vocabList(list)
-    @vocabList = list
-  end
-
   def locale_alphabet
-    if @language == 'es'
-      %w[a b c d e f g h i j k l m n ñ o p q r s t u v w x y z]
-    else
-      ('a'..'z').to_a
-    end
+    return ('a'..'z').to_a if @language == 'en'
+
+    %w[a b c d e f g h i j k l m n ñ o p q r s t u v w x y z]
   end
 
   def alphabet_links(used_letters)
@@ -62,95 +61,78 @@ class Index
     end.join
   end
 
-  def alphabet_index_links(used_letters, output)
-    contents = <<-HTML
-      <div class="index-letter-link">
-        #{alphabet_links(used_letters)}
-      </div>
-      <div>
-        #{output}
-      </div>
-    HTML
-
-    @file_body ||= ''
-    @file_body += contents
-  end
-
-  def non_alpha_char?(vocab)
-    !(capital?(vocab[0]) or lowercase?(vocab[0]))
-  end
-
-  def capital?(char)
-    (char.bytes[0] >= 65 and char.bytes[0] <= 90)
-  end
-
-  def lowercase?(char)
-    (char.bytes[0] >= 97 and char.bytes[0] <= 122)
-  end
-
-  # alphabet and letter are lowercase and returned vocab word is upper and then lowercase
-  def castCharToEng(vocab)
+  # Localize using TwitterCldr and sort
+  # These terms must match the keys in @vocab_url_map
+  def sorted_vocab_list
     TwitterCldr::Collation::Collator.new(@language)
-    return vocab unless non_alpha_char?(vocab)
+    terms_list.localize(@language).sort.to_a.map { |word| word.strip.gsub(': ', '') }
+  end
 
-    letter = vocab[0].downcase
-    alpha = locale_alphabet.push(letter).localize(@language).sort.to_a
-    letter = alpha[alpha.index(letter) + 1]
-    letter.upcase if capital?(vocab[0])
-    letter.upcase + vocab[1..]
+  def filter_missing_mappings(vocab_list)
+    vocab_list.select do |term|
+      unless @vocab_url_map.key?(term)
+        puts "Warning: No URL mapping found for vocab word: #{term}"
+        false
+      end
+      true
+    end
+  end
+
+  def vocab_by_letter
+    # Remove diacritics for indexing if not in locale alphabet
+    # Applies to "Índice",
+    # but we don't have any ñ words yet that would need to be indexed under ñ.
+    @vocab_by_letter ||= filter_missing_mappings(sorted_vocab_list).group_by do |word|
+      I18n.transliterate(word[0]).downcase
+    end
+  end
+
+  def li_term(word)
+    links = @vocab_url_map[word].join(', ')
+    "    <li>#{index_downcase(word)} &nbsp; #{links}</li>"
+  end
+
+  def li_terms(words)
+    <<-HTML
+      <ol style="list-style-type: square">
+        #{words.map { |word| li_term(word) }.join("\n\t")}
+      </ol>
+    HTML
+  end
+
+  def all_letter_lists
+    vocab_by_letter.map do |entry_letter, words|
+      <<-HTML
+        <li class="index-letter-target" style="list-style-type: none">
+          <h2 id="#{entry_letter.upcase}">#{entry_letter.upcase}</h2>
+          #{li_terms(words)}
+        </li>
+      HTML
+    end.join("\n\t")
   end
 
   def generate_html_list
-    # Localize using TwitterCldr and sort
-    # These terms must match the keys in @vocab_url_map
-    terms = @vocabList.localize(@language).sort.to_a.map { |word| word.strip.gsub(': ', '') }
-    used_letters = []
-    output = "<ul style=\"list-style-type:square\">\n"
-    prev_letter = ''
-    terms.each do |vocab|
-      original_word = vocab
-      vocab = vocab.downcase unless keep_Capitalized?(vocab)
-      # TODO: Use this but currently broken for ADT, others?
-      # vocab = index_downcase(vocab)
-      entry_letter = vocab[0].downcase
-
-      # Remove diacritics for indexing if not in locale alphabet
-      # Applies to "Índice",
-      # but we don't have any ñ words yet that would need to be indexed under ñ.
-      entry_letter = I18n.transliterate(entry_letter).downcase unless locale_alphabet.include?(entry_letter)
-
-      if prev_letter != entry_letter
-        output += "\n\t\t</li></ol>\n" if used_letters.any?
-
-        prev_letter = entry_letter
-        used_letters.push(entry_letter)
-        output += <<-HTML
-          <li class="index-letter-target" style="list-style-type: none">
-            <h2 id="#{entry_letter.upcase}">#{entry_letter.upcase}</h2>
-            <ol style="list-style-type: square">
-        HTML
-      end
-      unless @vocab_url_map.key?(original_word)
-        puts "Warning: No URL mapping found for vocab word: #{vocab}"
-        next
-      end
-      links = @vocab_url_map[original_word].join(', ')
-      output += "\n\t<li>#{vocab} &nbsp; #{links}</li>\n"
-    end
-    output += "\t\t</ol>\n\t</ul>"
-    alphabet_index_links(used_letters, output)
+    <<-HTML
+      <div class="index-letter-link">
+        #{alphabet_links(vocab_by_letter.keys)}
+      </div>
+      <div>
+        <ol style="list-style-type:square">
+          #{all_letter_lists}
+        </ol>
+      </div>
+    HTML
   end
 
-  def write_index_file
+  def write_index_file(contents)
     dst = "#{@parentDir}/#{index_filename}"
-    html = Nokogiri::HTML(html_document(@file_body)).to_html
+    html = Nokogiri::HTML(html_document(contents)).to_html
     pretty_html = HtmlBeautifier.beautify(html)
     File.write(dst, pretty_html)
   end
 
   def main
-    generate_html_list
-    write_index_file
+    write_index_file(generate_html_list)
   end
 
   def html_document(contents)
@@ -170,11 +152,8 @@ class Index
     HTML
   end
 
-  # TODO: The course info needs to be more visible somehwre.
   def write_html_head
-    title_key = 'index'
-    title_key = 'sparks_index' if @parentDir.include?('sparks')
-
+    title_key = sparks? ? 'sparks_index' : 'index'
     <<~HTML
       <head>
         <meta charset="utf-8">
@@ -185,27 +164,12 @@ class Index
     HTML
   end
 
-
-  # TODO: Mimic ActiveSupport's inflector methods
-  # Alteranatively, downcase by word, except for known exceptions
-  def keep_Capitalized?(vocab)
-    capitals = ['IP', 'DDoS', 'SSL', 'TLS', 'TCP', 'IA', 'IPA', 'PCT', 'PI', 'AI', 'ADT', 'API',
-                'Creative Commons', 'ISPs', 'Commons', 'Creative', 'Boolean', 'Booleano']
-    capitals.each do |item|
-      # Can't quite be exact match bc of terms like "API (Application Programming Interface)"
-      if vocab.match?(item)
-        return true
-      elsif vocab.match?(/\(.+\)/)
-        return true
-      end
-    end
-    false
-  end
-
   def index_downcase(vocab)
     words = vocab.split(' ')
     words.map! do |word|
-      if CAPITALS.include?(word)
+      # Remove () and : for matching
+      cleaned_word = word.gsub(/[():]/, '')
+      if CAPS_SPECIALS.include?(cleaned_word)
         word
       else
         word.downcase

@@ -10,13 +10,19 @@ require_relative 'bjc_helpers'
 I18n.load_path = Dir['**/*.yml']
 I18n.backend.load_translations
 
+# Special cases that should not be split when they appear in phrases
+# TODO: Share this with index.rb
+SPECIALS = [
+  'Creative Commons',
+  'Distributed Denial of Service',
+].freeze
+VOCAB_CLASSES = ['vocabFullWidth', 'vocabBig', 'vocab'].freeze
+
 # TODO: It's unclear where the HTML for new files comes from.
 # We should probably have a 'template' file which gets used.
 # I think we can just replace content in the file, but we could use a library.
 class Vocab
   include BJCHelpers
-  VOCAB_CLASSES = ['vocabFullWidth', 'vocabBig', 'vocab'].freeze
-
 
   def initialize(path, language = 'en', content, course)
     @parentDir = path
@@ -44,7 +50,7 @@ class Vocab
 
   def doIndex
     @index.vocab_url_map = @vocab_url_map
-    @index.vocabList(@vocabList)
+    @index.terms_list = @vocabList
     @index.main
   end
 
@@ -209,6 +215,8 @@ class Vocab
   # TODO: We need to replace this with dedicated <dt> and <dd> tags in the HTML.
   # We should directly apply all index entries in HTML.
   def separateVocab(str)
+    return if SPECIALS.include?(str)
+
     unless str.scan(/\(\w+\)/).empty? # looking for strings in parathesis such as: (API), (AI)
       abbreviation = str.scan(/\(\w+\)/)[0][1..-2]
       saveVocabWord(abbreviation)
@@ -237,43 +245,28 @@ class Vocab
     end
   end
 
-  # Skip removing 'the' from these words.
-  # TODO: Does this need to handle spanish?
-  SPECIAL_ARTICLES = ['the cloud', 'cloud, the'].freeze
-  def removeArticles(vocab)
-    return vocab if SPECIAL_ARTICLES.include?(vocab.downcase)
-
-    vList = vocab.split(' ')
-    articles = %w[el la las los the]
-    plurals = articles.map(&:capitalize)
-    if articles.include?(vList[0]) || plurals.include?(vList[0])
-      vList = vList[1..]
-      vList.include?(',') ? vList[..vList.index(',')] : vList
-      vList.join(' ')
-    elsif articles.include?(vList[-1]) || plurals.include?(vList[-1])
-      vList = vList[..-1]
-      vList.include?(',') ? vList[..vList.index(',')] : vList
-      vList.join(' ')
-    else
-      vocab
+  def esp_remove_articles(vocab)
+    %w[el la las los].each do |article|
+      return vocab[article.length + 1..] if vocab.downcase.start_with?("#{article} ")
     end
+    vocab
   end
 
   def extract_vocab_word(nodes)
     nodes.each do |node|
-      o_node = node.to_s
-      node = removeArticles(node.text.gsub(/(\s+)$/, '').to_s)
-      if node == ''
-        puts "Error: Empty vocab word extracted, original node: #{o_node}"
+      word = node.text.gsub(/(\s+)$/, '')
+      word = esp_remove_articles(word) if @language == 'es'
+      if word == ''
+        puts "Error: Empty vocab word extracted, original word: #{node.text}"
         next
       end
-      saveVocabWord(node)
-      separateVocab(node)
+      saveVocabWord(word)
+      separateVocab(word)
     end
   end
 
   def saveVocabWord(vocab)
-    kludges = %w[T BI PI T]
+    kludges = %w[T BI PI]
     return if kludges.include?(vocab.upcase)
 
     if !vocabExists?(@vocabList, vocab)
@@ -307,7 +300,7 @@ class Vocab
     topic_files_in_course.filter {|f| f.match(unit_num)}[0]
   end
 
-  def add_vocab_unit_to_index(vocabTerm = '')
+  def add_vocab_unit_to_index
     unit = return_vocab_unit(@currUnit)
     suffix = generate_url_suffix(TOPIC_COURSE[0], get_topic_file, TOPIC_COURSE[-1])
     path = get_prev_folder(Dir.pwd, true)

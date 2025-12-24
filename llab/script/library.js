@@ -178,6 +178,24 @@ llab.conditionalSetup = triggers => {
     llab.conditional_setup_run = true;
 }
 
+llab.renderCourseLink = function (course) {
+  if (!course) {
+    console.warn('No course found for this topic page.');
+    return;
+  }
+
+  if (course.indexOf("://") === -1) {
+    course = llab.courses_path + course;
+  }
+  let courseLink = `<a class="course_link pull-right" href="${course}">${llab.t(llab.strings.goMain)}</a>`;
+  if ($('.title-small-screen').length > 0) {
+    $(courseLink).insertAfter('.title-small-screen');
+  } else {
+    $(llab.selectors.FULL).prepend(courseLink);
+  }
+};
+
+
 // Call The Functions to HighlightJS to render
 llab.highlightSyntax = function() {
   $('pre > code').each(function(i, block) {
