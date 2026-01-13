@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unit 5 Optional Lab: Other Programming Languages, Page 2</title>
+	</head>
+
+	<body>
+		<h2>Snap<em>!</em> Primitives in Other Sequential Languages</h2>
+        <!--<div class="learn"><strong>On this page,</strong></div>-->
+		<p>
+			Central programming language features having to do with flow of control
+			(<img src="/bjc-r/img/5-algorithms/Control.png" alt="Control" title="Control" />),
+			data management
+			(<img src="/bjc-r/img/5-algorithms/Variables.png" alt="Variables" title="Variables" />
+			and <img src="/bjc-r/img/5-algorithms/Lists.png" alt="Lists" title="Lists" />),
+			and computation
+			(<img src="/bjc-r/img/5-algorithms/Operators.png" alt="Operators" title="Operators" /> and
+			a few <img src="/bjc-r/img/5-algorithms/Sensing.png" alt="Sensing" title="Sensing" /> blocks)
+			have direct equivalents in most languages.
+        </p>
+
+        <div class="forYouToDo">
+            <ol>
+                <li>Look over the following table of examples to see how some of the blocks you've learned in Snap<em>!</em> are coded in two other sequential languages.
+                    <table rules="all" frame="box">
+                        <tr><th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Snap<em>!</em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th><th>Python</th><th>JavaScript</th></tr>
+
+                        <tr><td><img src="/bjc-r/img/5-algorithms/for.png" alt="<code>for</code> block" title="<code>for</code> block" /></td>
+                        <td><pre>for i in range (1, 11):
+            action()</pre></td>
+                        <td><pre>for (i=1; i &lt;= 10; i++) {
+            action()
+        }</pre></td></tr>
+
+                        <tr><td><img src="/bjc-r/img/5-algorithms/repeat-until.png" alt="<code>repeat until</code> block" title="<code>repeat until</code> block" /></td>
+                        <td><pre>while (not condition):
+            action()</pre></td>
+                        <td><pre>while (not condition) {
+            action()
+        }</pre></td></tr>
+
+                        <tr><td><img src="/bjc-r/img/5-algorithms/if-else.png" alt="<code>if/else</code> block" title="<code>if/else</code> block" /></td>
+                        <td><pre>if condition:
+            action1()
+        else:
+            action2()</pre></td>
+                        <td><pre>if (condition) {
+            action1()
+        } else {
+            action2()
+        }</pre></td></tr>
+
+                        <tr><td><img src="/bjc-r/img/5-algorithms/reporter-if.png" alt="<code>if/else</code> reporter block" title="<code>if/else</code> reporter block" /></td>
+                        <td><pre>yes if condition else no</pre></td>
+                        <td><pre>(condition ? yes : no)</pre></td></tr>
+
+                        <tr><td><img src="/bjc-r/img/5-algorithms/report.png" alt="<code>report</code> block" title="<code>report</code> block" /></td>
+                        <td><pre>return value</pre></td>
+                        <td><pre>return value</pre></td></tr>
+
+                        <tr><td><img src="/bjc-r/img/5-algorithms/stop-block.png" alt="<code>stop this block</code> block" title="<code>stop this block</code> block" /></td>
+                        <td><pre>return</pre></td>
+                        <td><pre>return</pre></td></tr>
+
+                        <tr><td><img src="/bjc-r/img/5-algorithms/function-ring.png" alt="<code>function ()</code> block in a gray ring" title="<code>function ()</code> block in a gray ring" /></td>
+                        <td><pre>lambda x : some_function(x)</pre></td>
+                        <td><pre>function (x) {
+            return someFunction(x)
+        }</pre> &nbsp; or
+                        <pre>(x) =&gt; someFunction(x)</pre></td></tr>
+
+                        <tr><td><img src="/bjc-r/img/5-algorithms/times.png" alt="<code>a times b</code> block" title="<code>a times b</code> block" /></td>
+                        <td><pre>a * b</pre></td>
+                        <td><pre>a * b</pre></td></tr>
+
+                        <tr><td><img src="/bjc-r/img/5-algorithms/power.png" alt="<code>a to the power b</code> block" title="<code>a to the power b</code> block" /></td>
+                        <td><pre>a ** b</pre></td>
+                        <td><pre>a ** b</pre></td></tr>
+
+                        <tr><td><img src="/bjc-r/img/5-algorithms/and.png" alt="<code>a and b</code> block" title="<code>a and b</code> block" /></td>
+                        <td><pre>a and b</pre></td>
+                        <td><pre>a &amp;&amp; b</pre></td></tr>
+
+                        <tr><td><img src="/bjc-r/img/5-algorithms/join.png" alt="<code>join (hello) (world)</code> block" title="<code>join (hello) (world)</code> block" /></td>
+                        <td><pre>" ".join(["hello","world"])</pre> &nbsp; or <pre>"hello " + "world"</pre></td>
+                        <td><pre>"hello".concat(" ","world")</pre> &nbsp; or <pre>"hello " + "world"</pre></td></tr>
+
+                        <tr><td><img src="/bjc-r/img/5-algorithms/set.png" alt="<code>set (foo) to (87)</code> block" title="<code>set (foo) to (87)</code> block" /></td>
+                        <td><pre>foo = 87</pre></td>
+                        <td><pre>foo = 87</pre></td></tr>
+
+                        <tr><td><img src="/bjc-r/img/5-algorithms/change.png" alt="<code>change (foo) by (5)</code> block" title="<code>change (foo) by (5)</code> block" /></td>
+                        <td><pre>foo += 5</pre></td>
+                        <td><pre>foo += 5</pre></td></tr>
+
+                        <tr><td><img src="/bjc-r/img/5-algorithms/list.png" alt="<code>list (John) (Paul) (George) (Ringo)</code> block" title="<code>list (John) (Paul) (George) (Ringo)</code> block" /></td>
+                        <td><pre>["John", "Paul", "George", "Ringo"]</pre></td>
+                        <td><pre>["John", "Paul", "George", "Ringo"]</pre></td></tr>
+
+                        <tr><td><img src="/bjc-r/img/5-algorithms/item.png" alt="<code>item (1) of (value)</code> block" title="<code>item (1) of (value)</code> block" /></td>
+                        <td><pre>value[0]</pre></td>
+                        <td><pre>value[0]</pre></td></tr>
+
+                        <tr><td><img src="/bjc-r/img/5-algorithms/bf.png" alt="<code>all but first of (value)</code> block" title="<code>all but first of (value)</code> block" /></td>
+                        <td><pre>value[1:]</pre></td>
+                        <td><pre>value.slice(1)</pre></td></tr>
+
+                        <tr><td><img src="/bjc-r/img/5-algorithms/map.png" alt="<code>map (some function) over (value)</code> block" title="<code>map (some function) over (value)</code> block" /></td>
+                        <td><pre>list(map(some_function, value))</pre>
+                        &nbsp; or <pre>[some_function(x) for x in value]</pre></td>
+                        <td><pre>value.map(someFunction)</pre></td></tr>
+
+                        <tr><td><img src="/bjc-r/img/5-algorithms/foreach.png" alt="<code>for each (item) of (value): action(item)</code> block" title="<code>for each (item) of (value): action(item)</code> block" /></td>
+                        <td><pre>for item in value:
+            action(item)</pre></td>
+                        <td><pre>value.forEach(action)</pre></td></tr>
+
+                    </table>
+                    
+                </li>
+            </ol>
+        </div>
+
+			<p>This is just a small sample of the number of primitive commands and functions in any programming language.  Luckily, you don't have to memorize them; you can do a <a href="https://duckduckgo.com/?q=javascript+list+item" title="web search for 'javascript list item'" target="_blank">web search for "javascript list item,"</a> for example, to learn any particular one as you need it.</p>
+
+			<div class="todo">I haven't done a super close read, but I'm anticipating hinting most of the rest of this page. Except maybe Libraries... --MF, 12/20/21</div>
+	<p>By the way, look at the Python <code>join</code> in the table.
+			It has the very nice feature of allowing you to choose a separator
+			to go between the joined strings:</p>
+
+<pre class="indent">&gt;&gt;&gt; <span style="background: orange">" "</span>.join(["John", "Paul", "George", "Ringo"])
+'John Paul George Ringo'
+&gt;&gt;&gt; <span style="background: orange">","</span>.join(["John", "Paul", "George", "Ringo"])
+'John,Paul,George,Ringo'</pre>
+
+			<p>In the first interaction, the string <code>" "</code> provides
+			the separator; in the second, the string <code>","</code> does.
+			That's an elegant way to extend the idea of joining strings,
+			avoiding the need to put spaces in the input strings.
+			(You could also use an empty string to get the exact effect of
+			the <code>join</code> block in Snap<em>!</em>.)</p>
+
+			<div class="todo">
+			On the other hand, look at the Python version of <code>map</code>.
+			Why do you have to wrap a <code>list(</code>...<code>)</code>
+			around the call to <code>map</code>?  It's because Guido van
+			Rossum, the designer of Python, hates higher order functions,
+			so when his users insisted on having them, he made it as
+			painful as possible to use them.  Python's <code>map</code>
+			doesn't return a list; it returns this strange other thing that
+			you have to convert to a list.  (He wants you to use
+			the <code>for <var>x</var> in</code> notation instead.)  Similarly, he
+			hates anonymous procedures (Snap<em>!</em> gray rings), and
+			so when his users insisted, he grudgingly allowed
+			anonymous reporters that fit on one line,
+			but not longer reporters or any anonymous command scripts.
+			Python could be a really usable language if he didn't have
+			his head wedged on these issues.
+			</div>
+
+			<p>But look at the Python equivalent of <code>for</code>.  Why
+			does <code>range(1,11)</code> mean "the numbers from 1 to 10"?
+			The idea is that you're using those numbers to select items
+			from a list, but instead of numbering the items, Python numbers
+			<em>the spaces between items,</em> just as when you're using a
+			word processor it displays the cursor as a vertical line
+			between two letters.  So <code>range(1,11)</code> means "the
+			items to the right of gap number 1 and to the left of gap
+			number 11."  You can learn to think that way, but it's not
+			obvious to a beginner.  (It's a little more intuitive if you
+			start at position 0, before the beginning of the list;
+			<code>range(0,5)</code> selects five items
+			from a list, and you can abbreviate it as <code>range(5)</code>.)</p>
+
+			<p>What do you think about using <code>+</code> to join strings?
+			It's meant as an analogy with arithmetic; you are "adding" one
+			string to another.  Using the same symbol to mean two different
+			things in different contexts is called "overloading."  It's not
+			too bad in Python, which is very strict about the distinction
+			between a number and a string of digits.  (<code>2+"3"</code>
+			gives an error message.)  But JavaScript, like
+			Snap<em>!</em>, will automatically convert a number into a
+			string of digits if necessary, so <code>2+"3"</code> is "23"
+			even though <code>2+3</code> is 5.  (The automatic conversion
+			isn't a problem in Snap<em>!</em> because Snap<em>!</em>
+			doesn't overload the <code>+</code> operator.)</p>
+
+			<p>The other block categories, the ones having to do with graphics
+			or sound, don't really have analogs in other languages.  Instead,
+			just as Snap<em>!</em> has libraries, other languages also have
+			libraries to provide such capabilities.  For example, if you want
+			JavaScript equivalents to the turtle graphics blocks
+			(<code>move (n) steps</code>, etc.), you start in your search
+			engine; "JavaScript turtle graphics" will get you to
+			<a href="https://github.com/bjpop/js-turtle">https://github.com/bjpop/js-turtle</a>
+			from which you can download the file "turtle.js" to include with
+			your own JavaScript program.  (On the other hand, because
+			the main purpose of JavaScript is writing programs that will be
+			run inside a browser window, it does have built-in support for
+			the sort of graphics you see in typical browser windows:
+			scrolling text boxes, form-filling, checkboxes, etc.)</p>
+
+			<p>Libraries are a little easier in Python because there's a
+			central repository of them.  So you can draw a square this way:</p>
+
+<pre>from turtle import *
+
+pendown()
+for i in range (4):
+    forward(100)
+    right(90)
+</pre>
+
+
+		<div class="todo">
+		<h3>How Can You Learn These Similar Languages?</h3>
+			<ul>
+				<li><a href="https://www.w3schools.com/cpp/default.asp" title="W3Schools C++ Tutorial" target="_blank">W3Schools C++ Tutorial</a> &leftarrow; Brian, is C++ the right thing (not C); are you OK with promoting the W3Schools tutorials? Is there anything else you suggest that we promote also/instead? --MF, 6/27/21</li>
+				<li><a href="https://www.w3schools.com/python/" title="W3Schools Python Tutorial" target="_blank">W3Schools Python Tutorial</a></li>
+				<li><a href="https://www.w3schools.com/js/" title="W3Schools JavaScript Tutorial" target="_blank">W3Schools JavaScript Tutorial</a></li>
+			</ul>
+
+			I didn't do any of this.  W3schools is a little controversial. Some people swear by them; others say they're full of inaccuracies. I don't know enough to have an opinion.  But, anyway, kids know how to learn stuff; you search the Web, or you get a book from the library.  Or you take APCSA next year.
+			<p>The kids who could learn programing without us "know how to learn stuff." I'm not convinced that it has to be W3, but I think it would be lovely to (and perhaps even a shame not to) end this page with some "next steps" for kids to explore on their own time. --MF, 12/20/21</p>
+		</div>
+
+
+	</body>
+</html>
