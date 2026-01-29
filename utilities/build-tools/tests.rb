@@ -17,7 +17,7 @@ def run_topic
   path = path.sub(%r{#{root}/.*$}, root)
   puts "Rebuilding all index/summaries from: #{path}"
   # TODO: Is it useful to know the course a topic came with?
-  
+
   puts
   puts 'Parsing topic page'
   en_runner = BJCTopic.new('C:\Users\I560638\bjc-r\topic\sparks\2-sequencing-iteration.topic')
@@ -84,7 +84,7 @@ class Tests
       dict[item] = i.to_s
       i += 1
     end
-    ind.vocabDict(dict)
+    ind.vocab_url_map = dict
     ind.vocabList(list)
     ind.main
   end

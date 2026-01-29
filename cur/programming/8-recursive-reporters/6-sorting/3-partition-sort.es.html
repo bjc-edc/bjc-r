@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<meta charset="utf-8">
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unidad 8 Laboratorio 6: Ordenar (opcional), Página 3</title>
+	</head>
+
+    <body>
+        <h2>Ordenar por partición</h2>
+        <p>
+            Otra clasificación de uso común se denomina <strong>ordenación por partición</strong>. Así es cómo funciona:
+            <ul>
+                <li><strong>Paso 1.</strong> En una lista desordenada, selecciona el primer elemento de la lista (<em>que probablemente no sea el elemento que debería aparecer primero después de ordenar</em>). Este elemento se denomina <strong>pivote</strong>.</li>
+                <li><div class="sidenote">Un elemento está "con el pivote" solo si tiene el mismo valor que el pivote.</div><strong>Paso 2.</strong> Para cada elemento de la lista, decide si viene antes del pivote, con el pivote, o después del pivote.</li>
+                <li><strong>Paso 3.</strong> Divide los datos en tres categorías: elementos antes del pivote, con el pivote, después del pivote. Las listas antes y después del pivote no están ordenadas.</li>
+                <li><strong>Paso 4.</strong> Si hay elementos antes del pivote, usa una ordenación de partición para ordenarlos. Si hay elementos después del pivote, usa una ordenación de partición para ordenarlos.</li>
+				<li><strong>Paso 5.</strong> La lista ordenada se crea anexando las tres listas que resultan.</li>
+            </ul>
+        </p>
+
+		<div class="takeNote">Los nombres no se ordenan al colocarlos antes o después de un pivote. Para <img src="/bjc-r/img/8-recursive-reporters/eightnames.png" alt="lista{Emma, Olivia, Sophia, Isabella, Ava, Mia, Emily, Abigail}" title="lista{ Emma, Olivia, Sophia, Isabella, Ava, Mia, Emily, Abigail}"/>, este es el estado después de la primera división utilizando el pivote: el <strong>pivote</strong> es Emma, la lista antes del pivote es <var>{Ava, Abigail}</var> y la lista después del pivote es <var>{Olivia, Sophia, Isabella, Mia, Emily}</var>. Luego, el proceso de clasificación continúa en estas dos listas desordenadas más pequeñas.</div>
+
+        <div class="forYouToDo" id="first">
+            <ol>
+                <li>Explora la ordenación de partición antes de escribir cualquier código. Con tu clase, ponte de pie y forma una fila. Luego, sigue el proceso de ordenación de partición para ordenar a todos, de menor a mayor, por el número de la dirección de su casa.</li>
+                <li>¿Cómo es la ordenación de partición un ejemplo de recursividad? ¿Cuál es el caso base?</li>
+            </ol>
+        </div>
+
+        <p>Para escribir un bloque de <code>ordenar por partición</code> en Snap<em>!</em>, necesitarás código para un caso base y código que siga los pasos de la ordenación por partición.</p>
+
+        <div class="forYouToDo">
+            <ol start="3">
+                <li><div class="sidenoteBig">Deberás descubrir cómo colocar los elementos en las tres categorías y cómo crear una lista final para la salida.</div>Crea el reportero recursivo <code>ordenar por partición</code>. Su salida, para cualquier lista, debe ser la misma que la salida para <code>ordenar por selección</code>.</li>
+            </ol>
+        </div>
+
+		<div class="sidenoteBig">
+            <a href="#hint-1" data-toggle="collapse" class="collapsed" title="Example">Revelar un ejemplo.</a>
+            <div id="hint-1" class="collapse">
+            	Por ejemplo, supongamos que ayer tenía una gran lista ordenada y hoy agrega algunos elementos nuevos, por lo que necesita volver a ordenar la lista. Un algoritmo de ordenamiento de propósito general no aprovechará el carácter que esté casi en orden de su entrada. Pero la <em>ordenación por inserción</em>, un algoritmo que es lento en general, maneja este caso especial rápidamente.
+            </div>
+        </div>
+		<p>¿Por qué hay diferentes algoritmos de ordenamiento? Algunos algoritmos de ordenación tardan más en ejecutarse que otros, pero incluso un algoritmo que es lento en general puede ser útil en casos especiales.</p>
+
+        <div class="ifTime">
+            <ol start="4">
+                <li>
+                    <div class="sidenote">Aquí también puedes utilizar una lista larga de nombres.</div>
+                    Crea una lista de 500 elementos de números aleatorios y luego ordénala usando los tres algoritmos de ordenación que creaste en esta práctica de laboratorio. Toma nota del tiempo:<br />
+                    <img class="indent" src="/bjc-r/img/8-recursive-reporters/compare-time.es.png" alt="fijar(listalarga) a (lista vacía); repetir(500){añadir(número al azar entre(1) y (2000) a (listalarga)}; reiniciar cronómetro; decir(ordenar(listalarga)); fijar(tiempo) a (cronómetro)" title="fijar(listalarga) a (lista vacía); repetir(500){añadir(número al azar entre(1) y (2000) a (listalarga)}; reiniciar cronómetro; decir(ordenar(listalarga)); fijar(tiempo) a (cronómetro)" />
+                </li>
+                <li>¿Qué algoritmo fue el más rápido? ¿Por qué podría este tipo de algoritmo funcionar más rápido?</li>
+            </ol>
+        </div>
+
+    </body>
+</html>

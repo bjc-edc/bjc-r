@@ -4,7 +4,7 @@
  */
 
 const THIS_FILE = 'loader.js';
-const RELEASE_DATE = '2024-09-25';
+const RELEASE_DATE = '2025-12-23';
 
 // Basic llab shape.
 llab = {
@@ -136,7 +136,10 @@ function getTag(name, src, type, opts) {
         src = llab.thisPath.replace(THIS_FILE, src);
     }
 
-    tag[link] = `${src}?${RELEASE_DATE}`;
+    if (src.indexOf("?") === -1) {
+        src += `?${RELEASE_DATE}`;
+    }
+    tag[link] = src;
     tag.type = type;
     if (opts) {
         for (let opt in opts) {

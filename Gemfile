@@ -28,3 +28,5 @@ group :development, :test do
   gem 'rackup'
   gem 'webrick'
 end
+
+gem "htmlbeautifier", "~> 1.4"

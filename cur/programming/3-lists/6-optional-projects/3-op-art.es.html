@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+		<meta charset="utf-8">
+        <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+        <title>Unidad 3 Laboratorio 6: Proyectos opcionales, Página 3</title>
+    </head>
+
+    <body>
+        <h2>Op art (arte óptico)</h2>
+        <div class="todo">
+            <p>BH: Only the last TIF is TIFfy, and I really think it should be a regular FYTD. Coloring the picture by hand is weird.</p>
+            <p>MF: BH has reviewing to do (see TG)</p>
+        </div>
+
+        <div class="learn">
+            <strong>En este proyecto</strong>, crearás herramientas para explorar el op art—una forma de arte visual que utiliza ilusiones ópticas.<br />
+            <div class="comment">I find the little circle confusing amidst all the shapes. Anyone else? --MF, 9/10/18</div>
+		    <img class="indent" data-gifffer="/bjc-r/img/3-lists/OpArt_img/OpArtAnimation.gif" height="300" alt="Animación del usuario dibujando una colección de rectángulos superpuestos y luego coloreando cada región de blanco y negro de tal manera que ninguna región adyacente tenga el mismo color." title="Animación del usuario dibujando una colección de rectángulos superpuestos y luego coloreando cada región de blanco y negro de tal manera que ninguna región adyacente tenga el mismo color." />
+        </div>
+
+        <p>Inicialmente, el ratón se utiliza para dibujar rectángulos. Luego, cuando el usuario presiona la barra espaciadora, la fase de dibujo termina y el clic del ratón se convierte en un cubo de pintura que llena las regiones acotadas con pintura. Aquí hay dos ejemplos de fase 1 (dibujar rectángulos) y fase 2 (regiones de llenado):</p>
+        <p class="indent">
+            Ejemplo 1: <img src="/bjc-r/img/3-lists/OpArt_img/OpArt2Phase1.png" height="175" alt="Op Art 1 Fase 1" title="Op Art 1 Fase 1" /> <img src="/bjc-r/img/3-lists/OpArt_img/OpArt2Phase2.png" height="175" alt="Op Art 1 Fase 2" title="Op Art 1 Fase 2" />
+        </p>
+        <p class="indent">
+            Ejemplo 2: <img src="/bjc-r/img/3-lists/OpArt_img/OpArt3Phase1.png" height="175" alt="Op Art 2 Fase 1" title="Op Art 2 Fase 1" /> <img src="/bjc-r/img/3-lists/OpArt_img/OpArt3Phase2.png"  height="175" alt="Op Art 2 Fase 2" title="Op Art 2 Fase 2" />
+        </p>
+
+        <div class="forYouToDo">
+            <ol>
+            	<li><div class="newProject"><span class="text">"U3-OpArt"</span><img src="/bjc-r/img/icons/new-project-called.es.png" alt="Crea un proyecto llamado U3-OpArt" title="Crea un proyecto llamado U3-OpArt" /></div></li>
+                <li>
+                    En la fase de dibujo (fase 1), dibujarás muchos rectángulos haciendo clic y arrastrando de esquina a esquina opuesta, por lo que será útil tener un tipo de datos abstractos (ADT) para administrar los puntos de esquina.<br />
+                    <div class="comment"><h3>POINT está siendo opcionalizado en U2.</h3> La <code>esquina</code> ADT funcionará igual que el <code>punto</code> ADT que creaste en <a href="/bjc-r/cur/programming/2-complexity/optional-projects/future/2-data-types.es.html?topic=nyc_bjc%2F2-conditionals-abstraction.es.topic&course=bjc4nyc.es.html&novideo&noassignment" title="Unidad 2 Laboratorio 2: Hacer arte con estructuras de datos, Página 2">Unidad 2 Laboratorio 2: Hacer arte con estructuras de datos, Página 2</a>.</div>
+                    <img class="indent" src="/bjc-r/img/3-lists/OpArt_img/corner12.png" height="150" alt="Esquinas opuestas de un rectángulo" title="Esquinas opuestas de un rectángulo" /><br />
+                    <ol>
+                        <li>
+                            Crea un constructor <code>esquina</code> que reporte una lista de las coordenadas <em>x</em> e<em>y</em> de una esquina.<br />
+                            <img class="indent" src="/bjc-r/img/3-lists/corner-reporting.es.png" alt="esquina x:(ratón x) y:(ratón y) reporta {-1213, -22}" title="esquina x:(ratón x) y:(ratón y) reporta {-1213, -22}" />
+                        </li>
+                        <li>
+                            Crea dos selectores <code>x de esquina</code> y <code>y de esquina</code> que reporten de cualquiera de los valores de <em>x</em> o <em>y</em> para una entrada <var>esquina</var>.<br />
+                            <img class="indent" src="/bjc-r/img/3-lists/x-of-corner-reporting.es.png" alt="x de esquina: (esquina) reporta -239" title="x de esquina: (esquina) reporta -239" /> <img class="indent" src="/bjc-r/img/3-lists/y-of-corner-reporting.es.png" alt="y de esquina: (esquina) reporta 38" title="y de esquina: (esquina) reporta 38" />
+                        </li>
+                    </ol>
+                </li>
+                <li>
+                    Crea dos variables globales para almacenar temporalmente los dos puntos de cada rectángulo a medida que se dibuja:
+                    <ul>
+                        <li><var>esquina actual 1</var>: Para almacenar las coordenadas en las que se hace clic con el ratón por primera vez</li>
+                        <li><var>esquina actual 2</var>: Para almacenar las coordenadas en las que se mueve el ratón a medida que se dibuja el rectángulo (cuando se suelta el ratón), este valor será la posición final de la segunda esquina </li>
+                    </ul>
+                </li>
+                <li>
+                    Ahora crea un <code>rectángulo</code> ADT para almacenar las dos esquinas opuestas de un solo rectángulo.<br />
+                    <img class="indent" src="/bjc-r/img/3-lists/rectangle-reporting.es.png" alt="rectángulo, esquina 1: (esquina 1 actual) esquina 2: (esquina 2 actual) reporta {{-239, 38}, {41, -7}}" title="rectángulo, esquina 1: (esquina 1) esquina 2: (esquina 2) {reportar(list(esquina 1)(esquina 2)}" /><br />
+                    <img class="indent" src="/bjc-r/img/3-lists/corner-1-of-rectangle-reporting.es.png" alt="Esquina 1 del rectángulo informando {-239, 38}" title="Esquina 1 del rectángulo informando {-239, 38}" /> <img class="indent" src="/bjc-r/img/3-lists/corner-2-of-rectangle-reporting.es.png" alt="Esquina 2 del rectángulo reporta {41, -7}" title="Esquina 2 del rectángulo reporta {41, -7}" />
+                </li>
+            </ol>
+        </div>
+
+        <p>Al igual que en el proyecto Estudio de animación en la página anterior, el escenario tendrá que ser despejado y redibujado muchas veces para que el usuario pueda ver cada nuevo rectángulo cambiando de tamaño a medida que dibuje. El programa necesita una forma de almacenar todos los rectángulos que ya se han dibujado para que puedan volver a dibujarse junto con el rectángulo actual después de que cada etapa se borre.</p>
+
+        <div class="forYouToDo">
+			<ol start="5">
+				<li>Crea una variable global <var>lista de rectángulos</var> para almacenar todos los rectángulos que se han dibujado.</li>
+                <li>Tu programa necesita una forma de saber si el usuario ha terminado de dibujar. Crea una variable global <var>¿dibujo hecho?</var> que almacene un valor booleano (cualquiera de los dos <code>verdadero</code> o <code>falso</code>) para realizar un seguimiento de la fase del programa (dibujo o pintura). </li>
+                <div class="todo">I don't think we need this. --MF, 9/10/18<br />Es inicialmente <code>false</code> pero cuando se presiona la barra espaciadora—que concluye la fase de dibujo—Se establece en <code>true</code>.</div>
+                <li>
+                    El programa también necesita una forma de dibujar un rectángulo dadas sus dos esquinas definitorias. Crea un bloque <code>dibujar rectángulo</code>, y prueba que dibuje correctamente un rectángulo con las esquinas de entrada.<br />
+                    <img class="indent" src="/bjc-r/img/3-lists/draw-rectangle-with-stage.es.png" height= 300 alt="Escenario que muestra un rectángulo dibujado y el área de secuencias de comandos que muestra el guion: limpiar, dibujar rectángulo esquina 1: (esquina, x: (-139) y: (38)) esquina 2: (esquina, x: (41) y: (-7))" title="Escenario que muestra un rectángulo dibujado y el área de secuencias de comandos que muestra el guion: limpiar, dibujar rectángulo esquina 1: (esquina, x: (-139) y: (38)) esquina 2: (esquina, x: (41) y: (-7))" />
+                </li>
+
+                <li>Utiliza los siete bloques y las cuatro variables que creaste para hacer un programa que:
+                    <ul>
+                        <li>recoja repetidamente los rectángulos hasta que el usuario termine la fase 1 (dibujo):
+                            <ul>
+                                <li>recopilando las coordenadas de la primera esquina cuando el usuario comienza a dibujar un rectángulo</li>
+                                <li>recopilando, de manera repetida, las coordenadas de la segunda esquina y volviendo a dibujar ese rectángulo y todos los rectángulos anteriores hasta que el usuario suelte el ratón para terminar el rectángulo</li>
+                                <li>almacenando las coordenadas finales de cada rectángulo para que puedan dibujarse de nuevo</li>
+                            </ul>
+                        </li>
+                        <li>utilice una tecla (como la tecla de espacio) para indicar a la computadora que cambie a la fase 2 (pintura) y, a continuación, rellene las áreas en las que se ha hecho clic</li>
+                    </ul>
+                    <div class="endnote">
+                        <a href="#hint-main" data-toggle="collapse" title="Haz clic para obtener sugerencias sobre cómo crear este programa.">Haz clic para obtener sugerencias sobre cómo crear este programa.</a>
+                        <div id="hint-main" class="collapse"><img class="imageRight" src="/bjc-r/img/icons/talk-with-your-partner.es.png" alt="Habla con tu compañero" title="Habla con tu compañero" />
+
+                            <ul style="list-style-type: square">
+                                <li>¿Qué variables deben inicializarse? ¿Por qué?</li>
+                                <li>¿Cómo se puede detectar el estado del ratón? ¿Cómo se puede localizar el estado del ratón?</li>
+                                <div class="comment"><strong>Brian</strong>, how do you like this characterization of warp. I think it's only been in TIFs so far in the course. --MF, 9/10/18</div>
+                                <li>Es posible que desees utilizar los bloques <img class="inline" src="/bjc-r/img/blocks/warp.es.png" alt="unificar" title="unificar" /> y <img class="inline" src="/bjc-r/img/blocks/hide.es.png" alt="esconder" title="esconder" /> para mejorar la eficiencia y la apariencia de tu programa. El bloque <code>unificar</code> permite que el dibujo se realice rápidamente, y<code>esconder</code> oculta el objeto.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="todo">
+                        I thought about keeping some version of this, but I think it is not needed given the above. --MF, 9/9/18
+                        <p>Se recomienda que primero escribas el algoritmo que detalla la secuencia de eventos en el programa y lo que debería suceder en cada caso antes de compilar el código real.</p>
+                    </div>
+                </li>
+            </ol>
+        </div>
+
+        <div class="takeItFurther">
+            <ol type="A">
+                <li>
+                    Crea una versión de tu programa Op Art que use polígonos.<br />
+                    <img src="/bjc-r/img/3-lists/OpArt_img/PolyOpArt1.png"  height="200" alt="Ejemplo 1 de Op Art con polígonos" title="Ejemplo 1 de Op Art con polígonos" /> <img src="/bjc-r/img/3-lists/OpArt_img/PolyOpArt2.png"  height="200" alt="Ejemplo 2 de Op Art con polígonos" title="Ejemplo 2 de Op Art con polígonos" /> <img src="/bjc-r/img/3-lists/OpArt_img/PolyOpArt3.png"  height="200" alt="Ejemplo 3 de Op Art con polígonos" title="Ejemplo 3 de Op Art con polígonos" />
+                </li>
+                <li>
+                    Crea una versión de tu programa Op Art que utilice círculos.<br />
+                    <img src="/bjc-r/img/3-lists/OpArt_img/CircleOpArt2.png"  height="200" alt="Ejemplo 1 de Op Art con círculos" title="Ejemplo 1 de Op Art con círculos" /> <img src="/bjc-r/img/3-lists/OpArt_img/CircleOpArt.png" height="200" alt="Ejemplo 2 de Op Art con círculos" title="Ejemplo 2 de Op Art con círculos" /> <img src="/bjc-r/img/3-lists/OpArt_img/CircleOpArt3.png" height="200" alt="Ejemplo 3 de Op Art con círculos" title="Ejemplo 3 de Op Art con círculos" />
+                </li>
+                <li>
+                    Estudia las obras de artistas legendarios del arte óptico como <a href="https://www.google.com/search?q=Victor+Vasarely&tbm=isch" title="Victor Vasarely" target="_blank">Victor Vasarely</a> y <a href="https://www.google.com/search?q=Bridget+Riley&tbm=isch" title="Bridget Riley" target="_blank">Bridget Riley</a> para tener una idea de lo que es posible en esta forma de arte.<br />
+                    <img src="/bjc-r/img/3-lists/OpArt_img/Vasarely1.png"  height="150" alt="Op Art de Vasarely #1" title="Op Art de Vasarely #1" /> <img src="/bjc-r/img/3-lists/OpArt_img/Vasarely2.png"  height="150" alt="Vasarely #2" title="Op Art de Vasarely #2" /> <img src="/bjc-r/img/3-lists/OpArt_img/Riley1.jpeg"  height="150" alt="Op Art de Riley #1" title="Op Art de Riley #1" /> <img src="/bjc-r/img/3-lists/OpArt_img/Riley2.png"  height="150" alt="Op Art de Riley #2" title="Op Art de Riley #2" /> <img src="/bjc-r/img/3-lists/OpArt_img/Riley3.jpg"  height="150" alt="Op Art de Riley #3" title="Op Art de Riley #3" />
+                </li>
+                <li>
+                    Es posible automatizar completamente la fase de pintura utilizando el siguiente algoritmo:
+                    <ul>
+                        <li>por cada píxel de la pantalla, averigua dentro de cuántos rectángulos está dentro</li>
+                        <li>colorea cada píxel de negro si el número es impar y blanco si el número es par (o viceversa)</li>
+                    </ul>
+                    Para entender por qué funciona este algoritmo, usa papel y lápiz para aplicarlo a casos simples con pocos rectángulos superpuestos.<br />
+                    <img src="/bjc-r/img/3-lists/OpArt_img/autoOpArt1.png" height="200" alt="Rectángulos superpuestos" title="Rectángulos superpuestos"/><img src="/bjc-r/img/3-lists/OpArt_img/autoOpArt2.png" height="200" alt="Rectángulos superpuestos enumerados" title="Rectángulos superpuestos enumerados"/><img src="/bjc-r/img/3-lists/OpArt_img/autoOpArt3.png" height="200" alt="Regiones superpuestas coloreadas" title="Regiones superpuestas coloreadas"/>
+                </li>
+            </ol>
+        </div>
+
+
+    </body>
+</html>

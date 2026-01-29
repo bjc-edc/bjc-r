@@ -191,6 +191,8 @@ llab.renderFull = function renderAndParse(data) {
 };
 
 llab.renderTopicModel = function rederer(topics) {
+  console.log('Topics.title:', topics.title);
+  console.log('Topics:', topics);
   llab.renderTitle(topics.title);
   topics.topics.forEach(function (topic) {
     llab.renderTopic(topic);
@@ -200,7 +202,7 @@ llab.renderTopicModel = function rederer(topics) {
 llab.renderTitle = function (title) {
   var navbar, titleText;
   navbar = $('.navbar-title');
-  $(llab.selectors.MOBILETITLE).html(title);
+  $('.title-small-screen').html(title);
   navbar.html(title);
   titleText = navbar.text(); // Normalize Window Title
   titleText = titleText.replace("snap", "Snap!");
@@ -216,12 +218,11 @@ llab.renderCourseLink = function (course) {
   if (course.indexOf("://") === -1) {
     course = llab.courses_path + course;
   }
+  let courseLink = `<a class="course_link pull-right" href="${course}">${llab.t(llab.strings.goMain)}</a>`;
   if ($('.title-small-screen').length > 0) {
-    $(`<a class="course_link pull-right" href="${course}">${llab.t(llab.strings.goMain)}</a>`).insertAfter('.title-small-screen');
+    $(courseLink).insertAfter('.title-small-screen');
   } else {
-    $(llab.selectors.FULL).prepend(
-      `<a class="course_link pull-right" href="${course}">${llab.t(llab.strings.goMain)}</a>`
-    );
+    $(llab.selectors.FULL).prepend(courseLink);
   }
 };
 
@@ -387,4 +388,4 @@ llab.displayTopic = function() {
   }
 };
 
-$(document).ready(() => llab.displayTopic());
+$(llab.displayTopic);

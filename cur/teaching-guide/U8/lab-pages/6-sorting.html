@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+        <meta charset="utf-8">
+        <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+        <title>Unit 8 Lab 6 Teacher Guide</title>
+	</head>
+
+	<body>
+		<h2>Lab 6: Sorting (Optional Lab)</h2>
+        <div class="todo">KEEP SUCH THAT needs to be fixed. --MF, 6/22/20</div>
+		<p>In this lab, students develop their own sorting algorithm, then investigate two common sorting algorithms, selection sort and partition sort, built on recursion. A discussion at the end, along with a Take It Further, address the concept that one sort can be significantly faster than another on large data sets.</p>
+
+
+		<div class="todo">
+        <h3>Pacing</h3>
+        <div class="todo">MARY: Is this up to date? --MF, 5/16/20</div>
+		<div>
+			The X lab pages could be split across 3&ndash;4 days (<strong>130&ndash;200 minutes</strong>). Expected times to complete follow:
+			<ul>
+				<li>40&ndash;60 minutes (1 class period) on <a href="/bjc-r/cur/programming/8-recursive-reporters/6-sorting/1-sorting-a-list.html?topic=nyc_bjc%2F8-recursive-reporters.topic&course=bjc4nyc.html&novideo&noassignment" title="">Sorting a List</a></li>
+				<li>40&ndash;60 minutes (1 class period) on <a href="/bjc-r/cur/programming/8-recursive-reporters/6-sorting/2-selection-sort.html?topic=nyc_bjc%2F8-recursive-reporters.topic&course=bjc4nyc.html&novideo&noassignment" title="">Selection Sort</a></li>
+				<li>50&ndash;80 minutes (1&ndash;2 class periods) on <a href="/bjc-r/cur/programming/8-recursive-reporters/6-sorting/3-partition-sort.html?topic=nyc_bjc%2F8-recursive-reporters.topic&course=bjc4nyc.html&novideo&noassignment" title="">Partition Sort</a></li>
+			</ul>
+		</div>
+        </div>
+
+
+		<h3>Lab Pages</h3>
+		<div>
+			<ul>
+				<li>
+					<strong>Page 1: Sorting a List.</strong>
+					<ul>
+						<li><strong>Learning Goal:</strong> Attempt to design and build a sorting algorithm.</li>
+						<li>
+							<strong>Discussion:</strong> What makes a sorting algorithm work?
+							<ul>
+                                <li>What useful operations could a computer perform in a sorting algorithm?</li>
+                                <li>
+                                    How is sorting using a computer program different from sorting "by hand"?
+                                    <ul>
+                                        <li>For that matter, how people sort manually depends on what they're sorting. If you are putting cards you've been dealt into your hand, you generally use insertion sort. If you're filling a bookcase after moving, you probably use a kind of bucket sort in which you guess what range of authors' names goes on which shelf.</li>
+                                    </ul>
+                                </li>
+                                <li>How could you tell if a list is completely sorted?</li>
+							</ul>
+						</li>
+                        <li>
+                            <strong>Tips:</strong>
+                            <ul>
+                                <li>Some students may have trouble translating their algorithms to computer code; this typically means the student does not have a clear picture of their own algorithm. Ask them to write the algorithm in sentences or pseudocode, or even just describe it verbally to another student.</li>
+                                <li>Don't worry if some students write a non-recursive sort. The next two pages will focus on recursive sorting algorithms. If there is time, look for an opportunity to find, present, and compare two very similar algorithms, one recursive and one not.</li>
+                                <li>If students are having trouble dealing with strings, allow them to use lists of numbers in their work. They should find that their algorithm automatically works with strings.</li>
+                                <li>Sometimes, a student will build an algorithm that sorts in reverse order. This is a good opportunity for discussion, if it occurs, about how to edit an algorithm for another purpose. In Lab 4, students will have an opportunity to redesign <code>sort</code> to take any comparison function as an input, which allows it to support sorting in either order.</li>
+                            </ul>
+                        </li>
+					</ul>
+				</li>
+				<li>
+					<strong>Page 2: Selection Sort.</strong>
+					<ul>
+						<li><strong>Learning Goal:</strong> Understand and implement selection sort.</li>
+						<li>
+							<strong>Discussion:</strong> How does recursion work in a selection sort?
+							<ul>
+								<li>What is the base case, and why is it necessary?</li>
+								<li>How can you be sure a selection sort will always get to a base case?</li>
+							</ul>
+						</li>
+                        <li>
+                            <strong>Tips:</strong>
+                            <ul>
+                                <li>When students are doing the "live" sort, don't let them cheat by having several students moving around at once! Make them follow the algorithm precisely, so they can understand how it works. One option is to use an item, and only the student holding the item can move. You might also want to stand in a sliding position, separating the sorted portion of the list from the remaining unsorted portion.</li>
+                                <li>If students have trouble with the <code>earliest in</code> block, work with numbers: students should notice this is the same algorithm as finding the <strong>minimum</strong> of the list.</li>
+                                <li>The comment in parentheses in problem 4, finding the index of an item in the list, is there because the <em>best</em> way to solve problem 5 is simply to use a higher-order function:<br />&nbsp;<img src="/bjc-r/img/8-recursive-reporters/keep-not-smallest.png" alt="keep items such that(not( ()= smallest word)) from (unsorted list)" title="keep items such that(not( ()= smallest word)) from (unsorted list)"><br />(To handle the case in which the first word appears more than once, you have to use another <code>keep</code> and combine the results with <code>append</code>.)  This is a great solution for two reasons: (1) the <code>sort</code> block will report a sorted result, but will not modify its input, which you might want to use for other purposes; (2) the programming is easier precisely because you don't have to worry about indices of list items.</li>
+                                <li>If you do want to <code>remove</code> the earliest item from the list, there's more than algorithm for finding it, but the simplest is to just run across the list until you find the first match. Some students will build their own block for this, but it isn't necessary.</li>
+                                <li>Stress the importance of the base case. The question of how many times the algorithm calls itself is tricky, because the base case as described is an empty list, not a single-item list. Some students may program the base case to be a single-item list instead, but the empty list is a better option and will be necessary for the partition sort.</li>
+                                <div class="todo">Can we cut this commented HTML? --MF, 6/4/19</div>
+                            <!-- 	<li>You can challenge students to write this algorithm without "deleting" an item, by either exchanging two items or moving an item to the front through swaps. For large lists this can be an efficient algorithm since the list never change size.</li> -->
+                            </ul>
+                        </li>
+					</ul>
+				</li>
+				<li>
+					<strong>Page 3: Partition Sort.</strong>
+					<ul>
+						<li><strong>Learning Goal:</strong> Understand and implement partition sort.</li>
+						<li>
+							<strong>Discussion:</strong> How does recursion work in a partition sort?
+							<ul>
+								<li>What is the base case, and why is it necessary?</li>
+								<li>How can you be sure a partition sort will always get to a base case?</li>
+								<li>In what ways is the recursion in the partition sort different from the recursion in a selection sort?</li>
+							</ul>
+						</li>
+                        <li>
+                            <strong>Discussion:</strong> What differences are there between selection and partition sorts?
+                            <ul>
+                                <li>How could you tell which sort is more efficient?</li>
+                                <li>How long does it take these algorithms to sort twice as many items? Ten times as many?</li>
+                            </ul>
+						</li>
+                        <li>
+                            <strong>Tips:</strong>
+                            <ul>
+                                <li>You may be familiar with the name &quot;Quicksort&quot; for an algorithm similar to this one. Quicksort is the most commonly used general-purpose sorting algorithm, but it's a special case of partition sort with many optimizations that would be too lengthy to present here. It's probably best if you just don't mention it to students.</li>
+                                <li>In Step 2 of the algorithm, students will wonder why the same name would appear more than once in the list of names. It probably wouldn't, in this particular example, although if you imagine combining a list of boys' names and a list of girls' names, then several names <em>will</em> appear twice, because they're used for both girls and boys. But a deeper answer is that sometimes you want to compare only part of the items in choosing the ordering. For example, if you are doing a bulk mailing (&quot;You may already have won!&quot;), to get the cheap postage rate you are required to sort the envelopes by nine-digit zip code, but they don't have to be in any particular order within a zip code. If each item is a complete address, the comparison function will pull out just the zip codes to see which is smaller. So the yellow sidenote isn't quite the whole truth.</li>
+                                <li>In Step 3, the issue of functional vs. imperative programming comes up even more strongly here than in the selection sort. By far the easiest way to do this is with three <code>keep</code> blocks, using <code>&lt;</code>. <code>=</code>, and <code>&gt;</code> as the predicates. But if you really want to mess around with item indices, you can implement a complicated algorithm that swaps items. (That complicated algorithm is part of what turns the general partition sort algorithm into Quicksort, along with a bunch of tricks such as switching to insertion sort when the unsorted list is only a few items long.)</li>
+                                <li>As before, when students are doing the "live" sort, don't let them cheat! This will be particularly tempting because the two sub-sorts are easy to do in parallel. Make them follow the algorithm precisely, so they can understand how it works. (Having said this, to do a functional sort precisely, you have to make copies of the students! Instead, explain that they are going to represent the copy in a partition, not the copy that remains in the original list.) You might want to stand with the "pivot" at the time of sorting. After the first partition, go to the front half and sort it completely, using as many levels of recursion as needed, then do the same for the back half. When possible, stress that you are doing the same thing to a smaller list, which is why the algorithm eventually succeeds.</li>
+                                <li>Some students will want to skillfully select a "pivot" in an attempt to make the two halves roughly equal, but this is not how the algorithm works. Time spent trying to find the median value of the list has a serious impact on the speed of the overall sort. (Quicksort does take the median value of the first, middle, and last items of the unsorted list. Median, not mean, because the value has to be an actual list item in order to ensure that the recursive calls are smaller.)</li>
+                                <li>Discuss the base case again, and note the differences between partition sort, where the base case is arrived at multiple times, and selection sort, where the base case is only seen once.</li>
+                                <li>
+                                    Advanced groups may be interested in a deeper dive into computing time. While the Take It Further establishes that partition sort is generally faster for large lists, significantly more so the larger the lists get, you can choose to introduce the O(<em>n</em><sup>2</sup>) and O(<em>n</em> log <em>n</em>) notations for these two sorts. There is an explanation of this notation <a href="http://www.crsr.net/Notes/BigO.html" target="_blank" title="O(n log n)">here</a>.
+                                    <div class="commentBig">Another reason mergesort is a better choice... --bh<p>Brian, what do you want to do about this? --MF, 6/4/19</p></div>
+                                    A disadvantage of partition sort, though, is that it does take O(<em>n</em><sup>2</sup>) time if you're unlucky in your choice of pivot. This is particularly likely to happen if the input list is already sorted!
+                                </li>
+                            </ul>
+                        </li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+
+        <h3>Solutions</h3>
+        <div w3-include-html="/bjc-r/utilities/includes/8-solutions.txt"></div>
+
+
+	</body>
+</html>

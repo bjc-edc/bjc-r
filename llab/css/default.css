@@ -53,6 +53,12 @@ body {
   padding: 50px 1em 1em; /* padding top is reset by JS on load. */
 }
 
+:target {
+  /* Offset for in-page links because of fixed nav bar */
+  /* Larger value than nav for extra roominess */
+  scroll-margin-top: 140px !important;
+}
+
 code, pre, tt, kbd, samp, var {
   font-size: 1em;
   font-style: normal;
@@ -772,37 +778,44 @@ img.indent, div.indent {
   margin: 10px;
 }
 
-.MultipleChoice .radiobuttondiv table td {
-  padding: 3px 3px 8px 3px;
-}
-
-.MultipleChoice .radiobuttondiv input {
-  margin-top: 2px;
-}
-
-.MultipleChoice .radiobuttondiv table p {
-  font-size: inherit;
-}
 
 .MultipleChoice .radiobuttondiv .correct {
-  color: green;
+  color: rgb(25, 135, 84);
   font-weight: bold;
 }
 
 .MultipleChoice .radiobuttondiv .incorrect {
-  color: red;
+  color: rgb(220, 53, 69);
   font-weight: bold;
 }
 
-.MultipleChoice .radiobuttondiv table td:first-child {
-  width: 25px;
+.MultipleChoice .radiobuttondiv .option-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0.5em 0;
 }
 
-.MultipleChoice .radiobuttondiv table td + td + td div[name="feedbacks"] {
+/* TODO: Bootstrap 5 revisit this! */
+.radiobuttondiv .radio label {
+  display: flex;
+  align-items: center;
+}
+.radiobuttondiv .radio label input[type="radio"] {
+  margin-top: 0;
+  margin-right: 5px;
+  flex-shrink: 0;
+}
+
+.MultipleChoice .radiobuttondiv .option-feedback {
+  flex: 1;
+  display: none;
+  max-width: 40ch;
   font-style: italic;
   font-size: .9em;
-  border-left: 4px solid #999;
-  padding-left: 6px;
+  border-left: 3px solid #999;
+  border-radius: 4px;
+  padding: 0.5em 8px;
   margin-left: 30px;
 }
 
@@ -819,35 +832,54 @@ img.indent, div.indent {
   padding: 0px;
 }
 
+/** TODO-BOOTSTRAP: Override Bootstrap 3 panel colors for accessibility.
+  * Using Bootstrap 5's red/green colors as a background, and white text.
+ */
+.panel {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.panel-danger {
+  border-color: rgb(220, 53, 69);
+}
+
+.panel-danger > .panel-heading {
+  color: #FFF;
+  background-color: rgb(220, 53, 69);
+  border-color: rgb(220, 53, 69);
+}
+
+.panel-heading a {
+  text-decoration: underline;
+}
+
+.panel-success {
+  border-color: rgb(25, 135, 84);
+}
+
+.panel-success > .panel-heading {
+  color: #FFF;
+  background-color: rgb(25, 135, 84);
+  border-color: rgb(25, 135, 84);
+}
+
+
 /** QUIZ CLASSES OF QUESTIONABLE USE */
 .MultipleChoice .promptdiv p {
   font-size: inherit;
   font-weight: normal;
 }
 
-.MultipleChoice .promptdiv a:link, .promptdiv a:visited {
-  color: #000;
-}
-
-.MultipleChoice .promptdiv a:hover {
-  background-color: #FF0;
-}
 
 .MultipleChoice .promptdiv ol {
   font-size: .8em;
   text-transform: uppercase;
   margin-left: 25px;
 }
-
-.feedbackdiv.correct {
-  color: green;
-}
-
-.feedbackdiv.incorrect {
-  color: red;
-}
 /** END QUESTIONABLE STUFF */
 /*** END QUIZ CSS */
+
 /********************************/
 
 @media print {

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+		<meta charset="utf-8">
+        <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+        <title>Unidad 2 Laboratorio 6: Proyectos opcionales, Página 5</title>
+    </head>
+
+    <body>
+		<h2>Lenguaje de modelado: Plurales, Parte 2</h2>
+
+        <p>Puedes mejorar <code>plural</code> para que funcione correctamente con más palabras. Si el proyecto aún no está abierto, vuelve a cargarlo. (El nombre de archivo sugerido era <code>U2-Plural</code>.)  </p>
+
+        <div class="forYouToDo" id="first">
+			<ol>
+				<li>
+                    <strong>Abstracción: </strong> hacer un bloque <img src="/bjc-r/img/2-complexity/plural_h.es.png" alt="plural-d ()" title="plural-d ()"> que se "especializa" en una sola categoría: palabras en inglés que terminan con la letra "d".
+                    <ul>
+                    	<li>Comienza con una <code>lista</code> de las palabras con las que deseas que funcione.</li>
+                        <li>Este bloque especialista debería funcionar correctamente para las palabras que se ajusten a su especialidad. <img src="/bjc-r/img/2-complexity/plural_h-crutch-with-result.es.png" alt="plural-d (red) reporta &apos;redes&apos;" title="plural-d (red) reporta &apos;redes&apos;"> <img src="/bjc-r/img/2-complexity/plural_h-moth-with-result.es.png" alt="plural-d (ciudad) reporta &apos;ciudades&apos;" title="plural-d (ciudad) reporta &apos;ciudades&apos;">, <img src="/bjc-r/img/2-complexity/plural_h-bush-with-result.es.png" alt="plural-d (verdad) reporta &apos;verdades&apos;" title="plural-d (verdad) reporta &apos;verdades&apos;">. Puede estar completamente equivocado acerca de las palabras que <em>no</em> se ajustan a su especialidad<img src="/bjc-r/img/2-complexity/plural_h-mouse-with-(wrong)result.es.png" alt="plural-d (virus) reporta &apos;viruses&apos;" title="plural-d (virus) reporta &apos;viruses&apos;"> porque el bloque <code>plural</code> nunca debe dar palabras a <code>plural-d</code> a menos que esas palabras terminen con "d". </li>
+                        <li>
+                            Prueba plural-d ()plural-d () con una variedad de palabras para asegurarte de que funciona de la manera que deseas. Luego usa <code>mapear</code> para probarlo en toda la lista que hiciste anteriormente.
+                            <div class="endnote">
+                                <a href="#hint-just-hwords" data-toggle="collapse" title="Haz clic para obtener una sugerencia sobre cómo crear una lista de prueba de palabras que comienzan con &apos;h&apos;. ">Haz clic para obtener una sugerencia sobre cómo crear una lista de prueba de palabras que comienzan con "h".</a>
+                                <div id="hint-just-hwords" class="collapse">
+                                    Porque sabes lo que hace <img src="/bjc-r/img/2-complexity/keep-items-such-that-(last-letter-of-(input)-equals-h)-from-test-list.es.png" alt="mantener elementos (última letra de (ranura de entrada vacía)= d) de (lista(día, ciudad, jefe, red, caja, pared, camello, bruja, unidad, amigo, verdad))(el final de la imagen está cortado)" title="mantener elementos (última letra de (ranura de entrada vacía)= d) de (lista(día, ciudad, jefe, red, caja, pared, camello, bruja, unidad, amigo, verdad))(el final de la imagen está cortado)">, puedes usar su salida como entrada para una prueba de <code>plural</code> o <code>plural-h</code>:<br />
+                                    <img class="indent" src="/bjc-r/img/2-complexity/map-plural(with-input)-over-(keep-items-such-that-(last-letter-of-(input)-equals-h)-from-test-list).es.png" alt="mapear (plural ()) sobre (mantener los elementos donde (última letra de ()= d) de (lista(día, ciudad, jefe, red, caja, pared, camello, bruja, unidad, amigo, verdad)))" title="mapear (plural ()) sobre (mantener los elementos donde (última letra de ()= d) de (lista(día, ciudad, jefe, red, caja, pared, camello, bruja, unidad, amigo, verdad)))">
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+
+                </li>
+                <div class="takeNote">
+                    <p><strong>Abstracción:</strong> el lenguaje a menudo tiene casos especiales. En español, los plurales de algunos sustantivos agregan "s"; algunos agregan "es"; sustantivos como "pez" y "disfraz" se convierten en "peces" y "disfraces", cambiando sus letras finales antes de agregar "es". Y más. Para una tarea de programación tan compleja, es (generalmente) mejor dividirla en partes, manejar cada parte por separado con su propio procedimiento (su propio bloque) y luego tener el bloque de "nivel superior", en este caso, <code> plural</code>, en sí mismo: usa esos especialistas. Es decir, en lugar de codificar cada pequeño detalle directamente en <code>plural</code>, es más limpio y claro hacer que <code>plural</code> se vea así.<br />
+                        <img class="indent noshadow" src="/bjc-r/img/2-complexity/plural-abstract-definition.es.png" alt="definición abstracta de plural: si h = última letra de la palabra, reportar h-caso plural; si y = última letra de la palabra, reporte y-caso plural; si es otro caso, utiliza un bloque que se especialice en ese caso; etc.; sino reportar unir palabra s" title="definición abstracta de plural: si h = última letra de la palabra, reporte h-caso plural; si y = última letra de la palabra, reporte y-caso plural; si es otro caso, utiliza un bloque que se especialice en ese caso; etc.; sino informar unir palabra s"></p>
+                    <p>Mostrar<a name="abstraction" class="anchor"> </a>la <em>estructura</em> del método, solo la estrategia general, en el bloque de "nivel superior" y dejar los detalles en bloques separados es una parte de una idea informática importante llamada <em>abstracción</em>. La abstracción mantiene su código claro, legible y más fácil de depurar. También ayudará a que tu código sea más flexible. </p>
+				</div>
+				<li>Cuando confíes en tu nuevo bloque especialista, edita <code> plural</code> para usar el especialista. Prueba (puedes usar <code>mapear</code>) para asegurarte que <code>plural</code> todavía funciona para todas las palabras para las que solía funcionar, así como para las nuevas.</li>
+				<li>Crea <code>plural-y</code> para manejar palabras como <img src="/bjc-r/img/2-complexity/plural_y-tray-with-result.es.png"  alt="plural-l (pincel) reporta &apos;piceles&apos; (bandejas)" title="plural-l (pincel) reporta &apos;pinceles&apos;"> y <img src="/bjc-r/img/2-complexity/plural_y-sky-with-result.es.png" alt="plural-l (papel) reporta &apos;papeles&apos;" title="plural-l (papel) reporta &apos;papeles&apos;">
+				</li>
+				<div class="endnote">
+                    Recuerda, cualquier especialista puede cometer errores si se le pide que haga un trabajo que no es de su especialidad. Por ejemplo:<br />
+                    <img class="indent" src="/bjc-r/img/2-complexity/plural_y-mouse-with-(wrong)result.es.png" alt="plural-l (virus) reporta &apos;viruses&apos;" title="plural-l (virus) reporta &apos;viruses&apos;"><br />
+                    Asegúrate que <code>plural</code> dé a <code>plural-l</code> solo palabras que sepa manejar correctamente.
+                </div>
+		        <img class="inline" src="/bjc-r/img/icons/save-now.es.png" alt="Guarda tu trabajo" title="Guarda tu trabajo" />
+			</ol>
+        </div>
+
+
+        <div class="takeItFurther">
+            <ol type="A">
+                <li>
+                    Extiende <code>plural</code> para manejar correctamente una palabra de entrada que tiene un espacio al final.
+                    <div class="endnote">
+                        <p>
+                            En este momento, si a <code>plural</code> se le da una palabra con un espacio al final, deja ese espacio en plural:<br />
+                            <img class="indent" src="/bjc-r/img/2-complexity/plural-bulldog[space]-with-result(bulldog[space]s).es.png" alt="plural (amigo) reporta &apos;amigo s&apos;. Hay un espacio después de &apos;amigo&apos; en la entrada y un espacio entre &apos;amigo&apos; y &apos;s&apos; en el valor reportado." title="plural (amigo) reporta &apos;amigo s&apos;. Hay un espacio después de &apos;amigo&apos; en la entrada y un espacio entre &apos;amigo&apos; y &apos;s&apos; en el valor reportado."><br />
+                            Averigua cómo manejar este caso especial y edita <code>plural</code> para que el resultado sea<br />
+                            <img class="indent" src="/bjc-r/img/2-complexity/plural-bulldog[space]-with-result(bulldogs).es.png" alt="plural (amigo) reporta &apos;amigos&apos;. Hay un espacio después de &apos;amigo&apos; en la entrada pero no hay espacio en el valor reportado." title="plural (amigo) reporta &apos;amigos&apos;. Hay un espacio después de &apos;amigo&apos; en la entrada pero no hay espacio en el valor reportado."><br />
+                            Ya tienes un bloque que <em>se especializa</em> en hacer plurales de palabras que <em>no</em> tienen un espacio al final. <em>Úsalo</em>.
+                        </p>
+                    </div>
+                    <p>¡Sorpresa! Una vez que <code>plural</code> funcione para un solo espacio al final de una palabra, intenta darle<img src="/bjc-r/img/2-complexity/plural-bulldog[four-spaces].es.png" alt="Plural (amigo). Hay seis espacios después de &apos;amigo&apos; en la entrada." title="Plural (bulldog). Hay seis espacios después de &apos;amigo&apos; en la entrada.">. ¡Eso también funciona! ¿Pero por qué?</p>
+                </li>
+                <li>
+                    <img class="imageRight" src="/bjc-r/img/icons/tough-stuff.es.png" alt="Actividades desafiantes" title="Actividades desafiantes" /> ¿Tu bloque de <code>plurales</code> todavía se siente desordenado, a pesar de que los detalles sobre cómo manejar cada posible última letra están resumidos en bloques especializados? Una forma de mejorar esta situación es usar otro tipo de abstracción llamada <em>programación dirigida a datos.</em>
+                    <ol style="list-style-type: lower-roman">
+                        <li>
+                            Comienza por hacer una lista de <em>pares clave-valor</em>, con las últimas letras como claves y los procedimientos especializados como valores:<br />
+                            <img class="indent" src="/bjc-r/img/2-complexity/plural-specialists-list.es.png" alt="asignar a (especialistas en plural) a (lista (lista (h) (plural anillado-h ( ) bloque)) (lista (y) (plural anillado-y ( ) bloque)) (lista (f) (plural anillado-f ( ) bloque)) (lista (x) (anillado (unir( ) (es)) bloque)) (lista (...) (...)))" title="asignar a(especialistas en plural) a (lista (lista (h) (plural anillado-h ( ) bloque)) (lista (y) (plural anillado-y ( ) bloque)) (lista (f) (plural anillado-f ( ) bloque)) (lista (x) (anillado (unir( ) (es)) bloque)) (lista (...) (...)))" /><br />
+                            <div class="narrowpurple">Para crear el segundo elemento de cada lista pequeña, busca el bloque que deseas, colócalo en la segunda entrada de <code>lista</code>, luego haz clic en el bloque con el botón derecho y elige "encapsular". Como muestra el ejemplo "x", no tiene que ser un bloque llamado <code>plural-</code>algo. Solo tiene que tener una ranura de entrada vacía donde desea que vaya la palabra.</div>
+                        </li>
+                        <li>
+                            Luego, en tu procedimiento <code>plural</code>, puedes reemplazar la mayoría de los bloques <code>si</code> con<br />
+                            <img class="indent" src="/bjc-r/img/2-complexity/plural-specialist-dispatch.es.png" alt="variables de programa (par)
+                            asignar (par) para (encontrar el primer elemento (anillado ((elemento (1) de ( )) = (última letra de (palabra)))) en (plural especialistas))
+                            si (es (par) una (lista)?) {
+                                 reportar (llamada (elemento (2) de (par)) con entradas (palabra))
+                            }" title="variables de programa (par)
+                            asignar (par) para (encontrar el primer elemento (anillado ((elemento (1) de ( )) = (última letra de (palabra)))) en (plural especialistas))
+                            si (es (par) una (lista)?) {
+                                 reportar (llamada (elemento (2) de (par)) con entradas (palabra))
+                            }" /><br />
+                            <div class="narrowpurple">
+                                <p><code>Buscar primero</code> es una función de orden superior que funciona de manera similar a <code>mantener</code>, pero reporta solo del primer elemento que se encuentra. Es equivalente a <code>elemento (1) de (mantener)</code>.</p>
+                                <p>El bloque <code>llamar</code> en la paleta no incluye el "<code>con entradas</code>" en la imagen; cuando haces clic en su flecha derecha, esas palabras aparecerán junto a una ranura de entrada. El primer espacio de entrada del bloque <code>llamar</code> es el anillo gris vacío, lo que significa que <code>llamar</code> necesita un bloque en ese espacio de entrada. Cuando arrastras el <code>elemento 2 del par</code> a esa ranura, el anillo permanece a su alrededor. Por lo general, eso es lo que queremos cuando usamos <code>llamar</code>, pero no esta vez. Haz clic con el botón derecho en el bloque <code>elemento de</code> y selecciona "desencapsular" en el menú.</p>
+                                <div class="endnote">Puedes experimentar con <code>llamar</code> para ver qué más puedes hacer con él. ¿Qué sucede si no desmarcas el bloque <code>elemento</code>? ¿Qué sucede si omites el "<code>con entradas</code>" y la segunda entrada?</div>
+                            </div>
+                        </li>
+                        <li>
+                            No hay razón para que las claves tengan que ser letras individuales. Por ejemplo, en inglés, es necesario fijarse en más de una letra en algunos casos. Modifica el código en <code>plural</code> para que compare todas las <em>subcadenas finales</em> de la palabra con la lista de especialistas. Es decir, si la palabra es "ditch" (zanja), buscará en la lista de especialistas "ditch", luego "itch", luego "tch", "ch" y finalmente, si no encuentra nada más, "h ." pondrías<br />
+                            <img class="indent" src="/bjc-r/img/2-complexity/ch-dispatch.es.png" alt="lista (ch) (bloque anillado (unir ( ) (es)))" title="lista (ch) (bloque anillado (unir ( ) (es)))" /><br />
+                            en la lista, y luego a las palabras que terminen en "ch" se les agregaría "es". Este mecanismo es muy general; funciona incluso para casos especiales como<br />
+                            <img class="indent" src="/bjc-r/img/2-complexity/child-dispatch.es.png" alt="lista (child) (anillado (palabra (children)))" title="lista (child) (anillado (palabra (children)))" /><br />
+                            (Tendrás que definir la función <code>palabra</code> que solo reporta su entrada; es necesaria porque no puede escribir letras directamente en un anillo). <em>Ahora</em> tienes un bloque <code>plural</code> <i>realmente </i>despejado. E incluso funcionará para un idioma que no sea inglés, si haces una lista especializada diferente.
+                        </li>
+                        <li>
+                            Si modificas la prueba de la subcadena final para que, en lugar de darse por vencido si no puede encontrar la última letra de la palabra como una clave, ve un paso más allá y busca una clave <em>vacía</em> en la lista especializada, y agrega<br />
+                            <img class="indent" src="/bjc-r/img/2-complexity/default-dispatch.es.png" alt="(elemento ( ) (anillado (unir ( ) (s))))" title="(elemento ( ) (anillado (unir ( ) (s))))" /><br />
+                            a la lista, entonces puedes estar seguro de que todas las palabras posibles coincidirán con eso, al menos, por lo que ya no necesita el <code>si</code>. Tu bloque <code>plural</code> ahora puede ser solo de una línea: <code>reportar (llamar (elemento 2 de (la subcadena final más larga...</code>.
+                        </li>
+                        <li>
+                            Para un desafío adicional, modifica tu prueba de subcadena final para que un signo más en la clave coincida con cualquier vocal (servirá como un carácter comodín), para que puedas hacer esto:<br />
+                            <img class="indent" src="/bjc-r/img/2-complexity/match-vowels.es.png" alt="lista (...) (lista (+y) (anillada (unir ( ) (s)))) (lista (y) (anillada (unir (todas menos la última letra de ( )) (s)))) (. ..)" title="lista (...) (lista (+y) (anillada (unir ( ) (s)))) (lista (y) (anillada (unir (todas menos la última letra de ( )) (s)))) (. ..)" />
+                        </li>
+                    </ol>
+                </li>
+            </ol>
+            <img class="inline" src="/bjc-r/img/icons/save-now.es.png" alt="Guarda tu trabajo" title="Guarda tu trabajo" />
+        </div>
+
+
+    </body>
+</html>

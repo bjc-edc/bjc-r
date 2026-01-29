@@ -1,21 +1,35 @@
 # frozen_string_literal: true
 
 require 'fileutils'
+require 'i18n'
+
 require 'nokogiri'
 require 'twitter_cldr'
+require 'htmlbeautifier'
 
 require_relative 'vocab'
 require_relative 'main'
 require_relative 'atwork'
 
 FILE_NAME = 'vocab-index'
+# Special case words and terms.
+# Contains both English and Spanish terms.
+CAPITALS = [
+  'IP', 'DDoS', 'SSL', 'TLS', 'TCP', 'AI', 'ADT', 'API',
+  'Creative Commons', 'ISPs', 'Commons', 'Creative', 'Boolean',
+  # CSP Spanish
+  'IA', 'IPA', 'PCT', 'PI', 'Booleano',
+  # Sparks
+  'SPOF'
+].freeze
 
 class Index
+  attr_accessor :language, :vocab_url_map, :file_body
+
   def initialize(path, language = 'en')
     @parentDir = path
     @language = language
     @vocabList = []
-    @vocabDict = {}
   end
 
   def language_ext
@@ -30,150 +44,155 @@ class Index
     @vocabList = list
   end
 
-  def vocabDict(dict)
-    @vocabDict = dict
-  end
-
-  def getAlphabet
+  def locale_alphabet
     if @language == 'es'
-      %w[a b c d e f g h i j k l m n ñ o p q r
-         s t u v w x y z]
+      %w[a b c d e f g h i j k l m n ñ o p q r s t u v w x y z]
     else
       ('a'..'z').to_a
     end
   end
 
-  def generateAlphaOrder(usedLetters, output)
-    getAlphabet
-    File.write(index_filename, "\n<div class=\"index-letter-link\">\n", mode: 'a')
-    linksUnusedLetters(usedLetters).each do |letter|
-      File.write(index_filename, letter, mode: 'a')
-    end
-    File.write(index_filename, "\n<\/div>\n<div>\n", mode: 'a')
-    File.write(index_filename, output, mode: 'a')
+  def alphabet_links(used_letters)
+    locale_alphabet.map do |letter|
+      if used_letters.include?(letter)
+        "<a href=\"##{letter.upcase}\">#{letter.upcase}</a>&nbsp;\n"
+      else
+        "<span>#{letter.upcase}</span>&nbsp;\n"
+      end
+    end.join
   end
 
-  def isNonEngChar(vocab, _usedLetters)
-    !(isCapital?(vocab[0]) or isLowercase?(vocab[0]))
+  def alphabet_index_links(used_letters, output)
+    contents = <<-HTML
+      <div class="index-letter-link">
+        #{alphabet_links(used_letters)}
+      </div>
+      <div>
+        #{output}
+      </div>
+    HTML
+
+    @file_body ||= ''
+    @file_body += contents
   end
 
-  def isCapital?(char)
+  def non_alpha_char?(vocab)
+    !(capital?(vocab[0]) or lowercase?(vocab[0]))
+  end
+
+  def capital?(char)
     (char.bytes[0] >= 65 and char.bytes[0] <= 90)
   end
 
-  def isLowercase?(char)
+  def lowercase?(char)
     (char.bytes[0] >= 97 and char.bytes[0] <= 122)
   end
 
   # alphabet and letter are lowercase and returned vocab word is upper and then lowercase
-  def castCharToEng(vocab, usedLetters)
+  def castCharToEng(vocab)
     TwitterCldr::Collation::Collator.new(@language)
-    return vocab unless isNonEngChar(vocab, usedLetters)
+    return vocab unless non_alpha_char?(vocab)
 
     letter = vocab[0].downcase
-    alpha = getAlphabet.push(letter).localize(@language).sort.to_a
-    newLetter = alpha[alpha.index(letter) + 1]
-    newLetter.upcase if isCapital?(vocab[0])
-    newLetter.upcase + vocab[1..]
+    alpha = locale_alphabet.push(letter).localize(@language).sort.to_a
+    letter = alpha[alpha.index(letter) + 1]
+    letter.upcase if capital?(vocab[0])
+    letter.upcase + vocab[1..]
   end
 
-  def linksUnusedLetters(usedLetters)
-    unused = getAlphabet.map { |letter| usedLetters.include?(letter) }
-    links = []
-    i = 0
-    while i < unused.length
-      newBool = unused[i]
-      j = i
-      letter = getAlphabet[i]
-      while !newBool && j.positive?
-        j -= 1
-        newBool = unused[j]
-      end
-      newLetter = getAlphabet[j]
-      links.append("<a href=\"##{newLetter.upcase}\">#{letter.upcase}</a>&nbsp;\n")
-      i += 1
-    end
-    links
-  end
-
-  def addIndex
-    alphabet = getAlphabet
-    filtered = @vocabList.filter { |item| !item.nil? && item != '' && alphabet.include?(item[0].downcase) }
-    sorted = filtered.localize(@language).sort.to_a
-    i = 0
-    usedLetters = []
+  def generate_html_list
+    # Localize using TwitterCldr and sort
+    # These terms must match the keys in @vocab_url_map
+    terms = @vocabList.localize(@language).sort.to_a.map { |word| word.strip.gsub(': ', '') }
+    used_letters = []
     output = "<ul style=\"list-style-type:square\">\n"
-    while i < sorted.length
-      vocab = sorted[i].gsub(': ', '')
-      vocab = vocab.downcase unless keepCapitalized?(vocab)
-      letter = vocab[0]
-      if !usedLetters.empty? && isNonEngChar(vocab, usedLetters)
-        vocab = castCharToEng(vocab, usedLetters)
-        letter = vocab[0]
+    prev_letter = ''
+    terms.each do |vocab|
+      original_word = vocab
+      vocab = vocab.downcase unless keep_Capitalized?(vocab)
+      # TODO: Use this but currently broken for ADT, others?
+      # vocab = index_downcase(vocab)
+      entry_letter = vocab[0].downcase
+
+      # Remove diacritics for indexing if not in locale alphabet
+      # Applies to "Índice",
+      # but we don't have any ñ words yet that would need to be indexed under ñ.
+      entry_letter = I18n.transliterate(entry_letter).downcase unless locale_alphabet.include?(entry_letter)
+
+      if prev_letter != entry_letter
+        output += "\n\t\t</li></ol>\n" if used_letters.any?
+
+        prev_letter = entry_letter
+        used_letters.push(entry_letter)
+        output += <<-HTML
+          <li class="index-letter-target" style="list-style-type: none">
+            <h2 id="#{entry_letter.upcase}">#{entry_letter.upcase}</h2>
+            <ol style="list-style-type: square">
+        HTML
       end
-      if usedLetters.empty? || !usedLetters.include?(letter.downcase)
-        usedLetters.push(letter.downcase)
-        output += "\n<div class=\"index-letter-target\"><p>#{letter.upcase}<a class=\"anchor\" name=\"#{letter.upcase}\">&nbsp;</a></p></div>\n"
+      unless @vocab_url_map.key?(original_word)
+        puts "Warning: No URL mapping found for vocab word: #{vocab}"
+        next
       end
-      list = @vocabDict[sorted[i]]
-      outputLinks = list.map do |elem|
-        list.index(elem) == list.length - 1 && list.length > 1 ? ", #{elem}" : " #{elem}"
-      end.join
-      output += "<li>#{vocab}#{outputLinks}</li>\n"
-      i += 1
+      links = @vocab_url_map[original_word].join(', ')
+      output += "\n\t<li>#{vocab} &nbsp; #{links}</li>\n"
     end
-    output += '</ul>'
-    generateAlphaOrder(usedLetters, output)
+    output += "\t\t</ol>\n\t</ul>"
+    alphabet_index_links(used_letters, output)
   end
 
-  def moveFile
-    src = "#{@parentDir}/review/#{index_filename}"
+  def write_index_file
     dst = "#{@parentDir}/#{index_filename}"
-    File.delete(dst) if File.exist?(dst)
-    FileUtils.copy_file(src, dst)
+    html = Nokogiri::HTML(html_document(@file_body)).to_html
+    pretty_html = HtmlBeautifier.beautify(html)
+    File.write(dst, pretty_html)
   end
 
   def main
-    filePath = "#{@parentDir}/review"
-    Dir.chdir(filePath)
-    files = Dir.glob('*html').select { |f| File.file? f }
-    createNewIndexFile(files[0], filePath)
-    addIndex
-    add_HTML_end
-    moveFile
+    generate_html_list
+    write_index_file
   end
 
-  def createNewIndexFile(copyFile, filePath)
-    i = 0
-    File.new(index_filename, 'a')
-    linesList = File.readlines("#{filePath}/#{copyFile}")[0..20]
-    while !linesList[i].match(%r{</head>}) && (i < 20)
-      if linesList[i].match(/<title>/)
-        File.write(index_filename, "\t<title>#{I18n.t('index')}</title>\n", mode: 'a')
-      else
-        File.write(index_filename, (linesList[i]).to_s, mode: 'a')
-      end
-      i += 1
-    end
-    File.write(index_filename, "\n</head>\n<body>\n", mode: 'a')
-    back_to_top = <<~HTML
-      <button id="scroll_to_top" style="position: fixed" style="float: right;" type="button">
-        <a href="#top">#{I18n.t('back_to_top')}</a>&nbsp;</button>
+  def html_document(contents)
+    <<-HTML
+      <!DOCTYPE html>
+      <html lang="#{@language}">
+        #{write_html_head}
+      <body>
+        <main class="full">
+          <a style="position: fixed; bottom: 3rem; right: 3rem;"
+            class="btn btn-primary btn-lg"
+            href="#top">#{I18n.t('back_to_top')}</a>&nbsp;
+          #{contents}
+        </main>
+      </body>
+      </html>
     HTML
-    File.write(index_filename, back_to_top, mode: 'a')
   end
 
-  def add_HTML_end
-    ending = "</div>\n</body>\n</html>"
-    return unless File.exist?(index_filename)
+  # TODO: The course info needs to be more visible somehwre.
+  def write_html_head
+    title_key = 'index'
+    title_key = 'sparks_index' if @parentDir.include?('sparks')
 
-    File.write(index_filename, ending, mode: 'a')
+    <<~HTML
+      <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>#{I18n.t(title_key)}</title>
+        <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+      </head>
+    HTML
   end
 
-  def keepCapitalized?(vocab)
+
+  # TODO: Mimic ActiveSupport's inflector methods
+  # Alteranatively, downcase by word, except for known exceptions
+  def keep_Capitalized?(vocab)
     capitals = ['IP', 'DDoS', 'SSL', 'TLS', 'TCP', 'IA', 'IPA', 'PCT', 'PI', 'AI', 'ADT', 'API',
                 'Creative Commons', 'ISPs', 'Commons', 'Creative', 'Boolean', 'Booleano']
     capitals.each do |item|
+      # Can't quite be exact match bc of terms like "API (Application Programming Interface)"
       if vocab.match?(item)
         return true
       elsif vocab.match?(/\(.+\)/)
@@ -181,5 +200,17 @@ class Index
       end
     end
     false
+  end
+
+  def index_downcase(vocab)
+    words = vocab.split(' ')
+    words.map! do |word|
+      if CAPITALS.include?(word)
+        word
+      else
+        word.downcase
+      end
+    end
+    words.join(' ')
   end
 end

@@ -4,11 +4,7 @@
 # use `diff` to see if they are the same.
 # if they are the same, delete the *.es version.
 
-require 'pry'
-
 SOURCE = ARGV[0] || 'img/'
-
-# binding.pry
 
 all_images = Dir.glob("#{Dir.getwd()}/#{SOURCE}/**/*")
 spanish_files = all_images.select { |path| path.match?(/\w+\.es\.(png|jpeg|gif|jpg|svg)/) }
