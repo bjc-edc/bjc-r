@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+		<meta charset="utf-8">
+        <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unit 2 Lab 6: Optional Projects, Page 3</title>
+    </head>
+
+    <body>
+    <!--<div class="todo">ST-Fix the student access issue due to hideControls</div>-->
+		<h2>Mastermind</h2>
+		<div class="todo">If I'm not misunderstanding these instructions, I think it's confusing to have the students play with two sequences at once (which I've never seen before) and then build the project with only one sequence at a time (except for the TIF?). I think it should be one at a time in the "on paper" example too. --MF</div>
+        <div class="todo">
+            <p>PG: This has the same potential as TTT to be a multistage (year long) project. I'd elevate it, provided that a good /learning/ goal is clarified.</p>
+            <p>BH: What a great project!  We should finish it with the computer guessing.</p>
+            <p>MF: I want to revise this page to reduce the text wall and to make the rest of the page look more like the rest of our content.</p>
+        </div>
+
+		<div class="learn">
+        	<strong>In this project,</strong> you will begin to build the game  Mastermind&#8482;. In this game, one player selects a sequence of four secret colors, and the other player tries to guess it.<br />
+	        <img class="indent" src="/bjc-r/img/1-introduction/mm-snapshot.png" width="250" alt="Snapshot of game" title="Snapshot of game"/>
+        </div>
+
+        <div class="forYouToDo" id="first">
+            <ol>
+                <li><a class="run" href="/bjc-r/prog/2-complexity/U2-Mastermind.xml"><img class="inline" src="/bjc-r/img/icons/load-save.png" alt="Click here to load a starter project. Then save it." title="Click here to load a starter project. Then save it."></a><br />Look at the scripts. There are six sprites, four for the player's guess and two for the feedback to the guesser.</li>
+                <div class="narrower">
+                	<p><strong>Feedback to the guesser</strong> is two numbers (as shown in each row of the game in the image above):
+                    	<ul>
+                            <li>How many colors are in the <em>correct</em> positions? (The goal is to have all four correct.)</li>
+                            <li>How many correct colors are in <em>incorrect</em> positions?</li>
+                        </ul>
+                    </p>
+                    <!--This is not included in the code. --MF
+                    The first, "correct position," sprite has two short scripts: one to be used at the beginning of the game, and the other to be used when a guess is made.-->
+                </div>
+                <li>Play a game of Mastermind with your partner <em>on paper</em>.</li>
+                <div class="narrower">
+                	<h3 class="box-head">Mastermind Rules</h3>
+                    <ul>
+                        <li>
+                            <strong>Each player should write down a sequence of four colors</strong> without letting your partner see it.
+                            <ul>
+                            	<li>For convenience, you can use the first letter of each color name to represent that color: <strong><u>r</u></strong>ed, <strong><u>o</u></strong>range, <strong><u>y</u></strong>ellow, <strong><u>g</u></strong>reen, <strong><u>b</u></strong>lue, <strong><u>v</u></strong>iolet. (For now, don't use the same color more than once, though people also play that way.)</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Take turns guessing your partner's colors</strong>. When your partner makes a guess, give two numbers as feedback as described above.
+                            <ul>
+                            	<li>For example, if your secret colors are <strong>royg</strong> and your partner guesses<strong> goby</strong> you reply "one and two," because one color (orange) is in the correct position, and two colors (yellow and green) are in the secret sequence but not in the correct positions. </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Use the information you have from earlier guesses</strong> to make the best guesses you can.
+                            <ul>
+                            	<li>For example, after <strong>goby</strong> in the example above, you might think, "One of my colors is in the correct position, and two other colors are correct. I'm going to guess that green is in the correct position, and orange and blue are somewhere in the list. So a good next guess would be <strong>grob</strong> because that has green in the same place as before, and orange and blue moved over." Your partner will reply "zero and three," which sounds like negative progress because now none are in the correct place, but it isn't because now you know for sure that green wasn't the correct-position color, so on your next guess you might try orange in the second position, and so on.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <li>
+                    You'll build the Mastermind program in stages over the course of the year. Now your goal is to support two human players using the computer as a notepad to record guesses and feedback:
+                    <ul>
+                        <li>Find out the two players' names so you can use them to keep track of whose turn it is.</li>
+                        <li>
+                            Ask one player to make a guess (using four letters like <strong>goby</strong> above).<br />
+                            <img class="indent noshadow" src="/bjc-r/img/2-complexity/mm1.png" alt="first guess interaction" title="first guess interaction" >
+                        </li>
+                        <li>
+                            Display that guess on the screen.<br />
+                            <img class="indent noshadow" src="/bjc-r/img/2-complexity/mm2.png" alt="four colors displayed" title="four colors displayed">
+                        </li>
+                        <li>
+                            Ask the other player for feedback, as two numbers.<br />
+                            <img class="indent noshadow" src="/bjc-r/img/2-complexity/mm3.png" alt="asking interaction" title="asking interaction">
+                            <img class="indent noshadow" src="/bjc-r/img/2-complexity/mm4.png" alt="four colors 2 points" title="four colors 2 points">
+                        </li>
+                        <li>Keep doing that until the guesser gets the correct answer.</li>
+                    </ul>
+                    <div class="endnote">
+                        You'll find it useful for a script to be able to tell a particular sprite what to do.  There's a tool to do that: the <img src="/bjc-r/img/1-introduction/tell.png" alt="tell (sprite) to (action)" title="tell (sprite) to (action)"> block. For example:<br />
+                        <img class="indent" src="/bjc-r/img/1-introduction/tell-alonzo.png" alt="tell (Alonzo) to (say ...)" title="tell (Alonzo) to (say ...)">
+                        <img class="indent" src="/bjc-r/img/1-introduction/tell-correct.png" alt="tell (correct position) to (show value (# correct))" title="tell (correct position) to (show value (# correct))">
+                    </div>
+                </li>
+            </ol>
+        </div>
+
+        <div class="takeItFurther">
+            <ol type="A">
+                <li>Instead of asking the guesser to type in four letters, you could have six color buttons that the guesser could click in order. To do this, make six more sprites, each with a color, and put them off on the side of the stage so they won't be confused with the recorded guesses. You should also have an "erase" sprite with this character as its costume: ⌫ and an "okay" sprite, maybe with a check mark: ✓.  Make sure that these buttons update the display appropriately.</li>
+                <li>Let both players have secret color sequences, and take turns guessing each other's list. You'll have to add a second column of guesses toward the right side of the stage, and a second set of sprites. The game ends when either player guesses correctly.</li>
+            </ol>
+        </div>
+
+
+    </body>
+</html>

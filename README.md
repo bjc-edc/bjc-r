@@ -67,9 +67,17 @@ To contribute:
 
 Of course, submitting issues is always welcome and encouraged! These issues can be bugs, questions, improvements or anything you'd like to share.
 
+## Index and Summary Pages
+
+See `utilties/build-tools/README.md` for information on how to build the index and summary pages.
+
+```sh
+ruby utilities/build-tools/rebuild-all.rb
+```
+
 ## UC Berkeley Deployment Process
 
-The UC Berkeley version is the `live` branch of the repo beautyjoy/bjc-r on GitHub.
+@beautyjoy/bjc-r serves bjc.berkeley.edu/bjc-r from the `main` branch.
 
 ## License
 [CC-BY-NC-SA 3.0][cc]

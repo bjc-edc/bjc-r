@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+		<meta charset="utf-8">
+        <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unit 3 Lab 6: Optional Projects, Page 3</title>
+    </head>
+
+    <body>
+        <h2>Op Art</h2>
+        <div class="todo">
+            <p>BH: Only the last TIF is TIFfy, and I really think it should be a regular FYTD.  Coloring the picture by hand is weird.</p>
+            <p>MF: BH has reviewing to do (see TG)</p>
+        </div>
+
+        <div class="learn">
+            In this project, you will create tools to explore op art&mdash;a form of visual art using optical illusions.<br />
+            <div class="comment">I find the little circle confusing amidst all the shapes. Anyone else? --MF, 9/10/18</div>
+		    <img class="indent" data-gifffer="/bjc-r/img/3-lists/OpArt_img/OpArtAnimation.gif" height="300" alt="Animation of the user drawing a collection of overlapping rectangles and then coloring each region black and white in such a way that no two adjacent regions have the same color." title="Animation of the user drawing a collection of overlapping rectangles and then coloring each region black and white in such a way that no two adjacent regions have the same color." />
+        </div>
+
+        <p>Initially, the mouse is used to draw rectangles. Then when the user presses the space bar, the drawing phase ends and the mouse click becomes a paint bucket that fills bounded regions with paint.  Here are two examples of phase 1 (drawing rectangles) and phase 2 (filling regions):</p>
+        <p class="indent">
+            Example 1: <img src="/bjc-r/img/3-lists/OpArt_img/OpArt2Phase1.png" height="175" alt="Op Art 1 Phase 1" title="Op Art 1 Phase 1" />
+            <img src="/bjc-r/img/3-lists/OpArt_img/OpArt2Phase2.png" height="175" alt="Op Art 1 Phase 2" title="Op Art 1 Phase 2" />
+        </p>
+        <p class="indent">
+            Example 2: <img src="/bjc-r/img/3-lists/OpArt_img/OpArt3Phase1.png" height="175" alt="Op Art 2 Phase 1" title="Op Art 2 Phase 1" />
+            <img src="/bjc-r/img/3-lists/OpArt_img/OpArt3Phase2.png"  height="175" alt="Op Art 2 Phase 2" title="Op Art 2 Phase 2" />
+        </p>
+
+        <div class="forYouToDo">
+            <ol>
+            	<li><div class="newProject"><span class="text">"U3-OpArt"</span><img src="/bjc-r/img/icons/new-project-called.png" alt="Create a new project called U3-OpArt" title="Create a new project called U3-OpArt" /></div></li>
+                <li>
+                    In the drawing phase (phase 1), you will be drawing many rectangles by clicking and dragging from corner to opposite corner, so it will be helpful to have an abstract data type (ADT) to manage the corner points.<br />
+                    <div class="comment"><h3>POINT is being optionalized in U2.</h3> The <code>corner</code> ADT will work just like the <code>point</code> ADT that you created in <a href="/bjc-r/cur/programming/2-complexity/optional-projects/future/2-data-types.html?topic=nyc_bjc%2F2-conditionals-abstraction.topic&course=bjc4nyc.html&novideo&noassignment" title="Unit 2 Lab 2: Making Art by Using Data Structures, Page 2">Unit 2</a>.</div>
+                    <img class="indent" src="/bjc-r/img/3-lists/OpArt_img/corner12.png" height="150" alt="Opposite corners of a rectangle" title="Opposite corners of a rectangle" /><br />
+                    <ol>
+                        <li>
+                            Create a constructor <code>corner</code> that will report a list of <em>x</em> and <em>y</em> coordinates of one corner.<br />
+                            <img class="indent" src="/bjc-r/img/3-lists/corner-reporting.png" alt="corner x:(mouse x) y:(mouse y) reporting {-1177, -34}" title="corner x:(mouse x) y:(mouse y) reporting {-1177, -34}" />
+                        </li>
+                        <li>
+                            Create two selectors <code>x of corner</code> and <code>y of corner</code> that will report either the <em>x</em> or <em>y</em> values for an input <var>corner</var>.<br />
+                            <img class="indent" src="/bjc-r/img/3-lists/x-of-corner-reporting.png" alt="x of corner: (corner) reporting -239" title="x of corner: (corner) reporting -239" />
+                            <img class="indent" src="/bjc-r/img/3-lists/y-of-corner-reporting.png" alt="y of corner: (corner) reporting 38" title="y of corner: (corner) reporting 38" />
+                        </li>
+                    </ol>
+                </li>
+                <li>
+                    Create two global variables to temporarily store the two points of each rectangle as it is drawn:
+                    <ul>
+                        <li><var>current corner 1</var>: to store the coordinates where the mouse is first clicked</li>
+                        <li><var>current corner 2</var>: to store the coordinates where the mouse is moved as the rectangle is drawn (when the mouse is released, this value will be the final position of the second corner) </li>
+                    </ul>
+                </li>
+                <li>
+                    Now create a <code>rectangle</code> ADT for storing the two opposite corners of a single rectangle.<br />
+                    <img class="indent" src="/bjc-r/img/3-lists/rectangle-reporting.png" alt="rectangle, corner 1: (current corner 1) corner 2: (current corner 2) reporting {{-239, 38}, {41, -7}}" title="rectangle, corner1:(corner1) corner2:(corner2){report(list(corner1)(corner2)}" /><br />
+                    <img class="indent" src="/bjc-r/img/3-lists/corner-1-of-rectangle-reporting.png" alt="corner 1 of rectangle reporting {-239, 38}" title="corner 1 of rectangle reporting {-239, 38}" />
+                    <img class="indent" src="/bjc-r/img/3-lists/corner-2-of-rectangle-reporting.png" alt="corner 2 of rectangle reporting {41, -7}" title="corner 2 of rectangle reporting {41, -7}" />
+                </li>
+            </ol>
+        </div>
+
+        <p>Like in the Animation Studio project on the previous page, the stage will have to be cleared and redrawn many times so that the user can see each new rectangle changing in size as it drawn. The program needs a way to store all of the rectangles that have already been drawn so that they can be redrawn along with the current rectangle after each stage clear.</p>
+
+        <div class="forYouToDo">
+			<ol start="5">
+				<li>Create a global variable <var>rectangle list</var> to store the all the rectangles that have been drawn.</li>
+                <li>Your program needs a way to know whether the user is finished drawing. Create a global variable <var>drawing done?</var> that will store a Boolean value (either <code>true</code> or <code>false</code>) to keep track of the phase of the program (drawing or painting). </li>
+                <div class="todo">I don't think we need this. --MF, 9/10/18<br />It is initially <code>false</code> but when the space bar is pressed&mdash;which concludes the drawing phase&mdash;it is set to <code>true</code>.</div>
+                <li>
+                    The program also needs a way to draw a rectangle given its two defining corners. Create a <code>draw rectangle</code> block, and test that it correctly draws a rectangle with the input corners.<br />
+                    <img class="indent" src="/bjc-r/img/3-lists/draw-rectangle-with-stage.jpg" alt="stage showing a rectangle drawn and scripting area showing the script: clear, draw rectangle corner 1: (corner, x:(-139) y:(38)) corner 2: (corner, x:(41) y:(-7))" title="stage showing a rectangle drawn and scripting area showing the script: clear, draw rectangle corner 1: (corner, x:(-139) y:(38)) corner 2: (corner, x:(41) y:(-7))" />
+                </li>
+
+                <li>Use the seven blocks and four variables you have created to create a program that:
+                    <ul>
+                        <li>repeatedly collects rectangles until the user is finished phase 1 (drawing) by:
+                            <ul>
+                                <li>collecting the coordinates of the first corner when the user starts to draw a rectangle</li>
+                                <li>repeatedly collecting the coordinates of the second corner and redrawing that rectangle and all previous rectangles until the user releases the mouse to finish the rectangle</li>
+                                <li>storing the final coordinates for each rectangle so they can be drawn again</li>
+                            </ul>
+                        </li>
+                        <li>uses a keystroke (like space) to tell the computer to switch to phase 2 (painting) and then fills the clicked areas</li>
+                    </ul>
+                    <div class="endnote">
+                        <a href="#hint-main" data-toggle="collapse" title="Click for hints on creating this program.">Click for hints on creating this program.</a>
+                        <div id="hint-main" class="collapse"><img class="imageRight" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />
+
+                            <ul style="list-style-type: square">
+                                <li>Which variables need to be initialized? Why?</li>
+                                <li>How can you detect the state of the mouse? How can you location the state of the mouse?</li>
+                                <div class="comment"><strong>Brian</strong>, how do you like this characterization of warp. I think it's only been in TIFs so far in the course. --MF, 9/10/18</div>
+                                <li>You might want to use <img class="inline" src="/bjc-r/img/blocks/warp.png" alt="warp block" title="warp block" /> and <img class="inline" src="/bjc-r/img/blocks/hide.png" alt="hide block" title="hide block" /> to improve the efficiency and appearance of your program. The <code>warp</code> block allows the drawing to happen quickly, and <code>hide</code> hides the sprite.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="todo">
+                        I thought about keeping some version of this, but I think it is not needed given the above. --MF, 9/9/18
+                        <p>It is recommended that you first write down the algorithm detailing the sequence of events in the program and what should happen at each case before you build the actual code.</p>
+                    </div>
+                </li>
+            </ol>
+        </div>
+
+        <div class="takeItFurther">
+            <ol type="A">
+                <li>
+                    Create a version of your Op Art program that uses polygons.<br />
+                    <img src="/bjc-r/img/3-lists/OpArt_img/PolyOpArt1.png"  height="200" alt="Polygonal Op Art example 1" title="Polygonal Op Art example 1" />
+                    <img src="/bjc-r/img/3-lists/OpArt_img/PolyOpArt2.png"  height="200" alt="Polygonal Op Art example 2" title="Polygonal Op Art example 2" />
+                    <img src="/bjc-r/img/3-lists/OpArt_img/PolyOpArt3.png"  height="200" alt="Polygonal Op Art example 3" title="Polygonal Op Art example 3" />
+                </li>
+                <li>
+                    Create a version of your Op Art program that uses circles.<br />
+                    <img src="/bjc-r/img/3-lists/OpArt_img/CircleOpArt2.png"  height="200" alt="Circle Op Art example 1" title="Circle Op Art example 1" />
+                    <img src="/bjc-r/img/3-lists/OpArt_img/CircleOpArt.png" height="200" alt="Circle Op Art example 2" title="Circle Op Art example 2" />
+                    <img src="/bjc-r/img/3-lists/OpArt_img/CircleOpArt3.png" height="200" alt="Circle Op Art example 3" title="Circle Op Art example 3" />
+                </li>
+                <li>
+                    Study the works of legendary Op Artists such as <a href="https://www.google.com/search?q=Victor+Vasarely&tbm=isch" title="Victor Vasarely" target="_blank">Victor Vasarely</a> and <a href="https://www.google.com/search?q=Bridget+Riley&tbm=isch" title="Bridget Riley" target="_blank">Bridget Riley</a> to get a feel for what is possible in this art form.<br />
+                    <img src="/bjc-r/img/3-lists/OpArt_img/Vasarely1.png"  height="150" alt="Vasarely Op Art #1" title="Vasarely Op Art #1" />
+                    <img src="/bjc-r/img/3-lists/OpArt_img/Vasarely2.png"  height="150" alt="Vasarely Op Art #2" title="Vasarely Op Art #2" />
+                    <img src="/bjc-r/img/3-lists/OpArt_img/Riley1.jpeg"  height="150" alt="Riley Op Art #1" title="Riley Op Art #1" />
+                    <img src="/bjc-r/img/3-lists/OpArt_img/Riley2.png"  height="150" alt="Riley Op Art #2" title="Riley Op Art #2" />
+                    <img src="/bjc-r/img/3-lists/OpArt_img/Riley3.jpg"  height="150" alt="Riley Op Art #3" title="Riley Op Art #3" />
+                </li>
+                <li>
+                    It is possible to fully automate the painting phase by using the following algorithm:
+                    <ul>
+                        <li>for every pixel on the screen find out inside how many rectangles it is inside</li>
+                        <li>color each pixel black if the number is odd and white if the number is even (or vice versa)</li>
+                    </ul>
+                    To understand why this algorithm works, use paper and pencil to apply it to simple cases with few overlapping rectangles.<br />
+                    <img src="/bjc-r/img/3-lists/OpArt_img/autoOpArt1.png" height="200" alt="Overlapping rectangles" title="Overlapping rectangles"/><img src="/bjc-r/img/3-lists/OpArt_img/autoOpArt2.png" height="200" alt="Overlapping counted" title="Overlapping counted"/><img src="/bjc-r/img/3-lists/OpArt_img/autoOpArt3.png" height="200" alt="Overlapping regions colored" title="Overlapping regions colored"/>
+                </li>
+            </ol>
+        </div>
+
+
+    </body>
+</html>

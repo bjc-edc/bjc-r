@@ -31,6 +31,13 @@ h4, .h4 {
   padding: 5px 0px 0px 0px;
 }
 
+/* Override some bootstrap defaults we don't want */
+label {
+  margin-bottom: unset;
+  font-weight: normal;
+}
+
+
 /* Roughly visually aligns with the default h4 style
  * To be used in curriculum boxes which contain subheadings.
  */
@@ -41,14 +48,18 @@ h4, .h4 {
   padding: 5px 0px 0px 0px;
 }
 
-.anchor {
-  padding-top: 80px;
-  margin-top: -80px;
-}
-
 /* should have >= 3:1 contrast with black, 4.5:1 with white */
 a:visited:not(.btn-primary):not(.btn-nav) {
   color: #297694;
+}
+
+.panel-heading a {
+  color: #FFF;
+}
+
+/* Need to keep the :not() selectors so this is more specific than the above one... */
+.panel-heading a:visited:not(.btn-primary):not(.btn-nav) {
+  color: #FFF;
 }
 
 a,
@@ -256,10 +267,8 @@ code.break {
 /* a11y: TODO: this color matches Snap!, but does not have enough contrast with white. */
 var {
   padding: 0px;
-  /* color: #f3761d; */
   color: #f1661d;
   font-weight: bold;
-  font-size: 14pt;
 }
 
 .classIndent {
@@ -714,6 +723,19 @@ table.truth tr td {
   width: 40%;
 }
 
+/* These boxes are used on idex/summary pages for all vocab, AP exam, atwork, etc. *
+  We should use `.vacab.summaryBox` instead of `.vocabSummary` and so on. */
+.summaryBox {
+  width: 95%;
+  margin-left: auto;
+  margin-top: 0.5em;
+  padding: 20px;
+  text-indent: 0em;
+  overflow: hidden;
+}
+
+/* TODO-MB: We need to separate these into multiple composable classes. */
+/* TODO: After merging in new sumamries remove vocabSummary, examSummary, etc. */
 .vocabFullWidth,
 .examFullWidth,
 .vocabSummary,
@@ -726,11 +748,15 @@ table.truth tr td {
   text-indent: 0em;
   overflow: hidden;
 }
+
 .vocabSummary,
 .examSummary {
   margin-right: auto;
 }
 
+.summary .todo,
+.summary .comment,
+.summary .commentBig,
 .vocabSummary .todo,
 .vocabSummary .comment,
 .vocabSummary .commentBig,
@@ -754,7 +780,7 @@ table.truth tr td {
 .examBig:before,
 .examFullWidth:before,
 .examSummary:before {
-  content: "On the AP Exam...";
+  content: "On the AP Exam... ";
   font-size: 16px;
   font-weight: bold;
   line-height: 1.5em;
@@ -768,11 +794,24 @@ table.truth tr td {
   line-height: 1.5em;
 }
 
+/* Override some basic vocab only settings */
+.vocab.summaryBox,
+.exam.summaryBox,
+.atwork.summaryBox {
+  float: none;
+  clear: both;
+}
+
+/* TODO: Consider atwork and on the exam boxes. */
+.vocab.summaryBox:before,
+html[lang="es"] .vocab.summaryBox:before {
+  content: none;
+}
+
 html[lang="es"] .exam:before,
 html[lang="es"] .examBig:before,
-html[lang="es"] .examFullWidth:before,
-html[lang="es"] .examSummary:before {
-  content: "En el examen AP...";
+html[lang="es"] .examFullWidth:before {
+  content: "En el examen AP... ";
 }
 
 html[lang="es"] .atwork:before,
@@ -782,8 +821,7 @@ html[lang="es"] .atworkFullWidth:before {
 
 html[lang="es"] .vocab:before,
 html[lang="es"] .vocabBig:before,
-html[lang="es"] .vocabFullWidth:before,
-html[lang="es"] .vocabSummary:before {
+html[lang="es"] .vocabFullWidth:before {
   content: "Vocabulario";
 }
 
@@ -1137,9 +1175,11 @@ div.map-links {
   margin-bottom: 25px;
 }
 
-div.index-letter-link a {
+div.index-letter-link a,
+div.index-letter-link span {
   font-size: 3em;
 }
+
 div.map-links a {
   font-size: 1.2em;
 }

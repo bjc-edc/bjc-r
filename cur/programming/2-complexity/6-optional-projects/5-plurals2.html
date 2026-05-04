@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+		<meta charset="utf-8">
+        <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+        <title>Unit 2 Lab 6: Optional Projects, Page 5</title>
+    </head>
+
+    <body>
+		<h2>Modeling Language: Plurals, Part 2</h2>
+        <div class="todo">Need to redo KEEP images. --MF, 6/27/20</div>
+        <div class="todo">
+            <ul>
+                <li>REVISION NOTE: Students EXTEND their  <strong>list</strong> of nouns as needed. At each testing stage, have them <strong>map</strong> their &quot;specialist block&quot; or their <strong>plural </strong>block over the entire list and note which words are and aren't correctly pluralized.</li>
+                <li>Rebuild the images without white backgrounds. --MF</li>
+            </ul>
+		</div>
+
+        <p>You can improve <code>plural</code> to work correctly with more words. If the project is not already open, please reload it. (The suggested filename was <code>U2-Plural</code>.)  </p>
+
+        <div class="forYouToDo" id="first">
+			<ol>
+				<li>
+                    <strong>Abstraction: </strong> Make a <img src="/bjc-r/img/2-complexity/plural_h.png" alt="plural-h ()" title="plural-h ()"> block that "specializes" on just one category, words that end with the letter "h".
+                    <ul>
+                    	<li>Start with a <code>list</code> of the words you want it to work for.</li>
+                        <li>This specialist block should work correctly for words that fit its specialty
+                            <img src="/bjc-r/img/2-complexity/plural_h-crutch-with-result.png" alt="plural-h (crutch) reporting 'crutches'" title="plural-h (crutch) reporting 'crutches'">
+                            <img src="/bjc-r/img/2-complexity/plural_h-moth-with-result.png" alt="plural-h (moth) reporting 'moths'" title="plural-h (moth) reporting 'moths'">, <img src="/bjc-r/img/2-complexity/plural_h-bush-with-result.png" alt="plural-h (bush) reporting 'bushes'" title="plural-h (bush) reporting 'bushes'">. It can be completely wrong about words that <em>don't</em> fit its specialty <img src="/bjc-r/img/2-complexity/plural_h-mouse-with-(wrong)result.png" alt="plural-h (mouse) reporting 'mousees'" title="plural-h (mouse) reporting 'mousees'"> because the <code>plural</code> block should never give words to <code>plural-h</code> unless those words end with "h". </li>
+                        <li>
+                            Test <img src="/bjc-r/img/2-complexity/plural_h.png" alt="plural-h ()" title="plural-h ()" > with a variety of words to make sure it works the way you want. Then use <code>map</code> to test it on the entire list you made earlier.
+                            <div class="endnote">
+                                <a href="#hint-just-hwords" data-toggle="collapse" title="Click for a hint about creating a test list of words that begin with 'h'.">Click for a hint about creating a test list of words that begin with "h".</a>
+                                <div id="hint-just-hwords" class="collapse">
+                                    Because you know what  <img src="/bjc-r/img/2-complexity/keep-items-such-that-(last-letter-of-(input)-equals-h)-from-test-list.png" alt="keep-items-such-that-(last-letter-of-(input)-equals-h)-from-test-list" title="keep-items-such-that-(last-letter-of-(input)-equals-h)-from-test-list"> does, you can use its output as input to a test of <code>plural</code> or <code>plural-h</code>:<br />
+                                    <img class="indent" src="/bjc-r/img/2-complexity/map-plural(with-input)-over-(keep-items-such-that-(last-letter-of-(input)-equals-h)-from-test-list).png" alt="map-plural(with-input)-over-(keep-items-such-that-(last-letter-of-(input)-equals-h)-from-test-list)" title="map-plural(with-input)-over-(keep-items-such-that-(last-letter-of-(input)-equals-h)-from-test-list)">
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+
+                </li>
+                <div class="takeNote">
+                    <p><strong>Abstraction:</strong> Language often has special cases. In English, the plurals of some nouns add  "s";  some add "es"; nouns like "calf" and "fly" become "calves" and "flies", changing their final letters before adding "es". And more. For a programming task this complex, it's (generally) best to break it into parts, handle each part separately with its own procedure (its own block), and then have the "top-level" block—in this case, <code>plural</code>, itself—use those specialists. That is, instead of coding every little detail directly in <code>plural</code>, it is cleaner and clearer to make <code>plural</code> look something like this.<br />
+                        <img class="indent noshadow" src="/bjc-r/img/2-complexity/plural-abstract-definition.png" alt="abstract definition of plural: if h = last letter of word, report h-case plural; if y = last letter of word, report y-case plural; if some other case, use a block that specializes in that case; etc.; else report join word s" title="abstract definition of plural: if h = last letter of word, report h-case plural; if y = last letter of word, report y-case plural; if some other case, use a block that specializes in that case; etc.; else report join word s"></p>
+                    <p>Showing<a name="abstraction" class="anchor">&nbsp;</a>the <em>structure</em> of the method—just the overall strategy—in the "top-level" block and leaving the details to  separate blocks is one part of an important computer science idea called <em>abstraction</em>. Abstraction keeps your code clear, readable, and more easily debugged. It will also help your code be more flexible. </p>
+				</div>
+				<li> When you trust your new specialist block, edit <code> plural</code> to use the specialist. Test (you can use <code>map</code>) to make sure <code>plural</code> still works for all the words it used to work for, as well as the new ones.</li>
+				<li> Create <code>plural-y</code> to handle words like
+					<img src="/bjc-r/img/2-complexity/plural_y-tray-with-result.png"  alt="plural-y (tray) reporting 'trays'" title="plural-y (tray) reporting 'trays'"> and
+					<img src="/bjc-r/img/2-complexity/plural_y-sky-with-result.png" alt="plural-y (sky) reporting 'skies'" title="plural-y (sky) reporting 'skies'">
+				</li>
+				<div class="endnote">
+                    Remember, any specialist can make mistakes if it's asked to do a job that isn't its specialty. For example:<br />
+                    <img class="indent" src="/bjc-r/img/2-complexity/plural_y-mouse-with-(wrong)result.png" alt="plural-y (mouse) reporting 'mousies'" title="plural-y (mouse) reporting 'mousies'"><br />
+                    Make sure <code>plural</code> gives <code>plural-y</code> only words it knows how to handle correctly.
+                </div>
+		        <img class="inline" src="/bjc-r/img/icons/save-now.png" alt="Save your work" title="Save your work" />
+			</ol>
+        </div>
+
+
+        <div class="takeItFurther">
+            <div class="todo">I'm not thrilled with the way this pushes a particular
+            implementation for a reason that's hidden until they get
+            there, and doesn't make sense on its own.  bh
+                <p>Any better now? BTW, I moved what was TIF A up into an endnote in 1. --MF, 1/11/21</p>
+            </div>
+            <div class="todo">
+                <p>I cleaned this up a bit and added a "tough stuff" icon on part B. I think part B is <em>very</em> hard. More could be done to make it clearer, but I don't have the time for that now. One concern that this we should address now is not using "..." where what we need is jaggies. <strong>Can you please replace those two images with the complete images, and I'll jaggy them?</strong> <br />
+                    <img class="" src="/bjc-r/img/2-complexity/plural-specialists-list.png" alt="" title="" />
+                    <img class="" src="/bjc-r/img/2-complexity/match-vowels.png" alt="" title="" />
+                </p>
+                <p>Also, <strong>can you make sure that the TG and the solutions match</strong> this version after you review it? Thanks! --MF, 1/11/21</p>
+            </div>
+            <ol type="A">
+                <li>
+                    Extend <code>plural</code> to correctly handle a input word that has a space at the end.
+                    <div class="endnote">
+                        <p>
+                            Right now, if <code>plural</code> is given a word with a space at the end, it leaves that space in the plural:<br />
+                            <img class="indent" src="/bjc-r/img/2-complexity/plural-bulldog[space]-with-result(bulldog[space]s).png" alt="plural (bulldog ) reporting 'bulldog s'. There is a space after 'bulldog' in the input and a space between 'bulldog' and 's' in the reported value." title="plural (bulldog ) reporting 'bulldog s'. There is a space after 'bulldog' in the input and a space between 'bulldog' and 's' in the reported value."><br />
+                            Figure out how to handle this special case and edit <code>plural</code> so that the result is<br />
+                            <img class="indent" src="/bjc-r/img/2-complexity/plural-bulldog[space]-with-result(bulldogs).png" alt="plural (bulldog ) reporting 'bulldogs'. There is a space after 'bulldog' in the input but no space in the reported value." title="plural (bulldog ) reporting 'bulldogs'. There is a space after 'bulldog' in the input but no space in the reported value."><br />
+                            You  already have a block that <em>specializes</em> in making plurals of words that <em>don't</em> have a space at the end. <em>Use</em> it.
+                        </p>
+                    </div>
+                    <p>Surprise! Once <code>plural</code> works for a single space at the end of a word, try giving it <img src="/bjc-r/img/2-complexity/plural-bulldog[four-spaces].png" alt="plural (bulldog      ). There iare six spaces after 'bulldog' in the input." title="plural (bulldog      ). There iare six spaces after 'bulldog' in the input.">. That works too! But why?</p>
+                </li>
+                <li>
+                    <img class="imageRight" src="/bjc-r/img/icons/tough-stuff.png" alt="Tough Stuff" title="Tough Stuff" />
+                    Does your <code>plurals</code> block still feel cluttered, even though the details about how to handle each possible last letter are abstracted into specialist blocks?  One way to improve on this situation is to use another kind of abstraction called <em>data-directed programming.</em>
+                    <ol style="list-style-type: lower-roman">
+                        <li>
+                            Start by making a list of <em>key-value pairs</em>, with last letters as the keys and specialist procedures as the values:<br />
+                            <img class="indent" src="/bjc-r/img/2-complexity/plural-specialists-list.png" alt="set (plural specialists) to (list (list (h) (ringed plural-h ( ) block)) (list (y) (ringed plural-y ( ) block)) (list (f) (ringed plural-f ( ) block)) (list (x) (ringed (join ( ) (es)) block)) (list (...) (...)))" title="set (plural specialists) to (list (list (h) (ringed plural-h ( ) block)) (list (y) (ringed plural-y ( ) block)) (list (f) (ringed plural-f ( ) block)) (list (x) (ringed (join ( ) (es)) block)) (list (...) (...)))" /><br />
+                            <div class="narrowpurple">To make the second item of each small list, find the block you want, put it in the second input to <code>list</code>, then right-click on the block and choose "ringify."  As the "x" example shows, it doesn't have to be a block named <code>plural-</code>something.  It just has to have an empty input slot where you want the word to go.</div>
+                        </li>
+                        <li>
+                            <div class="comment">FYI, this breaks the rule of not teaching more than one thing at a time, we are teaching key-value pairing, FIND FIRST, and CALL. As a result, you've defaulted to hand-holding here. --MF, 1/11/21</div>
+                            Then in your <code>plural</code> procedure, you can replace most of the <code>if</code> blocks with<br />
+                            <img class="indent" src="/bjc-r/img/2-complexity/plural-specialist-dispatch.png" alt="script variables (pair)
+set (pair) to (find first item (ringed ((item (1) of ( )) = (last letter of (word)))) in (plural specialists))
+if (is (pair) a (list)?) {
+    report (call (item (2) of (pair)) with inputs (word))
+}" title="script variables (pair)
+set (pair) to (find first item (ringed ((item (1) of ( )) = (last letter of (word)))) in (plural specialists))
+if (is (pair) a (list)?) {
+    report (call (item (2) of (pair)) with inputs (word))
+}" /><br />
+                            <div class="narrowpurple">
+                                <div class="todo">We haven't taught FIND FIRST yet. So I looked at <a href="/bjc-r/cur/programming/3-lists/3-tic-tac-toe/3-checking-for-ties.html?topic=nyc_bjc%2F3-lists.topic&course=bjc4nyc.html&novideo&noassignment">3.3.3</a> where we first use it, and we don't teach it there either. :/ We actually teach it in <a href="/bjc-r/cur/programming/5-algorithms/3-turning-data-information/4-filtering-data.html?topic=nyc_bjc%2F5-algorithms.topic&course=bjc4nyc.html&novideo&noassignment">5.3.4</a>. So I dragged some of that content back into U3 and also here. --MF, 1/11/21</div>
+                                <p><code>Find first</code> is a higher-order function works similarly to <code>keep</code>, but it reports only the first item that's found. It is equivalent to <code>item (1) of (keep)</code>.</p>
+                                <div class="commentBig">Ringifying is unclear here. What does it mean to have the ring? What does it mean not to have it? If they don't know, they are "just doing what the book says to." --MF, 1/11/21</div>
+                                <p>The <code>call</code> block in the palette doesn't include the "<code>with inputs</code>" in the picture; when you click on its right arrowhead, those words will appear along with an input slot.  The <code>call</code> block's first input slot is the empty gray ring, which means that <code>call</code> wants a block in that input slot.  When you drag <code>item 2 of pair</code> into that slot, the ring remains around it.  That's usually what we want when using <code>call</code>, but not this time.  Right-click on the <code>item of</code> block and choose "unringify" from the menu.</p>
+                                <div class="endnote">You can experiment with <code>call</code> to see what else you can do with it.  What happens if you don't unringify the <code>item</code> block?  What happens if you leave out the "<code>with inputs</code>" and the second input?</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="comment">I think a hint here about testing all trailing substrings would be helpful. Also, a definition of the term would be nice. --MF, 1/11/21</div>
+                            There's no reason the keys have to be single letters.  Modify the code in <code>plural</code> so that it tests all <em>trailing substrings</em> of the word against the specialist list.  That is, if the word is "ditch,"  you'd look in the specialist list for "ditch," then for "itch," then "tch," "ch," and finally, if nothing else is found, "h."  You'd put<br />
+                            <img class="indent" src="/bjc-r/img/2-complexity/ch-dispatch.png" alt="list (ch) (ringed block (join ( ) (es)))" title="list (ch) (ringed block (join ( ) (es)))" /><br />
+                            in the list, and then words ending "ch" would have "es" added.  This mechanism is very general; it works even for special cases such as<br />
+                            <img class="indent" src="/bjc-r/img/2-complexity/child-dispatch.png" alt="list (child) (ringified (word (children)))" title="list (child) (ringified (word (children)))" /><br />
+                            (You'll have to define the <code>word</code> function that just reports its input; it's needed because you can't type letters directly into a ring.)  <em>Now</em> you have a <em>really</em> uncluttered <code>plural</code> block.  And it'll even work for a language other than English, if you make a different specialist list.
+                        </li>
+                        <li>
+                            <div class="comment">Here is where you really start to lose me. I'm not actually building this in Snap<em>!</em>now, as I've spent far too long on this already, but the text doesn't explain this adequately for me. --MF, 1/11/21</div>
+                            If you modify the trailing-substring test so that instead of giving up if it can't find the last letter of the word as a key, it goes one step further and looks for an <em>empty</em> key in the specialist list, and you add<br />
+                            <img class="indent" src="/bjc-r/img/2-complexity/default-dispatch.png" alt="(item ( ) (ringed (join ( ) (s))))" title="(item ( ) (ringed (join ( ) (s))))" /><br />
+                            to the list, then you can be sure that every possible word will match that, if nothing else, so you don't need the <code>if</code> any more.  Your <code>plural</code> block can now be just one-line: <code>report (call (item 2 of (longest trailing substring ...</code>.
+                        </li>
+                        <li>
+                            For an extra challenge, modify your trailing-substring test so that a plus sign in the key matches any vowel (it will serve as a wild-card character), so you can do this:<br />
+                            <img class="indent" src="/bjc-r/img/2-complexity/match-vowels.png" alt="list (...) (list (+y) (ringed (join ( ) (s)))) (list (y) (ringed (join (all but last letter of ( )) (ies)))) (...)" title="list (...) (list (+y) (ringed (join ( ) (s)))) (list (y) (ringed (join (all but last letter of ( )) (ies)))) (...)" />
+                        </li>
+                    </ol>
+                </li>
+            </ol>
+            <img class="inline" src="/bjc-r/img/icons/save-now.png" alt="Save your work" title="Save your work" />
+        </div>
+
+
+    </body>
+</html>

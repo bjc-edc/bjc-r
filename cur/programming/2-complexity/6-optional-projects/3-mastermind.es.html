@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+		<meta charset="utf-8">
+        <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Unidad 2 Laboratorio 6: Proyectos opcionales, Página 3</title>
+    </head>
+
+    <body>
+    <!--<div class="todo">ST-Fix the student access issue due to hideControls</div>-->
+		<h2>La mente maestra</h2>
+		<div class="todo">If I'm not misunderstanding these instructions, I think it's confusing to have the students play with two sequences at once (which I've never seen before) and then build the project with only one sequence at a time (except for the TIF?). I think it should be one at a time in the "on paper" example too. --MF</div>
+        <div class="todo">
+            <p>PG: This has the same potential as TTT to be a multistage (year long) project. I'd elevate it, provided that a good /learning/ goal is clarified.</p>
+            <p>BH: What a great project! We should finish it with the computer guessing.</p>
+            <p>MF: I want to revise this page to reduce the text wall and to make the rest of the page look more like the rest of our content.</p>
+        </div>
+
+		<div class="learn">
+        	<strong>En este proyecto</strong>, comenzarás a crear el juego Mastermind™ (La mente maestra). En este juego, un jugador selecciona una secuencia de cuatro colores secretos y el otro jugador intenta adivinarlo.<br />
+	        <img class="indent" src="/bjc-r/img/1-introduction/mm-snapshot.es.png" width="250" alt="Captura del juego" title="Captura del juego"/>
+        </div>
+
+        <div class="forYouToDo" id="first">
+            <ol>
+                <li><a class="run" href="/bjc-r/prog/2-complexity/U2-Mastermind.es.xml"><img class="inline" src="/bjc-r/img/icons/load-save.es.png" alt="Haz clic para cargar un proyecto nuevo. Entonces guárdalo." title=" Haz clic para cargar un proyecto nuevo. Entonces guárdalo."></a><br />Mira los guiones. Hay seis objetos, cuatro para la suposición del jugador y dos para la retroalimentación del adivinador.</li>
+                <div class="narrower">
+                	<p><strong>Los comentarios para el adivinador</strong> son dos números (como se muestra en cada fila del juego en la imagen de arriba):
+                    	<ul>
+                            <li>¿Cuántos colores hay en las posiciones <em>correctas</em>? (El objetivo es tener los cuatro correctos).</li>
+                            <li>¿Cuántos colores correctos hay en posiciones <em>incorrectas</em>?</li>
+                        </ul>
+                    </p>
+                    <!--This is not included in the code. --MF
+                    The first, "correct position," sprite has two short scripts: one to be used at the beginning of the game, and the other to be used when a guess is made.-->
+                </div>
+                <li>Juega una partida del juego de La mente maestra <em>en papel</em> con tu compañero.</li>
+                <div class="narrower">
+                	<h3 class="box-head">La mente maestra</h3>
+                    <ul>
+                        <li>
+                            <strong>Cada jugador deberá escribir una secuencia de cuatro colores</strong> sin que tu compañero la vea.
+                            <ul>
+                            	<li>Para mayor comodidad, puedes usar la primera letra de cada nombre de color para representar ese color: <strong><u>r</u></strong>ojo, <strong><u>n</u></strong>aranja, <strong><u>a</u></strong>marillo, <strong><u>v</u></strong>erde, <strong><u>b</u></strong>lanco y <strong><u>g</u></strong>ris. (Por ahora, no uses el mismo color más de una vez, aunque la gente también juega de esa manera).</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Tomen turnos para adivinar los colores del compañero</strong>. Cuando tu compañero adivine, dile dos números como retroalimentación como se describe arriba.
+                            <ul>
+                            	<li>Por ejemplo, si tus colores secretos son <strong>rnav</strong> y tu compañero dice <strong>vnba</strong>, respondes "uno y dos", porque un color (naranja) está en la posición correcta y dos colores (amarillo y verde) están en la secuencia secreta pero no en las posiciones correctas.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Usa la información que tienes de conjeturas anteriores</strong> para hacer las mejores conjeturas que puedas.
+                            <ul>
+                            	<li>Por ejemplo, después de <strong>vnba</strong> en el ejemplo anterior, podrías pensar: "Uno de mis colores está en la posición correcta y otros dos colores están correctos. Supongo que el verde está en la posición correcta, y el naranja y el amarillo están en algún lugar de la lista. Así que una buena suposición siguiente sería <strong>vanb</strong> porque tiene el verde en el mismo lugar que antes, y el naranja y el amarillo se movieron". Tu compañero responderá "cero y tres", lo que suena como un progreso negativo porque ahora ninguno está en el lugar correcto, pero no lo es porque ahora sabes con seguridad que el verde no estaba en la posición correcta, así que en tu próximo intento podrías probar naranja en la segunda posición, y así sucesivamente.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <li>
+                    Construirás el programa La mente maestra en etapas a lo largo del año. Ahora tu objetivo es apoyar a dos jugadores humanos que usen la computadora como un bloc de notas para registrar conjeturas y comentarios:
+                    <ul>
+                        <li>Averigua los nombres de los dos jugadores para que puedas usarlos para realizar un seguimiento de quién es el turno.</li>
+                        <li>
+                            Pide a un jugador que realice una conjetura (usando cuatro letras como <strong>vnAa</strong> arriba).<br />
+                            <img class="indent noshadow" src="/bjc-r/img/2-complexity/mm1.es.png" alt="interacción de primera suposición" title="interacción de primera suposición" >
+                        </li>
+                        <li>
+                            Muestra esa conjetura en la pantalla.<br />
+                            <img class="indent noshadow" src="/bjc-r/img/2-complexity/mm2.png" alt="cuatro colores mostrados" title="cuatro colores mostrados">
+                        </li>
+                        <li>
+                            Pide al otro jugador su retroalimentación, como dos números.<br />
+                            <img class="indent noshadow" src="/bjc-r/img/2-complexity/mm3.es.png" alt="preguntar interacción" title="preguntar interacción"> <img class="indent noshadow" src="/bjc-r/img/2-complexity/mm4.es.png" alt="cuatro colores 2 puntos" title="cuatro colores 2 puntos">
+                        </li>
+                        <li>Sigue haciéndolo hasta que el adivinador obtenga la respuesta correcta.</li>
+                    </ul>
+                    <div class="endnote">
+                        Te resultará útil que un programa pueda decirle qué hacer a un objeto en particular. Hay una herramienta para hacer eso: el bloque <img src="/bjc-r/img/1-introduction/tell.es.png" alt="decir a (objeto) a (acción)" title="decir a (objeto) a (acción)">. Por ejemplo:<br />
+                        <img class="indent" src="/bjc-r/img/1-introduction/tell-alonzo.es.png" alt="decir a (Alonzo) que (decir...)" title="decir a (Alonzo) que (decir...)"> <img class="indent" src="/bjc-r/img/1-introduction/tell-correct.es.png" alt="decir a (posición correcta) que (mostrar valor (# correcto))" title="decir a (posición correcta) que (mostrar valor (# correcto))">
+                    </div>
+                </li>
+            </ol>
+        </div>
+
+        <div class="takeItFurther">
+            <ol type="A">
+                <li>En lugar de pedirle al jugador que esté adivinando que escriba cuatro letras, podrías tener seis botones de colores en los que el adivinador podría hacer clic en orden. Para hacer esto, haz seis objetos más, cada uno con un color, y colócalos a un lado del escenario para que no se confundan con las conjeturas registradas. También deberías tener un objeto de "borrar" con este personaje como disfraz: ⌫ y un objeto de "bien", tal vez con una marca de verificación: ✓. Asegúrate que estos botones actualicen la pantalla correctamente.</li>
+                <li>Deja que ambos jugadores tengan secuencias de colores secretas y se turnen para adivinar la lista del otro. Tendrás que agregar una segunda columna de conjeturas hacia el lado derecho del escenario y un segundo conjunto de objetos. El juego termina cuando cualquiera de los jugadores acierta la lista.</li>
+            </ol>
+        </div>
+
+
+    </body>
+</html>
