@@ -10,7 +10,7 @@
         <h2>The Algorithm</h2>
         <div class="learn">In this activity, you will practice using an algorithm for generating a next word.</div>
         
-        <p>In the build-a-story game, you were using your own data (from your brain). A computer only has as much data as you give it. In this activity, we will give the computer a <em>very small</em> amount of data, in a 24-word sentence. This is <em>all</em> the words the computer knows. We'll use this data to practice using an <em>algorithm</em> that generates the next word in a story.</p>
+        <p>In the build-a-story game, you were using your own data (from your brain). A computer only has as much data as you give it. In this activity, we will give the computer a <em>very small</em> amount of data, in a 24-word story. This is <em>all</em> the words the computer knows. We'll use this data to practice using an <em>algorithm</em> that generates the next word in a new story.</p>
         <div class="vocabBig">: <strong>Algorithm</strong>
 	        	<p>An <strong>algorithm</strong> is a set of instructions, or a sequence of steps, usually performed by a computer.</p>
         </div>
@@ -22,7 +22,21 @@
         
         <h3>Step 1: Chunking the data into n-grams</h3>
         
-        <p>Since we are building the story word-by-word, it makes sense to think of the data as a collection of words (rather than, for example, a collection of letters). </p>
+        <div class="vocabBig">: <strong>Token</strong>
+	        	<p>In AI, a <strong>token</strong> is the smallest unit of data. You can choose the token size that makes the most sense for your model. We are using words as our token, but you could also choose a smaller token, like letters (so that your data is a collection of individual letters) or a larger token, like sentences.</p>
+        </div>
+        <p>Since we are building the story word-by-word, it makes sense to think of the data as a collection of words. We are using a word as a <em>token</em>. We can use scissors to cut up the sentence and think of our data now as a pile of words.</p>
+        <img class="indent noshadow" src="/bjc-r/sparks/img/U4/lab04/1-gram-cutouts.png" alt="Each word from the 24-word story has been cut out to make a pile of words." title="Each word from the 24-word story has been cut out to make a pile of words." />
+        <p>These are all the 1-grams that can be made from our 24-word story. </p>
+        
+        <div class="vocabBig">: <strong>N-gram</strong>
+	        	<p>An <strong>n-gram</strong> is a chunk of <em>n</em> connected tokens from the data. In our example, words are our token, so an n-gram is any <em>n</em> connected words in our 24-word story. Since our data has 24 words, <em>n</em> can be any number from 1 to 24. You can have 2-grams, like "curious student" or "student enters," or 5-grams, like "enters a science lab. The."</p>
+        </div>
+        <p>We could generate a new story by just randomy picking a word from the pile, putting it back and picking the next word, and so on. But we can do better by using <em>context</em>. Just like in the build-a-story game, if we know a few words in our story, we can use them to choose a word that fits with what we know. To do this, we organize our data to keep track of all the 2-word combinations (2-grams) and 3-grams, and so on, up to whatever "n" n-gram we want.</p>
+        <p>Here's an example of all the 1-grams, 2-grams, and 3-grams you can get from "This is a sentence." Notice how the words in the 2-grams overlap with each other (and the words in the 3-grams, too).</p>
+        <img class="indent noshadow" src="/bjc-r/sparks/img/U4/lab04/this-is-a-sentence.png" alt="This is a sentence. Unigrams: This, is, a, sentence. Bigrams: This is, is a, a sentence. Trigrams: This is a, is a sentence." title="This is a sentence. Unigrams: This, is, a, sentence. Bigrams: This is, is a, a sentence. Trigrams: This is a, is a sentence." />
+        <p>To get all of the 2-grams, we can cut them out again, but you need more than one copy of the sentence, because of the overlapping words.</p>
+        <img class="indent noshadow" src="/bjc-r/sparks/img/U4/lab04/2-gram-cutouts.png" alt="Each 2-word chunk from the 24-word story has been cut out to make a pile of phrases." title="Each 2-word chunk from the 24-word story has been cut out to make a pile of phrases." />
 
         <div class="forYouToDo">
             <ol>
