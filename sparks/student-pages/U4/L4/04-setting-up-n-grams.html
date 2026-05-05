@@ -3,31 +3,41 @@
     <head>
         <meta charset="utf-8">
         <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
-        <title>Unit 4 Lab 4: Generative AI with n-Grams, Activity 4</title>
+        <title>Unit 4 Lab 4: Generative AI with N-grams, Activity 4</title>
     </head>
 
     <body>
-        <h2>The Algorithm</h2>
-        <div class="learn">In this activity, you will practice using an algorithm for generating a next word.</div>
+        <h2>Setting up n-grams</h2>
+        <div class="learn">In this activity, you will set up data by chunking it up into n-grams.</div>
         
         <p>In the build-a-story game, you were using your own data (from your brain). A computer only has as much data as you give it. In this activity, we will give the computer a <em>very small</em> amount of data, in a 24-word story. This is <em>all</em> the words the computer knows. We'll use this data to practice using an <em>algorithm</em> that generates the next word in a new story.</p>
         <div class="vocabBig">: <strong>Algorithm</strong>
 	        	<p>An <strong>algorithm</strong> is a set of instructions, or a sequence of steps, usually performed by a computer.</p>
         </div>
-        <p>The data:
+        <h3>The Data</h3>
         		<p class="indent">A curious student enters a science lab.<br>
         		The science lab smells strange and the science lab feels exciting.<br>
         		The curious student starts an experiment.</p>
-        </p>
+        
         
         <h3>Step 1: Chunking the data into n-grams</h3>
         
         <div class="vocabBig">: <strong>Token</strong>
 	        	<p>In AI, a <strong>token</strong> is the smallest unit of data. You can choose the token size that makes the most sense for your model. We are using words as our token, but you could also choose a smaller token, like letters (so that your data is a collection of individual letters) or a larger token, like sentences.</p>
         </div>
-        <p>Since we are building the story word-by-word, it makes sense to think of the data as a collection of words. We are using a word as a <em>token</em>. We can use scissors to cut up the sentence and think of our data now as a pile of words.</p>
+        <p>Since we are building the story word-by-word, it makes sense to think of the data as a collection of words. We are using a word as a <em>token</em>. We can use scissors to cut up the story and think of our data now as a pile of words.</p>
+        <div class="sidenote">Use <a href="https://docs.google.com/document/d/16KPKodmcqxRIeJBLxgfruIraTTCLpjxqxdV79wFiz9c/edit?usp=sharing" target="_blank" title="24-word story">this large version of the 24-word story</a> if you want to cut these out for yourself.</div>
         <img class="indent noshadow" src="/bjc-r/sparks/img/U4/lab04/1-gram-cutouts.png" alt="Each word from the 24-word story has been cut out to make a pile of words." title="Each word from the 24-word story has been cut out to make a pile of words." />
+        
         <p>These are all the 1-grams that can be made from our 24-word story. </p>
+        
+        <div class="forYouToDo">
+            <ol>
+                <li>How many 1-grams do our data contain?</li>
+                <li>Ignoring capitalization and punctuation, which word(s) appear most often in our data?</li>
+            </ol>
+        </div>
+        
         
         <div class="vocabBig">: <strong>N-gram</strong>
 	        	<p>An <strong>n-gram</strong> is a chunk of <em>n</em> connected tokens from the data. In our example, words are our token, so an n-gram is any <em>n</em> connected words in our 24-word story. Since our data has 24 words, <em>n</em> can be any number from 1 to 24. You can have 2-grams, like "curious student" or "student enters," or 5-grams, like "enters a science lab. The."</p>
@@ -35,18 +45,30 @@
         <p>We could generate a new story by just randomy picking a word from the pile, putting it back and picking the next word, and so on. But we can do better by using <em>context</em>. Just like in the build-a-story game, if we know a few words in our story, we can use them to choose a word that fits with what we know. To do this, we organize our data to keep track of all the 2-word combinations (2-grams) and 3-grams, and so on, up to whatever "n" n-gram we want.</p>
         <p>Here's an example of all the 1-grams, 2-grams, and 3-grams you can get from "This is a sentence." Notice how the words in the 2-grams overlap with each other (and the words in the 3-grams, too).</p>
         <img class="indent noshadow" src="/bjc-r/sparks/img/U4/lab04/this-is-a-sentence.png" alt="This is a sentence. Unigrams: This, is, a, sentence. Bigrams: This is, is a, a sentence. Trigrams: This is a, is a sentence." title="This is a sentence. Unigrams: This, is, a, sentence. Bigrams: This is, is a, a sentence. Trigrams: This is a, is a sentence." />
-        <p>To get all of the 2-grams, we can cut them out again, but you need more than one copy of the sentence, because of the overlapping words.</p>
+        
+        <div class="forYouToDo">
+            <ol start="3"> 
+                <li>What are the 2-grams for the sentence: "A curious student enters a science lab."?</li>
+                <li>What are the 3-grams for that sentence?</li>
+            </ol>
+        </div>
+        
+        
+        <p>To get all of the 2-grams, you can cut them out, but you will need more than one copy of the sentence, because of the overlapping words.</p>
         <img class="indent noshadow" src="/bjc-r/sparks/img/U4/lab04/2-gram-cutouts.png" alt="Each 2-word chunk from the 24-word story has been cut out to make a pile of phrases." title="Each 2-word chunk from the 24-word story has been cut out to make a pile of phrases." />
 
         <div class="forYouToDo">
-            <ol>
-                <li></li>
-                <li></li>
-                <li></li>
+        		<p>Instead of putting them in a pile, <a href="https://go.edc.org/NgramAlg" target="_blank" title="N-gram Table">here are the 1-grams, 2-grams, and 3-grams in a table</a>.</p>
+            <ol start="5"> 
+                <li>How many 2-grams do our data contain?</li>
+                <li>How many 3-grams do our data contain?</li>
+                <li>If you listed all the 5-grams, how many of those do you think there would be? Why?</li>
+                <li>Look at the 2-grams. Which word(s) follow the word "student"? In other words, if the context is "student," what are the candidates for the next word?</li>
+                <li>If the context is "science lab," what are the candidates for the next word?</li>
             </ol>
         </div>
 
-        <div class="learn"></div>
+        <div class="learn">In this activity, you learned about n-grams.</div>
 
 
     </body>
