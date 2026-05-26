@@ -210,6 +210,9 @@ MC.prototype.render = function() {
         var latestState = this.states[this.states.length - 1];
         //display the message that they correctly answered the question
         var resultMessage = this.getResultMessage(latestState.isCorrect);
+        if (!resultMessage && latestState.isPartial) {
+            resultMessage = llab.translate('partialMessage');
+        }
         this.multipleChoice.find('.resultMessageDiv').html(resultMessage);
         if (latestState.isCorrect) {
             this.multipleChoice.find('.tryAgainButton').addClass('disabled').attr('disabled', true);
@@ -344,6 +347,7 @@ MC.prototype.checkAnswer = function() {
     }
 
     mcState.isCorrect = isCorrect;
+    mcState.isPartial = isPartial;
 
     var outerdiv = this.multipleChoice.find('.panel-heading').parent();
     outerdiv.removeClass('panel-primary panel-success panel-warning panel-danger');
