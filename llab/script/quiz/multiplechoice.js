@@ -153,14 +153,15 @@ MC.prototype.render = function() {
         type = 'checkbox';
     }
 
+    // TODO: Bootstrap 5: revisit form CSS classes
     for (let i = 0; i < this.choices.length; i++) {
         optId = this.choices[i].identifier;
         choice_id = `q-${this.num}-${this.removeSpace(optId)}`;
         choiceHTML = `
         <div class="option-row">
-            <div class="option-input">
-                <input type="${type}" id="${choice_id}" value="${this.removeSpace(optId)}" />
+            <div class="${type}">
                 <label id="choicetext-${choice_id}" for="${choice_id}">
+                    <input type="${type}" id="${choice_id}" value="${this.removeSpace(optId)}" />
                     ${this.choices[i].text}
                 </label>
             </div>
@@ -193,6 +194,7 @@ MC.prototype.render = function() {
     this.enableCheckAnswerButton('true');
     this.clearFeedbackDiv();
 
+    console.log(this.correctResponse);
     if (this.correctResponse.length < 1) {
         // if there is no correct answer to this question (ie, when they're filling out a form),
         // change button to say "save answer" and "edit answer" instead of "check answer" and "try again"

@@ -53,6 +53,12 @@ body {
   padding: 50px 1em 1em; /* padding top is reset by JS on load. */
 }
 
+:target {
+  /* Offset for in-page links because of fixed nav bar */
+  /* Larger value than nav for extra roominess */
+  scroll-margin-top: 140px !important;
+}
+
 code, pre, tt, kbd, samp, var {
   font-size: 1em;
   font-style: normal;
@@ -790,8 +796,15 @@ img.indent, div.indent {
   padding: 0.5em 0;
 }
 
-.MultipleChoice .radiobuttondiv .option-row .option-input {
-  flex: 1 1 1;
+/* TODO: Bootstrap 5 revisit this! */
+.radiobuttondiv .radio label {
+  display: flex;
+  align-items: center;
+}
+.radiobuttondiv .radio label input[type="radio"] {
+  margin-top: 0;
+  margin-right: 5px;
+  flex-shrink: 0;
 }
 
 .MultipleChoice .radiobuttondiv .option-feedback {

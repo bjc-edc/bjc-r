@@ -15,7 +15,7 @@ I18n.backend.load_translations
 # I think we can just replace content in the file, but we could use a library.
 class Vocab
   include BJCHelpers
-  VOCAB_CLASSES = %w[vocabFullWidth vocabBig vocab]
+  VOCAB_CLASSES = ['vocabFullWidth', 'vocabBig', 'vocab'].freeze
 
   def initialize(path, language = 'en', content, course)
     @parentDir = path
@@ -28,7 +28,7 @@ class Vocab
     @currUnitNum = 0
     @currLab = ''
     @vocabList = []
-    @vocabDict = {}
+    @vocab_url_map = {}
     @labPath = ''
     @currUnitName = nil
     @index = Index.new(@parentDir, @language)
@@ -46,7 +46,7 @@ class Vocab
   end
 
   def doIndex
-    @index.vocabDict(@vocabDict)
+    @index.vocab_url_map = @vocab_url_map
     @index.vocabList(@vocabList)
     @index.main
   end
@@ -73,6 +73,10 @@ class Vocab
 
   def currFile(file)
     @currFile = file
+  end
+
+  def isNewUnit(boolean)
+    @isNewUnit = boolean
   end
 
   def currUnitNum(num)
@@ -199,7 +203,7 @@ class Vocab
     doc.xpath(xpath_selector).each do |node|
       node['class'] = 'vocab summaryBox'
       child = node.children
-      child.before(add_vocab_unit_to_header)
+      child.before(add_vocab_unit_to_header) # if !child.to_a.include?(add_vocab_unit_to_header)
       get_vocab_word(node) # This saves the extracted term for later.
       # TODO: see if we can remove this tracking of the box number.
       @current_box_num += 1
@@ -226,9 +230,14 @@ class Vocab
     vocab.find { |item| !item.nil? }
   end
 
+  # TODO: We need to replace this with dedicated <dt> and <dd> tags in the HTML.
+  # We should directly apply all index entries in HTML.
   def separateVocab(str)
     unless str.scan(/\(\w+\)/).empty? # looking for strings in parathesis such as: (API), (AI)
-      saveVocabWord(str.scan(/\(\w+\)/)[0][1..-2])
+      abbreviation = str.scan(/\(\w+\)/)[0][1..-2]
+      saveVocabWord(abbreviation)
+
+      str = str.gsub("(#{abbreviation})", '').strip
     end
     if !str.scan(/ or /).empty? # looking for strings with "or" in them: antivirus or antimalware
       iterateVocab(str.split(' or '))
@@ -252,7 +261,12 @@ class Vocab
     end
   end
 
+  # Skip removing 'the' from these words.
+  # TODO: Does this need to handle spanish?
+  SPECIAL_ARTICLES = ['the cloud', 'cloud, the'].freeze
   def removeArticles(vocab)
+    return vocab if SPECIAL_ARTICLES.include?(vocab.downcase)
+
     vList = vocab.split(' ')
     articles = %w[el la las los the]
     plurals = articles.map(&:capitalize)
@@ -271,10 +285,12 @@ class Vocab
 
   def extract_vocab_word(nodes)
     nodes.each do |node|
-      # Skip removing 'the' from these words.
-      # TODO: Does this need to handle spanish?
-      kludges = ['the cloud', 'cloud, the']
-      node = removeArticles(node.text.gsub(/(\s+)$/, '').to_s) unless kludges.include?(node.to_s.downcase)
+      o_node = node.to_s
+      node = removeArticles(node.text.gsub(/(\s+)$/, '').to_s)
+      if node == ''
+        puts "Error: Empty vocab word extracted, original node: #{o_node}"
+        next
+      end
       saveVocabWord(node)
       separateVocab(node)
     end
@@ -286,9 +302,9 @@ class Vocab
 
     if !vocabExists?(@vocabList, vocab)
       @vocabList.push(vocab)
-      @vocabDict[vocab] = [add_vocab_unit_to_index]
-    elsif @vocabDict[findVocab(vocab)].last != add_vocab_unit_to_index
-      @vocabDict[findVocab(vocab)].append(add_vocab_unit_to_index)
+      @vocab_url_map[vocab] = [add_vocab_unit_to_index]
+    elsif @vocab_url_map[findVocab(vocab)].last != add_vocab_unit_to_index
+      @vocab_url_map[findVocab(vocab)].append(add_vocab_unit_to_index)
     end
   end
 
@@ -329,8 +345,7 @@ class Vocab
     # This really only makes a difference for the Spanish translation, since English is already capitalized.
     page_text = page_text.capitalize if @language == 'es'
     suffix = generate_url_suffix(TOPIC_COURSE[0], get_topic_file, TOPIC_COURSE[-1])
-    "<a name=\"box#{@current_box_num}\"</a>
-    <a href=\"#{get_url(@currFile, Dir.pwd)}#{suffix}\"><b>#{page_text}</b></a>"
+    "<a href=\"#{get_url(@currFile, Dir.pwd)}#{suffix}\" id=\"box#{@boxNum}\"><b>#{page_text}</b></a>"
   end
 
   # need something to call this function and parse_unit

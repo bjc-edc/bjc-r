@@ -282,6 +282,14 @@ llab.processLinks = (data) => {
   // Setup the nav button links and build the dropdown.
   llab.setButtonURLs();
 
+  // Before adding the list to the page, remove headings without any links.
+  list.find('li.dropdown-header').each((_i, element) => {
+    if ($(element).next().length === 0 ||
+        $(element).next().hasClass('dropdown-header')) {
+      $(element).remove();
+    }
+  });
+
   $('.js-navDropdown').append(list);
   // Set the max-height of the dropdown list to not exceed window height
   // This is particularly important for smaller screens.
