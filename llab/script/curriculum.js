@@ -393,11 +393,11 @@ llab.createTitleNav = function() {
   let previousButtonLabel = `aria-label="${t('backText')}"`,
     nextButtonLabel = `aria-label="${t('nextText')}"`,
     previousPageButton = `
-      <a class='btn btn-nav hidden js-backPageLink js-navButton' ${previousButtonLabel}>
+      <a class='btn btn-nav d-none js-backPageLink js-navButton' ${previousButtonLabel}>
         <i class="fas fa-arrow-left" aria-hidden=true></i>
       </a>`,
     nextPageButton = `
-      <a class='btn btn-nav hidden js-nextPageLink js-navButton' ${nextButtonLabel}>
+      <a class='btn btn-nav d-none js-nextPageLink js-navButton' ${nextButtonLabel}>
         <i class="fas fa-arrow-right" aria-hidden=true></i>
       </a>`,
     // use \u00F1 instead of an ñ in the menu. (Issue in Chrome on topic pages)
@@ -411,7 +411,7 @@ llab.createTitleNav = function() {
         <h1 class="navbar-title"></h1>
       </div>
       <ul class="navbar-nav container justify-content-end">
-        <li class="dropdown js-langDropdown nav-lang-dropdown hidden">
+        <li class="dropdown js-langDropdown nav-lang-dropdown d-none">
           <a class="btn btn-nav btn-nav-lang dropdown-toggle" type="button"
             aria-label=${t('Switch language')} role="button" tabindex=0
             id="dropdown-langs" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -423,7 +423,7 @@ llab.createTitleNav = function() {
           </ul>
         </li>
         <li class="nav-btn-group nav-btn-group-first">${previousPageButton}</li>
-        <li class="nav-btn-group dropdown js-navDropdown js-navButton hidden">
+        <li class="nav-btn-group dropdown js-navDropdown js-navButton d-none">
           <a class="btn btn-nav dropdown-toggle"
             type="button" role="button" tabindex=0
             aria-label="${t('Navigation Menu')}"
@@ -441,11 +441,11 @@ llab.createTitleNav = function() {
     </nav>`,
     botHTML = `
       <nav class="full-bottom-bar" aria-label="secondary page navigation">
-        <div class="js-navButton hidden" style="float: left">
+        <div class="js-navButton d-none" style="float: left">
           ${previousPageButton}
         </div>
         <div class="progress-indicator"></div>
-        <div class="js-navButton hidden" style="float: right">
+        <div class="js-navButton d-none" style="float: right">
           ${nextPageButton}
         </div>
       </nav>`,
@@ -521,7 +521,7 @@ llab.setButtonURLs = function() {
   forward = $('.js-nextPageLink');
   back = $('.js-backPageLink');
   // Unhide buttons and remove click handlers
-  $('.js-navButton').removeClass('hidden').off('click');
+  $('.js-navButton').removeClass('d-none').off('click');
 
   if (llab.thisPageNum() === 0) {
     back.addClass('disabled').removeAttr('href').removeAttr('aria-label').attr('disabled', true);
@@ -729,11 +729,11 @@ llab.setupTranslationsMenu = function() {
     if (!response.ok) {
       console.log('Not found!!')
       // We need to re-hide the menu if it is currently showing.
-      $('.js-langDropdown').addClass('hidden');
+      $('.js-langDropdown').addClass('d-none');
       $('.js-langDropdown a').removeAttr('href');
       return;
     }
-    $('.js-langDropdown').removeClass('hidden');
+    $('.js-langDropdown').removeClass('d-none');
     if (lang == 'es') {
       $('.js-switch-lang-es').attr('href', location.href);
       $('.js-switch-lang-en').attr('href', new_url);

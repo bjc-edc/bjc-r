@@ -36,13 +36,6 @@
 
 /* * * * END FONTS * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-/* Bootstrap 3 removed the .hidden utility class in Bootstrap 5.
- * JS in curriculum.js toggles this class to show/hide nav buttons.
- * Keep a small shim for compatibility (BS5 alternative is .d-none). */
-.hidden {
-  display: none !important;
-}
-
 html {
   font-family: "work_sansregular", "Open Sans", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -284,6 +277,10 @@ ul.navbar-nav li {
 .btn-nav,
 .navbar-nav > li > a:visited, /* override bootstrap 3 */
 .btn-nav:visited {
+  /* Keep BS5's .btn.disabled color in sync with our white nav buttons,
+   * so the bottom bar's faded arrows are white, not black. */
+  --bs-btn-disabled-color: white;
+  --bs-btn-disabled-border-color: white;
   color: white;
   border: 2px solid white;
   background-color: unset;
