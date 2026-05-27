@@ -88,7 +88,7 @@ def a11y_test_cases(course, url)
       elementsArray = (selector) => Array.from(document.querySelectorAll(selector));
         window.onload = (_) => {
           elementsArray('details').forEach(el => el.open = true);
-          elementsArray('[data-toggle="collapse"]').forEach(el => el.click())
+          elementsArray('[data-bs-toggle="collapse"]').forEach(el => el.click())
         };
       JS
     end
