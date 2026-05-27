@@ -68,6 +68,9 @@ def a11y_test_cases(course, url)
     '.commentBig',
     '.ap-standard',
     '.csta-standard',
+    # 3rd-party YouTube embeds — false positives from YouTube's own iframe markup.
+    '[aria-label="YouTube Video Player"]',
+    '#movie_player',
     # TODO: items below here **must** be fixed eventually.
     'var', # Snap! elements don't have enough color contrast.
   ]
