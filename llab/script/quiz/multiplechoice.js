@@ -153,7 +153,6 @@ MC.prototype.render = function() {
         type = 'checkbox';
     }
 
-    // TODO: Bootstrap 5: revisit form CSS classes
     for (let i = 0; i < this.choices.length; i++) {
         optId = this.choices[i].identifier;
         choice_id = `q-${this.num}-${this.removeSpace(optId)}`;
@@ -333,16 +332,14 @@ MC.prototype.checkAnswer = function() {
 
     mcState.isCorrect = isCorrect;
 
-    var outerdiv = this.multipleChoice.find('.panel-heading').parent();
-    outerdiv.removeClass('panel-primary');
-    outerdiv.removeClass('panel-success');
-    outerdiv.removeClass('panel-danger');
+    var outerdiv = this.multipleChoice.find('.card-header').parent();
+    outerdiv.removeClass('border-primary border-success border-danger');
     if (isCorrect) {
-        outerdiv.addClass('panel-success');
+        outerdiv.addClass('border-success');
         this.multipleChoice.find('.resultMessageDiv').html(this.getResultMessage(isCorrect));
         this.multipleChoice.find('.checkAnswerButton').addClass('disabled').attr('disabled', true);
     } else {
-        outerdiv.addClass('panel-danger');
+        outerdiv.addClass('border-danger');
     }
 
     // Update Google Analytics
@@ -463,9 +460,9 @@ MC.prototype.postRender = function() {};
 MC.prototype.getTemplate = function() {
     let t = llab.translate;
     return `
-<div class='panel panel-primary MultipleChoice Question'>
-    <div class='panel-heading questionType'>Multiple Choice</div>
-    <div class='panel-body currentQuestionBox'>
+<div class='card border-primary MultipleChoice Question'>
+    <div class='card-header questionType'>Multiple Choice</div>
+    <div class='card-body currentQuestionBox'>
         <div class='leftColumn'>
             <div class='promptDiv'></div>
             <form class='radiobuttondiv'></form>
