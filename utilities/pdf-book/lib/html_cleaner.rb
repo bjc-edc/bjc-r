@@ -2,8 +2,18 @@
 
 require 'digest'
 require 'fileutils'
+require 'i18n'
 require 'nokogiri'
 require 'open3'
+
+# Make sure the shared bjc_translations.yml from utilities/build-tools/
+# is loaded exactly once across this process. The pdf-book pipeline
+# uses the same translation source as the existing rebuild scripts so
+# strings stay in sync.
+unless I18n.backend.send(:translations).key?(:en)
+  I18n.load_path += Dir[File.expand_path('../../build-tools/*.yml', __dir__)]
+  I18n.backend.load_translations
+end
 
 # HTMLCleaner pre-processes a BJC curriculum HTML page so pandoc can
 # convert it cleanly to LaTeX.
@@ -52,47 +62,29 @@ class HTMLCleaner
     'pseudop'           => 'bjcpseudop',
   }.freeze
 
-  # Headings that the production CSS / llab JS adds via ::before content
-  # or by wrapping the div in a <details><summary> at runtime. The PDF
-  # build is a static snapshot, so we inject these as bold lead-in
-  # paragraphs inside each callout. Keyed by language; falls back to en.
-  CALLOUT_HEADINGS = {
-    'en' => {
-      'vocab'           => 'Vocabulary',
-      'vocabBig'        => 'Vocabulary',
-      'vocabFullWidth'  => 'Vocabulary',
-      'vocabSummary'    => 'Vocabulary',
-      'exam'            => 'On the AP Exam',
-      'examBig'         => 'On the AP Exam',
-      'examFullWidth'   => 'On the AP Exam',
-      'examSummary'     => 'On the AP Exam',
-      'atwork'          => 'Computer Scientists @ Work',
-      'atworkFullWidth' => 'Computer Scientists @ Work',
-      'dialogue'        => 'Thinking Out Loud',
-      'ifTime'          => 'If There Is Time…',
-      'takeItFurther'   => 'Take It Further…',
-      'takeItTeased'    => 'Take It Further…',
-      'takeItTeaser'    => 'Take It Further…',
-      'time'            => 'If you are short on time, you can skip…',
-    },
-    'es' => {
-      'vocab'           => 'Vocabulario',
-      'vocabBig'        => 'Vocabulario',
-      'vocabFullWidth'  => 'Vocabulario',
-      'vocabSummary'    => 'Vocabulario',
-      'exam'            => 'En el examen AP',
-      'examBig'         => 'En el examen AP',
-      'examFullWidth'   => 'En el examen AP',
-      'examSummary'     => 'En el examen AP',
-      'atwork'          => 'Científicos informáticos en el trabajo',
-      'atworkFullWidth' => 'Científicos informáticos en el trabajo',
-      'dialogue'        => 'Pensando en voz alta',
-      'ifTime'          => 'Si hay tiempo…',
-      'takeItFurther'   => 'Llevándolo más allá',
-      'takeItTeased'    => 'Llevándolo más allá',
-      'takeItTeaser'    => 'Llevándolo más allá',
-      'time'            => 'Si tienes poco tiempo, puedes avanzar…',
-    },
+  # Maps a BJC HTML class to the I18n key whose value is the heading
+  # text that the production CSS / llab JS injects at runtime (mirrors
+  # `:before` content rules in bjc.css plus `llab.TRANSLATIONS` in
+  # library.js). The actual strings live in
+  # utilities/build-tools/bjc_translations.yml so all of llab and the
+  # build tools share one source of truth.
+  HEADING_I18N_KEYS = {
+    'vocab'           => :vocab,
+    'vocabBig'        => :vocab,
+    'vocabFullWidth'  => :vocab,
+    'vocabSummary'    => :vocab,
+    'exam'            => :exam,
+    'examBig'         => :exam,
+    'examFullWidth'   => :exam,
+    'examSummary'     => :exam,
+    'atwork'          => :'callout.atwork',
+    'atworkFullWidth' => :'callout.atwork',
+    'dialogue'        => :'callout.dialogue',
+    'ifTime'          => :'callout.if_time',
+    'takeItFurther'   => :'callout.take_it_further',
+    'takeItTeased'    => :'callout.take_it_further',
+    'takeItTeaser'    => :'callout.take_it_further',
+    'time'            => :'callout.short_on_time',
   }.freeze
 
   attr_reader :title
@@ -155,12 +147,10 @@ class HTMLCleaner
   def strip_unsupported(body)
     body.css('script, audio, video, iframe, link, style, noscript').each(&:remove)
     body.css('a.report').each(&:remove)
-    body.css('[data-toggle]').each { |n| n.delete('data-toggle') }
-    # NOTE: `.collapse` (Bootstrap "hidden until clicked") content used
-    # to be stripped here. We now keep it so the PDF preserves all
-    # the hints / extended discussions that the web hides by default —
-    # see expand_collapsibles for the unwrapping logic.
-    #
+    body.css('[data-toggle], [data-bs-toggle]').each do |n|
+      n.delete('data-toggle')
+      n.delete('data-bs-toggle')
+    end
     # Strip empty paragraphs / divs left behind.
     body.css('p,div,span').each do |n|
       n.remove if n.children.empty? && n.text.strip.empty?
@@ -187,13 +177,24 @@ class HTMLCleaner
       det.replace(det.children)
     end
 
-    # Bootstrap "data-toggle" triggers: keep the trigger text as a
-    # bold lead-in, but drop the link semantics so it isn't rendered
-    # as a dead URL in the PDF.
-    body.css('a[data-toggle], a[data-target]').each do |a|
+    # Bootstrap "data-toggle" / "data-bs-toggle" triggers (BS4 and BS5
+    # respectively): keep the trigger text as a bold lead-in, but drop
+    # the link semantics so it isn't rendered as a dead URL in the PDF.
+    body.css('a[data-toggle], a[data-target], a[data-bs-toggle], a[data-bs-target]').each do |a|
       bold = Nokogiri::XML::Node.new('strong', body)
       bold.content = a.text.strip
       a.replace(bold)
+    end
+  end
+
+  # Remove the now-stale toggle attributes from any element that
+  # wasn't replaced above (e.g. a <button>).
+  def flatten_collapsible(body)
+    body.css('[data-toggle], [data-bs-toggle]').each do |n|
+      n.delete('data-toggle')
+      n.delete('data-bs-toggle')
+      n.delete('data-target')
+      n.delete('data-bs-target')
     end
   end
 
@@ -219,12 +220,30 @@ class HTMLCleaner
         end
       end
 
+      # GIFs: extract the first frame as a PNG so the reader still
+      # sees the image, and wrap the <img> in a link to the original
+      # animated GIF on the live site so they can scan/click through
+      # to view the animation.
+      if local && File.exist?(local) && ext == '.gif'
+        frame = extract_gif_first_frame(local)
+        if frame
+          img['src'] = sanitize_image_path(frame)
+          link_url = src.start_with?('/') ? "#{BJC_HOST}#{src}" : src
+          link = Nokogiri::XML::Node.new('a', body)
+          link['href'] = link_url
+          parent_of_img = img.parent
+          img.replace(link)
+          link.add_child(img)
+          next
+        end
+      end
+
       if local && File.exist?(local) && PDFLATEX_IMAGE_EXTS.include?(ext)
         img['src'] = sanitize_image_path(local)
       else
-        # Either the file is missing, or it's a GIF/etc. that lualatex
-        # can't embed directly. Replace with an italicized alt-text
-        # placeholder so the surrounding prose still makes sense.
+        # Either the file is missing, or it's a format lualatex can't
+        # embed and we have no converter for. Replace with an italicized
+        # alt-text placeholder so the surrounding prose still makes sense.
         @missing_images << src if !local || !File.exist?(local)
         placeholder = Nokogiri::XML::Node.new('em', body)
         alt = img['alt'].to_s.strip
@@ -237,6 +256,33 @@ class HTMLCleaner
         img.replace(placeholder)
       end
     end
+  end
+
+  # Extract frame 0 of an animated GIF as PNG, cached under
+  # image_cache_dir. Returns the cached PNG path, or nil if ffmpeg
+  # isn't installed or the conversion fails.
+  def extract_gif_first_frame(gif_path)
+    return nil unless @image_cache_dir
+    FileUtils.mkdir_p(@image_cache_dir)
+    cache_name = 'gif_' + Digest::SHA1.hexdigest(gif_path)[0, 16] + '.png'
+    cache_path = File.join(@image_cache_dir, cache_name)
+
+    if File.exist?(cache_path) && File.mtime(cache_path) >= File.mtime(gif_path)
+      return cache_path
+    end
+
+    # -vframes 1 grabs the first frame; -y overwrites; -loglevel error
+    # suppresses ffmpeg's progress chatter.
+    cmd = ['ffmpeg', '-y', '-loglevel', 'error',
+           '-i', gif_path, '-vframes', '1', cache_path]
+    out, status = Open3.capture2e(*cmd)
+    return cache_path if status.success? && File.exist?(cache_path)
+
+    warn "  ffmpeg failed for #{gif_path}: #{out.lines.first&.chomp}"
+    nil
+  rescue Errno::ENOENT
+    warn '  ffmpeg not installed; GIFs will render as placeholders'
+    nil
   end
 
   # rsvg-convert (librsvg2-bin) ships a clean SVG -> PDF path. We
@@ -347,6 +393,16 @@ class HTMLCleaner
     end
   end
 
+  # Look up the heading text for a callout class via I18n. Returns nil
+  # if the class isn't headed (the JS / CSS leaves it as a styled
+  # marker only) or the lookup misses for this language.
+  def lookup_callout_heading(klass)
+    key = HEADING_I18N_KEYS[klass]
+    return nil unless key
+    I18n.t(key, locale: @language.to_sym, default: nil) ||
+      I18n.t(key, locale: :en, default: nil)
+  end
+
   # Wrap an index term as a hex-encoded sentinel that pandoc passes
   # through untouched (ASCII letters + digits + underscores only).
   def index_marker(category, term)
@@ -423,13 +479,6 @@ class HTMLCleaner
     end
   end
 
-  def flatten_collapsible(body)
-    # Some BJC pages wrap content in <div data-toggle="collapse"> +
-    # <div class="collapse">. After strip_unsupported the targets are
-    # gone; remove the toggle wrappers too.
-    body.css('[data-toggle]').each { |n| n.replace(n.children) }
-  end
-
   # Classes that the production CSS hides (`display: none`) — author
   # notes, draft TODOs, and AP/CSTA standard codes that act as labels
   # in the web UI but shouldn't appear in the printed book. Run this
@@ -462,15 +511,13 @@ class HTMLCleaner
   # Exam, Take It Further, etc.) we prepend the heading text inside the
   # callout so the printed book matches the rendered web layout.
   def wrap_callouts(body)
-    headings_for_lang = CALLOUT_HEADINGS[@language] || CALLOUT_HEADINGS['en']
-
     body.css('div[class]').each do |div|
       classes = div['class'].to_s.split(/\s+/)
       env = classes.map { |c| CALLOUT_CLASSES[c] }.compact.first
       next unless env
 
       tag = env.upcase.gsub(/[^A-Z0-9]/, '')
-      heading = classes.map { |c| headings_for_lang[c] }.compact.first
+      heading = classes.map { |c| lookup_callout_heading(c) }.compact.first
 
       div.add_previous_sibling("<p>XBJCBEGIN#{tag}XEND</p>")
       if heading

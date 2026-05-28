@@ -42,6 +42,14 @@ Local binaries:
 - `rsvg-convert` from `librsvg2-bin` (optional; converts SVGs to PDF
   for lossless embedding — pages with SVGs fall back to alt-text
   placeholders otherwise)
+- `ffmpeg` (optional; extracts the first frame of GIFs as a PNG so the
+  reader still sees the image — without it, GIFs fall back to alt-text
+  placeholders)
+
+Translation strings (callout headings, etc.) load from the shared
+`utilities/build-tools/bjc_translations.yml`, so any new term added
+for `llab` or the existing rebuild scripts is automatically picked up
+by the PDF build.
 
 Ruby gems: `nokogiri`, `i18n` (the latter is used by the existing
 build-tools code we reuse for `BJCCourse`).
@@ -50,7 +58,7 @@ build-tools code we reuse for `BJCCourse`).
 apt-get install -y ruby pandoc texlive-luatex texlive-latex-extra \
                    texlive-fonts-recommended texlive-fonts-extra \
                    texlive-lang-spanish poppler-utils \
-                   qrencode librsvg2-bin
+                   qrencode librsvg2-bin ffmpeg
 gem install nokogiri i18n
 ```
 
@@ -180,10 +188,10 @@ by reader-visible impact.
 
 **Media drops**
 
-- `~396` GIFs become italic alt-text placeholders. Extracting the
-  first frame as a PNG (`ffmpeg`, `magick convert 'foo.gif[0]'`) would
-  give a real image; the cleaner already has the hook in
-  `rewrite_image_paths`.
+- `~396` GIFs: when `ffmpeg` is installed, the first frame is
+  extracted as a PNG and embedded wrapped in a clickable link to the
+  live animated GIF on bjc.edc.org. Falls back to alt-text placeholder
+  otherwise.
 - `~5` SVGs are converted to PDF via `rsvg-convert` (when installed)
   and embedded losslessly. Falls back to alt-text placeholder if the
   tool is missing.
