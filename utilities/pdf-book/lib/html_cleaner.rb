@@ -19,15 +19,78 @@ class HTMLCleaner
   # BJC <div class="..."> values that should map to LaTeX environments
   # defined in templates/preamble.tex.
   CALLOUT_CLASSES = {
-    'learn'         => 'bjclearn',
-    'takeNote'      => 'bjctakenote',
-    'forYouToDo'    => 'bjcforyoutodo',
-    'endnote'       => 'bjcendnote',
-    'sidenote'      => 'bjcsidenote',
-    'sidenoteBig'   => 'bjcsidenote',
-    'vocab'         => 'bjcvocab',
-    'definition'    => 'bjcvocab',
-    'pseudop'       => 'bjcpseudop',
+    'learn'             => 'bjclearn',
+    'takeNote'          => 'bjctakenote',
+    'forYouToDo'        => 'bjcforyoutodo',
+    'endnote'           => 'bjcendnote',
+    'sidenote'          => 'bjcsidenote',
+    'sidenoteBig'       => 'bjcsidenote',
+    'vocab'             => 'bjcvocab',
+    'vocabBig'          => 'bjcvocab',
+    'vocabFullWidth'    => 'bjcvocab',
+    'vocabSummary'      => 'bjcvocab',
+    'definition'        => 'bjcvocab',
+    'exam'              => 'bjcexam',
+    'examBig'           => 'bjcexam',
+    'examFullWidth'     => 'bjcexam',
+    'examSummary'       => 'bjcexam',
+    'atwork'            => 'bjcatwork',
+    'atworkFullWidth'   => 'bjcatwork',
+    'dialogue'          => 'bjcdialogue',
+    'ifTime'            => 'bjciftime',
+    'takeItFurther'     => 'bjctakefurther',
+    'takeItTeased'      => 'bjctakefurther',
+    'takeItTeaser'      => 'bjctakefurther',
+    'time'              => 'bjctime',
+    'narrower'          => 'bjcnarrower',
+    'narrowblue'        => 'bjcnarrowblue',
+    'narrowpurple'      => 'bjcnarrowpurple',
+    'sideHOM'           => 'bjcsidenote',
+    'sideHOMbig'        => 'bjcsidenote',
+    'pseudop'           => 'bjcpseudop',
+  }.freeze
+
+  # Headings that the production CSS / llab JS adds via ::before content
+  # or by wrapping the div in a <details><summary> at runtime. The PDF
+  # build is a static snapshot, so we inject these as bold lead-in
+  # paragraphs inside each callout. Keyed by language; falls back to en.
+  CALLOUT_HEADINGS = {
+    'en' => {
+      'vocab'           => 'Vocabulary',
+      'vocabBig'        => 'Vocabulary',
+      'vocabFullWidth'  => 'Vocabulary',
+      'vocabSummary'    => 'Vocabulary',
+      'exam'            => 'On the AP Exam',
+      'examBig'         => 'On the AP Exam',
+      'examFullWidth'   => 'On the AP Exam',
+      'examSummary'     => 'On the AP Exam',
+      'atwork'          => 'Computer Scientists @ Work',
+      'atworkFullWidth' => 'Computer Scientists @ Work',
+      'dialogue'        => 'Thinking Out Loud',
+      'ifTime'          => 'If There Is Time…',
+      'takeItFurther'   => 'Take It Further…',
+      'takeItTeased'    => 'Take It Further…',
+      'takeItTeaser'    => 'Take It Further…',
+      'time'            => 'If you are short on time, you can skip…',
+    },
+    'es' => {
+      'vocab'           => 'Vocabulario',
+      'vocabBig'        => 'Vocabulario',
+      'vocabFullWidth'  => 'Vocabulario',
+      'vocabSummary'    => 'Vocabulario',
+      'exam'            => 'En el examen AP',
+      'examBig'         => 'En el examen AP',
+      'examFullWidth'   => 'En el examen AP',
+      'examSummary'     => 'En el examen AP',
+      'atwork'          => 'Científicos informáticos en el trabajo',
+      'atworkFullWidth' => 'Científicos informáticos en el trabajo',
+      'dialogue'        => 'Pensando en voz alta',
+      'ifTime'          => 'Si hay tiempo…',
+      'takeItFurther'   => 'Llevándolo más allá',
+      'takeItTeased'    => 'Llevándolo más allá',
+      'takeItTeaser'    => 'Llevándolo más allá',
+      'time'            => 'Si tienes poco tiempo, puedes avanzar…',
+    },
   }.freeze
 
   attr_reader :title
@@ -36,9 +99,10 @@ class HTMLCleaner
   # \includegraphics: anything pandoc would emit as an escape macro.
   UNSAFE_PATH_CHARS = /[\\'"&%#$~^\s{}<>?\[\]]/.freeze
 
-  def initialize(html_path, bjc_root:, image_cache_dir: nil)
+  def initialize(html_path, bjc_root:, language: 'en', image_cache_dir: nil)
     @html_path = html_path
     @bjc_root = bjc_root
+    @language = language
     @image_cache_dir = image_cache_dir
     @missing_images = []
   end
@@ -245,16 +309,33 @@ class HTMLCleaner
   # We use plain-text markers (XBJCBEGIN... / XBJCEND...) rather than
   # HTML comments because pandoc drops HTML comments. The marker only
   # uses letters + digits so LaTeX won't escape any of its characters.
+  #
+  # If the class also has a CSS-injected heading (Vocabulary, On the AP
+  # Exam, Take It Further, etc.) we prepend the heading text inside the
+  # callout so the printed book matches the rendered web layout.
   def wrap_callouts(body)
+    headings_for_lang = CALLOUT_HEADINGS[@language] || CALLOUT_HEADINGS['en']
+
     body.css('div[class]').each do |div|
       classes = div['class'].to_s.split(/\s+/)
       env = classes.map { |c| CALLOUT_CLASSES[c] }.compact.first
       next unless env
 
       tag = env.upcase.gsub(/[^A-Z0-9]/, '')
-      # Wrap markers in their own paragraphs so pandoc emits them as
-      # standalone text lines we can grep-replace.
+      heading = classes.map { |c| headings_for_lang[c] }.compact.first
+
       div.add_previous_sibling("<p>XBJCBEGIN#{tag}XEND</p>")
+      if heading
+        # `.vocab.summaryBox` deliberately suppresses the "Vocabulary"
+        # heading because each entry already starts with the lab/page
+        # reference — mirror that behavior here.
+        suppressed = (classes.include?('summaryBox') && (env == 'bjcvocab' || env == 'bjcexam'))
+        unless suppressed
+          div.add_previous_sibling(
+            "<p><strong>#{Nokogiri::XML::Text.new(heading, body).to_xml}</strong></p>"
+          )
+        end
+      end
       div.add_next_sibling("<p>XBJCEND#{tag}XEND</p>")
       div.replace(div.children)
     end

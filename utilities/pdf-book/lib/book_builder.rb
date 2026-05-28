@@ -54,7 +54,8 @@ class BookBuilder
     @max_units = max_units
 
     @image_cache_dir = File.join(@output_dir, 'img-cache')
-    @renderer = LatexRenderer.new(bjc_root: @root, image_cache_dir: @image_cache_dir)
+    @renderer = LatexRenderer.new(bjc_root: @root, language: @language,
+                                  image_cache_dir: @image_cache_dir)
     @missing_images = []
     @missing_pages = []
     @warnings = []
@@ -195,10 +196,30 @@ class BookBuilder
 
   def guess_book_title(_course)
     case @course_name
-    when 'bjc4nyc' then 'BJC: Computer Science Principles'
+    when 'bjc4nyc' then 'BJC AP CS Principles'
     when 'sparks' then 'BJC Sparks: Middle School'
     else "BJC \\textemdash{} #{@course_name}"
     end
+  end
+
+  # URL of the live HTML version of this course, for the cover link.
+  # Spanish builds load `<course>.es.html`.
+  def course_url
+    suffix = @language == 'en' ? '' : ".#{@language}"
+    "https://bjc.edc.org/bjc-r/course/#{@course_name}#{suffix}.html"
+  end
+
+  # ISO date of the most recent commit touching the course's source
+  # tree (curriculum HTML, topic files, and Sparks content). Falls back
+  # to today's date if `git` isn't available or the repo has no history
+  # for those paths.
+  def last_updated_date
+    paths = ['cur', 'topic', 'sparks'].map { |d| File.join(@root, d) }.select { |p| File.exist?(p) }
+    return Time.now.strftime('%Y-%m-%d') if paths.empty?
+
+    cmd = ['git', '-C', @root, 'log', '-1', '--format=%cs', '--', *paths]
+    out, status = Open3.capture2(*cmd)
+    out.strip.empty? || !status.success? ? Time.now.strftime('%Y-%m-%d') : out.strip
   end
 
   def write_master_tex(book_title, chapters_latex)
@@ -210,9 +231,10 @@ class BookBuilder
       f.write("\n")
       f.write(preamble)
       f.write("\n")
-      f.write("\\newcommand{\\BJCCourseTag}{#{latex_escape(@course_name)}}\n")
       f.write("\\newcommand{\\BJCBookTitle}{#{book_title}}\n")
       f.write("\\newcommand{\\BJCBookAuthors}{The BJC Team \\\\ EDC, UC Berkeley}\n")
+      f.write("\\newcommand{\\BJCCourseURL}{#{course_url}}\n")
+      f.write("\\newcommand{\\BJCLastUpdated}{#{last_updated_date}}\n")
       f.write(cover)
       f.write(<<~TEX)
 

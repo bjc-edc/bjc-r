@@ -125,6 +125,66 @@ The ticket noted this as an open question. We went with LaTeX because:
   full HTML parser; we only pre-process the BJC-specific custom
   attributes (`class="learn"`, snap-run links, lazy GIFs, etc.).
 
+## Known gaps vs. the web view
+
+An audit of `llab/script/*.js` and the curriculum HTML surfaced these
+things the web has and the PDF currently does not. Ordered roughly
+by reader-visible impact.
+
+**Interactive content**
+
+- **Snap! "run" links** (`<a class="run">`, ~255 in `cur/programming/`)
+  are stripped wholesale. The PDF loses every "load this starter
+  project" button. Fix would be to emit the live URL (and ideally a
+  QR code) next to the link text.
+- **Self-check quizzes** (`<div class="assessment-data">`, ~503).
+  Question stems become index entries but the choices, correct
+  answers, and inline feedback render as undecorated text. There is
+  no callout mapping for `.assessment-data`, `.choice`, `.prompt`,
+  `.correctResponse`, `.feedback`.
+- **Glossary hover popups** (`.hoverinfo`, ~72) — `glossary.js`
+  AJAX-loads `/glossary/<term>.body` on hover. PDF keeps only the
+  trigger text; the definition is never inlined.
+- **w3-include-html sub-pages** — most `cur/teaching-guide/` pages are
+  empty stubs that load content via `w3-include-html="..."` at runtime.
+  The pipeline doesn't follow these, so teacher-guide PDFs would be
+  near-empty. (Not currently in CI matrix; flag for the future.)
+- **KaTeX math** (`.katex`, `.katex-block`, ~120) — LaTeX source
+  appears as literal text in the PDF instead of as rendered math.
+  Easy win: wrap `.katex` content in `$...$` / `\[...\]` before pandoc.
+- **`.collapse` blocks** (~605) are stripped wholesale alongside their
+  trigger. Some are hints / "show solution" / extended discussion that
+  a print reader should still get to see.
+- **Color-swatch helpers** (`data-color`, ~8) silently vanish.
+- **Syntax highlighting** — `<pre><code>` blocks are rendered in
+  monospace but not colorized. Low-priority; ~56 Python blocks.
+
+**Classes that would benefit from a mapping**
+
+- `.snap` (~282) — brand inline mark "Snap!" with trailing italic "!".
+  PDF currently shows just "snap". A small `\snap{}` macro would fix it.
+- `.imageRight` / `.imageLeft` (~602) — float captions; PDF gets
+  inline placement, often misaligned with adjacent prose. Wrapping in
+  `wrapfig` would match the web layout.
+- `.alert .quoteBlue` / `.quoteGreen` / `.quoteOrange` / `.quoteYellow`
+  (~115) — colored pull-quotes rendered as plain paragraphs.
+- `.box-head` (~149), `.additional-info` (~173), `.stagedir` (~99) —
+  semantic helpers that lose their styling.
+- `.truth.bordered` / `.truthtable` (~27) — logic truth tables lose
+  borders.
+- `.saveAs` / `.newProject` (~74) — UI-instruction badges.
+
+**Media drops**
+
+- `~396` GIFs become italic alt-text placeholders. Extracting the
+  first frame as a PNG (`ffmpeg`, `magick convert 'foo.gif[0]'`) would
+  give a real image; the cleaner already has the hook in
+  `rewrite_image_paths`.
+- `~5` SVGs are dropped. Trivially convertible to PDF with
+  `rsvg-convert -f pdf` and would embed losslessly.
+- `.ap-standard` codes outside `.exam` boxes (~982) are stripped but
+  not indexed. Could be added to "On the AP Exam" too if useful.
+
 ## Known limitations
 
 - **Animated GIFs**: `pdflatex`/`xelatex` can't embed GIF. The cleaner

@@ -260,6 +260,95 @@
   skipabove=0.5\baselineskip, skipbelow=0.5\baselineskip,
   linecolor=snapblue, backgroundcolor=vocabbg,
 ]{bjcvocab}
+
+% Callouts added for the wider class set (exam, atwork, dialogue,
+% ifTime, takeItFurther, time, narrower variants).
+\definecolor{exambg}{RGB}{255,240,225}
+\definecolor{exambar}{RGB}{210,90,30}
+\newmdenv[
+  linewidth=3pt,
+  topline=false, bottomline=false, rightline=false,
+  innerleftmargin=14pt, innerrightmargin=12pt,
+  innertopmargin=10pt, innerbottommargin=10pt,
+  skipabove=0.5\baselineskip, skipbelow=0.5\baselineskip,
+  linecolor=exambar, backgroundcolor=exambg,
+]{bjcexam}
+
+\definecolor{atworkbg}{RGB}{230,250,240}
+\definecolor{atworkbar}{RGB}{40,130,90}
+\newmdenv[
+  linewidth=3pt,
+  topline=false, bottomline=false, rightline=false,
+  innerleftmargin=14pt, innerrightmargin=12pt,
+  innertopmargin=10pt, innerbottommargin=10pt,
+  skipabove=0.5\baselineskip, skipbelow=0.5\baselineskip,
+  linecolor=atworkbar, backgroundcolor=atworkbg,
+]{bjcatwork}
+
+\definecolor{dialoguebg}{RGB}{240,240,250}
+\definecolor{dialoguebar}{RGB}{90,90,180}
+\newmdenv[
+  linewidth=3pt,
+  topline=false, bottomline=false, rightline=false,
+  innerleftmargin=14pt, innerrightmargin=12pt,
+  innertopmargin=10pt, innerbottommargin=10pt,
+  skipabove=0.5\baselineskip, skipbelow=0.5\baselineskip,
+  linecolor=dialoguebar, backgroundcolor=dialoguebg,
+]{bjcdialogue}
+
+% ifTime, takeItFurther, takeItTeased are shown unconditionally in the
+% PDF (the web hides them behind <details>; the user wants them visible
+% in the printed book). Distinct colors so readers can spot "optional"
+% content at a glance.
+\definecolor{iftimebg}{RGB}{225,235,255}
+\definecolor{iftimebar}{RGB}{74,108,212}
+\newmdenv[
+  linewidth=3pt,
+  topline=false, bottomline=false, rightline=false,
+  innerleftmargin=14pt, innerrightmargin=12pt,
+  innertopmargin=10pt, innerbottommargin=10pt,
+  skipabove=0.5\baselineskip, skipbelow=0.5\baselineskip,
+  linecolor=iftimebar, backgroundcolor=iftimebg,
+]{bjciftime}
+
+\definecolor{takefurtherbg}{RGB}{240,230,250}
+\definecolor{takefurtherbar}{RGB}{143,86,227}
+\newmdenv[
+  linewidth=3pt,
+  topline=false, bottomline=false, rightline=false,
+  innerleftmargin=14pt, innerrightmargin=12pt,
+  innertopmargin=10pt, innerbottommargin=10pt,
+  skipabove=0.5\baselineskip, skipbelow=0.5\baselineskip,
+  linecolor=takefurtherbar, backgroundcolor=takefurtherbg,
+]{bjctakefurther}
+
+\newenvironment{bjctime}{\begin{bjciftime}}{\end{bjciftime}}
+
+% Narrower variants are layout helpers in the web view; render them as
+% small page-break-safe indented blocks. mdframed with no borders gives
+% us list-item-safe wrapping (adjustwidth + lists is fragile).
+\newmdenv[
+  linewidth=0pt,
+  innerleftmargin=1em, innerrightmargin=1em,
+  innertopmargin=2pt, innerbottommargin=2pt,
+  skipabove=0.3\baselineskip, skipbelow=0.3\baselineskip,
+  backgroundcolor=white,
+]{bjcnarrower}
+\newmdenv[
+  linewidth=0pt,
+  innerleftmargin=1em, innerrightmargin=1em,
+  innertopmargin=2pt, innerbottommargin=2pt,
+  skipabove=0.3\baselineskip, skipbelow=0.3\baselineskip,
+  backgroundcolor=white, fontcolor=snapblue,
+]{bjcnarrowblue}
+\newmdenv[
+  linewidth=0pt,
+  innerleftmargin=1em, innerrightmargin=1em,
+  innertopmargin=2pt, innerbottommargin=2pt,
+  skipabove=0.3\baselineskip, skipbelow=0.3\baselineskip,
+  backgroundcolor=white, fontcolor=takefurtherbar,
+]{bjcnarrowpurple}
+
 \newenvironment{bjcpseudop}{\par\medskip\noindent\ignorespaces}{\par\medskip}
 
 % Inline icon: BJC has many small icons (load, partner). Render them at

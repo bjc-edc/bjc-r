@@ -1,6 +1,9 @@
 % BJC Course Book cover page
 % Adapted from snap-cloud/manual's \snapcoverpage. Simpler: no Snap logo
 % or cover image required, since this template is reused across courses.
+%
+% BookBuilder defines these macros for us:
+%   \BJCBookTitle, \BJCBookAuthors, \BJCCourseURL, \BJCLastUpdated
 
 \newcommand{\bjccoverpage}{%
   \begin{titlepage}%
@@ -15,14 +18,11 @@
       ([xshift=0.61\paperwidth, yshift=-0.6cm]current page.north west) --
       ([xshift=0.61\paperwidth, yshift=0.6cm]current page.south west);
 
-    % Course short tag (upper left)
-    \node[anchor=north west, font=\Huge\bfseries, text=snapblue]
-      at ([xshift=1.6cm, yshift=-2.2cm]current page.north west)
-      {\BJCCourseTag};
-
-    % Subtitle beneath
+    % Subtitle in the upper-left white panel (the prior "bjc4nyc" tag
+    % is dropped here because the orange banner already carries the
+    % human-readable title; keeping both was redundant).
     \node[anchor=north west, font=\Large, text=black]
-      at ([xshift=1.6cm, yshift=-3.2cm]current page.north west)
+      at ([xshift=1.6cm, yshift=-2.4cm]current page.north west)
       {The Beauty and Joy of Computing};
 
     % Orange banner with the book title (about 35% from top of page)
@@ -42,10 +42,15 @@
       at ([xshift=-1.5cm, yshift=2.5cm]current page.south east)
       {\BJCBookAuthors};
 
-    % Build date in lower left
-    \node[anchor=south west, text=black!60, font=\small]
+    % Live course URL on the white panel (clickable in the PDF).
+    \node[anchor=south west, text=snapblue, font=\small]
+      at ([xshift=1.6cm, yshift=2.2cm]current page.south west)
+      {Online version: \href{\BJCCourseURL}{\nolinkurl{\BJCCourseURL}}};
+
+    % Last-updated stamp in the lower left, smaller and gray.
+    \node[anchor=south west, text=black!50, font=\footnotesize]
       at ([xshift=1.6cm, yshift=1.6cm]current page.south west)
-      {Built \today};
+      {Last updated \BJCLastUpdated{} \quad Built \today};
   \end{tikzpicture}%
   \end{titlepage}%
 }

@@ -16,8 +16,9 @@ require_relative 'html_cleaner'
 class LatexRenderer
   PANDOC = ENV['PANDOC'] || 'pandoc'
 
-  def initialize(bjc_root:, image_cache_dir: nil)
+  def initialize(bjc_root:, language: 'en', image_cache_dir: nil)
     @bjc_root = bjc_root
+    @language = language
     @image_cache_dir = image_cache_dir
   end
 
@@ -26,6 +27,7 @@ class LatexRenderer
   # extracted title and missing-image warnings.
   def render_page(html_path)
     cleaner = HTMLCleaner.new(html_path, bjc_root: @bjc_root,
+                              language: @language,
                               image_cache_dir: @image_cache_dir)
     cleaned_html = cleaner.clean
 
