@@ -68,9 +68,13 @@ def a11y_test_cases(course, url)
     '.commentBig',
     '.ap-standard',
     '.csta-standard',
-    # 3rd-party YouTube embeds — false positives from YouTube's own iframe markup.
-    '[aria-label="YouTube Video Player"]',
-    '#movie_player',
+    # 3rd-party YouTube embeds — false positives from YouTube's own markup.
+    # Targets live inside the YT iframe, so we need axe-core's cross-frame
+    # selector form (["iframe", "<inner-selector>"]) — a plain top-level
+    # selector doesn't reach across the iframe boundary.
+    ['iframe', '#movie_player'],
+    ['iframe', '[aria-label="YouTube Video Player"]'],
+    ['iframe', '.ytmVideoInfoChannelAvatar'],
     # TODO: items below here **must** be fixed eventually.
     'var', # Snap! elements don't have enough color contrast.
   ]
