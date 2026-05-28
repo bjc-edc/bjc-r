@@ -269,12 +269,14 @@ ul.navbar-right li {
 /* Navbar search (Google site-restricted).
  * Default: only the magnifier button is visible. Clicking it adds
  * .navbar-search-open to .llab-nav, which fades the other right-side
- * controls and slides the input out to the LEFT of the button.
+ * controls and the page title, then slides the input out to the LEFT
+ * of the button.
  *
  * The input is anchored to the left of the button (instead of expanding
  * rightward) so it never overruns the right edge of the viewport. On
- * narrow viewports the input may overlap or shrink the page title;
- * that's accepted intentionally.
+ * narrow viewports the input is capped via `max-width: calc(100vw - X)`
+ * to stop it from running past the BJC logo / left edge; the title is
+ * faded out so it doesn't show through underneath.
  *
  * The input is absolutely positioned so it doesn't contribute to the
  * <li>'s inline-block baseline — that keeps the search button on the
@@ -329,8 +331,8 @@ ul.navbar-right li {
   border: 0;
 }
 
-/* Fade siblings rather than removing them from layout, so the search
- * button doesn't jump when the right-side controls disappear.
+/* Fade the right-side controls rather than removing them from layout, so
+ * the search button doesn't jump when they disappear.
  */
 .llab-nav .nav-lang-dropdown,
 .llab-nav .nav-btn-group {
@@ -343,12 +345,26 @@ ul.navbar-right li {
   pointer-events: none;
 }
 
+/* The page title is in navbar-left, so it doesn't affect the search
+ * button's position — we can hide it outright rather than fading, and
+ * `display: none` guarantees nothing renders through the expanded input.
+ */
+.llab-nav.navbar-search-open .navbar-title {
+  display: none;
+}
+
 .llab-nav.navbar-search-open .navbar-search-input {
   width: 28ch;
   padding: 4px 10px;
   opacity: 1;
   pointer-events: auto;
   border-color: #FFF;
+  /* Don't let the input overrun the left edge of the viewport. The buffer
+   * reserves space for the BJC logo, the navbar-right controls, and the
+   * paddings between them. On viewports narrower than ~400px the input
+   * shrinks rather than overflowing past the logo.
+   */
+  max-width: calc(100vw - 18em);
 }
 
 .llab-nav.navbar-search-open .navbar-search-input:focus {
@@ -357,11 +373,6 @@ ul.navbar-right li {
 }
 
 @media screen and (max-width: 768px) {
-  .llab-nav.navbar-search-open .navbar-search-input {
-    width: 60vw;
-    max-width: 28ch;
-  }
-
   /* Workaround: on small screens the <button> search toggle sits ~6px lower
    * than the sibling <a> nav buttons. The root cause is inline-block baseline
    * differences between <button> and <a> elements that we haven't been able
