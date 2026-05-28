@@ -505,6 +505,20 @@ llab.isCurriculum = () => llab.getQueryParameter('topic') != "" && !llab.isTopic
 * they could become re-ordered. */
 llab.thisPageNum = () => llab.pageNum;
 
+// Hint the browser to fetch a likely-next URL so a click resolves from cache.
+// Same-origin only — we don't want to warm third-party links.
+llab.prefetched_urls = llab.prefetched_urls || new Set();
+llab.prefetchPage = function(url) {
+  if (!url || llab.prefetched_urls.has(url)) { return; }
+  if (url.indexOf('//') !== -1 && url.indexOf(location.origin) !== 0) { return; }
+  llab.prefetched_urls.add(url);
+  let tag = document.createElement('link');
+  tag.rel = 'prefetch';
+  tag.href = url;
+  tag.as = 'document';
+  document.head.appendChild(tag);
+};
+
 // Create the Forward and Backward buttons, properly disabling them when needed
 llab.setButtonURLs = function() {
   // No dropdowns for places that don't have a step.
@@ -525,20 +539,24 @@ llab.setButtonURLs = function() {
   if (llab.thisPageNum() === 0) {
     back.addClass('disabled').removeAttr('href').removeAttr('aria-label').attr('disabled', true);
   } else {
+    let prevURL = llab.url_list[llab.thisPageNum() - 1];
     back.removeClass('disabled').removeAttr('disabled')
       .attr('aria-label', llab.t('backText'))
-      .attr('href', llab.url_list[llab.thisPageNum() - 1])
-      .on('click', llab.dynamicNavigation(llab.url_list[llab.thisPageNum() - 1]));
+      .attr('href', prevURL)
+      .on('click', llab.dynamicNavigation(prevURL));
+    llab.prefetchPage(prevURL);
   }
 
   // Disable the forward button
   if (llab.thisPageNum() === llab.url_list.length - 1) {
     forward.addClass('disabled').removeAttr('href').removeAttr('aria-label').attr('disabled', true);
   } else {
+    let nextURL = llab.url_list[llab.thisPageNum() + 1];
     forward.removeClass('disabled').removeAttr('disabled')
       .attr('aria-label', llab.t('nextText'))
-      .attr('href', llab.url_list[llab.thisPageNum() + 1])
-      .on('click', llab.dynamicNavigation(llab.url_list[llab.thisPageNum() + 1]));
+      .attr('href', nextURL)
+      .on('click', llab.dynamicNavigation(nextURL));
+    llab.prefetchPage(nextURL);
   }
 };
 

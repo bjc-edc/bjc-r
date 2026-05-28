@@ -129,6 +129,21 @@ MC.prototype.render = function() {
         if (this.content.additonal_info) {
             this.multipleChoice.find('.questionType').append(this.content.additonal_info);
         }
+
+        // Bind the shared Check/Try-Again buttons exactly once per MC. They live
+        // on the question, not on individual choices, so binding inside the
+        // per-choice loop attached one handler per choice (4 choices => 4× fire).
+        this.multipleChoice.find(".checkAnswerButton").bind('click', {
+            myQuestion: this
+        }, function(args) {
+            args.data.myQuestion.checkAnswer();
+        });
+
+        this.multipleChoice.find(".tryAgainButton").bind('click', {
+            myQuestion: this
+        }, function(args) {
+            args.data.myQuestion.tryAgain();
+        });
     }
 
     /* render the prompt */
@@ -175,18 +190,6 @@ MC.prototype.render = function() {
         if (this.selectedInSavedState(optId)) {
             $(`#${choice_id}`).attr('checked', true);
         }
-
-        this.multipleChoice.find(".checkAnswerButton").bind('click', {
-            myQuestion: this
-        }, function(args) {
-            args.data.myQuestion.checkAnswer();
-        });
-
-        this.multipleChoice.find(".tryAgainButton").bind('click', {
-            myQuestion: this
-        }, function(args) {
-            args.data.myQuestion.tryAgain();
-        });
     }
 
     this.multipleChoice.find('.tryAgainButton').addClass('disabled').attr('disabled', true);
