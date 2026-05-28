@@ -206,6 +206,8 @@ class BookBuilder
     cover    = File.read(File.expand_path('../templates/cover.tex',    __dir__))
 
     File.open(master_tex_path, 'w') do |f|
+      f.write(document_metadata)
+      f.write("\n")
       f.write(preamble)
       f.write("\n")
       f.write("\\newcommand{\\BJCCourseTag}{#{latex_escape(@course_name)}}\n")
@@ -239,6 +241,36 @@ class BookBuilder
       TEX
       f.write("\n\\end{document}\n")
     end
+  end
+
+  # Tagged-PDF / PDF-UA-2 accessibility metadata block. Must appear
+  # before \documentclass. Modeled after the snap-cloud manual
+  # template's \DocumentMetadata block, but pared down to the keys that
+  # work on TeX Live 2023 (Ubuntu 24.04's `texlive-latex-extra`).
+  #
+  # What's enabled:
+  # - pdfversion = 2.0  ->  modern PDF output
+  # - lang             ->  /Lang attribute (screen readers + assistive tech)
+  # - pdfstandard      ->  declares PDF/UA-2 conformance intent
+  #
+  # The full `tagging = on` / `tagging-setup = ...` keys from the snap
+  # manual template require TL 2024+. Enable them if you upgrade the
+  # build image; they're inert on older kernels (the run will error,
+  # not silently downgrade).
+  def document_metadata
+    pdf_lang = case @language
+               when 'es' then 'es-ES'
+               else 'en-US'
+               end
+    <<~TEX
+      % --- Tagged-PDF / PDF-UA-2 accessibility preamble ----------------------
+      % Compile under lualatex for the most reliable tagged-PDF support.
+      \\DocumentMetadata{
+        pdfversion = 2.0,
+        lang = #{pdf_lang},
+        pdfstandard = {ua-2}
+      }
+    TEX
   end
 
   def slug(s)

@@ -1,0 +1,100 @@
+name: Build course PDFs
+
+# Builds the BJC course → PDF book for each of three courses in
+# parallel and uploads each resulting PDF as a workflow artifact.
+
+on:
+  push:
+    paths:
+      - 'utilities/pdf-book/**'
+      - '.github/workflows/build-pdfs.yml'
+  pull_request:
+    paths:
+      - 'utilities/pdf-book/**'
+      - '.github/workflows/build-pdfs.yml'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - course: bjc4nyc
+            language: en
+            artifact: bjc4nyc-en
+          - course: bjc4nyc
+            language: es
+            artifact: bjc4nyc-es
+          - course: sparks
+            language: en
+            artifact: sparks-en
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install LaTeX + pandoc + poppler
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            pandoc \
+            texlive-luatex \
+            texlive-latex-extra \
+            texlive-fonts-recommended \
+            texlive-fonts-extra \
+            texlive-lang-spanish \
+            poppler-utils
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          # Picked up from .tool-versions.
+          ruby-version: '3.3.9'
+
+      - name: Install gems
+        run: gem install --no-document nokogiri i18n
+
+      - name: Build PDF (${{ matrix.artifact }})
+        env:
+          LANG: C.UTF-8
+          LC_ALL: C.UTF-8
+        run: |
+          ruby utilities/pdf-book/build.rb \
+            --course=${{ matrix.course }} \
+            --language=${{ matrix.language }} \
+            --engine=lualatex \
+            --screenshots=3
+
+      - name: Show build report
+        if: always()
+        run: |
+          if [ -f utilities/pdf-book/out/build-report.txt ]; then
+            cat utilities/pdf-book/out/build-report.txt
+          fi
+
+      - name: Upload PDF artifact
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}-pdf
+          path: utilities/pdf-book/out/book.pdf
+          if-no-files-found: error
+
+      - name: Upload screenshots
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}-screenshots
+          path: utilities/pdf-book/out/screenshots/*.png
+          if-no-files-found: ignore
+
+      - name: Upload build log on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}-logs
+          path: |
+            utilities/pdf-book/out/latex.log
+            utilities/pdf-book/out/book.log
+            utilities/pdf-book/out/build-report.txt
+          if-no-files-found: ignore

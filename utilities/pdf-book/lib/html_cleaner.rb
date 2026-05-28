@@ -62,6 +62,7 @@ class HTMLCleaner
     rewrite_links(body)
     flatten_collapsible(body)
     inject_index_markers(body)
+    strip_hidden_classes(body)
     wrap_callouts(body)
 
     body.inner_html
@@ -215,6 +216,26 @@ class HTMLCleaner
     # <div class="collapse">. After strip_unsupported the targets are
     # gone; remove the toggle wrappers too.
     body.css('[data-toggle]').each { |n| n.replace(n.children) }
+  end
+
+  # Classes that the production CSS hides (`display: none`) — author
+  # notes, draft TODOs, and AP/CSTA standard codes that act as labels
+  # in the web UI but shouldn't appear in the printed book. Run this
+  # AFTER inject_index_markers so the .ap-standard codes still get
+  # extracted into the "On the AP Exam" index entries before being
+  # removed from the body.
+  HIDDEN_CLASSES = %w[
+    todo
+    comment
+    commentBig
+    ap-standard
+    csta-standard
+  ].freeze
+
+  def strip_hidden_classes(body)
+    HIDDEN_CLASSES.each do |klass|
+      body.css("div.#{klass}, span.#{klass}, p.#{klass}").each(&:remove)
+    end
   end
 
   # Tag a recognized BJC callout div with text-marker sentinels so the

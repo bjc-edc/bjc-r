@@ -31,7 +31,7 @@ opts = {
   max_units: nil,
   max_pages: nil,
   no_pdf: false,
-  engine: 'pdflatex',
+  engine: 'lualatex',
   screenshots: 0,
 }
 

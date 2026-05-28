@@ -16,6 +16,13 @@ compiling under `xelatex` or `pdflatex`.
   callouts rendered as colored `mdframed` boxes (page-break-safe).
 - Snap-style cover page: orange title banner, blue side panel, dotted
   divider, build date.
+- A two-column Index at the end with three categories — Vocabulary,
+  On the AP Exam, Self-Check Questions — populated from BJC's `.vocab`,
+  `.exam`, and `assessment-data` markup. All page references are
+  clickable.
+- PDF 2.0 with `\DocumentMetadata` declaring PDF/UA-2 conformance and
+  the document language, so screen readers announce the right language
+  and assistive tech sees a proper accessibility intent.
 
 For `bjc4nyc` (CSP), the current build produces a ~550-page, ~37 MB PDF
 covering Units 1–8.
@@ -26,18 +33,25 @@ Local binaries:
 
 - `ruby` (3.0+ — uses the standard library plus the `nokogiri` gem)
 - `pandoc` (3.x)
-- `xelatex` (recommended; the preamble has unicode declarations so
-  `pdflatex` also works for ASCII-only content)
+- `lualatex` (default; needed for the tagged-PDF/UA-2 accessibility
+  metadata block). `xelatex` and `pdflatex` also work for ASCII-only
+  content if you pass `--engine=xelatex` etc.
+- `makeindex` (ships with TeX Live; required for the trailing index)
 - `pdftoppm` (only when using `--screenshots=N`)
 
 Ruby gems: `nokogiri`, `i18n` (the latter is used by the existing
 build-tools code we reuse for `BJCCourse`).
 
 ```bash
-apt-get install -y ruby pandoc texlive-latex-extra texlive-xetex \
-                   texlive-fonts-recommended poppler-utils
+apt-get install -y ruby pandoc texlive-luatex texlive-latex-extra \
+                   texlive-fonts-recommended texlive-fonts-extra \
+                   texlive-lang-spanish poppler-utils
 gem install nokogiri i18n
 ```
+
+`texlive-fonts-extra` is needed for the Latin Modern OpenType faces
+that `lualatex` loads through `fontspec`; `texlive-lang-spanish` is
+needed for `--language=es`.
 
 ## Usage
 
@@ -60,7 +74,7 @@ Common options:
 | `--output=DIR`      | `utilities/pdf-book/out`         | Build directory; PDF + `.tex` end up here.             |
 | `--max-units=N`     | (all units)                      | Limit chapters built. Handy for fast iteration.        |
 | `--max-pages=N`     | (all pages)                      | Hard cap on total pages processed.                     |
-| `--engine=BIN`      | `pdflatex`                       | `xelatex` is recommended for non-ASCII content.        |
+| `--engine=BIN`      | `lualatex`                       | `xelatex` works too; `pdflatex` only for ASCII content.|
 | `--no-pdf`          | off                              | Stop after writing `book.tex`.                         |
 | `--screenshots=N`   | `0`                              | After PDF build, run `pdftoppm` on the first N pages.  |
 
