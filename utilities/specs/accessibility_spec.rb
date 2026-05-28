@@ -68,13 +68,15 @@ def a11y_test_cases(course, url)
     '.commentBig',
     '.ap-standard',
     '.csta-standard',
-    # 3rd-party YouTube embeds — false positives from YouTube's own markup.
-    # Targets live inside the YT iframe, so we need axe-core's cross-frame
-    # selector form (["iframe", "<inner-selector>"]) — a plain top-level
-    # selector doesn't reach across the iframe boundary.
-    ['iframe', '#movie_player'],
-    ['iframe', '[aria-label="YouTube Video Player"]'],
-    ['iframe', '.ytmVideoInfoChannelAvatar'],
+    # 3rd-party embedded content (YouTube players, gapminder.org charts,
+    # etc.) — false positives we don't control. Excluding the <iframe>
+    # element at the top level tells axe to skip the embed entirely
+    # instead of descending into it, which:
+    #   1. avoids whack-a-mole as YouTube changes its internal class names
+    #      (movie_player, ytp-*, ytm*, .quick-actions-wrapper, etc.)
+    #   2. eliminates StaleElementReferenceError flakes caused by YT
+    #      player markup churning while axe traverses it.
+    'iframe',
     # TODO: items below here **must** be fixed eventually.
     'var', # Snap! elements don't have enough color contrast.
   ]
