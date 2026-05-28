@@ -4,7 +4,7 @@
  */
 
 const THIS_FILE = 'loader.js';
-const RELEASE_DATE = '2025-12-23';
+const RELEASE_DATE = '2026-05-28';
 
 // Basic llab shape.
 llab = {
@@ -44,6 +44,13 @@ llab.GAurl = location.origin;
 
 // Error Handling -- The URL embeds the Sentry desination
 llab.SENTRY_URL = 'https://js.sentry-cdn.com/f55a4cd65a8b48fd99e8247c6a5e6c2d.min.js';
+
+// Third-party origins we contact during page load. Pre-warming the
+// connection (DNS + TLS) shaves time off the first request to each.
+llab.PRECONNECT_ORIGINS = [
+    'https://www.googletagmanager.com',
+    'https://js.sentry-cdn.com',
+];
 
 // CSS, relative to llab/
 llab.paths.css_files = [
@@ -140,7 +147,7 @@ function getTag(name, src, type, opts) {
         src += `?${RELEASE_DATE}`;
     }
     tag[link] = src;
-    tag.type = type;
+    if (type) { tag.type = type; }
     if (opts) {
         for (let opt in opts) {
             tag[opt] = opts[opt];
@@ -154,8 +161,40 @@ function getTag(name, src, type, opts) {
 // Array.from(document.scripts).map(node => node.src.replace(location.origin, '').replace(/?.*$/, ''))
 // Array.from(document.styleSheets).map(node => node.src.replace(location.origin, '').replace(/\?.*$/, ''))
 // TODO - will need to normalize paths.
-llab.scriptTag = (src, onload) => getTag('script', src, 'text/javascript', { 'onload': onload });
+// async=false keeps execution order (jQuery before bootstrap, etc.) while
+// still letting the browser fetch every script in parallel.
+llab.scriptTag = (src, onload) => getTag('script', src, 'text/javascript', { 'onload': onload, 'async': false });
 llab.styleTag = (href) => getTag('link', href, 'text/css', { 'rel': 'stylesheet' });
+
+// Resource hints. Inserted up front so the preload scanner can kick off
+// downloads while stage 0 is still booting.
+llab.preloadTag = (href, as) => getTag('link', href, null, { 'rel': 'preload', 'as': as });
+// No crossorigin: the actual GA/Sentry script loads aren't CORS, so a
+// crossorigin preconnect wouldn't be reused for them.
+llab.preconnectTag = (href) => {
+    let tag = document.createElement('link');
+    tag.rel = 'preconnect';
+    tag.href = href;
+    return tag;
+};
+
+// Walk the staged-script config and emit one <link rel=preload> per file so
+// they all start downloading immediately, even though they execute in stages.
+llab.emitResourceHints = function() {
+    llab.PRECONNECT_ORIGINS.forEach(origin => {
+        document.head.appendChild(llab.preconnectTag(origin));
+    });
+
+    llab.paths.css_files.forEach(file => {
+        document.head.appendChild(llab.preloadTag(file, 'style'));
+    });
+
+    llab.paths.scripts.forEach(stage => {
+        stage.forEach(src => {
+            document.head.appendChild(llab.preloadTag(src, 'script'));
+        });
+    });
+};
 
 
 llab.initialSetUp = function() {
@@ -183,6 +222,8 @@ llab.initialSetUp = function() {
             setTimeout(() => { proceedWhenComplete(stage_num) }, 2);
         }
     }
+
+    llab.emitResourceHints();
 
     llab.paths.css_files.forEach(file => document.head.appendChild(llab.styleTag(file)));
     loadScriptsAndLinks(0);
