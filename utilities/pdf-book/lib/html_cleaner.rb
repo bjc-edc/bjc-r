@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
+require 'digest'
 require 'fileutils'
 require 'nokogiri'
+require 'open3'
 
 # HTMLCleaner pre-processes a BJC curriculum HTML page so pandoc can
 # convert it cleanly to LaTeX.
@@ -99,11 +101,13 @@ class HTMLCleaner
   # \includegraphics: anything pandoc would emit as an escape macro.
   UNSAFE_PATH_CHARS = /[\\'"&%#$~^\s{}<>?\[\]]/.freeze
 
-  def initialize(html_path, bjc_root:, language: 'en', image_cache_dir: nil)
+  def initialize(html_path, bjc_root:, language: 'en',
+                 image_cache_dir: nil, qr_dir: nil)
     @html_path = html_path
     @bjc_root = bjc_root
     @language = language
     @image_cache_dir = image_cache_dir
+    @qr_dir = qr_dir
     @missing_images = []
   end
 
@@ -122,7 +126,14 @@ class HTMLCleaner
 
     extract_title(doc)
     strip_unsupported(body)
+    expand_collapsibles(body)
+    # Inject raw-LaTeX sentinels (KaTeX, Snap! brand mark) BEFORE the
+    # link/image rewrites, because rewrite_run_links replaces the inner
+    # text of <a class="run">…</a> and would otherwise nuke any
+    # <span class="snap"> nested inside it.
+    inject_raw_latex_markers(body)
     rewrite_image_paths(body)
+    rewrite_run_links(body)
     rewrite_links(body)
     flatten_collapsible(body)
     inject_index_markers(body)
@@ -143,16 +154,50 @@ class HTMLCleaner
 
   def strip_unsupported(body)
     body.css('script, audio, video, iframe, link, style, noscript').each(&:remove)
-    body.css('a.run, a.report').each(&:remove)
-    body.css('.collapse').each(&:remove)
+    body.css('a.report').each(&:remove)
     body.css('[data-toggle]').each { |n| n.delete('data-toggle') }
-    # Strip empty paragraphs / divs left behind
+    # NOTE: `.collapse` (Bootstrap "hidden until clicked") content used
+    # to be stripped here. We now keep it so the PDF preserves all
+    # the hints / extended discussions that the web hides by default —
+    # see expand_collapsibles for the unwrapping logic.
+    #
+    # Strip empty paragraphs / divs left behind.
     body.css('p,div,span').each do |n|
       n.remove if n.children.empty? && n.text.strip.empty?
     end
   end
 
-  # Image formats pdflatex's \includegraphics can read.
+  # In a static PDF "click to expand" makes no sense. For the BJC
+  # collapsible patterns we see (Bootstrap `.collapse` + an `<a
+  # data-toggle="collapse">` trigger, and native `<details>/<summary>`),
+  # convert the trigger into a bold lead-in line and unwrap the body so
+  # the content always shows.
+  def expand_collapsibles(body)
+    # Native <details>: flatten — <summary> becomes a bold paragraph,
+    # the rest of the content stays in place.
+    body.css('details').each do |det|
+      summary = det.at_css('summary')
+      if summary
+        bold = Nokogiri::XML::Node.new('p', body)
+        strong = Nokogiri::XML::Node.new('strong', body)
+        strong.content = summary.text.strip
+        bold.add_child(strong)
+        summary.replace(bold)
+      end
+      det.replace(det.children)
+    end
+
+    # Bootstrap "data-toggle" triggers: keep the trigger text as a
+    # bold lead-in, but drop the link semantics so it isn't rendered
+    # as a dead URL in the PDF.
+    body.css('a[data-toggle], a[data-target]').each do |a|
+      bold = Nokogiri::XML::Node.new('strong', body)
+      bold.content = a.text.strip
+      a.replace(bold)
+    end
+  end
+
+  # Image formats lualatex's \includegraphics can read.
   PDFLATEX_IMAGE_EXTS = %w[.png .jpg .jpeg .pdf .eps].freeze
 
   def rewrite_image_paths(body)
@@ -164,10 +209,20 @@ class HTMLCleaner
       local = resolve_local_path(src)
       ext = local ? File.extname(local).downcase : nil
 
+      # SVGs: convert to PDF on the fly so includegraphics can embed
+      # them losslessly. Cached under image_cache_dir as <name>.pdf.
+      if local && File.exist?(local) && ext == '.svg'
+        converted = convert_svg_to_pdf(local)
+        if converted
+          img['src'] = sanitize_image_path(converted)
+          next
+        end
+      end
+
       if local && File.exist?(local) && PDFLATEX_IMAGE_EXTS.include?(ext)
         img['src'] = sanitize_image_path(local)
       else
-        # Either the file is missing, or it's a GIF/SVG/etc. pdflatex
+        # Either the file is missing, or it's a GIF/etc. that lualatex
         # can't embed directly. Replace with an italicized alt-text
         # placeholder so the surrounding prose still makes sense.
         @missing_images << src if !local || !File.exist?(local)
@@ -182,6 +237,30 @@ class HTMLCleaner
         img.replace(placeholder)
       end
     end
+  end
+
+  # rsvg-convert (librsvg2-bin) ships a clean SVG -> PDF path. We
+  # cache the converted file by source mtime so repeated runs are
+  # cheap. Returns the cached PDF path, or nil if conversion fails /
+  # the tool is missing.
+  def convert_svg_to_pdf(svg_path)
+    return nil unless @image_cache_dir
+    FileUtils.mkdir_p(@image_cache_dir)
+    cache_name = 'svg_' + Digest::SHA1.hexdigest(svg_path)[0, 16] + '.pdf'
+    cache_path = File.join(@image_cache_dir, cache_name)
+
+    if File.exist?(cache_path) && File.mtime(cache_path) >= File.mtime(svg_path)
+      return cache_path
+    end
+
+    out, status = Open3.capture2e('rsvg-convert', '-f', 'pdf', '-o', cache_path, svg_path)
+    return cache_path if status.success? && File.exist?(cache_path)
+
+    warn "  rsvg-convert failed for #{svg_path}: #{out.lines.first&.chomp}"
+    nil
+  rescue Errno::ENOENT
+    warn '  rsvg-convert not installed; SVG images will render as placeholders'
+    nil
   end
 
   # \includegraphics doesn't expand TeX macros in its filename argument,
@@ -273,6 +352,75 @@ class HTMLCleaner
   def index_marker(category, term)
     hex = term.unpack1('H*')
     "<span>XBJCIDX#{category}__#{hex}__XEND</span>"
+  end
+
+  # Inject sentinels for content that should round-trip as RAW LaTeX
+  # through pandoc:
+  #   - .katex / .katex-inline / .katex-block — wrap text content as
+  #     $...$ (inline) or \[...\] (block).
+  #   - <span class="snap"> — replace with \snap{} (renders "Snap\!" in
+  #     italic per the snap-manual style).
+  #
+  # Uses the same hex-encoded sentinel format as inject_index_markers,
+  # decoded back to raw LaTeX in LatexRenderer.
+  def inject_raw_latex_markers(body)
+    body.css('.katex, .katex-inline, .katex-block, span.katex').each do |k|
+      tex = k.text.strip
+      next if tex.empty?
+      is_block = k['class'].to_s.split(/\s+/).include?('katex-block') ||
+                 k.parent&.name == 'div'
+      cat = is_block ? 'M' : 'm'
+      hex = tex.unpack1('H*')
+      replacement = Nokogiri::XML::Node.new('span', body)
+      replacement.content = "XBJCTEX#{cat}__#{hex}__XEND"
+      k.replace(replacement)
+    end
+
+    body.css('span.snap, .snap').each do |s|
+      # The text content is typically "snap" — we ignore it and emit
+      # the brand mark macro instead.
+      replacement = Nokogiri::XML::Node.new('span', body)
+      replacement.content = 'XBJCSNAPMARKXEND'
+      s.replace(replacement)
+    end
+  end
+
+  # Snap! "run" links open the linked .xml project inside Snap! in a
+  # new tab. In the PDF the link target should resolve to the live
+  # snap.berkeley.edu URL (clickable in the reader) and, when QRDirSet,
+  # we also embed a tiny QR code so paper readers can scan to load.
+  SNAP_RUN_BASE = 'https://snap.berkeley.edu/snap/snap.html#open:'
+  BJC_HOST = 'https://bjc.edc.org'
+
+  def rewrite_run_links(body)
+    body.css('a.run, a.js-run').each do |a|
+      href = a['href'].to_s
+      next if href.empty?
+
+      target = href.start_with?('/') ? "#{BJC_HOST}#{href}" : href
+      run_url = "#{SNAP_RUN_BASE}#{target}"
+
+      # If the <a> has no visible text (just contains an icon image),
+      # provide a tiny lead-in so the link is anchorable in the PDF.
+      label = a.text.strip
+      label = '(load in Snap!)' if label.empty?
+
+      # Replace the <a> with the same link pointing at run_url, plus an
+      # optional QR-code sentinel that LatexRenderer expands.
+      a['href'] = run_url
+      a.attributes.each { |name, _| a.remove_attribute(name) unless name == 'href' }
+      # Strip the inner image so we don't end up with the [PNG: load]
+      # placeholder mixed with the link text.
+      a.css('img').each(&:remove)
+      a.content = label
+
+      if @qr_dir
+        hex = run_url.unpack1('H*')
+        marker = Nokogiri::XML::Node.new('span', body)
+        marker.content = " XBJCQR__#{hex}__XEND"
+        a.add_next_sibling(marker)
+      end
+    end
   end
 
   def flatten_collapsible(body)

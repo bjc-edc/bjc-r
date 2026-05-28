@@ -54,8 +54,10 @@ class BookBuilder
     @max_units = max_units
 
     @image_cache_dir = File.join(@output_dir, 'img-cache')
+    @qr_dir = File.join(@output_dir, 'qr')
     @renderer = LatexRenderer.new(bjc_root: @root, language: @language,
-                                  image_cache_dir: @image_cache_dir)
+                                  image_cache_dir: @image_cache_dir,
+                                  qr_dir: @qr_dir)
     @missing_images = []
     @missing_pages = []
     @warnings = []

@@ -16,10 +16,11 @@ require_relative 'html_cleaner'
 class LatexRenderer
   PANDOC = ENV['PANDOC'] || 'pandoc'
 
-  def initialize(bjc_root:, language: 'en', image_cache_dir: nil)
+  def initialize(bjc_root:, language: 'en', image_cache_dir: nil, qr_dir: nil)
     @bjc_root = bjc_root
     @language = language
     @image_cache_dir = image_cache_dir
+    @qr_dir = qr_dir
   end
 
   # Convert a single HTML page into a LaTeX fragment.
@@ -28,7 +29,8 @@ class LatexRenderer
   def render_page(html_path)
     cleaner = HTMLCleaner.new(html_path, bjc_root: @bjc_root,
                               language: @language,
-                              image_cache_dir: @image_cache_dir)
+                              image_cache_dir: @image_cache_dir,
+                              qr_dir: @qr_dir)
     cleaned_html = cleaner.clean
 
     latex = pandoc_html_to_latex(cleaned_html)
@@ -79,10 +81,49 @@ class LatexRenderer
       term = [$2].pack('H*').force_encoding('UTF-8')
       "\\index{#{escape_index_term(cat)}!#{escape_index_term(term)}}"
     end
+    # KaTeX: XBJCTEXm__<hex>__XEND -> $...$
+    #        XBJCTEXM__<hex>__XEND -> \[...\]
+    # The hex is the raw LaTeX source HTMLCleaner pulled out of the
+    # .katex span; emit it verbatim, NOT through our escape function.
+    latex = latex.gsub(/XBJCTEX([mM])(?:\\?_){2}([0-9a-f]+)(?:\\?_){2}XEND/) do
+      tex = [$2].pack('H*').force_encoding('UTF-8')
+      $1 == 'M' ? "\\[#{tex}\\]" : "$#{tex}$"
+    end
+    # Snap! brand mark: XBJCSNAPMARKXEND -> \snap{}
+    latex = latex.gsub('XBJCSNAPMARKXEND', '\\snap{}')
+    # Run-link QR codes: XBJCQR__<hex>__XEND -> \snapqr{path}
+    latex = latex.gsub(/XBJCQR(?:\\?_){2}([0-9a-f]+)(?:\\?_){2}XEND/) do
+      url = [$1].pack('H*').force_encoding('UTF-8')
+      qr_path = generate_qr_png(url)
+      qr_path ? "\\snapqr{#{qr_path}}" : ''
+    end
     # Strip unicode lightning + a handful of glyphs LaTeX (Latin Modern)
     # can't render, replacing with text equivalents.
     latex = latex.gsub("⚡", '\\snaplightning{}')
     latex
+  end
+
+  # Cache one QR PNG per URL under @qr_dir. Returns the absolute path
+  # to the PNG, or nil if `qrencode` isn't available.
+  def generate_qr_png(url)
+    return nil unless @qr_dir
+    require 'fileutils'
+    require 'digest'
+    FileUtils.mkdir_p(@qr_dir)
+    name = 'qr_' + Digest::SHA1.hexdigest(url)[0, 12] + '.png'
+    path = File.join(@qr_dir, name)
+    return path if File.exist?(path)
+
+    out, status = Open3.capture2e('qrencode', '-s', '4', '-m', '1',
+                                  '-o', path, url)
+    return path if status.success? && File.exist?(path)
+
+    warn "  qrencode failed: #{out.lines.first&.chomp}"
+    nil
+  rescue Errno::ENOENT
+    warn '  qrencode not installed; run-link QR codes will be skipped'
+    @qr_dir = nil
+    nil
   end
 
   # Escape a string for use as an \index{} argument. There are two

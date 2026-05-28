@@ -38,6 +38,10 @@ Local binaries:
   content if you pass `--engine=xelatex` etc.
 - `makeindex` (ships with TeX Live; required for the trailing index)
 - `pdftoppm` (only when using `--screenshots=N`)
+- `qrencode` (optional; generates QR codes next to Snap! "run" links)
+- `rsvg-convert` from `librsvg2-bin` (optional; converts SVGs to PDF
+  for lossless embedding — pages with SVGs fall back to alt-text
+  placeholders otherwise)
 
 Ruby gems: `nokogiri`, `i18n` (the latter is used by the existing
 build-tools code we reuse for `BJCCourse`).
@@ -45,7 +49,8 @@ build-tools code we reuse for `BJCCourse`).
 ```bash
 apt-get install -y ruby pandoc texlive-luatex texlive-latex-extra \
                    texlive-fonts-recommended texlive-fonts-extra \
-                   texlive-lang-spanish poppler-utils
+                   texlive-lang-spanish poppler-utils \
+                   qrencode librsvg2-bin
 gem install nokogiri i18n
 ```
 
@@ -133,15 +138,20 @@ by reader-visible impact.
 
 **Interactive content**
 
-- **Snap! "run" links** (`<a class="run">`, ~255 in `cur/programming/`)
-  are stripped wholesale. The PDF loses every "load this starter
-  project" button. Fix would be to emit the live URL (and ideally a
-  QR code) next to the link text.
-- **Self-check quizzes** (`<div class="assessment-data">`, ~503).
-  Question stems become index entries but the choices, correct
-  answers, and inline feedback render as undecorated text. There is
-  no callout mapping for `.assessment-data`, `.choice`, `.prompt`,
-  `.correctResponse`, `.feedback`.
+- **Snap! "run" links** (`<a class="run">`, ~255) — rewritten to a
+  clickable `snap.berkeley.edu/snap/snap.html#open:…` URL and (when
+  `qrencode` is installed) emitted with a small QR code beside the
+  link so print readers can scan to launch the project.
+- **KaTeX math** (`.katex`, `.katex-block`, ~120) — the literal LaTeX
+  source is pulled out of the span and emitted as real `$…$` / `\[…\]`
+  math.
+- **`.collapse` Bootstrap blocks** (~605) and native `<details>` —
+  always rendered. The trigger text ("Click for hint") becomes a bold
+  lead-in line followed by the previously-hidden content.
+- **Self-check quizzes** (`<div class="assessment-data">`, ~503) —
+  still need work. Question stems become index entries but the
+  choices, correct answers, and inline feedback render as
+  undecorated text.
 - **Glossary hover popups** (`.hoverinfo`, ~72) — `glossary.js`
   AJAX-loads `/glossary/<term>.body` on hover. PDF keeps only the
   trigger text; the definition is never inlined.
@@ -149,20 +159,14 @@ by reader-visible impact.
   empty stubs that load content via `w3-include-html="..."` at runtime.
   The pipeline doesn't follow these, so teacher-guide PDFs would be
   near-empty. (Not currently in CI matrix; flag for the future.)
-- **KaTeX math** (`.katex`, `.katex-block`, ~120) — LaTeX source
-  appears as literal text in the PDF instead of as rendered math.
-  Easy win: wrap `.katex` content in `$...$` / `\[...\]` before pandoc.
-- **`.collapse` blocks** (~605) are stripped wholesale alongside their
-  trigger. Some are hints / "show solution" / extended discussion that
-  a print reader should still get to see.
 - **Color-swatch helpers** (`data-color`, ~8) silently vanish.
 - **Syntax highlighting** — `<pre><code>` blocks are rendered in
   monospace but not colorized. Low-priority; ~56 Python blocks.
 
 **Classes that would benefit from a mapping**
 
-- `.snap` (~282) — brand inline mark "Snap!" with trailing italic "!".
-  PDF currently shows just "snap". A small `\snap{}` macro would fix it.
+- `.snap` (~272) — handled. Renders as `Snap\textit{!}` via the
+  `\snap{}` macro.
 - `.imageRight` / `.imageLeft` (~602) — float captions; PDF gets
   inline placement, often misaligned with adjacent prose. Wrapping in
   `wrapfig` would match the web layout.
@@ -180,24 +184,20 @@ by reader-visible impact.
   first frame as a PNG (`ffmpeg`, `magick convert 'foo.gif[0]'`) would
   give a real image; the cleaner already has the hook in
   `rewrite_image_paths`.
-- `~5` SVGs are dropped. Trivially convertible to PDF with
-  `rsvg-convert -f pdf` and would embed losslessly.
+- `~5` SVGs are converted to PDF via `rsvg-convert` (when installed)
+  and embedded losslessly. Falls back to alt-text placeholder if the
+  tool is missing.
 - `.ap-standard` codes outside `.exam` boxes (~982) are stripped but
   not indexed. Could be added to "On the AP Exam" too if useful.
 
 ## Known limitations
 
-- **Animated GIFs**: `pdflatex`/`xelatex` can't embed GIF. The cleaner
-  replaces them with italic alt-text placeholders. If `convert` /
-  `magick` is available, extracting a first frame is a future-work
-  item.
-- **Snap! project run-links** (`<a class="run">`) are stripped. The
-  rendered PDF doesn't have anywhere to "run" them; we could optionally
-  swap them for a printed URL.
+- **Animated GIFs**: `lualatex`/`xelatex`/`pdflatex` can't embed GIF.
+  The cleaner replaces them with italic alt-text placeholders. If
+  `convert` / `magick` is available, extracting a first frame is a
+  future-work item.
 - **`<table>`-heavy pages** sometimes overflow the text width when
   pandoc emits `longtable` with fixed column widths.
-- **`<svg>`** is dropped (same reason as GIF). Most BJC pages don't
-  rely on inline SVG, but some external embeds will be missing.
 - **Remote images** (`<img src="http://…">`) — anything not under
   `/bjc-r/` is skipped; the build report lists them.
 

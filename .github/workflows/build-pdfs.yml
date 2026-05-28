@@ -43,7 +43,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install LaTeX + pandoc + poppler
+      - name: Install LaTeX + pandoc + poppler + qrencode + rsvg
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends \
@@ -53,7 +53,9 @@ jobs:
             texlive-fonts-recommended \
             texlive-fonts-extra \
             texlive-lang-spanish \
-            poppler-utils
+            poppler-utils \
+            qrencode \
+            librsvg2-bin
 
       - uses: ruby/setup-ruby@v1
         with:
