@@ -335,7 +335,14 @@ llab.renderResource = (resource, parent) => {
   const item = $(`<li></li>`); // class="${resource.type}"
 
   if (resource.url) {
-    item.append(`<a href=${llab.fullResourceURL(resource.url)}>${resource.contents}</a>`);
+    const fullURL = llab.fullResourceURL(resource.url);
+    const $link = $(`<a href="${fullURL}">${resource.contents}</a>`);
+    // fullResourceURL always produces an llab page (curriculum HTML or the
+    // empty-curriculum wrapper for embeds), so ajax navigation is always safe.
+    if (typeof llab.dynamicNavigation === 'function') {
+      $link.on('click.llabDyn', llab.dynamicNavigation(fullURL));
+    }
+    item.append($link);
   } else {
     item.append(resource.contents);
   }

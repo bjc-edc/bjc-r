@@ -32,14 +32,18 @@ llab.set_cache = (key, value) => {
 llab.read_cache = key => sessionStorage[key];
 
 // Switch to turn off ajax page loads.
-llab.DISABLE_DYNAMIC_NAVIGATION = true;
-// this should only be true when navigating back/forwards so we do no repopulate history.
-// llab.SKIP_PUSH_STATE = false;
+llab.DISABLE_DYNAMIC_NAVIGATION = false;
 
 llab.dynamicNavigation = (path) => {
   return (event) => {
     if (llab.DISABLE_DYNAMIC_NAVIGATION) {
       location.href = path;
+      return;
+    }
+    // Respect modifier-clicks (open in new tab/window) and middle-clicks —
+    // the browser already handles those correctly via the link's href.
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey ||
+        (event.button !== undefined && event.button !== 0)) {
       return;
     }
     event.preventDefault();
@@ -48,19 +52,29 @@ llab.dynamicNavigation = (path) => {
 }
 
 if (!llab.DISABLE_DYNAMIC_NAVIGATION) {
-  // Handle popstate events for when users use the back button
+  // Stamp the initial entry so a future back-navigation to it has a state
+  // object to look at. Without this, the first popstate has event.state=null
+  // and we'd be unable to tell user-driven popstate from other events.
+  if (window.history.state === null) {
+    window.history.replaceState({ url: location.href }, document.title, location.href);
+  }
+
+  // Handle popstate (browser back/forward). We don't trust any cached body in
+  // event.state — instead we re-fetch the URL. The browser cache (and our
+  // prefetch hints) make this cheap and avoid stale-content bugs.
   window.addEventListener("popstate", (event) => {
-    const state = event.state;
-    console.log(event)
-    // debugger;
-
-    if (!state || !state.body || !state.title) {
-      location.reload();
-      return;
-    }
-
-    // llab.SKIP_PUSH_STATE = true;
-    llab.rerenderPage(state.body, state.title);
+    const targetURL = (event.state && event.state.url) || location.href;
+    // Always honor user-driven history movement, even if a forward fetch is
+    // in flight.
+    llab.PREVENT_NAVIGATIONS = false;
+    fetch(targetURL)
+      .then(response => response.text())
+      .then(html => llab.rebuildPageFromHTML(html, targetURL, { skipPushState: true }))
+      .catch(err => {
+        console.warn('Popstate fetch failed, reloading.', err);
+        if (typeof Sentry !== 'undefined') { Sentry.captureException(err); }
+        location.reload();
+      });
   });
 }
 
@@ -122,17 +136,6 @@ llab.secondarySetUp = function (newPath) {
   // We don't have a topic file, so we should exit.
   if (llab.file === '' || !llab.isCurriculum()) {
     return;
-  }
-
-  if (!llab.SKIP_PUSH_STATE) {
-    window.history.pushState(
-      { "title": document.title, "body": $('.full').html() },
-      document.title,
-      newPath // null on initial page loads...
-    );
-  } else {
-    // once we have rendered a new page, we can add this back.
-    llab.SKIP_PUSH_STATE = false;
   }
 
   if (llab.read_cache(llab.file)) {
@@ -297,10 +300,15 @@ llab.processLinks = (data) => {
   $('.dropdown-menu').css('max-height', $(window).height() * 0.6);
   $('.dropdown-menu').css('max-width', Math.min($(window).width()*.97, 450));
 
-  // Attach Dynamic Click Handlers to menu items.
-  // $('a[role=menuitem]').each((_i, element) => {
-  //   $(element).off('click').on('click', llab.dynamicNavigation(element.href));
-  // });
+  // Attach dynamic click handlers to the page-nav dropdown items so jumping
+  // around a lab via the hamburger menu uses the same ajax path as
+  // next/previous. Scoped to .js-llabPageNavMenu so we don't accidentally
+  // hijack the language switcher or other menus.
+  $('.js-llabPageNavMenu a[role=menuitem]').each((_i, element) => {
+    if (!element.href) { return; }
+    $(element).off('click.llabDyn')
+      .on('click.llabDyn', llab.dynamicNavigation(element.href));
+  });
 
   llab.indicateProgress(llab.url_list.length, llab.thisPageNum() + 1);
 }; // end processLinks()
@@ -343,10 +351,14 @@ llab.setupTitle = function() {
   }
   llab.setAdditionalClasses();
 
-  // Reset the nav + title divs.
+  // Reset the nav + title divs so a dynamic navigation rebuilds them fresh.
+  // Includes the bottom bar — if the new page is non-curriculum, createTitleNav
+  // won't re-add it and we'd otherwise leave stale prev/next from the
+  // previous page hanging at the bottom.
   if ($(llab.selectors.NAVSELECT).length !== 0) {
     $(llab.selectors.NAVSELECT).remove();
     $('.title-small-screen').remove();
+    $('.full-bottom-bar').remove();
   }
 
   // Create the header section and nav buttons
@@ -561,34 +573,36 @@ llab.setButtonURLs = function() {
 };
 
 llab.loadNewPage = (path) => {
-  console.log('LOAD NEW PAGE: ', path);
-
-  if (llab.PREVENT_NAVIGATIONS) {
-    // this seems like a poor way to debounce multiple clicks.
-    setTimeout((() => llab.PREVENT_NAVIGATIONS = false), 500);
-  }
-
+  // Bail out cleanly if a previous click is still in flight. Without this
+  // guard, rapid-fire clicks could interleave fetches and render the wrong
+  // page on top of the right one.
+  if (llab.PREVENT_NAVIGATIONS) { return; }
   llab.PREVENT_NAVIGATIONS = true;
+
   fetch(path)
-    .then(response => response.text())
+    .then(response => {
+      if (!response.ok) { throw new Error(`HTTP ${response.status}`); }
+      return response.text();
+    })
     .then(html => llab.rebuildPageFromHTML(html, path))
     .catch(err => {
       llab.PREVENT_NAVIGATIONS = false;
-      console.warn('Something went wrong.', err);
-      if (typeof Sentry !== 'undefined') {
-        Sentry.captureException(err);
-      }
-      // make a traditional redirect.
+      console.warn('Dynamic navigation failed, falling back to full load.', err);
+      if (typeof Sentry !== 'undefined') { Sentry.captureException(err); }
+      // Fall back to a traditional redirect so the user still ends up on the
+      // page they clicked.
       location.href = path;
     });
 }
 
 
 llab.rerenderPage = (body, title, path) => {
-  // Reset llab state.
+  // Reset llab state so setup helpers below run again on the new page.
   llab.titleSet = false;
   llab.conditional_setup_run = false;
-  console.log('RERENDER PAGE: ', path)
+  // safeURLParams is memoized off the original URL; clear it so the new
+  // page's query string is re-parsed.
+  llab.safeURLParams = null;
 
   document.title = title;
   $('.full').html(body);
@@ -598,10 +612,22 @@ llab.rerenderPage = (body, title, path) => {
   llab.secondarySetUp(path);
   buildQuestions(); // MCQs
   llab.conditionalSetup(llab.CONDITIONAL_LOADS);
-  // TODO: Do we need to fire off any events? Bootstrap? dom loaded?
+
   window.scrollTo({ top: 0, behavior: 'instant' });
 
-  if (llab.GACode) {
+  // Move focus to the main content region so screen readers begin reading
+  // from the top of the new page rather than continuing wherever they were
+  // in the previous DOM (which is now gone). tabindex=-1 makes <main>
+  // programmatically focusable without adding a tab stop.
+  const mainEl = document.querySelector('main.full');
+  if (mainEl) {
+    if (!mainEl.hasAttribute('tabindex')) {
+      mainEl.setAttribute('tabindex', '-1');
+    }
+    mainEl.focus({ preventScroll: true });
+  }
+
+  if (llab.GACode && typeof gtag === 'function') {
     gtag('config', llab.GACode, {
       page_title: title,
       page_location: location.href // Full URL is required.
@@ -609,14 +635,22 @@ llab.rerenderPage = (body, title, path) => {
   }
 }
 
-// Called when we load an new document via a fetch.
-llab.rebuildPageFromHTML = (html, path) => {
+// Called when we load a new document via a fetch.
+// opts.skipPushState avoids pushing a new history entry — used when we're
+// restoring a page via popstate (the browser already moved history for us).
+llab.rebuildPageFromHTML = (html, path, opts) => {
   let parser = new DOMParser(),
     doc = parser.parseFromString(html, 'text/html');
 
   let title = doc.querySelector('title') ? doc.querySelector('title').text : '';
   let body = doc.body.innerHTML;
-  console.log('REBUILD FROM HTML')
+
+  if (!opts || !opts.skipPushState) {
+    // Push BEFORE rerender so location.href reflects the new page for any
+    // setup code that reads it (GA pageview, getURLParameters, etc.).
+    window.history.pushState({ url: path }, title, path);
+  }
+
   llab.rerenderPage(body, title, path);
 
   llab.PREVENT_NAVIGATIONS = false;

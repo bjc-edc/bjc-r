@@ -198,9 +198,20 @@ llab.emitResourceHints = function() {
 
 
 llab.initialSetUp = function() {
+    // Track which stages have already advanced so duplicate triggers (each
+    // script's onload + the fallback poll all racing) become no-ops.
+    let advanced_stages = {};
+
     let loadScriptsAndLinks = (stage_num) => {
         llab.paths.scripts[stage_num].forEach(src => {
-            document.head.appendChild(llab.scriptTag(src), () => proceedWhenComplete(stage_num));
+            // Pass onload through scriptTag so it lands on the <script> tag's
+            // load event — that's the primary signal that the stage may now
+            // be ready. (Previously this onload was passed as appendChild's
+            // 2nd arg and silently dropped, leaving the polling below as the
+            // only path forward — which is why the loop hammered at 2ms.)
+            document.head.appendChild(
+                llab.scriptTag(src, () => proceedWhenComplete(stage_num))
+            );
         });
 
         // loading optional stuff after jQuery/Bootstrap dependencies, but early as possible.
@@ -209,18 +220,32 @@ llab.initialSetUp = function() {
         }
 
         if ((stage_num + 1) < llab.paths.scripts.length) {
-            proceedWhenComplete(stage_num);
+            // Fallback: if a script's onload never fires (CSP block, ad
+            // blocker, browser quirk), this slow poll keeps the loader
+            // moving. Under normal conditions onload advances us long
+            // before the first tick. Interval is intentionally generous —
+            // this is a safety net, not the hot path.
+            let poll = () => {
+                if (advanced_stages[stage_num]) { return; }
+                proceedWhenComplete(stage_num);
+                if (!advanced_stages[stage_num]) {
+                    setTimeout(poll, 500);
+                }
+            };
+            setTimeout(poll, 500);
         }
     }
 
     proceedWhenComplete = (stage_num) => {
+        if (advanced_stages[stage_num]) { return; }
         if (llab.paths.stage_complete_functions[stage_num]()) {
+            advanced_stages[stage_num] = true;
             if ((stage_num + 1) < llab.paths.scripts.length) {
                 loadScriptsAndLinks(stage_num + 1);
             }
-        } else {
-            setTimeout(() => { proceedWhenComplete(stage_num) }, 2);
         }
+        // Otherwise: do nothing. The next script's onload (or the fallback
+        // poll above) will call us again once the stage's flags are set.
     }
 
     llab.emitResourceHints();
