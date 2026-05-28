@@ -175,19 +175,23 @@ MC.prototype.render = function() {
         if (this.selectedInSavedState(optId)) {
             $(`#${choice_id}`).attr('checked', true);
         }
-
-        this.multipleChoice.find(".checkAnswerButton").bind('click', {
-            myQuestion: this
-        }, function(args) {
-            args.data.myQuestion.checkAnswer();
-        });
-
-        this.multipleChoice.find(".tryAgainButton").bind('click', {
-            myQuestion: this
-        }, function(args) {
-            args.data.myQuestion.tryAgain();
-        });
     }
+
+    // Wire the answer buttons once per render — not once per choice. Bound
+    // inside the loop above this would attach N handlers to each button and
+    // checkAnswer() would fire N times per click. .off('click') clears
+    // handlers from any previous render() pass (tryAgain re-renders).
+    this.multipleChoice.find(".checkAnswerButton").off('click').bind('click', {
+        myQuestion: this
+    }, function(args) {
+        args.data.myQuestion.checkAnswer();
+    });
+
+    this.multipleChoice.find(".tryAgainButton").off('click').bind('click', {
+        myQuestion: this
+    }, function(args) {
+        args.data.myQuestion.tryAgain();
+    });
 
     this.multipleChoice.find('.tryAgainButton').addClass('disabled').attr('disabled', true);
     this.enableCheckAnswerButton('true');
