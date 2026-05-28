@@ -1,0 +1,81 @@
+# BJC AP CSP — English
+#
+# Consumed by ../cc_export.rb to produce a Common Cartridge (.imscc) package
+# importable into Canvas, Moodle, Schoology, D2L Brightspace, Blackboard, etc.
+
+title: "Beauty and Joy of Computing — AP CSP"
+identifier: "bjc-csp"
+language: "en"
+course_file: "course/bjc4nyc.html"
+base_url: "https://bjc.edc.org"
+description: |
+  BJC is a College Board endorsed AP Computer Science Principles curriculum
+  from UC Berkeley and EDC. Students program in Snap! while building an
+  understanding of abstraction, data, the Internet, algorithms, and the social
+  implications of computing.
+
+# Convert each self-check HTML page into a real LMS quiz (QTI 1.2) instead of
+# a plain web link. Set to false to fall back to web links.
+auto_quizzes:
+  enabled: true
+
+# For every curriculum page that contains a <div class="forYouToDo"> (i.e.
+# every lab page that expects students to build something in Snap!), emit an
+# LMS assignment with a link to the page and submission instructions. Each
+# assignment defaults to 10 points and accepts either a pasted Snap! share URL
+# or an uploaded .xml project file.
+auto_assignments:
+  enabled: true
+  points: 10
+  submission_types: [online_text_entry, online_upload]
+  # The Create Task topic already has dedicated practice + official assignments
+  # below, so skip the per-page auto-generation for those eight pages.
+  skip_topics:
+    - "nyc_bjc/create-task.topic"
+  # exclude_urls:
+  #   - "*/some-discussion-only-page.html"
+
+# Sidebar links surfaced as a top-level "BJC Resources" module so students can
+# reach them from anywhere in the LMS. Equivalent to the sidenotes on the
+# course landing page on bjc.edc.org.
+sidebar_links:
+  - title: "Snap! Programming Environment"
+    url: "https://snap.berkeley.edu/snap/snap.html"
+  - title: "BJC Website"
+    url: "https://bjc.edc.org/"
+  - title: "Snap! Cheat Sheet"
+    url: "/bjc-r/cur/snap-cheat-sheet.html"
+  - title: "BJC Vocabulary Index"
+    url: "/bjc-r/cur/programming/vocab-index.html"
+  - title: "AP CSP Course Framework (College Board)"
+    url: "https://apcentral.collegeboard.org/courses/ap-computer-science-principles/course"
+
+# Assignments. Each one becomes an LMS assignment placed inside the module of
+# the topic it references. Omit `topic` to put it in a dedicated module.
+assignments:
+  - id: "ap-create-task-practice"
+    title: "AP Create Task — Practice (with PPR draft)"
+    topic: "nyc_bjc/create-task.topic"
+    points: 50
+    submission_types: [online_upload, online_text_entry]
+    description: |
+      Work through the eight Create Task pages once for practice. Submit a
+      draft Personalized Project Reference (PPR), your Snap! project file,
+      and your walk-through video.
+
+      You can get help from your teacher and classmates during the practice
+      run — the purpose is to learn the workflow before the official task
+      counts toward your AP score.
+
+  - id: "ap-create-task-official"
+    title: "AP Create Task — Official Submission (with PPR)"
+    topic: "nyc_bjc/create-task.topic"
+    points: 100
+    submission_types: [online_upload]
+    description: |
+      Submit the official AP CSP Create Task: program code, video, written
+      responses, and the Personalized Project Reference (Component C).
+
+      You may not receive help from anyone during the official task. Final
+      submission goes through the AP Digital Portfolio — upload your files
+      here for your teacher's records as well.

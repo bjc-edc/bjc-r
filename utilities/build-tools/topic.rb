@@ -295,7 +295,10 @@ class BJCTopic
   # TODO: figure out of this is necessary or to reuse parse_line
   def get_content(line)
     return { text: '', url: '' } unless line
-    content = line.split(':')
+    # Split on the first ':' only so headings like "heading: Lab 1: Click Alonzo Game"
+    # keep the inner colon. split(':') without a limit would drop everything after
+    # the second colon.
+    content = line.split(':', 2)
     return { text: '', url: '' } unless content.length > 1
     sliced = content[1].split(/\[|\]/)
     text = sliced.length > 0 ? sliced[0].strip : ''
