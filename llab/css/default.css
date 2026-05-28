@@ -266,6 +266,114 @@ ul.navbar-right li {
   margin-right: 5ch;
 }
 
+/* Navbar search (Google site-restricted).
+ * Default: only the magnifier button is visible. Clicking it adds
+ * .navbar-search-open to .llab-nav, which fades the other right-side
+ * controls and slides the input out to the LEFT of the button.
+ *
+ * The input is anchored to the left of the button (instead of expanding
+ * rightward) so it never overruns the right edge of the viewport. On
+ * narrow viewports the input may overlap or shrink the page title;
+ * that's accepted intentionally.
+ *
+ * The input is absolutely positioned so it doesn't contribute to the
+ * <li>'s inline-block baseline — that keeps the search button on the
+ * same line as the sibling buttons at every breakpoint.
+ */
+.nav-search {
+  position: relative;
+  margin-right: 0.5em;
+}
+
+.navbar-search-input {
+  position: absolute;
+  right: calc(100% + 6px);
+  top: 0;
+  width: 0;
+  height: 40px;
+  padding: 0;
+  margin: 0;
+  font-size: 1rem;
+  color: #FFF;
+  background-color: rgba(255, 255, 255, 0.15);
+  border: 2px solid transparent;
+  border-radius: 6px;
+  outline: none;
+  opacity: 0;
+  pointer-events: none;
+  transition: width 200ms ease, padding 200ms ease,
+              opacity 150ms ease, border-color 150ms ease,
+              background-color 150ms ease;
+}
+
+.navbar-search-input::placeholder {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* Center the magnifier icon inside the button. */
+.btn-nav-search {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Visually hidden but available to screen readers (bootstrap 3 sr-only) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+/* Fade siblings rather than removing them from layout, so the search
+ * button doesn't jump when the right-side controls disappear.
+ */
+.llab-nav .nav-lang-dropdown,
+.llab-nav .nav-btn-group {
+  transition: opacity 150ms ease;
+}
+
+.llab-nav.navbar-search-open .nav-lang-dropdown,
+.llab-nav.navbar-search-open .nav-btn-group {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.llab-nav.navbar-search-open .navbar-search-input {
+  width: 28ch;
+  padding: 4px 10px;
+  opacity: 1;
+  pointer-events: auto;
+  border-color: #FFF;
+}
+
+.llab-nav.navbar-search-open .navbar-search-input:focus {
+  border-color: #F2E205;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+@media screen and (max-width: 768px) {
+  .llab-nav.navbar-search-open .navbar-search-input {
+    width: 60vw;
+    max-width: 28ch;
+  }
+
+  /* Workaround: on small screens the <button> search toggle sits ~6px lower
+   * than the sibling <a> nav buttons. The root cause is inline-block baseline
+   * differences between <button> and <a> elements that we haven't been able
+   * to fix cleanly via standard alignment properties — nudge the box up here.
+   * The input gets the same shift so it stays on the same line as the button.
+   */
+  .btn-nav-search,
+  .navbar-search-input {
+    margin-top: -6px;
+  }
+}
+
 /**
     translation, dropdown-toogle, back/next buttons
     Keep all nav buttons nice and sqaure
@@ -1014,4 +1122,8 @@ a.fa-external-link-alt:after {
 
 .fa-arrow-right::after {
   content: ' \f061 ';
+}
+
+.fa-search::after {
+  content: ' \f002 ';
 }

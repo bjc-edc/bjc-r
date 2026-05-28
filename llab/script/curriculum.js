@@ -410,6 +410,17 @@ llab.createTitleNav = function() {
         <h1 class="navbar-title"></h1>
       </div>
       <ul class="nav navbar-nav navbar-right">
+        <li class="nav-search" role="search">
+          <label class="sr-only" for="js-navbarSearchInput">${t('Search BJC')}</label>
+          <button type="button" class="btn btn-nav btn-nav-search js-navbarSearchToggle"
+            aria-label="${t('Search BJC')}" aria-expanded="false">
+            <i class="fas fa-search" aria-hidden="true"></i>
+          </button>
+          <input type="search" id="js-navbarSearchInput" name="q"
+            class="navbar-search-input js-navbarSearchInput"
+            placeholder="${t('Search BJC')}" aria-label="${t('Search BJC')}"
+            tabindex="-1">
+        </li>
         <li class="dropdown js-langDropdown nav-lang-dropdown hidden">
           <a class="btn btn-nav btn-nav-lang dropdown-toggle" type="button"
             aria-label=${t('Switch language')} role="button" tabindex=0
@@ -459,6 +470,7 @@ llab.createTitleNav = function() {
     $(document.body).prepend(topHTML);
   }
 
+  llab.setupNavbarSearch();
   llab.setupTranslationsMenu();
 
   // This doesn't quite belong here. index pages are a special case...
@@ -713,6 +725,88 @@ llab.translated_content_url = function() {
     return llab.topics_path + topic_file;
   }
 }
+
+// Google site-restricted search wired up to the navbar.
+// Default UI is just the magnifier; clicking expands the input in place of
+// the other right-side nav items. The `site:` filter is added when building
+// the Google URL — the visible input value is never rewritten.
+
+// Derive the site filter from the current host + the install folder
+// (llab.rootURL). On localhost we fall back to bjc.edc.org since localhost
+// itself isn't indexed by Google.
+llab.NAVBAR_SEARCH_LOCAL_HOST = 'bjc.edc.org';
+llab.getSearchSite = () => {
+  let host = llab.isLocalEnvironment() ? llab.NAVBAR_SEARCH_LOCAL_HOST : location.hostname;
+  let folder = (llab.rootURL || '').replace(/^\/+|\/+$/g, '');
+  return folder ? `${host}/${folder}` : host;
+};
+
+llab.setupNavbarSearch = function () {
+  let $root = $('.nav-search');
+  let $toggle = $('.js-navbarSearchToggle');
+  let $input = $('.js-navbarSearchInput');
+  if ($toggle.length === 0 || $toggle.data('llab-search-bound')) { return; }
+  $toggle.data('llab-search-bound', true);
+
+  let $nav = $('.llab-nav');
+  let isOpen = () => $nav.hasClass('navbar-search-open');
+
+  let open = () => {
+    $nav.addClass('navbar-search-open');
+    $toggle.attr('aria-expanded', 'true');
+    $input.attr('tabindex', '0');
+    setTimeout(() => $input.trigger('focus'), 0);
+  };
+
+  let close = () => {
+    $nav.removeClass('navbar-search-open');
+    $toggle.attr('aria-expanded', 'false');
+    $input.attr('tabindex', '-1');
+    $input.val('');
+  };
+
+  // Use a synthesized anchor.click() rather than window.open() — this
+  // honors the user's browser preference for new tabs/windows and avoids
+  // popup-blocker quirks tied to window.open feature strings.
+  let openInNewWindow = (url) => {
+    let a = document.createElement('a');
+    a.href = url;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    a.click();
+  };
+
+  let performSearch = () => {
+    let query = ($input.val() || '').trim();
+    if (!query) { close(); return; }
+    let q = `${query} site:${llab.getSearchSite()}`;
+    openInNewWindow(`https://www.google.com/search?q=${encodeURIComponent(q)}`);
+    close();
+  };
+
+  $toggle.on('click', (event) => {
+    event.preventDefault();
+    if (!isOpen()) { open(); return; }
+    performSearch();
+  });
+
+  $input.on('keydown', (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      performSearch();
+    } else if (event.key === 'Escape') {
+      close();
+      $toggle.trigger('focus');
+    }
+  });
+
+  // Click anywhere outside the search (while open) to close.
+  $(document).off('click.navbarSearch').on('click.navbarSearch', (event) => {
+    if (!isOpen()) { return; }
+    if (event.target === $root[0] || $root[0].contains(event.target)) { return; }
+    close();
+  });
+};
 
 // Show a dropdwon icon in the navbar if the same URL exists in a translated form.
 llab.setupTranslationsMenu = function() {
