@@ -198,9 +198,19 @@ llab.emitResourceHints = function() {
 
 
 llab.initialSetUp = function() {
+    // Tracks stages we've already advanced past so onload + fallback polling
+    // can both fire safely without double-loading the next stage.
+    let advancedFromStage = new Set();
+
     let loadScriptsAndLinks = (stage_num) => {
         llab.paths.scripts[stage_num].forEach(src => {
-            document.head.appendChild(llab.scriptTag(src), () => proceedWhenComplete(stage_num));
+            // Pass the onload through scriptTag (via getTag's opts) so the
+            // script actually notifies us when it has executed. The previous
+            // form passed the callback as appendChild's second arg, which DOM
+            // ignores — that's why this loader relied on a 2ms polling loop.
+            document.head.appendChild(
+                llab.scriptTag(src, () => proceedWhenComplete(stage_num))
+            );
         });
 
         // loading optional stuff after jQuery/Bootstrap dependencies, but early as possible.
@@ -214,12 +224,18 @@ llab.initialSetUp = function() {
     }
 
     proceedWhenComplete = (stage_num) => {
+        if (advancedFromStage.has(stage_num)) { return; }
         if (llab.paths.stage_complete_functions[stage_num]()) {
+            advancedFromStage.add(stage_num);
             if ((stage_num + 1) < llab.paths.scripts.length) {
                 loadScriptsAndLinks(stage_num + 1);
             }
         } else {
-            setTimeout(() => { proceedWhenComplete(stage_num) }, 2);
+            // Fallback: onload is the primary signal, but we keep a slow poll
+            // in case a stage's `llab.loaded` flag is set after onload (e.g.,
+            // a script that defers its ready state via a microtask). 50ms is
+            // a soft heartbeat — it's harmless once onload has already fired.
+            setTimeout(() => { proceedWhenComplete(stage_num) }, 50);
         }
     }
 
