@@ -1,0 +1,51 @@
+% BJC Course Book cover page
+% Adapted from snap-cloud/manual's \snapcoverpage. Simpler: no Snap logo
+% or cover image required, since this template is reused across courses.
+
+\newcommand{\bjccoverpage}{%
+  \begin{titlepage}%
+  \thispagestyle{empty}%
+  \begin{tikzpicture}[remember picture, overlay]
+    % Right blue panel (38% of page width)
+    \fill[snapcoverblue]
+      ([xshift=0.62\paperwidth]current page.north west) rectangle
+      (current page.south east);
+    % Dotted divider
+    \draw[snapcoverblue!80, line width=0.6pt, dotted]
+      ([xshift=0.61\paperwidth, yshift=-0.6cm]current page.north west) --
+      ([xshift=0.61\paperwidth, yshift=0.6cm]current page.south west);
+
+    % Course short tag (upper left)
+    \node[anchor=north west, font=\Huge\bfseries, text=snapblue]
+      at ([xshift=1.6cm, yshift=-2.2cm]current page.north west)
+      {\BJCCourseTag};
+
+    % Subtitle beneath
+    \node[anchor=north west, font=\Large, text=black]
+      at ([xshift=1.6cm, yshift=-3.2cm]current page.north west)
+      {The Beauty and Joy of Computing};
+
+    % Orange banner with the book title (about 35% from top of page)
+    \fill[snaporange]
+      ([yshift=-0.34\paperheight, xshift=-0.2cm]current page.north west) rectangle
+      ([yshift=-0.46\paperheight, xshift=0.95\paperwidth]current page.north west);
+    \draw[white, line width=2pt]
+      ([yshift=-0.34\paperheight, xshift=-0.2cm]current page.north west) rectangle
+      ([yshift=-0.46\paperheight, xshift=0.95\paperwidth]current page.north west);
+    \node[anchor=east, text=white, font=\Huge\bfseries, align=right,
+          text width=0.9\paperwidth]
+      at ([yshift=-0.40\paperheight, xshift=0.93\paperwidth]current page.north west)
+      {\BJCBookTitle};
+
+    % Author / source line
+    \node[anchor=south east, text=white, font=\Large, align=right]
+      at ([xshift=-1.5cm, yshift=2.5cm]current page.south east)
+      {\BJCBookAuthors};
+
+    % Build date in lower left
+    \node[anchor=south west, text=black!60, font=\small]
+      at ([xshift=1.6cm, yshift=1.6cm]current page.south west)
+      {Built \today};
+  \end{tikzpicture}%
+  \end{titlepage}%
+}

@@ -1,0 +1,285 @@
+% BJC Course Book preamble
+% Adapted from snap-cloud/manual/_latex-template/template.tex
+% (KOMA scrbook, US Letter, snap brand colors, snap heading style)
+
+\documentclass[11pt,oneside]{scrbook}
+
+\usepackage[paperheight=11in,
+   paperwidth=8.5in,
+   top=0.75in,
+   bottom=0.75in,
+   left=0.75in,
+   right=0.75in,
+   headsep=10pt,
+   footskip=24pt,
+   includehead, includefoot]{geometry}
+
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  % Map a handful of common-in-curriculum unicode glyphs that pdflatex
+  % can't render without explicit declarations. xelatex/lualatex
+  % handle them natively.
+  \DeclareUnicodeCharacter{2003}{\quad}      % em space
+  \DeclareUnicodeCharacter{2002}{\enspace}   % en space
+  \DeclareUnicodeCharacter{2009}{\,}         % thin space
+  \DeclareUnicodeCharacter{200B}{}           % zero-width space
+  \DeclareUnicodeCharacter{2192}{$\rightarrow$}
+  \DeclareUnicodeCharacter{2190}{$\leftarrow$}
+  \DeclareUnicodeCharacter{2191}{$\uparrow$}
+  \DeclareUnicodeCharacter{2193}{$\downarrow$}
+  \DeclareUnicodeCharacter{00F7}{$\div$}
+  \DeclareUnicodeCharacter{00D7}{$\times$}
+  \DeclareUnicodeCharacter{2212}{$-$}
+  \DeclareUnicodeCharacter{2260}{$\neq$}
+  \DeclareUnicodeCharacter{2264}{$\leq$}
+  \DeclareUnicodeCharacter{2265}{$\geq$}
+  \DeclareUnicodeCharacter{2026}{\ldots}
+  \DeclareUnicodeCharacter{25A1}{\Box}
+  \DeclareUnicodeCharacter{2610}{$\square$}
+  \DeclareUnicodeCharacter{2611}{$\boxtimes$}
+  \DeclareUnicodeCharacter{2153}{1/3}
+  \DeclareUnicodeCharacter{2154}{2/3}
+  \DeclareUnicodeCharacter{2155}{1/5}
+  \DeclareUnicodeCharacter{2156}{2/5}
+  \DeclareUnicodeCharacter{2157}{3/5}
+  \DeclareUnicodeCharacter{2158}{4/5}
+  \DeclareUnicodeCharacter{215B}{1/8}
+  \DeclareUnicodeCharacter{215C}{3/8}
+  \DeclareUnicodeCharacter{215D}{5/8}
+  \DeclareUnicodeCharacter{215E}{7/8}
+\fi
+\ifXeTeX
+  \usepackage{fontspec}
+\fi
+\ifLuaTeX
+  \usepackage{fontspec}
+\fi
+\usepackage{lmodern}
+\linespread{1.07}
+
+\setkomafont{footnote}{\small}
+
+\usepackage{graphicx}
+\usepackage{grffile}
+% Scale all images by 50% by default. The BJC source HTML routinely
+% uses block screenshots and screen-resolution photos sized for a web
+% browser, which print far too large in book form. Wrapping every
+% \includegraphics in \scalebox{0.5} halves both dimensions regardless
+% of which options pandoc emits.
+\let\bjcorigincludegraphics\includegraphics
+\renewcommand{\includegraphics}[2][]{%
+  \scalebox{0.5}{\bjcorigincludegraphics[#1]{#2}}%
+}
+\usepackage{caption}
+% Pandoc emits longtable + booktabs for any HTML <table>.
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{multirow}
+% Pandoc-emitted helpers for table cells; some recent pandoc versions
+% reference \real / \PandocStartIncludes which we provide as no-ops.
+\providecommand{\real}[1]{#1}
+\usepackage[dvipsnames,table]{xcolor}
+\usepackage{changepage}
+\usepackage{framed}
+\usepackage[framemethod=tikz]{mdframed}
+\usepackage{amssymb}
+\usepackage[normalem]{ulem}
+% Pandoc emits \ul for HTML <u> underline. Alias to ulem's \uline.
+\let\ul\uline
+% Some pandoc versions emit \st for HTML <s>/<strike>. ulem's \sout is
+% the matching strikethrough.
+\providecommand{\st}{\sout}
+\usepackage{ifthen}
+\usepackage{calc}
+\usepackage{tikz}
+\usepackage[absolute,overlay]{textpos}
+\usepackage{enumitem}
+\setlist[itemize]{noitemsep, topsep=0pt}
+\setlist[enumerate]{topsep=0pt}
+
+% Pandoc emits these for code highlighting / tightlist; provide harmless defaults.
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\providecommand{\passthrough}[1]{#1}
+
+% Pandoc code-block scaffolding. pandoc wraps `<pre>` blocks in
+% \begin{Shaded}\begin{Highlighting}[]...\end{Highlighting}\end{Shaded}
+% along with a handful of "token-class" commands (\KeywordTok, etc.).
+% We provide minimal definitions so the build doesn't fail when pages
+% contain code samples; we render code in monospace without syntax color.
+\usepackage{fancyvrb}
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{245,245,245}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\},fontsize=\small}
+% pandoc highlighting token commands — all collapse to identity.
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\KeywordTok}[1]{\textbf{#1}}
+\newcommand{\DataTypeTok}[1]{#1}
+\newcommand{\DecValTok}[1]{#1}
+\newcommand{\BaseNTok}[1]{#1}
+\newcommand{\FloatTok}[1]{#1}
+\newcommand{\ConstantTok}[1]{#1}
+\newcommand{\CharTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{#1}
+\newcommand{\StringTok}[1]{\textit{#1}}
+\newcommand{\VerbatimStringTok}[1]{#1}
+\newcommand{\SpecialStringTok}[1]{#1}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\CommentTok}[1]{\textit{\textcolor{black!60}{#1}}}
+\newcommand{\DocumentationTok}[1]{\textit{#1}}
+\newcommand{\AnnotationTok}[1]{\textit{#1}}
+\newcommand{\CommentVarTok}[1]{\textit{#1}}
+\newcommand{\OtherTok}[1]{#1}
+\newcommand{\FunctionTok}[1]{#1}
+\newcommand{\VariableTok}[1]{#1}
+\newcommand{\ControlFlowTok}[1]{\textbf{#1}}
+\newcommand{\OperatorTok}[1]{#1}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\PreprocessorTok}[1]{#1}
+\newcommand{\AttributeTok}[1]{#1}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textit{#1}}
+\newcommand{\WarningTok}[1]{\textbf{#1}}
+\newcommand{\AlertTok}[1]{\textbf{#1}}
+\newcommand{\ErrorTok}[1]{\textbf{#1}}
+\newcommand{\BuiltInModuleTok}[1]{#1}
+
+% Snap brand colors (snap manual template)
+\definecolor{snapblue}{RGB}{52,101,164}
+\definecolor{snaporange}{RGB}{255,140,0}
+\definecolor{snapcoverblue}{RGB}{52,101,164}
+
+% BJC "div class" callout colors
+\definecolor{learnbg}{RGB}{230,240,255}
+\definecolor{takenotebg}{RGB}{255,245,220}
+\definecolor{takenotebar}{RGB}{255,140,0}
+\definecolor{forytdbg}{RGB}{225,245,225}
+\definecolor{forytdbar}{RGB}{60,150,60}
+\definecolor{endnotebg}{RGB}{245,245,245}
+\definecolor{sidenotebg}{RGB}{250,250,235}
+\definecolor{vocabbg}{RGB}{245,235,255}
+
+% Heading style: snap manual rule beneath
+\usepackage[explicit]{titlesec}
+\newcommand{\snapheadingrule}{\vspace{-0.25\baselineskip}\noindent\rule{\linewidth}{0.4pt}}
+\titleformat{\chapter}[hang]
+  {\normalfont\LARGE\bfseries\color{snapblue}}{\thechapter\quad}{0pt}{#1}[\snapheadingrule]
+\titlespacing*{\chapter}{0pt}{0pt}{12pt}
+\titleformat{\section}[hang]
+  {\normalfont\Large\bfseries}{\thesection\quad}{0pt}{#1}[\snapheadingrule]
+\titleformat{\subsection}[hang]
+  {\normalfont\large\bfseries\color{snapblue}}{\thesubsection\quad}{0pt}{#1}
+\titleformat{\subsubsection}[hang]
+  {\normalfont\normalsize\bfseries}{\thesubsubsection\quad}{0pt}{#1}
+\titleformat{\paragraph}[runin]
+  {\normalfont\normalsize\bfseries}{}{0pt}{#1}
+\titleformat{\subparagraph}[runin]
+  {\normalfont\normalsize\bfseries}{}{0pt}{#1}
+
+\renewcommand*{\chaptermarkformat}{}
+
+% Two-column TOC limited to chapter + section
+\usepackage{multicol}
+\setcounter{tocdepth}{1}
+\setcounter{secnumdepth}{3}
+
+% Index (vocab terms, On-the-AP-Exam codes, self-check questions).
+% `imakeidx` lets us emit a two-column index in the TOC. The index is
+% populated by \index{...} commands inserted by the LatexRenderer when
+% it sees BJC's `.vocab` / `.exam` / `.assessment-data` markup.
+\usepackage{imakeidx}
+\makeindex[intoc, columns=2, title={Index}]
+
+% Hyperref last, with linked TOC + bookmarks
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks,
+  linkcolor={snapblue},
+  citecolor={snapblue},
+  urlcolor={snapblue},
+  unicode=true,
+  bookmarksnumbered=true,
+  bookmarksopen=true,
+}
+
+% --- Callout environments mirroring BJC HTML classes --------------------
+% mdframed (framemethod=tikz) is breakable across pages, so callouts
+% containing tall images / many list items don't blow the LaTeX stack.
+\newmdenv[
+  linewidth=3pt,
+  topline=false, bottomline=false, rightline=false,
+  innerleftmargin=14pt, innerrightmargin=12pt,
+  innertopmargin=10pt, innerbottommargin=10pt,
+  skipabove=0.5\baselineskip, skipbelow=0.5\baselineskip,
+  linecolor=snapblue, backgroundcolor=learnbg,
+]{bjclearn}
+\newmdenv[
+  linewidth=3pt,
+  topline=false, bottomline=false, rightline=false,
+  innerleftmargin=14pt, innerrightmargin=12pt,
+  innertopmargin=10pt, innerbottommargin=10pt,
+  skipabove=0.5\baselineskip, skipbelow=0.5\baselineskip,
+  linecolor=takenotebar, backgroundcolor=takenotebg,
+]{bjctakenote}
+\newmdenv[
+  linewidth=3pt,
+  topline=false, bottomline=false, rightline=false,
+  innerleftmargin=14pt, innerrightmargin=12pt,
+  innertopmargin=10pt, innerbottommargin=10pt,
+  skipabove=0.5\baselineskip, skipbelow=0.5\baselineskip,
+  linecolor=forytdbar, backgroundcolor=forytdbg,
+]{bjcforyoutodo}
+\newmdenv[
+  linewidth=3pt,
+  topline=false, bottomline=false, rightline=false,
+  innerleftmargin=14pt, innerrightmargin=12pt,
+  innertopmargin=10pt, innerbottommargin=10pt,
+  skipabove=0.5\baselineskip, skipbelow=0.5\baselineskip,
+  linecolor=black!30, backgroundcolor=endnotebg,
+]{bjcendnote}
+\newmdenv[
+  linewidth=3pt,
+  topline=false, bottomline=false, rightline=false,
+  innerleftmargin=14pt, innerrightmargin=12pt,
+  innertopmargin=10pt, innerbottommargin=10pt,
+  skipabove=0.5\baselineskip, skipbelow=0.5\baselineskip,
+  linecolor=takenotebar, backgroundcolor=sidenotebg,
+]{bjcsidenote}
+\newmdenv[
+  linewidth=3pt,
+  topline=false, bottomline=false, rightline=false,
+  innerleftmargin=14pt, innerrightmargin=12pt,
+  innertopmargin=10pt, innerbottommargin=10pt,
+  skipabove=0.5\baselineskip, skipbelow=0.5\baselineskip,
+  linecolor=snapblue, backgroundcolor=vocabbg,
+]{bjcvocab}
+\newenvironment{bjcpseudop}{\par\medskip\noindent\ignorespaces}{\par\medskip}
+
+% Inline icon: BJC has many small icons (load, partner). Render them at
+% a fixed text-height so they don't blow up.
+\newcommand{\bjcinlineicon}[1]{%
+  \raisebox{-0.18\baselineskip}{\includegraphics[height=1.1\baselineskip]{#1}}%
+}
+
+% Snap! styling for the lightning bolt and run-link icon (best-effort,
+% no fontawesome dependency here since we want to compile under pdflatex
+% out of the box).
+\newcommand{\snaplightning}{$\lightning$}
+\providecommand{\lightning}{\ensuremath{\downarrow}}
+
+% Image fallback box: when an image file can't be located we substitute
+% a small placeholder so the build still succeeds.
+\newcommand{\bjcmissingimg}[1]{%
+  \fbox{\parbox{0.3\linewidth}{\centering\small\textit{[missing image:\\#1]}}}%
+}
+
+% Make a chapter that doesn't break to a new page (used for inter-unit
+% labs/pages that are still numbered but shouldn't get a full page break
+% per topic — keep default for now).
