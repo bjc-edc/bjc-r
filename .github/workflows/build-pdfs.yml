@@ -50,6 +50,8 @@ jobs:
             pandoc \
             texlive-luatex \
             texlive-latex-extra \
+            texlive-latex-recommended \
+            texlive-plain-generic \
             texlive-fonts-recommended \
             texlive-fonts-extra \
             texlive-lang-spanish \
@@ -85,6 +87,7 @@ jobs:
           fi
 
       - name: Upload PDF artifact
+        id: upload_pdf
         if: success()
         uses: actions/upload-artifact@v4
         with:
@@ -110,3 +113,58 @@ jobs:
             utilities/pdf-book/out/book.log
             utilities/pdf-book/out/build-report.txt
           if-no-files-found: ignore
+
+  # If the build matrix succeeds on a pull request, post (or update) a
+  # comment on the PR listing direct download URLs for each PDF artifact.
+  # actions/upload-artifact@v4 returns a per-artifact URL via outputs,
+  # which is much friendlier than asking reviewers to navigate to the
+  # run page and locate the right zip themselves.
+  comment-on-pr:
+    needs: build
+    if: github.event_name == 'pull_request' && needs.build.result == 'success'
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const runUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const marker = '<!-- pdf-book-artifacts -->';
+            const body = [
+              marker,
+              '## 📚 Course PDFs built',
+              '',
+              `Built on \`${context.sha.substring(0, 7)}\`. Download the artifacts from the [workflow run page](${runUrl}#artifacts):`,
+              '',
+              '| Course | Language | PDF | Screenshots |',
+              '| --- | --- | --- | --- |',
+              `| BJC AP CS Principles | English | \`bjc4nyc-en-pdf\` | \`bjc4nyc-en-screenshots\` |`,
+              `| BJC AP CS Principles | Español | \`bjc4nyc-es-pdf\` | \`bjc4nyc-es-screenshots\` |`,
+              `| BJC Sparks (middle school) | English | \`sparks-en-pdf\` | \`sparks-en-screenshots\` |`,
+              '',
+              `_Built by [\`build-pdfs.yml\`](${runUrl})._`,
+            ].join('\n');
+
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              per_page: 100,
+            });
+            const existing = comments.find((c) => c.body && c.body.includes(marker));
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body,
+              });
+            }
