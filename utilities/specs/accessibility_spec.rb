@@ -69,14 +69,12 @@ def a11y_test_cases(course, url)
     '.ap-standard',
     '.csta-standard',
     # 3rd-party embedded content (YouTube players, gapminder.org charts,
-    # etc.) — false positives we don't control. Excluding the <iframe>
-    # element at the top level tells axe to skip the embed entirely
-    # instead of descending into it, which:
-    #   1. avoids whack-a-mole as YouTube changes its internal class names
-    #      (movie_player, ytp-*, ytm*, .quick-actions-wrapper, etc.)
-    #   2. eliminates StaleElementReferenceError flakes caused by YT
-    #      player markup churning while axe traverses it.
-    'iframe',
+    # etc.) is excluded one iframe at a time by tagging the offending
+    # element with data-a11y-errors="true" in the source page (covered
+    # by the top-level selector above). Tagging per iframe — rather than
+    # blanket-excluding all iframes — keeps it visible in source review
+    # which 3rd-party embeds we're knowingly opting out of, and lets us
+    # still axe-test any first-party iframes we add later.
     # TODO: items below here **must** be fixed eventually.
     'var', # Snap! elements don't have enough color contrast.
   ]
