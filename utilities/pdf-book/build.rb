@@ -90,7 +90,11 @@ warn "Running #{opts[:engine]} + makeindex (3 latex passes)..."
 
 def run_latex(engine, output_dir, tex_path, pass_label)
   warn "  #{pass_label}..."
+  # Bump dest_names_size; the default 131072 is exceeded by larger
+  # courses (Sparks ran into it at unit 3) where every <h3> and image
+  # generates a hyperref destination.
   cmd = [engine, '-interaction=nonstopmode', '-halt-on-error',
+         '-cnf-line=dest_names_size=2000000',
          '-output-directory', output_dir, tex_path]
   out, status = Open3.capture2e(*cmd)
   log_path = File.join(output_dir, 'latex.log')

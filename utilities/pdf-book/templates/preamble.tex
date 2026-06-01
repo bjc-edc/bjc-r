@@ -63,14 +63,22 @@
 
 \usepackage{graphicx}
 \usepackage{grffile}
+\usepackage[export]{adjustbox}
 % Scale all images by 50% by default. The BJC source HTML routinely
 % uses block screenshots and screen-resolution photos sized for a web
 % browser, which print far too large in book form. Wrapping every
 % \includegraphics in \scalebox{0.5} halves both dimensions regardless
 % of which options pandoc emits.
+%
+% We also cap the underlying graphic via adjustbox's `max totalheight`
+% so no single image can exceed ~75% of \textheight. Without this an
+% image taller than a page inside an mdframed callout triggers an
+% infinite "non splittable contents" loop in mdframed and runs the
+% destination-names limit to zero. The Sparks micro:bit lab is the
+% canonical offender.
 \let\bjcorigincludegraphics\includegraphics
 \renewcommand{\includegraphics}[2][]{%
-  \scalebox{0.5}{\bjcorigincludegraphics[#1]{#2}}%
+  \scalebox{0.5}{\bjcorigincludegraphics[max totalheight=1.5\textheight, max width=2\linewidth, keepaspectratio, #1]{#2}}%
 }
 \usepackage{caption}
 % Pandoc emits longtable + booktabs for any HTML <table>.
