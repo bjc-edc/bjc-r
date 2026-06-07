@@ -206,6 +206,26 @@ pre {
 pre.inline {
   display: inline;
   margin: 0 0.25em 0 0.25em;
+  /* Wrap to the width of the text instead of creating a horizontal
+     scroll region (axe scrollable-region-focusable). Bootstrap's
+     normalize sets `pre { overflow: auto }`, and inside self-check choice
+     labels the parent is a flexbox, which blockifies this otherwise-inline
+     <pre> into a flex item — so the overflow:auto takes effect and creates
+     a keyboard-inaccessible scrollbox. overflow:visible removes the scroll
+     region entirely; pre-wrap + overflow-wrap let long unbreakable tokens
+     (e.g. identifiers like calculate_tax) wrap rather than overflow when it
+     is a flex item. min-width:min-content floors the box at its longest
+     token so narrow screens wrap at sensible points instead of breaking the
+     identifier apart character by character. */
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  overflow: visible;
+  min-width: min-content;
+  /* The block `pre` rules set width to min-content / 96%, which becomes a
+     bad flex-basis when this <pre> is blockified inside a choice label.
+     Reset it so the box just sizes to its (now wrapping) content.
+     width isn't inherited, so `unset` == `initial` == `auto` here. */
+  width: auto;
 }
 
 div.pre-container {
