@@ -291,6 +291,12 @@ ul.navbar-right li {
   display: none;
 }
 
+/* Visual separation between the desktop search button and the
+ * adjacent language menu button. */
+.nav-search-desktop {
+  margin-right: 1em;
+}
+
 /* Visually hidden but available to screen readers (bootstrap 3 sr-only). */
 .sr-only {
   position: absolute;
@@ -333,13 +339,18 @@ ul.navbar-right li {
   transition: transform 200ms ease, opacity 150ms ease, visibility 0s 0s;
 }
 
+/* On desktop the toggle button lives on the right; align the input the
+ * same way so it sits directly under the clicked button. The mobile
+ * media-query below resets this to left-align since the mobile toggle
+ * sits beside the BJC logo on the left.
+ */
 .navbar-search-input {
   display: block;
   height: 40px;
   width: 100%;
   max-width: 28em;
   padding: 4px 12px;
-  margin: 0;
+  margin: 0 0 0 auto;
   font-size: 1rem;
   color: #FFF;
   background-color: rgba(255, 255, 255, 0.15);
@@ -360,15 +371,27 @@ ul.navbar-right li {
 @media screen and (max-width: 768px) {
   /* At the same breakpoint where .navbar-title is pushed down out of
    * the navbar, swap which toggle button is visible: hide the one in
-   * the right-side group and show the one near the logo. */
-  .nav-search-desktop {
+   * the right-side group and show the one near the logo.
+   *
+   * The `.navbar-right >` qualifier is necessary here: there's a sibling
+   * mobile rule `.navbar-right > li { display: inline-block }` further
+   * down in this stylesheet at the same specificity (0,0,1,1) that wins
+   * against a bare `.nav-search-desktop` selector. Anchoring the rule
+   * to `.navbar-right >` bumps us to 0,0,2,0 so display:none wins.
+   */
+  .navbar-right > .nav-search-desktop {
     display: none;
   }
 
-  .nav-search-mobile {
+  .navbar-left .nav-search-mobile {
     display: inline-flex;
     vertical-align: middle;
     margin-left: 0.5em;
+  }
+
+  /* Mobile toggle sits on the left — align the input the same way. */
+  .navbar-search-input {
+    margin-left: 0;
   }
 
   /* Workaround: on small screens the <button> search toggle sits ~6px
