@@ -407,19 +407,19 @@ llab.createTitleNav = function() {
           aria-label="${t('Go to Index')}">
           <img src="${logoURL}" alt="${t('BJC logo')}">
         </a>
+        <button type="button"
+          class="btn btn-nav btn-nav-search js-navbarSearchToggle nav-search-mobile"
+          aria-label="${t('Search BJC')}" aria-expanded="false">
+          <i class="fas fa-search" aria-hidden="true"></i>
+        </button>
         <h1 class="navbar-title"></h1>
       </div>
       <ul class="nav navbar-nav navbar-right">
-        <li class="nav-search" role="search">
-          <label class="sr-only" for="js-navbarSearchInput">${t('Search BJC')}</label>
+        <li class="nav-search nav-search-desktop" role="search">
           <button type="button" class="btn btn-nav btn-nav-search js-navbarSearchToggle"
             aria-label="${t('Search BJC')}" aria-expanded="false">
             <i class="fas fa-search" aria-hidden="true"></i>
           </button>
-          <input type="search" id="js-navbarSearchInput" name="q"
-            class="navbar-search-input js-navbarSearchInput"
-            placeholder="${t('Search BJC')}" aria-label="${t('Search BJC')}"
-            tabindex="-1">
         </li>
         <li class="dropdown js-langDropdown nav-lang-dropdown hidden">
           <a class="btn btn-nav btn-nav-lang dropdown-toggle" type="button"
@@ -447,6 +447,13 @@ llab.createTitleNav = function() {
         </li>
         <li class="nav-btn-group nav-btn-group-last">${nextPageButton}</li>
       </ul>
+      <div class="navbar-search-bar js-navbarSearchBar" role="search">
+        <label class="sr-only" for="js-navbarSearchInput">${t('Search BJC')}</label>
+        <input type="search" id="js-navbarSearchInput" name="q"
+          class="navbar-search-input js-navbarSearchInput"
+          placeholder="${t('Search BJC')}" aria-label="${t('Search BJC')}"
+          tabindex="-1">
+      </div>
       <div class="trapezoid"></div>
     </nav>`,
     botHTML = `
@@ -742,9 +749,9 @@ llab.getSearchSite = () => {
 };
 
 llab.setupNavbarSearch = function () {
-  let $root = $('.nav-search');
   let $toggle = $('.js-navbarSearchToggle');
   let $input = $('.js-navbarSearchInput');
+  let $bar = $('.js-navbarSearchBar');
   if ($toggle.length === 0 || $toggle.data('llab-search-bound')) { return; }
   $toggle.data('llab-search-bound', true);
 
@@ -800,10 +807,10 @@ llab.setupNavbarSearch = function () {
     }
   });
 
-  // Click anywhere outside the search (while open) to close.
+  // Click anywhere outside the search UI (while open) to close.
   $(document).off('click.navbarSearch').on('click.navbarSearch', (event) => {
     if (!isOpen()) { return; }
-    if (event.target === $root[0] || $root[0].contains(event.target)) { return; }
+    if ($(event.target).closest('.js-navbarSearchToggle, .js-navbarSearchBar').length) { return; }
     close();
   });
 };

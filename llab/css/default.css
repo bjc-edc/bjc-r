@@ -267,50 +267,15 @@ ul.navbar-right li {
 }
 
 /* Navbar search (Google site-restricted).
- * Default: only the magnifier button is visible. Clicking it adds
- * .navbar-search-open to .llab-nav, which fades the other right-side
- * controls and the page title, then slides the input out to the LEFT
- * of the button.
  *
- * The input is anchored to the left of the button (instead of expanding
- * rightward) so it never overruns the right edge of the viewport. On
- * narrow viewports the input is capped via `max-width: calc(100vw - X)`
- * to stop it from running past the BJC logo / left edge; the title is
- * faded out so it doesn't show through underneath.
- *
- * The input is absolutely positioned so it doesn't contribute to the
- * <li>'s inline-block baseline — that keeps the search button on the
- * same line as the sibling buttons at every breakpoint.
+ * Two toggle buttons live in the markup — one near the BJC logo for
+ * narrow viewports, one in the right-side group for wider viewports —
+ * and the media-query rules below show whichever one fits the current
+ * layout. Tapping either toggle opens .navbar-search-open on the nav,
+ * which slides .navbar-search-bar down out of the navbar. The input
+ * lives in that bar; it never sits next to the toggle button, so it
+ * can't overlap the logo or the page title regardless of width.
  */
-.nav-search {
-  position: relative;
-  margin-right: 0.5em;
-}
-
-.navbar-search-input {
-  position: absolute;
-  right: calc(100% + 6px);
-  top: 0;
-  width: 0;
-  height: 40px;
-  padding: 0;
-  margin: 0;
-  font-size: 1rem;
-  color: #FFF;
-  background-color: rgba(255, 255, 255, 0.15);
-  border: 2px solid transparent;
-  border-radius: 6px;
-  outline: none;
-  opacity: 0;
-  pointer-events: none;
-  transition: width 200ms ease, padding 200ms ease,
-              opacity 150ms ease, border-color 150ms ease,
-              background-color 150ms ease;
-}
-
-.navbar-search-input::placeholder {
-  color: rgba(255, 255, 255, 0.75);
-}
 
 /* Center the magnifier icon inside the button. */
 .btn-nav-search {
@@ -319,7 +284,14 @@ ul.navbar-right li {
   justify-content: center;
 }
 
-/* Visually hidden but available to screen readers (bootstrap 3 sr-only) */
+/* Mobile-only toggle in navbar-left (hidden by default; shown via the
+ * media-query below at the same breakpoint where the page title is
+ * pushed out of the navbar). */
+.nav-search-mobile {
+  display: none;
+}
+
+/* Visually hidden but available to screen readers (bootstrap 3 sr-only). */
 .sr-only {
   position: absolute;
   width: 1px;
@@ -331,56 +303,80 @@ ul.navbar-right li {
   border: 0;
 }
 
-/* Fade the right-side controls rather than removing them from layout, so
- * the search button doesn't jump when they disappear.
+/* The drawer: a bar positioned just below the navbar that slides down
+ * when search is open. Transform is used so the bar can animate from
+ * "tucked behind the navbar" into view without affecting layout.
  */
-.llab-nav .nav-lang-dropdown,
-.llab-nav .nav-btn-group {
-  transition: opacity 150ms ease;
-}
-
-.llab-nav.navbar-search-open .nav-lang-dropdown,
-.llab-nav.navbar-search-open .nav-btn-group {
+.navbar-search-bar {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  padding: 10px 16px;
+  background-color: #0C3559;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transform: translateY(-100%);
   opacity: 0;
   pointer-events: none;
+  visibility: hidden;
+  z-index: -1;
+  transition: transform 200ms ease, opacity 150ms ease, visibility 0s 200ms;
 }
 
-/* The page title is in navbar-left, so it doesn't affect the search
- * button's position — we can hide it outright rather than fading, and
- * `display: none` guarantees nothing renders through the expanded input.
- */
-.llab-nav.navbar-search-open .navbar-title {
-  display: none;
-}
-
-.llab-nav.navbar-search-open .navbar-search-input {
-  width: 28ch;
-  padding: 4px 10px;
+.llab-nav.navbar-search-open .navbar-search-bar {
+  transform: translateY(0);
   opacity: 1;
   pointer-events: auto;
-  border-color: #FFF;
-  /* Don't let the input overrun the left edge of the viewport. The buffer
-   * reserves space for the BJC logo, the navbar-right controls, and the
-   * paddings between them. On viewports narrower than ~400px the input
-   * shrinks rather than overflowing past the logo.
-   */
-  max-width: calc(100vw - 18em);
+  visibility: visible;
+  z-index: 1;
+  transition: transform 200ms ease, opacity 150ms ease, visibility 0s 0s;
 }
 
-.llab-nav.navbar-search-open .navbar-search-input:focus {
+.navbar-search-input {
+  display: block;
+  height: 40px;
+  width: 100%;
+  max-width: 28em;
+  padding: 4px 12px;
+  margin: 0;
+  font-size: 1rem;
+  color: #FFF;
+  background-color: rgba(255, 255, 255, 0.15);
+  border: 2px solid #FFF;
+  border-radius: 6px;
+  outline: none;
+}
+
+.navbar-search-input::placeholder {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.navbar-search-input:focus {
   border-color: #F2E205;
   background-color: rgba(255, 255, 255, 0.2);
 }
 
 @media screen and (max-width: 768px) {
-  /* Workaround: on small screens the <button> search toggle sits ~6px lower
-   * than the sibling <a> nav buttons. The root cause is inline-block baseline
-   * differences between <button> and <a> elements that we haven't been able
-   * to fix cleanly via standard alignment properties — nudge the box up here.
-   * The input gets the same shift so it stays on the same line as the button.
+  /* At the same breakpoint where .navbar-title is pushed down out of
+   * the navbar, swap which toggle button is visible: hide the one in
+   * the right-side group and show the one near the logo. */
+  .nav-search-desktop {
+    display: none;
+  }
+
+  .nav-search-mobile {
+    display: inline-flex;
+    vertical-align: middle;
+    margin-left: 0.5em;
+  }
+
+  /* Workaround: on small screens the <button> search toggle sits ~6px
+   * lower than the sibling <a> nav buttons because of inline-block
+   * baseline differences between <button> and <a> elements that we
+   * haven't been able to fix cleanly via standard alignment properties.
    */
-  .btn-nav-search,
-  .navbar-search-input {
+  .btn-nav-search {
     margin-top: -6px;
   }
 }
