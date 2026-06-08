@@ -407,15 +407,10 @@ llab.createTitleNav = function() {
           aria-label="${t('Go to Index')}">
           <img src="${logoURL}" alt="${t('BJC logo')}">
         </a>
-        <button type="button"
-          class="btn btn-nav btn-nav-search js-navbarSearchToggle nav-search-mobile"
-          aria-label="${t('Search BJC')}" aria-expanded="false">
-          <i class="fas fa-search" aria-hidden="true"></i>
-        </button>
         <h1 class="navbar-title"></h1>
       </div>
       <ul class="nav navbar-nav navbar-right">
-        <li class="nav-search nav-search-desktop" role="search">
+        <li class="nav-search nav-search-li">
           <button type="button" class="btn btn-nav btn-nav-search js-navbarSearchToggle"
             aria-label="${t('Search BJC')}" aria-expanded="false">
             <i class="fas fa-search" aria-hidden="true"></i>
@@ -448,8 +443,8 @@ llab.createTitleNav = function() {
         <li class="nav-btn-group nav-btn-group-last">${nextPageButton}</li>
       </ul>
       <div class="navbar-search-bar js-navbarSearchBar" role="search">
-        <label class="sr-only" for="js-navbarSearchInput">${t('Search BJC')}</label>
-        <input type="search" id="js-navbarSearchInput" name="q"
+        <label class="sr-only" for="navbarSearchInput">${t('Search BJC')}</label>
+        <input type="search" id="navbarSearchInput" name="q"
           class="navbar-search-input js-navbarSearchInput"
           placeholder="${t('Search BJC')}" aria-label="${t('Search BJC')}"
           tabindex="-1">

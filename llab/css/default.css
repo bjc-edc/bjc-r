@@ -284,16 +284,9 @@ ul.navbar-right li {
   justify-content: center;
 }
 
-/* Mobile-only toggle in navbar-left (hidden by default; shown via the
- * media-query below at the same breakpoint where the page title is
- * pushed out of the navbar). */
-.nav-search-mobile {
-  display: none;
-}
-
 /* Visual separation between the desktop search button and the
  * adjacent language menu button. */
-.nav-search-desktop {
+.nav-search-li {
   margin-right: 1em;
 }
 
@@ -369,21 +362,7 @@ ul.navbar-right li {
 }
 
 @media screen and (max-width: 768px) {
-  /* At the same breakpoint where .navbar-title is pushed down out of
-   * the navbar, swap which toggle button is visible: hide the one in
-   * the right-side group and show the one near the logo.
-   *
-   * The `.navbar-right >` qualifier is necessary here: there's a sibling
-   * mobile rule `.navbar-right > li { display: inline-block }` further
-   * down in this stylesheet at the same specificity (0,0,1,1) that wins
-   * against a bare `.nav-search-desktop` selector. Anchoring the rule
-   * to `.navbar-right >` bumps us to 0,0,2,0 so display:none wins.
-   */
-  .navbar-right > .nav-search-desktop {
-    display: none;
-  }
-
-  .navbar-left .nav-search-mobile {
+  .navbar-right .nav-search-li {
     display: inline-flex;
     vertical-align: middle;
     margin-left: 0.5em;
