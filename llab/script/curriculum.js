@@ -407,15 +407,10 @@ llab.createTitleNav = function() {
           aria-label="${t('Go to Index')}">
           <img src="${logoURL}" alt="${t('BJC logo')}">
         </a>
-        <button type="button"
-          class="btn btn-nav btn-nav-search js-navbarSearchToggle nav-search-mobile"
-          aria-label="${t('Search BJC')}" aria-expanded="false">
-          <i class="fas fa-search" aria-hidden="true"></i>
-        </button>
         <h1 class="navbar-title"></h1>
       </div>
       <ul class="nav navbar-nav navbar-right">
-        <li class="nav-search nav-search-desktop" role="search">
+        <li class="nav-search" role="search">
           <button type="button" class="btn btn-nav btn-nav-search js-navbarSearchToggle"
             aria-label="${t('Search BJC')}" aria-expanded="false">
             <i class="fas fa-search" aria-hidden="true"></i>
