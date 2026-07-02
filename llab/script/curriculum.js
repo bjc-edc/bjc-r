@@ -410,6 +410,13 @@ llab.createTitleNav = function() {
         <h1 class="navbar-title"></h1>
       </div>
       <ul class="nav navbar-nav navbar-right">
+        <li class="nav-search">
+          <a class="btn btn-nav js-searchLink"
+            href="/bjc-r/search/${llab.getQueryParameter('course') ? `?course=${encodeURIComponent(llab.getQueryParameter('course'))}` : ''}"
+            aria-label="${t('Search')}" title="${t('Search')}">
+            <i class="fas fa-search" aria-hidden=true></i>
+          </a>
+        </li>
         <li class="dropdown js-langDropdown nav-lang-dropdown hidden">
           <a class="btn btn-nav btn-nav-lang dropdown-toggle" type="button"
             aria-label=${t('Switch language')} role="button" tabindex=0

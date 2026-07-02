@@ -54,6 +54,10 @@ llab.TRANSLATIONS = {
     },
     'Go to Table of Contents': {
       es: 'Ir a la tabla de contenido'
+    },
+    'Search': {
+      en: 'Search',
+      es: 'Buscar'
     }
 };
 
