@@ -68,6 +68,13 @@ def a11y_test_cases(course, url)
     '.commentBig',
     '.ap-standard',
     '.csta-standard',
+    # 3rd-party embedded content (YouTube players, gapminder.org charts,
+    # etc.) is excluded one iframe at a time by tagging the offending
+    # element with data-a11y-errors="true" in the source page (covered
+    # by the top-level selector above). Tagging per iframe — rather than
+    # blanket-excluding all iframes — keeps it visible in source review
+    # which 3rd-party embeds we're knowingly opting out of, and lets us
+    # still axe-test any first-party iframes we add later.
     # TODO: items below here **must** be fixed eventually.
     'var', # Snap! elements don't have enough color contrast.
   ]
