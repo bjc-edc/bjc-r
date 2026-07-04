@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Search · The Beauty and Joy of Computing</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- llab loader pulls in jQuery, default.css, the navbar, etc. -->
+    <script src="/bjc-r/llab/loader.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="/bjc-r/search/pagefind/pagefind-ui.css">
+    <style>
+      main.search-main {
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: 24px 16px 80px;
+      }
+      .search-main h2 { margin: 0 0 8px; }
+      .search-main .intro { margin: 0 0 24px; color: #555; }
+
+      .pagefind-ui {
+        --pagefind-ui-scale: 0.9;
+        --pagefind-ui-primary: #0C3559;
+        --pagefind-ui-border-radius: 6px;
+      }
+
+      /* Placeholder in the search input is opacity:0.2 by default — bump it. */
+      .pagefind-ui__search-input::placeholder {
+        opacity: 0.55;
+        color: #555;
+      }
+
+      /* The "Clear" button: tighten size, give it a border so it reads as a
+         button instead of a fuzzy box, and offset so it sits inside the
+         input's rounded border. */
+      .pagefind-ui__search-clear {
+        top: 50% !important;
+        right: 8px !important;
+        transform: translateY(-50%);
+        height: auto !important;
+        padding: 6px 12px !important;
+        border: 1px solid var(--pagefind-ui-border);
+        border-radius: 4px;
+        color: var(--pagefind-ui-primary);
+        background: #fff;
+        font-weight: 600;
+      }
+      .pagefind-ui__search-clear:hover {
+        background: var(--pagefind-ui-primary);
+        color: #fff;
+      }
+
+      /* Sidebar order: course (0), unit (1), lab (2), kind (3), section (4).
+         The Pagefind filter panel uses flex-direction:column, so `order`
+         reorders rows. */
+      .pagefind-ui__filter-block[data-filter="course"]  { order: 0; }
+      .pagefind-ui__filter-block[data-filter="unit"]    { order: 1; }
+      .pagefind-ui__filter-block[data-filter="lab"]     { order: 2; }
+      .pagefind-ui__filter-block[data-filter="kind"]    { order: 3; }
+      .pagefind-ui__filter-block[data-filter="section"] { order: 4; }
+      /* Hide unit + lab filter blocks until a course is selected. */
+      .search-no-course .pagefind-ui__filter-block[data-filter="unit"],
+      .search-no-course .pagefind-ui__filter-block[data-filter="lab"] {
+        display: none;
+      }
+    </style>
+  </head>
+  <body class="search-no-course">
+    <main class="search-main">
+      <h2 class="js-search-title">Search the curriculum</h2>
+      <p class="intro js-search-intro">
+        Filter by course, then narrow by unit, lab, page kind, or section type.
+        Results link directly to lessons in the course navigation.
+      </p>
+      <div id="search"></div>
+    </main>
+
+    <script src="/bjc-r/search/pagefind/pagefind-ui.js"></script>
+    <script>
+      // Spanish copy for the page chrome + Pagefind UI strings. Pulled in
+      // when llab.pageLang() === 'es' (driven by ?lang= or <html lang>).
+      const SEARCH_I18N = {
+        en: {
+          page_title: 'Search the curriculum',
+          page_intro: 'Filter by course, then narrow by unit, lab, page kind, or section type. Results link directly to lessons in the course navigation.',
+          placeholder: 'Search labs, lessons, vocab…',
+          clear_search: 'Clear',
+          load_more: 'More results',
+          search_label: 'Search BJC',
+          filters_label: 'Filter by',
+          zero_results: 'No results for "[SEARCH_TERM]"',
+          many_results: '[COUNT] results for "[SEARCH_TERM]"',
+          one_result: '[COUNT] result for "[SEARCH_TERM]"',
+          alt_search_label: 'Search BJC curriculum',
+          search_suggestion: 'No results for "[SEARCH_TERM]". Did you mean [DISPLAY_QUERY]?',
+          searching: 'Searching for "[SEARCH_TERM]"…',
+        },
+        es: {
+          page_title: 'Buscar en el plan de estudios',
+          page_intro: 'Filtra por curso y luego limita por unidad, laboratorio, tipo de página o tipo de sección. Los resultados enlazan directamente a las lecciones dentro de la navegación del curso.',
+          placeholder: 'Buscar laboratorios, lecciones, vocabulario…',
+          clear_search: 'Borrar',
+          load_more: 'Más resultados',
+          search_label: 'Buscar BJC',
+          filters_label: 'Filtrar por',
+          zero_results: 'No hay resultados para "[SEARCH_TERM]"',
+          many_results: '[COUNT] resultados para "[SEARCH_TERM]"',
+          one_result: '[COUNT] resultado para "[SEARCH_TERM]"',
+          alt_search_label: 'Buscar en el plan de estudios BJC',
+          search_suggestion: 'No hay resultados para "[SEARCH_TERM]". ¿Quisiste decir [DISPLAY_QUERY]?',
+          searching: 'Buscando "[SEARCH_TERM]"…',
+        },
+      };
+
+      function getLang() {
+        const params = new URLSearchParams(location.search);
+        if (params.get('lang') === 'es') return 'es';
+        if (params.get('lang') === 'en') return 'en';
+        if (typeof llab !== 'undefined' && llab.pageLang) return llab.pageLang();
+        return document.documentElement.lang === 'es' ? 'es' : 'en';
+      }
+
+      window.addEventListener('DOMContentLoaded', () => {
+        const lang = getLang();
+        const strings = SEARCH_I18N[lang];
+        document.documentElement.lang = lang;
+        document.querySelector('.js-search-title').textContent = strings.page_title;
+        document.querySelector('.js-search-intro').textContent = strings.page_intro;
+
+        const FACET_KEYS = ['course', 'unit', 'lab', 'kind', 'section'];
+        const body = document.body;
+
+        function decorateFilters() {
+          document.querySelectorAll('.pagefind-ui__filter-block').forEach((block) => {
+            if (block.dataset.filter) return;
+            const name = block.querySelector('.pagefind-ui__filter-name');
+            if (!name) return;
+            const key = name.textContent.trim().toLowerCase();
+            if (FACET_KEYS.includes(key)) block.dataset.filter = key;
+          });
+        }
+
+        function updateCourseGating() {
+          const courseBlock = document.querySelector('.pagefind-ui__filter-block[data-filter="course"]');
+          const checked = !!courseBlock?.querySelector('.pagefind-ui__filter-checkbox:checked');
+          body.classList.toggle('search-no-course', !checked);
+        }
+
+        const obs = new MutationObserver(() => {
+          decorateFilters();
+          updateCourseGating();
+        });
+        obs.observe(document.body, { childList: true, subtree: true });
+
+        document.addEventListener('change', (e) => {
+          if (e.target.matches?.('.pagefind-ui__filter-checkbox')) updateCourseGating();
+        });
+
+        // Pre-select the course filter when ?course=… is present. ?course=
+        // can be either a course-file basename (passed by the navbar) or the
+        // display name itself.
+        const COURSE_FILENAME_TO_DISPLAY = {
+          'bjc4nyc.html': 'BJC AP CS Principles',
+          'bjc4nyc.es.html': 'BJC AP CS Principles',
+          'sparks.html': 'BJC Sparks',
+          'sparks.es.html': 'BJC Sparks',
+        };
+        const params = new URLSearchParams(location.search);
+        const courseParam = params.get('course');
+        const preselectCourse = courseParam
+          ? (COURSE_FILENAME_TO_DISPLAY[courseParam] || courseParam)
+          : null;
+        if (preselectCourse) {
+          const waitForCheckbox = new MutationObserver(() => {
+            const labels = document.querySelectorAll(
+              '.pagefind-ui__filter-block[data-filter="course"] .pagefind-ui__filter-label'
+            );
+            for (const label of labels) {
+              if (label.textContent.trim() === preselectCourse) {
+                const cb = label
+                  .closest('.pagefind-ui__filter-value')
+                  ?.querySelector('.pagefind-ui__filter-checkbox');
+                if (cb && !cb.checked) {
+                  cb.click();
+                  waitForCheckbox.disconnect();
+                  break;
+                }
+              }
+            }
+          });
+          waitForCheckbox.observe(document.body, { childList: true, subtree: true });
+        }
+
+        new PagefindUI({
+          element: '#search',
+          bundlePath: '/bjc-r/search/pagefind/',
+          showSubResults: true,
+          showImages: true,
+          resetStyles: false,
+          autofocus: true,
+          showEmptyFilters: false,
+          translations: {
+            placeholder: strings.placeholder,
+            clear_search: strings.clear_search,
+            load_more: strings.load_more,
+            search_label: strings.search_label,
+            filters_label: strings.filters_label,
+            zero_results: strings.zero_results,
+            many_results: strings.many_results,
+            one_result: strings.one_result,
+            alt_search_label: strings.alt_search_label,
+            search_suggestion: strings.search_suggestion,
+            searching: strings.searching,
+          },
+        });
+      });
+    </script>
+  </body>
+</html>

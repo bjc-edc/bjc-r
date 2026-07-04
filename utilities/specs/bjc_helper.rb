@@ -40,7 +40,10 @@ module BJCSpecs
     'cur/compare',
     'cur/specifications',
     'cur/updates',
-    'eir/school-equity'
+    'eir/school-equity',
+    # Client-side search page (empty state — search-with-results is tested
+    # in a dedicated block in accessibility_spec.rb).
+    'search/index'
   ].map { |p| "/bjc-r/#{p}.html" }
 
   def load_site_urls(courses)

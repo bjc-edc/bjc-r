@@ -144,3 +144,45 @@ puts "Running tests on #{ALL_PAGES.values.map(&:length).sum} pages."
 ALL_PAGES.each do |course, pages|
   pages.each { |url| a11y_test_cases(course, url) }
 end
+
+# ===== Search page: run axe after entering queries
+# The empty search page is covered by ALL_PAGES['general']; this block
+# additionally exercises the result-rendering DOM by typing a query and
+# waiting for results to appear before running axe.
+SEARCH_QUERIES = %w[recursion polygon Snap]
+
+SEARCH_QUERIES.each do |query|
+  describe "general - search results for '#{query}' :",
+    type: :feature, js: true do
+    wcag20_tags = test_tags([:general, :wcag20])
+    wcag22_tags = test_tags([:general, :wcag22])
+
+    excluded_elements = [
+      '[data-a11y-errors="true"]',
+      '.todo',
+      '.comment',
+      '.commentBig',
+      'var',
+    ]
+
+    before(:each) do
+      visit('/bjc-r/search/')
+      # Pagefind renders an <input> with the form class once its JS has run.
+      find('.pagefind-ui__search-input', wait: 10).set(query)
+      # Wait for at least one result card to render.
+      expect(page).to have_css('.pagefind-ui__result', wait: 10)
+    end
+
+    it 'is WCAG 2.0 accessible', **wcag20_tags do
+      expect(page).to be_axe_clean
+        .according_to(:wcag2a, :wcag2aa)
+        .excluding(*excluded_elements)
+    end
+
+    it 'is WCAG 2.2 accessible', **wcag22_tags do
+      expect(page).to be_axe_clean
+        .according_to(:wcag21a, :wcag21aa, :wcag22aa, :'wcag2a-obsolete', :'best-practice', :section508)
+        .excluding(*excluded_elements)
+    end
+  end
+end
