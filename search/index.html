@@ -140,8 +140,12 @@
         const ui = new PagefindUI({
           element: '#search',
           bundlePath: '/bjc-r/search/pagefind/',
+          // Indexed URLs are already root-absolute (/bjc-r/...). Without
+          // this, Pagefind derives baseUrl from the bundle path and
+          // prefixes every result link with /bjc-r/search/ → 404s.
+          baseUrl: '/',
           mergeIndex: includeTeacher
-            ? [{ bundlePath: '/bjc-r/search/pagefind-teacher/' }]
+            ? [{ bundlePath: '/bjc-r/search/pagefind-teacher/', baseUrl: '/' }]
             : [],
           showSubResults: true,
           showImages: true,

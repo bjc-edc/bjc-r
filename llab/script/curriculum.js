@@ -734,12 +734,18 @@ llab.translated_content_url = function() {
 // page, carrying the query and the current course so the search page can
 // pre-select the matching course filter.
 
-// Build the /bjc-r/search/ URL for a query, forwarding the current ?course=
+// Build the /bjc-r/search/ URL for a query, forwarding the current course
 // (and language) context when present.
 llab.getSearchURL = (query) => {
   let params = new URLSearchParams();
   if (query) { params.set('q', query); }
   let course = llab.getQueryParameter('course');
+  if (!course) {
+    // On a course page itself (e.g. /bjc-r/course/sparks-teacher.html) the
+    // course is the path, not a query parameter.
+    let match = location.pathname.match(/\/course\/([^\/]+\.html)$/);
+    if (match) { course = match[1]; }
+  }
   if (course) { params.set('course', course); }
   let lang = llab.pageLang();
   if (lang && lang !== 'en') { params.set('lang', lang); }

@@ -14,10 +14,13 @@ API key — and supports filtering results by `course`.
    `llab/script/topic.js` — loaded into Node via `llab-loader.js`
    (`vm.runInContext` with a small `llab` / `$` / `document` shim) — so we
    don't duplicate the topic-file grammar.
-3. Reads each lab page's HTML, extracts the **first `<h2>` as the page title**
-   (the BJC convention — the `<title>` tag is usually a generic
-   "Unit X Lab Y, Page Z" string), injects a hidden
-   `<span data-pagefind-filter>` marker for the course into the `<body>`, and
+3. Reads each lab page's HTML and builds the result title as
+   **`{first <h2>} ({cleaned <title>})`** — e.g.
+   "Innovations and Privacy (Unit 1 Lab 4, Page 4)". The first `<h2>` is the
+   BJC page-title convention; the `<title>` tag carries the position in the
+   course, cleaned by dropping the lab name between the colon and the
+   page/activity marker. It then injects a hidden
+   `<span data-pagefind-filter>` marker for the course into the `<body>` and
    feeds the augmented HTML to Pagefind's
    [indexing API](https://pagefind.app/docs/node-api/).
 4. Writes **two** indexes at the repo root:

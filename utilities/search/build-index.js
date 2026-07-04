@@ -104,6 +104,25 @@ function listTopicsForCourse(courseHtmlPath) {
   return { titleText, topics };
 }
 
+// Clean a <title> tag for display alongside the h2 title: drop the
+// descriptive lab name between the colon and the page/activity marker.
+// "Unit 1 Lab 4: Protecting Your Privacy, Page 4"        → "Unit 1 Lab 4, Page 4"
+// "Unidad 4 Laboratorio 2: Ciberseguridad, página 6"     → "Unidad 4 Laboratorio 2, página 6"
+// "Unit 2 Lab 3: Make Some Noise, Activity 1"            → "Unit 2 Lab 3, Activity 1"
+// Titles without that shape (e.g. "Unit 1 Vocabulary") pass through as-is.
+function cleanTitleTag(titleTag) {
+  const t = String(titleTag || '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+  const m = t.match(/^(.+?):\s+.*,\s*((?:page|p[áa]gina|activity|actividad)\s*\d+)\s*$/i);
+  return m ? `${m[1]}, ${m[2]}` : t;
+}
+
+// Loose comparison so "Unit 1: Vocabulary" and "Unit 1 Vocabulary" count as
+// the same title and we don't render "Unit 1: Vocabulary (Unit 1 Vocabulary)".
+function sameTitle(a, b) {
+  const norm = (s) => String(s).toLowerCase().replace(/[^\p{L}\p{N}]+/gu, '');
+  return norm(a) === norm(b);
+}
+
 // Inspect a lab page's HTML once with cheerio to extract:
 //  - the page title, taken from the first <h2> (the BJC convention — the
 //    <title> tag is usually a generic "Unit X Lab Y, Page Z" string while
@@ -209,8 +228,15 @@ async function buildIndexFor({ courses, outputPath, llab, titleReport }) {
           const rawHtml = fs.readFileSync(fsPath, 'utf8');
           const { h2Title, titleTag, html: htmlWithAlts } = processLabHtml(rawHtml);
 
-          // BJC convention: the human-facing page title is the first <h2>.
-          const pageTitle = h2Title || titleTag;
+          // BJC convention: the human-facing page title is the first <h2>;
+          // the <title> tag carries the position within the course. Combine
+          // them as "{h2} ({cleaned title})", e.g.
+          // "Protecting Your Privacy (Unit 1 Lab 4, Page 4)".
+          const cleanedTag = cleanTitleTag(titleTag);
+          let pageTitle = h2Title || cleanedTag;
+          if (h2Title && cleanedTag && !sameTitle(h2Title, cleanedTag)) {
+            pageTitle = `${h2Title} (${cleanedTag})`;
+          }
           if (!h2Title) {
             console.warn(`    ! no <h2> title on ${pageUrl}${titleTag ? ` — falling back to <title> "${titleTag}"` : ' — no <title> either'}`);
           }
