@@ -2,14 +2,24 @@
 // Pagefind index builder for the BJC curriculum.
 //
 // Walks the chosen course HTML files, follows them into their .topic files,
-// reads each linked lab page, and feeds the HTML to Pagefind with course /
-// unit / lab filters attached. No source HTML is modified — filter markers
-// are injected into an in-memory copy that's handed to Pagefind.
+// reads each linked lab page, and feeds the HTML to Pagefind with a `course`
+// filter attached. No source HTML is modified — filter markers are injected
+// into an in-memory copy that's handed to Pagefind.
+//
+// Two separate indexes are written:
+//   search/pagefind/          — student courses (BJC CS Principles, BJC Sparks)
+//   search/pagefind-teacher/  — the teacher guide for each course
+// The search page merges the teacher bundle in only when an explicit query
+// parameter is present, so teacher-guide results stay out of student searches.
+//
+// Result titles come from the first <h2> on each page (the BJC page-title
+// convention) with the <title> tag as a fallback; every extracted title is
+// captured in title-report.json and pages missing an <h2> are logged.
 //
 // Topic-file parsing is delegated to the canonical browser-side parser at
 // llab/script/topic.js, loaded into Node via vm in llab-loader.js.
 //
-// Usage:  node build-index.js  [--courses=bjc4nyc.html,sparks.html,...]
+// Usage:  node build-index.js  [--courses=...] [--teacher-courses=...]
 
 import { createIndex } from 'pagefind';
 import { load } from 'cheerio';
@@ -24,52 +34,30 @@ const REPO_ROOT = path.resolve(__dirname, '..', '..');
 
 // Courses to index by default. Each is the basename inside /bjc-r/course/.
 const DEFAULT_COURSES = ['bjc4nyc.html', 'bjc4nyc.es.html', 'sparks.html'];
+const DEFAULT_TEACHER_COURSES = ['bjc4nyc_teacher.html', 'sparks-teacher.html'];
 
 // Display names override the course HTML <title>. Add an entry for every
-// course you index — defaults fall back to the <title> text.
+// course you index — defaults fall back to the <title> text. These values
+// are what users see in the search page's course filter, and they must stay
+// in sync with COURSE_FILENAME_TO_DISPLAY in search/index.html.
 const COURSE_DISPLAY_NAMES = {
-  'bjc4nyc.html': 'BJC AP CS Principles',
-  'bjc4nyc.es.html': 'BJC AP CS Principles',
+  'bjc4nyc.html': 'BJC CS Principles',
+  'bjc4nyc.es.html': 'BJC CS Principles',
   'sparks.html': 'BJC Sparks',
   'sparks.es.html': 'BJC Sparks',
-};
-
-// Page "kind" — used for the `kind` filter so users can include/exclude
-// end-of-unit summary content (vocab, self-checks, exam refs). Mirrors
-// BJCTopic#is_summary_page? in utilities/build-tools/topic.rb.
-function pageKindFromUrl(url) {
-  if (/\/summaries\//.test(url)) return 'summary';
-  if (/unit-[^/]*-vocab[^/]*\.html/.test(url)) return 'vocab';
-  if (/unit-[^/]*-self-check[^/]*\.html/.test(url)) return 'self-check';
-  if (/unit-[^/]*-exam-reference[^/]*\.html/.test(url)) return 'exam-reference';
-  return 'lesson';
-}
-
-// BJC in-page section conventions — see lab HTML like .learn / .forYouToDo etc.
-// Multiple classes map to the same logical section label so the filter doesn't
-// fragment (e.g. .vocab + .vocabBig + .vocabFullWidth all → "Vocabulary").
-const SECTION_CLASS_MAP = {
-  learn: 'Learn',
-  forYouToDo: 'For You To Do',
-  ifTime: 'If There Is Time',
-  takeItFurther: 'Take It Further',
-  vocab: 'Vocabulary',
-  vocabBig: 'Vocabulary',
-  vocabFullWidth: 'Vocabulary',
-  endnote: 'Endnote',
-  takeNote: 'Take Note',
-  sidenoteBig: 'Take Note',
-  atworkFullWidth: 'At Work',
-  examFullWidth: 'Exam Reference',
-  newProject: 'New Project',
+  'bjc4nyc_teacher.html': 'BJC CS Principles Teacher Guide',
+  'sparks-teacher.html': 'BJC Sparks Teacher Guide',
 };
 
 function parseArgs() {
   const args = process.argv.slice(2);
-  const out = { courses: DEFAULT_COURSES };
+  const out = { courses: DEFAULT_COURSES, teacherCourses: DEFAULT_TEACHER_COURSES };
   for (const a of args) {
     if (a.startsWith('--courses=')) {
       out.courses = a.slice('--courses='.length).split(',').filter(Boolean);
+    }
+    if (a.startsWith('--teacher-courses=')) {
+      out.teacherCourses = a.slice('--teacher-courses='.length).split(',').filter(Boolean);
     }
   }
   return out;
@@ -117,16 +105,16 @@ function listTopicsForCourse(courseHtmlPath) {
 }
 
 // Inspect a lab page's HTML once with cheerio to extract:
-//  - the set of section labels (filter values for `section`)
+//  - the page title, taken from the first <h2> (the BJC convention — the
+//    <title> tag is usually a generic "Unit X Lab Y, Page Z" string while
+//    the first <h2> holds the human-facing page title)
 //  - an augmented HTML body where each <img> is followed by a visible
 //    <span> containing its alt text — so Pagefind picks it up as content.
 function processLabHtml(html) {
   const $ = load(html);
-  const sections = new Set();
 
-  for (const [klass, label] of Object.entries(SECTION_CLASS_MAP)) {
-    if ($(`.${klass}`).length > 0) sections.add(label);
-  }
+  const h2Title = $('h2').first().text().replace(/\s+/g, ' ').trim();
+  const titleTag = ($('title').first().text() || '').replace(/\s+/g, ' ').trim();
 
   $('img[alt]').each((_, el) => {
     const alt = ($(el).attr('alt') || '').trim();
@@ -138,7 +126,7 @@ function processLabHtml(html) {
     $(el).after(` <span class="pf-alt-text">${escapeHtml(alt)}</span>`);
   });
 
-  return { sections: [...sections], html: $.html() };
+  return { h2Title, titleTag, html: $.html() };
 }
 
 // Inject Pagefind filter/meta markers as hidden elements at the start of <body>.
@@ -168,14 +156,10 @@ function injectPagefindMeta(html, { filters, meta }) {
   return `<body>${block}</body>${html}`;
 }
 
-async function main() {
-  const { courses } = parseArgs();
-  console.log(`Pagefind index builder. Courses: ${courses.join(', ')}`);
-
-  const llab = loadLlab();
-
-  // Don't force a language — Pagefind reads <html lang="..."> per page and
-  // keeps a separate sub-index per language. en + es live side by side.
+// Index every page of every course in `courses` into a fresh Pagefind index
+// and write it to `outputPath`. Returns per-run stats; appends one entry per
+// indexed page to `titleReport`.
+async function buildIndexFor({ courses, outputPath, llab, titleReport }) {
   const { index, errors: createErrors } = await createIndex({ rootSelector: 'body' });
   if (createErrors?.length) throw new Error(`createIndex errors: ${createErrors.join('; ')}`);
 
@@ -207,7 +191,6 @@ async function main() {
       console.log(`  Unit: ${unitTitle}  (${labs.length} labs)`);
 
       for (const lab of labs) {
-        const labLabel = lab.heading || unitTitle;
         for (const pageUrl of lab.pageUrls) {
           const fsPath = urlToFsPath(pageUrl);
           if (!fsPath) { totalSkipped++; continue; }
@@ -224,18 +207,23 @@ async function main() {
           seenUrls.add(augmentedUrl);
 
           const rawHtml = fs.readFileSync(fsPath, 'utf8');
-          const pageTitle = (rawHtml.match(/<title>([^<]*)<\/title>/i)?.[1] || '').trim();
-          const { sections, html: htmlWithAlts } = processLabHtml(rawHtml);
-          const kind = pageKindFromUrl('/bjc-r/' + rel);
+          const { h2Title, titleTag, html: htmlWithAlts } = processLabHtml(rawHtml);
+
+          // BJC convention: the human-facing page title is the first <h2>.
+          const pageTitle = h2Title || titleTag;
+          if (!h2Title) {
+            console.warn(`    ! no <h2> title on ${pageUrl}${titleTag ? ` — falling back to <title> "${titleTag}"` : ' — no <title> either'}`);
+          }
+          titleReport.push({
+            url: `/bjc-r/${rel}`,
+            course: courseName,
+            title: pageTitle || null,
+            titleSource: h2Title ? 'h2' : (titleTag ? 'title-tag' : 'none'),
+            titleTag: titleTag || null,
+          });
 
           const augmented = injectPagefindMeta(htmlWithAlts, {
-            filters: {
-              course: courseName,
-              unit: unitTitle,
-              lab: labLabel,
-              kind,
-              section: sections,
-            },
+            filters: { course: courseName },
             meta: pageTitle ? { title: pageTitle } : {},
           });
 
@@ -253,12 +241,51 @@ async function main() {
     }
   }
 
-  const outputPath = path.join(REPO_ROOT, 'search', 'pagefind');
+  // Pagefind names every fragment/index file by content hash and writeFiles
+  // never deletes, so clear the bundle dir first to avoid stale orphans.
+  fs.rmSync(outputPath, { recursive: true, force: true });
   const { errors: writeErrors } = await index.writeFiles({ outputPath });
   if (writeErrors?.length) throw new Error(`writeFiles errors: ${writeErrors.join('; ')}`);
 
-  console.log(`\nIndexed ${totalIndexed} pages, skipped ${totalSkipped} (duplicates / non-local / missing).`);
-  console.log(`Pagefind output written to ${outputPath}`);
+  return { totalIndexed, totalSkipped };
+}
+
+async function main() {
+  const { courses, teacherCourses } = parseArgs();
+  console.log(`Pagefind index builder.`);
+  console.log(`  Student courses: ${courses.join(', ')}`);
+  console.log(`  Teacher courses: ${teacherCourses.join(', ')}`);
+
+  const llab = loadLlab();
+  const titleReport = [];
+
+  console.log('\n=== Student index ===');
+  const student = await buildIndexFor({
+    courses,
+    outputPath: path.join(REPO_ROOT, 'search', 'pagefind'),
+    llab,
+    titleReport,
+  });
+
+  console.log('\n=== Teacher-guide index ===');
+  const teacher = await buildIndexFor({
+    courses: teacherCourses,
+    outputPath: path.join(REPO_ROOT, 'search', 'pagefind-teacher'),
+    llab,
+    titleReport,
+  });
+
+  // Capture the extracted titles so title sourcing can be audited without
+  // re-running the build. Not committed — see .gitignore.
+  const reportPath = path.join(__dirname, 'title-report.json');
+  fs.writeFileSync(reportPath, JSON.stringify(titleReport, null, 2) + '\n');
+
+  const noH2 = titleReport.filter((r) => r.titleSource !== 'h2');
+  console.log(`\nIndexed ${student.totalIndexed} student + ${teacher.totalIndexed} teacher pages ` +
+    `(skipped ${student.totalSkipped + teacher.totalSkipped} duplicates / non-local / missing).`);
+  console.log(`Titles: ${titleReport.length - noH2.length}/${titleReport.length} pages use their first <h2>; ` +
+    `${noH2.length} fell back to the <title> tag (see ${path.relative(REPO_ROOT, reportPath)}).`);
+  console.log(`Pagefind output written to ${path.join(REPO_ROOT, 'search', 'pagefind')} and ${path.join(REPO_ROOT, 'search', 'pagefind-teacher')}`);
 }
 
 main().catch((err) => {

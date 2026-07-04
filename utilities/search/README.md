@@ -1,8 +1,8 @@
-# Client-side search (Pagefind prototype)
+# Client-side search (Pagefind)
 
-This directory builds a [Pagefind](https://pagefind.app/) search index for the BJC
-curriculum. It runs entirely client-side — no third-party server, no API key —
-and supports filtering results by `course`, `unit`, and `lab`.
+This directory builds [Pagefind](https://pagefind.app/) search indexes for the
+BJC curriculum. Search runs entirely client-side — no third-party server, no
+API key — and supports filtering results by `course`.
 
 ## How it works
 
@@ -14,55 +14,84 @@ and supports filtering results by `course`, `unit`, and `lab`.
    `llab/script/topic.js` — loaded into Node via `llab-loader.js`
    (`vm.runInContext` with a small `llab` / `$` / `document` shim) — so we
    don't duplicate the topic-file grammar.
-3. Reads each lab page's HTML, injects three hidden `<span data-pagefind-filter>`
-   markers into the `<body>` (one each for course / unit / lab), and feeds the
-   augmented HTML to Pagefind's [indexing API](https://pagefind.app/docs/node-api/).
-4. Writes the index to `/search/pagefind/` at the repo root.
+3. Reads each lab page's HTML, extracts the **first `<h2>` as the page title**
+   (the BJC convention — the `<title>` tag is usually a generic
+   "Unit X Lab Y, Page Z" string), injects a hidden
+   `<span data-pagefind-filter>` marker for the course into the `<body>`, and
+   feeds the augmented HTML to Pagefind's
+   [indexing API](https://pagefind.app/docs/node-api/).
+4. Writes **two** indexes at the repo root:
+   - `/search/pagefind/` — student courses
+   - `/search/pagefind-teacher/` — the teacher guide for each course
 
 No committed HTML is modified — the filter markers exist only in the in-memory
 copy handed to Pagefind.
+
+### Title capture / logging
+
+Every extracted title is written to `title-report.json` (gitignored) with its
+source (`h2`, `title-tag` fallback, or `none`). Pages missing a first `<h2>`
+are warned about during the build, and the build summary reports how many
+pages fell back to the `<title>` tag. As of the last audit, **all 560 indexed
+pages have a first `<h2>`**.
 
 ## Running the build
 
 ```sh
 cd utilities/search
 npm install
-npm run build                 # indexes bjc4nyc.html (the AP CSP course)
-node build-index.js --courses=bjc4nyc.html,sparks.html   # custom courses
+npm run build     # indexes the default course lists below
+node build-index.js --courses=bjc4nyc.html,sparks.html --teacher-courses=bjc4nyc_teacher.html
 ```
 
-Output lands in `/workspace/bjc-r/search/pagefind/` (≈ 2 MB for 186 pages).
+## Courses indexed
+
+| Course file | Filter value | Bundle |
+| --- | --- | --- |
+| `bjc4nyc.html`, `bjc4nyc.es.html` | BJC CS Principles | `search/pagefind/` |
+| `sparks.html` | BJC Sparks | `search/pagefind/` |
+| `bjc4nyc_teacher.html` | BJC CS Principles Teacher Guide | `search/pagefind-teacher/` |
+| `sparks-teacher.html` | BJC Sparks Teacher Guide | `search/pagefind-teacher/` |
+
+Course display names live in `COURSE_DISPLAY_NAMES` in `build-index.js` and
+must stay in sync with `COURSE_FILENAME_TO_DISPLAY` in `search/index.html`.
 
 ## Using the search
 
 The search page lives at `/bjc-r/search/` (i.e. `search/index.html`). Serve the
 repo locally (`./run-server`) and open <http://localhost:8000/bjc-r/search/>.
-The sidebar exposes the course / unit / lab facets; results link straight to
-the lab pages.
+The navbar magnifier on curriculum pages opens an inline input; submitting
+navigates here with `?q=…` (and `?course=…` when on a course page) so the
+query re-runs and the matching course filter is pre-selected.
 
-## Current scope
+Query parameters:
 
-- **Course:** AP CSP (`bjc4nyc.html`) only.
-- **Language:** English (Spanish `.es.html` pages are skipped).
-- **Pages indexed:** ~186, covering all 8 units + the Create Task practice.
-
-To extend to other courses, pass `--courses=...`. To extend to Spanish, drop
-the `.es.html` skip in `urlToFsPath` and run Pagefind without `forceLanguage`.
+- `q` — run this query immediately.
+- `course` — pre-select a course filter; accepts a course-file basename
+  (`sparks.html`) or a display name (`BJC Sparks`).
+- `teacher` — **teacher guides are hidden unless this is present** (any value
+  except `0`/`false`). The teacher bundle is merged into the search via
+  Pagefind's `mergeIndex`, so teacher-guide pages are never downloaded, shown,
+  or listed in the course filter without it. Arriving with
+  `?course=bjc4nyc_teacher.html` or `?course=sparks-teacher.html` also enables
+  it.
+- `lang` — `en`/`es` page chrome (results are mixed-language; Pagefind keeps
+  per-language sub-indexes).
 
 ## Files
 
-- `build-index.js` — indexer
+- `build-index.js` — indexer (both bundles + title report)
+- `llab-loader.js` — loads `llab/script/topic.js` into Node
 - `package.json` — Node deps (`pagefind`, `cheerio`)
-- `test-search.js` — dev-time smoke test (requires a running local server +
-  `npm install --save-dev jsdom`; partial — see "Limitations" below)
 
 ## Limitations / next steps
 
-- The smoke test runs Pagefind under jsdom, which doesn't have Web Workers,
-  so the runtime falls through to a path that resolves URLs against
-  `document.baseURI`. Production search in a real browser works fine; the
-  jsdom path needs more shimming or a real headless browser to drive.
+- Teacher-guide *topic pages* contain prose (`raw-html:` lines in the `.topic`
+  files) that has no standalone HTML page, so it isn't indexed — only the
+  linked teacher lab pages are.
 - The build re-indexes everything on each run. For a few hundred pages
   that's <2 s, so incremental indexing isn't worth the complexity yet.
-- If `cs10/bjc-r` or another fork wants its own index, just point the
-  script at a different course HTML file.
+- The `teacher` query parameter is a visibility gate, not access control —
+  the teacher bundle is still public to anyone who constructs the URL.
+- If `cs10/bjc-r` or another fork wants its own index, point the script at
+  different course HTML files via `--courses=` / `--teacher-courses=`.

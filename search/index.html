@@ -47,27 +47,13 @@
         background: var(--pagefind-ui-primary);
         color: #fff;
       }
-
-      /* Sidebar order: course (0), unit (1), lab (2), kind (3), section (4).
-         The Pagefind filter panel uses flex-direction:column, so `order`
-         reorders rows. */
-      .pagefind-ui__filter-block[data-filter="course"]  { order: 0; }
-      .pagefind-ui__filter-block[data-filter="unit"]    { order: 1; }
-      .pagefind-ui__filter-block[data-filter="lab"]     { order: 2; }
-      .pagefind-ui__filter-block[data-filter="kind"]    { order: 3; }
-      .pagefind-ui__filter-block[data-filter="section"] { order: 4; }
-      /* Hide unit + lab filter blocks until a course is selected. */
-      .search-no-course .pagefind-ui__filter-block[data-filter="unit"],
-      .search-no-course .pagefind-ui__filter-block[data-filter="lab"] {
-        display: none;
-      }
     </style>
   </head>
-  <body class="search-no-course">
+  <body>
     <main class="search-main">
       <h2 class="js-search-title">Search the curriculum</h2>
       <p class="intro js-search-intro">
-        Filter by course, then narrow by unit, lab, page kind, or section type.
+        Search across BJC courses, or filter to a single course.
         Results link directly to lessons in the course navigation.
       </p>
       <div id="search"></div>
@@ -80,7 +66,7 @@
       const SEARCH_I18N = {
         en: {
           page_title: 'Search the curriculum',
-          page_intro: 'Filter by course, then narrow by unit, lab, page kind, or section type. Results link directly to lessons in the course navigation.',
+          page_intro: 'Search across BJC courses, or filter to a single course. Results link directly to lessons in the course navigation.',
           placeholder: 'Search labs, lessons, vocab…',
           clear_search: 'Clear',
           load_more: 'More results',
@@ -95,7 +81,7 @@
         },
         es: {
           page_title: 'Buscar en el plan de estudios',
-          page_intro: 'Filtra por curso y luego limita por unidad, laboratorio, tipo de página o tipo de sección. Los resultados enlazan directamente a las lecciones dentro de la navegación del curso.',
+          page_intro: 'Busca en los cursos de BJC o filtra por un solo curso. Los resultados enlazan directamente a las lecciones dentro de la navegación del curso.',
           placeholder: 'Buscar laboratorios, lecciones, vocabulario…',
           clear_search: 'Borrar',
           load_more: 'Más resultados',
@@ -109,6 +95,20 @@
           searching: 'Buscando "[SEARCH_TERM]"…',
         },
       };
+
+      // Course-file basename (as passed via ?course= by the navbar) → the
+      // display name used as the `course` filter value in the index. Must
+      // stay in sync with COURSE_DISPLAY_NAMES in
+      // utilities/search/build-index.js.
+      const COURSE_FILENAME_TO_DISPLAY = {
+        'bjc4nyc.html': 'BJC CS Principles',
+        'bjc4nyc.es.html': 'BJC CS Principles',
+        'sparks.html': 'BJC Sparks',
+        'sparks.es.html': 'BJC Sparks',
+        'bjc4nyc_teacher.html': 'BJC CS Principles Teacher Guide',
+        'sparks-teacher.html': 'BJC Sparks Teacher Guide',
+      };
+      const TEACHER_COURSE_FILES = ['bjc4nyc_teacher.html', 'sparks-teacher.html'];
 
       function getLang() {
         const params = new URLSearchParams(location.search);
@@ -125,73 +125,24 @@
         document.querySelector('.js-search-title').textContent = strings.page_title;
         document.querySelector('.js-search-intro').textContent = strings.page_intro;
 
-        const FACET_KEYS = ['course', 'unit', 'lab', 'kind', 'section'];
-        const body = document.body;
-
-        function decorateFilters() {
-          document.querySelectorAll('.pagefind-ui__filter-block').forEach((block) => {
-            if (block.dataset.filter) return;
-            const name = block.querySelector('.pagefind-ui__filter-name');
-            if (!name) return;
-            const key = name.textContent.trim().toLowerCase();
-            if (FACET_KEYS.includes(key)) block.dataset.filter = key;
-          });
-        }
-
-        function updateCourseGating() {
-          const courseBlock = document.querySelector('.pagefind-ui__filter-block[data-filter="course"]');
-          const checked = !!courseBlock?.querySelector('.pagefind-ui__filter-checkbox:checked');
-          body.classList.toggle('search-no-course', !checked);
-        }
-
-        const obs = new MutationObserver(() => {
-          decorateFilters();
-          updateCourseGating();
-        });
-        obs.observe(document.body, { childList: true, subtree: true });
-
-        document.addEventListener('change', (e) => {
-          if (e.target.matches?.('.pagefind-ui__filter-checkbox')) updateCourseGating();
-        });
-
-        // Pre-select the course filter when ?course=… is present. ?course=
-        // can be either a course-file basename (passed by the navbar) or the
-        // display name itself.
-        const COURSE_FILENAME_TO_DISPLAY = {
-          'bjc4nyc.html': 'BJC AP CS Principles',
-          'bjc4nyc.es.html': 'BJC AP CS Principles',
-          'sparks.html': 'BJC Sparks',
-          'sparks.es.html': 'BJC Sparks',
-        };
         const params = new URLSearchParams(location.search);
         const courseParam = params.get('course');
-        const preselectCourse = courseParam
-          ? (COURSE_FILENAME_TO_DISPLAY[courseParam] || courseParam)
-          : null;
-        if (preselectCourse) {
-          const waitForCheckbox = new MutationObserver(() => {
-            const labels = document.querySelectorAll(
-              '.pagefind-ui__filter-block[data-filter="course"] .pagefind-ui__filter-label'
-            );
-            for (const label of labels) {
-              if (label.textContent.trim() === preselectCourse) {
-                const cb = label
-                  .closest('.pagefind-ui__filter-value')
-                  ?.querySelector('.pagefind-ui__filter-checkbox');
-                if (cb && !cb.checked) {
-                  cb.click();
-                  waitForCheckbox.disconnect();
-                  break;
-                }
-              }
-            }
-          });
-          waitForCheckbox.observe(document.body, { childList: true, subtree: true });
-        }
 
-        new PagefindUI({
+        // Teacher-guide content lives in a separate Pagefind bundle and is
+        // merged into the search only when explicitly requested: either via
+        // ?teacher (any value except 0/false), or because the visitor came
+        // from a teacher-guide course page (?course=…_teacher.html).
+        const teacherParam = params.get('teacher');
+        const includeTeacher =
+          (params.has('teacher') && teacherParam !== '0' && teacherParam !== 'false') ||
+          TEACHER_COURSE_FILES.includes(courseParam);
+
+        const ui = new PagefindUI({
           element: '#search',
           bundlePath: '/bjc-r/search/pagefind/',
+          mergeIndex: includeTeacher
+            ? [{ bundlePath: '/bjc-r/search/pagefind-teacher/' }]
+            : [],
           showSubResults: true,
           showImages: true,
           resetStyles: false,
@@ -211,6 +162,22 @@
             searching: strings.searching,
           },
         });
+
+        // Pre-select the course filter when ?course=… is present. ?course=
+        // can be either a course-file basename (passed by the navbar) or the
+        // display name itself.
+        const preselectCourse = courseParam
+          ? (COURSE_FILENAME_TO_DISPLAY[courseParam] || courseParam)
+          : null;
+        if (preselectCourse) {
+          ui.triggerFilters({ course: [preselectCourse] });
+        }
+
+        // Run the query handed over by the navbar search box (?q=…).
+        const initialQuery = (params.get('q') || '').trim();
+        if (initialQuery) {
+          ui.triggerSearch(initialQuery);
+        }
       });
     </script>
   </body>
