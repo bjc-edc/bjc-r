@@ -89,15 +89,26 @@ def a11y_test_cases(course, url)
         skip("TODO: #{url} is a 404 page.")
       end
 
-      # TODO: Add a function to expand all optional content.
-      # TODO: This only works for the ifTime, etc. boxes.
-      page.execute_script <<~JS
-      elementsArray = (selector) => Array.from(document.querySelectorAll(selector));
-        window.onload = (_) => {
-          elementsArray('details').forEach(el => el.open = true);
-          elementsArray('[data-toggle="collapse"]').forEach(el => el.click())
-        };
+      # Expand all optional content (ifTime/takeItFurther <details>, Bootstrap
+      # collapse hints) so axe tests what's inside — axe skips hidden content.
+      # This must run directly: `visit` returns after the load event, so
+      # assigning window.onload here would never fire.
+      expand_all_js = <<~JS
+        document.querySelectorAll('details').forEach(el => el.open = true);
+        // Show Bootstrap 3 collapse targets without animation.
+        document.querySelectorAll('.collapse').forEach(el => el.classList.add('in'));
       JS
+      page.execute_script(expand_all_js)
+      # llab converts .ifTime/.takeItFurther boxes to <details> and inserts
+      # [w3-include-html] fragments asynchronously; re-expand until nothing
+      # is left closed (bounded, so a page with no disclosures adds no time).
+      5.times do
+        break if page.evaluate_script(
+          'document.querySelectorAll("details:not([open]), .collapse:not(.in)").length === 0'
+        )
+        sleep 0.1
+        page.execute_script(expand_all_js)
+      end
     end
 
     # These tests should always be enabled.
