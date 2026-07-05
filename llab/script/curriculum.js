@@ -410,6 +410,12 @@ llab.createTitleNav = function() {
         <h1 class="navbar-title"></h1>
       </div>
       <ul class="nav navbar-nav navbar-right">
+        <li class="nav-search nav-search-li">
+          <button type="button" class="btn btn-nav btn-nav-search js-navbarSearchToggle"
+            aria-label="${t('Search BJC')}" aria-expanded="false">
+            <i class="fas fa-search" aria-hidden="true"></i>
+          </button>
+        </li>
         <li class="dropdown js-langDropdown nav-lang-dropdown hidden">
           <a class="btn btn-nav btn-nav-lang dropdown-toggle" type="button"
             aria-label=${t('Switch language')} role="button" tabindex=0
@@ -436,6 +442,13 @@ llab.createTitleNav = function() {
         </li>
         <li class="nav-btn-group nav-btn-group-last">${nextPageButton}</li>
       </ul>
+      <div class="navbar-search-bar js-navbarSearchBar" role="search">
+        <label class="sr-only" for="navbarSearchInput">${t('Search BJC')}</label>
+        <input type="search" id="navbarSearchInput" name="q"
+          class="navbar-search-input js-navbarSearchInput"
+          placeholder="${t('Search BJC')}" aria-label="${t('Search BJC')}"
+          tabindex="-1">
+      </div>
       <div class="trapezoid"></div>
     </nav>`,
     botHTML = `
@@ -459,6 +472,7 @@ llab.createTitleNav = function() {
     $(document.body).prepend(topHTML);
   }
 
+  llab.setupNavbarSearch();
   llab.setupTranslationsMenu();
 
   // This doesn't quite belong here. index pages are a special case...
@@ -510,6 +524,11 @@ llab.setButtonURLs = function() {
   // No dropdowns for places that don't have a step.
   if (!llab.isCurriculum()) { return; }
 
+  // Keep the buttons hidden until the topic's page list is available —
+  // configuring them against an empty url_list leaves visible <a> elements
+  // with an aria-label but no href (an axe aria-prohibited-attr violation).
+  if (!llab.url_list || llab.url_list.length === 0) { return; }
+
   // TODO: Should this happen ever?
   var forward = $('.js-nextPageLink'), back = $('.js-backPageLink');
   var buttonsExist = forward.length !== 0 && back.length !== 0;
@@ -519,8 +538,10 @@ llab.setButtonURLs = function() {
 
   forward = $('.js-nextPageLink');
   back = $('.js-backPageLink');
-  // Unhide buttons and remove click handlers
-  $('.js-navButton').removeClass('hidden').off('click');
+  // Remove click handlers; the buttons stay hidden until their href and
+  // aria-label are set below — unhiding first exposes an <a> with an
+  // aria-label but no href/role, which axe flags (aria-prohibited-attr).
+  $('.js-navButton').off('click');
 
   if (llab.thisPageNum() === 0) {
     back.addClass('disabled').removeAttr('href').removeAttr('aria-label').attr('disabled', true);
@@ -540,6 +561,9 @@ llab.setButtonURLs = function() {
       .attr('href', llab.url_list[llab.thisPageNum() + 1])
       .on('click', llab.dynamicNavigation(llab.url_list[llab.thisPageNum() + 1]));
   }
+
+  // Unhide only once the buttons are fully configured.
+  $('.js-navButton').removeClass('hidden');
 };
 
 llab.loadNewPage = (path) => {
@@ -713,6 +737,102 @@ llab.translated_content_url = function() {
     return llab.topics_path + topic_file;
   }
 }
+
+// Google site-restricted search wired up to the navbar.
+// Default UI is just the magnifier; clicking expands the input in place of
+// the other right-side nav items. The `site:` filter is added when building
+// the Google URL — the visible input value is never rewritten.
+
+// Derive the site filter from the current host + the install folder
+// (llab.rootURL). On localhost we fall back to bjc.edc.org since localhost
+// itself isn't indexed by Google.
+llab.NAVBAR_SEARCH_LOCAL_HOST = 'bjc.edc.org';
+llab.getSearchSite = () => {
+  let host = llab.isLocalEnvironment() ? llab.NAVBAR_SEARCH_LOCAL_HOST : location.hostname;
+  let folder = (llab.rootURL || '').replace(/^\/+|\/+$/g, '');
+  return folder ? `${host}/${folder}` : host;
+};
+
+llab.setupNavbarSearch = function () {
+  let $toggle = $('.js-navbarSearchToggle');
+  let $input = $('.js-navbarSearchInput');
+  let $bar = $('.js-navbarSearchBar');
+  if ($toggle.length === 0 || $toggle.data('llab-search-bound')) { return; }
+  $toggle.data('llab-search-bound', true);
+
+  let $nav = $('.llab-nav');
+  let isOpen = () => $nav.hasClass('navbar-search-open');
+
+  // Bootstrap 3 marks an open dropdown by adding .open to its wrapper.
+  // Whenever search opens we collapse any sibling menu so only one
+  // overlay is showing at a time.
+  let closeOpenDropdowns = () => $nav.find('.dropdown.open').removeClass('open');
+
+  let open = () => {
+    closeOpenDropdowns();
+    $nav.addClass('navbar-search-open');
+    $toggle.attr('aria-expanded', 'true');
+    $input.attr('tabindex', '0');
+    setTimeout(() => $input.trigger('focus'), 0);
+  };
+
+  let close = () => {
+    $nav.removeClass('navbar-search-open');
+    $toggle.attr('aria-expanded', 'false');
+    $input.attr('tabindex', '-1');
+    $input.val('');
+  };
+
+  // Use a synthesized anchor.click() rather than window.open() — this
+  // honors the user's browser preference for new tabs/windows and avoids
+  // popup-blocker quirks tied to window.open feature strings.
+  let openInNewWindow = (url) => {
+    let a = document.createElement('a');
+    a.href = url;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    a.click();
+  };
+
+  let performSearch = () => {
+    let query = ($input.val() || '').trim();
+    if (!query) { close(); return; }
+    let q = `${query} site:${llab.getSearchSite()}`;
+    openInNewWindow(`https://www.google.com/search?q=${encodeURIComponent(q)}`);
+    close();
+  };
+
+  $toggle.on('click', (event) => {
+    event.preventDefault();
+    if (!isOpen()) { open(); return; }
+    performSearch();
+  });
+
+  $input.on('keydown', (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      performSearch();
+    } else if (event.key === 'Escape') {
+      close();
+      $toggle.trigger('focus');
+    }
+  });
+
+  // Click anywhere outside the search UI (while open) to close.
+  $(document).off('click.navbarSearch').on('click.navbarSearch', (event) => {
+    if (!isOpen()) { return; }
+    if ($(event.target).closest('.js-navbarSearchToggle, .js-navbarSearchBar').length) { return; }
+    close();
+  });
+
+  // Bootstrap 3 dropdowns call `return false` on the toggle click, so the
+  // event never reaches our outside-click handler. Hook the dropdown's own
+  // show event instead: whenever a sibling dropdown is about to open,
+  // collapse the search.
+  $nav.off('show.bs.dropdown.navbarSearch').on('show.bs.dropdown.navbarSearch', () => {
+    if (isOpen()) close();
+  });
+};
 
 // Show a dropdwon icon in the navbar if the same URL exists in a translated form.
 llab.setupTranslationsMenu = function() {

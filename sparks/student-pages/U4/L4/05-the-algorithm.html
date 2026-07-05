@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+        <title>Unit 4 Lab 4: Generative AI with N-grams, Activity 5</title>
+    </head>
+
+    <body>
+        <h2>The Algorithm</h2>
+        <div class="learn">In this activity, you will use the data you set up in the previous activity to develop an algorithm for generating a next word.</div>
+        
+        <h3>Step 2: Using an algorithm to get the next word</h3>
+        
+        <p>We are still working with our 24-word dataset, chunked into 1-, 2-, and 3-grams. Again, <a href="https://go.edc.org/NgramAlg" target="_blank" title="N-gram Table">here are the 1-grams, 2-grams, and 3-grams in a table</a>.</p>
+        <p>We need a set of instructions (the <strong>algorithm</strong>) for how to use these n-gram chunks to get the “best” next word. </p>
+        <p>In our program, the user always starts the story. They can start with no words, or write a sentence starter like “Once upon a time,” or entire paragraphs. Whatever the user enters, the program will continue the story, generating one word at a time, using our algorithm. For now, ignore all capitalization and punctuation.</p>
+
+
+        <div class="forYouToDo">
+            <ol>
+                <li>If the user starts the story with: "The cat smells strange"
+                	<ol>
+                		<li>Just using the n-grams from our 24-word dataset, what word should our program generate as the next word? (Hint: When we limit ourselves to this data, there is one “best” choice.)</li>
+                		<li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />What was your process to decide on this word? Take a <em>first pass</em> at writing down an algorithm for your process.</li>
+                	</ol>
+                </li>
+            </ol>
+        </div>
+        
+        <p>Recall from our game (building the story by folding the paper) that we can think of building a story by looking at context (existing words) to figure out candidates (possible next words) to choose from. The largest “n” for our n-grams determines how large our context can be. Since we have arranged our data up to 3-grams, our largest context is 2 words. (If we had up to 4-grams, our largest context would be 3 words; if we had up to 5-grams, the largest context would be 4 words, and so on.)</p>
+        <p>If possible, we will match the last two words from the existing story to the first two words of a 3-gram. Then the last word of the matching 3-gram will give us a candidate. If there is more than one matching 3-gram, then we will have more than one candidate. If there is more than one candidate, then we will choose randomly from among the candidates.</p>
+        
+        <div class="forYouToDo">
+            <ol start="2">
+                <li>If the user starts the story with: "My sister, a curious student"
+                	<ol>
+                		<li>Using our n-grams, what is the context?</li>
+                		<li>What is/are the candidates?</li>
+                		<li>If there is more than one candidate, choose randomly from among the candidates by flipping a coin, or using a dice, or <img class="inline-block" src="/bjc-r/img/blocks/pick-random-1-to-10-full-size.png" alt="pick random (1) to (10)" title="pick random (1) to (10)" /> in Snap<em>!</em>.</li>
+                	</ol>
+                </li>
+                <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />If needed, revise or update your algorithm from above.</li>
+                <li>Keep going with the story. 
+                	<ol>
+                		<li>If your story is now “My sister, a curious student enters” what is your context and candidate(s)?</li>
+                		<li>If your story is now “My sister, a curious student starts” what is your context and candidate(s)?</li>
+                	</ol>
+                </li>
+                <li>Generate one more word. At the end of this, your story will be 8 words long.</li>
+                <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />What do you think should happen if your 2-word context does not match the beginning of any of the 3-grams?</li>
+            </ol>
+        </div>
+        
+        
+       <p>Here are a few more examples of how a user might start the story. In each case, think about what should happen in the algorithm. Click on the example to see a description of what one possible algorithm would do. Update your own algorithm to account for these examples.</p>
+       
+       <div class="endnote">
+				<a href="#hint-yesterday" data-toggle="collapse" title="What if the user starts the story with: 'Yesterday, I saw a'?">What if the user starts the story with: “Yesterday, I saw a”?</a>
+					<div id="hint-yesterday" class="collapse">
+						<p>The 2-word context is “saw a.” But none of the 3-grams starts with “saw a.” So we go to a 1-word context. The 1-word context is “a.” We look at the 2-grams to get our candidates, and see the 2-grams “a curious” and “a science”. Flip a coin to choose one of these words randomly.</p>
+					</div>
+					<br>
+				<a href="#hint-once" data-toggle="collapse" title="What if the user starts the story with: 'Once upon a time'?">What if the user starts the story with: “Once upon a time”?</a>
+					<div id="hint-once" class="collapse">
+						<p>The 2-word context is “a time.” But none of the 3-grams starts with “a time.” So we go to a 1-word context. The 1-word context is “time.” But none of the 2-grams starts with “time.” So we cannot use context, and we simply choose a random word from among our 24 1-grams. Each word has an equal 1/24 chance of being chosen.</p>
+					</div>
+					<br>
+				<a href="#hint-hello" data-toggle="collapse" title="What if the user starts the story with: 'Hello' or even no words at all?">What if the user starts the story with: “Hello” (or even no words at all)?</a>
+					<div id="hint-hello" class="collapse">
+						<p>"Hello" gives us a 1-word context, so we can turn to our 2-grams. But none of the 2-grams starts with "Hello." (If there are no words at all, then we have no context.) We cannot use context, and we simply choose a random word from among our 24 1-grams. Each word has an equal 1/24 chance of being chosen.</p>
+					</div>
+		</div>
+		
+		
+		<div class="forYouToDo">
+            <ol start="7">
+                <li>You should now be able to generate the next word of <em>any</em> story that a user starts. Try it - make up any beginning to a story, and use the n-grams to generate the next word.</li>
+                <li>And once you have an algorithm that generates the next word, you can use that same algorithm to generate the word after that, and the word after that, and so on, until you end up with a whole story! Generate at least 3 more words of a story, using n-grams.</li>
+                <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />What do you think? Is this AI? What if we got n-grams from a much larger dataset?</li>
+            </ol>
+        </div>
+       
+        
+
+        <div class="learn">In this activity, you developed and practiced an algorithm for generating the next word of any story, using n-grams made from a dataset.</div>
+
+
+    </body>
+</html>

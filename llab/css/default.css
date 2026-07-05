@@ -266,6 +266,109 @@ ul.navbar-right li {
   margin-right: 5ch;
 }
 
+/* Navbar search (Google site-restricted).
+ *
+ * The toggle button lives in .navbar-right alongside the rest of the
+ * nav controls at every breakpoint. Tapping it opens .navbar-search-open
+ * on the nav, which slides .navbar-search-bar down out of the navbar.
+ * The input lives in that bar — it never sits next to the toggle button,
+ * so it can't overlap the logo or the page title regardless of width.
+ */
+
+/* Center the magnifier icon inside the button. */
+.btn-nav-search {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Visual separation between the search button and the adjacent
+ * language menu button. */
+.nav-search-li {
+  margin-right: 1em;
+}
+
+/* The drawer: a bar positioned just below the navbar that slides down
+ * when search is open. Transform is used so the bar can animate from
+ * "tucked behind the navbar" into view without affecting layout.
+ */
+.navbar-search-bar {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  padding: 10px 16px;
+  background-color: #0C3559;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  z-index: -1;
+  transition: transform 200ms ease, opacity 150ms ease, visibility 0s 200ms;
+}
+
+.llab-nav.navbar-search-open .navbar-search-bar {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+  z-index: 1;
+  transition: transform 200ms ease, opacity 150ms ease, visibility 0s 0s;
+}
+
+/* On desktop the toggle button lives on the right; align the input the
+ * same way so it sits directly under the clicked button. The mobile
+ * media-query below resets this to left-align since the mobile toggle
+ * sits beside the BJC logo on the left.
+ */
+.navbar-search-input {
+  display: block;
+  height: 40px;
+  width: 100%;
+  max-width: 28em;
+  padding: 4px 12px;
+  margin: 0 0 0 auto;
+  font-size: 1rem;
+  color: #FFF;
+  background-color: rgba(255, 255, 255, 0.15);
+  border: 2px solid #FFF;
+  border-radius: 6px;
+  outline: none;
+}
+
+.navbar-search-input::placeholder {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.navbar-search-input:focus {
+  border-color: #F2E205;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+@media screen and (max-width: 768px) {
+  .navbar-right .nav-search-li {
+    display: inline-flex;
+    vertical-align: middle;
+    margin-left: 0.5em;
+  }
+
+  /* Mobile toggle sits on the left — align the input the same way. */
+  .navbar-search-input {
+    margin-left: 0;
+  }
+
+  /* Workaround: on small screens the <button> search toggle sits ~6px
+   * lower than the sibling <a> nav buttons because of inline-block
+   * baseline differences between <button> and <a> elements that we
+   * haven't been able to fix cleanly via standard alignment properties.
+   */
+  .btn-nav-search {
+    margin-top: -6px;
+  }
+}
+
 /**
     translation, dropdown-toogle, back/next buttons
     Keep all nav buttons nice and sqaure
@@ -1026,4 +1129,8 @@ a.fa-external-link-alt:after {
 
 .fa-arrow-right::after {
   content: ' \f061 ';
+}
+
+.fa-search::after {
+  content: ' \f002 ';
 }
