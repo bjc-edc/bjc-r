@@ -524,6 +524,11 @@ llab.setButtonURLs = function() {
   // No dropdowns for places that don't have a step.
   if (!llab.isCurriculum()) { return; }
 
+  // Keep the buttons hidden until the topic's page list is available —
+  // configuring them against an empty url_list leaves visible <a> elements
+  // with an aria-label but no href (an axe aria-prohibited-attr violation).
+  if (!llab.url_list || llab.url_list.length === 0) { return; }
+
   // TODO: Should this happen ever?
   var forward = $('.js-nextPageLink'), back = $('.js-backPageLink');
   var buttonsExist = forward.length !== 0 && back.length !== 0;
@@ -533,8 +538,10 @@ llab.setButtonURLs = function() {
 
   forward = $('.js-nextPageLink');
   back = $('.js-backPageLink');
-  // Unhide buttons and remove click handlers
-  $('.js-navButton').removeClass('hidden').off('click');
+  // Remove click handlers; the buttons stay hidden until their href and
+  // aria-label are set below — unhiding first exposes an <a> with an
+  // aria-label but no href/role, which axe flags (aria-prohibited-attr).
+  $('.js-navButton').off('click');
 
   if (llab.thisPageNum() === 0) {
     back.addClass('disabled').removeAttr('href').removeAttr('aria-label').attr('disabled', true);
@@ -554,6 +561,9 @@ llab.setButtonURLs = function() {
       .attr('href', llab.url_list[llab.thisPageNum() + 1])
       .on('click', llab.dynamicNavigation(llab.url_list[llab.thisPageNum() + 1]));
   }
+
+  // Unhide only once the buttons are fully configured.
+  $('.js-navButton').removeClass('hidden');
 };
 
 llab.loadNewPage = (path) => {
