@@ -98,20 +98,19 @@ class SelfCheck
     # puts "Found #{self_checks.length} self-check sets in" if !self_checks.empty?
     self_checks.each do |node|
       response_id = node.attributes['responseidentifier'].value
-      if response_id.nil? || response_id.empty?
-        raise "Response identifier is missing or not unique."
-      end
+      raise 'Response identifier is missing or not unique.' if response_id.nil? || response_id.empty?
+
       # Find child of the node that contains the responseDeclaration.
       # If the responseDeclaration is not found, raise an error.
       response_node = node.xpath(".//div[@class='responseDeclaration']")
-      if response_node.empty?
-        raise "Response node is missing for response identifier: #{response_id}"
-      end
+      raise "Response node is missing for response identifier: #{response_id}" if response_node.empty?
+
       response_node = response_node.first
       response_div_identifier = response_node.attributes['identifier'].value
       if response_div_identifier != response_id
         raise "Response id mismatch: expected '#{response_id}' found '#{response_div_identifier}'"
       end
+
       suffix = return_unit(@currUnit).gsub('.', '_')
       unique_id = "#{response_id}_#{suffix}"
       # Update both the container div and the responseDeclaration with the unique identifier.
@@ -122,7 +121,7 @@ class SelfCheck
           #{add_unit_to_header}
         </div>
       HTML
-      )
+                          )
     end
 
     add_assessment_to_file(self_checks.to_html)
@@ -173,9 +172,7 @@ class SelfCheck
   end
 
   def add_content_to_file(filename, data, type)
-    if !File.exist?(filename)
-      create_summary_file(filename, type)
-    end
+    create_summary_file(filename, type) unless File.exist?(filename)
 
     prior_heading = @priorPageHeading[type]
     data = data.gsub(/&amp;/, '&')
@@ -187,13 +184,13 @@ class SelfCheck
   end
 
   def topic_files_in_course
-    @topic_files_in_course ||= @course.list_topics_no_path.filter { |file| file.match(/\d+-\w+/)}
+    @topic_files_in_course ||= @course.list_topics_no_path.filter { |file| file.match(/\d+-\w+/) }
   end
 
   def get_topic_file
     unit_reference = return_unit(@currUnit)
     unit_num = unit_reference.match(/\d+/).to_s
-    topic_files_in_course.filter {|f| f.match(unit_num)}[0]
+    topic_files_in_course.filter { |f| f.match(unit_num) }[0]
   end
 
   def add_unit_to_header
@@ -218,8 +215,8 @@ class SelfCheck
   end
 
   def get_url(file)
-    localPath = Dir.getwd
-    linkPath = localPath.match(/bjc-r.+/).to_s
-    "/#{linkPath}/#{file}"
+    local_path = Dir.getwd
+    link_path = local_path.match(/bjc-r.+/).to_s
+    "/#{link_path}/#{file}"
   end
 end

@@ -18,30 +18,29 @@ module BJCHelpers
   end
 
   def get_topic_course(topic, course)
-    if not(TOPIC_COURSE.empty?)
+    unless TOPIC_COURSE.empty?
       TOPIC_COURSE.each do |item|
         TOPIC_COURSE.delete(item)
       end
     end
-    TOPIC_COURSE.push(course) if !TOPIC_COURSE.include?(course)
-    TOPIC_COURSE.push(topic) if !TOPIC_COURSE.include?(topic)
+    TOPIC_COURSE.push(course) unless TOPIC_COURSE.include?(course)
+    TOPIC_COURSE.push(topic) unless TOPIC_COURSE.include?(topic)
   end
 
   # get the folder or path before the end.
   # Would return programming in bjc-r/cur/programming/hello.html
   def get_prev_folder(f, include_path=false)
     path = f.split("/#{get_curr_folder(f)}")
-    folder = path[0].split("/")
+    folder = path[0].split('/')
     include_path ? path[0] : folder[-1]
   end
-
 
   def url_to_path(url, root: ''); end
 
   def path_to_url(path, root: ''); end
 
   def generate_url_suffix(topic, unit_folder, course)
-    UNIT_FOLDERS.push(unit_folder) if !UNIT_FOLDERS.include?(unit_folder)
+    UNIT_FOLDERS.push(unit_folder) unless UNIT_FOLDERS.include?(unit_folder)
     "?topic=#{topic}/#{unit_folder}&course=#{course}.html&novideo&noassignment"
   end
 
@@ -53,6 +52,7 @@ module BJCHelpers
       if list.length != 3
         puts "Error: Invalid unit string format: #{unit_str}"
       end
+
       if !list[1] || !list[2]
         puts "Error: Could not find lab or page number in unit string: #{unit_str}"
         puts "\t Parsed list: #{list.inspect}"
