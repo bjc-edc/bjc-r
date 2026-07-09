@@ -1,0 +1,40 @@
+name: Rebuild search index
+
+on:
+  push:
+    branches: [main]
+    # Skip when the only change is the generated index itself — otherwise
+    # the auto-commit below would re-trigger this workflow in a loop.
+    paths-ignore:
+      - 'search/pagefind/**'
+      - 'search/pagefind-teacher/**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: utilities/search/package-lock.json
+
+      - name: Install search build deps
+        working-directory: utilities/search
+        run: npm ci
+
+      - name: Build Pagefind index
+        working-directory: utilities/search
+        run: node build-index.js
+
+      - name: Commit updated index
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: 'Rebuild search index [skip ci]'
+          file_pattern: 'search/pagefind/** search/pagefind-teacher/**'

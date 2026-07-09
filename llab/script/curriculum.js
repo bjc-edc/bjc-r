@@ -738,19 +738,30 @@ llab.translated_content_url = function() {
   }
 }
 
-// Google site-restricted search wired up to the navbar.
+// Client-side (Pagefind) search wired up to the navbar.
 // Default UI is just the magnifier; clicking expands the input in place of
-// the other right-side nav items. The `site:` filter is added when building
-// the Google URL — the visible input value is never rewritten.
+// the other right-side nav items. Submitting navigates to the local search
+// page, carrying the query and the current course so the search page can
+// pre-select the matching course filter.
 
-// Derive the site filter from the current host + the install folder
-// (llab.rootURL). On localhost we fall back to bjc.edc.org since localhost
-// itself isn't indexed by Google.
-llab.NAVBAR_SEARCH_LOCAL_HOST = 'bjc.edc.org';
-llab.getSearchSite = () => {
-  let host = llab.isLocalEnvironment() ? llab.NAVBAR_SEARCH_LOCAL_HOST : location.hostname;
-  let folder = (llab.rootURL || '').replace(/^\/+|\/+$/g, '');
-  return folder ? `${host}/${folder}` : host;
+// Build the /bjc-r/search/ URL for a query, forwarding the current course
+// (and language) context when present.
+llab.getSearchURL = (query) => {
+  let params = new URLSearchParams();
+  if (query) { params.set('q', query); }
+  let course = llab.getQueryParameter('course');
+  if (!course) {
+    // On a course page itself (e.g. /bjc-r/course/sparks-teacher.html) the
+    // course is the path, not a query parameter.
+    let match = location.pathname.match(/\/course\/([^\/]+\.html)$/);
+    if (match) { course = match[1]; }
+  }
+  if (course) { params.set('course', course); }
+  let lang = llab.pageLang();
+  if (lang && lang !== 'en') { params.set('lang', lang); }
+  let qs = params.toString();
+  // llab.rootURL already ends in a slash (e.g. "/bjc-r/").
+  return `${llab.rootURL}search/${qs ? '?' + qs : ''}`;
 };
 
 llab.setupNavbarSearch = function () {
@@ -783,22 +794,10 @@ llab.setupNavbarSearch = function () {
     $input.val('');
   };
 
-  // Use a synthesized anchor.click() rather than window.open() — this
-  // honors the user's browser preference for new tabs/windows and avoids
-  // popup-blocker quirks tied to window.open feature strings.
-  let openInNewWindow = (url) => {
-    let a = document.createElement('a');
-    a.href = url;
-    a.target = '_blank';
-    a.rel = 'noopener noreferrer';
-    a.click();
-  };
-
   let performSearch = () => {
     let query = ($input.val() || '').trim();
     if (!query) { close(); return; }
-    let q = `${query} site:${llab.getSearchSite()}`;
-    openInNewWindow(`https://www.google.com/search?q=${encodeURIComponent(q)}`);
+    window.location.href = llab.getSearchURL(query);
     close();
   };
 
