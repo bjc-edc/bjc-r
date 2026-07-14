@@ -161,7 +161,7 @@ MC.prototype.render = function() {
         <div class="option-row">
             <div class="${type}">
                 <label id="choicetext-${choice_id}" for="${choice_id}">
-                    <input type="${type}" id="${choice_id}" value="${this.removeSpace(optId)}" />
+                    <input type="${type}" name="q-${this.num}" id="${choice_id}" value="${this.removeSpace(optId)}" />
                     ${this.choices[i].text}
                 </label>
             </div>
