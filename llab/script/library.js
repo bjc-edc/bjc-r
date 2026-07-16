@@ -62,6 +62,10 @@ llab.TRANSLATIONS = {
     'Search BJC': {
       en: 'Search BJC',
       es: 'Buscar en BJC',
+    },
+    'Skip to main content': {
+      en: 'Skip to main content',
+      es: 'Saltar al contenido principal',
     }
 };
 

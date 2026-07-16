@@ -340,6 +340,9 @@ llab.setupTitle = function() {
   if ($(FULL).length === 0) {
     $(document.body).wrapInner('<main class="full"></main>');
   }
+  // Target for the navbar skip link. tabindex=-1 lets the link move focus
+  // here without adding the container to the tab order.
+  $(FULL).first().attr({ 'id': 'main-content', 'tabindex': '-1' });
   llab.setAdditionalClasses();
 
   // Reset the nav + title divs.
@@ -402,6 +405,7 @@ llab.createTitleNav = function() {
     // use \u00F1 instead of an ñ in the menu. (Issue in Chrome on topic pages)
     topHTML = `
     <nav class="llab-nav navbar navbar-fixed-top" role="navigation">
+      <a class="skip-link" href="#main-content">${t('Skip to main content')}</a>
       <div class="nav navbar-left">
         <a class="navbar-brand" rel="author" href="${navURL}"
           aria-label="${t('Go to Index')}">
@@ -417,11 +421,11 @@ llab.createTitleNav = function() {
           </button>
         </li>
         <li class="dropdown js-langDropdown nav-lang-dropdown hidden">
-          <a class="btn btn-nav btn-nav-lang dropdown-toggle" type="button"
-            aria-label=${t('Switch language')} role="button" tabindex=0
+          <button class="btn btn-nav btn-nav-lang dropdown-toggle" type="button"
+            aria-label="${t('Switch language')}"
             id="dropdown-langs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="far fa-globe" aria-hidden=true></i>
-          </a>
+          </button>
           <ul class="dropdown-menu" aria-labelledby="dropdown-langs">
             <li><a class="js-switch-lang-en">English</a></li>
             <li><a class="js-switch-lang-es">Espa\u00F1ol</a></li>
@@ -429,13 +433,12 @@ llab.createTitleNav = function() {
         </li>
         <li class="nav-btn-group nav-btn-group-first">${previousPageButton}</li>
         <li class="nav-btn-group dropdown js-navDropdown js-navButton hidden">
-          <a class="btn btn-nav dropdown-toggle"
-            type="button" role="button" tabindex=0
+          <button class="btn btn-nav dropdown-toggle" type="button"
             aria-label="${t('Navigation Menu')}"
             id="Topic-Navigation-Menu" data-toggle="dropdown"
             aria-haspopup=true aria-expanded=false>
             <i class="fas fa-bars" aria-hidden=true></i>
-          </a>
+          </button>
           <ul class="js-llabPageNavMenu dropdown-menu"
             role="menu" aria-labelledby='Topic-Navigation-Menu'>
           </ul>
