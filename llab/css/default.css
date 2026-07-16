@@ -894,32 +894,46 @@ img.indent, div.indent {
 
 .MultipleChoice .radiobuttondiv .option-row {
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 0.5em 0;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 0.4em 0;
 }
 
 /* TODO: Bootstrap 5 revisit this! */
-.radiobuttondiv .radio label {
+.radiobuttondiv .radio label,
+.radiobuttondiv .checkbox label {
   display: flex;
   align-items: center;
 }
-.radiobuttondiv .radio label input[type="radio"] {
+.radiobuttondiv .radio label input[type="radio"],
+.radiobuttondiv .checkbox label input[type="checkbox"] {
   margin-top: 0;
-  margin-right: 5px;
+  margin-right: 8px;
   flex-shrink: 0;
 }
 
+/* Feedback appears on its own line below the answer choice (rather than
+ * squished inline next to it), indented to line up under the choice text. */
 .MultipleChoice .radiobuttondiv .option-feedback {
-  flex: 1;
   display: none;
-  max-width: 40ch;
+  max-width: 70ch;
   font-style: italic;
   font-size: .9em;
+  line-height: 1.4;
   border-left: 3px solid #999;
   border-radius: 4px;
-  padding: 0.5em 8px;
-  margin-left: 30px;
+  padding: 0.4em 10px;
+  margin: 0.4em 0 0.2em 28px;
+}
+
+.MultipleChoice .radiobuttondiv .option-row:has(.correct) .option-feedback {
+  border-left-color: rgb(25, 135, 84);
+  background-color: rgba(25, 135, 84, 0.08);
+}
+
+.MultipleChoice .radiobuttondiv .option-row:has(.incorrect) .option-feedback {
+  border-left-color: rgb(220, 53, 69);
+  background-color: rgba(220, 53, 69, 0.08);
 }
 
 .MultipleChoice .statusMessages {
