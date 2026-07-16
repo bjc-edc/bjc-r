@@ -268,6 +268,10 @@ llab.processLinks = (data) => {
     }
 
     ddItem = llab.dropdownItem(itemContent, url);
+    if (isCurrentPage) {
+      // The arrow is a CSS background image, invisible to assistive tech.
+      ddItem.find('a').attr('aria-current', 'page');
+    }
     list.append(ddItem);
   } // end for loop
 
@@ -882,6 +886,13 @@ llab.indicateProgress = function(numSteps, currentStep) {
   $(llab.selectors.PROGRESS).css(
     "background-position", `${currentStep / (numSteps) * 100}% 0`
   );
+  // The sliding Alonzo image is purely visual; give assistive tech a text
+  // equivalent. currentStep is NaN when the page isn't found in the lab.
+  if (numSteps >= 1 && currentStep >= 1) {
+    $(llab.selectors.PROGRESS).html(
+      `<span class="sr-only">${llab.t('progressText', { current: currentStep, total: numSteps })}</span>`
+    );
+  }
 };
 
 // Setup the nav and parse the topic file.

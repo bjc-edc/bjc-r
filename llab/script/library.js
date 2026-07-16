@@ -66,6 +66,10 @@ llab.TRANSLATIONS = {
       en: 'This is your %{ordinal} attempt.',
       es: 'Este es tu intento n.º %{number}.',
     },
+    'progressText': {
+      en: 'Page %{current} of %{total}',
+      es: 'Página %{current} de %{total}',
+    },
     'Go to Table of Contents': {
       es: 'Ir a la tabla de contenido'
     },
