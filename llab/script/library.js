@@ -48,6 +48,16 @@ llab.TRANSLATIONS = {
       en: 'You have successfully completed this question!',
       es: '¡Has completado la pregunta correctamente!',
     },
+    'incorrectMessage': {
+      en: 'That is not correct. Try again!',
+      es: 'No es correcto. ¡Inténtalo de nuevo!',
+    },
+    'Correct:': {
+      es: 'Correcto:',
+    },
+    'Incorrect:': {
+      es: 'Incorrecto:',
+    },
     'partialMessage': {
       en: 'This is partially correct.',
       es: 'Esta respuesta es parcialmente correcta.',
