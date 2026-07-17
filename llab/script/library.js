@@ -80,6 +80,15 @@ llab.TRANSLATIONS = {
     'Skip to main content': {
       en: 'Skip to main content',
       es: 'Saltar al contenido principal',
+    },
+    // Labels distinguishing the two <nav> landmarks on each page.
+    'primaryNavLabel': {
+      en: 'primary',
+      es: 'principal',
+    },
+    'secondaryNavLabel': {
+      en: 'secondary',
+      es: 'secundaria',
     }
 };
 

@@ -319,9 +319,12 @@ llab.buildDropdownFromTopicModel = _llabObj => {
 // Used for embedded content. (Videos, books, etc)
 llab.addFrame = function() {
   var source = llab.getQueryParameter("src");
+  // The `title` param carries the resource's name from the topic file; the
+  // embed isn't always a video, so only fall back to a generic label.
+  var frameTitle = llab.getQueryParameter("title") || 'Embedded content';
 
   var frame = $(document.createElement("iframe")).attr(
-    {'src': source, 'class': 'content-embed', 'title': 'Embedded video content'}
+    {'src': source, 'class': 'content-embed', 'title': frameTitle}
   );
 
   let content = $(document.createElement('div'));

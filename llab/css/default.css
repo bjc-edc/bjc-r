@@ -216,9 +216,18 @@ code { /* Override bootstrap. */
   font-weight: bold;
 }
 
-/* Show a special div on small screens that isn't in the nav bar */
+/* The page title inside <main>. Visible on small screens; on large screens
+ * the title is shown in the navbar instead (aria-hidden there), so this
+ * <h1> is only visually hidden — never display: none — keeping a heading
+ * inside the main landmark for assistive tech at every size. */
 .title-small-screen {
-  display: none;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
   font-size: 1.8rem;
   color: #000;
 }
@@ -1051,7 +1060,11 @@ img.indent, div.indent {
   }
 
   .title-small-screen {
-    display: block;
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip: auto;
     font-size: 1.2em;
     margin: 0;
     padding: 0 0 0.5em 0;
@@ -1108,9 +1121,13 @@ img.indent, div.indent {
     display: none;
   }
 
-  /* Override display only, all other properties are set above */
+  /* Un-hide the visually-hidden base rule; other properties are set above */
   .title-small-screen {
-    display: block;
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip: auto;
   }
 
   .page-feedback {
