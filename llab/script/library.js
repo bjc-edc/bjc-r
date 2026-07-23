@@ -48,6 +48,16 @@ llab.TRANSLATIONS = {
       en: 'You have successfully completed this question!',
       es: '¡Has completado la pregunta correctamente!',
     },
+    'incorrectMessage': {
+      en: 'That is not correct. Try again!',
+      es: 'No es correcto. ¡Inténtalo de nuevo!',
+    },
+    'Correct:': {
+      es: 'Correcto:',
+    },
+    'Incorrect:': {
+      es: 'Incorrecto:',
+    },
     'partialMessage': {
       en: 'This is partially correct.',
       es: 'Esta respuesta es parcialmente correcta.',
@@ -56,12 +66,20 @@ llab.TRANSLATIONS = {
       en: 'This is your %{ordinal} attempt.',
       es: 'Este es tu intento n.º %{number}.',
     },
+    'progressText': {
+      en: 'Page %{current} of %{total}',
+      es: 'Página %{current} de %{total}',
+    },
     'Go to Table of Contents': {
       es: 'Ir a la tabla de contenido'
     },
     'Search BJC': {
       en: 'Search BJC',
       es: 'Buscar en BJC',
+    },
+    'Skip to main content': {
+      en: 'Skip to main content',
+      es: 'Saltar al contenido principal',
     }
 };
 

@@ -108,6 +108,9 @@ MC.prototype.tryAgain = function(e) {
         return;
     }
     this.render();
+    // render() disables the Try Again button, which would strand keyboard
+    // focus; Check Answer is re-enabled by render().
+    this.multipleChoice.find('.checkAnswerButton').trigger('focus');
 };
 
 
@@ -319,11 +322,15 @@ MC.prototype.checkAnswer = function() {
             if (choice) {
                 this.multipleChoice.find('#feedback_' + fullId).html(choice.feedback).css('display', 'inline-block');
                 var choiceTextDiv = this.multipleChoice.find("#choicetext-" + fullId);
+                // The correct/incorrect classes only change the text color;
+                // add a text flag so the result isn't conveyed by color alone.
                 if (this.isCorrect(choice.identifier)) {
                     choiceTextDiv.attr("class", "correct");
+                    choiceTextDiv.find('input').after(`<span class="answer-flag">${llab.t('Correct:')} </span>`);
                     numCorrectSelected++;
                 } else {
                     choiceTextDiv.attr("class", "incorrect");
+                    choiceTextDiv.find('input').after(`<span class="answer-flag">${llab.t('Incorrect:')} </span>`);
                     numIncorrectSelected++;
                 }
                 mcState.identifier = choice.identifier;
@@ -360,6 +367,10 @@ MC.prototype.checkAnswer = function() {
         this.multipleChoice.find('.resultMessageDiv').html(llab.translate('partialMessage'));
     } else {
         outerdiv.addClass('panel-danger');
+        // Wrong answers previously showed no message at all — the only signal
+        // was the red panel border, which color-blind and screen-reader users
+        // cannot perceive.
+        this.multipleChoice.find('.resultMessageDiv').html(llab.translate('incorrectMessage'));
     }
 
     // Update Google Analytics
@@ -372,6 +383,11 @@ MC.prototype.checkAnswer = function() {
             nonInteraction: true // don't count this as an interaction
         });
     }
+
+    // Move focus off the now-disabled Check Answer button (disabling the
+    // focused element drops focus to <body>, stranding keyboard users).
+    // Try Again is always enabled at this point.
+    this.multipleChoice.find('.tryAgainButton').trigger('focus');
 
     // push the state object into this mc object's own copy of states
     this.states.push(mcState);
@@ -492,9 +508,9 @@ MC.prototype.getTemplate = function() {
     <div class='clearBoth'></div>
     <div class='interactionBox'>
         <div class='statusMessages'>
-            <div class='numberAttemptsDiv'></div>
+            <div class='numberAttemptsDiv' role='status'></div>
             <div class='scoreDiv'></div>
-            <div class='resultMessageDiv'></div>
+            <div class='resultMessageDiv' role='status'></div>
         </div>
         <div class='buttonDiv'>
             <table class='buttonTable' role="presentation"><tbody>

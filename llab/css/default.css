@@ -168,6 +168,34 @@ code { /* Override bootstrap. */
 }
 
 /** PAGE NAV (TOP AND BOTTOM) ************************************************/
+
+/* Keyboard-only "skip to main content" link; the first focusable element on
+ * the page. Kept off-screen until focused, then shown over the fixed navbar.
+ */
+.skip-link {
+  position: fixed;
+  top: -100px;
+  left: 1em;
+  z-index: 1050; /* above .navbar-fixed-top (1030) */
+  padding: 8px 16px;
+  background-color: #0C3559;
+  color: #FFF;
+  border: 2px solid #F2E205;
+  border-radius: 0 0 6px 6px;
+  font-weight: bold;
+}
+
+.skip-link:focus {
+  top: 0;
+  color: #F2E205;
+}
+
+/* Skip-link target (the <main> wrapper); it receives focus programmatically,
+ * so don't draw a focus ring around the entire page. */
+#main-content:focus {
+  outline: none;
+}
+
 .llab-nav {
   line-height: 1.38; /* Keep slightly smaller than normal to control centering the nav buttons */
   margin: 0 0 .5em 0;
@@ -359,12 +387,13 @@ ul.navbar-right li {
     margin-left: 0;
   }
 
-  /* Workaround: on small screens the <button> search toggle sits ~6px
-   * lower than the sibling <a> nav buttons because of inline-block
-   * baseline differences between <button> and <a> elements that we
-   * haven't been able to fix cleanly via standard alignment properties.
+  /* Workaround: on small screens <button> nav toggles (search, language,
+   * page menu) sit ~6px lower than the sibling <a> nav buttons because of
+   * inline-block baseline differences between <button> and <a> elements
+   * that we haven't been able to fix cleanly via standard alignment
+   * properties.
    */
-  .btn-nav-search {
+  button.btn-nav {
     margin-top: -6px;
   }
 }
@@ -396,6 +425,7 @@ ul.navbar-right li {
 }
 
 .nav .open > a,
+.nav .open > .btn-nav, /* <button> dropdown toggles */
 .nav> li > a:focus,
 .nav > li > a:hover,
 a.btn-nav:visited:hover,
@@ -890,6 +920,11 @@ img.indent, div.indent {
 .MultipleChoice .radiobuttondiv .incorrect {
   color: rgb(220, 53, 69);
   font-weight: bold;
+}
+
+/* Non-color "Correct:"/"Incorrect:" indicator added when a choice is graded. */
+.MultipleChoice .radiobuttondiv .answer-flag {
+  margin-right: 0.25em;
 }
 
 .MultipleChoice .radiobuttondiv .option-row {

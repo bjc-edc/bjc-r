@@ -268,6 +268,10 @@ llab.processLinks = (data) => {
     }
 
     ddItem = llab.dropdownItem(itemContent, url);
+    if (isCurrentPage) {
+      // The arrow is a CSS background image, invisible to assistive tech.
+      ddItem.find('a').attr('aria-current', 'page');
+    }
     list.append(ddItem);
   } // end for loop
 
@@ -297,7 +301,7 @@ llab.processLinks = (data) => {
   $('.dropdown-menu').css('max-width', Math.min($(window).width()*.97, 450));
 
   // Attach Dynamic Click Handlers to menu items.
-  $('a[role=menuitem]').each((_i, element) => {
+  $('.js-llabPageNavMenu a').each((_i, element) => {
     $(element).off('click').on('click', llab.dynamicNavigation(element.href));
   });
 
@@ -340,6 +344,9 @@ llab.setupTitle = function() {
   if ($(FULL).length === 0) {
     $(document.body).wrapInner('<main class="full"></main>');
   }
+  // Target for the navbar skip link. tabindex=-1 lets the link move focus
+  // here without adding the container to the tab order.
+  $(FULL).first().attr({ 'id': 'main-content', 'tabindex': '-1' });
   llab.setAdditionalClasses();
 
   // Reset the nav + title divs.
@@ -401,13 +408,18 @@ llab.createTitleNav = function() {
       </a>`,
     // use \u00F1 instead of an ñ in the menu. (Issue in Chrome on topic pages)
     topHTML = `
-    <nav class="llab-nav navbar navbar-fixed-top" role="navigation">
+    <nav class="llab-nav navbar navbar-fixed-top" role="navigation"
+      aria-label="${t('primaryNavLabel')}">
+      <a class="skip-link" href="#main-content">${t('Skip to main content')}</a>
       <div class="nav navbar-left">
         <a class="navbar-brand" rel="author" href="${navURL}"
           aria-label="${t('Go to Index')}">
           <img src="${logoURL}" alt="${t('BJC logo')}">
         </a>
-        <h1 class="navbar-title"></h1>
+        <!-- Hidden from AT: duplicates the always-exposed .title-small-screen
+             <h1> inside <main>, and would otherwise put the page's heading
+             inside the navigation landmark. -->
+        <h1 class="navbar-title" aria-hidden="true"></h1>
       </div>
       <ul class="nav navbar-nav navbar-right">
         <li class="nav-search nav-search-li">
@@ -417,11 +429,11 @@ llab.createTitleNav = function() {
           </button>
         </li>
         <li class="dropdown js-langDropdown nav-lang-dropdown hidden">
-          <a class="btn btn-nav btn-nav-lang dropdown-toggle" type="button"
-            aria-label=${t('Switch language')} role="button" tabindex=0
+          <button class="btn btn-nav btn-nav-lang dropdown-toggle" type="button"
+            aria-label="${t('Switch language')}"
             id="dropdown-langs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="far fa-globe" aria-hidden=true></i>
-          </a>
+          </button>
           <ul class="dropdown-menu" aria-labelledby="dropdown-langs">
             <li><a class="js-switch-lang-en">English</a></li>
             <li><a class="js-switch-lang-es">Espa\u00F1ol</a></li>
@@ -429,15 +441,14 @@ llab.createTitleNav = function() {
         </li>
         <li class="nav-btn-group nav-btn-group-first">${previousPageButton}</li>
         <li class="nav-btn-group dropdown js-navDropdown js-navButton hidden">
-          <a class="btn btn-nav dropdown-toggle"
-            type="button" role="button" tabindex=0
+          <button class="btn btn-nav dropdown-toggle" type="button"
             aria-label="${t('Navigation Menu')}"
             id="Topic-Navigation-Menu" data-toggle="dropdown"
             aria-haspopup=true aria-expanded=false>
             <i class="fas fa-bars" aria-hidden=true></i>
-          </a>
+          </button>
           <ul class="js-llabPageNavMenu dropdown-menu"
-            role="menu" aria-labelledby='Topic-Navigation-Menu'>
+            aria-labelledby='Topic-Navigation-Menu'>
           </ul>
         </li>
         <li class="nav-btn-group nav-btn-group-last">${nextPageButton}</li>
@@ -452,7 +463,7 @@ llab.createTitleNav = function() {
       <div class="trapezoid"></div>
     </nav>`,
     botHTML = `
-      <nav class="full-bottom-bar" aria-label="secondary page navigation">
+      <nav class="full-bottom-bar" aria-label="${t('secondaryNavLabel')}">
         <div class="js-navButton hidden" style="float: left">
           ${previousPageButton}
         </div>
@@ -503,12 +514,16 @@ llab.setAdditionalClasses = () => {
 /** Build an item for the navigation dropdown
 *  Takes in TEXT and a URL and reutrns a list item to be added
 *  too an existing dropdown */
+// The dropdown is a list of navigation links, not an application menu, so it
+// deliberately does not use ARIA menu/menuitem roles: menu semantics promise
+// keyboard behavior Bootstrap 3 doesn't fully provide, and role=presentation
+// would hide the header rows from assistive tech.
 llab.dropdownItem = function(text, url) {
   if (url) {
-    text = `<a href=${url} role="menuitem">${text}</a>`;
+    text = `<a href="${url}">${text}</a>`;
   }
 
-  return $(`<li role="presentation">${text}</li>`);
+  return $(`<li>${text}</li>`);
 };
 
 // Pages directly within a lab. Excludes 'topic' and 'course' pages.
@@ -543,10 +558,16 @@ llab.setButtonURLs = function() {
   // aria-label but no href/role, which axe flags (aria-prohibited-attr).
   $('.js-navButton').off('click');
 
+  // Disabled buttons: dropping the href takes the <a> out of the tab order,
+  // and role="link" + aria-disabled keeps it announced by name as unavailable
+  // (aria-label alone on an href-less <a> is an axe aria-prohibited-attr
+  // violation; the `disabled` attribute is invalid on anchors).
   if (llab.thisPageNum() === 0) {
-    back.addClass('disabled').removeAttr('href').removeAttr('aria-label').attr('disabled', true);
+    back.addClass('disabled').removeAttr('href').removeAttr('disabled')
+      .attr({ 'role': 'link', 'aria-disabled': 'true', 'aria-label': llab.t('backText') });
   } else {
     back.removeClass('disabled').removeAttr('disabled')
+      .removeAttr('role').removeAttr('aria-disabled')
       .attr('aria-label', llab.t('backText'))
       .attr('href', llab.url_list[llab.thisPageNum() - 1])
       .on('click', llab.dynamicNavigation(llab.url_list[llab.thisPageNum() - 1]));
@@ -554,9 +575,11 @@ llab.setButtonURLs = function() {
 
   // Disable the forward button
   if (llab.thisPageNum() === llab.url_list.length - 1) {
-    forward.addClass('disabled').removeAttr('href').removeAttr('aria-label').attr('disabled', true);
+    forward.addClass('disabled').removeAttr('href').removeAttr('disabled')
+      .attr({ 'role': 'link', 'aria-disabled': 'true', 'aria-label': llab.t('nextText') });
   } else {
     forward.removeClass('disabled').removeAttr('disabled')
+      .removeAttr('role').removeAttr('aria-disabled')
       .attr('aria-label', llab.t('nextText'))
       .attr('href', llab.url_list[llab.thisPageNum() + 1])
       .on('click', llab.dynamicNavigation(llab.url_list[llab.thisPageNum() + 1]));
@@ -879,6 +902,13 @@ llab.indicateProgress = function(numSteps, currentStep) {
   $(llab.selectors.PROGRESS).css(
     "background-position", `${currentStep / (numSteps) * 100}% 0`
   );
+  // The sliding Alonzo image is purely visual; give assistive tech a text
+  // equivalent. currentStep is NaN when the page isn't found in the lab.
+  if (numSteps >= 1 && currentStep >= 1) {
+    $(llab.selectors.PROGRESS).html(
+      `<span class="sr-only">${llab.t('progressText', { current: currentStep, total: numSteps })}</span>`
+    );
+  }
 };
 
 // Setup the nav and parse the topic file.
