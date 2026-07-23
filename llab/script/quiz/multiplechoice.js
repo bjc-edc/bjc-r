@@ -161,7 +161,7 @@ MC.prototype.render = function() {
         <div class="option-row">
             <div class="${type}">
                 <label id="choicetext-${choice_id}" for="${choice_id}">
-                    <input type="${type}" id="${choice_id}" value="${this.removeSpace(optId)}" />
+                    <input type="${type}" name="q-${this.num}" id="${choice_id}" value="${this.removeSpace(optId)}" />
                     ${this.choices[i].text}
                 </label>
             </div>
@@ -210,6 +210,9 @@ MC.prototype.render = function() {
         var latestState = this.states[this.states.length - 1];
         //display the message that they correctly answered the question
         var resultMessage = this.getResultMessage(latestState.isCorrect);
+        if (!resultMessage && latestState.isPartial) {
+            resultMessage = llab.translate('partialMessage');
+        }
         this.multipleChoice.find('.resultMessageDiv').html(resultMessage);
         if (latestState.isCorrect) {
             this.multipleChoice.find('.tryAgainButton').addClass('disabled').attr('disabled', true);
@@ -296,7 +299,10 @@ MC.prototype.checkAnswer = function() {
 
     var inputbuttons = this.multipleChoice.find('.radiobuttondiv')[0].getElementsByTagName('input');
     var mcState = {};
-    var isCorrect = true;
+    var hasCorrectAnswers = this.correctResponse.length > 0;
+    var numCorrectSelected = 0;
+    var numIncorrectSelected = 0;
+    var numCorrectUnselected = 0;
     var i, checked, choiceIdentifier, choice, fullId;
 
     this.enableRadioButtons(false);
@@ -315,32 +321,43 @@ MC.prototype.checkAnswer = function() {
                 var choiceTextDiv = this.multipleChoice.find("#choicetext-" + fullId);
                 if (this.isCorrect(choice.identifier)) {
                     choiceTextDiv.attr("class", "correct");
+                    numCorrectSelected++;
                 } else {
                     choiceTextDiv.attr("class", "incorrect");
-                    isCorrect = false;
+                    numIncorrectSelected++;
                 }
                 mcState.identifier = choice.identifier;
                 mcState.text = choice.text;
             } else {
                 alert('error retrieving choice by choiceIdentifier');
             }
-        } else {
-            if (this.isCorrect(choice.identifier)) {
-                isCorrect = false;
-            }
+        } else if (this.isCorrect(choice.identifier)) {
+            numCorrectUnselected++;
         }
     }
 
+    var isCorrect, isPartial = false;
+    if (hasCorrectAnswers) {
+        isCorrect = numCorrectUnselected === 0 && numIncorrectSelected === 0 && numCorrectSelected > 0;
+        isPartial = !isCorrect && numCorrectSelected > 0;
+    } else {
+        // No correct answers defined (form-style question): preserve original
+        // behavior of treating any unchecked option as a "wrong" state.
+        isCorrect = numCorrectUnselected === 0;
+    }
+
     mcState.isCorrect = isCorrect;
+    mcState.isPartial = isPartial;
 
     var outerdiv = this.multipleChoice.find('.panel-heading').parent();
-    outerdiv.removeClass('panel-primary');
-    outerdiv.removeClass('panel-success');
-    outerdiv.removeClass('panel-danger');
+    outerdiv.removeClass('panel-primary panel-success panel-warning panel-danger');
     if (isCorrect) {
         outerdiv.addClass('panel-success');
         this.multipleChoice.find('.resultMessageDiv').html(this.getResultMessage(isCorrect));
         this.multipleChoice.find('.checkAnswerButton').addClass('disabled').attr('disabled', true);
+    } else if (isPartial) {
+        outerdiv.addClass('panel-warning');
+        this.multipleChoice.find('.resultMessageDiv').html(llab.translate('partialMessage'));
     } else {
         outerdiv.addClass('panel-danger');
     }
