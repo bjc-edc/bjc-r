@@ -478,8 +478,12 @@ llab.createTitleNav = function() {
     topNav = $(llab.selectors.NAVSELECT),
     smallScreenTitle = '<h1 class="title-small-screen"></h1>';
 
+  // This <h1> is the page's only heading exposed to assistive tech (the
+  // navbar title is aria-hidden), so it must exist on every page — axe's
+  // page-has-heading-one fails otherwise. Target .full rather than <main>
+  // so pages shipping .full on another element still get it.
   if ($('.title-small-screen').length === 0) {
-    $('main').prepend(smallScreenTitle);
+    $(FULL).first().prepend(smallScreenTitle);
   }
 
   if (topNav.length === 0) {
