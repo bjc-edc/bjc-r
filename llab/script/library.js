@@ -505,6 +505,29 @@ llab.eraseCookie = name => createCookie(name, "", -1);
 
 llab.spanTag = (content, className) => `<span class="${className}">${content}</span>`;
 
+/* Add a "Go to Table of Contents" link near the page title.
+ * Lives here (stage 0) rather than topic.js because curriculum.js calls it
+ * during setupTitle on vocab-index pages; stage-1 scripts load in arbitrary
+ * order, so defining it in topic.js made that call a race (and a crash that
+ * aborted setupTitle, leaving the page title/h1 empty). Called at DOM-ready
+ * or later, so using jQuery inside the body is safe. */
+llab.renderCourseLink = function (course) {
+    if (!course) {
+        console.warn('No course found for this topic page.');
+        return;
+    }
+
+    if (course.indexOf("://") === -1) {
+        course = llab.courses_path + course;
+    }
+    let courseLink = `<a class="course_link pull-right" href="${course}">${llab.t(llab.strings.goMain)}</a>`;
+    if ($('.title-small-screen').length > 0) {
+        $(courseLink).insertAfter('.title-small-screen');
+    } else {
+        $(llab.selectors.FULL).prepend(courseLink);
+    }
+};
+
 /////////// Other Inlined Dependencies
 if (typeof w3 === 'undefined') { w3 = {}; }
 w3.includeHTML = function(cb) {
