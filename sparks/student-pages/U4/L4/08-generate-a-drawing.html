@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+        <title>Unit 4 Lab 4: Generative AI with N-grams, Activity 8</title>
+    </head>
+
+    <body>
+        <h2>Generate a Drawing</h2>
+        <div class="learn">In this activity, you will extend the same logic for stories and songs to drawings.</div>
+        
+        <p>Here's a preview of how the drawing part of our <a class="js-run snap-project" href="/bjc-r/sparks/prog/U4/lab04/n-gram.xml&editMode" title="N-gram - Snap! project" target="_blank">N-gram project</a> works. The user clicks "Train picture model," then draws a picture (this one has a lot of right angles). Then the user clicks on "Generate picture" and the program draws a picture in the style of the user's drawing.</p>
+        
+        <p>
+            <img class="indent" data-gifffer="/bjc-r/sparks/img/U4/lab04/ngram-drawing-example.gif"  alt="Animation of a Snap! project. The user draws a picture, then the program generates a drawing in the style of the user's drawing." title="Animation of a Snap! project. The user draws a picture, then the program generates a drawing in the style of the user's drawing."/>
+        </p>  
+
+
+        <div class="forYouToDo">
+            <ol>
+                <li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />What are some ways you could represent a drawing as data (that we can then arrange into n-grams)?</li>
+      
+            </ol>
+        </div>
+        
+        <p>There are lots of possible ways to represent a drawing as data. This project uses <em>directions</em>. The direction is a number between 0 and 360 that shows the angle at which the sprite would have to move to follow the mouse. In this program, whenever the mouse moves more than 5 steps away from the sprite, a new direction is captured and added to a list of directions.</p>
+        
+        <div class="forYouToDo">
+            <ol start="2">
+                <li>Try the <img class="inline-block" src="/bjc-r/sparks/img/U4/lab04/sketch.png" alt="sketch" title="sketch" /> block to see how it reports a list of directions. For example, click on the sketch block, then draw a straight line from left to right across the stage. Then click the sketch block again to see that it returns a list of directions. What angle (direction) corresponds to moving from left to right across the stage?</li>
+                <li>Move in other directions to check that you understand how the sketch block reports a list of directions. What direction is going straight down the stage? From right to left? What does the list look like if you draw a circle on the stage?</li>
+               
+            </ol>
+        </div>
+        
+        <p>If you tell the mouse where to start a drawing, a list of directions is enough to recreate the drawing. The next set of blocks in the project shows that you can save the list of directions that sketch reports in a variable (called "drawing") and then use a "draw sketch" block to use those directions to recreate the picture. We don't need the "draw sketch" block for our generator; this just shows that the directions can be used to reproduce the drawing.</p>
+        
+        <img class="indent noshadow" src="/bjc-r/sparks/img/U4/lab04/set-and-recreate-sketch.png" alt="set(drawing) to (sketch); draw sketch(drawing)" title="set(drawing) to (sketch); draw sketch(drawing)" />
+        
+        <div class="forYouToDo">
+            <ol start="4">
+                <li>Draw a sketch and get a list of directions. What would the first four 2-grams for that data be?</li>
+                <li>What would the first three 3-grams be?</li>
+                <li>Look inside the <img class="inline-block" src="/bjc-r/sparks/img/U4/lab04/train-picture-model.png" alt="Train picture model" title="Train picture model" /> block. How does it compare to the "Train model" and "Train song model" blocks used for stories and songs?</li>
+            </ol>
+        </div>
+        
+       
+        <p>If you open the <img class="inline-block" src="/bjc-r/sparks/img/U4/lab04/generate-picture.png" alt="Generate picture" title="Generate picture" /> block, you will see the familiar <img class="inline-block" src="/bjc-r/sparks/img/U4/lab04/next-item-in-()-based-on-().png" alt="next item in () based on (model)" title="next item in () based on (model)" /> block. As for stories and songs, all the directions are arranged into n-grams, and then the last few directions are used as context to match up with n-grams to provide candidates for a next direction. One of those is chosen, and the program makes a new line in that direction.</p>
+        
+        <div class="forYouToDo">
+		  	<ol start="7">
+		  		<li>Try the drawing generator!
+		  			<ol>
+		  				<li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />Same question from the previous activity: What do you think? Is this AI?</li>
+		  				<li>What are some possible ways to make a better drawing generator?</li>
+		  			</ol>
+		  		</li>
+		  	</ol>
+		  </div>
+        
+        <div class="ifTime show">
+		  	<ol start="8">
+		  		<li>Did you notice that the generated picture draws smaller patterns compared to the original? This was done intentionally to fit more of the generated drawing onto the screen. But you can change this. Open the <img class="inline-block" src="/bjc-r/sparks/img/U4/lab04/generate-picture.png" alt="Generate picture" title="Generate picture" /> block and try to change it so that the generated picture isn't so small.</li>
+		  	</ol>
+		  </div> 
+
+        <div class="learn">In this activity, you learned that the same logic of n-grams and generating the next "thing" can work for drawings, just like it did for songs and stories.</div>
+
+
+    </body>
+</html>
