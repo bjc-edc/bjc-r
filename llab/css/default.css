@@ -312,8 +312,11 @@ ul.navbar-right li {
  * so it can't overlap the logo or the page title regardless of width.
  */
 
-/* Center the magnifier icon inside the button. */
-.btn-nav-search {
+/* Center the icon inside every nav button. Sharing one display mode
+ * between the <a> buttons (arrows) and <button> toggles (search, language,
+ * page menu) keeps their baselines identical so the prev/menu/next group
+ * lines up as one connected unit. */
+.btn-nav {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -387,7 +390,7 @@ ul.navbar-right li {
 @media screen and (max-width: 768px) {
   .navbar-right .nav-search-li {
     display: inline-flex;
-    vertical-align: middle;
+    vertical-align: top; /* match the other nav <li>s (see .navbar-right > li) */
     margin-left: 0.5em;
   }
 
@@ -396,15 +399,9 @@ ul.navbar-right li {
     margin-left: 0;
   }
 
-  /* Workaround: on small screens <button> nav toggles (search, language,
-   * page menu) sit ~6px lower than the sibling <a> nav buttons because of
-   * inline-block baseline differences between <button> and <a> elements
-   * that we haven't been able to fix cleanly via standard alignment
-   * properties.
-   */
-  button.btn-nav {
-    margin-top: -6px;
-  }
+  /* No <button>-vs-<a> baseline workaround needed here anymore: all
+   * .btn-nav elements share display: inline-flex, which gives them
+   * identical baselines. */
 }
 
 /**
@@ -428,8 +425,10 @@ ul.navbar-right li {
   width: 40px;
 }
 
-/* This requires .nav-btn-group as a parent of all button elements. */
-.nav-btn-group a.btn-nav {
+/* This requires .nav-btn-group as a parent of all button elements.
+ * Unqualified so it matches both the <a> arrows and the <button> menu
+ * toggle; the -first/-last rules below restore the outer corners. */
+.nav-btn-group .btn-nav {
   border-radius: 0;
 }
 
@@ -1115,6 +1114,11 @@ img.indent, div.indent {
   .navbar-right > li {
     display: inline-block;
     position: relative;
+    /* Align by top edge, not text baseline: <button> and <a> children
+     * report different baselines, which used to shift the menu <li> a few
+     * pixels below its arrow-button siblings. Every li shrink-wraps the
+     * same 40px button, so top-alignment lines them up exactly. */
+    vertical-align: top;
   }
 
   .navbar-title {
