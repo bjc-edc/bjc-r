@@ -77,6 +77,21 @@ def self_check_feedback_examples(url)
       # The chosen choice is flagged correct or incorrect...
       expect(geometry['choiceState']).to match(/\A(correct|incorrect)\z/)
 
+      # ...the feedback always states a verdict (authored, or the auto-added
+      # "Correct." / "Incorrect." prefix), so no choice checks silently...
+      expect(geometry['text']).to match(/correct/i)
+
+      # ...and the label text itself is left neutral (no correctness recoloring);
+      # the state class exists only as a styling hook for the feedback box.
+      label_color = question.evaluate_script(<<~JS)
+        (function (q) {
+          var lbl = q.querySelector('.option-row label.correct, .option-row label.incorrect');
+          return lbl ? getComputedStyle(lbl).color : null;
+        })(this)
+      JS
+      # Not green (rgb(25,135,84)) and not red (rgb(220,53,69)).
+      expect(label_color).not_to match(/25,\s*135,\s*84|220,\s*53,\s*69/)
+
       # ...and the fix: feedback sits *below* the choice (stacked), not inline to
       # its right. A small tolerance absorbs sub-pixel rounding.
       expect(geometry['feedbackTop']).to be >= (geometry['labelBottom'] - 2)

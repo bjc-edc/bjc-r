@@ -850,6 +850,10 @@ img.indent, div.indent {
   --selfcheck-incorrect-tint: rgba(220, 53, 69, 0.08);
   --selfcheck-partial: rgb(180, 83, 9);
   --selfcheck-feedback-border: #999;
+  /* The default <var> orange (#f1661d) only reaches ~2.8:1 on the tinted
+   * feedback backgrounds (and ~3.1:1 on white). This darker orange clears
+   * WCAG AA (>=4.5:1) on white and on both the green and red feedback tints. */
+  --selfcheck-var-color: #a83a00;
 }
 
 /* multiple choice question specific styling */
@@ -895,15 +899,10 @@ img.indent, div.indent {
 }
 
 
-.MultipleChoice .radiobuttondiv .correct {
-  color: var(--selfcheck-correct);
-  font-weight: bold;
-}
-
-.MultipleChoice .radiobuttondiv .incorrect {
-  color: var(--selfcheck-incorrect);
-  font-weight: bold;
-}
+/* .correct / .incorrect are set on the chosen label after "Check Answer". They
+ * are kept only as state hooks for coloring the feedback box below the choice
+ * (see .option-row:has(...) rules); the choice label text itself is no longer
+ * recolored, since the color-coded feedback now conveys correctness. */
 
 .MultipleChoice .radiobuttondiv .option-row {
   display: flex;
@@ -912,17 +911,29 @@ img.indent, div.indent {
   padding: 0.4em 0;
 }
 
-/* TODO: Bootstrap 5 revisit this! */
 .radiobuttondiv .radio label,
 .radiobuttondiv .checkbox label {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
 }
 .radiobuttondiv .radio label input[type="radio"],
 .radiobuttondiv .checkbox label input[type="checkbox"] {
-  margin-top: 0;
+  margin-top: 0.2em;   /* nudge down to sit next to the first line of text */
   margin-right: 8px;
   flex-shrink: 0;
+}
+
+/* The whole choice text lives in one flex item so its inline content (text,
+ * <em>, <img>, <var>, <code>, <pre class="inline">) keeps normal inline flow:
+ * whitespace between pieces is preserved and long text wraps instead of
+ * overflowing the panel. min-width:0 lets it shrink/wrap on narrow screens. */
+.MultipleChoice .radiobuttondiv .choice-content {
+  flex: 1;
+  min-width: 0;
+}
+.MultipleChoice .radiobuttondiv .choice-content img {
+  max-width: 100%;
+  height: auto;
 }
 
 /* Feedback appears on its own line below the answer choice (rather than
@@ -947,6 +958,12 @@ img.indent, div.indent {
 .MultipleChoice .radiobuttondiv .option-row:has(.incorrect) .option-feedback {
   border-left-color: var(--selfcheck-incorrect);
   background-color: var(--selfcheck-incorrect-tint);
+}
+
+/* Keep Snap!-orange <var> readable on the tinted feedback backgrounds.
+ * (<code> purple #8b008b already clears AA at ~7.6:1, so it is left alone.) */
+.MultipleChoice .radiobuttondiv .option-feedback var {
+  color: var(--selfcheck-var-color);
 }
 
 .MultipleChoice .statusMessages {

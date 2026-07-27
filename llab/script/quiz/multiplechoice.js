@@ -129,10 +129,13 @@ MC.prototype.render = function() {
         if (this.content.additonal_info) {
             this.multipleChoice.find('.questionType').append(this.content.additonal_info);
         }
+        /* Render the prompt once. The prompt is identical across attempts, so we
+         * intentionally do NOT rebuild it on "Try Again". Rebuilding it would
+         * re-insert a fresh copy of any developer-comment elements (.todo,
+         * .ap-standard, ...) and reset their visibility, undoing whatever state
+         * the "Toggle developer comments" button had put them in. */
+        this.multipleChoice.find('.promptDiv').html(this.content.prompt);
     }
-
-    /* render the prompt */
-    this.multipleChoice.find('.promptDiv').html(this.content.prompt);
 
     /* remove buttons */
 
@@ -157,12 +160,17 @@ MC.prototype.render = function() {
     for (let i = 0; i < this.choices.length; i++) {
         optId = this.choices[i].identifier;
         choice_id = `q-${this.num}-${this.removeSpace(optId)}`;
+        // The choice text is wrapped in a single .choice-content span so it is
+        // one flex item inside the label. Without the wrapper, each text run and
+        // inline element (<em>, <img>, <var>, <code>, <pre class="inline">)
+        // becomes its own flex item, which collapses the whitespace between them
+        // (e.g. "Snap! code" -> "Snap!code") and prevents the text from wrapping.
         choiceHTML = `
         <div class="option-row">
             <div class="${type}">
                 <label id="choicetext-${choice_id}" for="${choice_id}">
                     <input type="${type}" name="q-${this.num}" id="${choice_id}" value="${this.removeSpace(optId)}" />
-                    ${this.choices[i].text}
+                    <span class="choice-content">${this.choices[i].text}</span>
                 </label>
             </div>
             <div class="option-feedback" id="feedback_${choice_id}" name="feedback"></div>
@@ -317,9 +325,15 @@ MC.prototype.checkAnswer = function() {
         choice = this.getChoiceByIdentifier(choiceIdentifier);
         if (checked) {
             if (choice) {
-                this.multipleChoice.find('#feedback_' + fullId).html(choice.feedback).css('display', 'block');
+                var choiceIsCorrect = this.isCorrect(choice.identifier);
+                this.multipleChoice.find('#feedback_' + fullId)
+                    .html(this.formatFeedback(choice.feedback, choiceIsCorrect))
+                    .css('display', 'block');
+                // The .correct / .incorrect class is kept purely as a state hook
+                // for styling the feedback box (see .option-row:has(...) in CSS);
+                // it no longer recolors the choice label itself.
                 var choiceTextDiv = this.multipleChoice.find("#choicetext-" + fullId);
-                if (this.isCorrect(choice.identifier)) {
+                if (choiceIsCorrect) {
                     choiceTextDiv.attr("class", "correct");
                     numCorrectSelected++;
                 } else {
@@ -423,6 +437,33 @@ MC.prototype.getResultMessage = function(isCorrect) {
         return t("successMessage");
     }
     return '';
+};
+
+/**
+ * Build the per-choice feedback HTML shown below an answer choice.
+ *
+ * Ensures the feedback always states whether the choice was right or wrong: if
+ * the author's feedback doesn't already say so (or is empty), we prefix it with
+ * "Correct." / "Incorrect." as appropriate. This also gives questions whose
+ * choices have empty <feedback> divs a visible result.
+ *
+ * @param {string} feedbackHtml - author-provided feedback (may be empty/null)
+ * @param {boolean} isCorrect - whether the selected choice is correct
+ * @return {string} feedback HTML to display
+ */
+MC.prototype.formatFeedback = function(feedbackHtml, isCorrect) {
+    var body = (feedbackHtml == null) ? '' : String(feedbackHtml).trim();
+    // Strip tags so markup can't hide (or falsely satisfy) the verdict check.
+    var plain = body.replace(/<[^>]*>/g, ' ');
+    var alreadyStated = isCorrect
+        ? /\bcorrect\b/i.test(plain)
+        : /\bincorrect\b/i.test(plain) || /^\s*(no\b|nope|wrong\b|not\s+quite)/i.test(plain);
+
+    if (alreadyStated) {
+        return body;
+    }
+    var label = isCorrect ? 'Correct.' : 'Incorrect.';
+    return body ? (label + ' ' + body) : label;
 };
 
 /** FIXME -- reusable
