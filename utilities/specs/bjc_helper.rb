@@ -37,6 +37,7 @@ module BJCSpecs
     'sparks/design-principles',
     'cur/snap-cheat-sheet',
     'cur/snap-cheat-sheet.es',
+    'cur/blown-to-bits',
     'cur/compare',
     'cur/specifications',
     'cur/updates',
