@@ -382,8 +382,7 @@ llab.displayTopic = function() {
   llab.file = llab.getQueryParameter("topic");
 
   if (llab.file) {
-    fetch(llab.topics_path + llab.file)
-      .then(response => response.text())
+    llab.fetchTopicFile(llab.file)
       .then(data => llab.renderFull(data))
       .catch(llab.handleError);
   } else {
