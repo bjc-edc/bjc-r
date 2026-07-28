@@ -168,6 +168,37 @@ code { /* Override bootstrap. */
 }
 
 /** PAGE NAV (TOP AND BOTTOM) ************************************************/
+
+/* Keyboard-only "skip to main content" link; the first focusable element on
+ * the page. Kept off-screen until focused, then shown over the fixed navbar.
+ */
+.skip-link {
+  position: fixed;
+  top: -100px;
+  left: 1em;
+  z-index: 1050; /* above .navbar-fixed-top (1030) */
+  padding: 8px 16px;
+  /* Inverted from the navbar (white on dark blue) so the link stands out
+   * against it; the yellow border doubles as the focus indicator, since
+   * the link is only ever visible while focused. */
+  background-color: #FFF;
+  color: #0C3559;
+  border: 2px solid #F2E205;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+.skip-link:focus {
+  top: 6px;
+  outline: none; /* the yellow border is the focus ring */
+}
+
+/* Skip-link target (the <main> wrapper); it receives focus programmatically,
+ * so don't draw a focus ring around the entire page. */
+#main-content:focus {
+  outline: none;
+}
+
 .llab-nav {
   line-height: 1.38; /* Keep slightly smaller than normal to control centering the nav buttons */
   margin: 0 0 .5em 0;
@@ -188,9 +219,18 @@ code { /* Override bootstrap. */
   font-weight: bold;
 }
 
-/* Show a special div on small screens that isn't in the nav bar */
+/* The page title inside <main>. Visible on small screens; on large screens
+ * the title is shown in the navbar instead (aria-hidden there), so this
+ * <h1> is only visually hidden — never display: none — keeping a heading
+ * inside the main landmark for assistive tech at every size. */
 .title-small-screen {
-  display: none;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
   font-size: 1.8rem;
   color: #000;
 }
@@ -275,8 +315,11 @@ ul.navbar-right li {
  * so it can't overlap the logo or the page title regardless of width.
  */
 
-/* Center the magnifier icon inside the button. */
-.btn-nav-search {
+/* Center the icon inside every nav button. Sharing one display mode
+ * between the <a> buttons (arrows) and <button> toggles (search, language,
+ * page menu) keeps their baselines identical so the prev/menu/next group
+ * lines up as one connected unit. */
+.btn-nav {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -350,7 +393,7 @@ ul.navbar-right li {
 @media screen and (max-width: 768px) {
   .navbar-right .nav-search-li {
     display: inline-flex;
-    vertical-align: middle;
+    vertical-align: top; /* match the other nav <li>s (see .navbar-right > li) */
     margin-left: 0.5em;
   }
 
@@ -359,14 +402,9 @@ ul.navbar-right li {
     margin-left: 0;
   }
 
-  /* Workaround: on small screens the <button> search toggle sits ~6px
-   * lower than the sibling <a> nav buttons because of inline-block
-   * baseline differences between <button> and <a> elements that we
-   * haven't been able to fix cleanly via standard alignment properties.
-   */
-  .btn-nav-search {
-    margin-top: -6px;
-  }
+  /* No <button>-vs-<a> baseline workaround needed here anymore: all
+   * .btn-nav elements share display: inline-flex, which gives them
+   * identical baselines. */
 }
 
 /**
@@ -390,12 +428,15 @@ ul.navbar-right li {
   width: 40px;
 }
 
-/* This requires .nav-btn-group as a parent of all button elements. */
-.nav-btn-group a.btn-nav {
+/* This requires .nav-btn-group as a parent of all button elements.
+ * Unqualified so it matches both the <a> arrows and the <button> menu
+ * toggle; the -first/-last rules below restore the outer corners. */
+.nav-btn-group .btn-nav {
   border-radius: 0;
 }
 
 .nav .open > a,
+.nav .open > .btn-nav, /* <button> dropdown toggles */
 .nav> li > a:focus,
 .nav > li > a:hover,
 a.btn-nav:visited:hover,
@@ -406,6 +447,19 @@ a.btn-nav:active,
   border-color: #F2E205;
   color: #F2E205;
   background-color: unset;
+}
+
+/* One keyboard-focus style for every nav button, whether it is an <a> or a
+ * <button> — otherwise each element type shows its own native/Bootstrap
+ * focus ring. The ring sits flush against the yellow focus border, reading
+ * as one thicker border rather than two rings with a gap. */
+.btn-nav:focus {
+  outline: none;
+}
+
+.btn-nav:focus-visible {
+  outline: 2px solid #F2E205;
+  outline-offset: 0; /* Bootstrap's .btn:focus sets -2px, hiding the ring under the border */
 }
 
 .nav-btn-group.nav-btn-group-first > .btn-nav {
@@ -894,30 +948,26 @@ img.indent, div.indent {
   line-height: 150%;
 }
 
-.MultipleChoice .radiobuttondiv {
+.MultipleChoice .answer-choices-form {
   margin: 10px;
 }
 
 
-/* .correct / .incorrect are set on the chosen label after "Check Answer". They
- * are kept only as state hooks for coloring the feedback box below the choice
- * (see .option-row:has(...) rules); the choice label text itself is no longer
- * recolored, since the color-coded feedback now conveys correctness. */
-
-.MultipleChoice .radiobuttondiv .option-row {
+.MultipleChoice .answer-choices-form .option-row {
   display: flex;
   flex-direction: column;
   align-items: stretch;
   padding: 0.4em 0;
 }
 
-.radiobuttondiv .radio label,
-.radiobuttondiv .checkbox label {
+.answer-choices-form .radio label,
+.answer-choices-form .checkbox label {
   display: flex;
   align-items: flex-start;
 }
-.radiobuttondiv .radio label input[type="radio"],
-.radiobuttondiv .checkbox label input[type="checkbox"] {
+
+.answer-choices-form .radio label input[type="radio"],
+.answer-choices-form .checkbox label input[type="checkbox"] {
   margin-top: 0.2em;   /* nudge down to sit next to the first line of text */
   margin-right: 8px;
   flex-shrink: 0;
@@ -927,18 +977,18 @@ img.indent, div.indent {
  * <em>, <img>, <var>, <code>, <pre class="inline">) keeps normal inline flow:
  * whitespace between pieces is preserved and long text wraps instead of
  * overflowing the panel. min-width:0 lets it shrink/wrap on narrow screens. */
-.MultipleChoice .radiobuttondiv .choice-content {
+.MultipleChoice .answer-choices-form .choice-content {
   flex: 1;
   min-width: 0;
 }
-.MultipleChoice .radiobuttondiv .choice-content img {
+.MultipleChoice .answer-choices-form .choice-content img {
   max-width: 100%;
   height: auto;
 }
 
 /* Feedback appears on its own line below the answer choice (rather than
  * squished inline next to it), indented to line up under the choice text. */
-.MultipleChoice .radiobuttondiv .option-feedback {
+.MultipleChoice .answer-choices-form .option-feedback {
   display: none;
   max-width: 70ch;
   font-style: italic;
@@ -950,19 +1000,22 @@ img.indent, div.indent {
   margin: 0.4em 0 0.2em 28px;
 }
 
-.MultipleChoice .radiobuttondiv .option-row:has(.correct) .option-feedback {
+/* .correct / .incorrect are applied to the row but no longer color the text for
+  improved accessibility. They change the background color of the feedback after each
+  answer option. */
+.MultipleChoice .answer-choices-form .option-row:has(.correct) .option-feedback {
   border-left-color: var(--selfcheck-correct);
   background-color: var(--selfcheck-correct-tint);
 }
 
-.MultipleChoice .radiobuttondiv .option-row:has(.incorrect) .option-feedback {
+.MultipleChoice .answer-choices-form .option-row:has(.incorrect) .option-feedback {
   border-left-color: var(--selfcheck-incorrect);
   background-color: var(--selfcheck-incorrect-tint);
 }
 
 /* Keep Snap!-orange <var> readable on the tinted feedback backgrounds.
  * (<code> purple #8b008b already clears AA at ~7.6:1, so it is left alone.) */
-.MultipleChoice .radiobuttondiv .option-feedback var {
+.MultipleChoice .answer-choices-form .option-feedback var {
   color: var(--selfcheck-var-color);
 }
 
@@ -1060,7 +1113,11 @@ img.indent, div.indent {
   }
 
   .title-small-screen {
-    display: block;
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip: auto;
     font-size: 1.2em;
     margin: 0;
     padding: 0 0 0.5em 0;
@@ -1111,15 +1168,24 @@ img.indent, div.indent {
   .navbar-right > li {
     display: inline-block;
     position: relative;
+    /* Align by top edge, not text baseline: <button> and <a> children
+     * report different baselines, which used to shift the menu <li> a few
+     * pixels below its arrow-button siblings. Every li shrink-wraps the
+     * same 40px button, so top-alignment lines them up exactly. */
+    vertical-align: top;
   }
 
   .navbar-title {
     display: none;
   }
 
-  /* Override display only, all other properties are set above */
+  /* Un-hide the visually-hidden base rule; other properties are set above */
   .title-small-screen {
-    display: block;
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip: auto;
   }
 
   .page-feedback {

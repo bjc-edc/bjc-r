@@ -108,6 +108,9 @@ MC.prototype.tryAgain = function(e) {
         return;
     }
     this.render();
+    // render() disables the Try Again button, which would strand keyboard
+    // focus; Check Answer is re-enabled by render().
+    this.multipleChoice.find('.checkAnswerButton').trigger('focus');
 };
 
 
@@ -139,9 +142,9 @@ MC.prototype.render = function() {
 
     /* remove buttons */
 
-    var radiobuttondiv = this.multipleChoice.find('.radiobuttondiv')[0];
-    while (radiobuttondiv.hasChildNodes()) {
-        radiobuttondiv.removeChild(radiobuttondiv.firstChild);
+    var formChoices = this.multipleChoice.find('.answer-choices-form')[0];
+    while (formChoices.hasChildNodes()) {
+        formChoices.removeChild(formChoices.firstChild);
     }
 
     /*
@@ -176,7 +179,7 @@ MC.prototype.render = function() {
             <div class="option-feedback" id="feedback_${choice_id}" name="feedback" aria-live="polite"></div>
         </div>`;
 
-        this.multipleChoice.find('.radiobuttondiv').append(choiceHTML);
+        this.multipleChoice.find('.answer-choices-form').append(choiceHTML);
 
         $(`#${choice_id}`).bind('click', { myQuestion: this }, function(args) {
             args.data.myQuestion.enableCheckAnswerButton('true');
@@ -300,7 +303,7 @@ MC.prototype.checkAnswer = function() {
         return;
     }
 
-    var inputbuttons = this.multipleChoice.find('.radiobuttondiv')[0].getElementsByTagName('input');
+    var inputbuttons = this.multipleChoice.find('.answer-choices-form')[0].getElementsByTagName('input');
 
     /* Nothing selected: prompt for a selection instead of marking the
      * question wrong with no visible feedback. This is easy to hit after
@@ -351,6 +354,7 @@ MC.prototype.checkAnswer = function() {
                         .css('display', 'block')
                         .html(feedbackHTML);
                 }
+
                 // The .correct / .incorrect class is kept purely as a state hook
                 // for styling the feedback box (see .option-row:has(...) in CSS);
                 // it no longer recolors the choice label itself.
@@ -396,6 +400,10 @@ MC.prototype.checkAnswer = function() {
         this.multipleChoice.find('.resultMessageDiv').html(llab.translate('partialMessage'));
     } else {
         outerdiv.addClass('panel-danger');
+        // Wrong answers previously showed no message at all — the only signal
+        // was the red panel border, which color-blind and screen-reader users
+        // cannot perceive.
+        this.multipleChoice.find('.resultMessageDiv').html(llab.translate('incorrectMessage'));
     }
 
     // Update Google Analytics
@@ -408,6 +416,11 @@ MC.prototype.checkAnswer = function() {
             nonInteraction: true // don't count this as an interaction
         });
     }
+
+    // Move focus off the now-disabled Check Answer button (disabling the
+    // focused element drops focus to <body>, stranding keyboard users).
+    // Try Again is always enabled at this point.
+    this.multipleChoice.find('.tryAgainButton').trigger('focus');
 
     // push the state object into this mc object's own copy of states
     this.states.push(mcState);
@@ -559,14 +572,14 @@ MC.prototype.getTemplate = function() {
     <div class='panel-body currentQuestionBox'>
         <div class='leftColumn'>
             <div class='promptDiv'></div>
-            <form class='radiobuttondiv'></form>
+            <form class='answer-choices-form'></form>
             <div class='feedbackdiv'></div>
         </div>
     </div>
     <div class='clearBoth'></div>
     <div class='interactionBox'>
         <div class='statusMessages'>
-            <div class='numberAttemptsDiv'></div>
+            <div class='numberAttemptsDiv' role='status'></div>
             <div class='scoreDiv'></div>
             <div class='resultMessageDiv' role='status'></div>
         </div>
