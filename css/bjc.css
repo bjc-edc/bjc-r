@@ -206,15 +206,8 @@ pre {
 pre.inline {
   display: inline;
   margin: 0 0.25em 0 0.25em;
-  /* Keep this <pre> flowing as inline text wherever it appears (prompts,
-     dialogue, and inside self-check answer choices). Bootstrap's normalize
-     sets `pre { overflow: auto }`; overflow:visible removes that otherwise
-     keyboard-inaccessible scrollbox (axe scrollable-region-focusable), and
-     pre-wrap + overflow-wrap let the content wrap — including long unbreakable
-     identifiers like calculate_tax — instead of forcing a horizontal scroll.
-     width:auto undoes the block `pre { width: min-content }` rule so the box
-     sizes to its wrapping content rather than collapsing to its longest token
-     (which read as squished, near-vertical text). */
+  /* We must reset overflow (from bootstrap) so that pre continues to behave
+      as an inline element and does not show scrollbars.*/
   white-space: pre-wrap;
   overflow-wrap: break-word;
   overflow: visible;
