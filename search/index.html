@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Search · The Beauty and Joy of Computing</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- llab loader pulls in jQuery, default.css, the navbar, etc. -->
+    <script src="/bjc-r/llab/loader.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="/bjc-r/search/pagefind/pagefind-ui.css">
+    <style>
+      main.search-main {
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: 24px 16px 80px;
+      }
+      .search-main h2 { margin: 0 0 8px; }
+      .search-main .intro { margin: 0 0 24px; color: #555; }
+
+      .pagefind-ui {
+        --pagefind-ui-scale: 0.9;
+        --pagefind-ui-primary: #0C3559;
+        --pagefind-ui-border-radius: 6px;
+      }
+
+      /* Placeholder in the search input is opacity:0.2 by default — bump it. */
+      .pagefind-ui__search-input::placeholder {
+        opacity: 0.55;
+        color: #555;
+      }
+
+      /* The "Clear" button: tighten size, give it a border so it reads as a
+         button instead of a fuzzy box, and offset so it sits inside the
+         input's rounded border. */
+      .pagefind-ui__search-clear {
+        top: 50% !important;
+        right: 8px !important;
+        transform: translateY(-50%);
+        height: auto !important;
+        padding: 6px 12px !important;
+        border: 1px solid var(--pagefind-ui-border);
+        border-radius: 4px;
+        color: var(--pagefind-ui-primary);
+        background: #fff;
+        font-weight: 600;
+      }
+      .pagefind-ui__search-clear:hover {
+        background: var(--pagefind-ui-primary);
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="search-main">
+      <h2 class="js-search-title">Search the curriculum</h2>
+      <p class="intro js-search-intro">
+        Search across BJC courses, or filter to a single course.
+        Results link directly to lessons in the course navigation.
+      </p>
+      <div id="search"></div>
+    </main>
+
+    <script src="/bjc-r/search/pagefind/pagefind-ui.js"></script>
+    <script>
+      // Spanish copy for the page chrome + Pagefind UI strings. Pulled in
+      // when llab.pageLang() === 'es' (driven by ?lang= or <html lang>).
+      const SEARCH_I18N = {
+        en: {
+          page_title: 'Search the curriculum',
+          page_intro: 'Search across BJC courses, or filter to a single course. Results link directly to lessons in the course navigation.',
+          placeholder: 'Search labs, lessons, vocab…',
+          clear_search: 'Clear',
+          load_more: 'More results',
+          search_label: 'Search BJC',
+          filters_label: 'Filter by',
+          zero_results: 'No results for "[SEARCH_TERM]"',
+          many_results: '[COUNT] results for "[SEARCH_TERM]"',
+          one_result: '[COUNT] result for "[SEARCH_TERM]"',
+          alt_search_label: 'Search BJC curriculum',
+          search_suggestion: 'No results for "[SEARCH_TERM]". Did you mean [DISPLAY_QUERY]?',
+          searching: 'Searching for "[SEARCH_TERM]"…',
+        },
+        es: {
+          page_title: 'Buscar en el plan de estudios',
+          page_intro: 'Busca en los cursos de BJC o filtra por un solo curso. Los resultados enlazan directamente a las lecciones dentro de la navegación del curso.',
+          placeholder: 'Buscar laboratorios, lecciones, vocabulario…',
+          clear_search: 'Borrar',
+          load_more: 'Más resultados',
+          search_label: 'Buscar BJC',
+          filters_label: 'Filtrar por',
+          zero_results: 'No hay resultados para "[SEARCH_TERM]"',
+          many_results: '[COUNT] resultados para "[SEARCH_TERM]"',
+          one_result: '[COUNT] resultado para "[SEARCH_TERM]"',
+          alt_search_label: 'Buscar en el plan de estudios BJC',
+          search_suggestion: 'No hay resultados para "[SEARCH_TERM]". ¿Quisiste decir [DISPLAY_QUERY]?',
+          searching: 'Buscando "[SEARCH_TERM]"…',
+        },
+      };
+
+      // Course-file basename (as passed via ?course= by the navbar) → the
+      // display name used as the `course` filter value in the index. Must
+      // stay in sync with COURSE_DISPLAY_NAMES in
+      // utilities/search/build-index.js.
+      const COURSE_FILENAME_TO_DISPLAY = {
+        'bjc4nyc.html': 'BJC CS Principles',
+        'bjc4nyc.es.html': 'BJC CS Principles',
+        'sparks.html': 'BJC Sparks',
+        'sparks.es.html': 'BJC Sparks',
+        'bjc4nyc_teacher.html': 'BJC CS Principles Teacher Guide',
+        'sparks-teacher.html': 'BJC Sparks Teacher Guide',
+      };
+      const TEACHER_COURSE_FILES = ['bjc4nyc_teacher.html', 'sparks-teacher.html'];
+
+      function getLang() {
+        const params = new URLSearchParams(location.search);
+        if (params.get('lang') === 'es') return 'es';
+        if (params.get('lang') === 'en') return 'en';
+        if (typeof llab !== 'undefined' && llab.pageLang) return llab.pageLang();
+        return document.documentElement.lang === 'es' ? 'es' : 'en';
+      }
+
+      window.addEventListener('DOMContentLoaded', () => {
+        const lang = getLang();
+        const strings = SEARCH_I18N[lang];
+        document.documentElement.lang = lang;
+        document.querySelector('.js-search-title').textContent = strings.page_title;
+        document.querySelector('.js-search-intro').textContent = strings.page_intro;
+
+        const params = new URLSearchParams(location.search);
+        const courseParam = params.get('course');
+
+        // Teacher-guide content lives in a separate Pagefind bundle and is
+        // merged into the search only when explicitly requested: either via
+        // ?teacher (any value except 0/false), or because the visitor came
+        // from a teacher-guide course page (?course=…_teacher.html).
+        const teacherParam = params.get('teacher');
+        const includeTeacher =
+          (params.has('teacher') && teacherParam !== '0' && teacherParam !== 'false') ||
+          TEACHER_COURSE_FILES.includes(courseParam);
+
+        const ui = new PagefindUI({
+          element: '#search',
+          bundlePath: '/bjc-r/search/pagefind/',
+          // Indexed URLs are already root-absolute (/bjc-r/...). Without
+          // this, Pagefind derives baseUrl from the bundle path and
+          // prefixes every result link with /bjc-r/search/ → 404s.
+          baseUrl: '/',
+          mergeIndex: includeTeacher
+            ? [{ bundlePath: '/bjc-r/search/pagefind-teacher/', baseUrl: '/' }]
+            : [],
+          showSubResults: true,
+          showImages: true,
+          resetStyles: false,
+          autofocus: true,
+          showEmptyFilters: false,
+          translations: {
+            placeholder: strings.placeholder,
+            clear_search: strings.clear_search,
+            load_more: strings.load_more,
+            search_label: strings.search_label,
+            filters_label: strings.filters_label,
+            zero_results: strings.zero_results,
+            many_results: strings.many_results,
+            one_result: strings.one_result,
+            alt_search_label: strings.alt_search_label,
+            search_suggestion: strings.search_suggestion,
+            searching: strings.searching,
+          },
+        });
+
+        // Pre-select the course filter when ?course=… is present. ?course=
+        // can be either a course-file basename (passed by the navbar) or the
+        // display name itself.
+        const preselectCourse = courseParam
+          ? (COURSE_FILENAME_TO_DISPLAY[courseParam] || courseParam)
+          : null;
+        if (preselectCourse) {
+          ui.triggerFilters({ course: [preselectCourse] });
+        }
+
+        // Run the query handed over by the navbar search box (?q=…).
+        const initialQuery = (params.get('q') || '').trim();
+        if (initialQuery) {
+          ui.triggerSearch(initialQuery);
+        }
+      });
+    </script>
+  </body>
+</html>
