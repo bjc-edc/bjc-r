@@ -142,9 +142,9 @@ MC.prototype.render = function() {
 
     /* remove buttons */
 
-    var radiobuttondiv = this.multipleChoice.find('.radiobuttondiv')[0];
-    while (radiobuttondiv.hasChildNodes()) {
-        radiobuttondiv.removeChild(radiobuttondiv.firstChild);
+    var formChoices = this.multipleChoice.find('.answer-choices-form')[0];
+    while (formChoices.hasChildNodes()) {
+        formChoices.removeChild(formChoices.firstChild);
     }
 
     /*
@@ -179,7 +179,7 @@ MC.prototype.render = function() {
             <div class="option-feedback" id="feedback_${choice_id}" name="feedback" aria-live="polite"></div>
         </div>`;
 
-        this.multipleChoice.find('.radiobuttondiv').append(choiceHTML);
+        this.multipleChoice.find('.answer-choices-form').append(choiceHTML);
 
         $(`#${choice_id}`).bind('click', { myQuestion: this }, function(args) {
             args.data.myQuestion.enableCheckAnswerButton('true');
@@ -303,7 +303,7 @@ MC.prototype.checkAnswer = function() {
         return;
     }
 
-    var inputbuttons = this.multipleChoice.find('.radiobuttondiv')[0].getElementsByTagName('input');
+    var inputbuttons = this.multipleChoice.find('.answer-choices-form')[0].getElementsByTagName('input');
 
     /* Nothing selected: prompt for a selection instead of marking the
      * question wrong with no visible feedback. This is easy to hit after
@@ -354,17 +354,16 @@ MC.prototype.checkAnswer = function() {
                         .css('display', 'block')
                         .html(feedbackHTML);
                 }
+
                 // The .correct / .incorrect class is kept purely as a state hook
                 // for styling the feedback box (see .option-row:has(...) in CSS);
                 // it no longer recolors the choice label itself.
                 var choiceTextDiv = this.multipleChoice.find("#choicetext-" + fullId);
                 if (choiceIsCorrect) {
                     choiceTextDiv.attr("class", "correct");
-                    choiceTextDiv.find('input').after(`<span class="answer-flag">${llab.t('Correct:')} </span>`);
                     numCorrectSelected++;
                 } else {
                     choiceTextDiv.attr("class", "incorrect");
-                    choiceTextDiv.find('input').after(`<span class="answer-flag">${llab.t('Incorrect:')} </span>`);
                     numIncorrectSelected++;
                 }
                 mcState.identifier = choice.identifier;
@@ -573,7 +572,7 @@ MC.prototype.getTemplate = function() {
     <div class='panel-body currentQuestionBox'>
         <div class='leftColumn'>
             <div class='promptDiv'></div>
-            <form class='radiobuttondiv'></form>
+            <form class='answer-choices-form'></form>
             <div class='feedbackdiv'></div>
         </div>
     </div>

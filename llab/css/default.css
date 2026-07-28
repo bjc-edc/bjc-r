@@ -948,35 +948,26 @@ img.indent, div.indent {
   line-height: 150%;
 }
 
-.MultipleChoice .radiobuttondiv {
+.MultipleChoice .answer-choices-form {
   margin: 10px;
 }
 
 
-/* .correct / .incorrect are set on the chosen label after "Check Answer". They
- * are kept only as state hooks for coloring the feedback box below the choice
- * (see .option-row:has(...) rules); the choice label text itself is no longer
- * recolored, since the color-coded feedback now conveys correctness. */
-
-/* Non-color "Correct:"/"Incorrect:" indicator added when a choice is graded. */
-.MultipleChoice .radiobuttondiv .answer-flag {
-  margin-right: 0.25em;
-}
-
-.MultipleChoice .radiobuttondiv .option-row {
+.MultipleChoice .answer-choices-form .option-row {
   display: flex;
   flex-direction: column;
   align-items: stretch;
   padding: 0.4em 0;
 }
 
-.radiobuttondiv .radio label,
-.radiobuttondiv .checkbox label {
+.answer-choices-form .radio label,
+.answer-choices-form .checkbox label {
   display: flex;
   align-items: flex-start;
 }
-.radiobuttondiv .radio label input[type="radio"],
-.radiobuttondiv .checkbox label input[type="checkbox"] {
+
+.answer-choices-form .radio label input[type="radio"],
+.answer-choices-form .checkbox label input[type="checkbox"] {
   margin-top: 0.2em;   /* nudge down to sit next to the first line of text */
   margin-right: 8px;
   flex-shrink: 0;
@@ -986,18 +977,18 @@ img.indent, div.indent {
  * <em>, <img>, <var>, <code>, <pre class="inline">) keeps normal inline flow:
  * whitespace between pieces is preserved and long text wraps instead of
  * overflowing the panel. min-width:0 lets it shrink/wrap on narrow screens. */
-.MultipleChoice .radiobuttondiv .choice-content {
+.MultipleChoice .answer-choices-form .choice-content {
   flex: 1;
   min-width: 0;
 }
-.MultipleChoice .radiobuttondiv .choice-content img {
+.MultipleChoice .answer-choices-form .choice-content img {
   max-width: 100%;
   height: auto;
 }
 
 /* Feedback appears on its own line below the answer choice (rather than
  * squished inline next to it), indented to line up under the choice text. */
-.MultipleChoice .radiobuttondiv .option-feedback {
+.MultipleChoice .answer-choices-form .option-feedback {
   display: none;
   max-width: 70ch;
   font-style: italic;
@@ -1009,19 +1000,22 @@ img.indent, div.indent {
   margin: 0.4em 0 0.2em 28px;
 }
 
-.MultipleChoice .radiobuttondiv .option-row:has(.correct) .option-feedback {
+/* .correct / .incorrect are applied to the row but no longer color the text for
+  improved accessibility. They change the background color of the feedback after each
+  answer option. */
+.MultipleChoice .answer-choices-form .option-row:has(.correct) .option-feedback {
   border-left-color: var(--selfcheck-correct);
   background-color: var(--selfcheck-correct-tint);
 }
 
-.MultipleChoice .radiobuttondiv .option-row:has(.incorrect) .option-feedback {
+.MultipleChoice .answer-choices-form .option-row:has(.incorrect) .option-feedback {
   border-left-color: var(--selfcheck-incorrect);
   background-color: var(--selfcheck-incorrect-tint);
 }
 
 /* Keep Snap!-orange <var> readable on the tinted feedback backgrounds.
  * (<code> purple #8b008b already clears AA at ~7.6:1, so it is left alone.) */
-.MultipleChoice .radiobuttondiv .option-feedback var {
+.MultipleChoice .answer-choices-form .option-feedback var {
   color: var(--selfcheck-var-color);
 }
 
