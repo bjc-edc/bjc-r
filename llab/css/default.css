@@ -178,16 +178,19 @@ code { /* Override bootstrap. */
   left: 1em;
   z-index: 1050; /* above .navbar-fixed-top (1030) */
   padding: 8px 16px;
-  background-color: #0C3559;
-  color: #FFF;
+  /* Inverted from the navbar (white on dark blue) so the link stands out
+   * against it; the yellow border doubles as the focus indicator, since
+   * the link is only ever visible while focused. */
+  background-color: #FFF;
+  color: #0C3559;
   border: 2px solid #F2E205;
-  border-radius: 0 0 6px 6px;
+  border-radius: 6px;
   font-weight: bold;
 }
 
 .skip-link:focus {
-  top: 0;
-  color: #F2E205;
+  top: 6px;
+  outline: none; /* the yellow border is the focus ring */
 }
 
 /* Skip-link target (the <main> wrapper); it receives focus programmatically,
@@ -444,6 +447,19 @@ a.btn-nav:active,
   border-color: #F2E205;
   color: #F2E205;
   background-color: unset;
+}
+
+/* One keyboard-focus style for every nav button, whether it is an <a> or a
+ * <button> — otherwise each element type shows its own native/Bootstrap
+ * focus ring. The yellow border above marks focus; the ring below adds a
+ * second indicator for keyboard users. */
+.btn-nav:focus {
+  outline: none;
+}
+
+.btn-nav:focus-visible {
+  outline: 2px solid #F2E205;
+  outline-offset: 2px;
 }
 
 .nav-btn-group.nav-btn-group-first > .btn-nav {
