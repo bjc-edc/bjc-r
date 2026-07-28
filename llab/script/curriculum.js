@@ -23,8 +23,6 @@ const TOGGLE_HEADINGS = [
   'takeItTeased',
 ];
 
-// NOTE: llab.set_cache / llab.read_cache / llab.fetchTopicFile live in library.js
-
 // Switch to turn off ajax page loads.
 llab.DISABLE_DYNAMIC_NAVIGATION = true;
 // this should only be true when navigating back/forwards so we do no repopulate history.
@@ -46,7 +44,6 @@ if (!llab.DISABLE_DYNAMIC_NAVIGATION) {
   window.addEventListener("popstate", (event) => {
     const state = event.state;
     console.log(event)
-    // debugger;
 
     if (!state || !state.body || !state.title) {
       location.reload();
