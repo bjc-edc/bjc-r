@@ -358,13 +358,7 @@ MC.prototype.checkAnswer = function() {
                 // for styling the feedback box (see .option-row:has(...) in CSS);
                 // it no longer recolors the choice label itself.
                 var choiceTextDiv = this.multipleChoice.find("#choicetext-" + fullId);
-<<<<<<< HEAD
-                // The correct/incorrect classes only change the text color;
-                // add a text flag so the result isn't conveyed by color alone.
-                if (this.isCorrect(choice.identifier)) {
-=======
                 if (choiceIsCorrect) {
->>>>>>> main
                     choiceTextDiv.attr("class", "correct");
                     choiceTextDiv.find('input').after(`<span class="answer-flag">${llab.t('Correct:')} </span>`);
                     numCorrectSelected++;
