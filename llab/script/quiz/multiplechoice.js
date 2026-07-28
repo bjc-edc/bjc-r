@@ -173,7 +173,7 @@ MC.prototype.render = function() {
                     <span class="choice-content">${this.choices[i].text}</span>
                 </label>
             </div>
-            <div class="option-feedback" id="feedback_${choice_id}" name="feedback"></div>
+            <div class="option-feedback" id="feedback_${choice_id}" name="feedback" aria-live="polite"></div>
         </div>`;
 
         this.multipleChoice.find('.radiobuttondiv').append(choiceHTML);
@@ -202,7 +202,6 @@ MC.prototype.render = function() {
     this.enableCheckAnswerButton('true');
     this.clearFeedbackDiv();
 
-    console.log(this.correctResponse);
     if (this.correctResponse.length < 1) {
         // if there is no correct answer to this question (ie, when they're filling out a form),
         // change button to say "save answer" and "edit answer" instead of "check answer" and "try again"
@@ -301,11 +300,27 @@ MC.prototype.checkAnswer = function() {
         return;
     }
 
+    var inputbuttons = this.multipleChoice.find('.radiobuttondiv')[0].getElementsByTagName('input');
+
+    /* Nothing selected: prompt for a selection instead of marking the
+     * question wrong with no visible feedback. This is easy to hit after
+     * "Try Again", which rebuilds the choices unselected. */
+    var anythingChecked = false;
+    for (var j = 0; j < inputbuttons.length; j++) {
+        if (inputbuttons[j].checked) {
+            anythingChecked = true;
+            break;
+        }
+    }
+    if (!anythingChecked) {
+        this.multipleChoice.find('.resultMessageDiv').html(llab.translate('selectAnswerMessage'));
+        return false;
+    }
+
     this.multipleChoice.find('.resultMessageDiv').html('');
 
     this.attempts.push(null);
 
-    var inputbuttons = this.multipleChoice.find('.radiobuttondiv')[0].getElementsByTagName('input');
     var mcState = {};
     var hasCorrectAnswers = this.correctResponse.length > 0;
     var numCorrectSelected = 0;
@@ -326,9 +341,16 @@ MC.prototype.checkAnswer = function() {
         if (checked) {
             if (choice) {
                 var choiceIsCorrect = this.isCorrect(choice.identifier);
-                this.multipleChoice.find('#feedback_' + fullId)
-                    .html(this.formatFeedback(choice.feedback, choiceIsCorrect))
-                    .css('display', 'block');
+                var feedbackHTML = this.formatFeedback(
+                    choice.feedback, choiceIsCorrect, hasCorrectAnswers
+                );
+                if (feedbackHTML) {
+                    // Become visible *before* the content lands so the
+                    // aria-live region announces it to screen readers.
+                    this.multipleChoice.find('#feedback_' + fullId)
+                        .css('display', 'block')
+                        .html(feedbackHTML);
+                }
                 // The .correct / .incorrect class is kept purely as a state hook
                 // for styling the feedback box (see .option-row:has(...) in CSS);
                 // it no longer recolors the choice label itself.
@@ -447,22 +469,33 @@ MC.prototype.getResultMessage = function(isCorrect) {
  * "Correct." / "Incorrect." as appropriate. This also gives questions whose
  * choices have empty <feedback> divs a visible result.
  *
+ * Form-style questions (no correct answers defined; buttons read "Save
+ * Answer") have no notion of a verdict, so their feedback is returned as
+ * authored — possibly empty, in which case nothing is shown.
+ *
  * @param {string} feedbackHtml - author-provided feedback (may be empty/null)
  * @param {boolean} isCorrect - whether the selected choice is correct
- * @return {string} feedback HTML to display
+ * @param {boolean} hasCorrectAnswers - whether this question defines any
+ *     correct answers (false for form-style "Save Answer" questions)
+ * @return {string} feedback HTML to display ('' hides the feedback box)
  */
-MC.prototype.formatFeedback = function(feedbackHtml, isCorrect) {
+MC.prototype.formatFeedback = function(feedbackHtml, isCorrect, hasCorrectAnswers) {
     var body = (feedbackHtml == null) ? '' : String(feedbackHtml).trim();
+    if (hasCorrectAnswers === false) {
+        return body;
+    }
     // Strip tags so markup can't hide (or falsely satisfy) the verdict check.
     var plain = body.replace(/<[^>]*>/g, ' ');
+    // English and Spanish verdict wordings that authors already use.
     var alreadyStated = isCorrect
-        ? /\bcorrect\b/i.test(plain)
-        : /\bincorrect\b/i.test(plain) || /^\s*(no\b|nope|wrong\b|not\s+quite)/i.test(plain);
+        ? /\b(correct|correcto|correcta)\b/i.test(plain)
+        : /\b(incorrect|incorrecto|incorrecta)\b/i.test(plain) ||
+          /^[\s¡¿]*(no\b|nope|wrong\b|not\s+quite)/i.test(plain);
 
     if (alreadyStated) {
         return body;
     }
-    var label = isCorrect ? 'Correct.' : 'Incorrect.';
+    var label = llab.translate(isCorrect ? 'correctLabel' : 'incorrectLabel');
     return body ? (label + ' ' + body) : label;
 };
 
@@ -535,7 +568,7 @@ MC.prototype.getTemplate = function() {
         <div class='statusMessages'>
             <div class='numberAttemptsDiv'></div>
             <div class='scoreDiv'></div>
-            <div class='resultMessageDiv'></div>
+            <div class='resultMessageDiv' role='status'></div>
         </div>
         <div class='buttonDiv'>
             <table class='buttonTable' role="presentation"><tbody>

@@ -61,6 +61,24 @@ def self_check_feedback_examples(url)
       expect(question).to have_no_css('.option-feedback', visible: :visible)
     end
 
+    it 'asks for a selection when checking with nothing selected' do
+      question = find('.MultipleChoice.Question', match: :first)
+      question.find('.checkAnswerButton').click
+
+      # A polite prompt appears (in the screen-reader-announced status region)
+      # instead of the question being marked wrong with no feedback anywhere.
+      expect(question).to have_css('.resultMessageDiv[role="status"]',
+        text: /select an answer/i, wait: 5)
+      expect(question[:class]).not_to match(/panel-(danger|warning|success)/)
+      expect(question).to have_no_css('.option-feedback', visible: :visible)
+
+      # The student can still answer normally afterwards.
+      question.find('input[type="radio"], input[type="checkbox"]', match: :first).click
+      question.find('.checkAnswerButton').click
+      expect(question).to have_css('.option-feedback', visible: :visible, text: /\S/, wait: 5)
+      expect(question).to have_no_text(/select an answer/i)
+    end
+
     it 'reveals feedback below the selected choice after checking an answer' do
       question = find('.MultipleChoice.Question', match: :first)
 

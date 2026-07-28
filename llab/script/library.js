@@ -52,6 +52,18 @@ llab.TRANSLATIONS = {
       en: 'This is partially correct.',
       es: 'Esta respuesta es parcialmente correcta.',
     },
+    'selectAnswerMessage': {
+      en: 'Please select an answer first.',
+      es: 'Por favor, selecciona una respuesta primero.',
+    },
+    'correctLabel': {
+      en: 'Correct.',
+      es: 'Correcto.',
+    },
+    'incorrectLabel': {
+      en: 'Incorrect.',
+      es: 'Incorrecto.',
+    },
     'attemptMessage': {
       en: 'This is your %{ordinal} attempt.',
       es: 'Este es tu intento n.º %{number}.',
