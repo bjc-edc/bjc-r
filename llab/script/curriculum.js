@@ -269,7 +269,6 @@ llab.processLinks = (data) => {
 
     ddItem = llab.dropdownItem(itemContent, url);
     if (isCurrentPage) {
-      // The arrow is a CSS background image, invisible to assistive tech.
       ddItem.find('a').attr('aria-current', 'page');
     }
     list.append(ddItem);
@@ -347,8 +346,6 @@ llab.setupTitle = function() {
   if ($(FULL).length === 0) {
     $(document.body).wrapInner('<main class="full"></main>');
   }
-  // Target for the navbar skip link. tabindex=-1 lets the link move focus
-  // here without adding the container to the tab order.
   $(FULL).first().attr({ 'id': 'main-content', 'tabindex': '-1' });
   llab.setAdditionalClasses();
 
@@ -521,10 +518,6 @@ llab.setAdditionalClasses = () => {
 /** Build an item for the navigation dropdown
 *  Takes in TEXT and a URL and reutrns a list item to be added
 *  too an existing dropdown */
-// The dropdown is a list of navigation links, not an application menu, so it
-// deliberately does not use ARIA menu/menuitem roles: menu semantics promise
-// keyboard behavior Bootstrap 3 doesn't fully provide, and role=presentation
-// would hide the header rows from assistive tech.
 llab.dropdownItem = function(text, url) {
   if (url) {
     text = `<a href="${url}">${text}</a>`;

@@ -213,9 +213,6 @@ llab.renderTitle = function (title) {
   document.title = titleText;
 };
 
-// NOTE: llab.renderCourseLink lives in library.js — curriculum.js also calls
-// it during setupTitle (vocab-index pages), which can run before this file
-// loads; stage-1 scripts execute in arbitrary order.
 
 llab.renderTopic = function (topic_model) {
   var FULL = llab.selectors.FULL,
