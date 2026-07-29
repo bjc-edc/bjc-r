@@ -58,15 +58,8 @@ class Main
   # TODO: this needs to be rewritten to use the BJCTopic class / not require temporary files.
   def Main
     parse_all_topic_files
-    # New code: Move processing vocab/atwork/self-check to here...
-    @course.list_topics.each do |topic_file|
-      topic = parse_topic_page(topic_file)
-      topic.iterate_curriculum_pages do |page|
-        puts page
-      end
-    end
-
-    # Original stuff below here....
+    # TODO: Move processing vocab/atwork/self-check to iterate over
+    # BJCTopic#iterate_curriculum_pages, replacing parse_units below.
     parse_units
     index_path, index_contents = @vocab.doIndex
     @pending_writes[index_path] = index_contents
