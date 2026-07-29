@@ -48,12 +48,20 @@ llab.TRANSLATIONS = {
       en: 'You have successfully completed this question!',
       es: '¡Has completado la pregunta correctamente!',
     },
+    'partialMessage': {
+      en: 'This is partially correct.',
+      es: 'Esta respuesta es parcialmente correcta.',
+    },
     'attemptMessage': {
       en: 'This is your %{ordinal} attempt.',
       es: 'Este es tu intento n.º %{number}.',
     },
     'Go to Table of Contents': {
       es: 'Ir a la tabla de contenido'
+    },
+    'Search BJC': {
+      en: 'Search BJC',
+      es: 'Buscar en BJC',
     }
 };
 
