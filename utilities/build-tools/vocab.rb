@@ -176,11 +176,13 @@ class Vocab
   end
 
   def add_HTML_end
+    return if @current_file_content.empty?
+
     Dir.chdir(review_folder)
-    # return unless File.exist?(vocab_file_name)
     @current_file_content << BJCHelpers.summary_page_suffix
-    # binding.irb
     File.write(vocab_file_name, @current_file_content)
+    # Reset the buffer so the next unit starts a fresh file.
+    @current_file_content = ''
   end
 
   def add_content_to_file(filename, data)
