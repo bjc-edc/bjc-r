@@ -12,7 +12,6 @@ class AtWork
     @currUnitNum = 0
     @currLab = ''
     @atwork_filename = "atwork#{language_ext}.html"
-    @labPath = ''
     @currUnitName = nil
     # The page contents, built up across the whole run.
     # The file is only written out once the run has finished.
@@ -30,10 +29,6 @@ class AtWork
 
   def currUnit(str)
     @currUnit = str
-  end
-
-  def currFile(file)
-    @currFile = file
   end
 
   def currFile(file)

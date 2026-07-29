@@ -387,7 +387,6 @@ class Main
           current_lab_folder = extractTopicLinkFolder(line)
           if File.exist?(lab_path)
             Dir.chdir(current_lab_folder)
-            @vocab.labPath(Dir.getwd)
             @vocab.read_file(labFile)
             @self_check.read_file(labFile)
             @atwork.read_file(labFile)

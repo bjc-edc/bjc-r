@@ -29,7 +29,6 @@ class Vocab
     @currLab = ''
     @vocabList = []
     @vocab_url_map = {}
-    @labPath = ''
     @currUnitName = nil
     @index = Index.new(@parentDir, @language)
     # TODO: See if we can remove this.
@@ -52,10 +51,6 @@ class Vocab
     @currUnitName = str
   end
 
-  def labPath(arg)
-    @labPath = arg
-  end
-
   def unit
     @currUnit.match(/[A-Za-z]+/).to_s
   end
@@ -68,20 +63,8 @@ class Vocab
     @currFile = file
   end
 
-  def currFile(file)
-    @currFile = file
-  end
-
-  def isNewUnit(boolean)
-    @isNewUnit = boolean
-  end
-
   def currUnitNum(num)
     @currUnitNum = num
-  end
-
-  def currLab
-    nil if @currUnit.nil?
   end
 
   def vocab_file_name
