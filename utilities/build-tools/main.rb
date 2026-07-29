@@ -36,6 +36,9 @@ class Main
     @content = content
     @course_file = course
     @course = BJCCourse.new(root: @rootDir, course: @course_file, language: @language)
+    # In-memory intermediate representation of the parsed topic files,
+    # in the line-based format previously written to review/topics.txt.
+    @topics_data = +''
     @vocab = Vocab.new(@parentDir, language, content, @course)
     @self_check = SelfCheck.new(@parentDir, language, content, @course)
     @atwork = AtWork.new(@parentDir, language, content)
@@ -61,7 +64,7 @@ class Main
     end
 
     # Original stuff below here....
-    parse_units("#{review_folder}/topics.txt")
+    parse_units
     @vocab.doIndex
     @atwork.moveFile
     puts 'All units complete'
@@ -78,7 +81,6 @@ class Main
 
   def delete_review_folder
     Dir.chdir(review_folder)
-    File.delete('topics.txt') if File.exist?('topics.txt')
     files = list_files("#{language_ext}.html")
     files.each do |file|
       File.delete(file) if File.exist?(file)
@@ -208,19 +210,23 @@ class Main
         if line.match(headerPattern)
           unitNum(line.match(/\d+/).to_s) if line.match(/title:/)
           header = removeHTML(line.match(headerPattern).to_s)
-          add_content_to_file("#{review_folder}/topics.txt", "#{header}\n")
+          append_topics_data("#{header}\n")
           labNum = 1
         else
           wholeLine = removeHTML(line.to_s.split(/.+:/).join)
           labName = wholeLine.match(/(\w+\s?((!|\?|\.|-)\s?)?)+/).to_s
           topicURL = line.match(topicURLPattern).to_s
-          add_content_to_file("#{review_folder}/topics.txt", "#{labNum} #{labName} ----- #{topicURL}\n")
+          append_topics_data("#{labNum} #{labName} ----- #{topicURL}\n")
           labNum += 1
         end
       end
       index += 1
     end
-    add_content_to_file("#{review_folder}/topics.txt", "END OF UNIT\n")
+    append_topics_data("END OF UNIT\n")
+  end
+
+  def append_topics_data(data)
+    @topics_data << "#{data}\n"
   end
 
   # Returns true if there is a comment in the topics.topic page
@@ -398,21 +404,19 @@ class Main
 
 
 
-  # Inputs is the topics.txt file that is created earlier from the .topic file.
-  # Reads each line from the topics.txt file and finds that unit, lab, and html
-  # file it corresponds with. Once the html file is found, it calls the vocab
-  # function to began to create or add onto the vocab pages
-  def parse_units(topicsFile)
+  # Input is the topics data built up earlier from the .topic files.
+  # Reads each line and finds the unit, lab, and html file it corresponds
+  # with. Once the html file is found, it calls the vocab function to
+  # began to create or add onto the vocab pages
+  def parse_units
     # make sure i am in summaries directory first
     topics_index = 0
     Dir.chdir(@parentDir)
-    f = File.open(topicsFile, 'r')
     labNamePattern = /-----/
     unitNamePattern = /title: /
     endUnitPattern = /END OF UNIT/
     current_lab_folder = ''
-    i = 0
-    f.each do |line|
+    @topics_data.each_line do |line|
       if line.match(endUnitPattern)
         current_unit_folder = current_lab_folder.split('/')[-2]
         addSummariesToTopic(topic_files_in_course[topics_index], current_unit_folder)
@@ -444,9 +448,7 @@ class Main
         @self_check.add_HTML_end
         @atwork.add_HTML_end
       end
-      i += 1
     end
-    f.close
   end
 
   def isEndofTopicPage(line)
