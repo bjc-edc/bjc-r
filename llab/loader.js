@@ -10,7 +10,6 @@ const RELEASE_DATE = '2026-07-28a';
 llab = {
     loaded: {},
     paths: {
-        stage_complete_functions: [],
         scripts: [],
         css_files: []
     },
@@ -55,47 +54,27 @@ llab.paths.css_files = [
 ];
 
 /////////////////////////
-///////////////////////// stage 0
-// Stage 0 items can be executed with no dependences.
-llab.paths.scripts[0] = [];
-llab.paths.scripts[0].push("lib/jquery-3.7.0.slim.min.js");
-llab.paths.scripts[0].push("script/library.js");
-llab.paths.scripts[0].push("script/quiz/multiplechoice.js");
+///////////////////////// scripts
+// Scripts are injected with async=false, so they download in parallel but
+// are guaranteed to execute in insertion order.
+// This list MUST remain in dependency order.
+llab.paths.scripts = [
+    "lib/jquery-3.7.0.slim.min.js",
+    "script/library.js",             // must not depend on jQuery
+    "script/quiz/multiplechoice.js",
+    "script/curriculum.js",
+    "script/course.js",
+    "script/topic.js",
+    "lib/bootstrap.min.js",
+    "script/quiz.js",                // all quiz item types load after multiplechoice.js
+    // "script/lib/sha1.js",         // for brainstorm
+    // "script/brainstorm.js",
+    // "script/user.js",
+];
 
 llab.loaded['config'] = true;
 llab.loaded['library'] = false;
 llab.loaded['multiplechoice'] = false
-llab.paths.stage_complete_functions[0] = () => {
-    return (typeof jQuery === 'function') && llab.loaded['library'];
-}
-
-/////////////////
-///////////////// stage 1
-llab.paths.scripts[1] = [];
-llab.paths.scripts[1].push("script/curriculum.js");
-llab.paths.scripts[1].push("script/course.js");
-llab.paths.scripts[1].push("script/topic.js");
-llab.paths.scripts[1].push("lib/bootstrap.min.js");
-// llab.paths.scripts[1].push("script/lib/sha1.js");     // for brainstorm
-
-// Doing a very weird thing delaying this until stage 1
-// try to get the above files loaded faster, they only depend on jQuery.
-llab.paths.stage_complete_functions[1] = function() {
-    return ( llab.loaded['multiplechoice'] );
-}
-
-////////////////////
-//////////////////// stage 2
-// all these scripts depend on jquery, loaded in stage 1
-// all quiz item types should get loaded here
-llab.paths.scripts[2] = [];
-llab.paths.scripts[2].push("script/quiz.js");
-// llab.paths.scripts[2].push("script/brainstorm.js");
-// llab.paths.scripts[2].push("script/user.js");
-
-llab.paths.stage_complete_functions[2] = function() {
-    return true; // && llab.loaded['user'];
-}
 
 ///////// OPTIONAL LIBRARIES:
 llab.optionalLibs = {
@@ -115,6 +94,8 @@ llab.optionalLibs = {
 
 //////////////
 
+// Fallback for the (rare) case loader.js is injected dynamically,
+// where document.currentScript is null.
 llab.getPathToThisScript = function() {
     var scripts = document.scripts, i, src;
     for (i = 0; i < scripts.length; i += 1) {
@@ -126,7 +107,9 @@ llab.getPathToThisScript = function() {
     return '';
 };
 
-llab.thisPath = llab.getPathToThisScript();
+// loader.js executes synchronously, so currentScript is this script tag.
+llab.thisPath = (document.currentScript && document.currentScript.src) ||
+    llab.getPathToThisScript();
 
 function getTag(name, src, type, opts) {
     let tag = document.createElement(name),
@@ -154,41 +137,45 @@ function getTag(name, src, type, opts) {
 // Array.from(document.scripts).map(node => node.src.replace(location.origin, '').replace(/?.*$/, ''))
 // Array.from(document.styleSheets).map(node => node.src.replace(location.origin, '').replace(/\?.*$/, ''))
 // TODO - will need to normalize paths.
-llab.scriptTag = (src, onload) => getTag('script', src, 'text/javascript', { 'onload': onload });
+// async=false makes dynamically-injected scripts download in parallel,
+// but still execute in the order they were appended.
+llab.scriptTag = (src, onload) => getTag('script', src, 'text/javascript', { 'onload': onload, 'async': false });
 llab.styleTag = (href) => getTag('link', href, 'text/css', { 'rel': 'stylesheet' });
 
 
 llab.initialSetUp = function() {
-    let loadScriptsAndLinks = (stage_num) => {
-        llab.paths.scripts[stage_num].forEach(src => {
-            document.head.appendChild(llab.scriptTag(src), () => proceedWhenComplete(stage_num));
-        });
-
-        // loading optional stuff after jQuery/Bootstrap dependencies, but early as possible.
-        if (stage_num == 1) {
-            llab.conditionalSetup(llab.CONDITIONAL_LOADS);
-        }
-
-        if ((stage_num + 1) < llab.paths.scripts.length) {
-            proceedWhenComplete(stage_num);
-        }
-    }
-
-    proceedWhenComplete = (stage_num) => {
-        if (llab.paths.stage_complete_functions[stage_num]()) {
-            if ((stage_num + 1) < llab.paths.scripts.length) {
-                loadScriptsAndLinks(stage_num + 1);
-            }
-        } else {
-            setTimeout(() => { proceedWhenComplete(stage_num) }, 2);
-        }
-    }
-
     llab.paths.css_files.forEach(file => document.head.appendChild(llab.styleTag(file)));
-    loadScriptsAndLinks(0);
+
+    let lastIndex = llab.paths.scripts.length - 1;
+    llab.paths.scripts.forEach((src, i) => {
+        // After the final script executes, all of llab is defined and
+        // content-based optional libraries can be evaluated.
+        let onload = i === lastIndex ? llab.loadOptionalLibraries : null;
+        let tag = llab.scriptTag(src, onload);
+        if (onload) {
+            // Even if the last script fails to load, still try the optional libs.
+            tag.onerror = onload;
+        }
+        document.head.appendChild(tag);
+    });
 
     if (!llab.isLocalEnvironment() && llab.SENTRY_URL) {
         document.head.appendChild(llab.scriptTag(llab.SENTRY_URL, llab.setupSentry));
+    }
+};
+
+// Optional libraries are selected by scanning the page's content,
+// so wait until the DOM is fully parsed before checking.
+llab.loadOptionalLibraries = function() {
+    let run = () => {
+        if (typeof llab.conditionalSetup === 'function') {
+            llab.conditionalSetup(llab.CONDITIONAL_LOADS);
+        }
+    };
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', run);
+    } else {
+        run();
     }
 };
 
