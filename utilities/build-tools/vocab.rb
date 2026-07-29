@@ -131,7 +131,7 @@ class Vocab
     f = File.open(fileName, mode: 'a')
     linesList = File.readlines("#{file_path}/#{@currFile}")[0..30]
     while !linesList[i].match(/<body>/) && (i < 30)
-      if linesList[i].match(/<title>/)
+      if linesList[i].match?(/^\s*<title>/)
         f.write("<title>#{unit} #{@currUnitNum} #{I18n.t('vocab')}</title>\n")
       else
         f.write("#{linesList[i]}\n")
