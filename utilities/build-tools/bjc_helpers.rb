@@ -5,7 +5,6 @@
 Encoding.default_external = Encoding::UTF_8
 
 VALID_LANGUAGES = %w[en es de].freeze
-TEMP_FOLDER = 'review'
 
 module BJCHelpers
   UNIT_FOLDERS = []

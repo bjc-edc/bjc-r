@@ -14,6 +14,9 @@ class AtWork
     @atwork_filename = "atwork#{language_ext}.html"
     @labPath = ''
     @currUnitName = nil
+    # The page contents, built up across the whole run.
+    # The file is only written out once the run has finished.
+    @content = +''
   end
 
   def language_ext
@@ -90,35 +93,32 @@ class AtWork
     end
   end
 
-  def createNewFile(fileName, linesList)
+  # The page head, copied from the first curriculum page with an atwork box.
+  def page_preamble(linesList)
+    preamble = +''
     i = 0
-    File.new(fileName, 'w')
     while !linesList[i].match(/<body>/) && (i < 30)
       if linesList[i].match(/<title>/)
-        File.write(fileName, "<title>#{language}</title>\n", mode: 'a')
+        preamble << "<title>#{language}</title>\n"
       else
-        File.write(fileName, "#{linesList[i]}\n", mode: 'a')
+        preamble << "#{linesList[i]}\n"
       end
       i += 1
     end
+    preamble
   end
 
-  def add_HTML_end
-    Dir.chdir("#{@parentDir}/review")
-    ending = "</body>\n</html>"
-    return unless File.exist?(@atwork_filename)
+  # Returns { destination_path => contents } for the atwork page.
+  # Nothing is written to disk here.
+  def finalize
+    return {} if @content.empty?
 
-    File.write(@atwork_filename, ending, mode: 'a')
+    { File.join(@parentDir, @atwork_filename) => @content + "</body>\n</html>\n" }
   end
 
-  def add_content_to_file(filename, data)
-    currentDir = Dir.getwd
-    linesList = File.readlines(@currFile)[0..15]
-    Dir.chdir("#{@parentDir}/review")
-    data = data.gsub(/&amp;/, '&')
-    createNewFile(filename, linesList) unless File.exist?(filename)
-    File.write(filename, data, mode: 'a')
-    FileUtils.cd(currentDir)
+  def add_content_to_file(data)
+    @content << page_preamble(File.readlines(@currFile)[0..15]) if @content.empty?
+    @content << data.gsub(/&amp;/, '&')
   end
 
   def parse_atWork(file)
@@ -155,21 +155,12 @@ class AtWork
   def add_to_file(input)
     return unless input != ''
 
-    add_content_to_file(@atwork_filename, input)
+    add_content_to_file(input)
   end
 
   def get_url(file)
     localPath = Dir.getwd
     linkPath = localPath.match(/bjc-r.+/).to_s
     "/#{linkPath}/#{file}"
-  end
-
-  def moveFile
-    src = "#{@parentDir}/review/#{@atwork_filename}"
-    dst = "#{@parentDir}/#{@atwork_filename}"
-    return unless File.exist?(src)
-
-    File.delete(dst) if File.exist?(dst)
-    FileUtils.copy_file(src, dst)
   end
 end

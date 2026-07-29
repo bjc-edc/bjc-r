@@ -39,6 +39,10 @@ class Main
     # In-memory intermediate representation of the parsed topic files,
     # in the line-based format previously written to review/topics.txt.
     @topics_data = +''
+    # All generated files, path => contents. Nothing is written to disk
+    # until the whole run has finished, so a failed run never deletes or
+    # replaces any existing content.
+    @pending_writes = {}
     @vocab = Vocab.new(@parentDir, language, content, @course)
     @self_check = SelfCheck.new(@parentDir, language, content, @course)
     @atwork = AtWork.new(@parentDir, language, content)
@@ -53,7 +57,6 @@ class Main
   # This function will parse the topic pages, parse all labs and units, and create summary pages
   # TODO: this needs to be rewritten to use the BJCTopic class / not require temporary files.
   def Main
-    createNewReviewFolder
     parse_all_topic_files
     # New code: Move processing vocab/atwork/self-check to here...
     @course.list_topics.each do |topic_file|
@@ -65,40 +68,24 @@ class Main
 
     # Original stuff below here....
     parse_units
-    @vocab.doIndex
-    @atwork.moveFile
+    index_path, index_contents = @vocab.doIndex
+    @pending_writes[index_path] = index_contents
+    @pending_writes.merge!(@atwork.finalize)
+    flush_pending_writes
     puts 'All units complete'
-    # delete_review_folder
+  end
+
+  # Perform all the file writes at once, after a fully successful run.
+  def flush_pending_writes
+    @pending_writes.each do |path, contents|
+      File.write(path, contents)
+    end
+    puts "Wrote #{@pending_writes.length} files"
+    @pending_writes.clear
   end
 
   def topic_files_in_course
     @topic_files_in_course ||= course.list_topics.filter { |file| file.match(/\d+-\w+/) }
-  end
-
-  def review_folder
-    @review_folder ||= "#{@parentDir}#{TEMP_FOLDER}"
-  end
-
-  def delete_review_folder
-    Dir.chdir(review_folder)
-    files = list_files("#{language_ext}.html")
-    files.each do |file|
-      File.delete(file) if File.exist?(file)
-      # File.open(file, mode: 'r') do |f|
-      #   f.close
-      # end
-    rescue Errno::EACCES
-    end
-
-    FileUtils.rm_rf(review_folder)
-  end
-
-  def createNewReviewFolder
-    if Dir.exist?(review_folder)
-      delete_review_folder
-    else
-      Dir.mkdir(review_folder)
-    end
   end
 
   # Returns list of all FOLDERS (directories) in current working directory (cwd)
@@ -134,44 +121,41 @@ class Main
     filename.match(/\d+/) && (fileLanguage(file) == @language)
   end
 
-  def delete_existing_summaries(topic_file)
-    all_lines = File.readlines(topic_file)
-    new_lines = ''
-    all_lines.each do |line|
-      if line.match(/Unit \d+ Review/) || line.match(/Unidad \d+ Revision/)
-        return File.write(topic_file, new_lines.strip)
-      elsif line != '}' and line != '\n'
-        new_lines += line
-      end
+  # The topic file contents up to (but not including) the summary section,
+  # with the closing brace removed so a new summary section can be appended.
+  def topic_contents_without_summaries(topic_file_path)
+    lines = File.readlines(topic_file_path)
+    review_index = lines.index { |line| line.match(/Unit \d+ Review/) || line.match(/Unidad \d+ Revision/) }
+    if review_index.nil?
+      lines.join.sub(/\}\s*\z/, '').rstrip
+    else
+      lines[0...review_index].join.rstrip
     end
   end
 
-  # Adds the summary content and links to the topic.topic file
-  def addSummariesToTopic(topic_file, _curr_lab_folder)
+  # Adds the summary section and links to the unit's .topic file.
+  # Only links to summary pages generated this run (staged in
+  # @pending_writes under unit_dir) are included. The updated topic file
+  # is itself staged in @pending_writes rather than written immediately.
+  def addSummariesToTopic(topic_file, unit_dir)
     topic_folder(topic_file.split('/')[0])
     topic_file_path = "#{@rootDir}/topic/#{topic_file}"
-    delete_existing_summaries(topic_file_path)
     link_match = "/bjc-r/#{@content}"
     unit = File.readlines(topic_file_path).find { |line| line.match?(link_match) }
     link = extract_unit_path(unit, false, true)
-    list = [@vocab.vocab_file_name,
-            @self_check.exam_file_name,
-            @self_check.self_check_file_name].map { |f_name| f_name.gsub!(/\d+/, @unitNum) }
 
-    topic_resource = ["\tresource: #{I18n.t('vocab')} [#{link}/#{list[0]}]",
-                      "\n\tresource: #{I18n.t('on_ap_exam')} [#{link}/#{list[1]}]",
-                      "\n\tresource: #{I18n.t('self_check')} [#{link}/#{list[2]}]"]
-    topic_content = <<~TOPIC
-      heading: #{I18n.t('unit_review', num: @unitNum)}
-    TOPIC
-    is_empty_review = true
-    list.length.times do |index|
-      if File.exist?("#{review_folder}/#{list[index]}")
-        topic_content += topic_resource[index]
-        is_empty_review = false
-      end
+    file_names = [@vocab.vocab_file_name,
+                  @self_check.exam_file_name,
+                  @self_check.self_check_file_name].map { |f_name| f_name.gsub(/\d+/, @unitNum) }
+    labels = [I18n.t('vocab'), I18n.t('on_ap_exam'), I18n.t('self_check')]
+    resources = file_names.zip(labels).filter_map do |f_name, label|
+      "\tresource: #{label} [#{link}/#{f_name}]" if @pending_writes.key?(File.join(unit_dir, f_name))
     end
-    add_content_to_file(topic_file_path, "\n#{topic_content}\n}") unless is_empty_review
+    return if resources.empty?
+
+    body = topic_contents_without_summaries(topic_file_path)
+    heading = "heading: #{I18n.t('unit_review', num: @unitNum)}"
+    @pending_writes[topic_file_path] = "#{body}\n\n#{heading}\n#{resources.join("\n")}\n}\n"
   end
 
   def isSummary(line)
@@ -268,11 +252,6 @@ class Main
       bool = false if str.match(i) || !str.match(topicLine)
     end
     bool
-  end
-
-  # TODO: We should cleanup how newlines are added to the file.
-  def add_content_to_file(filename, data)
-    File.open(filename, mode: 'a+') { |f| f.write("#{data}\n") }
   end
 
   # TODO: - if we have a BJCTopic class, this probably belongs there.
@@ -388,22 +367,6 @@ class Main
     use_root ? "#{localPath}#{link}" : link
   end
 
-  def copyFiles
-    list = [@vocab.vocab_file_name, @self_check.self_check_file_name, @self_check.exam_file_name]
-    FileUtils.cd('..')
-
-    list.each do |file|
-      src = "#{review_folder}/#{file}"
-      dst = "#{Dir.getwd}/#{file}"
-      File.delete(dst) if File.exist?(dst)
-      # TODO: use nokogiri to refomat the file.
-      FileUtils.copy_file(src, dst) if File.exist?(src)
-    end
-    Dir.chdir(Dir.pwd)
-  end
-
-
-
   # Input is the topics data built up earlier from the .topic files.
   # Reads each line and finds the unit, lab, and html file it corresponds
   # with. Once the html file is found, it calls the vocab function to
@@ -418,12 +381,12 @@ class Main
     current_lab_folder = ''
     @topics_data.each_line do |line|
       if line.match(endUnitPattern)
-        current_unit_folder = current_lab_folder.split('/')[-2]
-        addSummariesToTopic(topic_files_in_course[topics_index], current_unit_folder)
-        copyFiles
+        unit_dir = File.expand_path('..', current_lab_folder)
+        @pending_writes.merge!(@vocab.finalize_unit(unit_dir))
+        @pending_writes.merge!(@self_check.finalize_unit(unit_dir))
+        addSummariesToTopic(topic_files_in_course[topics_index], unit_dir)
         topics_index += 1
-      end
-      if !line.match(labNamePattern).nil?
+      elsif !line.match(labNamePattern).nil?
         labFile = extractTopicLink(line)
         root = @rootDir.split('/bjc-r')[0]
         lab_path = "#{root}#{line.split(labNamePattern)[-1].split(' ')[-1]}"
@@ -443,16 +406,8 @@ class Main
         @vocab.currUnitName(unitName.to_s)
         @self_check.currUnitName(unitName.to_s)
         @atwork.currUnitName(unitName.to_s)
-      elsif isEndofTopicPage(line)
-        @vocab.add_HTML_end
-        @self_check.add_HTML_end
-        @atwork.add_HTML_end
       end
     end
-  end
-
-  def isEndofTopicPage(line)
-    line.match(/END OF UNIT/)
   end
 
   def getFolder(strPattern, parentFolder)
