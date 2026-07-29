@@ -111,10 +111,10 @@ class BJCTopic
     all_pages(include_summaries: false)
   end
 
-  def all_pages(include_summaries=false)
+  def all_pages(include_summaries: false)
     parsed_topic_object[:topics].each_with_index.map do |topic, topic_index|
       topic[:content].each_with_index.map do |entry, entry_index|
-        next if summary_section?(entry) || (!entry[:url].nil? && summary_page?(entry))
+        next if !include_summaries && (summary_section?(entry) || (!entry[:url].nil? && summary_page?(entry)))
 
         if entry[:type] == 'section'
           extract_pages_in_section(entry, include_summaries: include_summaries)
@@ -303,6 +303,8 @@ class BJCTopic
     /unit-.*-exam-reference.*\.html/,
   ]
   def summary_page?(item)
+    return false if item[:url].nil?
+
     SUMMARY_URLS.any? { |re| item[:url].match?(re) }
   end
 
@@ -310,7 +312,7 @@ class BJCTopic
   # Returns an array of all the paths in that section
   # If include_summaries = false, then known "summary" URLs are exlcuded
   # this means quizzes, vocab, ap exam pages.
-  def extract_pages_in_section(parsed_section, include_summaries=false)
+  def extract_pages_in_section(parsed_section, include_summaries: false)
     parsed_section[:content].each_with_index.map do |item, item_index|
       if !include_summaries && summary_page?(item)
         nil
