@@ -23,14 +23,6 @@ const TOGGLE_HEADINGS = [
   'takeItTeased',
 ];
 
-llab.set_cache = (key, value) => {
-  sessionStorage[key] = value;
-  return true;
-}
-
-// TODO: Should this ingore the cache in development?
-llab.read_cache = key => sessionStorage[key];
-
 // Switch to turn off ajax page loads.
 llab.DISABLE_DYNAMIC_NAVIGATION = true;
 // this should only be true when navigating back/forwards so we do no repopulate history.
@@ -52,7 +44,6 @@ if (!llab.DISABLE_DYNAMIC_NAVIGATION) {
   window.addEventListener("popstate", (event) => {
     const state = event.state;
     console.log(event)
-    // debugger;
 
     if (!state || !state.body || !state.title) {
       location.reload();
@@ -135,15 +126,10 @@ llab.secondarySetUp = function (newPath) {
     llab.SKIP_PUSH_STATE = false;
   }
 
-  if (llab.read_cache(llab.file)) {
-    // TODO: Update this to use a parsed JSON object.
-    llab.processLinks(llab.read_cache(llab.file));
-  } else {
-    fetch(`${llab.topics_path}/${llab.file}`)
-      .then(response => response.text())
-      .then(topic => llab.processLinks(topic))
-      .catch(llab.handleError);
-  }
+  // TODO: Update this to use a parsed JSON object.
+  llab.fetchTopicFile(llab.file)
+    .then(topic => llab.processLinks(topic))
+    .catch(llab.handleError);
 }; // close secondarysetup();
 
 /**
@@ -268,6 +254,9 @@ llab.processLinks = (data) => {
     }
 
     ddItem = llab.dropdownItem(itemContent, url);
+    if (isCurrentPage) {
+      ddItem.find('a').attr('aria-current', 'page');
+    }
     list.append(ddItem);
   } // end for loop
 
@@ -297,7 +286,7 @@ llab.processLinks = (data) => {
   $('.dropdown-menu').css('max-width', Math.min($(window).width()*.97, 450));
 
   // Attach Dynamic Click Handlers to menu items.
-  $('a[role=menuitem]').each((_i, element) => {
+  $('.js-llabPageNavMenu a').each((_i, element) => {
     $(element).off('click').on('click', llab.dynamicNavigation(element.href));
   });
 
@@ -315,9 +304,12 @@ llab.buildDropdownFromTopicModel = _llabObj => {
 // Used for embedded content. (Videos, books, etc)
 llab.addFrame = function() {
   var source = llab.getQueryParameter("src");
+  // The `title` param carries the resource's name from the topic file; the
+  // embed isn't always a video, so only fall back to a generic label.
+  var frameTitle = llab.getQueryParameter("title") || 'Embedded content';
 
   var frame = $(document.createElement("iframe")).attr(
-    {'src': source, 'class': 'content-embed', 'title': 'Embedded video content'}
+    {'src': source, 'class': 'content-embed', 'title': frameTitle}
   );
 
   let content = $(document.createElement('div'));
@@ -340,6 +332,7 @@ llab.setupTitle = function() {
   if ($(FULL).length === 0) {
     $(document.body).wrapInner('<main class="full"></main>');
   }
+  $(FULL).first().attr({ 'id': 'main-content', 'tabindex': '-1' });
   llab.setAdditionalClasses();
 
   // Reset the nav + title divs.
@@ -401,21 +394,32 @@ llab.createTitleNav = function() {
       </a>`,
     // use \u00F1 instead of an ñ in the menu. (Issue in Chrome on topic pages)
     topHTML = `
-    <nav class="llab-nav navbar navbar-fixed-top" role="navigation">
+    <nav class="llab-nav navbar navbar-fixed-top" role="navigation"
+      aria-label="${t('primaryNavLabel')}">
+      <a class="skip-link" href="#main-content">${t('Skip to main content')}</a>
       <div class="nav navbar-left">
         <a class="navbar-brand" rel="author" href="${navURL}"
           aria-label="${t('Go to Index')}">
           <img src="${logoURL}" alt="${t('BJC logo')}">
         </a>
-        <h1 class="navbar-title"></h1>
+        <!-- Hidden from AT: duplicates the always-exposed .title-small-screen
+             <h1> inside <main>, and would otherwise put the page's heading
+             inside the navigation landmark. -->
+        <h1 class="navbar-title" aria-hidden="true"></h1>
       </div>
       <ul class="nav navbar-nav navbar-right">
+        <li class="nav-search nav-search-li">
+          <button type="button" class="btn btn-nav btn-nav-search js-navbarSearchToggle"
+            aria-label="${t('Search BJC')}" aria-expanded="false">
+            <i class="fas fa-search" aria-hidden="true"></i>
+          </button>
+        </li>
         <li class="dropdown js-langDropdown nav-lang-dropdown hidden">
-          <a class="btn btn-nav btn-nav-lang dropdown-toggle" type="button"
-            aria-label=${t('Switch language')} role="button" tabindex=0
+          <button class="btn btn-nav btn-nav-lang dropdown-toggle" type="button"
+            aria-label="${t('Switch language')}"
             id="dropdown-langs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="far fa-globe" aria-hidden=true></i>
-          </a>
+          </button>
           <ul class="dropdown-menu" aria-labelledby="dropdown-langs">
             <li><a class="js-switch-lang-en">English</a></li>
             <li><a class="js-switch-lang-es">Espa\u00F1ol</a></li>
@@ -423,23 +427,29 @@ llab.createTitleNav = function() {
         </li>
         <li class="nav-btn-group nav-btn-group-first">${previousPageButton}</li>
         <li class="nav-btn-group dropdown js-navDropdown js-navButton hidden">
-          <a class="btn btn-nav dropdown-toggle"
-            type="button" role="button" tabindex=0
+          <button class="btn btn-nav dropdown-toggle" type="button"
             aria-label="${t('Navigation Menu')}"
             id="Topic-Navigation-Menu" data-toggle="dropdown"
             aria-haspopup=true aria-expanded=false>
             <i class="fas fa-bars" aria-hidden=true></i>
-          </a>
+          </button>
           <ul class="js-llabPageNavMenu dropdown-menu"
-            role="menu" aria-labelledby='Topic-Navigation-Menu'>
+            aria-labelledby='Topic-Navigation-Menu'>
           </ul>
         </li>
         <li class="nav-btn-group nav-btn-group-last">${nextPageButton}</li>
       </ul>
+      <div class="navbar-search-bar js-navbarSearchBar" role="search">
+        <label class="sr-only" for="navbarSearchInput">${t('Search BJC')}</label>
+        <input type="search" id="navbarSearchInput" name="q"
+          class="navbar-search-input js-navbarSearchInput"
+          placeholder="${t('Search BJC')}" aria-label="${t('Search BJC')}"
+          tabindex="-1">
+      </div>
       <div class="trapezoid"></div>
     </nav>`,
     botHTML = `
-      <nav class="full-bottom-bar" aria-label="secondary page navigation">
+      <nav class="full-bottom-bar" aria-label="${t('secondaryNavLabel')}">
         <div class="js-navButton hidden" style="float: left">
           ${previousPageButton}
         </div>
@@ -451,14 +461,19 @@ llab.createTitleNav = function() {
     topNav = $(llab.selectors.NAVSELECT),
     smallScreenTitle = '<h1 class="title-small-screen"></h1>';
 
+  // This <h1> is the page's only heading exposed to assistive tech (the
+  // navbar title is aria-hidden), so it must exist on every page — axe's
+  // page-has-heading-one fails otherwise. Target .full rather than <main>
+  // so pages shipping .full on another element still get it.
   if ($('.title-small-screen').length === 0) {
-    $('main').prepend(smallScreenTitle);
+    $(FULL).first().prepend(smallScreenTitle);
   }
 
   if (topNav.length === 0) {
     $(document.body).prepend(topHTML);
   }
 
+  llab.setupNavbarSearch();
   llab.setupTranslationsMenu();
 
   // This doesn't quite belong here. index pages are a special case...
@@ -491,10 +506,10 @@ llab.setAdditionalClasses = () => {
 *  too an existing dropdown */
 llab.dropdownItem = function(text, url) {
   if (url) {
-    text = `<a href=${url} role="menuitem">${text}</a>`;
+    text = `<a href="${url}">${text}</a>`;
   }
 
-  return $(`<li role="presentation">${text}</li>`);
+  return $(`<li>${text}</li>`);
 };
 
 // Pages directly within a lab. Excludes 'topic' and 'course' pages.
@@ -510,6 +525,11 @@ llab.setButtonURLs = function() {
   // No dropdowns for places that don't have a step.
   if (!llab.isCurriculum()) { return; }
 
+  // Keep the buttons hidden until the topic's page list is available —
+  // configuring them against an empty url_list leaves visible <a> elements
+  // with an aria-label but no href (an axe aria-prohibited-attr violation).
+  if (!llab.url_list || llab.url_list.length === 0) { return; }
+
   // TODO: Should this happen ever?
   var forward = $('.js-nextPageLink'), back = $('.js-backPageLink');
   var buttonsExist = forward.length !== 0 && back.length !== 0;
@@ -519,13 +539,21 @@ llab.setButtonURLs = function() {
 
   forward = $('.js-nextPageLink');
   back = $('.js-backPageLink');
-  // Unhide buttons and remove click handlers
-  $('.js-navButton').removeClass('hidden').off('click');
+  // Remove click handlers; the buttons stay hidden until their href and
+  // aria-label are set below — unhiding first exposes an <a> with an
+  // aria-label but no href/role, which axe flags (aria-prohibited-attr).
+  $('.js-navButton').off('click');
 
+  // Disabled buttons: dropping the href takes the <a> out of the tab order,
+  // and role="link" + aria-disabled keeps it announced by name as unavailable
+  // (aria-label alone on an href-less <a> is an axe aria-prohibited-attr
+  // violation; the `disabled` attribute is invalid on anchors).
   if (llab.thisPageNum() === 0) {
-    back.addClass('disabled').removeAttr('href').removeAttr('aria-label').attr('disabled', true);
+    back.addClass('disabled').removeAttr('href').removeAttr('disabled')
+      .attr({ 'role': 'link', 'aria-disabled': 'true', 'aria-label': llab.t('backText') });
   } else {
     back.removeClass('disabled').removeAttr('disabled')
+      .removeAttr('role').removeAttr('aria-disabled')
       .attr('aria-label', llab.t('backText'))
       .attr('href', llab.url_list[llab.thisPageNum() - 1])
       .on('click', llab.dynamicNavigation(llab.url_list[llab.thisPageNum() - 1]));
@@ -533,13 +561,18 @@ llab.setButtonURLs = function() {
 
   // Disable the forward button
   if (llab.thisPageNum() === llab.url_list.length - 1) {
-    forward.addClass('disabled').removeAttr('href').removeAttr('aria-label').attr('disabled', true);
+    forward.addClass('disabled').removeAttr('href').removeAttr('disabled')
+      .attr({ 'role': 'link', 'aria-disabled': 'true', 'aria-label': llab.t('nextText') });
   } else {
     forward.removeClass('disabled').removeAttr('disabled')
+      .removeAttr('role').removeAttr('aria-disabled')
       .attr('aria-label', llab.t('nextText'))
       .attr('href', llab.url_list[llab.thisPageNum() + 1])
       .on('click', llab.dynamicNavigation(llab.url_list[llab.thisPageNum() + 1]));
   }
+
+  // Unhide only once the buttons are fully configured.
+  $('.js-navButton').removeClass('hidden');
 };
 
 llab.loadNewPage = (path) => {
@@ -714,19 +747,114 @@ llab.translated_content_url = function() {
   }
 }
 
+// Google site-restricted search wired up to the navbar.
+// Default UI is just the magnifier; clicking expands the input in place of
+// the other right-side nav items. The `site:` filter is added when building
+// the Google URL — the visible input value is never rewritten.
+
+// Derive the site filter from the current host + the install folder
+// (llab.rootURL). On localhost we fall back to bjc.edc.org since localhost
+// itself isn't indexed by Google.
+llab.NAVBAR_SEARCH_LOCAL_HOST = 'bjc.edc.org';
+llab.getSearchSite = () => {
+  let host = llab.isLocalEnvironment() ? llab.NAVBAR_SEARCH_LOCAL_HOST : location.hostname;
+  let folder = (llab.rootURL || '').replace(/^\/+|\/+$/g, '');
+  return folder ? `${host}/${folder}` : host;
+};
+
+llab.setupNavbarSearch = function () {
+  let $toggle = $('.js-navbarSearchToggle');
+  let $input = $('.js-navbarSearchInput');
+  let $bar = $('.js-navbarSearchBar');
+  if ($toggle.length === 0 || $toggle.data('llab-search-bound')) { return; }
+  $toggle.data('llab-search-bound', true);
+
+  let $nav = $('.llab-nav');
+  let isOpen = () => $nav.hasClass('navbar-search-open');
+
+  // Bootstrap 3 marks an open dropdown by adding .open to its wrapper.
+  // Whenever search opens we collapse any sibling menu so only one
+  // overlay is showing at a time.
+  let closeOpenDropdowns = () => $nav.find('.dropdown.open').removeClass('open');
+
+  let open = () => {
+    closeOpenDropdowns();
+    $nav.addClass('navbar-search-open');
+    $toggle.attr('aria-expanded', 'true');
+    $input.attr('tabindex', '0');
+    setTimeout(() => $input.trigger('focus'), 0);
+  };
+
+  let close = () => {
+    $nav.removeClass('navbar-search-open');
+    $toggle.attr('aria-expanded', 'false');
+    $input.attr('tabindex', '-1');
+    $input.val('');
+  };
+
+  // Use a synthesized anchor.click() rather than window.open() — this
+  // honors the user's browser preference for new tabs/windows and avoids
+  // popup-blocker quirks tied to window.open feature strings.
+  let openInNewWindow = (url) => {
+    let a = document.createElement('a');
+    a.href = url;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    a.click();
+  };
+
+  let performSearch = () => {
+    let query = ($input.val() || '').trim();
+    if (!query) { close(); return; }
+    let q = `${query} site:${llab.getSearchSite()}`;
+    openInNewWindow(`https://www.google.com/search?q=${encodeURIComponent(q)}`);
+    close();
+  };
+
+  $toggle.on('click', (event) => {
+    event.preventDefault();
+    if (!isOpen()) { open(); return; }
+    performSearch();
+  });
+
+  $input.on('keydown', (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      performSearch();
+    } else if (event.key === 'Escape') {
+      close();
+      $toggle.trigger('focus');
+    }
+  });
+
+  // Click anywhere outside the search UI (while open) to close.
+  $(document).off('click.navbarSearch').on('click.navbarSearch', (event) => {
+    if (!isOpen()) { return; }
+    if ($(event.target).closest('.js-navbarSearchToggle, .js-navbarSearchBar').length) { return; }
+    close();
+  });
+
+  // Bootstrap 3 dropdowns call `return false` on the toggle click, so the
+  // event never reaches our outside-click handler. Hook the dropdown's own
+  // show event instead: whenever a sibling dropdown is about to open,
+  // collapse the search.
+  $nav.off('show.bs.dropdown.navbarSearch').on('show.bs.dropdown.navbarSearch', () => {
+    if (isOpen()) close();
+  });
+};
+
 // Show a dropdwon icon in the navbar if the same URL exists in a translated form.
 llab.setupTranslationsMenu = function() {
   // extract the language from the file name
-  // make an ajax call to get the file name in the other language
+  // check whether the file exists in the other language
   // if the file exists, add a link to it
   let lang = llab.pageLang();
   let new_url = llab.translated_page_url();
   // This URL is different when on a topic page.
   let translated_content_url = llab.translated_content_url();
 
-  fetch(translated_content_url).then(response => {
-    if (!response.ok) {
-      console.log('Not found!!')
+  let updateMenu = (exists) => {
+    if (!exists) {
       // We need to re-hide the menu if it is currently showing.
       $('.js-langDropdown').addClass('hidden');
       $('.js-langDropdown a').removeAttr('href');
@@ -740,6 +868,20 @@ llab.setupTranslationsMenu = function() {
       $('.js-switch-lang-es').attr('href', new_url);
       $('.js-switch-lang-en').attr('href', location.href);
     }
+  };
+
+  // Only existence matters here, so use a HEAD request (no body download)
+  // and remember the answer for the rest of the session.
+  let cacheKey = `llab-translation-exists:${translated_content_url}`;
+  let cached = llab.read_cache(cacheKey);
+  if (cached !== undefined) {
+    updateMenu(cached === 'true');
+    return;
+  }
+
+  fetch(translated_content_url, { method: 'HEAD' }).then(response => {
+    llab.set_cache(cacheKey, response.ok);
+    updateMenu(response.ok);
   }).catch(() => {});
 }
 
@@ -759,6 +901,13 @@ llab.indicateProgress = function(numSteps, currentStep) {
   $(llab.selectors.PROGRESS).css(
     "background-position", `${currentStep / (numSteps) * 100}% 0`
   );
+  // The sliding Alonzo image is purely visual; give assistive tech a text
+  // equivalent. currentStep is NaN when the page isn't found in the lab.
+  if (numSteps >= 1 && currentStep >= 1) {
+    $(llab.selectors.PROGRESS).html(
+      `<span class="sr-only">${llab.t('progressText', { current: currentStep, total: numSteps })}</span>`
+    );
+  }
 };
 
 // Setup the nav and parse the topic file.

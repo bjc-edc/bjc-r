@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+        <title>Unit 4 Lab 4: Generative AI with N-grams, Activity 6</title>
+    </head>
+
+    <body>
+        <h2>Generate a Story</h2>
+        <div class="learn">In this activity, you will see how the logic of generating a next word works in a Snap<em>!</em> program that uses a larger dataset.</div>
+        
+        <p>Now it's time to see this in Snap<em>!</em></p>
+        
+        <h3>The Data</h3>
+        <p>In the Snap<em>!</em> project, we will use a much larger dataset than when we did this by hand. We will use a set of approximately 40 children’s stories, each with around 300 words, written by ChatGPT. (They are not very good stories.) This is how the first story starts:</p>
+        
+        <div class="sidenote">If you're curious, <a href="/bjc-r/sparks/img/U4/lab04/40 stories.pdf" target="_blank" title="PDF of 40 stories">click here to see a PDF with all the stories</a>.</div>
+        
+        <img class="indent noshadow" src="/bjc-r/sparks/img/U4/lab04/the-sharing-stars.png" alt="Picture of the start of the first story, called 'The Sharing Stars.' It goes: 'High above High above the sleeping world, in the velvety stretch of night sky, lived a little star named Luna. She wasn’t the biggest star or the brightest, but she sparkled with quiet pride in her own corner of the heavens. Luna loved to shine, and every night she polished her glow until it twinkled just right. But as time passed, Luna began to notice something: the rest of the sky looked dim. Shadows crept between constellations, and some stars seemed dull and tired. Luna felt her sparkle dim slightly too. It made her wonder—was something missing?'" title="Picture of the start of the first story, called 'The Sharing Stars.'" />
+
+        <div class="forYouToDo">
+            <ol>
+                <li>The entire document of stories has 10,099 words.
+                	<ol>
+                		<li>How many 1-grams would come from this dataset?</li>
+                		<li>How many 2-grams? </li>
+                		<li>How many 3-grams? </li>
+                	</ol>
+                </li>
+                <li><a class="js-run snap-project" href="/bjc-r/sparks/prog/U4/lab04/n-gram.xml&editMode" title="N-gram - Snap! project" target="_blank"><img class="inline" src="/bjc-r/img/icons/load-save.png" alt="Click here to load this file. Then save it to your Snap! account." title="Click here to load this file. Then save it to your Snap! account."></a></li>
+                <li>Check your answers above by exploring the first few blocks in the project.
+                	<ol>
+                		<li>The stories already loaded into this project, as the variable <img class="inline-block" src="/bjc-r/sparks/img/U4/lab04/training-stories.png" alt="training stories" title="training stories" />.</li>
+                		<li>The program uses the "split" block to split the text from stories in paragraphs into a list of individual words. Click <img class="inline-block" src="/bjc-r/sparks/img/U4/lab04/split-training-stories-by-word.png" alt="split (training stories) by (word)" title="split (training stories) by (word)" /> to see the list and check that it has 10,099 items.</li>
+                		<li>Enter "n" (1, 2, or 3) into <img class="inline-block" src="/bjc-r/sparks/img/U4/lab04/n-gram-block.png" alt="( )-grams of (split(training stories)by(word))" title="( )-grams of (split(training stories)by(word))" /> to check the number of 1-, 2-, and 3-grams. You can also see if 4- and 5-grams look like what you expected.
+                	</ol>
+                </li>
+            </ol>
+        </div>
+
+		  <p>The n-gram block gives us a way to make any size n-gram we want. Now we set up our dataset to have all the 1-, 2- and 3-grams together. The dataset with the different-sized n-grams together is our <strong>model</strong>.</p>
+		  
+		  <div class="vocabFullWidth">
+            <p>In <a href="/bjc-r/sparks/student-pages/U4/L2/04-training-ML-model.html?topic=sparks%2F4-ai.topic&course=sparks.html" title="Unit 4 Lab 2 Activity 4: Training Your ML Model">Unit 4 Lab 2 Activity 4: Training Your ML Model</a> you learned that a <em>model</em> is a recipe that helps a computer find patterns in data. In this project, it is also helpful to think of a <strong>model</strong> more generally as a stored pattern based on training data that can be used to make decisions in new situations.</p>
+            <p><strong>Training a model</strong> is the same thing as creating a model.</p>
+        </div>
+		  
+		  <p>Here's what's inside the block <img class="inline-block" src="/bjc-r/sparks/img/U4/lab04/train-model.png" alt="Train model" title="Train model" />:</p>
+		  
+		  <img class="indent noshadow" src="/bjc-r/sparks/img/U4/lab04/train-model-inside.png" alt="Inside the Train model block: set(MODEL) to {map (( )-grams of split(training stories)by(word)) over (numbers from (1)to(3))}" title="Inside the Train model block: set(MODEL) to {map (( )-grams of split(training stories)by(word)) over (numbers from (1)to(3))}" />
+		  
+		  <div class="forYouToDo">
+		  	<ol start="4">
+		  		<li>Using up to 3-grams in the project is a <em>choice</em>. You could instead choose to use all the n-grams from 1 to 4, or 1 to 5, or larger.
+		  			<ol>
+		  				<li>If you use 1-, 2-, 3-, 4-, and 5-grams, what will be the maximum context length that your algorithm will try to match?</li>
+		  				<li>What is the advantage of matching a longer context? (For example, in the game where you folded over the word, what would be the advantage of seeing more of the story that wasn't folded over?)</li>
+		  				<li>One potential disadvantage of needing to match a longer context is that you end up with fewer candidates for the next word. Why would you end up with fewer candidates? Why might this be a disadvantage? (To help you think about this, imagine that you had to match a 100-word-long context to get the 101st word in an n-gram. Why does a long context limit your choices for the next word?)</li>
+		  			</ol>
+		  		</li>
+		  	</ol>
+		  </div>
+		  
+		  <p>There is no "right" or "best" choice of model. You can try different maximum n-gram sizes to see what happens to your generated story. The model you choose also depends on the quality and size of your training data.</p>
+		  
+		  <p>Now that we have our model, we need to code in the algorithm that chooses the next word. The block is already coded for you: <img class="inline-block" src="/bjc-r/sparks/img/U4/lab04/next-item-in-()-based-on-().png" alt="next item in () based on (model)" title="next item in () based on (model)" />.</p>
+		  <p>There is also a simplified example in the Snap<em>!</em> project to show how the algorithm works. In the example, we pretend the a user has started the story with "There once lived a." We've chosen our model to go up to 3-grams, so we look to see if there are any matches for the 2-word context "lived a". The block below only keeps the 3-grams that match, and that results in 3 candidates.</p>
+		  
+		  <img class="indent noshadow" src="/bjc-r/sparks/img/U4/lab04/keep-items.png" alt="keep items {(item (numbers from 1 to 2)of()=list((lived)(a))}from(item(3)of(MODEL))" title="keep items {(item (numbers from 1 to 2)of()=list((lived)(a))}from(item(3)of(MODEL))" />
+		  
+		  <p>In our data, the context "lived a" shows up 3 times. Twice, it appears in the phrase "lived a little" and once it appears in the phrase "lived a penguin." Now, we choose randomly from these three candidates. We are interested in just the last word. When we click the block below, "little" should show up roughly 2/3 of the time and "penguin" should show up roughly 1/3 of the time.</p>
+		  
+		  <img class="indent noshadow" src="/bjc-r/sparks/img/U4/lab04/return-last-word.png" alt="item (last) of (item (random) of {keep items {(item (numbers from 1 to 2)of()=list((lived)(a))}from(item(3)of(MODEL))})" title="item (last) of (item (random) of {keep items {(item (numbers from 1 to 2)of()=list((lived)(a))}from(item(3)of(MODEL))})" />
+		  
+		  <p>The last part of the story generator is code that asks for the user to type in the beginning of a story. This is in the block <img class="inline-block" src="/bjc-r/sparks/img/U4/lab04/generate-story.png" alt="Generate story" title="Generate story" />. The entire story generator is actually just the following two blocks.</p>
+		  
+		  
+		  <img class="indent noshadow" src="/bjc-r/sparks/img/U4/lab04/whole-story-generator.png" alt="Train model; Generate story" title="Train model; Generate story" />
+		  
+		  <div class="forYouToDo">
+		  	<ol start="5">
+		  		<li>Try the story generator!
+		  			<ol>
+		  				<li><img class="inline" src="/bjc-r/img/icons/talk-with-your-partner.png" alt="Talk with Your Partner" title="Talk with Your Partner" />Same question from the previous activity: What do you think? Is this AI?</li>
+		  				<li>What are some possible ways to make a better story generator?</li>
+		  			</ol>
+		  		</li>
+		  	</ol>
+		  </div>
+		  
+		  <div class="ifTime show">
+		  	<ol start="6">
+		  		<li>The algorithm shown in the project is not the only possible algorithm for a story generator like this. For example, it always tries to match the maximum context possible. But maybe you want more randomness in your story, and you want more candidates to choose from each time. What are some ways to adjust the code to accomplish this?</li>
+		  	</ol>
+		  </div>
+
+        <div class="learn">In this activity, you examined code for a story generator.</div>
+
+
+    </body>
+</html>
