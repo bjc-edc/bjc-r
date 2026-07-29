@@ -13,15 +13,6 @@ path = path.sub(%r{#{ROOT}/.*$}, ROOT)
 
 csp_dir = 'cur/programming'
 
-# TODO: this should not be necessary. If the files already exist,
-# # then we get an error about `topic.txt` not being found.
-# Delete the files so that they are rebuilt.
-output_files = %w|atwork.html vocab-index.html|
-output_files.each do |file|
-  full_path = File.join(path, csp_dir, file)
-  File.delete(full_path) if File.exist?(full_path)
-end
-
 TO_RUN = [
   { course: 'bjc4nyc', language: 'en', content: csp_dir },
   # { course: 'bjc4nyc', language: 'es', content: csp_dir },
