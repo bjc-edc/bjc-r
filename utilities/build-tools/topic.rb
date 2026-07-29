@@ -76,34 +76,35 @@ class BJCTopic
   end
 
   # A way to process each page for vocab, self-checks, etc.
-  # This should yield the data needed to parse each curriculum page
+  # This yields the data needed to parse each curriculum page:
   # unit (same for all pages), unit path (first subfolder in the path),
-  # lab (the lab name, like "Lab 1"), and page number (1, 2, 3, etc.), path
+  # lab (the lab name, like "Lab 1"), lab/page numbers (1, 2, 3, etc.), path
+  # Summary sections/pages and entries without a URL (text, raw-html)
+  # are skipped, so only real curriculum pages are yielded.
   # TODO: Do we need a 'Page()' class?
   def iterate_curriculum_pages(&block)
-    page_data = {
-      unit: unit_number,
-      unit_path: base_content_folder,
-      course: @course,
-      lab: nil,
-      lab_number: nil,
-      page_number: nil,
-      path: nil
-    }
-    topic_content = unit_data[:content]
-    topic_content.each_with_index do |section, section_index|
-      # binding.irb
-      page_data[:lab] = section[:title]
-      page_data[:lab_number] = section_index + 1
-
-      section[:content].each_with_index do |entry, entry_index|
-        # next if summary_section?(entry) || (!entry[:url].nil? && summary_page?(entry))
-
-        page_data[:page_number] = entry_index + 1
-        page_data[:path] = entry[:url]
-        block.call(page_data)
+    labs = unit_data[:content].reject { |section| summary_section?(section) }
+                              .map { |section| [section, section[:content].select { |entry| curriculum_page?(entry) }] }
+                              .reject { |_section, pages| pages.empty? }
+    labs.each_with_index do |(section, pages), lab_index|
+      pages.each_with_index do |entry, page_index|
+        block.call({
+                     unit: unit_number,
+                     unit_path: base_content_folder,
+                     course: @course,
+                     lab: section[:title],
+                     lab_number: lab_index + 1,
+                     page_number: page_index + 1,
+                     path: entry[:url]
+                   })
       end
     end
+  end
+
+  # A page entry that is part of the curriculum itself: a resource with a
+  # URL that isn't one of the generated summary pages.
+  def curriculum_page?(entry)
+    RESOURCES_KEYWORDS.include?(entry[:type]) && !entry[:url].nil? && !summary_page?(entry)
   end
 
   # This should explicitly exclude the 3 compiled HTML pages.
