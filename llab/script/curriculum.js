@@ -23,14 +23,6 @@ const TOGGLE_HEADINGS = [
   'takeItTeased',
 ];
 
-llab.set_cache = (key, value) => {
-  sessionStorage[key] = value;
-  return true;
-}
-
-// TODO: Should this ingore the cache in development?
-llab.read_cache = key => sessionStorage[key];
-
 // Switch to turn off ajax page loads.
 llab.DISABLE_DYNAMIC_NAVIGATION = true;
 // this should only be true when navigating back/forwards so we do no repopulate history.
@@ -52,7 +44,6 @@ if (!llab.DISABLE_DYNAMIC_NAVIGATION) {
   window.addEventListener("popstate", (event) => {
     const state = event.state;
     console.log(event)
-    // debugger;
 
     if (!state || !state.body || !state.title) {
       location.reload();
@@ -135,15 +126,10 @@ llab.secondarySetUp = function (newPath) {
     llab.SKIP_PUSH_STATE = false;
   }
 
-  if (llab.read_cache(llab.file)) {
-    // TODO: Update this to use a parsed JSON object.
-    llab.processLinks(llab.read_cache(llab.file));
-  } else {
-    fetch(`${llab.topics_path}/${llab.file}`)
-      .then(response => response.text())
-      .then(topic => llab.processLinks(topic))
-      .catch(llab.handleError);
-  }
+  // TODO: Update this to use a parsed JSON object.
+  llab.fetchTopicFile(llab.file)
+    .then(topic => llab.processLinks(topic))
+    .catch(llab.handleError);
 }; // close secondarysetup();
 
 /**
@@ -860,16 +846,15 @@ llab.setupNavbarSearch = function () {
 // Show a dropdwon icon in the navbar if the same URL exists in a translated form.
 llab.setupTranslationsMenu = function() {
   // extract the language from the file name
-  // make an ajax call to get the file name in the other language
+  // check whether the file exists in the other language
   // if the file exists, add a link to it
   let lang = llab.pageLang();
   let new_url = llab.translated_page_url();
   // This URL is different when on a topic page.
   let translated_content_url = llab.translated_content_url();
 
-  fetch(translated_content_url).then(response => {
-    if (!response.ok) {
-      console.log('Not found!!')
+  let updateMenu = (exists) => {
+    if (!exists) {
       // We need to re-hide the menu if it is currently showing.
       $('.js-langDropdown').addClass('hidden');
       $('.js-langDropdown a').removeAttr('href');
@@ -883,6 +868,20 @@ llab.setupTranslationsMenu = function() {
       $('.js-switch-lang-es').attr('href', new_url);
       $('.js-switch-lang-en').attr('href', location.href);
     }
+  };
+
+  // Only existence matters here, so use a HEAD request (no body download)
+  // and remember the answer for the rest of the session.
+  let cacheKey = `llab-translation-exists:${translated_content_url}`;
+  let cached = llab.read_cache(cacheKey);
+  if (cached !== undefined) {
+    updateMenu(cached === 'true');
+    return;
+  }
+
+  fetch(translated_content_url, { method: 'HEAD' }).then(response => {
+    llab.set_cache(cacheKey, response.ok);
+    updateMenu(response.ok);
   }).catch(() => {});
 }
 

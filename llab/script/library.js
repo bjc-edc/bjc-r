@@ -195,6 +195,33 @@ llab.pageLangugeExtension = () => llab.pageLang() == 'en' ? '' : `.${llab.pageLa
 // Turn img.es.png into img.png
 llab.stripLangExtensions = (text) => text.replace(new RegExp(`\.${llab.pageLang()}\.`, 'g'), '.');
 
+/////// SESSION CACHE + TOPIC FILES
+llab.set_cache = (key, value) => {
+  sessionStorage[key] = value;
+  return true;
+}
+
+llab.read_cache = key => sessionStorage[key];
+
+/**
+ * Fetch the text of a topic file, caching it for the session.
+ * curriculum.js and topic.js both request the same topic file, so sharing
+ * one normalized URL and one cache means a single network request per topic.
+ * The cache is ignored locally so content authors always see fresh edits.
+ */
+llab.fetchTopicFile = function(file) {
+    let cached = llab.read_cache(file);
+    if (cached !== undefined && !llab.isLocalEnvironment()) {
+        return Promise.resolve(cached);
+    }
+    return fetch(llab.topics_path + file)
+        .then(response => response.text())
+        .then(text => {
+            llab.set_cache(file, text);
+            return text;
+        });
+};
+
 /////// CONDITIONAL LOADING OF CONTENT
 /**
  * A prelimary API for defining loading additional content based on triggers.
