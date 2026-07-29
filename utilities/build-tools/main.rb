@@ -36,9 +36,6 @@ class Main
     @content = content
     @course_file = course
     @course = BJCCourse.new(root: @rootDir, course: @course_file, language: @language)
-    # In-memory intermediate representation of the parsed topic files,
-    # in the line-based format previously written to review/topics.txt.
-    @topics_data = +''
     # All generated files, path => contents. Nothing is written to disk
     # until the whole run has finished, so a failed run never deletes or
     # replaces any existing content.
@@ -55,12 +52,10 @@ class Main
 
   # Main/primary function to be called, will call and create all other functions and classes.
   # This function will parse the topic pages, parse all labs and units, and create summary pages
-  # TODO: this needs to be rewritten to use the BJCTopic class / not require temporary files.
   def Main
-    parse_all_topic_files
-    # TODO: Move processing vocab/atwork/self-check to iterate over
-    # BJCTopic#iterate_curriculum_pages, replacing parse_units below.
-    parse_units
+    topic_files_in_course.select { |file| is_topic_file?(file) }.each do |topic_file|
+      process_topic(parse_topic_page(topic_file), topic_file)
+    end
     index_path, index_contents = @vocab.doIndex
     @pending_writes[index_path] = index_contents
     @pending_writes.merge!(@atwork.finalize)
@@ -75,6 +70,38 @@ class Main
     end
     puts "Wrote #{@pending_writes.length} files"
     @pending_writes.clear
+  end
+
+  # Process curriculum pages in the order and grouping defined by the parsed
+  # topic file. This replaces the former two-step, line-oriented topic parser
+  # and its intermediate @topics_data representation.
+  def process_topic(topic, topic_file)
+    get_topic_course(get_prev_folder(topic_file), @course_file)
+
+    topic.iterate_curriculum_pages do |page|
+      page_path = local_curriculum_path(page[:path])
+      next unless File.exist?(page_path)
+
+      # The summary extractors currently derive source URLs from Dir.pwd, so
+      # retain the page directory as their execution context while the topic
+      # object remains the sole source of page ordering and selection.
+      Dir.chdir(File.dirname(page_path)) do
+        page_file = File.basename(page_path)
+        @vocab.read_file(page_file)
+        @self_check.read_file(page_file)
+        @atwork.read_file(page_file)
+      end
+    end
+
+    unit_dir = local_curriculum_path(topic.base_content_folder)
+    @unitNum = topic.unit_number
+    @pending_writes.merge!(@vocab.finalize_unit(unit_dir))
+    @pending_writes.merge!(@self_check.finalize_unit(unit_dir))
+    addSummariesToTopic(topic_file, unit_dir)
+  end
+
+  def local_curriculum_path(url)
+    File.join(@rootDir, url.sub(%r{^/bjc-r/}, ''))
   end
 
   def topic_files_in_course
@@ -96,12 +123,6 @@ class Main
   # and is the correct extension type (fileType)
   def isCorrectFileType(fileType, fileName)
     File.exist?("#{fileName}#{fileType}") & File.file?(fileName)
-  end
-
-  # Input is the current list of topic files based on the @course html file.
-  # Based on all the parsed topic pages, summaries will be generated
-  def parse_all_topic_files
-    topic_files_in_course.select { |f| is_topic_file?(f) }.each { |f| parse_rawTopicPage(f) }
   end
 
   # Returns true if the file is a valid topic page
@@ -151,100 +172,8 @@ class Main
     @pending_writes[topic_file_path] = "#{body}\n\n#{heading}\n#{resources.join("\n")}\n}\n"
   end
 
-  def isSummary(line)
-    !line.nil? && !@currUnit.nil? && line.match(@currUnit)
-  end
-
   def parse_topic_page(file)
     BJCTopic.new(path_to_topic_file(file), course: @course_file, language: @language)
-  end
-
-  # Parses through the data of the topic page and generates and adds content to a topics.txt
-  # file that will be parsed later on to generate summaries
-  # TODO: Move this to the BJCTopic Class, or maybe a BJCTopicParser class
-  # TODO: This shouldn't write to a file, but return some hash/object
-  def parse_rawTopicPage(file)
-    full_path = path_to_topic_file(file)
-    get_topic_course(get_prev_folder(file), @course_file)
-    currUnit(nil)
-    allLines = File.readlines(full_path)
-    topicURLPattern = %r{/bjc-r.+\.\w+}
-    headerPattern = /((heading:.+)|(title:.+))/
-    labNum = 1
-    index = 0
-    if allLines[0].match(/title: [A-Za-z]+/)
-      temp = allLines[0].match(/title: [A-Za-z]+\s?\d+/).to_s
-      currUnit(temp.split(/title: /)[1])
-    end
-    summaryExists = false
-    allLines.each do |oldline|
-      line = oldline
-      summaryExists = true if (index > 1) && isSummary(line)
-      line = removeComment(oldline) if isComment(line)
-      if line.match(/\}/) && !summaryExists
-        summaryExists = true
-      elsif isTopic(line)
-        if line.match(headerPattern)
-          unitNum(line.match(/\d+/).to_s) if line.match(/title:/)
-          header = removeHTML(line.match(headerPattern).to_s)
-          append_topics_data("#{header}\n")
-          labNum = 1
-        else
-          wholeLine = removeHTML(line.to_s.split(/.+:/).join)
-          labName = wholeLine.match(/(\w+\s?((!|\?|\.|-)\s?)?)+/).to_s
-          topicURL = line.match(topicURLPattern).to_s
-          append_topics_data("#{labNum} #{labName} ----- #{topicURL}\n")
-          labNum += 1
-        end
-      end
-      index += 1
-    end
-    append_topics_data("END OF UNIT\n")
-  end
-
-  def append_topics_data(data)
-    @topics_data << "#{data}\n"
-  end
-
-  # Returns true if there is a comment in the topics.topic page
-  def isComment(arg)
-    str = arg.force_encoding('BINARY')
-    str.match(%r{//})
-  end
-
-  # Removes the part of the string that is commented out in topics.topic which will then be added
-  # to the new topics.txt file
-  def removeComment(arg)
-    arg.force_encoding('BINARY')
-    strList = arg.split(%r{//.+})
-    strList.join
-  end
-
-  # Returns true if the string/line is a valid topic. Ignores the lines that start with the kludges.
-  # The kludges being the lines we want to avoid and NOT add to our topic.txt page. The topic.txt
-  # page should only have what we need to find the correct file, lab, and unit
-  def isTopic(arg)
-    str = arg.force_encoding('BINARY')
-    kludges = ['raw-html',
-               'heading: Unit',
-               'Review',
-               'resource: Vocabulary',
-               'resource: On the AP Exam',
-               'resource: Self-Check Questions',
-               'heading: Unidad',
-               'resource: Vocabulario',
-               'resource: En el examen AP',
-               'resource: Preguntas de Autocomprobacion',
-               "#{I18n.t('self_check')}",
-               "#{I18n.t('vocab')}",
-               "#{I18n.t('on_ap_exam')}"]
-    topicLine = /(\s+)?(\w+)+(\s+)?/
-    bool = true
-    kludges.each do |item|
-      i = item.force_encoding('BINARY')
-      bool = false if str.match(i) || !str.match(topicLine)
-    end
-    bool
   end
 
   # TODO: - if we have a BJCTopic class, this probably belongs there.
@@ -317,30 +246,6 @@ class Main
     local.join.to_s
   end
 
-  def extractTopicLink(line)
-    labNamePattern = /----- /
-    linkMatch = line.split(labNamePattern)
-    link = linkMatch[1]
-    # lab = link.match(/(\w+-?)+\.html/)
-    lab = if @language != 'en'
-            link.match(/(\w+-?)+\.\w+\.html/)
-          else
-            link.match(/(\w+-?)+\.html/)
-          end
-    lab.to_s
-  end
-
-  def extractTopicLinkFolder(line, use_root = true)
-    labNamePattern = /----- /
-    linkMatch = line.split(labNamePattern)
-    link = if @language != 'en'
-             linkMatch[1].split(/(\w+-?)+\.\w+\.html/)
-           else
-             linkMatch[1].split(/(\w+-?)+\.html/)
-           end
-    use_root ? "#{localPath}#{link[0]}" : link[0]
-  end
-
   def extract_unit_path(line, use_root = true, is_topic = true)
     if is_topic
       # TODO: This may error in raw-html lines which have links.
@@ -358,48 +263,6 @@ class Main
     link = list.map { |elem, output = ''| output += "/#{elem}" if list.index(elem) < list.length - 1 }.join
     link = link[1..link.length] if link[1] == '/' # get rid of extra slash, otherwise appears as //bjc-r
     use_root ? "#{localPath}#{link}" : link
-  end
-
-  # Input is the topics data built up earlier from the .topic files.
-  # Reads each line and finds the unit, lab, and html file it corresponds
-  # with. Once the html file is found, it calls the vocab function to
-  # began to create or add onto the vocab pages
-  def parse_units
-    # make sure i am in summaries directory first
-    topics_index = 0
-    Dir.chdir(@parentDir)
-    labNamePattern = /-----/
-    unitNamePattern = /title: /
-    endUnitPattern = /END OF UNIT/
-    current_lab_folder = ''
-    @topics_data.each_line do |line|
-      if line.match(endUnitPattern)
-        unit_dir = File.expand_path('..', current_lab_folder)
-        @pending_writes.merge!(@vocab.finalize_unit(unit_dir))
-        @pending_writes.merge!(@self_check.finalize_unit(unit_dir))
-        addSummariesToTopic(topic_files_in_course[topics_index], unit_dir)
-        topics_index += 1
-      elsif !line.match(labNamePattern).nil?
-        labFile = extractTopicLink(line)
-        root = @rootDir.split('/bjc-r')[0]
-        lab_path = "#{root}#{line.split(labNamePattern)[-1].split(' ')[-1]}"
-        if labFile != ''
-          current_lab_folder = extractTopicLinkFolder(line)
-          if File.exist?(lab_path)
-            Dir.chdir(current_lab_folder)
-            @vocab.read_file(labFile)
-            @self_check.read_file(labFile)
-            @atwork.read_file(labFile)
-          end
-        end
-      elsif line.match(unitNamePattern)
-        unitNum(line.match(/\d+/).to_s)
-        unitName = line.match(/#{I18n.t('unit', num: @unitNum)}.+/)
-        @vocab.currUnitName(unitName.to_s)
-        @self_check.currUnitName(unitName.to_s)
-        @atwork.currUnitName(unitName.to_s)
-      end
-    end
   end
 
   def getFolder(strPattern, parentFolder)

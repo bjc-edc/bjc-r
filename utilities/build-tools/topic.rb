@@ -65,14 +65,12 @@ class BJCTopic
   def longest_common_prefix(strings)
     return '' if strings.empty?
 
-    # Find the longest common prefix among the strings
-    prefix = strings[0]
-    strings.each do |str|
-      while str.index(prefix) != 0
-        prefix = prefix[0..-2]
-      end
+    # Compare path components rather than characters. A character prefix of
+    # '/unit/lab-1' and '/unit/lab-2' is '/unit/lab-', which is not a path.
+    common_components = strings.map { |path| path.split('/') }.reduce do |prefix, components|
+      prefix.zip(components).take_while { |left, right| left == right }.map(&:first)
     end
-    prefix
+    "#{common_components.join('/')}/"
   end
 
   # A way to process each page for vocab, self-checks, etc.

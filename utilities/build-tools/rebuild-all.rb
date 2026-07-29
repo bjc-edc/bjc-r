@@ -3,7 +3,7 @@
 
 ## This script will rebuild *all* index/summary pages in bjc-r/
 ## Run from the **root** of bjc-r/
-## $ ruby utilties/build-tools/rebuild-all.rb
+## $ ruby utilities/build-tools/rebuild-all.rb
 
 require_relative 'main'
 

@@ -26,24 +26,14 @@
 2. To Run Tests:
 
     Go into the directory with the building tools
-    and run the ruby program.
-    >>> cd bjc-r/utilities/build-tools
-    >>> irb -r ./tests.rb
-    The above will open the ruby terminal. You will now need to pass in
-    specific test functions. Look at the tests.rb file for specific tests.
+    and run the parser regression tests:
+    ```
+    cd bjc-r/utilities/build-tools
+    ruby test_topic.rb
+    ```
 
-    First initialize the testing object:
-    3.2.2 :001 > t = Tests.new()
-    3.2.2 :001 > t.[NameOfTestFunction]
-    [NameOfTestFunction] being one of the functions as a parameter in the tests.rb file
-
-    Example for running english CSP test:
-    3.2.2 :001 > t = Tests.new()
-    3.2.2 :001 > t.mainCSP()
-
-    Example for running spanish CSP test:
-    3.2.2 :001 > t = Tests.new()
-    3.2.2 :001 > t.mainCSPSpanish()
+    `tests.rb` is retained only as a collection of old exploratory helpers;
+    it is not a runnable test suite.
 
 3. To Run Curriculum pages:
 

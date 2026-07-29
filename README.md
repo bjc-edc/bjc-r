@@ -69,7 +69,7 @@ Of course, submitting issues is always welcome and encouraged! These issues can 
 
 ## Index and Summary Pages
 
-See `utilties/build-tools/README.md` for information on how to build the index and summary pages.
+See `utilities/build-tools/README.md` for information on how to build the index and summary pages.
 
 ```sh
 ruby utilities/build-tools/rebuild-all.rb
