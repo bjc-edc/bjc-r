@@ -29,7 +29,6 @@ class Vocab
     @currLab = ''
     @vocabList = []
     @vocab_url_map = {}
-    @labPath = ''
     @currUnitName = nil
     @index = Index.new(@parentDir, @language)
     # TODO: See if we can remove this.
@@ -41,10 +40,7 @@ class Vocab
     @vocab_by_page = {}
   end
 
-  def review_folder
-    @review_folder ||= "#{@parentDir}/#{TEMP_FOLDER}"
-  end
-
+  # Returns [destination_path, contents] for the curriculum vocab index.
   def doIndex
     @index.vocab_url_map = @vocab_url_map
     @index.vocabList(@vocabList)
@@ -53,10 +49,6 @@ class Vocab
 
   def currUnitName(str)
     @currUnitName = str
-  end
-
-  def labPath(arg)
-    @labPath = arg
   end
 
   def unit
@@ -71,20 +63,8 @@ class Vocab
     @currFile = file
   end
 
-  def currFile(file)
-    @currFile = file
-  end
-
-  def isNewUnit(boolean)
-    @isNewUnit = boolean
-  end
-
   def currUnitNum(num)
     @currUnitNum = num
-  end
-
-  def currLab
-    nil if @currUnit.nil?
   end
 
   def vocab_file_name
@@ -103,27 +83,8 @@ class Vocab
     # Extract vocab from each page, then add to the @vocab_by_page hash
   end
 
-  # Then:
-  # def write_unit_summary_file(unit)
-  #   # This method is not currently implemented.
-  #   # Write the summary file for the unit.
-  # end
-
   # Then write all vocab to the curriculum index file.
   # def write_curriculum_index_file; end
-
-  def handle_new_unit(unit)
-    @current_file_content = ''
-    @current_box_num = 0 # Should this be per-unit?
-    @currUnit = unit
-    @currUnitNum = @currUnit.match(/\d+/).to_s
-    write_new_vocab_summary(vocab_file_name)
-  end
-
-  # Write unit summary file.
-  def end_of_unit(_unit)
-    add_HTML_end
-  end
 
   # TODO: Delete this after process_curriculum_page is fully implemented.
   def read_file(file)
@@ -156,40 +117,30 @@ class Vocab
     end
   end
 
-  def write_new_vocab_summary(_file_name)
+  def write_new_vocab_summary
     title = "#{unit} #{@currUnitNum} #{I18n.t('vocab')}"
     @current_file_content << BJCHelpers.summary_page_prefix(@language, title)
-    # "<h2>#{@currUnitName}</h2>\n<h3>#{currLab}</h3>\n"
     @current_file_content << "\n\t<h2>#{currLab}</h2>\n"
-
-    # if File.exist?(file_name)
-    #   puts "Appending to existing vocab file: #{file_name}"
-    #   f = File.open(file_name, mode: 'a')
-    #   f.write(@current_file_content)
-    #   f.close
-    # else
-    #   Dir.mkdir(review_folder) unless Dir.exist?(review_folder)
-    #   Dir.chdir(review_folder)
-    #   puts "Creating new vocab file: #{file_name}"
-    #   File.write(file_name, @current_file_content)
-    # end
   end
 
-  def add_HTML_end
-    Dir.chdir(review_folder)
-    # return unless File.exist?(vocab_file_name)
-    @current_file_content << BJCHelpers.summary_page_suffix
-    # binding.irb
-    File.write(vocab_file_name, @current_file_content)
+  # Returns { destination_path => contents } for this unit's vocab page,
+  # then resets the buffer so the next unit starts a fresh file.
+  # Nothing is written to disk here.
+  def finalize_unit(unit_dir)
+    return {} if @current_file_content.empty?
+
+    contents = @current_file_content + BJCHelpers.summary_page_suffix
+    @current_file_content = ''
+    { File.join(unit_dir, vocab_file_name) => contents }
   end
 
-  def add_content_to_file(filename, data)
+  def add_content_to_file(data)
     lab = @currLab
     data = data.gsub(/&amp;/, '&')
     if @current_file_content != ''
       @current_file_content << "\n\t<h2>#{currLab}</h2>\n" if lab != currLab
     else
-      write_new_vocab_summary(filename)
+      write_new_vocab_summary
     end
     @current_file_content << data
   end
@@ -345,7 +296,7 @@ class Vocab
     # This really only makes a difference for the Spanish translation, since English is already capitalized.
     page_text = page_text.capitalize if @language == 'es'
     suffix = generate_url_suffix(TOPIC_COURSE[0], get_topic_file, TOPIC_COURSE[-1])
-    "<a href=\"#{get_url(@currFile, Dir.pwd)}#{suffix}\" id=\"box#{@boxNum}\"><b>#{page_text}</b></a>"
+    "<a href=\"#{get_url(@currFile, Dir.pwd)}#{suffix}\" id=\"box#{@current_box_num}\"><b>#{page_text}</b></a>"
   end
 
   # need something to call this function and parse_unit
@@ -364,8 +315,7 @@ class Vocab
   def add_vocab_to_file(vocab)
     return unless vocab != ''
 
-    file = "#{review_folder}/#{vocab_file_name}"
-    add_content_to_file(file, vocab)
+    add_content_to_file(vocab)
   end
 
   def get_url(file, localPath)

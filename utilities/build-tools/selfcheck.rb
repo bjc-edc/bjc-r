@@ -24,10 +24,9 @@ class SelfCheck
     @box_num = 0
     # Track the previous lab/section heading for the self-check+exam page. If it changes, then we need to insert a newpage heading.
     @priorPageHeading = { 'Self-Check' => nil, 'Exam' => nil }
-  end
-
-  def review_folder
-    @review_folder ||= "#{@parentPath}/#{TEMP_FOLDER}"
+    # The current unit's page contents, keyed by page type.
+    # Files are only written out once the whole run has finished.
+    @page_content = { 'Self-Check' => +'', 'Exam' => +'' }
   end
 
   def unit
@@ -139,48 +138,36 @@ class SelfCheck
     add_exam_to_file(on_exam_boxes.to_s)
   end
 
-  def create_summary_file(fileName, type)
-    return if File.exist?(fileName)
-
-    File.new(fileName, 'w')
-    # puts "Creating summary file: #{fileName} for type: #{type}"
-
-    page_preamble = <<~HTML
-      <!DOCTYPE html>
-      <html lang="#{@language}">
-      <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>#{I18n.t('unit', num: @currUnitNum)} #{I18n.t(type.downcase.gsub('-', '_'))}</title>
-        <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
-        <script type="text/javascript" src="/bjc-r/utilities/gifffer.min.js"></script>
-        <script type="text/javascript">window.onload = function() {Gifffer();}</script>
-        <link rel="stylesheet" type="text/css" href="/bjc-r/css/bjc-gifffer.css">
-      </head>
-      <body>
-    HTML
-    File.write(fileName, page_preamble, mode: 'w')
+  def summary_page_preamble(type)
+    title = "#{I18n.t('unit', num: @currUnitNum)} #{I18n.t(type.downcase.gsub('-', '_'))}"
+    BJCHelpers.summary_page_prefix(@language, title)
   end
 
-  def add_HTML_end
-    Dir.chdir(review_folder)
-    ending = "\n\t</body>\n</html>\n"
-    File.write(self_check_file_name, ending, mode: 'a') if File.exist?(self_check_file_name)
-    return unless File.exist?(exam_file_name)
+  # Returns { destination_path => contents } for this unit's self-check and
+  # exam reference pages, then resets the buffers for the next unit.
+  # Nothing is written to disk here.
+  def finalize_unit(unit_dir)
+    pending = {}
+    { 'Self-Check' => self_check_file_name, 'Exam' => exam_file_name }.each do |type, file_name|
+      next if @page_content[type].empty?
 
-    File.write(exam_file_name, ending, mode: 'a')
+      pending[File.join(unit_dir, file_name)] = @page_content[type] + BJCHelpers.summary_page_suffix
+      @page_content[type] = +''
+      @priorPageHeading[type] = nil
+    end
+    pending
   end
 
-  def add_content_to_file(filename, data, type)
-    create_summary_file(filename, type) unless File.exist?(filename)
+  def add_content_to_file(data, type)
+    content = @page_content[type]
+    content << summary_page_preamble(type) if content.empty?
 
-    prior_heading = @priorPageHeading[type]
     data = data.gsub(/&amp;/, '&')
-    if prior_heading != currLab
-      File.write(filename, "<h2>#{currLab}</h2>\n", mode: 'a')
+    if @priorPageHeading[type] != currLab
+      content << "<h2>#{currLab}</h2>\n"
       @priorPageHeading[type] = currLab
     end
-    File.write(filename, data, mode: 'a')
+    content << data
   end
 
   def topic_files_in_course
@@ -207,11 +194,11 @@ class SelfCheck
   end
 
   def add_assessment_to_file(result)
-    add_content_to_file("#{review_folder}/#{self_check_file_name}", result, 'Self-Check')
+    add_content_to_file(result, 'Self-Check')
   end
 
   def add_exam_to_file(exam)
-    add_content_to_file("#{review_folder}/#{exam_file_name}", exam, 'Exam')
+    add_content_to_file(exam, 'Exam')
   end
 
   def get_url(file)

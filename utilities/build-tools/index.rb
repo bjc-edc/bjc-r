@@ -141,16 +141,15 @@ class Index
     alphabet_index_links(used_letters, output)
   end
 
-  def write_index_file
-    dst = "#{@parentDir}/#{index_filename}"
+  def rendered_index
     html = Nokogiri::HTML(html_document(@file_body)).to_html
-    pretty_html = HtmlBeautifier.beautify(html)
-    File.write(dst, pretty_html)
+    HtmlBeautifier.beautify(html)
   end
 
+  # Returns [destination_path, contents]. Nothing is written to disk here.
   def main
     generate_html_list
-    write_index_file
+    ["#{@parentDir}/#{index_filename}", rendered_index]
   end
 
   def html_document(contents)
