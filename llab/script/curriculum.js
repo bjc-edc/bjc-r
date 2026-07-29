@@ -34,6 +34,14 @@ llab.read_cache = key => sessionStorage[key];
 // Switch to turn off ajax page loads.
 llab.DISABLE_DYNAMIC_NAVIGATION = false;
 
+// Bumped on every navigation entry point (click or popstate). Every async
+// resolver below captures the value at the moment its work began and bails
+// if a newer nav has bumped the counter — that's what keeps a slow fetch
+// from clobbering the page (or menu) of a *later* nav that already landed.
+// Without this, rapid clicking or popstate-during-fetch could leave content,
+// URL, history-state, and the lab dropdown menu out of sync.
+llab.nav_gen = 0;
+
 llab.dynamicNavigation = (path) => {
   return (event) => {
     if (llab.DISABLE_DYNAMIC_NAVIGATION) {
@@ -64,13 +72,18 @@ if (!llab.DISABLE_DYNAMIC_NAVIGATION) {
   // prefetch hints) make this cheap and avoid stale-content bugs.
   window.addEventListener("popstate", (event) => {
     const targetURL = (event.state && event.state.url) || location.href;
-    // Always honor user-driven history movement, even if a forward fetch is
-    // in flight.
-    llab.PREVENT_NAVIGATIONS = false;
+    const my_gen = ++llab.nav_gen;
     fetch(targetURL)
-      .then(response => response.text())
-      .then(html => llab.rebuildPageFromHTML(html, targetURL, { skipPushState: true }))
+      .then(response => {
+        if (!response.ok) { throw new Error(`HTTP ${response.status}`); }
+        return response.text();
+      })
+      .then(html => {
+        if (my_gen !== llab.nav_gen) { return; }
+        llab.rebuildPageFromHTML(html, targetURL, { skipPushState: true });
+      })
       .catch(err => {
+        if (my_gen !== llab.nav_gen) { return; }
         console.warn('Popstate fetch failed, reloading.', err);
         if (typeof Sentry !== 'undefined') { Sentry.captureException(err); }
         location.reload();
@@ -142,9 +155,18 @@ llab.secondarySetUp = function (newPath) {
     // TODO: Update this to use a parsed JSON object.
     llab.processLinks(llab.read_cache(llab.file));
   } else {
-    fetch(`${llab.topics_path}/${llab.file}`)
+    // Capture the file we're fetching for and the current nav generation;
+    // if either has moved on by the time the fetch resolves, this response
+    // belongs to a superseded navigation and would build the wrong menu /
+    // wrong next-prev links if we let it run.
+    const fetchedFile = llab.file;
+    const my_gen = llab.nav_gen;
+    fetch(`${llab.topics_path}/${fetchedFile}`)
       .then(response => response.text())
-      .then(topic => llab.processLinks(topic))
+      .then(topic => {
+        if (my_gen !== llab.nav_gen || llab.file !== fetchedFile) { return; }
+        llab.processLinks(topic);
+      })
       .catch(llab.handleError);
   }
 }; // close secondarysetup();
@@ -573,20 +595,20 @@ llab.setButtonURLs = function() {
 };
 
 llab.loadNewPage = (path) => {
-  // Bail out cleanly if a previous click is still in flight. Without this
-  // guard, rapid-fire clicks could interleave fetches and render the wrong
-  // page on top of the right one.
-  if (llab.PREVENT_NAVIGATIONS) { return; }
-  llab.PREVENT_NAVIGATIONS = true;
-
+  const my_gen = ++llab.nav_gen;
   fetch(path)
     .then(response => {
       if (!response.ok) { throw new Error(`HTTP ${response.status}`); }
       return response.text();
     })
-    .then(html => llab.rebuildPageFromHTML(html, path))
+    .then(html => {
+      // A later click (or popstate) bumped nav_gen — this response is for a
+      // page the user no longer cares about. Drop it on the floor.
+      if (my_gen !== llab.nav_gen) { return; }
+      llab.rebuildPageFromHTML(html, path);
+    })
     .catch(err => {
-      llab.PREVENT_NAVIGATIONS = false;
+      if (my_gen !== llab.nav_gen) { return; }
       console.warn('Dynamic navigation failed, falling back to full load.', err);
       if (typeof Sentry !== 'undefined') { Sentry.captureException(err); }
       // Fall back to a traditional redirect so the user still ends up on the
@@ -652,8 +674,6 @@ llab.rebuildPageFromHTML = (html, path, opts) => {
   }
 
   llab.rerenderPage(body, title, path);
-
-  llab.PREVENT_NAVIGATIONS = false;
 }
 
 llab.addFeedback = function(title, topic, course) {
@@ -775,8 +795,10 @@ llab.setupTranslationsMenu = function() {
   let new_url = llab.translated_page_url();
   // This URL is different when on a topic page.
   let translated_content_url = llab.translated_content_url();
+  const my_gen = llab.nav_gen;
 
   fetch(translated_content_url).then(response => {
+    if (my_gen !== llab.nav_gen) { return; }
     if (!response.ok) {
       console.log('Not found!!')
       // We need to re-hide the menu if it is currently showing.

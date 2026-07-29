@@ -385,9 +385,21 @@ llab.displayTopic = function() {
   llab.file = llab.getQueryParameter("topic");
 
   if (llab.file) {
-    fetch(llab.topics_path + llab.file)
+    // Capture nav generation: if a later navigation supersedes this one
+    // before the topic file arrives, drop the response so we don't append
+    // a stale topic's contents on top of the new page's already-rendered
+    // .full content.
+    const fetchedFile = llab.file;
+    const my_gen = (typeof llab.nav_gen === 'number') ? llab.nav_gen : 0;
+    fetch(llab.topics_path + fetchedFile)
       .then(response => response.text())
-      .then(data => llab.renderFull(data))
+      .then(data => {
+        if ((typeof llab.nav_gen === 'number' && my_gen !== llab.nav_gen) ||
+            llab.file !== fetchedFile) {
+          return;
+        }
+        llab.renderFull(data);
+      })
       .catch(llab.handleError);
   } else {
     document.getElementsByTagName(llab.selectors.FULL).item(0).innerHTML =

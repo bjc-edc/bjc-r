@@ -70,9 +70,13 @@ code, pre, tt, kbd, samp, var {
 }
 
 /* After an ajax page navigation we move focus to <main> so screen readers
-   restart reading from the top of the new content. Hide the focus ring for
-   that programmatic focus while still showing it for real keyboard focus. */
-main.full:focus:not(:focus-visible) {
+   restart reading from the top of the new content. <main> has tabindex=-1
+   so it can never be reached by Tab — focus only ever lands here from our
+   own .focus() call — and the ring around the whole content well looks
+   like a layout bug. (We can't lean on :focus-visible: when the navigation
+   click was keyboard-activated, browsers consider the subsequent
+   programmatic focus :focus-visible too.) */
+main.full:focus {
   outline: none;
 }
 
