@@ -1,5 +1,9 @@
 # frozen_string_literal: true
 
+# The curriculum files are UTF-8, but Ruby infers the default encoding from the
+# locale, so force UTF-8 to keep the build working in minimal (POSIX) environments.
+Encoding.default_external = Encoding::UTF_8
+
 VALID_LANGUAGES = %w[en es de].freeze
 TEMP_FOLDER = 'review'
 
