@@ -187,19 +187,22 @@ MC.prototype.render = function() {
         if (this.selectedInSavedState(optId)) {
             $(`#${choice_id}`).attr('checked', true);
         }
-
-        this.multipleChoice.find(".checkAnswerButton").bind('click', {
-            myQuestion: this
-        }, function(args) {
-            args.data.myQuestion.checkAnswer();
-        });
-
-        this.multipleChoice.find(".tryAgainButton").bind('click', {
-            myQuestion: this
-        }, function(args) {
-            args.data.myQuestion.tryAgain();
-        });
     }
+
+    // These controls belong to the question, not to each choice. Binding
+    // inside the loop made one click run once per answer and accumulated more
+    // handlers whenever a dynamically loaded question was rendered again.
+    this.multipleChoice.find(".checkAnswerButton")
+      .off('click.llabQuiz')
+      .on('click.llabQuiz', { myQuestion: this }, function(args) {
+          args.data.myQuestion.checkAnswer();
+      });
+
+    this.multipleChoice.find(".tryAgainButton")
+      .off('click.llabQuiz')
+      .on('click.llabQuiz', { myQuestion: this }, function(args) {
+          args.data.myQuestion.tryAgain();
+      });
 
     this.multipleChoice.find('.tryAgainButton').addClass('disabled').attr('disabled', true);
     this.enableCheckAnswerButton('true');

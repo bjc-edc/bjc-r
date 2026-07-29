@@ -4,7 +4,7 @@
  */
 
 const THIS_FILE = 'loader.js';
-const RELEASE_DATE = '2026-07-28a';
+const RELEASE_DATE = '2026-07-29a';
 
 // Basic llab shape.
 llab = {
@@ -36,6 +36,10 @@ llab.topics_path = llab.rootURL + "topic/";
 llab.topic_launch_page = llab.llab_path + "html/topic.html";
 llab.alt_topic_page = llab.rootURL + "topic/topic.html";
 llab.empty_curriculum_page_path = llab.llab_path + "html/empty-curriculum-page.html";
+
+// The single feature flag for SPA-like page loads. Set this to false to make
+// all page navigation use the browser's normal full-page loading behavior.
+llab.DYNAMIC_NAVIGATION_ENABLED = true;
 
 // google analytics tokens
 llab.GACode = 'G-WK0EW5GQRZ';
@@ -141,6 +145,57 @@ function getTag(name, src, type, opts) {
 // but still execute in the order they were appended.
 llab.scriptTag = (src, onload) => getTag('script', src, 'text/javascript', { 'onload': onload, 'async': false });
 llab.styleTag = (href) => getTag('link', href, 'text/css', { 'rel': 'stylesheet' });
+
+// Dynamic navigation can encounter the same optional dependency on several
+// pages. Reuse an existing asset instead of downloading and executing it
+// again on every render.
+llab.appendStyleOnce = function(href) {
+    let tag = llab.styleTag(href);
+    let wanted = new URL(tag.href, location.href);
+    let existing = Array.from(document.querySelectorAll('link[rel="stylesheet"]'))
+        .find(link => {
+            let loaded = new URL(link.href, location.href);
+            return loaded.origin === wanted.origin && loaded.pathname === wanted.pathname;
+        });
+    if (existing) { return existing; }
+    document.head.appendChild(tag);
+    return tag;
+};
+
+llab.appendScriptOnce = function(src, onload) {
+    let tag = llab.scriptTag(src);
+    let wanted = new URL(tag.src, location.href);
+    let existing = Array.from(document.scripts).find(script => {
+        let loaded = new URL(script.src, location.href);
+        return loaded.origin === wanted.origin && loaded.pathname === wanted.pathname;
+    });
+
+    if (existing) {
+        if (onload) {
+            if (existing.dataset.llabLoaded === 'true' ||
+                existing.dataset.llabManaged !== 'true') {
+                onload();
+            } else {
+                existing.addEventListener('load', onload, { once: true });
+            }
+        }
+        return existing;
+    }
+
+    tag.dataset.llabManaged = 'true';
+    tag.onload = function() {
+        tag.dataset.llabLoaded = 'true';
+        if (onload) { onload(); }
+    };
+    tag.onerror = function() {
+        // A later page may need this dependency too; removing a failed tag
+        // lets that navigation retry instead of finding a permanently failed
+        // element.
+        tag.remove();
+    };
+    document.head.appendChild(tag);
+    return tag;
+};
 
 
 llab.initialSetUp = function() {

@@ -23,35 +23,36 @@ const TOGGLE_HEADINGS = [
   'takeItTeased',
 ];
 
-// Switch to turn off ajax page loads.
-llab.DISABLE_DYNAMIC_NAVIGATION = true;
-// this should only be true when navigating back/forwards so we do no repopulate history.
-// llab.SKIP_PUSH_STATE = false;
+let dynamicNavigationRequest = 0;
+let dynamicNavigationController = null;
 
 llab.dynamicNavigation = (path) => {
   return (event) => {
-    if (llab.DISABLE_DYNAMIC_NAVIGATION) {
-      location.href = path;
-      return;
-    }
+    if (!llab.DYNAMIC_NAVIGATION_ENABLED || event.defaultPrevented) { return; }
+    // Preserve native new-tab, new-window, download, and non-left-click
+    // behavior. The anchor's href remains the no-JavaScript fallback.
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey ||
+        (event.button !== undefined && event.button !== 0)) { return; }
+
     event.preventDefault();
     llab.loadNewPage(path);
   }
 }
 
-if (!llab.DISABLE_DYNAMIC_NAVIGATION) {
-  // Handle popstate events for when users use the back button
-  window.addEventListener("popstate", (event) => {
-    const state = event.state;
-    console.log(event)
+if (llab.DYNAMIC_NAVIGATION_ENABLED) {
+  // Give the initial history entry the same lightweight state shape as later
+  // entries without adding a duplicate entry.
+  window.history.replaceState({ url: location.href }, document.title, location.href);
 
-    if (!state || !state.body || !state.title) {
+  // Handle browser back/forward by fetching the URL the browser has already
+  // selected. Page bodies are deliberately not stored in history state:
+  // restoring cached markup caused stale content and unbounded history data.
+  window.addEventListener("popstate", (event) => {
+    if (!llab.DYNAMIC_NAVIGATION_ENABLED) {
       location.reload();
       return;
     }
-
-    // llab.SKIP_PUSH_STATE = true;
-    llab.rerenderPage(state.body, state.title);
+    llab.loadNewPage(location.href, { historyAction: 'none', isPopState: true });
   });
 }
 
@@ -115,20 +116,15 @@ llab.secondarySetUp = function (newPath) {
     return;
   }
 
-  if (!llab.SKIP_PUSH_STATE) {
-    window.history.pushState(
-      { "title": document.title, "body": $('.full').html() },
-      document.title,
-      newPath // null on initial page loads...
-    );
-  } else {
-    // once we have rendered a new page, we can add this back.
-    llab.SKIP_PUSH_STATE = false;
-  }
-
   // TODO: Update this to use a parsed JSON object.
-  llab.fetchTopicFile(llab.file)
-    .then(topic => llab.processLinks(topic))
+  const requestedFile = llab.file;
+  const requestedLocation = location.href;
+  llab.fetchTopicFile(requestedFile)
+    .then(topic => {
+      if (location.href !== requestedLocation ||
+          llab.getQueryParameter('topic') !== requestedFile) { return; }
+      llab.processLinks(topic);
+    })
     .catch(llab.handleError);
 }; // close secondarysetup();
 
@@ -287,7 +283,8 @@ llab.processLinks = (data) => {
 
   // Attach Dynamic Click Handlers to menu items.
   $('.js-llabPageNavMenu a').each((_i, element) => {
-    $(element).off('click').on('click', llab.dynamicNavigation(element.href));
+    $(element).off('click.llabDynamic')
+      .on('click.llabDynamic', llab.dynamicNavigation(element.href));
   });
 
   llab.indicateProgress(llab.url_list.length, llab.thisPageNum() + 1);
@@ -575,66 +572,102 @@ llab.setButtonURLs = function() {
   $('.js-navButton').removeClass('hidden');
 };
 
-llab.loadNewPage = (path) => {
-  console.log('LOAD NEW PAGE: ', path);
+llab.loadNewPage = (path, options = {}) => {
+  const request = ++dynamicNavigationRequest;
+  if (dynamicNavigationController) { dynamicNavigationController.abort(); }
+  dynamicNavigationController = new AbortController();
 
-  if (llab.PREVENT_NAVIGATIONS) {
-    // this seems like a poor way to debounce multiple clicks.
-    setTimeout((() => llab.PREVENT_NAVIGATIONS = false), 500);
-  }
-
-  llab.PREVENT_NAVIGATIONS = true;
-  fetch(path)
-    .then(response => response.text())
-    .then(html => llab.rebuildPageFromHTML(html, path))
+  fetch(path, {
+    signal: dynamicNavigationController.signal,
+    credentials: 'same-origin',
+  })
+    .then(response => {
+      if (!response.ok) { throw new Error(`HTTP ${response.status}`); }
+      return response.text().then(html => ({
+        html: html,
+        path: response.url || path,
+      }));
+    })
+    .then(result => {
+      if (request !== dynamicNavigationRequest) { return; }
+      llab.rebuildPageFromHTML(result.html, result.path, options);
+    })
     .catch(err => {
-      llab.PREVENT_NAVIGATIONS = false;
-      console.warn('Something went wrong.', err);
+      if (request !== dynamicNavigationRequest || err.name === 'AbortError') { return; }
+      console.warn('Dynamic navigation failed; using a full page load.', err);
       if (typeof Sentry !== 'undefined') {
         Sentry.captureException(err);
       }
-      // make a traditional redirect.
-      location.href = path;
+      if (options.isPopState) {
+        location.reload();
+      } else {
+        location.assign(path);
+      }
+    })
+    .finally(() => {
+      if (request === dynamicNavigationRequest) {
+        dynamicNavigationController = null;
+      }
     });
 }
 
 
-llab.rerenderPage = (body, title, path) => {
+llab.rerenderPage = (body, title, path, pageDocument) => {
   // Reset llab state.
   llab.titleSet = false;
   llab.conditional_setup_run = false;
-  console.log('RERENDER PAGE: ', path)
+  llab.safeURLParams = null;
+  llab.CURRENT_PAGE_LANG = null;
+  llab.pageNum = undefined;
 
   document.title = title;
+  if (pageDocument.documentElement.lang) {
+    document.documentElement.lang = pageDocument.documentElement.lang;
+  }
+  document.body.className = pageDocument.body.className;
+  $('.page-feedback').remove();
   $('.full').html(body);
   llab.setAdditionalClasses();
   llab.displayTopic(); // only topic pages...
   llab.editURLs(); // only course pages
   llab.secondarySetUp(path);
-  buildQuestions(); // MCQs
+  if (typeof buildQuestions === 'function') { buildQuestions(); } // MCQs
   llab.conditionalSetup(llab.CONDITIONAL_LOADS);
-  // TODO: Do we need to fire off any events? Bootstrap? dom loaded?
-  window.scrollTo({ top: 0, behavior: 'instant' });
+  window.scrollTo(0, 0);
 
-  if (llab.GACode) {
+  // The old page's focused node no longer exists. Move keyboard and screen
+  // reader focus to the newly rendered content.
+  const main = document.querySelector('.full');
+  if (main) {
+    main.setAttribute('tabindex', '-1');
+    main.focus({ preventScroll: true });
+  }
+
+  if (llab.GACode && typeof gtag === 'function') {
     gtag('config', llab.GACode, {
-      page_title: title,
+      page_title: document.title,
       page_location: location.href // Full URL is required.
     });
   }
 }
 
-// Called when we load an new document via a fetch.
-llab.rebuildPageFromHTML = (html, path) => {
+// Called when we load a new document via fetch.
+llab.rebuildPageFromHTML = (html, path, options = {}) => {
   let parser = new DOMParser(),
     doc = parser.parseFromString(html, 'text/html');
 
-  let title = doc.querySelector('title') ? doc.querySelector('title').text : '';
-  let body = doc.body.innerHTML;
-  console.log('REBUILD FROM HTML')
-  llab.rerenderPage(body, title, path);
+  if (!doc.body) { throw new Error('Fetched page did not contain a document body.'); }
 
-  llab.PREVENT_NAVIGATIONS = false;
+  let title = doc.querySelector('title') ? doc.querySelector('title').textContent : '';
+  let body = doc.body.innerHTML;
+
+  if (options.historyAction !== 'none') {
+    // Update location before setup runs so every URL-derived helper sees the
+    // destination page rather than the page that initiated the request.
+    window.history.pushState({ url: path }, title, path);
+  }
+
+  llab.rerenderPage(body, title, path, doc);
 }
 
 llab.addFeedback = function(title, topic, course) {
@@ -852,6 +885,7 @@ llab.setupTranslationsMenu = function() {
   let new_url = llab.translated_page_url();
   // This URL is different when on a topic page.
   let translated_content_url = llab.translated_content_url();
+  let requestedLocation = location.href;
 
   let updateMenu = (exists) => {
     if (!exists) {
@@ -881,6 +915,7 @@ llab.setupTranslationsMenu = function() {
 
   fetch(translated_content_url, { method: 'HEAD' }).then(response => {
     llab.set_cache(cacheKey, response.ok);
+    if (location.href !== requestedLocation) { return; }
     updateMenu(response.ok);
   }).catch(() => {});
 }

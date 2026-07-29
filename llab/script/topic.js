@@ -323,7 +323,15 @@ llab.renderResource = (resource, parent) => {
   const item = $(`<li></li>`); // class="${resource.type}"
 
   if (resource.url) {
-    item.append(`<a href=${llab.fullResourceURL(resource.url)}>${resource.contents}</a>`);
+    const fullURL = llab.fullResourceURL(resource.url);
+    const link = $(`<a href="${fullURL}">${resource.contents}</a>`);
+    const path = new URL(fullURL, location.href).pathname;
+    // PDFs and other local resources need the browser's native loader.
+    // External resources have already been wrapped in empty-curriculum-page.
+    if (/\.html?$/i.test(path)) {
+      link.on('click.llabDynamic', llab.dynamicNavigation(fullURL));
+    }
+    item.append(link);
   } else {
     item.append(resource.contents);
   }
@@ -366,8 +374,14 @@ llab.displayTopic = function() {
   llab.file = llab.getQueryParameter("topic");
 
   if (llab.file) {
-    llab.fetchTopicFile(llab.file)
-      .then(data => llab.renderFull(data))
+    const requestedFile = llab.file;
+    const requestedLocation = location.href;
+    llab.fetchTopicFile(requestedFile)
+      .then(data => {
+        if (location.href !== requestedLocation ||
+            llab.getQueryParameter('topic') !== requestedFile) { return; }
+        llab.renderFull(data);
+      })
       .catch(llab.handleError);
   } else {
     document.getElementsByTagName(llab.selectors.FULL).item(0).innerHTML =

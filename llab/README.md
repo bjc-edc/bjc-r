@@ -13,6 +13,20 @@ We have an example repository in [bjc-r][bjcr]. For all comments or issues with 
 * every page needs to call `llab/loader.js`;
 * For optimization reasons this file needs to be adapted to each repo.
 
+## Dynamic navigation
+
+`llab.DYNAMIC_NAVIGATION_ENABLED` in `loader.js` is the only feature flag for
+SPA-like page loads. Set it to `false` to retain the same links and use normal
+browser page loads.
+
+[Turbo Drive](https://turbo.hotwired.dev/handbook/drive) would be a better
+long-term owner of document fetching, history, scroll restoration, and head
+merging than LLAB's custom implementation. Migrating is best handled
+separately: LLAB's legacy setup code currently relies on document-ready
+callbacks and explicit rerender hooks, which must first be adapted to Turbo's
+navigation lifecycle and tested across curriculum, topic, quiz, and embedded
+content pages.
+
 ## Translations
 
 llab now includes a translation system.

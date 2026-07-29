@@ -215,7 +215,12 @@ llab.fetchTopicFile = function(file) {
         return Promise.resolve(cached);
     }
     return fetch(llab.topics_path + file)
-        .then(response => response.text())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Unable to load topic file: HTTP ${response.status}`);
+            }
+            return response.text();
+        })
         .then(text => {
             llab.set_cache(file, text);
             return text;
@@ -242,10 +247,10 @@ llab.conditionalSetup = triggers => {
             return;
           }
           if (files.css) {
-            document.head.appendChild(llab.styleTag(files.css));
+            llab.appendStyleOnce(files.css);
           }
           if (files.js) {
-            document.head.appendChild(llab.scriptTag(files.js, onload));
+            llab.appendScriptOnce(files.js, onload);
           }
         }
     });
