@@ -18,15 +18,11 @@ group :development, :test do
   gem 'capybara'
   gem 'capybara-screenshot'
   gem 'selenium-webdriver'
-  gem 'webdrivers'
   # Accessibility testing tools
   gem 'axe-core-capybara'
   gem 'axe-core-rspec'
   # Testing supports
-  gem 'nokogiri'
   gem 'rack', '~> 3'
   gem 'rackup'
   gem 'webrick'
 end
-
-gem "htmlbeautifier", "~> 1.4"

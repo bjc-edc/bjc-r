@@ -204,6 +204,8 @@ class Index
   def index_downcase(vocab)
     words = vocab.split(' ')
     words.map! do |word|
+      # Clean up () and : from word
+      word = word.gsub(/[():]/, '')
       if CAPITALS.include?(word)
         word
       else
