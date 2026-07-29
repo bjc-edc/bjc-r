@@ -1,0 +1,170 @@
+name: Build course PDFs
+
+# Builds the BJC course → PDF book for each of three courses in
+# parallel and uploads each resulting PDF as a workflow artifact.
+
+on:
+  push:
+    paths:
+      - 'utilities/pdf-book/**'
+      - '.github/workflows/build-pdfs.yml'
+      # Course content — the actual book pages
+      - 'cur/**'
+      - 'topic/**'
+      - 'sparks/**'
+      - 'course/**'
+  pull_request:
+    paths:
+      - 'utilities/pdf-book/**'
+      - '.github/workflows/build-pdfs.yml'
+      - 'cur/**'
+      - 'topic/**'
+      - 'sparks/**'
+      - 'course/**'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - course: bjc4nyc
+            language: en
+            artifact: bjc4nyc-en
+          - course: bjc4nyc
+            language: es
+            artifact: bjc4nyc-es
+          - course: sparks
+            language: en
+            artifact: sparks-en
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install LaTeX + pandoc + poppler + qrencode + rsvg + ffmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            pandoc \
+            texlive-luatex \
+            texlive-latex-extra \
+            texlive-latex-recommended \
+            texlive-plain-generic \
+            texlive-fonts-recommended \
+            texlive-fonts-extra \
+            texlive-lang-spanish \
+            poppler-utils \
+            qrencode \
+            librsvg2-bin \
+            ffmpeg
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          # Picked up from .tool-versions.
+          ruby-version: '3.3.9'
+
+      - name: Install gems
+        run: gem install --no-document nokogiri i18n
+
+      - name: Build PDF (${{ matrix.artifact }})
+        env:
+          LANG: C.UTF-8
+          LC_ALL: C.UTF-8
+        run: |
+          ruby utilities/pdf-book/build.rb \
+            --course=${{ matrix.course }} \
+            --language=${{ matrix.language }} \
+            --engine=lualatex \
+            --screenshots=3
+
+      - name: Show build report
+        if: always()
+        run: |
+          if [ -f utilities/pdf-book/out/build-report.txt ]; then
+            cat utilities/pdf-book/out/build-report.txt
+          fi
+
+      - name: Upload PDF artifact
+        id: upload_pdf
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}-pdf
+          path: utilities/pdf-book/out/book.pdf
+          if-no-files-found: error
+
+      - name: Upload screenshots
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}-screenshots
+          path: utilities/pdf-book/out/screenshots/*.png
+          if-no-files-found: ignore
+
+      - name: Upload build log on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}-logs
+          path: |
+            utilities/pdf-book/out/latex.log
+            utilities/pdf-book/out/book.log
+            utilities/pdf-book/out/build-report.txt
+          if-no-files-found: ignore
+
+  # If the build matrix succeeds on a pull request, post (or update) a
+  # comment on the PR listing direct download URLs for each PDF artifact.
+  # actions/upload-artifact@v4 returns a per-artifact URL via outputs,
+  # which is much friendlier than asking reviewers to navigate to the
+  # run page and locate the right zip themselves.
+  comment-on-pr:
+    needs: build
+    if: github.event_name == 'pull_request' && needs.build.result == 'success'
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const runUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const marker = '<!-- pdf-book-artifacts -->';
+            const body = [
+              marker,
+              '## 📚 Course PDFs built',
+              '',
+              `Built on \`${context.sha.substring(0, 7)}\`. Download the artifacts from the [workflow run page](${runUrl}#artifacts):`,
+              '',
+              '| Course | Language | PDF | Screenshots |',
+              '| --- | --- | --- | --- |',
+              `| BJC AP CS Principles | English | \`bjc4nyc-en-pdf\` | \`bjc4nyc-en-screenshots\` |`,
+              `| BJC AP CS Principles | Español | \`bjc4nyc-es-pdf\` | \`bjc4nyc-es-screenshots\` |`,
+              `| BJC Sparks (middle school) | English | \`sparks-en-pdf\` | \`sparks-en-screenshots\` |`,
+              '',
+              `_Built by [\`build-pdfs.yml\`](${runUrl})._`,
+            ].join('\n');
+
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              per_page: 100,
+            });
+            const existing = comments.find((c) => c.body && c.body.includes(marker));
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body,
+              });
+            }
