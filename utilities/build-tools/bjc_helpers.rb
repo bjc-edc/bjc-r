@@ -21,13 +21,7 @@ module BJCHelpers
   end
 
   def get_topic_course(topic, course)
-    unless TOPIC_COURSE.empty?
-      TOPIC_COURSE.each do |item|
-        TOPIC_COURSE.delete(item)
-      end
-    end
-    TOPIC_COURSE.push(course) unless TOPIC_COURSE.include?(course)
-    TOPIC_COURSE.push(topic) unless TOPIC_COURSE.include?(topic)
+    TOPIC_COURSE.replace([topic, course])
   end
 
   # get the folder or path before the end.

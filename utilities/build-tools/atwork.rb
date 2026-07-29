@@ -121,20 +121,11 @@ class AtWork
     atWorkSet = doc.xpath("//div[@class = 'atwork']")
     atWorkSet.each do |node|
       child = node.children
-      child.before(add_unit_to_atwork)
+      child.before(add_unit_to_header)
     end
     return if atWorkSet.empty?
 
     add_to_file(atWorkSet.to_s)
-  end
-
-  def add_unit_to_atwork
-    unitNum = return_unit(@currUnit)
-    currentDir = Dir.getwd
-    FileUtils.cd('..')
-    link = " <a href=\"#{get_url(@atwork_filename)}\">#{unitNum}</a>"
-    FileUtils.cd(currentDir)
-    link
   end
 
   def add_unit_to_header

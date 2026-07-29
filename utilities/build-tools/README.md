@@ -37,6 +37,13 @@ Review all generated changes before committing them.
 
 ## Tests
 
+The focused build-tools Minitest suite covers topic parsing and summary
+generation helpers:
+
+```sh
+BUNDLE_GEMFILE=utilities/build-tools/Gemfile bundle exec ruby utilities/build-tools/tests.rb
+```
+
 The automated RSpec suite lives in `utilities/specs`:
 
 ```sh
@@ -48,9 +55,6 @@ The accessibility suite can be limited to a course and standard with tags:
 ```sh
 bundle exec rspec utilities/specs/accessibility_spec.rb --tag bjc4nyc_wcag20
 ```
-
-`tests.rb` is an outdated manual harness retained for historical reference; it
-is not part of the automated test suite.
 
 ## Local site
 

@@ -3,7 +3,7 @@
 require_relative 'bjc_helpers'
 
 class BJCTopic
-  attr_reader :file_path, :course, :title, :language
+  attr_reader :file_path, :course, :language
 
   RESOURCES_KEYWORDS = %w[quiz assignment resource forum video extresource reading group]
   HEADINGS_KEYWORDS = %w[h1 h2 h3 h4 h5 h6 heading]
@@ -46,6 +46,10 @@ class BJCTopic
     parsed_topic_object
   end
 
+  def title
+    parsed_topic_object[:title]
+  end
+
   # FOR most BJC4NYC --> /bjc-r/cur/programming/{UNIT}/
   # FOR Sparks ..
   # For Teacher guides?
@@ -55,7 +59,7 @@ class BJCTopic
   # or /sparks/student-pages/
   def base_content_folder
     @base_content_folder ||= begin
-      paths = all_pages.map { |page| File.dirname(page[:url]) }
+      paths = all_pages.filter_map { |page| File.dirname(page[:url]) unless page[:url].nil? }
       longest_common_prefix(paths)
     end
   end
@@ -82,21 +86,23 @@ class BJCTopic
   # Summary sections/pages and entries without a URL (text, raw-html)
   # are skipped, so only real curriculum pages are yielded.
   # TODO: Do we need a 'Page()' class?
-  def iterate_curriculum_pages(&block)
+  def iterate_curriculum_pages
+    return enum_for(__method__) unless block_given?
+
     labs = unit_data[:content].reject { |section| summary_section?(section) }
                               .map { |section| [section, section[:content].select { |entry| curriculum_page?(entry) }] }
                               .reject { |_section, pages| pages.empty? }
     labs.each_with_index do |(section, pages), lab_index|
       pages.each_with_index do |entry, page_index|
-        block.call({
-                     unit: unit_number,
-                     unit_path: base_content_folder,
-                     course: @course,
-                     lab: section[:title],
-                     lab_number: lab_index + 1,
-                     page_number: page_index + 1,
-                     path: entry[:url]
-                   })
+        yield({
+                unit: unit_number,
+                unit_path: base_content_folder,
+                course: @course,
+                lab: section[:title],
+                lab_number: lab_index + 1,
+                page_number: page_index + 1,
+                path: entry[:url]
+              })
       end
     end
   end
@@ -129,6 +135,23 @@ class BJCTopic
   # Return all valid links to HTML pages as an array (no nesting)
   def all_pages_with_summaries
     all_pages(include_summaries: true)
+  end
+
+  def summary_pages
+    all_pages_with_summaries.select { |page| summary_page?(page) }
+  end
+
+  # Preserve the original formatting of a topic while removing its generated
+  # review section. This lets the summary builder replace that section without
+  # maintaining a second topic parser.
+  def contents_without_summaries
+    lines = file_contents.lines
+    summary_index = lines.index do |line|
+      parsed_line = strip_comments(line)
+      is_heading?(parsed_line) && summary_title?(get_content(parsed_line)[:text])
+    end
+    contents = summary_index.nil? ? lines.join.sub(/\}\s*\z/, '') : lines[0...summary_index].join
+    contents.rstrip
   end
 
   def to_h
@@ -174,7 +197,7 @@ class BJCTopic
 
       if line.length == 0 || line[0] == '}'
       elsif line.match?(/^title:/)
-        topics[:title] = line.slice(6, line.length)
+        topics[:title] = line.slice(6, line.length).strip
       # TODO: This syntax is not used. Reserve for the future.
       # elsif line.match?(/^topic:/)
       #   topic_model[:title] = line.slice(6..)
@@ -223,7 +246,7 @@ class BJCTopic
   def parse_line(line)
     indent = indent_level(line.match(/^(\s*)/)[1] || '')
     line = line.gsub(/^\s*/, '')
-    resource_matcher = line.match(/^([\w\-]+):\s/)
+    resource_matcher = line.match(/^([\w\-]+):\s*/)
     if !resource_matcher
       # puts "Could not find any resource for line: #{line}"
       resource = 'text'
@@ -231,7 +254,7 @@ class BJCTopic
       # TODO: Warn if an unknown resource is present?
       resource = resource_matcher[1]
     end
-    line = line.gsub(/^([\w\-]+):\s/, '')
+    line = line.gsub(/^([\w\-]+):\s*/, '')
     content_url = extract_content_url(line)
     # if !content_url[:url]
     #   puts "WARNING: No URL found for line: #{line}"
@@ -278,8 +301,8 @@ class BJCTopic
   def unit_number
     return nil if parsed_topic_object.nil? || parsed_topic_object[:title].nil?
 
-    # Extract the unit number from the title, e.g., "Unit 1: Introduction"
-    match = parsed_topic_object[:title].match(/Unit\s*(\d+)/)
+    # Extract the unit number from English or Spanish titles.
+    match = parsed_topic_object[:title].match(/(?:Unit|Unidad)\s*(\d+)/i)
     return nil if match.nil?
 
     match[1]
@@ -289,12 +312,16 @@ class BJCTopic
 
   # Determines if a section is a "summary" of content based on the heading.
   SUMMARY_SECTION_TITLES = [
-    /Unit\s*\d+\s*Review/,
-    /Unidad\s*\d+\s*Revision/,
+    /\AUnit\s*\d+\s*Review\z/i,
+    /\AUnidad\s*\d+\s*Revision\z/i,
   ]
 
   def summary_section?(section)
-    SUMMARY_SECTION_TITLES.any? { |re| section[:title].match?(re) }
+    summary_title?(section[:title])
+  end
+
+  def summary_title?(title)
+    SUMMARY_SECTION_TITLES.any? { |re| title.match?(re) }
   end
 
   SUMMARY_URLS = [
@@ -345,16 +372,14 @@ class BJCTopic
   end
 
   def get_keyword(line, array)
-    matches = array.map { |s| line.match(s) }
-    index = matches.index { |m| !m.nil? }
-    array[index] unless index.nil?
+    array.find { |keyword| line.match?(/^\s*#{Regexp.escape(keyword)}:/) }
   end
 
   # Split "resource: Text [url]" in the right parts.
   # TODO: figure out of this is necessary or to reuse parse_line
   def get_content(line)
     return { text: '', url: '' } unless line
-    content = line.split(':')
+    content = line.split(':', 2)
     return { text: '', url: '' } unless content.length > 1
     sliced = content[1].split(/\[|\]/)
     text = sliced.length > 0 ? sliced[0].strip : ''
@@ -363,15 +388,15 @@ class BJCTopic
   end
 
   def is_resource?(line)
-    RESOURCES_KEYWORDS.any? { |word| line.include?(word) }
+    !get_keyword(line, RESOURCES_KEYWORDS).nil?
   end
 
   def is_info?(line)
-    INFO_KEYWORDS.any? { |word| line.include?(word) }
+    !get_keyword(line, INFO_KEYWORDS).nil?
   end
 
   def is_heading?(line)
-    HEADINGS_KEYWORDS.any? { |word| line.include?(word) }
+    !get_keyword(line, HEADINGS_KEYWORDS).nil?
   end
 
   def is_keyword?(line)
