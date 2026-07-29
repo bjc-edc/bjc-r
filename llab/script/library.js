@@ -48,13 +48,39 @@ llab.TRANSLATIONS = {
       en: 'You have successfully completed this question!',
       es: '¡Has completado la pregunta correctamente!',
     },
+    'incorrectMessage': {
+      en: 'That is not correct. Try again!',
+      es: 'No es correcto. ¡Inténtalo de nuevo!',
+    },
+    'Correct:': {
+      es: 'Correcto:',
+    },
+    'Incorrect:': {
+      es: 'Incorrecto:',
+    },
     'partialMessage': {
       en: 'This is partially correct.',
       es: 'Esta respuesta es parcialmente correcta.',
     },
+    'selectAnswerMessage': {
+      en: 'Please select an answer first.',
+      es: 'Por favor, selecciona una respuesta primero.',
+    },
+    'correctLabel': {
+      en: 'Correct.',
+      es: 'Correcto.',
+    },
+    'incorrectLabel': {
+      en: 'Incorrect.',
+      es: 'Incorrecto.',
+    },
     'attemptMessage': {
       en: 'This is your %{ordinal} attempt.',
       es: 'Este es tu intento n.º %{number}.',
+    },
+    'progressText': {
+      en: 'Page %{current} of %{total}',
+      es: 'Página %{current} de %{total}',
     },
     'Go to Table of Contents': {
       es: 'Ir a la tabla de contenido'
@@ -62,6 +88,19 @@ llab.TRANSLATIONS = {
     'Search BJC': {
       en: 'Search BJC',
       es: 'Buscar en BJC',
+    },
+    'Skip to main content': {
+      en: 'Skip to main content',
+      es: 'Saltar al contenido principal',
+    },
+    // Labels distinguishing the two <nav> landmarks on each page.
+    'primaryNavLabel': {
+      en: 'primary',
+      es: 'principal',
+    },
+    'secondaryNavLabel': {
+      en: 'secondary',
+      es: 'secundaria',
     }
 };
 
@@ -477,6 +516,29 @@ llab.readCookie = function(name) {
 llab.eraseCookie = name => createCookie(name, "", -1);
 
 llab.spanTag = (content, className) => `<span class="${className}">${content}</span>`;
+
+/* Add a "Go to Table of Contents" link near the page title.
+ * Lives here (stage 0) rather than topic.js because curriculum.js calls it
+ * during setupTitle on vocab-index pages; stage-1 scripts load in arbitrary
+ * order, so defining it in topic.js made that call a race (and a crash that
+ * aborted setupTitle, leaving the page title/h1 empty). Called at DOM-ready
+ * or later, so using jQuery inside the body is safe. */
+llab.renderCourseLink = function (course) {
+    if (!course) {
+        console.warn('No course found for this topic page.');
+        return;
+    }
+
+    if (course.indexOf("://") === -1) {
+        course = llab.courses_path + course;
+    }
+    let courseLink = `<a class="course_link pull-right" href="${course}">${llab.t(llab.strings.goMain)}</a>`;
+    if ($('.title-small-screen').length > 0) {
+        $(courseLink).insertAfter('.title-small-screen');
+    } else {
+        $(llab.selectors.FULL).prepend(courseLink);
+    }
+};
 
 /////////// Other Inlined Dependencies
 if (typeof w3 === 'undefined') { w3 = {}; }
