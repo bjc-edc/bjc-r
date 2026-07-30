@@ -1,0 +1,62 @@
+plugins:
+  - rubocop-performance
+  - rubocop-rspec
+
+AllCops:
+  NewCops: enable
+  SuggestExtensions: false
+  Exclude:
+    - 'utilities/archive/**/*'
+    - 'vendor/**/*'
+    - 'llab/lib/**/*'
+
+# The curriculum generators wrap long HTML fragments and XPath selectors.
+Layout/LineLength:
+  Max: 120
+
+# The generators are long, deeply-nested string builders. Splitting them up is
+# worth doing, but is a bigger change than a lint pass.
+# TODO: re-enable these cop by cop as the generators get broken up.
+Metrics:
+  Enabled: false
+
+# The build tools predate any style guide and use camelCase throughout, e.g.
+# `currUnitName` and `parse_atWork`. Renaming every reader/writer is a large,
+# risky change on code with no unit tests, so the naming cops stay off for now.
+# TODO: rename these to snake_case, then delete this section.
+Naming/MethodName:
+  Enabled: false
+Naming/VariableName:
+  Enabled: false
+Naming/MethodParameterName:
+  Enabled: false
+Naming/AccessorMethodName:
+  Enabled: false
+Naming/PredicateMethod:
+  Enabled: false
+
+# One-off maintenance scripts are named like the command they replace.
+Naming/FileName:
+  Exclude:
+    - 'utilities/images/*.rb'
+
+# Documentation for every class is more churn than value in a small tool.
+Style/Documentation:
+  Enabled: false
+
+# build_tools_spec wraps every build-tools class in one group so they can share
+# the temporary-checkout fixture.
+RSpec/DescribeClass:
+  IgnoredMetadata:
+    type:
+      - build_tools
+      - generated_pages
+
+RSpec/ExampleLength:
+  Enabled: false
+
+# The browser-driven specs assert several facets of a single interaction
+# (visibility, colour, and geometry of one feedback box), so they legitimately
+# need more than a handful of expectations per example.
+RSpec/MultipleExpectations:
+  Max: 8
