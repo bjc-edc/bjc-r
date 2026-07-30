@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
+# The curriculum files are UTF-8, but Ruby infers the default encoding from the
+# locale, so force UTF-8 to keep the build working in minimal (POSIX) environments.
+Encoding.default_external = Encoding::UTF_8
+
 VALID_LANGUAGES = %w[en es de].freeze
-TEMP_FOLDER = 'review'
 
 module BJCHelpers
   UNIT_FOLDERS = []
@@ -73,19 +76,30 @@ module BJCHelpers
     end
 
     def summary_page_template(lang, title, contents)
-      <<-HTML
-      <!DOCTYPE html>
-      <html lang="#{lang}">
+      "#{summary_page_prefix(lang, title)}#{contents}#{summary_page_suffix}"
+    end
+
+    # The shared <head> and opening <body> for all generated summary pages.
+    # Content is appended to this, then closed off with summary_page_suffix.
+    def summary_page_prefix(lang, title)
+      <<~HTML
+        <!DOCTYPE html>
+        <html lang="#{lang}">
         <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
           <title>#{title}</title>
-          <meta charset="utf-8">
           <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
-        <head>
+          <script type="text/javascript" src="/bjc-r/utilities/gifffer.min.js"></script>
+          <script type="text/javascript">window.onload = function() {Gifffer();}</script>
+          <link rel="stylesheet" type="text/css" href="/bjc-r/css/bjc-gifffer.css">
+        </head>
         <body>
-          #{contents}
-        </body>
-      </html>
       HTML
+    end
+
+    def summary_page_suffix
+      "\n</body>\n</html>\n"
     end
   end
 end
