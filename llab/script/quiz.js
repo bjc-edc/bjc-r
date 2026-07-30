@@ -1,23 +1,16 @@
 // instance dispatch on type
 
 function getQInstance(type, qdata, location,  i) {
-    // switch would be nicer here...
     // based on value of 'type' attribute in the div with class=asessment-data
     if (type == "multiplechoice") {
         return new MC(qdata, location, i);
-    } else if (type == "inline-multiplechoice") {
-        return new IMC(qdata, location, i);
     }
-
+    return null;
 }
-
 
 
 //////////////
 
-
-
-//var mc = [];
 
 // puts qdatums into the hidden div, continues processing
 $(document).ready(buildQuestions);
@@ -38,7 +31,7 @@ function buildQuestions() {
             getRemoteQdata(target, location, i);
 
         } else {
-            buildQuestion(qdata, location, i, false);
+            buildQuestion(qdata, location, i);
         }
     }
 
@@ -58,8 +51,8 @@ function getRemoteQdata(target, location, questionNum) {
 }
 
 function makeGetRemoteQdataCallback(location, questionNum) {
-    var callback = function(data, a, b) {
-        buildQuestion(data, location, questionNum, true);
+    var callback = function(data) {
+        buildQuestion(data, location, questionNum);
     };
     return callback;
 }
@@ -68,10 +61,18 @@ function makeGetRemoteQdataCallback(location, questionNum) {
 
 // qdata is a div with the relevant data
 // location is a div whose contents will be replaced with the question.
-function buildQuestion(qdata, location, questionNum, _fetched)  {
+function buildQuestion(qdata, location, questionNum)  {
     qdata = $(qdata).insertBefore(location);
     var type = qdata.attr("type");
     var question = getQInstance(type, qdata, location, questionNum);
+    // An unimplemented question type must not abort the whole page: buildQuestions
+    // loops over every .assessment-data div, so throwing here would drop every
+    // question after this one. (A handful of pages ship type="fillin", which has
+    // no implementation.)
+    if (!question) {
+        llab.handleError(new Error(`Unsupported question type: ${type}`));
+        return;
+    }
     question.loadContent();
     question.render();
 }
