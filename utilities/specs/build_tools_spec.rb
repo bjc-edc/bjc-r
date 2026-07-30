@@ -414,6 +414,29 @@ RSpec.describe 'build tools', type: :build_tools do
       end
     end
 
+    # GitHub Actions checks out to /home/runner/work/<repo>/<repo>, so the
+    # checkout sits inside a folder of the same name. Anything that finds the
+    # site root by matching "bjc-r" in a path finds the wrong one there, and
+    # every generated link comes out as /bjc-r/bjc-r/...
+    context 'when the checkout is nested inside a folder of the same name' do
+      let(:root) { BuildToolsFixture.build(File.join(temporary_directory, 'bjc-r')) }
+
+      before { runner.Main }
+
+      it 'still finds the content to build' do
+        expect(File).to exist(File.join(unit_directory, 'unit-1-vocab.html'))
+      end
+
+      it 'still writes single-rooted URLs' do
+        pages = %w[unit-1-vocab.html unit-1-self-check.html]
+                .map { |name| File.read(File.join(unit_directory, name)) }
+                .push(File.read(File.join(root, 'cur', 'testing', 'atwork.html')))
+
+        expect(pages).to all(include('href="/bjc-r/cur/testing/1-widgets/'))
+        expect(pages.join).not_to include('/bjc-r/bjc-r/')
+      end
+    end
+
     it 'writes nothing at all when a later unit fails to build' do
       # Unit 1 builds fine and is staged in memory; unit 2 then raises. Because
       # every write happens at the very end, the checkout is left untouched.

@@ -186,21 +186,4 @@ class Main
 
     file_name.match(/\w+\.(\w+)\.\w+\z/)[1]
   end
-
-  # The site root is both a URL prefix and a folder in the checkout, so mapping
-  # between an llab URL and a path here is just swapping that prefix.
-  # "/bjc-r/cur/programming/x.html" => "<checkout>/bjc-r/cur/programming/x.html"
-  def url_to_path(url)
-    "#{checkout_root}#{url}"
-  end
-
-  # "<checkout>/bjc-r/cur/programming" => "/bjc-r/cur/programming"
-  def path_to_url(path)
-    path.delete_prefix(checkout_root)
-  end
-
-  # The folder that contains the bjc-r checkout.
-  def checkout_root
-    @checkout_root ||= @rootDir.sub(%r{/bjc-r/?\z}, '')
-  end
 end

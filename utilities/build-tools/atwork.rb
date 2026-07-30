@@ -12,6 +12,9 @@ class AtWork
 
   def initialize(path, language, content)
     @parentDir = path
+    # The generators are handed the content folder; the checkout root is what
+    # is left once the content path is taken off the end of it.
+    @rootDir = path.delete_suffix('/').delete_suffix("/#{content}")
     @language = language
     @content = content
     @currUnit = nil
@@ -94,11 +97,6 @@ class AtWork
   # link to "<unit folder>/atwork.html", which never exists: the only @ Work
   # page is the one this class generates in the course's content folder.
   def add_unit_to_atwork
-    " <a href=\"#{page_url}\">#{unit_reference}</a>"
-  end
-
-  def page_url
-    link_path = Dir.getwd.match(/bjc-r.+/).to_s
-    "/#{link_path}/#{@currFile}"
+    " <a href=\"#{url_for(@currFile)}\">#{unit_reference}</a>"
   end
 end

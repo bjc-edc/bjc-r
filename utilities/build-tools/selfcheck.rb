@@ -11,6 +11,9 @@ class SelfCheck
 
   def initialize(path, language, content, course)
     @parentPath = path
+    # The generators are handed the content folder; the checkout root is what
+    # is left once the content path is taken off the end of it.
+    @rootDir = path.delete_suffix('/').delete_suffix("/#{content}")
     @content = content
     @course = course
     @currUnit = nil
@@ -160,7 +163,7 @@ class SelfCheck
   def add_unit_to_header
     page_number = BJCHelpers.lab_page_number(@currUnit)
     box_num(@box_num + 1)
-    link = "#{get_url(@currFile)}#{topic_url_suffix}#box#{@box_num}"
+    link = "#{url_for(@currFile)}#{topic_url_suffix}#box#{@box_num}"
     " #{I18n.t('from')} <a href=\"#{link}\"><strong>#{page_number}</strong></a>"
   end
 
@@ -170,11 +173,5 @@ class SelfCheck
 
   def add_exam_to_file(exam)
     add_content_to_file(exam, 'Exam')
-  end
-
-  def get_url(file)
-    local_path = Dir.getwd
-    link_path = local_path.match(/bjc-r.+/).to_s
-    "/#{link_path}/#{file}"
   end
 end

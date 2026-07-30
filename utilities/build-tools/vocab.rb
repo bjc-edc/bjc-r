@@ -19,6 +19,9 @@ class Vocab
 
   def initialize(path, language, content, course)
     @parentDir = path
+    # The generators are handed the content folder; the checkout root is what
+    # is left once the content path is taken off the end of it.
+    @rootDir = path.delete_suffix('/').delete_suffix("/#{content}")
     @language = language
     @content = content
     @course = course
@@ -239,7 +242,7 @@ class Vocab
 
   def add_vocab_unit_to_index
     path = get_prev_folder(Dir.pwd, include_path: true)
-    "<a href=\"#{get_url(vocab_file_name, path)}#{topic_url_suffix}#box#{@current_box_num}\">#{unit_reference}</a>"
+    "<a href=\"#{url_for(vocab_file_name, path)}#{topic_url_suffix}#box#{@current_box_num}\">#{unit_reference}</a>"
   end
 
   # NOTE: There should be no whitespace after the <a> tag so the `:` is right next to the link.
@@ -248,18 +251,12 @@ class Vocab
     # Capitalize the first letter of the page text
     # This really only makes a difference for the Spanish translation, since English is already capitalized.
     page_text = page_text.capitalize if @language == 'es'
-    "<a href=\"#{get_url(@currFile,
-                         Dir.pwd)}#{topic_url_suffix}\" id=\"box#{@current_box_num}\"><b>#{page_text}</b></a>"
+    "<a href=\"#{url_for(@currFile)}#{topic_url_suffix}\" id=\"box#{@current_box_num}\"><b>#{page_text}</b></a>"
   end
 
   def add_vocab_to_file(vocab)
     return unless vocab != ''
 
     add_content_to_file(vocab)
-  end
-
-  def get_url(file, localPath)
-    linkPath = localPath.match(/bjc-r.+/).to_s
-    "/#{linkPath}/#{file}"
   end
 end

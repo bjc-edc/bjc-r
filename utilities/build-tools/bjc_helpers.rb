@@ -26,8 +26,35 @@ module BJCHelpers
   end
   self.current_topic = {}
 
+  # Where the site is served from. It is also the name of the folder holding
+  # the checkout, so mapping a path to a URL is a matter of swapping prefixes.
+  SITE_ROOT = '/bjc-r'
+
   def language_ext(lang)
     lang == 'en' ? '' : ".#{lang}"
+  end
+
+  # The folder *containing* the checkout: "/home/me/src" for a checkout at
+  # "/home/me/src/bjc-r". delete_suffix, not a regex match, because a parent
+  # folder may be called bjc-r too.
+  def checkout_root
+    @checkout_root ||= @rootDir.delete_suffix('/').delete_suffix(SITE_ROOT)
+  end
+
+  # "/bjc-r/cur/programming/x.html" => "<checkout>/bjc-r/cur/programming/x.html"
+  def url_to_path(url)
+    "#{checkout_root}#{url}"
+  end
+
+  # "<checkout>/bjc-r/cur/programming" => "/bjc-r/cur/programming"
+  def path_to_url(path)
+    path.delete_prefix(checkout_root)
+  end
+
+  # The URL of a file in the given folder, which defaults to the folder of the
+  # curriculum page currently being read.
+  def url_for(file, directory = Dir.getwd)
+    "#{path_to_url(directory)}/#{file}"
   end
 
   # get the folder or file that is the most inner nested
