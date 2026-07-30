@@ -6,6 +6,19 @@ on:
   # - pull_request
 
 jobs:
+  # Functional tests for the dynamic page loader + translations menu.
+  # Unlike the a11y suite, these must pass.
+  dynamic-nav:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ruby/setup-ruby@v1
+        with:
+          # Specified by .tool-versions
+          bundler-cache: true
+      - name: dynamic navigation tests
+        run: bundle exec rspec utilities/specs --tag dynamic_nav
+
   a11y:
     runs-on: ubuntu-latest
     continue-on-error: true

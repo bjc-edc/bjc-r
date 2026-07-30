@@ -611,14 +611,16 @@ llab.loadNewPage = (path, options) => {
 }
 
 
-llab.rerenderPage = (body, title, path) => {
+llab.rerenderPage = (body, title, path, docLang) => {
   // Reset llab state that is cached per-page.
   llab.titleSet = false;
   llab.conditional_setup_run = false;
   llab.safeURLParams = null;     // cached query parameters (library.js)
   llab.pageNum = undefined;      // position within the lab
   llab.CURRENT_PAGE_LANG = null; // cached page language
-  let lang = llab.determinLangFromURL();
+  // English URLs have no lang marker, so when switching languages the
+  // fetched document's own <html lang> is the reliable fallback.
+  let lang = llab.determinLangFromURL() || docLang;
   if (lang) { $('html').attr('lang', lang); }
 
   renderedPageURL = location.pathname + location.search;
@@ -648,6 +650,7 @@ llab.rebuildPageFromHTML = (html, path, pushState) => {
     doc = parser.parseFromString(html, 'text/html');
 
   let title = doc.querySelector('title') ? doc.querySelector('title').text : '';
+  let docLang = doc.documentElement.getAttribute('lang');
   // Drop all script tags: jQuery re-executes any script in content passed
   // to .html(), which would re-run the entire llab loader.
   doc.body.querySelectorAll('script').forEach(tag => tag.remove());
@@ -663,7 +666,7 @@ llab.rebuildPageFromHTML = (html, path, pushState) => {
     window.history.pushState({ llab: true }, '', path);
   }
 
-  llab.rerenderPage(body, title, path);
+  llab.rerenderPage(body, title, path, docLang);
 }
 
 llab.addFeedback = function(title, topic, course) {
@@ -956,6 +959,10 @@ llab.showTranslationsMenu = (show) => {
     $('.js-switch-lang-es').attr('href', new_url);
     $('.js-switch-lang-en').attr('href', location.href);
   }
+  // Language switches use dynamic navigation, like every other nav link.
+  dropdown.find('.js-switch-lang-es, .js-switch-lang-en').each((_i, el) => {
+    $(el).off('click').on('click', llab.dynamicNavigation(el.href));
+  });
   dropdown.removeClass('hidden');
 };
 
