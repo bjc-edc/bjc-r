@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'fileutils'
 require 'i18n'
 
@@ -22,7 +24,8 @@ class SelfCheck
     @language_ext = language_ext(language)
     I18n.locale = @language.to_sym
     @box_num = 0
-    # Track the previous lab/section heading for the self-check+exam page. If it changes, then we need to insert a newpage heading.
+    # Track the previous lab/section heading for the self-check+exam page.
+    # If it changes, then we need to insert a new page heading.
     @priorPageHeading = { 'Self-Check' => nil, 'Exam' => nil }
     # The current unit's page contents, keyed by page type.
     # Files are only written out once the whole run has finished.
@@ -35,14 +38,6 @@ class SelfCheck
 
   def currFile(file)
     @currFile = file
-  end
-
-  def currLab
-    return if @currUnit.nil?
-
-    labMatch = @currUnit.match(/Lab.+,/)
-    labList =  labMatch.to_s.split(/,/)
-    @currLab = labList.join
   end
 
   def currUnit(unit)
@@ -82,11 +77,7 @@ class SelfCheck
   end
 
   def parse_unit(doc)
-    title = doc.xpath('//title').to_s
-    return if title.nil?
-
-    newtitle = title.split(%r{</?\w+>}) # TODO: cleanup
-    currUnit(newtitle.join)
+    currUnit(doc.xpath('//title').to_s.split(%r{</?\w+>}).join)
     currUnitNum(@currUnit.match(/\d+/).to_s)
   end
 
@@ -110,8 +101,7 @@ class SelfCheck
         raise "Response id mismatch: expected '#{response_id}' found '#{response_div_identifier}'"
       end
 
-      suffix = return_unit(@currUnit).gsub('.', '_')
-      unique_id = "#{response_id}_#{suffix}"
+      unique_id = "#{response_id}_#{unit_reference.tr('.', '_')}"
       # Update both the container div and the responseDeclaration with the unique identifier.
       response_node.attributes['identifier'].value = unique_id
       node.attributes['responseidentifier'].value = unique_id
@@ -139,7 +129,7 @@ class SelfCheck
   end
 
   def summary_page_preamble(type)
-    title = "#{I18n.t('unit', num: @currUnitNum)} #{I18n.t(type.downcase.gsub('-', '_'))}"
+    title = "#{I18n.t('unit', num: @currUnitNum)} #{I18n.t(type.downcase.tr('-', '_'))}"
     BJCHelpers.summary_page_prefix(@language, title)
   end
 
@@ -162,7 +152,7 @@ class SelfCheck
     content = @page_content[type]
     content << summary_page_preamble(type) if content.empty?
 
-    data = data.gsub(/&amp;/, '&')
+    data = data.gsub('&amp;', '&')
     if @priorPageHeading[type] != currLab
       content << "<h2>#{currLab}</h2>\n"
       @priorPageHeading[type] = currLab
@@ -170,27 +160,11 @@ class SelfCheck
     content << data
   end
 
-  def topic_files_in_course
-    @topic_files_in_course ||= @course.list_topics_no_path.filter { |file| file.match(/\d+-\w+/) }
-  end
-
-  def get_topic_file
-    unit_reference = return_unit(@currUnit)
-    unit_num = unit_reference.match(/\d+/).to_s
-    topic_files_in_course.filter { |f| f.match(unit_num) }[0]
-  end
-
   def add_unit_to_header
     page_number = BJCHelpers.lab_page_number(@currUnit)
     box_num(@box_num + 1)
-    suffix = generate_url_suffix(TOPIC_COURSE[0], get_topic_file, TOPIC_COURSE[-1])
-    " #{I18n.t('from')} <a href=\"#{get_url(@currFile)}#{suffix}#box#{@box_num}\"><strong>#{page_number}</strong></a>"
-  end
-
-  # need something to call this function and parse_unit
-  def return_unit(str)
-    list = str.scan(/(\d+)/)
-    list.join('.')
+    link = "#{get_url(@currFile)}#{topic_url_suffix}#box#{@box_num}"
+    " #{I18n.t('from')} <a href=\"#{link}\"><strong>#{page_number}</strong></a>"
   end
 
   def add_assessment_to_file(result)

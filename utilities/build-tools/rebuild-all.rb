@@ -9,7 +9,7 @@ require_relative 'main'
 
 ROOT = '/bjc-r'
 path = Dir.pwd # #ENV('PWD')
-path = path.sub(%r{#{ROOT}/.*$}, ROOT)
+path = path.sub(%r{#{ROOT}/.*$}o, ROOT)
 
 csp_dir = 'cur/programming'
 
@@ -17,7 +17,7 @@ TO_RUN = [
   { course: 'bjc4nyc', language: 'en', content: csp_dir },
   { course: 'bjc4nyc', language: 'es', content: csp_dir },
   { course: 'sparks', language: 'en', content: 'sparks/student-pages' }
-]
+].freeze
 
 if ARGV.include?('--only')
   only_course = ARGV[ARGV.index('--only') + 1]

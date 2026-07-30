@@ -7,8 +7,13 @@ Encoding.default_external = Encoding::UTF_8
 VALID_LANGUAGES = %w[en es de].freeze
 
 module BJCHelpers
-  UNIT_FOLDERS = []
-  TOPIC_COURSE = []
+  class << self
+    # The topic folder and course the build tools are currently generating
+    # pages for, e.g. { topic_folder: 'nyc_bjc', course: 'bjc4nyc' }. Used to
+    # build the ?topic=&course= parameters of links on generated pages.
+    attr_accessor :current_topic
+  end
+  self.current_topic = {}
 
   def language_ext(lang)
     lang == 'en' ? '' : ".#{lang}"
@@ -20,35 +25,63 @@ module BJCHelpers
     folder.split('/')[-1]
   end
 
-  def get_topic_course(topic, course)
-    unless TOPIC_COURSE.empty?
-      TOPIC_COURSE.each do |item|
-        TOPIC_COURSE.delete(item)
-      end
-    end
-    TOPIC_COURSE.push(course) unless TOPIC_COURSE.include?(course)
-    TOPIC_COURSE.push(topic) unless TOPIC_COURSE.include?(topic)
+  def set_current_topic(topic_folder, course)
+    BJCHelpers.current_topic = { topic_folder: topic_folder, course: course }
   end
 
   # get the folder or path before the end.
   # Would return programming in bjc-r/cur/programming/hello.html
-  def get_prev_folder(f, include_path=false)
+  def get_prev_folder(f, include_path: false)
     path = f.split("/#{get_curr_folder(f)}")
     folder = path[0].split('/')
     include_path ? path[0] : folder[-1]
   end
 
-  def url_to_path(url, root: ''); end
-
-  def path_to_url(path, root: ''); end
-
-  def generate_url_suffix(topic, unit_folder, course)
-    UNIT_FOLDERS.push(unit_folder) unless UNIT_FOLDERS.include?(unit_folder)
-    "?topic=#{topic}/#{unit_folder}&course=#{course}.html"
+  def generate_url_suffix(topic_folder, topic_file, course)
+    "?topic=#{topic_folder}/#{topic_file}&course=#{course}.html"
   end
 
-  def report_topic_file_change(topic_file_path, original_content)
-    return if File.read(topic_file_path) == original_content
+  # The helpers below are shared by the summary generators (vocab, self-check,
+  # "@ Work"). Each tracks the curriculum page it is currently reading in
+  # @currUnit, taken from the page's <title>, which looks like
+  # "Unit 3 Lab 2: Interactive Pet, Activity 4".
+
+  # "3.2.4" for the title above.
+  def unit_reference
+    @currUnit.scan(/\d+/).join('.')
+  end
+
+  # "Lab 2: Interactive Pet" for the title above.
+  def currLab
+    return if @currUnit.nil?
+
+    @currLab = @currUnit.match(/Lab.+,/).to_s.split(',').join
+  end
+
+  # The topic files for the course, without their containing folder.
+  # Generated links need the file name to build ?topic= URLs.
+  def topic_files_in_course
+    @topic_files_in_course ||= @course.list_topics_no_path.filter { |file| file.match(/\d+-\w+/) }
+  end
+
+  # The topic file for the unit currently being summarized.
+  def get_topic_file
+    unit_num = unit_reference[/\d+/].to_s
+    topic_files_in_course.find { |file| file.match(unit_num) }
+  end
+
+  # The "?topic=...&course=..." suffix that makes a generated link open inside
+  # the course navigation.
+  def topic_url_suffix
+    current = BJCHelpers.current_topic
+    generate_url_suffix(current[:topic_folder], get_topic_file, current[:course])
+  end
+
+  # Warn when a run rewrote a topic file so the change doesn't get committed by
+  # accident. `new_content` is compared against what is still on disk.
+  def report_topic_file_change(topic_file_path, new_content)
+    return unless File.exist?(topic_file_path)
+    return if File.read(topic_file_path) == new_content
 
     relative_path = topic_file_path.delete_prefix("#{@rootDir}/")
     puts <<~NOTICE
@@ -62,9 +95,7 @@ module BJCHelpers
     # TODO: This needs to use a topic model to get the correct sequence.
     def lab_page_number(unit_str)
       list = unit_str.scan(/(\d+)/)
-      if list.length != 3
-        puts "Error: Invalid unit string format: #{unit_str}"
-      end
+      puts "Error: Invalid unit string format: #{unit_str}" if list.length != 3
 
       if !list[1] || !list[2]
         puts "Error: Could not find lab or page number in unit string: #{unit_str}"
@@ -72,17 +103,6 @@ module BJCHelpers
       end
       # str.scan seems to return a list of lists...
       I18n.t('lab_page', lab_num: list[1][0], page_num: list[2][0])
-    end
-
-    def bjc_html_page(lang, title, contents)
-      <<-HTML
-      <html lang="#{lang}">
-        <head>
-          <title>#{title}</title>
-        </head>
-        <body>#{contents}</body>
-      </html>
-      HTML
     end
 
     def summary_page_template(lang, title, contents)
