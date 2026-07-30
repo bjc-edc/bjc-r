@@ -1,3 +1,7 @@
+DEPRECATED: The C-based summary tools in this directory are obsolete. Ignore
+index.c, vocab.c, and their shell-script wrappers; use the Ruby tools in
+utilities/build-tools instead.
+
 1. Open a Terminal window.
 
 2. cd to the root of your repo, so

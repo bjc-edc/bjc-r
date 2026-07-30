@@ -4,13 +4,12 @@
  */
 
 const THIS_FILE = 'loader.js';
-const RELEASE_DATE = '2026-05-28';
+const RELEASE_DATE = '2026-07-28a';
 
 // Basic llab shape.
 llab = {
     loaded: {},
     paths: {
-        stage_complete_functions: [],
         scripts: [],
         css_files: []
     },
@@ -62,47 +61,27 @@ llab.paths.css_files = [
 ];
 
 /////////////////////////
-///////////////////////// stage 0
-// Stage 0 items can be executed with no dependences.
-llab.paths.scripts[0] = [];
-llab.paths.scripts[0].push("lib/jquery-3.7.0.slim.min.js");
-llab.paths.scripts[0].push("script/library.js");
-llab.paths.scripts[0].push("script/quiz/multiplechoice.js");
+///////////////////////// scripts
+// Scripts are injected with async=false, so they download in parallel but
+// are guaranteed to execute in insertion order.
+// This list MUST remain in dependency order.
+llab.paths.scripts = [
+    "lib/jquery-3.7.0.slim.min.js",
+    "script/library.js",             // must not depend on jQuery
+    "script/quiz/multiplechoice.js",
+    "script/curriculum.js",
+    "script/course.js",
+    "script/topic.js",
+    "lib/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js",
+    "script/quiz.js",                // all quiz item types load after multiplechoice.js
+    // "script/lib/sha1.js",         // for brainstorm
+    // "script/brainstorm.js",
+    // "script/user.js",
+];
 
 llab.loaded['config'] = true;
 llab.loaded['library'] = false;
 llab.loaded['multiplechoice'] = false
-llab.paths.stage_complete_functions[0] = () => {
-    return (typeof jQuery === 'function') && llab.loaded['library'];
-}
-
-/////////////////
-///////////////// stage 1
-llab.paths.scripts[1] = [];
-llab.paths.scripts[1].push("script/curriculum.js");
-llab.paths.scripts[1].push("script/course.js");
-llab.paths.scripts[1].push("script/topic.js");
-llab.paths.scripts[1].push("lib/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js");
-// llab.paths.scripts[1].push("script/lib/sha1.js");     // for brainstorm
-
-// Doing a very weird thing delaying this until stage 1
-// try to get the above files loaded faster, they only depend on jQuery.
-llab.paths.stage_complete_functions[1] = function() {
-    return ( llab.loaded['multiplechoice'] );
-}
-
-////////////////////
-//////////////////// stage 2
-// all these scripts depend on jquery, loaded in stage 1
-// all quiz item types should get loaded here
-llab.paths.scripts[2] = [];
-llab.paths.scripts[2].push("script/quiz.js");
-// llab.paths.scripts[2].push("script/brainstorm.js");
-// llab.paths.scripts[2].push("script/user.js");
-
-llab.paths.stage_complete_functions[2] = function() {
-    return true; // && llab.loaded['user'];
-}
 
 ///////// OPTIONAL LIBRARIES:
 llab.optionalLibs = {
@@ -122,6 +101,8 @@ llab.optionalLibs = {
 
 //////////////
 
+// Fallback for the (rare) case loader.js is injected dynamically,
+// where document.currentScript is null.
 llab.getPathToThisScript = function() {
     var scripts = document.scripts, i, src;
     for (i = 0; i < scripts.length; i += 1) {
@@ -133,7 +114,9 @@ llab.getPathToThisScript = function() {
     return '';
 };
 
-llab.thisPath = llab.getPathToThisScript();
+// loader.js executes synchronously, so currentScript is this script tag.
+llab.thisPath = (document.currentScript && document.currentScript.src) ||
+    llab.getPathToThisScript();
 
 function getTag(name, src, type, opts) {
     let tag = document.createElement(name),
@@ -147,6 +130,8 @@ function getTag(name, src, type, opts) {
         src += `?${RELEASE_DATE}`;
     }
     tag[link] = src;
+    // Skip when type is null (e.g. <link rel=preload>) so the DOM doesn't end
+    // up with a literal `type="null"` attribute.
     if (type) { tag.type = type; }
     if (opts) {
         for (let opt in opts) {
@@ -161,13 +146,13 @@ function getTag(name, src, type, opts) {
 // Array.from(document.scripts).map(node => node.src.replace(location.origin, '').replace(/?.*$/, ''))
 // Array.from(document.styleSheets).map(node => node.src.replace(location.origin, '').replace(/\?.*$/, ''))
 // TODO - will need to normalize paths.
-// async=false keeps execution order (jQuery before bootstrap, etc.) while
-// still letting the browser fetch every script in parallel.
+// async=false makes dynamically-injected scripts download in parallel,
+// but still execute in the order they were appended.
 llab.scriptTag = (src, onload) => getTag('script', src, 'text/javascript', { 'onload': onload, 'async': false });
 llab.styleTag = (href) => getTag('link', href, 'text/css', { 'rel': 'stylesheet' });
 
 // Resource hints. Inserted up front so the preload scanner can kick off
-// downloads while stage 0 is still booting.
+// downloads before initialSetUp finishes wiring up the real tags.
 llab.preloadTag = (href, as) => getTag('link', href, null, { 'rel': 'preload', 'as': as });
 // No crossorigin: the actual GA/Sentry script loads aren't CORS, so a
 // crossorigin preconnect wouldn't be reused for them.
@@ -178,8 +163,9 @@ llab.preconnectTag = (href) => {
     return tag;
 };
 
-// Walk the staged-script config and emit one <link rel=preload> per file so
-// they all start downloading immediately, even though they execute in stages.
+// Emit one <link rel=preload> per CSS/JS asset (plus preconnect for the
+// third-party origins we're about to hit) so the browser starts downloading
+// them in parallel while the rest of initialSetUp is still running.
 llab.emitResourceHints = function() {
     llab.PRECONNECT_ORIGINS.forEach(origin => {
         document.head.appendChild(llab.preconnectTag(origin));
@@ -189,63 +175,47 @@ llab.emitResourceHints = function() {
         document.head.appendChild(llab.preloadTag(file, 'style'));
     });
 
-    llab.paths.scripts.forEach(stage => {
-        stage.forEach(src => {
-            document.head.appendChild(llab.preloadTag(src, 'script'));
-        });
+    llab.paths.scripts.forEach(src => {
+        document.head.appendChild(llab.preloadTag(src, 'script'));
     });
 };
 
 
 llab.initialSetUp = function() {
-    // Tracks stages we've already advanced past so onload + fallback polling
-    // can both fire safely without double-loading the next stage.
-    let advancedFromStage = new Set();
-
-    let loadScriptsAndLinks = (stage_num) => {
-        llab.paths.scripts[stage_num].forEach(src => {
-            // Pass the onload through scriptTag (via getTag's opts) so the
-            // script actually notifies us when it has executed. The previous
-            // form passed the callback as appendChild's second arg, which DOM
-            // ignores — that's why this loader relied on a 2ms polling loop.
-            document.head.appendChild(
-                llab.scriptTag(src, () => proceedWhenComplete(stage_num))
-            );
-        });
-
-        // loading optional stuff after jQuery/Bootstrap dependencies, but early as possible.
-        if (stage_num == 1) {
-            llab.conditionalSetup(llab.CONDITIONAL_LOADS);
-        }
-
-        if ((stage_num + 1) < llab.paths.scripts.length) {
-            proceedWhenComplete(stage_num);
-        }
-    }
-
-    proceedWhenComplete = (stage_num) => {
-        if (advancedFromStage.has(stage_num)) { return; }
-        if (llab.paths.stage_complete_functions[stage_num]()) {
-            advancedFromStage.add(stage_num);
-            if ((stage_num + 1) < llab.paths.scripts.length) {
-                loadScriptsAndLinks(stage_num + 1);
-            }
-        } else {
-            // Fallback: onload is the primary signal, but we keep a slow poll
-            // in case a stage's `llab.loaded` flag is set after onload (e.g.,
-            // a script that defers its ready state via a microtask). 50ms is
-            // a soft heartbeat — it's harmless once onload has already fired.
-            setTimeout(() => { proceedWhenComplete(stage_num) }, 50);
-        }
-    }
-
     llab.emitResourceHints();
 
     llab.paths.css_files.forEach(file => document.head.appendChild(llab.styleTag(file)));
-    loadScriptsAndLinks(0);
+
+    let lastIndex = llab.paths.scripts.length - 1;
+    llab.paths.scripts.forEach((src, i) => {
+        // After the final script executes, all of llab is defined and
+        // content-based optional libraries can be evaluated.
+        let onload = i === lastIndex ? llab.loadOptionalLibraries : null;
+        let tag = llab.scriptTag(src, onload);
+        if (onload) {
+            // Even if the last script fails to load, still try the optional libs.
+            tag.onerror = onload;
+        }
+        document.head.appendChild(tag);
+    });
 
     if (!llab.isLocalEnvironment() && llab.SENTRY_URL) {
         document.head.appendChild(llab.scriptTag(llab.SENTRY_URL, llab.setupSentry));
+    }
+};
+
+// Optional libraries are selected by scanning the page's content,
+// so wait until the DOM is fully parsed before checking.
+llab.loadOptionalLibraries = function() {
+    let run = () => {
+        if (typeof llab.conditionalSetup === 'function') {
+            llab.conditionalSetup(llab.CONDITIONAL_LOADS);
+        }
+    };
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', run);
+    } else {
+        run();
     }
 };
 
