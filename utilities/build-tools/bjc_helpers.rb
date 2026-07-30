@@ -1,8 +1,19 @@
 # frozen_string_literal: true
 
+require 'i18n'
+
 # The curriculum files are UTF-8, but Ruby infers the default encoding from the
 # locale, so force UTF-8 to keep the build working in minimal (POSIX) environments.
 Encoding.default_external = Encoding::UTF_8
+
+# The build tools' own translations, and nothing else. This used to be
+# `Dir['**/*.yml']`, which depends on the working directory and picks up every
+# unrelated YAML file under it -- including the couple of thousand that ship
+# with the gems once bundler installs into vendor/bundle, one of which is a
+# top-level array that I18n refuses to merge.
+BJC_TRANSLATIONS = File.expand_path('bjc_translations.yml', __dir__)
+I18n.load_path |= [BJC_TRANSLATIONS]
+I18n.backend.load_translations(BJC_TRANSLATIONS)
 
 VALID_LANGUAGES = %w[en es de].freeze
 

@@ -9,9 +9,6 @@ require_relative 'index'
 require_relative 'selfcheck'
 require_relative 'bjc_helpers'
 
-I18n.load_path = Dir['**/*.yml']
-I18n.backend.load_translations
-
 # TODO: It's unclear where the HTML for new files comes from.
 # We should probably have a 'template' file which gets used.
 # I think we can just replace content in the file, but we could use a library.

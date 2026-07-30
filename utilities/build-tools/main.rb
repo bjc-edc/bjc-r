@@ -11,9 +11,6 @@ require_relative 'vocab'
 require_relative 'selfcheck'
 require_relative 'topic'
 
-I18n.load_path = Dir['**/*.yml']
-I18n.backend.load_translations
-
 # Generates the vocabulary, self-check, exam reference, and "@ Work" summary
 # pages for one course in one language.
 #
