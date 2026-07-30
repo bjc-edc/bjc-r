@@ -31,43 +31,66 @@ llab.set_cache = (key, value) => {
 // TODO: Should this ingore the cache in development?
 llab.read_cache = key => sessionStorage[key];
 
-// Switch to turn off ajax page loads.
-llab.DISABLE_DYNAMIC_NAVIGATION = true;
-// this should only be true when navigating back/forwards so we do no repopulate history.
-// llab.SKIP_PUSH_STATE = false;
+// THE switch for dynamic (SPA-style) page loads. This is the only global
+// which controls the feature. When false, navigation links behave like
+// normal links and browser history is never touched.
+llab.ENABLE_DYNAMIC_NAVIGATION = true;
+
+// Internal dynamic-navigation state (not configuration).
+// Ignore clicks while a dynamic page load is already in progress.
+let dynamicNavInFlight = false;
+// The path+query currently rendered, so hash-only popstate events
+// (#anchor links) are not treated as page navigations.
+let renderedPageURL = location.pathname + location.search;
 
 llab.dynamicNavigation = (path) => {
   return (event) => {
-    if (llab.DISABLE_DYNAMIC_NAVIGATION) {
-      location.href = path;
+    if (!llab.ENABLE_DYNAMIC_NAVIGATION) { return; } // normal navigation
+    // Let the browser handle open-in-new-tab/window clicks.
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey ||
+        (event.button !== undefined && event.button !== 0)) {
       return;
     }
+    // A link to the current page is a plain reload; don't touch history.
+    if (new URL(path, location.href).href === location.href) { return; }
     event.preventDefault();
     llab.loadNewPage(path);
   }
 }
 
-if (!llab.DISABLE_DYNAMIC_NAVIGATION) {
-  // Handle popstate events for when users use the back button
-  window.addEventListener("popstate", (event) => {
-    const state = event.state;
-    console.log(event)
-    // debugger;
+// Handle popstate events for when users use the back/forward buttons.
+window.addEventListener("popstate", (event) => {
+  if (!llab.ENABLE_DYNAMIC_NAVIGATION) { return; }
 
-    if (!state || !state.body || !state.title) {
-      location.reload();
-      return;
-    }
+  // Ignore hash-only changes (#anchor links on the same page).
+  if (renderedPageURL === location.pathname + location.search) { return; }
 
-    // llab.SKIP_PUSH_STATE = true;
-    llab.rerenderPage(state.body, state.title);
-  });
-}
+  if (event.state && event.state.llab) {
+    // Re-fetch the page (usually served from the HTTP cache) instead of
+    // restoring a stored copy, so it is rebuilt exactly like any other
+    // dynamic load and never re-enhanced twice.
+    llab.loadNewPage(location.href, { push: false });
+  } else {
+    location.reload();
+  }
+});
+
+// Fires when the browser restores this page from the back/forward cache
+// (bfcache): the DOM and JS heap thaw exactly as the student left them,
+// and no load events re-fire. Refresh anything that went stale while frozen.
+window.addEventListener("pageshow", (event) => {
+  if (!event.persisted) { return; }
+  // A dynamic load in flight when the page was frozen will never settle;
+  // clear the guard so navigation keeps working.
+  dynamicNavInFlight = false;
+  // The session may have learned about available translations since.
+  llab.setupTranslationsMenu();
+});
 
 /////////////////////
 
 // Executed on *every* page load.
-llab.secondarySetUp = function (newPath) {
+llab.secondarySetUp = function () {
   let t = llab.translate;
   llab.setupTitle();
   llab.addFooter();
@@ -124,24 +147,18 @@ llab.secondarySetUp = function (newPath) {
     return;
   }
 
-  if (!llab.SKIP_PUSH_STATE) {
-    window.history.pushState(
-      { "title": document.title, "body": $('.full').html() },
-      document.title,
-      newPath // null on initial page loads...
-    );
-  } else {
-    // once we have rendered a new page, we can add this back.
-    llab.SKIP_PUSH_STATE = false;
-  }
-
   if (llab.read_cache(llab.file)) {
     // TODO: Update this to use a parsed JSON object.
     llab.processLinks(llab.read_cache(llab.file));
   } else {
     fetch(`${llab.topics_path}/${llab.file}`)
       .then(response => response.text())
-      .then(topic => llab.processLinks(topic))
+      .then(topic => {
+        // Cache the topic file so later pages in the lab don't re-fetch it.
+        // Skip the cache locally so authors see topic edits immediately.
+        if (!llab.isLocalEnvironment()) { llab.set_cache(llab.file, topic); }
+        llab.processLinks(topic);
+      })
       .catch(llab.handleError);
   }
 }; // close secondarysetup();
@@ -532,7 +549,7 @@ llab.setButtonURLs = function() {
   // TODO: Should this happen ever?
   var forward = $('.js-nextPageLink'), back = $('.js-backPageLink');
   var buttonsExist = forward.length !== 0 && back.length !== 0;
-  if (!buttonsExist & $(llab.selectors.NAVSELECT) !== 0) {
+  if (!buttonsExist) {
     llab.createTitleNav();
   }
 
@@ -566,24 +583,28 @@ llab.setButtonURLs = function() {
   $('.js-navButton').removeClass('hidden');
 };
 
-llab.loadNewPage = (path) => {
-  console.log('LOAD NEW PAGE: ', path);
+// Fetch PATH and rebuild the page in place.
+// Pass { push: false } (back/forward) to leave the history untouched.
+llab.loadNewPage = (path, options) => {
+  let pushState = !(options && options.push === false);
 
-  if (llab.PREVENT_NAVIGATIONS) {
-    // this seems like a poor way to debounce multiple clicks.
-    setTimeout((() => llab.PREVENT_NAVIGATIONS = false), 500);
-  }
+  if (dynamicNavInFlight) { return; }
+  dynamicNavInFlight = true;
 
-  llab.PREVENT_NAVIGATIONS = true;
   fetch(path)
-    .then(response => response.text())
-    .then(html => llab.rebuildPageFromHTML(html, path))
-    .catch(err => {
-      llab.PREVENT_NAVIGATIONS = false;
-      console.warn('Something went wrong.', err);
-      if (typeof Sentry !== 'undefined') {
-        Sentry.captureException(err);
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`Fetching ${path} returned ${response.status}`);
       }
+      return response.text();
+    })
+    .then(html => {
+      llab.rebuildPageFromHTML(html, path, pushState);
+      dynamicNavInFlight = false;
+    })
+    .catch(err => {
+      dynamicNavInFlight = false;
+      llab.handleError(err);
       // make a traditional redirect.
       location.href = path;
     });
@@ -591,18 +612,24 @@ llab.loadNewPage = (path) => {
 
 
 llab.rerenderPage = (body, title, path) => {
-  // Reset llab state.
+  // Reset llab state that is cached per-page.
   llab.titleSet = false;
   llab.conditional_setup_run = false;
-  console.log('RERENDER PAGE: ', path)
+  llab.safeURLParams = null;     // cached query parameters (library.js)
+  llab.pageNum = undefined;      // position within the lab
+  llab.CURRENT_PAGE_LANG = null; // cached page language
+  let lang = llab.determinLangFromURL();
+  if (lang) { $('html').attr('lang', lang); }
+
+  renderedPageURL = location.pathname + location.search;
 
   document.title = title;
   $('.full').html(body);
   llab.setAdditionalClasses();
   llab.displayTopic(); // only topic pages...
   llab.editURLs(); // only course pages
-  llab.secondarySetUp(path);
-  buildQuestions(); // MCQs
+  llab.secondarySetUp();
+  if (typeof buildQuestions === 'function') { buildQuestions(); } // MCQs
   llab.conditionalSetup(llab.CONDITIONAL_LOADS);
   // TODO: Do we need to fire off any events? Bootstrap? dom loaded?
   window.scrollTo({ top: 0, behavior: 'instant' });
@@ -615,20 +642,34 @@ llab.rerenderPage = (body, title, path) => {
   }
 }
 
-// Called when we load an new document via a fetch.
-llab.rebuildPageFromHTML = (html, path) => {
+// Called when we load a new document via a fetch.
+llab.rebuildPageFromHTML = (html, path, pushState) => {
   let parser = new DOMParser(),
     doc = parser.parseFromString(html, 'text/html');
 
   let title = doc.querySelector('title') ? doc.querySelector('title').text : '';
+  // Drop all script tags: jQuery re-executes any script in content passed
+  // to .html(), which would re-run the entire llab loader.
+  doc.body.querySelectorAll('script').forEach(tag => tag.remove());
   let body = doc.body.innerHTML;
-  console.log('REBUILD FROM HTML')
-  llab.rerenderPage(body, title, path);
 
-  llab.PREVENT_NAVIGATIONS = false;
+  if (pushState) {
+    // Tag the current entry so popstate can recognize our own entries,
+    // then push the new page *before* rendering so all of the setup code
+    // sees the new URL in `location`.
+    if (!history.state || !history.state.llab) {
+      history.replaceState({ llab: true }, '');
+    }
+    window.history.pushState({ llab: true }, '', path);
+  }
+
+  llab.rerenderPage(body, title, path);
 }
 
 llab.addFeedback = function(title, topic, course) {
+  // Remove any previous widget; it is re-added on each dynamic page load.
+  $('.page-feedback').remove();
+
   // Prevent Button on small devices
   if (screen.width < 1024) { return; }
 
@@ -834,38 +875,148 @@ llab.setupNavbarSearch = function () {
   });
 };
 
-// Show a dropdwon icon in the navbar if the same URL exists in a translated form.
-llab.setupTranslationsMenu = function() {
-  // extract the language from the file name
-  // make an ajax call to get the file name in the other language
-  // if the file exists, add a link to it
-  let lang = llab.pageLang();
-  let new_url = llab.translated_page_url();
-  // This URL is different when on a topic page.
-  let translated_content_url = llab.translated_content_url();
+// TRANSLATIONS MENU (the navbar globe)
+// The globe is shown when the content exists in the other language. To
+// avoid the navbar shifting while we ask the server, the answer is checked
+// once per *unit* (topic file) -- do all of its pages have a translation?
+// -- and cached in sessionStorage. Every later page in the unit can then
+// show or hide the globe synchronously, before the nav is even visible.
 
-  fetch(translated_content_url).then(response => {
-    if (!response.ok) {
-      console.log('Not found!!')
-      // We need to re-hide the menu if it is currently showing.
-      $('.js-langDropdown').addClass('hidden');
-      $('.js-langDropdown a').removeAttr('href');
+// sessionStorage key for the current unit's translation status.
+llab.unitTranslationKey = () => {
+  let topic = llab.getQueryParameter('topic');
+  return topic ? `llab-unit-translations:${topic}` : null;
+};
+
+// Return PATH in the other language: page.html <-> page.es.html
+llab.translatedPath = (path) => {
+  if (llab.pageLang() === 'es') {
+    return path.replace(/\.es\./g, '.');
+  }
+  return path.replace(/\.(html|topic)$/, '.es.$1');
+};
+
+// Return the local (non-external) page paths listed in topic file DATA.
+llab.localTopicPages = (data) => {
+  return data.split('\n').map(line => {
+    line = llab.stripComments($.trim(line));
+    let urlOpen = line.indexOf('['), urlClose = line.indexOf(']');
+    if (urlOpen === -1 || urlClose === -1) { return null; }
+    let url = line.slice(urlOpen + 1, urlClose).split('?')[0];
+    if (url.indexOf('//') !== -1) { return null; } // external content
+    if (url.indexOf(llab.rootURL) === -1 && url.indexOf('..') === -1) {
+      url = llab.rootURL + (url[0] === '/' ? '' : '/') + url;
+    }
+    return url;
+  }).filter(Boolean);
+};
+
+// Check that the current unit's topic file, and every local page listed in
+// it, exist in the other language. Resolves true/false. Rejects on network
+// errors, so a flaky connection is never cached as "no translation".
+llab.checkUnitTranslations = () => {
+  let file = llab.getQueryParameter('topic');
+  let topicData = llab.read_cache(file)
+    ? Promise.resolve(llab.read_cache(file))
+    : fetch(llab.topics_path + file).then(response => {
+        if (!response.ok) { throw new Error(`No topic file: ${file}`); }
+        return response.text();
+      });
+
+  let translatedTopicExists = fetch(
+    llab.topics_path + llab.translatedPath(file), { method: 'HEAD' }
+  ).then(response => response.ok);
+
+  let allPagesExist = topicData.then(data => {
+    let checks = llab.localTopicPages(data).map(page =>
+      fetch(llab.translatedPath(page), { method: 'HEAD' }).then(r => r.ok)
+    );
+    return Promise.all(checks).then(results => results.every(Boolean));
+  });
+
+  return Promise.all([translatedTopicExists, allPagesExist])
+    .then(([topicOK, pagesOK]) => topicOK && pagesOK);
+};
+
+// Show or hide the globe, and point the language links at this page's
+// counterpart in the other language.
+llab.showTranslationsMenu = (show) => {
+  let dropdown = $('.js-langDropdown');
+  if (!show) {
+    dropdown.addClass('hidden');
+    dropdown.find('a').removeAttr('href');
+    return;
+  }
+
+  let new_url = llab.translated_page_url();
+  if (llab.pageLang() === 'es') {
+    $('.js-switch-lang-es').attr('href', location.href);
+    $('.js-switch-lang-en').attr('href', new_url);
+  } else {
+    $('.js-switch-lang-es').attr('href', new_url);
+    $('.js-switch-lang-en').attr('href', location.href);
+  }
+  dropdown.removeClass('hidden');
+};
+
+llab.setupTranslationsMenu = function() {
+  // Embedded external content has no llab-managed translation to switch to.
+  if (location.pathname === llab.empty_curriculum_page_path) {
+    llab.showTranslationsMenu(false);
+    return;
+  }
+
+  let unitKey = llab.unitTranslationKey();
+  if (!unitKey) {
+    // No unit context (course pages, index, ...): check just this page.
+    let pageKey = `llab-page-translation:${location.pathname}`;
+    let cached = llab.read_cache(pageKey);
+    if (cached !== undefined) {
+      llab.showTranslationsMenu(cached === 'true');
       return;
     }
-    $('.js-langDropdown').removeClass('hidden');
-    if (lang == 'es') {
-      $('.js-switch-lang-es').attr('href', location.href);
-      $('.js-switch-lang-en').attr('href', new_url);
-    } else if (lang == 'en') {
-      $('.js-switch-lang-es').attr('href', new_url);
-      $('.js-switch-lang-en').attr('href', location.href);
-    }
-  }).catch(() => {});
+    llab.showTranslationsMenu(false);
+    fetch(llab.translated_content_url(), { method: 'HEAD' })
+      .then(response => {
+        llab.set_cache(pageKey, response.ok);
+        llab.showTranslationsMenu(response.ok);
+      })
+      .catch(() => {}); // network error: leave hidden, retry next load
+    return;
+  }
+
+  let cached = llab.read_cache(unitKey);
+  if (cached !== undefined) {
+    llab.showTranslationsMenu(cached === 'true');
+    return;
+  }
+
+  // First page of this unit this session: the globe stays hidden until the
+  // unit-wide check completes. Every later page hits the cache above.
+  llab.showTranslationsMenu(false);
+  llab.pendingTranslationChecks = llab.pendingTranslationChecks || {};
+  if (!llab.pendingTranslationChecks[unitKey]) {
+    llab.pendingTranslationChecks[unitKey] = llab.checkUnitTranslations()
+      .then(complete => { llab.set_cache(unitKey, complete); return complete; })
+      .catch(err => {
+        // Do not cache network failures; allow the next page to retry.
+        delete llab.pendingTranslationChecks[unitKey];
+        throw err;
+      });
+  }
+  llab.pendingTranslationChecks[unitKey]
+    .then(complete => {
+      // Only touch the UI if the user is still within this unit.
+      if (llab.unitTranslationKey() === unitKey) {
+        llab.showTranslationsMenu(complete);
+      }
+    })
+    .catch(() => {});
 }
 
 llab.setupSnapImages = () => {
   $('img.js-runInSnap').each((_idx, elm) => {
-    let openURL = llab.getSnapRunURL($img.attr('src'));
+    let openURL = llab.getSnapRunURL($(elm).attr('src'));
     $(elm).wrap(`<a href="${openURL}" class="snap-project" target=_blank></a>`);
   });
 };
