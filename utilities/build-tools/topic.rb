@@ -3,30 +3,58 @@
 require_relative 'bjc_helpers'
 
 class BJCTopic
-  attr_reader :file_path, :course, :title, :language
+  attr_reader :file_path, :course, :language
 
-  RESOURCES_KEYWORDS = %w[quiz assignment resource forum video extresource reading group]
-  HEADINGS_KEYWORDS = %w[h1 h2 h3 h4 h5 h6 heading]
-  INFO_KEYWORDS = %w[big-idea learning-goal]
+  RESOURCES_KEYWORDS = %w[quiz assignment resource forum video extresource reading group].freeze
+  HEADINGS_KEYWORDS = %w[h1 h2 h3 h4 h5 h6 heading].freeze
+  INFO_KEYWORDS = %w[big-idea learning-goal].freeze
+
+  # llab matches these keywords loosely: a line is a resource/info/heading line
+  # if it contains the word anywhere, with or without a colon.
+  RESOURCE_LINE = Regexp.union(RESOURCES_KEYWORDS)
+  HEADING_LINE = Regexp.union(HEADINGS_KEYWORDS)
+  INFO_LINE = Regexp.union(INFO_KEYWORDS)
+
+  # The heading that introduces the generated summary section of a topic file.
+  # Both the parser and the build tools that rewrite topic files need it.
+  SUMMARY_HEADINGS = [
+    /Unit\s*\d+\s*Review/,
+    /Unidad\s*\d+\s*Revision/
+  ].freeze
+
+  def self.summary_heading?(text)
+    SUMMARY_HEADINGS.any? { |pattern| text.to_s.match?(pattern) }
+  end
 
   def initialize(topic_file_path, course: nil, language: 'en')
     @file_path = topic_file_path
     @course = course
+    @unit_data = nil
+    @language = language
 
-    if !File.exist?(@file_path)
-      raise "Error: No file found at #{file_path}"
-    end
+    raise "Error: No file found at #{@file_path}" unless File.exist?(@file_path)
   end
 
   def file_contents
     @file_contents ||= File.read(@file_path)
   end
 
+  # The topic's title, e.g. " Unit 1: Introduction to Programming".
+  def title
+    parsed_topic_object[:title]
+  end
+
   # Just the part of the file path relative to the topic/ directory
   # This is used in the URL for the topic, ?topic=llab_reference_path
   def llab_reference_path
     # Strips everything before the topic/ directory
-    @file_path.match(/\/topic\/(.*\.topic)/)[1]
+    @file_path.match(%r{(?:\A|/)topic/(.*\.topic)})[1]
+  end
+
+  # BJC: Assume every topic file has one unit.
+  # However, the title belongs to the parent topic content.
+  def unit_data
+    @unit_data ||= parsed_topic_object[:topics].first
   end
 
   # This should return some hash-type structure
@@ -38,26 +66,63 @@ class BJCTopic
     parsed_topic_object
   end
 
-  def unit_number; end
-
-  # TODO: This is what will make the organization a bit tricky...
   # FOR most BJC4NYC --> /bjc-r/cur/programming/{UNIT}/
   # FOR Sparks ..
   # For Teacher guides?
-  def base_content_folder; end
+  # Find the longest common path prefix for all URLs within a topic.
+  # This is the base content folder for the topic.
+  # It should be the first part of the URL, like /bjc-r/cur/programming/
+  # or /sparks/student-pages/
+  def base_content_folder
+    @base_content_folder ||= begin
+      paths = all_pages.map { |page| File.dirname(page[:url]) }
+      longest_common_prefix(paths)
+    end
+  end
 
-  # Just the names of the lab sections
-  def section_headings; end
+  # Returns the longest common prefix of an array of paths.
+  # For example, ['/a/b/c', '/a/b/d'] returns '/a/b'.
+  # The comparison is per folder, not per character, so ['/a/L1', '/a/L2']
+  # returns '/a' rather than '/a/L'.
+  def longest_common_prefix(paths)
+    return '' if paths.empty?
 
+    segments = paths.map { |path| path.split('/') }
+    segments.reduce do |common, other|
+      common.take_while.with_index { |segment, index| segment == other[index] }
+    end.join('/')
+  end
 
   # A way to process each page for vocab, self-checks, etc.
+  # This yields the data needed to parse each curriculum page:
+  # unit (same for all pages), unit path (first subfolder in the path),
+  # lab (the lab name, like "Lab 1"), lab/page numbers (1, 2, 3, etc.), path
+  # Summary sections/pages and entries without a URL (text, raw-html)
+  # are skipped, so only real curriculum pages are yielded.
   # TODO: Do we need a 'Page()' class?
-  def iterate_curriculum_pages(&block)
-    # This should yield the data needed to parse each curriculum page.
-    all_pages_without_summaries.each do |page|
-      binding.irb
-      block.call(path_to_page, unit, lab, page_number)
+  def iterate_curriculum_pages
+    labs = unit_data[:content].reject { |section| summary_section?(section) }
+                              .map { |section| [section, section[:content].select { |entry| curriculum_page?(entry) }] }
+                              .reject { |_section, pages| pages.empty? }
+    labs.each_with_index do |(section, pages), lab_index|
+      pages.each_with_index do |entry, page_index|
+        yield({
+          unit: unit_number,
+          unit_path: base_content_folder,
+          course: @course,
+          lab: section[:title],
+          lab_number: lab_index + 1,
+          page_number: page_index + 1,
+          path: entry[:url]
+        })
+      end
     end
+  end
+
+  # A page entry that is part of the curriculum itself: a resource with a
+  # URL that isn't one of the generated summary pages.
+  def curriculum_page?(entry)
+    RESOURCES_KEYWORDS.include?(entry[:type]) && !entry[:url].nil? && !summary_page?(entry)
   end
 
   # This should explicitly exclude the 3 compiled HTML pages.
@@ -65,40 +130,37 @@ class BJCTopic
     all_pages(include_summaries: false)
   end
 
-  # TODO: pass more than just the URL
-  def all_pages(include_summaries=false)
-    parsed_topic_object[:topics].each_with_index.map do |topic, topic_index|
-      topic[:content].each_with_index.map do |entry, entry_index|
-        next if is_summary_section?(entry) || (!entry[:url].nil? && is_summary_page?(entry))
+  def all_pages(include_summaries: false)
+    parsed_topic_object[:topics].flat_map do |topic|
+      topic[:content].flat_map do |entry|
+        next if !include_summaries && (summary_section?(entry) || summary_page?(entry))
 
         if entry[:type] == 'section'
           extract_pages_in_section(entry, include_summaries: include_summaries)
         elsif RESOURCES_KEYWORDS.include?(entry[:type])
-          entry[:url]
+          entry
         end
-      end.flatten
-    end.flatten
+      end
+    end.compact
   end
 
-  # Return all valid links to HTML pages as an array (no nesting)
-  def all_pages_with_summaries
-   all_pages(include_summaries: true)
-  end
-
-  def to_h = parse
-
-  def to_json(*_args)
-    to_h.to_json
-  end
-
-  # Build a compliant llab URL that would show the full page w/ navigation
-  # Adds a topic and course reference to the URL
+  # Build compliant llab URLs that show each page with its navigation, by adding
+  # a topic and course reference. Used by the accessibility specs to enumerate
+  # every page of a course the way a student would load it, which is why they
+  # ask for the generated summary pages too.
   # TODO: This isn't the right abstraction...
   # This should maybe be called automatically by the all_pages functions?
-  def augmented_page_paths_in_topic
-    all_pages_without_summaries.map do |path|
-      "#{path}?topic=#{llab_reference_path}&course=#{course}"
+  def augmented_page_paths_in_topic(include_summaries: false)
+    all_pages(include_summaries: include_summaries).filter_map do |page|
+      # Entries like `video: Take-home midterm Wednesday!` have no link.
+      next if page[:url].to_s.empty?
+
+      "#{page[:url]}?topic=#{llab_reference_path}&course=#{course}"
     end
+  end
+
+  def to_h
+    parse
   end
 
   # TODO: Cleanup when we move to a topic parser class.
@@ -121,10 +183,11 @@ class BJCTopic
     section = nil
     i = 0
 
-    while i < lines.length do
+    while i < lines.length
       line = strip_comments(lines[i])
 
-      if line.length == 0 || line[0] == '}'
+      if line.empty? || line[0] == '}'
+        # Blank lines and the closing brace of a topic carry no content.
       elsif line.match?(/^title:/)
         topics[:title] = line.slice(6, line.length)
       # TODO: This syntax is not used. Reserve for the future.
@@ -134,7 +197,7 @@ class BJCTopic
         text = get_content(line)[:text] # in case they start the raw html on the same line
         raw_html = text
         next_line = strip_comments(lines[i + 1])
-        while next_line.length >= 1 && next_line[0] != '}' && !is_keyword?(next_line) do
+        while next_line.length >= 1 && next_line[0] != '}' && !keyword_line?(next_line)
           i += 1
           next_line = strip_comments(lines[i + 1])
           line = strip_comments(lines[i]) # TODO: Is this right? Probably?
@@ -147,16 +210,16 @@ class BJCTopic
         topics[:topics].push(topic_model)
         section = { title: '', content: [], type: 'section' }
         topic_model[:content].push(section)
-      elsif is_heading?(line)
+      elsif heading_line?(line)
         # Start a new section in the topic moduel
         heading_type = get_keyword(line, HEADINGS_KEYWORDS)
-        if section[:content].length > 0
+        if section[:content].length.positive?
           section = { title: '', content: [], type: 'section' }
           topic_model[:content].push(section)
         end
         section[:headingType] = heading_type
         section[:title] = get_content(line)[:text]
-      else # is_info? || is_resource? || unknown
+      else # info_line? || resource_line? || unknown
         item = parse_line(line)
         section[:content].push(item)
       end
@@ -172,32 +235,24 @@ class BJCTopic
   ### "    resource: Title Text [url]"
   ### Should return:
   ### { type: resource, content: 'Title Text', url: url, indent: 1 }
+  # NOTE: the space after the colon is optional. llab renders "quiz:Title [url]"
+  # the same as "quiz: Title [url]", and topic files in the wild use both.
+  LINE_TYPE = /^([\w-]+):[ \t]*/
   def parse_line(line)
     indent = indent_level(line.match(/^(\s*)/)[1] || '')
     line = line.gsub(/^\s*/, '')
-    resource_matcher = line.match(/^([\w\-]+):\s/)
-    if !resource_matcher
-      # puts "Could not find any resource for line: #{line}"
-      resource = 'text'
-    else
-      # TODO: Warn if an unknown resource is present?
-      resource = resource_matcher[1]
-    end
-    line = line.gsub(/^([\w\-]+):\s/, '')
-    content_url = extract_content_url(line)
-    # if !content_url[:url]
-    #   puts "WARNING: No URL found for line: #{line}"
-    # end
-    { type: resource, indent: indent, **content_url }
+    resource_matcher = line.match(LINE_TYPE)
+    # TODO: Warn if an unknown resource is present?
+    resource = resource_matcher ? resource_matcher[1] : 'text'
+    { type: resource, indent: indent, **extract_content_url(line.gsub(LINE_TYPE, '')) }
   end
 
   # Return a hash of { content: '', url: ''} from a line
   # Splits: "Text [url]" where URL is any valid URL or file path
   # URL may be missing
   def extract_content_url(partial_line)
-    if partial_line.index('[').nil?
-      return { content: partial_line.strip, url: nil }
-    end
+    return { content: partial_line.strip, url: nil } if partial_line.index('[').nil?
+
     content = partial_line.match(/^(.*)\s*\[/)
     url = partial_line.match(/\[(.*?)\]/)
 
@@ -208,43 +263,30 @@ class BJCTopic
     { content: content, url: url }
   end
 
-  #not fully function - vic added
-  def generate_topic_file(json_hash)
-    topic_file = "title: #{json_hash[:title]}\n"
-
-    json_hash[:content].each do |section|
-      topic_file += "\nheading: #{section[:title]}\n"
-      section[:content].each do |item|
-        if item[:type] == "raw-html"
-          topic_file += "\t#{item[:content]}\n"
-        else
-          topic_file += "\tresource: #{item[:content]} [#{item[:url]}]\n"
-        end
-      end
-    end
-
-    File.open(topic_file, 'w') {|f| f.write(topic_file) }
+  # The unit number from the title, e.g. "1" for both
+  # "Unit 1: Introduction" and "Unidad 1: Introducción a la programación".
+  # Assumes there is only 1 primary section in the topic file.
+  def unit_number
+    title.to_s[/\d+/]
   end
 
-  private
-  # TODO: Many methods above should be made private
-
-  # Determines if a section is a "summary" of content based on the heading.
-  SUMMARY_SECTION_TITLES = [
-    /Unit\s*\d+\s*Review/,
-    /Unidad\s*\d+\s*Revision/,
-  ]
-  def is_summary_section?(section)
-    SUMMARY_SECTION_TITLES.any? { |re| section[:title].match?(re) }
-  end
-
+  # Pages the build tools generate themselves, rather than curriculum content.
   SUMMARY_URLS = [
-    /\/summaries\//, # all pages in a summaries directory
+    %r{/summaries/}, # all pages in a summaries directory
     /unit-.*-vocab.*\.html/,
     /unit-.*-self-check.*\.html/,
-    /unit-.*-exam-reference.*\.html/,
-  ]
-  def is_summary_page?(item)
+    /unit-.*-exam-reference.*\.html/
+  ].freeze
+
+  private
+
+  def summary_section?(section)
+    self.class.summary_heading?(section[:title])
+  end
+
+  def summary_page?(item)
+    return false if item[:url].nil?
+
     SUMMARY_URLS.any? { |re| item[:url].match?(re) }
   end
 
@@ -252,18 +294,16 @@ class BJCTopic
   # Returns an array of all the paths in that section
   # If include_summaries = false, then known "summary" URLs are exlcuded
   # this means quizzes, vocab, ap exam pages.
-  def extract_pages_in_section(parsed_section, include_summaries=false)
-    parsed_section[:content].each_with_index.map do |item, item_index|
-      if !include_summaries && is_summary_page?(item)
+  def extract_pages_in_section(parsed_section, include_summaries: false)
+    parsed_section[:content].flat_map do |item|
+      if !include_summaries && summary_page?(item)
         nil
       elsif RESOURCES_KEYWORDS.include?(item[:type])
-        item[:url]
+        item
       elsif item[:type] == 'section'
         extract_pages_in_section(item, include_summaries: include_summaries)
-      else
-        nil
       end
-    end.flatten.compact
+    end.compact
   end
 
   ### Parsing Helpers -- These should be moved at some point...
@@ -275,14 +315,14 @@ class BJCTopic
   def strip_comments(s)
     return '' unless s
 
-    s.gsub(/(\s|^)\/\/.*/, '').strip
+    s.gsub(%r{(\s|^)//.*}, '').strip
   end
 
   # Each 'line' in a topic file can be 'indented' by tabs or spaces, which affects
   # its visual position when rendered.
   # NOTE: a the difference between 2 or 4 spaces as one "indent level" was never defined.
   def indent_level(s, tab_size = 4)
-    s.count("\t") + s.count(' ')/tab_size
+    s.count("\t") + (s.count(' ') / tab_size)
   end
 
   def get_keyword(line, array)
@@ -292,30 +332,35 @@ class BJCTopic
   end
 
   # Split "resource: Text [url]" in the right parts.
+  # Only the first colon separates the keyword from the content, so headings
+  # like "heading: Lab 1: Widget Basics" and raw-html containing a URL keep
+  # everything after it. This matches llab's own getContent().
   # TODO: figure out of this is necessary or to reuse parse_line
   def get_content(line)
     return { text: '', url: '' } unless line
-    content = line.split(':')
+
+    content = line.split(':', 2)
     return { text: '', url: '' } unless content.length > 1
+
     sliced = content[1].split(/\[|\]/)
-    text = sliced.length > 0 ? sliced[0].strip : ''
+    text = sliced.length.positive? ? sliced[0].strip : ''
     url = sliced.length > 1 ? sliced[1].strip : ''
     { text: text, url: url }
   end
 
-  def is_resource?(line)
-    RESOURCES_KEYWORDS.any? { |word| line.include?(word) }
+  def resource_line?(line)
+    line.match?(RESOURCE_LINE)
   end
 
-  def is_info?(line)
-    INFO_KEYWORDS.any? { |word| line.include?(word) }
+  def info_line?(line)
+    line.match?(INFO_LINE)
   end
 
-  def is_heading?(line)
-    HEADINGS_KEYWORDS.any? { |word| line.include?(word) }
+  def heading_line?(line)
+    line.match?(HEADING_LINE)
   end
 
-  def is_keyword?(line)
-    is_resource?(line) || is_info?(line) || is_heading?(line)
+  def keyword_line?(line)
+    resource_line?(line) || info_line?(line) || heading_line?(line)
   end
 end

@@ -81,11 +81,11 @@ class Index
   end
 
   def capital?(char)
-    (char.bytes[0] >= 65 and char.bytes[0] <= 90)
+    char.bytes[0].between?(65, 90)
   end
 
   def lowercase?(char)
-    (char.bytes[0] >= 97 and char.bytes[0] <= 122)
+    char.bytes[0].between?(97, 122)
   end
 
   # alphabet and letter are lowercase and returned vocab word is upper and then lowercase
@@ -141,16 +141,15 @@ class Index
     alphabet_index_links(used_letters, output)
   end
 
-  def write_index_file
-    dst = "#{@parentDir}/#{index_filename}"
+  def rendered_index
     html = Nokogiri::HTML(html_document(@file_body)).to_html
-    pretty_html = HtmlBeautifier.beautify(html)
-    File.write(dst, pretty_html)
+    HtmlBeautifier.beautify(html)
   end
 
+  # Returns [destination_path, contents]. Nothing is written to disk here.
   def main
     generate_html_list
-    write_index_file
+    ["#{@parentDir}/#{index_filename}", rendered_index]
   end
 
   def html_document(contents)
@@ -185,25 +184,19 @@ class Index
     HTML
   end
 
-
   # TODO: Mimic ActiveSupport's inflector methods
   # Alteranatively, downcase by word, except for known exceptions
+  # This used to keep its own copy of CAPITALS, which had drifted: 'SPOF' was
+  # missing from it, so "SPOF" was indexed as "spof".
   def keep_Capitalized?(vocab)
-    capitals = ['IP', 'DDoS', 'SSL', 'TLS', 'TCP', 'IA', 'IPA', 'PCT', 'PI', 'AI', 'ADT', 'API',
-                'Creative Commons', 'ISPs', 'Commons', 'Creative', 'Boolean', 'Booleano']
-    capitals.each do |item|
-      # Can't quite be exact match bc of terms like "API (Application Programming Interface)"
-      if vocab.match?(item)
-        return true
-      elsif vocab.match?(/\(.+\)/)
-        return true
-      end
-    end
-    false
+    # Can't quite be an exact match bc of terms like "API (Application Programming Interface)"
+    return true if vocab.match?(/\(.+\)/)
+
+    CAPITALS.any? { |item| vocab.match?(item) }
   end
 
   def index_downcase(vocab)
-    words = vocab.split(' ')
+    words = vocab.split
     words.map! do |word|
       # Clean up () and : from word
       word = word.gsub(/[():]/, '')
