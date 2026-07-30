@@ -432,6 +432,7 @@ ul.navbar-right li {
  * Unqualified so it matches both the <a> arrows and the <button> menu
  * toggle; the -first/-last rules below restore the outer corners. */
 .nav-btn-group .btn-nav {
+  margin: auto -1px;
   border-radius: 0;
 }
 
@@ -561,6 +562,9 @@ pre {
   margin: 10px 10px 10px 2%;
   width: 96%;
   padding: 0; /* useful for code elements */
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 pre > code.hljs {
@@ -923,6 +927,7 @@ img.indent, div.indent {
   width: 85%;
   padding: 10px 0px 10px 15px;
   min-height: 300px;
+  box-sizing: border-box;
 }
 
 .MultipleChoice .currentQuestionBox .rightColumn {
@@ -932,6 +937,26 @@ img.indent, div.indent {
   text-align: center;
   color: white;
   min-height: 300px;
+  box-sizing: border-box;
+}
+
+/* On narrow screens, stack the columns so content can't spill out
+ * of the card. Also let images and option feedback shrink. */
+@media (max-width: 768px) {
+  .MultipleChoice .currentQuestionBox .leftColumn,
+  .MultipleChoice .currentQuestionBox .rightColumn {
+    float: none;
+    width: 100%;
+    min-height: auto;
+  }
+  .MultipleChoice .currentQuestionBox img {
+    max-width: 100%;
+    height: auto;
+  }
+  .MultipleChoice .answer-choices-form .option-feedback {
+    margin-left: 0;
+    max-width: 100%;
+  }
 }
 
 .MultipleChoice .itemLabel {
