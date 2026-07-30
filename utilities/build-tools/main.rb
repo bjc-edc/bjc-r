@@ -150,6 +150,7 @@ class Main
   def addSummariesToTopic(topic_file, _curr_lab_folder)
     topic_folder(topic_file.split('/')[0])
     topic_file_path = "#{@rootDir}/topic/#{topic_file}"
+    original_topic_content = File.read(topic_file_path)
     delete_existing_summaries(topic_file_path)
     link_match = "/bjc-r/#{@content}"
     unit = File.readlines(topic_file_path).find { |line| line.match?(link_match) }
@@ -172,6 +173,7 @@ class Main
       end
     end
     add_content_to_file(topic_file_path, "\n#{topic_content}\n}") unless is_empty_review
+    report_topic_file_change(topic_file_path, original_topic_content)
   end
 
   def isSummary(line)
