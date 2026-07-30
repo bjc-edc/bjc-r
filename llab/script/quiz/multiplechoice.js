@@ -108,6 +108,9 @@ MC.prototype.tryAgain = function(e) {
         return;
     }
     this.render();
+    // render() disables the Try Again button, which would strand keyboard
+    // focus; Check Answer is re-enabled by render().
+    this.multipleChoice.find('.checkAnswerButton').trigger('focus');
 };
 
 
@@ -129,16 +132,19 @@ MC.prototype.render = function() {
         if (this.content.additonal_info) {
             this.multipleChoice.find('.questionType').append(this.content.additonal_info);
         }
+        /* Render the prompt once. The prompt is identical across attempts, so we
+         * intentionally do NOT rebuild it on "Try Again". Rebuilding it would
+         * re-insert a fresh copy of any developer-comment elements (.todo,
+         * .ap-standard, ...) and reset their visibility, undoing whatever state
+         * the "Toggle developer comments" button had put them in. */
+        this.multipleChoice.find('.promptDiv').html(this.content.prompt);
     }
-
-    /* render the prompt */
-    this.multipleChoice.find('.promptDiv').html(this.content.prompt);
 
     /* remove buttons */
 
-    var radiobuttondiv = this.multipleChoice.find('.radiobuttondiv')[0];
-    while (radiobuttondiv.hasChildNodes()) {
-        radiobuttondiv.removeChild(radiobuttondiv.firstChild);
+    var formChoices = this.multipleChoice.find('.answer-choices-form')[0];
+    while (formChoices.hasChildNodes()) {
+        formChoices.removeChild(formChoices.firstChild);
     }
 
     /*
@@ -157,18 +163,23 @@ MC.prototype.render = function() {
     for (let i = 0; i < this.choices.length; i++) {
         optId = this.choices[i].identifier;
         choice_id = `q-${this.num}-${this.removeSpace(optId)}`;
+        // The choice text is wrapped in a single .choice-content span so it is
+        // one flex item inside the label. Without the wrapper, each text run and
+        // inline element (<em>, <img>, <var>, <code>, <pre class="inline">)
+        // becomes its own flex item, which collapses the whitespace between them
+        // (e.g. "Snap! code" -> "Snap!code") and prevents the text from wrapping.
         choiceHTML = `
         <div class="option-row">
             <div class="${type}">
                 <label id="choicetext-${choice_id}" for="${choice_id}">
-                    <input type="${type}" id="${choice_id}" value="${this.removeSpace(optId)}" />
-                    ${this.choices[i].text}
+                    <input type="${type}" name="q-${this.num}" id="${choice_id}" value="${this.removeSpace(optId)}" />
+                    <span class="choice-content">${this.choices[i].text}</span>
                 </label>
             </div>
-            <div class="option-feedback" id="feedback_${choice_id}" name="feedback"></div>
+            <div class="option-feedback" id="feedback_${choice_id}" name="feedback" aria-live="polite"></div>
         </div>`;
 
-        this.multipleChoice.find('.radiobuttondiv').append(choiceHTML);
+        this.multipleChoice.find('.answer-choices-form').append(choiceHTML);
 
         $(`#${choice_id}`).bind('click', { myQuestion: this }, function(args) {
             args.data.myQuestion.enableCheckAnswerButton('true');
@@ -194,7 +205,6 @@ MC.prototype.render = function() {
     this.enableCheckAnswerButton('true');
     this.clearFeedbackDiv();
 
-    console.log(this.correctResponse);
     if (this.correctResponse.length < 1) {
         // if there is no correct answer to this question (ie, when they're filling out a form),
         // change button to say "save answer" and "edit answer" instead of "check answer" and "try again"
@@ -210,6 +220,9 @@ MC.prototype.render = function() {
         var latestState = this.states[this.states.length - 1];
         //display the message that they correctly answered the question
         var resultMessage = this.getResultMessage(latestState.isCorrect);
+        if (!resultMessage && latestState.isPartial) {
+            resultMessage = llab.translate('partialMessage');
+        }
         this.multipleChoice.find('.resultMessageDiv').html(resultMessage);
         if (latestState.isCorrect) {
             this.multipleChoice.find('.tryAgainButton').addClass('disabled').attr('disabled', true);
@@ -290,13 +303,32 @@ MC.prototype.checkAnswer = function() {
         return;
     }
 
+    var inputbuttons = this.multipleChoice.find('.answer-choices-form')[0].getElementsByTagName('input');
+
+    /* Nothing selected: prompt for a selection instead of marking the
+     * question wrong with no visible feedback. This is easy to hit after
+     * "Try Again", which rebuilds the choices unselected. */
+    var anythingChecked = false;
+    for (var j = 0; j < inputbuttons.length; j++) {
+        if (inputbuttons[j].checked) {
+            anythingChecked = true;
+            break;
+        }
+    }
+    if (!anythingChecked) {
+        this.multipleChoice.find('.resultMessageDiv').html(llab.translate('selectAnswerMessage'));
+        return false;
+    }
+
     this.multipleChoice.find('.resultMessageDiv').html('');
 
     this.attempts.push(null);
 
-    var inputbuttons = this.multipleChoice.find('.radiobuttondiv')[0].getElementsByTagName('input');
     var mcState = {};
-    var isCorrect = true;
+    var hasCorrectAnswers = this.correctResponse.length > 0;
+    var numCorrectSelected = 0;
+    var numIncorrectSelected = 0;
+    var numCorrectUnselected = 0;
     var i, checked, choiceIdentifier, choice, fullId;
 
     this.enableRadioButtons(false);
@@ -311,38 +343,67 @@ MC.prototype.checkAnswer = function() {
         choice = this.getChoiceByIdentifier(choiceIdentifier);
         if (checked) {
             if (choice) {
-                this.multipleChoice.find('#feedback_' + fullId).html(choice.feedback).css('display', 'inline-block');
+                var choiceIsCorrect = this.isCorrect(choice.identifier);
+                var feedbackHTML = this.formatFeedback(
+                    choice.feedback, choiceIsCorrect, hasCorrectAnswers
+                );
+                if (feedbackHTML) {
+                    // Become visible *before* the content lands so the
+                    // aria-live region announces it to screen readers.
+                    this.multipleChoice.find('#feedback_' + fullId)
+                        .css('display', 'block')
+                        .html(feedbackHTML);
+                }
+
+                // The .correct / .incorrect class is kept purely as a state hook
+                // for styling the feedback box (see .option-row:has(...) in CSS);
+                // it no longer recolors the choice label itself.
                 var choiceTextDiv = this.multipleChoice.find("#choicetext-" + fullId);
-                if (this.isCorrect(choice.identifier)) {
+                if (choiceIsCorrect) {
                     choiceTextDiv.attr("class", "correct");
+                    numCorrectSelected++;
                 } else {
                     choiceTextDiv.attr("class", "incorrect");
-                    isCorrect = false;
+                    numIncorrectSelected++;
                 }
                 mcState.identifier = choice.identifier;
                 mcState.text = choice.text;
             } else {
                 alert('error retrieving choice by choiceIdentifier');
             }
-        } else {
-            if (this.isCorrect(choice.identifier)) {
-                isCorrect = false;
-            }
+        } else if (this.isCorrect(choice.identifier)) {
+            numCorrectUnselected++;
         }
     }
 
+    var isCorrect, isPartial = false;
+    if (hasCorrectAnswers) {
+        isCorrect = numCorrectUnselected === 0 && numIncorrectSelected === 0 && numCorrectSelected > 0;
+        isPartial = !isCorrect && numCorrectSelected > 0;
+    } else {
+        // No correct answers defined (form-style question): preserve original
+        // behavior of treating any unchecked option as a "wrong" state.
+        isCorrect = numCorrectUnselected === 0;
+    }
+
     mcState.isCorrect = isCorrect;
+    mcState.isPartial = isPartial;
 
     var outerdiv = this.multipleChoice.find('.panel-heading').parent();
-    outerdiv.removeClass('panel-primary');
-    outerdiv.removeClass('panel-success');
-    outerdiv.removeClass('panel-danger');
+    outerdiv.removeClass('panel-primary panel-success panel-warning panel-danger');
     if (isCorrect) {
         outerdiv.addClass('panel-success');
         this.multipleChoice.find('.resultMessageDiv').html(this.getResultMessage(isCorrect));
         this.multipleChoice.find('.checkAnswerButton').addClass('disabled').attr('disabled', true);
+    } else if (isPartial) {
+        outerdiv.addClass('panel-warning');
+        this.multipleChoice.find('.resultMessageDiv').html(llab.translate('partialMessage'));
     } else {
         outerdiv.addClass('panel-danger');
+        // Wrong answers previously showed no message at all — the only signal
+        // was the red panel border, which color-blind and screen-reader users
+        // cannot perceive.
+        this.multipleChoice.find('.resultMessageDiv').html(llab.translate('incorrectMessage'));
     }
 
     // Update Google Analytics
@@ -355,6 +416,11 @@ MC.prototype.checkAnswer = function() {
             nonInteraction: true // don't count this as an interaction
         });
     }
+
+    // Move focus off the now-disabled Check Answer button (disabling the
+    // focused element drops focus to <body>, stranding keyboard users).
+    // Try Again is always enabled at this point.
+    this.multipleChoice.find('.tryAgainButton').trigger('focus');
 
     // push the state object into this mc object's own copy of states
     this.states.push(mcState);
@@ -406,6 +472,44 @@ MC.prototype.getResultMessage = function(isCorrect) {
         return t("successMessage");
     }
     return '';
+};
+
+/**
+ * Build the per-choice feedback HTML shown below an answer choice.
+ *
+ * Ensures the feedback always states whether the choice was right or wrong: if
+ * the author's feedback doesn't already say so (or is empty), we prefix it with
+ * "Correct." / "Incorrect." as appropriate. This also gives questions whose
+ * choices have empty <feedback> divs a visible result.
+ *
+ * Form-style questions (no correct answers defined; buttons read "Save
+ * Answer") have no notion of a verdict, so their feedback is returned as
+ * authored — possibly empty, in which case nothing is shown.
+ *
+ * @param {string} feedbackHtml - author-provided feedback (may be empty/null)
+ * @param {boolean} isCorrect - whether the selected choice is correct
+ * @param {boolean} hasCorrectAnswers - whether this question defines any
+ *     correct answers (false for form-style "Save Answer" questions)
+ * @return {string} feedback HTML to display ('' hides the feedback box)
+ */
+MC.prototype.formatFeedback = function(feedbackHtml, isCorrect, hasCorrectAnswers) {
+    var body = (feedbackHtml == null) ? '' : String(feedbackHtml).trim();
+    if (hasCorrectAnswers === false) {
+        return body;
+    }
+    // Strip tags so markup can't hide (or falsely satisfy) the verdict check.
+    var plain = body.replace(/<[^>]*>/g, ' ');
+    // English and Spanish verdict wordings that authors already use.
+    var alreadyStated = isCorrect
+        ? /\b(correct|correcto|correcta)\b/i.test(plain)
+        : /\b(incorrect|incorrecto|incorrecta)\b/i.test(plain) ||
+          /^[\s¡¿]*(no\b|nope|wrong\b|not\s+quite)/i.test(plain);
+
+    if (alreadyStated) {
+        return body;
+    }
+    var label = llab.translate(isCorrect ? 'correctLabel' : 'incorrectLabel');
+    return body ? (label + ' ' + body) : label;
 };
 
 /** FIXME -- reusable
@@ -468,16 +572,16 @@ MC.prototype.getTemplate = function() {
     <div class='panel-body currentQuestionBox'>
         <div class='leftColumn'>
             <div class='promptDiv'></div>
-            <form class='radiobuttondiv'></form>
+            <form class='answer-choices-form'></form>
             <div class='feedbackdiv'></div>
         </div>
     </div>
     <div class='clearBoth'></div>
     <div class='interactionBox'>
         <div class='statusMessages'>
-            <div class='numberAttemptsDiv'></div>
+            <div class='numberAttemptsDiv' role='status'></div>
             <div class='scoreDiv'></div>
-            <div class='resultMessageDiv'></div>
+            <div class='resultMessageDiv' role='status'></div>
         </div>
         <div class='buttonDiv'>
             <table class='buttonTable' role="presentation"><tbody>
