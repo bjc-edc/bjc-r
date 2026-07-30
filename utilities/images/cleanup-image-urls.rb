@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 IMAGE_FILES = <<~FILES.split
   img/1-introduction/()=0.es.png
   img/1-introduction/(2xnumber)+1.es.png

@@ -213,22 +213,6 @@ llab.renderTitle = function (title) {
   document.title = titleText;
 };
 
-llab.renderCourseLink = function (course) {
-  if (!course) {
-    console.warn('No course found for this topic page.');
-    return;
-  }
-
-  if (course.indexOf("://") === -1) {
-    course = llab.courses_path + course;
-  }
-  let courseLink = `<a class="course_link pull-right" href="${course}">${llab.t(llab.strings.goMain)}</a>`;
-  if ($('.title-small-screen').length > 0) {
-    $(courseLink).insertAfter('.title-small-screen');
-  } else {
-    $(llab.selectors.FULL).prepend(courseLink);
-  }
-};
 
 llab.renderTopic = function (topic_model) {
   var FULL = llab.selectors.FULL,
@@ -382,8 +366,7 @@ llab.displayTopic = function() {
   llab.file = llab.getQueryParameter("topic");
 
   if (llab.file) {
-    fetch(llab.topics_path + llab.file)
-      .then(response => response.text())
+    llab.fetchTopicFile(llab.file)
       .then(data => llab.renderFull(data))
       .catch(llab.handleError);
   } else {

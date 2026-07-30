@@ -18,6 +18,11 @@
 
 require 'rspec'
 require 'rack'
+require 'fileutils'
+
+# RSpec formatters and Capybara screenshots write to this ignored directory.
+# A fresh checkout does not contain it, so create it before the suite runs.
+FileUtils.mkdir_p('tmp')
 
 require 'capybara/rspec'
 require 'rack/test'
@@ -29,7 +34,7 @@ require 'capybara-screenshot'
 
 # Used to set the path for a local webserver.
 # For simplicity, this is one level above bjc-r/ so the prefix is easily handled.
-FILE_SERVER_ROOT = File.expand_path("../../../", __dir__)
+FILE_SERVER_ROOT = File.expand_path('../../../', __dir__)
 
 Capybara.register_driver :chrome_headless do |app|
   options = Selenium::WebDriver::Chrome::Options.new

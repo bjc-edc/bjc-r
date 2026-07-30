@@ -37,7 +37,7 @@ jobs:
           - wcag20
           - wcag22
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
       - uses: ruby/setup-ruby@v1
         with:
           # Specified by .tool-versions
@@ -47,3 +47,14 @@ jobs:
       - name: summary
         if: always()
         run: ruby utilities/specs/spec_summary.rb
+
+  self_check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ruby/setup-ruby@v1
+        with:
+          # Specified by .tool-versions
+          bundler-cache: true
+      - name: self-check feedback tests
+        run: bundle exec rspec utilities/specs/self_check_feedback_spec.rb

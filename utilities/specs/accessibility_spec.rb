@@ -4,10 +4,8 @@
 # This runs the axe accessibility checker on each page in a headless browser.
 
 # spec_helper ensures the website is built and can be served locally
-require_relative './bjc_helper'
-require_relative './spec_helper'
-
-include BJCSpecs
+require_relative 'bjc_helper'
+require_relative 'spec_helper'
 
 # ===== Page / Course List
 # Use course as a tag (`rspec --tag bjc4nyc`) to run only the tests for that course.
@@ -17,14 +15,50 @@ COURSES = %w[
   sparks
   bjc4nyc_teacher
   sparks-teacher
-]
+].freeze
 ALL_PAGES = BJCSpecs.complete_bjc_grouped_file_list(COURSES)
 # ===============================
 
+# ====== AXE Configuration
+# Axe-core test standards groups
+# See https://github.com/dequelabs/axe-core/blob/develop/doc/API.md#axe-core-tags
+REQUIRED_A11Y_STANDARDS = %i[wcag2a wcag2aa].freeze
+# These are currently labelled as "optional" until the basic tests are passing.
+COMPLETE_A11Y_STANDARDS = %i[wcag21a wcag21aa wcag22aa wcag2a-obsolete best-practice section508].freeze
+
+# axe-core rules that are not required to be accessible / do not apply
+# See: https://github.com/dequelabs/axe-core/blob/develop/doc/rule-descriptions.md
+# This should be empty and all additions should be extensively documented, or temporary.
+SKIPPED_RULES = [].freeze
+
+# These are elements that are not required to be accessible
+EXCLUDED_ELEMENTS = [
+  # should be used very sparingly.
+  '[data-a11y-errors="true"]',
+  # Developer Tools, which aren't visible in production
+  '.todo',
+  '.comment',
+  '.commentBig',
+  '.ap-standard',
+  '.csta-standard',
+  # 3rd-party YouTube embeds — false positives from YouTube's own iframe markup.
+  '[aria-label="YouTube Video Player"]',
+  '#movie_player',
+  # 3rd-party embedded content (YouTube players, gapminder.org charts,
+  # etc.) is excluded one iframe at a time by tagging the offending
+  # element with data-a11y-errors="true" in the source page (covered
+  # by the top-level selector above). Tagging per iframe — rather than
+  # blanket-excluding all iframes — keeps it visible in source review
+  # which 3rd-party embeds we're knowingly opting out of, and lets us
+  # still axe-test any first-party iframes we add later.
+  # TODO: items below here **must** be fixed eventually.
+  'var' # Snap! elements don't have enough color contrast.
+].freeze
+
 def test_tags(tags)
   # Adds "course_wcag22" tag to the list.
-  tags << tags.join("_")
-  Hash[tags.map { |k| [k.to_sym, true] }]
+  tags << tags.join('_')
+  tags.to_h { |k| [k.to_sym, true] }
 end
 
 # Create a readable path for specs from the page URL
@@ -34,7 +68,7 @@ def trimmed_url(url)
 end
 
 def topic_from_url(url)
-  return '-' unless url.match(/topic=(.*)\.topic/)
+  return '-' unless url =~ /topic=(.*)\.topic/
 
   "- #{Regexp.last_match(1)}"
 end
@@ -44,50 +78,13 @@ def a11y_test_cases(course, url)
   # Allows CI to run only the tests for a specific course AND standard.
   wcag20_tags = test_tags([course, :wcag20])
   wcag22_tags = test_tags([course, :wcag22])
-  subset_tags = test_tags([course, :subset])
 
-  # ====== AXE Configuration
-  # Axe-core test standards groups
-  # See https://github.com/dequelabs/axe-core/blob/develop/doc/API.md#axe-core-tags
-  required_a11y_standards = %i[wcag2a wcag2aa]
-  # These are currently labelled as "optional" until the basic tests are passing.
-  complete_a11y_standards = %i[wcag21a wcag21aa wcag22aa wcag2a-obsolete best-practice section508]
-
-  # axe-core rules that are not required to be accessible / do not apply
-  # See: https://github.com/dequelabs/axe-core/blob/develop/doc/rule-descriptions.md
-  # This should be empty and all additions should be extensively documented, or temporary.
-  skipped_rules = []
-
-  # These are elements that are not required to be accessible
-  excluded_elements = [
-    # should be used very sparingly.
-    '[data-a11y-errors="true"]',
-    # Developer Tools, which aren't visible in production
-    '.todo',
-    '.comment',
-    '.commentBig',
-    '.ap-standard',
-    '.csta-standard',
-    # 3rd-party embedded content (YouTube players, gapminder.org charts,
-    # etc.) is excluded one iframe at a time by tagging the offending
-    # element with data-a11y-errors="true" in the source page (covered
-    # by the top-level selector above). Tagging per iframe — rather than
-    # blanket-excluding all iframes — keeps it visible in source review
-    # which 3rd-party embeds we're knowingly opting out of, and lets us
-    # still axe-test any first-party iframes we add later.
-    # TODO: items below here **must** be fixed eventually.
-    'var', # Snap! elements don't have enough color contrast.
-  ]
-
-  describe "#{course} #{topic_from_url(url)} (#{trimmed_url(url)}) :",
-    type: :feature, js: true do
-    before(:each) do
+  describe "#{course} #{topic_from_url(url)} (#{trimmed_url(url)}) :", :js, type: :feature do
+    before do
       visit(url)
 
       # binding.irb
-      if page.html.match?(/File not found:/)
-        skip("TODO: #{url} is a 404 page.")
-      end
+      skip("TODO: #{url} is a 404 page.") if page.html.include?('File not found:')
 
       # Expand all optional content (ifTime/takeItFurther <details>, Bootstrap
       # collapse hints) so axe tests what's inside — axe skips hidden content.
@@ -106,6 +103,7 @@ def a11y_test_cases(course, url)
         break if page.evaluate_script(
           'document.querySelectorAll("details:not([open]), .collapse:not(.in)").length === 0'
         )
+
         sleep 0.1
         page.execute_script(expand_all_js)
       end
@@ -114,16 +112,16 @@ def a11y_test_cases(course, url)
     # These tests should always be enabled.
     it 'is WCAG 2.0 accessible', **wcag20_tags do
       expect(page).to be_axe_clean
-        .according_to(*required_a11y_standards)
-        .skipping(*skipped_rules)
-        .excluding(*excluded_elements)
+        .according_to(*REQUIRED_A11Y_STANDARDS)
+        .skipping(*SKIPPED_RULES)
+        .excluding(*EXCLUDED_ELEMENTS)
     end
 
     it 'is WCAG 2.2 accessible', **wcag22_tags do
       expect(page).to be_axe_clean
-        .according_to(*complete_a11y_standards)
-        .skipping(*skipped_rules)
-        .excluding(*excluded_elements)
+        .according_to(*COMPLETE_A11Y_STANDARDS)
+        .skipping(*SKIPPED_RULES)
+        .excluding(*EXCLUDED_ELEMENTS)
     end
 
     #  Run tests only on a subset of rules when necessary.
@@ -157,8 +155,6 @@ def a11y_test_cases(course, url)
   end
 end
 
-
-puts "Running tests on #{ALL_PAGES.values.map(&:length).sum} pages."
 ALL_PAGES.each do |course, pages|
   pages.each { |url| a11y_test_cases(course, url) }
 end

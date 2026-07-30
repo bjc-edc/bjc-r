@@ -1,0 +1,58 @@
+name: Build tools
+
+on:
+  - push
+  - workflow_dispatch
+  # - pull_request
+
+jobs:
+  lint:
+    name: RuboCop
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ruby/setup-ruby@v1
+        with:
+          # Specified by .tool-versions
+          bundler-cache: true
+      - name: rubocop
+        run: bundle exec rubocop --format github --format progress
+
+  specs:
+    name: Build tool specs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ruby/setup-ruby@v1
+        with:
+          # Specified by .tool-versions
+          bundler-cache: true
+      # Neither of these needs a browser, so they finish in seconds.
+      - name: build tool unit tests
+        run: bundle exec rspec utilities/specs/build_tools_spec.rb
+      - name: generated page structure
+        run: bundle exec rspec utilities/specs/summary_pages_spec.rb
+
+  rebuild:
+    name: Summaries are up to date
+    runs-on: ubuntu-latest
+    # Reports rather than blocks, matching the a11y job. Curriculum edits land
+    # before their summary pages are regenerated, and that is fine day to day.
+    # Delete this line to make a stale summary page fail the build.
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ruby/setup-ruby@v1
+        with:
+          # Specified by .tool-versions
+          bundler-cache: true
+      - name: rebuild every course and language
+        run: bundle exec ruby utilities/build-tools/rebuild-all.rb
+      - name: check the committed pages match
+        run: |
+          if ! git diff --quiet; then
+            echo "::warning::Generated summary pages are out of date."
+            echo "Run: bundle exec ruby utilities/build-tools/rebuild-all.rb"
+            git --no-pager diff --stat
+            exit 1
+          fi
