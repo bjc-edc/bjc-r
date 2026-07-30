@@ -98,7 +98,7 @@ llab.secondarySetUp = function (newPath) {
 
   // TODO: Figure a nicer place to put all of these...
   // TODO: Rewrite the function to not scan every element.
-  if ($('[w3-include-html]')) {
+  if ($('[w3-include-html]').length) {
     w3.includeHTML();
   }
 
@@ -293,12 +293,6 @@ llab.processLinks = (data) => {
   llab.indicateProgress(llab.url_list.length, llab.thisPageNum() + 1);
 }; // end processLinks()
 
-
-// Build a list of links to be appended to the navigation dropdown.
-llab.buildDropdownFromTopicModel = _llabObj => {
-  // TODO: Just the parsed topic file to create dropdown contents.
-  let _list = $('.js-llabPageNavMenu');
-}
 
 // Create an iframe when loading from an empty curriculum page
 // Used for embedded content. (Videos, books, etc)
@@ -887,7 +881,7 @@ llab.setupTranslationsMenu = function() {
 
 llab.setupSnapImages = () => {
   $('img.js-runInSnap').each((_idx, elm) => {
-    let openURL = llab.getSnapRunURL($img.attr('src'));
+    let openURL = llab.getSnapRunURL($(elm).attr('src'));
     $(elm).wrap(`<a href="${openURL}" class="snap-project" target=_blank></a>`);
   });
 };
