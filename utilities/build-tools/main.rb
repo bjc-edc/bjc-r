@@ -176,16 +176,6 @@ class Main
     report_topic_file_change(topic_file_path, original_topic_content)
   end
 
-  def report_topic_file_change(topic_file_path, original_content)
-    return if File.read(topic_file_path) == original_content
-
-    relative_path = topic_file_path.delete_prefix("#{@rootDir}/")
-    puts <<~NOTICE
-      NOTICE: Build tools modified topic file: #{relative_path}
-              Its generated unit review section was updated. Review this file before committing.
-    NOTICE
-  end
-
   def isSummary(line)
     !line.nil? && !@currUnit.nil? && line.match(@currUnit)
   end

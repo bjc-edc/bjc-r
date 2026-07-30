@@ -5,7 +5,6 @@ require 'tmpdir'
 
 require_relative '../build-tools/bjc_helpers'
 require_relative '../build-tools/course'
-require_relative '../build-tools/main'
 
 RSpec.describe BJCCourse do
   subject(:course) { described_class.new(root: root, course: 'test') }
@@ -56,7 +55,20 @@ RSpec.describe BJCCourse do
 end
 
 RSpec.describe BJCHelpers do
-  subject(:helper) { Class.new { include BJCHelpers }.new }
+  subject(:helper) do
+    Class.new do
+      include BJCHelpers
+
+      def initialize(root)
+        @rootDir = root
+      end
+    end.new(root)
+  end
+
+  let(:temporary_directory) { Dir.mktmpdir }
+  let(:root) { File.join(temporary_directory, 'bjc-r') }
+
+  after { FileUtils.remove_entry(temporary_directory) }
 
   describe '#generate_url_suffix' do
     it 'adds only the topic and course parameters' do
@@ -66,30 +78,18 @@ RSpec.describe BJCHelpers do
       expect(suffix).not_to include('novideo', 'noassignment')
     end
   end
-end
-
-RSpec.describe Main do
-  subject(:runner) do
-    described_class.allocate.tap do |instance|
-      instance.instance_variable_set(:@rootDir, root)
-    end
-  end
-
-  let(:temporary_directory) { Dir.mktmpdir }
-  let(:root) { File.join(temporary_directory, 'bjc-r') }
-  let(:topic_file) { File.join(root, 'topic', 'test.topic') }
-
-  before do
-    FileUtils.mkdir_p(File.dirname(topic_file))
-    File.write(topic_file, "updated topic\n")
-  end
-
-  after { FileUtils.remove_entry(temporary_directory) }
 
   describe '#report_topic_file_change' do
+    let(:topic_file) { File.join(root, 'topic', 'test.topic') }
+
+    before do
+      FileUtils.mkdir_p(File.dirname(topic_file))
+      File.write(topic_file, "updated topic\n")
+    end
+
     it 'clearly identifies a modified topic file' do
       expect do
-        runner.report_topic_file_change(topic_file, "original topic\n")
+        helper.report_topic_file_change(topic_file, "original topic\n")
       end.to output(
         %r{NOTICE: Build tools modified topic file: topic/test\.topic.*Review this file before committing}m
       ).to_stdout
@@ -97,7 +97,7 @@ RSpec.describe Main do
 
     it 'does not report an unchanged topic file' do
       expect do
-        runner.report_topic_file_change(topic_file, "updated topic\n")
+        helper.report_topic_file_change(topic_file, "updated topic\n")
       end.not_to output.to_stdout
     end
   end
