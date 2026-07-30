@@ -138,6 +138,21 @@ MC.prototype.render = function() {
          * .ap-standard, ...) and reset their visibility, undoing whatever state
          * the "Toggle developer comments" button had put them in. */
         this.multipleChoice.find('.promptDiv').html(this.content.prompt);
+
+        // Bind the shared Check/Try-Again buttons exactly once per MC. They live
+        // on the question, not on individual choices, so binding inside the
+        // per-choice loop attached one handler per choice (4 choices => 4× fire).
+        this.multipleChoice.find(".checkAnswerButton").bind('click', {
+            myQuestion: this
+        }, function(args) {
+            args.data.myQuestion.checkAnswer();
+        });
+
+        this.multipleChoice.find(".tryAgainButton").bind('click', {
+            myQuestion: this
+        }, function(args) {
+            args.data.myQuestion.tryAgain();
+        });
     }
 
     /* remove buttons */
@@ -187,18 +202,6 @@ MC.prototype.render = function() {
         if (this.selectedInSavedState(optId)) {
             $(`#${choice_id}`).attr('checked', true);
         }
-
-        this.multipleChoice.find(".checkAnswerButton").bind('click', {
-            myQuestion: this
-        }, function(args) {
-            args.data.myQuestion.checkAnswer();
-        });
-
-        this.multipleChoice.find(".tryAgainButton").bind('click', {
-            myQuestion: this
-        }, function(args) {
-            args.data.myQuestion.tryAgain();
-        });
     }
 
     this.multipleChoice.find('.tryAgainButton').addClass('disabled').attr('disabled', true);
