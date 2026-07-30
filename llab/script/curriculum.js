@@ -883,7 +883,6 @@ llab.setupNavbarSearch = function () {
   });
 };
 
-<<<<<<< HEAD
 // TRANSLATIONS MENU (the navbar globe)
 // The globe is shown when the content exists in the other language. To
 // avoid the navbar shifting while we ask the server, the answer is checked
@@ -925,18 +924,12 @@ llab.localTopicPages = (data) => {
 // errors, so a flaky connection is never cached as "no translation".
 llab.checkUnitTranslations = () => {
   let file = llab.getQueryParameter('topic');
-  let topicData = llab.read_cache(file)
-    ? Promise.resolve(llab.read_cache(file))
-    : fetch(llab.topics_path + file).then(response => {
-        if (!response.ok) { throw new Error(`No topic file: ${file}`); }
-        return response.text();
-      });
 
   let translatedTopicExists = fetch(
     llab.topics_path + llab.translatedPath(file), { method: 'HEAD' }
   ).then(response => response.ok);
 
-  let allPagesExist = topicData.then(data => {
+  let allPagesExist = llab.fetchTopicFile(file).then(data => {
     let checks = llab.localTopicPages(data).map(page =>
       fetch(llab.translatedPath(page), { method: 'HEAD' }).then(r => r.ok)
     );
@@ -982,7 +975,8 @@ llab.setupTranslationsMenu = function() {
   let unitKey = llab.unitTranslationKey();
   if (!unitKey) {
     // No unit context (course pages, index, ...): check just this page.
-    let pageKey = `llab-page-translation:${location.pathname}`;
+    // Only existence matters, so a HEAD request (no body download) is enough.
+    let pageKey = `llab-translation-exists:${llab.translated_content_url()}`;
     let cached = llab.read_cache(pageKey);
     if (cached !== undefined) {
       llab.showTranslationsMenu(cached === 'true');
@@ -1025,48 +1019,6 @@ llab.setupTranslationsMenu = function() {
       }
     })
     .catch(() => {});
-=======
-// Show a dropdwon icon in the navbar if the same URL exists in a translated form.
-llab.setupTranslationsMenu = function() {
-  // extract the language from the file name
-  // check whether the file exists in the other language
-  // if the file exists, add a link to it
-  let lang = llab.pageLang();
-  let new_url = llab.translated_page_url();
-  // This URL is different when on a topic page.
-  let translated_content_url = llab.translated_content_url();
-
-  let updateMenu = (exists) => {
-    if (!exists) {
-      // We need to re-hide the menu if it is currently showing.
-      $('.js-langDropdown').addClass('hidden');
-      $('.js-langDropdown a').removeAttr('href');
-      return;
-    }
-    $('.js-langDropdown').removeClass('hidden');
-    if (lang == 'es') {
-      $('.js-switch-lang-es').attr('href', location.href);
-      $('.js-switch-lang-en').attr('href', new_url);
-    } else if (lang == 'en') {
-      $('.js-switch-lang-es').attr('href', new_url);
-      $('.js-switch-lang-en').attr('href', location.href);
-    }
-  };
-
-  // Only existence matters here, so use a HEAD request (no body download)
-  // and remember the answer for the rest of the session.
-  let cacheKey = `llab-translation-exists:${translated_content_url}`;
-  let cached = llab.read_cache(cacheKey);
-  if (cached !== undefined) {
-    updateMenu(cached === 'true');
-    return;
-  }
-
-  fetch(translated_content_url, { method: 'HEAD' }).then(response => {
-    llab.set_cache(cacheKey, response.ok);
-    updateMenu(response.ok);
-  }).catch(() => {});
->>>>>>> origin/main
 }
 
 llab.setupSnapImages = () => {
