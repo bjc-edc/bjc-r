@@ -4,6 +4,7 @@
     max-width: calc(1200px - (30px * 2));
     padding-right: 30px;
     padding-left: 10px;
+    position: relative;
 }
 
 .margins {
@@ -18,17 +19,6 @@
         padding-right: 15px;
         padding-left: 15px;
     }
-    @media only screen and (min-width: 320px) and (max-width: 667px) {
-        .site-title {
-            font-size: .9em;
-        }
-    }
-}
-
-.wrapper {
-    max-height: 540px;
-    position: relative;
-    height: 100%;
 }
 
 /** HEADER **/
@@ -37,6 +27,13 @@ header {
     background: #0C3559;
 }
 
+.logo {
+    min-height: 62px;
+    padding: 6px 0 6px 36px;
+}
+
+/* The logo and title are one link; lay them out as a row so the title stays
+   optically centered on the mark instead of relying on a fixed indent. */
 .site-title {
     font-family: 'work_sansregular', Helvetica, Arial, sans-serif;
     font-size: 1.6rem;
@@ -44,14 +41,23 @@ header {
     color: #FFF;
     text-decoration: none;
     font-variant: normal;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.site-logo {
+    flex-shrink: 0;
+    height: 50px;
+    width: auto;
 }
 
 .txtTitle {
-    display: block;
     font-size: 1.6rem; /* unset h1 size to be smaller. */
     font-weight: 700;
-    padding-left: 88px;
-    margin: 7px 0 0 0;
+    line-height: 1.2;
+    margin: 0;
+    padding: 0;
 }
 
 .title-small-screen {
@@ -72,17 +78,6 @@ header {
     z-index: 100;
 }
 
-.pull-left {
-    float: left;
-    padding-left: 30px;
-}
-
-.logo {
-    min-height: 62px;
-    padding-top: 6px;
-    padding-left: 6px;
-}
-
 .site-title:hover {
     text-decoration: none;
     color: #fff;
@@ -95,6 +90,24 @@ header {
 
 .pgTitle {padding-left: 24px;}
 
+@media screen and (max-width: 700px) {
+    /* Reclaim the wide desktop indent and let the title shrink rather than
+       wrap into a two-line block beside the logo. */
+    .logo {
+        min-height: 0;
+        padding: 8px 0 8px 6px;
+    }
+
+    .site-logo {height: 40px;}
+
+    .txtTitle {font-size: -webkit-calc(0.95rem + 1.6vw);}
+    .txtTitle {font-size: calc(0.95rem + 1.6vw);}
+
+    .site-header .trapezoid {
+        left: 12px;
+        width: 30px;
+    }
+}
 
 /** FOOTER **/
 
@@ -104,6 +117,7 @@ header {
     display: flex;
     padding: 0em 1em;
     flex-wrap: wrap;
+    align-items: center;
     clear: right;
 }
 
@@ -128,6 +142,42 @@ header {
 .col5 img {max-width: 88px;}
 
 .footer p {
-    font-size: .6em;
+    font-size: .75rem;
     line-height: 1.5;
+}
+
+@media screen and (max-width: 700px) {
+    /* Stack the footer: funder logos on one row, licence text below it, then
+       the CC badge. These rules must live here (not in the landing page sheet)
+       so they win against the .col1-.col5 flex shorthands above. */
+    .footer {
+        padding-bottom: 1.5em;
+        justify-content: center;
+    }
+
+    .footer-col {padding: 16px 8px 0;}
+
+    /* flex-basis 0 so all three funder logos share one row at 320px wide. */
+    .col1, .col2, .col3 {
+        flex: 1 1 0;
+        min-width: 0;
+        justify-items: center;
+    }
+
+    /* width first, then a cap: the logos fill a narrow column but stop
+       growing once the row has room to spare. */
+    .col1 img {width: 100%; max-width: 64px;}
+    .col2 img {width: 100%; max-width: 140px;}
+    .col3 img {width: 100%; max-width: 132px;}
+
+    .col4 {
+        flex: 1 1 100%;
+        order: 3;
+    }
+
+    .col5 {
+        flex: 1 1 100%;
+        order: 4;
+        justify-items: center;
+    }
 }

@@ -24,7 +24,7 @@
 * {box-sizing: border-box;}
 
 .footer-col img {
-    width: 100%;
+    max-width: 100%;
     height: auto;
 }
 
@@ -77,40 +77,49 @@ h2 {
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-    height: 540px;
+    /* min-height, not height: the tinted overlay and the background have to
+       grow with the content, otherwise the last buttons spill onto the white
+       page below once the buttons wrap on a narrow screen. */
+    min-height: 540px;
+    display: flex;
     position: relative;
 }
 
 .hero .background-overlay {
-    position: absolute;
+    display: flex;
+    width: 100%;
     z-index: 0;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
     background-color:  rgba(98, 104, 171, 0.75);
 }
 
 .hero .wrapper {
-    max-height: 540px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding-top: 16px;
+    padding-bottom: 30px;
     position: relative;
-    height: 100%;
 }
 
 .txtContainer {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    position:absolute;
-    bottom: 30px;
+    /* Hold the copy against the bottom of the hero when there is spare room,
+       the way the old absolute positioning did. */
+    margin-top: auto;
+    width: 100%;
 }
 
 .btnContainer {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
-    align-items: center;
+    justify-content: center;
+    align-items: stretch;
+    gap: 16px;
+    margin-bottom: 16px;
+    width: 100%;
 }
 
 .break {
@@ -125,20 +134,30 @@ h2 {
     margin-top: .25em;
 }
 
-.txtTitle {padding-top: 2px;}
-
 .large-logo {
-    position: absolute;
-    top: 28px;
-    left: 100px;
+    align-self: flex-start;
+    margin-left: 90px;
 }
+
+.large-logo img {
+    display: block;
+    width: auto;
+    height: 150px;
+}
+
+.btnContainer > div {display: flex;}
+
+/* Deliberately not a flex container: the "Run Snap! Now" label relies on the
+   whitespace around the inline logo, which flex layout would collapse. */
 .hero .btn {
     border: 2px white solid;
     background-color:rgba(255, 255, 255, 0.4);
     display: block;
-    margin: 20px 20px 12px;
+    width: 100%;
+    text-align: center;
     padding: 15px 20px;
     font-size: 20px;
+    line-height: 1.2;
     -webkit-transition: border-color 0.2s ease, color 0.2s ease;
     -moz-transition: border-color 0.2s ease, color 0.2s ease;
     -ms-transition: border-color 0.2s ease, color 0.2s ease;
@@ -149,7 +168,21 @@ h2 {
     position:relative;
 }
 
+.hero .btn:hover, .hero .btn:focus {
+    background-color: rgba(255, 255, 255, 0.55);
+    color: #fff;
+    text-decoration: none;
+}
+
 .hero .btn1 {font-size: 23px}
+
+/* Scales with the button label so it never dwarfs the text on small screens. */
+.snap-logo {
+    height: 1.7em;
+    width: auto;
+    margin: -0.5em 0;
+    vertical-align: middle;
+}
 
 /*!
  * Font Awesome Free 5.13.0 by @fontawesome - https://fontawesome.com
@@ -177,14 +210,8 @@ div.sparks a {
 
 /** MEDIA QUERIES **/
 
-@media only screen
-and (min-device-width : 768px)
-and (max-device-width : 1024px)
-and (orientation : landscape) {
-    .large-logo {
-        top: 15px;
-        left: 50px;
-    }
+@media screen and (max-width: 1000px) {
+    .large-logo {margin-left: 30px;}
 }
 
 @media screen and (max-width: 800px) {
@@ -193,56 +220,64 @@ and (orientation : landscape) {
         padding-right: 15px;
         padding-left: 15px;
     }
-    .large-logo img {
-        max-width: 60%;
+
+    .large-logo {margin-left: 0;}
+
+    .large-logo img {height: 115px;}
+
+    h2 {
+        font-size: 2em;
+        margin-bottom: .75em;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .hero {min-height: 0;}
+
+    .hero .wrapper {
+        padding-top: 12px;
+        padding-bottom: 28px;
     }
 
-    @media only screen and (min-width: 320px) and (max-width: 667px) {
-        .site-title {font-size: .9em;}
+    .large-logo {
+        align-self: center;
+        margin-bottom: 4px;
+    }
 
-        .txtTitle {margin-top: 15px;}
+    .large-logo img {height: 96px;}
 
-        .txtContainer {
-            position: inherit;
-            font-size: 70%;
-        }
+    h2 {
+        font-size: 1.6rem;
+        margin-bottom: .75em;
+    }
 
-        h2 {margin-bottom: .5em;}
+    .subtitle {font-size: .8em;}
 
-        .large-logo {
-            position: inherit;
-            top: 0;
-            left: 0;
-        }
+    /* Equal-width columns that drop to one-up once two no longer fit. The
+       buttons now always sit inside the hero image rather than spilling past
+       it, and a lone button on the last row keeps its column width. */
+    .btnContainer {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+        gap: 12px;
+        margin-bottom: 12px;
+        max-width: 560px;
+    }
 
-        .large-logo {
-            max-width: 50%;
-            margin-top: 10px;
-        }
+    /* A forced line break has no meaning once the buttons are on a grid, and
+       it would otherwise eat an empty cell. */
+    .btnContainer > .break {display: none;}
 
-        .footer-col {padding: 10px 10px;}
+    .hero .btn {
+        padding: 12px 16px;
+        font-size: 1.125rem;
+    }
 
-        .col1, .col2, .col3 {
-            flex: 2;
-            display: grid;
-            align-content: center;
-            flex-basis: 30%;
-            padding-top: 1.5em;
-        }
+    .hero .btn1 {font-size: 1.25rem;}
 
-        .col3 img {width: 60%;}
-
-        .col5 {
-            flex:1;
-            display: grid;
-            align-content: center;
-        }
-        .col5 img {width: 50%;}
-
-        .col4 {flex-basis:100%;}
-
-        .hero .btn {font-size: 1.25em;}
-
-        .hero .btn1 {font-size: 1.5em;}
+    div.sparks {
+        margin-top: 16px;
+        text-align: center;
+        font-size: .95rem;
     }
 }
