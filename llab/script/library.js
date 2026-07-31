@@ -7,7 +7,6 @@
 
 // retrieve llab or create an empty version.
 llab = llab || {};
-llab.loaded = llab.loaded || {};
 llab.DEVELOPER_CLASSES = '.todo, .comment, .commentBig, .ap-standard, .csta-standard'
 
 llab.PRODUCTION_SERVERS = [ 'bjc.berkeley.edu', 'bjc.edc.org', 'cs10.org' ]
@@ -188,10 +187,6 @@ llab.translate = (key, replacements) => {
 
 llab.t = llab.translate;
 
-// TODO: Figure out how to handle common pages that are translated
-// e.g. topic.html and topic.es.html are both topic files...
-llab.pageLangugeExtension = () => llab.pageLang() == 'en' ? '' : `.${llab.pageLang()}`;
-
 // Turn img.es.png into img.png
 llab.stripLangExtensions = (text) => text.replace(new RegExp(`\.${llab.pageLang()}\.`, 'g'), '.');
 
@@ -322,17 +317,9 @@ llab.getQueryParameter = function(paramName) {
 };
 
 llab.isTopicFile = () => {
-    return [
-        llab.empty_topic_page_path, llab.topic_launch_page, llab.alt_topic_page
-      ].includes(llab.stripLangExtensions(location.pathname));
+    return [llab.topic_launch_page, llab.alt_topic_page]
+      .includes(llab.stripLangExtensions(location.pathname));
 };
-
-// TODO: Write a use this function.
-// This should return the "type" of a page used in the repo:
-// course, topic, curriculum -- maybe others later (summaries? teacher guide?)
-llab.curentPageType = () => {
-    return false;
-}
 
 /** Strips comments off the line in a topic file. */
 llab.stripComments = function(line) {
@@ -362,27 +349,6 @@ if (llab.GACode) {
         page_location: document.URL
     });
 }
-
-/** Truncate a STR to an output of N chars.
- *  N does NOT include any HTML characters in the string.
- */
-llab.truncate = function(str, n) {
-    // Ensure string is 'proper' HTML by putting it in a div, then extracting.
-    var clean = document.createElement('div');
-        clean.innerHTML = str;
-        clean = clean.textContent || clean.innerText || '';
-
-    // TODO: Be smarter about stripping from HTML content
-    // This, doesn't factor HTML into the removed length
-    // Perhaps match postion of nth character to the original string?
-    // &#8230; is a unicode ellipses
-    if (clean.length > n) {
-        return clean.slice(0, n - 1) + '&#8230;';
-    }
-
-    return str; // return the HTML content if possible.
-};
-
 
 // TODO: Replace this with new URLSearchParams(window.location.search)
 /*!
@@ -452,24 +418,6 @@ queryString.stringify = function (obj) {
 llab.QS = queryString;
 
 
-// Return a new object with the combined properties of A and B.
-// Desgined for merging query strings
-// B will clobber A if the fields are the same.
-llab.merge = function(objA, objB) {
-    var result = {}, prop;
-    for (prop in objA) {
-        if (objA.hasOwnProperty(prop)) {
-            result[prop] = objA[prop];
-        }
-    }
-    for (prop in objB) {
-        if (objB.hasOwnProperty(prop)) {
-            result[prop] = objB[prop];
-        }
-    }
-    return result;
-};
-
 llab.getURLParameters = function() {
     let stripHTML = (content) => $('<div/>').text(content).html();
     if (!llab.safeURLParams) {
@@ -509,38 +457,10 @@ llab.fragments = {};
 llab.strings = {};
 llab.strings.goMain = 'Go to Table of Contents';
 llab.fragments.bootstrapSep = '<li class="divider" role="presentation"></li>';
-llab.fragments.bootstrapCaret = '<span class="caret"></span>';
-// TODO: Translate this
-llab.fragments.hamburger = '<span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>';
 // LLAB selectors for common page elements
 llab.selectors.FULL = '.full';
 llab.selectors.NAVSELECT = '.llab-nav';
 llab.selectors.PROGRESS = '.progress-indicator';
-
-//// cookie stuff
-// someday my framework will come, but for now, stolen blithely from http://www.quirksmode.org/js/cookies.html
-llab.createCookie = function(name,value,days) {
-    if (days) {
-        var date = new Date();
-        date.setTime(date.getTime()+(days*24*60*60*1000));
-        var expires = "; expires="+date.toGMTString();
-    }
-    else var expires = "";
-    document.cookie = name+"="+value+expires+"; path=/";
-}
-
-llab.readCookie = function(name) {
-    var nameEQ = name + "=";
-    var ca = document.cookie.split(';');
-    for(var i=0;i < ca.length;i++) {
-        var c = ca[i];
-        while (c.charAt(0)==' ') c = c.substring(1,c.length);
-        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
-    }
-    return null;
-}
-
-llab.eraseCookie = name => createCookie(name, "", -1);
 
 llab.spanTag = (content, className) => `<span class="${className}">${content}</span>`;
 
@@ -594,5 +514,3 @@ w3.includeHTML = function(cb) {
 };
 
 /////////////////////  END
-
-llab.loaded['library'] = true;

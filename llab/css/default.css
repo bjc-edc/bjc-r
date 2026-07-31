@@ -1,19 +1,9 @@
 @charset "UTF-8";
 
 /* * * * * FONTS * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-/* @font-face {
-  font-family: 'Open Sans';
-  src: url('../fonts/opensans/OpenSans-Regular-webfont.eot');
-  src: url('../fonts/opensans/OpenSans-Regular-webfont.eot?#iefix') format('embedded-opentype'),
-	   url('../fonts/opensans/OpenSans-Regular-webfont.woff') format('woff'),
-	   url('../fonts/opensans/OpenSans-Regular-webfont.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-} */
-
 @font-face {
   font-family: 'work_sansregular';
-  src: url('fon ts/Work_Sans/WorkSans-Regular.eot');
+  src: url('fonts/Work_Sans/WorkSans-Regular.eot');
   src: url('fonts/Work_Sans/WorkSans-Regular.eot?#iefix') format('embedded-opentype'),
        url('fonts/Work_Sans/WorkSans-Regular.woff') format('woff'),
        url('fonts/Work_Sans/WorkSans-Regular.ttf') format('truetype'),
@@ -129,7 +119,7 @@ h1.title-small-screen {
 }
 
 /* Override Bootstrap 3, exclude h1 */
-h2, h3, h4, h5, h6
+h2, h3, h4, h5, h6,
 .h2, .h3, .h4, .h5, .h6 {
   margin-top: 3px;
   padding: 8px 0;
@@ -269,8 +259,6 @@ code { /* Override bootstrap. */
 }
 
 /* Contains the page title text, truncates text with '…' */
-.navbar-default .navbar-title:hover, .navbar-default .navbar-title:focus,
-.navbar-default .navbar-title,
 .navbar-title, a.navbar-title {
   vertical-align: middle;
   white-space: nowrap;
@@ -568,10 +556,6 @@ pre > code.hljs {
   border-radius: 4px; /* match bootstrap */
 }
 
-.table-middle {
-  vertical-align: middle;
-}
-
 .resultMessageDiv {
   font-size: 1.2em;
 }
@@ -771,11 +755,13 @@ img.indent, div.indent {
   padding-left: 0;
 }
 
-/* List-related items
- * bigIdeas and learninggoals are being treated identically at the moment.
+/* List-related items.
+ * These class names must match llab.topicKeywords.info in topic.js, which is
+ * what renderInfo() puts on the wrapper div verbatim.
+ * big-idea and learning-goal are being treated identically at the moment.
  */
-.bigideas,
-.learninggoals {
+.big-idea,
+.learning-goal {
   font-weight: 400;
 }
 
@@ -870,13 +856,6 @@ img.indent, div.indent {
 
 /***************************************/
 /** LLAB QUIZ STYLING */
-.feedbackDiv {
-  width: 85%;
-  margin: 10px auto 0px auto;
-  text-align: center;
-  color: #19253D;
-}
-
 .buttonDiv {
   text-align: center;
 }
@@ -922,26 +901,12 @@ img.indent, div.indent {
   float: left;
   width: 85%;
   padding: 10px 0px 10px 15px;
-  min-height: 300px;
+  min-height: 150px;
 }
 
-.MultipleChoice .currentQuestionBox .rightColumn {
-  float: right;
-  width: 12%;
-  padding: 10px 0px;
-  text-align: center;
-  color: white;
-  min-height: 300px;
-}
-
-.MultipleChoice .itemLabel {
-  font-size: .7em;
-  text-transform: uppercase;
-  margin: 5px 0px 0px 15px;
-}
-
-.MultipleChoice .promptdiv {
-  font-size: .9em;
+/* The question text. Bold to set it apart from the answer choices, but left at
+ * the body font size -- it should never read smaller than the choices below it. */
+.MultipleChoice .promptDiv {
   color: #000;
   margin: 3px 10px 15px 15px;
   font-weight: bold;
@@ -1025,7 +990,7 @@ img.indent, div.indent {
   padding: 5px;
 }
 
-.MultipleChoice .numberAttemptsDiv, .lastAttemptDiv {
+.MultipleChoice .numberAttemptsDiv {
   display: inline;
   font-size: .8em;
   margin: 0px;
@@ -1077,19 +1042,6 @@ img.indent, div.indent {
 }
 
 
-/** QUIZ CLASSES OF QUESTIONABLE USE */
-.MultipleChoice .promptdiv p {
-  font-size: inherit;
-  font-weight: normal;
-}
-
-
-.MultipleChoice .promptdiv ol {
-  font-size: .8em;
-  text-transform: uppercase;
-  margin-left: 25px;
-}
-/** END QUESTIONABLE STUFF */
 /*** END QUIZ CSS */
 
 /********************************/

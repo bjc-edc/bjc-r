@@ -26,7 +26,6 @@ llab.editURLs = function() {
     // Build the Query string from container attributes
     $(".topic_container").each(function() {
         $.extend(query, llab.getAttributesForElement(this));
-        // query = llab.merge(query, llab.getAttributesForElement(this));
         // TODO: Nest the loop below within this container.
         // Then only extent the query object temporarily
     });
