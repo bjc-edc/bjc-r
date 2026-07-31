@@ -9,7 +9,7 @@
 # before acting: a dynamic navigation keeps the same document, so the marker
 # survives; a full page load creates a new document and wipes it.
 
-require_relative './spec_helper'
+require_relative 'spec_helper'
 
 # A lab page in a fully translated unit (nyc_bjc unit 1).
 LAB_PAGE_1 = '/bjc-r/cur/programming/1-introduction/1-building-an-app/' \
@@ -23,7 +23,7 @@ SPARKS_PAGE = '/bjc-r/sparks/student-pages/U1/L1/01-say-hello-to-snap.html' \
 # globe after the unit-wide check; both need generous waits in CI.
 NAV_WAIT = { wait: 15 }.freeze
 
-RSpec.describe 'Dynamic page navigation', :dynamic_nav do
+RSpec.describe 'Dynamic page navigation', :dynamic_nav, :js, type: :feature do
   def wait_for_nav
     expect(page).to have_css('.llab-nav .js-nextPageLink:not(.hidden)', **NAV_WAIT)
   end
