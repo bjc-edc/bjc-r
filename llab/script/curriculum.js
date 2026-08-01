@@ -693,30 +693,32 @@ llab.addFooter = () => {
 
   $(document.body).append(
     `<footer>
-      <div class="footer wrapper margins">
-        <div class="footer-col col-md-1 col-xs-4">
-          <img src="/bjc-r/img/header-footer/NSF_logo.png" alt="NSF" />
+      <div class="container">
+        <div class="footer row">
+          <div class="footer-col col-md-1 col-xs-4">
+            <img src="/bjc-r/img/header-footer/NSF_logo.png" alt="NSF" />
+          </div>
+          <div class="footer-col col-md-1 col-xs-4">
+            <img src="/bjc-r/img/header-footer/EDC_logo.png" alt="EDC" />
+          </div>
+          <div class="footer-col col-md-1 col-xs-4">
+            <img src="/bjc-r/img/header-footer/UCB_logo.png" alt="UCB" />
+          </div>
+          <div class="footer-col col-md-8 col-xs-12">
+            <p>The Beauty and Joy of Computing by University of California, Berkeley and Education
+            Development Center, Inc. is licensed under a Creative Commons
+            Attribution-NonCommercial-ShareAlike 4.0 International License. The development of this
+            site has been funded by the National Science Foundation under grant nos. 1138596, 1441075,
+            and 1837280; the U.S. Department of Education under grant number S411C200074; and the
+            Hopper-Dean Foundation.
+            Any opinions, findings, and conclusions or recommendations expressed in this material are
+            those of the author(s) and do not necessarily reflect the views of the National Science
+            Foundation or our other funders.
+          </p>
         </div>
         <div class="footer-col col-md-1 col-xs-4">
-          <img src="/bjc-r/img/header-footer/EDC_logo.png" alt="EDC" />
+          <img src="/bjc-r/img/header-footer/cc_88x31.png" alt="Creative Commons Attribution" />
         </div>
-        <div class="footer-col col-md-1 col-xs-4">
-          <img src="/bjc-r/img/header-footer/UCB_logo.png" alt="UCB" />
-        </div>
-        <div class="footer-col col-md-8 col-xs-12">
-          <p>The Beauty and Joy of Computing by University of California, Berkeley and Education
-          Development Center, Inc. is licensed under a Creative Commons
-          Attribution-NonCommercial-ShareAlike 4.0 International License. The development of this
-          site has been funded by the National Science Foundation under grant nos. 1138596, 1441075,
-          and 1837280; the U.S. Department of Education under grant number S411C200074; and the
-          Hopper-Dean Foundation.
-          Any opinions, findings, and conclusions or recommendations expressed in this material are
-          those of the author(s) and do not necessarily reflect the views of the National Science
-          Foundation or our other funders.
-        </p>
-      </div>
-      <div class="footer-col col-md-1 col-xs-4">
-        <img src="/bjc-r/img/header-footer/cc_88x31.png" alt="Creative Commons Attribution" />
       </div>
     </div>
   </footer>`

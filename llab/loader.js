@@ -4,7 +4,7 @@
  */
 
 const THIS_FILE = 'loader.js';
-const RELEASE_DATE = '2026-07-31a';
+const RELEASE_DATE = '2026-08-01a';
 
 // Basic llab shape.
 llab = {
