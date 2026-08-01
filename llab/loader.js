@@ -49,8 +49,6 @@ llab.paths.css_files = [
     'css/3.3.7/bootstrap.min.css',
     'css/default.css',
     '../css/bjc.css',
-    // TODO: Merge this into bjc.css.
-    '../css/edcdevtech-headerfooter.css',
 ];
 
 /////////////////////////

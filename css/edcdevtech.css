@@ -1,15 +1,17 @@
-/* BJC site chrome (header + footer) and the splash / landing page.
+/* The standalone BJC splash / landing pages: /index.html, /index_new.html
+ * and /index_equity.html. Nothing else loads this file.
  *
  * Merged from edcdevtech-landingpage.css + edcdevtech-headerfooter.css.
  * EDC Dev Tech wrote the originals. See https://dethier.github.io/bjc/
  *
- * This file is loaded two ways:
- *   - directly by /index.html, /index_new.html and /index_equity.html
- *   - by llab/loader.js, i.e. on every curriculum page
- * so everything above the LANDING PAGE section must be safe to apply
- * site-wide. Landing-only rules are scoped to body.landing or .hero --
- * unscoped, several of them collide with curriculum markup (a bare .fas
- * pads the navbar icons, a bare .break collapses <code class="break">).
+ * These pages deliberately skip llab/loader.js -- they are a different shape
+ * from the curriculum and don't need bootstrap or the llab scripts -- so the
+ * shared header/footer chrome below is intentionally duplicated in
+ * css/bjc.css, which is what curriculum pages load instead.
+ *
+ * Landing-only rules stay scoped to body.landing / .hero so this file could
+ * be loaded alongside the curriculum CSS without collisions (a bare .fas
+ * pads the navbar icons; a bare .break collapses <code class="break">).
  */
 
 /** FONTS **/
@@ -153,6 +155,7 @@ header {
 }
 
 /** FOOTER **/
+/* Intentionally duplicated in css/bjc.css for the curriculum pages. */
 
 .footer {
     position: relative;
