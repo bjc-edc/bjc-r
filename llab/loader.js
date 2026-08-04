@@ -4,20 +4,17 @@
  */
 
 const THIS_FILE = 'loader.js';
-const RELEASE_DATE = '2026-07-28a';
+const RELEASE_DATE = '2026-08-01a';
 
 // Basic llab shape.
 llab = {
-    loaded: {},
     paths: {
         scripts: [],
         css_files: []
     },
     rootURL: '',
     install_directory: '',
-    CONFIG_FILE_PATH: '../llab.js', // currently unsed.
     optionalLibs: {},
-
 };
 
 llab.isLocalEnvironment = () => ['localhost', '127.0.0.1'].includes(window.location.hostname);
@@ -37,9 +34,8 @@ llab.topic_launch_page = llab.llab_path + "html/topic.html";
 llab.alt_topic_page = llab.rootURL + "topic/topic.html";
 llab.empty_curriculum_page_path = llab.llab_path + "html/empty-curriculum-page.html";
 
-// google analytics tokens
+// google analytics token
 llab.GACode = 'G-WK0EW5GQRZ';
-llab.GAurl = location.origin;
 
 // Error Handling -- The URL embeds the Sentry desination
 llab.SENTRY_URL = 'https://js.sentry-cdn.com/f55a4cd65a8b48fd99e8247c6a5e6c2d.min.js';
@@ -56,8 +52,6 @@ llab.paths.css_files = [
     'lib/bootstrap-5.3.8-dist/css/bootstrap.min.css',
     'css/default.css',
     '../css/bjc.css',
-    // TODO: Merge this into bjc.css.
-    '../css/edcdevtech-headerfooter.css',
 ];
 
 /////////////////////////
@@ -74,14 +68,7 @@ llab.paths.scripts = [
     "script/topic.js",
     "lib/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js",
     "script/quiz.js",                // all quiz item types load after multiplechoice.js
-    // "script/lib/sha1.js",         // for brainstorm
-    // "script/brainstorm.js",
-    // "script/user.js",
 ];
-
-llab.loaded['config'] = true;
-llab.loaded['library'] = false;
-llab.loaded['multiplechoice'] = false
 
 ///////// OPTIONAL LIBRARIES:
 llab.optionalLibs = {

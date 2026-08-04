@@ -2,7 +2,6 @@ if (typeof llab === 'undefined') {
     llab = {};
     llab.paths = {};
     llab.paths.css_files = [];
-    llab.loaded = {};
 }
 
 /*
@@ -29,9 +28,7 @@ llab.llab_path = llab.rootURL + llab.install_directory;
 
 // reference your custom CSS files, from within llab install directory.
 //  Multiple CSS files is fine, include a separate push for each
-// llab.paths.css_files.push('css/3.3.0/bootstrap.min.css');
-// llab.paths.css_files.push('css/3.3.0/bootstrap-theme.min.css');
-llab.paths.css_files.push('css/3.3.0/bootstrap-compiled.min.css');
+llab.paths.css_files.push('css/3.3.7/bootstrap.min.css');
 llab.paths.css_files.push('css/default.css');
 // Syntax Highlighting
 llab.paths.css_files.push("css/tomorrow-night-blue.css");
@@ -52,20 +49,8 @@ llab.alt_topic_page = llab.rootURL + "topic/topic.html";
 llab.empty_curriculum_page_path = llab.llab_path + "html/empty-curriculum-page.html";
 
 
-// google analytics tokens
-llab.GAuse = true;
+// google analytics token
 llab.GACode = 'G-WK0EW5GQRZ';
-llab.GAurl = 'berkeley.edu';
-
-
-
-// USER
-llab.user = {};
-//// Ug, this configuration needs to be done at end of load, after USER objects
-//// are defined.  Need a syntax for this.  For now just doing it in user.js
-// llab.user.user = new USER_NO_AUTH();  // simple user
-
-
 
 
 /*
@@ -73,5 +58,3 @@ llab.user = {};
  ********* END CONFIG *********
  ******************************
  */
-
-llab.loaded['config'] = true;

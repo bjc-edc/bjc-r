@@ -10,9 +10,6 @@
 /* Represents a multiple choice question. */
 
 function MC(data, location, questionNumber) {
-    this.myClass = "MultipleChoice";
-
-
     // questionNumber is the index of the question
     this.num = questionNumber;
 
@@ -197,7 +194,7 @@ MC.prototype.render = function() {
         this.multipleChoice.find('.answer-choices-form').append(choiceHTML);
 
         $(`#${choice_id}`).bind('click', { myQuestion: this }, function(args) {
-            args.data.myQuestion.enableCheckAnswerButton('true');
+            args.data.myQuestion.enableCheckAnswerButton();
         });
         if (this.selectedInSavedState(optId)) {
             $(`#${choice_id}`).attr('checked', true);
@@ -205,15 +202,15 @@ MC.prototype.render = function() {
     }
 
     this.multipleChoice.find('.tryAgainButton').addClass('disabled').attr('disabled', true);
-    this.enableCheckAnswerButton('true');
+    this.enableCheckAnswerButton();
     this.clearFeedbackDiv();
 
     if (this.correctResponse.length < 1) {
         // if there is no correct answer to this question (ie, when they're filling out a form),
         // change button to say "save answer" and "edit answer" instead of "check answer" and "try again"
         // and don't show the number of attempts.
-        this.multipleChoice.find(".checkAnswerButton").innerHTML = t("Save Answer");
-        this.multipleChoice.find(".tryAgainButton").innerHTML = t("Edit Answer");
+        this.multipleChoice.find(".checkAnswerButton").html(t("Save Answer"));
+        this.multipleChoice.find(".tryAgainButton").html(t("Edit Answer"));
     } else {
         this.displayNumberAttempts(this.attempts);
     };
@@ -236,46 +233,6 @@ MC.prototype.render = function() {
     this.previouslyRendered = true;
     this.interaction.remove();
     //this.node.view.eventManager.fire('contentRenderComplete', this.node.id, this.node);
-};
-
-/**
- * Determine if challenge question is enabled
- */
-MC.prototype.isChallengeEnabled = () => false;
-
-/**
- * Determine if scoring is enabled
- */
-MC.prototype.isChallengeScoringEnabled = function() {
-    var result = false;
-
-    if (this.properties.attempts != null) {
-        var scores = this.properties.attempts.scores;
-        result = challengeScoringEnabled(scores);
-    }
-
-    return result;
-};
-
-/**
- * Given a choiceId, checks the latest state and if the choiceId
- * is part of the state, returns true, returns false otherwise.
- *
- * @param choiceId
- * @return boolean
- */
-MC.prototype.selectedInSavedState = function(choiceId) {
-    var b, latestState;
-    if (this.states && this.states.length > 0) {
-        latestState = this.states[this.states.length - 1];
-        for (b = 0; b < latestState.length; b++) {
-            if (latestState.choices[b] == choiceId) {
-                return true;
-            }
-        }
-    }
-
-    return false;
 };
 
 /**
@@ -334,7 +291,7 @@ MC.prototype.checkAnswer = function() {
     var numCorrectUnselected = 0;
     var i, checked, choiceIdentifier, choice, fullId;
 
-    this.enableRadioButtons(false);
+    this.disableRadioButtons();
     this.multipleChoice.find('.checkAnswerButton').addClass('disabled').attr('disabled', true);
     this.multipleChoice.find('.tryAgainButton').removeClass('disabled').attr('disabled', false);
     for (i = 0; i < inputbuttons.length; i++) {
@@ -369,8 +326,6 @@ MC.prototype.checkAnswer = function() {
                     choiceTextDiv.attr("class", "incorrect");
                     numIncorrectSelected++;
                 }
-                mcState.identifier = choice.identifier;
-                mcState.text = choice.text;
             } else {
                 alert('error retrieving choice by choiceIdentifier');
             }
@@ -428,35 +383,6 @@ MC.prototype.checkAnswer = function() {
     // push the state object into this mc object's own copy of states
     this.states.push(mcState);
     return false;
-};
-
-/**
- * Returns true iff this.maxChoices is less than two or
- * the number of checkboxes equals this.maxChoices. Returns
- * false otherwise.
- */
-MC.prototype.enforceMaxChoices = function(inputs) {
-    var x, maxChoices;
-    var maxChoices = parseInt(this.properties.maxChoices);
-    if (maxChoices > 1) {
-        var countChecked = 0;
-        for (x = 0; x < inputs.length; x++) {
-            if (inputs[x].checked) {
-                countChecked += 1;
-            }
-        }
-
-        if (countChecked > maxChoices) {
-            //this.node.view.notificationManager.notify('You have selected too many. Please select only ' + maxChoices + ' choices.',3);
-            alert('You have selected too many. Please select only ' + maxChoices + ' choices.');
-            return false;
-        } else if (countChecked < maxChoices) {
-            //this.node.view.notificationManager.notify('You have not selected enough. Please select ' + maxChoices + ' choices.',3);
-            alert('You have not selected enough. Please select ' + maxChoices + ' choices.');
-            return false;
-        }
-    }
-    return true;
 };
 
 /**
@@ -523,49 +449,35 @@ MC.prototype.removeSpace = function(text) {
 };
 
 /**
- * enable checkAnswerButton
- * OR
- * disable checkAnswerButton
+ * Enable the "Check Answer" button.
  */
-MC.prototype.enableCheckAnswerButton = function(doEnable) {
-    if (doEnable == 'true') {
-        this.multipleChoice.find('.checkAnswerButton').removeClass('disabled').attr('disabled', false);
-    } else {
-        this.multipleChoice.find('.tryAgainButton').addClass('disabled').attr('disabled', true);
-    }
+MC.prototype.enableCheckAnswerButton = function() {
+    this.multipleChoice.find('.checkAnswerButton').removeClass('disabled').attr('disabled', false);
 };
 
 /**
- * Enables radiobuttons so that user can click on them
+ * Prevents further changes to the answer choices once an answer is checked.
+ * render() rebuilds the inputs from scratch, so they never need re-enabling.
  */
-MC.prototype.enableRadioButtons = function(doEnable) {
+MC.prototype.disableRadioButtons = function() {
     var i;
     var radiobuttons = this.multipleChoice.find('input[type="radio"], input[type="checkbox"]');
     for (i = 0; i < radiobuttons.length; i++) {
-        if (doEnable == 'true') {
-            radiobuttons[i].removeAttribute('disabled');
-        } else {
-            radiobuttons[i].setAttribute('disabled', 'true');
-        }
+        radiobuttons[i].setAttribute('disabled', 'true');
     }
 };
 
 
 /**
- * Clears HTML inside feedbackdiv
+ * Hides and empties the per-choice feedback boxes.
  */
 MC.prototype.clearFeedbackDiv = function() {
-    var feedbackdiv = this.multipleChoice.find('.feedbackdiv');
-    feedbackdiv.innerHTML = "";
-
     var feedback = this.multipleChoice.find('[name="feedback"]');
     for (let z = 0; z < feedback.length; z++) {
         feedback[z].innerHTML = "";
         feedback[z].style.display = 'none';
     }
 };
-
-MC.prototype.postRender = function() {};
 
 MC.prototype.getTemplate = function() {
     let t = llab.translate;
@@ -576,14 +488,11 @@ MC.prototype.getTemplate = function() {
         <div class='leftColumn'>
             <div class='promptDiv'></div>
             <form class='answer-choices-form'></form>
-            <div class='feedbackdiv'></div>
         </div>
     </div>
-    <div class='clearBoth'></div>
     <div class='interactionBox'>
         <div class='statusMessages'>
             <div class='numberAttemptsDiv' role='status'></div>
-            <div class='scoreDiv'></div>
             <div class='resultMessageDiv' role='status'></div>
         </div>
         <div class='buttonDiv'>
@@ -612,5 +521,3 @@ if (!Array.shuffle) {
         for (i = this.length; i; rnd = parseInt(Math.random() * i), tmp = this[--i], this[i] = this[rnd], this[rnd] = tmp) {}
     };
 }
-
-llab.loaded['multiplechoice'] = true;

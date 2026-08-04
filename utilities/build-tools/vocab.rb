@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'fileutils'
 require 'nokogiri'
 require 'i18n'
@@ -7,41 +9,41 @@ require_relative 'index'
 require_relative 'selfcheck'
 require_relative 'bjc_helpers'
 
-I18n.load_path = Dir['**/*.yml']
-I18n.backend.load_translations
-
 # TODO: It's unclear where the HTML for new files comes from.
 # We should probably have a 'template' file which gets used.
 # I think we can just replace content in the file, but we could use a library.
 class Vocab
   include BJCHelpers
-  VOCAB_CLASSES = ['vocabFullWidth', 'vocabBig', 'vocab'].freeze
 
+  VOCAB_CLASSES = %w[vocabFullWidth vocabBig vocab].freeze
 
-  def initialize(path, language = 'en', content, course)
+  def initialize(path, language, content, course)
     @parentDir = path
+    # The generators are handed the content folder; the checkout root is what
+    # is left once the content path is taken off the end of it.
+    @rootDir = path.delete_suffix('/').delete_suffix("/#{content}")
     @language = language
     @content = content
     @course = course
     I18n.locale = @language.to_sym
     @currUnit = nil
     @currFile = nil
-    @isNewUnit = true
     @currUnitNum = 0
     @currLab = ''
     @vocabList = []
     @vocab_url_map = {}
-    @labPath = ''
     @currUnitName = nil
     @index = Index.new(@parentDir, @language)
-    @boxNum = 0
+    # TODO: See if we can remove this.
+    @current_box_num = 0
     @language_ext = language_ext(language)
+    # (For now) also store the current file content as a string, so we can write the file only once.
+    @current_file_content = +''
+    # This is actually a hash of units: labs: pages: [{word:, html:}]
+    @vocab_by_page = {}
   end
 
-  def review_folder
-    @review_folder ||= "#{@parentDir}/#{TEMP_FOLDER}"
-  end
-
+  # Returns [destination_path, contents] for the curriculum vocab index.
   def doIndex
     @index.vocab_url_map = @vocab_url_map
     @index.vocabList(@vocabList)
@@ -50,10 +52,6 @@ class Vocab
 
   def currUnitName(str)
     @currUnitName = str
-  end
-
-  def labPath(arg)
-    @labPath = arg
   end
 
   def unit
@@ -68,10 +66,6 @@ class Vocab
     @currFile = file
   end
 
-  def isNewUnit(boolean)
-    @isNewUnit = boolean
-  end
-
   def currUnitNum(num)
     @currUnitNum = num
   end
@@ -80,14 +74,8 @@ class Vocab
     "unit-#{@currUnitNum}-vocab#{@language_ext}.html"
   end
 
-  def currLab
-    return if @currUnit.nil?
-
-    labMatch = @currUnit.match(/Lab.+,/)
-    labList = labMatch.to_s.split(/,/)
-    @currLab = labList.join
-  end
-
+  # TODO: Collect the vocab into @vocab_by_page instead of straight into the
+  # page buffer, so the unit pages and the index are built from one structure.
   def read_file(file)
     return unless File.exist?(file)
 
@@ -97,77 +85,45 @@ class Vocab
     puts "Vocab Completed: #{@currUnit}"
   end
 
-  def topic_files_in_course
-    @topic_files_in_course ||= @course.list_topics_no_path.filter { |file| file.match(/\d+-\w+/)}
-  end
-
   def parse_unit(file)
     doc = File.open(file) { |f| Nokogiri::HTML(f) }
-    title = doc.xpath('//title')
-    str = title.to_s
-    pattern = %r{</?\w+>}
-    if str.nil?
-      isNewUnit(false)
-      nil
-    else
-      newStr = str.split(pattern)
-      if newStr.join == @currUnit
-        isNewUnit(false)
-      else
-        currUnit(newStr.join)
-        currUnitNum(@currUnit.match(/\d+/).to_s)
-        isNewUnit(true)
-      end
-    end
+    title = doc.xpath('//title').to_s.split(%r{</?\w+>}).join
+    return if title == @currUnit # still in the same unit
+
+    currUnit(title)
+    currUnitNum(@currUnit.match(/\d+/).to_s)
   end
 
-  def createNewVocabFile(fileName)
-    i = 0
-    file_path = Dir.getwd
-    unless File.exist?(fileName)
-      Dir.chdir(review_folder)
-      File.new(fileName, 'w')
-    end
-    f = File.open(fileName, mode: 'a')
-    linesList = File.readlines("#{file_path}/#{@currFile}")[0..30]
-    while !linesList[i].match(/<body>/) && (i < 30)
-      if linesList[i].match(/<title>/)
-        f.write("<title>#{unit} #{@currUnitNum} #{I18n.t('vocab')}</title>\n")
-      else
-        f.write("#{linesList[i]}\n")
-      end
-      i += 1
-    end
-    f.write("<h2>#{@currUnitName}</h2>\n<h3>#{currLab}</h3>\n")
-    f.close
-    Dir.chdir(file_path)
+  # The unit heading and the first lab heading of a brand new vocab page.
+  def write_new_vocab_summary
+    title = "#{unit} #{@currUnitNum} #{I18n.t('vocab')}"
+    @current_file_content << BJCHelpers.summary_page_prefix(@language, title)
+    @current_file_content << "<h2>#{@currUnitName}</h2>\n#{lab_heading}"
   end
 
-  def add_HTML_end
-    Dir.chdir(review_folder)
-    ending = "\n</body>\n</html>"
-    return unless File.exist?(vocab_file_name)
-
-    File.write(vocab_file_name, ending, mode: 'a')
+  def lab_heading
+    "<h3>#{currLab}</h3>\n"
   end
 
-  def add_content_to_file(filename, data)
-    lab = @currLab
-    data = data.gsub(/&amp;/, '&')
-    if File.exist?(filename)
-      f = File.open(filename, mode: 'a')
-      f.write("<h3>#{currLab}</h3>\n") if lab != currLab
-      f.close
-    else
-      createNewVocabFile(filename)
+  # Returns { destination_path => contents } for this unit's vocab page,
+  # then resets the buffer so the next unit starts a fresh file.
+  # Nothing is written to disk here.
+  def finalize_unit(unit_dir)
+    return {} if @current_file_content.empty?
+
+    contents = @current_file_content + BJCHelpers.summary_page_suffix
+    @current_file_content = +''
+    { File.join(unit_dir, vocab_file_name) => contents }
+  end
+
+  def add_content_to_file(data)
+    previous_lab = @currLab
+    if @current_file_content.empty?
+      write_new_vocab_summary
+    elsif previous_lab != currLab
+      @current_file_content << lab_heading
     end
-    f = File.open(filename, mode: 'a')
-    f.write("#{data}\n")
-    f.close
-  end
-
-  # re-formatting the margins of the vocab boxes some there is less whitespace on vocab pages
-  def reformat(file)
+    @current_file_content << "#{data.gsub('&amp;', '&')}\n"
   end
 
   # might need to save index of line when i find the /div/ attribute
@@ -182,7 +138,7 @@ class Vocab
       child.before(add_vocab_unit_to_header) # if !child.to_a.include?(add_vocab_unit_to_header)
       get_vocab_word(node) # This saves the extracted term for later.
       # TODO: see if we can remove this tracking of the box number.
-      @boxNum += 1
+      @current_box_num += 1
       add_vocab_to_file(node.to_s)
     end
   end
@@ -194,7 +150,7 @@ class Vocab
   end
 
   def vocabExists?(list, word)
-    (list.include?(word) or list.include?(word.upcase) or list.include?(word.downcase) or list.include?(word.capitalize))
+    [word, word.upcase, word.downcase, word.capitalize].intersect?(list)
   end
 
   def findVocab(word)
@@ -202,7 +158,7 @@ class Vocab
     cases = %w[downcase upcase capitalize]
     return word if list.include?(word)
 
-    vocab = (cases.map { |item| word.method(item).call }).map { |vocab| list.include?(vocab) ? vocab : nil }
+    vocab = cases.map { |item| word.method(item).call }.map { |vocab| list.include?(vocab) ? vocab : nil }
     vocab.find { |item| !item.nil? }
   end
 
@@ -215,25 +171,25 @@ class Vocab
 
       str = str.gsub("(#{abbreviation})", '').strip
     end
-    if !str.scan(/ or /).empty? # looking for strings with "or" in them: antivirus or antimalware
+    if !str.scan(' or ').empty? # looking for strings with "or" in them: antivirus or antimalware
       iterateVocab(str.split(' or '))
-    elsif !str.scan(/ o /).empty? # looking for string with "or" in them in spanish
+    elsif !str.scan(' o ').empty? # looking for string with "or" in them in spanish
       iterateVocab(str.split(' o '))
     end
-    return unless str.split(' ').length > 1 # looking for strings with multiple words: articial intelligence
+    return unless str.split.length > 1 # looking for strings with multiple words: articial intelligence
 
-    list = str.split(' ')
+    list = str.split
     saveVocabWord("#{list[-1]}, #{list[0..-2].join(' ')}")
   end
 
   def iterateVocab(list)
     str = list.join(' ')
     vList = list
-    if str.match(/^((?!(\(.*\))).)*/) # str has parethesis with multiple words
-      vList = str.match(/^((?!(\(.*\))).)*/).to_s.split(' ')
+    if /^((?!(\(.*\))).)*/.match?(str) # str has parethesis with multiple words
+      vList = str.match(/^((?!(\(.*\))).)*/).to_s.split
     end
     vList.each do |vocab|
-      saveVocabWord(vocab) if !vocab.match?(/^(\s+)/) && (vocab != '') && !vocab.match?(/\(/)
+      saveVocabWord(vocab) if !vocab.match?(/^(\s+)/) && (vocab != '') && !vocab.include?('(')
     end
   end
 
@@ -243,7 +199,7 @@ class Vocab
   def removeArticles(vocab)
     return vocab if SPECIAL_ARTICLES.include?(vocab.downcase)
 
-    vList = vocab.split(' ')
+    vList = vocab.split
     articles = %w[el la las los the]
     plurals = articles.map(&:capitalize)
     if articles.include?(vList[0]) || plurals.include?(vList[0])
@@ -284,68 +240,23 @@ class Vocab
     end
   end
 
-  def parse_vocab_header(str)
-    newStr1 = str
-    if str.match(/vocabFullWidth/)
-      newStr1 = str.gsub(/<!--.+-->/, '') if str.match(/<!--.+-->/)
-      newStr2 = newStr1.to_s
-      if newStr2.match(/<div class="vocabFullWidth">.+/)
-        headerList = newStr2.split(/:/)
-      else
-        headerList = []
-        headerList.push(str)
-      end
-      headerList
-    else
-      []
-    end
+  def add_vocab_unit_to_index
+    path = get_prev_folder(Dir.pwd, include_path: true)
+    "<a href=\"#{url_for(vocab_file_name, path)}#{topic_url_suffix}#box#{@current_box_num}\">#{unit_reference}</a>"
   end
 
-  def get_topic_file
-    unit_reference = return_vocab_unit(@currUnit)
-    unit_num = unit_reference.match(/\d+/).to_s
-    topic_files_in_course.filter {|f| f.match(unit_num)}[0]
-  end
-
-  def add_vocab_unit_to_index(vocabTerm = '')
-    unit = return_vocab_unit(@currUnit)
-    suffix = generate_url_suffix(TOPIC_COURSE[0], get_topic_file, TOPIC_COURSE[-1])
-    path = get_prev_folder(Dir.pwd, true)
-    "<a href=\"#{get_url(vocab_file_name, path)}#{suffix}#box#{@boxNum}\">#{unit}</a>"
-  end
-
-  # Note: There should be no whitespace after the <a> tag so the `:` is right next to the link.
-  def add_vocab_unit_to_header(vocabTerm = '')
+  # NOTE: There should be no whitespace after the <a> tag so the `:` is right next to the link.
+  def add_vocab_unit_to_header
     page_text = BJCHelpers.lab_page_number(@currUnit)
     # Capitalize the first letter of the page text
     # This really only makes a difference for the Spanish translation, since English is already capitalized.
     page_text = page_text.capitalize if @language == 'es'
-    suffix = generate_url_suffix(TOPIC_COURSE[0], get_topic_file, TOPIC_COURSE[-1])
-    "<a href=\"#{get_url(@currFile, Dir.pwd)}#{suffix}\" id=\"box#{@boxNum}\"><b>#{page_text}</b></a>"
-  end
-
-  # need something to call this function and parse_unit
-  def return_vocab_unit(str)
-    list = str.scan(/(\d+)/)
-    list.join('.')
-  end
-
-  # TODO: Use this to replace boxNumber in the HTML.
-  def vocab_term_html_id(unit_str, vocab_term)
-    unit_reference = return_vocab_unit(unit_str).gsub(/\./, '-')
-    # TODO: is there anything we need to do to sanitize the vocab_term?
-    "#{unit_reference}-#{vocab_term.gsub(/\s+/, '-').downcase}"
+    "<a href=\"#{url_for(@currFile)}#{topic_url_suffix}\" id=\"box#{@current_box_num}\"><b>#{page_text}</b></a>"
   end
 
   def add_vocab_to_file(vocab)
     return unless vocab != ''
 
-    file = "#{review_folder}/#{vocab_file_name}"
-    add_content_to_file(file, vocab)
-  end
-
-  def get_url(file, localPath)
-    linkPath = localPath.match(/bjc-r.+/).to_s
-    "/#{linkPath}/#{file}"
+    add_content_to_file(vocab)
   end
 end

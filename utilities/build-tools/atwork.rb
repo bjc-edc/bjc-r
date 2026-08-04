@@ -1,28 +1,31 @@
-require 'fileutils'
+# frozen_string_literal: true
+
 require 'nokogiri'
 
+require_relative 'bjc_helpers'
+
+# Collects every "Computer Scientists @ Work" box in a course onto one page.
+# Unlike the vocab and self-check pages there is a single @ Work page per
+# course, so content accumulates across every unit of a run.
 class AtWork
-  def initialize(path, language = 'en', content)
+  include BJCHelpers
+
+  def initialize(path, language, content)
     @parentDir = path
+    # The generators are handed the content folder; the checkout root is what
+    # is left once the content path is taken off the end of it.
+    @rootDir = path.delete_suffix('/').delete_suffix("/#{content}")
     @language = language
     @content = content
     @currUnit = nil
     @currFile = nil
-    @isNewUnit = true
-    @currUnitNum = 0
     @currLab = ''
-    @atwork_filename = "atwork#{language_ext}.html"
-    @labPath = ''
+    @currUnitNum = 0
     @currUnitName = nil
-  end
-
-  def language_ext
-    @language_ext ||= @language == 'en' ? '' : ".#{@language}"
-  end
-
-  def unit
-    temp = @currUnit.match(/[A-Za-z]+/)
-    temp.to_s
+    @atwork_filename = "atwork#{language_ext(language)}.html"
+    # The page contents, built up across the whole run.
+    # The file is only written out once the run has finished.
+    @page_content = +''
   end
 
   def currUnit(str)
@@ -33,34 +36,17 @@ class AtWork
     @currFile = file
   end
 
-  def currFile(file)
-    @currFile = file
+  def currUnitNum(num)
+    @currUnitNum = num
   end
 
   def currUnitName(str)
     @currUnitName = str
   end
 
-  def isNewUnit(boolean)
-    @isNewUnit = boolean
-  end
-
-  def currUnitNum(num)
-    @currUnitNum = num
-  end
-
-  def currLab
-    return if @currUnit.nil?
-
-    labMatch = @currUnit.match(/Lab.+,/)
-    labList =  labMatch.to_s.split(/,/)
-    @currLab = labList.join
-  end
-
   def read_file(file)
     return unless File.exist?(file)
 
-    isNewUnit(true)
     currFile(file)
     parse_unit(file)
     parse_atWork(file)
@@ -68,21 +54,11 @@ class AtWork
 
   def parse_unit(file)
     doc = File.open(file) { |f| Nokogiri::HTML(f) }
-    title = doc.xpath('//title')
-    str = title.to_s
-    pattern = %r{</?\w+>}
-    if str.nil? || !@isNewUnit
-      nil
-    else
-      newStr = str.split(pattern)
-      currUnit(newStr.join)
-      currUnitNum(@currUnit.match(/\d+/).to_s)
-      unit
-      isNewUnit(false)
-    end
+    currUnit(doc.xpath('//title').to_s.split(%r{</?\w+>}).join)
+    currUnitNum(@currUnit.match(/\d+/).to_s)
   end
 
-  def language
+  def page_title
     if @language == 'en'
       'Computer Scientists @ Work'
     elsif @language == 'es'
@@ -90,86 +66,37 @@ class AtWork
     end
   end
 
-  def createNewFile(fileName, linesList)
-    i = 0
-    File.new(fileName, 'w')
-    while !linesList[i].match(/<body>/) && (i < 30)
-      if linesList[i].match(/<title>/)
-        File.write(fileName, "<title>#{language}</title>\n", mode: 'a')
-      else
-        File.write(fileName, "#{linesList[i]}\n", mode: 'a')
-      end
-      i += 1
-    end
+  # Returns { destination_path => contents } for the atwork page.
+  # Nothing is written to disk here.
+  #
+  # The head used to be copied line by line out of whichever curriculum page
+  # happened to hold the first atwork box, which never emitted the opening
+  # <body> tag. Use the same template as every other generated summary page.
+  def finalize
+    return {} if @page_content.empty?
+
+    { File.join(@parentDir, @atwork_filename) =>
+        BJCHelpers.summary_page_template(@language, page_title, @page_content) }
   end
 
-  def add_HTML_end
-    Dir.chdir("#{@parentDir}/review")
-    ending = "</body>\n</html>"
-    return unless File.exist?(@atwork_filename)
-
-    File.write(@atwork_filename, ending, mode: 'a')
-  end
-
-  def add_content_to_file(filename, data)
-    currentDir = Dir.getwd
-    linesList = File.readlines(@currFile)[0..15]
-    Dir.chdir("#{@parentDir}/review")
-    data = data.gsub(/&amp;/, '&')
-    createNewFile(filename, linesList) unless File.exist?(filename)
-    File.write(filename, data, mode: 'a')
-    FileUtils.cd(currentDir)
+  def add_content_to_file(data)
+    @page_content << data.gsub('&amp;', '&')
   end
 
   def parse_atWork(file)
     doc = File.open(file) { |f| Nokogiri::HTML(f) }
-    atWorkSet = doc.xpath("//div[@class = 'atwork']")
-    atWorkSet.each do |node|
-      child = node.children
-      child.before(add_unit_to_atwork)
-    end
-    return if atWorkSet.empty?
+    atwork_boxes = doc.xpath("//div[@class = 'atwork']")
+    return if atwork_boxes.empty?
 
-    add_to_file(atWorkSet.to_s)
+    atwork_boxes.each { |node| node.children.before(add_unit_to_atwork) }
+    add_content_to_file(atwork_boxes.to_s)
   end
 
+  # The "1.2.3" reference that links each box back to the curriculum page it
+  # came from, the same way the vocab and self-check pages do. This used to
+  # link to "<unit folder>/atwork.html", which never exists: the only @ Work
+  # page is the one this class generates in the course's content folder.
   def add_unit_to_atwork
-    unitNum = return_unit(@currUnit)
-    currentDir = Dir.getwd
-    FileUtils.cd('..')
-    link = " <a href=\"#{get_url(@atwork_filename)}\">#{unitNum}</a>"
-    FileUtils.cd(currentDir)
-    link
-  end
-
-  def add_unit_to_header
-    unitNum = return_unit(@currUnit)
-    " <a href=\"#{get_url(@currFile)}\">#{unitNum}</a>"
-  end
-
-  def return_unit(str)
-    list = str.scan(/(\d+)/)
-    list.join('.')
-  end
-
-  def add_to_file(input)
-    return unless input != ''
-
-    add_content_to_file(@atwork_filename, input)
-  end
-
-  def get_url(file)
-    localPath = Dir.getwd
-    linkPath = localPath.match(/bjc-r.+/).to_s
-    "/#{linkPath}/#{file}"
-  end
-
-  def moveFile
-    src = "#{@parentDir}/review/#{@atwork_filename}"
-    dst = "#{@parentDir}/#{@atwork_filename}"
-    return unless File.exist?(src)
-
-    File.delete(dst) if File.exist?(dst)
-    FileUtils.copy_file(src, dst)
+    " <a href=\"#{url_for(@currFile)}\">#{unit_reference}</a>"
   end
 end
