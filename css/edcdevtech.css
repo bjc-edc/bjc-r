@@ -1,0 +1,459 @@
+/* The standalone BJC splash / landing pages: /index.html, /index_new.html
+ * and /index_equity.html. Nothing else loads this file.
+ *
+ * Merged from edcdevtech-landingpage.css + edcdevtech-headerfooter.css.
+ * EDC Dev Tech wrote the originals. See https://dethier.github.io/bjc/
+ *
+ * These pages deliberately skip llab/loader.js -- they are a different shape
+ * from the curriculum and don't need bootstrap or the llab scripts -- so the
+ * shared header/footer chrome below is intentionally duplicated in
+ * css/bjc.css, which is what curriculum pages load instead.
+ *
+ * Landing-only rules stay scoped to body.landing / .hero so this file could
+ * be loaded alongside the curriculum CSS without collisions (a bare .fas
+ * pads the navbar icons; a bare .break collapses <code class="break">).
+ */
+
+/** FONTS **/
+
+@font-face {
+    font-family: 'work_sansregular';
+    /* Deliberately the llab copy, byte-for-byte the same URL that
+       llab/css/default.css requests, so the landing pages and the curriculum
+       share one cache entry instead of downloading Work Sans twice.
+       No woff2 is checked in, so browsers fall back to the 297KB woff --
+       adding a subset woff2 first would be the biggest single win here. */
+    src: url('../llab/css/fonts/Work_Sans/WorkSans-Regular.eot');
+    src: url('../llab/css/fonts/Work_Sans/WorkSans-Regular.eot?#iefix') format('embedded-opentype'),
+         url('../llab/css/fonts/Work_Sans/WorkSans-Regular.woff') format('woff'),
+         url('../llab/css/fonts/Work_Sans/WorkSans-Regular.ttf') format('truetype'),
+         url('../llab/css/fonts/Work_Sans/WorkSans-Regular.svg#open_sansregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/*!
+ * Font Awesome Free 5.13.0 by @fontawesome - https://fontawesome.com
+ * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
+ */
+@font-face {
+  font-family: 'Font Awesome 5 Free';
+  font-style: normal;
+  font-weight: 900;
+  /* Same llab copy llab/css/default.css requests, so the landing pages and
+     the curriculum share one cache entry. */
+  src: url("../llab/css/fonts/fontawesome/fa-solid-900.eot");
+  src: url("../llab/css/fonts/fontawesome/fa-solid-900.eot?#iefix") format("embedded-opentype"),
+       url("../llab/css/fonts/fontawesome/fa-solid-900.woff2") format("woff2"),
+       url("../llab/css/fonts/fontawesome/fa-solid-900.woff") format("woff"),
+       url("../llab/css/fonts/fontawesome/fa-solid-900.ttf") format("truetype"),
+       url("../llab/css/fonts/fontawesome/fa-solid-900.svg#fontawesome") format("svg");
+}
+
+/** LAYOUT PRIMITIVES **/
+
+* {box-sizing: border-box;}
+
+.wrapper {
+    max-width: -webkit-calc(1200px - (30px * 2));
+    max-width: calc(1200px - (30px * 2));
+    padding-right: 30px;
+    padding-left: 10px;
+    position: relative;
+}
+
+.margins {
+    margin-right: auto;
+    margin-left: auto;
+}
+
+@media screen and (max-width: 800px) {
+    .wrapper {
+        max-width: -webkit-calc(800px - (30px));
+        max-width: calc(800px - (30px));
+        padding-right: 15px;
+        padding-left: 15px;
+    }
+}
+
+/** HEADER **/
+
+header {
+    background: #0C3559;
+}
+
+.logo {
+    min-height: 62px;
+    padding: 6px 0 6px 36px;
+}
+
+/* The logo and title are one link; lay them out as a row so the title stays
+   optically centered on the mark instead of relying on a fixed indent. */
+.site-title {
+    font-family: 'work_sansregular', Helvetica, Arial, sans-serif;
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: #FFF;
+    text-decoration: none;
+    font-variant: normal;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.site-title:hover,
+.site-title:visited {
+    color: #fff;
+    text-decoration: none;
+}
+
+.site-logo {
+    flex-shrink: 0;
+    height: 50px;
+    width: auto;
+}
+
+.txtTitle {
+    font-size: 1.6rem; /* unset h1 size to be smaller. */
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0;
+    padding: 0;
+}
+
+.title-small-screen {
+    color: #000;
+}
+
+/* Also used by the llab navbar, so keep the base rule unscoped. */
+.trapezoid {
+    position: absolute;
+    bottom: -11px;
+    left: 36px;
+    border-top-style: solid;
+    border-top-width: 12px;
+    border-top-color: #0C3559;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    height: 0;
+    width: 60px;
+    z-index: 100;
+}
+
+@media screen and (max-width: 700px) {
+    /* Reclaim the wide desktop indent and let the title shrink rather than
+       wrap into a two-line block beside the logo. */
+    .logo {
+        min-height: 0;
+        padding: 8px 0 8px 6px;
+    }
+
+    .site-logo {height: 40px;}
+
+    .txtTitle {font-size: -webkit-calc(0.95rem + 1.6vw);}
+    .txtTitle {font-size: calc(0.95rem + 1.6vw);}
+
+    .site-header .trapezoid {
+        left: 12px;
+        width: 30px;
+    }
+}
+
+/** FOOTER **/
+/* Intentionally duplicated in css/bjc.css for the curriculum pages. */
+
+.footer {
+    position: relative;
+    font-family: 'work_sansregular', Helvetica, Arial, sans-serif;
+    display: flex;
+    padding: 0em 1em;
+    flex-wrap: wrap;
+    align-items: center;
+    clear: right;
+}
+
+.footer img {padding: 0px;}
+
+.footer-col {padding: 20px 10px 0;}
+
+/* Licence boilerplate: required, but not meant to be read. */
+.footer p {
+    font-size: .6em;
+    line-height: 1.5;
+}
+
+/** LANDING PAGE ***********************************************************
+ * Everything below applies only to /index*.html. The curriculum pages load
+ * this file too, so these rules stay scoped to body.landing / .hero.
+ */
+
+body.landing {
+    font-family: 'RobotoRegular', Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+}
+
+.landing .hero {
+    background: url('/bjc-r/img/splash-page/BJC_splash_background-1600x540.png') no-repeat center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    /* min-height, not height: the tinted overlay and the background have to
+       grow with the content, otherwise the last buttons spill onto the white
+       page below once the buttons wrap on a narrow screen. */
+    min-height: 540px;
+    display: flex;
+    position: relative;
+}
+
+.hero .background-overlay {
+    display: flex;
+    width: 100%;
+    z-index: 0;
+    background-color:  rgba(98, 104, 171, 0.75);
+}
+
+.hero .wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding-top: 16px;
+    padding-bottom: 30px;
+    position: relative;
+}
+
+.hero h2 {
+    font-family: 'RobotoRegular', Helvetica, Arial, sans-serif;
+    font-size: 2.5em;
+    text-transform: uppercase;
+    text-align: center;
+    font-weight: normal;
+    color: #fff;
+    margin-bottom: 1em;
+}
+
+.hero .subtitle {
+    display: block;
+    text-transform: none;
+    font-size: .75em;
+    margin-top: .25em;
+}
+
+.txtContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* Hold the copy against the bottom of the hero when there is spare room,
+       the way the old absolute positioning did. */
+    margin-top: auto;
+    width: 100%;
+}
+
+.large-logo {
+    align-self: flex-start;
+    margin-left: 90px;
+}
+
+.large-logo img {
+    display: block;
+    width: auto;
+    height: 150px;
+}
+
+.btnContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: stretch;
+    gap: 16px;
+    margin-bottom: 16px;
+    width: 100%;
+}
+
+.btnContainer > div {display: flex;}
+
+/* Forced line break between rows of buttons. Scoped: curriculum pages use
+   .break on <code> blocks for long binary strings. */
+.btnContainer > .break {
+    flex-basis: 100%;
+    height: 0;
+}
+
+/* Deliberately not a flex container: the "Run Snap! Now" label relies on the
+   whitespace around the inline logo, which flex layout would collapse. */
+.hero .btn {
+    border: 2px white solid;
+    background-color:rgba(255, 255, 255, 0.4);
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 15px 20px;
+    font-size: 20px;
+    line-height: 1.2;
+    -webkit-transition: border-color 0.2s ease, color 0.2s ease;
+    -moz-transition: border-color 0.2s ease, color 0.2s ease;
+    -ms-transition: border-color 0.2s ease, color 0.2s ease;
+    -o-transition: border-color 0.2s ease, color 0.2s ease;
+    transition: border-color 0.2s ease, color 0.2s ease;
+    text-decoration: none;
+    color: #fff;
+    position:relative;
+}
+
+.hero .btn:hover, .hero .btn:focus {
+    background-color: rgba(255, 255, 255, 0.55);
+    color: #fff;
+    text-decoration: none;
+}
+
+/* Scales with the button label so it never dwarfs the text on small screens. */
+.snap-logo {
+    height: 1.7em;
+    width: auto;
+    margin: -0.5em 0;
+    vertical-align: middle;
+}
+
+.hero .fas {
+    padding-left: 16px;
+}
+
+.hero i.fa-arrow-alt-circle-right:before {
+  content: "\f35a";
+  font-style: normal;
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+}
+
+.landing div.sparks {
+	color:white;
+	margin-top:25px;
+}
+
+.landing div.sparks a {
+	color: gold;
+}
+
+.landing .footer-col img {
+    max-width: 100%;
+    height: auto;
+}
+
+.landing .col2, .landing .col3, .landing .col5 {
+    flex:2;
+    display: grid;
+    align-content: center;
+}
+
+.landing .col1 {
+    flex:1;
+    display: grid;
+    align-content: center;
+}
+
+.landing .col4 {flex: 8;}
+
+.landing .col5 img {max-width: 88px;}
+
+/** LANDING PAGE MEDIA QUERIES **/
+
+@media screen and (max-width: 1000px) {
+    .large-logo {margin-left: 30px;}
+}
+
+@media screen and (max-width: 800px) {
+    .large-logo {margin-left: 0;}
+
+    .large-logo img {height: 115px;}
+
+    .hero h2 {
+        font-size: 2em;
+        margin-bottom: .75em;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .landing .hero {min-height: 0;}
+
+    .hero .wrapper {
+        padding-top: 12px;
+        padding-bottom: 28px;
+    }
+
+    .large-logo {
+        align-self: center;
+        margin-bottom: 4px;
+    }
+
+    .large-logo img {height: 96px;}
+
+    .hero h2 {
+        font-size: 1.6rem;
+        margin-bottom: .75em;
+    }
+
+    .hero .subtitle {font-size: .8em;}
+
+    /* Equal-width columns that drop to one-up once two no longer fit. The
+       buttons now always sit inside the hero image rather than spilling past
+       it, and a lone button on the last row keeps its column width. */
+    .btnContainer {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+        gap: 12px;
+        margin-bottom: 12px;
+        max-width: 560px;
+    }
+
+    /* A forced line break has no meaning once the buttons are on a grid, and
+       it would otherwise eat an empty cell. */
+    .btnContainer > .break {display: none;}
+
+    .hero .btn {
+        padding: 12px 16px;
+        font-size: 1.125rem;
+    }
+
+    .landing div.sparks {
+        margin-top: 16px;
+        text-align: center;
+        font-size: .95rem;
+    }
+
+    /* Stack the landing footer: funder logos on one row, licence text below
+       it, then the CC badge. */
+    .landing .footer {
+        padding-bottom: 1.5em;
+        justify-content: center;
+    }
+
+    .landing .footer-col {padding: 16px 8px 0;}
+
+    /* flex-basis 0 so all three funder logos share one row at 320px wide. */
+    .landing .col1, .landing .col2, .landing .col3 {
+        flex: 1 1 0;
+        min-width: 0;
+        justify-items: center;
+    }
+
+    /* width first, then a cap: the logos fill a narrow column but stop
+       growing once the row has room to spare. */
+    .landing .col1 img {width: 100%; max-width: 64px;}
+    .landing .col2 img {width: 100%; max-width: 140px;}
+    .landing .col3 img {width: 100%; max-width: 132px;}
+
+    .landing .col4 {
+        flex: 1 1 100%;
+        order: 3;
+    }
+
+    .landing .col5 {
+        flex: 1 1 100%;
+        order: 4;
+        justify-items: center;
+    }
+}

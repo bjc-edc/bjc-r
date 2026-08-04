@@ -4,7 +4,7 @@
  */
 
 const THIS_FILE = 'loader.js';
-const RELEASE_DATE = '2026-07-30';
+const RELEASE_DATE = '2026-08-01a';
 
 // Basic llab shape.
 llab = {
@@ -45,8 +45,6 @@ llab.paths.css_files = [
     'css/3.3.7/bootstrap.min.css',
     'css/default.css',
     '../css/bjc.css',
-    // TODO: Merge this into bjc.css.
-    '../css/edcdevtech-headerfooter.css',
 ];
 
 /////////////////////////
