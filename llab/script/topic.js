@@ -137,7 +137,6 @@ llab.parseTopicFile = function parser(data) {
       raw = false;
     }
   }
-  llab.topics = topics;
   return topics;
 };
 
@@ -230,7 +229,7 @@ llab.renderTopic = function (topic_model) {
     if (current.type == "section") {
       llab.renderSection(current, $topicDiv);
     } else {
-      console.warn('non-section content skipped:', content)
+      console.warn('non-section content skipped:', current)
     }
   }
 

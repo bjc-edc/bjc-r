@@ -47,7 +47,6 @@ Basic Directories:
 
 * `course`   -- Contains 'classes'
 * `cur`      -- __Contains lab content, as HTML or Markdown files__
-* `glossary` -- Not Used.
 * `img`      -- __Contains ALL images for all labs__
   * `img/blocks`  -- __A special directory where all *single* block images go__
 * `prog`     -- __Contains all Snap/BYOB files used when making labs__
