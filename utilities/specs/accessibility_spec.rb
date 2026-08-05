@@ -92,8 +92,18 @@ def a11y_test_cases(course, url)
       # assigning window.onload here would never fire.
       expand_all_js = <<~JS
         document.querySelectorAll('details').forEach(el => el.open = true);
-        // Show Bootstrap 3 collapse targets without animation.
-        document.querySelectorAll('.collapse').forEach(el => el.classList.add('in'));
+        // Show Bootstrap 5 collapse targets (.collapse.show { display: block })
+        // without waiting on the transition. aria-expanded is also flipped on
+        // any linked toggle so axe reads the same open state a user would.
+        document.querySelectorAll('.collapse').forEach(el => {
+          el.classList.add('show');
+          if (el.id) {
+            document.querySelectorAll(
+              `[data-bs-toggle="collapse"][href="#${el.id}"], ` +
+              `[data-bs-toggle="collapse"][data-bs-target="#${el.id}"]`
+            ).forEach(t => t.setAttribute('aria-expanded', 'true'));
+          }
+        });
       JS
       page.execute_script(expand_all_js)
       # llab converts .ifTime/.takeItFurther boxes to <details> and inserts
@@ -101,7 +111,7 @@ def a11y_test_cases(course, url)
       # is left closed (bounded, so a page with no disclosures adds no time).
       5.times do
         break if page.evaluate_script(
-          'document.querySelectorAll("details:not([open]), .collapse:not(.in)").length === 0'
+          'document.querySelectorAll("details:not([open]), .collapse:not(.show)").length === 0'
         )
 
         sleep 0.1
