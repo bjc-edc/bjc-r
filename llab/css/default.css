@@ -1057,72 +1057,40 @@ img.indent, div.indent {
   padding: 0px;
 }
 
-/* Reproduce Bootstrap 3's .panel styling for the multiple-choice quiz box,
- * since BS5 ships none of the .panel-* classes. Colors are BS5's accessible
- * variants so white text on the header meets WCAG AA (4.5:1). */
-.panel {
+/* Self-check quiz card. BS5's .card + .border-* utilities provide the box
+ * and border color; these overrides fill in the header (BS5 leaves it
+ * transparent) and swap in the a11y-tuned red/green/amber that meet WCAG
+ * AA (4.5:1) with white text. */
+.MultipleChoice.card {
   margin-bottom: 20px;
-  background-color: #fff;
-  border: 1px solid transparent;
-  border-radius: 4px;
   box-shadow: none;
 }
 
-.panel-heading {
-  padding: 10px 15px;
-  border-bottom: 1px solid transparent;
-  border-top-left-radius: 3px;
-  border-top-right-radius: 3px;
-}
-
-.panel-body {
-  padding: 15px;
-}
-
-.panel-heading a {
-  text-decoration: underline;
-}
-
-.panel-primary {
-  border-color: #0d6efd;
-}
-
-.panel-primary > .panel-heading {
+.MultipleChoice.card > .card-header {
   color: #fff;
-  background-color: #0d6efd;
-  border-color: #0d6efd;
+  background-color: var(--bs-border-color);
 }
 
-.panel-danger {
-  border-color: var(--selfcheck-incorrect);
+.MultipleChoice.border-primary > .card-header {
+  background-color: var(--bs-primary);
 }
 
-.panel-danger > .panel-heading {
-  color: #FFF;
-  background-color: var(--selfcheck-incorrect);
-  border-color: var(--selfcheck-incorrect);
-}
-
-.panel-success {
-  border-color: var(--selfcheck-correct);
-}
-
-.panel-success > .panel-heading {
-  color: #FFF;
+.MultipleChoice.border-success > .card-header {
   background-color: var(--selfcheck-correct);
-  border-color: var(--selfcheck-correct);
 }
 
-/* Partially-correct state for multi-answer self-check quizzes.
- * Uses an amber dark enough that white text meets WCAG AA (4.5:1). */
-.panel-warning {
-  border-color: var(--selfcheck-partial);
-}
-
-.panel-warning > .panel-heading {
-  color: #FFF;
+.MultipleChoice.border-warning > .card-header {
   background-color: var(--selfcheck-partial);
-  border-color: var(--selfcheck-partial);
+}
+
+.MultipleChoice.border-danger > .card-header {
+  background-color: var(--selfcheck-incorrect);
+}
+
+.card-header a,
+.card-header a:visited {
+  color: inherit;
+  text-decoration: underline;
 }
 
 
