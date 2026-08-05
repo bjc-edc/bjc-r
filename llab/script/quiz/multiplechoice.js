@@ -196,9 +196,6 @@ MC.prototype.render = function() {
         $(`#${choice_id}`).bind('click', { myQuestion: this }, function(args) {
             args.data.myQuestion.enableCheckAnswerButton();
         });
-        if (this.selectedInSavedState(optId)) {
-            $(`#${choice_id}`).attr('checked', true);
-        }
     }
 
     this.multipleChoice.find('.tryAgainButton').addClass('disabled').attr('disabled', true);
