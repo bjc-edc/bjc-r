@@ -393,11 +393,11 @@ llab.createTitleNav = function() {
   let previousButtonLabel = `aria-label="${t('backText')}"`,
     nextButtonLabel = `aria-label="${t('nextText')}"`,
     previousPageButton = `
-      <a class='btn btn-nav hidden js-backPageLink js-navButton' ${previousButtonLabel}>
+      <a class='btn btn-nav d-none js-backPageLink js-navButton' ${previousButtonLabel}>
         <i class="fas fa-arrow-left" aria-hidden=true></i>
       </a>`,
     nextPageButton = `
-      <a class='btn btn-nav hidden js-nextPageLink js-navButton' ${nextButtonLabel}>
+      <a class='btn btn-nav d-none js-nextPageLink js-navButton' ${nextButtonLabel}>
         <i class="fas fa-arrow-right" aria-hidden=true></i>
       </a>`,
     // use \u00F1 instead of an ñ in the menu. (Issue in Chrome on topic pages)
@@ -414,7 +414,7 @@ llab.createTitleNav = function() {
         <h1 class="navbar-title" aria-hidden="true"></h1>
       </div>
       <ul class="navbar-nav container justify-content-end">
-        <li class="dropdown js-langDropdown nav-lang-dropdown hidden">
+        <li class="dropdown js-langDropdown nav-lang-dropdown d-none">
           <a class="btn btn-nav btn-nav-lang dropdown-toggle" type="button"
             aria-label=${t('Switch language')} role="button" tabindex=0
             id="dropdown-langs" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -426,8 +426,9 @@ llab.createTitleNav = function() {
           </ul>
         </li>
         <li class="nav-btn-group nav-btn-group-first">${previousPageButton}</li>
-        <li class="nav-btn-group dropdown js-navDropdown js-navButton hidden">
-          <button class="btn btn-nav dropdown-toggle" type="button"
+        <li class="nav-btn-group dropdown js-navDropdown js-navButton d-none">
+          <a class="btn btn-nav dropdown-toggle"
+            type="button" role="button" tabindex=0
             aria-label="${t('Navigation Menu')}"
             id="Topic-Navigation-Menu" data-bs-toggle="dropdown"
             aria-haspopup=true aria-expanded=false>
@@ -449,12 +450,12 @@ llab.createTitleNav = function() {
       <div class="trapezoid"></div>
     </nav>`,
     botHTML = `
-      <nav class="full-bottom-bar" aria-label="${t('secondaryNavLabel')}">
-        <div class="js-navButton hidden" style="float: left">
+      <nav class="full-bottom-bar" aria-label="secondary page navigation">
+        <div class="js-navButton d-none" style="float: left">
           ${previousPageButton}
         </div>
         <div class="progress-indicator"></div>
-        <div class="js-navButton hidden" style="float: right">
+        <div class="js-navButton d-none" style="float: right">
           ${nextPageButton}
         </div>
       </nav>`,
@@ -539,10 +540,8 @@ llab.setButtonURLs = function() {
 
   forward = $('.js-nextPageLink');
   back = $('.js-backPageLink');
-  // Remove click handlers; the buttons stay hidden until their href and
-  // aria-label are set below — unhiding first exposes an <a> with an
-  // aria-label but no href/role, which axe flags (aria-prohibited-attr).
-  $('.js-navButton').off('click');
+  // Unhide buttons and remove click handlers
+  $('.js-navButton').removeClass('d-none').off('click');
 
   // Disabled buttons: dropping the href takes the <a> out of the tab order,
   // and role="link" + aria-disabled keeps it announced by name as unavailable
@@ -781,233 +780,23 @@ llab.translated_content_url = function() {
 // the other right-side nav items. The `site:` filter is added when building
 // the Google URL — the visible input value is never rewritten.
 
-// Derive the site filter from the current host + the install folder
-// (llab.rootURL). On localhost we fall back to bjc.edc.org since localhost
-// itself isn't indexed by Google.
-llab.NAVBAR_SEARCH_LOCAL_HOST = 'bjc.edc.org';
-llab.getSearchSite = () => {
-  let host = llab.isLocalEnvironment() ? llab.NAVBAR_SEARCH_LOCAL_HOST : location.hostname;
-  let folder = (llab.rootURL || '').replace(/^\/+|\/+$/g, '');
-  return folder ? `${host}/${folder}` : host;
-};
-
-llab.setupNavbarSearch = function () {
-  let $toggle = $('.js-navbarSearchToggle');
-  let $input = $('.js-navbarSearchInput');
-  let $bar = $('.js-navbarSearchBar');
-  if ($toggle.length === 0 || $toggle.data('llab-search-bound')) { return; }
-  $toggle.data('llab-search-bound', true);
-
-  let $nav = $('.llab-nav');
-  let isOpen = () => $nav.hasClass('navbar-search-open');
-
-  // Bootstrap 3 marks an open dropdown by adding .open to its wrapper.
-  // Whenever search opens we collapse any sibling menu so only one
-  // overlay is showing at a time.
-  let closeOpenDropdowns = () => $nav.find('.dropdown.open').removeClass('open');
-
-  let open = () => {
-    closeOpenDropdowns();
-    $nav.addClass('navbar-search-open');
-    $toggle.attr('aria-expanded', 'true');
-    $input.attr('tabindex', '0');
-    setTimeout(() => $input.trigger('focus'), 0);
-  };
-
-  let close = () => {
-    $nav.removeClass('navbar-search-open');
-    $toggle.attr('aria-expanded', 'false');
-    $input.attr('tabindex', '-1');
-    $input.val('');
-  };
-
-  // Use a synthesized anchor.click() rather than window.open() — this
-  // honors the user's browser preference for new tabs/windows and avoids
-  // popup-blocker quirks tied to window.open feature strings.
-  let openInNewWindow = (url) => {
-    let a = document.createElement('a');
-    a.href = url;
-    a.target = '_blank';
-    a.rel = 'noopener noreferrer';
-    a.click();
-  };
-
-  let performSearch = () => {
-    let query = ($input.val() || '').trim();
-    if (!query) { close(); return; }
-    let q = `${query} site:${llab.getSearchSite()}`;
-    openInNewWindow(`https://www.google.com/search?q=${encodeURIComponent(q)}`);
-    close();
-  };
-
-  $toggle.on('click', (event) => {
-    event.preventDefault();
-    if (!isOpen()) { open(); return; }
-    performSearch();
-  });
-
-  $input.on('keydown', (event) => {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      performSearch();
-    } else if (event.key === 'Escape') {
-      close();
-      $toggle.trigger('focus');
-    }
-  });
-
-  // Click anywhere outside the search UI (while open) to close.
-  $(document).off('click.navbarSearch').on('click.navbarSearch', (event) => {
-    if (!isOpen()) { return; }
-    if ($(event.target).closest('.js-navbarSearchToggle, .js-navbarSearchBar').length) { return; }
-    close();
-  });
-
-  // Bootstrap 3 dropdowns call `return false` on the toggle click, so the
-  // event never reaches our outside-click handler. Hook the dropdown's own
-  // show event instead: whenever a sibling dropdown is about to open,
-  // collapse the search.
-  $nav.off('show.bs.dropdown.navbarSearch').on('show.bs.dropdown.navbarSearch', () => {
-    if (isOpen()) close();
-  });
-};
-
-// TRANSLATIONS MENU (the navbar globe)
-// The globe is shown when the content exists in the other language. To
-// avoid the navbar shifting while we ask the server, the answer is checked
-// once per *unit* (topic file) -- do all of its pages have a translation?
-// -- and cached in sessionStorage. Every later page in the unit can then
-// show or hide the globe synchronously, before the nav is even visible.
-
-// sessionStorage key for the current unit's translation status.
-llab.unitTranslationKey = () => {
-  let topic = llab.getQueryParameter('topic');
-  return topic ? `llab-unit-translations:${topic}` : null;
-};
-
-// Return PATH in the other language: page.html <-> page.es.html
-llab.translatedPath = (path) => {
-  if (llab.pageLang() === 'es') {
-    return path.replace(/\.es\./g, '.');
-  }
-  return path.replace(/\.(html|topic)$/, '.es.$1');
-};
-
-// Return the local (non-external) page paths listed in topic file DATA.
-llab.localTopicPages = (data) => {
-  return data.split('\n').map(line => {
-    line = llab.stripComments($.trim(line));
-    let urlOpen = line.indexOf('['), urlClose = line.indexOf(']');
-    if (urlOpen === -1 || urlClose === -1) { return null; }
-    let url = line.slice(urlOpen + 1, urlClose).split('?')[0];
-    if (url.indexOf('//') !== -1) { return null; } // external content
-    if (url.indexOf(llab.rootURL) === -1 && url.indexOf('..') === -1) {
-      url = llab.rootURL + (url[0] === '/' ? '' : '/') + url;
-    }
-    return url;
-  }).filter(Boolean);
-};
-
-// Check that the current unit's topic file, and every local page listed in
-// it, exist in the other language. Resolves true/false. Rejects on network
-// errors, so a flaky connection is never cached as "no translation".
-llab.checkUnitTranslations = () => {
-  let file = llab.getQueryParameter('topic');
-
-  let translatedTopicExists = fetch(
-    llab.topics_path + llab.translatedPath(file), { method: 'HEAD' }
-  ).then(response => response.ok);
-
-  let allPagesExist = llab.fetchTopicFile(file).then(data => {
-    let checks = llab.localTopicPages(data).map(page =>
-      fetch(llab.translatedPath(page), { method: 'HEAD' }).then(r => r.ok)
-    );
-    return Promise.all(checks).then(results => results.every(Boolean));
-  });
-
-  return Promise.all([translatedTopicExists, allPagesExist])
-    .then(([topicOK, pagesOK]) => topicOK && pagesOK);
-};
-
-// Show or hide the globe, and point the language links at this page's
-// counterpart in the other language.
-llab.showTranslationsMenu = (show) => {
-  let dropdown = $('.js-langDropdown');
-  if (!show) {
-    dropdown.addClass('hidden');
-    dropdown.find('a').removeAttr('href');
-    return;
-  }
-
-  let new_url = llab.translated_page_url();
-  if (llab.pageLang() === 'es') {
-    $('.js-switch-lang-es').attr('href', location.href);
-    $('.js-switch-lang-en').attr('href', new_url);
-  } else {
-    $('.js-switch-lang-es').attr('href', new_url);
-    $('.js-switch-lang-en').attr('href', location.href);
-  }
-  // Language switches use dynamic navigation, like every other nav link.
-  dropdown.find('.js-switch-lang-es, .js-switch-lang-en').each((_i, el) => {
-    $(el).off('click').on('click', llab.dynamicNavigation(el.href));
-  });
-  dropdown.removeClass('hidden');
-};
-
-llab.setupTranslationsMenu = function() {
-  // Embedded external content has no llab-managed translation to switch to.
-  if (location.pathname === llab.empty_curriculum_page_path) {
-    llab.showTranslationsMenu(false);
-    return;
-  }
-
-  let unitKey = llab.unitTranslationKey();
-  if (!unitKey) {
-    // No unit context (course pages, index, ...): check just this page.
-    // Only existence matters, so a HEAD request (no body download) is enough.
-    let pageKey = `llab-translation-exists:${llab.translated_content_url()}`;
-    let cached = llab.read_cache(pageKey);
-    if (cached !== undefined) {
-      llab.showTranslationsMenu(cached === 'true');
+  fetch(translated_content_url).then(response => {
+    if (!response.ok) {
+      console.log('Not found!!')
+      // We need to re-hide the menu if it is currently showing.
+      $('.js-langDropdown').addClass('d-none');
+      $('.js-langDropdown a').removeAttr('href');
       return;
     }
-    llab.showTranslationsMenu(false);
-    fetch(llab.translated_content_url(), { method: 'HEAD' })
-      .then(response => {
-        llab.set_cache(pageKey, response.ok);
-        llab.showTranslationsMenu(response.ok);
-      })
-      .catch(() => {}); // network error: leave hidden, retry next load
-    return;
-  }
-
-  let cached = llab.read_cache(unitKey);
-  if (cached !== undefined) {
-    llab.showTranslationsMenu(cached === 'true');
-    return;
-  }
-
-  // First page of this unit this session: the globe stays hidden until the
-  // unit-wide check completes. Every later page hits the cache above.
-  llab.showTranslationsMenu(false);
-  llab.pendingTranslationChecks = llab.pendingTranslationChecks || {};
-  if (!llab.pendingTranslationChecks[unitKey]) {
-    llab.pendingTranslationChecks[unitKey] = llab.checkUnitTranslations()
-      .then(complete => { llab.set_cache(unitKey, complete); return complete; })
-      .catch(err => {
-        // Do not cache network failures; allow the next page to retry.
-        delete llab.pendingTranslationChecks[unitKey];
-        throw err;
-      });
-  }
-  llab.pendingTranslationChecks[unitKey]
-    .then(complete => {
-      // Only touch the UI if the user is still within this unit.
-      if (llab.unitTranslationKey() === unitKey) {
-        llab.showTranslationsMenu(complete);
-      }
-    })
-    .catch(() => {});
+    $('.js-langDropdown').removeClass('d-none');
+    if (lang == 'es') {
+      $('.js-switch-lang-es').attr('href', location.href);
+      $('.js-switch-lang-en').attr('href', new_url);
+    } else if (lang == 'en') {
+      $('.js-switch-lang-es').attr('href', new_url);
+      $('.js-switch-lang-en').attr('href', location.href);
+    }
+  }).catch(() => {});
 }
 
 llab.setupSnapImages = () => {
