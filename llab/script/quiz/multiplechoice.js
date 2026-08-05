@@ -482,10 +482,8 @@ MC.prototype.getTemplate = function() {
 <div class='card border-primary MultipleChoice Question'>
     <div class='card-header questionType'>Multiple Choice</div>
     <div class='card-body currentQuestionBox'>
-        <div class='leftColumn'>
-            <div class='promptDiv'></div>
-            <form class='answer-choices-form'></form>
-        </div>
+        <div class='promptDiv'></div>
+        <form class='answer-choices-form'></form>
     </div>
     <div class='interactionBox'>
         <div class='statusMessages'>
