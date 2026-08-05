@@ -146,6 +146,22 @@ MC.prototype.render = function() {
         });
     }
 
+        // Bind the shared Check/Try-Again buttons exactly once per MC. They live
+        // on the question, not on individual choices, so binding inside the
+        // per-choice loop attached one handler per choice (4 choices => 4× fire).
+        this.multipleChoice.find(".checkAnswerButton").bind('click', {
+            myQuestion: this
+        }, function(args) {
+            args.data.myQuestion.checkAnswer();
+        });
+
+        this.multipleChoice.find(".tryAgainButton").bind('click', {
+            myQuestion: this
+        }, function(args) {
+            args.data.myQuestion.tryAgain();
+        });
+    }
+
     /* remove buttons */
 
     var formChoices = this.multipleChoice.find('.answer-choices-form')[0];
