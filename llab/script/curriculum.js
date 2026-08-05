@@ -747,16 +747,16 @@ llab.addFooter = () => {
     `<footer>
       <div class="container">
         <div class="footer row">
-          <div class="footer-col col-md-1 col-xs-4">
+          <div class="footer-col col-4 col-md-1">
             <img src="/bjc-r/img/header-footer/NSF_logo.png" alt="NSF" />
           </div>
-          <div class="footer-col col-md-1 col-xs-4">
+          <div class="footer-col col-4 col-md-1">
             <img src="/bjc-r/img/header-footer/EDC_logo.png" alt="EDC" />
           </div>
-          <div class="footer-col col-md-1 col-xs-4">
+          <div class="footer-col col-4 col-md-1">
             <img src="/bjc-r/img/header-footer/UCB_logo.svg" alt="UCB" />
           </div>
-          <div class="footer-col col-md-8 col-xs-12">
+          <div class="footer-col col-12 col-md-8">
             <p>The Beauty and Joy of Computing by University of California, Berkeley and Education
             Development Center, Inc. is licensed under a Creative Commons
             Attribution-NonCommercial-ShareAlike 4.0 International License. The development of this
@@ -768,7 +768,7 @@ llab.addFooter = () => {
             Foundation or our other funders.
           </p>
         </div>
-        <div class="footer-col col-md-1 col-xs-4">
+        <div class="footer-col col-4 col-md-1">
           <img src="/bjc-r/img/header-footer/cc_88x31.png" alt="Creative Commons Attribution" />
         </div>
       </div>
