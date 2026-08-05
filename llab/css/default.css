@@ -1024,11 +1024,14 @@ img.indent, div.indent {
 
 /* Self-check quiz card. BS5's .card + .border-* utilities provide the box
  * and border color; these overrides fill in the header (BS5 leaves it
- * transparent) and swap in the a11y-tuned red/green/amber that meet WCAG
+ * transparent) and swap in the a11y-tuned red/green colors that meet WCAG
  * AA (4.5:1) with white text. */
 .MultipleChoice.card {
   margin-bottom: 20px;
   box-shadow: none;
+  /* Clip the header's fill to the card's rounded corners. Fixes a
+   * Safari sub-pixel gap at the top corners when zoomed. */
+  overflow: hidden;
 }
 
 .MultipleChoice.card > .card-header {
@@ -1044,16 +1047,23 @@ img.indent, div.indent {
   background-color: var(--selfcheck-correct);
 }
 
+/* Match the yellow border with a yellow header. White text on BS5 warning
+ * yellow doesn't meet WCAG AA (~1.7:1), so switch to dark text (~12.6:1). */
 .MultipleChoice.border-warning > .card-header {
-  background-color: var(--selfcheck-partial);
+  color: #000;
+  background-color: var(--bs-warning);
 }
 
 .MultipleChoice.border-danger > .card-header {
   background-color: var(--selfcheck-incorrect);
 }
 
+/* Inherit the header's text color so visited links stay readable. The
+ * :not() qualifiers push specificity above bjc.css's generic
+ * a:visited:not(.btn-primary):not(.btn-nav), which otherwise repaints
+ * these links as low-contrast teal. */
 .card-header a,
-.card-header a:visited {
+.card-header a:visited:not(.btn-primary):not(.btn-nav) {
   color: inherit;
   text-decoration: underline;
 }
