@@ -129,37 +129,12 @@ MC.prototype.render = function() {
         if (this.content.additonal_info) {
             this.multipleChoice.find('.questionType').append(this.content.additonal_info);
         }
-
-        // Bind the shared Check/Try-Again buttons exactly once per MC. They live
-        // on the question, not on individual choices, so binding inside the
-        // per-choice loop attached one handler per choice (4 choices => 4× fire).
-        this.multipleChoice.find(".checkAnswerButton").bind('click', {
-            myQuestion: this
-        }, function(args) {
-            args.data.myQuestion.checkAnswer();
-        });
-
-        this.multipleChoice.find(".tryAgainButton").bind('click', {
-            myQuestion: this
-        }, function(args) {
-            args.data.myQuestion.tryAgain();
-        });
-    }
-
-        // Bind the shared Check/Try-Again buttons exactly once per MC. They live
-        // on the question, not on individual choices, so binding inside the
-        // per-choice loop attached one handler per choice (4 choices => 4× fire).
-        this.multipleChoice.find(".checkAnswerButton").bind('click', {
-            myQuestion: this
-        }, function(args) {
-            args.data.myQuestion.checkAnswer();
-        });
-
-        this.multipleChoice.find(".tryAgainButton").bind('click', {
-            myQuestion: this
-        }, function(args) {
-            args.data.myQuestion.tryAgain();
-        });
+        /* Render the prompt once. The prompt is identical across attempts, so we
+         * intentionally do NOT rebuild it on "Try Again". Rebuilding it would
+         * re-insert a fresh copy of any developer-comment elements (.todo,
+         * .ap-standard, ...) and reset their visibility, undoing whatever state
+         * the "Toggle developer comments" button had put them in. */
+        this.multipleChoice.find('.promptDiv').html(this.content.prompt);
     }
 
     /* remove buttons */
@@ -181,6 +156,7 @@ MC.prototype.render = function() {
         type = 'checkbox';
     }
 
+    // TODO: Bootstrap 5: revisit form CSS classes
     for (let i = 0; i < this.choices.length; i++) {
         optId = this.choices[i].identifier;
         choice_id = `q-${this.num}-${this.removeSpace(optId)}`;
@@ -356,17 +332,21 @@ MC.prototype.checkAnswer = function() {
     mcState.isCorrect = isCorrect;
     mcState.isPartial = isPartial;
 
-    var outerdiv = this.multipleChoice.find('.card-header').parent();
-    outerdiv.removeClass('border-primary border-success border-danger');
+    var outerdiv = this.multipleChoice.find('.panel-heading').parent();
+    outerdiv.removeClass('panel-primary panel-success panel-warning panel-danger');
     if (isCorrect) {
-        outerdiv.addClass('border-success');
+        outerdiv.addClass('panel-success');
         this.multipleChoice.find('.resultMessageDiv').html(this.getResultMessage(isCorrect));
         this.multipleChoice.find('.checkAnswerButton').addClass('disabled').attr('disabled', true);
     } else if (isPartial) {
         outerdiv.addClass('panel-warning');
         this.multipleChoice.find('.resultMessageDiv').html(llab.translate('partialMessage'));
     } else {
-        outerdiv.addClass('border-danger');
+        outerdiv.addClass('panel-danger');
+        // Wrong answers previously showed no message at all — the only signal
+        // was the red panel border, which color-blind and screen-reader users
+        // cannot perceive.
+        this.multipleChoice.find('.resultMessageDiv').html(llab.translate('incorrectMessage'));
     }
 
     // Update Google Analytics
@@ -487,17 +467,19 @@ MC.prototype.clearFeedbackDiv = function() {
 MC.prototype.getTemplate = function() {
     let t = llab.translate;
     return `
-<div class='card border-primary MultipleChoice Question'>
-    <div class='card-header questionType'>Multiple Choice</div>
-    <div class='card-body currentQuestionBox'>
+<div class='panel panel-primary MultipleChoice Question'>
+    <div class='panel-heading questionType'>Multiple Choice</div>
+    <div class='panel-body currentQuestionBox'>
         <div class='leftColumn'>
             <div class='promptDiv'></div>
             <form class='answer-choices-form'></form>
+            <div class='feedbackdiv'></div>
         </div>
     </div>
     <div class='interactionBox'>
         <div class='statusMessages'>
             <div class='numberAttemptsDiv' role='status'></div>
+            <div class='scoreDiv'></div>
             <div class='resultMessageDiv' role='status'></div>
         </div>
         <div class='buttonDiv'>

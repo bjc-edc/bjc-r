@@ -79,21 +79,58 @@ def a11y_test_cases(course, url)
   wcag20_tags = test_tags([course, :wcag20])
   wcag22_tags = test_tags([course, :wcag22])
 
-  describe "#{course} #{topic_from_url(url)} (#{trimmed_url(url)}) :", :js, type: :feature do
-    before do
+  # ====== AXE Configuration
+  # Axe-core test standards groups
+  # See https://github.com/dequelabs/axe-core/blob/develop/doc/API.md#axe-core-tags
+  required_a11y_standards = %i[wcag2a wcag2aa]
+  # These are currently labelled as "optional" until the basic tests are passing.
+  complete_a11y_standards = %i[wcag21a wcag21aa wcag22aa wcag2a-obsolete best-practice section508]
+
+  # axe-core rules that are not required to be accessible / do not apply
+  # See: https://github.com/dequelabs/axe-core/blob/develop/doc/rule-descriptions.md
+  # This should be empty and all additions should be extensively documented, or temporary.
+  skipped_rules = []
+
+  # These are elements that are not required to be accessible
+  excluded_elements = [
+    # should be used very sparingly.
+    '[data-a11y-errors="true"]',
+    # Developer Tools, which aren't visible in production
+    '.todo',
+    '.comment',
+    '.commentBig',
+    '.ap-standard',
+    '.csta-standard',
+    # 3rd-party YouTube embeds — false positives from YouTube's own iframe markup.
+    '[aria-label="YouTube Video Player"]',
+    '#movie_player',
+    # 3rd-party embedded content (YouTube players, gapminder.org charts,
+    # etc.) is excluded one iframe at a time by tagging the offending
+    # element with data-a11y-errors="true" in the source page (covered
+    # by the top-level selector above). Tagging per iframe — rather than
+    # blanket-excluding all iframes — keeps it visible in source review
+    # which 3rd-party embeds we're knowingly opting out of, and lets us
+    # still axe-test any first-party iframes we add later.
+    # TODO: items below here **must** be fixed eventually.
+    'var', # Snap! elements don't have enough color contrast.
+  ]
+
+  describe "#{course} #{topic_from_url(url)} (#{trimmed_url(url)}) :",
+    type: :feature, js: true do
+    before(:each) do
       visit(url)
 
       # binding.irb
       skip("TODO: #{url} is a 404 page.") if page.html.include?('File not found:')
 
-      # TODO: Add a function to expand all optional content.
-      # TODO: This only works for the ifTime, etc. boxes.
-      page.execute_script <<~JS
-      elementsArray = (selector) => Array.from(document.querySelectorAll(selector));
-        window.onload = (_) => {
-          elementsArray('details').forEach(el => el.open = true);
-          elementsArray('[data-bs-toggle="collapse"]').forEach(el => el.click())
-        };
+      # Expand all optional content (ifTime/takeItFurther <details>, Bootstrap
+      # collapse hints) so axe tests what's inside — axe skips hidden content.
+      # This must run directly: `visit` returns after the load event, so
+      # assigning window.onload here would never fire.
+      expand_all_js = <<~JS
+        document.querySelectorAll('details').forEach(el => el.open = true);
+        // Show Bootstrap 3 collapse targets without animation.
+        document.querySelectorAll('.collapse').forEach(el => el.classList.add('in'));
       JS
       page.execute_script(expand_all_js)
       # llab converts .ifTime/.takeItFurther boxes to <details> and inserts
@@ -103,7 +140,6 @@ def a11y_test_cases(course, url)
         break if page.evaluate_script(
           'document.querySelectorAll("details:not([open]), .collapse:not(.in)").length === 0'
         )
-
         sleep 0.1
         page.execute_script(expand_all_js)
       end

@@ -43,23 +43,14 @@ The automated RSpec suite lives in `utilities/specs`:
 bundle exec rspec utilities/specs
 ```
 
-The build-tools specs are fast and need no browser:
-
-```sh
-bundle exec rspec utilities/specs/build_tools_spec.rb
-```
-
-## Lints
-
-```sh
-bundle exec rubocop
-```
-
 The accessibility suite can be limited to a course and standard with tags:
 
 ```sh
 bundle exec rspec utilities/specs/accessibility_spec.rb --tag bjc4nyc_wcag20
 ```
+
+`tests.rb` is an outdated manual harness retained for historical reference; it
+is not part of the automated test suite.
 
 ## Local site
 

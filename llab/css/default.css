@@ -26,13 +26,16 @@
 
 /* * * * END FONTS * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+
 html {
   font-family: "work_sansregular", "Open Sans", Helvetica, Arial, sans-serif;
+  font-size: 16px; /* Fix for weird bootstrap */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.5;
   color: #000;
   text-align: left;
+
 }
 
 body {
@@ -187,7 +190,7 @@ code { /* Override bootstrap. */
 }
 
 .llab-nav {
-  line-height: 1.5; /* Keep slightly smaller than normal to control centering the nav buttons */
+  line-height: 1.38; /* Keep slightly smaller than normal to control centering the nav buttons */
   margin: 0 0 .5em 0;
   width: 100%;
   padding: 6px;
@@ -223,34 +226,35 @@ code { /* Override bootstrap. */
 }
 
 /* Necessary when on mobile. */
-/* .navbar-nav .open .dropdown-menu {
+.navbar-nav .open .dropdown-menu {
   background-color: #FFF;
-} */
+}
 
 @media (min-width: 768px) {
-  .justify-content-end .dropdown-menu {
-    right: 0;
-    top: 50px;
-    left: auto;
+  .navbar-left {
+    /* With of the right side buttons: lang menu + back/forward buttons */
+    max-width: calc(100% - 36ch);
   }
 }
 
 @media screen and (max-width: 768px) {
-  .navbar-expand .navbar-nav .dropdown-menu {
+  /* Bootstrsap 3 selector */
+  .navbar-nav .open .dropdown-menu {
     position: fixed;
     top: 75px;
-    left: 0.5em;
+    left: 0.2em;
     max-width: calc(100% - 0.8em - 2em - 4px);
     border: 2px solid #0C3559;
   }
 
-  .nav-lang-dropdown {
-    margin-right: 3ch;
-  }
-
-  ul.navbar-nav li.show ul {
+  ul.navbar-nav li.open ul {
     margin: 0.5em;
     width: 100%;
+  }
+
+  /* Close the gap between buttons, only shows on mobile. */
+  .nav-btn-group > .btn-nav {
+    margin: 0 -3px;
   }
 }
 
@@ -276,18 +280,13 @@ nav.navbar .navbar-brand {
   filter: none;
 }
 
-ul.justify-content-end {
+.navbar-right {
   padding: 5px 1rem;
   margin-right: 5%;
 }
 
-/* Hide the default bootstrap dropdown indicator */
-.navbar-nav .dropdown-toggle::after {
-  display: none;
-}
-
 /* No extra space around buttons */
-ul.navbar-nav li {
+ul.navbar-right li {
   padding: 0;
 }
 
@@ -406,15 +405,12 @@ ul.navbar-nav li {
 .btn-nav,
 .navbar-nav > li > a:visited, /* override bootstrap 3 */
 .btn-nav:visited {
-  /* Keep BS5's .btn.disabled color in sync with our white nav buttons,
-   * so the bottom bar's faded arrows are white, not black. */
-  --bs-btn-disabled-color: white;
-  --bs-btn-disabled-border-color: white;
   color: white;
   border: 2px solid white;
   background-color: unset;
   font-size: 20px;
-  padding: 4px;
+  font-weight: 900;
+  padding: 8px;
   border-radius: 6px;
   height: 40px;
   width: 40px;
@@ -427,11 +423,13 @@ ul.navbar-nav li {
   border-radius: 0;
 }
 
-.navbar-nav .show > a,
-.navbar-nav li > a:focus,
-.navbar-nav li > a:hover,
+.nav .open > a,
+.nav .open > .btn-nav, /* <button> dropdown toggles */
+.nav> li > a:focus,
+.nav > li > a:hover,
 a.btn-nav:visited:hover,
 a.btn-nav:visited:focus,
+a.btn-nav:active,
 .btn-nav:hover,
 .btn-nav:focus {
   border-color: #F2E205;
@@ -501,13 +499,11 @@ a.btn-nav:visited {
 
 .dropdown-menu {
   margin-top: 6px;
-  overflow-y: auto; /* scroll menu on small screens */
+  overflow-y: scroll; /* scroll menu on small screens */
   width: auto;
   white-space: nowrap;
   overflow-x: hidden;
   text-overflow: ellipsis;
-  border-color: #0C3559;
-  padding-right: 0.5em;
   /* max- height + width set using JS on page load. */
 }
 
@@ -516,22 +512,10 @@ ul.dropdown-menu > li.dropdown-header,
 .dropdown-header {
   color: #000;
   padding: 3px 10px;
+  font-size: 1.1em;
   font-weight: 600;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-.dropdown-item {
-  --bs-dropdown-color: #212529;
-  --bs-dropdown-header-padding-x: 0.67rem;
-  --bs-dropdown-header-padding-y: 0.33rem;
-  font-size: 0.9rem;
-}
-
-a.dropdown-item:not(.btn-primary):not(.btn-nav),
-a.dropdown-item:not(.btn-primary):not(.btn-nav):visited {
-  color: #212529;
-  text-decoration: none;
 }
 
 .course-link-list, .main-topic-link, .current-page-arrow {
@@ -1013,20 +997,33 @@ img.indent, div.indent {
   padding: 0px;
 }
 
-/* Override card colors for quiz feedback accessibility:
- * white text on red (incorrect) or green (correct) headers. */
-.MultipleChoice.card {
+/** TODO-BOOTSTRAP: Override Bootstrap 3 panel colors for accessibility.
+  * Using Bootstrap 5's red/green colors as a background, and white text.
+ */
+.panel {
+  -webkit-box-shadow: none;
   box-shadow: none;
-  margin-bottom: 20px;
 }
 
-.MultipleChoice.border-danger > .card-header {
+.panel-danger {
+  border-color: var(--selfcheck-incorrect);
+}
+
+.panel-danger > .panel-heading {
   color: #FFF;
   background-color: var(--selfcheck-incorrect);
   border-color: var(--selfcheck-incorrect);
 }
 
-.MultipleChoice.border-success > .card-header {
+.panel-heading a {
+  text-decoration: underline;
+}
+
+.panel-success {
+  border-color: var(--selfcheck-correct);
+}
+
+.panel-success > .panel-heading {
   color: #FFF;
   background-color: var(--selfcheck-correct);
   border-color: var(--selfcheck-correct);
@@ -1042,20 +1039,6 @@ img.indent, div.indent {
   color: #FFF;
   background-color: var(--selfcheck-partial);
   border-color: var(--selfcheck-partial);
-}
-
-.MultipleChoice.border-primary > .card-header {
-  color: #FFF;
-  background-color: #0d6efd;
-  border-color: #0d6efd;
-}
-
-/* Links in card headers should read on whatever the header color is,
- * not BS5's default blue/purple. */
-.card-header a,
-.card-header a:visited {
-  color: inherit;
-  text-decoration: underline;
 }
 
 
@@ -1123,6 +1106,27 @@ img.indent, div.indent {
     margin: 0 0.5em;
   }
 
+  .navbar-left {
+    float: left;
+    margin: 0;
+  }
+
+  .navbar-right {
+    float: right;
+    padding: 0;
+    margin: 0.25em 0.5em;
+  }
+
+  .navbar-right > li {
+    display: inline-block;
+    position: relative;
+    /* Align by top edge, not text baseline: <button> and <a> children
+     * report different baselines, which used to shift the menu <li> a few
+     * pixels below its arrow-button siblings. Every li shrink-wraps the
+     * same 40px button, so top-alignment lines them up exactly. */
+    vertical-align: top;
+  }
+
   .navbar-title {
     display: none;
   }
@@ -1141,13 +1145,13 @@ img.indent, div.indent {
   }
 }
 
-a[data-bs-toggle="collapse"]:not([aria-expanded="true"])::after,
-a[data-bs-toggle="collapse"][aria-expanded="false"]::after {
+a[data-toggle="collapse"]:not([aria-expanded="true"])::after,
+a[data-toggle="collapse"][aria-expanded="false"]::after {
   content: " ▸";
   text-decoration: none;
 }
 
-a[data-bs-toggle="collapse"][aria-expanded="true"]::after {
+a[data-toggle="collapse"][aria-expanded="true"]::after {
   content: " ▾";
   text-decoration: none;
 }
