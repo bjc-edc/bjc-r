@@ -398,19 +398,19 @@ llab.createTitleNav = function() {
   let previousButtonLabel = `aria-label="${t('backText')}"`,
     nextButtonLabel = `aria-label="${t('nextText')}"`,
     previousPageButton = `
-      <a class='btn btn-nav hidden js-backPageLink js-navButton' ${previousButtonLabel}>
+      <a class='btn btn-nav d-none js-backPageLink js-navButton' ${previousButtonLabel}>
         <i class="fas fa-arrow-left" aria-hidden=true></i>
       </a>`,
     nextPageButton = `
-      <a class='btn btn-nav hidden js-nextPageLink js-navButton' ${nextButtonLabel}>
+      <a class='btn btn-nav d-none js-nextPageLink js-navButton' ${nextButtonLabel}>
         <i class="fas fa-arrow-right" aria-hidden=true></i>
       </a>`,
     // use \u00F1 instead of an ñ in the menu. (Issue in Chrome on topic pages)
     topHTML = `
-    <nav class="llab-nav navbar navbar-fixed-top" role="navigation"
+    <nav class="llab-nav navbar fixed-top navbar-expand" role="navigation"
       aria-label="${t('primaryNavLabel')}">
       <a class="skip-link" href="#main-content">${t('Skip to main content')}</a>
-      <div class="nav navbar-left">
+      <div class="d-flex align-items-center justify-content-start">
         <a class="navbar-brand" rel="author" href="${navURL}"
           aria-label="${t('Go to Index')}">
           <img src="${logoURL}" alt="${t('BJC logo')}">
@@ -420,30 +420,30 @@ llab.createTitleNav = function() {
              inside the navigation landmark. -->
         <h1 class="navbar-title" aria-hidden="true"></h1>
       </div>
-      <ul class="nav navbar-nav navbar-right">
+      <ul class="navbar-nav flex-row ms-auto">
         <li class="nav-search nav-search-li">
           <button type="button" class="btn btn-nav btn-nav-search js-navbarSearchToggle"
             aria-label="${t('Search BJC')}" aria-expanded="false">
             <i class="fas fa-search" aria-hidden="true"></i>
           </button>
         </li>
-        <li class="dropdown js-langDropdown nav-lang-dropdown hidden">
+        <li class="dropdown js-langDropdown nav-lang-dropdown d-none">
           <button class="btn btn-nav btn-nav-lang dropdown-toggle" type="button"
             aria-label="${t('Switch language')}"
-            id="dropdown-langs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            id="dropdown-langs" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="far fa-globe" aria-hidden=true></i>
           </button>
           <ul class="dropdown-menu" aria-labelledby="dropdown-langs">
-            <li><a class="js-switch-lang-en">English</a></li>
-            <li><a class="js-switch-lang-es">Espa\u00F1ol</a></li>
+            <li><a class="js-switch-lang-en dropdown-item">English</a></li>
+            <li><a class="js-switch-lang-es dropdown-item">Espa\u00F1ol</a></li>
           </ul>
         </li>
         <li class="nav-btn-group nav-btn-group-first">${previousPageButton}</li>
-        <li class="nav-btn-group dropdown js-navDropdown js-navButton hidden">
+        <li class="nav-btn-group dropdown js-navDropdown js-navButton d-none">
           <button class="btn btn-nav dropdown-toggle" type="button"
             aria-label="${t('Navigation Menu')}"
-            id="Topic-Navigation-Menu" data-toggle="dropdown"
-            aria-haspopup=true aria-expanded=false>
+            id="Topic-Navigation-Menu" data-bs-toggle="dropdown"
+            aria-expanded="false">
             <i class="fas fa-bars" aria-hidden=true></i>
           </button>
           <ul class="js-llabPageNavMenu dropdown-menu"
@@ -463,11 +463,11 @@ llab.createTitleNav = function() {
     </nav>`,
     botHTML = `
       <nav class="full-bottom-bar" aria-label="${t('secondaryNavLabel')}">
-        <div class="js-navButton hidden" style="float: left">
+        <div class="js-navButton d-none" style="float: left">
           ${previousPageButton}
         </div>
         <div class="progress-indicator"></div>
-        <div class="js-navButton hidden" style="float: right">
+        <div class="js-navButton d-none" style="float: right">
           ${nextPageButton}
         </div>
       </nav>`,
@@ -519,7 +519,7 @@ llab.setAdditionalClasses = () => {
 *  too an existing dropdown */
 llab.dropdownItem = function(text, url) {
   if (url) {
-    text = `<a href="${url}">${text}</a>`;
+    text = `<a href="${url}" class="dropdown-item">${text}</a>`;
   }
 
   return $(`<li>${text}</li>`);
@@ -603,7 +603,7 @@ llab.setButtonURLs = function() {
   }
 
   // Unhide only once the buttons are fully configured.
-  $('.js-navButton').removeClass('hidden');
+  $('.js-navButton').removeClass('d-none');
 };
 
 // Fetch PATH and rebuild the page in place.
@@ -713,14 +713,14 @@ llab.addFeedback = function(title, topic, course) {
   });
 
   var button = $(document.createElement('button')).attr({
-    'class': 'btn btn-primary btn-xs feedback-button',
+    'class': 'btn btn-primary btn-sm feedback-button',
     'type': 'button',
-    'data-toggle': "collapse",
-    'data-target': "#fdbk"
+    'data-bs-toggle': "collapse",
+    'data-bs-target': "#fdbk"
   }).text('Feedback'),
   innerDiv = $(document.createElement('div')).attr({
     'id': "fdbk",
-    'class': "collapse feedback-panel panel panel-primary"
+    'class': "collapse feedback-panel card border-primary"
   }),
   feedback = $(document.createElement('div')).attr(
     {'class' : 'page-feedback'}
@@ -916,11 +916,11 @@ llab.setupTranslationsMenu = function() {
   let updateMenu = (exists) => {
     if (!exists) {
       // We need to re-hide the menu if it is currently showing.
-      $('.js-langDropdown').addClass('hidden');
+      $('.js-langDropdown').addClass('d-none');
       $('.js-langDropdown a').removeAttr('href');
       return;
     }
-    $('.js-langDropdown').removeClass('hidden');
+    $('.js-langDropdown').removeClass('d-none');
     if (lang == 'es') {
       $('.js-switch-lang-es').attr('href', location.href);
       $('.js-switch-lang-en').attr('href', new_url);
