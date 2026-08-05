@@ -924,12 +924,12 @@ img.indent, div.indent {
 
 /* The question text. Bold to set it apart from the answer choices, but left at
  * the body font size -- it should never read smaller than the choices below it.
- * A thin rule underneath separates the prompt from the answer choices without
- * shrinking either block. */
+ * display: flow-root contains any floated children (img.imageRight, etc.) so
+ * they can't push the answer choices below into the space beside the image
+ * and make them appear off-center. */
 .MultipleChoice .promptDiv {
+  display: flow-root;
   margin: 3px 10px 12px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid var(--bs-border-color);
   color: #000;
   font-weight: bold;
   line-height: 150%;
