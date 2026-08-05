@@ -912,6 +912,13 @@ img.indent, div.indent {
    * feedback backgrounds (and ~3.1:1 on white). This darker orange clears
    * WCAG AA (>=4.5:1) on white and on both the green and red feedback tints. */
   --selfcheck-var-color: #a83a00;
+
+  /* Darken Bootstrap 5's default --bs-primary (#0d6efd) by ~15%. #0a58ca is
+   * BS5's own "shade" of primary (used for :hover on .btn-primary), so it
+   * pairs cleanly with the default palette while reading less neon on large
+   * fills like the self-check card header. */
+  --bs-primary: #0a58ca;
+  --bs-primary-rgb: 10, 88, 202;
 }
 
 /* multiple choice question specific styling */
@@ -929,7 +936,7 @@ img.indent, div.indent {
  * and make them appear off-center. */
 .MultipleChoice .promptDiv {
   display: flow-root;
-  margin: 3px 10px 12px;
+  margin: 3px 1rem 12px;
   color: #000;
   font-weight: bold;
   line-height: 150%;
@@ -962,8 +969,22 @@ img.indent, div.indent {
   margin: 8px 0;
 }
 
+/* On narrow screens the illustration next to a prompt is often wider than
+ * the card itself; unfloat img.imageRight/imageLeft so it stacks above the
+ * text at full width instead of hanging off the card edge. */
+@media (max-width: 576px) {
+  .MultipleChoice .promptDiv img.imageRight,
+  .MultipleChoice .promptDiv img.imageLeft {
+    float: none;
+    display: block;
+    margin: 8px auto;
+    max-width: 100%;
+    height: auto;
+  }
+}
+
 .MultipleChoice .answer-choices-form {
-  margin: 10px;
+  margin: 10px 1rem;
 }
 
 
