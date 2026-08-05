@@ -754,7 +754,7 @@ llab.addFooter = () => {
             <img src="/bjc-r/img/header-footer/EDC_logo.png" alt="EDC" />
           </div>
           <div class="footer-col col-md-1 col-xs-4">
-            <img src="/bjc-r/img/header-footer/UCB_logo.png" alt="UCB" />
+            <img src="/bjc-r/img/header-footer/UCB_logo.svg" alt="UCB" />
           </div>
           <div class="footer-col col-md-8 col-xs-12">
             <p>The Beauty and Joy of Computing by University of California, Berkeley and Education
