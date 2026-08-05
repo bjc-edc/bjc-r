@@ -1025,13 +1025,15 @@ img.indent, div.indent {
 /* Self-check quiz card. BS5's .card + .border-* utilities provide the box
  * and border color; these overrides fill in the header (BS5 leaves it
  * transparent) and swap in the a11y-tuned red/green colors that meet WCAG
- * AA (4.5:1) with white text. */
+ * AA (4.5:1) with white text.
+ *
+ * The card's background color matches the border color per state so the
+ * card-body's white fill can sit on top; this closes the sub-pixel white
+ * seam Safari draws between the header's rounded corner and the border's
+ * rounded corner at fractional zoom levels. */
 .MultipleChoice.card {
   margin-bottom: 20px;
   box-shadow: none;
-  /* Clip the header's fill to the card's rounded corners. Fixes a
-   * Safari sub-pixel gap at the top corners when zoomed. */
-  overflow: hidden;
 }
 
 .MultipleChoice.card > .card-header {
@@ -1039,21 +1041,31 @@ img.indent, div.indent {
   background-color: var(--bs-border-color);
 }
 
+.MultipleChoice.card > .card-body {
+  background-color: var(--bs-card-bg);
+}
+
+.MultipleChoice.border-primary,
 .MultipleChoice.border-primary > .card-header {
   background-color: var(--bs-primary);
 }
 
+.MultipleChoice.border-success,
 .MultipleChoice.border-success > .card-header {
   background-color: var(--selfcheck-correct);
 }
 
 /* Match the yellow border with a yellow header. White text on BS5 warning
  * yellow doesn't meet WCAG AA (~1.7:1), so switch to dark text (~12.6:1). */
+.MultipleChoice.border-warning,
 .MultipleChoice.border-warning > .card-header {
-  color: #000;
   background-color: var(--bs-warning);
 }
+.MultipleChoice.border-warning > .card-header {
+  color: #000;
+}
 
+.MultipleChoice.border-danger,
 .MultipleChoice.border-danger > .card-header {
   background-color: var(--selfcheck-incorrect);
 }
