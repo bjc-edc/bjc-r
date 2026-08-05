@@ -369,6 +369,41 @@ body.landing {
         font-size: 2em;
         margin-bottom: .75em;
     }
+
+    /* Stack the landing footer: funder logos on one row, licence text below
+       it, then the CC badge. Kicks in at 800px (not 700px) because the
+       licence column's flex: 8 crowds out the funder logos around 780px
+       and would otherwise force them to wrap one-per-row. */
+    .landing .footer {
+        padding-bottom: 1.5em;
+        justify-content: center;
+    }
+
+    .landing .footer-col {padding: 16px 8px 0;}
+
+    /* flex-basis 0 so all three funder logos share one row at 320px wide. */
+    .landing .col1, .landing .col2, .landing .col3 {
+        flex: 1 1 0;
+        min-width: 0;
+        justify-items: center;
+    }
+
+    /* width first, then a cap: the logos fill a narrow column but stop
+       growing once the row has room to spare. */
+    .landing .col1 img {width: 100%; max-width: 64px;}
+    .landing .col2 img {width: 100%; max-width: 140px;}
+    .landing .col3 img {width: 100%; max-width: 132px;}
+
+    .landing .col4 {
+        flex: 1 1 100%;
+        order: 3;
+    }
+
+    .landing .col5 {
+        flex: 1 1 100%;
+        order: 4;
+        justify-items: center;
+    }
 }
 
 @media screen and (max-width: 700px) {
@@ -417,38 +452,5 @@ body.landing {
         margin-top: 16px;
         text-align: center;
         font-size: .95rem;
-    }
-
-    /* Stack the landing footer: funder logos on one row, licence text below
-       it, then the CC badge. */
-    .landing .footer {
-        padding-bottom: 1.5em;
-        justify-content: center;
-    }
-
-    .landing .footer-col {padding: 16px 8px 0;}
-
-    /* flex-basis 0 so all three funder logos share one row at 320px wide. */
-    .landing .col1, .landing .col2, .landing .col3 {
-        flex: 1 1 0;
-        min-width: 0;
-        justify-items: center;
-    }
-
-    /* width first, then a cap: the logos fill a narrow column but stop
-       growing once the row has room to spare. */
-    .landing .col1 img {width: 100%; max-width: 64px;}
-    .landing .col2 img {width: 100%; max-width: 140px;}
-    .landing .col3 img {width: 100%; max-width: 132px;}
-
-    .landing .col4 {
-        flex: 1 1 100%;
-        order: 3;
-    }
-
-    .landing .col5 {
-        flex: 1 1 100%;
-        order: 4;
-        justify-items: center;
     }
 }
