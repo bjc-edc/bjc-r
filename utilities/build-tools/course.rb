@@ -39,7 +39,7 @@ class BJCCourse
     visible_links = course_contents.css('.topic_link a').reject { |node| developer_only?(node) }
     visible_links.filter_map do |node|
       url = node['href']
-      url.split('?topic=')[1] if url && topic_url?(url)
+      url.split('?topic=')[1] if url && has_topic_url?(url)
     end
   end
 
@@ -47,7 +47,7 @@ class BJCCourse
 
   def developer_only?(node)
     node.ancestors.any? do |ancestor|
-      ancestor['class'].to_s.split.intersect?(DEVELOPER_CLASSES)
+      (ancestor['class'].to_s.split & DEVELOPER_CLASSES).any?
     end
   end
 end
