@@ -456,7 +456,10 @@ llab.fragments = {};
 // These are common strings that need not be build and should be reused!
 llab.strings = {};
 llab.strings.goMain = 'Go to Table of Contents';
-llab.fragments.bootstrapSep = '<li class="divider" role="presentation"></li>';
+llab.fragments.bootstrapSep = '<li role="presentation"><hr class="dropdown-divider" /></li>';
+llab.fragments.bootstrapCaret = '<span class="caret"></span>';
+// TODO: Translate this
+llab.fragments.hamburger = '<span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>';
 // LLAB selectors for common page elements
 llab.selectors.FULL = '.full';
 llab.selectors.NAVSELECT = '.llab-nav';

@@ -261,6 +261,7 @@ llab.processLinks = (data) => {
     llab.url_list.push(url);
 
     // Make the current step have an arrow in the dropdown menu
+    // TODO: Set aria-current on the dropdown item.
     if (isCurrentPage) {
       llab.pageNum = pageCount;
       itemContent = llab.spanTag(itemContent, 'current-page-arrow');
@@ -299,9 +300,9 @@ llab.processLinks = (data) => {
   $('.dropdown-menu').css('max-width', Math.min($(window).width()*.97, 450));
 
   // Attach Dynamic Click Handlers to menu items.
-  $('.js-llabPageNavMenu a').each((_i, element) => {
-    $(element).off('click').on('click', llab.dynamicNavigation(element.href));
-  });
+  // $('a[role=menuitem]').each((_i, element) => {
+  //   $(element).off('click').on('click', llab.dynamicNavigation(element.href));
+  // });
 
   llab.indicateProgress(llab.url_list.length, llab.thisPageNum() + 1);
 }; // end processLinks()
@@ -401,10 +402,8 @@ llab.createTitleNav = function() {
       </a>`,
     // use \u00F1 instead of an ñ in the menu. (Issue in Chrome on topic pages)
     topHTML = `
-    <nav class="llab-nav navbar navbar-fixed-top" role="navigation"
-      aria-label="${t('primaryNavLabel')}">
-      <a class="skip-link" href="#main-content">${t('Skip to main content')}</a>
-      <div class="nav navbar-left">
+    <nav class="llab-nav navbar fixed-top navbar-expand" role="navigation">
+      <div class="container justify-content-start">
         <a class="navbar-brand" rel="author" href="${navURL}"
           aria-label="${t('Go to Index')}">
           <img src="${logoURL}" alt="${t('BJC logo')}">
@@ -414,29 +413,23 @@ llab.createTitleNav = function() {
              inside the navigation landmark. -->
         <h1 class="navbar-title" aria-hidden="true"></h1>
       </div>
-      <ul class="nav navbar-nav navbar-right">
-        <li class="nav-search nav-search-li">
-          <button type="button" class="btn btn-nav btn-nav-search js-navbarSearchToggle"
-            aria-label="${t('Search BJC')}" aria-expanded="false">
-            <i class="fas fa-search" aria-hidden="true"></i>
-          </button>
-        </li>
+      <ul class="navbar-nav container justify-content-end">
         <li class="dropdown js-langDropdown nav-lang-dropdown hidden">
-          <button class="btn btn-nav btn-nav-lang dropdown-toggle" type="button"
-            aria-label="${t('Switch language')}"
-            id="dropdown-langs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a class="btn btn-nav btn-nav-lang dropdown-toggle" type="button"
+            aria-label=${t('Switch language')} role="button" tabindex=0
+            id="dropdown-langs" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="far fa-globe" aria-hidden=true></i>
           </button>
           <ul class="dropdown-menu" aria-labelledby="dropdown-langs">
-            <li><a class="js-switch-lang-en">English</a></li>
-            <li><a class="js-switch-lang-es">Espa\u00F1ol</a></li>
+            <li><a class="js-switch-lang-en dropdown-item">English</a></li>
+            <li><a class="js-switch-lang-es dropdown-item">Espa\u00F1ol</a></li>
           </ul>
         </li>
         <li class="nav-btn-group nav-btn-group-first">${previousPageButton}</li>
         <li class="nav-btn-group dropdown js-navDropdown js-navButton hidden">
           <button class="btn btn-nav dropdown-toggle" type="button"
             aria-label="${t('Navigation Menu')}"
-            id="Topic-Navigation-Menu" data-toggle="dropdown"
+            id="Topic-Navigation-Menu" data-bs-toggle="dropdown"
             aria-haspopup=true aria-expanded=false>
             <i class="fas fa-bars" aria-hidden=true></i>
           </button>
@@ -513,7 +506,7 @@ llab.setAdditionalClasses = () => {
 *  too an existing dropdown */
 llab.dropdownItem = function(text, url) {
   if (url) {
-    text = `<a href="${url}">${text}</a>`;
+    text = `<a href=${url} class="dropdown-item" role="menuitem">${text}</a>`;
   }
 
   return $(`<li>${text}</li>`);
@@ -689,14 +682,14 @@ llab.addFeedback = function(title, topic, course) {
   });
 
   var button = $(document.createElement('button')).attr({
-    'class': 'btn btn-primary btn-xs feedback-button',
+    'class': 'btn btn-primary btn-sm feedback-button',
     'type': 'button',
-    'data-toggle': "collapse",
-    'data-target': "#fdbk"
+    'data-bs-toggle': "collapse",
+    'data-bs-target': "#fdbk"
   }).text('Feedback'),
   innerDiv = $(document.createElement('div')).attr({
     'id': "fdbk",
-    'class': "collapse feedback-panel panel panel-primary"
+    'class': "collapse feedback-panel card border-primary"
   }),
   feedback = $(document.createElement('div')).attr(
     {'class' : 'page-feedback'}

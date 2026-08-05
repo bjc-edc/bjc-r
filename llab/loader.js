@@ -40,28 +40,55 @@ llab.GACode = 'G-WK0EW5GQRZ';
 // Error Handling -- The URL embeds the Sentry desination
 llab.SENTRY_URL = 'https://js.sentry-cdn.com/f55a4cd65a8b48fd99e8247c6a5e6c2d.min.js';
 
-// CSS
+// CSS, relative to llab/
 llab.paths.css_files = [
-    'css/3.3.7/bootstrap.min.css',
+    'lib/bootstrap-5.3.8-dist/css/bootstrap.min.css',
     'css/default.css',
     '../css/bjc.css',
 ];
 
 /////////////////////////
-///////////////////////// scripts
-// Scripts are injected with async=false, so they download in parallel but
-// are guaranteed to execute in insertion order.
-// This list MUST remain in dependency order.
-llab.paths.scripts = [
-    "lib/jquery-3.7.0.slim.min.js",
-    "script/library.js",             // must not depend on jQuery
-    "script/quiz/multiplechoice.js",
-    "script/curriculum.js",
-    "script/course.js",
-    "script/topic.js",
-    "lib/bootstrap.min.js",
-    "script/quiz.js",                // all quiz item types load after multiplechoice.js
-];
+///////////////////////// stage 0
+// Stage 0 items can be executed with no dependences.
+llab.paths.scripts[0] = [];
+llab.paths.scripts[0].push("lib/jquery-3.7.0.slim.min.js");
+llab.paths.scripts[0].push("script/library.js");
+llab.paths.scripts[0].push("script/quiz/multiplechoice.js");
+
+llab.loaded['config'] = true;
+llab.loaded['library'] = false;
+llab.loaded['multiplechoice'] = false
+llab.paths.stage_complete_functions[0] = () => {
+    return (typeof jQuery === 'function') && llab.loaded['library'];
+}
+
+/////////////////
+///////////////// stage 1
+llab.paths.scripts[1] = [];
+llab.paths.scripts[1].push("script/curriculum.js");
+llab.paths.scripts[1].push("script/course.js");
+llab.paths.scripts[1].push("script/topic.js");
+llab.paths.scripts[1].push("lib/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js");
+// llab.paths.scripts[1].push("script/lib/sha1.js");     // for brainstorm
+
+// Doing a very weird thing delaying this until stage 1
+// try to get the above files loaded faster, they only depend on jQuery.
+llab.paths.stage_complete_functions[1] = function() {
+    return ( llab.loaded['multiplechoice'] );
+}
+
+////////////////////
+//////////////////// stage 2
+// all these scripts depend on jquery, loaded in stage 1
+// all quiz item types should get loaded here
+llab.paths.scripts[2] = [];
+llab.paths.scripts[2].push("script/quiz.js");
+// llab.paths.scripts[2].push("script/brainstorm.js");
+// llab.paths.scripts[2].push("script/user.js");
+
+llab.paths.stage_complete_functions[2] = function() {
+    return true; // && llab.loaded['user'];
+}
 
 ///////// OPTIONAL LIBRARIES:
 llab.optionalLibs = {
