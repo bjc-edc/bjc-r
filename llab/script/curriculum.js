@@ -415,9 +415,9 @@ llab.createTitleNav = function() {
       </div>
       <ul class="navbar-nav container justify-content-end">
         <li class="dropdown js-langDropdown nav-lang-dropdown d-none">
-          <a class="btn btn-nav btn-nav-lang dropdown-toggle" type="button"
-            aria-label=${t('Switch language')} role="button" tabindex=0
-            id="dropdown-langs" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <button class="btn btn-nav btn-nav-lang dropdown-toggle" type="button"
+            aria-label=${t('Switch language')}
+            id="dropdown-langs" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="far fa-globe" aria-hidden=true></i>
           </button>
           <ul class="dropdown-menu" aria-labelledby="dropdown-langs">
@@ -427,11 +427,10 @@ llab.createTitleNav = function() {
         </li>
         <li class="nav-btn-group nav-btn-group-first">${previousPageButton}</li>
         <li class="nav-btn-group dropdown js-navDropdown js-navButton d-none">
-          <a class="btn btn-nav dropdown-toggle"
-            type="button" role="button" tabindex=0
+          <button class="btn btn-nav dropdown-toggle" type="button"
             aria-label="${t('Navigation Menu')}"
             id="Topic-Navigation-Menu" data-bs-toggle="dropdown"
-            aria-haspopup=true aria-expanded=false>
+            aria-expanded="false">
             <i class="fas fa-bars" aria-hidden=true></i>
           </button>
           <ul class="js-llabPageNavMenu dropdown-menu"
