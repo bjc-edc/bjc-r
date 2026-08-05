@@ -25,7 +25,7 @@ NAV_WAIT = { wait: 15 }.freeze
 
 RSpec.describe 'Dynamic page navigation', :dynamic_nav, :js, type: :feature do
   def wait_for_nav
-    expect(page).to have_css('.llab-nav .js-nextPageLink:not(.hidden)', **NAV_WAIT)
+    expect(page).to have_css('.llab-nav .js-nextPageLink:not(.d-none)', **NAV_WAIT)
   end
 
   def visit_and_mark(path)
@@ -97,18 +97,18 @@ RSpec.describe 'Dynamic page navigation', :dynamic_nav, :js, type: :feature do
   describe 'translations globe' do
     it 'appears for a fully translated unit and is cached for the session' do
       visit LAB_PAGE_1
-      expect(page).to have_css('.js-langDropdown:not(.hidden)', **NAV_WAIT)
+      expect(page).to have_css('.js-langDropdown:not(.d-none)', **NAV_WAIT)
       expect(unit_translation_cache('nyc_bjc/1-intro-loops.topic')).to eq('true')
 
       # Later pages in the unit decide from the cache.
       find('.llab-nav .js-nextPageLink').click
       expect(page).to have_current_path(/2-creating-a-snap-account/, **NAV_WAIT)
-      expect(page).to have_css('.js-langDropdown:not(.hidden)', **NAV_WAIT)
+      expect(page).to have_css('.js-langDropdown:not(.d-none)', **NAV_WAIT)
     end
 
     it 'switches en -> es -> en without full page loads' do
       visit LAB_PAGE_1
-      expect(page).to have_css('.js-langDropdown:not(.hidden)', **NAV_WAIT)
+      expect(page).to have_css('.js-langDropdown:not(.d-none)', **NAV_WAIT)
       page.execute_script('window.llabSpecMarker = true')
 
       find('.js-langDropdown .dropdown-toggle').click
@@ -118,7 +118,7 @@ RSpec.describe 'Dynamic page navigation', :dynamic_nav, :js, type: :feature do
       expect(page.evaluate_script('document.documentElement.lang')).to eq('es')
 
       # Back to English; the fetched page's own <html lang> drives the reset.
-      expect(page).to have_css('.js-langDropdown:not(.hidden)', **NAV_WAIT)
+      expect(page).to have_css('.js-langDropdown:not(.d-none)', **NAV_WAIT)
       find('.js-langDropdown .dropdown-toggle').click
       find('.js-switch-lang-en', **NAV_WAIT).click
       expect(page).to have_current_path(/1-start-your-first-snap-app\.html/, **NAV_WAIT)
@@ -130,7 +130,7 @@ RSpec.describe 'Dynamic page navigation', :dynamic_nav, :js, type: :feature do
       visit SPARKS_PAGE
       wait_for_nav
       expect(unit_translation_cache('sparks/1-functions-data.topic')).to eq('false')
-      expect(page).to have_css('.js-langDropdown.hidden', visible: :all, **NAV_WAIT)
+      expect(page).to have_css('.js-langDropdown.d-none', visible: :all, **NAV_WAIT)
     end
   end
 end
