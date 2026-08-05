@@ -1057,12 +1057,40 @@ img.indent, div.indent {
   padding: 0px;
 }
 
-/** TODO-BOOTSTRAP: Override Bootstrap 3 panel colors for accessibility.
-  * Using Bootstrap 5's red/green colors as a background, and white text.
- */
+/* Reproduce Bootstrap 3's .panel styling for the multiple-choice quiz box,
+ * since BS5 ships none of the .panel-* classes. Colors are BS5's accessible
+ * variants so white text on the header meets WCAG AA (4.5:1). */
 .panel {
-  -webkit-box-shadow: none;
+  margin-bottom: 20px;
+  background-color: #fff;
+  border: 1px solid transparent;
+  border-radius: 4px;
   box-shadow: none;
+}
+
+.panel-heading {
+  padding: 10px 15px;
+  border-bottom: 1px solid transparent;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+
+.panel-body {
+  padding: 15px;
+}
+
+.panel-heading a {
+  text-decoration: underline;
+}
+
+.panel-primary {
+  border-color: #0d6efd;
+}
+
+.panel-primary > .panel-heading {
+  color: #fff;
+  background-color: #0d6efd;
+  border-color: #0d6efd;
 }
 
 .panel-danger {
@@ -1073,10 +1101,6 @@ img.indent, div.indent {
   color: #FFF;
   background-color: var(--selfcheck-incorrect);
   border-color: var(--selfcheck-incorrect);
-}
-
-.panel-heading a {
-  text-decoration: underline;
 }
 
 .panel-success {
