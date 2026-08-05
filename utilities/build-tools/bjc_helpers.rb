@@ -89,13 +89,37 @@ module BJCHelpers
     @currUnit.scan(/\d+/).join('.')
   end
 
-  def generate_url_suffix(topic, unit_folder, course)
-    UNIT_FOLDERS.push(unit_folder) if !UNIT_FOLDERS.include?(unit_folder)
-    "?topic=#{topic}/#{unit_folder}&course=#{course}.html"
+  # "Lab 2: Interactive Pet" for the title above.
+  def currLab
+    return if @currUnit.nil?
+
+    @currLab = @currUnit.match(/Lab.+,/).to_s.split(',').join
   end
 
-  def report_topic_file_change(topic_file_path, original_content)
-    return if File.read(topic_file_path) == original_content
+  # The topic files for the course, without their containing folder.
+  # Generated links need the file name to build ?topic= URLs.
+  def topic_files_in_course
+    @topic_files_in_course ||= @course.list_topics_no_path.filter { |file| file.match(/\d+-\w+/) }
+  end
+
+  # The topic file for the unit currently being summarized.
+  def get_topic_file
+    unit_num = unit_reference[/\d+/].to_s
+    topic_files_in_course.find { |file| file.match(unit_num) }
+  end
+
+  # The "?topic=...&course=..." suffix that makes a generated link open inside
+  # the course navigation.
+  def topic_url_suffix
+    current = BJCHelpers.current_topic
+    generate_url_suffix(current[:topic_folder], get_topic_file, current[:course])
+  end
+
+  # Warn when a run rewrote a topic file so the change doesn't get committed by
+  # accident. `new_content` is compared against what is still on disk.
+  def report_topic_file_change(topic_file_path, new_content)
+    return unless File.exist?(topic_file_path)
+    return if File.read(topic_file_path) == new_content
 
     relative_path = topic_file_path.delete_prefix("#{@rootDir}/")
     puts <<~NOTICE

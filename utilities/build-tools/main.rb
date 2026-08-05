@@ -108,53 +108,6 @@ class Main
     filename.match(/\d+/) && (file_language(file) == @language)
   end
 
-  def delete_existing_summaries(topic_file)
-    all_lines = File.readlines(topic_file)
-    new_lines = ''
-    all_lines.each do |line|
-      if line.match(/Unit \d+ Review/) || line.match(/Unidad \d+ Revision/)
-        return File.write(topic_file, new_lines.strip)
-      elsif line != '}' and line != '\n'
-        new_lines += line
-      end
-    end
-  end
-
-  # Adds the summary content and links to the topic.topic file
-  def addSummariesToTopic(topic_file, _curr_lab_folder)
-    topic_folder(topic_file.split('/')[0])
-    topic_file_path = "#{@rootDir}/topic/#{topic_file}"
-    original_topic_content = File.read(topic_file_path)
-    delete_existing_summaries(topic_file_path)
-    link_match = "/bjc-r/#{@content}"
-    unit = File.readlines(topic_file_path).find { |line| line.match?(link_match) }
-    link = extract_unit_path(unit, false, true)
-    list = [@vocab.vocab_file_name,
-            @self_check.exam_file_name,
-            @self_check.self_check_file_name].map { |f_name| f_name.gsub!(/\d+/, @unitNum) }
-
-    topic_resource = ["\tresource: #{I18n.t('vocab')} [#{link}/#{list[0]}]",
-                      "\n\tresource: #{I18n.t('on_ap_exam')} [#{link}/#{list[1]}]",
-                      "\n\tresource: #{I18n.t('self_check')} [#{link}/#{list[2]}]"]
-    topic_content = <<~TOPIC
-      heading: #{I18n.t('unit_review', num: @unitNum)}
-    TOPIC
-    is_empty_review = true
-    list.length.times do |index|
-      if File.exist?("#{review_folder}/#{list[index]}")
-        topic_content += topic_resource[index]
-        is_empty_review = false
-      end
-    end
-    add_content_to_file(topic_file_path, "\n#{topic_content}\n}") unless is_empty_review
-    report_topic_file_change(topic_file_path, original_topic_content)
-  end
-
-  def isSummary(line)
-    !line.nil? && !@currUnit.nil? && line.match(@currUnit)
-  end
-
-  # Writing new function to parse using the topic.rb file
   def parse_topic_page(file)
     BJCTopic.new(path_to_topic_file(file), course: @course_file, language: @language)
   end

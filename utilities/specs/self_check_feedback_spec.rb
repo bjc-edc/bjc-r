@@ -8,7 +8,7 @@
 # beside it) and is colored to match correctness. This guards the layout fix in
 # llab/css/default.css + llab/script/quiz/multiplechoice.js.
 
-require_relative './spec_helper'
+require_relative 'spec_helper'
 
 # A couple of end-of-unit summary ("self-check") pages. These embed their
 # multiple-choice questions inline (no remote src), so no course/topic query
@@ -45,15 +45,13 @@ VISIBLE_FEEDBACK_GEOMETRY_JS = <<~JS
 JS
 
 def self_check_feedback_examples(url)
-  describe "self-check feedback (#{url.sub('/bjc-r', '')}) :",
-    type: :feature, js: true do
-    before(:each) do
+  describe "self-check feedback (#{url.sub('/bjc-r', '')}) :", :js, type: :feature do
+    before do
       visit(url)
-      if page.html.match?(/File not found:/)
-        skip("TODO: #{url} is a 404 page.")
-      end
+      skip("TODO: #{url} is a 404 page.") if page.html.include?('File not found:')
       # Wait for the quiz engine to build the interactive questions.
-      expect(page).to have_css('.MultipleChoice .checkAnswerButton', wait: 10)
+      # `find` blocks until it appears (and fails the example if it never does).
+      find('.MultipleChoice .checkAnswerButton', match: :first, wait: 10)
     end
 
     it 'hides all answer-choice feedback until an answer is checked' do
@@ -68,7 +66,7 @@ def self_check_feedback_examples(url)
       # A polite prompt appears (in the screen-reader-announced status region)
       # instead of the question being marked wrong with no feedback anywhere.
       expect(question).to have_css('.resultMessageDiv[role="status"]',
-        text: /select an answer/i, wait: 5)
+                                   text: /select an answer/i, wait: 5)
       expect(question[:class]).not_to match(/panel-(danger|warning|success)/)
       expect(question).to have_no_css('.option-feedback', visible: :visible)
 

@@ -4,7 +4,7 @@
  */
 
 const THIS_FILE = 'loader.js';
-const RELEASE_DATE = '2026-07-28a';
+const RELEASE_DATE = '2026-08-01a';
 
 // Basic llab shape.
 llab = {
@@ -68,14 +68,7 @@ llab.paths.scripts = [
     "script/topic.js",
     "lib/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js",
     "script/quiz.js",                // all quiz item types load after multiplechoice.js
-    // "script/lib/sha1.js",         // for brainstorm
-    // "script/brainstorm.js",
-    // "script/user.js",
 ];
-
-llab.loaded['config'] = true;
-llab.loaded['library'] = false;
-llab.loaded['multiplechoice'] = false
 
 ///////// OPTIONAL LIBRARIES:
 llab.optionalLibs = {

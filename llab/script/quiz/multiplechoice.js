@@ -488,13 +488,11 @@ MC.prototype.getTemplate = function() {
         <div class='leftColumn'>
             <div class='promptDiv'></div>
             <form class='answer-choices-form'></form>
-            <div class='feedbackdiv'></div>
         </div>
     </div>
     <div class='interactionBox'>
         <div class='statusMessages'>
             <div class='numberAttemptsDiv' role='status'></div>
-            <div class='scoreDiv'></div>
             <div class='resultMessageDiv' role='status'></div>
         </div>
         <div class='buttonDiv'>
