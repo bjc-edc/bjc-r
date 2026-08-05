@@ -453,7 +453,7 @@ llab.createTitleNav = function() {
         <li class="nav-btn-group nav-btn-group-last">${nextPageButton}</li>
       </ul>
       <div class="navbar-search-bar js-navbarSearchBar" role="search">
-        <label class="sr-only" for="navbarSearchInput">${t('Search BJC')}</label>
+        <label class="visually-hidden" for="navbarSearchInput">${t('Search BJC')}</label>
         <input type="search" id="navbarSearchInput" name="q"
           class="navbar-search-input js-navbarSearchInput"
           placeholder="${t('Search BJC')}" aria-label="${t('Search BJC')}"
@@ -965,7 +965,7 @@ llab.indicateProgress = function(numSteps, currentStep) {
   // equivalent. currentStep is NaN when the page isn't found in the lab.
   if (numSteps >= 1 && currentStep >= 1) {
     $(llab.selectors.PROGRESS).html(
-      `<span class="sr-only">${llab.t('progressText', { current: currentStep, total: numSteps })}</span>`
+      `<span class="visually-hidden">${llab.t('progressText', { current: currentStep, total: numSteps })}</span>`
     );
   }
 };
