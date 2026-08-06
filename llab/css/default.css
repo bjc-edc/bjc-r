@@ -1050,9 +1050,20 @@ img.indent, div.indent {
   margin-left: 0;
 }
 
-/* On narrow screens the illustration next to a prompt is often wider than
- * the card itself; unfloat img.imageRight/imageLeft so it stacks above the
- * text at full width instead of hanging off the card edge. */
+/* Cap a floated prompt illustration at half the prompt's width so the
+ * question text always keeps at least ~50% of the row instead of being
+ * squeezed into a two-word column beside a wide script screenshot
+ * (unit-1 self-check 1.2.5 embeds a ~450px script image next to a
+ * one-sentence prompt). */
+.MultipleChoice .promptDiv img.imageRight,
+.MultipleChoice .promptDiv img.imageLeft {
+  max-width: 50%;
+  height: auto;
+}
+
+/* On narrow screens the illustration next to a prompt is often wider
+ * than the card itself even at the 50% cap; unfloat and stack it above
+ * the text instead of hanging off the card edge. */
 @media (max-width: 576px) {
   .MultipleChoice .promptDiv img.imageRight,
   .MultipleChoice .promptDiv img.imageLeft {
@@ -1060,7 +1071,6 @@ img.indent, div.indent {
     display: block;
     margin: 8px auto;
     max-width: 100%;
-    height: auto;
   }
 }
 
