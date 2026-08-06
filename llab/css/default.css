@@ -479,13 +479,17 @@ a.btn-nav:visited {
 }
 
 /* Shrink the navbar controls at phone widths so the six buttons + logo
- * still fit without the .btn-nav row spilling off the right edge. */
+ * still fit without the .btn-nav row spilling off the right edge.
+ *
+ * Selectors mirror the base .btn-nav / .navbar-nav > li > a rule above
+ * so specificity matches -- otherwise <a> prev/next arrows keep the
+ * desktop font size while <button> toggles shrink. */
 @media (max-width: 575.98px) {
-  .btn-nav {
-    font-size: 0.9rem;
-    height: 32px;
-    width: 32px;
-    padding: 2px;
+  .navbar-nav > li > a,
+  .navbar-nav > li > a:visited,
+  .btn-nav,
+  .btn-nav:visited {
+    font-size: 18px;
   }
   .nav-search-li {
     margin-right: 0.5em;
@@ -503,10 +507,14 @@ a.btn-nav:visited {
 }
 
 @media (max-width: 374.98px) {
-  .btn-nav {
-    font-size: 0.8rem;
-    height: 28px;
-    width: 28px;
+  .navbar-nav > li > a,
+  .navbar-nav > li > a:visited,
+  .btn-nav,
+  .btn-nav:visited {
+    font-size: 16px;
+    height: 32px;
+    width: 32px;
+    padding: 2px;
   }
   .nav-search-li {
     margin-right: 0.25em;
