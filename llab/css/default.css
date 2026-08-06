@@ -478,6 +478,51 @@ a.btn-nav:visited {
   color: white;
 }
 
+/* Shrink the navbar controls at phone widths so the six buttons + logo
+ * still fit without the .btn-nav row spilling off the right edge. */
+@media (max-width: 575.98px) {
+  .btn-nav {
+    font-size: 0.9rem;
+    height: 32px;
+    width: 32px;
+    padding: 2px;
+  }
+  .nav-search-li {
+    margin-right: 0.5em;
+  }
+  .nav-lang-dropdown {
+    margin-right: 2ch;
+  }
+  nav.navbar .navbar-brand {
+    margin-left: 12px;
+  }
+  .llab-nav > ul.navbar-nav {
+    padding: 5px 0.5rem;
+    margin-right: 2%;
+  }
+}
+
+@media (max-width: 374.98px) {
+  .btn-nav {
+    font-size: 0.8rem;
+    height: 28px;
+    width: 28px;
+  }
+  .nav-search-li {
+    margin-right: 0.25em;
+  }
+  .nav-lang-dropdown {
+    margin-right: 1ch;
+  }
+  nav.navbar .navbar-brand {
+    margin-left: 6px;
+  }
+  .llab-nav > ul.navbar-nav {
+    padding: 3px 0.25rem;
+    margin-right: 0;
+  }
+}
+
 .full-bottom-bar {
   background: #0C3559;
   height: 48px;
@@ -1092,13 +1137,14 @@ img.indent, div.indent {
 
 /* Cap the content column at 1200px so prompts and answer choices stay
  * readable on very wide screens. The card itself still fills its parent
- * width — only the interior column is bounded. */
+ * width — only the interior column is bounded. align-self: center centers
+ * the item along the flex cross axis WITHOUT the auto-margin trick that
+ * (see prior fix) collapsed .card-body around narrow prompts. */
 .MultipleChoice.card > .card-body,
 .MultipleChoice.card > .interactionBox {
-  max-width: 1200px;
   width: 100%;
-  margin-left: auto;
-  margin-right: auto;
+  max-width: 1200px;
+  align-self: center;
 }
 
 .MultipleChoice.card > .interactionBox {
