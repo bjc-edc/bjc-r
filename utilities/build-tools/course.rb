@@ -5,6 +5,9 @@ require_relative 'bjc_helpers'
 class BJCCourse
   include BJCHelpers
 
+  # Keep in sync with llab.DEVELOPER_CLASSES and the hidden classes in css/bjc.css.
+  DEVELOPER_CLASSES = %w[todo comment commentBig ap-standard csta-standard].freeze
+
   attr_accessor :course_file
 
   def initialize(root: '', course: '', language: 'en')
@@ -31,8 +34,18 @@ class BJCCourse
 
   def list_topics
     # Filtering the URLs is necessary because there are links with the wrong class applied.
-    course_contents.css('.topic_link a').map do |node|
-      node.attributes['href'].value
-    end.select { |url| has_topic_url?(url) }.map { |url| url.split("?topic=")[1] }
+    visible_links = course_contents.css('.topic_link a').reject { |node| developer_only?(node) }
+    visible_links.filter_map do |node|
+      url = node['href']
+      url.split('?topic=')[1] if url && has_topic_url?(url)
+    end
+  end
+
+  private
+
+  def developer_only?(node)
+    node.ancestors.any? do |ancestor|
+      (ancestor['class'].to_s.split & DEVELOPER_CLASSES).any?
+    end
   end
 end

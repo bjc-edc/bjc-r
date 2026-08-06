@@ -54,5 +54,5 @@ TO_RUN.each do |options|
 end
 
 puts '*' * 80
-puts 'WARNING: DO NOT COMMIT THESE UPDATES UNTIL THIS IS REMOVED'
+puts 'Build complete. Review all generated changes before committing.'
 puts '*' * 80

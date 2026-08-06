@@ -18,6 +18,11 @@
 
 require 'rspec'
 require 'rack'
+require 'fileutils'
+
+# RSpec formatters and Capybara screenshots write to this ignored directory.
+# A fresh checkout does not contain it, so create it before the suite runs.
+FileUtils.mkdir_p('tmp')
 
 require 'capybara/rspec'
 require 'rack/test'

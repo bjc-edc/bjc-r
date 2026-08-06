@@ -68,6 +68,9 @@ def a11y_test_cases(course, url)
     '.commentBig',
     '.ap-standard',
     '.csta-standard',
+    # 3rd-party YouTube embeds — false positives from YouTube's own iframe markup.
+    '[aria-label="YouTube Video Player"]',
+    '#movie_player',
     # 3rd-party embedded content (YouTube players, gapminder.org charts,
     # etc.) is excluded one iframe at a time by tagging the offending
     # element with data-a11y-errors="true" in the source page (covered
