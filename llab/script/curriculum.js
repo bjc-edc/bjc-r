@@ -392,19 +392,19 @@ llab.createTitleNav = function() {
   let previousButtonLabel = `aria-label="${t('backText')}"`,
     nextButtonLabel = `aria-label="${t('nextText')}"`,
     previousPageButton = `
-      <a class='btn btn-nav hidden js-backPageLink js-navButton' ${previousButtonLabel}>
+      <a class='btn btn-nav d-none js-backPageLink js-navButton' ${previousButtonLabel}>
         <i class="fas fa-arrow-left" aria-hidden=true></i>
       </a>`,
     nextPageButton = `
-      <a class='btn btn-nav hidden js-nextPageLink js-navButton' ${nextButtonLabel}>
+      <a class='btn btn-nav d-none js-nextPageLink js-navButton' ${nextButtonLabel}>
         <i class="fas fa-arrow-right" aria-hidden=true></i>
       </a>`,
     // use \u00F1 instead of an ñ in the menu. (Issue in Chrome on topic pages)
     topHTML = `
-    <nav class="llab-nav navbar navbar-fixed-top" role="navigation"
+    <nav class="llab-nav navbar fixed-top navbar-expand" role="navigation"
       aria-label="${t('primaryNavLabel')}">
       <a class="skip-link" href="#main-content">${t('Skip to main content')}</a>
-      <div class="nav navbar-left">
+      <div class="d-flex align-items-center justify-content-start">
         <a class="navbar-brand" rel="author" href="${navURL}"
           aria-label="${t('Go to Index')}">
           <img src="${logoURL}" alt="${t('BJC logo')}">
@@ -414,30 +414,30 @@ llab.createTitleNav = function() {
              inside the navigation landmark. -->
         <h1 class="navbar-title" aria-hidden="true"></h1>
       </div>
-      <ul class="nav navbar-nav navbar-right">
+      <ul class="navbar-nav flex-row ms-auto">
         <li class="nav-search nav-search-li">
           <button type="button" class="btn btn-nav btn-nav-search js-navbarSearchToggle"
             aria-label="${t('Search BJC')}" aria-expanded="false">
             <i class="fas fa-search" aria-hidden="true"></i>
           </button>
         </li>
-        <li class="dropdown js-langDropdown nav-lang-dropdown hidden">
+        <li class="dropdown js-langDropdown nav-lang-dropdown d-none">
           <button class="btn btn-nav btn-nav-lang dropdown-toggle" type="button"
             aria-label="${t('Switch language')}"
-            id="dropdown-langs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            id="dropdown-langs" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="far fa-globe" aria-hidden=true></i>
           </button>
           <ul class="dropdown-menu" aria-labelledby="dropdown-langs">
-            <li><a class="js-switch-lang-en">English</a></li>
-            <li><a class="js-switch-lang-es">Espa\u00F1ol</a></li>
+            <li><a class="js-switch-lang-en dropdown-item">English</a></li>
+            <li><a class="js-switch-lang-es dropdown-item">Espa\u00F1ol</a></li>
           </ul>
         </li>
         <li class="nav-btn-group nav-btn-group-first">${previousPageButton}</li>
-        <li class="nav-btn-group dropdown js-navDropdown js-navButton hidden">
+        <li class="nav-btn-group dropdown js-navDropdown js-navButton d-none">
           <button class="btn btn-nav dropdown-toggle" type="button"
             aria-label="${t('Navigation Menu')}"
-            id="Topic-Navigation-Menu" data-toggle="dropdown"
-            aria-haspopup=true aria-expanded=false>
+            id="Topic-Navigation-Menu" data-bs-toggle="dropdown"
+            aria-expanded="false">
             <i class="fas fa-bars" aria-hidden=true></i>
           </button>
           <ul class="js-llabPageNavMenu dropdown-menu"
@@ -447,7 +447,7 @@ llab.createTitleNav = function() {
         <li class="nav-btn-group nav-btn-group-last">${nextPageButton}</li>
       </ul>
       <div class="navbar-search-bar js-navbarSearchBar" role="search">
-        <label class="sr-only" for="navbarSearchInput">${t('Search BJC')}</label>
+        <label class="visually-hidden" for="navbarSearchInput">${t('Search BJC')}</label>
         <input type="search" id="navbarSearchInput" name="q"
           class="navbar-search-input js-navbarSearchInput"
           placeholder="${t('Search BJC')}" aria-label="${t('Search BJC')}"
@@ -457,11 +457,11 @@ llab.createTitleNav = function() {
     </nav>`,
     botHTML = `
       <nav class="full-bottom-bar" aria-label="${t('secondaryNavLabel')}">
-        <div class="js-navButton hidden" style="float: left">
+        <div class="js-navButton d-none" style="float: left">
           ${previousPageButton}
         </div>
         <div class="progress-indicator"></div>
-        <div class="js-navButton hidden" style="float: right">
+        <div class="js-navButton d-none" style="float: right">
           ${nextPageButton}
         </div>
       </nav>`,
@@ -513,7 +513,7 @@ llab.setAdditionalClasses = () => {
 *  too an existing dropdown */
 llab.dropdownItem = function(text, url) {
   if (url) {
-    text = `<a href="${url}">${text}</a>`;
+    text = `<a href="${url}" class="dropdown-item">${text}</a>`;
   }
 
   return $(`<li>${text}</li>`);
@@ -526,6 +526,20 @@ llab.isCurriculum = () => llab.getQueryParameter('topic') != "" && !llab.isTopic
 * Indicies are 0 based, and this excludes query parameters because
 * they could become re-ordered. */
 llab.thisPageNum = () => llab.pageNum;
+
+// Hint the browser to fetch a likely-next URL so a click resolves from cache.
+// Same-origin only — we don't want to warm third-party links.
+llab.prefetched_urls = llab.prefetched_urls || new Set();
+llab.prefetchPage = function(url) {
+  if (!url || llab.prefetched_urls.has(url)) { return; }
+  if (url.indexOf('//') !== -1 && url.indexOf(location.origin) !== 0) { return; }
+  llab.prefetched_urls.add(url);
+  let tag = document.createElement('link');
+  tag.rel = 'prefetch';
+  tag.href = url;
+  tag.as = 'document';
+  document.head.appendChild(tag);
+};
 
 // Create the Forward and Backward buttons, properly disabling them when needed
 llab.setButtonURLs = function() {
@@ -559,11 +573,13 @@ llab.setButtonURLs = function() {
     back.addClass('disabled').removeAttr('href').removeAttr('disabled')
       .attr({ 'role': 'link', 'aria-disabled': 'true', 'aria-label': llab.t('backText') });
   } else {
+    let prevURL = llab.url_list[llab.thisPageNum() - 1];
     back.removeClass('disabled').removeAttr('disabled')
       .removeAttr('role').removeAttr('aria-disabled')
       .attr('aria-label', llab.t('backText'))
-      .attr('href', llab.url_list[llab.thisPageNum() - 1])
-      .on('click', llab.dynamicNavigation(llab.url_list[llab.thisPageNum() - 1]));
+      .attr('href', prevURL)
+      .on('click', llab.dynamicNavigation(prevURL));
+    llab.prefetchPage(prevURL);
   }
 
   // Disable the forward button
@@ -571,15 +587,17 @@ llab.setButtonURLs = function() {
     forward.addClass('disabled').removeAttr('href').removeAttr('disabled')
       .attr({ 'role': 'link', 'aria-disabled': 'true', 'aria-label': llab.t('nextText') });
   } else {
+    let nextURL = llab.url_list[llab.thisPageNum() + 1];
     forward.removeClass('disabled').removeAttr('disabled')
       .removeAttr('role').removeAttr('aria-disabled')
       .attr('aria-label', llab.t('nextText'))
-      .attr('href', llab.url_list[llab.thisPageNum() + 1])
-      .on('click', llab.dynamicNavigation(llab.url_list[llab.thisPageNum() + 1]));
+      .attr('href', nextURL)
+      .on('click', llab.dynamicNavigation(nextURL));
+    llab.prefetchPage(nextURL);
   }
 
   // Unhide only once the buttons are fully configured.
-  $('.js-navButton').removeClass('hidden');
+  $('.js-navButton').removeClass('d-none');
 };
 
 // Fetch PATH and rebuild the page in place.
@@ -689,14 +707,14 @@ llab.addFeedback = function(title, topic, course) {
   });
 
   var button = $(document.createElement('button')).attr({
-    'class': 'btn btn-primary btn-xs feedback-button',
+    'class': 'btn btn-primary btn-sm feedback-button',
     'type': 'button',
-    'data-toggle': "collapse",
-    'data-target': "#fdbk"
+    'data-bs-toggle': "collapse",
+    'data-bs-target': "#fdbk"
   }).text('Feedback'),
   innerDiv = $(document.createElement('div')).attr({
     'id': "fdbk",
-    'class': "collapse feedback-panel panel panel-primary"
+    'class': "collapse feedback-panel card border-primary"
   }),
   feedback = $(document.createElement('div')).attr(
     {'class' : 'page-feedback'}
@@ -729,16 +747,16 @@ llab.addFooter = () => {
     `<footer>
       <div class="container">
         <div class="footer row">
-          <div class="footer-col col-md-1 col-xs-4">
+          <div class="footer-col col-4 col-md-1">
             <img src="/bjc-r/img/header-footer/NSF_logo.png" alt="NSF" />
           </div>
-          <div class="footer-col col-md-1 col-xs-4">
+          <div class="footer-col col-4 col-md-1">
             <img src="/bjc-r/img/header-footer/EDC_logo.png" alt="EDC" />
           </div>
-          <div class="footer-col col-md-1 col-xs-4">
-            <img src="/bjc-r/img/header-footer/UCB_logo.png" alt="UCB" />
+          <div class="footer-col col-4 col-md-1">
+            <img src="/bjc-r/img/header-footer/UCB_logo.svg" alt="UCB" />
           </div>
-          <div class="footer-col col-md-8 col-xs-12">
+          <div class="footer-col col-12 col-md-8">
             <p>The Beauty and Joy of Computing by University of California, Berkeley and Education
             Development Center, Inc. is licensed under a Creative Commons
             Attribution-NonCommercial-ShareAlike 4.0 International License. The development of this
@@ -750,7 +768,7 @@ llab.addFooter = () => {
             Foundation or our other funders.
           </p>
         </div>
-        <div class="footer-col col-md-1 col-xs-4">
+        <div class="footer-col col-4 col-md-1">
           <img src="/bjc-r/img/header-footer/cc_88x31.png" alt="Creative Commons Attribution" />
         </div>
       </div>
@@ -941,7 +959,7 @@ llab.checkUnitTranslations = () => {
 llab.showTranslationsMenu = (show) => {
   let dropdown = $('.js-langDropdown');
   if (!show) {
-    dropdown.addClass('hidden');
+    dropdown.addClass('d-none');
     dropdown.find('a').removeAttr('href');
     return;
   }
@@ -958,7 +976,7 @@ llab.showTranslationsMenu = (show) => {
   dropdown.find('.js-switch-lang-es, .js-switch-lang-en').each((_i, el) => {
     $(el).off('click').on('click', llab.dynamicNavigation(el.href));
   });
-  dropdown.removeClass('hidden');
+  dropdown.removeClass('d-none');
 };
 
 llab.setupTranslationsMenu = function() {
@@ -1037,7 +1055,7 @@ llab.indicateProgress = function(numSteps, currentStep) {
   // equivalent. currentStep is NaN when the page isn't found in the lab.
   if (numSteps >= 1 && currentStep >= 1) {
     $(llab.selectors.PROGRESS).html(
-      `<span class="sr-only">${llab.t('progressText', { current: currentStep, total: numSteps })}</span>`
+      `<span class="visually-hidden">${llab.t('progressText', { current: currentStep, total: numSteps })}</span>`
     );
   }
 };

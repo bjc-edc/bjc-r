@@ -226,35 +226,36 @@ code { /* Override bootstrap. */
 }
 
 /* Necessary when on mobile. */
-.navbar-nav .open .dropdown-menu {
+.navbar-nav .show .dropdown-menu {
   background-color: #FFF;
 }
 
 @media (min-width: 768px) {
-  .navbar-left {
-    /* With of the right side buttons: lang menu + back/forward buttons */
+  .llab-nav > .justify-content-start {
+    /* Width of the right side buttons: lang menu + back/forward buttons */
     max-width: calc(100% - 36ch);
+  }
+
+  /* Right-align each dropdown under its toggle button. */
+  .llab-nav .navbar-nav .dropdown-menu {
+    right: 0;
+    top: 50px;
+    left: auto;
   }
 }
 
 @media screen and (max-width: 768px) {
-  /* Bootstrsap 3 selector */
-  .navbar-nav .open .dropdown-menu {
+  .navbar-expand .navbar-nav .dropdown-menu {
     position: fixed;
     top: 75px;
-    left: 0.2em;
+    left: 0.5em;
     max-width: calc(100% - 0.8em - 2em - 4px);
     border: 2px solid #0C3559;
   }
 
-  ul.navbar-nav li.open ul {
+  ul.navbar-nav li.show ul {
     margin: 0.5em;
     width: 100%;
-  }
-
-  /* Close the gap between buttons, only shows on mobile. */
-  .nav-btn-group > .btn-nav {
-    margin: 0 -3px;
   }
 }
 
@@ -280,13 +281,18 @@ nav.navbar .navbar-brand {
   filter: none;
 }
 
-.navbar-right {
+.llab-nav > ul.navbar-nav {
   padding: 5px 1rem;
   margin-right: 5%;
 }
 
+/* Hide the default bootstrap dropdown caret. */
+.navbar-nav .dropdown-toggle::after {
+  display: none;
+}
+
 /* No extra space around buttons */
-ul.navbar-right li {
+ul.navbar-nav li {
   padding: 0;
 }
 
@@ -296,7 +302,7 @@ ul.navbar-right li {
 
 /* Navbar search (Google site-restricted).
  *
- * The toggle button lives in .navbar-right alongside the rest of the
+ * The toggle button lives in .navbar-nav alongside the rest of the
  * nav controls at every breakpoint. Tapping it opens .navbar-search-open
  * on the nav, which slides .navbar-search-bar down out of the navbar.
  * The input lives in that bar — it never sits next to the toggle button,
@@ -379,9 +385,9 @@ ul.navbar-right li {
 }
 
 @media screen and (max-width: 768px) {
-  .navbar-right .nav-search-li {
+  .llab-nav .nav-search-li {
     display: inline-flex;
-    vertical-align: top; /* match the other nav <li>s (see .navbar-right > li) */
+    vertical-align: top; /* match the other nav <li>s */
     margin-left: 0.5em;
   }
 
@@ -405,12 +411,15 @@ ul.navbar-right li {
 .btn-nav,
 .navbar-nav > li > a:visited, /* override bootstrap 3 */
 .btn-nav:visited {
+  /* Keep BS5's .btn.disabled color in sync with our white nav buttons,
+   * so the bottom bar's faded arrows are white, not black. */
+  --bs-btn-disabled-color: white;
+  --bs-btn-disabled-border-color: white;
   color: white;
   border: 2px solid white;
   background-color: unset;
   font-size: 20px;
-  font-weight: 900;
-  padding: 8px;
+  padding: 4px;
   border-radius: 6px;
   height: 40px;
   width: 40px;
@@ -420,16 +429,16 @@ ul.navbar-right li {
  * Unqualified so it matches both the <a> arrows and the <button> menu
  * toggle; the -first/-last rules below restore the outer corners. */
 .nav-btn-group .btn-nav {
+  margin: auto -1px;
   border-radius: 0;
 }
 
-.nav .open > a,
-.nav .open > .btn-nav, /* <button> dropdown toggles */
-.nav> li > a:focus,
-.nav > li > a:hover,
+.navbar-nav .show > a,
+.navbar-nav .show > .btn-nav, /* <button> dropdown toggles */
+.navbar-nav li > a:focus,
+.navbar-nav li > a:hover,
 a.btn-nav:visited:hover,
 a.btn-nav:visited:focus,
-a.btn-nav:active,
 .btn-nav:hover,
 .btn-nav:focus {
   border-color: #F2E205;
@@ -469,6 +478,59 @@ a.btn-nav:visited {
   color: white;
 }
 
+/* Shrink the navbar controls at phone widths so the six buttons + logo
+ * still fit without the .btn-nav row spilling off the right edge.
+ *
+ * Selectors mirror the base .btn-nav / .navbar-nav > li > a rule above
+ * so specificity matches -- otherwise <a> prev/next arrows keep the
+ * desktop font size while <button> toggles shrink. */
+@media (max-width: 575.98px) {
+  .navbar-nav > li > a,
+  .navbar-nav > li > a:visited,
+  .btn-nav,
+  .btn-nav:visited {
+    font-size: 18px;
+  }
+  .nav-search-li {
+    margin-right: 0.5em;
+  }
+  .nav-lang-dropdown {
+    margin-right: 2ch;
+  }
+  nav.navbar .navbar-brand {
+    margin-left: 12px;
+  }
+  .llab-nav > ul.navbar-nav {
+    padding: 5px 0.5rem;
+    margin-right: 2%;
+  }
+}
+
+@media (max-width: 374.98px) {
+  .navbar-nav > li > a,
+  .navbar-nav > li > a:visited,
+  .btn-nav,
+  .btn-nav:visited {
+    font-size: 16px;
+    height: 32px;
+    width: 32px;
+    padding: 2px;
+  }
+  .nav-search-li {
+    margin-right: 0.25em;
+  }
+  .nav-lang-dropdown {
+    margin-right: 1ch;
+  }
+  nav.navbar .navbar-brand {
+    margin-left: 6px;
+  }
+  .llab-nav > ul.navbar-nav {
+    padding: 3px 0.25rem;
+    margin-right: 0;
+  }
+}
+
 .full-bottom-bar {
   background: #0C3559;
   height: 48px;
@@ -499,23 +561,46 @@ a.btn-nav:visited {
 
 .dropdown-menu {
   margin-top: 6px;
-  overflow-y: scroll; /* scroll menu on small screens */
+  overflow-y: auto; /* scroll menu on small screens */
   width: auto;
   white-space: nowrap;
   overflow-x: hidden;
   text-overflow: ellipsis;
+  border-color: #0C3559;
+  padding-right: 0.5em;
   /* max- height + width set using JS on page load. */
 }
 
-/* override bootstrap 3 nested classes */
 ul.dropdown-menu > li.dropdown-header,
 .dropdown-header {
   color: #000;
   padding: 3px 10px;
-  font-size: 1.1em;
   font-weight: 600;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.dropdown-item {
+  --bs-dropdown-color: #212529;
+  --bs-dropdown-header-padding-x: 0.67rem;
+  --bs-dropdown-header-padding-y: 0.33rem;
+  font-size: 0.9rem;
+}
+
+a.dropdown-item:not(.btn-primary):not(.btn-nav),
+a.dropdown-item:not(.btn-primary):not(.btn-nav):visited {
+  color: #212529;
+  text-decoration: none;
+}
+
+/* Topic-page page links are a navigation list, not article content —
+ * suppress the site's visited-link recolor (bjc.css: a:visited:not(...)
+ * => #297694 teal) so the links read the same before and after being
+ * visited. Value matches the unvisited link color in bjc.css.
+ * Nav dropdown items already match this shape via the .dropdown-item
+ * rule above. */
+.topic a:visited:not(.btn-primary):not(.btn-nav) {
+  color: #3056AA;
 }
 
 .course-link-list, .main-topic-link, .current-page-arrow {
@@ -549,6 +634,9 @@ pre {
   margin: 10px 10px 10px 2%;
   width: 96%;
   padding: 0; /* useful for code elements */
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 pre > code.hljs {
@@ -887,34 +975,85 @@ img.indent, div.indent {
    * feedback backgrounds (and ~3.1:1 on white). This darker orange clears
    * WCAG AA (>=4.5:1) on white and on both the green and red feedback tints. */
   --selfcheck-var-color: #a83a00;
+
+  /* Darken Bootstrap 5's default --bs-primary (#0d6efd) by ~15%. #0a58ca is
+   * BS5's own "shade" of primary (used for :hover on .btn-primary), so it
+   * pairs cleanly with the default palette while reading less neon on large
+   * fills like the self-check card header. */
+  --bs-primary: #0a58ca;
+  --bs-primary-rgb: 10, 88, 202;
 }
 
 /* multiple choice question specific styling */
 /* FIXME, these need descendant ( > ) selectors! */
 .MultipleChoice .currentQuestionBox {
-  margin: 0px auto;
   padding: 10px 0px;
   text-align: left;
 }
 
-.MultipleChoice .currentQuestionBox .leftColumn {
-  float: left;
-  width: 85%;
-  padding: 10px 0px 10px 15px;
-  min-height: 150px;
-}
-
 /* The question text. Bold to set it apart from the answer choices, but left at
- * the body font size -- it should never read smaller than the choices below it. */
+ * the body font size -- it should never read smaller than the choices below it.
+ * display: flow-root contains any floated children (img.imageRight, etc.) so
+ * they can't push the answer choices below into the space beside the image
+ * and make them appear off-center. */
 .MultipleChoice .promptDiv {
+  display: flow-root;
+  margin: 3px 0 12px;
   color: #000;
-  margin: 3px 10px 15px 15px;
   font-weight: bold;
   line-height: 150%;
 }
 
+/* Marginalia that lives on the curriculum page but doesn't belong in a
+ * compact quiz prompt (developer comments, HOM callouts, captioned
+ * figures, atwork/exam boxes, embedded python) — flatten to normal
+ * block flow inside a MultipleChoice card. .sidenote / .sidenoteBig
+ * are intentionally NOT in this list; they keep their float: right so
+ * the question text still wraps around them.
+ * .imageRight is likewise left alone so question text can wrap around
+ * a scaled-down illustration. */
+.MultipleChoice .comment,
+.MultipleChoice .commentBig,
+.MultipleChoice .ap-standard,
+.MultipleChoice .csta-standard,
+.MultipleChoice .sideHOM,
+.MultipleChoice .sideHOMbig,
+.MultipleChoice .captioned,
+.MultipleChoice .atwork,
+.MultipleChoice .exam,
+.MultipleChoice .examBig,
+.MultipleChoice div.python {
+  float: none;
+  width: auto;
+  clear: none;
+  margin: 8px 0;
+}
+
+/* .indent adds a 10% left margin to images on curriculum pages where they
+ * sit inside a full-page column. Inside a compact self-check card that same
+ * 10% shifts the image visibly right of the prompt text — reset it so
+ * every prompt element hangs off the same left edge. */
+.MultipleChoice .promptDiv img.indent,
+.MultipleChoice .promptDiv div.indent {
+  margin-left: 0;
+}
+
+/* On narrow screens the illustration next to a prompt is often wider than
+ * the card itself; unfloat img.imageRight/imageLeft so it stacks above the
+ * text at full width instead of hanging off the card edge. */
+@media (max-width: 576px) {
+  .MultipleChoice .promptDiv img.imageRight,
+  .MultipleChoice .promptDiv img.imageLeft {
+    float: none;
+    display: block;
+    margin: 8px auto;
+    max-width: 100%;
+    height: auto;
+  }
+}
+
 .MultipleChoice .answer-choices-form {
-  margin: 10px;
+  margin: 10px 0;
 }
 
 
@@ -997,48 +1136,78 @@ img.indent, div.indent {
   padding: 0px;
 }
 
-/** TODO-BOOTSTRAP: Override Bootstrap 3 panel colors for accessibility.
-  * Using Bootstrap 5's red/green colors as a background, and white text.
- */
-.panel {
-  -webkit-box-shadow: none;
+/* Self-check quiz card. BS5's .card + .border-* utilities provide the box
+ * and border color; these overrides fill in the header (BS5 leaves it
+ * transparent) and swap in the a11y-tuned red/green colors that meet WCAG
+ * AA (4.5:1) with white text. Only the header is ever tinted — the card
+ * body and its interaction footer stay on their default white bg. */
+.MultipleChoice.card {
+  /* 1.5rem inset between the card border and its content on all four
+   * sides. BS5's card variables handle the header + body natively;
+   * .interactionBox is a custom child so we pad it explicitly below. */
+  --bs-card-spacer-y: 1.5rem;
+  --bs-card-spacer-x: 1.5rem;
+  --bs-card-cap-padding-y: 0.75rem;
+  --bs-card-cap-padding-x: 1.5rem;
+  margin-bottom: 20px;
   box-shadow: none;
 }
 
-.panel-danger {
-  border-color: var(--selfcheck-incorrect);
+/* Cap the content column at 1200px so prompts and answer choices stay
+ * readable on very wide screens. The card itself still fills its parent
+ * width — only the interior column is bounded. align-self: center centers
+ * the item along the flex cross axis WITHOUT the auto-margin trick that
+ * (see prior fix) collapsed .card-body around narrow prompts. */
+.MultipleChoice.card > .card-body,
+.MultipleChoice.card > .interactionBox {
+  width: 100%;
+  max-width: 1200px;
+  align-self: center;
 }
 
-.panel-danger > .panel-heading {
-  color: #FFF;
+.MultipleChoice.card > .interactionBox {
+  padding: 1.5rem;
+}
+
+.MultipleChoice.card > .card-header {
+  color: #fff;
+  background-color: var(--bs-border-color);
+}
+
+.MultipleChoice.border-primary > .card-header {
+  background-color: var(--bs-primary);
+}
+
+.MultipleChoice.border-success > .card-header {
+  background-color: var(--selfcheck-correct);
+}
+
+/* Match the yellow border with a yellow header. White text on BS5 warning
+ * yellow doesn't meet WCAG AA (~1.7:1), so switch to dark text (~12.6:1). */
+.MultipleChoice.border-warning > .card-header {
+  color: #000;
+  background-color: var(--bs-warning);
+}
+
+.MultipleChoice.border-danger > .card-header {
   background-color: var(--selfcheck-incorrect);
-  border-color: var(--selfcheck-incorrect);
 }
 
-.panel-heading a {
+/* Inherit the header's text color so visited links stay readable. The
+ * :not() qualifiers push specificity above bjc.css's generic
+ * a:visited:not(.btn-primary):not(.btn-nav), which otherwise repaints
+ * these links as low-contrast teal. */
+.card-header a,
+.card-header a:visited:not(.btn-primary):not(.btn-nav) {
+  color: inherit;
   text-decoration: underline;
 }
 
-.panel-success {
-  border-color: var(--selfcheck-correct);
-}
-
-.panel-success > .panel-heading {
-  color: #FFF;
-  background-color: var(--selfcheck-correct);
-  border-color: var(--selfcheck-correct);
-}
-
-/* Partially-correct state for multi-answer self-check quizzes.
- * Uses an amber dark enough that white text meets WCAG AA (4.5:1). */
-.panel-warning {
-  border-color: var(--selfcheck-partial);
-}
-
-.panel-warning > .panel-heading {
-  color: #FFF;
-  background-color: var(--selfcheck-partial);
-  border-color: var(--selfcheck-partial);
+/* Colored card headers hide the browser's default blue focus ring; draw a
+ * white ring instead so keyboard focus stays visible. */
+.card-header a:focus-visible {
+  outline: 2px solid #FFF;
+  outline-offset: 2px;
 }
 
 
@@ -1106,27 +1275,6 @@ img.indent, div.indent {
     margin: 0 0.5em;
   }
 
-  .navbar-left {
-    float: left;
-    margin: 0;
-  }
-
-  .navbar-right {
-    float: right;
-    padding: 0;
-    margin: 0.25em 0.5em;
-  }
-
-  .navbar-right > li {
-    display: inline-block;
-    position: relative;
-    /* Align by top edge, not text baseline: <button> and <a> children
-     * report different baselines, which used to shift the menu <li> a few
-     * pixels below its arrow-button siblings. Every li shrink-wraps the
-     * same 40px button, so top-alignment lines them up exactly. */
-    vertical-align: top;
-  }
-
   .navbar-title {
     display: none;
   }
@@ -1145,13 +1293,13 @@ img.indent, div.indent {
   }
 }
 
-a[data-toggle="collapse"]:not([aria-expanded="true"])::after,
-a[data-toggle="collapse"][aria-expanded="false"]::after {
+a[data-bs-toggle="collapse"]:not([aria-expanded="true"])::after,
+a[data-bs-toggle="collapse"][aria-expanded="false"]::after {
   content: " ▸";
   text-decoration: none;
 }
 
-a[data-toggle="collapse"][aria-expanded="true"]::after {
+a[data-bs-toggle="collapse"][aria-expanded="true"]::after {
   content: " ▾";
   text-decoration: none;
 }

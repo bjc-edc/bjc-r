@@ -135,6 +135,21 @@ MC.prototype.render = function() {
          * .ap-standard, ...) and reset their visibility, undoing whatever state
          * the "Toggle developer comments" button had put them in. */
         this.multipleChoice.find('.promptDiv').html(this.content.prompt);
+
+        // Bind the shared Check/Try-Again buttons exactly once per MC. They live
+        // on the question, not on individual choices, so binding inside the
+        // per-choice loop attached one handler per choice (4 choices => 4× fire).
+        this.multipleChoice.find(".checkAnswerButton").bind('click', {
+            myQuestion: this
+        }, function(args) {
+            args.data.myQuestion.checkAnswer();
+        });
+
+        this.multipleChoice.find(".tryAgainButton").bind('click', {
+            myQuestion: this
+        }, function(args) {
+            args.data.myQuestion.tryAgain();
+        });
     }
 
     /* remove buttons */
@@ -180,18 +195,6 @@ MC.prototype.render = function() {
 
         $(`#${choice_id}`).bind('click', { myQuestion: this }, function(args) {
             args.data.myQuestion.enableCheckAnswerButton();
-        });
-
-        this.multipleChoice.find(".checkAnswerButton").bind('click', {
-            myQuestion: this
-        }, function(args) {
-            args.data.myQuestion.checkAnswer();
-        });
-
-        this.multipleChoice.find(".tryAgainButton").bind('click', {
-            myQuestion: this
-        }, function(args) {
-            args.data.myQuestion.tryAgain();
         });
     }
 
@@ -341,19 +344,19 @@ MC.prototype.checkAnswer = function() {
     mcState.isCorrect = isCorrect;
     mcState.isPartial = isPartial;
 
-    var outerdiv = this.multipleChoice.find('.panel-heading').parent();
-    outerdiv.removeClass('panel-primary panel-success panel-warning panel-danger');
+    var outerdiv = this.multipleChoice.find('.card-header').parent();
+    outerdiv.removeClass('border-primary border-success border-warning border-danger');
     if (isCorrect) {
-        outerdiv.addClass('panel-success');
+        outerdiv.addClass('border-success');
         this.multipleChoice.find('.resultMessageDiv').html(this.getResultMessage(isCorrect));
         this.multipleChoice.find('.checkAnswerButton').addClass('disabled').attr('disabled', true);
     } else if (isPartial) {
-        outerdiv.addClass('panel-warning');
+        outerdiv.addClass('border-warning');
         this.multipleChoice.find('.resultMessageDiv').html(llab.translate('partialMessage'));
     } else {
-        outerdiv.addClass('panel-danger');
+        outerdiv.addClass('border-danger');
         // Wrong answers previously showed no message at all — the only signal
-        // was the red panel border, which color-blind and screen-reader users
+        // was the red card border, which color-blind and screen-reader users
         // cannot perceive.
         this.multipleChoice.find('.resultMessageDiv').html(llab.translate('incorrectMessage'));
     }
@@ -476,13 +479,11 @@ MC.prototype.clearFeedbackDiv = function() {
 MC.prototype.getTemplate = function() {
     let t = llab.translate;
     return `
-<div class='panel panel-primary MultipleChoice Question'>
-    <div class='panel-heading questionType'>Multiple Choice</div>
-    <div class='panel-body currentQuestionBox'>
-        <div class='leftColumn'>
-            <div class='promptDiv'></div>
-            <form class='answer-choices-form'></form>
-        </div>
+<div class='card border-primary MultipleChoice Question'>
+    <div class='card-header questionType'>Multiple Choice</div>
+    <div class='card-body currentQuestionBox'>
+        <div class='promptDiv'></div>
+        <form class='answer-choices-form'></form>
     </div>
     <div class='interactionBox'>
         <div class='statusMessages'>
