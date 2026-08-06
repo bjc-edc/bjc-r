@@ -1004,20 +1004,32 @@ img.indent, div.indent {
   line-height: 150%;
 }
 
-/* Marginalia that lives on the curriculum page but doesn't belong in a
- * compact quiz prompt (developer comments, HOM callouts, captioned
- * figures, atwork/exam boxes, embedded python) — flatten to normal
- * block flow inside a MultipleChoice card. .sidenote / .sidenoteBig
- * are intentionally NOT in this list; they keep their float: right so
- * the question text still wraps around them.
- * .imageRight is likewise left alone so question text can wrap around
- * a scaled-down illustration. */
+/* Developer comments, sidenotes, HOM callouts and .todo notes keep their
+ * curriculum-page float: right + narrow width inside a self-check card
+ * so the question text wraps around them instead of pushing them
+ * full-width above the prompt. Cap the base 20%/40% widths at concrete
+ * pixel maxes so a very narrow card doesn't give them a 60px sliver and
+ * a very wide card doesn't give them half the row. */
 .MultipleChoice .comment,
-.MultipleChoice .commentBig,
 .MultipleChoice .ap-standard,
 .MultipleChoice .csta-standard,
+.MultipleChoice .sidenote,
 .MultipleChoice .sideHOM,
-.MultipleChoice .sideHOMbig,
+.MultipleChoice .todo {
+  min-width: 12ch;
+  max-width: 260px;
+}
+
+.MultipleChoice .commentBig,
+.MultipleChoice .sidenoteBig,
+.MultipleChoice .sideHOMbig {
+  min-width: 18ch;
+  max-width: 360px;
+}
+
+/* Captioned figures, atwork/exam boxes and embedded python are wider
+ * illustrations that don't read well squeezed to the side of a prompt —
+ * flatten those to normal block flow inside a card. */
 .MultipleChoice .captioned,
 .MultipleChoice .atwork,
 .MultipleChoice .exam,
@@ -1038,9 +1050,20 @@ img.indent, div.indent {
   margin-left: 0;
 }
 
-/* On narrow screens the illustration next to a prompt is often wider than
- * the card itself; unfloat img.imageRight/imageLeft so it stacks above the
- * text at full width instead of hanging off the card edge. */
+/* Cap a floated prompt illustration at half the prompt's width so the
+ * question text always keeps at least ~50% of the row instead of being
+ * squeezed into a two-word column beside a wide script screenshot
+ * (unit-1 self-check 1.2.5 embeds a ~450px script image next to a
+ * one-sentence prompt). */
+.MultipleChoice .promptDiv img.imageRight,
+.MultipleChoice .promptDiv img.imageLeft {
+  max-width: 50%;
+  height: auto;
+}
+
+/* On narrow screens the illustration next to a prompt is often wider
+ * than the card itself even at the 50% cap; unfloat and stack it above
+ * the text instead of hanging off the card edge. */
 @media (max-width: 576px) {
   .MultipleChoice .promptDiv img.imageRight,
   .MultipleChoice .promptDiv img.imageLeft {
@@ -1048,7 +1071,6 @@ img.indent, div.indent {
     display: block;
     margin: 8px auto;
     max-width: 100%;
-    height: auto;
   }
 }
 
@@ -1142,15 +1164,21 @@ img.indent, div.indent {
  * AA (4.5:1) with white text. Only the header is ever tinted — the card
  * body and its interaction footer stay on their default white bg. */
 .MultipleChoice.card {
-  /* 1.5rem inset between the card border and its content on all four
-   * sides. BS5's card variables handle the header + body natively;
-   * .interactionBox is a custom child so we pad it explicitly below. */
-  --bs-card-spacer-y: 1.5rem;
-  --bs-card-spacer-x: 1.5rem;
-  --bs-card-cap-padding-y: 0.75rem;
-  --bs-card-cap-padding-x: 1.5rem;
   margin-bottom: 20px;
   box-shadow: none;
+}
+
+/* 1.5rem inset between the card border and its content on all four
+ * sides. Padding is set on each direct child explicitly rather than via
+ * BS5's --bs-card-spacer-* vars so this doesn't depend on the vars
+ * cascading through the flex container in the way we expect. */
+.MultipleChoice.card > .card-header {
+  padding: 0.75rem 1.5rem;
+}
+
+.MultipleChoice.card > .card-body,
+.MultipleChoice.card > .interactionBox {
+  padding: 1.5rem;
 }
 
 /* Cap the content column at 1200px so prompts and answer choices stay
@@ -1163,10 +1191,6 @@ img.indent, div.indent {
   width: 100%;
   max-width: 1200px;
   align-self: center;
-}
-
-.MultipleChoice.card > .interactionBox {
-  padding: 1.5rem;
 }
 
 .MultipleChoice.card > .card-header {
