@@ -935,26 +935,24 @@ img.indent, div.indent {
  * and make them appear off-center. */
 .MultipleChoice .promptDiv {
   display: flow-root;
-  margin: 3px 1rem 12px;
+  margin: 3px 0 12px;
   color: #000;
   font-weight: bold;
   line-height: 150%;
 }
 
-/* Marginalia (developer comments, sidenotes, captions, HOMs, atwork/exam
- * callouts, embedded python) float to the right margin on curriculum pages
- * where they have a full-page column to sit in. Inside a self-check card
- * they'd cover a fifth or more of the prompt and shove the question text
- * into the remaining sliver — reset them to normal block flow only within
- * a MultipleChoice card. Each class keeps its float everywhere else.
- * .imageRight is deliberately left alone so question text can still wrap
- * around a scaled-down illustration. */
+/* Marginalia that lives on the curriculum page but doesn't belong in a
+ * compact quiz prompt (developer comments, HOM callouts, captioned
+ * figures, atwork/exam boxes, embedded python) — flatten to normal
+ * block flow inside a MultipleChoice card. .sidenote / .sidenoteBig
+ * are intentionally NOT in this list; they keep their float: right so
+ * the question text still wraps around them.
+ * .imageRight is likewise left alone so question text can wrap around
+ * a scaled-down illustration. */
 .MultipleChoice .comment,
 .MultipleChoice .commentBig,
 .MultipleChoice .ap-standard,
 .MultipleChoice .csta-standard,
-.MultipleChoice .sidenote,
-.MultipleChoice .sidenoteBig,
 .MultipleChoice .sideHOM,
 .MultipleChoice .sideHOMbig,
 .MultipleChoice .captioned,
@@ -992,7 +990,7 @@ img.indent, div.indent {
 }
 
 .MultipleChoice .answer-choices-form {
-  margin: 10px 1rem;
+  margin: 10px 0;
 }
 
 
@@ -1081,8 +1079,30 @@ img.indent, div.indent {
  * AA (4.5:1) with white text. Only the header is ever tinted — the card
  * body and its interaction footer stay on their default white bg. */
 .MultipleChoice.card {
+  /* 1.5rem inset between the card border and its content on all four
+   * sides. BS5's card variables handle the header + body natively;
+   * .interactionBox is a custom child so we pad it explicitly below. */
+  --bs-card-spacer-y: 1.5rem;
+  --bs-card-spacer-x: 1.5rem;
+  --bs-card-cap-padding-y: 0.75rem;
+  --bs-card-cap-padding-x: 1.5rem;
   margin-bottom: 20px;
   box-shadow: none;
+}
+
+/* Cap the content column at 1200px so prompts and answer choices stay
+ * readable on very wide screens. The card itself still fills its parent
+ * width — only the interior column is bounded. */
+.MultipleChoice.card > .card-body,
+.MultipleChoice.card > .interactionBox {
+  max-width: 1200px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.MultipleChoice.card > .interactionBox {
+  padding: 1.5rem;
 }
 
 .MultipleChoice.card > .card-header {
