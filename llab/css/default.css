@@ -1004,20 +1004,32 @@ img.indent, div.indent {
   line-height: 150%;
 }
 
-/* Marginalia that lives on the curriculum page but doesn't belong in a
- * compact quiz prompt (developer comments, HOM callouts, captioned
- * figures, atwork/exam boxes, embedded python) — flatten to normal
- * block flow inside a MultipleChoice card. .sidenote / .sidenoteBig
- * are intentionally NOT in this list; they keep their float: right so
- * the question text still wraps around them.
- * .imageRight is likewise left alone so question text can wrap around
- * a scaled-down illustration. */
+/* Developer comments, sidenotes, HOM callouts and .todo notes keep their
+ * curriculum-page float: right + narrow width inside a self-check card
+ * so the question text wraps around them instead of pushing them
+ * full-width above the prompt. Cap the base 20%/40% widths at concrete
+ * pixel maxes so a very narrow card doesn't give them a 60px sliver and
+ * a very wide card doesn't give them half the row. */
 .MultipleChoice .comment,
-.MultipleChoice .commentBig,
 .MultipleChoice .ap-standard,
 .MultipleChoice .csta-standard,
+.MultipleChoice .sidenote,
 .MultipleChoice .sideHOM,
-.MultipleChoice .sideHOMbig,
+.MultipleChoice .todo {
+  min-width: 12ch;
+  max-width: 260px;
+}
+
+.MultipleChoice .commentBig,
+.MultipleChoice .sidenoteBig,
+.MultipleChoice .sideHOMbig {
+  min-width: 18ch;
+  max-width: 360px;
+}
+
+/* Captioned figures, atwork/exam boxes and embedded python are wider
+ * illustrations that don't read well squeezed to the side of a prompt —
+ * flatten those to normal block flow inside a card. */
 .MultipleChoice .captioned,
 .MultipleChoice .atwork,
 .MultipleChoice .exam,
