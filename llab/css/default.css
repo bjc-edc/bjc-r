@@ -225,8 +225,9 @@ code { /* Override bootstrap. */
   color: #000;
 }
 
-/* Necessary when on mobile. */
-.navbar-nav .show .dropdown-menu {
+/* Necessary when on mobile. BS5 puts .show on the menu itself
+ * (BS3 put .open on the parent li). */
+.navbar-nav .dropdown-menu.show {
   background-color: #FFF;
 }
 
@@ -253,7 +254,7 @@ code { /* Override bootstrap. */
     border: 2px solid #0C3559;
   }
 
-  ul.navbar-nav li.show ul {
+  ul.navbar-nav li ul.dropdown-menu.show {
     margin: 0.5em;
     width: 100%;
   }
@@ -433,8 +434,10 @@ ul.navbar-nav li {
   border-radius: 0;
 }
 
-.navbar-nav .show > a,
-.navbar-nav .show > .btn-nav, /* <button> dropdown toggles */
+/* BS5 marks an open dropdown by putting .show on the toggle itself (BS3
+ * used .open on the parent li). Keep the toggle highlighted while its menu
+ * is open; the three classes also outrank BS5's .btn.show rule. */
+.navbar-nav .dropdown-toggle.show,
 .navbar-nav li > a:focus,
 .navbar-nav li > a:hover,
 a.btn-nav:visited:hover,
@@ -984,6 +987,23 @@ img.indent, div.indent {
   --bs-primary-rgb: 10, 88, 202;
 }
 
+/* BS5.3 buttons don't read --bs-primary — .btn-primary hardcodes #0d6efd in
+ * its own --bs-btn-* vars — so point them back at the darkened primary.
+ * Otherwise the quiz card header and its Check Answer button show two
+ * different blues. Hover/active are 15%/20% shades of #0a58ca (the stock
+ * hover #0b5ed7 would be *lighter* than this base, and the stock active
+ * would equal it). */
+.btn-primary {
+  --bs-btn-bg: var(--bs-primary);
+  --bs-btn-border-color: var(--bs-primary);
+  --bs-btn-hover-bg: #094bac;
+  --bs-btn-hover-border-color: #0846a2;
+  --bs-btn-active-bg: #0846a2;
+  --bs-btn-active-border-color: #084297;
+  --bs-btn-disabled-bg: var(--bs-primary);
+  --bs-btn-disabled-border-color: var(--bs-primary);
+}
+
 /* multiple choice question specific styling */
 /* FIXME, these need descendant ( > ) selectors! */
 .MultipleChoice .currentQuestionBox {
@@ -1166,6 +1186,10 @@ img.indent, div.indent {
 .MultipleChoice.card {
   margin-bottom: 20px;
   box-shadow: none;
+  /* BS5 cards are flex containers, which (unlike BS3's block .panel) don't
+   * overlap earlier floats — they get squeezed into the space beside them.
+   * Start the card below any floated sidenote/image/dev-tool button instead. */
+  clear: both;
 }
 
 /* 1.5rem inset between the card border and its content on all four
@@ -1195,7 +1219,11 @@ img.indent, div.indent {
 
 .MultipleChoice.card > .card-header {
   color: #fff;
-  background-color: var(--bs-border-color);
+  /* Fallback for a card with no .border-* state class (shouldn't happen —
+   * the template always starts at .border-primary). Gray-700 keeps the
+   * white text readable (7:1) where the old --bs-border-color (#dee2e6)
+   * made it invisible. */
+  background-color: var(--bs-gray-700, #495057);
 }
 
 .MultipleChoice.border-primary > .card-header {
