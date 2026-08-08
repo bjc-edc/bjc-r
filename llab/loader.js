@@ -4,7 +4,7 @@
  */
 
 const THIS_FILE = 'loader.js';
-const RELEASE_DATE = '2026-08-01a';
+const RELEASE_DATE = '2026-08-06a';
 
 // Basic llab shape.
 llab = {
@@ -60,7 +60,10 @@ llab.paths.css_files = [
 // are guaranteed to execute in insertion order.
 // This list MUST remain in dependency order.
 llab.paths.scripts = [
-    "lib/jquery-3.7.0.slim.min.js",
+    // The slim build is deliberate: it drops ajax, effects and (as of 4.0)
+    // Callbacks/Deferred/queue, none of which llab uses. All remote loading
+    // goes through fetch(), and animation is handled by CSS/Bootstrap.
+    "lib/jquery-4.0.0.slim.min.js",
     "script/library.js",             // must not depend on jQuery
     "script/quiz/multiplechoice.js",
     "script/curriculum.js",

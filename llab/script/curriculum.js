@@ -177,6 +177,7 @@ llab.secondarySetUp = function () {
   let classSelector = `.${TOGGLE_HEADINGS.join(',.')}`;
   $(classSelector).each(function(_i) {
     let classList = Array.from(this.classList);
+    // Use class "ifTime show" to show by default.
     let isVisible = classList.indexOf('show') > -1;
     let contentType = lookupClassName(TOGGLE_HEADINGS, classList);
     this.outerHTML = `
@@ -184,11 +185,6 @@ llab.secondarySetUp = function () {
         <summary class="disclosure-heading">${t(contentType)}</summary>
         <div>${this.innerHTML}</div>
       </details>`;
-
-    // Use class "ifTime show" to show by default.
-    if (isVisible) {
-      $(this).attr('open', true);
-    }
   });
 
   llab.setupSnapImages();
@@ -197,10 +193,8 @@ llab.secondarySetUp = function () {
   llab.addContentAnchors();
 
   // TODO: Figure a nicer place to put all of these...
-  // TODO: Rewrite the function to not scan every element.
-  if ($('[w3-include-html]').length) {
-    w3.includeHTML();
-  }
+  // No-op when the page has no [w3-include-html] elements.
+  w3.includeHTML();
 
   // Make it easy to make little color swatch boxes.
   // These are useful when teaching about RGB.
@@ -269,14 +263,14 @@ llab.processLinks = (data) => {
   list.html('');
 
   for (; i < len; i += 1) {
-    line = llab.stripComments($.trim(topicArray[i]));
+    line = llab.stripComments(topicArray[i].trim());
 
     sepIndex = line.indexOf(':');
     urlOpen = line.indexOf('[');
     urlClose = line.indexOf(']');
 
     // Skip is this line is hidden in URL params.
-    lineClass = $.trim(line.slice(0, sepIndex));
+    lineClass = line.slice(0, sepIndex).trim();
     isHidden = params.hasOwnProperty('no' + lineClass);
     if (isHidden || !line) { continue; }
 
@@ -285,7 +279,7 @@ llab.processLinks = (data) => {
       url = llab.topic_launch_page + "?" + llab.QS.stringify(params);
 
       itemContent = line.slice(sepIndex + 1);
-      itemContent = $.trim(itemContent);
+      itemContent = itemContent.trim();
 
       // Create a special Title link and add a separator.
       itemContent = llab.spanTag(itemContent, 'main-topic-link');
@@ -301,7 +295,7 @@ llab.processLinks = (data) => {
     isHeading = lineClass == 'heading';
     if (isHeading) {
       itemContent = line.slice(sepIndex + 1);
-      itemContent = $.trim(itemContent);
+      itemContent = itemContent.trim();
       ddItem = llab.dropdownItem(itemContent);
       ddItem.addClass('dropdown-header');
       list.append(ddItem);
@@ -313,7 +307,7 @@ llab.processLinks = (data) => {
 
     // Grab the link title between : [
     itemContent = line.slice(sepIndex + 1, urlOpen);
-    itemContent = $.trim(itemContent);
+    itemContent = itemContent.trim();
     // Grab the link betweem [ and ]
     url = line.slice(urlOpen + 1, urlClose);
     pageCount += 1;
@@ -803,7 +797,7 @@ llab.addFeedback = function(title, topic, course) {
   // Delay inserting a frame until the button is clicked.
   // Reason 1: Performance
   // Reason 2: GetFeedback tracks "opens" and each load is an open
-  button.click('click', function(_event) {
+  button.on('click', function(_event) {
     if ($('#feedback-frame').length === 0) {
       var frame = $(document.createElement('iframe')).attr({
         'frameborder': "0",
@@ -1001,7 +995,7 @@ llab.translatedPath = (path) => {
 // Return the local (non-external) page paths listed in topic file DATA.
 llab.localTopicPages = (data) => {
   return data.split('\n').map(line => {
-    line = llab.stripComments($.trim(line));
+    line = llab.stripComments(line.trim());
     let urlOpen = line.indexOf('['), urlClose = line.indexOf(']');
     if (urlOpen === -1 || urlClose === -1) { return null; }
     let url = line.slice(urlOpen + 1, urlClose).split('?')[0];
