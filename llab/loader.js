@@ -17,7 +17,8 @@ llab = {
     optionalLibs: {},
 };
 
-llab.isLocalEnvironment = () => ['localhost', '127.0.0.1'].includes(window.location.hostname);
+llab.isLocalEnvironment = () => ['localhost', '127.0.0.1'].includes(window.location.hostname) ||
+    window.location.hostname.endsWith('.runloop.ai'); // Superconductor dev boxes
 
 /*
  ***********************
