@@ -47,6 +47,18 @@ Capybara.register_driver :chrome_headless do |app|
   Capybara::Selenium::Driver.new(app, browser: :chrome, options:)
 end
 
+# The same browser in a window a student might actually have. Anything that
+# measures scrolling needs this: in the 4000px-tall window above, most
+# curriculum pages fit on screen whole and never scroll at all.
+# Select it per example group with `driver: :chrome_headless_short`.
+Capybara.register_driver :chrome_headless_short do |app|
+  options = Selenium::WebDriver::Chrome::Options.new
+  %w[--headless --no-sandbox --disable-dev-shm-usage --window-size=1280,800]
+    .each { |argument| options.add_argument(argument) }
+
+  Capybara::Selenium::Driver.new(app, browser: :chrome, options:)
+end
+
 # Change default_driver to :selenium_chrome if you want to actually see the tests running in a browser locally.
 # Should be :chrome_headless in CI though.
 Capybara.default_driver = :chrome_headless

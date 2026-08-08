@@ -120,3 +120,93 @@ def self_check_feedback_examples(url)
 end
 
 SELF_CHECK_PAGES.each { |url| self_check_feedback_examples(url) }
+
+# The one question the examples below work with; marked from JS by
+# stage_middle_question.
+TARGET_QUESTION = '.MultipleChoice.Question.js-spec-target'
+
+# Checking an answer moves focus off the Check Answer button, which is disabled
+# at that moment and would otherwise strand keyboard focus on <body>. Focusing
+# a button also scrolls it into view, which yanked the page out from under a
+# student mid-question on anything but a very tall window.
+RSpec.describe 'checking an answer', :js, driver: :chrome_headless_short, type: :feature do
+  # Everything below is driven through JS rather than through Capybara, which
+  # scrolls an element into view before clicking it -- the very thing being
+  # measured here.
+  #
+  # Picks a question in the middle of the page and answers it.
+  def stage_middle_question
+    page.execute_script(<<~JS)
+      var questions = document.querySelectorAll('.MultipleChoice.Question');
+      var question = questions[Math.floor(questions.length / 2)];
+      question.classList.add('js-spec-target');
+      question.querySelector('input[type=radio], input[type=checkbox]').click();
+    JS
+  end
+
+  # Puts the reader partway through the question, with its buttons just below
+  # the bottom of the window. That is the situation the fix is about: focusing
+  # a button there has somewhere to scroll to, and scrolling loses their place.
+  def scroll_buttons_just_below_the_fold
+    page.execute_script(<<~JS)
+      var button = document.querySelector('#{TARGET_QUESTION} .tryAgainButton');
+      var bottom = button.getBoundingClientRect().bottom + window.scrollY;
+      window.scrollTo(0, bottom - window.innerHeight - 60);
+    JS
+  end
+
+  def check_answer
+    page.execute_script("document.querySelector('#{TARGET_QUESTION} .checkAnswerButton').click()")
+  end
+
+  def try_again_offscreen?
+    page.evaluate_script(
+      "document.querySelector('#{TARGET_QUESTION} .tryAgainButton')" \
+      '.getBoundingClientRect().bottom > window.innerHeight'
+    )
+  end
+
+  # Images above the question keep loading for a moment after it is scrolled
+  # to, and Chrome's scroll anchoring moves the page along with them. Read the
+  # position only once it has stopped changing on its own.
+  def settled_scroll_position
+    previous = nil
+    20.times do
+      current = page.evaluate_script('window.scrollY')
+      return current if current == previous
+
+      previous = current
+      sleep 0.25
+    end
+    raise 'the page never stopped scrolling on its own'
+  end
+
+  before do
+    visit SELF_CHECK_PAGES.first
+    # find, not expect: waits the same way, but a before hook is no place for
+    # an assertion.
+    find('.MultipleChoice.Question .checkAnswerButton', match: :first, wait: 15)
+    stage_middle_question
+    settled_scroll_position # let the page finish moving before moving it ourselves
+    scroll_buttons_just_below_the_fold
+  end
+
+  it 'leaves the page where the student left it' do
+    before_scroll = settled_scroll_position
+    # Without this the question would already be fully on screen, and focusing
+    # its buttons would scroll nothing whatever the code did.
+    expect(try_again_offscreen?).to be(true)
+
+    check_answer
+
+    expect(page).to have_css("#{TARGET_QUESTION} .option-feedback", visible: :visible, text: /\S/, wait: 5)
+    expect(page.evaluate_script('window.scrollY')).to be_within(5).of(before_scroll)
+  end
+
+  it 'still moves focus to Try Again, off the disabled Check Answer button' do
+    check_answer
+
+    expect(page).to have_css("#{TARGET_QUESTION} .option-feedback", visible: :visible, text: /\S/, wait: 5)
+    expect(page.evaluate_script('document.activeElement.className')).to include('tryAgainButton')
+  end
+end

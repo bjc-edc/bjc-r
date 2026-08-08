@@ -9,6 +9,10 @@ require_relative 'bjc_helpers'
 class SelfCheck
   include BJCHelpers
 
+  # The anchor type each kind of box uses on the curriculum page it came from.
+  # Keyed like @page_content, by the summary page the box ends up on.
+  ANCHOR_TYPES = { 'Self-Check' => 'self-check', 'Exam' => 'exam' }.freeze
+
   def initialize(path, language, content, course)
     @parentPath = path
     # The generators are handed the content folder; the checkout root is what
@@ -23,7 +27,9 @@ class SelfCheck
     @language = language
     @language_ext = language_ext(language)
     I18n.locale = @language.to_sym
-    @box_num = 0
+    # Where a box sits, counting from 1, on the curriculum page it was read
+    # from. Per page and per type, matching how the browser numbers them.
+    @source_box_num = ANCHOR_TYPES.transform_values { 0 }
     # Track the previous lab/section heading for the self-check+exam page.
     # If it changes, then we need to insert a new page heading.
     @priorPageHeading = { 'Self-Check' => nil, 'Exam' => nil }
@@ -60,14 +66,11 @@ class SelfCheck
     "unit-#{@currUnitNum}-exam-reference#{@language_ext}.html"
   end
 
-  def box_num(num)
-    @box_num = num
-  end
-
   def read_file(file)
     return unless File.exist?(file)
 
     currFile(file)
+    @source_box_num = ANCHOR_TYPES.transform_values { 0 }
     # puts "Reading file: #{file}"
     doc = File.open(file) { |f| Nokogiri::HTML(f) }
     parse_unit(doc)
@@ -107,7 +110,7 @@ class SelfCheck
       node.attributes['responseidentifier'].value = unique_id
       node.children.before(<<~HTML
         <div class="additional-info">
-          #{add_unit_to_header}
+          #{add_unit_to_header('Self-Check')}
         </div>
       HTML
                           )
@@ -122,7 +125,7 @@ class SelfCheck
 
     on_exam_boxes.each do |node|
       node['class'] = 'exam summaryBox'
-      node.children.before(add_unit_to_header)
+      node.children.before(add_unit_to_header('Exam'))
     end
 
     add_exam_to_file(on_exam_boxes.to_s)
@@ -160,10 +163,13 @@ class SelfCheck
     content << data
   end
 
-  def add_unit_to_header
+  # The "from Lab 1, Page 4" link a copied box carries, pointing back at the
+  # box itself on the curriculum page. TYPE is a key of ANCHOR_TYPES.
+  def add_unit_to_header(type)
     page_number = BJCHelpers.lab_page_number(@currUnit)
-    box_num(@box_num + 1)
-    link = "#{url_for(@currFile)}#{topic_url_suffix}#box#{@box_num}"
+    @source_box_num[type] += 1
+    anchor = anchor_id(ANCHOR_TYPES[type], @source_box_num[type])
+    link = "#{url_for(@currFile)}#{topic_url_suffix}##{anchor}"
     " #{I18n.t('from')} <a href=\"#{link}\"><strong>#{page_number}</strong></a>"
   end
 

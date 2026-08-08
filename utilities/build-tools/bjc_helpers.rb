@@ -89,6 +89,15 @@ module BJCHelpers
     @currUnit.scan(/\d+/).join('.')
   end
 
+  # The ID of the NUMBERth content box of TYPE on a page, counting from 1,
+  # e.g. "vocab-3". Curriculum pages have no build step, so nothing writes
+  # these IDs into the HTML: llab.addContentAnchors and multiplechoice.js
+  # assign them in the browser, numbering boxes exactly as the generators
+  # here do. llab.anchorID is the other half of this agreement.
+  def anchor_id(type, number)
+    "#{type}-#{number}"
+  end
+
   # "Lab 2: Interactive Pet" for the title above.
   def currLab
     return if @currUnit.nil?
