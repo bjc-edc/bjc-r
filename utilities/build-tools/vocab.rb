@@ -34,8 +34,13 @@ class Vocab
     @vocab_url_map = {}
     @currUnitName = nil
     @index = Index.new(@parentDir, @language)
-    # TODO: See if we can remove this.
-    @current_box_num = 0
+    # Where a vocab box sits, counting from 1, on each of the two pages that
+    # link to it: the curriculum page it was read from (which the box's own
+    # "Lab 1, Page 4" link points back at) and the unit vocab page being
+    # generated (which the vocab index points at). They run at different
+    # rates -- one unit page collects the boxes of many curriculum pages.
+    @source_box_num = 0
+    @page_box_num = 0
     @language_ext = language_ext(language)
     # (For now) also store the current file content as a string, so we can write the file only once.
     @current_file_content = +''
@@ -80,6 +85,7 @@ class Vocab
     return unless File.exist?(file)
 
     currFile(file)
+    @source_box_num = 0
     parse_unit(file)
     parse_vocab(file)
     puts "Vocab Completed: #{@currUnit}"
@@ -109,6 +115,7 @@ class Vocab
   # then resets the buffer so the next unit starts a fresh file.
   # Nothing is written to disk here.
   def finalize_unit(unit_dir)
+    @page_box_num = 0
     return {} if @current_file_content.empty?
 
     contents = @current_file_content + BJCHelpers.summary_page_suffix
@@ -134,11 +141,13 @@ class Vocab
     xpath_selector = VOCAB_CLASSES.map { |class_name| "//div[contains(@class, '#{class_name}')]" }.join(' | ')
     doc.xpath(xpath_selector).each do |node|
       node['class'] = 'vocab summaryBox'
+      # Both counters advance before the box is described, since the header
+      # link and the index entry below name the box just counted.
+      @source_box_num += 1
+      @page_box_num += 1
       child = node.children
       child.before(add_vocab_unit_to_header) # if !child.to_a.include?(add_vocab_unit_to_header)
       get_vocab_word(node) # This saves the extracted term for later.
-      # TODO: see if we can remove this tracking of the box number.
-      @current_box_num += 1
       add_vocab_to_file(node.to_s)
     end
   end
@@ -240,18 +249,24 @@ class Vocab
     end
   end
 
+  # The vocab index's link to a term, pointing at the box on the unit vocab
+  # page that defines it.
   def add_vocab_unit_to_index
     path = get_prev_folder(Dir.pwd, include_path: true)
-    "<a href=\"#{url_for(vocab_file_name, path)}#{topic_url_suffix}#box#{@current_box_num}\">#{unit_reference}</a>"
+    anchor = anchor_id('vocab', @page_box_num)
+    "<a href=\"#{url_for(vocab_file_name, path)}#{topic_url_suffix}##{anchor}\">#{unit_reference}</a>"
   end
 
+  # The box's own link back to the curriculum page it was copied from, and to
+  # the box's place on it.
   # NOTE: There should be no whitespace after the <a> tag so the `:` is right next to the link.
   def add_vocab_unit_to_header
     page_text = BJCHelpers.lab_page_number(@currUnit)
     # Capitalize the first letter of the page text
     # This really only makes a difference for the Spanish translation, since English is already capitalized.
     page_text = page_text.capitalize if @language == 'es'
-    "<a href=\"#{url_for(@currFile)}#{topic_url_suffix}\" id=\"box#{@current_box_num}\"><b>#{page_text}</b></a>"
+    anchor = anchor_id('vocab', @source_box_num)
+    "<a href=\"#{url_for(@currFile)}#{topic_url_suffix}##{anchor}\"><b>#{page_text}</b></a>"
   end
 
   def add_vocab_to_file(vocab)

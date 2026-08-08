@@ -33,6 +33,13 @@ function MC(data, location, questionNumber) {
     var template = this.getTemplate();
     this.multipleChoice = $(template).insertAfter(location);
 
+    // The anchor that summary pages link back to. questionNumber is this
+    // question's place among the page's .assessment-data divs, which is what
+    // utilities/build-tools/selfcheck.rb counts; the div itself is gone by the
+    // time the page is rendered, so the ID goes on the question built from it.
+    llab.markAnchorTarget(
+        this.multipleChoice[0], llab.anchorID('self-check', this.num + 1));
+
     //boolean to prevent shuffling after each answer submit
     this.previouslyRendered = false;
 }
@@ -100,6 +107,16 @@ MC.prototype.displayNumberAttempts = function(attempts) {
     ));
 };
 
+/**
+ * Move focus to one of this question's buttons, without moving the page.
+ * Plain focus() scrolls the button into view, which on a short window jumps
+ * the question the reader is in the middle of answering.
+ */
+MC.prototype.focusButton = function(selector) {
+    let button = this.multipleChoice.find(selector)[0];
+    if (button) { button.focus({ preventScroll: true }); }
+};
+
 MC.prototype.tryAgain = function(e) {
     if (this.multipleChoice.find(".tryAgainButton").hasClass("disabled")) {
         return;
@@ -107,7 +124,7 @@ MC.prototype.tryAgain = function(e) {
     this.render();
     // render() disables the Try Again button, which would strand keyboard
     // focus; Check Answer is re-enabled by render().
-    this.multipleChoice.find('.checkAnswerButton').trigger('focus');
+    this.focusButton('.checkAnswerButton');
 };
 
 
@@ -375,7 +392,7 @@ MC.prototype.checkAnswer = function() {
     // Move focus off the now-disabled Check Answer button (disabling the
     // focused element drops focus to <body>, stranding keyboard users).
     // Try Again is always enabled at this point.
-    this.multipleChoice.find('.tryAgainButton').trigger('focus');
+    this.focusButton('.tryAgainButton');
 
     // push the state object into this mc object's own copy of states
     this.states.push(mcState);

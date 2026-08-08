@@ -23,6 +23,18 @@ const TOGGLE_HEADINGS = [
   'takeItTeased',
 ];
 
+// Content boxes that a URL can name with a #fragment, and that the generated
+// summary pages link back to. Each selector must collect exactly what its
+// counterpart in utilities/build-tools/ collects -- vocab.rb's VOCAB_CLASSES
+// and selfcheck.rb's examFullWidth -- because a generated link identifies a
+// box only by its position on the page.
+// Self-check questions are missing here on purpose: quiz.js replaces their
+// source markup with a rendered question, so multiplechoice.js numbers them.
+const CONTENT_ANCHORS = [
+  { type: 'vocab', selector: 'div[class*="vocab"]' },
+  { type: 'exam', selector: 'div[class*="examFullWidth"]' },
+];
+
 // THE switch for dynamic (SPA-style) page loads. This is the only global
 // which controls the feature. When false, navigation links behave like
 // normal links and browser history is never touched.
@@ -79,6 +91,67 @@ window.addEventListener("pageshow", (event) => {
   llab.setupTranslationsMenu();
 });
 
+///////////////////// CONTENT ANCHORS
+
+// The ID of the NUMBERth box of TYPE on a page, counting from 1.
+// The build tools spell the same IDs out in BJCHelpers#anchor_id; the two
+// must agree, since that is all a generated link has to go on.
+llab.anchorID = (type, number) => `${type}-${number}`;
+
+// Give ELEMENT the ID that in-page links use to reach it. The tabindex lets
+// llab.scrollToAnchor move keyboard focus onto what is otherwise a plain
+// <div>; -1 keeps it out of the tab order. See .anchor-target in default.css.
+llab.markAnchorTarget = (element, id) => {
+  element.id = id;
+  element.classList.add('anchor-target');
+  if (!element.hasAttribute('tabindex')) {
+    element.setAttribute('tabindex', '-1');
+  }
+};
+
+// Number every vocab and exam box on the page, in document order, restarting
+// at 1 for each type. Curriculum pages are hand-written HTML with no build
+// step, so these IDs are applied in the browser rather than saved into the
+// files -- on generated summary pages just the same, since their boxes are
+// copies of the curriculum's.
+llab.addContentAnchors = () => {
+  CONTENT_ANCHORS.forEach(({ type, selector }) => {
+    document.querySelectorAll(selector).forEach((box, index) => {
+      llab.markAnchorTarget(box, llab.anchorID(type, index + 1));
+    });
+  });
+};
+
+// Scroll to the box named by the URL's #fragment. Returns whether one was
+// found. The browser cannot do this itself: it resolves the fragment while
+// the document is parsed, long before llab.addContentAnchors has assigned
+// the IDs and before quiz.js has built the self-check questions.
+llab.scrollToAnchor = () => {
+  let fragment = location.hash.slice(1);
+  if (!fragment) { return false; }
+
+  // Non-ASCII IDs (the Spanish vocab index) arrive percent-encoded.
+  let target = document.getElementById(fragment) ||
+    document.getElementById(decodeURIComponent(fragment));
+  if (!target) { return false; }
+
+  // scrollIntoView honors the scroll-margin-top that keeps the box clear of
+  // the fixed navbar; :target does not apply, as the ID postdates navigation.
+  target.scrollIntoView();
+  // Leave keyboard focus on the box the reader was sent to, so the next Tab
+  // continues from there instead of from the top of the page. This is a no-op
+  // for anything that isn't focusable.
+  target.focus({ preventScroll: true });
+  return true;
+};
+
+// Everything a fragment could name exists by "load": quiz.js builds the
+// questions on DOM ready, and llab.addContentAnchors runs before that.
+// Later fragment changes need no listener here -- by then the IDs are in the
+// document, so the browser scrolls to them itself, clear of the navbar
+// thanks to .anchor-target's scroll-margin.
+window.addEventListener('load', () => llab.scrollToAnchor());
+
 /////////////////////
 
 // Executed on *every* page load.
@@ -119,6 +192,9 @@ llab.secondarySetUp = function () {
   });
 
   llab.setupSnapImages();
+  // Ahead of the early return below: pages reached without a ?topic= (a unit
+  // vocab page opened straight from the index) still need their anchors.
+  llab.addContentAnchors();
 
   // TODO: Figure a nicer place to put all of these...
   // TODO: Rewrite the function to not scan every element.
@@ -651,7 +727,11 @@ llab.rerenderPage = (body, title, path, docLang) => {
   if (typeof buildQuestions === 'function') { buildQuestions(); } // MCQs
   llab.conditionalSetup(llab.CONDITIONAL_LOADS);
   // TODO: Do we need to fire off any events? Bootstrap? dom loaded?
-  window.scrollTo({ top: 0, behavior: 'instant' });
+  // A new page starts at the top, unless the link named a box on it. There is
+  // no "load" event for a dynamic navigation, so scroll from here instead.
+  if (!llab.scrollToAnchor()) {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }
 
   if (llab.GACode) {
     gtag('config', llab.GACode, {
