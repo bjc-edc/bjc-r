@@ -43,10 +43,23 @@ body {
   padding: 50px 1em 1em; /* padding top is reset by JS on load. */
 }
 
-:target {
+/* .anchor-target is every box llab.addContentAnchors numbered. Its ID is
+ * assigned after the page loads, so :target never matches it -- without the
+ * rule here the box would land behind the navbar. */
+:target,
+.anchor-target {
   /* Offset for in-page links because of fixed nav bar */
   /* Larger value than nav for extra roominess */
   scroll-margin-top: 140px !important;
+}
+
+/* An anchor target is focused when scrolled to, so the next Tab continues
+ * from there. It is a destination rather than a control, and a ring around a
+ * whole box reads as a selection, so draw none -- same reasoning as
+ * #main-content:focus below. :focus-visible would not help: focus arriving
+ * from a link counts as visible. */
+.anchor-target:focus {
+  outline: none;
 }
 
 code, pre, tt, kbd, samp, var {

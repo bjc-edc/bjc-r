@@ -49,19 +49,39 @@ module BuildToolsFixture
     </div>
   HTML
 
-  SELF_CHECK_BOX = <<~HTML
-    <div class="assessment-data" responseIdentifier="ri1">
-      <div class="responseDeclaration" identifier="ri1"></div>
+  # A second box of each kind, so the per-page numbering behind the #vocab-2 /
+  # #self-check-2 anchors has something to count past.
+  SECOND_VOCAB_BOX = <<~HTML
+    <div class="vocabFullWidth">
+      <p>A <strong>Gizmo</strong> is a fancier thing.</p>
     </div>
   HTML
 
+  def self.self_check_box(identifier)
+    <<~HTML
+      <div class="assessment-data" responseIdentifier="#{identifier}">
+        <div class="responseDeclaration" identifier="#{identifier}"></div>
+      </div>
+    HTML
+  end
+
+  SELF_CHECK_BOX = self_check_box('ri1')
+  SECOND_SELF_CHECK_BOX = self_check_box('ri2')
+
   EXAM_BOX = '<div class="examFullWidth"><p>On the exam, widgets are called gizmos.</p></div>'
+  SECOND_EXAM_BOX = '<div class="examFullWidth"><p>The exam spells it "widgit".</p></div>'
   ATWORK_BOX = '<div class="atwork"><p>Ada Lovelace built widgets.</p></div>'
 
   PAGES = {
-    '1-basics/1-meet.html' => ['Unit 1 Lab 1: Widget Basics, Page 1', VOCAB_BOX + ATWORK_BOX],
-    '1-basics/2-quiz.html' => ['Unit 1 Lab 1: Widget Basics, Page 2', SELF_CHECK_BOX + EXAM_BOX],
-    '2-practice/1-review.html' => ['Unit 1 Lab 2: Widget Practice, Page 1', VOCAB_BOX]
+    '1-basics/1-meet.html' => ['Unit 1 Lab 1: Widget Basics, Page 1',
+                               VOCAB_BOX + SECOND_VOCAB_BOX + ATWORK_BOX],
+    '1-basics/2-quiz.html' => ['Unit 1 Lab 1: Widget Basics, Page 2',
+                               SELF_CHECK_BOX + SECOND_SELF_CHECK_BOX + EXAM_BOX + SECOND_EXAM_BOX],
+    # A second page carrying every kind of box, so a counter that failed to
+    # restart would be visible here. The same vocab term again, too: it is the
+    # third vocab box of the generated unit page but the first of this one.
+    '2-practice/1-review.html' => ['Unit 1 Lab 2: Widget Practice, Page 1',
+                                   VOCAB_BOX + SELF_CHECK_BOX + EXAM_BOX]
   }.freeze
 
   def self.page(title, body)
@@ -404,6 +424,60 @@ RSpec.describe 'build tools', type: :build_tools do
         titles = BJCTopic.new(topic_file).parse[:topics].first[:content].map { |section| section[:title] }
 
         expect(titles.count { |title| BJCTopic.summary_heading?(title) }).to eq(1)
+      end
+
+      # Nothing writes these IDs into the HTML -- llab.addContentAnchors and
+      # multiplechoice.js assign them in the browser. All the examples below
+      # can check is that the generators count boxes the same way.
+      def source_link(page, anchor)
+        "/bjc-r/cur/testing/1-widgets/#{page}?topic=testing/1-widgets.topic&course=test.html##{anchor}"
+      end
+
+      it 'sends a vocab box back to its own position on the page it came from' do
+        vocab = File.read(File.join(unit_directory, 'unit-1-vocab.html'))
+
+        expect(vocab).to include(source_link('1-basics/1-meet.html', 'vocab-1'),
+                                 source_link('1-basics/1-meet.html', 'vocab-2'))
+      end
+
+      it 'restarts the numbering on each page, rather than running unit-wide' do
+        vocab = File.read(File.join(unit_directory, 'unit-1-vocab.html'))
+
+        # The third box of the unit, but the first one on its own page.
+        expect(vocab).to include(source_link('2-practice/1-review.html', 'vocab-1'))
+        expect(vocab).not_to include(source_link('2-practice/1-review.html', 'vocab-3'))
+      end
+
+      it 'restarts the self-check and exam numbering on each page too' do
+        self_check = File.read(File.join(unit_directory, 'unit-1-self-check.html'))
+        exam = File.read(File.join(unit_directory, 'unit-1-exam-reference.html'))
+
+        # The unit's third self-check and third exam box, both the first on
+        # the page they came from.
+        expect(self_check).to include(source_link('2-practice/1-review.html', 'self-check-1'))
+        expect(exam).to include(source_link('2-practice/1-review.html', 'exam-1'))
+      end
+
+      it 'numbers self-checks and exam boxes separately' do
+        self_check = File.read(File.join(unit_directory, 'unit-1-self-check.html'))
+        exam = File.read(File.join(unit_directory, 'unit-1-exam-reference.html'))
+
+        expect(self_check).to include(source_link('1-basics/2-quiz.html', 'self-check-1'),
+                                      source_link('1-basics/2-quiz.html', 'self-check-2'))
+        # Both kinds share a page here, so a single counter would start the
+        # exam boxes at 3.
+        expect(exam).to include(source_link('1-basics/2-quiz.html', 'exam-1'),
+                                source_link('1-basics/2-quiz.html', 'exam-2'))
+      end
+
+      it 'sends a vocab index entry to the box position on the page it links to' do
+        index = File.read(File.join(root, 'cur', 'testing', 'vocab-index.html'))
+        unit_page = 'unit-1-vocab.html?topic=testing/1-widgets.topic&amp;course=test.html'
+
+        # "Widget" is defined twice: first and third box of the unit page.
+        expect(index).to include("#{unit_page}#vocab-1", "#{unit_page}#vocab-3")
+        # "Gizmo" sits between them.
+        expect(index).to include("#{unit_page}#vocab-2")
       end
 
       it 'produces the same output when run again' do

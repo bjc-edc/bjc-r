@@ -34,23 +34,61 @@ The main BJC repo can be viewed in a live state, [here](gh), or you can use your
 
 ## Running Your Own (Local) Server
 While GitHub pages are convenient, you'll likely want to run your own web server
-to make viewing changes much more quick and easy. In order to view the labs, you'll need to have an Apache server running on your machine. Here are some simple instructions for a couple different platforms.
+to make viewing changes much more quick and easy. Use `./run-server` — it is the
+supported way to develop locally, on every platform.
 
-__No matter the platform, you should server files from `/bjc-r/` at the root of your server.__
+```sh
+./run-server
+```
 
-### macOS and Unix
-The easiest way to setup a server is to use a simple, built-in Python server.
-1. `cd bjc-r` -- Ensure your current directory is at the root of `bjc-r/`
-2. Execute `./run-server`
-  2.1 This **must** be run from within bjc-r.
-  2.2 Press Control-C to end the server.
-3. Navigate to [http://localhost:8000/bjc-r][localhost] in a browser.
-4. That's it! :)
+That's it. It opens [http://localhost:8000/bjc-r][localhost] in your browser, and
+Control-C stops it. The only requirement is Python 3; on Windows, run it from
+PowerShell or WSL.
 
-This server requires Python 3.
+The server mirrors the URL layout of the real site, so absolute links like
+`/bjc-r/img/...` resolve exactly as they do in production.
 
-### Windows
-As long as you can install Python 3, you should be able to run the same script, either via PowerShell, or WSL, or some other means.
+Caching is disabled for the files you actually edit — `.html`, `.css`, `.js`,
+`.topic`, and `.xml`, the same set `.htaccess` marks no-cache in production — so
+a reload always shows the file you just saved and you should never need a hard
+refresh. Images and other assets cache normally, which keeps page loads fast.
+
+| Command | What it does |
+| --- | --- |
+| `./run-server` | Serve over http on port 8000 |
+| `./run-server 9000` | Use a different port |
+| `./run-server --https` | Serve over https (see below) |
+| `./run-server --no-open` | Don't open a browser window |
+| `./run-server --make-cert` | Replace the https certificate |
+| `./run-server --help` | List every option |
+
+If the port is already in use, the server says so and tells you how to find what
+is holding it (`lsof -i tcp:8000`).
+
+### Serving over https
+
+A few things — service workers, some clipboard and media APIs — only work on a
+secure origin. `./run-server --https` covers those cases:
+
+```sh
+./run-server --https
+```
+
+The first run generates a self-signed certificate for `localhost` in
+`utilities/certs/` (gitignored). It is good for 30 days and is regenerated
+automatically once it is within a week of expiring, so it can never silently go
+stale. To replace it at any time, run `./run-server --make-cert`.
+
+Because the certificate signs itself, your browser will warn you the first time.
+Click through it, or teach macOS to trust it once:
+
+```sh
+security add-trusted-cert -r trustRoot -k ~/Library/Keychains/login.keychain-db utilities/certs/localhost.pem
+```
+
+(You'll need to re-run that after each regeneration. If you'd rather not, a tool
+like [mkcert](https://github.com/FiloSottile/mkcert) can install a local CA once
+and issue certificates your browser trusts without a prompt.)
 
 ## Contributing
 
