@@ -6,8 +6,26 @@ PORT = int(sys.argv[1]) if len(sys.argv) > 1 else 8000
 DIRECTORY = "../"
 
 class BJCServer(SimpleHTTPRequestHandler):
+    # Types we author as UTF-8 and therefore must label as UTF-8.
+    UTF8_TYPES = ('text/', 'application/javascript', 'application/json',
+                  'image/svg+xml')
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=DIRECTORY, **kwargs)
+
+    def guess_type(self, path):
+        """Mirror the `AddCharset utf-8` rules in /bjc-r/.htaccess.
+
+        Without a charset in Content-Type the browser decodes .js and .css
+        using the *including page's* encoding, so a page missing
+        <meta charset="utf-8"> falls back to windows-1252 and renders the
+        UTF-8 strings in library.js as mojibake. Declaring it here keeps
+        local pages looking like production instead of hiding the bug.
+        """
+        mime = super().guess_type(path)
+        if mime.startswith(self.UTF8_TYPES) and 'charset=' not in mime:
+            mime += '; charset=utf-8'
+        return mime
 
     def end_headers (self):
         self.send_header('Access-Control-Allow-Origin', '*')
