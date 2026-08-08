@@ -1,5 +1,17 @@
 Header set Access-Control-Allow-Origin *
 
+# Everything we serve is UTF-8, so say so in Content-Type.
+# Without an explicit charset the browser decodes .js and .css using the
+# *including page's* encoding, so any page that omits <meta charset="utf-8">
+# falls back to windows-1252 and renders the UTF-8 text in library.js as
+# mojibake -- e.g. the ellipsis in the "If There Is Time..." disclosure
+# heading came through as three garbage characters. bjc.berkeley.edu already
+# sends charset=utf-8; this makes bjc.edc.org match.
+# AddDefaultCharset only covers text/html and text/plain, so .js/.css/.topic
+# need AddCharset by extension.
+AddDefaultCharset utf-8
+AddCharset utf-8 .html .htm .js .css .topic .xml .json .svg
+
 AddOutputFilterByType DEFLATE text/plain
 AddOutputFilterByType DEFLATE text/xml
 AddOutputFilterByType DEFLATE text/html

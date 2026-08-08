@@ -34,11 +34,17 @@ DEFAULT_PORT = 8000
 # .htaccess. Everything else caches normally.
 UNCACHED_SUFFIXES = (".html", ".htm", ".css", ".js", ".topic", ".xml")
 
+# The types we author as UTF-8, matching the `AddCharset utf-8` rule in
+# .htaccess. Binary types are left alone.
+UTF8_TYPES = ("text/", "application/javascript", "application/json",
+              "image/svg+xml")
+
 CONNECTION_TIMEOUT = 30
 
 
 class BJCRequestHandler(SimpleHTTPRequestHandler):
-    """Serves the checkout under /bjc-r/, CORS-open, authored files uncached."""
+    """Serves the checkout under /bjc-r/, CORS-open, authored files uncached
+    and labelled UTF-8."""
 
     # Keep-alive. Under the HTTP/1.0 default every asset needed a fresh
     # connection, which over TLS meant a fresh handshake per file.
@@ -59,6 +65,20 @@ class BJCRequestHandler(SimpleHTTPRequestHandler):
         elif path.startswith(URL_PREFIX + "/") or path.startswith(URL_PREFIX + "?"):
             path = path[len(URL_PREFIX):]
         return super().translate_path(path)
+
+    def guess_type(self, path):
+        """Label text responses UTF-8, as .htaccess does in production.
+
+        Without a charset in Content-Type the browser decodes .js and .css
+        using the *including page's* encoding, so a page missing
+        <meta charset="utf-8"> falls back to windows-1252 and renders the
+        UTF-8 strings in library.js as mojibake. Setting it here keeps local
+        pages looking like production rather than hiding the difference.
+        """
+        mime = super().guess_type(path)
+        if mime.startswith(UTF8_TYPES) and "charset=" not in mime:
+            mime += "; charset=utf-8"
+        return mime
 
     def is_authored_file(self):
         # `path` is unset when the request line itself was malformed.
