@@ -120,7 +120,7 @@ th {
   font-size: 16px;
 }
 
-/* Override bootstrap 3. h1 is exclusively used for page titles. */
+/* h1 is exclusively used for page titles. */
 h1 {
   all: unset;
   display: block;
@@ -131,7 +131,7 @@ h1.title-small-screen {
   margin: 0.5rem 0;
 }
 
-/* Override Bootstrap 3, exclude h1 */
+/* All headings except h1, which is handled above. */
 h2, h3, h4, h5, h6,
 .h2, .h3, .h4, .h5, .h6 {
   margin-top: 3px;
@@ -179,7 +179,7 @@ code { /* Override bootstrap. */
   position: fixed;
   top: -100px;
   left: 1em;
-  z-index: 1050; /* above .navbar-fixed-top (1030) */
+  z-index: 1050; /* above the .fixed-top navbar (1030) */
   padding: 8px 16px;
   /* Inverted from the navbar (white on dark blue) so the link stands out
    * against it; the yellow border doubles as the focus indicator, since
@@ -236,12 +236,6 @@ code { /* Override bootstrap. */
   clip: rect(0, 0, 0, 0);
   font-size: 1.8rem;
   color: #000;
-}
-
-/* Necessary when on mobile. BS5 puts .show on the menu itself
- * (BS3 put .open on the parent li). */
-.navbar-nav .dropdown-menu.show {
-  background-color: #FFF;
 }
 
 @media (min-width: 768px) {
@@ -421,9 +415,9 @@ ul.navbar-nav li {
    The ul container adds +5px top/bottom padding
    Total navbar height adds more padding to get to 60px
 */
-.navbar-nav > li > a, /* override bootstrap 3 */
+.navbar-nav > li > a,
 .btn-nav,
-.navbar-nav > li > a:visited, /* override bootstrap 3 */
+.navbar-nav > li > a:visited,
 .btn-nav:visited {
   /* Keep BS5's .btn.disabled color in sync with our white nav buttons,
    * so the bottom bar's faded arrows are white, not black. */
@@ -447,9 +441,9 @@ ul.navbar-nav li {
   border-radius: 0;
 }
 
-/* BS5 marks an open dropdown by putting .show on the toggle itself (BS3
- * used .open on the parent li). Keep the toggle highlighted while its menu
- * is open; the three classes also outrank BS5's .btn.show rule. */
+/* Bootstrap puts .show on an open dropdown's toggle. Keep the toggle
+ * highlighted while its menu is open; the three classes also outrank
+ * bootstrap's own .btn.show rule. */
 .navbar-nav .dropdown-toggle.show,
 .navbar-nav li > a:focus,
 .navbar-nav li > a:hover,
@@ -1199,9 +1193,9 @@ img.indent, div.indent {
 .MultipleChoice.card {
   margin-bottom: 20px;
   box-shadow: none;
-  /* BS5 cards are flex containers, which (unlike BS3's block .panel) don't
-   * overlap earlier floats — they get squeezed into the space beside them.
-   * Start the card below any floated sidenote/image/dev-tool button instead. */
+  /* Cards are flex containers, which don't overlap earlier floats — they
+   * get squeezed into the space beside them. Start the card below any
+   * floated sidenote/image/dev-tool button instead. */
   clear: both;
 }
 
