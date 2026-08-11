@@ -906,10 +906,15 @@ llab.setupNavbarSearch = function () {
   let $nav = $('.llab-nav');
   let isOpen = () => $nav.hasClass('navbar-search-open');
 
-  // Bootstrap 3 marks an open dropdown by adding .open to its wrapper.
+  // Bootstrap marks an open dropdown by adding .show to its toggle.
   // Whenever search opens we collapse any sibling menu so only one
   // overlay is showing at a time.
-  let closeOpenDropdowns = () => $nav.find('.dropdown.open').removeClass('open');
+  let closeOpenDropdowns = () => {
+    if (typeof bootstrap === 'undefined') { return; }
+    $nav.find('.dropdown-toggle.show').each((_i, el) => {
+      bootstrap.Dropdown.getOrCreateInstance(el).hide();
+    });
+  };
 
   let open = () => {
     closeOpenDropdowns();
@@ -968,10 +973,8 @@ llab.setupNavbarSearch = function () {
     close();
   });
 
-  // Bootstrap 3 dropdowns call `return false` on the toggle click, so the
-  // event never reaches our outside-click handler. Hook the dropdown's own
-  // show event instead: whenever a sibling dropdown is about to open,
-  // collapse the search.
+  // Whenever a sibling dropdown is about to open, collapse the search so
+  // only one overlay is showing at a time.
   $nav.off('show.bs.dropdown.navbarSearch').on('show.bs.dropdown.navbarSearch', () => {
     if (isOpen()) close();
   });

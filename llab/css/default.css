@@ -120,7 +120,7 @@ th {
   font-size: 16px;
 }
 
-/* Override bootstrap 3. h1 is exclusively used for page titles. */
+/* h1 is exclusively used for page titles. */
 h1 {
   all: unset;
   display: block;
@@ -131,7 +131,7 @@ h1.title-small-screen {
   margin: 0.5rem 0;
 }
 
-/* Override Bootstrap 3, exclude h1 */
+/* All headings except h1, which is handled above. */
 h2, h3, h4, h5, h6,
 .h2, .h3, .h4, .h5, .h6 {
   margin-top: 3px;
@@ -179,7 +179,7 @@ code { /* Override bootstrap. */
   position: fixed;
   top: -100px;
   left: 1em;
-  z-index: 1050; /* above .navbar-fixed-top (1030) */
+  z-index: 1050; /* above the .fixed-top navbar (1030) */
   padding: 8px 16px;
   /* Inverted from the navbar (white on dark blue) so the link stands out
    * against it; the yellow border doubles as the focus indicator, since
@@ -238,11 +238,6 @@ code { /* Override bootstrap. */
   color: #000;
 }
 
-/* Necessary when on mobile. */
-.navbar-nav .show .dropdown-menu {
-  background-color: #FFF;
-}
-
 @media (min-width: 768px) {
   .llab-nav > .justify-content-start {
     /* Width of the right side buttons: lang menu + back/forward buttons */
@@ -266,7 +261,7 @@ code { /* Override bootstrap. */
     border: 2px solid #0C3559;
   }
 
-  ul.navbar-nav li.show ul {
+  ul.navbar-nav li ul.dropdown-menu.show {
     margin: 0.5em;
     width: 100%;
   }
@@ -420,9 +415,9 @@ ul.navbar-nav li {
    The ul container adds +5px top/bottom padding
    Total navbar height adds more padding to get to 60px
 */
-.navbar-nav > li > a, /* override bootstrap 3 */
+.navbar-nav > li > a,
 .btn-nav,
-.navbar-nav > li > a:visited, /* override bootstrap 3 */
+.navbar-nav > li > a:visited,
 .btn-nav:visited {
   /* Keep BS5's .btn.disabled color in sync with our white nav buttons,
    * so the bottom bar's faded arrows are white, not black. */
@@ -446,8 +441,10 @@ ul.navbar-nav li {
   border-radius: 0;
 }
 
-.navbar-nav .show > a,
-.navbar-nav .show > .btn-nav, /* <button> dropdown toggles */
+/* Bootstrap puts .show on an open dropdown's toggle. Keep the toggle
+ * highlighted while its menu is open; the three classes also outrank
+ * bootstrap's own .btn.show rule. */
+.navbar-nav .dropdown-toggle.show,
 .navbar-nav li > a:focus,
 .navbar-nav li > a:hover,
 a.btn-nav:visited:hover,
@@ -997,6 +994,23 @@ img.indent, div.indent {
   --bs-primary-rgb: 10, 88, 202;
 }
 
+/* BS5.3 buttons don't read --bs-primary — .btn-primary hardcodes #0d6efd in
+ * its own --bs-btn-* vars — so point them back at the darkened primary.
+ * Otherwise the quiz card header and its Check Answer button show two
+ * different blues. Hover/active are 15%/20% shades of #0a58ca (the stock
+ * hover #0b5ed7 would be *lighter* than this base, and the stock active
+ * would equal it). */
+.btn-primary {
+  --bs-btn-bg: var(--bs-primary);
+  --bs-btn-border-color: var(--bs-primary);
+  --bs-btn-hover-bg: #094bac;
+  --bs-btn-hover-border-color: #0846a2;
+  --bs-btn-active-bg: #0846a2;
+  --bs-btn-active-border-color: #084297;
+  --bs-btn-disabled-bg: var(--bs-primary);
+  --bs-btn-disabled-border-color: var(--bs-primary);
+}
+
 /* multiple choice question specific styling */
 /* FIXME, these need descendant ( > ) selectors! */
 .MultipleChoice .currentQuestionBox {
@@ -1179,6 +1193,10 @@ img.indent, div.indent {
 .MultipleChoice.card {
   margin-bottom: 20px;
   box-shadow: none;
+  /* Cards are flex containers, which don't overlap earlier floats — they
+   * get squeezed into the space beside them. Start the card below any
+   * floated sidenote/image/dev-tool button instead. */
+  clear: both;
 }
 
 /* 1.5rem inset between the card border and its content on all four
@@ -1208,7 +1226,11 @@ img.indent, div.indent {
 
 .MultipleChoice.card > .card-header {
   color: #fff;
-  background-color: var(--bs-border-color);
+  /* Fallback for a card with no .border-* state class (shouldn't happen —
+   * the template always starts at .border-primary). Gray-700 keeps the
+   * white text readable (7:1) where the old --bs-border-color (#dee2e6)
+   * made it invisible. */
+  background-color: var(--bs-gray-700, #495057);
 }
 
 .MultipleChoice.border-primary > .card-header {
