@@ -83,6 +83,10 @@ llab.optionalLibs = {
     gifffer: {
         css: null,
         js: '../utilities/gifffer.min.js'
+    },
+    networkGraph: {
+        css: 'css/network-graph.css',
+        js: 'script/network-graph.js'
     }
 };
 
@@ -221,6 +225,11 @@ llab.CONDITIONAL_LOADS = [
       selectors: '[data-gifffer]',
       libName: 'gifffer',
       onload: () => { Gifffer(); }
+    },
+    {
+      selectors: '[data-network-graph]',
+      libName: 'networkGraph',
+      onload: () => { llab.setupNetworkGraphs(); }
     }
 ];
 
