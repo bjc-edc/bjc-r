@@ -289,7 +289,7 @@ llab.setUpDevComments = () => {
 
     // Specifically exclude public staging pages.
     if (llab.isLocalEnvironment()) {
-        let addToggle = $(`<button class="${rightSideButton} btn-default js-commentBtn"
+        let addToggle = $(`<button class="${rightSideButton} btn-outline-secondary js-commentBtn"
             >Toggle developer comments</button>`)
             .click(llab.toggleDevComments);
         $(FULL).prepend(addToggle);
