@@ -613,6 +613,26 @@ a.dropdown-item:not(.btn-primary):not(.btn-nav):visited {
   color: #3056AA;
 }
 
+/* For the same reason, drop the Bootstrap reboot underline: a topic page is
+ * almost entirely links, so underlining each one turns the page into a wall of
+ * rules rather than marking anything out. The list numbering, indentation and
+ * link color carry the affordance; the underline comes back on hover/focus.
+ * The "go to the course table of contents" link sits just above the topic
+ * divs rather than inside one, but it is part of the same page, so match it
+ * there too -- it keeps its underline on the vocab-index pages, which are
+ * prose and where it is the odd link out rather than the odd one in. */
+.topic a,
+.course_link:has(~ .topic) {
+  text-decoration: none;
+}
+
+.topic a:hover,
+.topic a:focus-visible,
+.course_link:has(~ .topic):hover,
+.course_link:has(~ .topic):focus-visible {
+  text-decoration: underline;
+}
+
 .course-link-list, .main-topic-link, .current-page-arrow {
   font-weight: bold;
   background-size: contain;
@@ -1350,6 +1370,21 @@ img.indent, div.indent {
   .page-feedback {
     display: none;
   }
+}
+
+/* A collapse toggle opens a disclosure on this page rather than going
+ * somewhere, so it doesn't read as a link: the ▸/▾ marker added below is what
+ * identifies it, and it changes with the state. Underline on hover/focus so
+ * the control is still obviously interactive.
+ * (<summary> on a <details> disclosure -- see .disclosure-heading -- is not an
+ * anchor, so the reboot never underlines it.) */
+a[data-bs-toggle="collapse"] {
+  text-decoration: none;
+}
+
+a[data-bs-toggle="collapse"]:hover,
+a[data-bs-toggle="collapse"]:focus-visible {
+  text-decoration: underline;
 }
 
 a[data-bs-toggle="collapse"]:not([aria-expanded="true"])::after,
