@@ -1,0 +1,219 @@
+/* Network Graph Explorer -- see llab/script/network-graph.js
+ *
+ * Loaded only on pages that contain a [data-network-graph] element.
+ * The diagram's own colours live inside the .svg file (class names there are
+ * prefixed `ng-`); this file styles the surrounding controls and the states
+ * the script toggles on. Every state rule carries at least two classes so it
+ * outranks the SVG's internal stylesheet regardless of document order.
+ */
+
+.network-explorer {
+  clear: both;
+  margin: 1em 0;
+  padding: 12px;
+  border: 1px solid #B9BEC4;
+  border-radius: 6px;
+  background: #F7F8FA;
+}
+
+.network-explorer-figure {
+  max-width: 380px;
+  margin: 0 auto 12px;
+}
+
+.network-explorer-figure svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+/* The authored <img> that the script replaces. It is what a reader sees if the
+ * SVG can't be fetched, so it needs the same sizing the inlined SVG gets --
+ * `height: auto` in particular, since the global `img` rule (default.css) caps
+ * width at 100% without it and would otherwise squash the diagram. */
+.network-explorer > img {
+  display: block;
+  width: 100%;
+  max-width: 335px;
+  height: auto;
+  margin: 0 auto;
+}
+
+/* Mouse shortcut only -- the checkboxes below are the real control. */
+.network-explorer-figure [data-role='relay'] {
+  cursor: pointer;
+}
+
+/* ---- states the script toggles ---- */
+
+.network-explorer .ng-edge.is-off {
+  stroke: #6E7480;
+  stroke-width: 2;
+}
+
+.network-explorer .ng-edge.is-path {
+  stroke: #FFFFFF;
+  stroke-width: 5;
+}
+
+/* Still light enough to keep the node's number legible, and clearly duller
+ * than a working node. */
+.network-explorer .ng-node-group.is-off .ng-node {
+  fill: #9AA3AD;
+}
+
+.network-explorer .ng-node-group.is-path .ng-node {
+  stroke: #FFFFFF;
+  stroke-width: 3;
+}
+
+/* The ✕ badge is what actually says "switched off"; the dulled fill only
+ * reinforces it, so the state never depends on colour alone. */
+.network-explorer .node-cross-badge {
+  fill: #B3261E;
+}
+
+.network-explorer .node-cross {
+  fill: none;
+  stroke: #FFFFFF;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.network-explorer .node-cross-badge,
+.network-explorer .node-cross {
+  display: none;
+}
+
+.network-explorer .ng-node-group.is-off .node-cross-badge,
+.network-explorer .ng-node-group.is-off .node-cross {
+  display: inline;
+}
+
+@media (forced-colors: active) {
+  .network-explorer .ng-edge.is-off {
+    stroke: GrayText;
+  }
+
+  .network-explorer .ng-edge.is-path {
+    stroke: Highlight;
+  }
+
+  .network-explorer .node-cross-badge {
+    fill: Canvas;
+    stroke: CanvasText;
+  }
+
+  .network-explorer .node-cross {
+    stroke: CanvasText;
+  }
+}
+
+/* ---- controls ---- */
+
+.network-explorer-controls {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.network-explorer-controls legend {
+  padding: 0;
+  margin-bottom: 6px;
+  float: none;
+  width: auto;
+  font-size: 1em;
+  font-weight: bold;
+  color: #000;
+}
+
+.network-explorer-toggles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+}
+
+.network-explorer-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0;
+  font-weight: normal;
+  white-space: nowrap;
+}
+
+/* 24x24 CSS px, so the checkboxes meet WCAG 2.2 target size (2.5.8) on their
+ * own measurements rather than leaning on the spacing exception. */
+.network-explorer-toggle input {
+  width: 24px;
+  height: 24px;
+  margin: 0;
+}
+
+.network-explorer-reset {
+  margin-top: 10px;
+  padding: 4px 12px;
+  border: 1px solid #6E7480;
+  border-radius: 4px;
+  background: #FFF;
+  color: #000;
+}
+
+.network-explorer-reset:disabled {
+  color: #595E66;
+  border-color: #B9BEC4;
+}
+
+.network-explorer-reset:focus-visible,
+.network-explorer-toggle input:focus-visible {
+  outline: 2px solid #0B5FFF;
+  outline-offset: 2px;
+}
+
+/* ---- status + text alternative ---- */
+
+.network-explorer-status {
+  margin: 12px 0 0;
+  padding: 8px 10px;
+  border-left: 4px solid #2E7D32;
+  background: #FFF;
+  color: #000;
+}
+
+.network-explorer-status.is-broken {
+  border-left-color: #B3261E;
+}
+
+.network-explorer-step {
+  font-weight: bold;
+}
+
+.network-explorer-text {
+  margin-top: 10px;
+}
+
+.network-explorer-text summary {
+  cursor: pointer;
+}
+
+.network-explorer-text ul {
+  margin: 6px 0 0;
+}
+
+/* The self-check cards are narrow; drop the panel padding so the diagram keeps
+ * as much width as possible. */
+.MultipleChoice .network-explorer {
+  padding: 8px;
+}
+
+/* On paper the controls do nothing, and the status line would be telling the
+ * reader to switch off nodes they can't reach. The <details> panel still
+ * prints if they opened it before printing -- CSS can't force a closed
+ * <details> open, so that stays their call. */
+@media print {
+  .network-explorer-controls,
+  .network-explorer-status {
+    display: none;
+  }
+}
