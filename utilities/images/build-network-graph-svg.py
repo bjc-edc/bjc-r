@@ -11,11 +11,12 @@ reproduces the lab's answer key exactly: node 8 is the only degree-6 node, the
 only two-node cuts are {6, 8} and {8, 9}, and the only way for eight nodes to
 fail with the message still getting through leaves nodes 4 and 8 in the middle.
 
-The SVG is the single source of truth for the graph: llab/script/network-graph.js
-inlines it and reads the topology back out of the data-node / data-from /
-data-to attributes. This script exists so that the <desc> text, which restates
-the same adjacency in prose, cannot drift away from the lines that are drawn.
-Edit POS/EDGES here and re-run rather than hand-editing the SVG.
+Each node and connection also carries data-node / data-role / data-from /
+data-to attributes, so the topology is machine-readable straight from the
+drawing rather than having to be restated somewhere else. This script exists so
+that the <desc> text, which repeats the same adjacency in prose, cannot drift
+away from the lines that are drawn. Edit POS/EDGES here and re-run rather than
+hand-editing the SVG.
 """
 import html
 import os
@@ -45,13 +46,17 @@ POS = {
     'j': (129.0, 233.0),
 }
 
+# Note: nodes 6 and 10 are NOT directly connected. A straight 6-10 line passes
+# within a node radius of node 8, so scanning the original JPEG for green pixels
+# between them found the real 6-8 and 8-10 edges instead. Every other edge here
+# has no node lying near its chord.
 EDGES = [
     ('S', 'g'), ('S', 'h'), ('S', 'i'),
     ('R', 'e'), ('R', 'j'),
     ('a', 'h'), ('a', 'i'),
     ('b', 'f'), ('b', 'i'),
     ('c', 'f'), ('c', 'g'),
-    ('d', 'e'), ('d', 'f'), ('d', 'h'), ('d', 'j'),
+    ('d', 'e'), ('d', 'h'), ('d', 'j'),
     ('e', 'j'),
     ('f', 'j'),
     ('g', 'i'),
