@@ -275,7 +275,8 @@ llab.handleError = (error) => {
   }
 };
 
-// TODO: jQuery3 -- these need to be migrated.
+// .toggle() with no duration is part of jQuery's css module, so it survives
+// in the slim build (only the animated overload lives in effects).
 llab.toggleDevComments = () => $(llab.DEVELOPER_CLASSES).toggle();
 
 // Staging is a dev environment + gh-pages, etc.
@@ -291,7 +292,7 @@ llab.setUpDevComments = () => {
     if (llab.isLocalEnvironment()) {
         let addToggle = $(`<button class="${rightSideButton} btn-outline-secondary js-commentBtn"
             >Toggle developer comments</button>`)
-            .click(llab.toggleDevComments);
+            .on('click', llab.toggleDevComments);
         $(FULL).prepend(addToggle);
         $(document).ready(llab.toggleDevComments);
     }
@@ -419,7 +420,7 @@ llab.QS = queryString;
 
 
 llab.getURLParameters = function() {
-    let stripHTML = (content) => $('<div/>').text(content).html();
+    let stripHTML = (content) => $('<div></div>').text(content).html();
     if (!llab.safeURLParams) {
         llab.safeURLParams = {};
         const searchParams = new URLSearchParams(location.search);
@@ -488,29 +489,38 @@ llab.renderCourseLink = function (course) {
 };
 
 /////////// Other Inlined Dependencies
+/* Replaces every [w3-include-html] element's contents with the file it names.
+ * This is the one piece of w3schools' w3.js that llab uses; keeping it here
+ * means topic/curriculum pages need no extra <script>.
+ *
+ * Unlike the original, the includes in a pass are fetched concurrently rather
+ * than one at a time. Included markup may itself contain includes, so each
+ * pass re-scans once its fetches settle and stops when nothing is left.
+ * Resolves (and calls CB, if given) when the document has no includes left.
+ */
 if (typeof w3 === 'undefined') { w3 = {}; }
 w3.includeHTML = function(cb) {
-    var z, i, elmnt, file, xhttp;
-    z = document.getElementsByTagName("*");
-    for (i = 0; i < z.length; i++) {
-        elmnt = z[i];
-        file = elmnt.getAttribute("w3-include-html");
-        if (file) {
-        xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-            if (this.readyState == 4) {
-            if (this.status == 200) {elmnt.innerHTML = this.responseText;}
-            if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
-            elmnt.removeAttribute("w3-include-html");
-            w3.includeHTML(cb);
-            }
-        }
-        xhttp.open("GET", file, true);
-        xhttp.send();
-        return;
-        }
+    let pending = Array.from(document.querySelectorAll('[w3-include-html]'));
+    if (pending.length === 0) {
+        if (cb) { cb(); }
+        return Promise.resolve();
     }
-    if (cb) cb();
+
+    let loads = pending.map(elmnt => {
+        let file = elmnt.getAttribute('w3-include-html');
+        // Drop the attribute up front so the next pass can't re-fetch it.
+        elmnt.removeAttribute('w3-include-html');
+        return fetch(file)
+            .then(response => {
+                if (response.ok) { return response.text(); }
+                if (response.status === 404) { return 'Page not found.'; }
+                throw new Error(`Fetching ${file} returned ${response.status}`);
+            })
+            .then(html => { elmnt.innerHTML = html; })
+            .catch(llab.handleError);
+    });
+
+    return Promise.all(loads).then(() => w3.includeHTML(cb));
 };
 
 /////////////////////  END

@@ -40,21 +40,18 @@ function buildQuestions() {
 
 }
 
-// use a closure to keep around location and questionNum
+// Load a question authored in a separate file (<div class="assessment-data"
+// src="...">) and build it once the markup arrives.
 function getRemoteQdata(target, location, questionNum) {
-    $.ajax({
-        url : target,
-        type : "GET",
-        dataType : "html",
-        success : makeGetRemoteQdataCallback(location, questionNum)
-    });
-}
-
-function makeGetRemoteQdataCallback(location, questionNum) {
-    var callback = function(data) {
-        buildQuestion(data, location, questionNum);
-    };
-    return callback;
+    fetch(target)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Fetching ${target} returned ${response.status}`);
+            }
+            return response.text();
+        })
+        .then(html => buildQuestion(html, location, questionNum))
+        .catch(llab.handleError);
 }
 
 
