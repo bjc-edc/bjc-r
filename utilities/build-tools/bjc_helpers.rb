@@ -167,9 +167,6 @@ module BJCHelpers
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
           <title>#{title}</title>
           <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
-          <script type="text/javascript" src="/bjc-r/utilities/gifffer.min.js"></script>
-          <script type="text/javascript">window.onload = function() {Gifffer();}</script>
-          <link rel="stylesheet" type="text/css" href="/bjc-r/css/bjc-gifffer.css">
         </head>
         <body>
       HTML

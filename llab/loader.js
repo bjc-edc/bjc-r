@@ -83,7 +83,7 @@ llab.optionalLibs = {
     },
     gifffer: {
         css: null,
-        js: '../utilities/gifffer.min.js'
+        js: 'lib/gifffer.min.js'
     }
 };
 
