@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
-        <title>Unit 4 Lab 3: Generative AI with N-grams, Activity 4</title>
+        <title>Unit 4 Lab 3: Generative AI with n-grams, Activity 4</title>
     </head>
 
     <body>
@@ -12,18 +12,20 @@
         
         <p>In the build-a-story game, you were using your own data (from your brain). A computer only has as much data as you give it. In this activity, we will give the computer a <em>very small</em> amount of data, in a 24-word story. This is <em>all</em> the words the computer knows. We'll use this data to practice using an <em>algorithm</em> that generates the next word in a new story.</p>
         <div class="vocabBig">: <strong>Algorithm</strong>
-	        	<p>An <strong>algorithm</strong> is a set of instructions, or a sequence of steps, usually performed by a computer.</p>
+            <p>An <strong>algorithm</strong> is a set of instructions, or a sequence of steps, usually performed by a computer.</p>
         </div>
         <h3>The Data</h3>
-        		<p class="indent">A curious student enters a science lab.<br>
-        		The science lab smells strange and the science lab feels exciting.<br>
-        		The curious student starts an experiment.</p>
+            <p class="indent">
+                A curious student enters a science lab.<br />
+                The science lab smells strange and the science lab feels exciting.<br />
+                The curious student starts an experiment.
+        </p>
         
         
         <h3>Step 1: Chunking the data into n-grams</h3>
         
         <div class="vocabBig">: <strong>Token</strong>
-	        	<p>In AI, a <strong>token</strong> is the smallest unit of data. You can choose the token size that makes the most sense for your model. We are using words as our token, but you could also choose a smaller token, like letters (so that your data is a collection of individual letters) or a larger token, like sentences.</p>
+	       <p>In AI, a <strong>token</strong> is the smallest unit of data. You can choose the token size that makes the most sense for your model. We are using words as our token, but you could also choose a smaller token, like letters (so that your data is a collection of individual letters) or a larger token, like sentences.</p>
         </div>
         <p>Since we are building the story word-by-word, it makes sense to think of the data as a collection of words. We are using a word as a <em>token</em>. We can use scissors to cut up the story and think of our data now as a pile of words.</p>
         <div class="sidenote">Use <a href="https://docs.google.com/document/d/16KPKodmcqxRIeJBLxgfruIraTTCLpjxqxdV79wFiz9c/edit?usp=sharing" target="_blank" title="24-word story">this large version of the 24-word story</a> if you want to cut these out for yourself.</div>
@@ -39,8 +41,8 @@
         </div>
         
         
-        <div class="vocabBig">: <strong>N-gram</strong>
-	        	<p>An <strong>n-gram</strong> is a chunk of <em>n</em> connected tokens from the data. In our example, words are our token, so an n-gram is any <em>n</em> connected words in our 24-word story. Since our data has 24 words, <em>n</em> can be any number from 1 to 24. You can have 2-grams, like "curious student" or "student enters," or 5-grams, like "enters a science lab. The."</p>
+        <div class="vocabBig">: <strong><em>n</em>-gram</strong>
+	       <p>An <strong><em>n</em>-gram</strong> is a chunk of <em>n</em> connected tokens from the data. In our example, words are our token, so an n-gram is any <em>n</em> connected words in our 24-word story. Since our data has 24 words, <em>n</em> can be any number from 1 to 24. You can have 2-grams, like "curious student" or "student enters," or 5-grams, like "enters a science lab. The."</p>
         </div>
         <p>We could generate a new story by just randomy picking a word from the pile, putting it back and picking the next word, and so on. But we can do better by using <em>context</em>. Just like in the build-a-story game, if we know a few words in our story, we can use them to choose a word that fits with what we know. To do this, we organize our data to keep track of all the 2-word combinations (2-grams) and 3-grams, and so on, up to whatever "n" n-gram we want.</p>
         <p>Here's an example of all the 1-grams, 2-grams, and 3-grams you can get from "This is a sentence." Notice how the words in the 2-grams overlap with each other (and the words in the 3-grams, too).</p>
@@ -58,7 +60,8 @@
         <img class="indent noshadow" src="/bjc-r/sparks/img/U4/lab04/2-gram-cutouts.png" alt="Each 2-word chunk from the 24-word story has been cut out to make a pile of phrases." title="Each 2-word chunk from the 24-word story has been cut out to make a pile of phrases." />
 
         <div class="forYouToDo">
-        		<p>Instead of putting them in a pile, <a href="https://go.edc.org/NgramAlg" target="_blank" title="N-gram Table">here are the 1-grams, 2-grams, and 3-grams in a table</a>.</p>
+            <div class="todo">We need a new google doc without the conference    presentation footer. --MF, 10/22/26</div>
+            <p>Instead of putting them in a pile, <a href="https://go.edc.org/NgramAlg" target="_blank" title="n-gram Table">here are the 1-grams, 2-grams, and 3-grams in a table</a>.</p>
             <ol start="5"> 
                 <li>How many 2-grams do our data contain?</li>
                 <li>How many 3-grams do our data contain?</li>
