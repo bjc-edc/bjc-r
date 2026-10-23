@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<script type="text/javascript" src="/bjc-r/llab/loader.js"></script>
+		<title>Sparks Unit 4 Lab 3 Teacher Guide</title>
+	</head>
+
+	<body>
+        <h2>Lab 3: Generative AI with n-Grams <a name="top" class="anchor">&nbsp;</a></h2>
+        <p>
+            Generative AI (abbreviated as GenAI) is a form of artificial intelligence that creates original content to meet a user's request by using models trained on patterns in large datasets of existing content. This lab explores an early form of GenAI: n-grams. An n-gram is a connected sequence of items (such as letters or musical notes) from an ordered set (such as a sentence or a song). For example, below are 1-grams, 2-grams, and 3-grams for the sentence "This is a sentence."<br />
+            <img class="indent noshadow" src="/bjc-r/sparks/img/U4/lab04/this-is-a-sentence.png" alt="This is a sentence. Unigrams: This, is, a, sentence. Bigrams: This is, is a, a sentence. Trigrams: This is a, is a sentence." title="This is a sentence. Unigrams: This, is, a, sentence. Bigrams: This is, is a, a sentence. Trigrams: This is a, is a sentence." /><br />
+            Students reflect on text generation approaches in several offline activities before learning about n-grams and then using a Snap<em>!</em> GenAI project to create stories, songs, and art (as in the animation shown below where a user draws a pattern and the computer creates a similar pattern in the same style.<br />
+            <img class="indent" data-gifffer="/bjc-r/sparks/img/U4/lab04/ngram-drawing-example.gif"  alt="Animation of a Snap! project. The user draws a picture, then the program generates a drawing in the style of the user's drawing." title="Animation of a Snap! project. The user draws a picture, then the program generates a drawing in the style of the user's drawing."/>
+        </p>
+        
+		<h3>Pacing</h3>
+		<p>
+            This lab is designed for 3&ndash;7 class periods (<strong>110&ndash;275 minutes</strong>).
+            <ul>
+                <li><a href="#A1" title="Activity 1: Generating Text">Activity 1: Generating Text</a>: 10&ndash;30 minutes</li>
+                <li><a href="#A2" title="Activity 2: How Does This Work?">Activity 2: How Does This Work?</a>: 5&ndash;15 minutes</li>
+                <li><a href="#A3" title="Activity 3: Build a Story">Activity 3: Build a Story</a>: 10&ndash;25 minutes</li>
+                <li><a href="#A4" title="Activity 4: Setting Up n-grams">Activity 4: Setting Up n-grams</a>: 10&ndash;25 minutes</li>
+                <li><a href="#A5" title="Activity 5: The Generation Algorithm">Activity 5: The Generation Algorithm</a>: 20&ndash;40 minutes</li>
+                <li><a href="#A6" title="Activity 6: Generate a Story">Activity 6: Generate a Story</a>: 20&ndash;40 minutes</li>
+                <li><a href="#A7" title="Activity 7: Generate a Song">Activity 7: Generate a Song</a>: 10&ndash;25 minutes</li>
+                <li><a href="#A8" title="Activity 8: Generate a Drawing">Activity 8: Generate a Drawing</a>: 10&ndash;25 minutes</li>
+            </ul>
+		</p>
+
+		<div w3-include-html="/bjc-r/utilities/includes/sparks-citn.txt"></div>
+
+        <a class="back-to-top" href="#top">&uarr; Back to Top</a>
+        <h3>Activity 1: Generating Text<a name="A1" class="anchor">&nbsp;</a></h3>
+        <div>
+            <ul>
+                <li><strong>Materials:</strong> <a href="/bjc-r/sparks/student-pages/U4/L3/01-generating-text.html?topic=sparks%2F4-ai.topic&course=sparks.html" title="Activity 1: Generating Text" target="_blank">Generating Text</a> student page</li>
+                <li>
+                    <strong>Prepare:</strong>
+                    <ul>
+                        <li>Skim the student page and decide how you will structure discussion: in pairs, small groups, or as a class.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Learning Goals:</strong>
+                    <ul>
+                        <li>Students begin considering the complexity of the problem of generating language.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Activity Plan:</strong>
+                    <ul>
+                        <li>Students first reflect on the writing style of their  favorite authors or songwriters. (5&ndash;15 minutes minutes)</li>
+                        <li>They then consider practical and ethical considerations of GenAI: how a computer could use data from existing content to generate new content, impacts of GenAI, and the "feel" of computer-generated content. (5&dash;15 minutes)</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Tips:</strong>
+                    <ul>
+                        <li>If you look online, you can probably find a few quizzes about distinguishing text from Shakespeare and Taylor Swift&mdash;it's harder than you might think! Students may enjoy this. </li>
+                        <li>This is not meant to be a comprehensive discussion but just a taste of the problem of content generation to help students see that generating new content is a difficult computational problem. Students are not expected to come up with any "answers" but may have thought about trying to mimic their favorite artists and may share interesting insights about how different artists use language.</li>
+                        <li>If a student doesn't resonate with authors or songwriters and wants to think about visual artists, feel free to let them explore that as well&mdash;this lab incorporates image generation too.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Standards:</strong>
+                    <ul>
+                        <li><strong>MS-ALG-ML-06:</strong> Hypothesize how a machine learning model generates classifications or predictions.</li>
+                        <li><strong>MS-ALG-IM-10:</strong> Examine evidence of beneficial and harmful impacts, ethical issues, and biases of algorithms encountered in daily life.</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <a class="back-to-top" href="#top">&uarr; Back to Top</a>
+        <h3>Activity 2: How Does Text Generation Work?<a name="A2" class="anchor">&nbsp;</a></h3>
+        <div>
+            <ul>
+                <li><strong>Materials:</strong> <a href="/bjc-r/sparks/student-pages/U4/L3/02-how-does-this-work.html?topic=sparks%2F4-ai.topic&course=sparks.html" title="Activity 2: How Does Text Generation Work?" target="_blank">How Does Text Generation Work?</a> student page</li>
+                <li>
+                    <strong>Prepare:</strong>
+                    <ul>
+                        <li>As with Activity 1, consider the format of discussion before class.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Learning Goals:</strong>
+                    <ul>
+                        <li>Students become familiar with the story generation project they will soon use in Snap<em>!</em>.</li>
+                        <li>Students reflect on how a story generation project might work and on the sensibility of a generated story.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Activity Plan:</strong>
+                    <ul>
+                        <li>Students view and discuss a preview of the story generator project they will soon explore in Snap<em>!</em>. (5&ndash;15 minutes)</li>
+                    </ul>
+                </li>
+                <!--<li>
+                    <strong>Tips:</strong>
+                    <ul>
+                        <li></li>
+                    </ul>
+                </li>-->
+                <li>
+                    <strong>Standards:</strong>
+                    <ul>
+                        <li><strong>MS-ALG-ML-06:</strong> Hypothesize how a machine learning model generates classifications or predictions.</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <a class="back-to-top" href="#top">&uarr; Back to Top</a>
+        <h3>Activity 3: Build a Story<a name="A3" class="anchor">&nbsp;</a></h3>
+        <div>
+            <ul>
+                <li><strong>Materials:</strong> <a href="/bjc-r/sparks/student-pages/U4/L3/03-build-a-story-game.html?topic=sparks%2F4-ai.topic&course=sparks.html" title="Activity 3: Build a Story" target="_blank">Build a Story</a> student page</li>
+                <li>
+                    <strong>Prepare:</strong>
+                    <ul>
+                        <li>The instructions for this activity are long, but the concept is simple. Review the student page as you plan your lesson and consider how you will present the instructions to your students (eg, having then read vs. explaining the process to them). The key idea is to build a story by each adding one word while only reading the last two; that is, each next person will reads the last two words of the story so far, adds a third word, folds over the first word they read, and passes the paper.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Learning Goals:</strong>
+                    <ul>
+                        <li>Students reflect on how they use data and context to select the next candidate word in a story and on how computers might do the same thing.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Activity Plan:</strong>
+                    <ul>
+                        <li>Students co-create a story. (5&ndash;15 minutes)</li>
+                        <li>Students reflect on the process of creating the story and how a computer might generate a story.(5&ndash;10 minutes)</li>
+                    </ul>
+                </li>
+                <!--<li>
+                    <strong>Tips:</strong>
+                    <ul>
+                        <li></li>
+                    </ul>
+                </li>-->
+                <li>
+                    <strong>Standards:</strong>
+                    <ul>
+                        <li><strong>MS-ALG-ML-06:</strong> Hypothesize how a machine learning model generates classifications or predictions.</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <a class="back-to-top" href="#top">&uarr; Back to Top</a>
+        <h3>Activity 4: Setting Up n-grams<a name="A4" class="anchor">&nbsp;</a></h3>
+        <div>
+            <ul>
+                <li><strong>Materials:</strong>
+                    <img class="imageRight noshadow" src="/bjc-r/sparks/img/U4/lab04/this-is-a-sentence.png" alt="This is a sentence. Unigrams: This, is, a, sentence. Bigrams: This is, is a, a sentence. Trigrams: This is a, is a sentence." title="This is a sentence. Unigrams: This, is, a, sentence. Bigrams: This is, is a, a sentence. Trigrams: This is a, is a sentence." /><br />
+                    <ul>
+                        <li><a href="/bjc-r/sparks/student-pages/U4/L3/04-setting-up-n-grams.html?topic=sparks%2F4-ai.topic&course=sparks.html" title="Activity 4: Setting Up n-grams" target="_blank">Setting Up n-grams</a> student page</li>
+                        <li><a href="https://go.edc.org/NgramAlg" target="_blank" title="n-gram Table">n-gram Table</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Prepare:</strong>
+                    <ul>
+                        <li>You may wish to project or print copies of the <a href="https://go.edc.org/NgramAlg" target="_blank" title="n-gram Table">n-gram Table</a> provided in the student page.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Learning Goals:</strong>
+                    <ul>
+                        <li>Students learn about n-grams: how to identify them and how to use them to identify candidate next words in a new story.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Activity Plan:</strong>
+                    <ul>
+                        <li>Students consider learn to identify 1-grams, 2-grams, and 3-grams in a story. (5&ndash;10 minutes)</li>
+                        <li>Students predict the number of 5-grams for a story by counting the number of 1-grams, 2-grams, and 3-grams for that story and then identify candidate next words after specific 2-grams. (5&ndash;15 minutes)</li>
+                    </ul>
+                </li>
+                <!--<li>
+                    <strong>Tips:</strong>
+                    <ul>
+                        <li></li>
+                    </ul>
+                </li>-->
+                <li>
+                    <strong>Standards:</strong>
+                    <ul>
+                        <li>None covered in this activity since it formally introduces the n-gram technique taught in the remainder of this lab.</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <a class="back-to-top" href="#top">&uarr; Back to Top</a>
+        <h3>Activity 5: The Generation Algorithm<a name="A5" class="anchor">&nbsp;</a></h3>
+        <div>
+            <ul>
+                <li><strong>Materials:</strong> <a href="/bjc-r/sparks/student-pages/U4/L3/05-the-algorithm.html?topic=sparks%2F4-ai.topic&course=sparks.html" title="Activity 5: The Generation Algorithm" target="_blank">The Generation Algorithm</a> student page</li>
+                <li>
+                    <strong>Prepare:</strong>
+                    <ul>
+                        <li>You may wish to have the <a href="https://go.edc.org/NgramAlg" target="_blank" title="n-gram Table">n-gram Table</a> table available again today.</li>
+                        <li>You may wish to review the student page and consider how to want to organize the class for the various discussion prompts. For this activity, you may wish to have students work in pairs and then bring the class together to discuss some of the questions at the end.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Learning Goals:</strong>
+                    <ul>
+                        <li>Students develop an algorithm for using n-grams to generate the next word of a story.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Activity Plan:</strong>
+                    <ul>
+                        <li>Students are guided through decisions about each next word of the story, reflecting on the process as they go. (20&ndash;40 minutes)</li>
+                    </ul>
+                </li>
+                <!--<li>
+                    <strong>Tips:</strong>
+                    <ul>
+                        <li></li>
+                    </ul>
+                </li>-->
+                <li>
+                    <strong>Standards:</strong>
+                    <ul>
+                        <li><strong>MS-ALG-PS-02:</strong> Model a given algorithm with a flowchart or pseudocode that includes a combination of control structures and procedures.</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <a class="back-to-top" href="#top">&uarr; Back to Top</a>
+        <h3>Activity 6: Generate a Story<a name="A6" class="anchor">&nbsp;</a></h3>
+        <div>
+            <ul>
+                <li><strong>Materials:</strong> <a href="/bjc-r/sparks/student-pages/U4/L3/06-generate-a-story.html?topic=sparks%2F4-ai.topic&course=sparks.html" title="Activity 6: Generate a Story" target="_blank">Generate a Story</a> student page</li>
+                <li>
+                    <strong>Prepare:</strong>
+                    <ul>
+                        <li>This page introduces a <a class="js-run snap-project" href="/bjc-r/sparks/prog/U4/lab03/n-gram.xml&editMode" title="n-gram - Snap! project" target="_blank">Snap<em>!</em> project</a> that students analyze as they explore this implementation of the n-gram story-generating algorithm. Review the student page as you explore how the code works before leading this activity.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Learning Goals:</strong>
+                    <ul>
+                        <li>Students examine code for a story generator to appreciate how the algorithm for generating a next word works with a larger dataset.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Activity Plan:</strong>
+                    <ul>
+                        <li>Students review n-grams by predicting the number of 1-grams, 2-grams, and 3-grams for a story with 10,099 words.(5&ndash;10 minutes)</li>
+                        <li>They then load a Snap<em>!</em> project and explore the code inside by getting the know the code, predicting its behavior, and considering advantages and disadvantages of the algorithm. (20&ndash;40 minutes)</li>
+                    </ul>
+                </li>
+                <!--<li>
+                    <strong>Tips:</strong>
+                    <ul>
+                        <li></li>
+                    </ul>
+                </li>-->
+                <li>
+                    <strong>Standards:</strong>
+                    <ul>
+                        <li><strong>MS-ALG-PS-03:</strong> Verify the accuracy of an algorithm for given inputs.</li>
+                        <li><strong>MS-ALG-PS-05:</strong> Use an AI tool to generate outputs that assist in solving a computational problem.</li>
+                        <li><strong>MS-ALG-ML-08:</strong> Evaluate the features and limitations of a machine learning model.</li>
+                        <li><strong>MS-PRO-RD-17:</strong> Analyze the roles of iteration, selection, variables, and procedures in a segment of code.</li>
+                        <li><strong>MS-DAT-DC-23:</strong> Use a computational tool to sort, filter, group, and summarize structured data.</li>
+                        <li><strong>MS-DAT-DI-25:</strong> Use a computational tool to identify relationships among variables in a dataset and make a classification or prediction.</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <a class="back-to-top" href="#top">&uarr; Back to Top</a>
+        <h3>Activity 7: Generate a Song<a name="A7" class="anchor">&nbsp;</a></h3>
+        <div>
+            <ul>
+                <li><strong>Materials:</strong> <a href="/bjc-r/sparks/student-pages/U4/L3/07-generate-a-song.html?topic=sparks%2F4-ai.topic&course=sparks.html" title="Activity 7: Generate a Song" target="_blank">Generate a Song</a> student page</li>
+                <li>
+                    <strong>Prepare:</strong>
+                    <ul>
+                        <li>Consider whether you want to use the "If There Is Time" exercise at the end of the activity to wrap up the class.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Learning Goals:</strong>
+                    <ul>
+                        <li>Students extend their understanding of the n-gram story-generating algorithm to using n-grams to generate a song.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Activity Plan:</strong>
+                    <ul>
+                        <li>Students revisit the key concepts of this algorithm in the context of song generation. (10&ndash;25 minutes)</li>
+                    </ul>
+                </li>
+                <!--<li>
+                    <strong>Tips:</strong>
+                    <ul>
+                        <li></li>
+                    </ul>
+                </li>-->
+                <li>
+                    <strong>Standards:</strong>
+                    <ul>
+                        <li><strong>MS-ALG-PS-05:</strong> Use an AI tool to generate outputs that assist in solving a computational problem.</li>
+                        <li><strong>MS-DAT-DI-25:</strong> Use a computational tool to identify relationships among variables in a dataset and make a classification or prediction.</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <a class="back-to-top" href="#top">&uarr; Back to Top</a>
+        <h3>Activity 8: Generate a Drawing<a name="A8" class="anchor">&nbsp;</a></h3>
+        <div>
+            <ul>
+                <li><strong>Materials:</strong> <a href="/bjc-r/sparks/student-pages/U4/L3/08-generate-a-drawing.html?topic=sparks%2F4-ai.topic&course=sparks.html" title="Activity 8: Generate a Drawing" target="_blank">Generate a Drawing</a> student page</li>
+                <!--<li>
+                    <strong>Prepare:</strong>
+                    <ul>
+                        <li></li>
+                    </ul>
+                </li>-->
+                <li>
+                    <strong>Learning Goals:</strong>
+                    <ul>
+                        <li>Students consider how the same next-token-generating algorithm can be modified to generate images.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Activity Plan:</strong>
+                    <ul>
+                        <li>Students explore the code for image generation, reflecting on the n-grams used in this context. (10&ndash;25 minutes)</li>
+                    </ul>
+                </li>
+                <!--<li>
+                    <strong>Tips:</strong>
+                    <ul>
+                        <li></li>
+                    </ul>
+                </li>-->
+                <li>
+                    <strong>Standards:</strong>
+                    <ul>
+                        <li><strong>MS-ALG-PS-05:</strong> Use an AI tool to generate outputs that assist in solving a computational problem.</li>
+                        <li><strong>MS-DAT-DI-25:</strong> Use a computational tool to identify relationships among variables in a dataset and make a classification or prediction.</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+
+        <h3>Correlation with CSTA Standards<a name="Standards" class="anchor">&nbsp;</a></h3>
+        <div class="Standards">
+            <ul>
+                <li><strong>MS-ALG-PS-02:</strong> Model a given algorithm with a flowchart or pseudocode that includes a combination of control structures and procedures.</li>
+                <li><strong>MS-ALG-PS-03:</strong> Verify the accuracy of an algorithm for given inputs.</li>
+                <li><strong>MS-ALG-PS-05:</strong> Use an AI tool to generate outputs that assist in solving a computational problem.</li>
+                <li><strong>MS-ALG-ML-06:</strong> Hypothesize how a machine learning model generates classifications or predictions.</li>
+                <li><strong>MS-ALG-ML-08:</strong> Evaluate the features and limitations of a machine learning model.</li>
+                <li><strong>MS-ALG-IM-10:</strong> Examine evidence of beneficial and harmful impacts, ethical issues, and biases of algorithms encountered in daily life.</li>
+                <li><strong>MS-PRO-RD-17:</strong> Analyze the roles of iteration, selection, variables, and procedures in a segment of code.</li>
+                <li><strong>MS-DAT-DC-23:</strong> Use a computational tool to sort, filter, group, and summarize structured data.</li>
+                <li><strong>MS-DAT-DI-25:</strong> Use a computational tool to identify relationships among variables in a dataset and make a classification or prediction.</li>
+            </ul>
+        </div>
+    
+
+	</body>
+</html>
