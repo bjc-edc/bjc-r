@@ -156,13 +156,13 @@ MC.prototype.render = function() {
         // Bind the shared Check/Try-Again buttons exactly once per MC. They live
         // on the question, not on individual choices, so binding inside the
         // per-choice loop attached one handler per choice (4 choices => 4× fire).
-        this.multipleChoice.find(".checkAnswerButton").bind('click', {
+        this.multipleChoice.find(".checkAnswerButton").on('click', {
             myQuestion: this
         }, function(args) {
             args.data.myQuestion.checkAnswer();
         });
 
-        this.multipleChoice.find(".tryAgainButton").bind('click', {
+        this.multipleChoice.find(".tryAgainButton").on('click', {
             myQuestion: this
         }, function(args) {
             args.data.myQuestion.tryAgain();
@@ -210,12 +210,12 @@ MC.prototype.render = function() {
 
         this.multipleChoice.find('.answer-choices-form').append(choiceHTML);
 
-        $(`#${choice_id}`).bind('click', { myQuestion: this }, function(args) {
+        $(`#${choice_id}`).on('click', { myQuestion: this }, function(args) {
             args.data.myQuestion.enableCheckAnswerButton();
         });
     }
 
-    this.multipleChoice.find('.tryAgainButton').addClass('disabled').attr('disabled', true);
+    this.multipleChoice.find('.tryAgainButton').addClass('disabled').prop('disabled', true);
     this.enableCheckAnswerButton();
     this.clearFeedbackDiv();
 
@@ -239,7 +239,7 @@ MC.prototype.render = function() {
         }
         this.multipleChoice.find('.resultMessageDiv').html(resultMessage);
         if (latestState.isCorrect) {
-            this.multipleChoice.find('.tryAgainButton').addClass('disabled').attr('disabled', true);
+            this.multipleChoice.find('.tryAgainButton').addClass('disabled').prop('disabled', true);
         }
     }
 
@@ -306,8 +306,8 @@ MC.prototype.checkAnswer = function() {
     var i, checked, choiceIdentifier, choice, fullId;
 
     this.disableRadioButtons();
-    this.multipleChoice.find('.checkAnswerButton').addClass('disabled').attr('disabled', true);
-    this.multipleChoice.find('.tryAgainButton').removeClass('disabled').attr('disabled', false);
+    this.multipleChoice.find('.checkAnswerButton').addClass('disabled').prop('disabled', true);
+    this.multipleChoice.find('.tryAgainButton').removeClass('disabled').prop('disabled', false);
     for (i = 0; i < inputbuttons.length; i++) {
         checked = inputbuttons[i].checked;
         choiceIdentifier = inputbuttons[i].getAttribute('value');
@@ -366,7 +366,7 @@ MC.prototype.checkAnswer = function() {
     if (isCorrect) {
         outerdiv.addClass('border-success');
         this.multipleChoice.find('.resultMessageDiv').html(this.getResultMessage(isCorrect));
-        this.multipleChoice.find('.checkAnswerButton').addClass('disabled').attr('disabled', true);
+        this.multipleChoice.find('.checkAnswerButton').addClass('disabled').prop('disabled', true);
     } else if (isPartial) {
         outerdiv.addClass('border-warning');
         this.multipleChoice.find('.resultMessageDiv').html(llab.translate('partialMessage'));
@@ -466,7 +466,7 @@ MC.prototype.removeSpace = function(text) {
  * Enable the "Check Answer" button.
  */
 MC.prototype.enableCheckAnswerButton = function() {
-    this.multipleChoice.find('.checkAnswerButton').removeClass('disabled').attr('disabled', false);
+    this.multipleChoice.find('.checkAnswerButton').removeClass('disabled').prop('disabled', false);
 };
 
 /**
