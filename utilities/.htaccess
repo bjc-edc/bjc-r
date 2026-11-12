@@ -1,0 +1,13 @@
+# utilities/ holds build scripts, crawlers, specs, and other dev-only files.
+# Nothing here is part of the site, so every request under it gets a 403.
+# Anything pages need at runtime belongs elsewhere (llab/lib, teacher/, ...).
+#
+# We use mod_alias (RedirectMatch) rather than `Require all denied` because
+# it only needs `AllowOverride FileInfo`, which the root .htaccess already
+# depends on (Header, AddCharset, ErrorDocument). `Require` needs AuthConfig,
+# and if that isn't allowed Apache answers every request here with a 500.
+# That would still block access, but it would show up as a server error.
+#
+# RedirectMatch matches against the decoded, normalized URL path, so `..`
+# and %-encoding tricks can't sneak past it.
+RedirectMatch 403 "/utilities/"
