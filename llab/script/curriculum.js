@@ -766,6 +766,13 @@ llab.rebuildPageFromHTML = (html, path, pushState) => {
   llab.rerenderPage(body, title, path, docLang);
 }
 
+// Is the Google Form for the Feedback button filled in? (See llab/loader.js.)
+llab.feedbackFormConfigured = () => {
+  let form = llab.FEEDBACK_FORM;
+  return !!(form && form.action && form.fields &&
+    Object.values(form.fields).every(id => /^entry\.\d+$/.test(id)));
+};
+
 llab.addFeedback = function(title, topic, course) {
   // Remove any previous widget; it is re-added on each dynamic page load.
   $('.page-feedback').remove();
@@ -778,45 +785,124 @@ llab.addFeedback = function(title, topic, course) {
     return;
   }
 
-  var surveyURL = 'https://getfeedback.com/r/LRm9oI3N?';
-  surveyURL += $.param({
-    'PAGE': title,
-    'TOPIC': topic,
-    'COURSE': course,
-    'URL': location.href
-  });
+  if (!llab.feedbackFormConfigured()) { return; }
 
-  var button = $(document.createElement('button')).attr({
+  let button = $(document.createElement('button')).attr({
     'class': 'btn btn-primary btn-sm feedback-button',
     'type': 'button',
-    'data-bs-toggle': "collapse",
-    'data-bs-target': "#fdbk"
-  }).text('Feedback'),
-  innerDiv = $(document.createElement('div')).attr({
-    'id': "fdbk",
-    'class': "collapse feedback-panel card border-primary"
-  }),
-  feedback = $(document.createElement('div')).attr(
-    {'class' : 'page-feedback'}
-  ).append(button, innerDiv);
+    'data-bs-toggle': 'collapse',
+    'data-bs-target': '#fdbk',
+    'aria-expanded': 'false',
+    'aria-controls': 'fdbk'
+  }).text('Feedback');
 
-  // Delay inserting a frame until the button is clicked.
-  // Reason 1: Performance
-  // Reason 2: GetFeedback tracks "opens" and each load is an open
-  button.click('click', function(_event) {
-    if ($('#feedback-frame').length === 0) {
-      var frame = $(document.createElement('iframe')).attr({
-        'frameborder': "0",
-        'id': 'feedback-frame',
-        'width': "300",
-        'height': "230",
-        'src': surveyURL,
-        'title': 'Page feedback survey'
-      });
-      $('#fdbk').append(frame);
+  let panel = $(document.createElement('div')).attr({
+    'id': 'fdbk',
+    'class': 'collapse feedback-panel card border-primary'
+  }).html(`
+    <form class="card-body feedback-form" novalidate>
+      <fieldset class="mb-2">
+        <legend class="form-label fs-6 fw-bold mb-1">What are you providing feedback about?</legend>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="about" id="fdbk-guide" value="this Teacher Guide page" checked>
+          <label class="form-check-label" for="fdbk-guide">This Teacher Guide page</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="about" id="fdbk-student" value="the student pages in this lab">
+          <label class="form-check-label" for="fdbk-student">The student pages in this lab</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="about" id="fdbk-other" value="Other">
+          <label class="form-check-label" for="fdbk-other">Other</label>
+        </div>
+      </fieldset>
+      <div class="mb-2 feedback-student-pages" hidden>
+        <label class="form-label mb-1" for="fdbk-student-pages">Which student page(s)? <span class="text-body-secondary">(e.g., 1.3.7 Graphics and Art)</span></label>
+        <input type="text" class="form-control form-control-sm" id="fdbk-student-pages" name="studentPages">
+      </div>
+      <div class="mb-2">
+        <label class="form-label mb-1" for="fdbk-comment">What can we do to make this content better?</label>
+        <textarea class="form-control form-control-sm" id="fdbk-comment" name="comment" rows="3"></textarea>
+      </div>
+      <div class="mb-2">
+        <label class="form-label mb-1" for="fdbk-email">Email <span class="text-body-secondary">(optional, if you'd like a reply)</span></label>
+        <input type="email" class="form-control form-control-sm" id="fdbk-email" name="email" autocomplete="email">
+      </div>
+      <div class="d-flex align-items-center gap-2">
+        <button type="submit" class="btn btn-primary btn-sm">Send</button>
+        <span class="feedback-status small" role="status" aria-live="polite"></span>
+      </div>
+    </form>`);
+
+  let form = panel.find('form'),
+    status = panel.find('.feedback-status'),
+    submit = form.find('[type=submit]');
+
+  let studentPages = form.find('.feedback-student-pages');
+  let showStudentPages = () => studentPages.prop('hidden',
+    form.find('[name=about]:checked').val() !== 'the student pages in this lab');
+
+  // Clear a stale error or "Thanks!" once the reader edits again.
+  form.on('input change', () => status.text(''));
+  form.on('change', '[name=about]', showStudentPages);
+
+  form.on('submit', event => {
+    event.preventDefault();
+    let about = form.find('[name=about]:checked').val(),
+      // Only send the student page(s) if that box is showing.
+      pages = studentPages.prop('hidden') ? '' :
+        form.find('[name=studentPages]').val().trim(),
+      comment = form.find('[name=comment]').val().trim(),
+      email = form.find('[name=email]').val().trim();
+
+    if (!comment) {
+      status.attr('class', 'feedback-status small text-danger')
+        .text('Please write a comment first.');
+      form.find('[name=comment]').trigger('focus');
+      return;
     }
+    if (email && !form.find('[name=email]')[0].checkValidity()) {
+      status.attr('class', 'feedback-status small text-danger')
+        .text('That email address looks incomplete.');
+      return;
+    }
+
+    submit.prop('disabled', true);
+    status.attr('class', 'feedback-status small').text('Sending…');
+    llab.submitFeedback({
+      about, studentPages: pages, comment, email,
+      page: title,
+      url: location.href,
+      topic: topic || '',
+      course: course || ''
+    }).then(() => {
+      form[0].reset();
+      showStudentPages();
+      status.attr('class', 'feedback-status small text-success')
+        .text('Thanks! Your feedback was sent.');
+    }).catch(() => {
+      status.attr('class', 'feedback-status small text-danger')
+        .text('Sorry, that didn\'t send. Please try again.');
+    }).finally(() => submit.prop('disabled', false));
   });
-  $(document.body).append(feedback);
+
+  $(document.body).append(
+    $(document.createElement('div')).attr('class', 'page-feedback').append(button, panel)
+  );
+};
+
+// POST one response to the Google Form in llab.FEEDBACK_FORM.
+// Google sends no CORS headers, so this is a `no-cors` request: the response
+// is opaque, and the promise only rejects if the request never left the
+// browser (offline, blocked by an extension). A form misconfiguration (see
+// llab/loader.js) still "succeeds" here, so test any change to the form.
+llab.submitFeedback = (values) => {
+  let config = llab.FEEDBACK_FORM,
+    body = new URLSearchParams();
+  Object.entries(config.fields).forEach(([key, entryID]) => {
+    body.append(entryID, values[key] || '');
+  });
+  return fetch(config.action, { method: 'POST', mode: 'no-cors', body });
 };
 
 // TODO: Move to bootstrap classes (wait until BS5)
