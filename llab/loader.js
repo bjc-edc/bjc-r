@@ -41,6 +41,40 @@ llab.GACode = 'G-WK0EW5GQRZ';
 // Error Handling -- The URL embeds the Sentry desination
 llab.SENTRY_URL = 'https://js.sentry-cdn.com/f55a4cd65a8b48fd99e8247c6a5e6c2d.min.js';
 
+// Teacher Guide "Feedback" button. Responses are POSTed straight to a Google
+// Form, so they land in the form's Responses tab (and optionally a Sheet).
+// See llab.addFeedback in script/curriculum.js. The button is hidden until
+// `action` and the `fields` entry IDs are filled in.
+//
+// Setting up the form:
+//  * Add one question per key in `fields` below. Make every question
+//    "Short answer" or "Paragraph" and NOT required: Google silently drops a
+//    submission that skips a required question or sends a multiple-choice
+//    value that doesn't match an option exactly.
+//  * Settings > Responses: turn off "Collect email addresses" and
+//    "Restrict to users in <org>"; either one forces a sign-in and every
+//    anonymous POST is discarded.
+//  * `action`: the form's share link, docs.google.com/forms/d/e/<ID>/viewform,
+//    with `viewform` replaced by `formResponse`.
+//  * Entry IDs: ⋮ > "Get pre-filled link", type anything in each box,
+//    "Get link"; the link contains `entry.<number>=` once per question.
+llab.FEEDBACK_FORM = {
+    // "BJC Teacher Guide Feedback"
+    action: 'https://docs.google.com/forms/d/e/1FAIpQLSfofF83Jqt-F0HLnbs44i4Zap-Zw2mjG8vQx7D1d5i7SaW5zw/formResponse',
+    fields: {
+        // The questions, matching the GetFeedback survey this replaces.
+        about: 'entry.1570082201',        // What are you providing feedback about?
+        studentPages: 'entry.1859815119', // Which student lab page(s) are you providing feedback about?
+        comment: 'entry.2018947148',      // What can we do to make this content better?
+        email: 'entry.564431291',         // Email (optional)
+        // Filled in automatically, as GetFeedback's merge fields were.
+        page: 'entry.71824495',           // Page title: document.title
+        url: 'entry.377017937',           // Page URL: location.href, with ?topic= and ?course=
+        topic: 'entry.85697841',          // Topic file: the ?topic= file
+        course: 'entry.1677853741',       // Course file: the ?course= file
+    },
+};
+
 // Third-party origins we contact during page load. Pre-warming the
 // connection (DNS + TLS) shaves time off the first request to each.
 llab.PRECONNECT_ORIGINS = [
