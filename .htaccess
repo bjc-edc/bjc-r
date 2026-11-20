@@ -12,6 +12,20 @@ Header set Access-Control-Allow-Origin *
 AddDefaultCharset utf-8
 AddCharset utf-8 .html .htm .js .css .topic .xml .json .svg
 
+# This is a static site; nothing here should ever run as PHP. (There are old
+# PHP crawler scripts in utilities/archive that must never execute.)
+# Unhook any PHP handler/type a host may have mapped via AddHandler/AddType,
+# then refuse such URLs outright. The 403 is the part that really matters:
+# stock Debian/Ubuntu mod_php and most PHP-FPM setups attach PHP with a
+# server-config <FilesMatch> SetHandler, which RemoveHandler can't undo.
+# The pattern also catches path-info (foo.php/bar) and double extensions
+# (foo.php.txt), both of which Apache will still hand to PHP.
+# Only FileInfo-class directives are used, so this can't 500 the site on
+# hosts that don't allow `php_flag` (Options) or `Require` (AuthConfig).
+RemoveHandler .php .php3 .php4 .php5 .php7 .php8 .phtml .pht .phar .phps
+RemoveType .php .php3 .php4 .php5 .php7 .php8 .phtml .pht .phar .phps
+RedirectMatch 403 "(?i)\.ph(p[0-9]?|tml|t|ar|ps)(\.|/|$)"
+
 AddOutputFilterByType DEFLATE text/plain
 AddOutputFilterByType DEFLATE text/xml
 AddOutputFilterByType DEFLATE text/html

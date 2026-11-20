@@ -1,5 +1,11 @@
 # bjc-r utilites
 
+> [!IMPORTANT]
+> This directory is **not public** on Apache deployments: `utilities/.htaccess`
+> returns 403 for everything in it. Don't put anything here that pages need to
+> load at runtime -- third-party JS goes in `llab/lib/`, teacher-guide snippets
+> in `teacher/includes/`. PHP is also refused site-wide by the root `.htaccess`.
+
 ## Find all PNGs With XML Embedded
 
 ```
