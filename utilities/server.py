@@ -28,6 +28,11 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 # prefix even though the checkout itself is the document root.
 URL_PREFIX = "/bjc-r"
 
+# Where utilities/build-tools/compile.rb writes compiled courses. A file here
+# is served in place of the same path in the checkout, so a compiled course
+# shows up at its real URL beside the shared files (llab, images) it uses.
+BUILD_ROOT = REPO_ROOT / "_site" / "bjc-r"
+
 DEFAULT_PORT = 8000
 
 # The files an author edits directly, matching the no-cache `filesMatch` rule in
@@ -64,7 +69,9 @@ class BJCRequestHandler(SimpleHTTPRequestHandler):
             path = "/"
         elif path.startswith(URL_PREFIX + "/") or path.startswith(URL_PREFIX + "?"):
             path = path[len(URL_PREFIX):]
-        return super().translate_path(path)
+        in_checkout = Path(super().translate_path(path))
+        compiled = BUILD_ROOT / in_checkout.relative_to(REPO_ROOT)
+        return str(compiled if compiled.is_file() else in_checkout)
 
     def guess_type(self, path):
         """Label text responses UTF-8, as .htaccess does in production.
@@ -191,6 +198,8 @@ def main():
     url = f"{'https' if args.https else 'http'}://localhost:{args.port}{URL_PREFIX}/"
 
     print(f"Serving {REPO_ROOT} at {url}")
+    if BUILD_ROOT.is_dir():
+        print(f"Compiled courses in {BUILD_ROOT.relative_to(REPO_ROOT)}/ are layered on top.")
     print("Press Control-C to stop.")
 
     if not args.no_open:

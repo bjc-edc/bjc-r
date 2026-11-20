@@ -96,7 +96,8 @@ class BJCTopic
   # A way to process each page for vocab, self-checks, etc.
   # This yields the data needed to parse each curriculum page:
   # unit (same for all pages), unit path (first subfolder in the path),
-  # lab (the lab name, like "Lab 1"), lab/page numbers (1, 2, 3, etc.), path
+  # lab (the lab name, like "Lab 1"), lab/page numbers (1, 2, 3, etc.),
+  # title (the page's name as the topic file gives it), path
   # Summary sections/pages and entries without a URL (text, raw-html)
   # are skipped, so only real curriculum pages are yielded.
   # TODO: Do we need a 'Page()' class?
@@ -113,6 +114,7 @@ class BJCTopic
           lab: section[:title],
           lab_number: lab_index + 1,
           page_number: page_index + 1,
+          title: entry[:content],
           path: entry[:url]
         })
       end

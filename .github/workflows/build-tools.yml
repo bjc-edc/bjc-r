@@ -29,9 +29,22 @@ jobs:
           bundler-cache: true
       # Neither of these needs a browser, so they finish in seconds.
       - name: build tool unit tests
-        run: bundle exec rspec utilities/specs/build_tools_spec.rb
+        run: bundle exec rspec utilities/specs/build_tools_spec.rb utilities/specs/course_compiler_spec.rb
       - name: generated page structure
         run: bundle exec rspec utilities/specs/summary_pages_spec.rb
+
+  compile:
+    name: Courses under src/ compile
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ruby/setup-ruby@v1
+        with:
+          # Specified by .tool-versions
+          bundler-cache: true
+      # Fails on a link to a page that is not in the course.
+      - name: compile every course
+        run: bundle exec ruby utilities/build-tools/compile.rb
 
   rebuild:
     name: Summaries are up to date
