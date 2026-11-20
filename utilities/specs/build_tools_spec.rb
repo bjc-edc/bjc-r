@@ -376,6 +376,29 @@ RSpec.describe 'build tools', type: :build_tools do
       end
     end
 
+    describe 'a run over a commented-out summary section' do
+      before do
+        File.write(topic_file, File.read(topic_file).sub(/\}\s*\z/, <<~TOPIC))
+
+          //heading: Unit 1 Review
+          \t//resource: Vocabulary [/bjc-r/cur/testing/1-widgets/unit-1-vocab.html]
+          }
+        TOPIC
+        runner.Main
+      end
+
+      it 'keeps the regenerated section commented out' do
+        contents = File.read(topic_file)
+
+        expect(contents).to include(
+          '//heading: Unit 1 Review',
+          "\t//resource: Vocabulary [/bjc-r/cur/testing/1-widgets/unit-1-vocab.html]",
+          "\t//resource: Self-Check Questions [/bjc-r/cur/testing/1-widgets/unit-1-self-check.html]"
+        )
+        expect(contents).not_to match(/^heading: Unit 1 Review|^\tresource: .*unit-1-/)
+      end
+    end
+
     describe 'a full run' do
       before { runner.Main }
 

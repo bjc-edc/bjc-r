@@ -164,7 +164,18 @@ class Main
 
     body = topic_contents_without_summaries(topic_file_path)
     heading = "heading: #{I18n.t('unit_review', num: @unit_num)}"
+    # An author hid the section by commenting it out; keep it hidden.
+    if summary_section_commented_out?(topic_file_path)
+      heading = "//#{heading}"
+      resources = resources.map { |line| line.sub('resource:', '//resource:') }
+    end
     @pending_writes[topic_file_path] = "#{body}\n\n#{heading}\n#{resources.join("\n")}\n}\n"
+  end
+
+  # True if the topic file's summary heading is commented out with "//".
+  def summary_section_commented_out?(topic_file_path)
+    heading = File.readlines(topic_file_path).find { |line| BJCTopic.summary_heading?(line) }
+    heading.to_s.lstrip.start_with?('//')
   end
 
   # The topic file contents up to (but not including) the summary section,
